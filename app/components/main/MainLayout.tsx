@@ -46,7 +46,7 @@ export function MainLayout({
               </span>
             </div>
             <div className="italic text-zinc-500 text-sm mt-1">
-              ..is under beta testing
+              ..is under early testing, don't use this app in production.
             </div>
             <div className="space-x-5 mt-10">
               {links.map((link) => {

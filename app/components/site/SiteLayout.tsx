@@ -109,17 +109,24 @@ const Header: React.FC<{
   )
 }
 
-export const SiteLayout: React.FC<{
+export type SiteLayoutProps = {
   site: {
     id: string
     name: string
-    description: string
+    description?: string | null
     icon?: string | null
   }
   isLoggedIn: boolean
   subscription?: { telegram?: boolean; email?: boolean } | null
   children: React.ReactNode
-}> = ({ site, isLoggedIn, subscription, children }) => {
+}
+
+export const SiteLayout: React.FC<SiteLayoutProps> = ({
+  site,
+  isLoggedIn,
+  subscription,
+  children,
+}) => {
   const avatars = [getUserContentsUrl(site?.icon)]
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
 

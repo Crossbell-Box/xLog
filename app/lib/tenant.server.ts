@@ -3,6 +3,10 @@ import { OUR_DOMAIN } from "./config.shared"
 export const getTenant = (request: Request) => {
   const host = request.headers.get("host")
 
+  if (!OUR_DOMAIN) {
+    throw new Error("missing OUR_DOMAIN env")
+  }
+
   const OUR_DOMAIN_SUFFIX = `.${OUR_DOMAIN}`
   if (host) {
     if (host.endsWith(OUR_DOMAIN_SUFFIX)) {

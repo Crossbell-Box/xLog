@@ -1,17 +1,19 @@
 {
-  "name": "remix-template-vercel",
+  "name": "proselog",
   "private": true,
-  "description": "",
-  "license": "",
+  "description": "A publishing platform",
+  "license": "unlicensed",
   "sideEffects": false,
   "scripts": {
     "build-remix": "remix build",
-    "build": "pnpm build-css && pnpm build-remix",
+    "build": "npm run build-css && npm run build-remix",
     "dev-remix": "remix dev",
-    "dev": "pnpm generate-css && run-p dev-*",
+    "dev": "npm run generate-css && run-p dev-*",
     "generate-css": "tailwindcss --input ./css/main.css --output ./app/main.css --postcss",
-    "dev-css": "pnpm generate-css --watch",
-    "build-css": "pnpm generate-css --minify"
+    "dev-css": "npm run generate-css --watch",
+    "build-css": "npm run generate-css --minify",
+    "start": "remix-serve build",
+    "deploy": "fly deploy --remote-only"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.81.0",
@@ -24,7 +26,7 @@
     "@prisma/client": "^3.13.0",
     "@remix-run/node": "*",
     "@remix-run/react": "*",
-    "@remix-run/vercel": "*",
+    "@remix-run/serve": "*",
     "@uiw/react-codemirror": "^4.7.0",
     "@vercel/node": "^1.14.0",
     "clsx": "^1.1.1",
