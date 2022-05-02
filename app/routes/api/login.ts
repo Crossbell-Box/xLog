@@ -78,10 +78,11 @@ export const loader: LoaderFunction = async ({ request }) => {
     console.log("login with token", accessToken.token)
   }
 
+  // Custom domain
   const nextUrl = new URL(data.next)
   if (
     nextUrl.host !== OUR_DOMAIN &&
-    nextUrl.hostname.endsWith(`.${OUR_DOMAIN}`)
+    !nextUrl.hostname.endsWith(`.${OUR_DOMAIN}`)
   ) {
     // Check if the host belong to a site
     const existing = await prisma.domain.findUnique({
