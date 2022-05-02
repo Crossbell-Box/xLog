@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*:after,
+*:before {
+  border-color: var(--border-color);
+}
+
+.container {
+  @apply max-w-screen-xl;
+  @apply mx-auto;
+}
+
+.button {
+  @apply inline-flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply h-8;
+  @apply px-3;
+  @apply min-w-[100px];
+  @apply shadow-button;
+  @apply whitespace-nowrap;
+  @apply font-medium;
+
+  @apply transition-colors;
+}
+
+.button.is-loading {
+  @apply opacity-50;
+}
+
+.button.is-loading:before {
+  margin-right: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 9999px;
+  border-width: 2px;
+  content: "";
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: currentColor;
+  border-right-color: currentColor;
+  @apply animate-spin;
+}
+
+.button.is-block {
+  @apply w-full;
+}
+
+.button.is-primary {
+  --shadow-color-button: theme("colors.indigo.700");
+  @apply bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-700;
+  @apply text-white;
+}
+
+.button.is-secondary {
+  @apply bg-gray-50 hover:bg-gray-100 focus:bg-gray-200;
+  @apply text-gray-500;
+}
+
+.button.is-text {
+  @apply shadow-none;
+  @apply text-gray-500;
+  @apply hover:bg-gray-50 focus:bg-gray-100;
+}
+
+.button.is-green {
+  --shadow-color-button: theme("colors.green.700");
+  @apply bg-green-500 hover:bg-green-600 focus:bg-green-700;
+}
+
+.button.is-red {
+  --shadow-color-button: theme("colors.red.700");
+  @apply bg-red-500 hover:bg-red-600 focus:bg-red-700;
+}
+
+.button.is-sm {
+  @apply h-7;
+  @apply px-2;
+  @apply text-sm;
+}
+
+.input {
+  @apply border;
+  @apply outline-none;
+  @apply rounded-lg;
+  @apply px-3;
+  @apply h-10;
+  @apply inline-flex;
+  @apply items-center;
+  @apply focus:ring-1;
+  @apply focus:ring-indigo-400;
+  @apply focus:border-indigo-400;
+}
+
+.input.is-block {
+  @apply w-full;
+}
+
+.input.has-addon {
+  @apply rounded-r-none;
+}
+
+textarea.input {
+  @apply h-auto;
+  @apply py-3;
+  @apply px-3;
+}
+
+.label {
+  @apply block;
+  @apply mb-2;
+  @apply text-sm;
+  @apply font-bold;
+  @apply text-gray-700;
+}
+
+.post-status-circle {
+  @apply h-[15px] w-[15px];
+  @apply bg-green-500;
+  @apply inline-block;
+  @apply rounded-full;
+  @apply relative;
+}
+
+.post-status-circle:before {
+  content: "";
+  @apply absolute;
+  @apply left-1/2;
+  @apply top-1/2;
+  @apply bg-white;
+  @apply h-[10px] w-[10px];
+  @apply rounded-full;
+  @apply -translate-x-1/2;
+  @apply -translate-y-1/2;
+}
+
+.post-status-circle.is-draft {
+  @apply bg-gray-300;
+}
+
+.post-status-circle.is-scheduled {
+  @apply bg-yellow-500;
+}
+
+.page-title {
+  @apply relative;
+  @apply text-3xl;
+  @apply font-extrabold;
+}

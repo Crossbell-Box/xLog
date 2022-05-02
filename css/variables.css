@@ -1,0 +1,8 @@
+:root {
+  --border-color: #eee;
+  --font-fans: theme("fontFamily.sans");
+  --shadow-color-button: theme("colors.gray.300");
+  --accent-color: theme("colors.indigo.500");
+  /* Accent color for form controls */
+  accent-color: var(--accent-color);
+}

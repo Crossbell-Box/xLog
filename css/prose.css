@@ -1,0 +1,55 @@
+.prose > p {
+  @apply my-5;
+}
+
+.prose > *:first-child {
+  @apply mt-0;
+}
+
+.prose {
+  @apply text-lg;
+}
+
+.prose h2 {
+  @apply text-3xl font-semibold;
+  @apply my-5;
+}
+
+.prose h3 {
+  @apply text-2xl font-semibold;
+}
+
+.prose h4 {
+  @apply text-xl font-semibold;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-indigo-300;
+  @apply pl-4;
+  @apply italic;
+  @apply text-zinc-600;
+}
+
+.prose ul {
+  @apply list-disc;
+  @apply pl-5;
+}
+
+.prose ol {
+  @apply list-decimal;
+  @apply pl-5;
+}
+
+.prose > ul,
+.prose > ol {
+  @apply my-5;
+}
+
+.prose a {
+  @apply text-indigo-600;
+  @apply underline;
+}
+
+.prose pre {
+  @apply overflow-auto;
+}
