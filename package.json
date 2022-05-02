@@ -6,12 +6,12 @@
   "sideEffects": false,
   "scripts": {
     "build-remix": "remix build",
-    "build": "npm run build-css && npm run build-remix",
+    "build": "pnpm build-css && pnpm build-remix",
     "dev-remix": "remix dev",
-    "dev": "npm run generate-css && run-p dev-*",
+    "dev": "pnpm generate-css && run-p dev-*",
     "generate-css": "tailwindcss --input ./css/main.css --output ./app/main.css --postcss",
-    "dev-css": "npm run generate-css --watch",
-    "build-css": "npm run generate-css --minify",
+    "dev-css": "pnpm generate-css --watch",
+    "build-css": "pnpm generate-css --minify",
     "start": "remix-serve build",
     "deploy": "fly deploy --remote-only"
   },
