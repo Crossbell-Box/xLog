@@ -34,6 +34,32 @@ async function main() {
     platform: "node",
     bundle: true,
     outfile: ".vercel/output/functions/render.func/index.js",
+    plugins: [
+      {
+        name: "externalize-node-modules",
+        setup(build) {
+          build.onResolve({ filter: /.*/ }, async (args) => {
+            if (args.pluginData?.skip) return
+            const resolved = await build.resolve(args.path, {
+              pluginData: {
+                ...args.pluginData,
+                skip: true,
+              },
+              importer: args.importer,
+              namespace: args.namespace,
+              resolveDir: args.resolveDir,
+              kind: args.kind,
+            })
+            if (resolved.path.includes("node_modules")) {
+              return {
+                external: true,
+              }
+            }
+            return resolved
+          })
+        },
+      },
+    ],
   })
 
   fs.outputJSONSync(".vercel/output/functions/render.func/.vc-config.json", {
