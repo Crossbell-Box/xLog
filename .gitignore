@@ -9,7 +9,3 @@ node_modules
 /public/build
 /api/index.js
 /api/**/*.js.map
-dist
-.vercel
-.DS_Store
-/app/generated.css

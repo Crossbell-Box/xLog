@@ -16,7 +16,7 @@ import {
 import LoginModal from "~/components/common/LoginModal"
 import { createStore, StoreProvider } from "./lib/store"
 import { Toaster } from "react-hot-toast"
-import css from "./generated.css"
+import css from "./main.css"
 import { APP_NAME } from "./lib/config.shared"
 
 export const meta: MetaFunction = () => {
