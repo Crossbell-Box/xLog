@@ -294,7 +294,7 @@ export const siteController = {
         },
         pages: {
           create: {
-            title: "Aboute",
+            title: "About",
             slug: "about",
             excerpt: "",
             content: `My name is ${payload.name} and I'm a new site.`,
