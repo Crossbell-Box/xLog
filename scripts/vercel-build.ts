@@ -1,6 +1,7 @@
 import * as esbuild from "esbuild"
 import dotenv from "dotenv"
 import fs from "fs-extra"
+import { nodeFileTrace } from "@vercel/nft"
 
 async function main() {
   const { parsed = {} } = dotenv.config()
@@ -28,39 +29,18 @@ async function main() {
   })
 
   // Serverless function
-  await esbuild.build({
-    entryPoints: ["./build/index.js"],
-    format: "cjs",
-    platform: "node",
-    bundle: true,
-    outfile: ".vercel/output/functions/render.func/index.js",
-    plugins: [
-      {
-        name: "externalize-node-modules",
-        setup(build) {
-          build.onResolve({ filter: /.*/ }, async (args) => {
-            if (args.pluginData?.skip) return
-            const resolved = await build.resolve(args.path, {
-              pluginData: {
-                ...args.pluginData,
-                skip: true,
-              },
-              importer: args.importer,
-              namespace: args.namespace,
-              resolveDir: args.resolveDir,
-              kind: args.kind,
-            })
-            if (resolved.path.includes("node_modules")) {
-              return {
-                external: true,
-              }
-            }
-            return resolved
-          })
-        },
-      },
-    ],
-  })
+  await fs.copy("build", ".vercel/output/functions/render.func")
+  const { fileList } = await nodeFileTrace([
+    ".vercel/output/functions/render.func/index.js",
+  ])
+  for (const filepath of fileList) {
+    if (filepath.includes("node_modules")) {
+      await fs.copy(
+        filepath,
+        `.vercel/output/functions/render.func/${filepath}`
+      )
+    }
+  }
 
   fs.outputJSONSync(".vercel/output/functions/render.func/.vc-config.json", {
     runtime: "nodejs14.x",
