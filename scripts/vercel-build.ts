@@ -37,7 +37,7 @@ async function main() {
   })
 
   fs.outputJSONSync(".vercel/output/functions/render.func/.vc-config.json", {
-    runtime: "node14.x",
+    runtime: "nodejs14.x",
     handler: "index.js",
     launcherType: "Nodejs",
   })
