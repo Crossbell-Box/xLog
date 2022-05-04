@@ -9,7 +9,7 @@
     "build": "pnpm build-css && pnpm build-remix",
     "dev-remix": "remix dev",
     "dev": "pnpm generate-css && run-p dev-*",
-    "generate-css": "tailwindcss --input ./css/main.css --output ./app/main.css --postcss",
+    "generate-css": "tailwindcss --input ./css/main.css --output ./app/generated.css --postcss",
     "dev-css": "pnpm generate-css --watch",
     "build-css": "pnpm generate-css --minify",
     "start": "remix-serve build",
