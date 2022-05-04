@@ -1,4 +1,4 @@
-# fly.toml file generated for proselog on 2022-05-02T21:19:40+08:00
+# fly.toml file generated for proselog on 2022-05-05T00:44:42+08:00
 
 app = "proselog"
 
