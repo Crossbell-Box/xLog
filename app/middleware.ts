@@ -8,7 +8,9 @@ export default (req: Request) => {
     url.pathname.startsWith("/dashboard") &&
     !cookieHeader.includes(process.env.AUTH_COOKIE_NAME)
   ) {
-    return MiddlewareResponse.redirect("/")
+    const redirectUrl = new URL(req.url)
+    redirectUrl.pathname = "/"
+    return MiddlewareResponse.redirect(redirectUrl)
   }
 
   if (url.pathname === "/__test_middleware") {
