@@ -1,8 +1,9 @@
 import { type LoaderFunction, redirect } from "@remix-run/node"
 import { z } from "zod"
 import { generateCookie } from "~/lib/auth.server"
-import { IS_PROD, OUR_DOMAIN } from "~/lib/config.shared"
+import { IS_PROD } from "~/lib/constants"
 import { prismaRead, prismaWrite } from "~/lib/db.server"
+import { OUR_DOMAIN } from "~/lib/env"
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)

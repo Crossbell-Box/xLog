@@ -1,9 +1,9 @@
 import type { User, Membership } from "@prisma/client"
-import { AUTH_COOKIE_NAME } from "./config.server"
 import { prismaRead } from "./db.server"
 import dayjs from "dayjs"
 import { type CookieSerializeOptions, createCookie } from "@remix-run/node"
-import { IS_PROD, OUR_DOMAIN } from "./config.shared"
+import { AUTH_COOKIE_NAME, OUR_DOMAIN } from "./env"
+import { IS_PROD } from "./constants"
 
 export type AuthUser = User & {
   memberships: Membership[]

@@ -5,7 +5,8 @@ import { SiteHome } from "~/components/site/SiteHome"
 import { SiteLayout, type SiteLayoutProps } from "~/components/site/SiteLayout"
 import { siteController } from "~/controllers/site.controller"
 import { getAuthUser } from "~/lib/auth.server"
-import { APP_DESCRIPTION, APP_NAME } from "~/lib/config.shared"
+import { APP_DESCRIPTION } from "~/lib/constants"
+import { APP_NAME } from "~/lib/env"
 import { getTenant } from "~/lib/tenant.server"
 import { PageVisibilityEnum, type PostOnSiteHome } from "~/lib/types"
 import { getSubscription } from "~/models/site.model"
@@ -13,13 +14,11 @@ import { getSubscription } from "~/models/site.model"
 type LoaderData =
   | {
       type: "main"
-      appName: string
       isLoggedIn: boolean
     }
   | {
       type: "tenant"
       isLoggedIn: boolean
-      appName: string
       tenant?: string
       posts: PostOnSiteHome[]
       site: SiteLayoutProps["site"]
@@ -62,7 +61,6 @@ export const loader: LoaderFunction = async (ctx) => {
     return json<LoaderData>({
       type: "tenant",
       isLoggedIn,
-      appName: APP_NAME,
       tenant,
       posts: pages,
       site: {
@@ -75,7 +73,10 @@ export const loader: LoaderFunction = async (ctx) => {
     })
   }
 
-  return json<LoaderData>({ type: "main", isLoggedIn, appName: APP_NAME })
+  return json<LoaderData>({
+    type: "main",
+    isLoggedIn,
+  })
 }
 
 export default function Home() {
@@ -93,9 +94,5 @@ export default function Home() {
     )
   }
 
-  return (
-    <MainLayout isLoggedIn={data.isLoggedIn} appName={data.appName}>
-      {""}
-    </MainLayout>
-  )
+  return <MainLayout isLoggedIn={data.isLoggedIn}>{""}</MainLayout>
 }

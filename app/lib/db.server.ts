@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import { IS_PRIMARY_REGION } from "./config.server"
-import { IS_PROD } from "./config.shared"
+import { IS_PROD } from "./constants"
+import { isPrimaryRegion } from "./env"
 import { singleton } from "./singleton.server"
 
 export const prismaWrite = /* @__PURE__ */ singleton(
@@ -12,7 +12,7 @@ export const prismaWrite = /* @__PURE__ */ singleton(
 export const prismaRead = /* @__PURE__ */ singleton("prisma-read", () => {
   // 5433 is the read-replica port
   let url = process.env.DATABASE_URL
-  if (!IS_PRIMARY_REGION && IS_PROD) {
+  if (!isPrimaryRegion() && IS_PROD) {
     url = url.replace(":5432", ":5433")
   }
   console.log("read replica url", url)

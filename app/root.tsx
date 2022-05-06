@@ -6,7 +6,6 @@ import {
 } from "@remix-run/node"
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -17,7 +16,7 @@ import LoginModal from "~/components/common/LoginModal"
 import { createStore, StoreProvider } from "./lib/store"
 import { Toaster } from "react-hot-toast"
 import css from "./generated.css"
-import { APP_NAME } from "./lib/config.shared"
+import { APP_NAME } from "./lib/env"
 
 export const meta: MetaFunction = () => {
   return {
@@ -31,13 +30,14 @@ export const links: LinksFunction = () => {
   return [{ href: css, rel: "stylesheet", type: "text/css" }]
 }
 
-type LoaderData = { ENV: Record<string, string> }
+type LoaderData = { ENV: BrowserEnv }
 
 export const loader: LoaderFunction = async () => {
   return json<LoaderData>({
     ENV: {
       APP_NAME: process.env.APP_NAME,
       OUR_DOMAIN: process.env.OUR_DOMAIN,
+      S3_CDN_PREFIX: process.env.S3_CDN_PREFIX,
     },
   })
 }

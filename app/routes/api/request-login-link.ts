@@ -1,8 +1,9 @@
-import { ActionFunction, redirect } from "@remix-run/node"
+import { ActionFunction } from "@remix-run/node"
 import dayjs from "dayjs"
 import { z } from "zod"
-import { IS_PROD, OUR_DOMAIN } from "~/lib/config.shared"
+import { IS_PROD } from "~/lib/constants"
 import { prismaWrite } from "~/lib/db.server"
+import { OUR_DOMAIN } from "~/lib/env"
 import { sendLoginEmail } from "~/lib/mailgun.server"
 
 export const action: ActionFunction = async ({ request }) => {

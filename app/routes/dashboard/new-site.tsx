@@ -10,7 +10,7 @@ import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { siteController } from "~/controllers/site.controller"
 import { getAuthUser } from "~/lib/auth.server"
-import { OUR_DOMAIN } from "~/lib/config.shared"
+import { OUR_DOMAIN } from "~/lib/env"
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getAuthUser(request, true)

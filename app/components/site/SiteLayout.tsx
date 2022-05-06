@@ -9,7 +9,8 @@ import { SubscribeModal } from "../common/SubscribeModal"
 import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
-import { IS_PROD, OUR_DOMAIN } from "~/lib/config.shared"
+import { IS_PROD } from "~/lib/constants"
+import { OUR_DOMAIN } from "~/lib/env"
 
 type MenuLink = {
   text: string

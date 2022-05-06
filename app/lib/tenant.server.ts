@@ -1,4 +1,4 @@
-import { OUR_DOMAIN } from "./config.shared"
+import { OUR_DOMAIN } from "./env"
 
 export const getTenant = (request: Request) => {
   const host = request.headers.get("host")

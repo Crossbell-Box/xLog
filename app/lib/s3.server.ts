@@ -4,7 +4,7 @@ import {
   S3_SECRET_ACCESS_KEY,
   S3_BUCKET_NAME,
   S3_ENDPOINT,
-} from "~/lib/config.server"
+} from "~/lib/env"
 import {
   S3Client,
   PutObjectCommand,

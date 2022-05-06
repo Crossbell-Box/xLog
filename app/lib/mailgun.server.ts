@@ -1,9 +1,15 @@
 import Mailgun from "mailgun.js"
 import FormData from "form-data"
 import { singleton } from "./singleton.server"
-import { MAILGUN_APIKEY, MAILGUN_DOMAIN, MAILGUN_EU } from "~/lib/config.server"
+import {
+  APP_NAME,
+  MAILGUN_APIKEY,
+  MAILGUN_DOMAIN,
+  MAILGUN_EU,
+  OUR_DOMAIN,
+} from "~/lib/env"
 import type { MailgunMessageData } from "mailgun.js/interfaces/Messages"
-import { APP_NAME, IS_PROD, OUR_DOMAIN } from "./config.shared"
+import { IS_PROD } from "./constants"
 
 const getClient = () =>
   singleton("mailgun", () => {

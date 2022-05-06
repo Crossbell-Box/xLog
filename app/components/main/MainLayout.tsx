@@ -1,14 +1,13 @@
 import { Link } from "@remix-run/react"
 import { logout } from "~/lib/auth.client"
+import { APP_NAME } from "~/lib/env"
 import { useStore } from "~/lib/store"
 
 export function MainLayout({
   isLoggedIn,
-  appName,
   children,
 }: {
   isLoggedIn: boolean
-  appName: string
   children: React.ReactNode
 }) {
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
@@ -42,7 +41,7 @@ export function MainLayout({
           <div className="max-w-screen-md mx-auto px-5">
             <div>
               <span className="inline-block text-3xl lg:text-7xl px-3 rounded-lg py-2 font-bold bg-indigo-600 text-white">
-                {appName}
+                {APP_NAME}
               </span>
             </div>
             <div className="italic text-zinc-500 text-sm mt-1">

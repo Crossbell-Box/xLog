@@ -1,6 +1,6 @@
-import { LoaderFunction } from "@remix-run/node"
-import { S3_BUCKET_NAME, S3_ENDPOINT } from "~/lib/config.server"
-import { IS_PROD } from "~/lib/config.shared"
+import { type LoaderFunction } from "@remix-run/node"
+import { IS_PROD } from "~/lib/constants"
+import { S3_BUCKET_NAME, S3_ENDPOINT } from "~/lib/env"
 
 export const loader: LoaderFunction = ({ request }) => {
   if (IS_PROD) {

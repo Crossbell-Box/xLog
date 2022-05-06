@@ -4,8 +4,9 @@ import { prismaRead, prismaWrite } from "~/lib/db.server"
 import { nanoid } from "nanoid"
 import UAParser from "ua-parser-js"
 import dayjs from "dayjs"
-import { IS_PROD, OUR_DOMAIN } from "~/lib/config.shared"
 import { generateCookie } from "~/lib/auth.server"
+import { OUR_DOMAIN } from "~/lib/env"
+import { IS_PROD } from "~/lib/constants"
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)
