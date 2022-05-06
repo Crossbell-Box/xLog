@@ -29,6 +29,10 @@ app.use(morgan("tiny"))
 
 app.all(
   "*",
+  (req, res, next) => {
+    res.setHeader("x-fly-region", FLY_REGION || "unknown")
+    next()
+  },
   process.env.NODE_ENV === "development"
     ? (req, res, next) => {
         purgeRequireCache()
@@ -41,11 +45,7 @@ app.all(
     : createRequestHandler({
         build: require("@remix-run/dev/server-build"),
         mode: process.env.NODE_ENV,
-      }),
-  (req, res, next) => {
-    res.setHeader("x-fly-region", FLY_REGION || "unknown")
-    next()
-  }
+      })
 )
 const port = process.env.PORT || 3000
 
