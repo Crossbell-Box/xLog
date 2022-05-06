@@ -6,7 +6,7 @@ const PRIMARY_REGION = getServerEnv("PRIMARY_REGION")
 const FLY_REGION = getServerEnv("FLY_REGION")
 
 export const setFlyRegionHeader: RequestHandler = (req, res, next) => {
-  res.setHeader("x-fly-region", PRIMARY_REGION || "unknown")
+  res.setHeader("x-fly-region", FLY_REGION || "unknown")
   next()
 }
 
