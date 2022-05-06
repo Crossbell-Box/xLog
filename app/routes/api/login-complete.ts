@@ -1,8 +1,8 @@
-import { LoaderFunction, redirect } from "@remix-run/node"
+import { type LoaderFunction, redirect } from "@remix-run/node"
 import { z } from "zod"
 import { generateCookie } from "~/lib/auth.server"
 import { IS_PROD, OUR_DOMAIN } from "~/lib/config.shared"
-import { prisma } from "~/lib/db.server"
+import { prismaRead, prismaWrite } from "~/lib/db.server"
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)
@@ -22,7 +22,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   // Set cookie again for custom domain and subdomain.localhost (because *.localhost in cookie domain doesn't work)
   if (isCustomDomain || !IS_PROD) {
-    const accessToken = await prisma.accessToken.findUnique({
+    const accessToken = await prismaRead.accessToken.findUnique({
       where: {
         publicId: data.id,
       },
@@ -36,7 +36,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       throw new Error("invalid id or id expired")
     }
 
-    await prisma.accessToken.update({
+    await prismaWrite.accessToken.update({
       where: {
         id: accessToken.id,
       },

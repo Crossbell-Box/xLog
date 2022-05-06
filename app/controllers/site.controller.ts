@@ -1,4 +1,4 @@
-import { prisma } from "~/lib/db.server"
+import { prismaRead, prismaWrite } from "~/lib/db.server"
 import {
   checkPageSlug,
   checkSubdomain,
@@ -7,7 +7,7 @@ import {
 } from "~/models/site.model"
 import { PageVisibilityEnum } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
-import { MembershipRole, PageType, Prisma } from "@prisma/client"
+import { MembershipRole, PageType, type Prisma } from "@prisma/client"
 import { nanoid } from "nanoid"
 import { z } from "zod"
 import { type AuthUser } from "~/lib/auth.server"
@@ -84,7 +84,7 @@ export const siteController = {
     }
 
     const [pages, total] = await Promise.all([
-      prisma.page.findMany({
+      prismaRead.page.findMany({
         where,
         orderBy: {
           createdAt: "desc",
@@ -96,7 +96,7 @@ export const siteController = {
             }
           : undefined,
       }),
-      await prisma.page.count({
+      await prismaRead.page.count({
         where: {
           siteId: site.id,
         },
@@ -129,7 +129,7 @@ export const siteController = {
     const gate = createGate({ user })
 
     const page = input.pageId
-      ? await prisma.page.findUnique({
+      ? await prismaRead.page.findUnique({
           where: {
             id: input.pageId,
           },
@@ -137,7 +137,7 @@ export const siteController = {
             site: true,
           },
         })
-      : await prisma.page.create({
+      : await prismaWrite.page.create({
           data: {
             title: "Untitled",
             slug: `untitled-${nanoid(4)}`,
@@ -165,7 +165,7 @@ export const siteController = {
     const slug = input.slug || page.slug
     await checkPageSlug({ slug, excludePage: page.id, siteId: page.siteId })
 
-    const updated = await prisma.page.update({
+    const updated = await prismaWrite.page.update({
       where: {
         id: page.id,
       },
@@ -204,13 +204,13 @@ export const siteController = {
     }
 
     const page = isPageUUID
-      ? await prisma.page.findUnique({
+      ? await prismaRead.page.findUnique({
           where: {
             id: input.page,
           },
         })
       : site
-      ? await prisma.page.findFirst({
+      ? await prismaRead.page.findFirst({
           where: { siteId: site.id, slug: input.page },
         })
       : null
@@ -252,7 +252,7 @@ export const siteController = {
       })
     }
 
-    const updated = await prisma.site.update({
+    const updated = await prismaWrite.site.update({
       where: {
         id: site.id,
       },
@@ -278,7 +278,7 @@ export const siteController = {
 
     await checkSubdomain({ subdomain: payload.subdomain })
 
-    const site = await prisma.site.create({
+    const site = await prismaWrite.site.create({
       data: {
         name: payload.name,
         subdomain: payload.subdomain,

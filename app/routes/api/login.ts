@@ -1,6 +1,6 @@
-import { LoaderFunction, redirect } from "@remix-run/node"
+import { type LoaderFunction, redirect } from "@remix-run/node"
 import { z } from "zod"
-import { prisma } from "~/lib/db.server"
+import { prismaRead, prismaWrite } from "~/lib/db.server"
 import { nanoid } from "nanoid"
 import UAParser from "ua-parser-js"
 import dayjs from "dayjs"
@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       userAgent: request.headers.get("user-agent"),
     })
 
-  const loginToken = await prisma.loginToken.findUnique({
+  const loginToken = await prismaRead.loginToken.findUnique({
     where: {
       id: data.token,
     },
@@ -35,14 +35,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     throw new Error(`token expired`)
   }
 
-  let user = await prisma.user.findUnique({
+  let user = await prismaRead.user.findUnique({
     where: {
       email: loginToken.email,
     },
   })
 
   if (!user) {
-    user = await prisma.user.create({
+    user = await prismaWrite.user.create({
       data: {
         email: loginToken.email,
         name: loginToken.email.split("@")[0],
@@ -51,7 +51,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     })
   }
 
-  await prisma.loginToken.delete({
+  await prismaWrite.loginToken.delete({
     where: {
       id: loginToken.id,
     },
@@ -60,7 +60,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const ua = new UAParser(data.userAgent)
 
   const publicId = nanoid(32)
-  const accessToken = await prisma.accessToken.create({
+  const accessToken = await prismaWrite.accessToken.create({
     data: {
       user: {
         connect: {
@@ -85,7 +85,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     !nextUrl.hostname.endsWith(`.${OUR_DOMAIN}`)
   ) {
     // Check if the host belong to a site
-    const existing = await prisma.domain.findUnique({
+    const existing = await prismaRead.domain.findUnique({
       where: {
         domain: nextUrl.hostname,
       },

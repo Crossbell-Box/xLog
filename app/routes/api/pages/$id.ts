@@ -1,7 +1,7 @@
 import type { ActionFunction } from "@remix-run/node"
 import { z } from "zod"
 import { getAuthUser } from "~/lib/auth.server"
-import { prisma } from "~/lib/db.server"
+import { prismaRead, prismaWrite } from "~/lib/db.server"
 import { createGate } from "~/lib/gate.server"
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -17,7 +17,7 @@ export const action: ActionFunction = async ({ request, params }) => {
         id: params.id,
       })
 
-    const page = await prisma.page.findUnique({
+    const page = await prismaRead.page.findUnique({
       where: {
         id: data.id,
       },
@@ -31,7 +31,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       throw gate.permissionError()
     }
 
-    await prisma.page.update({
+    await prismaWrite.page.update({
       where: {
         id: page.id,
       },

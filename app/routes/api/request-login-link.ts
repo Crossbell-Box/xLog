@@ -2,7 +2,7 @@ import { ActionFunction, redirect } from "@remix-run/node"
 import dayjs from "dayjs"
 import { z } from "zod"
 import { IS_PROD, OUR_DOMAIN } from "~/lib/config.shared"
-import { prisma } from "~/lib/db.server"
+import { prismaWrite } from "~/lib/db.server"
 import { sendLoginEmail } from "~/lib/mailgun.server"
 
 export const action: ActionFunction = async ({ request }) => {
@@ -17,7 +17,7 @@ export const action: ActionFunction = async ({ request }) => {
       referer: request.headers.get("referer"),
     })
 
-  const token = await prisma.loginToken.create({
+  const token = await prismaWrite.loginToken.create({
     data: {
       email: input.email,
       expiresAt: dayjs().add(10, "minute").toDate(),

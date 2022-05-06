@@ -8,3 +8,7 @@ export const S3_ENDPOINT = process.env.S3_ENDPOINT
 export const MAILGUN_APIKEY = process.env.MAILGUN_APIKEY
 export const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN
 export const MAILGUN_EU = process.env.MAILGUN_EU
+// Primary Fly region
+export const PRIMARY_REGION = process.env.PRIMARY_REGION
+// Curreny Fly region
+export const FLY_REGION = process.env.FLY_REGION

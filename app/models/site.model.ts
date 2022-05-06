@@ -1,4 +1,4 @@
-import { prisma } from "~/lib/db.server"
+import { prismaRead, prismaWrite } from "~/lib/db.server"
 import { isUUID } from "~/lib/uuid"
 import { MembershipRole } from "@prisma/client"
 
@@ -9,7 +9,7 @@ export const checkSubdomain = async ({
   subdomain: string
   updatingSiteId?: string
 }) => {
-  const existingSite = await prisma.site.findUnique({
+  const existingSite = await prismaRead.site.findUnique({
     where: {
       subdomain,
     },
@@ -17,7 +17,7 @@ export const checkSubdomain = async ({
 
   if (existingSite?.deletedAt) {
     // Actuall delete the site so that the subdomain can be used again
-    await prisma.site.delete({
+    await prismaWrite.site.delete({
       where: {
         id: existingSite.id,
       },
@@ -31,7 +31,7 @@ export const checkSubdomain = async ({
 }
 
 export const getUserLastActiveSite = async (userId: string) => {
-  const memberships = await prisma.membership.findMany({
+  const memberships = await prismaRead.membership.findMany({
     where: {
       userId,
       role: {
@@ -55,12 +55,12 @@ export const getUserLastActiveSite = async (userId: string) => {
 
 export const getSite = async (input: string) => {
   const site = isUUID(input)
-    ? await prisma.site.findUnique({
+    ? await prismaRead.site.findUnique({
         where: {
           id: input,
         },
       })
-    : await prisma.site.findUnique({
+    : await prismaRead.site.findUnique({
         where: {
           subdomain: input,
         },
@@ -78,7 +78,7 @@ export const getMembership = async (data: {
   userId: string
   role: MembershipRole
 }) => {
-  const first = await prisma.membership.findFirst({
+  const first = await prismaRead.membership.findFirst({
     where: {
       role: data.role,
       userId: data.userId,
@@ -90,7 +90,7 @@ export const getMembership = async (data: {
 }
 
 export const getSitesByUser = async ({ userId }: { userId: string }) => {
-  const memberships = await prisma.membership.findMany({
+  const memberships = await prismaRead.membership.findMany({
     where: {
       userId,
       role: {
@@ -116,7 +116,7 @@ export const checkPageSlug = async ({
   if (!slug) {
     throw new Error("Missing page slug")
   }
-  const page = await prisma.page.findFirst({
+  const page = await prismaRead.page.findFirst({
     where: {
       siteId,
       slug,
@@ -128,7 +128,7 @@ export const checkPageSlug = async ({
   if (!page) return
 
   if (page.deletedAt) {
-    await prisma.page.delete({
+    await prismaWrite.page.delete({
       where: {
         id: page.id,
       },

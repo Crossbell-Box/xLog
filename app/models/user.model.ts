@@ -1,5 +1,5 @@
 import { type AuthUser } from "~/lib/auth.server"
-import { prisma } from "~/lib/db.server"
+import { prismaRead, prismaWrite } from "~/lib/db.server"
 import { createGate } from "~/lib/gate.server"
 
 export const userModel = {
@@ -15,7 +15,7 @@ export const userModel = {
   ) {
     const gate = createGate({ user, requireAuth: true })
     if (payload.email) {
-      const userByEmail = await prisma.user.findUnique({
+      const userByEmail = await prismaRead.user.findUnique({
         where: {
           email: payload.email,
         },
@@ -26,7 +26,7 @@ export const userModel = {
     }
 
     if (payload.username) {
-      const userByUsername = await prisma.user.findUnique({
+      const userByUsername = await prismaRead.user.findUnique({
         where: {
           username: payload.username,
         },
@@ -36,7 +36,7 @@ export const userModel = {
       }
     }
 
-    const updated = await prisma.user.update({
+    const updated = await prismaWrite.user.update({
       where: {
         id: gate.user.id,
       },
