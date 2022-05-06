@@ -4,11 +4,15 @@ import express from "express"
 import compression from "compression"
 import morgan from "morgan"
 import { createRequestHandler } from "@remix-run/express"
-import { FLY_REGION } from "~/lib/config.server"
+import { getReplayResponse, setFlyRegionHeader } from "./fly"
 
 const BUILD_DIR = path.join(process.cwd(), "build")
 
 const app = express()
+
+app.use(setFlyRegionHeader)
+
+app.all("*", getReplayResponse)
 
 app.use(compression())
 
@@ -29,10 +33,6 @@ app.use(morgan("tiny"))
 
 app.all(
   "*",
-  (req, res, next) => {
-    res.setHeader("x-fly-region", FLY_REGION || "unknown")
-    next()
-  },
   process.env.NODE_ENV === "development"
     ? (req, res, next) => {
         purgeRequireCache()

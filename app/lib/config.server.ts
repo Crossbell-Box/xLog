@@ -12,3 +12,6 @@ export const MAILGUN_EU = process.env.MAILGUN_EU
 export const PRIMARY_REGION = process.env.PRIMARY_REGION
 // Curreny Fly region
 export const FLY_REGION = process.env.FLY_REGION
+export const IS_PRIMARY_REGION = Boolean(
+  FLY_REGION && PRIMARY_REGION === FLY_REGION
+)
