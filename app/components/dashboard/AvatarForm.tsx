@@ -6,6 +6,7 @@ import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import { useFetcher } from "@remix-run/react"
 import toast from "react-hot-toast"
+import createPica from "pica"
 
 const AvatarEditorModal: React.FC<{
   isOpen: boolean
@@ -18,13 +19,14 @@ const AvatarEditorModal: React.FC<{
 
   const cropAndSave = async () => {
     if (!editorRef.current) return
-    const canvas = editorRef.current.getImage()
-    const blob = await new Promise<Blob>((resolve, reject) => {
-      canvas.toBlob((blob) => {
-        if (!blob) return reject(new Error("Canvas is empty"))
-        resolve(blob)
-      })
-    })
+
+    const fromCanvas = editorRef.current.getImage()
+    const toCanvas = document.createElement("canvas")
+    toCanvas.width = 460
+    toCanvas.height = 460
+    const pica = createPica()
+    const result = await pica.resize(fromCanvas, toCanvas)
+    const blob = await pica.toBlob(result, "image/jpeg", 0.9)
     const form = new FormData()
     if (site) {
       form.append("site", site)
