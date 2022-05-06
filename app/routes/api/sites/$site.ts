@@ -19,7 +19,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     const { site, subdomainUpdated } = await siteController.updateSite(user, {
       site: params.site as string,
       name: values.name,
-      description: values.name,
+      description: values.description,
       icon: values.icon,
       subdomain: values.subdomain,
     })
