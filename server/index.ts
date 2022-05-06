@@ -10,9 +10,9 @@ const BUILD_DIR = path.join(process.cwd(), "build")
 
 const app = express()
 
-app.use(setFlyRegionHeader)
-
 app.all("*", getReplayResponse)
+
+app.use(setFlyRegionHeader)
 
 app.use(compression())
 
