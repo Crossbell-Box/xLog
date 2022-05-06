@@ -67,7 +67,8 @@ export default function App() {
           }}
         />
         <Scripts />
-        <LiveReload />
+        {/* TODO: implement LiveReload in our express server */}
+        {/* <LiveReload /> */}
       </body>
     </html>
   )
