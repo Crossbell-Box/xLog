@@ -20,7 +20,7 @@ export const action: ActionFunction = async ({ request }) => {
     }
     const buffer = Buffer.concat(chunks)
     const filename = `${user.id}/${nanoid()}.jpg`
-    await s3uploadFile(filename, buffer)
+    await s3uploadFile(filename, buffer, "image/jpeg")
     return filename
   }
   const formData = await unstable_parseMultipartFormData(request, uploadHandler)

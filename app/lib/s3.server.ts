@@ -25,13 +25,15 @@ export const s3 = singleton("s3-client", () => {
 
 export const s3uploadFile = async (
   filename: string,
-  file: PutObjectRequest["Body"] | string | Buffer
+  file: PutObjectRequest["Body"] | string | Buffer,
+  contentType?: string
 ) => {
   await s3.send(
     new PutObjectCommand({
       Bucket: S3_BUCKET_NAME,
       Key: filename,
       Body: file,
+      ContentType: contentType,
     })
   )
 }
