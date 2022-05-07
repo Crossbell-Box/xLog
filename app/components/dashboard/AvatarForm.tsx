@@ -41,10 +41,16 @@ const AvatarEditorModal: React.FC<{
 
   useEffect(() => {
     if (fetcher.type === "done") {
-      setIsOpen(false)
-      toast.success("Updated!")
+      if (fetcher.data.ok) {
+        setIsOpen(false)
+        toast.success("Updated!")
+      } else if (typeof fetcher.data === "string") {
+        toast.error(fetcher.data)
+      } else if (fetcher.data.error) {
+        toast.error(fetcher.data.error)
+      }
     }
-  }, [fetcher.type, setIsOpen])
+  }, [fetcher, setIsOpen])
 
   return (
     <Dialog
