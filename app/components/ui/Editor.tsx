@@ -1,9 +1,26 @@
 import { useEffect, useRef, useState } from "react"
 import { EditorState } from "@codemirror/state"
-import { EditorView, keymap, ViewUpdate } from "@codemirror/view"
-import { indentWithTab } from "@codemirror/commands"
+import {
+  EditorView,
+  keymap,
+  type ViewUpdate,
+  dropCursor,
+  drawSelection,
+  crosshairCursor,
+  placeholder as placeholderExtension,
+} from "@codemirror/view"
+import {
+  history,
+  defaultKeymap,
+  historyKeymap,
+  indentWithTab,
+} from "@codemirror/commands"
 import { markdown } from "@codemirror/lang-markdown"
-import { history } from "@codemirror/history"
+import {
+  defaultHighlightStyle,
+  indentOnInput,
+  syntaxHighlighting,
+} from "@codemirror/language"
 
 const theme = EditorView.theme({
   ".cm-scroller": {
@@ -22,7 +39,8 @@ const theme = EditorView.theme({
 export const Editor: React.FC<{
   value: string
   onChange: (value: string) => void
-}> = ({ value, onChange }) => {
+  placeholder?: string
+}> = ({ value, onChange, placeholder }) => {
   const editorRef = useRef<HTMLDivElement | null>(null)
   const [view, setView] = useState<EditorView | null>(null)
 
@@ -37,13 +55,20 @@ export const Editor: React.FC<{
 
     const view = new EditorView({
       state: EditorState.create({
-        doc: value,
+        doc: "",
         extensions: [
-          keymap.of([indentWithTab]),
-          markdown(),
+          keymap.of([indentWithTab, ...defaultKeymap, ...historyKeymap]),
           history(),
+          dropCursor(),
+          drawSelection(),
+          indentOnInput(),
+          crosshairCursor(),
+          EditorState.allowMultipleSelections.of(true),
           updateListener,
           EditorView.lineWrapping,
+          markdown(),
+          placeholderExtension(placeholder || ""),
+          syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
           theme,
         ],
       }),
@@ -56,7 +81,7 @@ export const Editor: React.FC<{
       view.destroy()
       setView(null)
     }
-  }, [])
+  }, [onChange, placeholder])
 
   // Update view state when `value` changed
   useEffect(() => {

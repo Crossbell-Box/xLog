@@ -19,8 +19,8 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.81.0",
     "@codemirror/commands": "^0.20.0",
-    "@codemirror/history": "^0.19.2",
     "@codemirror/lang-markdown": "^0.20.0",
+    "@codemirror/language": "^0.20.0",
     "@codemirror/state": "^0.20.0",
     "@codemirror/view": "^0.20.3",
     "@headlessui/react": "^1.6.0",
@@ -29,7 +29,6 @@
     "@remix-run/node": "*",
     "@remix-run/react": "*",
     "@remix-run/serve": "*",
-    "@uiw/react-codemirror": "^4.7.0",
     "@vercel/node": "^1.14.0",
     "clsx": "^1.1.1",
     "compression": "^1.7.4",

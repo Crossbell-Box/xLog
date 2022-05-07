@@ -2,7 +2,7 @@ import { Popover } from "@headlessui/react"
 import { useFetcher, useLoaderData, useParams } from "@remix-run/react"
 import clsx from "clsx"
 import dayjs from "dayjs"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Button } from "~/components/ui/Button"
 import { getPageVisibility } from "~/lib/page-helpers"
@@ -14,7 +14,6 @@ import {
   type LoaderFunction,
   redirect,
 } from "@remix-run/node"
-import ReactCodeMirror from "@uiw/react-codemirror"
 import { siteController } from "~/controllers/site.controller"
 import { getAuthUser } from "~/lib/auth.server"
 import { getSite } from "~/models/site.model"
@@ -22,6 +21,7 @@ import { z } from "zod"
 import toast from "react-hot-toast"
 import { Input } from "~/components/ui/Input"
 import { getSiteLink } from "~/lib/helpers"
+import { Editor } from "~/components/ui/Editor"
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const user = await getAuthUser(request)
@@ -139,6 +139,11 @@ export default function SubdomainEditor() {
     }
   }, [fetcher.type])
 
+  const handleEditorContentChange = useCallback(
+    (value) => updateValue("content", value),
+    []
+  )
+
   return (
     <DashboardMain fullWidth>
       <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
@@ -229,15 +234,16 @@ export default function SubdomainEditor() {
                 name="title"
                 value={values.title}
                 onChange={(e) => updateValue("title", e.target.value)}
-                className="h-12 ml-1 inline-flex items-center border-none text-2xl font-bold w-full focus:outline-none"
+                className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none"
                 placeholder="Title goes here.."
               />
             </div>
             <div className="mt-5">
               <div className="">
-                <ReactCodeMirror
+                <Editor
                   value={values.content}
-                  onChange={(value) => updateValue("content", value)}
+                  onChange={handleEditorContentChange}
+                  placeholder="Start writing here.."
                 />
               </div>
             </div>
