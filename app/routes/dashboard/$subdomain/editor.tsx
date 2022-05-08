@@ -21,7 +21,8 @@ import { z } from "zod"
 import toast from "react-hot-toast"
 import { Input } from "~/components/ui/Input"
 import { getSiteLink } from "~/lib/helpers"
-import { Editor } from "~/components/ui/Editor"
+import { useEditor } from "~/components/ui/Editor"
+import { type EditorView } from "@codemirror/view"
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const user = await getAuthUser(request)
@@ -44,7 +45,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export const action: ActionFunction = async ({ request, params }) => {
   const isDelete = request.method === "delete"
   const user = await getAuthUser(request)
-  const url = new URL(request.url)
 
   if (!user) return redirect("/")
 
@@ -103,11 +103,11 @@ export default function SubdomainEditor() {
     publishedAt: page?.publishedAt || null,
   })
   const [values, setValues] = useState({
-    title: "",
-    content: "",
-    publishedAt: new Date(),
-    published: false,
-    slug: "",
+    title: page.title,
+    content: page.content,
+    publishedAt: page.publishedAt,
+    published: page.published,
+    slug: page.slug,
   })
   const updateValue = (field: string, value: any) => {
     setValues((values) => {
@@ -117,18 +117,6 @@ export default function SubdomainEditor() {
       }
     })
   }
-
-  useEffect(() => {
-    if (page) {
-      setValues({
-        title: page.title,
-        content: page.content,
-        publishedAt: page.publishedAt,
-        published: page.published,
-        slug: page.slug,
-      })
-    }
-  }, [page])
 
   const fetcher = useFetcher()
 
@@ -143,6 +131,51 @@ export default function SubdomainEditor() {
     (value) => updateValue("content", value),
     []
   )
+
+  const handleDropFile = useCallback(async (file: File, view: EditorView) => {
+    if (!file.type.startsWith("image/")) {
+      toast.error("You can only upload images")
+      return
+    }
+    const position = view.state.selection.main.head
+
+    const toastId = toast.loading("Uploading...")
+
+    const form = new FormData()
+    form.append("file", file)
+    const res = await fetch("/api/upload-image", {
+      body: form,
+      headers: {},
+      credentials: "same-origin",
+      method: "POST",
+    })
+    if (!res.ok) {
+      toast.error("Upload failed", {
+        id: toastId,
+      })
+    } else {
+      const data = await res.json()
+      if (data.error) {
+        toast.error(data.error, { id: toastId })
+      } else {
+        toast.success("Uploaded!", {
+          id: toastId,
+        })
+        view.dispatch(
+          view.state.replaceSelection(
+            `\n\n![${file.name.replace(/\.\w+$/, "")}](${data.file})\n\n`
+          )
+        )
+      }
+    }
+  }, [])
+
+  const { editorRef } = useEditor({
+    value: values.content,
+    onChange: handleEditorContentChange,
+    onDropFile: handleDropFile,
+    placeholder: "Start writing here..",
+  })
 
   return (
     <DashboardMain fullWidth>
@@ -240,11 +273,7 @@ export default function SubdomainEditor() {
             </div>
             <div className="mt-5">
               <div className="">
-                <Editor
-                  value={values.content}
-                  onChange={handleEditorContentChange}
-                  placeholder="Start writing here.."
-                />
+                <div ref={editorRef}></div>
               </div>
             </div>
           </div>

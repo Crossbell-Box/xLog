@@ -1,10 +1,32 @@
 import Markdown from "markdown-it"
+import { getUserContentsUrl } from "./user-contents"
+
+const isExternLink = (url: string) => /^https?:\/\//.test(url)
+
+const handleImages = (md: Markdown) => {
+  const imageRule = md.renderer.rules.image!
+  md.renderer.rules.image = (tokens, idx, options, env, self) => {
+    const token = tokens[idx]
+    const url = token.attrGet("src")
+
+    // Don't allow images from other domains.
+    if (!url || isExternLink(url)) {
+      return ""
+    }
+
+    token.attrSet("src", getUserContentsUrl(url))
+    return imageRule(tokens, idx, options, env, self)
+  }
+}
 
 export const renderPageContent = async (content: string) => {
   const md = new Markdown({
     html: false,
     linkify: true,
   })
+
+  md.use(handleImages)
+
   const html = md.render(content)
   return { html }
 }

@@ -21,6 +21,7 @@ import {
   indentOnInput,
   syntaxHighlighting,
 } from "@codemirror/language"
+import { IS_PROD } from "~/lib/constants"
 
 const theme = EditorView.theme({
   ".cm-scroller": {
@@ -36,11 +37,17 @@ const theme = EditorView.theme({
   },
 })
 
-export const Editor: React.FC<{
+export const useEditor = ({
+  value,
+  onChange,
+  placeholder,
+  onDropFile,
+}: {
   value: string
   onChange: (value: string) => void
   placeholder?: string
-}> = ({ value, onChange, placeholder }) => {
+  onDropFile?: (file: File, view: EditorView) => void
+}) => {
   const editorRef = useRef<HTMLDivElement | null>(null)
   const [view, setView] = useState<EditorView | null>(null)
 
@@ -70,6 +77,14 @@ export const Editor: React.FC<{
           placeholderExtension(placeholder || ""),
           syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
           theme,
+          EditorView.domEventHandlers({
+            drop(e) {
+              const file = e.dataTransfer?.items[0]?.getAsFile()
+              if (!file) return
+
+              onDropFile?.(file, view)
+            },
+          }),
         ],
       }),
       parent: editorRef.current!,
@@ -81,17 +96,23 @@ export const Editor: React.FC<{
       view.destroy()
       setView(null)
     }
-  }, [onChange, placeholder])
+  }, [onChange, placeholder, onDropFile])
 
   // Update view state when `value` changed
   useEffect(() => {
     const currentValue = view ? view.state.doc.toString() : ""
     if (view && value !== currentValue) {
+      if (!IS_PROD) {
+        console.log("updating editor value", value)
+      }
       view.dispatch({
         changes: { from: 0, to: currentValue.length, insert: value || "" },
       })
     }
   }, [value, view])
 
-  return <div ref={editorRef}></div>
+  return {
+    view,
+    editorRef,
+  }
 }

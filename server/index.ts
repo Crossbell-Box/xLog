@@ -5,6 +5,7 @@ import compression from "compression"
 import morgan from "morgan"
 import { createRequestHandler } from "@remix-run/express"
 import { getReplayResponse, setFlyRegionHeader } from "./fly"
+import { IS_PROD } from "~/lib/constants"
 
 const BUILD_DIR = path.join(process.cwd(), "build")
 
@@ -14,7 +15,9 @@ app.all("*", getReplayResponse)
 
 app.use(setFlyRegionHeader)
 
-app.use(compression())
+if (IS_PROD) {
+  app.use(compression())
+}
 
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable("x-powered-by")
@@ -22,12 +25,15 @@ app.disable("x-powered-by")
 // Remix fingerprints its assets so we can cache forever.
 app.use(
   "/build",
-  express.static("public/build", { immutable: true, maxAge: "1y" })
+  express.static(
+    "public/build",
+    IS_PROD ? { immutable: true, maxAge: "1y" } : {}
+  )
 )
 
 // Everything else (like favicon.ico) is cached for an hour. You may want to be
 // more aggressive with this caching.
-app.use(express.static("public", { maxAge: "1h" }))
+app.use(express.static("public", IS_PROD ? { maxAge: "1h" } : {}))
 
 app.use(morgan("tiny"))
 
