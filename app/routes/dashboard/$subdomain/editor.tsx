@@ -103,11 +103,11 @@ export default function SubdomainEditor() {
     publishedAt: page?.publishedAt || null,
   })
   const [values, setValues] = useState({
-    title: page.title,
-    content: page.content,
-    publishedAt: page.publishedAt,
-    published: page.published,
-    slug: page.slug,
+    title: "",
+    content: "",
+    publishedAt: new Date(),
+    published: false,
+    slug: "",
   })
   const updateValue = (field: string, value: any) => {
     setValues((values) => {
@@ -127,6 +127,21 @@ export default function SubdomainEditor() {
     }
   }, [fetcher.type])
 
+  useEffect(() => {
+    if (!page) return
+
+    setValues((values) => {
+      return {
+        ...values,
+        title: page.title,
+        content: page.content,
+        publishedAt: page.publishedAt,
+        published: page.published,
+        slug: page.slug,
+      }
+    })
+  }, [page])
+
   const handleEditorContentChange = useCallback(
     (value) => updateValue("content", value),
     []
@@ -137,7 +152,6 @@ export default function SubdomainEditor() {
       toast.error("You can only upload images")
       return
     }
-    const position = view.state.selection.main.head
 
     const toastId = toast.loading("Uploading...")
 
