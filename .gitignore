@@ -1,13 +1,7 @@
 node_modules
 
-.cache
-.env
-.vercel
-.output
-
-/build/
-/public/build
-/api/index.js
-/api/**/*.js.map
 .DS_Store
-/app/generated.css
+dist
+.next
+.vercel
+.env

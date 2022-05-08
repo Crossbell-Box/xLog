@@ -26,5 +26,3 @@ declare interface BrowserEnv {
 declare namespace NodeJS {
   interface ProcessEnv extends ServerEnv {}
 }
-
-declare const ENV: BrowserEnv
