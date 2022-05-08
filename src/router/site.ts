@@ -23,12 +23,7 @@ export const siteRouter = createRouter()
         siteId: site.id,
         userId: user.id,
       })
-      return subscription
-        ? {
-            email: subscription.config.email,
-            telegram: subscription.config.telegram,
-          }
-        : null
+      return subscription ? subscription.config : null
     },
   })
   .query("pages", {
