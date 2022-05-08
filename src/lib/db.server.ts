@@ -12,9 +12,9 @@ export const prisma = /* @__PURE__ */ singleton("prisma-read", () => {
   })
 
   client.$use(async (params, next) => {
-    const now = performance.now()
+    const now = Date.now()
     const result = await next(params)
-    const end = performance.now()
+    const end = Date.now()
     const duration = Math.floor(end - now)
     console.log("query took", duration, "ms")
     // See results here
