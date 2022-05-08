@@ -17,12 +17,6 @@ export const getServerEnv = <T extends keyof ServerEnv>(
   return process.env[key]
 }
 
-export const isPrimaryRegion = () => {
-  const FLY_REGION = getServerEnv("FLY_REGION")
-  const PRIMARY_REGION = getServerEnv("PRIMARY_REGION")
-  return Boolean(FLY_REGION && PRIMARY_REGION === FLY_REGION)
-}
-
 // Use /* @__PURE__ */ annotation to make tree-shaking work
 export const AUTH_COOKIE_NAME = /* @__PURE__ */ getServerEnv("AUTH_COOKIE_NAME")
 export const APP_NAME = /* @__PURE__ */ getCommonEnv("APP_NAME")
@@ -38,3 +32,6 @@ export const S3_ENDPOINT = /* @__PURE__ */ getServerEnv("S3_ENDPOINT")
 export const MAILGUN_APIKEY = /* @__PURE__ */ getServerEnv("MAILGUN_APIKEY")
 export const MAILGUN_DOMAIN = /* @__PURE__ */ getServerEnv("MAILGUN_DOMAIN")
 export const MAILGUN_EU = /* @__PURE__ */ getServerEnv("MAILGUN_EU")
+export const PRIMARY_REGION = /* @__PURE__ */ getServerEnv("PRIMARY_REGION")
+export const FLY_REGION = /* @__PURE__ */ getServerEnv("FLY_REGION")
+export const IS_PRIMARY_REGION = !FLY_REGION || PRIMARY_REGION === FLY_REGION

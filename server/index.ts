@@ -1,17 +1,17 @@
 import "./globals/index"
+import http from "http"
 import path from "path"
 import express from "express"
 import compression from "compression"
 import morgan from "morgan"
 import { createRequestHandler } from "@remix-run/express"
-import { getReplayResponse, setFlyRegionHeader } from "./fly"
+import { setFlyRegionHeader } from "./fly"
 import { IS_PROD } from "~/lib/constants"
+import { FLY_REGION, IS_PRIMARY_REGION, PRIMARY_REGION } from "~/lib/env"
 
 const BUILD_DIR = path.join(process.cwd(), "build")
 
 const app = express()
-
-app.all("*", getReplayResponse)
 
 app.use(setFlyRegionHeader)
 
@@ -55,9 +55,34 @@ app.all(
 )
 const port = process.env.PORT || 3000
 
-app.listen(port, () => {
-  console.log(`Open http://localhost:${port}`)
-})
+http
+  .createServer((req, res) => {
+    const { method, url } = req
+
+    if (
+      IS_PROD &&
+      method &&
+      !["GET", "OPTIONS", "HEAD"].includes(method) &&
+      !IS_PRIMARY_REGION
+    ) {
+      const logInfo = {
+        url,
+        method,
+        PRIMARY_REGION,
+        FLY_REGION,
+      }
+      console.info(`Replaying:`, logInfo)
+      res.setHeader("fly-replay", `region=${PRIMARY_REGION}`)
+      res.statusCode = 409
+      res.end("replay")
+      return
+    }
+
+    return app(req, res)
+  })
+  .listen(port, () => {
+    console.log(`Open http://localhost:${port}`)
+  })
 
 function purgeRequireCache() {
   // purge require cache on requests for "server side HMR" this won't let
