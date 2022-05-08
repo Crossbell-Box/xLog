@@ -53,11 +53,9 @@ function SiteArchivesPage({
   const subscription = subscriptionResult.data
   const posts = postsResult.data?.nodes
 
-  if (!site || !posts) return null
-
   return (
     <SiteLayout
-      site={site}
+      site={site!}
       title="Archives"
       isLoggedIn={isLoggedIn}
       subscription={subscription}

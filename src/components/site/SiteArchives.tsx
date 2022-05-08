@@ -2,8 +2,11 @@ import Link from "next/link"
 import { formatDate } from "~/lib/date"
 
 export const SiteArchives: React.FC<{
-  posts: { id: string; publishedAt: string; slug: string; title: string }[]
+  posts:
+    | { id: string; publishedAt: string; slug: string; title: string }[]
+    | undefined
 }> = ({ posts }) => {
+  if (!posts) return null
   return (
     <>
       <h2 className="text-xl font-bold page-title">Archives</h2>

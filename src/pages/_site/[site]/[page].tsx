@@ -20,7 +20,11 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 
     await Promise.all([
       ssg.fetchQuery("site", { site: domainOrSubdomain }),
-      ssg.fetchQuery("site.page", { site: domainOrSubdomain, page: pageSlug }),
+      ssg.fetchQuery("site.page", {
+        site: domainOrSubdomain,
+        page: pageSlug,
+        renderContent: true,
+      }),
     ])
 
     return {
@@ -55,13 +59,11 @@ function SitePagePage({
 
   const site = siteResult.data
   const subscription = subscriptionResult.data
-  const page = pageResult.data
-
-  if (!site || !page) return null
+  const page = pageResult.data!
 
   return (
     <SiteLayout
-      site={site}
+      site={site!}
       title={page.title}
       isLoggedIn={isLoggedIn}
       subscription={subscription}
