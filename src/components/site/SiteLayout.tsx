@@ -11,7 +11,7 @@ import { UniLink } from "../ui/UniLink"
 import { IS_PROD } from "~/lib/constants"
 import { OUR_DOMAIN } from "~/lib/env"
 import { useRouter } from "next/router"
-import Head from "next/head"
+import { SEOHead } from "../common/SEOHead"
 
 type MenuLink = {
   text: string
@@ -162,11 +162,15 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
     },
   ].filter(truthy)
 
+  const docTitle = title ? `${title} - ${site.name}` : site.name
+
   return (
     <>
-      <Head>
-        <title>{title ? `${title} - ${site.name}` : site.name}</title>
-      </Head>
+      <SEOHead
+        title={docTitle}
+        description={site.description}
+        image={getUserContentsUrl(site.icon)}
+      />
       <div>
         <Header
           links={links}

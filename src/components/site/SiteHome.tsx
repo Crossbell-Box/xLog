@@ -3,8 +3,9 @@ import { formatDate } from "~/lib/date"
 import { Paginated, type PostOnSiteHome } from "~/lib/types"
 
 export const SiteHome: React.FC<{
-  posts: Paginated<PostOnSiteHome>
+  posts?: Paginated<PostOnSiteHome>
 }> = ({ posts }) => {
+  if (!posts) return null
   return (
     <div className="space-y-14">
       {posts.nodes.map((post) => {

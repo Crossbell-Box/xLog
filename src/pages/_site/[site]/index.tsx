@@ -34,6 +34,7 @@ function SiteIndexPage({
   domainOrSubdomain: string
 }) {
   const siteResult = trpc.useQuery(["site", { site: domainOrSubdomain }], {})
+
   const subscriptionResult = trpc.useQuery([
     "site.subscription",
     { site: domainOrSubdomain },
@@ -44,10 +45,12 @@ function SiteIndexPage({
   const subscription = subscriptionResult.data
   const posts = postsResult.data
 
-  if (!site || !posts) return null
-
   return (
-    <SiteLayout site={site} isLoggedIn={isLoggedIn} subscription={subscription}>
+    <SiteLayout
+      site={site!}
+      isLoggedIn={isLoggedIn}
+      subscription={subscription}
+    >
       <SiteHome posts={posts} />
     </SiteLayout>
   )
