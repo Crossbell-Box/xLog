@@ -5,8 +5,9 @@
   "license": "unlicensed",
   "sideEffects": false,
   "scripts": {
-    "build": "next build",
-    "dev": "next"
+    "build": "pnpm db-generate && next build",
+    "dev": "next",
+    "db-generate": "prisma generate"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.81.0",
