@@ -18,27 +18,6 @@ export default function SettingsDomainsPage() {
   const ctx = trpc.useContext()
   const updateSite = trpc.useMutation("site.updateSite")
 
-  useEffect(() => {
-    if (updateSite.isSuccess && updateSite.data) {
-      toast.success("Saved!")
-      updateSite.reset()
-      ctx.invalidateQueries()
-      if (updateSite.data.subdomainUpdated) {
-        router.replace(
-          `/dashboard/${updateSite.data.site.subdomain}/settings/domains`
-        )
-      }
-    }
-  }, [updateSite])
-
-  useEffect(() => {
-    if (siteResult.data) {
-      form.setValues({
-        subdomain: siteResult.data.subdomain,
-      })
-    }
-  }, [siteResult.data])
-
   const form = useFormik({
     initialValues: {
       subdomain: "",
@@ -50,6 +29,27 @@ export default function SettingsDomainsPage() {
       })
     },
   })
+
+  useEffect(() => {
+    if (updateSite.isSuccess && updateSite.data) {
+      toast.success("Saved!")
+      updateSite.reset()
+      ctx.invalidateQueries()
+      if (updateSite.data.subdomainUpdated) {
+        router.replace(
+          `/dashboard/${updateSite.data.site.subdomain}/settings/domains`
+        )
+      }
+    }
+  }, [ctx, router, updateSite])
+
+  useEffect(() => {
+    if (siteResult.data) {
+      form.setValues({
+        subdomain: siteResult.data.subdomain,
+      })
+    }
+  }, [form, siteResult.data])
 
   return (
     <DashboardLayout>

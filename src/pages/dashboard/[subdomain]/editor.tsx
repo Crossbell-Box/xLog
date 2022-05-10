@@ -71,7 +71,7 @@ export default function SubdomainEditor() {
         }`
       )
     }
-  }, [createOrUpdatePage])
+  }, [createOrUpdatePage, isPost, router, subdomain, trpcContext])
 
   useEffect(() => {
     if (!page) return

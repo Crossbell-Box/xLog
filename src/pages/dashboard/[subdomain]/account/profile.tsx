@@ -40,7 +40,7 @@ export default function AccountProfilePage() {
         email: viewer.data.email,
       })
     }
-  }, [viewer.data])
+  }, [viewer.data, form])
 
   return (
     <DashboardLayout>

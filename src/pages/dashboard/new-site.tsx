@@ -31,7 +31,7 @@ export default function NewSitePage() {
       createSite.reset()
       router.push(`/dashboard/${createSite.data.subdomain}`)
     }
-  }, [createSite])
+  }, [createSite, router])
 
   return (
     <div>

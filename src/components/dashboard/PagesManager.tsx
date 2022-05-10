@@ -33,7 +33,7 @@ export const PagesManager: React.FC<{
       toast.success("Deleted!")
       trpcContext.invalidateQueries("site.pages")
     }
-  }, [deletePage])
+  }, [deletePage, trpcContext])
 
   const pagesResult = trpc.useQuery(
     [

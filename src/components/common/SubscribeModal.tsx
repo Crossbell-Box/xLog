@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
 import { useFormik } from "formik"
 import { useStore } from "~/lib/store"
-import { Badge } from "../ui/Badge"
 import { Button } from "../ui/Button"
 import { Modal } from "../ui/Modal"
 import toast from "react-hot-toast"
@@ -51,7 +50,7 @@ export const SubscribeModal: React.FC<{
       toast.success(subscription ? "Updated!" : "Subscribed!")
       trpcContext.invalidateQueries("site.subscription")
     }
-  }, [subscribe, isLoggedIn, subscription])
+  }, [subscribe, isLoggedIn, subscription, trpcContext])
 
   useEffect(() => {
     if (unsubscribe.isSuccess) {
@@ -59,7 +58,7 @@ export const SubscribeModal: React.FC<{
       toast.success("Unsubscribed!")
       trpcContext.invalidateQueries("site.subscription")
     }
-  }, [unsubscribe])
+  }, [unsubscribe, trpcContext])
 
   return (
     <Modal title="Become a subscriber" open={open} setOpen={setOpen}>

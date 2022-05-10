@@ -15,4 +15,6 @@ export const getServerSideProps = serverSidePropsHandler(async (ctx) => {
   return redirect(`/dashboard/${site.subdomain}`)
 })
 
-export default () => null
+export default function Dashboard() {
+  return <div>You should never see this</div>
+}

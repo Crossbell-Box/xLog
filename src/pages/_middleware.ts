@@ -3,7 +3,7 @@ import { IS_PROD } from "~/lib/constants"
 import { S3_BUCKET_NAME, S3_ENDPOINT } from "~/lib/env.server"
 import { getTenant } from "~/lib/tenant.server"
 
-export default (req: NextRequest) => {
+export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   if (!IS_PROD && pathname.startsWith("/dev-s3-proxy")) {

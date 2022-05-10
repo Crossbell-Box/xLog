@@ -41,7 +41,7 @@ export default function SiteSettingsGeneralPage() {
         description: site.description || "",
       })
     }
-  }, [site])
+  }, [form, site])
 
   useEffect(() => {
     if (updateSite.isSuccess && updateSite.data) {

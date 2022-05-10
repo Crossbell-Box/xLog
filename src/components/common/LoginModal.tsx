@@ -42,7 +42,7 @@ export const LoginModal: React.FC = () => {
             {requestLoginLink.data && (
               <div className="mb-5">
                 We just emailed you with a link to log in, please check your
-                inbox and spam folder in case you can't find it.
+                inbox and spam folder in case you can{`'`}t find it.
               </div>
             )}
             <form className="space-y-5" onSubmit={form.handleSubmit}>
