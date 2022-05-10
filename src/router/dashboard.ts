@@ -1,6 +1,6 @@
 import { z } from "zod"
-import { siteController } from "~/controllers/site.controller"
 import { createRouter } from "~/lib/trpc.server"
+import { getSitesForViewer } from "~/models/site.model"
 
 export const dashboardRouter = createRouter().query("sitesForSwitcher", {
   output: z.array(
@@ -13,7 +13,7 @@ export const dashboardRouter = createRouter().query("sitesForSwitcher", {
     })
   ),
   async resolve({ ctx }) {
-    const sites = await siteController.getSites(ctx.gate)
+    const sites = await getSitesForViewer(ctx.gate)
     return sites
   },
 })

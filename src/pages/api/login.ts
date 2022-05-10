@@ -7,6 +7,8 @@ import { generateCookie } from "~/lib/auth.server"
 import { OUR_DOMAIN } from "~/lib/env"
 import { IS_PROD } from "~/lib/constants"
 import { NextApiHandler } from "next"
+import { subscribeToSite } from "~/models/site.model"
+import { createGate } from "~/lib/gate.server"
 
 const handler: NextApiHandler = async (req, res) => {
   const data = z
@@ -14,11 +16,20 @@ const handler: NextApiHandler = async (req, res) => {
       token: z.string(),
       next: z.string(),
       userAgent: z.string(),
+      subscribe: z
+        .object({
+          siteId: z.string(),
+          email: z.boolean().optional(),
+          telegram: z.boolean().optional(),
+        })
+        .optional(),
     })
     .parse({
       token: req.query.token,
       next: req.query.next,
       userAgent: req.headers["user-agent"],
+      subscribe:
+        req.query.subscribe && JSON.parse(req.query.subscribe as string),
     })
 
   const loginToken = await prisma.loginToken.findUnique({
@@ -39,6 +50,9 @@ const handler: NextApiHandler = async (req, res) => {
     where: {
       email: loginToken.email,
     },
+    include: {
+      memberships: true,
+    },
   })
 
   if (!user) {
@@ -48,6 +62,19 @@ const handler: NextApiHandler = async (req, res) => {
         name: loginToken.email.split("@")[0],
         username: nanoid(7),
       },
+      include: {
+        memberships: true,
+      },
+    })
+  }
+
+  if (data.subscribe) {
+    // Subscribe the user to the site
+    const gate = createGate({ user })
+    await subscribeToSite(gate, {
+      siteId: data.subscribe.siteId,
+      email: data.subscribe.email,
+      telegram: data.subscribe.telegram,
     })
   }
 

@@ -1,8 +1,8 @@
 import * as trpc from "@trpc/server"
 import { z } from "zod"
-import { siteController } from "~/controllers/site.controller"
 import { isNotFoundError } from "~/lib/server-side-props"
 import { TRPCContext } from "~/lib/trpc.server"
+import { getSite } from "~/models/site.model"
 import { authRouter } from "./auth"
 import { dashboardRouter } from "./dashboard"
 import { siteRouter } from "./site"
@@ -22,7 +22,7 @@ export const appRouter = trpc
       subdomain: z.string(),
     }),
     async resolve({ input }) {
-      const { site } = await siteController.getSite(input.site)
+      const site = await getSite(input.site)
       return site
     },
   })

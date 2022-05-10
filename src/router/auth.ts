@@ -1,8 +1,6 @@
 import dayjs from "dayjs"
 import { z } from "zod"
-import { IS_PROD } from "~/lib/constants"
 import { prisma } from "~/lib/db.server"
-import { OUR_DOMAIN } from "~/lib/env"
 import { sendLoginEmail } from "~/lib/mailgun.server"
 import { createRouter } from "~/lib/trpc.server"
 
@@ -36,16 +34,11 @@ export const authRouter = createRouter()
         },
       })
 
-      const { protocol, host, pathname } = new URL(input.url)
-
-      const url = `${
-        IS_PROD ? "https" : "http"
-      }://${OUR_DOMAIN}/api/login?${new URLSearchParams([
-        ["token", token.id],
-        ["next", `${protocol}//${host}${pathname}`],
-      ]).toString()}`
-
-      await sendLoginEmail(url, input.email).catch(console.error)
+      await sendLoginEmail({
+        url: input.url,
+        email: input.email,
+        token: token.id,
+      }).catch(console.error)
 
       return true
     },

@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
         page: pageSlug,
         renderContent: true,
       }),
+      ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
     ])
 
     return {

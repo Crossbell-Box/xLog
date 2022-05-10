@@ -1,6 +1,10 @@
 import { prisma } from "~/lib/db.server"
 import { isUUID } from "~/lib/uuid"
-import { MembershipRole } from "@prisma/client"
+import { MembershipRole, PageType } from "@prisma/client"
+import { Gate } from "~/lib/gate.server"
+import dayjs from "dayjs"
+import { sendLoginEmail } from "~/lib/mailgun.server"
+import { SubscribeFormData } from "~/lib/types"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -28,6 +32,12 @@ export const checkSubdomain = async ({
   if (existingSite && (!updatingSiteId || existingSite.id !== updatingSiteId)) {
     throw new Error(`Subdomain already taken`)
   }
+}
+
+export async function getSitesForViewer(gate: Gate) {
+  const user = gate.getUser(true)
+  const sites = await getSitesByUser({ userId: user.id })
+  return sites
 }
 
 export const getUserLastActiveSite = async (userId: string) => {
@@ -104,41 +114,6 @@ export const getSitesByUser = async ({ userId }: { userId: string }) => {
   return memberships.map((m) => m.site)
 }
 
-export const checkPageSlug = async ({
-  slug,
-  excludePage,
-  siteId,
-}: {
-  slug: string
-  excludePage?: string
-  siteId: string
-}) => {
-  if (!slug) {
-    throw new Error("Missing page slug")
-  }
-  const page = await prisma.page.findFirst({
-    where: {
-      siteId,
-      slug,
-      id: excludePage && {
-        not: excludePage,
-      },
-    },
-  })
-  if (!page) return
-
-  if (page.deletedAt) {
-    await prisma.page.delete({
-      where: {
-        id: page.id,
-      },
-    })
-    return
-  }
-
-  throw new Error("Page slug already used")
-}
-
 export const getSubscription = async (data: {
   userId: string
   siteId: string
@@ -147,11 +122,192 @@ export const getSubscription = async (data: {
     ...data,
     role: MembershipRole.SUBSCRIBER,
   })
-  const config = membership?.config as any
+  if (!membership) return
+  const config = membership.config as any
   return {
+    ...membership,
     config: config && {
       telegram: config.telegram,
       email: config.email,
     },
   }
+}
+
+export async function updateSite(
+  gate: Gate,
+  payload: {
+    site: string
+    name?: string
+    description?: string
+    icon?: string | null
+    subdomain?: string
+  }
+) {
+  const site = await getSite(payload.site)
+
+  if (!gate.allows({ type: "can-update-site", site })) {
+    throw gate.permissionError()
+  }
+
+  if (payload.subdomain) {
+    await checkSubdomain({
+      subdomain: payload.subdomain,
+      updatingSiteId: site.id,
+    })
+  }
+
+  const updated = await prisma.site.update({
+    where: {
+      id: site.id,
+    },
+    data: {
+      name: payload.name,
+      subdomain: payload.subdomain,
+      description: payload.description,
+      icon: payload.icon,
+    },
+  })
+
+  return {
+    site: updated,
+    subdomainUpdated: updated.subdomain !== site.subdomain,
+  }
+}
+
+export async function createSite(
+  gate: Gate,
+  payload: { name: string; subdomain: string }
+) {
+  const user = gate.getUser(true)
+  await checkSubdomain({ subdomain: payload.subdomain })
+
+  const site = await prisma.site.create({
+    data: {
+      name: payload.name,
+      subdomain: payload.subdomain,
+      memberships: {
+        create: {
+          role: MembershipRole.OWNER,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      },
+      pages: {
+        create: {
+          title: "About",
+          slug: "about",
+          excerpt: "",
+          content: `My name is ${payload.name} and I'm a new site.`,
+          published: true,
+          publishedAt: new Date(),
+          type: PageType.PAGE,
+        },
+      },
+    },
+  })
+
+  return { site }
+}
+
+export async function subscribeToSite(
+  gate: Gate,
+  input: {
+    siteId: string
+    email?: boolean
+    telegram?: boolean
+    newUser?: {
+      email: string
+      url: string
+    }
+  }
+) {
+  const { newUser } = input
+  if (newUser) {
+    // Create the login token instead
+    const subscribeFormData: SubscribeFormData = {
+      email: input.email,
+      telegram: input.telegram,
+      siteId: input.siteId,
+    }
+    const loginToken = await prisma.loginToken.create({
+      data: {
+        email: newUser.email,
+        expiresAt: dayjs().add(10, "minutes").toDate(),
+        subscribeForm: subscribeFormData,
+      },
+    })
+    sendLoginEmail({
+      token: loginToken.id,
+      email: loginToken.email,
+      url: newUser.url,
+      subscribeForm: subscribeFormData,
+    })
+    return
+  }
+
+  const user = gate.getUser(true)
+
+  const site = await getSite(input.siteId)
+  const subscription = await getSubscription({
+    userId: user.id,
+    siteId: site.id,
+  })
+  if (!subscription) {
+    await prisma.membership.create({
+      data: {
+        role: MembershipRole.SUBSCRIBER,
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+        site: {
+          connect: {
+            id: site.id,
+          },
+        },
+        config: {
+          email: input.email,
+          telegram: input.telegram,
+        },
+      },
+    })
+  } else {
+    await prisma.membership.update({
+      where: {
+        id: subscription.id,
+      },
+      data: {
+        config: {
+          email: input.email,
+          telegram: input.telegram,
+        },
+      },
+    })
+  }
+}
+
+export async function unsubscribeFromSite(
+  gate: Gate,
+  input: { siteId: string }
+) {
+  const user = gate.getUser(true)
+
+  const subscription = await getSubscription({
+    userId: user.id,
+    siteId: input.siteId,
+  })
+
+  if (!subscription) {
+    throw new Error(`Subscription not found`)
+  }
+
+  await prisma.membership.delete({
+    where: {
+      id: subscription.id,
+    },
+  })
 }

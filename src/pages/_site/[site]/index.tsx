@@ -15,7 +15,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const trpcContext = await getTRPCContext(ctx)
   const ssg = createSSGHelpers({ router: appRouter, ctx: trpcContext })
 
-  await Promise.all([ssg.fetchQuery("site", { site: domainOrSubdomain })])
+  await Promise.all([
+    ssg.fetchQuery("site", { site: domainOrSubdomain }),
+    ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
+  ])
 
   return {
     props: {

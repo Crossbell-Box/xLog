@@ -1,8 +1,20 @@
 import { z } from "zod"
-import { siteController } from "~/controllers/site.controller"
 import { createRouter } from "~/lib/trpc.server"
 import { PageVisibilityEnum } from "~/lib/types"
-import { getSite, getSubscription } from "~/models/site.model"
+import {
+  getSite,
+  getSubscription,
+  updateSite,
+  createSite,
+  subscribeToSite,
+  unsubscribeFromSite,
+} from "~/models/site.model"
+import {
+  createOrUpdatePage,
+  getPage,
+  deletePage,
+  getPagesBySite,
+} from "~/models/page.model"
 
 export const siteRouter = createRouter()
   .query("subscription", {
@@ -57,7 +69,7 @@ export const siteRouter = createRouter()
       hasMore: z.boolean(),
     }),
     async resolve({ input, ctx }) {
-      const result = await siteController.getPages(ctx.gate, input)
+      const result = await getPagesBySite(ctx.gate, input)
       return result
     },
   })
@@ -77,7 +89,7 @@ export const siteRouter = createRouter()
       type: z.enum(["PAGE", "POST"]),
     }),
     async resolve({ input, ctx }) {
-      const page = await siteController.getPage(ctx.gate, input)
+      const page = await getPage(ctx.gate, input)
       return page
     },
   })
@@ -98,10 +110,7 @@ export const siteRouter = createRouter()
       subdomainUpdated: z.boolean(),
     }),
     async resolve({ ctx, input }) {
-      const { site, subdomainUpdated } = await siteController.updateSite(
-        ctx.gate,
-        input
-      )
+      const { site, subdomainUpdated } = await updateSite(ctx.gate, input)
       return {
         site,
         subdomainUpdated,
@@ -124,7 +133,7 @@ export const siteRouter = createRouter()
       id: z.string(),
     }),
     async resolve({ input, ctx }) {
-      const { page } = await siteController.createOrUpdatePage(ctx.gate, input)
+      const { page } = await createOrUpdatePage(ctx.gate, input)
       return page
     },
   })
@@ -138,7 +147,7 @@ export const siteRouter = createRouter()
       subdomain: z.string(),
     }),
     async resolve({ input, ctx }) {
-      const { site } = await siteController.createSite(ctx.gate, input)
+      const { site } = await createSite(ctx.gate, input)
       return site
     },
   })
@@ -147,6 +156,30 @@ export const siteRouter = createRouter()
       pageId: z.string(),
     }),
     async resolve({ ctx, input }) {
-      await siteController.deletePage(ctx.gate, { id: input.pageId })
+      await deletePage(ctx.gate, { id: input.pageId })
+    },
+  })
+  .mutation("subscribe", {
+    input: z.object({
+      email: z.boolean().optional(),
+      telegram: z.boolean().optional(),
+      siteId: z.string(),
+      newUser: z
+        .object({
+          email: z.string(),
+          url: z.string(),
+        })
+        .optional(),
+    }),
+    async resolve({ input, ctx }) {
+      await subscribeToSite(ctx.gate, input)
+    },
+  })
+  .mutation("unsubscribe", {
+    input: z.object({
+      siteId: z.string(),
+    }),
+    async resolve({ input, ctx }) {
+      await unsubscribeFromSite(ctx.gate, input)
     },
   })

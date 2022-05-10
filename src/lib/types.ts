@@ -55,3 +55,12 @@ export type PostOnArchivesPage = {
   slug: string
   publishedAt: string | Date
 }
+
+/**
+ * The subscribe form data to store in loginToken
+ */
+export type SubscribeFormData = {
+  email?: boolean
+  telegram?: boolean
+  siteId: string
+}

@@ -1,10 +1,9 @@
 import { NextApiHandler } from "next"
 import { z } from "zod"
-import { siteController } from "~/controllers/site.controller"
 import { getAuthUser } from "~/lib/auth.server"
 import { createGate } from "~/lib/gate.server"
 import { uploadImage } from "~/lib/upload.server"
-
+import { updateSite } from "~/models/site.model"
 import { userModel } from "~/models/user.model"
 
 export const config = {
@@ -28,7 +27,7 @@ const handler: NextApiHandler = async (req, res) => {
       .parse(data)
 
     if (values.site) {
-      await siteController.updateSite(gate, {
+      await updateSite(gate, {
         site: values.site,
         icon: values.file,
       })

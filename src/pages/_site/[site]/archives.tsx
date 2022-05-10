@@ -20,6 +20,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
     await Promise.all([
       ssg.fetchQuery("site", { site: domainOrSubdomain }),
       ssg.fetchQuery("site.pages", { site: domainOrSubdomain, take: 1000 }),
+      ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
     ])
 
     return {

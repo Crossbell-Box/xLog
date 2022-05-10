@@ -23,3 +23,5 @@ export const prisma = /* @__PURE__ */ singleton("prisma-read", () => {
 
   return client
 })
+
+export type { Prisma }

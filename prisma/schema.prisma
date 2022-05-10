@@ -28,9 +28,12 @@ model User {
 }
 
 model LoginToken {
-    id        String   @id @default(uuid())
-    email     String
-    expiresAt DateTime
+    id            String   @id @default(uuid())
+    email         String
+    expiresAt     DateTime
+    // When the login token is creating by submitting the `subscribe` form
+    // We store extra info here, like `{email: true,telegram: true}`
+    subscribeForm Json?
 
     @@map("login_tokens")
 }

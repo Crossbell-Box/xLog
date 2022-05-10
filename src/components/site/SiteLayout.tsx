@@ -31,6 +31,10 @@ const Header: React.FC<{
     (store) => store.setSubscribeModalOpened
   )
   const router = useRouter()
+  const handleClickSubscribe = () => {
+    setSubscribeModalOpened(true)
+  }
+
   return (
     <header className="border-b">
       <div className="px-5 max-w-screen-md mx-auto">
@@ -47,7 +51,7 @@ const Header: React.FC<{
                   rounded="full"
                   size="sm"
                   variant={subscribed ? "secondary" : "primary"}
-                  onClick={() => setSubscribeModalOpened(true)}
+                  onClick={handleClickSubscribe}
                 >
                   <span className="-ml-1">
                     {subscribed ? (
@@ -184,7 +188,11 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         </div>
       </div>
       {site.id && (
-        <SubscribeModal siteId={site.id} subscription={subscription} />
+        <SubscribeModal
+          siteId={site.id}
+          subscription={subscription}
+          isLoggedIn={isLoggedIn}
+        />
       )}
     </>
   )
