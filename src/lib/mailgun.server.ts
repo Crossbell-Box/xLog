@@ -5,14 +5,13 @@ import {
   ENCRYPT_SECRET,
   MAILGUN_APIKEY,
   MAILGUN_DOMAIN,
-  MAILGUN_EU,
 } from "~/lib/env.server"
 import type { MailgunMessageData } from "mailgun.js/interfaces/Messages"
 import { IS_PROD } from "./constants"
 import { APP_NAME, OUR_DOMAIN, SITE_URL } from "./env"
 import { SubscribeFormData } from "./types"
 import { getSite } from "~/models/site.model"
-import { Site, User } from "@prisma/client"
+import { Site } from "@prisma/client"
 import Iron from "@hapi/iron"
 
 const enableMailgun = Boolean(MAILGUN_APIKEY && MAILGUN_DOMAIN)
@@ -23,7 +22,7 @@ const getClient = () =>
     const client = mg.client({
       username: "api",
       key: MAILGUN_APIKEY,
-      url: MAILGUN_EU ? `https://api.eu.mailgun.net` : undefined,
+      timeout: 60000,
     })
     return client
   })
@@ -32,6 +31,9 @@ const sendEmail = async (message: MailgunMessageData) => {
   console.log(message)
 
   if (!enableMailgun) {
+    console.error(
+      "not sending email because no mailgun apikey or domain configured"
+    )
     return
   }
 
@@ -126,7 +128,7 @@ export const sendEmailForNewPost = async (payload: {
       })
     )
 
-    const message = {
+    const message: MailgunMessageData = {
       from,
       subject,
       html,

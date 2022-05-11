@@ -11,7 +11,6 @@ declare interface ServerEnv {
   S3_ENDPOINT?: string
   MAILGUN_APIKEY: string
   MAILGUN_DOMAIN: string
-  MAILGUN_EU?: string
   S3_CDN_PREFIX: string
   FLY_REGION?: string
   PRIMARY_REGION?: string
