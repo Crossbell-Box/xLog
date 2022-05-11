@@ -10,11 +10,12 @@ import {
 import type { MailgunMessageData } from "mailgun.js/interfaces/Messages"
 import { IS_PROD } from "./constants"
 import { APP_NAME, OUR_DOMAIN, SITE_URL } from "./env"
-import { PostOnArchivesPage, SubscribeFormData } from "./types"
+import { SubscribeFormData } from "./types"
 import { getSite } from "~/models/site.model"
 import { Site, User } from "@prisma/client"
-import { nanoid } from "nanoid"
 import Iron from "@hapi/iron"
+
+const enableMailgun = Boolean(MAILGUN_APIKEY && MAILGUN_DOMAIN)
 
 const getClient = () =>
   singleton("mailgun", () => {
@@ -30,7 +31,7 @@ const getClient = () =>
 const sendEmail = async (message: MailgunMessageData) => {
   console.log(message)
 
-  if (!IS_PROD) {
+  if (!enableMailgun) {
     return
   }
 
@@ -78,7 +79,7 @@ export const sendLoginEmail = async (payload: {
   }
 
   const message: MailgunMessageData = {
-    from: `${APP_NAME} <hi@${OUR_DOMAIN}>`,
+    from: `${APP_NAME} <hi@proselog.com>`,
     to: payload.email,
     subject,
     html,
@@ -93,7 +94,7 @@ export const sendEmailForNewPost = async (payload: {
   subscribers: { id: string; email: string }[]
 }) => {
   try {
-    const from = `${payload.site.name} <updates@${payload.site.subdomain}.${OUR_DOMAIN}>`
+    const from = `${payload.site.name} <updates@${payload.site.subdomain}.proselog.com>`
     const subject = `${payload.post.title} - ${payload.site.name}`
     const html = `
 

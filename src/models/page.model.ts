@@ -1,4 +1,4 @@
-import { MembershipRole } from "@prisma/client"
+import { MembershipRole, PageType } from "@prisma/client"
 import { nanoid } from "nanoid"
 import { prisma, Prisma } from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
@@ -111,7 +111,7 @@ export async function createOrUpdatePage(
   })
 
   if (
-    input.isPost &&
+    page.type === PageType.POST &&
     !page.subscribersNotifiedAt &&
     page.published &&
     page.publishedAt <= new Date()
@@ -283,7 +283,7 @@ export const notifySubscribersForNewPost = async (
     throw new Error("You have already notified subscribers for this post")
   }
 
-  const subscribers = await prisma.membership.findMany({
+  const memberships = await prisma.membership.findMany({
     where: {
       role: MembershipRole.SUBSCRIBER,
       siteId: site.id,
@@ -293,7 +293,7 @@ export const notifySubscribersForNewPost = async (
     },
   })
 
-  if (subscribers.length === 0) return
+  if (memberships.length === 0) return
 
   await prisma.page.update({
     where: {
@@ -304,11 +304,13 @@ export const notifySubscribersForNewPost = async (
     },
   })
 
+  const emailSubscribers = memberships
+    .filter((member) => (member.config as Prisma.JsonObject).email)
+    .map((member) => member.user)
+
   sendEmailForNewPost({
     post: page,
     site,
-    subscribers: subscribers
-      .filter((sub) => (sub.config as Prisma.JsonObject).email)
-      .map((sub) => sub.user),
+    subscribers: emailSubscribers,
   })
 }
