@@ -308,7 +308,7 @@ export const notifySubscribersForNewPost = async (
     .filter((member) => (member.config as Prisma.JsonObject).email)
     .map((member) => member.user)
 
-  sendEmailForNewPost({
+  await sendEmailForNewPost({
     post: page,
     site,
     subscribers: emailSubscribers,
