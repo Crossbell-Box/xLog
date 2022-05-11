@@ -111,13 +111,13 @@ export async function createOrUpdatePage(
   })
 
   if (
-    page.type === PageType.POST &&
-    !page.subscribersNotifiedAt &&
-    page.published &&
-    page.publishedAt <= new Date()
+    updated.type === PageType.POST &&
+    !updated.subscribersNotifiedAt &&
+    updated.published &&
+    updated.publishedAt <= new Date()
   ) {
     await notifySubscribersForNewPost(gate, {
-      pageId: page.id,
+      pageId: updated.id,
     })
   }
 
