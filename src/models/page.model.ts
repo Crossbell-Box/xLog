@@ -1,6 +1,8 @@
+import { MembershipRole } from "@prisma/client"
 import { nanoid } from "nanoid"
 import { prisma, Prisma } from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
+import { sendEmailForNewPost } from "~/lib/mailgun.server"
 import { renderPageContent } from "~/lib/markdown.server"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -107,6 +109,18 @@ export async function createOrUpdatePage(
       type: input.isPost ? "POST" : "PAGE",
     },
   })
+
+  if (
+    input.isPost &&
+    !page.subscribersNotifiedAt &&
+    page.published &&
+    page.publishedAt <= new Date()
+  ) {
+    await notifySubscribersForNewPost(gate, {
+      pageId: page.id,
+    })
+  }
+
   return { page: updated }
 }
 
@@ -209,7 +223,7 @@ export async function getPage(
   input: {
     /** page slug or id,  `site` is needed when `page` is a slug  */
     page: string
-    site: string
+    site?: string
     renderContent?: boolean
   }
 ) {
@@ -221,7 +235,7 @@ export async function getPage(
 
   const isPageUUID = isUUID(input.page)
   if (!isPageUUID && !input.site) {
-    throw new Error("missing input site")
+    throw new Error("input.site is required because input.page is a slug")
   }
 
   const page = isPageUUID
@@ -250,4 +264,51 @@ export async function getPage(
   }
 
   return page
+}
+
+export const notifySubscribersForNewPost = async (
+  gate: Gate,
+  input: {
+    pageId: string
+  }
+) => {
+  const page = await getPage(gate, { page: input.pageId, renderContent: true })
+  const site = await getSite(page.siteId)
+
+  if (!gate.allows({ type: "can-notify-site-subscribers", site })) {
+    throw gate.permissionError()
+  }
+
+  if (page.subscribersNotifiedAt) {
+    throw new Error("You have already notified subscribers for this post")
+  }
+
+  const subscribers = await prisma.membership.findMany({
+    where: {
+      role: MembershipRole.SUBSCRIBER,
+      siteId: site.id,
+    },
+    include: {
+      user: true,
+    },
+  })
+
+  if (subscribers.length === 0) return
+
+  await prisma.page.update({
+    where: {
+      id: page.id,
+    },
+    data: {
+      subscribersNotifiedAt: new Date(),
+    },
+  })
+
+  sendEmailForNewPost({
+    post: page,
+    site,
+    subscribers: subscribers
+      .filter((sub) => (sub.config as Prisma.JsonObject).email)
+      .map((sub) => sub.user),
+  })
 }

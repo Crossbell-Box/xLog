@@ -25,6 +25,10 @@ type Action =
       type: "can-update-site"
       site: Site
     }
+  | {
+      type: "can-notify-site-subscribers"
+      site: Site
+    }
 export const createGate = <TRequiredAuth extends boolean | undefined>({
   user,
 }: {
@@ -47,6 +51,14 @@ export const createGate = <TRequiredAuth extends boolean | undefined>({
       return user as TRequiredAuth extends true
         ? AuthUser
         : AuthUser | null | undefined
+    },
+
+    hasRoles(siteId: string, roles: MembershipRole[]) {
+      return isSiteMember(siteId, roles)
+    },
+
+    isOwnerOrAdmin(siteId: string) {
+      return this.hasRoles(siteId, [MembershipRole.OWNER, MembershipRole.ADMIN])
     },
 
     allows(action: Action): boolean {
@@ -90,6 +102,13 @@ export const createGate = <TRequiredAuth extends boolean | undefined>({
       }
 
       if (action.type === "can-update-site") {
+        return isSiteMember(action.site.id, [
+          MembershipRole.ADMIN,
+          MembershipRole.OWNER,
+        ])
+      }
+
+      if (action.type === "can-notify-site-subscribers") {
         return isSiteMember(action.site.id, [
           MembershipRole.ADMIN,
           MembershipRole.OWNER,

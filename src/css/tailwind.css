@@ -76,10 +76,15 @@
   @apply bg-red-500 hover:bg-red-600 focus:bg-red-700;
 }
 
+.button.is-gray {
+  --shadow-color-button: theme("colors.gray.700");
+  @apply bg-gray-500 hover:bg-gray-600 focus:bg-gray-700;
+}
+
 .button.is-sm {
   @apply h-7;
   @apply px-2;
-  @apply text-sm;
+  @apply text-xs;
 }
 
 .input {

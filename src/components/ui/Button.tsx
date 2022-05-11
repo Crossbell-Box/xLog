@@ -6,7 +6,7 @@ export const Button: React.FC<
     isLoading?: boolean
     isBlock?: boolean
     variant?: "primary" | "secondary" | "text"
-    variantColor?: "green" | "red"
+    variantColor?: "green" | "red" | "gray"
     size?: "sm"
     rounded?: "full" | "lg"
   }

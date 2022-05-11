@@ -15,6 +15,7 @@ declare interface ServerEnv {
   S3_CDN_PREFIX: string
   FLY_REGION?: string
   PRIMARY_REGION?: string
+  ENCRYPT_SECRET: string
 }
 
 declare interface BrowserEnv {

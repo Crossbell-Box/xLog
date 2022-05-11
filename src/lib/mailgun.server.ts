@@ -1,12 +1,20 @@
 import Mailgun from "mailgun.js"
 import FormData from "form-data"
 import { singleton } from "./singleton.server"
-import { MAILGUN_APIKEY, MAILGUN_DOMAIN, MAILGUN_EU } from "~/lib/env.server"
+import {
+  ENCRYPT_SECRET,
+  MAILGUN_APIKEY,
+  MAILGUN_DOMAIN,
+  MAILGUN_EU,
+} from "~/lib/env.server"
 import type { MailgunMessageData } from "mailgun.js/interfaces/Messages"
 import { IS_PROD } from "./constants"
-import { APP_NAME, OUR_DOMAIN } from "./env"
-import { SubscribeFormData } from "./types"
+import { APP_NAME, OUR_DOMAIN, SITE_URL } from "./env"
+import { PostOnArchivesPage, SubscribeFormData } from "./types"
 import { getSite } from "~/models/site.model"
+import { Site, User } from "@prisma/client"
+import { nanoid } from "nanoid"
+import Iron from "@hapi/iron"
 
 const getClient = () =>
   singleton("mailgun", () => {
@@ -18,6 +26,18 @@ const getClient = () =>
     })
     return client
   })
+
+const sendEmail = async (message: MailgunMessageData) => {
+  console.log(message)
+
+  if (!IS_PROD) {
+    return
+  }
+
+  const client = getClient()
+
+  await client.messages.create(MAILGUN_DOMAIN, message).then(console.log)
+}
 
 export const sendLoginEmail = async (payload: {
   token: string
@@ -64,13 +84,57 @@ export const sendLoginEmail = async (payload: {
     html,
   }
 
-  console.log(message)
+  await sendEmail(message)
+}
 
-  if (!IS_PROD) {
-    return
+export const sendEmailForNewPost = async (payload: {
+  post: { slug: string; title: string; content: string }
+  site: Site
+  subscribers: { id: string; email: string }[]
+}) => {
+  try {
+    const from = `${payload.site.name} <updates@${payload.site.subdomain}.${OUR_DOMAIN}>`
+    const subject = `${payload.post.title} - ${payload.site.name}`
+    const html = `
+
+  <h2>${payload.post.title}</h2>
+  <div>
+  ${payload.post.content}
+  </div>
+  <p>
+    <a href="${SITE_URL}/api/unsubscribe?token=%recipient.unsubscribeToken%">Unsubscribe (no login required)</a>
+  </p>`
+
+    const recipientVariables: {
+      [email in string]: { unsubscribeToken: string }
+    } = {}
+
+    await Promise.allSettled(
+      payload.subscribers.map(async (sub) => {
+        const unsubscribeToken = await Iron.seal(
+          {
+            userId: sub.id,
+            siteId: payload.site.id,
+          },
+          ENCRYPT_SECRET,
+          Iron.defaults
+        )
+        recipientVariables[sub.email] = {
+          unsubscribeToken,
+        }
+      })
+    )
+
+    const message = {
+      from,
+      subject,
+      html,
+      to: Object.keys(recipientVariables),
+      "recipient-variables": JSON.stringify(recipientVariables),
+    }
+
+    await sendEmail(message)
+  } catch (error) {
+    console.error(error)
   }
-
-  const client = getClient()
-
-  await client.messages.create(MAILGUN_DOMAIN, message).then(console.log)
 }

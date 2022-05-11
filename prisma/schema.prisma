@@ -101,21 +101,22 @@ enum PageType {
 }
 
 model Page {
-    id               String    @id @default(uuid())
-    createdAt        DateTime  @default(now())
-    updatedAt        DateTime  @updatedAt
-    contentUpdatedAt DateTime  @default(now())
-    publishedAt      DateTime  @default(now())
-    published        Boolean   @default(false)
-    type             PageType  @default(POST)
-    title            String
-    content          String
-    excerpt          String
-    format           String    @default("markdown")
-    slug             String
-    site             Site      @relation(name: "SitePages", fields: [siteId], references: [id], onDelete: Cascade)
-    siteId           String
-    deletedAt        DateTime?
+    id                    String    @id @default(uuid())
+    createdAt             DateTime  @default(now())
+    updatedAt             DateTime  @updatedAt
+    contentUpdatedAt      DateTime  @default(now())
+    publishedAt           DateTime  @default(now())
+    published             Boolean   @default(false)
+    type                  PageType  @default(POST)
+    title                 String
+    content               String
+    excerpt               String
+    format                String    @default("markdown")
+    slug                  String
+    site                  Site      @relation(name: "SitePages", fields: [siteId], references: [id], onDelete: Cascade)
+    siteId                String
+    deletedAt             DateTime?
+    subscribersNotifiedAt DateTime?
 
     @@unique([siteId, slug])
     @@map("pages")

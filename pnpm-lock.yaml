@@ -7,8 +7,9 @@ specifiers:
   '@codemirror/language': ^0.20.0
   '@codemirror/state': ^0.20.0
   '@codemirror/view': ^0.20.3
+  '@hapi/iron': ^6.0.0
   '@headlessui/react': ^1.6.0
-  '@prisma/client': ^3.13.0
+  '@prisma/client': ^3.14.0
   '@trpc/client': ^9.23.2
   '@trpc/next': ^9.23.2
   '@trpc/react': ^9.23.2
@@ -41,7 +42,7 @@ specifiers:
   next: ^12.1.6
   pica: ^9.0.1
   postcss-import: ^14.1.0
-  prisma: ^3.13.0
+  prisma: ^3.14.0
   react: ^18.1.0
   react-avatar-editor: ^12.0.0
   react-dom: ^18.1.0
@@ -61,8 +62,9 @@ dependencies:
   '@codemirror/language': 0.20.0
   '@codemirror/state': 0.20.0
   '@codemirror/view': 0.20.4
+  '@hapi/iron': 6.0.0
   '@headlessui/react': 1.6.1_ef5jwxihqo6n7gxfmzogljlgcm
-  '@prisma/client': 3.13.0_prisma@3.13.0
+  '@prisma/client': 3.14.0_prisma@3.14.0
   '@trpc/client': 9.23.2_@trpc+server@9.23.2
   '@trpc/next': 9.23.2_ekhln2aut74ytaacni4ejzffly
   '@trpc/react': 9.23.2_ztktndqynogm35aelp247cafku
@@ -106,7 +108,7 @@ devDependencies:
   eslint: 8.15.0
   eslint-config-next: 12.1.6_6vdljae35l7howjttefzzsim3e
   postcss-import: 14.1.0
-  prisma: 3.13.0
+  prisma: 3.14.0
   tailwindcss: 3.0.24
   typescript: 4.6.4
 
@@ -1256,6 +1258,43 @@ packages:
       - supports-color
     dev: true
 
+  /@hapi/b64/5.0.0:
+    resolution: {integrity: sha512-ngu0tSEmrezoiIaNGG6rRvKOUkUuDdf4XTPnONHGYfSGRmDqPZX5oJL6HAdKTo1UQHECbdB4OzhWrfgVppjHUw==}
+    dependencies:
+      '@hapi/hoek': 9.3.0
+    dev: false
+
+  /@hapi/boom/9.1.4:
+    resolution: {integrity: sha512-Ls1oH8jaN1vNsqcaHVYJrKmgMcKsC1wcp8bujvXrHaAqD2iDYq3HoOwsxwo09Cuda5R5nC0o0IxlrlTuvPuzSw==}
+    dependencies:
+      '@hapi/hoek': 9.3.0
+    dev: false
+
+  /@hapi/bourne/2.1.0:
+    resolution: {integrity: sha512-i1BpaNDVLJdRBEKeJWkVO6tYX6DMFBuwMhSuWqLsY4ufeTKGVuV5rBsUhxPayXqnnWHgXUAmWK16H/ykO5Wj4Q==}
+    dev: false
+
+  /@hapi/cryptiles/5.1.0:
+    resolution: {integrity: sha512-fo9+d1Ba5/FIoMySfMqPBR/7Pa29J2RsiPrl7bkwo5W5o+AN1dAYQRi4SPrPwwVxVGKjgLOEWrsvt1BonJSfLA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@hapi/boom': 9.1.4
+    dev: false
+
+  /@hapi/hoek/9.3.0:
+    resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
+    dev: false
+
+  /@hapi/iron/6.0.0:
+    resolution: {integrity: sha512-zvGvWDufiTGpTJPG1Y/McN8UqWBu0k/xs/7l++HVU535NLHXsHhy54cfEMdW7EjwKfbBfM9Xy25FmTiobb7Hvw==}
+    dependencies:
+      '@hapi/b64': 5.0.0
+      '@hapi/boom': 9.1.4
+      '@hapi/bourne': 2.1.0
+      '@hapi/cryptiles': 5.1.0
+      '@hapi/hoek': 9.3.0
+    dev: false
+
   /@headlessui/react/1.6.1_ef5jwxihqo6n7gxfmzogljlgcm:
     resolution: {integrity: sha512-gMd6uIs1U4Oz718Z5gFoV0o/vD43/4zvbyiJN9Dt7PK9Ubxn+TmJwTmYwyNJc5KxxU1t0CmgTNgwZX9+4NjCnQ==}
     engines: {node: '>=10'}
@@ -1482,8 +1521,8 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@prisma/client/3.13.0_prisma@3.13.0:
-    resolution: {integrity: sha512-lnEA2tTyVbO5mS1ehmHJQKBDiKB8shaR6s3azwj3Azfi5XHIfnqmkolLCvUeFYnkDCNVzGXJpUgKwQt/UOOYVQ==}
+  /@prisma/client/3.14.0_prisma@3.14.0:
+    resolution: {integrity: sha512-atb41UpgTR1MCst0VIbiHTMw8lmXnwUvE1KyUCAkq08+wJyjRE78Due+nSf+7uwqQn+fBFYVmoojtinhlLOSaA==}
     engines: {node: '>=12.6'}
     requiresBuild: true
     peerDependencies:
@@ -1492,16 +1531,16 @@ packages:
       prisma:
         optional: true
     dependencies:
-      '@prisma/engines-version': 3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b
-      prisma: 3.13.0
+      '@prisma/engines-version': 3.14.0-36.2b0c12756921c891fec4f68d9444e18c7d5d4a6a
+      prisma: 3.14.0
     dev: false
 
-  /@prisma/engines-version/3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b:
-    resolution: {integrity: sha512-TGp9rvgJIKo8NgvAHSwOosbut9mTA7VC6/rpQI9gh+ySSRjdQFhbGyNUiOcQrlI9Ob2DWeO7y4HEnhdKxYiECg==}
+  /@prisma/engines-version/3.14.0-36.2b0c12756921c891fec4f68d9444e18c7d5d4a6a:
+    resolution: {integrity: sha512-D+yHzq4a2r2Rrd0ZOW/mTZbgDIkUkD8ofKgusEI1xPiZz60Daks+UM7Me2ty5FzH3p/TgyhBpRrfIHx+ha20RQ==}
     dev: false
 
-  /@prisma/engines/3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b:
-    resolution: {integrity: sha512-Ip9CcCeUocH61eXu4BUGpvl5KleQyhcUVLpWCv+0ZmDv44bFaDpREqjGHHdRupvPN/ugB6gTlD9b9ewdj02yVA==}
+  /@prisma/engines/3.14.0-36.2b0c12756921c891fec4f68d9444e18c7d5d4a6a:
+    resolution: {integrity: sha512-LwZvI3FY6f43xFjQNRuE10JM5R8vJzFTSmbV9X0Wuhv9kscLkjRlZt0BEoiHmO+2HA3B3xxbMfB5du7ZoSFXGg==}
     requiresBuild: true
     dev: true
 
@@ -3556,14 +3595,13 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prisma/3.13.0:
-    resolution: {integrity: sha512-oO1auBnBtieGdiN+57IgsA9Vr7Sy4HkILi1KSaUG4mpKfEbnkTGnLOxAqjLed+K2nsG/GtE1tJBtB7JxN1a78Q==}
+  /prisma/3.14.0:
+    resolution: {integrity: sha512-l9MOgNCn/paDE+i1K2fp9NZ+Du4trzPTJsGkaQHVBufTGqzoYHuNk8JfzXuIn0Gte6/ZjyKj652Jq/Lc1tp2yw==}
     engines: {node: '>=12.6'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b
-      ts-pattern: 4.0.2
+      '@prisma/engines': 3.14.0-36.2b0c12756921c891fec4f68d9444e18c7d5d4a6a
     dev: true
 
   /prop-types/15.8.1:
@@ -3940,10 +3978,6 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: 7.0.0
-    dev: true
-
-  /ts-pattern/4.0.2:
-    resolution: {integrity: sha512-eHqR/7A6fcw05vCOfnL6RwgGJbVi9G/YHTdYdjYmElhDdJ1SMn7pWs+6+YuxygaFwQS/g+cIDlu+UD8IVpur1A==}
     dev: true
 
   /tsconfig-paths/3.14.1:

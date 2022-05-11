@@ -14,9 +14,26 @@ import {
   getPage,
   deletePage,
   getPagesBySite,
+  notifySubscribersForNewPost,
 } from "~/models/page.model"
 
 export const siteRouter = createRouter()
+  .query("subscribersNotifiedAt", {
+    input: z.object({
+      pageId: z.string(),
+    }),
+    output: z
+      .date()
+      .transform((v) => v.toISOString())
+      .nullable(),
+    async resolve({ input, ctx }) {
+      const page = await getPage(ctx.gate, { page: input.pageId })
+      if (!ctx.gate.isOwnerOrAdmin(page.siteId)) {
+        throw ctx.gate.permissionError()
+      }
+      return page.subscribersNotifiedAt
+    },
+  })
   .query("subscription", {
     input: z.object({
       site: z.string(),
@@ -181,5 +198,15 @@ export const siteRouter = createRouter()
     }),
     async resolve({ input, ctx }) {
       await unsubscribeFromSite(ctx.gate, input)
+    },
+  })
+  .mutation("notifySubscribersForNewPost", {
+    input: z.object({
+      pageId: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      await notifySubscribersForNewPost(ctx.gate, {
+        pageId: input.pageId,
+      })
     },
   })

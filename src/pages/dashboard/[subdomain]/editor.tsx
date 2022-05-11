@@ -234,20 +234,22 @@ export default function SubdomainEditor() {
             </div>
           </div>
           <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-gray-50 p-5">
-            <Input
-              name="slug"
-              value={values.slug}
-              label="Page slug"
-              id="slug"
-              isBlock
-              onChange={(e) => updateValue("slug", e.target.value)}
-            />
-            {values.slug && (
-              <div className="text-xs text-gray-400 mt-1">
-                This {isPost ? "post" : "page"} will be accessible at{" "}
-                {getSiteLink({ subdomain })}/{values.slug}
-              </div>
-            )}
+            <div>
+              <Input
+                name="slug"
+                value={values.slug}
+                label="Page slug"
+                id="slug"
+                isBlock
+                onChange={(e) => updateValue("slug", e.target.value)}
+              />
+              {values.slug && (
+                <div className="text-xs text-gray-400 mt-1">
+                  This {isPost ? "post" : "page"} will be accessible at{" "}
+                  {getSiteLink({ subdomain })}/{values.slug}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </DashboardMain>
