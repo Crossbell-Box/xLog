@@ -1,8 +1,12 @@
 // @ts-nocheck
 globalThis._singletons = globalThis._singletons || {}
 
-export const singleton = <T>(id: string, factory: () => T): T => {
-  if (!globalThis._singletons[id]) {
+export const singleton = <T>(
+  id: string,
+  factory: () => T,
+  enableSingleton = true
+): T => {
+  if (!globalThis._singletons[id] || !enableSingleton) {
     globalThis._singletons[id] = factory()
   }
   return globalThis._singletons[id]
@@ -11,9 +15,9 @@ export const singleton = <T>(id: string, factory: () => T): T => {
 export const singletonAsync = <T>(
   id: string,
   factory: () => Promise<T>,
-  singleton = true
+  enableSingleton = true
 ): { readonly value: T; wait: Promise<void> } => {
-  if (globalThis._singletons[id] && singleton) {
+  if (globalThis._singletons[id] && enableSingleton) {
     return {
       wait: Promise.resolve(),
 

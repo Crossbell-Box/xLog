@@ -23,12 +23,16 @@
   @apply shadow-button;
   @apply whitespace-nowrap;
   @apply font-medium;
-
   @apply transition-colors;
 }
 
 .button.is-loading {
   @apply opacity-50;
+}
+
+.button[disabled] {
+  @apply opacity-50;
+  @apply cursor-not-allowed;
 }
 
 .button.is-loading:before {
@@ -85,6 +89,7 @@
   @apply h-7;
   @apply px-2;
   @apply text-xs;
+  @apply min-w-[auto];
 }
 
 .input {

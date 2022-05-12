@@ -20,6 +20,15 @@ export const appRouter = trpc
       description: z.string().nullable(),
       icon: z.string().nullable(),
       subdomain: z.string(),
+      navigation: z
+        .array(
+          z.object({
+            id: z.string(),
+            label: z.string(),
+            url: z.string(),
+          })
+        )
+        .nullable(),
     }),
     async resolve({ input }) {
       const site = await getSite(input.site)

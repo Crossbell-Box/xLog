@@ -1,10 +1,11 @@
 import { prisma } from "~/lib/db.server"
 import { isUUID } from "~/lib/uuid"
-import { MembershipRole, PageType } from "@prisma/client"
+import { MembershipRole, PageType, Prisma, Site } from "@prisma/client"
 import { Gate } from "~/lib/gate.server"
 import dayjs from "dayjs"
 import { sendLoginEmail } from "~/lib/mailgun.server"
-import { SubscribeFormData } from "~/lib/types"
+import { SiteNavigationItem, SubscribeFormData } from "~/lib/types"
+import { nanoid } from "nanoid"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -80,7 +81,9 @@ export const getSite = async (input: string) => {
     throw new Error(`Site not found`)
   }
 
-  return site
+  return site as Omit<Site, "navigation"> & {
+    navigation: SiteNavigationItem[] | null
+  }
 }
 
 export const getMembership = async (data: {
@@ -141,6 +144,7 @@ export async function updateSite(
     description?: string
     icon?: string | null
     subdomain?: string
+    navigation?: SiteNavigationItem[]
   }
 ) {
   const site = await getSite(payload.site)
@@ -165,6 +169,7 @@ export async function updateSite(
       subdomain: payload.subdomain,
       description: payload.description,
       icon: payload.icon,
+      navigation: payload.navigation,
     },
   })
 
@@ -181,10 +186,23 @@ export async function createSite(
   const user = gate.getUser(true)
   await checkSubdomain({ subdomain: payload.subdomain })
 
+  const navigation: SiteNavigationItem[] = [
+    {
+      id: nanoid(),
+      label: "About",
+      url: "/about",
+    },
+    {
+      id: nanoid(),
+      label: "Archives",
+      url: "/archives",
+    },
+  ]
   const site = await prisma.site.create({
     data: {
       name: payload.name,
       subdomain: payload.subdomain,
+      navigation,
       memberships: {
         create: {
           role: MembershipRole.OWNER,

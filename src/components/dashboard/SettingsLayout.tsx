@@ -15,6 +15,10 @@ export const SettingsLayout: React.FC<{
     type === "site"
       ? [
           { text: "General", href: `/dashboard/${subdomain}/settings/general` },
+          {
+            text: "Navigation",
+            href: `/dashboard/${subdomain}/settings/navigation`,
+          },
           { text: "Domains", href: `/dashboard/${subdomain}/settings/domains` },
         ]
       : [{ text: "Profile", href: `/dashboard/${subdomain}/account/profile` }]

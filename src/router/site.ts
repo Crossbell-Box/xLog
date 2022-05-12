@@ -117,6 +117,20 @@ export const siteRouter = createRouter()
       description: z.string().optional(),
       icon: z.string().nullish().optional(),
       subdomain: z.string().optional(),
+      navigation: z
+        .array(
+          z.object({
+            id: z.string(),
+            label: z.string(),
+            url: z
+              .string()
+              .regex(
+                /^(https?:\/\/|\/)/,
+                "URL must start with / or http:// or https://"
+              ),
+          })
+        )
+        .optional(),
     }),
     output: z.object({
       site: z.object({

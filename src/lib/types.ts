@@ -64,3 +64,9 @@ export type SubscribeFormData = {
   telegram?: boolean
   siteId: string
 }
+
+export type SiteNavigationItem = {
+  id: string
+  label: string
+  url: string
+}

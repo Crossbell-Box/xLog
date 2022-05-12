@@ -89,6 +89,7 @@ model Site {
     primaryDomainId String?      @unique
     description     String?
     twitter         String?
+    navigation      Json?
     deletedAt       DateTime?
     memberships     Membership[]
 

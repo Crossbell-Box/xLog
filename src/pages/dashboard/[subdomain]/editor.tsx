@@ -233,7 +233,7 @@ export default function SubdomainEditor() {
               </div>
             </div>
           </div>
-          <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-gray-50 p-5">
+          <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5">
             <div>
               <Input
                 name="slug"

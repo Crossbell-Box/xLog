@@ -12,12 +12,12 @@ import { IS_PROD } from "~/lib/constants"
 import { OUR_DOMAIN } from "~/lib/env"
 import { useRouter } from "next/router"
 import { SEOHead } from "../common/SEOHead"
+import { SiteNavigationItem } from "~/lib/types"
 
 type MenuLink = {
-  text: string
-  href?: string
+  label: string
+  url?: string
   onClick?: () => void
-  hide?: boolean
 }
 
 const Header: React.FC<{
@@ -91,11 +91,11 @@ const Header: React.FC<{
         <div className="text-sm text-gray-400">
           <div className="flex items-center space-x-5">
             {links.map((link, i) => {
-              const active = router.asPath === link.href
+              const active = router.asPath === link.url
               return (
                 <UniLink
-                  key={`${link.text}${i}`}
-                  href={link.href}
+                  key={`${link.label}${i}`}
+                  href={link.url}
                   onClick={link.onClick}
                   className={clsx(
                     `h-10 flex items-center border-b-2 hover:border-gray-500 hover:text-gray-700`,
@@ -104,7 +104,7 @@ const Header: React.FC<{
                       : `border-transparent`
                   )}
                 >
-                  {link.text}
+                  {link.label}
                 </UniLink>
               )
             })}
@@ -121,6 +121,7 @@ export type SiteLayoutProps = {
     name: string
     description?: string | null
     icon?: string | null
+    navigation?: SiteNavigationItem[] | null
   }
   isLoggedIn: boolean
   subscription?: { telegram?: boolean; email?: boolean } | null
@@ -139,27 +140,20 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
 
   const links: MenuLink[] = [
-    { text: "Home", href: "/" },
-    {
-      text: "About",
-      href: "/about",
-    },
-    { text: "Archives", hide: true, href: "/archives" },
+    { label: "Home", url: "/" },
+    ...(site.navigation || []),
     !isLoggedIn && {
-      text: "Log in",
-      hide: true,
+      label: "Log in",
       onClick() {
         setLoginModalOpened(true)
       },
     },
     isLoggedIn && {
-      text: "Dashboard",
-      hide: true,
-      href: `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}/dashboard`,
+      label: "Dashboard",
+      url: `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}/dashboard`,
     },
     isLoggedIn && {
-      text: "Log out",
-      hide: true,
+      label: "Log out",
       onClick() {
         logout()
       },
