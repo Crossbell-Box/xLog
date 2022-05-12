@@ -1,9 +1,8 @@
 import { Button } from "~/components/ui/Button"
 import { useStore } from "~/lib/store"
 import { Dialog } from "@headlessui/react"
-import { useEffect, useState } from "react"
 import { trpc } from "~/lib/trpc"
-import { useFormik } from "formik"
+import { useForm } from "react-hook-form"
 
 export const LoginModal: React.FC = () => {
   const [loginModalOpened, setLoginModalOpened] = useStore((store) => [
@@ -12,16 +11,17 @@ export const LoginModal: React.FC = () => {
   ])
   const requestLoginLink = trpc.useMutation("auth.requestLoginLink")
 
-  const form = useFormik({
-    initialValues: {
+  const form = useForm({
+    defaultValues: {
       email: "",
     },
-    async onSubmit(values) {
-      await requestLoginLink.mutateAsync({
-        email: values.email,
-        url: location.href,
-      })
-    },
+  })
+
+  const handleSubmit = form.handleSubmit((values) => {
+    requestLoginLink.mutate({
+      email: values.email,
+      url: location.href,
+    })
   })
 
   return (
@@ -45,7 +45,7 @@ export const LoginModal: React.FC = () => {
                 inbox and spam folder in case you can{`'`}t find it.
               </div>
             )}
-            <form className="space-y-5" onSubmit={form.handleSubmit}>
+            <form className="space-y-5" onSubmit={handleSubmit}>
               <div>
                 <label
                   className="block mb-1 font-medium text-zinc-600"
@@ -55,11 +55,9 @@ export const LoginModal: React.FC = () => {
                 </label>
                 <input
                   id="email"
-                  name="email"
                   type="email"
                   className="input is-block"
-                  value={form.values.email}
-                  onChange={form.handleChange}
+                  {...form.register("email")}
                 />
               </div>
               <div>

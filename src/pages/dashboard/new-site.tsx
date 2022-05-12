@@ -1,7 +1,7 @@
-import { useFormik } from "formik"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
@@ -13,14 +13,15 @@ export default function NewSitePage() {
   const viewer = trpc.useQuery(["auth.viewer"])
   const createSite = trpc.useMutation("site.create")
 
-  const form = useFormik({
-    initialValues: {
+  const form = useForm({
+    defaultValues: {
       name: "",
       subdomain: "",
     },
-    onSubmit(values) {
-      createSite.mutate(values)
-    },
+  })
+
+  const handleSubmit = form.handleSubmit((values) => {
+    createSite.mutate(values)
   })
 
   useEffect(() => {
@@ -60,28 +61,27 @@ export default function NewSitePage() {
       </header>
       <div className="max-w-sm mx-auto mt-20">
         <h2 className="text-3xl mb-10 text-center">Create a new site</h2>
-        <form className="space-y-5" onSubmit={form.handleSubmit}>
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <Input
-              name="name"
               id="name"
               label="Site Name"
-              required
               isBlock
-              value={form.values.name}
-              onChange={form.handleChange}
+              required
+              maxLength={30}
+              {...form.register("name", {})}
             />
           </div>
           <div>
             <Input
-              name="subdomain"
               id="subdomain"
               label="Subdomain"
-              required
               isBlock
+              required
               addon={`.${OUR_DOMAIN}`}
-              value={form.values.subdomain}
-              onChange={form.handleChange}
+              minLength={2}
+              maxLength={20}
+              {...form.register("subdomain", {})}
             />
           </div>
           <div>

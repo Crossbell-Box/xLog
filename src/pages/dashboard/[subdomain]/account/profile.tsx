@@ -1,5 +1,5 @@
-import { useFormik } from "formik"
 import { useEffect } from "react"
+import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { AvatarForm } from "~/components/dashboard/AvatarForm"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
@@ -12,16 +12,17 @@ export default function AccountProfilePage() {
   const viewer = trpc.useQuery(["auth.viewer"])
   const updateProfile = trpc.useMutation("user.updateProfile")
 
-  const form = useFormik({
-    initialValues: {
+  const form = useForm({
+    defaultValues: {
       name: "",
       username: "",
       bio: "",
       email: "",
     },
-    onSubmit(values) {
-      updateProfile.mutate(values)
-    },
+  })
+
+  const handleSubmit = form.handleSubmit((values) => {
+    updateProfile.mutate(values)
   })
 
   useEffect(() => {
@@ -33,12 +34,10 @@ export default function AccountProfilePage() {
 
   useEffect(() => {
     if (viewer.data) {
-      form.setValues({
-        name: viewer.data.name,
-        username: viewer.data.username,
-        bio: viewer.data.bio || "",
-        email: viewer.data.email,
-      })
+      form.setValue("name", viewer.data.name)
+      form.setValue("username", viewer.data.username)
+      form.setValue("bio", viewer.data.bio || "")
+      form.setValue("email", viewer.data.email || "")
     }
   }, [viewer.data, form])
 
@@ -51,38 +50,32 @@ export default function AccountProfilePage() {
             <AvatarForm filename={viewer.data.avatar} name={viewer.data.name} />
           </div>
         )}
-        <form onSubmit={form.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="mt-5">
             <Input
               label="Display Name"
               id="name"
-              name="name"
               required
               type="text"
-              value={form.values.name}
-              onChange={form.handleChange}
+              {...form.register("name")}
             />
           </div>
           <div className="mt-5">
             <Input
               label="Username"
               id="username"
-              name="username"
               required
               type="text"
-              value={form.values.username}
-              onChange={form.handleChange}
+              {...form.register("username")}
             />
           </div>
           <div className="mt-5">
             <Input
               label="Email"
               id="email"
-              name="email"
               required
               type="email"
-              value={form.values.email}
-              onChange={form.handleChange}
+              {...form.register("email")}
             />
           </div>
           <div className="mt-10">

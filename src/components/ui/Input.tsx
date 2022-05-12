@@ -1,14 +1,20 @@
 import clsx from "clsx"
-import { DetailedHTMLProps, InputHTMLAttributes } from "react"
+import { DetailedHTMLProps, forwardRef, InputHTMLAttributes } from "react"
 
-export const Input: React.FC<
-  DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
-    label?: string
-    addon?: string
-    isBlock?: boolean
-    error?: string
-  }
-> = ({ label, addon, className, isBlock, error, ...inputProps }) => {
+type Props = DetailedHTMLProps<
+  InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+> & {
+  label?: string
+  addon?: string
+  isBlock?: boolean
+  error?: string
+}
+
+export const Input = forwardRef<HTMLInputElement, Props>(function Input(
+  { label, addon, className, isBlock, error, ...inputProps },
+  ref
+) {
   const hasAddon = !!addon
   return (
     <div>
@@ -20,6 +26,7 @@ export const Input: React.FC<
       <div className="flex items-center">
         <input
           {...inputProps}
+          ref={ref}
           className={clsx(
             "input",
             hasAddon && `has-addon`,
@@ -36,4 +43,4 @@ export const Input: React.FC<
       {error && <div className="text-sm mt-1 text-red-500">{error}</div>}
     </div>
   )
-}
+})

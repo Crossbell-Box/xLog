@@ -1,6 +1,6 @@
-import { useFormik } from "formik"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
@@ -18,16 +18,17 @@ export default function SettingsDomainsPage() {
   const ctx = trpc.useContext()
   const updateSite = trpc.useMutation("site.updateSite")
 
-  const form = useFormik({
-    initialValues: {
+  const form = useForm({
+    defaultValues: {
       subdomain: "",
     },
-    onSubmit(values) {
-      updateSite.mutate({
-        site: siteResult.data!.id,
-        subdomain: values.subdomain,
-      })
-    },
+  })
+
+  const handleSubmit = form.handleSubmit((values) => {
+    updateSite.mutate({
+      site: siteResult.data!.id,
+      subdomain: values.subdomain,
+    })
   })
 
   useEffect(() => {
@@ -45,25 +46,21 @@ export default function SettingsDomainsPage() {
 
   useEffect(() => {
     if (siteResult.data) {
-      form.setValues({
-        subdomain: siteResult.data.subdomain,
-      })
+      form.setValue("subdomain", siteResult.data.subdomain)
     }
   }, [form, siteResult.data])
 
   return (
     <DashboardLayout>
       <SettingsLayout title="Site Settings" type="site">
-        <form onSubmit={form.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="">
             <Input
-              name="subdomain"
               id="subdomain"
               label="Subdomain"
               addon={`.${OUR_DOMAIN}`}
-              value={form.values.subdomain}
               className="w-28"
-              onChange={form.handleChange}
+              {...form.register("subdomain")}
               error={updateSite.error?.message}
             />
           </div>

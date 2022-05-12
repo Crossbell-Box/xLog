@@ -1,11 +1,11 @@
 import React, { useEffect } from "react"
-import { useFormik } from "formik"
 import { useStore } from "~/lib/store"
 import { Button } from "../ui/Button"
 import { Modal } from "../ui/Modal"
 import toast from "react-hot-toast"
 import { trpc } from "~/lib/trpc"
 import { Input } from "../ui/Input"
+import { useForm } from "react-hook-form"
 
 export const SubscribeModal: React.FC<{
   siteId: string
@@ -23,25 +23,26 @@ export const SubscribeModal: React.FC<{
   const unsubscribe = trpc.useMutation("site.unsubscribe")
   const trpcContext = trpc.useContext()
 
-  const subscribeForm = useFormik({
-    initialValues: {
+  const subscribeForm = useForm({
+    defaultValues: {
       newUserEmail: "",
       email: subscription?.email ?? true,
       telegram: subscription?.telegram ?? false,
     },
-    onSubmit(values) {
-      subscribe.mutate({
-        siteId,
-        email: values.email,
-        telegram: values.telegram,
-        newUser: isLoggedIn
-          ? undefined
-          : {
-              email: values.newUserEmail,
-              url: location.href,
-            },
-      })
-    },
+  })
+
+  const handleSubscribe = subscribeForm.handleSubmit((values) => {
+    subscribe.mutate({
+      siteId,
+      email: values.email,
+      telegram: values.telegram,
+      newUser: isLoggedIn
+        ? undefined
+        : {
+            email: values.newUserEmail,
+            url: location.href,
+          },
+    })
   })
 
   useEffect(() => {
@@ -70,40 +71,28 @@ export const SubscribeModal: React.FC<{
           <p>Please check your inbox (and spam folder).</p>
         </div>
       ) : (
-        <form className="p-5" onSubmit={subscribeForm.handleSubmit}>
+        <form className="p-5" onSubmit={handleSubscribe}>
           {!isLoggedIn && (
             <div className="mb-5">
               <Input
                 label="Email"
-                name="newUserEmail"
                 type="email"
+                id="email"
                 isBlock
-                value={subscribeForm.values.newUserEmail}
-                onChange={subscribeForm.handleChange}
+                required
+                {...subscribeForm.register("newUserEmail", {})}
               />
             </div>
           )}
           <div>
             <label className="select-none flex items-center space-x-1">
-              <input
-                type="checkbox"
-                checked={subscribeForm.values.email}
-                onChange={(e) =>
-                  subscribeForm.setFieldValue("email", e.target.checked)
-                }
-              />
+              <input type="checkbox" {...subscribeForm.register("email")} />
               <span>Receive updates via Email</span>
             </label>
           </div>
           <div className="">
             <label className="select-none flex items-center space-x-1">
-              <input
-                type="checkbox"
-                checked={subscribeForm.values.telegram}
-                onChange={(e) =>
-                  subscribeForm.setFieldValue("telegram", e.target.checked)
-                }
-              />
+              <input type="checkbox" {...subscribeForm.register("telegram")} />
               <span>Receive updates via Telegram</span>
             </label>
           </div>

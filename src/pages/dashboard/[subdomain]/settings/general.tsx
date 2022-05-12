@@ -7,7 +7,7 @@ import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { trpc } from "~/lib/trpc"
-import { useFormik } from "formik"
+import { useForm } from "react-hook-form"
 
 export default function SiteSettingsGeneralPage() {
   const router = useRouter()
@@ -20,28 +20,27 @@ export default function SiteSettingsGeneralPage() {
   const site = siteResult.data
   const updateSite = trpc.useMutation("site.updateSite")
 
-  const form = useFormik({
-    initialValues: {
+  const form = useForm({
+    defaultValues: {
       name: "",
       description: "",
     },
-    onSubmit(values) {
-      updateSite.mutate({
-        site: subdomain,
-        name: values.name,
-        description: values.description,
-      })
-    },
+  })
+
+  const handleSubmit = form.handleSubmit((values) => {
+    updateSite.mutate({
+      site: subdomain,
+      name: values.name,
+      description: values.description,
+    })
   })
 
   useEffect(() => {
     if (site) {
-      form.setValues({
-        name: site.name,
-        description: site.description || "",
-      })
+      form.setValue("name", site.name)
+      form.setValue("description", site.description || "")
     }
-  }, [form, site])
+  }, [site, form])
 
   useEffect(() => {
     if (updateSite.isSuccess && updateSite.data) {
@@ -63,16 +62,9 @@ export default function SiteSettingsGeneralPage() {
             />
           </div>
         )}
-        <form onSubmit={form.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="mt-5">
-            <Input
-              required
-              label="Name"
-              id="name"
-              name="name"
-              value={form.values.name}
-              onChange={form.handleChange}
-            />
+            <Input required label="Name" id="name" {...form.register("name")} />
           </div>
           <div className="mt-5">
             <label htmlFor="description" className="label">
@@ -81,10 +73,8 @@ export default function SiteSettingsGeneralPage() {
             <textarea
               id="description"
               className="input is-block"
-              name="description"
               rows={6}
-              value={form.values.description}
-              onChange={form.handleChange}
+              {...form.register("description")}
             />
           </div>
           <div className="mt-5">
