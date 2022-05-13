@@ -154,17 +154,17 @@ export async function getPagesBySite(
     deletedAt: null,
     type: input.type === "post" ? "POST" : "PAGE",
   }
-  if (input.visibility === PageVisibilityEnum.Published) {
+  if (visibility === PageVisibilityEnum.Published) {
     where.published = true
     where.publishedAt = {
       lte: now,
     }
-  } else if (input.visibility === PageVisibilityEnum.Scheduled) {
+  } else if (visibility === PageVisibilityEnum.Scheduled) {
     where.published = true
     where.publishedAt = {
       gt: now,
     }
-  } else if (input.visibility === PageVisibilityEnum.Draft) {
+  } else if (visibility === PageVisibilityEnum.Draft) {
     where.published = false
   }
 
@@ -173,7 +173,7 @@ export async function getPagesBySite(
     prisma.page.findMany({
       where,
       orderBy: {
-        createdAt: "desc",
+        publishedAt: "desc",
       },
       take: take + 1,
       cursor: input.cursor
