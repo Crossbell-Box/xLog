@@ -80,7 +80,7 @@ export const siteRouter = createRouter()
           published: z.boolean(),
           slug: z.string(),
           excerpt: z.string().nullable(),
-          autoExcerpt: z.string(),
+          autoExcerpt: z.string().nullable(),
         })
       ),
       total: z.number(),
@@ -102,7 +102,7 @@ export const siteRouter = createRouter()
       title: z.string(),
       content: z.string(),
       excerpt: z.string().nullable(),
-      autoExcerpt: z.string(),
+      autoExcerpt: z.string().nullable(),
       published: z.boolean(),
       publishedAt: z.date().transform((v) => v.toISOString()),
       slug: z.string(),

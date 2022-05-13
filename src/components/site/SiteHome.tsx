@@ -9,6 +9,7 @@ export const SiteHome: React.FC<{
   return (
     <div className="space-y-14">
       {posts.nodes.map((post) => {
+        const excerpt = post.excerpt || post.autoExcerpt
         return (
           <div key={post.id} className="block">
             <h3 className="text-2xl font-medium">
@@ -20,8 +21,8 @@ export const SiteHome: React.FC<{
               {formatDate(post.publishedAt)}
             </div>
             <div className="mt-3 text-zinc-500">
-              {post.excerpt || post.autoExcerpt}
-              {"..."}
+              {excerpt}
+              {excerpt && "..."}
             </div>
           </div>
         )

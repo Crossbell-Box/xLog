@@ -29,7 +29,7 @@ export type PostOnSiteHome = {
   id: string
   title: string
   excerpt?: string | null
-  autoExcerpt: string
+  autoExcerpt?: string | null
   slug: string
   publishedAt: string | Date
 }
