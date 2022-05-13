@@ -14,6 +14,7 @@ import { type EditorView } from "@codemirror/view"
 import { trpc } from "~/lib/trpc"
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { UniLink } from "~/components/ui/UniLink"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -246,7 +247,12 @@ export default function SubdomainEditor() {
               {values.slug && (
                 <div className="text-xs text-gray-400 mt-1">
                   This {isPost ? "post" : "page"} will be accessible at{" "}
-                  {getSiteLink({ subdomain })}/{values.slug}
+                  <UniLink
+                    href={`${getSiteLink({ subdomain })}/${values.slug}`}
+                    className="hover:underline"
+                  >
+                    {getSiteLink({ subdomain, noProtocol: true })}/{values.slug}
+                  </UniLink>
                 </div>
               )}
             </div>

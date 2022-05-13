@@ -16,6 +16,8 @@ export default function SiteSettingsGeneralPage() {
 
   const siteResult = trpc.useQuery(["site", { site: subdomain }], {
     enabled: !!subdomain,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   })
   const site = siteResult.data
   const updateSite = trpc.useMutation("site.updateSite")

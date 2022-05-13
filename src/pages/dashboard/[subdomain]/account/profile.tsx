@@ -9,7 +9,10 @@ import { Input } from "~/components/ui/Input"
 import { trpc } from "~/lib/trpc"
 
 export default function AccountProfilePage() {
-  const viewer = trpc.useQuery(["auth.viewer"])
+  const viewer = trpc.useQuery(["auth.viewer"], {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  })
   const updateProfile = trpc.useMutation("user.updateProfile")
 
   const form = useForm({
@@ -27,8 +30,8 @@ export default function AccountProfilePage() {
 
   useEffect(() => {
     if (updateProfile.isSuccess) {
-      updateProfile.reset()
       toast.success("Saved!")
+      updateProfile.reset()
     }
   }, [updateProfile])
 

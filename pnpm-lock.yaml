@@ -23,6 +23,7 @@ specifiers:
   '@types/react': ^18.0.9
   '@types/react-avatar-editor': ^12.0.0
   '@types/react-dom': ^18.0.3
+  '@types/sortablejs': ^1.13.0
   '@types/ua-parser-js': ^0.7.36
   '@types/uuid': ^8.3.4
   '@web-std/form-data': ^3.0.2
@@ -34,6 +35,7 @@ specifiers:
   dotenv: ^16.0.0
   eslint: ^8.15.0
   eslint-config-next: ^12.1.6
+  fast-deep-equal: ^3.1.3
   form-data: ^4.0.0
   mailgun.js: ^5.2.2
   markdown-it: ^13.0.0
@@ -48,6 +50,8 @@ specifiers:
   react-hook-form: ^7.31.1
   react-hot-toast: ^2.2.0
   react-query: ^3.39.0
+  react-sortablejs: ^6.1.1
+  sortablejs: ^1.15.0
   tailwindcss: ^3.0.24
   typescript: ^4.5.5
   ua-parser-js: ^1.0.2
@@ -76,6 +80,7 @@ dependencies:
   cookie: 0.5.0
   dayjs: 1.11.2
   dotenv: 16.0.0
+  fast-deep-equal: 3.1.3
   form-data: 4.0.0
   mailgun.js: 5.2.2
   markdown-it: 13.0.1
@@ -88,6 +93,8 @@ dependencies:
   react-hook-form: 7.31.1_react@18.1.0
   react-hot-toast: 2.2.0_ef5jwxihqo6n7gxfmzogljlgcm
   react-query: 3.39.0_ef5jwxihqo6n7gxfmzogljlgcm
+  react-sortablejs: 6.1.1_kjz72dk5lh6hp4ogspefhm7r2u
+  sortablejs: 1.15.0
   ua-parser-js: 1.0.2
   uuid: 8.3.2
   zod: 3.15.1
@@ -103,6 +110,7 @@ devDependencies:
   '@types/react': 18.0.9
   '@types/react-avatar-editor': 12.0.0
   '@types/react-dom': 18.0.3
+  '@types/sortablejs': 1.13.0
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 8.3.4
   eslint: 8.15.0
@@ -1677,6 +1685,10 @@ packages:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
 
+  /@types/sortablejs/1.13.0:
+    resolution: {integrity: sha512-C3064MH72iEfeGCYEGCt7FCxXoAXaMPG0QPnstcxvPmbl54erpISu06d++FY37Smja64iWy5L8wOyHHBghWbJQ==}
+    dev: true
+
   /@types/ua-parser-js/0.7.36:
     resolution: {integrity: sha512-N1rW+njavs70y2cApeIw1vLMYXRwfBy+7trgavGuuTfOd7j1Yh7QTRc/yqsPl6ncokt72ZXuxEU0PiCp9bSwNQ==}
     dev: true
@@ -2075,6 +2087,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /classnames/2.3.1:
+    resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
+    dev: false
 
   /clone-deep/4.0.1:
     resolution: {integrity: sha512-neHB9xuzh/wk0dIHweyAXv2aPGZIVk3pLMe+/RNzINf17fe0OG96QroktYAUm7SM1PBnzTabaLboqqxDyMU+SQ==}
@@ -2633,7 +2649,6 @@ packages:
 
   /fast-deep-equal/3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
-    dev: true
 
   /fast-glob/3.2.11:
     resolution: {integrity: sha512-xrO3+1bxSo3ZVHAnqzyuewYT6aMFHRAd4Kcs92MAonjwQZLsK9d0SF1IyQ3k5PoirxTW0Oe/RqFgMQ6TcNE5Ew==}
@@ -3662,6 +3677,22 @@ packages:
       react-dom: 18.1.0_react@18.1.0
     dev: false
 
+  /react-sortablejs/6.1.1_kjz72dk5lh6hp4ogspefhm7r2u:
+    resolution: {integrity: sha512-VXTCHiitk1QT1uxt+hFGSihG1phk/HAw/17a65diTT3NVm/5dui2O99X5L/tOFLgRT5ifxwZtnloTTDsT5EH2w==}
+    peerDependencies:
+      '@types/sortablejs': '1'
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+      sortablejs: '1'
+    dependencies:
+      '@types/sortablejs': 1.13.0
+      classnames: 2.3.1
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
+      sortablejs: 1.15.0
+      tiny-invariant: 1.2.0
+    dev: false
+
   /react-ssr-prepass/1.5.0_react@18.1.0:
     resolution: {integrity: sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==}
     peerDependencies:
@@ -3805,6 +3836,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /sortablejs/1.15.0:
+    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
+    dev: false
+
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -3934,6 +3969,10 @@ packages:
   /text-table/0.2.0:
     resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
     dev: true
+
+  /tiny-invariant/1.2.0:
+    resolution: {integrity: sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==}
+    dev: false
 
   /to-fast-properties/2.0.0:
     resolution: {integrity: sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=}

@@ -1,12 +1,8 @@
 // @ts-nocheck
 globalThis._singletons = globalThis._singletons || {}
 
-export const singleton = <T>(
-  id: string,
-  factory: () => T,
-  enableSingleton = true
-): T => {
-  if (!globalThis._singletons[id] || !enableSingleton) {
+export const singleton = <T>(id: string, factory: () => T): T => {
+  if (!globalThis._singletons[id]) {
     globalThis._singletons[id] = factory()
   }
   return globalThis._singletons[id]
