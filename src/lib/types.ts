@@ -28,7 +28,8 @@ export enum PageVisibilityEnum {
 export type PostOnSiteHome = {
   id: string
   title: string
-  excerpt: string
+  excerpt?: string | null
+  autoExcerpt: string
   slug: string
   publishedAt: string | Date
 }

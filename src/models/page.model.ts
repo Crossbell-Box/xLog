@@ -3,7 +3,7 @@ import { nanoid } from "nanoid"
 import { prisma, Prisma } from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
 import { sendEmailForNewPost } from "~/lib/mailgun.server"
-import { renderPageContent } from "~/lib/markdown.server"
+import { getAutoExcerpt, renderPageContent } from "~/lib/markdown.server"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
@@ -78,6 +78,7 @@ export async function createOrUpdatePage(
           },
           content: "",
           excerpt: "",
+          autoExcerpt: "",
         },
         include: {
           site: true,
@@ -95,6 +96,8 @@ export async function createOrUpdatePage(
   const slug = input.slug || page.slug
   await checkPageSlug({ slug, excludePage: page.id, siteId: page.siteId })
 
+  const autoExcerpt = input.content ? getAutoExcerpt(input.content) : undefined
+
   const updated = await prisma.page.update({
     where: {
       id: page.id,
@@ -107,6 +110,7 @@ export async function createOrUpdatePage(
       excerpt: input.excerpt,
       slug,
       type: input.isPost ? "POST" : "PAGE",
+      autoExcerpt,
     },
   })
 
@@ -132,6 +136,7 @@ export async function getPagesBySite(
     visibility?: PageVisibilityEnum | null
     take?: number | null
     cursor?: string | null
+    autoExcerpt?: boolean
   }
 ) {
   const site = await getSite(input.site)
@@ -187,7 +192,7 @@ export async function getPagesBySite(
   const hasMore = nodes.length > take
 
   return {
-    nodes,
+    nodes: nodes,
     total,
     hasMore,
   }

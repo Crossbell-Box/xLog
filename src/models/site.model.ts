@@ -218,6 +218,7 @@ export async function createSite(
           title: "About",
           slug: "about",
           excerpt: "",
+          autoExcerpt: "",
           content: `My name is ${payload.name} and I'm a new site.`,
           published: true,
           publishedAt: new Date(),

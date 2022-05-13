@@ -13,14 +13,14 @@ export const SiteArchives: React.FC<{
       <div className="mt-5">
         {posts.map((post) => {
           return (
-            <div key={post.id} className="flex">
-              <span className="text-zinc-400 mr-3">
-                {formatDate(post.publishedAt)}
-              </span>
-              <Link href={`/${post.slug}`}>
-                <a className="flex text-accent hover:underline">{post.title}</a>
-              </Link>
-            </div>
+            <Link key={post.id} href={`/${post.slug}`}>
+              <a className="flex justify-between items-center p-1 px-2 rounded-lg -mx-2 hover:bg-zinc-50">
+                <span className="text-accent">{post.title}</span>
+                <span className="text-zinc-400 mr-3 text-sm whitespace-nowrap">
+                  {formatDate(post.publishedAt)}
+                </span>
+              </a>
+            </Link>
           )
         })}
       </div>

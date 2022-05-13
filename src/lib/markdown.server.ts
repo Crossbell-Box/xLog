@@ -63,7 +63,7 @@ const stripHTML = (html: string) => {
   return html.replace(/<(?:.|\n)*?>/gm, "")
 }
 
-export const getExcerpt = (content: string) => {
+export const getAutoExcerpt = (content: string) => {
   const indexOfMore = content.indexOf("<!--more-->")
   const md = new Markdown({
     html: false,
@@ -73,5 +73,5 @@ export const getExcerpt = (content: string) => {
     content = content.substring(0, indexOfMore)
     return stripHTML(md.render(content))
   }
-  return stripHTML(md.render(content)).slice(0, 200)
+  return stripHTML(md.render(content)).slice(0, 400)
 }

@@ -20,7 +20,7 @@ export const SiteHome: React.FC<{
               {formatDate(post.publishedAt)}
             </div>
             <div className="mt-3 text-zinc-500">
-              {post.excerpt}
+              {post.excerpt || post.autoExcerpt}
               {"..."}
             </div>
           </div>
