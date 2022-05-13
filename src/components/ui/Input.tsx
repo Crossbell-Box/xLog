@@ -19,7 +19,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
   return (
     <div>
       {label && (
-        <label className="label" htmlFor={inputProps.id}>
+        <label className="form-label" htmlFor={inputProps.id}>
           {label}
         </label>
       )}

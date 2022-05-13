@@ -1,5 +1,6 @@
 import Markdown from "markdown-it"
-import * as shiki from "shiki"
+import Prism from "prismjs"
+import loadLanguages from "prismjs/components/index"
 import { getUserContentsUrl } from "./user-contents"
 
 const isExternLink = (url: string) => /^https?:\/\//.test(url)
@@ -20,20 +21,18 @@ const handleImages = (md: Markdown) => {
   }
 }
 
-const codeBlock = (
-  md: Markdown,
-  { highlighter }: { highlighter: shiki.Highlighter }
-) => {
-  const theme = highlighter.getTheme()
-  const languages = highlighter.getLoadedLanguages()
-
+const codeBlock = (md: Markdown) => {
   const highlight = (code: string, lang: string) => {
-    if (!languages.includes(lang as any)) {
-      return `<pre style="background-color:${theme.bg};color:${
-        theme.fg
-      };"><code>${md.utils.escapeHtml(code)}</code></pre>`
+    if (lang === "vue" || lang === "svelte") {
+      lang = "html"
     }
-    return highlighter.codeToHtml(code, { lang })
+    loadLanguages(lang)
+    const grammer = Prism.languages[lang]
+    const html = grammer
+      ? `<pre><code>${Prism.highlight(code, grammer, lang)}</code></pre>`
+      : `<pre><code>${md.utils.escapeHtml(code)}</code></pre>`
+
+    return html
   }
 
   md.renderer.rules.fence = (tokens, idx, options, env, self) => {
@@ -44,16 +43,13 @@ const codeBlock = (
 }
 
 export const renderPageContent = async (content: string) => {
-  const highlighter = await shiki.getHighlighter({
-    theme: "vitesse-dark",
-  })
   const md = new Markdown({
     html: false,
     linkify: true,
   })
 
   md.use(handleImages)
-  md.use(codeBlock, { highlighter })
+  md.use(codeBlock)
 
   const html = md.render(content)
   return { html }

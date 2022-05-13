@@ -56,7 +56,7 @@ export default function SiteSettingsGeneralPage() {
       <SettingsLayout title="Site Settings" type="site">
         {site && (
           <div>
-            <label className="label">Icon</label>
+            <label className="form-label">Icon</label>
             <AvatarForm
               site={site.id}
               name={site.name}
@@ -69,7 +69,7 @@ export default function SiteSettingsGeneralPage() {
             <Input required label="Name" id="name" {...form.register("name")} />
           </div>
           <div className="mt-5">
-            <label htmlFor="description" className="label">
+            <label htmlFor="description" className="form-label">
               Description
             </label>
             <textarea

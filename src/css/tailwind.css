@@ -119,7 +119,7 @@ textarea.input {
   @apply px-3;
 }
 
-.label {
+.form-label {
   @apply block;
   @apply mb-2;
   @apply text-sm;

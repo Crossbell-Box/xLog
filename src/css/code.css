@@ -1,19 +1,22 @@
 .code {
   @apply my-5;
   @apply relative;
+  color: var(--code-fg);
 }
 
 .code pre {
   @apply p-5;
   @apply rounded-lg;
-  @apply whitespace-pre-wrap;
+  @apply whitespace-pre;
+  @apply font-mono;
+  background-color: var(--code-bg);
 }
 
 .code:before {
   content: attr(data-lang);
+  color: var(--lang-color);
   @apply absolute;
   @apply right-3;
   @apply top-2;
-  @apply text-zinc-500;
   @apply text-xs;
 }

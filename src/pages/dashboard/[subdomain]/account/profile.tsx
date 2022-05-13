@@ -49,7 +49,7 @@ export default function AccountProfilePage() {
       <SettingsLayout title="Account" type="account">
         {viewer.data && (
           <div>
-            <label className="label">Profile Picture</label>
+            <label className="form-label">Profile Picture</label>
             <AvatarForm filename={viewer.data.avatar} name={viewer.data.name} />
           </div>
         )}
