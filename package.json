@@ -44,6 +44,7 @@
     "react-hot-toast": "^2.2.0",
     "react-query": "^3.39.0",
     "react-sortablejs": "^6.1.1",
+    "shiki": "^0.10.1",
     "sortablejs": "^1.15.0",
     "ua-parser-js": "^1.0.2",
     "uuid": "^8.3.2",

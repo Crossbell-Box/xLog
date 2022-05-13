@@ -75,6 +75,13 @@ export default function SubdomainEditor() {
   }, [createOrUpdatePage, isPost, router, subdomain, trpcContext])
 
   useEffect(() => {
+    if (createOrUpdatePage.isError) {
+      createOrUpdatePage.reset()
+      toast.error(createOrUpdatePage.error.message)
+    }
+  }, [createOrUpdatePage])
+
+  useEffect(() => {
     if (!page) return
 
     setValues((values) => {

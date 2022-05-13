@@ -1,4 +1,5 @@
 import Markdown from "markdown-it"
+import * as shiki from "shiki"
 import { getUserContentsUrl } from "./user-contents"
 
 const isExternLink = (url: string) => /^https?:\/\//.test(url)
@@ -19,13 +20,40 @@ const handleImages = (md: Markdown) => {
   }
 }
 
+const codeBlock = (
+  md: Markdown,
+  { highlighter }: { highlighter: shiki.Highlighter }
+) => {
+  const theme = highlighter.getTheme()
+  const languages = highlighter.getLoadedLanguages()
+
+  const highlight = (code: string, lang: string) => {
+    if (!languages.includes(lang as any)) {
+      return `<pre style="background-color:${theme.bg};color:${
+        theme.fg
+      };"><code>${md.utils.escapeHtml(code)}</code></pre>`
+    }
+    return highlighter.codeToHtml(code, { lang })
+  }
+
+  md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+    const token = tokens[idx]
+    const code = highlight(token.content, token.info)
+    return `<div class="code" data-lang="${token.info}">${code}</div>`
+  }
+}
+
 export const renderPageContent = async (content: string) => {
+  const highlighter = await shiki.getHighlighter({
+    theme: "vitesse-dark",
+  })
   const md = new Markdown({
     html: false,
     linkify: true,
   })
 
   md.use(handleImages)
+  md.use(codeBlock, { highlighter })
 
   const html = md.render(content)
   return { html }

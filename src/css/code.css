@@ -1,0 +1,19 @@
+.code {
+  @apply my-5;
+  @apply relative;
+}
+
+.code pre {
+  @apply p-5;
+  @apply rounded-lg;
+  @apply whitespace-pre-wrap;
+}
+
+.code:before {
+  content: attr(data-lang);
+  @apply absolute;
+  @apply right-3;
+  @apply top-2;
+  @apply text-zinc-500;
+  @apply text-xs;
+}
