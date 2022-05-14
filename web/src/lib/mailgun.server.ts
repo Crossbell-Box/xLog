@@ -60,13 +60,20 @@ export const sendLoginEmail = async (payload: {
     IS_PROD ? "https" : "http"
   }://${OUR_DOMAIN}/api/login?${query.toString()}`
 
-  let subject = `Log in to ${APP_NAME}`
+  let subject = `Sign in to ${APP_NAME}`
 
-  let html = `<p>Please use the link below to log in to ${APP_NAME}:</p>
+  let html = `
+  <p>Hello,</p>
 
-  <a href="${loginLink}">login</a>
+  <p>We received a request to sign in to ${APP_NAME} using this email address, please click the link below to sign in:</p>
+
+  <a href="${loginLink}">Sign in to ${APP_NAME}</a>
   
-  <p>This link will expire in 10 minutes.</p>
+  <p>This link will expire in 10 minutes. If you did not request this link, you can safely ignore this email.</p>
+  
+  <p>Thanks,</p>
+
+  <p>Your Proselog Team</p>
   `
 
   if (payload.subscribeForm) {
