@@ -26,10 +26,12 @@ const send = (data: string | Record<string, string>, init?: ResponseInit) => {
 }
 
 const handler: ExportedHandler<{ BUCKET: R2Bucket; ENCRYPT_SECRET: string }> = {
-  async fetch(request, env): Promise<Response> {
+  async fetch(request, env, event): Promise<Response> {
     try {
       // Files are publicly accessible
       if (request.method === "GET") {
+        const cache = caches.default
+
         const url = new URL(request.url)
 
         if (url.pathname === "/") {
@@ -37,11 +39,25 @@ const handler: ExportedHandler<{ BUCKET: R2Bucket; ENCRYPT_SECRET: string }> = {
         }
 
         const key = url.pathname.substring(1)
+
+        const cachedResponse = await cache.match(request)
+
+        if (cachedResponse) {
+          console.log("cached!")
+          return cachedResponse
+        }
+
         const object = await env.BUCKET.get(key)
         if (!object) {
           return send("object not found", { status: 404 })
         }
-        return new Response(object.body)
+        const response = new Response(object.body, {
+          headers: {
+            "Cache-Control": "s-maxage=31536000",
+          },
+        })
+        event.waitUntil(cache.put(request, response.clone()))
+        return response
       }
 
       if (request.method === "OPTIONS") {
@@ -89,7 +105,12 @@ const handler: ExportedHandler<{ BUCKET: R2Bucket; ENCRYPT_SECRET: string }> = {
           httpMetadata: {
             contentType: file.type,
           },
+          customMetadata: {
+            // Store the original filename
+            filename: file.name,
+          },
         })
+
         return send({ key })
       }
     } catch (error: any) {
