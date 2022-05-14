@@ -53,7 +53,7 @@ const handler: ExportedHandler<{ BUCKET: R2Bucket; ENCRYPT_SECRET: string }> = {
         }
         const response = new Response(object.body, {
           headers: {
-            "Cache-Control": "s-maxage=31536000",
+            "Cache-Control": "public, max-age=31536000, immutable",
           },
         })
         event.waitUntil(cache.put(request, response.clone()))
