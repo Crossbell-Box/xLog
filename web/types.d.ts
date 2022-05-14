@@ -16,7 +16,7 @@ declare interface ServerEnv {
 declare interface BrowserEnv {
   APP_NAME: string
   OUR_DOMAIN: string
-  S3_CDN_PREFIX: string
+  R2_URL: string
 }
 
 declare namespace NodeJS {

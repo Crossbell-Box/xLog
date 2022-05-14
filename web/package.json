@@ -1,5 +1,5 @@
 {
-  "name": "proselog",
+  "name": "web",
   "private": true,
   "description": "A publishing platform",
   "license": "unlicensed",
@@ -10,7 +10,6 @@
     "db-generate": "prisma generate"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.81.0",
     "@codemirror/commands": "^0.20.0",
     "@codemirror/lang-markdown": "^0.20.0",
     "@codemirror/language": "^0.20.0",
