@@ -1,6 +1,5 @@
 import clsx from "clsx"
 import React, { useMemo } from "react"
-import Image from "next/image"
 
 export const Avatar: React.FC<
   {
@@ -61,7 +60,7 @@ export const Avatar: React.FC<
         height: `${size}px`,
       }}
     >
-      <Image
+      <img
         className={borderRadius}
         src={image}
         width={size}

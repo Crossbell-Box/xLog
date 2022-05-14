@@ -7,22 +7,28 @@ import { Button } from "~/components/ui/Button"
 import toast from "react-hot-toast"
 import createPica from "pica"
 import { trpc } from "~/lib/trpc"
+import { UploadFile, useUploadFile } from "~/hooks/useUploadFile"
 
 const AvatarEditorModal: React.FC<{
   isOpen: boolean
   image?: File | null
   setIsOpen: (open: boolean) => void
   site?: string
-}> = ({ isOpen, setIsOpen, image, site }) => {
+  uploadFile: UploadFile
+}> = ({ isOpen, setIsOpen, image, site, uploadFile }) => {
   const editorRef = useRef<ReactAvatarEditor | null>(null)
   const [isSaving, setIsSaving] = useState(false)
   const ctx = trpc.useContext()
+  const updateProfile = trpc.useMutation("user.updateProfile")
+  const updateSite = trpc.useMutation("site.updateSite")
 
   const cropAndSave = async () => {
     if (!editorRef.current) return
 
     try {
       setIsSaving(true)
+
+      // Get cropped image
       const fromCanvas = editorRef.current.getImage()
       const toCanvas = document.createElement("canvas")
       toCanvas.width = 460
@@ -30,23 +36,17 @@ const AvatarEditorModal: React.FC<{
       const pica = createPica()
       const result = await pica.resize(fromCanvas, toCanvas)
       const blob = await pica.toBlob(result, "image/jpeg", 0.9)
-      const form = new FormData()
+
+      // Upload image to R2
+      const { key } = await uploadFile(blob, image!.name)
+
+      // Save the image to profile / site
       if (site) {
-        form.append("site", site)
+        await updateSite.mutateAsync({ site, icon: key })
+      } else {
+        await updateProfile.mutateAsync({ avatar: key })
       }
-      form.append("file", blob)
-      const res = await fetch("/api/save-avatar", {
-        body: form,
-        method: "post",
-        credentials: "same-origin",
-      })
-      if (!res.ok) {
-        throw new Error(res.statusText)
-      }
-      const data = await res.json()
-      if (data.error) {
-        throw new Error(data.error)
-      }
+
       setIsOpen(false)
       toast.success("Updated!")
       ctx.invalidateQueries()
@@ -102,6 +102,7 @@ export const AvatarForm: React.FC<{
   const [isOpen, setIsOpen] = useState(false)
   const inputEl = useRef<HTMLInputElement>(null)
   const [image, setImage] = useState<File | null>(null)
+  const uploadFile = useUploadFile()
 
   const onClick = () => {
     inputEl.current?.click()
@@ -122,6 +123,7 @@ export const AvatarForm: React.FC<{
         setIsOpen={setIsOpen}
         image={image}
         site={site}
+        uploadFile={uploadFile}
       />
       <input
         aria-hidden

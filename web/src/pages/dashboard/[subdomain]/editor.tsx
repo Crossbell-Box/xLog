@@ -15,6 +15,7 @@ import { trpc } from "~/lib/trpc"
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { UniLink } from "~/components/ui/UniLink"
+import { useUploadFile } from "~/hooks/useUploadFile"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -44,6 +45,7 @@ export default function SubdomainEditor() {
     publishedAt: page?.publishedAt || null,
   })
   const createOrUpdatePage = trpc.useMutation("site.createOrUpdatePage")
+  const uploadFile = useUploadFile()
 
   const [values, setValues] = useState({
     title: "",
@@ -101,42 +103,29 @@ export default function SubdomainEditor() {
     []
   )
 
-  const handleDropFile = useCallback(async (file: File, view: EditorView) => {
-    if (!file.type.startsWith("image/")) {
-      toast.error("You can only upload images")
-      return
-    }
+  const handleDropFile = useCallback(
+    async (file: File, view: EditorView) => {
+      const toastId = toast.loading("Uploading...")
+      try {
+        if (!file.type.startsWith("image/")) {
+          throw new Error("You can only upload images")
+        }
 
-    const toastId = toast.loading("Uploading...")
-
-    const form = new FormData()
-    form.append("file", file)
-    const res = await fetch("/api/upload-image", {
-      body: form,
-      headers: {},
-      credentials: "same-origin",
-      method: "POST",
-    })
-    if (!res.ok) {
-      toast.error("Upload failed", {
-        id: toastId,
-      })
-    } else {
-      const data = await res.json()
-      if (data.error) {
-        toast.error(data.error, { id: toastId })
-      } else {
+        const { key } = await uploadFile(file, file.name)
         toast.success("Uploaded!", {
           id: toastId,
         })
         view.dispatch(
           view.state.replaceSelection(
-            `\n\n![${file.name.replace(/\.\w+$/, "")}](${data.file})\n\n`
+            `\n\n![${file.name.replace(/\.\w+$/, "")}](${key})\n\n`
           )
         )
+      } catch (error: any) {
+        toast.error(error.mesage, { id: toastId })
       }
-    }
-  }, [])
+    },
+    [uploadFile]
+  )
 
   const { editorRef } = useEditor({
     value: values.content,

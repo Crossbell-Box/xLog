@@ -2,7 +2,7 @@
   "private": true,
   "name": "proselog-workspace",
   "scripts": {
-    "dev": "pnpm --filter web dev",
+    "dev": "pnpm -r dev",
     "db-generate": "pnpm --filter web db-generate"
   }
 }

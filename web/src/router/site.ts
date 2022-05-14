@@ -118,7 +118,7 @@ export const siteRouter = createRouter()
       site: z.string(),
       name: z.string().optional(),
       description: z.string().optional(),
-      icon: z.string().nullish().optional(),
+      icon: z.string().nullish(),
       subdomain: z.string().optional(),
       navigation: z
         .array(

@@ -4,17 +4,13 @@ declare interface ServerEnv {
   DATABASE_URL: string
   AUTH_COOKIE_NAME: string
   OUR_DOMAIN: string
-  S3_REGION: string
-  S3_ACCESS_KEY_ID: string
-  S3_SECRET_ACCESS_KEY: string
-  S3_BUCKET_NAME: string
-  S3_ENDPOINT?: string
   MAILGUN_APIKEY: string
   MAILGUN_DOMAIN: string
-  S3_CDN_PREFIX: string
   FLY_REGION?: string
   PRIMARY_REGION?: string
   ENCRYPT_SECRET: string
+  NEXT_PUBLIC_R2_URL: string
+  R2_API_TOKEN: string
 }
 
 declare interface BrowserEnv {
