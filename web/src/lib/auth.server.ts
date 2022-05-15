@@ -1,5 +1,5 @@
 import type { User, Membership } from "@prisma/client"
-import { prisma } from "./db.server"
+import { prismaRead } from "./db.server"
 import dayjs from "dayjs"
 import Cookie, { CookieSerializeOptions } from "cookie"
 import { AUTH_COOKIE_NAME } from "./env.server"
@@ -24,7 +24,7 @@ export const getAuthTokenFromRequest = (request: IncomingMessage) => {
 }
 
 const findUserFromToken = async (token: string) => {
-  const accessToken = await prismaPrimary.accessToken.findUnique({
+  const accessToken = await prismaRead.accessToken.findUnique({
     where: {
       token,
     },
