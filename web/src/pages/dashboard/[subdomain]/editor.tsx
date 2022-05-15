@@ -120,8 +120,10 @@ export default function SubdomainEditor() {
             `\n\n![${file.name.replace(/\.\w+$/, "")}](${key})\n\n`
           )
         )
-      } catch (error: any) {
-        toast.error(error.mesage, { id: toastId })
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message, { id: toastId })
+        }
       }
     },
     [uploadFile]
