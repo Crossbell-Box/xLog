@@ -24,7 +24,7 @@ export const getAuthTokenFromRequest = (request: IncomingMessage) => {
 }
 
 const findUserFromToken = async (token: string) => {
-  const accessToken = await prisma.accessToken.findUnique({
+  const accessToken = await prismaPrimary.accessToken.findUnique({
     where: {
       token,
     },

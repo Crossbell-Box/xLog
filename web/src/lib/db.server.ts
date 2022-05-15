@@ -6,7 +6,7 @@ const logLevel: Prisma.LogLevel[] = IS_PROD
   ? ["info", "error", "warn"]
   : ["info", "warn", "error", "query"]
 
-export const prisma = /* @__PURE__ */ singleton("prisma", () => {
+const createPrisma = (readonly: boolean) => {
   if (!IS_PROD && !IS_BROWSER) {
     for (const k in require.cache) {
       if (k.includes("prisma")) {
@@ -15,8 +15,19 @@ export const prisma = /* @__PURE__ */ singleton("prisma", () => {
     }
   }
 
+  let url = process.env.DATABASE_URL
+
+  if (readonly && process.env.RO_DATABASE_URL) {
+    url = process.env.RO_DATABASE_URL
+  }
+
   const client = new PrismaClient({
     log: logLevel,
+    datasources: {
+      db: {
+        url,
+      },
+    },
   })
 
   client.$use(async (params, next) => {
@@ -30,6 +41,14 @@ export const prisma = /* @__PURE__ */ singleton("prisma", () => {
   })
 
   return client
-})
+}
+
+export const prismaPrimary = /* @__PURE__ */ singleton("prisma-primary", () =>
+  createPrisma(false)
+)
+
+export const prismaRead = /* @__PURE__ */ singleton("prisma-read", () =>
+  createPrisma(true)
+)
 
 export type { Prisma }

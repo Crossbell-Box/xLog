@@ -1,4 +1,4 @@
-import { prisma } from "~/lib/db.server"
+import { prismaPrimary } from "~/lib/db.server"
 import { Gate } from "~/lib/gate.server"
 
 export const userModel = {
@@ -15,7 +15,7 @@ export const userModel = {
     const user = gate.getUser(true)
 
     if (payload.email) {
-      const userByEmail = await prisma.user.findUnique({
+      const userByEmail = await prismaPrimary.user.findUnique({
         where: {
           email: payload.email,
         },
@@ -26,7 +26,7 @@ export const userModel = {
     }
 
     if (payload.username) {
-      const userByUsername = await prisma.user.findUnique({
+      const userByUsername = await prismaPrimary.user.findUnique({
         where: {
           username: payload.username,
         },
@@ -36,7 +36,7 @@ export const userModel = {
       }
     }
 
-    const updated = await prisma.user.update({
+    const updated = await prismaPrimary.user.update({
       where: {
         id: user.id,
       },

@@ -2,7 +2,7 @@ import { NextApiHandler } from "next"
 import Iron from "@hapi/iron"
 import { ENCRYPT_SECRET } from "~/lib/env.server"
 import { unsubscribeFromSite } from "~/models/site.model"
-import { prisma } from "~/lib/db.server"
+import { prismaPrimary } from "~/lib/db.server"
 import { createGate } from "~/lib/gate.server"
 
 const handler: NextApiHandler = async (req, res) => {
@@ -12,7 +12,7 @@ const handler: NextApiHandler = async (req, res) => {
     userId: string
   } = await Iron.unseal(token, ENCRYPT_SECRET, Iron.defaults)
 
-  const user = await prisma.user.findUnique({
+  const user = await prismaPrimary.user.findUnique({
     where: {
       id: payload.userId,
     },

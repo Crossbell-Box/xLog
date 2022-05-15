@@ -1,4 +1,4 @@
-import { prisma } from "~/lib/db.server"
+import { prismaPrimary, prismaRead } from "~/lib/db.server"
 import { isUUID } from "~/lib/uuid"
 import { MembershipRole, PageType, Prisma, Site } from "@prisma/client"
 import { Gate } from "~/lib/gate.server"
@@ -14,7 +14,7 @@ export const checkSubdomain = async ({
   subdomain: string
   updatingSiteId?: string
 }) => {
-  const existingSite = await prisma.site.findUnique({
+  const existingSite = await prismaPrimary.site.findUnique({
     where: {
       subdomain,
     },
@@ -22,7 +22,7 @@ export const checkSubdomain = async ({
 
   if (existingSite?.deletedAt) {
     // Actuall delete the site so that the subdomain can be used again
-    await prisma.site.delete({
+    await prismaPrimary.site.delete({
       where: {
         id: existingSite.id,
       },
@@ -42,7 +42,7 @@ export async function getSitesForViewer(gate: Gate) {
 }
 
 export const getUserLastActiveSite = async (userId: string) => {
-  const memberships = await prisma.membership.findMany({
+  const memberships = await prismaPrimary.membership.findMany({
     where: {
       userId,
       role: {
@@ -66,12 +66,12 @@ export const getUserLastActiveSite = async (userId: string) => {
 
 export const getSite = async (input: string) => {
   const site = isUUID(input)
-    ? await prisma.site.findUnique({
+    ? await prismaRead.site.findUnique({
         where: {
           id: input,
         },
       })
-    : await prisma.site.findUnique({
+    : await prismaRead.site.findUnique({
         where: {
           subdomain: input,
         },
@@ -91,7 +91,7 @@ export const getMembership = async (data: {
   userId: string
   role: MembershipRole
 }) => {
-  const first = await prisma.membership.findFirst({
+  const first = await prismaRead.membership.findFirst({
     where: {
       role: data.role,
       userId: data.userId,
@@ -103,7 +103,7 @@ export const getMembership = async (data: {
 }
 
 export const getSitesByUser = async ({ userId }: { userId: string }) => {
-  const memberships = await prisma.membership.findMany({
+  const memberships = await prismaRead.membership.findMany({
     where: {
       userId,
       role: {
@@ -160,7 +160,7 @@ export async function updateSite(
     })
   }
 
-  const updated = await prisma.site.update({
+  const updated = await prismaPrimary.site.update({
     where: {
       id: site.id,
     },
@@ -198,7 +198,7 @@ export async function createSite(
       url: "/archives",
     },
   ]
-  const site = await prisma.site.create({
+  const site = await prismaPrimary.site.create({
     data: {
       name: payload.name,
       subdomain: payload.subdomain,
@@ -251,7 +251,7 @@ export async function subscribeToSite(
       telegram: input.telegram,
       siteId: input.siteId,
     }
-    const loginToken = await prisma.loginToken.create({
+    const loginToken = await prismaPrimary.loginToken.create({
       data: {
         email: newUser.email,
         expiresAt: dayjs().add(10, "minutes").toDate(),
@@ -275,7 +275,7 @@ export async function subscribeToSite(
     siteId: site.id,
   })
   if (!subscription) {
-    await prisma.membership.create({
+    await prismaPrimary.membership.create({
       data: {
         role: MembershipRole.SUBSCRIBER,
         user: {
@@ -295,7 +295,7 @@ export async function subscribeToSite(
       },
     })
   } else {
-    await prisma.membership.update({
+    await prismaPrimary.membership.update({
       where: {
         id: subscription.id,
       },
@@ -324,7 +324,7 @@ export async function unsubscribeFromSite(
     throw new Error(`Subscription not found`)
   }
 
-  await prisma.membership.delete({
+  await prismaPrimary.membership.delete({
     where: {
       id: subscription.id,
     },

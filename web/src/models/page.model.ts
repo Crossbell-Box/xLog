@@ -1,6 +1,6 @@
 import { MembershipRole, PageType } from "@prisma/client"
 import { nanoid } from "nanoid"
-import { prisma, Prisma } from "~/lib/db.server"
+import { prismaPrimary, Prisma, prismaRead } from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
 import { sendEmailForNewPost } from "~/lib/mailgun.server"
 import { getAutoExcerpt, renderPageContent } from "~/lib/markdown.server"
@@ -21,7 +21,7 @@ const checkPageSlug = async ({
   if (!slug) {
     throw new Error("Missing page slug")
   }
-  const page = await prisma.page.findFirst({
+  const page = await prismaPrimary.page.findFirst({
     where: {
       siteId,
       slug,
@@ -33,7 +33,7 @@ const checkPageSlug = async ({
   if (!page) return
 
   if (page.deletedAt) {
-    await prisma.page.delete({
+    await prismaPrimary.page.delete({
       where: {
         id: page.id,
       },
@@ -59,7 +59,7 @@ export async function createOrUpdatePage(
   }
 ) {
   const page = input.pageId
-    ? await prisma.page.findUnique({
+    ? await prismaPrimary.page.findUnique({
         where: {
           id: input.pageId,
         },
@@ -67,7 +67,7 @@ export async function createOrUpdatePage(
           site: true,
         },
       })
-    : await prisma.page.create({
+    : await prismaPrimary.page.create({
         data: {
           title: "Untitled",
           slug: `untitled-${nanoid(4)}`,
@@ -98,7 +98,7 @@ export async function createOrUpdatePage(
 
   const autoExcerpt = input.content ? getAutoExcerpt(input.content) : undefined
 
-  const updated = await prisma.page.update({
+  const updated = await prismaPrimary.page.update({
     where: {
       id: page.id,
     },
@@ -170,7 +170,7 @@ export async function getPagesBySite(
 
   const take = input.take || 100
   const [nodes, total] = await Promise.all([
-    prisma.page.findMany({
+    prismaRead.page.findMany({
       where,
       orderBy: {
         publishedAt: "desc",
@@ -182,7 +182,7 @@ export async function getPagesBySite(
           }
         : undefined,
     }),
-    await prisma.page.count({
+    await prismaRead.page.count({
       where: {
         siteId: site.id,
       },
@@ -199,7 +199,7 @@ export async function getPagesBySite(
 }
 
 export async function deletePage(gate: Gate, { id }: { id: string }) {
-  const page = await prisma.page.findUnique({
+  const page = await prismaPrimary.page.findUnique({
     where: {
       id,
     },
@@ -213,7 +213,7 @@ export async function deletePage(gate: Gate, { id }: { id: string }) {
     throw gate.permissionError()
   }
 
-  await prisma.page.update({
+  await prismaPrimary.page.update({
     where: {
       id: page.id,
     },
@@ -244,13 +244,13 @@ export async function getPage(
   }
 
   const page = isPageUUID
-    ? await prisma.page.findUnique({
+    ? await prismaRead.page.findUnique({
         where: {
           id: input.page,
         },
       })
     : site
-    ? await prisma.page.findFirst({
+    ? await prismaRead.page.findFirst({
         where: { siteId: site.id, slug: input.page },
       })
     : null
@@ -288,7 +288,7 @@ export const notifySubscribersForNewPost = async (
     throw new Error("You have already notified subscribers for this post")
   }
 
-  const memberships = await prisma.membership.findMany({
+  const memberships = await prismaPrimary.membership.findMany({
     where: {
       role: MembershipRole.SUBSCRIBER,
       siteId: site.id,
@@ -300,7 +300,7 @@ export const notifySubscribersForNewPost = async (
 
   if (memberships.length === 0) return
 
-  await prisma.page.update({
+  await prismaPrimary.page.update({
     where: {
       id: page.id,
     },

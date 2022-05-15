@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { prisma } from "~/lib/db.server"
+import { prismaPrimary } from "~/lib/db.server"
 import { nanoid } from "nanoid"
 import UAParser from "ua-parser-js"
 import dayjs from "dayjs"
@@ -32,7 +32,7 @@ const handler: NextApiHandler = async (req, res) => {
         req.query.subscribe && JSON.parse(req.query.subscribe as string),
     })
 
-  const loginToken = await prisma.loginToken.findUnique({
+  const loginToken = await prismaPrimary.loginToken.findUnique({
     where: {
       id: data.token,
     },
@@ -46,7 +46,7 @@ const handler: NextApiHandler = async (req, res) => {
     throw new Error(`token expired`)
   }
 
-  let user = await prisma.user.findUnique({
+  let user = await prismaPrimary.user.findUnique({
     where: {
       email: loginToken.email,
     },
@@ -56,7 +56,7 @@ const handler: NextApiHandler = async (req, res) => {
   })
 
   if (!user) {
-    user = await prisma.user.create({
+    user = await prismaPrimary.user.create({
       data: {
         email: loginToken.email,
         name: loginToken.email.split("@")[0],
@@ -78,7 +78,7 @@ const handler: NextApiHandler = async (req, res) => {
     })
   }
 
-  await prisma.loginToken.delete({
+  await prismaPrimary.loginToken.delete({
     where: {
       id: loginToken.id,
     },
@@ -87,7 +87,7 @@ const handler: NextApiHandler = async (req, res) => {
   const ua = new UAParser(data.userAgent)
 
   const publicId = nanoid(32)
-  const accessToken = await prisma.accessToken.create({
+  const accessToken = await prismaPrimary.accessToken.create({
     data: {
       user: {
         connect: {
@@ -110,7 +110,7 @@ const handler: NextApiHandler = async (req, res) => {
 
   if (nextUrl.host !== OUR_DOMAIN && !nextUrl.host.endsWith(`.${OUR_DOMAIN}`)) {
     // Check if the host belong to a site
-    const existing = await prisma.domain.findUnique({
+    const existing = await prismaPrimary.domain.findUnique({
       where: {
         domain: nextUrl.hostname,
       },
