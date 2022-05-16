@@ -1,6 +1,6 @@
 import { prismaPrimary, prismaRead } from "~/lib/db.server"
 import { isUUID } from "~/lib/uuid"
-import { MembershipRole, PageType, Prisma, Site } from "@prisma/client"
+import { MembershipRole, PageType, type Site } from "~/lib/db.server"
 import { Gate } from "~/lib/gate.server"
 import dayjs from "dayjs"
 import { sendLoginEmail } from "~/lib/mailgun.server"

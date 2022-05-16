@@ -1,4 +1,4 @@
-import type { User, Membership } from "@prisma/client"
+import type { User, Membership } from "~/lib/db.server"
 import { prismaRead } from "./db.server"
 import dayjs from "dayjs"
 import Cookie, { CookieSerializeOptions } from "cookie"

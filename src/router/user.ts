@@ -1,5 +1,6 @@
 import { encrypt, getDerivedKey } from "@proselog/jwt"
 import { z } from "zod"
+import { IS_PROD } from "~/lib/constants"
 import { ENCRYPT_SECRET } from "~/lib/env.server"
 import { createRouter } from "~/lib/trpc.server"
 import { userModel } from "~/models/user.model"
@@ -10,7 +11,13 @@ export const userRouter = createRouter()
     async resolve({ ctx }) {
       const user = ctx.gate.getUser(true)
       const key = await getDerivedKey(ENCRYPT_SECRET)
-      const token = await encrypt({ uid: user.id }, key, { expiresIn: "1h" })
+      const token = await encrypt(
+        { prefix: IS_PROD ? `${user.id}/` : `dev/${user.id}/` },
+        key,
+        {
+          expiresIn: "1h",
+        }
+      )
       return token
     },
   })

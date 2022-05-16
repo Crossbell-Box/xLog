@@ -11,7 +11,7 @@ import { IS_PROD } from "./constants"
 import { APP_NAME, OUR_DOMAIN, SITE_URL } from "./env"
 import { SubscribeFormData } from "./types"
 import { getSite } from "~/models/site.model"
-import { Site } from "@prisma/client"
+import { type Site } from "~/lib/db.server"
 import Iron from "@hapi/iron"
 
 const enableMailgun = Boolean(MAILGUN_APIKEY && MAILGUN_DOMAIN)

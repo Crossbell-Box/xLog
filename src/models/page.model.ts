@@ -1,6 +1,11 @@
-import { MembershipRole, PageType } from "@prisma/client"
 import { nanoid } from "nanoid"
-import { prismaPrimary, Prisma, prismaRead } from "~/lib/db.server"
+import {
+  prismaPrimary,
+  Prisma,
+  prismaRead,
+  PageType,
+  MembershipRole,
+} from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
 import { sendEmailForNewPost } from "~/lib/mailgun.server"
 import { getAutoExcerpt, renderPageContent } from "~/lib/markdown.server"

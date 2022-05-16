@@ -1,6 +1,5 @@
-import type { PageType } from "@prisma/client"
+import type { PageType } from "~/lib/db.server"
 import { formatDate } from "~/lib/date"
-import { SEOHead } from "../common/SEOHead"
 
 export const SitePage: React.FC<{
   page: {

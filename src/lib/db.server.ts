@@ -17,17 +17,26 @@ const createPrisma = (readonly: boolean) => {
 
   let url = process.env.DATABASE_URL
 
-  if (readonly && process.env.RO_DATABASE_URL) {
-    url = process.env.RO_DATABASE_URL
+  // DATABASE_URL is not set during production build in docker
+  // But Prisma is actually used there, so just return a fake one
+  // It's weird that @__PURE__ doesn't work for Next.js
+  if (!url) return {} as PrismaClient
+
+  if (url && readonly && IS_PROD) {
+    url = url.replace(":5432", ":5433")
   }
+
+  console.log("connecting to", url)
 
   const client = new PrismaClient({
     log: logLevel,
-    datasources: {
-      db: {
-        url,
-      },
-    },
+    datasources: url
+      ? {
+          db: {
+            url,
+          },
+        }
+      : undefined,
   })
 
   client.$use(async (params, next) => {
@@ -51,4 +60,4 @@ export const prismaRead = /* @__PURE__ */ singleton("prisma-read", () =>
   createPrisma(true)
 )
 
-export type { Prisma }
+export * from "@prisma/client"

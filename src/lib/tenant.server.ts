@@ -13,7 +13,7 @@ export const getTenant = (request: Request, search: URLSearchParams) => {
 
   const OUR_DOMAIN_SUFFIX = `.${OUR_DOMAIN}`
   if (host) {
-    if (host.endsWith(".vercel.app")) {
+    if (host.endsWith(".fly.dev")) {
       return
     }
     if (host.endsWith(OUR_DOMAIN_SUFFIX)) {

@@ -6,9 +6,11 @@ import { useStore } from "~/lib/store"
 export function MainLayout({
   isLoggedIn,
   children,
+  region,
 }: {
   isLoggedIn: boolean
-  children: React.ReactNode
+  children?: React.ReactNode
+  region: string | null
 }) {
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
 
@@ -69,6 +71,9 @@ export function MainLayout({
                   </button>
                 )
               })}
+            </div>
+            <div className="mt-10 text-zinc-300 text-xs">
+              <span className="uppercase">Region: {region}</span>
             </div>
           </div>
         </div>

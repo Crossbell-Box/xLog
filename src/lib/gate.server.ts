@@ -1,4 +1,4 @@
-import { MembershipRole, type Site, type Page } from "@prisma/client"
+import { MembershipRole, type Site, type Page } from "~/lib/db.server"
 import type { AuthUser } from "./auth.server"
 import { PageVisibilityEnum } from "./types"
 
