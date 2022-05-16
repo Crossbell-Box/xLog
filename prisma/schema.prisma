@@ -70,6 +70,7 @@ model Membership {
     siteId         String
     role           MembershipRole
     acceptedAt     DateTime?
+    // Last time the user switched to this membership using the site switcher in the dashboard
     lastSwitchedTo DateTime       @default(now())
     config         Json           @default("{}")
 

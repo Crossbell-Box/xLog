@@ -1,8 +1,10 @@
+import { MembershipRole } from "@prisma/client"
 import { encrypt, getDerivedKey } from "@proselog/jwt"
 import { z } from "zod"
 import { IS_PROD } from "~/lib/constants"
 import { ENCRYPT_SECRET } from "~/lib/env.server"
 import { createRouter } from "~/lib/trpc.server"
+import { getMemberships } from "~/models/membership"
 import { userModel } from "~/models/user.model"
 
 export const userRouter = createRouter()
@@ -19,6 +21,30 @@ export const userRouter = createRouter()
         }
       )
       return token
+    },
+  })
+  .query("getSubscriptions", {
+    input: z.object({
+      canManage: z.boolean().optional(),
+    }),
+    output: z.array(
+      z.object({
+        id: z.string(),
+        role: z.enum([
+          MembershipRole.ADMIN,
+          MembershipRole.OWNER,
+          MembershipRole.SUBSCRIBER,
+        ]),
+        site: z.object({
+          id: z.string(),
+          name: z.string(),
+          subdomain: z.string(),
+        }),
+      })
+    ),
+    async resolve({ ctx, input }) {
+      const user = ctx.gate.getUser(true)
+      return getMemberships({ userId: user.id, ...input })
     },
   })
   .mutation("updateProfile", {

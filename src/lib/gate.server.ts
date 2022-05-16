@@ -29,6 +29,10 @@ type Action =
       type: "can-notify-site-subscribers"
       site: Site
     }
+  | {
+      type: "can-update-membership"
+      membership: { id: string }
+    }
 export const createGate = <TRequiredAuth extends boolean | undefined>({
   user,
 }: {
@@ -39,6 +43,11 @@ export const createGate = <TRequiredAuth extends boolean | undefined>({
     return user.memberships.some(
       (m) => m.siteId === siteId && roles.includes(m.role)
     )
+  }
+
+  const userHasMembership = (membershipId: string) => {
+    if (!user) return false
+    return user.memberships.some((m) => m.id === membershipId)
   }
 
   return {
@@ -113,6 +122,10 @@ export const createGate = <TRequiredAuth extends boolean | undefined>({
           MembershipRole.ADMIN,
           MembershipRole.OWNER,
         ])
+      }
+
+      if (action.type === "can-update-membership") {
+        return userHasMembership(action.membership.id)
       }
 
       return false

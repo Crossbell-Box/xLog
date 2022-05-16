@@ -4,7 +4,7 @@ import { isNotFoundError } from "~/lib/server-side-props"
 import { TRPCContext } from "~/lib/trpc.server"
 import { getSite } from "~/models/site.model"
 import { authRouter } from "./auth"
-import { dashboardRouter } from "./dashboard"
+import { membershipRouter } from "./membership"
 import { siteRouter } from "./site"
 import { userRouter } from "./user"
 
@@ -36,9 +36,9 @@ export const appRouter = trpc
     },
   })
   .merge("auth.", authRouter)
-  .merge("dashbaord.", dashboardRouter)
   .merge("site.", siteRouter)
   .merge("user.", userRouter)
+  .merge("membership.", membershipRouter)
   .formatError(({ error, shape }) => {
     return {
       ...shape,

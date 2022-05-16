@@ -6,6 +6,7 @@ import dayjs from "dayjs"
 import { sendLoginEmail } from "~/lib/mailgun.server"
 import { SiteNavigationItem, SubscribeFormData } from "~/lib/types"
 import { nanoid } from "nanoid"
+import { getMembership } from "./membership"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -33,12 +34,6 @@ export const checkSubdomain = async ({
   if (existingSite && (!updatingSiteId || existingSite.id !== updatingSiteId)) {
     throw new Error(`Subdomain already taken`)
   }
-}
-
-export async function getSitesForViewer(gate: Gate) {
-  const user = gate.getUser(true)
-  const sites = await getSitesByUser({ userId: user.id })
-  return sites
 }
 
 export const getUserLastActiveSite = async (userId: string) => {
@@ -84,37 +79,6 @@ export const getSite = async (input: string) => {
   return site as Omit<Site, "navigation"> & {
     navigation: SiteNavigationItem[] | null
   }
-}
-
-export const getMembership = async (data: {
-  siteId: string
-  userId: string
-  role: MembershipRole
-}) => {
-  const first = await prismaRead.membership.findFirst({
-    where: {
-      role: data.role,
-      userId: data.userId,
-      siteId: data.siteId,
-    },
-  })
-
-  return first
-}
-
-export const getSitesByUser = async ({ userId }: { userId: string }) => {
-  const memberships = await prismaRead.membership.findMany({
-    where: {
-      userId,
-      role: {
-        in: [MembershipRole.ADMIN, MembershipRole.OWNER],
-      },
-    },
-    include: {
-      site: true,
-    },
-  })
-  return memberships.map((m) => m.site)
 }
 
 export const getSubscription = async (data: {

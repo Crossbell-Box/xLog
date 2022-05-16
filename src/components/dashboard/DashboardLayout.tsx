@@ -12,8 +12,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const subdomain = router.query.subdomain as string
 
-  const sitesResult = trpc.useQuery(["dashbaord.sitesForSwitcher"], {})
-  const sites = sitesResult.data
+  const subscriptionsQuery = trpc.useQuery(
+    ["user.getSubscriptions", { canManage: true }],
+    {}
+  )
+  const subscriptions = subscriptionsQuery.data
 
   const viewerResult = trpc.useQuery(["auth.viewer"])
   const viewer = viewerResult.data
@@ -120,7 +123,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <div className="mb-2">
             <SiteSwitcher
               subdomain={subdomain}
-              sites={sites || []}
+              subscriptions={subscriptions || []}
               viewer={viewer}
             />
           </div>

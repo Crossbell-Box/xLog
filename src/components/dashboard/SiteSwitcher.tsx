@@ -1,31 +1,53 @@
 import { Popover } from "@headlessui/react"
 import Link from "next/link"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
+import { trpc } from "~/lib/trpc"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { Avatar } from "../ui/Avatar"
 
 type Props = {
   subdomain: string
-  sites: { id: string; name: string; subdomain: string; icon?: string | null }[]
+  subscriptions: {
+    id: string
+    site: { id: string; name: string; subdomain: string; icon?: string | null }
+  }[]
   viewer?: { email: string } | null
 }
 
-export const SiteSwitcher: React.FC<Props> = ({ subdomain, sites, viewer }) => {
-  const activeSite = useMemo(
-    () => sites.find((s) => s.subdomain === subdomain),
-    [subdomain, sites]
+export const SiteSwitcher: React.FC<Props> = ({
+  subdomain,
+  subscriptions,
+  viewer,
+}) => {
+  const activeSubscription = useMemo(
+    () => subscriptions.find((s) => s.site.subdomain === subdomain),
+    [subdomain, subscriptions]
   )
+
+  const { mutate: updateMembership } = trpc.useMutation(
+    "membership.updateMembership"
+  )
+
+  useEffect(() => {
+    if (activeSubscription?.id) {
+      updateMembership({
+        id: activeSubscription?.id,
+        lastSwitchedTo: new Date().toISOString(),
+      })
+    }
+  }, [activeSubscription?.id, updateMembership])
+
   return (
     <div className="px-3 pt-3 pb-2 text-sm">
       <Popover className="relative">
         <Popover.Button className="h-8 px-2 justify-between flex w-full rounded-lg hover:bg-gray-200 hover:bg-opacity-50 transition-colors items-center">
           <div className="flex items-center space-x-2">
             <Avatar
-              images={[getUserContentsUrl(activeSite?.icon)]}
-              name={activeSite?.name}
+              images={[getUserContentsUrl(activeSubscription?.site.icon)]}
+              name={activeSubscription?.site.name}
               size={22}
             />
-            <span className="truncate">{activeSite?.name}</span>
+            <span className="truncate">{activeSubscription?.site.name}</span>
           </div>
           <span className="w-5 h-5 text-zinc-400 rounded-full bg-zinc-100 inline-flex items-center justify-center">
             <svg className="w-4 h-4" viewBox="0 0 14 14">
@@ -48,12 +70,17 @@ export const SiteSwitcher: React.FC<Props> = ({ subdomain, sites, viewer }) => {
               </div>
             )}
             <div className="p-2">
-              {sites?.map((site) => {
+              {subscriptions?.map((subscription) => {
                 return (
-                  <Link key={site.id} href={`/dashboard/${site.subdomain}`}>
+                  <Link
+                    key={subscription.id}
+                    href={`/dashboard/${subscription.site.subdomain}`}
+                  >
                     <a className="flex px-2 h-8 rounded-lg items-center justify-between hover:bg-zinc-100">
-                      <span className="truncate w-8/12">{site.name}</span>
-                      {activeSite?.id === site.id && (
+                      <span className="truncate w-8/12">
+                        {subscription.site.name}
+                      </span>
+                      {activeSubscription?.id === subscription.id && (
                         <span className="text-accent">
                           <svg
                             className="w-5 h-5"
