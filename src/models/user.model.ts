@@ -1,5 +1,6 @@
 import { prismaPrimary } from "~/lib/db.server"
 import { Gate } from "~/lib/gate.server"
+import { checkReservedWords } from "~/lib/reserved-words"
 
 export const userModel = {
   async updateProfile(
@@ -26,6 +27,8 @@ export const userModel = {
     }
 
     if (payload.username) {
+      checkReservedWords(payload.username)
+
       const userByUsername = await prismaPrimary.user.findUnique({
         where: {
           username: payload.username,

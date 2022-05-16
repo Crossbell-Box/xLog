@@ -7,6 +7,7 @@ import { sendLoginEmail } from "~/lib/mailgun.server"
 import { SiteNavigationItem, SubscribeFormData } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { getMembership } from "./membership"
+import { checkReservedWords } from "~/lib/reserved-words"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -15,6 +16,8 @@ export const checkSubdomain = async ({
   subdomain: string
   updatingSiteId?: string
 }) => {
+  checkReservedWords(subdomain)
+
   const existingSite = await prismaPrimary.site.findUnique({
     where: {
       subdomain,

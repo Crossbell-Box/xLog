@@ -13,9 +13,13 @@ export default function AccountProfilePage() {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   })
-  const updateProfile = trpc.useMutation("user.updateProfile")
+  const {
+    mutate: updateProfile,
+    status: updateProfileStatus,
+    error: updateProfileError,
+  } = trpc.useMutation("user.updateProfile")
 
-  const form = useForm({
+  const { setValue, handleSubmit, register } = useForm({
     defaultValues: {
       name: "",
       username: "",
@@ -24,25 +28,26 @@ export default function AccountProfilePage() {
     },
   })
 
-  const handleSubmit = form.handleSubmit((values) => {
-    updateProfile.mutate(values)
+  const onSubmit = handleSubmit((values) => {
+    updateProfile(values)
   })
 
   useEffect(() => {
-    if (updateProfile.isSuccess) {
+    if (updateProfileStatus === "success") {
       toast.success("Saved!")
-      updateProfile.reset()
+    } else if (updateProfileStatus === "error" && updateProfileError) {
+      toast.error(updateProfileError.message)
     }
-  }, [updateProfile])
+  }, [updateProfileStatus, updateProfileError])
 
   useEffect(() => {
     if (viewer.data) {
-      form.setValue("name", viewer.data.name)
-      form.setValue("username", viewer.data.username)
-      form.setValue("bio", viewer.data.bio || "")
-      form.setValue("email", viewer.data.email || "")
+      setValue("name", viewer.data.name)
+      setValue("username", viewer.data.username)
+      setValue("bio", viewer.data.bio || "")
+      setValue("email", viewer.data.email || "")
     }
-  }, [viewer.data, form])
+  }, [viewer.data, setValue])
 
   return (
     <DashboardLayout>
@@ -53,14 +58,14 @@ export default function AccountProfilePage() {
             <AvatarForm filename={viewer.data.avatar} name={viewer.data.name} />
           </div>
         )}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit}>
           <div className="mt-5">
             <Input
               label="Display Name"
               id="name"
               required
               type="text"
-              {...form.register("name")}
+              {...register("name")}
             />
           </div>
           <div className="mt-5">
@@ -69,7 +74,7 @@ export default function AccountProfilePage() {
               id="username"
               required
               type="text"
-              {...form.register("username")}
+              {...register("username")}
             />
           </div>
           <div className="mt-5">
@@ -78,11 +83,11 @@ export default function AccountProfilePage() {
               id="email"
               required
               type="email"
-              {...form.register("email")}
+              {...register("email")}
             />
           </div>
           <div className="mt-10">
-            <Button type="submit" isLoading={updateProfile.isLoading}>
+            <Button type="submit" isLoading={updateProfileStatus === "loading"}>
               Save
             </Button>
           </div>

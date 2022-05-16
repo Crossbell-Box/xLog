@@ -174,7 +174,7 @@ export const siteRouter = createRouter()
   .mutation("create", {
     input: z.object({
       name: z.string(),
-      subdomain: z.string().min(2).max(20),
+      subdomain: z.string().min(3).max(26),
     }),
     output: z.object({
       id: z.string(),

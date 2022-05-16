@@ -79,8 +79,8 @@ export default function NewSitePage() {
               isBlock
               required
               addon={`.${OUR_DOMAIN}`}
-              minLength={2}
-              maxLength={20}
+              minLength={3}
+              maxLength={26}
               {...form.register("subdomain", {})}
             />
           </div>
