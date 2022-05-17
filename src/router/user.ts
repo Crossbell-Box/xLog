@@ -39,6 +39,7 @@ export const userRouter = createRouter()
           id: z.string(),
           name: z.string(),
           subdomain: z.string(),
+          icon: z.string().nullable(),
         }),
       })
     ),

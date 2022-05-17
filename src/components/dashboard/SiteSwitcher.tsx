@@ -19,9 +19,8 @@ export const SiteSwitcher: React.FC<Props> = ({
   subscriptions,
   viewer,
 }) => {
-  const activeSubscription = useMemo(
-    () => subscriptions.find((s) => s.site.subdomain === subdomain),
-    [subdomain, subscriptions]
+  const activeSubscription = subscriptions.find(
+    (s) => s.site.subdomain === subdomain
   )
 
   const { mutate: updateMembership } = trpc.useMutation(
