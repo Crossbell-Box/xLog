@@ -96,7 +96,7 @@ export const SubscribeModal: React.FC<{
               <span>Receive updates via Telegram</span>
             </label>
           </div>
-          <div className="mt-5 space-x-3">
+          <div className="mt-5 space-x-3 flex items-center">
             <Button type="submit" isLoading={subscribe.isLoading}>
               <span>{subscription ? "Update" : "Subscribe"}</span>
             </Button>
