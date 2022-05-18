@@ -2,8 +2,8 @@
 
 .code {
   --lang-color: #8d8c8c;
-  --code-bg: #2d2d2d;
-  --code-fg: #ccc;
+  --code-bg: rgb(18, 18, 38);
+  --code-fg: #fff;
 }
 
 .token.comment,

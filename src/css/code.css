@@ -1,22 +1,9 @@
-.code {
-  @apply my-5;
-  @apply relative;
-  color: var(--code-fg);
-}
-
 .code pre {
-  @apply p-5;
-  @apply rounded-lg;
-  @apply whitespace-pre;
-  @apply font-mono;
+  @apply -mx-[2rem];
+  @apply rounded-xl;
+  @apply my-8;
+  padding: 2rem;
   background-color: var(--code-bg);
-}
-
-.code:before {
-  content: attr(data-lang);
-  color: var(--lang-color);
-  @apply absolute;
-  @apply right-3;
-  @apply top-2;
-  @apply text-xs;
+  color: var(--code-fg);
+  max-height: 800px;
 }

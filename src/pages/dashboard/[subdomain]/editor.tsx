@@ -129,12 +129,16 @@ export default function SubdomainEditor() {
     [uploadFile]
   )
 
-  const { editorRef } = useEditor({
+  const { editorRef, view } = useEditor({
     value: values.content,
     onChange: handleEditorContentChange,
     onDropFile: handleDropFile,
     placeholder: "Start writing here..",
   })
+
+  const focusEditor = () => {
+    view?.focus()
+  }
 
   return (
     <DashboardLayout>
@@ -220,6 +224,11 @@ export default function SubdomainEditor() {
                   type="text"
                   name="title"
                   value={values.title}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      focusEditor()
+                    }
+                  }}
                   onChange={(e) => updateValue("title", e.target.value)}
                   className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none"
                   placeholder="Title goes here.."
