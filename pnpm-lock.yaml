@@ -57,6 +57,7 @@ specifiers:
   tailwindcss: ^3.0.24
   typescript: ^4.5.5
   ua-parser-js: ^1.0.2
+  use-onclickoutside: ^0.4.0
   uuid: ^8.3.2
   zod: ^3.15.1
   zustand: 4.0.0-rc.1
@@ -99,6 +100,7 @@ dependencies:
   react-sortablejs: 6.1.1_kjz72dk5lh6hp4ogspefhm7r2u
   sortablejs: 1.15.0
   ua-parser-js: 1.0.2
+  use-onclickoutside: 0.4.0_7cpxmzzodpxnolj5zcc5cr63ji
   uuid: 8.3.2
   zod: 3.15.1
   zustand: 4.0.0-rc.1_react@18.1.0
@@ -1013,6 +1015,10 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
     dev: true
+
+  /are-passive-events-supported/1.1.1:
+    resolution: {integrity: sha512-5wnvlvB/dTbfrCvJ027Y4L4gW/6Mwoy1uFSavney0YO++GU+0e/flnjiBBwH+1kh7xNCgCOGvmJC3s32joYbww==}
+    dev: false
 
   /arg/5.0.1:
     resolution: {integrity: sha512-e0hDa9H2Z9AwFkk2qDlwhoMYE4eToKarchkQHovNdLTCYMHZHeRjI71crOh+dio4K6u1IcwubQqo79Ga4CyAQA==}
@@ -3221,6 +3227,45 @@ packages:
 
   /url-join/4.0.1:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
+    dev: false
+
+  /use-isomorphic-layout-effect/1.1.2_7cpxmzzodpxnolj5zcc5cr63ji:
+    resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.0.9
+      react: 18.1.0
+    dev: false
+
+  /use-latest/1.2.1_7cpxmzzodpxnolj5zcc5cr63ji:
+    resolution: {integrity: sha512-xA+AVm/Wlg3e2P/JiItTziwS7FK92LWrDB0p+hgXloIMuVCeJJ8v6f0eeHyPZaJrM+usM1FkFfbNCrJGs8A/zw==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.0.9
+      react: 18.1.0
+      use-isomorphic-layout-effect: 1.1.2_7cpxmzzodpxnolj5zcc5cr63ji
+    dev: false
+
+  /use-onclickoutside/0.4.0_7cpxmzzodpxnolj5zcc5cr63ji:
+    resolution: {integrity: sha512-lg1U+V8SaCfemgBs5dg+cfEOzjuwVS9ATH0VMLSBHI6R11tbfmiKci1lg6pjwXr1sj95XWd2+5EbffJEAPdkJQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0
+    dependencies:
+      are-passive-events-supported: 1.1.1
+      react: 18.1.0
+      use-latest: 1.2.1_7cpxmzzodpxnolj5zcc5cr63ji
+    transitivePeerDependencies:
+      - '@types/react'
     dev: false
 
   /use-sync-external-store/1.1.0_react@18.1.0:

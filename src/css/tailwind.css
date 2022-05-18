@@ -26,6 +26,10 @@
   @apply transition-colors;
 }
 
+.button.is-auto-width {
+  @apply min-w-[auto];
+}
+
 .button.is-loading {
   @apply opacity-50;
 }
@@ -90,6 +94,18 @@
   @apply px-2;
   @apply text-xs;
   @apply min-w-[auto];
+}
+
+.button-group {
+  @apply flex items-center;
+}
+
+.button-group .button:not(:first-child) {
+  @apply rounded-l-none;
+}
+
+.button-group .button:not(:last-child) {
+  @apply rounded-r-none;
 }
 
 .input {

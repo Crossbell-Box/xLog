@@ -1,32 +1,47 @@
 import React from "react"
 import clsx from "clsx"
 
-export const Button: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    isLoading?: boolean
-    isBlock?: boolean
-    isDisabled?: boolean
-    variant?: "primary" | "secondary" | "text"
-    variantColor?: "green" | "red" | "gray"
-    size?: "sm"
-    rounded?: "full" | "lg"
-  }
-> = ({
-  type,
+export const ButtonGroup: React.FC<{ children: React.ReactNode }> = ({
   children,
-  className,
-  isLoading,
-  isDisabled,
-  isBlock,
-  variant,
-  variantColor,
-  size,
-  rounded,
-  ...props
 }) => {
+  return <div className="button-group">{children}</div>
+}
+
+type ButtonProps = {
+  isLoading?: boolean
+  isBlock?: boolean
+  isDisabled?: boolean
+  isAutoWidth?: boolean
+  variant?: "primary" | "secondary" | "text"
+  variantColor?: "green" | "red" | "gray"
+  size?: "sm"
+  rounded?: "full" | "lg"
+}
+
+export const Button = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps
+>(function Button(
+  {
+    type,
+    children,
+    className,
+    isLoading,
+    isDisabled,
+    isBlock,
+    variant,
+    variantColor,
+    size,
+    rounded,
+    isAutoWidth,
+    ...props
+  },
+  ref
+) {
   return (
     <button
       {...props}
+      ref={ref}
       type={type || "button"}
       disabled={isDisabled}
       className={clsx(
@@ -36,6 +51,7 @@ export const Button: React.FC<
         isBlock && `is-block`,
         variantColor && `is-${variantColor}`,
         isDisabled && `is-disabled`,
+        isAutoWidth && `is-auto-width`,
         size && `is-${size}`,
         `is-${variant || "primary"}`,
         rounded === "full" ? "rounded-full" : "rounded-lg"
@@ -44,4 +60,4 @@ export const Button: React.FC<
       {children}
     </button>
   )
-}
+})

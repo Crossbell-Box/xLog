@@ -9,10 +9,11 @@ type Props = DetailedHTMLProps<
   addon?: string
   isBlock?: boolean
   error?: string
+  help?: React.ReactNode
 }
 
 export const Input = forwardRef<HTMLInputElement, Props>(function Input(
-  { label, addon, className, isBlock, error, ...inputProps },
+  { label, addon, className, isBlock, error, help, ...inputProps },
   ref
 ) {
   const hasAddon = !!addon
@@ -41,6 +42,9 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
         )}
       </div>
       {error && <div className="text-sm mt-1 text-red-500">{error}</div>}
+      {help && !error && (
+        <div className="text-xs text-gray-400 mt-1">{help}</div>
+      )}
     </div>
   )
 })

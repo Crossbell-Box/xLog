@@ -1,9 +1,7 @@
-import { Popover } from "@headlessui/react"
 import clsx from "clsx"
 import dayjs from "dayjs"
 import { useCallback, useEffect, useState } from "react"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
-import { Button } from "~/components/ui/Button"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { PageVisibilityEnum } from "~/lib/types"
 import toast from "react-hot-toast"
@@ -16,6 +14,7 @@ import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { UniLink } from "~/components/ui/UniLink"
 import { useUploadFile } from "~/hooks/useUploadFile"
+import { PublishButton } from "~/components/dashboard/PublishButton"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -63,10 +62,20 @@ export default function SubdomainEditor() {
     })
   }
 
+  const savePage = (published: boolean) => {
+    createOrUpdatePage.mutate({
+      ...values,
+      siteId: siteResult.data!.id,
+      pageId: page?.id,
+      isPost: isPost,
+      published,
+    })
+  }
+
   useEffect(() => {
     if (createOrUpdatePage.isSuccess) {
       createOrUpdatePage.reset()
-      toast.success("Updated!")
+      toast.success(values.published ? "Updated" : "Saved!")
       trpcContext.invalidateQueries("site.page")
       router.replace(
         `/dashboard/${subdomain}/editor?id=${createOrUpdatePage.data.id}&type=${
@@ -74,7 +83,14 @@ export default function SubdomainEditor() {
         }`
       )
     }
-  }, [createOrUpdatePage, isPost, router, subdomain, trpcContext])
+  }, [
+    createOrUpdatePage,
+    isPost,
+    router,
+    subdomain,
+    trpcContext,
+    values.published,
+  ])
 
   useEffect(() => {
     if (createOrUpdatePage.isError) {
@@ -158,62 +174,7 @@ export default function SubdomainEditor() {
                 ? "Scheduled"
                 : "Draft"}
             </span>
-            <Popover className="relative">
-              <Popover.Button className="button is-primary rounded-lg select-none">
-                Publish
-              </Popover.Button>
-
-              <Popover.Panel className="absolute right-0 z-10 pt-2">
-                {({ close }) => {
-                  return (
-                    <div className="border p-5 rounded-lg min-w-[240px] bg-white shadow-modal">
-                      <div className="space-y-3">
-                        <label className="block">
-                          <span className="block text-zinc-400 font-medium text-sm">
-                            Publish at
-                          </span>
-                          <input
-                            type="datetime-local"
-                            value={getInputDatetimeValue(values.publishedAt)}
-                            onChange={(e) => {
-                              updateValue("publishedAt", e.target.value)
-                            }}
-                          />
-                        </label>
-                        <label className="block">
-                          <span className="block text-zinc-400 font-medium text-sm">
-                            Status
-                          </span>
-                          <input
-                            type="checkbox"
-                            checked={values.published}
-                            onChange={(e) =>
-                              updateValue("published", e.target.checked)
-                            }
-                          />{" "}
-                          {values.published ? "Published" : "Draft"}
-                        </label>
-                      </div>
-                      <div className="mt-5">
-                        <Button
-                          isLoading={createOrUpdatePage.isLoading}
-                          onClick={() => {
-                            createOrUpdatePage.mutate({
-                              ...values,
-                              siteId: siteResult.data!.id,
-                              pageId: page?.id,
-                              isPost: isPost,
-                            })
-                          }}
-                        >
-                          {published ? "Update" : "Publish"}
-                        </Button>
-                      </div>
-                    </div>
-                  )
-                }}
-              </Popover.Panel>
-            </Popover>
+            <PublishButton save={savePage} published={published} />
           </div>
         </header>
         <div className="h-screen pt-14 flex w-full">
@@ -241,7 +202,23 @@ export default function SubdomainEditor() {
               </div>
             </div>
           </div>
-          <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5">
+          <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+            <div>
+              <Input
+                type="datetime-local"
+                label="Publish at"
+                isBlock
+                name="publishAt"
+                id="publishAt"
+                value={getInputDatetimeValue(values.publishedAt)}
+                onChange={(e) => {
+                  updateValue("publishedAt", e.target.value)
+                }}
+                help={`This ${
+                  isPost ? "post" : "page"
+                } will be accesisble from this time`}
+              />
+            </div>
             <div>
               <Input
                 name="slug"
@@ -249,19 +226,25 @@ export default function SubdomainEditor() {
                 label="Page slug"
                 id="slug"
                 isBlock
+                placeholder="some-slug"
                 onChange={(e) => updateValue("slug", e.target.value)}
+                help={
+                  <>
+                    {values.slug && (
+                      <>
+                        This {isPost ? "post" : "page"} will be accessible at{" "}
+                        <UniLink
+                          href={`${getSiteLink({ subdomain })}/${values.slug}`}
+                          className="hover:underline"
+                        >
+                          {getSiteLink({ subdomain, noProtocol: true })}/
+                          {values.slug}
+                        </UniLink>
+                      </>
+                    )}
+                  </>
+                }
               />
-              {values.slug && (
-                <div className="text-xs text-gray-400 mt-1">
-                  This {isPost ? "post" : "page"} will be accessible at{" "}
-                  <UniLink
-                    href={`${getSiteLink({ subdomain })}/${values.slug}`}
-                    className="hover:underline"
-                  >
-                    {getSiteLink({ subdomain, noProtocol: true })}/{values.slug}
-                  </UniLink>
-                </div>
-              )}
             </div>
           </div>
         </div>

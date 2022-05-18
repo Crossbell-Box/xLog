@@ -5,11 +5,11 @@ import {
   prismaRead,
   PageType,
   MembershipRole,
+  Page,
 } from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
 import { sendEmailForNewPost } from "~/lib/mailgun.server"
 import { getAutoExcerpt, renderPageContent } from "~/lib/markdown.server"
-import { checkReservedWords } from "~/lib/reserved-words"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
@@ -27,8 +27,6 @@ const checkPageSlug = async ({
   if (!slug) {
     throw new Error("Missing page slug")
   }
-
-  checkReservedWords(slug)
 
   const page = await prismaPrimary.page.findFirst({
     where: {
@@ -269,7 +267,11 @@ export async function getPage(
   }
 
   if (!gate.allows({ type: "can-read-page", page })) {
-    throw gate.permissionError()
+    if (page.publishedAt > new Date()) {
+      throw notFound()
+    } else {
+      throw gate.permissionError()
+    }
   }
 
   if (input.renderContent) {

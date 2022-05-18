@@ -28,12 +28,14 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
       ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
     ])
 
+    const trpcState = ssg.dehydrate()
+
     return {
       props: {
         isLoggedIn,
         domainOrSubdomain,
         pageSlug,
-        trpcState: ssg.dehydrate(),
+        trpcState,
       },
     }
   }
