@@ -10,6 +10,7 @@ import { useRouter } from "next/router"
 import { trpc } from "~/lib/trpc"
 import Link from "next/link"
 import toast from "react-hot-toast"
+import { EmptyState } from "../ui/EmptyState"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -24,7 +25,7 @@ export const PagesManager: React.FC<{
         : PageVisibilityEnum.All,
     [router.query.visibility]
   )
-  const deletePage = trpc.useMutation("site.deletePage")
+  const deletePage = trpc.useMutation("page.delete")
   const trpcContext = trpc.useContext()
 
   useEffect(() => {
@@ -177,9 +178,7 @@ export const PagesManager: React.FC<{
 
       <div className="-mt-3">
         {pages && pages.length === 0 && (
-          <div className="my-20 text-center text-3xl text-zinc-400">
-            No {isPost ? "Posts" : "Pages"} Yet.
-          </div>
+          <EmptyState resource={isPost ? "posts" : "pages"} />
         )}
 
         {pages?.map((page) => {

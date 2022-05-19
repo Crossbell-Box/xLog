@@ -60,6 +60,7 @@ export const Avatar: React.FC<
         height: `${size}px`,
       }}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className={borderRadius}
         src={image}

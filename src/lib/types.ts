@@ -7,7 +7,6 @@ export type Site = {
 
 export type SiteSubscription = {
   email?: boolean
-  telegram?: boolean
 }
 
 export type Viewer = {
@@ -61,7 +60,6 @@ export type PostOnArchivesPage = {
  */
 export type SubscribeFormData = {
   email?: boolean
-  telegram?: boolean
   siteId: string
 }
 

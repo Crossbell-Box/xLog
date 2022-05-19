@@ -20,7 +20,6 @@ const handler: NextApiHandler = async (req, res) => {
         .object({
           siteId: z.string(),
           email: z.boolean().optional(),
-          telegram: z.boolean().optional(),
         })
         .optional(),
     })
@@ -74,7 +73,6 @@ const handler: NextApiHandler = async (req, res) => {
     await subscribeToSite(gate, {
       siteId: data.subscribe.siteId,
       email: data.subscribe.email,
-      telegram: data.subscribe.telegram,
     })
   }
 

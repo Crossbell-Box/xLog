@@ -97,7 +97,6 @@ export const getSubscription = async (data: {
   return {
     ...membership,
     config: config && {
-      telegram: config.telegram,
       email: config.email,
     },
   }
@@ -202,7 +201,6 @@ export async function subscribeToSite(
   input: {
     siteId: string
     email?: boolean
-    telegram?: boolean
     newUser?: {
       email: string
       url: string
@@ -214,7 +212,6 @@ export async function subscribeToSite(
     // Create the login token instead
     const subscribeFormData: SubscribeFormData = {
       email: input.email,
-      telegram: input.telegram,
       siteId: input.siteId,
     }
     const loginToken = await prismaPrimary.loginToken.create({
@@ -256,7 +253,6 @@ export async function subscribeToSite(
         },
         config: {
           email: input.email,
-          telegram: input.telegram,
         },
       },
     })
@@ -268,7 +264,6 @@ export async function subscribeToSite(
       data: {
         config: {
           email: input.email,
-          telegram: input.telegram,
         },
       },
     })

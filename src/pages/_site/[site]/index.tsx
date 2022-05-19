@@ -6,23 +6,26 @@ import { trpc } from "~/lib/trpc"
 import { createSSGHelpers } from "@trpc/react/ssg"
 import { appRouter } from "~/router"
 import { getTRPCContext } from "~/lib/trpc.server"
+import { Viewer } from "~/lib/types"
+import { getViewer } from "~/lib/viewer"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const user = await getAuthUser(ctx.req)
-  const isLoggedIn = !!user
   const domainOrSubdomain = ctx.params!.site as string
 
+  const viewer = getViewer(user)
   const trpcContext = await getTRPCContext(ctx)
   const ssg = createSSGHelpers({ router: appRouter, ctx: trpcContext })
 
   await Promise.all([
     ssg.fetchQuery("site", { site: domainOrSubdomain }),
+    ssg.fetchQuery("site.pages", { site: domainOrSubdomain }),
     ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
   ])
 
   return {
     props: {
-      isLoggedIn,
+      viewer,
       domainOrSubdomain,
       trpcState: ssg.dehydrate(),
     },
@@ -30,30 +33,27 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 function SiteIndexPage({
-  isLoggedIn,
+  viewer,
   domainOrSubdomain,
 }: {
-  isLoggedIn: boolean
+  viewer: Viewer | null
   domainOrSubdomain: string
 }) {
-  const siteResult = trpc.useQuery(["site", { site: domainOrSubdomain }], {})
-
-  const subscriptionResult = trpc.useQuery([
+  const { data: site } = trpc.useQuery(
+    ["site", { site: domainOrSubdomain }],
+    {}
+  )
+  const { data: subscription } = trpc.useQuery([
     "site.subscription",
     { site: domainOrSubdomain },
   ])
-  const postsResult = trpc.useQuery(["site.pages", { site: domainOrSubdomain }])
-
-  const site = siteResult.data
-  const subscription = subscriptionResult.data
-  const posts = postsResult.data
+  const { data: posts } = trpc.useQuery([
+    "site.pages",
+    { site: domainOrSubdomain },
+  ])
 
   return (
-    <SiteLayout
-      site={site!}
-      isLoggedIn={isLoggedIn}
-      subscription={subscription}
-    >
+    <SiteLayout site={site!} viewer={viewer} subscription={subscription}>
       <SiteHome posts={posts} />
     </SiteLayout>
   )

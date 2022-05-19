@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form"
 export const SubscribeModal: React.FC<{
   siteId: string
   subscription?: {
-    telegram?: boolean
     email?: boolean
   } | null
   isLoggedIn: boolean
@@ -27,7 +26,6 @@ export const SubscribeModal: React.FC<{
     defaultValues: {
       newUserEmail: "",
       email: subscription?.email ?? true,
-      telegram: subscription?.telegram ?? false,
     },
   })
 
@@ -35,7 +33,6 @@ export const SubscribeModal: React.FC<{
     subscribe.mutate({
       siteId,
       email: values.email,
-      telegram: values.telegram,
       newUser: isLoggedIn
         ? undefined
         : {
@@ -88,12 +85,6 @@ export const SubscribeModal: React.FC<{
             <label className="select-none flex items-center space-x-1">
               <input type="checkbox" {...subscribeForm.register("email")} />
               <span>Receive updates via Email</span>
-            </label>
-          </div>
-          <div className="">
-            <label className="select-none flex items-center space-x-1">
-              <input type="checkbox" {...subscribeForm.register("telegram")} />
-              <span>Receive updates via Telegram</span>
             </label>
           </div>
           <div className="mt-5 space-x-3 flex items-center">

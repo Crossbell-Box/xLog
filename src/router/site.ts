@@ -41,7 +41,6 @@ export const siteRouter = createRouter()
     output: z
       .object({
         email: z.boolean().optional(),
-        telegram: z.boolean().optional(),
       })
       .nullable(),
     async resolve({ input, ctx }) {
@@ -96,6 +95,7 @@ export const siteRouter = createRouter()
       site: z.string(),
       page: z.string(),
       render: z.boolean(),
+      includeAuthors: z.boolean().optional(),
     }),
     output: z.object({
       id: z.string(),
@@ -112,6 +112,15 @@ export const siteRouter = createRouter()
           contentHTML: z.string(),
         })
         .nullable(),
+      authors: z
+        .array(
+          z.object({
+            id: z.string(),
+            name: z.string(),
+            avatar: z.string().nullable(),
+          })
+        )
+        .optional(),
     }),
     async resolve({ input, ctx }) {
       const page = await getPage(ctx.gate, input)
@@ -156,26 +165,7 @@ export const siteRouter = createRouter()
       }
     },
   })
-  .mutation("createOrUpdatePage", {
-    input: z.object({
-      siteId: z.string(),
-      pageId: z.string().optional(),
-      title: z.string().optional(),
-      content: z.string().optional(),
-      published: z.boolean().optional(),
-      publishedAt: z.string().optional(),
-      excerpt: z.string().optional(),
-      isPost: z.boolean(),
-      slug: z.string().optional(),
-    }),
-    output: z.object({
-      id: z.string(),
-    }),
-    async resolve({ input, ctx }) {
-      const { page } = await createOrUpdatePage(ctx.gate, input)
-      return page
-    },
-  })
+
   .mutation("create", {
     input: z.object({
       name: z.string(),
@@ -190,18 +180,9 @@ export const siteRouter = createRouter()
       return site
     },
   })
-  .mutation("deletePage", {
-    input: z.object({
-      pageId: z.string(),
-    }),
-    async resolve({ ctx, input }) {
-      await deletePage(ctx.gate, { id: input.pageId })
-    },
-  })
   .mutation("subscribe", {
     input: z.object({
       email: z.boolean().optional(),
-      telegram: z.boolean().optional(),
       siteId: z.string(),
       newUser: z
         .object({

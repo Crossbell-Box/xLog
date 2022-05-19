@@ -3,8 +3,8 @@ import { UniLink } from "../ui/UniLink"
 
 export const SiteFooter: React.FC<{ site: { name: string } }> = ({ site }) => {
   return (
-    <footer className="bg-indigo-50/50 text-zinc-500">
-      <div className="max-w-screen-md mx-auto px-5 py-32">
+    <footer className="text-zinc-500 border-t">
+      <div className="max-w-screen-md mx-auto px-5 py-16">
         <span className="font-medium">
           &copy;{" "}
           <UniLink href="/" className="hover:text-indigo-500">

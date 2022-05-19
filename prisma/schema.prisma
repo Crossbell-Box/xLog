@@ -23,6 +23,7 @@ model User {
     deletedAt     DateTime?
     memberships   Membership[]
     accessTokens  AccessToken[]
+    authoredPages Page[]
 
     @@map("users")
 }
@@ -32,7 +33,7 @@ model LoginToken {
     email         String
     expiresAt     DateTime
     // When the login token is creating by submitting the `subscribe` form
-    // We store extra info here, like `{email: true,telegram: true}`
+    // We store extra info here, like `{email: true}`
     subscribeForm Json?
 
     @@map("login_tokens")
@@ -119,6 +120,7 @@ model Page {
     siteId                String
     deletedAt             DateTime?
     subscribersNotifiedAt DateTime?
+    authors               User[]
 
     @@unique([siteId, slug])
     @@map("pages")

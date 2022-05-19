@@ -5,6 +5,7 @@ import { TRPCContext } from "~/lib/trpc.server"
 import { getSite } from "~/models/site.model"
 import { authRouter } from "./auth"
 import { membershipRouter } from "./membership"
+import { pageRouter } from "./page"
 import { siteRouter } from "./site"
 import { userRouter } from "./user"
 
@@ -39,6 +40,7 @@ export const appRouter = trpc
   .merge("site.", siteRouter)
   .merge("user.", userRouter)
   .merge("membership.", membershipRouter)
+  .merge("page.", pageRouter)
   .formatError(({ error, shape }) => {
     return {
       ...shape,

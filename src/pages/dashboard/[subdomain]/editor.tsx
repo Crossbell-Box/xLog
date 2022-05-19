@@ -49,7 +49,7 @@ export default function SubdomainEditor() {
     data: createOrUpdatePageResult,
     error: createOrUpdatePageError,
     reset: resetCreateOrUpdatePage,
-  } = trpc.useMutation("site.createOrUpdatePage")
+  } = trpc.useMutation("page.createOrUpdate")
   const uploadFile = useUploadFile()
 
   const [values, setValues] = useState({

@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import React from "react"
 import { getSiteLink } from "~/lib/helpers"
 import { trpc } from "~/lib/trpc"
+import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
 import { SiteSwitcher } from "./SiteSwitcher"
@@ -30,18 +31,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     {
       href: `/dashboard/${subdomain}`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: (
-        <svg width="1em" height="1em" viewBox="0 0 24 24">
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M3 3h7v9H3zm11 0h7v5h-7zm0 9h7v9h-7zM3 16h7v5H3z"
-          ></path>
-        </svg>
-      ),
+      icon: <DashboardIcon />,
       text: "Dashboard",
     },
     {

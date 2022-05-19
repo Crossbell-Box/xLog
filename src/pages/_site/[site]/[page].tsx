@@ -7,11 +7,13 @@ import { appRouter } from "~/router"
 import { getTRPCContext } from "~/lib/trpc.server"
 import { SitePage } from "~/components/site/SitePage"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { getViewer } from "~/lib/viewer"
+import { Viewer } from "~/lib/types"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
     const user = await getAuthUser(ctx.req)
-    const isLoggedIn = !!user
+    const viewer = getViewer(user)
     const domainOrSubdomain = ctx.params!.site as string
     const pageSlug = ctx.params!.page as string
 
@@ -24,6 +26,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
         site: domainOrSubdomain,
         page: pageSlug,
         render: true,
+        includeAuthors: true,
       }),
       ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
     ])
@@ -32,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 
     return {
       props: {
-        isLoggedIn,
+        viewer,
         domainOrSubdomain,
         pageSlug,
         trpcState,
@@ -42,36 +45,40 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 )
 
 function SitePagePage({
-  isLoggedIn,
+  viewer,
   domainOrSubdomain,
   pageSlug,
 }: {
-  isLoggedIn: boolean
+  viewer: Viewer | null
   domainOrSubdomain: string
   pageSlug: string
 }) {
-  const siteResult = trpc.useQuery(["site", { site: domainOrSubdomain }], {})
-  const subscriptionResult = trpc.useQuery([
+  const { data: site } = trpc.useQuery(
+    ["site", { site: domainOrSubdomain }],
+    {}
+  )
+  const { data: subscription } = trpc.useQuery([
     "site.subscription",
     { site: domainOrSubdomain },
   ])
-  const pageResult = trpc.useQuery([
+  const { data: page } = trpc.useQuery([
     "site.page",
-    { site: domainOrSubdomain, page: pageSlug, render: true },
+    {
+      site: domainOrSubdomain,
+      page: pageSlug,
+      render: true,
+      includeAuthors: true,
+    },
   ])
-
-  const site = siteResult.data
-  const subscription = subscriptionResult.data
-  const page = pageResult.data!
 
   return (
     <SiteLayout
       site={site!}
-      title={page.title}
-      isLoggedIn={isLoggedIn}
+      title={page!.title}
+      viewer={viewer}
       subscription={subscription}
     >
-      <SitePage page={page} />
+      <SitePage page={page!} />
     </SiteLayout>
   )
 }

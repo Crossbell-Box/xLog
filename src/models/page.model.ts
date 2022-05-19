@@ -5,7 +5,6 @@ import {
   prismaRead,
   PageType,
   MembershipRole,
-  Page,
 } from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
 import { sendEmailForNewPost } from "~/lib/mailgun.server"
@@ -66,6 +65,7 @@ export async function createOrUpdatePage(
     isPost?: boolean
   }
 ) {
+  const user = gate.getUser(true)
   const page = input.pageId
     ? await prismaPrimary.page.findUnique({
         where: {
@@ -86,6 +86,11 @@ export async function createOrUpdatePage(
           },
           content: "",
           excerpt: "",
+          authors: {
+            connect: {
+              id: user.id,
+            },
+          },
         },
         include: {
           site: true,
@@ -189,9 +194,7 @@ export async function getPagesBySite(
         : undefined,
     }),
     await prismaRead.page.count({
-      where: {
-        siteId: site.id,
-      },
+      where,
     }),
   ])
 
@@ -206,7 +209,7 @@ export async function getPagesBySite(
       }
     })
   )
-  console.log(nodesRendered)
+
   return {
     nodes: nodesRendered,
     total,
@@ -246,6 +249,7 @@ export async function getPage<TRender extends boolean = false>(
     page: string
     site?: string
     render?: TRender
+    includeAuthors?: boolean
   }
 ) {
   const site = input.site ? await getSite(input.site) : null
@@ -264,10 +268,16 @@ export async function getPage<TRender extends boolean = false>(
         where: {
           id: input.page,
         },
+        include: {
+          authors: input.includeAuthors,
+        },
       })
     : site
     ? await prismaRead.page.findFirst({
         where: { siteId: site.id, slug: input.page },
+        include: {
+          authors: input.includeAuthors,
+        },
       })
     : null
 
