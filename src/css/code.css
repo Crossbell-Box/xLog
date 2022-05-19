@@ -1,8 +1,8 @@
 .code pre {
-  @apply -mx-[2rem];
-  @apply rounded-xl;
+  @apply -mx-5 md:-mx-8;
+  @apply md:rounded-xl;
   @apply my-8;
-  padding: 2rem;
+  @apply p-5 md:p-8;
   background-color: var(--code-bg);
   color: var(--code-fg);
   max-height: 800px;
