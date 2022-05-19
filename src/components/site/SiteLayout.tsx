@@ -13,6 +13,7 @@ import { OUR_DOMAIN } from "~/lib/env"
 import { useRouter } from "next/router"
 import { SEOHead } from "../common/SEOHead"
 import { SiteNavigationItem } from "~/lib/types"
+import { SiteFooter } from "./SiteFooter"
 
 type MenuLink = {
   label: string
@@ -169,18 +170,17 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         description={site.description}
         image={getUserContentsUrl(site.icon)}
       />
-      <div>
-        <Header
-          links={links}
-          siteName={site?.name}
-          description={site?.description}
-          avatars={avatars}
-          subscribed={!!subscription}
-        />
-        <div className={clsx(`max-w-screen-md mx-auto px-5 pb-12`, `pt-12`)}>
-          {children}
-        </div>
+      <Header
+        links={links}
+        siteName={site!.name}
+        description={site?.description}
+        avatars={avatars}
+        subscribed={!!subscription}
+      />
+      <div className={clsx(`max-w-screen-md mx-auto px-5 pb-12`, `pt-12`)}>
+        {children}
       </div>
+      <SiteFooter site={{ name: site!.name }} />
       {site.id && (
         <SubscribeModal
           siteId={site.id}
