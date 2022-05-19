@@ -7,11 +7,13 @@ import { appRouter } from "~/router"
 import { getTRPCContext } from "~/lib/trpc.server"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { SiteArchives } from "~/components/site/SiteArchives"
+import { getViewer } from "~/lib/viewer"
+import { Viewer } from "~/lib/types"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
     const user = await getAuthUser(ctx.req)
-    const isLoggedIn = !!user
+    const viewer = getViewer(user)
     const domainOrSubdomain = ctx.params!.site as string
 
     const trpcContext = await getTRPCContext(ctx)
@@ -25,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 
     return {
       props: {
-        isLoggedIn,
+        viewer,
         domainOrSubdomain,
         trpcState: ssg.dehydrate(),
       },
@@ -34,10 +36,10 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 )
 
 function SiteArchivesPage({
-  isLoggedIn,
+  viewer,
   domainOrSubdomain,
 }: {
-  isLoggedIn: boolean
+  viewer: Viewer | null
   domainOrSubdomain: string
 }) {
   const siteResult = trpc.useQuery(["site", { site: domainOrSubdomain }], {})
@@ -58,7 +60,7 @@ function SiteArchivesPage({
     <SiteLayout
       site={site!}
       title="Archives"
-      isLoggedIn={isLoggedIn}
+      viewer={viewer}
       subscription={subscription}
     >
       <SiteArchives posts={posts} />
