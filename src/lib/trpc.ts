@@ -17,6 +17,14 @@ export const wrapTrpc = ({ ssr }: { ssr?: boolean } = {}) => {
             credentials: "same-origin",
           })
         },
+
+        queryClientConfig: {
+          defaultOptions: {
+            queries: {
+              // refetchOnWindowFocus: false,
+            },
+          },
+        },
       }
     },
     ssr,

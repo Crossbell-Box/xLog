@@ -98,7 +98,7 @@ export const sendLoginEmail = async (payload: {
 }
 
 export const sendEmailForNewPost = async (payload: {
-  post: { slug: string; title: string; content: string }
+  post: { slug: string; title: string; contentHTML: string }
   site: Site
   subscribers: { id: string; email: string }[]
 }) => {
@@ -109,7 +109,7 @@ export const sendEmailForNewPost = async (payload: {
 
   <h2>${payload.post.title}</h2>
   <div>
-  ${payload.post.content}
+  ${payload.post.contentHTML}
   </div>
   <p>
     <a href="${SITE_URL}/api/unsubscribe?token=%recipient.unsubscribeToken%">Unsubscribe (no login required)</a>

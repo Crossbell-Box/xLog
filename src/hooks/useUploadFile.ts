@@ -1,15 +1,13 @@
 import { useCallback } from "react"
 import { R2_URL } from "~/lib/env"
-import { useSignedJwt } from "./useSignedJwt"
+import { trpc } from "~/lib/trpc"
 
 export const useUploadFile = () => {
-  const signedJwt = useSignedJwt()
+  const { fetchQuery } = trpc.useContext()
 
   const uploadFile = useCallback<UploadFile>(
     async (blob, filename) => {
-      if (!signedJwt) {
-        throw new Error("failed to retrieve signed jwt, please try again")
-      }
+      const jwt = await fetchQuery(["user.getSignedJwt"], {})
 
       const form = new FormData()
       form.append("file", blob, filename)
@@ -17,7 +15,7 @@ export const useUploadFile = () => {
         body: form,
         method: "post",
         headers: {
-          authorization: `Bearer ${signedJwt}`,
+          authorization: `Bearer ${jwt}`,
         },
       })
       if (!res.ok) {
@@ -26,7 +24,7 @@ export const useUploadFile = () => {
       const data = await res.json()
       return data
     },
-    [signedJwt]
+    [fetchQuery]
   )
 
   return uploadFile

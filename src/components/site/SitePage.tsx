@@ -6,7 +6,7 @@ export const SitePage: React.FC<{
     type: PageType
     publishedAt: string
     title: string
-    content: string
+    contentHTML: string
   }
 }> = ({ page }) => {
   return (
@@ -25,7 +25,7 @@ export const SitePage: React.FC<{
       </div>
       <div
         className="my-8 prose"
-        dangerouslySetInnerHTML={{ __html: page.content }}
+        dangerouslySetInnerHTML={{ __html: page.contentHTML }}
       ></div>
     </>
   )

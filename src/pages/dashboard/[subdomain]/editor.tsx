@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import dayjs from "dayjs"
-import { useCallback, useEffect, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useState } from "react"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -35,6 +35,7 @@ export default function SubdomainEditor() {
     ["site.page", { page: pageId!, site: subdomain }],
     {
       enabled: !!pageId,
+      refetchOnWindowFocus: false,
     }
   )
   const page = pageResult.data
@@ -48,19 +49,24 @@ export default function SubdomainEditor() {
 
   const [values, setValues] = useState({
     title: "",
-    content: "",
     publishedAt: new Date().toISOString(),
     published: false,
     slug: "",
+    excerpt: "",
   })
-  const updateValue = (field: string, value: any) => {
-    setValues((values) => {
-      return {
+  const [content, setContent] = useState("")
+
+  type Values = typeof values
+
+  const updateValue = useCallback(
+    <K extends keyof Values>(key: K, value: Values[K]) => {
+      setValues({
         ...values,
-        [field]: value,
-      }
-    })
-  }
+        [key]: value,
+      })
+    },
+    [setValues, values]
+  )
 
   const savePage = (published: boolean) => {
     createOrUpdatePage.mutate({
@@ -69,8 +75,45 @@ export default function SubdomainEditor() {
       pageId: page?.id,
       isPost: isPost,
       published,
+      content,
     })
   }
+
+  const handleDropFile = useCallback(
+    async (file: File, view: EditorView) => {
+      const toastId = toast.loading("Uploading...")
+      try {
+        if (!file.type.startsWith("image/")) {
+          throw new Error("You can only upload images")
+        }
+
+        const { key } = await uploadFile(file, file.name)
+        toast.success("Uploaded!", {
+          id: toastId,
+        })
+        view.dispatch(
+          view.state.replaceSelection(
+            `\n\n![${file.name.replace(/\.\w+$/, "")}](${key})\n\n`
+          )
+        )
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message, { id: toastId })
+        }
+      }
+    },
+    [uploadFile]
+  )
+
+  const handleEditorChange = (newValue: string) => {
+    setContent(newValue)
+  }
+
+  const { editorRef, view } = useEditor({
+    value: content,
+    onChange: handleEditorChange,
+    onDropFile: handleDropFile,
+  })
 
   useEffect(() => {
     if (createOrUpdatePage.isSuccess) {
@@ -102,59 +145,15 @@ export default function SubdomainEditor() {
   useEffect(() => {
     if (!page) return
 
-    setValues((values) => {
-      return {
-        ...values,
-        title: page.title,
-        content: page.content,
-        publishedAt: page.publishedAt,
-        published: page.published,
-        slug: page.slug,
-      }
+    setValues({
+      title: page.title,
+      publishedAt: page.publishedAt,
+      published: page.published,
+      slug: page.slug,
+      excerpt: page.excerpt || "",
     })
+    setContent(page.content)
   }, [page])
-
-  const handleEditorContentChange = useCallback(
-    (value: string) => updateValue("content", value),
-    []
-  )
-
-  const handleDropFile = useCallback(
-    async (file: File, view: EditorView) => {
-      const toastId = toast.loading("Uploading...")
-      try {
-        if (!file.type.startsWith("image/")) {
-          throw new Error("You can only upload images")
-        }
-
-        const { key } = await uploadFile(file, file.name)
-        toast.success("Uploaded!", {
-          id: toastId,
-        })
-        view.dispatch(
-          view.state.replaceSelection(
-            `\n\n![${file.name.replace(/\.\w+$/, "")}](${key})\n\n`
-          )
-        )
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message, { id: toastId })
-        }
-      }
-    },
-    [uploadFile]
-  )
-
-  const { editorRef, view } = useEditor({
-    value: values.content,
-    onChange: handleEditorContentChange,
-    onDropFile: handleDropFile,
-    placeholder: "Start writing here..",
-  })
-
-  const focusEditor = () => {
-    view?.focus()
-  }
 
   return (
     <DashboardLayout>
@@ -187,7 +186,7 @@ export default function SubdomainEditor() {
                   value={values.title}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      focusEditor()
+                      view?.focus()
                     }
                   }}
                   onChange={(e) => updateValue("title", e.target.value)}
@@ -211,7 +210,7 @@ export default function SubdomainEditor() {
                 name="publishAt"
                 id="publishAt"
                 value={getInputDatetimeValue(values.publishedAt)}
-                onChange={(e) => {
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   updateValue("publishedAt", e.target.value)
                 }}
                 help={`This ${
@@ -227,7 +226,9 @@ export default function SubdomainEditor() {
                 id="slug"
                 isBlock
                 placeholder="some-slug"
-                onChange={(e) => updateValue("slug", e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  updateValue("slug", e.target.value)
+                }
                 help={
                   <>
                     {values.slug && (
@@ -244,6 +245,21 @@ export default function SubdomainEditor() {
                     )}
                   </>
                 }
+              />
+            </div>
+            <div>
+              <Input
+                label="Excerpt"
+                isBlock
+                name="excerpt"
+                id="excerpt"
+                value={values.excerpt}
+                multiline
+                rows={5}
+                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                  updateValue("excerpt", e.target.value)
+                }}
+                help="Leave it blank to use auto-generated excerpt"
               />
             </div>
           </div>

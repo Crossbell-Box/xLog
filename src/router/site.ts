@@ -95,12 +95,12 @@ export const siteRouter = createRouter()
     input: z.object({
       site: z.string(),
       page: z.string(),
-      renderContent: z.boolean().optional(),
     }),
     output: z.object({
       id: z.string(),
       title: z.string(),
       content: z.string(),
+      contentHTML: z.string(),
       excerpt: z.string().nullable(),
       autoExcerpt: z.string().nullable(),
       published: z.boolean(),

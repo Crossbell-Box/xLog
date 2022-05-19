@@ -96,7 +96,8 @@ export const useEditor = ({
       view.destroy()
       setView(null)
     }
-  }, [onChange, placeholder, onDropFile])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [placeholder, onDropFile])
 
   // Update view state when `value` changed
   useEffect(() => {

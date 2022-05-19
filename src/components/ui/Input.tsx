@@ -1,22 +1,35 @@
 import clsx from "clsx"
-import { DetailedHTMLProps, forwardRef, InputHTMLAttributes } from "react"
+import { forwardRef } from "react"
 
-type Props = DetailedHTMLProps<
-  InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
-> & {
+type InputProps<TMultiline extends boolean> = {
   label?: string
   addon?: string
   isBlock?: boolean
   error?: string
   help?: React.ReactNode
-}
+  multiline?: TMultiline
+} & React.ComponentPropsWithRef<TMultiline extends true ? "textarea" : "input">
 
-export const Input = forwardRef<HTMLInputElement, Props>(function Input(
-  { label, addon, className, isBlock, error, help, ...inputProps },
-  ref
+export const Input = forwardRef(function Input<
+  TMutliline extends boolean = false
+>(
+  {
+    label,
+    addon,
+    className,
+    isBlock,
+    error,
+    help,
+    multiline,
+    ...inputProps
+  }: InputProps<TMutliline>,
+  ref: TMutliline extends true
+    ? React.ForwardedRef<HTMLTextAreaElement>
+    : React.ForwardedRef<HTMLInputElement>
 ) {
   const hasAddon = !!addon
+  const Component = (multiline ? "textarea" : "input") as any
+
   return (
     <div>
       {label && (
@@ -25,9 +38,9 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
         </label>
       )}
       <div className="flex items-center">
-        <input
+        <Component
           {...inputProps}
-          ref={ref}
+          ref={ref as any}
           className={clsx(
             "input",
             hasAddon && `has-addon`,
@@ -47,4 +60,6 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
       )}
     </div>
   )
-})
+}) as <TMultiline extends boolean = false>(
+  props: InputProps<TMultiline>
+) => JSX.Element

@@ -9,11 +9,12 @@ import {
 } from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
 import { sendEmailForNewPost } from "~/lib/mailgun.server"
-import { getAutoExcerpt, renderPageContent } from "~/lib/markdown.server"
+import { renderPageContent } from "~/markdown"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
 import { getSite } from "./site.model"
+import { stripHTML } from "~/lib/utils"
 
 const checkPageSlug = async ({
   slug,
@@ -84,6 +85,7 @@ export async function createOrUpdatePage(
             },
           },
           content: "",
+          contentHTML: "",
           excerpt: "",
           autoExcerpt: "",
         },
@@ -103,7 +105,9 @@ export async function createOrUpdatePage(
   const slug = input.slug || page.slug
   await checkPageSlug({ slug, excludePage: page.id, siteId: page.siteId })
 
-  const autoExcerpt = input.content ? getAutoExcerpt(input.content) : undefined
+  const rendered = input.content
+    ? await renderPageContent(input.content)
+    : undefined
 
   const updated = await prismaPrimary.page.update({
     where: {
@@ -114,10 +118,11 @@ export async function createOrUpdatePage(
       content: input.content,
       published: input.published,
       publishedAt: input.publishedAt && new Date(input.publishedAt),
-      excerpt: input.excerpt,
+      excerpt: input.excerpt && stripHTML(input.excerpt),
       slug,
       type: input.isPost ? "POST" : "PAGE",
-      autoExcerpt,
+      autoExcerpt: rendered?.env.excerpt,
+      contentHTML: rendered?.contentHTML,
     },
   })
 
@@ -236,7 +241,6 @@ export async function getPage(
     /** page slug or id,  `site` is needed when `page` is a slug  */
     page: string
     site?: string
-    renderContent?: boolean
   }
 ) {
   const site = input.site ? await getSite(input.site) : null
@@ -274,11 +278,6 @@ export async function getPage(
     }
   }
 
-  if (input.renderContent) {
-    const rendered = await renderPageContent(page.content)
-    page.content = rendered.html
-  }
-
   return page
 }
 
@@ -288,7 +287,7 @@ export const notifySubscribersForNewPost = async (
     pageId: string
   }
 ) => {
-  const page = await getPage(gate, { page: input.pageId, renderContent: true })
+  const page = await getPage(gate, { page: input.pageId })
   const site = await getSite(page.siteId)
 
   if (!gate.allows({ type: "can-notify-site-subscribers", site })) {
