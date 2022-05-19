@@ -2,25 +2,31 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
+import { APP_NAME } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { trpc } from "~/lib/trpc"
+import { SEOHead } from "../common/SEOHead"
 import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
 import { SiteSwitcher } from "./SiteSwitcher"
 
-export function DashboardLayout({ children }: { children: React.ReactNode }) {
+export function DashboardLayout({
+  children,
+  title,
+}: {
+  children: React.ReactNode
+  title: string
+}) {
   const router = useRouter()
   const subdomain = router.query.subdomain as string
 
-  const subscriptionsQuery = trpc.useQuery(
+  const { data: subscriptions } = trpc.useQuery(
     ["user.getSubscriptions", { canManage: true }],
     {}
   )
-  const subscriptions = subscriptionsQuery.data
 
-  const viewerResult = trpc.useQuery(["auth.viewer"])
-  const viewer = viewerResult.data
+  const { data: viewer } = trpc.useQuery(["auth.viewer"])
 
   const links: {
     href: string
@@ -108,6 +114,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      <SEOHead title={title} siteName={APP_NAME} />
       <div className="flex">
         <DashboardSidebar>
           <div className="mb-2">

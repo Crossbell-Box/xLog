@@ -28,12 +28,11 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   children,
   title,
 }) => {
-  const docTitle = title ? `${title} - ${site.name}` : site.name
-
   return (
     <>
       <SEOHead
-        title={docTitle}
+        title={title || ""}
+        siteName={site.name}
         description={site.description}
         image={getUserContentsUrl(site.icon)}
       />

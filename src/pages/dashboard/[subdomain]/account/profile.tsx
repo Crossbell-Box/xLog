@@ -50,7 +50,7 @@ export default function AccountProfilePage() {
   }, [viewer.data, setValue])
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Account">
       <SettingsLayout title="Account" type="account">
         {viewer.data && (
           <div>

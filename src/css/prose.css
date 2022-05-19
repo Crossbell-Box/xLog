@@ -56,7 +56,7 @@
 
 .prose a {
   @apply text-indigo-600;
-  @apply underline;
+  @apply hover:underline;
 }
 
 .prose pre {

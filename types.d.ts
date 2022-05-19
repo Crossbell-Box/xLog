@@ -1,24 +1,18 @@
-declare interface ServerEnv {
+declare interface CustomEnv {
   // Additional environment variables
-  APP_NAME: string
+  NEXT_PUBLIC_APP_NAME: string
+  NEXT_PUBLIC_R2_URL: string
+
   DATABASE_URL: string
   AUTH_COOKIE_NAME: string
-  OUR_DOMAIN: string
+  NEXT_PUBLIC_OUR_DOMAIN: string
   MAILGUN_APIKEY: string
   MAILGUN_DOMAIN: string
   FLY_REGION?: string
   PRIMARY_REGION?: string
   ENCRYPT_SECRET: string
-  NEXT_PUBLIC_R2_URL: string
-  R2_API_TOKEN: string
-}
-
-declare interface BrowserEnv {
-  APP_NAME: string
-  OUR_DOMAIN: string
-  R2_URL: string
 }
 
 declare namespace NodeJS {
-  interface ProcessEnv extends ServerEnv {}
+  interface ProcessEnv extends CustomEnv {}
 }

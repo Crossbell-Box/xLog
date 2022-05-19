@@ -1,13 +1,15 @@
 import Head from "next/head"
 
 export const SEOHead: React.FC<{
-  title: string
+  siteName: string
+  title: string | undefined
   description?: string | null
   image?: string | null
-}> = ({ title, description, image }) => {
+}> = ({ siteName, title, description, image }) => {
   return (
     <Head>
-      <title>{title}</title>
+      <title>{title ? `${title} - ${siteName}` : siteName}</title>
+      <meta name="og:site_name" content={siteName} />
       <meta name="og:title" content={title} />
       <meta name="twitter:title" content={title} />
       <meta name="description" content={description || ""} />

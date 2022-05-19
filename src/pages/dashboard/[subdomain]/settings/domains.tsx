@@ -52,9 +52,10 @@ export default function SettingsDomainsPage() {
     }
   }, [form, siteResult.data])
 
+  const title = "Site Settings"
   return (
-    <DashboardLayout>
-      <SettingsLayout title="Site Settings" type="site">
+    <DashboardLayout title={"Domains"}>
+      <SettingsLayout title={"Site Settings"} type="site">
         <form onSubmit={handleSubmit}>
           <div className="">
             <Input

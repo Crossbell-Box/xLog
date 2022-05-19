@@ -3,7 +3,7 @@ import { PagesManager } from "~/components/dashboard/PagesManager"
 
 export default function SubdomainPages() {
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Pages">
       <PagesManager isPost={false} />
     </DashboardLayout>
   )

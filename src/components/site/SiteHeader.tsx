@@ -68,9 +68,6 @@ export const SiteHeader: React.FC<{
     {
       label: "Sign out",
       onClick() {
-        if (!confirm(`Are you sure you want to log out?`)) {
-          return
-        }
         logout()
       },
     },

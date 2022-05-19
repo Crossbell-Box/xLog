@@ -1,6 +1,6 @@
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { FormEvent, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
 import toast from "react-hot-toast"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { useRouter } from "next/router"
@@ -40,7 +40,9 @@ const SortableNavigationItem: React.FC<{
         required
         id={`${item.id}-label`}
         value={item.label}
-        onChange={(e) => updateItem(item.id, { label: e.target.value })}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          updateItem(item.id, { label: e.target.value })
+        }
       />
       <Input
         label="URL"
@@ -50,7 +52,9 @@ const SortableNavigationItem: React.FC<{
         value={item.url}
         pattern="(https?://|/).+"
         title="URL must start with / or http:// or https://"
-        onChange={(e) => updateItem(item.id, { url: e.target.value })}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          updateItem(item.id, { url: e.target.value })
+        }
       />
       <div className="flex items-end relative -top-[5px]">
         <Button onClick={() => removeItem(item.id)} variantColor="red">
@@ -122,7 +126,7 @@ export default function SiteSettingsNavigationPage() {
   }, [updateSite, trpcContext, subdomain])
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Navigation">
       <SettingsLayout title="Site Settings" type="site">
         <form onSubmit={handleSubmit}>
           <div className="bg-zinc-50 rounded-lg overflow-hidden">

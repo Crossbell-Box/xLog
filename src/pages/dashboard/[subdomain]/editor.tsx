@@ -167,7 +167,7 @@ export default function SubdomainEditor() {
   }, [page])
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Editor">
       <DashboardMain fullWidth>
         <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
           <div></div>

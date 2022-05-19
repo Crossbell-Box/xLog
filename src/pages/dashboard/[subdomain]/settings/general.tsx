@@ -52,7 +52,7 @@ export default function SiteSettingsGeneralPage() {
   }, [updateSite])
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Site Settings">
       <SettingsLayout title="Site Settings" type="site">
         {site && (
           <div>

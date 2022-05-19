@@ -3,6 +3,7 @@ import { z } from "zod"
 import { prismaPrimary } from "~/lib/db.server"
 import { sendLoginEmail } from "~/lib/mailgun.server"
 import { createRouter } from "~/lib/trpc.server"
+import { getViewer } from "~/lib/viewer"
 
 export const authRouter = createRouter()
   .query("viewer", {
@@ -17,7 +18,7 @@ export const authRouter = createRouter()
       })
       .nullable(),
     async resolve({ ctx }) {
-      return ctx.user || null
+      return getViewer(ctx.user)
     },
   })
   .mutation("requestLoginLink", {
