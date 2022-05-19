@@ -28,6 +28,7 @@ const theme = EditorView.theme({
     fontFamily: "var(--font-sans)",
     fontSize: "1rem",
     overflow: "auto",
+    paddingBottom: "200px",
   },
   ".cm-content": {
     minHeight: "400px",

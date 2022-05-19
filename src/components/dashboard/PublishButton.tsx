@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
 
 import { Button, ButtonGroup } from "../ui/Button"
@@ -6,7 +6,8 @@ import { Button, ButtonGroup } from "../ui/Button"
 export const PublishButton: React.FC<{
   save: (published: boolean) => void
   published: boolean
-}> = ({ save, published }) => {
+  isSaving: boolean
+}> = ({ save, published, isSaving }) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -16,6 +17,12 @@ export const PublishButton: React.FC<{
     setShowDropdown(false)
   })
 
+  useEffect(() => {
+    if (isSaving) {
+      setShowDropdown(false)
+    }
+  }, [isSaving])
+
   return (
     <div className="relative">
       <ButtonGroup>
@@ -23,6 +30,7 @@ export const PublishButton: React.FC<{
           isAutoWidth
           style={{ padding: "0 15px" }}
           onClick={() => save(true)}
+          isLoading={isSaving}
         >
           {published ? "Update" : "Publish"}
         </Button>
@@ -33,6 +41,7 @@ export const PublishButton: React.FC<{
             setShowDropdown(!showDropdown)
           }}
           ref={triggerRef}
+          isDisabled={isSaving}
         >
           <svg className="w-7 h-7" viewBox="0 0 24 24">
             <path fill="currentColor" d="m7 10l5 5l5-5z"></path>

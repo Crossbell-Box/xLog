@@ -31,20 +31,25 @@ export default function SubdomainEditor() {
   const siteResult = trpc.useQuery(["site", { site: subdomain }], {
     enabled: !!subdomain,
   })
-  const pageResult = trpc.useQuery(
-    ["site.page", { page: pageId!, site: subdomain }],
+  const { data: page } = trpc.useQuery(
+    ["site.page", { page: pageId!, site: subdomain, render: false }],
     {
       enabled: !!pageId,
       refetchOnWindowFocus: false,
     }
   )
-  const page = pageResult.data
   const published = page?.published ?? false
   const visibility = getPageVisibility({
     published,
     publishedAt: page?.publishedAt || null,
   })
-  const createOrUpdatePage = trpc.useMutation("site.createOrUpdatePage")
+  const {
+    mutate: createOrUpdatePage,
+    status: createOrUpdatePageStatus,
+    data: createOrUpdatePageResult,
+    error: createOrUpdatePageError,
+    reset: resetCreateOrUpdatePage,
+  } = trpc.useMutation("site.createOrUpdatePage")
   const uploadFile = useUploadFile()
 
   const [values, setValues] = useState({
@@ -69,7 +74,7 @@ export default function SubdomainEditor() {
   )
 
   const savePage = (published: boolean) => {
-    createOrUpdatePage.mutate({
+    createOrUpdatePage({
       ...values,
       siteId: siteResult.data!.id,
       pageId: page?.id,
@@ -116,18 +121,20 @@ export default function SubdomainEditor() {
   })
 
   useEffect(() => {
-    if (createOrUpdatePage.isSuccess) {
-      createOrUpdatePage.reset()
+    if (createOrUpdatePageStatus === "success") {
+      resetCreateOrUpdatePage()
       toast.success(values.published ? "Updated" : "Saved!")
       trpcContext.invalidateQueries("site.page")
       router.replace(
-        `/dashboard/${subdomain}/editor?id=${createOrUpdatePage.data.id}&type=${
-          isPost ? "post" : "page"
-        }`
+        `/dashboard/${subdomain}/editor?id=${
+          createOrUpdatePageResult.id
+        }&type=${isPost ? "post" : "page"}`
       )
     }
   }, [
-    createOrUpdatePage,
+    resetCreateOrUpdatePage,
+    createOrUpdatePageStatus,
+    createOrUpdatePageResult,
     isPost,
     router,
     subdomain,
@@ -136,11 +143,15 @@ export default function SubdomainEditor() {
   ])
 
   useEffect(() => {
-    if (createOrUpdatePage.isError) {
-      createOrUpdatePage.reset()
-      toast.error(createOrUpdatePage.error.message)
+    if (createOrUpdatePageStatus === "error") {
+      resetCreateOrUpdatePage()
+      toast.error(createOrUpdatePageError.message)
     }
-  }, [createOrUpdatePage])
+  }, [
+    resetCreateOrUpdatePage,
+    createOrUpdatePageStatus,
+    createOrUpdatePageError,
+  ])
 
   useEffect(() => {
     if (!page) return
@@ -173,7 +184,11 @@ export default function SubdomainEditor() {
                 ? "Scheduled"
                 : "Draft"}
             </span>
-            <PublishButton save={savePage} published={published} />
+            <PublishButton
+              save={savePage}
+              published={published}
+              isSaving={createOrUpdatePageStatus === "loading"}
+            />
           </div>
         </header>
         <div className="h-screen pt-14 flex w-full">

@@ -8,6 +8,10 @@
   border-color: var(--border-color);
 }
 
+body {
+  @apply antialiased;
+}
+
 .container {
   @apply max-w-screen-xl;
   @apply mx-auto;

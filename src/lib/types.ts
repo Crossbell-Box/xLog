@@ -43,7 +43,6 @@ export type Paginated<T> = {
 export type Page = {
   id: string
   title: string
-  contentHTML: string
   excerpt: string
   permalink: string
   publishedAt: Date

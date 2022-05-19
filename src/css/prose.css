@@ -1,5 +1,9 @@
+.prose {
+  @apply text-zinc-600;
+}
+
 .prose > p {
-  @apply my-5;
+  @apply my-7;
 }
 
 .prose > *:first-child {
@@ -12,22 +16,27 @@
 
 .prose h2 {
   @apply text-3xl font-semibold;
-  @apply my-5;
+  @apply my-7;
+  @apply text-zinc-900;
 }
 
 .prose h3 {
   @apply text-2xl font-semibold;
+  @apply my-7;
+  @apply text-zinc-900;
 }
 
 .prose h4 {
   @apply text-xl font-semibold;
+  @apply my-7;
+  @apply text-zinc-900;
 }
 
 .prose blockquote {
-  @apply border-l-4 border-indigo-300;
-  @apply pl-4;
-  @apply italic;
-  @apply text-zinc-600;
+  @apply border-l-4 border-indigo-500;
+  @apply pl-5;
+  @apply my-7;
+  @apply text-zinc-900 font-medium;
 }
 
 .prose ul {
@@ -42,7 +51,7 @@
 
 .prose > ul,
 .prose > ol {
-  @apply my-5;
+  @apply my-7;
 }
 
 .prose a {
@@ -52,4 +61,31 @@
 
 .prose pre {
   @apply overflow-auto;
+}
+
+.prose .table-wrapper {
+  @apply min-w-full md:rounded-xl text-sm -mx-5 md:-mx-8 whitespace-nowrap;
+  @apply shadow-md ring-1 ring-zinc-700 ring-opacity-10;
+}
+
+.prose table {
+  @apply min-w-full;
+}
+
+.prose table thead {
+  @apply text-left;
+}
+
+.prose table th,
+.prose table td {
+  @apply px-3;
+  @apply py-4;
+}
+
+.prose table tbody {
+  @apply text-zinc-500;
+}
+
+.prose table tbody tr:nth-child(2n-1) {
+  @apply bg-zinc-100;
 }

@@ -8,7 +8,6 @@ import { SiteNavigationItem, SubscribeFormData } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { getMembership } from "./membership"
 import { checkReservedWords } from "~/lib/reserved-words"
-import { renderPageContent } from "~/markdown"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -166,9 +165,6 @@ export async function createSite(
       url: "/archives",
     },
   ]
-  const aboutPage = await renderPageContent(
-    `My name is ${payload.name} and I'm a new site.`
-  )
   const site = await prismaPrimary.site.create({
     data: {
       name: payload.name,
@@ -189,9 +185,7 @@ export async function createSite(
           title: "About",
           slug: "about",
           excerpt: "",
-          autoExcerpt: aboutPage.env.excerpt,
-          content: aboutPage.content,
-          contentHTML: aboutPage.contentHTML,
+          content: `My name is ${payload.name} and I'm a new site.`,
           published: true,
           publishedAt: new Date(),
           type: PageType.PAGE,

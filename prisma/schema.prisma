@@ -112,9 +112,7 @@ model Page {
     type                  PageType  @default(POST)
     title                 String
     content               String
-    contentHTML           String
     excerpt               String?
-    autoExcerpt           String?
     format                String    @default("markdown")
     slug                  String
     site                  Site      @relation(name: "SitePages", fields: [siteId], references: [id], onDelete: Cascade)

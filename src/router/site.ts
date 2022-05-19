@@ -80,7 +80,7 @@ export const siteRouter = createRouter()
           published: z.boolean(),
           slug: z.string(),
           excerpt: z.string().nullable(),
-          autoExcerpt: z.string().nullable(),
+          autoExcerpt: z.string(),
         })
       ),
       total: z.number(),
@@ -95,18 +95,23 @@ export const siteRouter = createRouter()
     input: z.object({
       site: z.string(),
       page: z.string(),
+      render: z.boolean(),
     }),
     output: z.object({
       id: z.string(),
       title: z.string(),
       content: z.string(),
-      contentHTML: z.string(),
       excerpt: z.string().nullable(),
-      autoExcerpt: z.string().nullable(),
       published: z.boolean(),
       publishedAt: z.date().transform((v) => v.toISOString()),
       slug: z.string(),
       type: z.enum(["PAGE", "POST"]),
+      rendered: z
+        .object({
+          excerpt: z.string(),
+          contentHTML: z.string(),
+        })
+        .nullable(),
     }),
     async resolve({ input, ctx }) {
       const page = await getPage(ctx.gate, input)

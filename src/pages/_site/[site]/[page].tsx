@@ -23,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
       ssg.fetchQuery("site.page", {
         site: domainOrSubdomain,
         page: pageSlug,
+        render: true,
       }),
       ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
     ])
@@ -56,7 +57,7 @@ function SitePagePage({
   ])
   const pageResult = trpc.useQuery([
     "site.page",
-    { site: domainOrSubdomain, page: pageSlug },
+    { site: domainOrSubdomain, page: pageSlug, render: true },
   ])
 
   const site = siteResult.data

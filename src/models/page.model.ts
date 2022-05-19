@@ -9,7 +9,7 @@ import {
 } from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
 import { sendEmailForNewPost } from "~/lib/mailgun.server"
-import { renderPageContent } from "~/markdown"
+import { Rendered, renderPageContent } from "~/markdown"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
@@ -85,9 +85,7 @@ export async function createOrUpdatePage(
             },
           },
           content: "",
-          contentHTML: "",
           excerpt: "",
-          autoExcerpt: "",
         },
         include: {
           site: true,
@@ -105,24 +103,21 @@ export async function createOrUpdatePage(
   const slug = input.slug || page.slug
   await checkPageSlug({ slug, excludePage: page.id, siteId: page.siteId })
 
-  const rendered = input.content
-    ? await renderPageContent(input.content)
-    : undefined
+  // Just checking if the page content can be rendered
+  await renderPageContent(page.content)
 
   const updated = await prismaPrimary.page.update({
     where: {
       id: page.id,
     },
     data: {
-      title: input.title,
+      title: input.title || "Untitled",
       content: input.content,
       published: input.published,
       publishedAt: input.publishedAt && new Date(input.publishedAt),
       excerpt: input.excerpt && stripHTML(input.excerpt),
       slug,
       type: input.isPost ? "POST" : "PAGE",
-      autoExcerpt: rendered?.env.excerpt,
-      contentHTML: rendered?.contentHTML,
     },
   })
 
@@ -148,7 +143,6 @@ export async function getPagesBySite(
     visibility?: PageVisibilityEnum | null
     take?: number | null
     cursor?: string | null
-    autoExcerpt?: boolean
   }
 ) {
   const site = await getSite(input.site)
@@ -203,8 +197,18 @@ export async function getPagesBySite(
 
   const hasMore = nodes.length > take
 
+  const nodesRendered = await Promise.all(
+    nodes.slice(0, take).map(async (node) => {
+      const rendered = await renderPageContent(node.content)
+      return {
+        ...node,
+        autoExcerpt: rendered.excerpt,
+      }
+    })
+  )
+  console.log(nodesRendered)
   return {
-    nodes: nodes,
+    nodes: nodesRendered,
     total,
     hasMore,
   }
@@ -235,12 +239,13 @@ export async function deletePage(gate: Gate, { id }: { id: string }) {
   })
 }
 
-export async function getPage(
+export async function getPage<TRender extends boolean = false>(
   gate: Gate,
   input: {
     /** page slug or id,  `site` is needed when `page` is a slug  */
     page: string
     site?: string
+    render?: TRender
   }
 ) {
   const site = input.site ? await getSite(input.site) : null
@@ -278,7 +283,14 @@ export async function getPage(
     }
   }
 
-  return page
+  const rendered = (
+    input.render ? await renderPageContent(page.content) : null
+  ) as TRender extends true ? Rendered : null
+
+  return {
+    ...page,
+    rendered,
+  }
 }
 
 export const notifySubscribersForNewPost = async (
@@ -287,7 +299,7 @@ export const notifySubscribersForNewPost = async (
     pageId: string
   }
 ) => {
-  const page = await getPage(gate, { page: input.pageId })
+  const page = await getPage(gate, { page: input.pageId, render: true })
   const site = await getSite(page.siteId)
 
   if (!gate.allows({ type: "can-notify-site-subscribers", site })) {

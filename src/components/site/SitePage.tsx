@@ -1,12 +1,13 @@
 import type { PageType } from "~/lib/db.server"
 import { formatDate } from "~/lib/date"
+import { Rendered } from "~/markdown"
 
 export const SitePage: React.FC<{
   page: {
     type: PageType
     publishedAt: string
     title: string
-    contentHTML: string
+    rendered: Rendered | null
   }
 }> = ({ page }) => {
   return (
@@ -25,7 +26,7 @@ export const SitePage: React.FC<{
       </div>
       <div
         className="my-8 prose"
-        dangerouslySetInnerHTML={{ __html: page.contentHTML }}
+        dangerouslySetInnerHTML={{ __html: page.rendered?.contentHTML || "" }}
       ></div>
     </>
   )

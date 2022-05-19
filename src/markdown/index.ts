@@ -2,13 +2,19 @@ import Markdown from "markdown-it"
 import { pluginCodeBlock } from "./plugin-code-block"
 import { pluginExcerpt } from "./plugin-excerpt"
 import { pluginImage } from "./plugin-image"
+import { pluginTable } from "./plugin-table"
 
 export type MarkdownEnv = {
   excerpt: string
   __internal: Record<string, any>
 }
 
-export const renderPageContent = async (content: string) => {
+export type Rendered = {
+  contentHTML: string
+  excerpt: string
+}
+
+export const renderPageContent = async (content: string): Promise<Rendered> => {
   const md = new Markdown({
     html: false,
     linkify: true,
@@ -17,9 +23,10 @@ export const renderPageContent = async (content: string) => {
   md.use(pluginImage)
   md.use(pluginCodeBlock)
   md.use(pluginExcerpt)
+  md.use(pluginTable)
 
   const env: MarkdownEnv = { excerpt: "", __internal: {} }
   const contentHTML = md.render(content, env)
 
-  return { content, contentHTML, env }
+  return { contentHTML, excerpt: env.excerpt }
 }
