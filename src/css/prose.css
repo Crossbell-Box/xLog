@@ -1,5 +1,5 @@
 .prose {
-  @apply text-zinc-600;
+  @apply text-zinc-600 leading-normal;
 }
 
 .prose > p {
