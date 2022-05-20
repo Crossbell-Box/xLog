@@ -108,14 +108,15 @@ const handler: NextApiHandler = async (req, res) => {
 
   if (nextUrl.host !== OUR_DOMAIN && !nextUrl.host.endsWith(`.${OUR_DOMAIN}`)) {
     // Check if the host belong to a site
-    const existing = await prismaPrimary.domain.findUnique({
-      where: {
-        domain: nextUrl.hostname,
-      },
-    })
-    if (!existing) {
-      throw new Error("invalid next url")
-    }
+    // const existing = await prismaPrimary.domain.findUnique({
+    //   where: {
+    //     domain: nextUrl.hostname,
+    //   },
+    // })
+    // if (!existing) {
+    //   throw new Error("invalid next url")
+    // }
+    throw new Error("invalid next url")
   }
 
   nextUrl.searchParams.set("id", publicId)
