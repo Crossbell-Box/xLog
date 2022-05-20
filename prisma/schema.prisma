@@ -79,21 +79,18 @@ model Membership {
 }
 
 model Site {
-    id              String       @id @default(uuid())
-    createdAt       DateTime     @default(now())
-    updatedAt       DateTime     @updatedAt
-    name            String
-    icon            String?
-    subdomain       String       @unique
-    pages           Page[]       @relation(name: "SitePages")
-    domains         Domain[]     @relation(name: "SiteDomains")
-    primaryDomain   Domain?      @relation(name: "SitePrimaryDomain", fields: [primaryDomainId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    primaryDomainId String?      @unique
-    description     String?
-    twitter         String?
-    navigation      Json?
-    deletedAt       DateTime?
-    memberships     Membership[]
+    id          String       @id @default(uuid())
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    name        String
+    icon        String?
+    subdomain   String       @unique
+    pages       Page[]       @relation(name: "SitePages")
+    description String?
+    twitter     String?
+    navigation  Json?
+    deletedAt   DateTime?
+    memberships Membership[]
 
     @@map("sites")
 }
@@ -124,16 +121,4 @@ model Page {
 
     @@unique([siteId, slug])
     @@map("pages")
-}
-
-model Domain {
-    id                   String   @id @default(uuid())
-    createdAt            DateTime @default(now())
-    updatedAt            DateTime @updatedAt
-    site                 Site     @relation(name: "SiteDomains", fields: [siteId], references: [id], onDelete: Cascade)
-    siteId               String
-    domain               String   @unique
-    primaryDomainForSite Site?    @relation(name: "SitePrimaryDomain")
-
-    @@map("domains")
 }
