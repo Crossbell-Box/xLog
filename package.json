@@ -2,7 +2,7 @@
   "name": "proselog",
   "private": true,
   "description": "A publishing platform",
-  "license": "unlicensed",
+  "license": "AGPL-3.0",
   "sideEffects": false,
   "scripts": {
     "build": "pnpm db-generate && next build",
