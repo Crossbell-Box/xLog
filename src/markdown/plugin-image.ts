@@ -8,6 +8,7 @@ const ALLOW_IMAGE_ORIGINS = [
   "user-images.githubusercontent.com",
   "cdn.jsdelivr.net",
   "images.unsplash.com",
+  "source.unsplash.com",
   R2_URL.replace(/^https?\:\/\//, ""),
 ]
 

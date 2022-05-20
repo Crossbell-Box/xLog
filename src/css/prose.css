@@ -64,7 +64,7 @@
 }
 
 .prose .table-wrapper {
-  @apply min-w-full md:rounded-xl text-sm -mx-5 md:-mx-8 whitespace-nowrap;
+  @apply min-w-full md:rounded-xl text-sm my-7 -mx-5 md:-mx-8 whitespace-nowrap;
   @apply shadow-md ring-1 ring-zinc-700 ring-opacity-10;
 }
 
