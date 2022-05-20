@@ -23,7 +23,7 @@ export const authRouter = createRouter()
   })
   .mutation("requestLoginLink", {
     input: z.object({
-      email: z.string(),
+      email: z.string().nonempty("email is required"),
       url: z.string(),
     }),
     output: z.boolean(),

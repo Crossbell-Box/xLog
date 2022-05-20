@@ -9,7 +9,7 @@
 }
 
 body {
-  @apply antialiased;
+  @apply antialiased break-words;
 }
 
 .container {

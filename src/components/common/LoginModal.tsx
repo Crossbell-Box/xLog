@@ -3,13 +3,19 @@ import { useStore } from "~/lib/store"
 import { Dialog } from "@headlessui/react"
 import { trpc } from "~/lib/trpc"
 import { useForm } from "react-hook-form"
+import { useEffect } from "react"
 
 export const LoginModal: React.FC = () => {
   const [loginModalOpened, setLoginModalOpened] = useStore((store) => [
     store.loginModalOpened,
     store.setLoginModalOpened,
   ])
-  const requestLoginLink = trpc.useMutation("auth.requestLoginLink")
+  const {
+    mutate: requestLoginLink,
+    status: requestLoginLinkStatus,
+    data,
+    error,
+  } = trpc.useMutation("auth.requestLoginLink")
 
   const form = useForm({
     defaultValues: {
@@ -18,7 +24,7 @@ export const LoginModal: React.FC = () => {
   })
 
   const handleSubmit = form.handleSubmit((values) => {
-    requestLoginLink.mutate({
+    requestLoginLink({
       email: values.email,
       url: location.href,
     })
@@ -39,12 +45,13 @@ export const LoginModal: React.FC = () => {
           </Dialog.Title>
 
           <div className="p-8">
-            {requestLoginLink.data && (
+            {data && (
               <div className="mb-5">
                 We just emailed you with a link to log in, please check your
                 inbox and spam folder in case you can{`'`}t find it.
               </div>
             )}
+            {error && <div className="mb-5 text-red-500">{error.message}</div>}
             <form className="space-y-5" onSubmit={handleSubmit}>
               <div>
                 <label
@@ -56,6 +63,7 @@ export const LoginModal: React.FC = () => {
                 <input
                   id="email"
                   type="email"
+                  required
                   className="input is-block"
                   {...form.register("email")}
                 />
@@ -64,7 +72,7 @@ export const LoginModal: React.FC = () => {
                 <Button
                   type="submit"
                   isBlock
-                  isLoading={requestLoginLink.isLoading}
+                  isLoading={requestLoginLinkStatus === "loading"}
                 >
                   Continue
                 </Button>

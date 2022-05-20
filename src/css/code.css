@@ -8,6 +8,6 @@
   max-height: 800px;
 }
 
-:not(pre) code {
-  @apply bg-purple-100 text-purple-700 inline-flex items-center font-mono break-all;
+:not(pre) > code {
+  @apply bg-purple-100 text-purple-700 inline-flex items-center font-mono break-all leading-snug;
 }

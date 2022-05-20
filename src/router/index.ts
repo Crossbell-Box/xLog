@@ -1,5 +1,5 @@
 import * as trpc from "@trpc/server"
-import { z } from "zod"
+import { z, ZodError } from "zod"
 import { isNotFoundError } from "~/lib/server-side-props"
 import { TRPCContext } from "~/lib/trpc.server"
 import { getSite } from "~/models/site.model"
@@ -42,8 +42,12 @@ export const appRouter = trpc
   .merge("membership.", membershipRouter)
   .merge("page.", pageRouter)
   .formatError(({ error, shape }) => {
+    const isZodError = error.cause instanceof ZodError
     return {
       ...shape,
+      message: isZodError
+        ? error.cause.issues.map((i) => i.message).join(", ")
+        : error.message,
       data: {
         ...shape.data,
         notFound: isNotFoundError(error.cause),
