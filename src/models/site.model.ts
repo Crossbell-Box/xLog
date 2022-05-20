@@ -40,7 +40,7 @@ export const checkSubdomain = async ({
 }
 
 export const getUserLastActiveSite = async (userId: string) => {
-  const memberships = await prismaPrimary.membership.findMany({
+  const memberships = await prismaRead.membership.findMany({
     where: {
       userId,
       role: {
