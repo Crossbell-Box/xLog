@@ -286,7 +286,7 @@ export async function getPage<TRender extends boolean = false>(
   }
 
   if (!gate.allows({ type: "can-read-page", page })) {
-    if (page.publishedAt > new Date()) {
+    if (!page.published || page.publishedAt > new Date()) {
       throw notFound()
     } else {
       throw gate.permissionError()
