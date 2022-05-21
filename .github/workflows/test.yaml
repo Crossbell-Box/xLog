@@ -35,7 +35,7 @@ jobs:
       - name: Install browsers
         run: pnpm playwright install chromium --with-deps
       - name: E2E test
-        run: pnpm test:e2e
+        run: pnpm test-e2e
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
