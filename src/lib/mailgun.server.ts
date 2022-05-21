@@ -13,6 +13,7 @@ import { SubscribeFormData } from "./types"
 import { getSite } from "~/models/site.model"
 import { type Site } from "~/lib/db.server"
 import Iron from "@hapi/iron"
+import { renderPageForEmail } from "~/models/page.model"
 
 const enableMailgun = Boolean(MAILGUN_APIKEY && MAILGUN_DOMAIN)
 
@@ -98,22 +99,18 @@ export const sendLoginEmail = async (payload: {
 }
 
 export const sendEmailForNewPost = async (payload: {
-  post: { slug: string; title: string; rendered: { contentHTML: string } }
+  post: { slug: string; title: string }
   site: Site
   subscribers: { id: string; email: string }[]
 }) => {
   try {
     const from = `${payload.site.name} <updates@${payload.site.subdomain}.proselog.com>`
     const subject = `${payload.post.title} - ${payload.site.name}`
-    const html = `
 
-  <h2>${payload.post.title}</h2>
-  <div>
-  ${payload.post.rendered.contentHTML}
-  </div>
-  <p>
-    <a href="${SITE_URL}/api/unsubscribe?token=%recipient.unsubscribeToken%">Unsubscribe (no login required)</a>
-  </p>`
+    const html = await renderPageForEmail({
+      pageSlug: payload.post.slug,
+      subdomain: payload.site.subdomain,
+    })
 
     const recipientVariables: {
       [email in string]: { unsubscribeToken: string }

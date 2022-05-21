@@ -1,4 +1,8 @@
-import { GetServerSidePropsContext, GetServerSideProps } from "next"
+import {
+  GetServerSidePropsContext,
+  GetServerSideProps,
+  GetServerSidePropsResult,
+} from "next"
 
 class Redirect extends Error {
   constructor(public url: string) {
@@ -14,12 +18,16 @@ export const notFound = (message?: string) => new NotFound(message)
 
 export const isNotFoundError = (error: unknown) => error instanceof NotFound
 
-export const serverSidePropsHandler = <TProps extends object>(
+export const serverSidePropsHandler = <
+  TProps extends { [key: string]: any } = { [key: string]: any }
+>(
   fn: (
     ctx: GetServerSidePropsContext
   ) => Promise<{ props: TProps } | Redirect | NotFound>
-): GetServerSideProps => {
-  return async (ctx) => {
+) => {
+  return async (
+    ctx: GetServerSidePropsContext
+  ): Promise<GetServerSidePropsResult<TProps>> => {
     try {
       const result = await fn(ctx)
       if (result instanceof Redirect) {
@@ -55,6 +63,7 @@ export const serverSidePropsHandler = <TProps extends object>(
       ctx.res.statusCode = 500
       return {
         props: {
+          // @ts-expect-error
           error: error.message,
         },
       }

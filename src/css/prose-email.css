@@ -1,0 +1,4 @@
+.prose.prose-email .table-wrapper,
+.prose.prose-email .code pre {
+  @apply -mx-0 md:-mx-0;
+}

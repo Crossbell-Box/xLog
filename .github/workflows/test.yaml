@@ -1,3 +1,5 @@
+# Temporarily disabled
+
 name: Test
 
 on:
@@ -8,6 +10,7 @@ on:
 
 jobs:
   test:
+    if: true == false
     runs-on: ubuntu-latest
     name: Test
     steps:
