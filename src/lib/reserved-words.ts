@@ -533,17 +533,7 @@ const words = [
   "zlib",
 ]
 
-export const EMAIL_TEMPLATE_SEGMENT = "__email_templates__"
-
-export const checkEmailTemplateSegment = (str: string) => {
-  if (str.includes(EMAIL_TEMPLATE_SEGMENT)) {
-    throw new Error(`${EMAIL_TEMPLATE_SEGMENT} is reserved`)
-  }
-}
-
 export const checkReservedWords = (word: string) => {
-  checkEmailTemplateSegment(word)
-
   if (words.includes(word)) {
     throw new Error(`${word} is a reserved word`)
   }

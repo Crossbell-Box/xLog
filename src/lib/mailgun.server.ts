@@ -13,7 +13,8 @@ import { SubscribeFormData } from "./types"
 import { getSite } from "~/models/site.model"
 import { type Site } from "~/lib/db.server"
 import Iron from "@hapi/iron"
-import { renderPageForEmail } from "~/models/page.model"
+import mjml from "mjml"
+import { getSiteLink } from "./helpers"
 
 const enableMailgun = Boolean(MAILGUN_APIKEY && MAILGUN_DOMAIN)
 
@@ -99,7 +100,7 @@ export const sendLoginEmail = async (payload: {
 }
 
 export const sendEmailForNewPost = async (payload: {
-  post: { slug: string; title: string }
+  post: { slug: string; title: string; rendered: { contentHTML: string } }
   site: Site
   subscribers: { id: string; email: string }[]
 }) => {
@@ -107,10 +108,37 @@ export const sendEmailForNewPost = async (payload: {
     const from = `${payload.site.name} <updates@${payload.site.subdomain}.proselog.com>`
     const subject = `${payload.post.title} - ${payload.site.name}`
 
-    const html = await renderPageForEmail({
-      pageSlug: payload.post.slug,
-      subdomain: payload.site.subdomain,
-    })
+    const siteLink = getSiteLink({ subdomain: payload.site.subdomain })
+    const html = `
+    <a href="${siteLink}/${
+      payload.post.slug
+    }" style="display:block;background:#eee;padding:5px 8px;border-radius:4px;text-decoration:none;">
+      View this post in browser
+    </a>
+
+    <h1 style="font-size:2.4em">${payload.post.title}</h1>
+
+    <div>
+    ${payload.post.rendered.contentHTML}
+    </div>
+
+
+    <p style="margin-top:3em;">
+      <a 
+        href="${`${SITE_URL}/api/unsubscribe?token=%recipient.unsubscribeToken%`}" 
+        style="text-decoration:none;">
+        Unsubscribe
+      </a>
+    </p>
+
+    <p>
+      <a 
+        href="${SITE_URL}" 
+        style="text-decoration:none;">
+        Published on Proselog
+      </a>
+    </p>
+    `
 
     const recipientVariables: {
       [email in string]: { unsubscribeToken: string }
