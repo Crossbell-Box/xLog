@@ -13,7 +13,6 @@ export const config = {
 }
 
 export const getServerSideProps = serverSidePropsHandler(async (ctx) => {
-  console.log("??")
   const domainOrSubdomain = ctx.params!.site as string
   const pageSlug = ctx.params!.page as string
   const trpcContext = await getTRPCContext(ctx)
