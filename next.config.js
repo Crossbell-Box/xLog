@@ -5,4 +5,7 @@ module.exports = {
   env: {
     APP_DESCRIPTION: pkg.description,
   },
+  experimental: {
+    scrollRestoration: true,
+  },
 }
