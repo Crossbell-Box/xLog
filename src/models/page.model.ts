@@ -63,7 +63,7 @@ export async function createOrUpdatePage(
     publishedAt?: string
     excerpt?: string
     isPost?: boolean
-  }
+  },
 ) {
   const user = gate.getUser(true)
   const page = input.pageId
@@ -109,7 +109,9 @@ export async function createOrUpdatePage(
   await checkPageSlug({ slug, excludePage: page.id, siteId: page.siteId })
 
   // Just checking if the page content can be rendered
-  await renderPageContent(page.content)
+  if (input.content) {
+    await renderPageContent(input.content)
+  }
 
   const updated = await prismaPrimary.page.update({
     where: {
@@ -148,7 +150,7 @@ export async function getPagesBySite(
     visibility?: PageVisibilityEnum | null
     take?: number | null
     cursor?: string | null
-  }
+  },
 ) {
   const site = await getSite(input.site)
 
@@ -207,7 +209,7 @@ export async function getPagesBySite(
         ...node,
         autoExcerpt: rendered.excerpt,
       }
-    })
+    }),
   )
 
   return {
@@ -250,7 +252,7 @@ export async function getPage<TRender extends boolean = false>(
     site?: string
     render?: TRender
     includeAuthors?: boolean
-  }
+  },
 ) {
   const site = input.site ? await getSite(input.site) : null
 
@@ -307,7 +309,7 @@ export const notifySubscribersForNewPost = async (
   gate: Gate,
   input: {
     pageId: string
-  }
+  },
 ) => {
   const page = await getPage(gate, { page: input.pageId, render: true })
   const site = await getSite(page.siteId)
