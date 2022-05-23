@@ -89,3 +89,11 @@
 .prose table tbody tr:nth-child(2n-1) {
   @apply bg-zinc-100;
 }
+
+.prose .task-list {
+  @apply list-none;
+}
+
+.prose > .task-list {
+  @apply pl-0;
+}

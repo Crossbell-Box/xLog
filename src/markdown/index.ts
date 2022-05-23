@@ -3,6 +3,7 @@ import { pluginCodeBlock } from "./plugin-code-block"
 import { pluginExcerpt } from "./plugin-excerpt"
 import { pluginImage } from "./plugin-image"
 import { pluginTable } from "./plugin-table"
+import { pluginTaskList } from "./plugin-task-list"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -24,6 +25,7 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
   md.use(pluginCodeBlock)
   md.use(pluginExcerpt)
   md.use(pluginTable)
+  md.use(pluginTaskList)
 
   const env: MarkdownEnv = { excerpt: "", __internal: {} }
   const contentHTML = md.render(content, env)
