@@ -1,4 +1,4 @@
-.code pre {
+pre {
   @apply -mx-5 md:-mx-8;
   @apply md:rounded-xl;
   @apply my-7;

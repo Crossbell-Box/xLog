@@ -1,9 +1,15 @@
-import Markdown from "markdown-it"
-import { pluginCodeBlock } from "./plugin-code-block"
-import { pluginExcerpt } from "./plugin-excerpt"
-import { pluginImage } from "./plugin-image"
-import { pluginTable } from "./plugin-table"
-import { pluginTaskList } from "./plugin-task-list"
+import { unified } from "unified"
+import remarkParse from "remark-parse"
+import remarkRehype from "remark-rehype"
+import rehypeStringify from "rehype-stringify"
+import remarkGfm from "remark-gfm"
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize"
+import rehypeRaw from "rehype-raw"
+import rehypePrism from "rehype-prism-plus"
+import { rehypeImage } from "./rehype-image"
+import { remarkExcerpt } from "./remark-excerpt"
+import { rehypeTable } from "./rehype-table"
+import { allowedBlockquoteAttrs, remarkCallout } from "./remark-callout"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -16,19 +22,30 @@ export type Rendered = {
 }
 
 export const renderPageContent = async (content: string): Promise<Rendered> => {
-  const md = new Markdown({
-    html: false,
-    linkify: true,
-  })
-
-  md.use(pluginImage)
-  md.use(pluginCodeBlock)
-  md.use(pluginExcerpt)
-  md.use(pluginTable)
-  md.use(pluginTaskList)
-
   const env: MarkdownEnv = { excerpt: "", __internal: {} }
-  const contentHTML = md.render(content, env)
+
+  const result = await unified()
+    .use(remarkParse)
+    .use(remarkGfm, {})
+    .use(remarkExcerpt, { env })
+    .use(remarkCallout)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeImage)
+    .use(rehypeSanitize, {
+      ...defaultSchema,
+      attributes: {
+        ...defaultSchema.attributes,
+        code: [["className"]],
+        blockquote: allowedBlockquoteAttrs,
+      },
+    })
+    .use(rehypePrism)
+    .use(rehypeTable)
+    .use(rehypeStringify)
+    .process(content)
+
+  const contentHTML = result.toString()
 
   return { contentHTML, excerpt: env.excerpt }
 }

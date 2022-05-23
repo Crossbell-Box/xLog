@@ -1,6 +1,6 @@
 /** based on prism tomorror */
 
-.code {
+pre {
   --lang-color: #8d8c8c;
   --code-bg: rgb(18, 18, 38);
   --code-fg: #fff;

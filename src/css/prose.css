@@ -90,10 +90,27 @@
   @apply bg-zinc-100;
 }
 
-.prose .task-list {
+.prose .task-list-item {
   @apply list-none;
 }
 
-.prose > .task-list {
-  @apply pl-0;
+.prose > ul > .task-list-item {
+  @apply -ml-5;
+}
+
+.prose .callout {
+  @apply border border-indigo-100 bg-indigo-50 text-indigo-700 rounded-xl p-5 md:p-8 font-normal;
+  @apply -mx-5 md:-mx-8 my-10;
+}
+
+.prose .callout-warn {
+  @apply border-orange-200  bg-orange-100 text-orange-700;
+}
+
+.prose .callout-success {
+  @apply border-green-200  bg-green-100 text-green-700;
+}
+
+.prose .callout-danger {
+  @apply border-red-200  bg-red-100 text-red-700;
 }
