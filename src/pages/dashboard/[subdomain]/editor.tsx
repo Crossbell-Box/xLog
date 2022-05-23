@@ -15,6 +15,7 @@ import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { UniLink } from "~/components/ui/UniLink"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { PublishButton } from "~/components/dashboard/PublishButton"
+import { inLocalTimezone } from "~/lib/date"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -36,7 +37,7 @@ export default function SubdomainEditor() {
     {
       enabled: !!pageId,
       refetchOnWindowFocus: false,
-    }
+    },
   )
   const published = page?.published ?? false
   const visibility = getPageVisibility({
@@ -70,7 +71,7 @@ export default function SubdomainEditor() {
         [key]: value,
       })
     },
-    [setValues, values]
+    [setValues, values],
   )
 
   const savePage = (published: boolean) => {
@@ -98,8 +99,8 @@ export default function SubdomainEditor() {
         })
         view.dispatch(
           view.state.replaceSelection(
-            `\n\n![${file.name.replace(/\.\w+$/, "")}](${key})\n\n`
-          )
+            `\n\n![${file.name.replace(/\.\w+$/, "")}](${key})\n\n`,
+          ),
         )
       } catch (error) {
         if (error instanceof Error) {
@@ -107,7 +108,7 @@ export default function SubdomainEditor() {
         }
       }
     },
-    [uploadFile]
+    [uploadFile],
   )
 
   const handleEditorChange = (newValue: string) => {
@@ -128,7 +129,7 @@ export default function SubdomainEditor() {
       router.replace(
         `/dashboard/${subdomain}/editor?id=${
           createOrUpdatePageResult.id
-        }&type=${isPost ? "post" : "page"}`
+        }&type=${isPost ? "post" : "page"}`,
       )
     }
   }, [
@@ -175,7 +176,7 @@ export default function SubdomainEditor() {
             <span
               className={clsx(
                 `text-sm`,
-                published ? `text-accent` : `text-zinc-300`
+                published ? `text-accent` : `text-zinc-300`,
               )}
             >
               {visibility === PageVisibilityEnum.Published
@@ -226,7 +227,8 @@ export default function SubdomainEditor() {
                 id="publishAt"
                 value={getInputDatetimeValue(values.publishedAt)}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  updateValue("publishedAt", e.target.value)
+                  const value = inLocalTimezone(e.target.value).toISOString()
+                  updateValue("publishedAt", value)
                 }}
                 help={`This ${
                   isPost ? "post" : "page"
