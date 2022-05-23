@@ -1,16 +1,7 @@
 import Markdown from "markdown-it"
-import { R2_URL } from "~/lib/env"
 import { getUserContentsUrl } from "~/lib/user-contents"
 
 const isExternLink = (url: string) => /^https?:\/\//.test(url)
-
-const ALLOW_IMAGE_ORIGINS = [
-  "user-images.githubusercontent.com",
-  "cdn.jsdelivr.net",
-  "images.unsplash.com",
-  "source.unsplash.com",
-  R2_URL.replace(/^https?\:\/\//, ""),
-]
 
 export const pluginImage = (md: Markdown) => {
   const imageRule = md.renderer.rules.image!
@@ -23,9 +14,8 @@ export const pluginImage = (md: Markdown) => {
     }
 
     if (isExternLink(url)) {
-      const { hostname } = new URL(url)
-      if (!ALLOW_IMAGE_ORIGINS.includes(hostname)) {
-        throw new Error(`Image from ${hostname} is not allowed`)
+      if (!url.startsWith("https:")) {
+        throw new Error(`External image url must start with https`)
       }
       return imageRule(tokens, idx, options, env, self)
     }
