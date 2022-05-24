@@ -20,6 +20,7 @@ export const rehypeImage: Plugin<Array<void>, Root> = () => {
         if (!url.startsWith("https:")) {
           throw new Error(`External image url must start with https`)
         }
+        return
       }
 
       node.properties.src = getUserContentsUrl(url)

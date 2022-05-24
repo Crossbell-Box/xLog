@@ -5,11 +5,13 @@ import rehypeStringify from "rehype-stringify"
 import remarkGfm from "remark-gfm"
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize"
 import rehypeRaw from "rehype-raw"
-import rehypePrism from "rehype-prism-plus"
+import { refractor } from "refractor/lib/common"
+import rehypePrismGenerator from "rehype-prism-plus/generator"
 import { rehypeImage } from "./rehype-image"
 import { remarkExcerpt } from "./remark-excerpt"
 import { rehypeTable } from "./rehype-table"
 import { allowedBlockquoteAttrs, remarkCallout } from "./remark-callout"
+import { rehypeExternalLink } from "./rehyper-external-link"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -20,6 +22,10 @@ export type Rendered = {
   contentHTML: string
   excerpt: string
 }
+
+refractor.alias("html", ["svelte", "vue"])
+
+const rehypePrism = rehypePrismGenerator(refractor)
 
 export const renderPageContent = async (content: string): Promise<Rendered> => {
   const env: MarkdownEnv = { excerpt: "", __internal: {} }
@@ -40,9 +46,12 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
         blockquote: allowedBlockquoteAttrs,
       },
     })
-    .use(rehypePrism)
+    .use(rehypePrism, {
+      ignoreMissing: true,
+    })
     .use(rehypeTable)
     .use(rehypeStringify)
+    .use(rehypeExternalLink)
     .process(content)
 
   const contentHTML = result.toString()

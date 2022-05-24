@@ -58,6 +58,7 @@ specifiers:
   react-hot-toast: ^2.2.0
   react-query: ^3.39.0
   react-sortablejs: ^6.1.1
+  refractor: ^4.7.0
   rehype-prism-plus: ^1.4.0
   rehype-raw: ^6.1.1
   rehype-sanitize: ^5.0.1
@@ -114,6 +115,7 @@ dependencies:
   react-hot-toast: 2.2.0_ef5jwxihqo6n7gxfmzogljlgcm
   react-query: 3.39.0_ef5jwxihqo6n7gxfmzogljlgcm
   react-sortablejs: 6.1.1_kjz72dk5lh6hp4ogspefhm7r2u
+  refractor: 4.7.0
   rehype-prism-plus: 1.4.0
   rehype-raw: 6.1.1
   rehype-sanitize: 5.0.1
