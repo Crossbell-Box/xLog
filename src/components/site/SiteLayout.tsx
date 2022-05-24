@@ -19,6 +19,7 @@ export type SiteLayoutProps = {
   subscription?: { email?: boolean } | null
   children: React.ReactNode
   title?: string | null
+  ogDescription?: string | null
 }
 
 export const SiteLayout: React.FC<SiteLayoutProps> = ({
@@ -27,13 +28,14 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   subscription,
   children,
   title,
+  ogDescription,
 }) => {
   return (
     <>
       <SEOHead
         title={title || ""}
         siteName={site.name}
-        description={site.description}
+        description={ogDescription ?? site.description}
         image={getUserContentsUrl(site.icon)}
       />
       <SiteHeader

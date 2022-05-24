@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
         trpcState,
       },
     }
-  }
+  },
 )
 
 function SitePagePage({
@@ -55,7 +55,7 @@ function SitePagePage({
 }) {
   const { data: site } = trpc.useQuery(
     ["site", { site: domainOrSubdomain }],
-    {}
+    {},
   )
   const { data: subscription } = trpc.useQuery([
     "site.subscription",
@@ -71,12 +71,15 @@ function SitePagePage({
     },
   ])
 
+  const ogDescription = page?.excerpt ?? page?.rendered?.excerpt
+
   return (
     <SiteLayout
       site={site!}
       title={page!.title}
       viewer={viewer}
       subscription={subscription}
+      ogDescription={ogDescription}
     >
       <SitePage page={page!} />
     </SiteLayout>
