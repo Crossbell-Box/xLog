@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { IS_PROD } from "~/lib/constants"
+import { DISCORD_LINK } from "~/lib/env"
 import { FLY_REGION, IS_PRIMARY_REGION, PRIMARY_REGION } from "~/lib/env.server"
 import { getTenant } from "~/lib/tenant.server"
 
@@ -37,6 +38,10 @@ export default function middleware(req: NextRequest) {
     const url = req.nextUrl.clone()
     url.pathname = `/_site/${tenant}${url.pathname}`
     return NextResponse.rewrite(url)
+  }
+
+  if (DISCORD_LINK && pathname === "/discord") {
+    return NextResponse.redirect(DISCORD_LINK)
   }
 
   return NextResponse.next()

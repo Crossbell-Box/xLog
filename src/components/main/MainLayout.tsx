@@ -1,23 +1,30 @@
-import Link from "next/link"
+import { Icon } from "@iconify/react"
+import discordIcon from "@iconify/icons-mdi/discord"
+import githubIcon from "@iconify/icons-mdi/github"
 import { logout } from "~/lib/auth.client"
-import { APP_DESCRIPTION, APP_NAME } from "~/lib/env"
+import { APP_DESCRIPTION, APP_NAME, GITHUB_LINK, OUR_DOMAIN } from "~/lib/env"
 import { useStore } from "~/lib/store"
-import { truthy } from "~/lib/utils"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 
 export function MainLayout({
   isLoggedIn,
   children,
-  region,
   title,
 }: {
   isLoggedIn: boolean
   children?: React.ReactNode
-  region: string | null
   title?: string
 }) {
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
+  const docsDomain = `docs.${OUR_DOMAIN}`
+  const discordLink = `https://${OUR_DOMAIN}/discord`
+  const companyLinks = [
+    { text: "Blog", href: `https://blog.${OUR_DOMAIN}` },
+    { text: "Changelog", href: `https://changelog.${OUR_DOMAIN}` },
+    { text: "Privacy", href: `https://${docsDomain}/privacy.html` },
+    { text: "Terms", href: `https://${docsDomain}/terms.html` },
+  ]
 
   return (
     <>
@@ -64,12 +71,37 @@ export function MainLayout({
       </header>
       {children}
       <footer className="mt-10 text-sm font-medium text-zinc-500">
-        <div className="max-w-screen-md px-5 mx-auto">
-          <span>&copy; {APP_NAME}</span>
-          <span className="mx-3">·</span>
-          <span>
-            Region: <span className="uppercase">{region}</span>
-          </span>
+        <div className="max-w-screen-md px-5 mx-auto flex justify-between">
+          <div>
+            <span>&copy; {APP_NAME}</span>
+            <div className="text-zinc-400 mt-2 flex items-center space-x-1">
+              <UniLink href={discordLink}>
+                <Icon
+                  icon={discordIcon}
+                  className="w-5 h-5 hover:text-indigo-500"
+                />
+              </UniLink>
+              {GITHUB_LINK && (
+                <UniLink href={GITHUB_LINK}>
+                  <Icon
+                    icon={githubIcon}
+                    className="w-5 h-5 hover:text-zinc-900"
+                  />
+                </UniLink>
+              )}
+            </div>
+          </div>
+          <ul className="text-right text-zinc-400 transition-colors">
+            {companyLinks.map((link) => {
+              return (
+                <li key={link.text}>
+                  <UniLink href={link.href} className="hover:text-indigo-500">
+                    {link.text}
+                  </UniLink>
+                </li>
+              )
+            })}
+          </ul>
         </div>
       </footer>
     </>

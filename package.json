@@ -65,7 +65,9 @@
     "use-onclickoutside": "^0.4.0",
     "uuid": "^8.3.2",
     "zod": "^3.15.1",
-    "zustand": "4.0.0-rc.1"
+    "zustand": "4.0.0-rc.1",
+    "@iconify/icons-mdi": "^1.2.15",
+    "@iconify/react": "^3.2.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.22.1",

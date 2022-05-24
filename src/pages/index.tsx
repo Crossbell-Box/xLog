@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next"
+import { useEffect } from "react"
 import { DashboardIcon } from "~/components/icons/DashboardIcon"
 import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
@@ -27,8 +28,12 @@ export default function Home({
 }) {
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
 
+  useEffect(() => {
+    console.log("-> region", region)
+  }, [region])
+
   return (
-    <MainLayout isLoggedIn={isLoggedIn} region={region}>
+    <MainLayout isLoggedIn={isLoggedIn}>
       <section>
         <div className="max-w-screen-md px-5 mx-auto">
           <div className="bg-zinc-50 rounded-xl p-10">

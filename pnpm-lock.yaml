@@ -8,6 +8,8 @@ specifiers:
   '@codemirror/view': ^0.20.3
   '@hapi/iron': ^6.0.0
   '@headlessui/react': ^1.6.0
+  '@iconify/icons-mdi': ^1.2.15
+  '@iconify/react': ^3.2.1
   '@playwright/test': ^1.22.1
   '@prisma/client': ^3.14.0
   '@proselog/jwt': ^0.1.1
@@ -86,6 +88,8 @@ dependencies:
   '@codemirror/view': 0.20.4
   '@hapi/iron': 6.0.0
   '@headlessui/react': 1.6.1_ef5jwxihqo6n7gxfmzogljlgcm
+  '@iconify/icons-mdi': 1.2.15
+  '@iconify/react': 3.2.1
   '@prisma/client': 3.14.0_prisma@3.14.0
   '@proselog/jwt': 0.1.1
   '@trpc/client': 9.23.2_@trpc+server@9.23.2
@@ -513,6 +517,19 @@ packages:
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@iconify/icons-mdi/1.2.15:
+    resolution: {integrity: sha512-cpmRpW3AOou6+WN16QQwSAlv1seD1m7iqoO8JP+igHeZbUsx9e1FJbfPPUixhsdBBJtEYAnVAauMH+3VyXLFRw==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: false
+
+  /@iconify/react/3.2.1:
+    resolution: {integrity: sha512-yKzixjC9ct9RC/aSGo1OGxkG2rpfhlr/urRz6k2YZlIBzn92PBTlqtSx8o8dFYEorr3eUFSCBZFzBy1yw5jsAA==}
+    dev: false
+
+  /@iconify/types/1.1.0:
+    resolution: {integrity: sha512-Jh0llaK2LRXQoYsorIH8maClebsnzTcve+7U3rQUSnC11X4jtPnFuyatqFLvMxZ8MLG8dB4zfHsbPfuvxluONw==}
 
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
