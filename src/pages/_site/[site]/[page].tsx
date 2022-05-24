@@ -71,7 +71,7 @@ function SitePagePage({
     },
   ])
 
-  const ogDescription = page?.excerpt ?? page?.rendered?.excerpt
+  const ogDescription = page?.excerpt || page?.rendered?.excerpt
 
   return (
     <SiteLayout
