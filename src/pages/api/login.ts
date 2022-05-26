@@ -7,8 +7,10 @@ import { generateCookie } from "~/lib/auth.server"
 import { OUR_DOMAIN } from "~/lib/env"
 import { IS_PROD } from "~/lib/constants"
 import { NextApiHandler } from "next"
-import { subscribeToSite } from "~/models/site.model"
+import { getSite, subscribeToSite } from "~/models/site.model"
 import { createGate } from "~/lib/gate.server"
+import { decryptLoginToken } from "~/lib/token.server"
+import { getSiteLink } from "~/lib/helpers"
 
 const handler: NextApiHandler = async (req, res) => {
   const data = z
@@ -16,71 +18,54 @@ const handler: NextApiHandler = async (req, res) => {
       token: z.string(),
       next: z.string(),
       userAgent: z.string(),
-      subscribe: z
-        .object({
-          siteId: z.string(),
-          email: z.boolean().optional(),
-        })
-        .optional(),
     })
     .parse({
       token: req.query.token,
       next: req.query.next,
       userAgent: req.headers["user-agent"],
-      subscribe:
-        req.query.subscribe && JSON.parse(req.query.subscribe as string),
     })
 
-  const loginToken = await prismaPrimary.loginToken.findUnique({
-    where: {
-      id: data.token,
-    },
-  })
-
-  if (!loginToken) {
-    throw new Error("invalid token")
-  }
-
-  if (loginToken.expiresAt < new Date()) {
-    throw new Error(`token expired`)
-  }
+  const payload = await decryptLoginToken(data.token)
 
   let user = await prismaPrimary.user.findUnique({
-    where: {
-      email: loginToken.email,
-    },
+    where:
+      payload.type === "unsubscribe"
+        ? {
+            id: payload.userId,
+          }
+        : {
+            email: payload.email,
+          },
     include: {
       memberships: true,
     },
   })
 
   if (!user) {
-    user = await prismaPrimary.user.create({
-      data: {
-        email: loginToken.email,
-        name: loginToken.email.split("@")[0],
-        username: nanoid(7),
-      },
-      include: {
-        memberships: true,
-      },
-    })
+    if (payload.type === "unsubscribe") {
+      throw new Error("User not found")
+    } else {
+      user = await prismaPrimary.user.create({
+        data: {
+          email: payload.email,
+          name: payload.email.split("@")[0],
+          username: nanoid(7),
+        },
+        include: {
+          memberships: true,
+        },
+      })
+    }
   }
 
-  if (data.subscribe) {
+  if (payload.type === "subscribe") {
     // Subscribe the user to the site
     const gate = createGate({ user })
     await subscribeToSite(gate, {
-      siteId: data.subscribe.siteId,
-      email: data.subscribe.email,
+      siteId: payload.siteId,
+      email: true,
     })
   }
-
-  await prismaPrimary.loginToken.delete({
-    where: {
-      id: loginToken.id,
-    },
-  })
 
   const ua = new UAParser(data.userAgent)
 
@@ -103,9 +88,16 @@ const handler: NextApiHandler = async (req, res) => {
     console.log("login with token", accessToken.token)
   }
 
-  // Custom domain
+  if (payload.type === "unsubscribe") {
+    const site = await getSite(payload.siteId)
+    data.next = `${getSiteLink({
+      subdomain: site.subdomain,
+    })}?subscription`
+  }
+
   const nextUrl = new URL(data.next)
 
+  // Custom domain
   if (nextUrl.host !== OUR_DOMAIN && !nextUrl.host.endsWith(`.${OUR_DOMAIN}`)) {
     // Check if the host belong to a site
     // const existing = await prismaPrimary.domain.findUnique({
@@ -120,7 +112,7 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   nextUrl.searchParams.set("id", publicId)
-  nextUrl.searchParams.set("path", nextUrl.pathname)
+  nextUrl.searchParams.set("pathname", nextUrl.pathname)
   nextUrl.pathname = "/api/login-complete"
   console.log("redirecting to", nextUrl.href)
 
@@ -130,7 +122,7 @@ const handler: NextApiHandler = async (req, res) => {
       type: "auth",
       domain: OUR_DOMAIN,
       token: accessToken.token,
-    })
+    }),
   )
 
   res.redirect(nextUrl.href)

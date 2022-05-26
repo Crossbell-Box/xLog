@@ -5,16 +5,22 @@ import { IS_PROD } from "~/lib/constants"
 import { prismaPrimary } from "~/lib/db.server"
 import { OUR_DOMAIN } from "~/lib/env"
 
+const pathAndSearch = (pathname: string, search: string) => {
+  return `${pathname}${search ? `?${search}` : ""}`
+}
+
 const handler: NextApiHandler = async (req, res) => {
   const data = z
     .object({
       id: z.string(),
-      path: z.string().default("/"),
+      pathname: z.string().default("/"),
+      search: z.string().default(""),
       host: z.string(),
     })
     .parse({
       id: req.query.id,
-      path: req.query.path,
+      pathname: req.query.pathname,
+      search: req.query.search,
       host: req.headers.host,
     })
 
@@ -52,13 +58,13 @@ const handler: NextApiHandler = async (req, res) => {
         type: "auth",
         domain: data.host,
         token: accessToken.token,
-      })
+      }),
     )
-    res.redirect(data.path)
+    res.redirect(pathAndSearch(data.pathname, data.search))
     return
   }
 
-  res.redirect(data.path)
+  res.redirect(pathAndSearch(data.pathname, data.search))
 }
 
 export default handler

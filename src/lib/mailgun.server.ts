@@ -2,9 +2,9 @@ import Mailgun from "mailgun.js"
 import FormData from "form-data"
 import { singleton } from "./singleton.server"
 import {
-  ENCRYPT_SECRET,
   MAILGUN_APIKEY,
-  MAILGUN_DOMAIN,
+  MAILGUN_DOMAIN_NEWSLETTER,
+  MAILGUN_DOMAIN_TRANSANCTION,
 } from "~/lib/env.server"
 import type { MailgunMessageData } from "mailgun.js/interfaces/Messages"
 import { IS_PROD } from "./constants"
@@ -12,11 +12,17 @@ import { APP_NAME, OUR_DOMAIN, SITE_URL } from "./env"
 import { SubscribeFormData } from "./types"
 import { getSite } from "~/models/site.model"
 import { type Site } from "~/lib/db.server"
-import Iron from "@hapi/iron"
-import mjml from "mjml"
 import { getSiteLink } from "./helpers"
+import { generateLoginToken } from "./token.server"
 
-const enableMailgun = Boolean(MAILGUN_APIKEY && MAILGUN_DOMAIN)
+enum MAIL_STREAM {
+  NEWSLETTER = "newsletter",
+  TRANSANCTION = "transaction",
+}
+
+const enableMailgun = Boolean(
+  MAILGUN_APIKEY && MAILGUN_DOMAIN_TRANSANCTION && MAILGUN_DOMAIN_NEWSLETTER,
+)
 
 const getClient = () =>
   singleton("mailgun", () => {
@@ -29,35 +35,57 @@ const getClient = () =>
     return client
   })
 
-const sendEmail = async (message: MailgunMessageData) => {
+const sendEmail = async (message: MailgunMessageData, stream: MAIL_STREAM) => {
   console.log(message)
 
   if (!enableMailgun) {
     console.error(
-      "not sending email because no mailgun apikey or domain configured"
+      "not sending email because no mailgun apikey or domain configured",
     )
     return
   }
 
   const client = getClient()
 
-  await client.messages.create(MAILGUN_DOMAIN, message).then(console.log)
+  await client.messages
+    .create(
+      stream === MAIL_STREAM.NEWSLETTER
+        ? MAILGUN_DOMAIN_NEWSLETTER!
+        : MAILGUN_DOMAIN_TRANSANCTION!,
+      message,
+    )
+    .then(console.log)
 }
 
+const sendTransanctionEmail = async (message: MailgunMessageData) =>
+  sendEmail(message, MAIL_STREAM.TRANSANCTION)
+
+const sendNewsletterEmail = async (message: MailgunMessageData) =>
+  sendEmail(message, MAIL_STREAM.NEWSLETTER)
+
 export const sendLoginEmail = async (payload: {
-  token: string
   email: string
   url: string
-  subscribeForm?: SubscribeFormData
+  toSubscribeSiteId?: string
 }) => {
   const { protocol, host, pathname } = new URL(payload.url)
+  const token = await generateLoginToken(
+    payload.toSubscribeSiteId
+      ? {
+          type: "subscribe",
+          email: payload.email,
+          siteId: payload.toSubscribeSiteId,
+        }
+      : {
+          type: "login",
+          email: payload.email,
+        },
+  )
   const query = new URLSearchParams([
-    ["token", payload.token],
+    ["token", token],
     ["next", `${protocol}//${host}${pathname}`],
   ])
-  if (payload.subscribeForm) {
-    query.append("subscribe", JSON.stringify(payload.subscribeForm))
-  }
+
   const loginLink = `${
     IS_PROD ? "https" : "http"
   }://${OUR_DOMAIN}/api/login?${query.toString()}`
@@ -78,15 +106,15 @@ export const sendLoginEmail = async (payload: {
   <p>Your Proselog Team</p>
   `
 
-  if (payload.subscribeForm) {
-    const site = await getSite(payload.subscribeForm.siteId)
+  if (payload.toSubscribeSiteId) {
+    const site = await getSite(payload.toSubscribeSiteId)
     subject = `Confirm your subscription to ${site.name}`
     html = `
-    <p>Please confirm your subscription to ${site.name} by clicking the link below:</p>
+    <p>Please confirm your subscription to "${site.name}" by clicking the link below:</p>
     
     <a href="${loginLink}">confirm</a>
     
-    <p>This link will expire in 10 minutes.</p>`
+    <p>This link will expire in 20 minutes.</p>`
   }
 
   const message: MailgunMessageData = {
@@ -96,7 +124,7 @@ export const sendLoginEmail = async (payload: {
     html,
   }
 
-  await sendEmail(message)
+  await sendTransanctionEmail(message)
 }
 
 export const sendEmailForNewPost = async (payload: {
@@ -125,7 +153,7 @@ export const sendEmailForNewPost = async (payload: {
 
     <p style="margin-top:3em;">
       <a 
-        href="${`${SITE_URL}/api/unsubscribe?token=%recipient.unsubscribeToken%`}" 
+        href="${`${SITE_URL}/api/login?next=/ignore&token=%recipient.unsubscribeToken%`}" 
         style="text-decoration:none;">
         Unsubscribe
       </a>
@@ -146,29 +174,27 @@ export const sendEmailForNewPost = async (payload: {
 
     await Promise.allSettled(
       payload.subscribers.map(async (sub) => {
-        const unsubscribeToken = await Iron.seal(
-          {
-            userId: sub.id,
-            siteId: payload.site.id,
-          },
-          ENCRYPT_SECRET,
-          Iron.defaults
-        )
+        const unsubscribeToken = await generateLoginToken({
+          type: "unsubscribe",
+          userId: sub.id,
+          siteId: payload.site.id,
+        })
         recipientVariables[sub.email] = {
           unsubscribeToken,
         }
-      })
+      }),
     )
 
     const message: MailgunMessageData = {
       from,
       subject,
       html,
+      // TODO: segment by every 800 subscribers
       to: Object.keys(recipientVariables),
       "recipient-variables": JSON.stringify(recipientVariables),
     }
 
-    await sendEmail(message)
+    await sendNewsletterEmail(message)
   } catch (error) {
     console.error(error)
   }

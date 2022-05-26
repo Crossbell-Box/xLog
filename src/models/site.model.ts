@@ -8,6 +8,7 @@ import { SiteNavigationItem, SubscribeFormData } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { getMembership } from "./membership"
 import { checkReservedWords } from "~/lib/reserved-words"
+import { generateLoginToken } from "~/lib/token.server"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -111,7 +112,7 @@ export async function updateSite(
     icon?: string | null
     subdomain?: string
     navigation?: SiteNavigationItem[]
-  }
+  },
 ) {
   const site = await getSite(payload.site)
 
@@ -147,7 +148,7 @@ export async function updateSite(
 
 export async function createSite(
   gate: Gate,
-  payload: { name: string; subdomain: string }
+  payload: { name: string; subdomain: string },
 ) {
   const user = gate.getUser(true)
   await checkSubdomain({ subdomain: payload.subdomain })
@@ -205,27 +206,15 @@ export async function subscribeToSite(
       email: string
       url: string
     }
-  }
+  },
 ) {
   const { newUser } = input
   if (newUser) {
     // Create the login token instead
-    const subscribeFormData: SubscribeFormData = {
-      email: input.email,
-      siteId: input.siteId,
-    }
-    const loginToken = await prismaPrimary.loginToken.create({
-      data: {
-        email: newUser.email,
-        expiresAt: dayjs().add(10, "minutes").toDate(),
-        subscribeForm: subscribeFormData,
-      },
-    })
     sendLoginEmail({
-      token: loginToken.id,
-      email: loginToken.email,
+      email: newUser.email,
       url: newUser.url,
-      subscribeForm: subscribeFormData,
+      toSubscribeSiteId: input.siteId,
     })
     return
   }
@@ -272,7 +261,7 @@ export async function subscribeToSite(
 
 export async function unsubscribeFromSite(
   gate: Gate,
-  input: { siteId: string }
+  input: { siteId: string },
 ) {
   const user = gate.getUser(true)
 

@@ -1,6 +1,4 @@
-import dayjs from "dayjs"
 import { z } from "zod"
-import { prismaPrimary } from "~/lib/db.server"
 import { sendLoginEmail } from "~/lib/mailgun.server"
 import { createRouter } from "~/lib/trpc.server"
 import { getViewer } from "~/lib/viewer"
@@ -28,17 +26,9 @@ export const authRouter = createRouter()
     }),
     output: z.boolean(),
     async resolve({ input }) {
-      const token = await prismaPrimary.loginToken.create({
-        data: {
-          email: input.email,
-          expiresAt: dayjs().add(10, "minute").toDate(),
-        },
-      })
-
       await sendLoginEmail({
         url: input.url,
         email: input.email,
-        token: token.id,
       }).catch(console.error)
 
       return true

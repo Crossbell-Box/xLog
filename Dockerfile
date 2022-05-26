@@ -24,10 +24,8 @@ COPY --from=deps /app /app
 
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production
+ENV BUILD_STEP=1
 RUN pnpm build
-# Remove devDependencies
-RUN pnpm prune --prod
-
 
 ##### FINAL
 FROM base
@@ -35,10 +33,9 @@ FROM base
 ENV NODE_ENV=production
 WORKDIR /app
 
-COPY --from=build /app/node_modules /app/node_modules
-COPY --from=build /app/package.json /app/package.json
-COPY --from=build /app/.next /app/.next
+COPY --from=build /app/.next/standalone /app
 COPY --from=build /app/public /app/public
+COPY --from=build /app/.next/static /app/.next/static
 
 CMD ["pnpm", "start"]
 

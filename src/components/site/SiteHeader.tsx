@@ -28,7 +28,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
       onClick={link.onClick}
       className={clsx(
         `h-10 flex items-center border-b-2 space-x-1 hover:border-gray-500 hover:text-gray-700`,
-        active ? `text-indigo-700 border-accent` : `border-transparent`
+        active ? `text-indigo-700 border-accent` : `border-transparent`,
       )}
     >
       {link.icon && <span>{link.icon}</span>}
@@ -46,7 +46,7 @@ export const SiteHeader: React.FC<{
   viewer: Viewer | null
 }> = ({ siteName, description, icon, navigation, subscribed, viewer }) => {
   const setSubscribeModalOpened = useStore(
-    (store) => store.setSubscribeModalOpened
+    (store) => store.setSubscribeModalOpened,
   )
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
 
@@ -62,7 +62,7 @@ export const SiteHeader: React.FC<{
   const dropdownLinks: HeaderLinkType[] = [
     {
       icon: <DashboardIcon />,
-      label: "Dashboard",
+      label: "Writer dashboard",
       url: `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}/dashboard`,
     },
     {
@@ -150,7 +150,7 @@ export const SiteHeader: React.FC<{
                         key={i}
                         href={link.url}
                         onClick={link.onClick}
-                        className="px-4 h-8 flex items-center w-full hover:bg-zinc-100"
+                        className="px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
                       >
                         {link.label}
                       </UniLink>

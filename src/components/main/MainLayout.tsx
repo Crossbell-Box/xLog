@@ -2,7 +2,13 @@ import { Icon } from "@iconify/react"
 import discordIcon from "@iconify/icons-mdi/discord"
 import githubIcon from "@iconify/icons-mdi/github"
 import { logout } from "~/lib/auth.client"
-import { APP_DESCRIPTION, APP_NAME, GITHUB_LINK, OUR_DOMAIN } from "~/lib/env"
+import {
+  APP_DESCRIPTION,
+  APP_NAME,
+  DOCS_DOMAIN,
+  GITHUB_LINK,
+  OUR_DOMAIN,
+} from "~/lib/env"
 import { useStore } from "~/lib/store"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
@@ -17,13 +23,12 @@ export function MainLayout({
   title?: string
 }) {
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
-  const docsDomain = `docs.${OUR_DOMAIN}`
   const discordLink = `https://${OUR_DOMAIN}/discord`
   const companyLinks = [
     { text: "Blog", href: `https://blog.${OUR_DOMAIN}` },
     { text: "Changelog", href: `https://changelog.${OUR_DOMAIN}` },
-    { text: "Privacy", href: `https://${docsDomain}/privacy.html` },
-    { text: "Terms", href: `https://${docsDomain}/terms.html` },
+    { text: "Privacy", href: `https://${DOCS_DOMAIN}/privacy.html` },
+    { text: "Terms", href: `https://${DOCS_DOMAIN}/terms.html` },
   ]
 
   return (

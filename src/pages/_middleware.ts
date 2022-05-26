@@ -6,6 +6,12 @@ import { getTenant } from "~/lib/tenant.server"
 
 const METHODS_TO_NOT_REPLAY = ["GET", "HEAD", "OPTIONS"]
 
+const ALWAYS_REPLAY_ROUTES = [
+  "/api/login",
+  "/api/login-complete",
+  "/api/logout",
+]
+
 export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
@@ -14,7 +20,8 @@ export default function middleware(req: NextRequest) {
   if (
     IS_PROD &&
     !IS_PRIMARY_REGION &&
-    !METHODS_TO_NOT_REPLAY.includes(req.method)
+    (!METHODS_TO_NOT_REPLAY.includes(req.method) ||
+      ALWAYS_REPLAY_ROUTES.includes(pathname))
   ) {
     console.log("replayed", {
       PRIMARY_REGION,

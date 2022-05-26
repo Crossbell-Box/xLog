@@ -91,6 +91,7 @@ model Site {
     navigation  Json?
     deletedAt   DateTime?
     memberships Membership[]
+    analyticsId String?      @unique
 
     @@map("sites")
 }

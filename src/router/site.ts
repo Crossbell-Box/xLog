@@ -80,7 +80,7 @@ export const siteRouter = createRouter()
           slug: z.string(),
           excerpt: z.string().nullable(),
           autoExcerpt: z.string(),
-        })
+        }),
       ),
       total: z.number(),
       hasMore: z.boolean(),
@@ -118,7 +118,7 @@ export const siteRouter = createRouter()
             id: z.string(),
             name: z.string(),
             avatar: z.string().nullable(),
-          })
+          }),
         )
         .optional(),
     }),
@@ -143,9 +143,9 @@ export const siteRouter = createRouter()
               .string()
               .regex(
                 /^(https?:\/\/|\/)/,
-                "URL must start with / or http:// or https://"
+                "URL must start with / or http:// or https://",
               ),
-          })
+          }),
         )
         .optional(),
     }),

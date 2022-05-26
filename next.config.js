@@ -7,5 +7,6 @@ module.exports = {
   },
   experimental: {
     scrollRestoration: true,
+    outputStandalone: true,
   },
 }

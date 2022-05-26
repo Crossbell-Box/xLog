@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 import { trpc } from "~/lib/trpc"
 import { Input } from "../ui/Input"
 import { useForm } from "react-hook-form"
+import { useRouter } from "next/router"
 
 export const SubscribeModal: React.FC<{
   siteId: string
@@ -14,6 +15,7 @@ export const SubscribeModal: React.FC<{
   } | null
   isLoggedIn: boolean
 }> = ({ siteId, subscription, isLoggedIn }) => {
+  const router = useRouter()
   const [open, setOpen] = useStore((store) => [
     store.subscribeModalOpened,
     store.setSubscribeModalOpened,
@@ -59,7 +61,21 @@ export const SubscribeModal: React.FC<{
   }, [unsubscribe, trpcContext])
 
   return (
-    <Modal title="Become a subscriber" open={open} setOpen={setOpen}>
+    <Modal
+      title={subscription ? `Manage your subscription` : `Become a subscriber`}
+      open={open}
+      setOpen={(open) => {
+        setOpen(open)
+        if (!open && "subscription" in router.query) {
+          const query = new URLSearchParams(window.location.search)
+          query.delete("subscription")
+          const search = query.toString()
+          router.replace(
+            `${window.location.pathname}${search ? `?${search}` : ""}`,
+          )
+        }
+      }}
+    >
       {subscribe.isSuccess && !isLoggedIn ? (
         <div className="p-5 space-y-3">
           <p>

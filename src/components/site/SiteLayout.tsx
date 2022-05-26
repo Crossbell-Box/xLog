@@ -1,11 +1,13 @@
 import clsx from "clsx"
-import React from "react"
+import React, { useEffect } from "react"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { SubscribeModal } from "../common/SubscribeModal"
 import { SEOHead } from "../common/SEOHead"
 import { SiteNavigationItem, Viewer } from "~/lib/types"
 import { SiteFooter } from "./SiteFooter"
 import { SiteHeader } from "./SiteHeader"
+import { useRouter } from "next/router"
+import { useStore } from "~/lib/store"
 
 export type SiteLayoutProps = {
   site: {
@@ -30,6 +32,17 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   title,
   ogDescription,
 }) => {
+  const router = useRouter()
+  const setSubscribeModalOpened = useStore(
+    (store) => store.setSubscribeModalOpened,
+  )
+
+  useEffect(() => {
+    if ("subscription" in router.query) {
+      setSubscribeModalOpened(true)
+    }
+  }, [setSubscribeModalOpened, router.query])
+
   return (
     <>
       <SEOHead

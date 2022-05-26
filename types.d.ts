@@ -7,7 +7,8 @@ declare interface CustomEnv {
   AUTH_COOKIE_NAME: string
   NEXT_PUBLIC_OUR_DOMAIN: string
   MAILGUN_APIKEY: string
-  MAILGUN_DOMAIN: string
+  MAILGUN_DOMAIN_TRANSANCTION?: string
+  MAILGUN_DOMAIN_NEWSLETTER?: string
   FLY_REGION?: string
   PRIMARY_REGION?: string
   ENCRYPT_SECRET: string
