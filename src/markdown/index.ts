@@ -12,6 +12,7 @@ import { remarkExcerpt } from "./remark-excerpt"
 import { rehypeTable } from "./rehype-table"
 import { allowedBlockquoteAttrs, remarkCallout } from "./remark-callout"
 import { rehypeExternalLink } from "./rehyper-external-link"
+import { rehypeWrapCode } from "./rehype-wrap-code"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -52,6 +53,7 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
     .use(rehypeTable)
     .use(rehypeStringify)
     .use(rehypeExternalLink)
+    .use(rehypeWrapCode)
     .process(content)
 
   const contentHTML = result.toString()

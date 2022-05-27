@@ -11,7 +11,7 @@ export default function Document(props: DocumentProps) {
           crossOrigin=""
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
           rel="stylesheet"
         />
       </Head>

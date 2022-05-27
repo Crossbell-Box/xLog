@@ -114,3 +114,21 @@
 .prose .callout-danger {
   @apply border-red-200  bg-red-100 text-red-700;
 }
+
+.prose .code-wrapper {
+  @apply relative;
+  @apply -mx-5 md:-mx-8;
+}
+
+.prose .code-wrapper .copy-button {
+  @apply absolute top-3 right-3;
+  @apply text-sm space-x-1;
+  @apply text-zinc-100 bg-zinc-600;
+  @apply rounded-lg h-7 px-3 items-center;
+  @apply active:mt-[2px];
+  @apply md:hidden;
+}
+
+.prose .code-wrapper:hover .copy-button {
+  @apply inline-flex;
+}

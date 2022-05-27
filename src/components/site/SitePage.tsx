@@ -1,9 +1,7 @@
 import type { PageType } from "~/lib/db.server"
-import { formatDate } from "~/lib/date"
 import { Rendered } from "~/markdown"
-import { Avatar } from "../ui/Avatar"
-import { getUserContentsUrl } from "~/lib/user-contents"
 import { PostMeta } from "./PostMeta"
+import { useCodeCopy } from "~/hooks/useCodeCopy"
 
 export const SitePage: React.FC<{
   page: {
@@ -14,6 +12,8 @@ export const SitePage: React.FC<{
     authors?: { id: string; name: string; avatar: string | null }[]
   }
 }> = ({ page }) => {
+  useCodeCopy()
+
   return (
     <>
       <div className="">

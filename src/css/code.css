@@ -1,11 +1,9 @@
 pre {
-  @apply -mx-5 md:-mx-8;
   @apply md:rounded-xl;
   @apply my-7;
   @apply p-5 md:p-8;
   background-color: var(--code-bg);
   color: var(--code-fg);
-  max-height: 800px;
 }
 
 :not(pre) > code {
