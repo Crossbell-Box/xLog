@@ -126,7 +126,7 @@
   @apply text-zinc-100 bg-zinc-600/50;
   @apply rounded-lg h-7 px-3 items-center;
   @apply active:mt-[2px];
-  @apply inline-flex md:hidden;
+  @apply hidden;
 }
 
 .prose .code-wrapper:hover .copy-button {
