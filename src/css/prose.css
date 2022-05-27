@@ -123,10 +123,10 @@
 .prose .code-wrapper .copy-button {
   @apply absolute top-3 right-3;
   @apply text-sm space-x-1;
-  @apply text-zinc-100 bg-zinc-600;
+  @apply text-zinc-100 bg-zinc-600/50;
   @apply rounded-lg h-7 px-3 items-center;
   @apply active:mt-[2px];
-  @apply md:hidden;
+  @apply inline-flex md:hidden;
 }
 
 .prose .code-wrapper:hover .copy-button {
