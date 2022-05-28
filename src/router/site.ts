@@ -68,18 +68,20 @@ export const siteRouter = createRouter()
         .nullish(),
       take: z.number().optional(),
       cursor: z.string().optional(),
+      includeContent: z.boolean().optional(),
+      includeExcerpt: z.boolean().optional(),
     }),
     output: z.object({
       nodes: z.array(
         z.object({
           id: z.string(),
           title: z.string(),
-          content: z.string(),
+          contentHTML: z.string().optional(),
           publishedAt: z.date().transform((v) => v.toISOString()),
           published: z.boolean(),
           slug: z.string(),
           excerpt: z.string().nullable(),
-          autoExcerpt: z.string(),
+          autoExcerpt: z.string().optional(),
         }),
       ),
       total: z.number(),

@@ -19,7 +19,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   await Promise.all([
     ssg.fetchQuery("site", { site: domainOrSubdomain }),
-    ssg.fetchQuery("site.pages", { site: domainOrSubdomain }),
+    ssg.fetchQuery("site.pages", {
+      site: domainOrSubdomain,
+      take: 1000,
+      includeExcerpt: true,
+    }),
     ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
   ])
 
@@ -41,7 +45,7 @@ function SiteIndexPage({
 }) {
   const { data: site } = trpc.useQuery(
     ["site", { site: domainOrSubdomain }],
-    {}
+    {},
   )
   const { data: subscription } = trpc.useQuery([
     "site.subscription",
@@ -49,7 +53,7 @@ function SiteIndexPage({
   ])
   const { data: posts } = trpc.useQuery([
     "site.pages",
-    { site: domainOrSubdomain },
+    { site: domainOrSubdomain, take: 1000, includeExcerpt: true },
   ])
 
   return (

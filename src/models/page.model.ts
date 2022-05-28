@@ -150,6 +150,8 @@ export async function getPagesBySite(
     visibility?: PageVisibilityEnum | null
     take?: number | null
     cursor?: string | null
+    includeContent?: boolean
+    includeExcerpt?: boolean
   },
 ) {
   const site = await getSite(input.site)
@@ -204,7 +206,17 @@ export async function getPagesBySite(
 
   const nodesRendered = await Promise.all(
     nodes.slice(0, take).map(async (node) => {
+      if (!input.includeContent && !input.includeExcerpt) {
+        return node
+      }
       const rendered = await renderPageContent(node.content)
+      if (!input.includeContent) {
+        rendered.contentHTML = ""
+      }
+      if (!input.includeExcerpt) {
+        rendered.excerpt = ""
+        node.excerpt = ""
+      }
       return {
         ...node,
         autoExcerpt: rendered.excerpt,
