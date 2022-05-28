@@ -54,7 +54,7 @@ export default function Home({
                   href="/dashboard"
                   className="text-indigo-500 inline-flex items-center space-x-2 hover:text-indigo-600"
                 >
-                  <DashboardIcon />
+                  <span className="i-bi-grid text-lg"></span>
                   <span>Dashboard</span>
                 </UniLink>
               ) : (

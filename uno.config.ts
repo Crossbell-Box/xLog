@@ -2,5 +2,9 @@ import { defineConfig } from "unocss"
 import presetIcons from "@unocss/preset-icons"
 
 export default defineConfig({
-  presets: [presetIcons()],
+  presets: [
+    presetIcons({
+      warn: true,
+    }),
+  ],
 })

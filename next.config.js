@@ -9,12 +9,13 @@ class UnoCSS {
    */
   apply(compiler) {
     compiler.hooks.beforeRun.tapPromise("unocss", async () => {
+      if (globalThis.uno_built) return
+      globalThis.uno_watching = true
       spawn.sync("pnpm", ["uno-generate"], { stdio: "inherit" })
     })
-    let watching = false
     compiler.hooks.watchRun.tap("unocss", () => {
-      if (watching) return
-      watching = true
+      if (globalThis.uno_watching) return
+      globalThis.uno_watching = true
       spawn("pnpm", ["uno-generate", "--watch"], { stdio: "inherit" })
     })
   }
