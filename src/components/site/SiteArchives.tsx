@@ -43,7 +43,7 @@ export const SiteArchives: React.FC<{
                 {posts.map((post) => {
                   return (
                     <Link key={post.id} href={`/${post.slug}`}>
-                      <a className="flex justify-between items-center p-1 px-2 rounded-lg -mx-2 hover:bg-zinc-50">
+                      <a className="flex justify-between items-center p-1 px-2 rounded-lg -mx-2 hover:bg-zinc-100">
                         <span className="text-accent font-medium">
                           {post.title}
                         </span>
