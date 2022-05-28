@@ -17,7 +17,7 @@ export const SiteHome: React.FC<{
             const excerpt = post.excerpt || post.autoExcerpt
             return (
               <Link key={post.id} href={`/${post.slug}`}>
-                <a className="block hover:bg-zinc-100 p-5 -mx-5 -my-5 rounded-xl">
+                <a className="block hover:bg-zinc-100 p-5 -mx-5 -my-5 md:rounded-xl">
                   <h3 className="text-2xl font-bold">{post.title}</h3>
                   <div className="text-sm text-zinc-400 mt-1">
                     {formatDate(post.publishedAt)}
