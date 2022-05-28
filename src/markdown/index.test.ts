@@ -1,60 +1,66 @@
-import { test } from "uvu"
-import assert from "uvu/assert"
+import { test, describe, expect } from "vitest"
 import { renderPageContent } from "./index"
 
-test("simple", async () => {
-  const { contentHTML, excerpt } = await renderPageContent(`
-# Hello
-
-This is the **excerpt**
+describe("html", () => {
+  test("simple", async () => {
+    const { contentHTML, excerpt } = await renderPageContent(`
+  # Hello
   
-> Hello Blockquote <sup>foo</sup>
+  This is the **excerpt**
+    
+  > Hello Blockquote <sup>foo</sup>
+  
+  - [ ] task list 
+  - [x] done
+  
+  <script>alert('xss')</script>
+  
+  <img src="foo.png" alt="my image" onerror="console.log(1)" />
+  
+  <figcaption><a href="https://example.com">my caption</a></figcaption>
+  
+  <img src />
+  
+  \`\`\`js
+  function foo() {}
+  
+  <script>alert('xss')</script>
+  \`\`\`
+  
+  \`\`\`
+  <script>alert('xss')</script>
+  \`\`\`
+    `)
 
-- [ ] task list 
-- [x] done
+    expect(contentHTML).not.toMatch(/<script>/)
+    expect(excerpt).toEqual(`This is the excerpt`)
+  })
 
-<script>alert('xss')</script>
+  test("wrap table", async () => {
+    const { contentHTML } = await renderPageContent(`
+  |a|b|
+  |---|---|
+  |c|d|  
+    `)
+    expect(contentHTML).toMatch(`<div class="table-wrapper">`)
+  })
 
-<img src="foo.png" alt="my image" onerror="console.log(1)" />
-
-<figcaption><a href="https://example.com">my caption</a></figcaption>
-
-<img src />
-
-\`\`\`js
-function foo() {}
-
-<script>alert('xss')</script>
-\`\`\`
-
-\`\`\`
-<script>alert('xss')</script>
-\`\`\`
-  `)
-
-  assert.not.match(contentHTML, /<script>/)
-  assert.equal(excerpt, `This is the excerpt`)
+  test("callout", async () => {
+    const { contentHTML } = await renderPageContent(`
+  > TIP:
+  > Some tip!
+  
+  > WARN:
+  >
+  > Some warning!
+    `)
+    expect(contentHTML).toMatchInlineSnapshot(`
+      "<blockquote class=\\"callout callout-tip\\">
+      <p>Some tip!</p>
+      </blockquote>
+      <blockquote class=\\"callout callout-warn\\">
+      <p>Some warning!</p>
+      </blockquote>"
+    `)
+  })
 })
-
-test("wrap table", async () => {
-  const { contentHTML } = await renderPageContent(`
-|a|b|
-|---|---|
-|c|d|  
-  `)
-  assert.match(contentHTML, `<div class="table-wrapper">`)
-})
-
-test("callout", async () => {
-  const { contentHTML } = await renderPageContent(`
-> TIP:
-> Some tip!
-
-> WARN:
->
-> Some warning!
-  `)
-  console.log(contentHTML)
-})
-
-test.run()
