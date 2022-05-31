@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { EditorState } from "@codemirror/state"
 import {
   EditorView,
@@ -49,56 +49,67 @@ export const useEditor = ({
   placeholder?: string
   onDropFile?: (file: File, view: EditorView) => void
 }) => {
-  const editorRef = useRef<HTMLDivElement | null>(null)
+  const [node, setNode] = useState<HTMLDivElement | null>(null)
   const [view, setView] = useState<EditorView | null>(null)
 
+  const initEditor = useCallback(
+    (node: HTMLDivElement) => {
+      const updateListener = EditorView.updateListener.of((vu: ViewUpdate) => {
+        if (vu.docChanged && typeof onChange === "function") {
+          const doc = vu.state.doc
+          const value = doc.toString()
+          onChange(value)
+        }
+      })
+
+      const view = new EditorView({
+        state: EditorState.create({
+          doc: "",
+          extensions: [
+            keymap.of([indentWithTab, ...defaultKeymap, ...historyKeymap]),
+            history(),
+            dropCursor(),
+            drawSelection(),
+            indentOnInput(),
+            crosshairCursor(),
+            EditorState.allowMultipleSelections.of(true),
+            updateListener,
+            EditorView.lineWrapping,
+            markdown(),
+            placeholderExtension(placeholder || ""),
+            syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+            theme,
+            EditorView.domEventHandlers({
+              drop(e) {
+                const file = e.dataTransfer?.items[0]?.getAsFile()
+                if (!file) return
+
+                onDropFile?.(file, view)
+              },
+            }),
+          ],
+        }),
+        parent: node,
+      })
+
+      view.focus()
+
+      return view
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [onChange, placeholder],
+  )
+
   useEffect(() => {
-    const updateListener = EditorView.updateListener.of((vu: ViewUpdate) => {
-      if (vu.docChanged && typeof onChange === "function") {
-        const doc = vu.state.doc
-        const value = doc.toString()
-        onChange(value)
-      }
-    })
-
-    const view = new EditorView({
-      state: EditorState.create({
-        doc: "",
-        extensions: [
-          keymap.of([indentWithTab, ...defaultKeymap, ...historyKeymap]),
-          history(),
-          dropCursor(),
-          drawSelection(),
-          indentOnInput(),
-          crosshairCursor(),
-          EditorState.allowMultipleSelections.of(true),
-          updateListener,
-          EditorView.lineWrapping,
-          markdown(),
-          placeholderExtension(placeholder || ""),
-          syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-          theme,
-          EditorView.domEventHandlers({
-            drop(e) {
-              const file = e.dataTransfer?.items[0]?.getAsFile()
-              if (!file) return
-
-              onDropFile?.(file, view)
-            },
-          }),
-        ],
-      }),
-      parent: editorRef.current!,
-    })
-
-    setView(view)
-
+    const view = node && initEditor(node)
+    if (view) {
+      setView(view)
+    }
     return () => {
-      view.destroy()
-      setView(null)
+      view?.destroy()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [placeholder, onDropFile])
+  }, [node])
 
   // Update view state when `value` changed
   useEffect(() => {
@@ -115,6 +126,8 @@ export const useEditor = ({
 
   return {
     view,
-    editorRef,
+    editorRef(node: HTMLDivElement) {
+      setNode(node)
+    },
   }
 }

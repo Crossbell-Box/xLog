@@ -1,7 +1,8 @@
 import { EditorView } from "@codemirror/view"
 import clsx from "clsx"
 import { Dispatch, FC, SetStateAction } from "react"
-import { ICommand } from "../command"
+import { ICommand } from "~/editor"
+import { Tooltip } from "./Tooltip"
 
 export interface EditorToolbarProps {
   view: EditorView | null
@@ -26,30 +27,42 @@ export const EditorToolbar: FC<EditorToolbarProps> = ({
   const renderToolbar =
     (mode: ToolbarMode) =>
     // eslint-disable-next-line react/display-name
-    ({ name, icon, execute }: ICommand) =>
-      (
-        <button
-          key={name}
-          className={clsx(
-            "px-1 py-1 mr-1 fill-gray-700 transition-colors hover:fill-blue-500",
-            {
-              "fill-blue-500": mode === ToolbarMode.Preview && previewVisible,
-            },
-          )}
-          onClick={() => {
-            view && execute(view, { setPreviewVisible, container: view.dom })
-          }}
-        >
-          {icon}
-        </button>
+    ({ name, icon, label, execute }: ICommand) => {
+      const isPreviewModeCommand = mode === ToolbarMode.Preview
+      const active = isPreviewModeCommand && previewVisible
+      const disabled = !isPreviewModeCommand && previewVisible
+      return (
+        <Tooltip label={label} placement="bottom">
+          <button
+            key={name}
+            type="button"
+            disabled={disabled}
+            className={clsx(
+              "w-7 h-7 transition-colors text-lg border border-transparent rounded flex items-center justify-center",
+              active
+                ? `bg-indigo-400 text-white border-indigo-400`
+                : disabled
+                ? `text-zinc-400 cursor-not-allowed`
+                : `text-zinc-400 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100`,
+            )}
+            onClick={() => {
+              view && execute(view, { setPreviewVisible, container: view.dom })
+            }}
+          >
+            <span className={icon}></span>
+          </button>
+        </Tooltip>
       )
+    }
 
   return (
-    <div className="flex px-1 py-1 bg-gray-100 border rounded border-gray-200">
-      <div className="flex-1">
+    <div className="flex group">
+      <div className="flex-1 flex space-x-1">
         {toolbars?.map(renderToolbar(ToolbarMode.Normal))}
       </div>
-      <div>{modeToolbars?.map(renderToolbar(ToolbarMode.Preview))}</div>
+      <div className="ml-1">
+        {modeToolbars?.map(renderToolbar(ToolbarMode.Preview))}
+      </div>
     </div>
   )
 }

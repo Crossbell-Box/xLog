@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import { useRouter } from "next/router"
 import { ChangeEvent, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import { modeToolbars, toolbars } from "~/components/command"
+import { modeToolbars, toolbars } from "~/editor"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { PublishButton } from "~/components/dashboard/PublishButton"
@@ -124,6 +124,7 @@ export default function SubdomainEditor() {
     value: content,
     onChange: handleEditorChange,
     onDropFile: handleDropFile,
+    placeholder: `Start writing...`,
   })
 
   useEffect(() => {
@@ -205,7 +206,7 @@ export default function SubdomainEditor() {
         </header>
         <div className="h-screen pt-14 flex w-full">
           <div className="h-full overflow-auto w-full">
-            <div className="mx-auto py-5 px-5">
+            <div className="max-w-screen-md mx-auto py-5 px-5">
               <div>
                 <input
                   type="text"
@@ -222,16 +223,11 @@ export default function SubdomainEditor() {
                 />
               </div>
               <div className="mt-5">
-                <div className="border border-gray-200 rounded">
-                  <div className="flex">
-                    <div className="flex-1" ref={editorRef}></div>
-                    <EditorPreview
-                      className="flex-1"
-                      previewVisible={previewVisible}
-                      content={content}
-                    ></EditorPreview>
-                  </div>
-                </div>
+                {previewVisible ? (
+                  <EditorPreview content={content}></EditorPreview>
+                ) : (
+                  <div ref={editorRef}></div>
+                )}
               </div>
             </div>
           </div>

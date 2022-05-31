@@ -1,7 +1,7 @@
 import type { PageType } from "~/lib/db.server"
 import { Rendered } from "~/markdown"
+import { PageContent } from "../common/PageContent"
 import { PostMeta } from "./PostMeta"
-import { useCodeCopy } from "~/hooks/useCodeCopy"
 
 export const SitePage: React.FC<{
   page: {
@@ -12,8 +12,6 @@ export const SitePage: React.FC<{
     authors?: { id: string; name: string; avatar: string | null }[]
   }
 }> = ({ page }) => {
-  useCodeCopy()
-
   return (
     <>
       <div className="">
@@ -29,10 +27,10 @@ export const SitePage: React.FC<{
           />
         )}
       </div>
-      <div
-        className="my-8 prose"
-        dangerouslySetInnerHTML={{ __html: page.rendered?.contentHTML || "" }}
-      ></div>
+      <PageContent
+        contentHTML={page.rendered?.contentHTML || ""}
+        className="my-8"
+      />
     </>
   )
 }

@@ -3,6 +3,7 @@ import { EditorView } from "@codemirror/view"
 import { Dispatch, SetStateAction } from "react"
 import { Bold } from "./Bold"
 import { Code } from "./Code"
+import { CodeBlock } from "./CodeBlock"
 import { Heading } from "./Heading"
 import { Image } from "./Image"
 import { Italic } from "./Italic"
@@ -12,10 +13,12 @@ import { ListUnordered } from "./ListUnordered"
 import { Preview } from "./Preview"
 import { Quote } from "./Quote"
 import { Strikethrough } from "./Strikethrough"
+import { Underline } from "./Underline"
 
 export type ICommand = {
-  icon: React.ReactElement
+  icon: string
   name: string
+  label: string
   execute: (
     view: EditorView,
     options?: {
@@ -117,8 +120,10 @@ export const toolbars: ICommand[] = [
   Bold,
   Italic,
   Strikethrough,
+  Underline,
   Quote,
   Code,
+  CodeBlock,
   ListUnordered,
   ListOrdered,
   Link,

@@ -20,6 +20,7 @@
     "@codemirror/language": "^0.20.0",
     "@codemirror/state": "^0.20.0",
     "@codemirror/view": "^0.20.3",
+    "@floating-ui/react-dom-interactions": "^0.6.3",
     "@headlessui/react": "^1.6.0",
     "@prisma/client": "^3.14.0",
     "@proselog/jwt": "^0.1.1",
