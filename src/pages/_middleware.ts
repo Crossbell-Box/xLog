@@ -15,6 +15,10 @@ const ALWAYS_REPLAY_ROUTES = [
 export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
+  if (pathname === "/favicon.ico") {
+    return new Response(null, { status: 404 })
+  }
+
   console.log(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
 
   if (
