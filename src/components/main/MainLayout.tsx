@@ -23,7 +23,6 @@ export function MainLayout({
   const discordLink = `https://${OUR_DOMAIN}/discord`
   const companyLinks = [
     { text: "Blog", href: `https://blog.${OUR_DOMAIN}` },
-    { text: "Changelog", href: `https://changelog.${OUR_DOMAIN}` },
     { text: "Privacy", href: `https://${DOCS_DOMAIN}/privacy.html` },
     { text: "Terms", href: `https://${DOCS_DOMAIN}/terms.html` },
   ]
