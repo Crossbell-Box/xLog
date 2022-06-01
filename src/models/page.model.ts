@@ -109,9 +109,9 @@ export async function createOrUpdatePage(
   await checkPageSlug({ slug, excludePage: page.id, siteId: page.siteId })
 
   // Just checking if the page content can be rendered
-  if (input.content) {
-    await renderPageContent(input.content)
-  }
+  const rendered = input.content
+    ? await renderPageContent(input.content)
+    : undefined
 
   const updated = await prismaPrimary.page.update({
     where: {
@@ -125,6 +125,7 @@ export async function createOrUpdatePage(
       excerpt: input.excerpt && stripHTML(input.excerpt),
       slug,
       type: input.isPost ? "POST" : "PAGE",
+      rendered,
     },
   })
 
@@ -209,7 +210,9 @@ export async function getPagesBySite(
       if (!input.includeContent && !input.includeExcerpt) {
         return node
       }
-      const rendered = await renderPageContent(node.content)
+      const rendered = node.rendered
+        ? (node.rendered as Rendered)
+        : await renderPageContent(node.content)
       if (!input.includeContent) {
         rendered.contentHTML = ""
       }
@@ -219,6 +222,7 @@ export async function getPagesBySite(
       }
       return {
         ...node,
+        contentHTML: rendered.contentHTML,
         autoExcerpt: rendered.excerpt,
       }
     }),
@@ -308,7 +312,9 @@ export async function getPage<TRender extends boolean = false>(
   }
 
   const rendered = (
-    input.render ? await renderPageContent(page.content) : null
+    input.render
+      ? page.rendered || (await renderPageContent(page.content))
+      : null
   ) as TRender extends true ? Rendered : null
 
   return {

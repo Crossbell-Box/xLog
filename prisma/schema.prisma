@@ -119,6 +119,8 @@ model Page {
     deletedAt             DateTime?
     subscribersNotifiedAt DateTime?
     authors               User[]
+    // prerendered markdown to html, including extra data like excerpt
+    rendered              Json?
 
     @@unique([siteId, slug])
     @@map("pages")
