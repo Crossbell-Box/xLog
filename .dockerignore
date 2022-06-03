@@ -2,3 +2,4 @@
 **/.next
 **/dist
 **/.env
+.git

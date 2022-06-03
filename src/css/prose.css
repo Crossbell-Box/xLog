@@ -64,8 +64,8 @@
 }
 
 .prose .table-wrapper {
-  @apply min-w-full md:rounded-xl text-sm my-7 -mx-5 md:-mx-8 whitespace-nowrap overflow-auto;
-  @apply shadow-md ring-1 ring-zinc-700 ring-opacity-10;
+  @apply min-w-full rounded-xl text-sm my-7 whitespace-nowrap overflow-auto;
+  @apply shadow-sm ring-1 ring-zinc-700 ring-opacity-10;
 }
 
 .prose table {
@@ -116,8 +116,7 @@
 }
 
 .prose .code-wrapper {
-  @apply relative;
-  @apply -mx-5 md:-mx-8;
+  @apply relative text-base;
 }
 
 .prose .code-wrapper .copy-button {

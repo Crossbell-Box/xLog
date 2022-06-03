@@ -1,5 +1,5 @@
 pre {
-  @apply md:rounded-xl;
+  @apply rounded-xl;
   @apply my-7;
   @apply p-5 md:p-8;
   background-color: var(--code-bg);
