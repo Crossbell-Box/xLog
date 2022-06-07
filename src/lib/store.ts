@@ -7,6 +7,9 @@ export type Store = {
 
   subscribeModalOpened: boolean
   setSubscribeModalOpened: (open: boolean) => void
+
+  emailPostModalOpened: boolean
+  setEmailPostModalOpened: (open: boolean) => void
 }
 
 const { Provider, useStore } = createContext<StoreApi<Store>>()
@@ -25,5 +28,10 @@ export const createStore = () =>
     subscribeModalOpened: false,
     setSubscribeModalOpened(open) {
       set({ subscribeModalOpened: open })
+    },
+
+    emailPostModalOpened: false,
+    setEmailPostModalOpened(open) {
+      set({ emailPostModalOpened: open })
     },
   }))

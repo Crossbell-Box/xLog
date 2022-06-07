@@ -2,13 +2,11 @@ import { prismaPrimary, prismaRead } from "~/lib/db.server"
 import { isUUID } from "~/lib/uuid"
 import { MembershipRole, PageType, type Site } from "~/lib/db.server"
 import { Gate } from "~/lib/gate.server"
-import dayjs from "dayjs"
 import { sendLoginEmail } from "~/lib/mailgun.server"
-import { SiteNavigationItem, SubscribeFormData } from "~/lib/types"
+import { SiteNavigationItem } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { getMembership } from "./membership"
 import { checkReservedWords } from "~/lib/reserved-words"
-import { generateLoginToken } from "~/lib/token.server"
 
 export const checkSubdomain = async ({
   subdomain,

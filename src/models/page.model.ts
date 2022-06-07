@@ -3,17 +3,17 @@ import {
   prismaPrimary,
   Prisma,
   prismaRead,
-  PageType,
   MembershipRole,
+  PageEmailStatus,
 } from "~/lib/db.server"
 import { type Gate } from "~/lib/gate.server"
-import { sendEmailForNewPost } from "~/lib/mailgun.server"
 import { Rendered, renderPageContent } from "~/markdown"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
 import { getSite } from "./site.model"
 import { stripHTML } from "~/lib/utils"
+import { sendEmailForNewPost } from "~/lib/mailgun.server"
 
 const checkPageSlug = async ({
   slug,
@@ -62,6 +62,7 @@ export async function createOrUpdatePage(
     published?: boolean
     publishedAt?: string
     excerpt?: string
+    /** Only needed when creating page */
     isPost?: boolean
   },
 ) {
@@ -101,8 +102,14 @@ export async function createOrUpdatePage(
     throw new Error(`Page not found`)
   }
 
-  if (!gate.allows({ type: "can-create-page", siteId: page.siteId })) {
-    throw gate.permissionError()
+  if (input.pageId) {
+    if (!gate.allows({ type: "can-update-page", siteId: page.siteId })) {
+      throw gate.permissionError()
+    }
+  } else {
+    if (!gate.allows({ type: "can-create-page", siteId: page.siteId })) {
+      throw gate.permissionError()
+    }
   }
 
   const slug = input.slug || page.slug
@@ -129,18 +136,36 @@ export async function createOrUpdatePage(
     },
   })
 
-  if (
-    updated.type === PageType.POST &&
-    !updated.subscribersNotifiedAt &&
-    updated.published &&
-    updated.publishedAt <= new Date()
-  ) {
-    await notifySubscribersForNewPost(gate, {
-      pageId: updated.id,
-    })
+  return { page: updated }
+}
+
+export async function scheduleEmailForPost(
+  gate: Gate,
+  input: { pageId: string; emailSubject?: string },
+) {
+  const page = await getPage(gate, { page: input.pageId })
+
+  if (!gate.allows({ type: "can-update-page", siteId: page.siteId })) {
+    throw gate.permissionError()
   }
 
-  return { page: updated }
+  if (page.emailStatus) {
+    throw new Error("Email already scheduled or sent")
+  }
+
+  await prismaPrimary.page.update({
+    where: {
+      id: page.id,
+    },
+    data: {
+      emailStatus: "PENDING",
+      emailSubject: input.emailSubject,
+    },
+  })
+
+  await notifySubscribersForNewPost(gate, {
+    pageId: page.id,
+  })
 }
 
 export async function getPagesBySite(
@@ -332,13 +357,30 @@ export const notifySubscribersForNewPost = async (
   const page = await getPage(gate, { page: input.pageId, render: true })
   const site = await getSite(page.siteId)
 
+  if (page.emailStatus !== PageEmailStatus.PENDING) {
+    return
+  }
+
+  if (!page.published || page.publishedAt > new Date()) {
+    return
+  }
+
+  if (page.type === "PAGE") {
+    throw new Error("You can only notify subscribers for post updates")
+  }
+
   if (!gate.allows({ type: "can-notify-site-subscribers", site })) {
     throw gate.permissionError()
   }
 
-  if (page.subscribersNotifiedAt) {
-    throw new Error("You have already notified subscribers for this post")
-  }
+  await prismaPrimary.page.update({
+    where: {
+      id: page.id,
+    },
+    data: {
+      emailStatus: PageEmailStatus.RUNNING,
+    },
+  })
 
   const memberships = await prismaPrimary.membership.findMany({
     where: {
@@ -350,28 +392,33 @@ export const notifySubscribersForNewPost = async (
     },
   })
 
-  if (memberships.length === 0) return
-
-  await prismaPrimary.page.update({
-    where: {
-      id: page.id,
-    },
-    data: {
-      subscribersNotifiedAt: new Date(),
-    },
-  })
-
   const emailSubscribers = memberships
-    .filter((member) => (member.config as Prisma.JsonObject).email)
+    .filter((member) => (member.config as any).email)
     .map((member) => member.user)
 
-  // TODO: maybe run this in a job queue
-  // We will need to use BullMQ to send email for scheduled posts anyway
-  sendEmailForNewPost({
-    post: page,
-    site,
-    subscribers: emailSubscribers,
-  }).catch((error) => {
+  try {
+    await sendEmailForNewPost({
+      post: page,
+      site,
+      subscribers: emailSubscribers,
+    })
+    await prismaPrimary.page.update({
+      where: {
+        id: page.id,
+      },
+      data: {
+        emailStatus: PageEmailStatus.SUCCESS,
+      },
+    })
+  } catch (error) {
+    await prismaPrimary.page.update({
+      where: {
+        id: page.id,
+      },
+      data: {
+        emailStatus: PageEmailStatus.FAILED,
+      },
+    })
     console.error("failed to send email", error)
-  })
+  }
 }

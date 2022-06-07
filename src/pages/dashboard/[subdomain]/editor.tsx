@@ -2,7 +2,7 @@ import { type EditorView } from "@codemirror/view"
 import clsx from "clsx"
 import dayjs from "dayjs"
 import { useRouter } from "next/router"
-import { ChangeEvent, useCallback, useEffect, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 import toast from "react-hot-toast"
 import { modeToolbars, toolbars } from "~/editor"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
@@ -19,6 +19,10 @@ import { getSiteLink } from "~/lib/helpers"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { trpc } from "~/lib/trpc"
 import { PageVisibilityEnum } from "~/lib/types"
+import { FieldLabel } from "~/components/ui/FieldLabel"
+import { Button } from "~/components/ui/Button"
+import { EmailPostModal } from "~/components/common/EmailPostModal"
+import { useStore } from "~/lib/store"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -35,13 +39,14 @@ export default function SubdomainEditor() {
   const siteResult = trpc.useQuery(["site", { site: subdomain }], {
     enabled: !!subdomain,
   })
-  const { data: page } = trpc.useQuery(
+  const { data: page, refetch: refetchPage } = trpc.useQuery(
     ["site.page", { page: pageId!, site: subdomain, render: false }],
     {
       enabled: !!pageId,
-      refetchOnWindowFocus: false,
     },
   )
+  const pageContent = useMemo(() => page?.content, [page?.content])
+
   const published = page?.published ?? false
   const visibility = getPageVisibility({
     published,
@@ -55,6 +60,10 @@ export default function SubdomainEditor() {
     reset: resetCreateOrUpdatePage,
   } = trpc.useMutation("page.createOrUpdate")
   const uploadFile = useUploadFile()
+  const [emailPostModalOpened, setEmailPostModalOpened] = useStore((store) => [
+    store.emailPostModalOpened,
+    store.setEmailPostModalOpened,
+  ])
 
   const [values, setValues] = useState({
     title: "",
@@ -170,132 +179,177 @@ export default function SubdomainEditor() {
       slug: page.slug,
       excerpt: page.excerpt || "",
     })
-    setContent(page.content)
   }, [page])
 
+  useEffect(() => {
+    if (typeof pageContent === "string") {
+      setContent(pageContent)
+    }
+  }, [pageContent])
+
+  useEffect(() => {
+    if (!emailPostModalOpened) {
+      refetchPage()
+    }
+  }, [refetchPage, emailPostModalOpened])
+
   return (
-    <DashboardLayout title="Editor">
-      <DashboardMain fullWidth>
-        <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
-          <EditorToolbar
-            view={view}
-            toolbars={toolbars}
-            modeToolbars={modeToolbars}
-            previewVisible={previewVisible}
-            setPreviewVisible={setPreviewVisible}
-          ></EditorToolbar>
-          <div className="flex items-center space-x-3">
-            <span
-              className={clsx(
-                `text-sm`,
-                published ? `text-accent` : `text-zinc-300`,
-              )}
-            >
-              {visibility === PageVisibilityEnum.Published
-                ? "Published"
-                : visibility === PageVisibilityEnum.Scheduled
-                ? "Scheduled"
-                : "Draft"}
-            </span>
-            <PublishButton
-              save={savePage}
-              published={published}
-              isSaving={createOrUpdatePageStatus === "loading"}
-            />
-          </div>
-        </header>
-        <div className="h-screen pt-14 flex w-full">
-          <div className="h-full overflow-auto w-full">
-            <div className="max-w-screen-md mx-auto py-5 px-5">
+    <>
+      <DashboardLayout title="Editor">
+        <DashboardMain fullWidth>
+          <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
+            <EditorToolbar
+              view={view}
+              toolbars={toolbars}
+              modeToolbars={modeToolbars}
+              previewVisible={previewVisible}
+              setPreviewVisible={setPreviewVisible}
+            ></EditorToolbar>
+            <div className="flex items-center space-x-3">
+              <span
+                className={clsx(
+                  `text-sm`,
+                  published ? `text-accent` : `text-zinc-300`,
+                )}
+              >
+                {visibility === PageVisibilityEnum.Published
+                  ? "Published"
+                  : visibility === PageVisibilityEnum.Scheduled
+                  ? "Scheduled"
+                  : "Draft"}
+              </span>
+              <PublishButton
+                save={savePage}
+                published={published}
+                isSaving={createOrUpdatePageStatus === "loading"}
+              />
+            </div>
+          </header>
+          <div className="h-screen pt-14 flex w-full">
+            <div className="h-full overflow-auto w-full">
+              <div className="max-w-screen-md mx-auto py-5 px-5">
+                <div>
+                  <input
+                    type="text"
+                    name="title"
+                    value={values.title}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        view?.focus()
+                      }
+                    }}
+                    onChange={(e) => updateValue("title", e.target.value)}
+                    className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none"
+                    placeholder="Title goes here.."
+                  />
+                </div>
+                <div className="mt-5">
+                  {previewVisible ? (
+                    <EditorPreview content={content}></EditorPreview>
+                  ) : (
+                    <div ref={editorRef}></div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
               <div>
-                <input
-                  type="text"
-                  name="title"
-                  value={values.title}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      view?.focus()
-                    }
+                <Input
+                  type="datetime-local"
+                  label="Publish at"
+                  isBlock
+                  name="publishAt"
+                  id="publishAt"
+                  value={getInputDatetimeValue(values.publishedAt)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    const value = inLocalTimezone(e.target.value).toISOString()
+                    updateValue("publishedAt", value)
                   }}
-                  onChange={(e) => updateValue("title", e.target.value)}
-                  className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none"
-                  placeholder="Title goes here.."
+                  help={`This ${
+                    isPost ? "post" : "page"
+                  } will be accesisble from this time`}
                 />
               </div>
-              <div className="mt-5">
-                {previewVisible ? (
-                  <EditorPreview content={content}></EditorPreview>
-                ) : (
-                  <div ref={editorRef}></div>
-                )}
+              <div>
+                <Input
+                  name="slug"
+                  value={values.slug}
+                  label="Page slug"
+                  id="slug"
+                  isBlock
+                  placeholder="some-slug"
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    updateValue("slug", e.target.value)
+                  }
+                  help={
+                    <>
+                      {values.slug && (
+                        <>
+                          This {isPost ? "post" : "page"} will be accessible at{" "}
+                          <UniLink
+                            href={`${getSiteLink({ subdomain })}/${
+                              values.slug
+                            }`}
+                            className="hover:underline"
+                          >
+                            {getSiteLink({ subdomain, noProtocol: true })}/
+                            {values.slug}
+                          </UniLink>
+                        </>
+                      )}
+                    </>
+                  }
+                />
               </div>
+              <div>
+                <Input
+                  label="Excerpt"
+                  isBlock
+                  name="excerpt"
+                  id="excerpt"
+                  value={values.excerpt}
+                  multiline
+                  rows={5}
+                  onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                    updateValue("excerpt", e.target.value)
+                  }}
+                  help="Leave it blank to use auto-generated excerpt"
+                />
+              </div>
+              {isPost && page && (
+                <div>
+                  <FieldLabel label="Email Post" id="email-post" />
+                  {page?.emailStatus ? (
+                    <div className="capitalize text-zinc-500 text-sm flex items-center space-x-1">
+                      <span
+                        className={clsx(
+                          page.emailStatus === "SUCCESS"
+                            ? `i-bi:check-circle text-green-500`
+                            : page.emailStatus === "FAILED"
+                            ? `i-bi:x-circle text-red-500`
+                            : ``,
+                        )}
+                      ></span>
+                      <span>{page.emailStatus.toLowerCase()}</span>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      variantColor="gray"
+                      size="sm"
+                      isBlock
+                      onClick={() => setEmailPostModalOpened(true)}
+                    >
+                      Open Settings
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
-          <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
-            <div>
-              <Input
-                type="datetime-local"
-                label="Publish at"
-                isBlock
-                name="publishAt"
-                id="publishAt"
-                value={getInputDatetimeValue(values.publishedAt)}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const value = inLocalTimezone(e.target.value).toISOString()
-                  updateValue("publishedAt", value)
-                }}
-                help={`This ${
-                  isPost ? "post" : "page"
-                } will be accesisble from this time`}
-              />
-            </div>
-            <div>
-              <Input
-                name="slug"
-                value={values.slug}
-                label="Page slug"
-                id="slug"
-                isBlock
-                placeholder="some-slug"
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  updateValue("slug", e.target.value)
-                }
-                help={
-                  <>
-                    {values.slug && (
-                      <>
-                        This {isPost ? "post" : "page"} will be accessible at{" "}
-                        <UniLink
-                          href={`${getSiteLink({ subdomain })}/${values.slug}`}
-                          className="hover:underline"
-                        >
-                          {getSiteLink({ subdomain, noProtocol: true })}/
-                          {values.slug}
-                        </UniLink>
-                      </>
-                    )}
-                  </>
-                }
-              />
-            </div>
-            <div>
-              <Input
-                label="Excerpt"
-                isBlock
-                name="excerpt"
-                id="excerpt"
-                value={values.excerpt}
-                multiline
-                rows={5}
-                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-                  updateValue("excerpt", e.target.value)
-                }}
-                help="Leave it blank to use auto-generated excerpt"
-              />
-            </div>
-          </div>
-        </div>
-      </DashboardMain>
-    </DashboardLayout>
+        </DashboardMain>
+      </DashboardLayout>
+      {pageId && <EmailPostModal pageId={pageId} />}
+    </>
   )
 }

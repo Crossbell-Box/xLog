@@ -114,7 +114,7 @@ export const sendLoginEmail = async (payload: {
     
     <a href="${loginLink}">confirm</a>
     
-    <p>This link will expire in 20 minutes.</p>`
+    <p>This link will expire in 7 days. If you did not request this link, you can safely ignore this email.</p>`
   }
 
   const message: MailgunMessageData = {
@@ -128,13 +128,21 @@ export const sendLoginEmail = async (payload: {
 }
 
 export const sendEmailForNewPost = async (payload: {
-  post: { slug: string; title: string; rendered: { contentHTML: string } }
+  post: {
+    emailSubject?: string | null
+    slug: string
+    title: string
+    rendered: { contentHTML: string }
+  }
   site: Site
   subscribers: { id: string; email: string }[]
 }) => {
+  if (payload.subscribers.length === 0) return
   try {
     const from = `${payload.site.name} <updates@${payload.site.subdomain}.proselog.com>`
-    const subject = `${payload.post.title} - ${payload.site.name}`
+    const subject =
+      payload.post.emailSubject ||
+      `${payload.post.title} - ${payload.site.name}`
 
     const siteLink = getSiteLink({ subdomain: payload.site.subdomain })
     const html = `

@@ -1,5 +1,6 @@
 import clsx from "clsx"
 import { forwardRef } from "react"
+import { FieldLabel } from "./FieldLabel"
 
 type InputProps<TMultiline extends boolean> = {
   label?: string
@@ -11,7 +12,7 @@ type InputProps<TMultiline extends boolean> = {
 } & React.ComponentPropsWithRef<TMultiline extends true ? "textarea" : "input">
 
 export const Input = forwardRef(function Input<
-  TMutliline extends boolean = false
+  TMutliline extends boolean = false,
 >(
   {
     label,
@@ -25,18 +26,14 @@ export const Input = forwardRef(function Input<
   }: InputProps<TMutliline>,
   ref: TMutliline extends true
     ? React.ForwardedRef<HTMLTextAreaElement>
-    : React.ForwardedRef<HTMLInputElement>
+    : React.ForwardedRef<HTMLInputElement>,
 ) {
   const hasAddon = !!addon
   const Component = (multiline ? "textarea" : "input") as any
 
   return (
     <div>
-      {label && (
-        <label className="form-label" htmlFor={inputProps.id}>
-          {label}
-        </label>
-      )}
+      {label && <FieldLabel label={label} id={inputProps.id} />}
       <div className="flex items-center">
         <Component
           {...inputProps}
@@ -45,7 +42,7 @@ export const Input = forwardRef(function Input<
             "input",
             hasAddon && `has-addon`,
             isBlock && `is-block`,
-            className
+            className,
           )}
         />
         {addon && (
@@ -61,5 +58,5 @@ export const Input = forwardRef(function Input<
     </div>
   )
 }) as <TMultiline extends boolean = false>(
-  props: InputProps<TMultiline>
+  props: InputProps<TMultiline>,
 ) => JSX.Element

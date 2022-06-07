@@ -126,8 +126,10 @@ export const useEditor = ({
 
   return {
     view,
-    editorRef(node: HTMLDivElement) {
-      setNode(node)
+    editorRef(newNode: HTMLDivElement) {
+      if (!newNode) return
+      if (node && newNode.isEqualNode(node)) return
+      setNode(newNode)
     },
   }
 }

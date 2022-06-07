@@ -17,6 +17,7 @@ type Action =
       type: "can-create-page"
       siteId: string
     }
+  | { type: "can-update-page"; siteId: string }
   | {
       type: "can-read-page"
       page: Page
@@ -41,7 +42,7 @@ export const createGate = <TRequiredAuth extends boolean | undefined>({
   const isSiteMember = (siteId: string, roles: MembershipRole[]) => {
     if (!user) return false
     return user.memberships.some(
-      (m) => m.siteId === siteId && roles.includes(m.role)
+      (m) => m.siteId === siteId && roles.includes(m.role),
     )
   }
 
@@ -52,7 +53,7 @@ export const createGate = <TRequiredAuth extends boolean | undefined>({
 
   return {
     getUser<TRequiredAuth extends boolean | undefined>(
-      requireAuth?: TRequiredAuth
+      requireAuth?: TRequiredAuth,
     ) {
       if (requireAuth && !user) {
         throw new Error("unauthorized")
@@ -89,6 +90,13 @@ export const createGate = <TRequiredAuth extends boolean | undefined>({
       }
 
       if (action.type === "can-create-page") {
+        return isSiteMember(action.siteId, [
+          MembershipRole.ADMIN,
+          MembershipRole.OWNER,
+        ])
+      }
+
+      if (action.type === "can-update-page") {
         return isSiteMember(action.siteId, [
           MembershipRole.ADMIN,
           MembershipRole.OWNER,

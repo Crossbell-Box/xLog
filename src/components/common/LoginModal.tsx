@@ -1,6 +1,5 @@
 import { Button } from "~/components/ui/Button"
 import { useStore } from "~/lib/store"
-import { Dialog } from "@headlessui/react"
 import { trpc } from "~/lib/trpc"
 import { useForm } from "react-hook-form"
 import { Modal } from "../ui/Modal"

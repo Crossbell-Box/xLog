@@ -15,8 +15,9 @@ export const pageRouter = createRouter()
       published: z.boolean().optional(),
       publishedAt: z.string().optional(),
       excerpt: z.string().optional(),
-      isPost: z.boolean(),
+      isPost: z.boolean().optional(),
       slug: z.string().optional(),
+      emailSubject: z.string().optional(),
     }),
     output: z.object({
       id: z.string(),

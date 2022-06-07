@@ -101,26 +101,34 @@ enum PageType {
     PAGE
 }
 
+enum PageEmailStatus {
+    PENDING
+    RUNNING
+    SUCCESS
+    FAILED
+}
+
 model Page {
-    id                    String    @id @default(uuid())
-    createdAt             DateTime  @default(now())
-    updatedAt             DateTime  @updatedAt
-    contentUpdatedAt      DateTime  @default(now())
-    publishedAt           DateTime  @default(now())
-    published             Boolean   @default(false)
-    type                  PageType  @default(POST)
-    title                 String
-    content               String
-    excerpt               String?
-    format                String    @default("markdown")
-    slug                  String
-    site                  Site      @relation(name: "SitePages", fields: [siteId], references: [id], onDelete: Cascade)
-    siteId                String
-    deletedAt             DateTime?
-    subscribersNotifiedAt DateTime?
-    authors               User[]
+    id               String           @id @default(uuid())
+    createdAt        DateTime         @default(now())
+    updatedAt        DateTime         @updatedAt
+    contentUpdatedAt DateTime         @default(now())
+    publishedAt      DateTime         @default(now())
+    published        Boolean          @default(false)
+    type             PageType         @default(POST)
+    title            String
+    content          String
+    excerpt          String?
+    format           String           @default("markdown")
+    slug             String
+    site             Site             @relation(name: "SitePages", fields: [siteId], references: [id], onDelete: Cascade)
+    siteId           String
+    deletedAt        DateTime?
+    authors          User[]
     // prerendered markdown to html, including extra data like excerpt
-    rendered              Json?
+    rendered         Json?
+    emailSubject     String?
+    emailStatus      PageEmailStatus?
 
     @@unique([siteId, slug])
     @@map("pages")

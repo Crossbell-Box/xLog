@@ -6,10 +6,13 @@ const key = singletonAsync("encryption_key", () =>
   getDerivedKey(ENCRYPT_SECRET),
 )
 
-export const generateEncryptedToken = async (payload: any) => {
+export const generateEncryptedToken = async (
+  payload: any,
+  expiresIn = "20m",
+) => {
   await key.wait
   const token = await encrypt(payload, key.value, {
-    expiresIn: "20m",
+    expiresIn,
   })
   return token
 }
@@ -30,7 +33,10 @@ type LoginTokenPayload =
     }
 
 export const generateLoginToken = async (payload: LoginTokenPayload) => {
-  const token = await generateEncryptedToken(payload)
+  const token = await generateEncryptedToken(
+    payload,
+    payload.type === "subscribe" ? "7d" : "20m",
+  )
   return token
 }
 

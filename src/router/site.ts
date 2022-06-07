@@ -10,30 +10,12 @@ import {
   unsubscribeFromSite,
 } from "~/models/site.model"
 import {
-  createOrUpdatePage,
   getPage,
-  deletePage,
   getPagesBySite,
-  notifySubscribersForNewPost,
+  scheduleEmailForPost,
 } from "~/models/page.model"
 
 export const siteRouter = createRouter()
-  .query("subscribersNotifiedAt", {
-    input: z.object({
-      pageId: z.string(),
-    }),
-    output: z
-      .date()
-      .transform((v) => v.toISOString())
-      .nullable(),
-    async resolve({ input, ctx }) {
-      const page = await getPage(ctx.gate, { page: input.pageId })
-      if (!ctx.gate.isOwnerOrAdmin(page.siteId)) {
-        throw ctx.gate.permissionError()
-      }
-      return page.subscribersNotifiedAt
-    },
-  })
   .query("subscription", {
     input: z.object({
       site: z.string(),
@@ -123,6 +105,9 @@ export const siteRouter = createRouter()
           }),
         )
         .optional(),
+      emailSubject: z.string().nullish(),
+      emailStatus: z.string().nullish(),
+      siteId: z.string(),
     }),
     async resolve({ input, ctx }) {
       const page = await getPage(ctx.gate, input)
@@ -205,13 +190,15 @@ export const siteRouter = createRouter()
       await unsubscribeFromSite(ctx.gate, input)
     },
   })
-  .mutation("notifySubscribersForNewPost", {
+  .mutation("scheduleEmailForPost", {
     input: z.object({
       pageId: z.string(),
+      emailSubject: z.string().optional(),
     }),
     async resolve({ ctx, input }) {
-      await notifySubscribersForNewPost(ctx.gate, {
+      await scheduleEmailForPost(ctx.gate, {
         pageId: input.pageId,
+        emailSubject: input.emailSubject,
       })
     },
   })

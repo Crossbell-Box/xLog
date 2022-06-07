@@ -32,7 +32,7 @@ export const EditorToolbar: FC<EditorToolbarProps> = ({
       const active = isPreviewModeCommand && previewVisible
       const disabled = !isPreviewModeCommand && previewVisible
       return (
-        <Tooltip label={label} placement="bottom">
+        <Tooltip key={name} label={label} placement="bottom">
           <button
             key={name}
             type="button"
