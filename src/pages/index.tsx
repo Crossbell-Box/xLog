@@ -6,34 +6,35 @@ import { UniLink } from "~/components/ui/UniLink"
 import { getAuthUser } from "~/lib/auth.server"
 import { FLY_REGION } from "~/lib/env.server"
 import { useStore } from "~/lib/store"
+import { useState } from "react"
+import { useAccount } from 'wagmi'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user = await getAuthUser(ctx.req)
-  const isLoggedIn = !!user
-
   return {
     props: {
-      isLoggedIn,
       region: FLY_REGION,
     },
   }
 }
 
 export default function Home({
-  isLoggedIn,
   region,
 }: {
-  isLoggedIn: boolean
   region: string | null
 }) {
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
+  const [address, setAddress] = useState<string>('')
+  const { data: wagmiData } = useAccount()
 
   useEffect(() => {
     console.log("-> region", region)
-  }, [region])
+
+    setAddress(wagmiData?.address || '')
+  }, [region, wagmiData])
 
   return (
-    <MainLayout isLoggedIn={isLoggedIn}>
+    <MainLayout>
       <section>
         <div className="max-w-screen-md px-5 mx-auto">
           <div className="bg-zinc-50 rounded-xl p-10">
@@ -49,7 +50,7 @@ export default function Home({
               distractions.
             </h3>
             <div className="mt-10">
-              {isLoggedIn ? (
+              {address ? (
                 <UniLink
                   href="/dashboard"
                   className="text-indigo-500 inline-flex items-center space-x-2 hover:text-indigo-600"
@@ -58,14 +59,7 @@ export default function Home({
                   <span>Dashboard</span>
                 </UniLink>
               ) : (
-                <UniLink
-                  onClick={() => {
-                    setLoginModalOpened(true)
-                  }}
-                  className="bg-indigo-500 hover:bg-indigo-600 rounded-full px-4 h-8 inline-flex items-center text-sm text-white font-medium"
-                >
-                  Getting Started
-                </UniLink>
+                <ConnectButton />
               )}
             </div>
           </div>

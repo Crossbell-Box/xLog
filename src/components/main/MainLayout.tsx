@@ -9,13 +9,12 @@ import {
 import { useStore } from "~/lib/store"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 export function MainLayout({
-  isLoggedIn,
   children,
   title,
 }: {
-  isLoggedIn: boolean
   children?: React.ReactNode
   title?: string
 }) {
@@ -38,24 +37,7 @@ export function MainLayout({
         <div className="max-w-screen-md px-5 mx-auto flex justify-between items-center">
           <h1 className="inline-block text-2xl font-extrabold">{APP_NAME}</h1>
           <div className="space-x-5">
-            {isLoggedIn ? (
-              <UniLink
-                onClick={logout}
-                className="space-x-2 rounded-full px-4 h-8 inline-flex items-center text-sm text-indigo-500 font-medium hover:bg-indigo-50"
-              >
-                <span>Sign Out</span>
-                <span className="i-bi:box-arrow-right text-lg"></span>
-              </UniLink>
-            ) : (
-              <UniLink
-                onClick={() => {
-                  setLoginModalOpened(true)
-                }}
-                className="bg-indigo-100 rounded-full px-4 h-8 inline-flex items-center text-sm text-indigo-500 font-medium"
-              >
-                Sign In
-              </UniLink>
-            )}
+            <ConnectButton />
           </div>
         </div>
       </header>
