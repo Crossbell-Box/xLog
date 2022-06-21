@@ -7,6 +7,12 @@ import { SiteNavigationItem } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { getMembership } from "./membership"
 import { checkReservedWords } from "~/lib/reserved-words"
+import Unidata from "unidata.js"
+
+let unidata: Unidata;
+if (typeof window !== "undefined") {
+  unidata = new Unidata()
+}
 
 export const checkSubdomain = async ({
   subdomain,
@@ -38,27 +44,22 @@ export const checkSubdomain = async ({
   }
 }
 
-export const getUserLastActiveSite = async (userId: string) => {
-  const memberships = await prismaRead.membership.findMany({
-    where: {
-      userId,
-      role: {
-        in: [MembershipRole.OWNER, MembershipRole.ADMIN],
-      },
-    },
-    include: {
-      site: true,
-    },
-    orderBy: {
-      lastSwitchedTo: "desc",
-    },
-  })
+export const getUserLastActiveSite = async (address: string) => {
+  if (unidata) {
+    const profiles = await unidata.profiles.get({
+      source: 'Crossbell Profile',
+      identity: address,
+      platform: 'Ethereum',
+    });
 
-  const site = memberships[0]?.site
+    const site = profiles.list?.sort((a: any, b: any) => a.date_updated - b.date_updated)?.[0]
 
-  if (!site || site.deletedAt) return null
+    if (!site) return null
 
-  return site
+    return site
+  } else {
+    return null
+  }
 }
 
 export const getSite = async (input: string) => {

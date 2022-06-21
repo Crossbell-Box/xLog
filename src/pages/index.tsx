@@ -1,12 +1,11 @@
 import { GetServerSideProps } from "next"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { DashboardIcon } from "~/components/icons/DashboardIcon"
 import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
 import { getAuthUser } from "~/lib/auth.server"
 import { FLY_REGION } from "~/lib/env.server"
 import { useStore } from "~/lib/store"
-import { useState } from "react"
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 

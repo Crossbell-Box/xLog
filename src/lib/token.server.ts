@@ -2,25 +2,25 @@ import { decrypt, encrypt, getDerivedKey } from "@proselog/jwt"
 import { ENCRYPT_SECRET } from "./env.server"
 import { singletonAsync } from "./singleton.server"
 
-const key = singletonAsync("encryption_key", () =>
-  getDerivedKey(ENCRYPT_SECRET),
-)
+// const key = singletonAsync("encryption_key", () =>
+//   getDerivedKey(ENCRYPT_SECRET),
+// )
 
 export const generateEncryptedToken = async (
   payload: any,
   expiresIn = "20m",
 ) => {
-  await key.wait
-  const token = await encrypt(payload, key.value, {
-    expiresIn,
-  })
-  return token
+  // await key.wait
+  // const token = await encrypt(payload, key.value, {
+  //   expiresIn,
+  // })
+  // return token
 }
 
 export const decryptToken = async (token: string) => {
-  await key.wait
-  const payload = await decrypt(token, key.value)
-  return payload
+  // await key.wait
+  // const payload = await decrypt(token, key.value)
+  // return payload
 }
 
 type LoginTokenPayload =
@@ -41,6 +41,6 @@ export const generateLoginToken = async (payload: LoginTokenPayload) => {
 }
 
 export const decryptLoginToken = async (token: string) => {
-  const payload = await decryptToken(token)
-  return payload as LoginTokenPayload
+  // const payload = await decryptToken(token)
+  // return payload as LoginTokenPayload
 }
