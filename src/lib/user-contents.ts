@@ -7,5 +7,5 @@ export function getUserContentsUrl<T extends string | undefined | null>(
 ): T
 export function getUserContentsUrl(filename: string | undefined | null) {
   if (!filename) return undefined
-  return `${R2_URL}/${filename}`
+  return filename
 }

@@ -63,7 +63,7 @@
     "remark-rehype": "^10.1.0",
     "sortablejs": "^1.15.0",
     "ua-parser-js": "^1.0.2",
-    "unidata.js": "^0.5.2",
+    "unidata.js": "^0.5.4",
     "unified": "^10.1.2",
     "unist-builder": "^3.0.0",
     "unist-util-visit": "^4.1.0",

@@ -4,14 +4,12 @@ import { useEffect, useMemo } from "react"
 import { trpc } from "~/lib/trpc"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { Avatar } from "../ui/Avatar"
+import type { Profile } from "unidata.js"
 
 type Props = {
   subdomain: string
-  subscriptions: {
-    id: string
-    site: { id: string; name: string; subdomain: string; icon?: string | null }
-  }[]
-  viewer?: { email: string } | null
+  subscriptions: Profile[]
+  viewer?: { address?: string }
 }
 
 export const SiteSwitcher: React.FC<Props> = ({
@@ -20,21 +18,8 @@ export const SiteSwitcher: React.FC<Props> = ({
   viewer,
 }) => {
   const activeSubscription = subscriptions.find(
-    (s) => s.site.subdomain === subdomain
+    (s) => s.username === subdomain
   )
-
-  const { mutate: updateMembership } = trpc.useMutation(
-    "membership.updateMembership"
-  )
-
-  useEffect(() => {
-    if (activeSubscription?.id) {
-      updateMembership({
-        id: activeSubscription?.id,
-        lastSwitchedTo: new Date().toISOString(),
-      })
-    }
-  }, [activeSubscription?.id, updateMembership])
 
   return (
     <div className="px-3 pt-3 pb-2 text-sm">
@@ -42,11 +27,11 @@ export const SiteSwitcher: React.FC<Props> = ({
         <Popover.Button className="h-8 px-2 justify-between flex w-full rounded-lg hover:bg-gray-200 hover:bg-opacity-50 transition-colors items-center">
           <div className="flex items-center space-x-2">
             <Avatar
-              images={[getUserContentsUrl(activeSubscription?.site.icon)]}
-              name={activeSubscription?.site.name}
+              images={[getUserContentsUrl(activeSubscription?.avatars?.[0])]}
+              name={activeSubscription?.name}
               size={22}
             />
-            <span className="truncate">{activeSubscription?.site.name}</span>
+            <span className="truncate">{activeSubscription?.name}</span>
           </div>
           <span className="w-5 h-5 text-zinc-400 rounded-full bg-zinc-100 inline-flex items-center justify-center">
             <svg className="w-4 h-4" viewBox="0 0 14 14">
@@ -65,21 +50,21 @@ export const SiteSwitcher: React.FC<Props> = ({
           <div className="min-w-[280px] rounded-lg shadow-modal bg-white">
             {viewer && (
               <div className="px-4 py-2 border-b text-sm text-zinc-500">
-                {viewer.email}
+                {viewer.address?.slice(0, 6)}...{viewer.address?.slice(-4)}
               </div>
             )}
             <div className="p-2">
               {subscriptions?.map((subscription) => {
                 return (
                   <Link
-                    key={subscription.id}
-                    href={`/dashboard/${subscription.site.subdomain}`}
+                    key={subscription.username}
+                    href={`/dashboard/${subscription.username}`}
                   >
                     <a className="flex px-2 h-8 rounded-lg items-center justify-between hover:bg-zinc-100">
                       <span className="truncate w-8/12">
-                        {subscription.site.name}
+                        {subscription.name}
                       </span>
-                      {activeSubscription?.id === subscription.id && (
+                      {activeSubscription?.username === subscription.username && (
                         <span className="text-accent">
                           <svg
                             className="w-5 h-5"

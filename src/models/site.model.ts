@@ -44,7 +44,7 @@ export const checkSubdomain = async ({
   }
 }
 
-export const getUserLastActiveSite = async (address: string) => {
+export const getUserSites = async (address: string) => {
   if (unidata) {
     const profiles = await unidata.profiles.get({
       source: 'Crossbell Profile',
@@ -52,11 +52,11 @@ export const getUserLastActiveSite = async (address: string) => {
       platform: 'Ethereum',
     });
 
-    const site = profiles.list?.sort((a: any, b: any) => a.date_updated - b.date_updated)?.[0]
+    const sites = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))
 
-    if (!site) return null
+    if (!sites || !sites.length) return null
 
-    return site
+    return sites
   } else {
     return null
   }

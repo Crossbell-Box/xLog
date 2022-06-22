@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { APP_NAME } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { trpc } from "~/lib/trpc"
@@ -10,6 +10,9 @@ import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
 import { SiteSwitcher } from "./SiteSwitcher"
+import { getUserSites } from "~/models/site.model"
+import { useAccount } from 'wagmi'
+import type { Profile } from "unidata.js"
 
 export function DashboardLayout({
   children,
@@ -21,12 +24,17 @@ export function DashboardLayout({
   const router = useRouter()
   const subdomain = router.query.subdomain as string
 
-  const { data: subscriptions } = trpc.useQuery(
-    ["user.getSubscriptions", { canManage: true }],
-    {},
-  )
+  const { data: viewer } = useAccount()
 
-  const { data: viewer } = trpc.useQuery(["auth.viewer"])
+  let [subscriptions, setSubscriptions] = useState<Profile[]>([])
+
+  useEffect(() => {
+    if (viewer?.address) {
+      getUserSites(viewer.address).then((sites) => {
+        setSubscriptions(sites || [])
+      })
+    }
+  }, [viewer?.address])
 
   const links: {
     href: string
@@ -76,7 +84,7 @@ export function DashboardLayout({
           <div className="mb-2">
             <SiteSwitcher
               subdomain={subdomain}
-              subscriptions={subscriptions || []}
+              subscriptions={subscriptions}
               viewer={viewer}
             />
           </div>

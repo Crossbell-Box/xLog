@@ -1,5 +1,5 @@
 import { redirect } from "~/lib/server-side-props"
-import { getUserLastActiveSite } from "~/models/site.model"
+import { getUserSites } from "~/models/site.model"
 import { useAccount } from 'wagmi'
 import { useEffect } from "react"
 import { useRouter } from 'next/router'
@@ -10,16 +10,17 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (wagmiData?.address) {
-      getUserLastActiveSite(wagmiData.address).then((site) => {
-        if (!site) {
+      getUserSites(wagmiData.address).then((sites) => {
+        if (!sites) {
           router.push(`/dashboard/new-site`)
+        } else {
+          router.push(`/dashboard/${sites[0].username}`)
         }
-        router.push(`/dashboard/${site.username}`)
       })
     } else {
       router.push("/")
     }
-  })
+  }, [wagmiData?.address, router])
 
   return <div>Loading...</div>
 }
