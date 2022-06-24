@@ -3,33 +3,28 @@ import { useMemo } from "react"
 import { PageVisibilityEnum } from "./types"
 
 export const usePageVisibility = ({
-  published,
-  publishedAt,
+  date_published,
 }: {
-  published: boolean
-  publishedAt: string | Date | null
+  date_published: string
 }) => {
   const visibility = useMemo<
     Omit<PageVisibilityEnum, PageVisibilityEnum.All>
   >(() => {
-    return getPageVisibility({ published, publishedAt })
-  }, [published, publishedAt])
+    return getPageVisibility({ date_published })
+  }, [date_published])
 
   return visibility
 }
 
 export const getPageVisibility = ({
-  published,
-  publishedAt,
+  date_published,
 }: {
-  published: boolean
-  publishedAt: string | Date | null
+  date_published: string
 }) => {
-  if (!published) {
-    return PageVisibilityEnum.Draft
-  }
-  if (published && publishedAt && dayjs(publishedAt).isBefore(new Date())) {
+  if (dayjs(date_published).isBefore(new Date())) {
     return PageVisibilityEnum.Published
+  } else if (dayjs(date_published).isBefore(new Date('9999-01-01'))) {
+    return PageVisibilityEnum.Scheduled
   }
-  return PageVisibilityEnum.Scheduled
+  return PageVisibilityEnum.Draft
 }

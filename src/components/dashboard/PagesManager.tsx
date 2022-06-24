@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo } from "react"
+import { Fragment, useEffect, useMemo, useState } from "react"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { formatDate } from "~/lib/date"
 import { TabItem, Tabs } from "../ui/Tabs"
@@ -11,6 +11,8 @@ import { trpc } from "~/lib/trpc"
 import Link from "next/link"
 import toast from "react-hot-toast"
 import { EmptyState } from "../ui/EmptyState"
+import type { Note } from "unidata.js"
+import { getPagesBySite, deletePage } from "~/models/page.model"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -25,32 +27,38 @@ export const PagesManager: React.FC<{
         : PageVisibilityEnum.All,
     [router.query.visibility]
   )
-  const deletePage = trpc.useMutation("page.delete")
-  const trpcContext = trpc.useContext()
+
+  let [pages, setPages] = useState<Note[] | null>(null)
+
+  const pageDelete = (id: string) => {
+    deletePage({
+      site: subdomain,
+      id: id,
+    }).then(() => {
+      toast.success("Deleted!")
+      getPagesBySite({
+        type: isPost ? "post" : "page",
+        site: subdomain,
+        take: 1000,
+        visibility,
+      }).then((pages) => {
+        setPages(pages?.list || [])
+      })
+    })
+  }
 
   useEffect(() => {
-    if (deletePage.isSuccess) {
-      deletePage.reset()
-      toast.success("Deleted!")
-      trpcContext.invalidateQueries("site.pages")
-    }
-  }, [deletePage, trpcContext])
-
-  const pagesResult = trpc.useQuery(
-    [
-      "site.pages",
-      {
+    if (subdomain) {
+      getPagesBySite({
         type: isPost ? "post" : "page",
         site: subdomain!,
         take: 1000,
         visibility,
-      },
-    ],
-    {
-      enabled: !!subdomain,
+      }).then((pages) => {
+        setPages(pages?.list || [])
+      })
     }
-  )
-  const pages = pagesResult.data?.nodes
+  }, [subdomain, isPost, visibility])
 
   const tabItems: TabItem[] = [
     {
@@ -134,7 +142,7 @@ export const PagesManager: React.FC<{
           </svg>
         ),
         onClick() {
-          deletePage.mutate({ pageId: page.id })
+          pageDelete(page.id)
         },
       },
     ]
@@ -187,14 +195,14 @@ export const PagesManager: React.FC<{
               <a className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex justify-between">
                 <div>
                   <div className="flex items-center">
-                    <span>{page.title}</span>
+                    <span>{page.title || 'Untitled'}</span>
                   </div>
                   <div className="text-zinc-400 text-xs mt-1">
                     <span className="capitalize">
                       {getPageVisibility(page).toLowerCase()}
                     </span>
                     <span className="mx-2">·</span>
-                    <span>{formatDate(page.publishedAt)}</span>
+                    <span>{getPageVisibility(page) === PageVisibilityEnum.Draft ? formatDate(page.date_updated) : formatDate(page.date_published)}</span>
                   </div>
                 </div>
                 <div className="w-10 flex-shrink-0">

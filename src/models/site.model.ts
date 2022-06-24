@@ -7,12 +7,7 @@ import { SiteNavigationItem } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { getMembership } from "./membership"
 import { checkReservedWords } from "~/lib/reserved-words"
-import Unidata from "unidata.js"
-
-let unidata: Unidata;
-if (typeof window !== "undefined") {
-  unidata = new Unidata()
-}
+import unidata from "~/lib/unidata"
 
 export const checkSubdomain = async ({
   subdomain,
