@@ -41,6 +41,7 @@ export const PagesManager: React.FC<{
         site: subdomain,
         take: 1000,
         visibility,
+        render: true,
       }).then((pages) => {
         setPages(pages?.list || [])
       })
@@ -54,6 +55,7 @@ export const PagesManager: React.FC<{
         site: subdomain!,
         take: 1000,
         visibility,
+        render: true,
       }).then((pages) => {
         setPages(pages?.list || [])
       })

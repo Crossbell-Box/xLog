@@ -54,11 +54,9 @@ const checkPageSlug = async ({
 }
 
 export async function createOrUpdatePage(
-  gate: Gate,
   input: {
     pageId?: string
     siteId: string
-    slug?: string
     title?: string
     content?: string
     published?: boolean
@@ -68,77 +66,35 @@ export async function createOrUpdatePage(
     isPost?: boolean
   },
 ) {
-  // const user = gate.getUser(true)
-  // const page = input.pageId
-  //   ? await prismaPrimary.page.findUnique({
-  //       where: {
-  //         id: input.pageId,
-  //       },
-  //       include: {
-  //         site: true,
-  //       },
-  //     })
-  //   : await prismaPrimary.page.create({
-  //       data: {
-  //         title: "Untitled",
-  //         slug: `untitled-${nanoid(4)}`,
-  //         site: {
-  //           connect: {
-  //             id: input.siteId,
-  //           },
-  //         },
-  //         content: "",
-  //         excerpt: "",
-  //         authors: {
-  //           connect: {
-  //             id: user.id,
-  //           },
-  //         },
-  //       },
-  //       include: {
-  //         site: true,
-  //       },
-  //     })
-
-  // if (!page || page.deletedAt) {
-  //   throw new Error(`Page not found`)
-  // }
-
-  // if (input.pageId) {
-  //   if (!gate.allows({ type: "can-update-page", siteId: page.siteId })) {
-  //     throw gate.permissionError()
-  //   }
-  // } else {
-  //   if (!gate.allows({ type: "can-create-page", siteId: page.siteId })) {
-  //     throw gate.permissionError()
-  //   }
-  // }
-
-  // const slug = input.slug || page.slug
-  // await checkPageSlug({ slug, excludePage: page.id, siteId: page.siteId })
-
-  // // Just checking if the page content can be rendered
-  // const rendered = input.content
-  //   ? await renderPageContent(input.content)
-  //   : undefined
-
-  // const updated = await prismaPrimary.page.update({
-  //   where: {
-  //     id: page.id,
-  //   },
-  //   data: {
-  //     title: input.title || "Untitled",
-  //     content: input.content,
-  //     published: input.published,
-  //     publishedAt: input.publishedAt && new Date(input.publishedAt),
-  //     excerpt: input.excerpt && stripHTML(input.excerpt),
-  //     slug,
-  //     type: input.isPost ? "POST" : "PAGE",
-  //     rendered,
-  //   },
-  // })
-
-  // return { page: updated }
+  if (unidata) {
+    return await unidata.notes.set({
+      source: 'Crossbell Note',
+      identity: input.siteId,
+      platform: 'Crossbell',
+      action: input.pageId ? 'add' : 'update',
+    }, {
+      ...(input.pageId && { id: input.pageId }),
+      ...(input.title && { title: input.title }),
+      ...(input.content && {
+        body: {
+          content: input.content,
+          mime_type: 'text/markdown',
+        }}),
+      ...(input.publishedAt && { date_published: input.published ? input.publishedAt : new Date('9999-01-01').toISOString() }),
+      ...(input.excerpt && {
+        summary: {
+          content: input.excerpt,
+          mime_type: 'text/markdown',
+        }
+      }),
+      tags: [input.isPost ? "post" : "page"],
+    })
+  } else {
+    return {
+      code: 1,
+      message: 'Unidata is not found',
+    }
+  }
 }
 
 export async function scheduleEmailForPost(
@@ -179,6 +135,7 @@ export async function getPagesBySite(
     cursor?: string | null
     includeContent?: boolean
     includeExcerpt?: boolean
+    render?: boolean
   },
 ) {
   if (!input.site) {
@@ -188,7 +145,7 @@ export async function getPagesBySite(
     }
   }
 
-  const visibility = input.visibility || PageVisibilityEnum.Published
+  const visibility = input.visibility || PageVisibilityEnum.All
 
   let pages: Notes | null = null
   if (unidata) {
@@ -198,6 +155,7 @@ export async function getPagesBySite(
       platform: 'Crossbell',
       limit: input.take || 100,
     });
+    console.log(pages?.list.length, visibility)
 
     if (pages?.list) {
       switch (visibility) {
@@ -214,7 +172,7 @@ export async function getPagesBySite(
       pages.total = pages.list.length
   
       pages.list = await Promise.all(pages?.list.map(async (page) => {
-        if (page.body?.content && page.body?.mime_type === 'text/markdown') {
+        if (page.body?.content && page.body?.mime_type === 'text/markdown' && input.render) {
           const rendered = await renderPageContent(page.body.content)
           page.body = {
             content: rendered.contentHTML,

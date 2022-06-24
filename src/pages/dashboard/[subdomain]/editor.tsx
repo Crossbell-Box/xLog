@@ -17,12 +17,13 @@ import { useUploadFile } from "~/hooks/useUploadFile"
 import { inLocalTimezone } from "~/lib/date"
 import { getSiteLink } from "~/lib/helpers"
 import { getPageVisibility } from "~/lib/page-helpers"
-import { trpc } from "~/lib/trpc"
 import { PageVisibilityEnum } from "~/lib/types"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { Button } from "~/components/ui/Button"
 import { EmailPostModal } from "~/components/common/EmailPostModal"
 import { useStore } from "~/lib/store"
+import type { Note } from "unidata.js"
+import { getPagesBySite, createOrUpdatePage } from "~/models/page.model"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -35,41 +36,39 @@ export default function SubdomainEditor() {
   const subdomain = router.query.subdomain as string
   const isPost = router.query.type === "post"
   const pageId = router.query.id as string | undefined
-  const trpcContext = trpc.useContext()
-  const siteResult = trpc.useQuery(["site", { site: subdomain }], {
-    enabled: !!subdomain,
-  })
-  const { data: page, refetch: refetchPage } = trpc.useQuery(
-    ["site.page", { page: pageId!, site: subdomain, render: false }],
-    {
-      enabled: !!pageId,
-    },
-  )
-  const pageContent = useMemo(() => page?.content, [page?.content])
 
-  const published = page?.published ?? false
+  let [page, setPage] = useState<Note | undefined>(undefined)
+
+  useEffect(() => {
+    if (subdomain) {
+      getPagesBySite({
+        type: isPost ? "post" : "page",
+        site: subdomain!,
+        take: 1000,
+        render: false
+      }).then((pages) => {
+        console.log(pages, pageId)
+        const page = (pages?.list || []).find((p) => p.id === pageId)
+        setPage(page)
+      })
+    }
+  }, [subdomain, isPost, pageId])
+
+  const pageContent = useMemo(() => page?.body?.content, [page?.body?.content])
+
   const visibility = getPageVisibility({
-    published,
-    publishedAt: page?.publishedAt || null,
+    date_published: page?.date_published,
   })
-  const {
-    mutate: createOrUpdatePage,
-    status: createOrUpdatePageStatus,
-    data: createOrUpdatePageResult,
-    error: createOrUpdatePageError,
-    reset: resetCreateOrUpdatePage,
-  } = trpc.useMutation("page.createOrUpdate")
+  const published = visibility !== PageVisibilityEnum.Draft
+
+  const [createOrUpdatePageStatus, setCreateOrUpdatePageStatus] = useState<string>('')
+
   const uploadFile = useUploadFile()
-  const [emailPostModalOpened, setEmailPostModalOpened] = useStore((store) => [
-    store.emailPostModalOpened,
-    store.setEmailPostModalOpened,
-  ])
 
   const [values, setValues] = useState({
     title: "",
     publishedAt: new Date().toISOString(),
     published: false,
-    slug: "",
     excerpt: "",
   })
   const [content, setContent] = useState("")
@@ -89,13 +88,22 @@ export default function SubdomainEditor() {
   )
 
   const savePage = (published: boolean) => {
+    setCreateOrUpdatePageStatus("loading")
     createOrUpdatePage({
       ...values,
-      siteId: siteResult.data!.id,
-      pageId: page?.id,
+      siteId: subdomain,
+      pageId: pageId,
       isPost: isPost,
       published,
       content,
+    }).then((result) => {
+      if (result && result.code === 0) {
+        setCreateOrUpdatePageStatus("success")
+        toast.success(values.published ? "Updated" : "Saved!")
+      } else {
+        setCreateOrUpdatePageStatus("error")
+        toast.error(result.message)
+      }
     })
   }
 
@@ -137,47 +145,13 @@ export default function SubdomainEditor() {
   })
 
   useEffect(() => {
-    if (createOrUpdatePageStatus === "success") {
-      resetCreateOrUpdatePage()
-      toast.success(values.published ? "Updated" : "Saved!")
-      trpcContext.invalidateQueries("site.page")
-      router.replace(
-        `/dashboard/${subdomain}/editor?id=${
-          createOrUpdatePageResult.id
-        }&type=${isPost ? "post" : "page"}`,
-      )
-    }
-  }, [
-    resetCreateOrUpdatePage,
-    createOrUpdatePageStatus,
-    createOrUpdatePageResult,
-    isPost,
-    router,
-    subdomain,
-    trpcContext,
-    values.published,
-  ])
-
-  useEffect(() => {
-    if (createOrUpdatePageStatus === "error") {
-      resetCreateOrUpdatePage()
-      toast.error(createOrUpdatePageError.message)
-    }
-  }, [
-    resetCreateOrUpdatePage,
-    createOrUpdatePageStatus,
-    createOrUpdatePageError,
-  ])
-
-  useEffect(() => {
     if (!page) return
 
     setValues({
-      title: page.title,
-      publishedAt: page.publishedAt,
-      published: page.published,
-      slug: page.slug,
-      excerpt: page.excerpt || "",
+      title: page.title || '',
+      publishedAt: page.date_published,
+      published: page.date_published !== new Date('9999-01-01').toISOString(),
+      excerpt: page.summary?.content || "",
     })
   }, [page])
 
@@ -186,12 +160,6 @@ export default function SubdomainEditor() {
       setContent(pageContent)
     }
   }, [pageContent])
-
-  useEffect(() => {
-    if (!emailPostModalOpened) {
-      refetchPage()
-    }
-  }, [refetchPage, emailPostModalOpened])
 
   return (
     <>
@@ -272,37 +240,6 @@ export default function SubdomainEditor() {
               </div>
               <div>
                 <Input
-                  name="slug"
-                  value={values.slug}
-                  label="Page slug"
-                  id="slug"
-                  isBlock
-                  placeholder="some-slug"
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    updateValue("slug", e.target.value)
-                  }
-                  help={
-                    <>
-                      {values.slug && (
-                        <>
-                          This {isPost ? "post" : "page"} will be accessible at{" "}
-                          <UniLink
-                            href={`${getSiteLink({ subdomain })}/${
-                              values.slug
-                            }`}
-                            className="hover:underline"
-                          >
-                            {getSiteLink({ subdomain, noProtocol: true })}/
-                            {values.slug}
-                          </UniLink>
-                        </>
-                      )}
-                    </>
-                  }
-                />
-              </div>
-              <div>
-                <Input
                   label="Excerpt"
                   isBlock
                   name="excerpt"
@@ -316,35 +253,6 @@ export default function SubdomainEditor() {
                   help="Leave it blank to use auto-generated excerpt"
                 />
               </div>
-              {isPost && page && (
-                <div>
-                  <FieldLabel label="Email Post" id="email-post" />
-                  {page?.emailStatus ? (
-                    <div className="capitalize text-zinc-500 text-sm flex items-center space-x-1">
-                      <span
-                        className={clsx(
-                          page.emailStatus === "SUCCESS"
-                            ? `i-bi:check-circle text-green-500`
-                            : page.emailStatus === "FAILED"
-                            ? `i-bi:x-circle text-red-500`
-                            : ``,
-                        )}
-                      ></span>
-                      <span>{page.emailStatus.toLowerCase()}</span>
-                    </div>
-                  ) : (
-                    <Button
-                      variant="primary"
-                      variantColor="gray"
-                      size="sm"
-                      isBlock
-                      onClick={() => setEmailPostModalOpened(true)}
-                    >
-                      Open Settings
-                    </Button>
-                  )}
-                </div>
-              )}
             </div>
           </div>
         </DashboardMain>
