@@ -67,13 +67,6 @@ export function DashboardLayout({
       icon: "i-bi-gear",
       text: "Settings",
     },
-    {
-      href: `/dashboard/${subdomain}/account/profile`,
-      isActive: ({ pathname }) =>
-        pathname.startsWith(`/dashboard/${subdomain}/account`),
-      icon: "i-bi-person",
-      text: "Account",
-    },
   ]
 
   return (
