@@ -71,7 +71,7 @@ export async function createOrUpdatePage(
       source: 'Crossbell Note',
       identity: input.siteId,
       platform: 'Crossbell',
-      action: input.pageId ? 'add' : 'update',
+      action: input.pageId ? 'update' : 'add',
     }, {
       ...(input.pageId && { id: input.pageId }),
       ...(input.title && { title: input.title }),
@@ -155,7 +155,6 @@ export async function getPagesBySite(
       platform: 'Crossbell',
       limit: input.take || 100,
     });
-    console.log(pages?.list.length, visibility)
 
     if (pages?.list) {
       switch (visibility) {
@@ -169,6 +168,7 @@ export async function getPagesBySite(
           pages.list = pages.list.filter(page => +new Date(page.date_published) > +new Date() && page.date_published !== new Date('9999-01-01').toISOString())
           break
       }
+      pages.list = pages.list.filter(page => page.tags?.includes(input.type))
       pages.total = pages.list.length
   
       pages.list = await Promise.all(pages?.list.map(async (page) => {

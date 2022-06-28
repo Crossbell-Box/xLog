@@ -1,26 +1,30 @@
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { AvatarForm } from "~/components/dashboard/AvatarForm"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { trpc } from "~/lib/trpc"
 import { useForm } from "react-hook-form"
+import { getSite, updateSite } from "~/models/site.model"
+import { Profile } from "unidata.js"
 
 export default function SiteSettingsGeneralPage() {
   const router = useRouter()
 
   const subdomain = router.query.subdomain as string
 
-  const siteResult = trpc.useQuery(["site", { site: subdomain }], {
-    enabled: !!subdomain,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  })
-  const site = siteResult.data
-  const updateSite = trpc.useMutation("site.updateSite")
+  let [site, setSite] = useState<Profile | null>(null)
+
+  useEffect(() => {
+    if (subdomain) {
+      getSite(subdomain).then((site) => {
+        setSite(site)
+      })
+    }
+  }, [subdomain])
 
   const form = useForm({
     defaultValues: {
@@ -29,27 +33,29 @@ export default function SiteSettingsGeneralPage() {
     },
   })
 
+  let [loading, setLoading] = useState<boolean>(false)
   const handleSubmit = form.handleSubmit((values) => {
-    updateSite.mutate({
+    setLoading(true)
+    updateSite({
       site: subdomain,
       name: values.name,
       description: values.description,
+    }).then((result) => {
+      if (result.code === 0) {
+        toast.success("Site updated")
+      } else {
+        toast.error("Failed to update site" + ": " + result.message)
+      }
+      setLoading(false)
     })
   })
 
   useEffect(() => {
     if (site) {
-      form.setValue("name", site.name)
-      form.setValue("description", site.description || "")
+      form.setValue("name", site.name || "")
+      form.setValue("description", site.bio || "")
     }
   }, [site, form])
-
-  useEffect(() => {
-    if (updateSite.isSuccess && updateSite.data) {
-      toast.success("Site updated")
-      updateSite.reset()
-    }
-  }, [updateSite])
 
   return (
     <DashboardLayout title="Site Settings">
@@ -58,9 +64,9 @@ export default function SiteSettingsGeneralPage() {
           <div>
             <label className="form-label">Icon</label>
             <AvatarForm
-              site={site.id}
-              name={site.name}
-              filename={site.icon || undefined}
+              site={site.username}
+              name={site.name || site.username || ""}
+              filename={site.avatars?.[0] || undefined}
             />
           </div>
         )}
@@ -80,7 +86,7 @@ export default function SiteSettingsGeneralPage() {
             />
           </div>
           <div className="mt-5">
-            <Button type="submit" isLoading={updateSite.isLoading}>
+            <Button type="submit" isLoading={loading}>
               Save
             </Button>
           </div>

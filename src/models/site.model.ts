@@ -58,24 +58,20 @@ export const getUserSites = async (address: string) => {
 }
 
 export const getSite = async (input: string) => {
-  const site = isUUID(input)
-    ? await prismaRead.site.findUnique({
-        where: {
-          id: input,
-        },
-      })
-    : await prismaRead.site.findUnique({
-        where: {
-          subdomain: input,
-        },
-      })
+  if (unidata) {
+    const profiles = await unidata.profiles.get({
+      source: 'Crossbell Profile',
+      identity: input,
+      platform: 'Crossbell',
+    });
 
-  if (!site || site.deletedAt) {
-    throw new Error(`Site not found`)
-  }
+    const site = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))?.[0]
 
-  return site as Omit<Site, "navigation"> & {
-    navigation: SiteNavigationItem[] | null
+    if (!site) return null
+
+    return site
+  } else {
+    return null
   }
 }
 
@@ -98,45 +94,31 @@ export const getSubscription = async (data: {
 }
 
 export async function updateSite(
-  gate: Gate,
   payload: {
     site: string
     name?: string
     description?: string
     icon?: string | null
     subdomain?: string
-    navigation?: SiteNavigationItem[]
+    navigation?: SiteNavigationItem[] // TODO
   },
 ) {
-  const site = await getSite(payload.site)
-
-  if (!gate.allows({ type: "can-update-site", site })) {
-    throw gate.permissionError()
-  }
-
-  if (payload.subdomain) {
-    await checkSubdomain({
-      subdomain: payload.subdomain,
-      updatingSiteId: site.id,
+  if (unidata) {
+    return await unidata.profiles.set({
+      source: 'Crossbell Profile',
+      identity: payload.site,
+      platform: 'Crossbell',
+    }, {
+      ...(payload.name && { name: payload.name }),
+      ...(payload.description && { bio: payload.description }),
+      ...(payload.icon && { avatars: [payload.icon] }),
+      ...(payload.subdomain && { username: payload.subdomain }),
     })
-  }
-
-  const updated = await prismaPrimary.site.update({
-    where: {
-      id: site.id,
-    },
-    data: {
-      name: payload.name,
-      subdomain: payload.subdomain,
-      description: payload.description,
-      icon: payload.icon,
-      navigation: payload.navigation,
-    },
-  })
-
-  return {
-    site: updated,
-    subdomainUpdated: updated.subdomain !== site.subdomain,
+  } else {
+    return {
+      code: 1,
+      message: 'Unidata is not found',
+    }
   }
 }
 
@@ -202,55 +184,55 @@ export async function subscribeToSite(
     }
   },
 ) {
-  const { newUser } = input
-  if (newUser) {
-    // Create the login token instead
-    sendLoginEmail({
-      email: newUser.email,
-      url: newUser.url,
-      toSubscribeSiteId: input.siteId,
-    })
-    return
-  }
+  // const { newUser } = input
+  // if (newUser) {
+  //   // Create the login token instead
+  //   sendLoginEmail({
+  //     email: newUser.email,
+  //     url: newUser.url,
+  //     toSubscribeSiteId: input.siteId,
+  //   })
+  //   return
+  // }
 
-  const user = gate.getUser(true)
+  // const user = gate.getUser(true)
 
-  const site = await getSite(input.siteId)
-  const subscription = await getSubscription({
-    userId: user.id,
-    siteId: site.id,
-  })
-  if (!subscription) {
-    await prismaPrimary.membership.create({
-      data: {
-        role: MembershipRole.SUBSCRIBER,
-        user: {
-          connect: {
-            id: user.id,
-          },
-        },
-        site: {
-          connect: {
-            id: site.id,
-          },
-        },
-        config: {
-          email: input.email,
-        },
-      },
-    })
-  } else {
-    await prismaPrimary.membership.update({
-      where: {
-        id: subscription.id,
-      },
-      data: {
-        config: {
-          email: input.email,
-        },
-      },
-    })
-  }
+  // const site = await getSite(input.siteId)
+  // const subscription = await getSubscription({
+  //   userId: user.id,
+  //   siteId: site.id,
+  // })
+  // if (!subscription) {
+  //   await prismaPrimary.membership.create({
+  //     data: {
+  //       role: MembershipRole.SUBSCRIBER,
+  //       user: {
+  //         connect: {
+  //           id: user.id,
+  //         },
+  //       },
+  //       site: {
+  //         connect: {
+  //           id: site.id,
+  //         },
+  //       },
+  //       config: {
+  //         email: input.email,
+  //       },
+  //     },
+  //   })
+  // } else {
+  //   await prismaPrimary.membership.update({
+  //     where: {
+  //       id: subscription.id,
+  //     },
+  //     data: {
+  //       config: {
+  //         email: input.email,
+  //       },
+  //     },
+  //   })
+  // }
 }
 
 export async function unsubscribeFromSite(

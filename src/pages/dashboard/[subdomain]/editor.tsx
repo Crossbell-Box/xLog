@@ -149,7 +149,7 @@ export default function SubdomainEditor() {
 
     setValues({
       title: page.title || '',
-      publishedAt: page.date_published,
+      publishedAt: page.date_published === new Date('9999-01-01').toISOString() ? new Date().toISOString() : page.date_published,
       published: page.date_published !== new Date('9999-01-01').toISOString(),
       excerpt: page.summary?.content || "",
     })
