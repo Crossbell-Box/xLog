@@ -108,6 +108,7 @@ export async function updateSite(
       source: 'Crossbell Profile',
       identity: payload.site,
       platform: 'Crossbell',
+      action: 'update',
     }, {
       ...(payload.name && { name: payload.name }),
       ...(payload.description && { bio: payload.description }),

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
@@ -7,18 +7,22 @@ import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { OUR_DOMAIN } from "~/lib/env"
-import { trpc } from "~/lib/trpc"
+import { getSite, updateSite } from "~/models/site.model"
+import { Profile } from "unidata.js"
 
 export default function SettingsDomainsPage() {
   const router = useRouter()
   const subdomain = router.query.subdomain as string
-  const siteResult = trpc.useQuery(["site", { site: subdomain }], {
-    enabled: !!subdomain,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  })
-  const ctx = trpc.useContext()
-  const updateSite = trpc.useMutation("site.updateSite")
+
+  let [site, setSite] = useState<Profile | null>(null)
+
+  useEffect(() => {
+    if (subdomain) {
+      getSite(subdomain).then((site) => {
+        setSite(site)
+      })
+    }
+  }, [subdomain])
 
   const form = useForm({
     defaultValues: {
@@ -26,31 +30,30 @@ export default function SettingsDomainsPage() {
     },
   })
 
+  let [loading, setLoading] = useState<boolean>(false)
   const handleSubmit = form.handleSubmit((values) => {
-    updateSite.mutate({
-      site: siteResult.data!.id,
+    setLoading(true)
+    updateSite({
+      site: subdomain,
       subdomain: values.subdomain,
+    }).then((result) => {
+      if (result.code === 0) {
+        toast.success("Saved!")
+        router.replace(
+          `/dashboard/${values.subdomain}/settings/domains`
+        )
+      } else {
+        toast.error("Failed to update site" + ": " + result.message)
+      }
+      setLoading(false)
     })
   })
 
   useEffect(() => {
-    if (updateSite.isSuccess && updateSite.data) {
-      toast.success("Saved!")
-      updateSite.reset()
-      ctx.invalidateQueries()
-      if (updateSite.data.subdomainUpdated) {
-        router.replace(
-          `/dashboard/${updateSite.data.site.subdomain}/settings/domains`
-        )
-      }
+    if (site) {
+      form.setValue("subdomain", site.username || "")
     }
-  }, [ctx, router, updateSite])
-
-  useEffect(() => {
-    if (siteResult.data) {
-      form.setValue("subdomain", siteResult.data.subdomain)
-    }
-  }, [form, siteResult.data])
+  }, [form, site])
 
   const title = "Site Settings"
   return (
@@ -64,11 +67,10 @@ export default function SettingsDomainsPage() {
               addon={`.${OUR_DOMAIN}`}
               className="w-28"
               {...form.register("subdomain")}
-              error={updateSite.error?.message}
             />
           </div>
           <div className="mt-5">
-            <Button type="submit" isLoading={updateSite.isLoading}>
+            <Button type="submit" isLoading={loading}>
               Save
             </Button>
           </div>
