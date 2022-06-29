@@ -54,23 +54,24 @@ export const siteRouter = createRouter()
       includeExcerpt: z.boolean().optional(),
     }),
     output: z.object({
-      nodes: z.array(
+      list: z.array(
         z.object({
           id: z.string(),
           title: z.string(),
-          contentHTML: z.string().optional(),
-          publishedAt: z.date().transform((v) => v.toISOString()),
-          published: z.boolean(),
-          slug: z.string(),
-          excerpt: z.string().nullable(),
-          autoExcerpt: z.string().optional(),
+          body: z.object({
+            content: z.string(),
+          }),
+          date_published: z.date().transform((v) => v.toISOString()),
+          summary: z.object({
+            content: z.string(),
+          }),
         }),
       ),
       total: z.number(),
       hasMore: z.boolean(),
     }),
     async resolve({ input, ctx }) {
-      const result = await getPagesBySite(ctx.gate, input)
+      const result = await getPagesBySite(input)
       return result
     },
   })

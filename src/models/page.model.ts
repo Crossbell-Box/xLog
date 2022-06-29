@@ -66,35 +66,28 @@ export async function createOrUpdatePage(
     isPost?: boolean
   },
 ) {
-  if (unidata) {
-    return await unidata.notes.set({
-      source: 'Crossbell Note',
-      identity: input.siteId,
-      platform: 'Crossbell',
-      action: input.pageId ? 'update' : 'add',
-    }, {
-      ...(input.pageId && { id: input.pageId }),
-      ...(input.title && { title: input.title }),
-      ...(input.content && {
-        body: {
-          content: input.content,
-          mime_type: 'text/markdown',
-        }}),
-      ...(input.publishedAt && { date_published: input.published ? input.publishedAt : new Date('9999-01-01').toISOString() }),
-      ...(input.excerpt && {
-        summary: {
-          content: input.excerpt,
-          mime_type: 'text/markdown',
-        }
-      }),
-      tags: [input.isPost ? "post" : "page"],
-    })
-  } else {
-    return {
-      code: 1,
-      message: 'Unidata is not found',
-    }
-  }
+  return await unidata.notes.set({
+    source: 'Crossbell Note',
+    identity: input.siteId,
+    platform: 'Crossbell',
+    action: input.pageId ? 'update' : 'add',
+  }, {
+    ...(input.pageId && { id: input.pageId }),
+    ...(input.title && { title: input.title }),
+    ...(input.content && {
+      body: {
+        content: input.content,
+        mime_type: 'text/markdown',
+      }}),
+    ...(input.publishedAt && { date_published: input.published ? input.publishedAt : new Date('9999-01-01').toISOString() }),
+    ...(input.excerpt && {
+      summary: {
+        content: input.excerpt,
+        mime_type: 'text/markdown',
+      }
+    }),
+    tags: [input.isPost ? "post" : "page"],
+  })
 }
 
 export async function scheduleEmailForPost(
@@ -147,63 +140,58 @@ export async function getPagesBySite(
 
   const visibility = input.visibility || PageVisibilityEnum.All
 
-  let pages: Notes | null = null
-  if (unidata) {
-    pages = await unidata.notes.get({
-      source: 'Crossbell Note',
-      identity: input.site,
-      platform: 'Crossbell',
-      limit: input.take || 100,
-    });
+  let pages = await unidata.notes.get({
+    source: 'Crossbell Note',
+    identity: input.site,
+    platform: 'Crossbell',
+    limit: input.take || 1000,
+  });
 
-    if (pages?.list) {
-      switch (visibility) {
-        case PageVisibilityEnum.Published:
-          pages.list = pages.list.filter(page => +new Date(page.date_published) <= +new Date())
-          break
-        case PageVisibilityEnum.Draft:
-          pages.list = pages.list.filter(page => page.date_published === new Date('9999-01-01').toISOString())
-          break
-        case PageVisibilityEnum.Scheduled:
-          pages.list = pages.list.filter(page => +new Date(page.date_published) > +new Date() && page.date_published !== new Date('9999-01-01').toISOString())
-          break
-      }
-      pages.list = pages.list.filter(page => page.tags?.includes(input.type))
-      pages.total = pages.list.length
-  
-      pages.list = await Promise.all(pages?.list.map(async (page) => {
-        if (page.body?.content && page.body?.mime_type === 'text/markdown' && input.render) {
-          const rendered = await renderPageContent(page.body.content)
-          page.body = {
-            content: rendered.contentHTML,
+  if (pages?.list) {
+    switch (visibility) {
+      case PageVisibilityEnum.Published:
+        pages.list = pages.list.filter(page => +new Date(page.date_published) <= +new Date())
+        break
+      case PageVisibilityEnum.Draft:
+        pages.list = pages.list.filter(page => page.date_published === new Date('9999-01-01').toISOString())
+        break
+      case PageVisibilityEnum.Scheduled:
+        pages.list = pages.list.filter(page => +new Date(page.date_published) > +new Date() && page.date_published !== new Date('9999-01-01').toISOString())
+        break
+    }
+    pages.list = pages.list.filter(page => page.tags?.includes(input.type))
+    pages.total = pages.list.length
+
+    pages.list = await Promise.all(pages?.list.map(async (page) => {
+      if (page.body?.content && page.body?.mime_type === 'text/markdown' && input.render) {
+        const rendered = await renderPageContent(page.body.content)
+        page.body = {
+          content: rendered.contentHTML,
+          mime_type: 'text/html'
+        }
+        if (!page.summary) {
+          page.summary = {
+            content: rendered.excerpt,
             mime_type: 'text/html'
           }
-          if (!page.summary) {
-            page.summary = {
-              content: rendered.excerpt,
-              mime_type: 'text/html'
-            }
-          }
         }
-        return page
-      }))
-    }
-  
-    return pages
+      }
+      return page
+    }))
   }
+
+  return pages
 }
 
 export async function deletePage({ site, id }: { site: string, id: string }) {
-  if (unidata) {
-    await unidata.notes.set({
-      source: 'Crossbell Note',
-      identity: site,
-      platform: 'Crossbell',
-      action: 'remove',
-    }, {
-      id,
-    })
-  }
+  return await unidata.notes.set({
+    source: 'Crossbell Note',
+    identity: site,
+    platform: 'Crossbell',
+    action: 'remove',
+  }, {
+    id,
+  })
 }
 
 export async function getPage<TRender extends boolean = false>(

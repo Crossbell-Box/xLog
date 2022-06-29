@@ -1,35 +1,39 @@
 import { GetServerSideProps } from "next"
 import { SiteHome } from "~/components/site/SiteHome"
 import { SiteLayout } from "~/components/site/SiteLayout"
-import { getAuthUser } from "~/lib/auth.server"
 import { trpc } from "~/lib/trpc"
 import { createSSGHelpers } from "@trpc/react/ssg"
 import { appRouter } from "~/router"
 import { getTRPCContext } from "~/lib/trpc.server"
 import { Viewer } from "~/lib/types"
 import { getViewer } from "~/lib/viewer"
+import { useAccount } from 'wagmi'
+import { useEffect, useState } from 'react'
+import { getUserSites, getSite } from "~/models/site.model"
+import { getPagesBySite } from "~/models/page.model"
+import { Profile, Notes } from "unidata.js"
+import { PageVisibilityEnum } from "~/lib/types"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user = await getAuthUser(ctx.req)
   const domainOrSubdomain = ctx.params!.site as string
 
-  const viewer = getViewer(user)
   const trpcContext = await getTRPCContext(ctx)
   const ssg = createSSGHelpers({ router: appRouter, ctx: trpcContext })
 
-  await Promise.all([
-    ssg.fetchQuery("site", { site: domainOrSubdomain }),
-    ssg.fetchQuery("site.pages", {
+  const [site, posts] = await Promise.all([
+    getSite(domainOrSubdomain),
+    getPagesBySite({
       site: domainOrSubdomain,
       take: 1000,
-      includeExcerpt: true,
+      type: "post",
+      visibility: PageVisibilityEnum.Published,
     }),
-    ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
   ])
 
   return {
     props: {
-      viewer,
+      site,
+      posts,
       domainOrSubdomain,
       trpcState: ssg.dehydrate(),
     },
@@ -37,27 +41,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 function SiteIndexPage({
-  viewer,
-  domainOrSubdomain,
+  site,
+  posts,
 }: {
-  viewer: Viewer | null
+  site: Profile,
+  posts: Notes,
   domainOrSubdomain: string
 }) {
-  const { data: site } = trpc.useQuery(
-    ["site", { site: domainOrSubdomain }],
-    {},
-  )
-  const { data: subscription } = trpc.useQuery([
-    "site.subscription",
-    { site: domainOrSubdomain },
-  ])
-  const { data: posts } = trpc.useQuery([
-    "site.pages",
-    { site: domainOrSubdomain, take: 1000, includeExcerpt: true },
-  ])
-
   return (
-    <SiteLayout site={site!} viewer={viewer} subscription={subscription}>
+    <SiteLayout site={site!}>
       <SiteHome posts={posts} />
     </SiteLayout>
   )

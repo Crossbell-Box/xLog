@@ -8,16 +8,11 @@ import { SiteFooter } from "./SiteFooter"
 import { SiteHeader } from "./SiteHeader"
 import { useRouter } from "next/router"
 import { useStore } from "~/lib/store"
+import { Profile } from "unidata.js"
 
 export type SiteLayoutProps = {
-  site: {
-    id: string
-    name: string
-    description?: string | null
-    icon?: string | null
-    navigation?: SiteNavigationItem[] | null
-  }
-  viewer: Viewer | null
+  site: Profile
+  viewer?: Profile | null
   subscription?: { email?: boolean } | null
   children: React.ReactNode
   title?: string | null
@@ -47,29 +42,22 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
     <>
       <SEOHead
         title={title || ""}
-        siteName={site.name}
-        description={ogDescription ?? site.description}
-        image={getUserContentsUrl(site.icon)}
+        siteName={site?.name || ""}
+        description={ogDescription ?? site?.bio}
+        image={getUserContentsUrl(site?.avatars?.[0])}
       />
       <SiteHeader
-        navigation={site!.navigation || []}
-        siteName={site!.name}
-        description={site?.description}
-        icon={site!.icon}
+        navigation={site?.navigation || []}
+        siteName={site?.name}
+        description={site?.bio}
+        icon={site?.avatars?.[0]}
         subscribed={!!subscription}
         viewer={viewer}
       />
       <div className={clsx(`max-w-screen-md mx-auto px-5 pb-12`, `pt-12`)}>
         {children}
       </div>
-      <SiteFooter site={{ name: site!.name }} />
-      {site.id && (
-        <SubscribeModal
-          siteId={site.id}
-          subscription={subscription}
-          isLoggedIn={!!viewer}
-        />
-      )}
+      <SiteFooter site={{ name: site?.name || "" }} />
     </>
   )
 }

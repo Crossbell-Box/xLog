@@ -1,5 +1,6 @@
 import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
+import { IS_PROD } from "~/lib/constants"
 
 export const SiteFooter: React.FC<{ site: { name: string } }> = ({ site }) => {
   return (
@@ -16,6 +17,13 @@ export const SiteFooter: React.FC<{ site: { name: string } }> = ({ site }) => {
             className="hover:text-indigo-500"
           >
             {APP_NAME}
+          </UniLink>{" "}
+          · {" "}
+          <UniLink
+            href={`${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}/dashboard`}
+            className="hover:text-indigo-500"
+          >
+            Dashboard
           </UniLink>
         </span>
       </div>

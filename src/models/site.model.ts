@@ -40,39 +40,31 @@ export const checkSubdomain = async ({
 }
 
 export const getUserSites = async (address: string) => {
-  if (unidata) {
-    const profiles = await unidata.profiles.get({
-      source: 'Crossbell Profile',
-      identity: address,
-      platform: 'Ethereum',
-    });
+  const profiles = await unidata.profiles.get({
+    source: 'Crossbell Profile',
+    identity: address,
+    platform: 'Ethereum',
+  });
 
-    const sites = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))
+  const sites = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))
 
-    if (!sites || !sites.length) return null
+  if (!sites || !sites.length) return null
 
-    return sites
-  } else {
-    return null
-  }
+  return sites
 }
 
 export const getSite = async (input: string) => {
-  if (unidata) {
-    const profiles = await unidata.profiles.get({
-      source: 'Crossbell Profile',
-      identity: input,
-      platform: 'Crossbell',
-    });
+  const profiles = await unidata.profiles.get({
+    source: 'Crossbell Profile',
+    identity: input,
+    platform: 'Crossbell',
+  });
 
-    const site = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))?.[0]
+  const site = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))?.[0]
 
-    if (!site) return null
+  if (!site) return null
 
-    return site
-  } else {
-    return null
-  }
+  return site
 }
 
 export const getSubscription = async (data: {
@@ -103,24 +95,17 @@ export async function updateSite(
     navigation?: SiteNavigationItem[] // TODO
   },
 ) {
-  if (unidata) {
-    return await unidata.profiles.set({
-      source: 'Crossbell Profile',
-      identity: payload.site,
-      platform: 'Crossbell',
-      action: 'update',
-    }, {
-      ...(payload.name && { name: payload.name }),
-      ...(payload.description && { bio: payload.description }),
-      ...(payload.icon && { avatars: [payload.icon] }),
-      ...(payload.subdomain && { username: payload.subdomain }),
-    })
-  } else {
-    return {
-      code: 1,
-      message: 'Unidata is not found',
-    }
-  }
+  return await unidata.profiles.set({
+    source: 'Crossbell Profile',
+    identity: payload.site,
+    platform: 'Crossbell',
+    action: 'update',
+  }, {
+    ...(payload.name && { name: payload.name }),
+    ...(payload.description && { bio: payload.description }),
+    ...(payload.icon && { avatars: [payload.icon] }),
+    ...(payload.subdomain && { username: payload.subdomain }),
+  })
 }
 
 export async function createSite(
