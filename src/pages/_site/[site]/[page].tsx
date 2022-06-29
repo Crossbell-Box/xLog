@@ -9,79 +9,54 @@ import { SitePage } from "~/components/site/SitePage"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { getViewer } from "~/lib/viewer"
 import { Viewer } from "~/lib/types"
+import { getUserSites, getSite } from "~/models/site.model"
+import { getPage } from "~/models/page.model"
+import { Profile, Note } from "unidata.js"
+import { PageVisibilityEnum } from "~/lib/types"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
-    const user = await getAuthUser(ctx.req)
-    const viewer = getViewer(user)
     const domainOrSubdomain = ctx.params!.site as string
     const pageSlug = ctx.params!.page as string
 
-    const trpcContext = await getTRPCContext(ctx)
-    const ssg = createSSGHelpers({ router: appRouter, ctx: trpcContext })
-
-    await Promise.all([
-      ssg.fetchQuery("site", { site: domainOrSubdomain }),
-      ssg.fetchQuery("site.page", {
+    const [site, page] = await Promise.all([
+      getSite(domainOrSubdomain),
+      getPage({
         site: domainOrSubdomain,
         page: pageSlug,
         render: true,
         includeAuthors: true,
       }),
-      ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
     ])
-
-    const trpcState = ssg.dehydrate()
-
+  
     return {
       props: {
-        viewer,
+        site,
+        page,
         domainOrSubdomain,
-        pageSlug,
-        trpcState,
       },
     }
   },
 )
 
 function SitePagePage({
-  viewer,
+  site,
+  page,
   domainOrSubdomain,
-  pageSlug,
 }: {
-  viewer: Viewer | null
+  site: Profile,
+  page: Note,
   domainOrSubdomain: string
-  pageSlug: string
 }) {
-  const { data: site } = trpc.useQuery(
-    ["site", { site: domainOrSubdomain }],
-    {},
-  )
-  const { data: subscription } = trpc.useQuery([
-    "site.subscription",
-    { site: domainOrSubdomain },
-  ])
-  const { data: page } = trpc.useQuery([
-    "site.page",
-    {
-      site: domainOrSubdomain,
-      page: pageSlug,
-      render: true,
-      includeAuthors: true,
-    },
-  ])
-
-  const ogDescription = page?.excerpt || page?.rendered?.excerpt
+  const ogDescription = page.summary?.content || page.body?.content
 
   return (
     <SiteLayout
       site={site!}
       title={page!.title}
-      viewer={viewer}
-      subscription={subscription}
       ogDescription={ogDescription}
     >
-      <SitePage page={page!} />
+      <SitePage site={site!} page={page!} />
     </SiteLayout>
   )
 }

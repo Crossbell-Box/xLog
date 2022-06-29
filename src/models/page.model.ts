@@ -195,7 +195,6 @@ export async function deletePage({ site, id }: { site: string, id: string }) {
 }
 
 export async function getPage<TRender extends boolean = false>(
-  gate: Gate,
   input: {
     /** page slug or id,  `site` is needed when `page` is a slug  */
     page: string
@@ -204,57 +203,68 @@ export async function getPage<TRender extends boolean = false>(
     includeAuthors?: boolean
   },
 ) {
-  // const site = input.site ? await getSite(input.site) : null
+  if (!input.site) {
+    throw notFound(`site not found`)
+  }
 
-  // if (input.site && !site) {
-  //   throw notFound(`site not found`)
-  // }
+  const isPageUUID = isUUID(input.page)
+  if (!isPageUUID && !input.site) {
+    throw new Error("input.site is required because input.page is a slug")
+  }
 
-  // const isPageUUID = isUUID(input.page)
-  // if (!isPageUUID && !input.site) {
-  //   throw new Error("input.site is required because input.page is a slug")
-  // }
+  const pages = await unidata.notes.get({
+    source: 'Crossbell Note',
+    identity: input.site,
+    platform: 'Crossbell',
+    filter: {
+      id: input.page,
+    }
+  })
 
-  // const page = isPageUUID
-  //   ? await prismaRead.page.findUnique({
-  //       where: {
-  //         id: input.page,
-  //       },
-  //       include: {
-  //         authors: input.includeAuthors,
-  //       },
-  //     })
-  //   : site
-  //   ? await prismaRead.page.findFirst({
-  //       where: { siteId: site.id, slug: input.page },
-  //       include: {
-  //         authors: input.includeAuthors,
-  //       },
-  //     })
-  //   : null
+  const page = pages?.list[0]
 
-  // if (!page || page.deletedAt) {
-  //   throw notFound(`page ${input.page} not found`)
-  // }
+  if (!page) {
+    throw notFound(`page ${input.page} not found`)
+  }
 
-  // if (!gate.allows({ type: "can-read-page", page })) {
-  //   if (!page.published || page.publishedAt > new Date()) {
-  //     throw notFound()
-  //   } else {
-  //     throw gate.permissionError()
-  //   }
-  // }
+  if (new Date(page.date_published) > new Date()) {
+    throw notFound()
+  }
 
-  // const rendered = (
-  //   input.render
-  //     ? page.rendered || (await renderPageContent(page.content))
-  //     : null
-  // ) as TRender extends true ? Rendered : null
+  if (pages?.list) {
+    pages.list = await Promise.all(pages?.list.map(async (page) => {
+      if (page.body?.content && page.body?.mime_type === 'text/markdown' && input.render) {
+        const rendered = await renderPageContent(page.body.content)
+        page.body = {
+          content: rendered.contentHTML,
+          mime_type: 'text/html'
+        }
+        if (!page.summary) {
+          page.summary = {
+            content: rendered.excerpt,
+            mime_type: 'text/html'
+          }
+        }
+      }
+      return page
+    }))
+  }
 
-  // return {
-  //   ...page,
-  //   rendered,
-  // }
+  if (page.body?.content && page.body?.mime_type === 'text/markdown' && input.render) {
+    const rendered = await renderPageContent(page.body.content)
+    page.body = {
+      content: rendered.contentHTML,
+      mime_type: 'text/html'
+    }
+    if (!page.summary) {
+      page.summary = {
+        content: rendered.excerpt,
+        mime_type: 'text/html'
+      }
+    }
+  }
+
+  return page
 }
 
 export const notifySubscribersForNewPost = async (

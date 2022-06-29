@@ -2,33 +2,40 @@ import type { PageType } from "~/lib/db.server"
 import { Rendered } from "~/markdown"
 import { PageContent } from "../common/PageContent"
 import { PostMeta } from "./PostMeta"
+import { Profile } from "unidata.js"
 
 export const SitePage: React.FC<{
+  site: Profile,
   page: {
-    type: PageType
-    publishedAt: string
-    title: string
-    rendered: Rendered | null
-    authors?: { id: string; name: string; avatar: string | null }[]
+    tags?: string[]
+    date_published: string
+    title?: string
+    body?: {
+      content?: string
+    }
   }
-}> = ({ page }) => {
+}> = ({ site, page }) => {
   return (
     <>
       <div className="">
-        {page.type === "POST" ? (
+        {page.tags?.includes("post") ? (
           <h2 className="text-4xl font-bold">{page.title}</h2>
         ) : (
           <h2 className="text-xl font-bold page-title">{page.title}</h2>
         )}
-        {page.type === "POST" && (
+        {page.tags?.includes("post") && (
           <PostMeta
-            publishedAt={page.publishedAt}
-            authors={page.authors || []}
+            publishedAt={page.date_published}
+            authors={[{
+              id: site.username || "",
+              name: site.name || "",
+              avatar: site.avatars?.[0] || null,
+            }] || []}
           />
         )}
       </div>
       <PageContent
-        contentHTML={page.rendered?.contentHTML || ""}
+        contentHTML={page.body?.content || ""}
         className="my-8"
       />
     </>
