@@ -43,7 +43,7 @@ export const SitePage: React.FC<{
         contentHTML={page.body?.content || ""}
         className="my-10"
       />
-      <div className="bg-gray-100 rounded-lg py-8 px-5">
+      <div className="bg-gray-100 rounded-lg py-8 px-5 break-all">
         <p className="text-gray-700 mb-4">🔔 This post has been permanently stored on-chain and signed by its creator.</p>
         <ul className="text-gray-600 text-sm leading-6">
           <li className="mt-2">

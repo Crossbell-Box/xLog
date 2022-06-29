@@ -3,7 +3,7 @@ import { isUUID } from "~/lib/uuid"
 import { MembershipRole, PageType, type Site } from "~/lib/db.server"
 import { Gate } from "~/lib/gate.server"
 import { sendLoginEmail } from "~/lib/mailgun.server"
-import { SiteNavigationItem } from "~/lib/types"
+import { SiteNavigationItem, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { getMembership } from "./membership"
 import { checkReservedWords } from "~/lib/reserved-words"
@@ -60,7 +60,11 @@ export const getSite = async (input: string) => {
     platform: 'Crossbell',
   });
 
-  const site = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))?.[0]
+  const site: Profile = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))?.[0]
+  const navigation = site.tags?.find(tag => tag.startsWith('navigation:'))?.replace('navigation:', "")
+  if (navigation) {
+    site.navigation = JSON.parse(navigation)
+  }
 
   if (!site) return null
 
@@ -92,7 +96,7 @@ export async function updateSite(
     description?: string
     icon?: string | null
     subdomain?: string
-    navigation?: SiteNavigationItem[] // TODO
+    navigation?: SiteNavigationItem[]
   },
 ) {
   return await unidata.profiles.set({
@@ -105,6 +109,7 @@ export async function updateSite(
     ...(payload.description && { bio: payload.description }),
     ...(payload.icon && { avatars: [payload.icon] }),
     ...(payload.subdomain && { username: payload.subdomain }),
+    ...(payload.navigation && { tags: ['navigation:' + JSON.stringify(payload.navigation)] }),
   })
 }
 

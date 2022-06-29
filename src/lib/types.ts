@@ -1,4 +1,4 @@
-import type { Note as UniNote } from "unidata.js"
+import type { Note as UniNote, Profile as UniProfile } from "unidata.js"
 
 export type Site = {
   id: string
@@ -76,6 +76,15 @@ export type Note = UniNote & {
 }
 
 export type Notes = {
+  total: number,
+  list: Note[],
+}
+
+export type Profile = UniProfile & {
+  navigation?: SiteNavigationItem[]
+}
+
+export type Profiles = {
   total: number,
   list: Note[],
 }

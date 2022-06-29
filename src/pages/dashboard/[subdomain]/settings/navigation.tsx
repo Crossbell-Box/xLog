@@ -6,10 +6,11 @@ import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { trpc } from "~/lib/trpc"
-import { SiteNavigationItem } from "~/lib/types"
+import { SiteNavigationItem, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { ReactSortable } from "react-sortablejs"
 import equal from "fast-deep-equal"
+import { getSite, updateSite } from "~/models/site.model"
 
 type UpdateItem = (id: string, newItem: Partial<SiteNavigationItem>) => void
 
@@ -69,20 +70,23 @@ export default function SiteSettingsNavigationPage() {
   const router = useRouter()
 
   const subdomain = router.query.subdomain as string
-  const trpcContext = trpc.useContext()
-  const siteResult = trpc.useQuery(["site", { site: subdomain }], {
-    enabled: !!subdomain,
-    refetchOnWindowFocus: false,
-  })
 
-  const updateSite = trpc.useMutation("site.updateSite")
+  let [site, setSite] = useState<Profile | null>(null)
+
+  useEffect(() => {
+    if (subdomain) {
+      getSite(subdomain).then((site) => {
+        setSite(site)
+      })
+    }
+  }, [subdomain])
 
   const [items, setItems] = useState<SiteNavigationItem[]>([])
 
   const itemsModified = useMemo(() => {
-    if (!siteResult.data) return false
-    return !equal(items, siteResult.data.navigation)
-  }, [items, siteResult.data])
+    if (!site) return false
+    return !equal(items, site.navigation)
+  }, [items, site])
 
   const updateItem: UpdateItem = (id, newItem) => {
     setItems((items) => {
@@ -99,11 +103,20 @@ export default function SiteSettingsNavigationPage() {
     setItems((items) => [...items, { id: nanoid(), label: "", url: "" }])
   }
 
+  let [loading, setLoading] = useState<boolean>(false)
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    updateSite.mutate({
-      site: siteResult.data!.id,
+    setLoading(true)
+    updateSite({
+      site: site!.username!,
       navigation: items,
+    }).then((result) => {
+      if (result.code === 0) {
+        toast.success("Saved")
+      } else {
+        toast.error("Failed to save" + ": " + result.message)
+      }
+      setLoading(false)
     })
   }
 
@@ -112,18 +125,10 @@ export default function SiteSettingsNavigationPage() {
   }
 
   useEffect(() => {
-    if (siteResult.data?.navigation) {
-      setItems(siteResult.data.navigation)
+    if (site?.navigation) {
+      setItems(site.navigation)
     }
-  }, [siteResult.data?.navigation])
-
-  useEffect(() => {
-    if (updateSite.isSuccess) {
-      updateSite.reset()
-      toast.success("Saved")
-      trpcContext.invalidateQueries(["site", { site: subdomain }])
-    }
-  }, [updateSite, trpcContext, subdomain])
+  }, [site?.navigation])
 
   return (
     <DashboardLayout title="Navigation">
@@ -135,7 +140,6 @@ export default function SiteSettingsNavigationPage() {
                 No navigation items yet
               </div>
             )}
-            {/** @ts-expect-error */}
             <ReactSortable
               list={items}
               setList={setItems}
@@ -161,7 +165,7 @@ export default function SiteSettingsNavigationPage() {
           <div className="border-t pt-5 mt-10 space-x-3 flex items-center">
             <Button
               type="submit"
-              isLoading={updateSite.isLoading}
+              isLoading={loading}
               isDisabled={!itemsModified}
             >
               Save
