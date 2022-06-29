@@ -1,3 +1,5 @@
+import type { Note as UniNote } from "unidata.js"
+
 export type Site = {
   id: string
   name: string
@@ -67,4 +69,13 @@ export type SiteNavigationItem = {
   id: string
   label: string
   url: string
+}
+
+export type Note = UniNote & {
+  slug?: string
+}
+
+export type Notes = {
+  total: number,
+  list: Note[],
 }

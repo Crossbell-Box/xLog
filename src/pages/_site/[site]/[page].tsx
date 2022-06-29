@@ -13,6 +13,7 @@ import { getUserSites, getSite } from "~/models/site.model"
 import { getPage } from "~/models/page.model"
 import { Profile, Note } from "unidata.js"
 import { PageVisibilityEnum } from "~/lib/types"
+import { notFound } from "~/lib/server-side-props"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -28,7 +29,11 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
         includeAuthors: true,
       }),
     ])
-  
+
+    if (new Date(page.date_published) > new Date()) {
+      throw notFound()
+    }
+
     return {
       props: {
         site,

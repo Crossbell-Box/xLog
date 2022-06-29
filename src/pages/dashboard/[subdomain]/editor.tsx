@@ -17,13 +17,12 @@ import { useUploadFile } from "~/hooks/useUploadFile"
 import { inLocalTimezone } from "~/lib/date"
 import { getSiteLink } from "~/lib/helpers"
 import { getPageVisibility } from "~/lib/page-helpers"
-import { PageVisibilityEnum } from "~/lib/types"
+import { PageVisibilityEnum, Note } from "~/lib/types"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { Button } from "~/components/ui/Button"
 import { EmailPostModal } from "~/components/common/EmailPostModal"
 import { useStore } from "~/lib/store"
-import type { Note } from "unidata.js"
-import { getPagesBySite, createOrUpdatePage } from "~/models/page.model"
+import { getPage, createOrUpdatePage } from "~/models/page.model"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -40,15 +39,12 @@ export default function SubdomainEditor() {
   let [page, setPage] = useState<Note | undefined>(undefined)
 
   useEffect(() => {
-    if (subdomain) {
-      getPagesBySite({
-        type: isPost ? "post" : "page",
+    if (subdomain && pageId) {
+      getPage({
         site: subdomain!,
-        take: 1000,
+        pageId: pageId,
         render: false
-      }).then((pages) => {
-        console.log(pages, pageId)
-        const page = (pages?.list || []).find((p) => p.id === pageId)
+      }).then((page) => {
         setPage(page)
       })
     }
@@ -70,6 +66,7 @@ export default function SubdomainEditor() {
     publishedAt: new Date().toISOString(),
     published: false,
     excerpt: "",
+    slug: "",
   })
   const [content, setContent] = useState("")
 
@@ -152,6 +149,7 @@ export default function SubdomainEditor() {
       publishedAt: page.date_published === new Date('9999-01-01').toISOString() ? new Date().toISOString() : page.date_published,
       published: page.date_published !== new Date('9999-01-01').toISOString(),
       excerpt: page.summary?.content || "",
+      slug: page.slug!,
     })
   }, [page])
 
@@ -236,6 +234,37 @@ export default function SubdomainEditor() {
                   help={`This ${
                     isPost ? "post" : "page"
                   } will be accesisble from this time`}
+                />
+              </div>
+              <div>
+                <Input
+                  name="slug"
+                  value={values.slug}
+                  label="Page slug"
+                  id="slug"
+                  isBlock
+                  placeholder="some-slug"
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    updateValue("slug", e.target.value)
+                  }
+                  help={
+                    <>
+                      {values.slug && (
+                        <>
+                          This {isPost ? "post" : "page"} will be accessible at{" "}
+                          <UniLink
+                            href={`${getSiteLink({ subdomain })}/${
+                              values.slug
+                            }`}
+                            className="hover:underline"
+                          >
+                            {getSiteLink({ subdomain, noProtocol: true })}/
+                            {values.slug}
+                          </UniLink>
+                        </>
+                      )}
+                    </>
+                  }
                 />
               </div>
               <div>

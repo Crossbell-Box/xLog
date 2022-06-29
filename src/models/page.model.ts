@@ -9,13 +9,12 @@ import {
 import { type Gate } from "~/lib/gate.server"
 import { Rendered, renderPageContent } from "~/markdown"
 import { notFound } from "~/lib/server-side-props"
-import { PageVisibilityEnum } from "~/lib/types"
+import { PageVisibilityEnum, Notes } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
 import { getSite } from "./site.model"
 import { stripHTML } from "~/lib/utils"
 import { sendEmailForNewPost } from "~/lib/mailgun.server"
 import unidata from "~/lib/unidata"
-import { Notes } from "unidata.js"
 
 const checkPageSlug = async ({
   slug,
@@ -57,6 +56,7 @@ export async function createOrUpdatePage(
   input: {
     pageId?: string
     siteId: string
+    slug?: string
     title?: string
     content?: string
     published?: boolean
@@ -86,7 +86,7 @@ export async function createOrUpdatePage(
         mime_type: 'text/markdown',
       }
     }),
-    tags: [input.isPost ? "post" : "page"],
+    tags: [input.isPost ? "post" : "page", ...(input.slug ? ["slug:" + input.slug] : [])],
   })
 }
 
@@ -140,7 +140,7 @@ export async function getPagesBySite(
 
   const visibility = input.visibility || PageVisibilityEnum.All
 
-  let pages = await unidata.notes.get({
+  let pages: Notes | null = await unidata.notes.get({
     source: 'Crossbell Note',
     identity: input.site,
     platform: 'Crossbell',
@@ -176,6 +176,7 @@ export async function getPagesBySite(
           }
         }
       }
+      page.slug = page.tags?.find((tag) => tag.startsWith("slug:"))?.replace(/^slug:/, "") || page.id
       return page
     }))
   }
@@ -197,7 +198,8 @@ export async function deletePage({ site, id }: { site: string, id: string }) {
 export async function getPage<TRender extends boolean = false>(
   input: {
     /** page slug or id,  `site` is needed when `page` is a slug  */
-    page: string
+    page?: string
+    pageId?: string
     site?: string
     render?: TRender
     includeAuthors?: boolean
@@ -207,28 +209,30 @@ export async function getPage<TRender extends boolean = false>(
     throw notFound(`site not found`)
   }
 
-  const isPageUUID = isUUID(input.page)
-  if (!isPageUUID && !input.site) {
-    throw new Error("input.site is required because input.page is a slug")
-  }
-
-  const pages = await unidata.notes.get({
+  const pages: Notes | null = await unidata.notes.get({
     source: 'Crossbell Note',
     identity: input.site,
     platform: 'Crossbell',
-    filter: {
-      id: input.page,
-    }
+    limit: 1000,
+    ...(input.pageId && {
+      filter: {
+        id: input.pageId,
+      }
+    })
   })
 
-  const page = pages?.list[0]
+  let page;
+  if (input.page) {
+    page = pages?.list.find((item) => {
+      item.slug = item.tags?.find((tag) => tag.startsWith("slug:"))?.replace(/^slug:/, "") || item.id
+      return item.slug === input.page
+    })
+  } else {
+    page = pages?.list[0]
+  }
 
   if (!page) {
     throw notFound(`page ${input.page} not found`)
-  }
-
-  if (new Date(page.date_published) > new Date()) {
-    throw notFound()
   }
 
   if (pages?.list) {
@@ -246,6 +250,7 @@ export async function getPage<TRender extends boolean = false>(
           }
         }
       }
+      page.slug = page.tags?.find((tag) => tag.startsWith("slug:"))?.replace(/^slug:/, "") || page.id
       return page
     }))
   }
