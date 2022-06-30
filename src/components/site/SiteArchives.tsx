@@ -2,18 +2,17 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { formatDate } from "~/lib/date"
 import { EmptyState } from "../ui/EmptyState"
-
-type Post = { id: string; publishedAt: string; slug: string; title: string }
+import { Notes, Note } from "~/lib/types"
 
 export const SiteArchives: React.FC<{
-  posts: Post[] | undefined
+  posts: Notes
 }> = ({ posts }) => {
-  const groupedByYear = useMemo<Map<string, Post[]>>(() => {
+  const groupedByYear = useMemo<Map<string, Note[]>>(() => {
     const map = new Map()
 
     if (posts) {
-      for (const post of posts) {
-        const year = formatDate(post.publishedAt, "YYYY")
+      for (const post of posts.list) {
+        const year = formatDate(post.date_published, "YYYY")
         const items = map.get(year) || []
         items.push(post)
         map.set(year, items)
@@ -28,12 +27,12 @@ export const SiteArchives: React.FC<{
   return (
     <>
       <h2 className="text-xl font-bold page-title">Archives</h2>
-      {posts.length === 0 && (
+      {posts.list.length === 0 && (
         <div className="mt-5">
           <EmptyState />
         </div>
       )}
-      {posts.length > 0 && (
+      {posts.list.length > 0 && (
         <div className="mt-5 space-y-5">
           {[...groupedByYear.keys()].map((year) => {
             const posts = groupedByYear.get(year)!
@@ -48,7 +47,7 @@ export const SiteArchives: React.FC<{
                           {post.title}
                         </span>
                         <span className="text-zinc-400 mr-3 font-medium whitespace-nowrap">
-                          {formatDate(post.publishedAt, "MMM D")}
+                          {formatDate(post.date_published, "MMM D")}
                         </span>
                       </a>
                     </Link>

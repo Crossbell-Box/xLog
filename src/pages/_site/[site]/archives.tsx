@@ -8,60 +8,47 @@ import { getTRPCContext } from "~/lib/trpc.server"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { SiteArchives } from "~/components/site/SiteArchives"
 import { getViewer } from "~/lib/viewer"
-import { Viewer } from "~/lib/types"
+import { Viewer, Profile, Notes } from "~/lib/types"
+import { getSite } from "~/models/site.model"
+import { getPagesBySite } from "~/models/page.model"
+import { PageVisibilityEnum } from "~/lib/types"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
-    const user = await getAuthUser(ctx.req)
-    const viewer = getViewer(user)
     const domainOrSubdomain = ctx.params!.site as string
-
-    const trpcContext = await getTRPCContext(ctx)
-    const ssg = createSSGHelpers({ router: appRouter, ctx: trpcContext })
-
-    await Promise.all([
-      ssg.fetchQuery("site", { site: domainOrSubdomain }),
-      ssg.fetchQuery("site.pages", { site: domainOrSubdomain, take: 1000 }),
-      ssg.fetchQuery("site.subscription", { site: domainOrSubdomain }),
+  
+    const [site, posts] = await Promise.all([
+      getSite(domainOrSubdomain),
+      getPagesBySite({
+        site: domainOrSubdomain,
+        take: 1000,
+        type: "post",
+        visibility: PageVisibilityEnum.Published,
+      }),
     ])
 
     return {
       props: {
-        viewer,
+        site,
+        posts,
         domainOrSubdomain,
-        trpcState: ssg.dehydrate(),
       },
     }
   }
 )
 
 function SiteArchivesPage({
-  viewer,
-  domainOrSubdomain,
+  site,
+  posts,
 }: {
-  viewer: Viewer | null
+  site: Profile,
+  posts: Notes,
   domainOrSubdomain: string
 }) {
-  const siteResult = trpc.useQuery(["site", { site: domainOrSubdomain }], {})
-  const subscriptionResult = trpc.useQuery([
-    "site.subscription",
-    { site: domainOrSubdomain },
-  ])
-  const postsResult = trpc.useQuery([
-    "site.pages",
-    { site: domainOrSubdomain, take: 1000 },
-  ])
-
-  const site = siteResult.data
-  const subscription = subscriptionResult.data
-  const posts = postsResult.data?.nodes
-
   return (
     <SiteLayout
       site={site!}
       title="Archives"
-      viewer={viewer}
-      subscription={subscription}
     >
       <SiteArchives posts={posts} />
     </SiteLayout>
