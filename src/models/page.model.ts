@@ -13,7 +13,6 @@ import { PageVisibilityEnum, Notes } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
 import { getSite } from "./site.model"
 import { stripHTML } from "~/lib/utils"
-import { sendEmailForNewPost } from "~/lib/mailgun.server"
 import unidata from "~/lib/unidata"
 
 const checkPageSlug = async ({

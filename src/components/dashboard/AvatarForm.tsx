@@ -6,21 +6,18 @@ import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import toast from "react-hot-toast"
 import createPica from "pica"
-import { trpc } from "~/lib/trpc"
 import { UploadFile, useUploadFile } from "~/hooks/useUploadFile"
+import { updateSite } from "~/models/site.model"
 
 const AvatarEditorModal: React.FC<{
   isOpen: boolean
   image?: File | null
   setIsOpen: (open: boolean) => void
-  site?: string
+  site: string
   uploadFile: UploadFile
 }> = ({ isOpen, setIsOpen, image, site, uploadFile }) => {
   const editorRef = useRef<ReactAvatarEditor | null>(null)
   const [isSaving, setIsSaving] = useState(false)
-  const ctx = trpc.useContext()
-  const updateProfile = trpc.useMutation("user.updateProfile")
-  const updateSite = trpc.useMutation("site.updateSite")
 
   const cropAndSave = async () => {
     if (!editorRef.current) return
@@ -41,15 +38,15 @@ const AvatarEditorModal: React.FC<{
       const { key } = await uploadFile(blob, image!.name)
 
       // Save the image to profile / site
-      if (site) {
-        await updateSite.mutateAsync({ site, icon: key })
+      const res = await updateSite({ site, icon: key })
+
+      if (res.code === 0) {
+        setIsOpen(false)
+        toast.success("Updated!")
       } else {
-        await updateProfile.mutateAsync({ avatar: key })
+        toast.error("Failed to update site" + ": " + res.message)
       }
 
-      setIsOpen(false)
-      toast.success("Updated!")
-      ctx.invalidateQueries()
     } catch (error: any) {
       console.error(error)
       toast.error(error.message)
@@ -97,7 +94,7 @@ const AvatarEditorModal: React.FC<{
 export const AvatarForm: React.FC<{
   filename: string | undefined | null
   name: string
-  site?: string
+  site: string
 }> = ({ filename, name, site }) => {
   const [isOpen, setIsOpen] = useState(false)
   const inputEl = useRef<HTMLInputElement>(null)

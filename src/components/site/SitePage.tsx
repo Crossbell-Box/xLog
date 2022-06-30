@@ -2,23 +2,11 @@ import type { PageType } from "~/lib/db.server"
 import { Rendered } from "~/markdown"
 import { PageContent } from "../common/PageContent"
 import { PostMeta } from "./PostMeta"
-import { Profile } from "unidata.js"
+import { Profile, Note } from "~/lib/types"
 
 export const SitePage: React.FC<{
   site: Profile,
-  page: {
-    tags?: string[]
-    date_published: string
-    title?: string
-    related_urls?: string[]
-    authors?: string[]
-    body?: {
-      content?: string
-    }
-    metadata?: {
-      owner?: string
-    }
-  }
+  page: Note
 }> = ({ site, page }) => {
   return (
     <>

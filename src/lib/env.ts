@@ -8,4 +8,3 @@ export const R2_URL = process.env.NEXT_PUBLIC_R2_URL
 export const APP_DESCRIPTION = process.env.APP_DESCRIPTION
 export const DISCORD_LINK = process.env.NEXT_PUBLIC_DISCORD_LINK
 export const GITHUB_LINK = process.env.NEXT_PUBLIC_GITHUB_LINK
-export const WEB3_STORAGE_API_TOKEN = process.env.WEB3_STORAGE_API_TOKEN

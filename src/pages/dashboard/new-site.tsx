@@ -7,7 +7,6 @@ import { SEOHead } from "~/components/common/SEOHead"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
-import { trpc } from "~/lib/trpc"
 import { useAccount } from "wagmi"
 import { createSite } from "~/models/site.model"
 

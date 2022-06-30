@@ -1,4 +1,3 @@
-import { logout } from "~/lib/auth.client"
 import {
   APP_DESCRIPTION,
   APP_NAME,
@@ -18,7 +17,6 @@ export function MainLayout({
   children?: React.ReactNode
   title?: string
 }) {
-  const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
   const discordLink = `https://${OUR_DOMAIN}/discord`
   const companyLinks = [
     { text: "Blog", href: `https://blog.${OUR_DOMAIN}` },

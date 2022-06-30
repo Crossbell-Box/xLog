@@ -1,9 +1,7 @@
 import { Toaster } from "react-hot-toast"
-import LoginModal from "~/components/common/LoginModal"
 import "~/css/main.css"
 import "~/generated/uno.css"
 import { StoreProvider, createStore } from "~/lib/store"
-import { wrapTrpc } from "~/lib/trpc"
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -58,7 +56,6 @@ function MyApp({ Component, pageProps }: any) {
       <RainbowKitProvider chains={chains}>
         <StoreProvider createStore={createStore}>
           <Component {...pageProps} />
-          <LoginModal />
           <Toaster />
         </StoreProvider>
       </RainbowKitProvider>
@@ -78,4 +75,4 @@ function MyApp({ Component, pageProps }: any) {
 //   return { ...appProps }
 // }
 
-export default wrapTrpc()(MyApp)
+export default MyApp

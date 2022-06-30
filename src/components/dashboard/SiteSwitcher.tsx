@@ -1,7 +1,6 @@
 import { Popover } from "@headlessui/react"
 import Link from "next/link"
 import { useEffect, useMemo } from "react"
-import { trpc } from "~/lib/trpc"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { Avatar } from "../ui/Avatar"
 import type { Profile } from "unidata.js"

@@ -20,7 +20,6 @@ import { getPageVisibility } from "~/lib/page-helpers"
 import { PageVisibilityEnum, Note } from "~/lib/types"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { Button } from "~/components/ui/Button"
-import { EmailPostModal } from "~/components/common/EmailPostModal"
 import { useStore } from "~/lib/store"
 import { getPage, createOrUpdatePage } from "~/models/page.model"
 
@@ -286,7 +285,6 @@ export default function SubdomainEditor() {
           </div>
         </DashboardMain>
       </DashboardLayout>
-      {pageId && <EmailPostModal pageId={pageId} />}
     </>
   )
 }

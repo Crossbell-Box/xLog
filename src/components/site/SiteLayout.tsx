@@ -1,14 +1,12 @@
 import clsx from "clsx"
 import React, { useEffect } from "react"
 import { getUserContentsUrl } from "~/lib/user-contents"
-import { SubscribeModal } from "../common/SubscribeModal"
 import { SEOHead } from "../common/SEOHead"
-import { SiteNavigationItem, Viewer } from "~/lib/types"
+import { SiteNavigationItem, Viewer, Profile } from "~/lib/types"
 import { SiteFooter } from "./SiteFooter"
 import { SiteHeader } from "./SiteHeader"
 import { useRouter } from "next/router"
 import { useStore } from "~/lib/store"
-import { Profile } from "unidata.js"
 
 export type SiteLayoutProps = {
   site: Profile

@@ -6,7 +6,6 @@ import toast from "react-hot-toast"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { trpc } from "~/lib/trpc"
 import { useForm } from "react-hook-form"
 import { getSite, updateSite } from "~/models/site.model"
 import { Profile } from "unidata.js"
@@ -64,7 +63,7 @@ export default function SiteSettingsGeneralPage() {
           <div>
             <label className="form-label">Icon</label>
             <AvatarForm
-              site={site.username}
+              site={site.username!}
               name={site.name || site.username || ""}
               filename={site.avatars?.[0] || undefined}
             />
