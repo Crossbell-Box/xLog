@@ -33,8 +33,10 @@ export function DashboardLayout({
       getUserSites(viewer.address).then((sites) => {
         setSubscriptions(sites || [])
       })
+    } else {
+      router.push("/")
     }
-  }, [viewer?.address])
+  }, [viewer?.address, router])
 
   const links: {
     href: string

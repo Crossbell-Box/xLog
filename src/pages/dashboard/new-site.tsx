@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { SEOHead } from "~/components/common/SEOHead"
@@ -8,11 +8,22 @@ import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
 import { trpc } from "~/lib/trpc"
+import { useAccount } from "wagmi"
+import { createSite } from "~/models/site.model"
 
 export default function NewSitePage() {
   const router = useRouter()
-  const viewer = trpc.useQuery(["auth.viewer"])
-  const createSite = trpc.useMutation("site.create")
+
+  const [address, setAddress] = useState<string>('')
+  const { data: wagmiData } = useAccount()
+
+  useEffect(() => {
+    if (wagmiData?.address) {
+      setAddress(wagmiData?.address || '')
+    } else {
+      router.push("/")
+    }
+  }, [wagmiData, router])
 
   const form = useForm({
     defaultValues: {
@@ -21,19 +32,17 @@ export default function NewSitePage() {
     },
   })
 
-  const handleSubmit = form.handleSubmit((values) => {
-    createSite.mutate(values)
-  })
-
-  useEffect(() => {
-    if (createSite.isError) {
-      createSite.reset()
-      toast.error(createSite.error.message)
-    } else if (createSite.isSuccess) {
-      createSite.reset()
-      router.push(`/dashboard/${createSite.data.subdomain}`)
+  let [loading, setLoading] = useState<boolean>(false)
+  const handleSubmit = form.handleSubmit(async (values) => {
+    setLoading(true)
+    const result = await createSite(wagmiData!.address!, values)
+    setLoading(false)
+    if (result.code === 0) {
+      router.push(`/dashboard/${values.subdomain}`)
+    } else {
+      toast.error("Failed to create site" + ": " + result.message)
     }
-  }, [createSite, router])
+  })
 
   return (
     <>
@@ -59,7 +68,7 @@ export default function NewSitePage() {
           </Link>
           <div>
             <div className="text-zinc-400">Logged in as:</div>
-            <div>{viewer.data?.email}</div>
+            <div>{address}</div>
           </div>
         </header>
         <div className="max-w-sm mx-auto mt-20">
@@ -88,7 +97,7 @@ export default function NewSitePage() {
               />
             </div>
             <div>
-              <Button type="submit" isBlock isLoading={createSite.isLoading}>
+              <Button type="submit" isBlock isLoading={loading}>
                 Create
               </Button>
             </div>

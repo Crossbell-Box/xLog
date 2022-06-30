@@ -114,54 +114,25 @@ export async function updateSite(
 }
 
 export async function createSite(
-  gate: Gate,
+  address: string,
   payload: { name: string; subdomain: string },
 ) {
-  const user = gate.getUser(true)
-  await checkSubdomain({ subdomain: payload.subdomain })
-
-  const navigation: SiteNavigationItem[] = [
-    {
-      id: nanoid(),
-      label: "About",
-      url: "/about",
-    },
-    {
-      id: nanoid(),
-      label: "Archives",
-      url: "/archives",
-    },
-  ]
-  const site = await prismaPrimary.site.create({
-    data: {
-      name: payload.name,
-      subdomain: payload.subdomain,
-      navigation,
-      memberships: {
-        create: {
-          role: MembershipRole.OWNER,
-          user: {
-            connect: {
-              id: user.id,
-            },
-          },
-        },
+  return await unidata.profiles.set({
+    source: 'Crossbell Profile',
+    identity: address,
+    platform: 'Ethereum',
+    action: 'add',
+  }, {
+    username: payload.subdomain,
+    name: payload.name,
+    tags: ['navigation:' + JSON.stringify([
+      {
+        id: nanoid(),
+        label: "Archives",
+        url: "/archives",
       },
-      pages: {
-        create: {
-          title: "About",
-          slug: "about",
-          excerpt: "",
-          content: `My name is ${payload.name} and I'm a new site.`,
-          published: true,
-          publishedAt: new Date(),
-          type: PageType.PAGE,
-        },
-      },
-    },
+    ])],
   })
-
-  return { site }
 }
 
 export async function subscribeToSite(
