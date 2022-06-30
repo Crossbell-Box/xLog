@@ -35,11 +35,6 @@ export default function SubdomainIndex() {
                 Change Site Name or Icon
               </UniLink>
             </li>
-            <li>
-              <UniLink href={`/dashboard/${subdomain}/account/profile`}>
-                Profile Settings
-              </UniLink>
-            </li>
           </ul>
         </div>
       </DashboardMain>

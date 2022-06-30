@@ -4,6 +4,7 @@ import {
   DOCS_DOMAIN,
   GITHUB_LINK,
   OUR_DOMAIN,
+  DISCORD_LINK,
 } from "~/lib/env"
 import { useStore } from "~/lib/store"
 import { SEOHead } from "../common/SEOHead"
@@ -17,13 +18,6 @@ export function MainLayout({
   children?: React.ReactNode
   title?: string
 }) {
-  const discordLink = `https://${OUR_DOMAIN}/discord`
-  const companyLinks = [
-    { text: "Blog", href: `https://blog.${OUR_DOMAIN}` },
-    { text: "Privacy", href: `https://${DOCS_DOMAIN}/privacy.html` },
-    { text: "Terms", href: `https://${DOCS_DOMAIN}/terms.html` },
-  ]
-
   return (
     <>
       <SEOHead
@@ -43,9 +37,9 @@ export function MainLayout({
       <footer className="mt-10 text-sm font-medium text-zinc-500">
         <div className="max-w-screen-md px-5 mx-auto flex justify-between">
           <div>
-            <span>&copy; {APP_NAME}</span>
-            <div className="text-zinc-400 mt-2 flex items-center space-x-1">
-              <UniLink href={discordLink}>
+            <span className="align-middle">&copy; <UniLink href={`https://blog.${OUR_DOMAIN}`} className="hover:text-indigo-500">{APP_NAME}</UniLink></span>
+            <span className="text-zinc-400 ml-2 inline-flex items-center space-x-1 align-middle">
+              <UniLink href={DISCORD_LINK}>
                 <span className="inline-block i-mdi-discord text-xl hover:text-indigo-500"></span>
               </UniLink>
               {GITHUB_LINK && (
@@ -53,19 +47,8 @@ export function MainLayout({
                   <span className="inline-block i-mdi-github text-xl hover:text-zinc-900"></span>
                 </UniLink>
               )}
-            </div>
+            </span>
           </div>
-          <ul className="text-right text-zinc-400 transition-colors">
-            {companyLinks.map((link) => {
-              return (
-                <li key={link.text}>
-                  <UniLink href={link.href} className="hover:text-indigo-500">
-                    {link.text}
-                  </UniLink>
-                </li>
-              )
-            })}
-          </ul>
         </div>
       </footer>
     </>

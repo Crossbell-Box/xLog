@@ -38,15 +38,14 @@ export default function Home({
         <div className="max-w-screen-md px-5 mx-auto">
           <div className="bg-zinc-50 rounded-xl p-10">
             <h2 className="text-5xl font-extrabold">
-              Content Creating for
+              On-Chain Content Creating
               <br />
-              Absolutely Everyone
+              for Absolutely Everyone
             </h2>
             <h3 className="mt-5 text-zinc-500">
-              Meet Proselog, the open-source blogging and
+              Meet Crosslog, the on-chain and open-source blogging platform for everyone.
               <br />
-              newsletter platform for everyone. Focus on writing, not
-              distractions.
+              Permanently stored on-chain and signed by you.
             </h3>
             <div className="mt-10">
               {address ? (
