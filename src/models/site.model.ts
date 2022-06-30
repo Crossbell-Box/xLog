@@ -45,7 +45,10 @@ export const getUserSites = async (address: string) => {
     platform: 'Ethereum',
   });
 
-  const sites = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))
+  const sites = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0)).map((profile) => {
+    profile.name = profile.name || profile.username;
+    return profile
+  })
 
   if (!sites || !sites.length) return null
 
@@ -64,6 +67,7 @@ export const getSite = async (input: string) => {
   if (navigation) {
     site.navigation = JSON.parse(navigation)
   }
+  site.name = site.name || site.username
 
   if (!site) return null
 
