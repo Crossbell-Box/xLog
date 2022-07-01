@@ -37,19 +37,19 @@ export const SitePage: React.FC<{
           <li className="mt-2">
             <div className="font-bold">Crossbell Transaction</div>
             <div>{page.related_urls?.filter((url) => url.startsWith("https://scan.crossbell.io/tx/")).map((url) => {
-              return <a target="_blank" rel="noreferrer" className="inline-block mr-4" href={url} key={url}>{url.replace("https://scan.crossbell.io/tx/", "").slice(0, 10)}...{url.replace("https://scan.crossbell.io/tx/", "").slice(-10)}</a>
+              return <a target="_blank" rel="noreferrer" className="inline-block mr-4 break-all" href={url} key={url}>{url.replace("https://scan.crossbell.io/tx/", "").slice(0, 10)}...{url.replace("https://scan.crossbell.io/tx/", "").slice(-10)}</a>
             })}</div>
           </li>
           <li className="mt-2">
             <div className="font-bold">IPFS Address</div>
             <div>{page.related_urls?.filter((url) => url.startsWith("https://gateway.ipfs.io/ipfs/")).map((url) => {
-              return <a target="_blank" rel="noreferrer" className="inline-block mr-4" href={url} key={url}>{url.replace("https://gateway.ipfs.io/ipfs/", "ipfs://")}</a>
+              return <a target="_blank" rel="noreferrer" className="inline-block mr-4 break-all" href={url} key={url}>{url.replace("https://gateway.ipfs.io/ipfs/", "ipfs://")}</a>
             })}</div>
           </li>
           <li className="mt-2">
             <div className="font-bold">Author Address</div>
             <div>
-              <a target="_blank" rel="noreferrer" className="inline-block mr-4" href={`https://scan.crossbell.io/address/${page.metadata?.owner}`} key={page.metadata?.owner}>{page.metadata?.owner}</a>
+              <a target="_blank" rel="noreferrer" className="inline-block mr-4 break-all" href={`https://scan.crossbell.io/address/${page.metadata?.owner}`} key={page.metadata?.owner}>{page.metadata?.owner}</a>
             </div>
           </li>
         </ul>
