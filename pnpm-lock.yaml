@@ -80,7 +80,7 @@ specifiers:
   tailwindcss: ^3.0.24
   typescript: ^4.5.5
   ua-parser-js: ^1.0.2
-  unidata.js: ^0.6.0
+  unidata.js: ^0.6.2
   unified: ^10.1.2
   unist-builder: ^3.0.0
   unist-util-visit: ^4.1.0
@@ -142,7 +142,7 @@ dependencies:
   remark-rehype: 10.1.0
   sortablejs: 1.15.0
   ua-parser-js: 1.0.2
-  unidata.js: 0.6.0
+  unidata.js: 0.6.2
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.0
@@ -2276,6 +2276,12 @@ packages:
       tslib: 2.4.0
     dev: false
 
+  /async-retry/1.3.3:
+    resolution: {integrity: sha512-wfr/jstw9xNi/0teMHrRW7dsz3Lt5ARhYNZ2ewpadnhaIp5mbALhOAP+EAdsC7t4Z6wqsDVv9+W6gm1Dk9mEyw==}
+    dependencies:
+      retry: 0.13.1
+    dev: false
+
   /asynckit/0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
     dev: false
@@ -2566,7 +2572,7 @@ packages:
     engines: {node: '>=6.14.2'}
     requiresBuild: true
     dependencies:
-      node-gyp-build: 4.4.0
+      node-gyp-build: 4.5.0
     dev: false
 
   /busboy/0.3.1:
@@ -2859,16 +2865,19 @@ packages:
       which: 2.0.2
     dev: true
 
-  /crossbell.js/0.7.10:
-    resolution: {integrity: sha512-LyUop73bME1ZH/w4lqvWoFSAXLc/Rrs53qTikk/ejKcwQML6dDAwJW4DLplXh9/2BZB/wSLEDp//lIroaQfyNw==}
+  /crossbell.js/0.10.2:
+    resolution: {integrity: sha512-FtoxTeinXcFjLbB5ya/NwyJX3d0VNbeOlj0fCNCpdiOf7+bibQWMkjdhnKpIieDYqt6i2dNfMbeygxhIHLWZkw==}
     dependencies:
+      async-retry: 1.3.3
       ethers: 5.6.9
+      fetch-undici: 3.0.1
+      is-ipfs: 6.0.2
       query-string: 7.1.1
       ts-mixer: 6.0.1
-      undici: 5.5.1
       web3-providers-ws: 1.7.4
     transitivePeerDependencies:
       - bufferutil
+      - node-fetch
       - supports-color
       - utf-8-validate
     dev: false
@@ -4068,6 +4077,13 @@ packages:
         optional: true
     dev: false
 
+  /fetch-undici/3.0.1:
+    resolution: {integrity: sha512-UHHu1HqW22ZhK6C/1Zmjf7mQpOwPwLYZ+xcsOgpzistONU8QqvCop6Od29p/kw1GUVoq2Ihu6ItpKLtlojx4FQ==}
+    engines: {node: '>=16'}
+    dependencies:
+      undici: 5.6.0
+    dev: false
+
   /file-entry-cache/6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -4885,6 +4901,20 @@ packages:
       ip-regex: 4.3.0
     dev: false
 
+  /is-ipfs/6.0.2:
+    resolution: {integrity: sha512-RinUnsggL4hlLoHlZcvs2+92OE46Uflg/YVU1m5fXhyDBS/zh3bq+i6Aw7IbzJZ9oZXJx26TgxpqCuCr+LH/DA==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    dependencies:
+      iso-url: 1.2.1
+      mafmt: 10.0.0
+      multiaddr: 10.0.1
+      multiformats: 9.7.0
+      uint8arrays: 3.0.0
+    transitivePeerDependencies:
+      - node-fetch
+      - supports-color
+    dev: false
+
   /is-json/2.0.1:
     resolution: {integrity: sha512-6BEnpVn1rcf3ngfmViLM6vjUjGErbdrL4rwlv+u1NO1XO8kqT4YGL8+19Q+Z/bas8tY90BTWMk2+fW1g6hQjbA==}
     dev: false
@@ -5288,6 +5318,10 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
     dev: false
@@ -5325,6 +5359,15 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /mafmt/10.0.0:
+    resolution: {integrity: sha512-K1bziJOXcnepfztu+2Xy9FLKVLaFMDuspmiyJIYRxnO0WOxFSV7XKSdMxMrVZxcvg1+YjlTIvSGTImUHU2k4Aw==}
+    dependencies:
+      multiaddr: 10.0.1
+    transitivePeerDependencies:
+      - node-fetch
+      - supports-color
+    dev: false
 
   /magic-string/0.26.2:
     resolution: {integrity: sha512-NzzlXpclt5zAbmo6h6jNc8zl2gNRGHvmsZW4IvZhTC4W7k4OlLP+S5YLussa/r3ixNT66KOQfNORlXHSOy/X4A==}
@@ -6037,6 +6080,11 @@ packages:
 
   /node-gyp-build/4.4.0:
     resolution: {integrity: sha512-amJnQCcgtRVw9SvoebO3BKGESClrfXGCUTX9hSn1OuGQTQBOZmVd0Z0OlecpuRksKvbsUqALE8jls/ErClAPuQ==}
+    hasBin: true
+    dev: false
+
+  /node-gyp-build/4.5.0:
+    resolution: {integrity: sha512-2iGbaQBV+ITgCz76ZEjmhUKAKVf7xfY1sRl4UiKQspfZMH2h06SyhNsnSVy50cwkFQDGLyif6m/6uFXHkOZ6rg==}
     hasBin: true
     dev: false
 
@@ -7663,17 +7711,24 @@ packages:
   /undici/5.5.1:
     resolution: {integrity: sha512-MEvryPLf18HvlCbLSzCW0U00IMftKGI5udnjrQbC5D4P0Hodwffhv+iGfWuJwg16Y/TK11ZFK8i+BPVW2z/eAw==}
     engines: {node: '>=12.18'}
+    dev: true
 
-  /unidata.js/0.6.0:
-    resolution: {integrity: sha512-in+cGk+MkPPfOZFT6FMMC5T2+XyqQdTKyhjpVeQW2YEqguwsDBTkGW7TxkIZ1+KfWJEDVeH0DyooUOz2oSggkg==}
+  /undici/5.6.0:
+    resolution: {integrity: sha512-mc+8SY1fXubTrdx4CXDkeFFGV8lI3Tq4I/70U1V8Z6g4iscGII0uLO7CPnDt56bXEbvaKwo2T2+VrteWbZiXiQ==}
+    engines: {node: '>=12.18'}
+    dev: false
+
+  /unidata.js/0.6.2:
+    resolution: {integrity: sha512-5QYGPwrWPDDmjdkxzFD9H/402Cjx1m40+5IUx6h/eLMSCWCu8oXsjANmFE1M7ZK9Fd/9nMWXBhvAB3I6i0ErEA==}
     dependencies:
       '@types/lodash': 4.14.182
       '@urql/core': 2.5.0_graphql@16.5.0
       axios: 0.27.2
-      crossbell.js: 0.7.10
+      crossbell.js: 0.10.2
       ethers: 5.6.9
       graphql: 16.5.0
       lodash: 4.17.21
+      lodash-es: 4.17.21
       mime: 3.0.0
       web3.storage: 4.2.0
     transitivePeerDependencies:
@@ -7887,7 +7942,7 @@ packages:
     engines: {node: '>=6.14.2'}
     requiresBuild: true
     dependencies:
-      node-gyp-build: 4.4.0
+      node-gyp-build: 4.5.0
     dev: false
 
   /utf8/3.0.0:
