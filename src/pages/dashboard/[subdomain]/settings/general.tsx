@@ -7,23 +7,15 @@ import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { useForm } from "react-hook-form"
-import { getSite, updateSite } from "~/models/site.model"
-import { Profile } from "unidata.js"
+import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export default function SiteSettingsGeneralPage() {
   const router = useRouter()
 
   const subdomain = router.query.subdomain as string
 
-  let [site, setSite] = useState<Profile | null>(null)
-
-  useEffect(() => {
-    if (subdomain) {
-      getSite(subdomain).then((site) => {
-        setSite(site)
-      })
-    }
-  }, [subdomain])
+  const updateSite = useUpdateSite()
+  const site = useGetSite(subdomain)
 
   const form = useForm({
     defaultValues: {
@@ -32,29 +24,32 @@ export default function SiteSettingsGeneralPage() {
     },
   })
 
-  let [loading, setLoading] = useState<boolean>(false)
   const handleSubmit = form.handleSubmit((values) => {
-    setLoading(true)
-    updateSite({
+    updateSite.mutate({
       site: subdomain,
       name: values.name,
       description: values.description,
-    }).then((result) => {
-      if (result.code === 0) {
-        toast.success("Site updated")
-      } else {
-        toast.error("Failed to update site" + ": " + result.message)
-      }
-      setLoading(false)
     })
   })
 
   useEffect(() => {
-    if (site) {
-      form.setValue("name", site.name || "")
-      form.setValue("description", site.bio || "")
+    if (updateSite.isSuccess) {
+      if (updateSite.data?.code === 0) {
+        toast.success("Site updated")
+      } else {
+        toast.error("Failed to update site" + ": " + updateSite.data.message)
+      }
+    } else if (updateSite.isError) {
+      toast.error("Failed to update site")
     }
-  }, [site, form])
+  }, [updateSite, router])
+
+  useEffect(() => {
+    if (site.data) {
+      form.setValue("name", site.data.name || "")
+      form.setValue("description", site.data.bio || "")
+    }
+  }, [site.data, form])
 
   return (
     <DashboardLayout title="Site Settings">
@@ -63,9 +58,9 @@ export default function SiteSettingsGeneralPage() {
           <div>
             <label className="form-label">Icon</label>
             <AvatarForm
-              site={site.username!}
-              name={site.name || site.username || ""}
-              filename={site.avatars?.[0] || undefined}
+              site={site.data?.username!}
+              name={site.data?.name || site.data?.username || ""}
+              filename={site.data?.avatars?.[0] || undefined}
             />
           </div>
         )}
@@ -85,7 +80,7 @@ export default function SiteSettingsGeneralPage() {
             />
           </div>
           <div className="mt-5">
-            <Button type="submit" isLoading={loading}>
+            <Button type="submit" isLoading={updateSite.isLoading}>
               Save
             </Button>
           </div>

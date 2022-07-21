@@ -9,7 +9,7 @@ import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
 import { SiteSwitcher } from "./SiteSwitcher"
-import { getUserSites } from "~/models/site.model"
+import { useGetUserSites } from "~/queries/site"
 import { useAccount } from 'wagmi'
 import type { Profile } from "unidata.js"
 
@@ -25,14 +25,10 @@ export function DashboardLayout({
 
   const { data: viewer } = useAccount()
 
-  let [subscriptions, setSubscriptions] = useState<Profile[]>([])
+  const userSite = useGetUserSites(viewer?.address);
 
   useEffect(() => {
-    if (viewer?.address) {
-      getUserSites(viewer.address).then((sites) => {
-        setSubscriptions(sites || [])
-      })
-    } else {
+    if (!viewer?.address) {
       router.push("/")
     }
   }, [viewer?.address, router])
@@ -78,7 +74,7 @@ export function DashboardLayout({
           <div className="mb-2">
             <SiteSwitcher
               subdomain={subdomain}
-              subscriptions={subscriptions}
+              subscriptions={userSite.data || []}
               viewer={viewer}
             />
           </div>

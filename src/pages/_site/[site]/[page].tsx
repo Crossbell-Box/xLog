@@ -7,7 +7,9 @@ import { SitePage } from "~/components/site/SitePage"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { getViewer } from "~/lib/viewer"
 import { Viewer, Profile, Note } from "~/lib/types"
-import { getUserSites, getSite } from "~/models/site.model"
+import { queryClient, prefetchGetSite } from "~/queries/site.server"
+import { useGetSite } from "~/queries/site"
+import { dehydrate, QueryClient } from '@tanstack/react-query'
 import { getPage } from "~/models/page.model"
 import { PageVisibilityEnum } from "~/lib/types"
 import { notFound } from "~/lib/server-side-props"
@@ -16,9 +18,10 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
     const domainOrSubdomain = ctx.params!.site as string
     const pageSlug = ctx.params!.page as string
+    
+    await prefetchGetSite(domainOrSubdomain)
 
-    const [site, page] = await Promise.all([
-      getSite(domainOrSubdomain),
+    const [page] = await Promise.all([
       getPage({
         site: domainOrSubdomain,
         page: pageSlug,
@@ -33,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 
     return {
       props: {
-        site,
+        dehydratedState: dehydrate(queryClient),
         page,
         domainOrSubdomain,
       },
@@ -42,23 +45,22 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 )
 
 function SitePagePage({
-  site,
   page,
   domainOrSubdomain,
 }: {
-  site: Profile,
   page: Note,
   domainOrSubdomain: string
 }) {
   const ogDescription = page.summary?.content || page.body?.content
+  const site = useGetSite(domainOrSubdomain)
 
   return (
     <SiteLayout
-      site={site!}
+      site={site.data}
       title={page!.title}
       ogDescription={ogDescription}
     >
-      <SitePage site={site!} page={page!} />
+      <SitePage site={site.data} page={page!} />
     </SiteLayout>
   )
 }

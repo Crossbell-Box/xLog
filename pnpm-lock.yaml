@@ -17,6 +17,8 @@ specifiers:
   '@prisma/client': ^3.14.0
   '@proselog/jwt': ^0.1.1
   '@rainbow-me/rainbowkit': ^0.3.3
+  '@tanstack/react-query': ^4.0.10
+  '@tanstack/react-query-devtools': ^4.0.10
   '@trpc/client': ^9.23.2
   '@trpc/next': ^9.23.2
   '@trpc/react': ^9.23.2
@@ -66,7 +68,6 @@ specifiers:
   react-dom: ^18.1.0
   react-hook-form: ^7.31.1
   react-hot-toast: ^2.2.0
-  react-query: ^3.39.0
   react-sortablejs: ^6.1.1
   refractor: ^4.7.0
   rehype-prism-plus: ^1.4.0
@@ -80,7 +81,7 @@ specifiers:
   tailwindcss: ^3.0.24
   typescript: ^4.5.5
   ua-parser-js: ^1.0.2
-  unidata.js: ^0.6.2
+  unidata.js: ^0.6.3
   unified: ^10.1.2
   unist-builder: ^3.0.0
   unist-util-visit: ^4.1.0
@@ -104,9 +105,11 @@ dependencies:
   '@prisma/client': 3.15.2_prisma@3.15.2
   '@proselog/jwt': 0.1.1
   '@rainbow-me/rainbowkit': 0.3.4_ksvpodatviltilqty4m7gcxati
+  '@tanstack/react-query': 4.0.10_biqbaboplfbrettd7655fr4n2y
+  '@tanstack/react-query-devtools': 4.0.10_react@18.2.0
   '@trpc/client': 9.25.3_@trpc+server@9.25.3
-  '@trpc/next': 9.25.3_uh6lro2uvcz55p6qikxrpfi5oa
-  '@trpc/react': 9.25.3_ms3at4dqhndwrpx5xroirjehyy
+  '@trpc/next': 9.25.3_wdrv5arzz3rco7suaqfslncqi4
+  '@trpc/react': 9.25.3_5nj7bll4cny4mklqtydexm3u4e
   '@trpc/server': 9.25.3
   '@web-std/form-data': 3.0.2
   async-busboy: 1.1.0
@@ -130,7 +133,6 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.33.0_react@18.2.0
   react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
-  react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
   react-sortablejs: 6.1.4_yi7d4rnqh6snv6o2bvvwtjnph4
   refractor: 4.7.0
   rehype-prism-plus: 1.4.1
@@ -142,7 +144,7 @@ dependencies:
   remark-rehype: 10.1.0
   sortablejs: 1.15.0
   ua-parser-js: 1.0.2
-  unidata.js: 0.6.2
+  unidata.js: 0.6.3
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.0
@@ -1367,6 +1369,46 @@ packages:
     resolution: {integrity: sha512-WiBSI6JBIhC6LRIsB2Kwh8DsGTlbBU+mLRxJmAe3LjHTdkDpwIbEOZgoXBbZilk/vlfjK8i6nKRAvIRn1XaIMw==}
     dev: true
 
+  /@tanstack/match-sorter-utils/8.1.1:
+    resolution: {integrity: sha512-IdmEekEYxQsoLOR0XQyw3jD1GujBpRRYaGJYQUw1eOT1eUugWxdc7jomh1VQ1EKHcdwDLpLaCz/8y4KraU4T9A==}
+    engines: {node: '>=12'}
+    dependencies:
+      remove-accents: 0.4.2
+    dev: false
+
+  /@tanstack/query-core/4.0.10:
+    resolution: {integrity: sha512-9LsABpZXkWZHi4P1ozRETEDXQocLAxVzQaIhganxbNuz/uA3PsCAJxJTiQrknG5htLMzOF5MqM9G10e6DCxV1A==}
+    dev: false
+
+  /@tanstack/react-query-devtools/4.0.10_react@18.2.0:
+    resolution: {integrity: sha512-3J7LLYQjfjTI0DbPo0bA+M3l4kdvYSWAqihpeG1u93WVyZj0OEFviUv+4cK7+k2AVgQJAPMZ5xvtewKxOOFVrw==}
+    dependencies:
+      '@tanstack/match-sorter-utils': 8.1.1
+      '@types/use-sync-external-store': 0.0.3
+      use-sync-external-store: 1.2.0_react@18.2.0
+    transitivePeerDependencies:
+      - react
+    dev: false
+
+  /@tanstack/react-query/4.0.10_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Wn5QhZUE5wvr6rGClV7KeQIUsdTmYR9mgmMZen7DSRWauHW2UTynFg3Kkf6pw+XlxxOLsyLWwz/Q6q1lSpM3TQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 4.0.10
+      '@types/use-sync-external-store': 0.0.3
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
+
   /@trpc/client/9.25.3_@trpc+server@9.25.3:
     resolution: {integrity: sha512-4R+IK3cCDjoOTwHDyu+uN0bF3mYQI34i6aDNU3D/dJJxcA8PX5f8yb++nnR4RT6oTnu3yiR3PFC4KslvBtyi9w==}
     peerDependencies:
@@ -1376,7 +1418,7 @@ packages:
       '@trpc/server': 9.25.3
     dev: false
 
-  /@trpc/next/9.25.3_uh6lro2uvcz55p6qikxrpfi5oa:
+  /@trpc/next/9.25.3_wdrv5arzz3rco7suaqfslncqi4:
     resolution: {integrity: sha512-eAhPIinDTUiEgiPjChNIcqaPgwn+rJ8HX374fwff/tZXg5OVr3dA7rur2nYyQUWO8LvdiLfUAbTxgtoEB8SPKw==}
     peerDependencies:
       '@trpc/client': 9.25.3
@@ -1389,16 +1431,15 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.3
       '@trpc/client': 9.25.3_@trpc+server@9.25.3
-      '@trpc/react': 9.25.3_ms3at4dqhndwrpx5xroirjehyy
+      '@trpc/react': 9.25.3_5nj7bll4cny4mklqtydexm3u4e
       '@trpc/server': 9.25.3
       next: 12.1.6_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-ssr-prepass: 1.5.0_react@18.2.0
     dev: false
 
-  /@trpc/react/9.25.3_ms3at4dqhndwrpx5xroirjehyy:
+  /@trpc/react/9.25.3_5nj7bll4cny4mklqtydexm3u4e:
     resolution: {integrity: sha512-/StrJS7hKPPn88YaXX+qRU50MeLZxBmPC5BLVyhRtwmbzK25Q0MTzBgQLrjoCpJ/HgXYZEbB5ddiw8f+/WnqIA==}
     peerDependencies:
       '@trpc/client': 9.25.3
@@ -1412,7 +1453,6 @@ packages:
       '@trpc/server': 9.25.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /@trpc/server/9.25.3:
@@ -4081,7 +4121,7 @@ packages:
     resolution: {integrity: sha512-UHHu1HqW22ZhK6C/1Zmjf7mQpOwPwLYZ+xcsOgpzistONU8QqvCop6Od29p/kw1GUVoq2Ihu6ItpKLtlojx4FQ==}
     engines: {node: '>=16'}
     dependencies:
-      undici: 5.6.0
+      undici: 5.8.0
     dev: false
 
   /file-entry-cache/6.0.1:
@@ -6779,25 +6819,6 @@ packages:
       p-defer: 3.0.0
     dev: false
 
-  /react-query/3.39.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-qYKT1bavdDiQZbngWZyPotlBVzcBjDYEJg5RQLBa++5Ix5jjfbEYJmHSZRZD+USVHUSvl/ey9Hu+QfF1QAK80A==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: '*'
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.18.3
-      broadcast-channel: 3.7.0
-      match-sorter: 6.3.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
   /react-query/4.0.0-beta.23_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-e6mNBVAYGy0M1OwX0mhRB/lCkOedKeqTUrbPjNCqvm8hQGUsJJobqfHVvTv8o6JJaOO2MFcxKF4vZM+PEKbHZA==}
     peerDependencies:
@@ -7713,13 +7734,13 @@ packages:
     engines: {node: '>=12.18'}
     dev: true
 
-  /undici/5.6.0:
-    resolution: {integrity: sha512-mc+8SY1fXubTrdx4CXDkeFFGV8lI3Tq4I/70U1V8Z6g4iscGII0uLO7CPnDt56bXEbvaKwo2T2+VrteWbZiXiQ==}
+  /undici/5.8.0:
+    resolution: {integrity: sha512-1F7Vtcez5w/LwH2G2tGnFIihuWUlc58YidwLiCv+jR2Z50x0tNXpRRw7eOIJ+GvqCqIkg9SB7NWAJ/T9TLfv8Q==}
     engines: {node: '>=12.18'}
     dev: false
 
-  /unidata.js/0.6.2:
-    resolution: {integrity: sha512-5QYGPwrWPDDmjdkxzFD9H/402Cjx1m40+5IUx6h/eLMSCWCu8oXsjANmFE1M7ZK9Fd/9nMWXBhvAB3I6i0ErEA==}
+  /unidata.js/0.6.3:
+    resolution: {integrity: sha512-w2vWxsJGIZ+t2CLO9yxBStHbuMijmoaPKw4jBhfrUtVuUjD0MMGIUZ5mVbDbbvaNDKCWli5JqaNZjaSmCCmaYw==}
     dependencies:
       '@types/lodash': 4.14.182
       '@urql/core': 2.5.0_graphql@16.5.0

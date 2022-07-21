@@ -69,8 +69,6 @@ export const getSite = async (input: string) => {
   }
   site.name = site.name || site.username
 
-  if (!site) return null
-
   return site
 }
 

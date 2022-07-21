@@ -1,5 +1,5 @@
 import { Dialog } from "@headlessui/react"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import ReactAvatarEditor from "react-avatar-editor"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { Avatar } from "~/components/ui/Avatar"
@@ -7,7 +7,7 @@ import { Button } from "~/components/ui/Button"
 import toast from "react-hot-toast"
 import createPica from "pica"
 import { UploadFile, useUploadFile } from "~/hooks/useUploadFile"
-import { updateSite } from "~/models/site.model"
+import { useUpdateSite } from "~/queries/site"
 
 const AvatarEditorModal: React.FC<{
   isOpen: boolean
@@ -17,16 +17,13 @@ const AvatarEditorModal: React.FC<{
   uploadFile: UploadFile
 }> = ({ isOpen, setIsOpen, image, site, uploadFile }) => {
   const editorRef = useRef<ReactAvatarEditor | null>(null)
-  const [isSaving, setIsSaving] = useState(false)
+  const updateSite = useUpdateSite()
 
-  const cropAndSave = async () => {
-    if (!editorRef.current) return
-
-    try {
-      setIsSaving(true)
-
-      // Get cropped image
-      const fromCanvas = editorRef.current.getImage()
+  const useCropAndSave = async () => {
+    let key;
+    // Get cropped image
+    if (editorRef.current) {
+      const fromCanvas = editorRef.current?.getImage()
       const toCanvas = document.createElement("canvas")
       toCanvas.width = 460
       toCanvas.height = 460
@@ -35,25 +32,21 @@ const AvatarEditorModal: React.FC<{
       const blob = await pica.toBlob(result, "image/jpeg", 0.9)
 
       // Upload image to R2
-      const { key } = await uploadFile(blob, image!.name)
-
-      // Save the image to profile / site
-      const res = await updateSite({ site, icon: key })
-
-      if (res.code === 0) {
-        setIsOpen(false)
-        toast.success("Updated!")
-      } else {
-        toast.error("Failed to update site" + ": " + res.message)
-      }
-
-    } catch (error: any) {
-      console.error(error)
-      toast.error(error.message)
-    } finally {
-      setIsSaving(false)
+      key = (await uploadFile(blob, image!.name)).key
     }
+
+    // Save the image to profile / site
+    updateSite.mutate({ site, icon: key })
   }
+
+  useEffect(() => {
+    if (updateSite.isSuccess) {
+      setIsOpen(false)
+      toast.success("Updated!")
+    } else if (updateSite.isError) {
+      toast.error("Failed to update site")
+    }
+  }, [updateSite, setIsOpen])
 
   return (
     <Dialog
@@ -81,7 +74,7 @@ const AvatarEditorModal: React.FC<{
           </div>
 
           <div className="h-16 border-t flex items-center px-5">
-            <Button isBlock onClick={cropAndSave} isLoading={isSaving}>
+            <Button isBlock onClick={useCropAndSave} isLoading={updateSite.isLoading}>
               Crop and Save
             </Button>
           </div>

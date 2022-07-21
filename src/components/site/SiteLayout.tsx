@@ -9,7 +9,7 @@ import { useRouter } from "next/router"
 import { useStore } from "~/lib/store"
 
 export type SiteLayoutProps = {
-  site: Profile
+  site?: Profile
   viewer?: Profile | null
   subscription?: { email?: boolean } | null
   children: React.ReactNode

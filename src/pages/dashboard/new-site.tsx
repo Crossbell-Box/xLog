@@ -8,10 +8,11 @@ import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
 import { useAccount } from "wagmi"
-import { createSite } from "~/models/site.model"
+import { useCreateSite } from "~/queries/site"
 
 export default function NewSitePage() {
   const router = useRouter()
+  const createSite = useCreateSite()
 
   const [address, setAddress] = useState<string>('')
   const { data: wagmiData } = useAccount()
@@ -31,17 +32,24 @@ export default function NewSitePage() {
     },
   })
 
-  let [loading, setLoading] = useState<boolean>(false)
   const handleSubmit = form.handleSubmit(async (values) => {
-    setLoading(true)
-    const result = await createSite(wagmiData!.address!, values)
-    setLoading(false)
-    if (result.code === 0) {
-      router.push(`/dashboard/${values.subdomain}`)
-    } else {
-      toast.error("Failed to create site" + ": " + result.message)
-    }
+    createSite.mutate({
+      address: wagmiData!.address!,
+      payload: values,
+    })
   })
+
+  useEffect(() => {
+    if (createSite.isSuccess) {
+      if (createSite.data?.code === 0) {
+        router.push(`/dashboard/${createSite.variables?.payload.subdomain}`)
+      } else {
+        toast.error("Failed to create site" + ": " + createSite.data.message)
+      }
+    } else if (createSite.isError) {
+      toast.error("Failed to create site")
+    }
+  }, [createSite, router])
 
   return (
     <>
@@ -96,7 +104,7 @@ export default function NewSitePage() {
               />
             </div>
             <div>
-              <Button type="submit" isBlock isLoading={loading}>
+              <Button type="submit" isBlock isLoading={createSite.isLoading}>
                 Create
               </Button>
             </div>

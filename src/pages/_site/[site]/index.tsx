@@ -7,15 +7,18 @@ import { Viewer, Profile, Notes } from "~/lib/types"
 import { getViewer } from "~/lib/viewer"
 import { useAccount } from 'wagmi'
 import { useEffect, useState } from 'react'
-import { getUserSites, getSite } from "~/models/site.model"
+import { queryClient, prefetchGetSite } from "~/queries/site.server"
+import { useGetSite } from "~/queries/site"
+import { dehydrate, QueryClient } from '@tanstack/react-query'
 import { getPagesBySite } from "~/models/page.model"
 import { PageVisibilityEnum } from "~/lib/types"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const domainOrSubdomain = ctx.params!.site as string
 
-  const [site, posts] = await Promise.all([
-    getSite(domainOrSubdomain),
+  await prefetchGetSite(domainOrSubdomain)
+
+  const [posts] = await Promise.all([
     getPagesBySite({
       site: domainOrSubdomain,
       take: 1000,
@@ -26,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      site,
+      dehydratedState: dehydrate(queryClient),
       posts,
       domainOrSubdomain,
     },
@@ -34,15 +37,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 function SiteIndexPage({
-  site,
   posts,
+  domainOrSubdomain,
 }: {
   site: Profile,
   posts: Notes,
   domainOrSubdomain: string
 }) {
+  const site = useGetSite(domainOrSubdomain)
+
   return (
-    <SiteLayout site={site!}>
+    <SiteLayout site={site.data}>
       <SiteHome posts={posts} />
     </SiteLayout>
   )

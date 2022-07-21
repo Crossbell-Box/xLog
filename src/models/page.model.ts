@@ -11,7 +11,6 @@ import { Rendered, renderPageContent } from "~/markdown"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum, Notes } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
-import { getSite } from "./site.model"
 import { stripHTML } from "~/lib/utils"
 import unidata from "~/lib/unidata"
 

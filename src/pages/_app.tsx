@@ -12,6 +12,8 @@ import {
   WagmiConfig,
 } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
+import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import '@rainbow-me/rainbowkit/styles.css'
 
@@ -50,13 +52,20 @@ const wagmiClient = createClient({
   provider
 })
 
+const queryClient = new QueryClient();
+
 function MyApp({ Component, pageProps }: any) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <StoreProvider createStore={createStore}>
-          <Component {...pageProps} />
-          <Toaster />
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <ReactQueryDevtools />
+              <Component {...pageProps} />
+              <Toaster />
+            </Hydrate>
+          </QueryClientProvider>
         </StoreProvider>
       </RainbowKitProvider>
     </WagmiConfig>

@@ -7,22 +7,14 @@ import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { OUR_DOMAIN } from "~/lib/env"
-import { getSite, updateSite } from "~/models/site.model"
-import { Profile } from "unidata.js"
+import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export default function SettingsDomainsPage() {
   const router = useRouter()
   const subdomain = router.query.subdomain as string
 
-  let [site, setSite] = useState<Profile | null>(null)
-
-  useEffect(() => {
-    if (subdomain) {
-      getSite(subdomain).then((site) => {
-        setSite(site)
-      })
-    }
-  }, [subdomain])
+  const updateSite = useUpdateSite()
+  const site = useGetSite(subdomain)
 
   const form = useForm({
     defaultValues: {
@@ -30,28 +22,35 @@ export default function SettingsDomainsPage() {
     },
   })
 
-  let [loading, setLoading] = useState<boolean>(false)
   const handleSubmit = form.handleSubmit((values) => {
-    setLoading(true)
-    updateSite({
+    updateSite.mutate({
       site: subdomain,
       subdomain: values.subdomain,
-    }).then((result) => {
-      if (result.code === 0) {
-        toast.success("Saved!")
-        router.replace(
-          `/dashboard/${values.subdomain}/settings/domains`
-        )
-      } else {
-        toast.error("Failed to update site" + ": " + result.message)
-      }
-      setLoading(false)
+    })
+    updateSite.mutate({
+      site: subdomain,
+      subdomain: values.subdomain,
     })
   })
 
   useEffect(() => {
-    if (site) {
-      form.setValue("subdomain", site.username || "")
+    if (updateSite.isSuccess) {
+      if (updateSite.data?.code === 0) {
+        toast.success("Saved!")
+        router.replace(
+          `/dashboard/${updateSite.variables?.subdomain}/settings/domains`
+        )
+      } else {
+        toast.error("Failed to update site" + ": " + updateSite.data.message)
+      }
+    } else if (updateSite.isError) {
+      toast.error("Failed to update site")
+    }
+  }, [updateSite, router])
+
+  useEffect(() => {
+    if (site.isSuccess && site.data) {
+      form.setValue("subdomain", site.data.username || "")
     }
   }, [form, site])
 
@@ -70,7 +69,7 @@ export default function SettingsDomainsPage() {
             />
           </div>
           <div className="mt-5">
-            <Button type="submit" isLoading={loading}>
+            <Button type="submit" isLoading={updateSite.isLoading}>
               Save
             </Button>
           </div>

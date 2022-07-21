@@ -9,7 +9,7 @@ import { SiteNavigationItem, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { ReactSortable } from "react-sortablejs"
 import equal from "fast-deep-equal"
-import { getSite, updateSite } from "~/models/site.model"
+import { useGetSite, useUpdateSite } from "~/queries/site"
 
 type UpdateItem = (id: string, newItem: Partial<SiteNavigationItem>) => void
 
@@ -70,21 +70,14 @@ export default function SiteSettingsNavigationPage() {
 
   const subdomain = router.query.subdomain as string
 
-  let [site, setSite] = useState<Profile | null>(null)
-
-  useEffect(() => {
-    if (subdomain) {
-      getSite(subdomain).then((site) => {
-        setSite(site)
-      })
-    }
-  }, [subdomain])
+  const updateSite = useUpdateSite()
+  const site = useGetSite(subdomain)
 
   const [items, setItems] = useState<SiteNavigationItem[]>([])
 
   const itemsModified = useMemo(() => {
-    if (!site) return false
-    return !equal(items, site.navigation)
+    if (!site.isSuccess) return false
+    return !equal(items, site.data.navigation)
   }, [items, site])
 
   const updateItem: UpdateItem = (id, newItem) => {
@@ -102,32 +95,35 @@ export default function SiteSettingsNavigationPage() {
     setItems((items) => [...items, { id: nanoid(), label: "", url: "" }])
   }
 
-  let [loading, setLoading] = useState<boolean>(false)
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
-    updateSite({
-      site: site!.username!,
+    updateSite.mutate({
+      site: site.data?.username!,
       navigation: items,
-    }).then((result) => {
-      if (result.code === 0) {
-        toast.success("Saved")
-      } else {
-        toast.error("Failed to save" + ": " + result.message)
-      }
-      setLoading(false)
     })
   }
+
+  useEffect(() => {
+    if (updateSite.isSuccess) {
+      if (updateSite.data?.code === 0) {
+        toast.success("Saved")
+      } else {
+        toast.error("Failed to save" + ": " + updateSite.data.message)
+      }
+    } else if (updateSite.isError) {
+      toast.error("Failed to save")
+    }
+  }, [updateSite, router])
 
   const removeItem: RemoveItem = (id) => {
     setItems((items) => items.filter((item) => item.id !== id))
   }
 
   useEffect(() => {
-    if (site?.navigation) {
-      setItems(site.navigation)
+    if (site.data?.navigation) {
+      setItems(site.data?.navigation)
     }
-  }, [site?.navigation])
+  }, [site.data?.navigation])
 
   return (
     <DashboardLayout title="Navigation">
@@ -164,7 +160,7 @@ export default function SiteSettingsNavigationPage() {
           <div className="border-t pt-5 mt-10 space-x-3 flex items-center">
             <Button
               type="submit"
-              isLoading={loading}
+              isLoading={updateSite.isLoading}
               isDisabled={!itemsModified}
             >
               Save
