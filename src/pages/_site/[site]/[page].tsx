@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
       includeAuthors: true,
     })
 
-    if (new Date(page.date_published) > new Date()) {
+    if (new Date(page!.date_published) > new Date()) {
       throw notFound()
     }
 

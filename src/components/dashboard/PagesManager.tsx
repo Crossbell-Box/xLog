@@ -125,7 +125,10 @@ export const PagesManager: React.FC<{
           </svg>
         ),
         onClick() {
-          pageDelete(page.id)
+          deletePage.mutate({
+            site: subdomain,
+            id: page.id
+          })
         },
       },
     ]
