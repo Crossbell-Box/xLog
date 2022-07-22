@@ -10,7 +10,8 @@ import { Viewer, Profile, Note } from "~/lib/types"
 import { queryClient, prefetchGetSite } from "~/queries/site.server"
 import { useGetSite } from "~/queries/site"
 import { dehydrate, QueryClient } from '@tanstack/react-query'
-import { getPage } from "~/models/page.model"
+import { fetchGetPage } from "~/queries/page.server"
+import { useGetPage } from "~/queries/page"
 import { PageVisibilityEnum } from "~/lib/types"
 import { notFound } from "~/lib/server-side-props"
 
@@ -20,15 +21,12 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
     const pageSlug = ctx.params!.page as string
     
     await prefetchGetSite(domainOrSubdomain)
-
-    const [page] = await Promise.all([
-      getPage({
-        site: domainOrSubdomain,
-        page: pageSlug,
-        render: true,
-        includeAuthors: true,
-      }),
-    ])
+    const page = await fetchGetPage({
+      site: domainOrSubdomain,
+      page: pageSlug,
+      render: true,
+      includeAuthors: true,
+    })
 
     if (new Date(page.date_published) > new Date()) {
       throw notFound()
@@ -37,30 +35,37 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
     return {
       props: {
         dehydratedState: dehydrate(queryClient),
-        page,
         domainOrSubdomain,
+        pageSlug,
       },
     }
   },
 )
 
 function SitePagePage({
-  page,
   domainOrSubdomain,
+  pageSlug,
 }: {
-  page: Note,
   domainOrSubdomain: string
+  pageSlug: string
 }) {
-  const ogDescription = page.summary?.content || page.body?.content
+  const page = useGetPage({
+    site: domainOrSubdomain,
+    page: pageSlug,
+    render: true,
+    includeAuthors: true,
+  })
+  const ogDescription = page.data?.summary?.content || page.data?.body?.content
+
   const site = useGetSite(domainOrSubdomain)
 
   return (
     <SiteLayout
       site={site.data}
-      title={page!.title}
+      title={page.data?.title}
       ogDescription={ogDescription}
     >
-      <SitePage site={site.data} page={page!} />
+      <SitePage site={site.data} page={page.data} />
     </SiteLayout>
   )
 }

@@ -119,7 +119,7 @@ export async function scheduleEmailForPost(
 
 export async function getPagesBySite(
   input: {
-    site: string
+    site?: string
     type: "post" | "page"
     visibility?: PageVisibilityEnum | null
     take?: number | null
@@ -138,12 +138,15 @@ export async function getPagesBySite(
 
   const visibility = input.visibility || PageVisibilityEnum.All
 
-  let pages: Notes | null = await unidata.notes.get({
+  let pages: Notes = await unidata.notes.get({
     source: 'Crossbell Note',
     identity: input.site,
     platform: 'Crossbell',
     limit: input.take || 1000,
-  });
+  }) || {
+    total: 0,
+    list: [],
+  };
 
   if (pages?.list) {
     switch (visibility) {
@@ -203,8 +206,8 @@ export async function getPage<TRender extends boolean = false>(
     includeAuthors?: boolean
   },
 ) {
-  if (!input.site) {
-    throw notFound(`site not found`)
+  if (!input.site || !(input.page || input.pageId)) {
+    return undefined
   }
 
   const pages: Notes | null = await unidata.notes.get({

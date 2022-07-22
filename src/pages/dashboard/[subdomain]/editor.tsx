@@ -21,7 +21,7 @@ import { PageVisibilityEnum, Note } from "~/lib/types"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { Button } from "~/components/ui/Button"
 import { useStore } from "~/lib/store"
-import { getPage, createOrUpdatePage } from "~/models/page.model"
+import { useGetPage, useCreateOrUpdatePage } from "~/queries/page"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -35,28 +35,18 @@ export default function SubdomainEditor() {
   const isPost = router.query.type === "post"
   const pageId = router.query.id as string | undefined
 
-  let [page, setPage] = useState<Note | undefined>(undefined)
+  const page = useGetPage({
+    site: subdomain!,
+    pageId: pageId,
+    render: false
+  })
 
-  useEffect(() => {
-    if (subdomain && pageId) {
-      getPage({
-        site: subdomain!,
-        pageId: pageId,
-        render: false
-      }).then((page) => {
-        setPage(page)
-      })
-    }
-  }, [subdomain, isPost, pageId])
-
-  const pageContent = useMemo(() => page?.body?.content, [page?.body?.content])
+  const pageContent = useMemo(() => page.data?.body?.content, [page.data?.body?.content])
 
   const visibility = getPageVisibility({
-    date_published: page?.date_published,
+    date_published: page.data?.date_published,
   })
   const published = visibility !== PageVisibilityEnum.Draft
-
-  const [createOrUpdatePageStatus, setCreateOrUpdatePageStatus] = useState<string>('')
 
   const uploadFile = useUploadFile()
 
@@ -83,25 +73,28 @@ export default function SubdomainEditor() {
     [setValues, values],
   )
 
+  const createOrUpdatePage = useCreateOrUpdatePage()
+
   const savePage = (published: boolean) => {
-    setCreateOrUpdatePageStatus("loading")
-    createOrUpdatePage({
+    createOrUpdatePage.mutate({
       ...values,
       siteId: subdomain,
       pageId: pageId,
       isPost: isPost,
       published,
       content,
-    }).then((result) => {
-      if (result && result.code === 0) {
-        setCreateOrUpdatePageStatus("success")
-        toast.success(values.published ? "Updated" : "Saved!")
-      } else {
-        setCreateOrUpdatePageStatus("error")
-        toast.error(result.message)
-      }
     })
   }
+
+  useEffect(() => {
+    if (createOrUpdatePage.data) {
+      if (createOrUpdatePage.data?.code === 0) {
+        toast.success(values.published ? "Updated" : "Saved!")
+      } else {
+        toast.error("Error: " + createOrUpdatePage.data?.message)
+      }
+    }
+  }, [createOrUpdatePage.data, values.published])
 
   const handleDropFile = useCallback(
     async (file: File, view: EditorView) => {
@@ -141,16 +134,16 @@ export default function SubdomainEditor() {
   })
 
   useEffect(() => {
-    if (!page) return
+    if (!page.data) return
 
     setValues({
-      title: page.title || '',
-      publishedAt: page.date_published === new Date('9999-01-01').toISOString() ? new Date().toISOString() : page.date_published,
-      published: page.date_published !== new Date('9999-01-01').toISOString(),
-      excerpt: page.summary?.content || "",
-      slug: page.slug!,
+      title: page.data.title || '',
+      publishedAt: page.data.date_published === new Date('9999-01-01').toISOString() ? new Date().toISOString() : page.data.date_published,
+      published: page.data.date_published !== new Date('9999-01-01').toISOString(),
+      excerpt: page.data.summary?.content || "",
+      slug: page.data.slug!,
     })
-  }, [page])
+  }, [page.data])
 
   useEffect(() => {
     if (typeof pageContent === "string") {
@@ -186,7 +179,7 @@ export default function SubdomainEditor() {
               <PublishButton
                 save={savePage}
                 published={published}
-                isSaving={createOrUpdatePageStatus === "loading"}
+                isSaving={createOrUpdatePage.isLoading}
               />
             </div>
           </header>

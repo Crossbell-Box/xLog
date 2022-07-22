@@ -52,7 +52,7 @@ export default function SettingsDomainsPage() {
     if (site.isSuccess && site.data) {
       form.setValue("subdomain", site.data.username || "")
     }
-  }, [form, site])
+  }, [form, site.data, site.isSuccess])
 
   const title = "Site Settings"
   return (

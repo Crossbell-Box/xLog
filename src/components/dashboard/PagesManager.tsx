@@ -11,7 +11,7 @@ import Link from "next/link"
 import toast from "react-hot-toast"
 import { EmptyState } from "../ui/EmptyState"
 import type { Note } from "unidata.js"
-import { getPagesBySite, deletePage } from "~/models/page.model"
+import { useGetPagesBySite, useDeletePage } from "~/queries/page"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -27,39 +27,21 @@ export const PagesManager: React.FC<{
     [router.query.visibility]
   )
 
-  let [pages, setPages] = useState<Note[] | null>(null)
-
-  const pageDelete = (id: string) => {
-    deletePage({
-      site: subdomain,
-      id: id,
-    }).then(() => {
-      toast.success("Deleted!")
-      getPagesBySite({
-        type: isPost ? "post" : "page",
-        site: subdomain,
-        take: 1000,
-        visibility,
-        render: true,
-      }).then((pages) => {
-        setPages(pages?.list || [])
-      })
-    })
-  }
+  const deletePage = useDeletePage()
 
   useEffect(() => {
-    if (subdomain) {
-      getPagesBySite({
-        type: isPost ? "post" : "page",
-        site: subdomain!,
-        take: 1000,
-        visibility,
-        render: true,
-      }).then((pages) => {
-        setPages(pages?.list || [])
-      })
+    if (deletePage.isSuccess) {
+      toast.success("Deleted!")
     }
-  }, [subdomain, isPost, visibility])
+  }, [deletePage.isSuccess])
+
+  const pages = useGetPagesBySite({
+    type: isPost ? "post" : "page",
+    site: subdomain!,
+    take: 1000,
+    visibility,
+    render: true,
+  })
 
   const tabItems: TabItem[] = [
     {
@@ -186,11 +168,11 @@ export const PagesManager: React.FC<{
       <Tabs items={tabItems} />
 
       <div className="-mt-3">
-        {pages && pages.length === 0 && (
+        {pages.data?.list.length === 0 && (
           <EmptyState resource={isPost ? "posts" : "pages"} />
         )}
 
-        {pages?.map((page) => {
+        {pages.data?.list?.map((page) => {
           return (
             <Link key={page.id} href={getPageEditLink(page)}>
               <a className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex justify-between">

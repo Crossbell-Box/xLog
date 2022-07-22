@@ -5,7 +5,7 @@ import { EmptyState } from "../ui/EmptyState"
 import { Notes, Note } from "~/lib/types"
 
 export const SiteArchives: React.FC<{
-  posts: Notes
+  posts?: Notes
 }> = ({ posts }) => {
   const groupedByYear = useMemo<Map<string, Note[]>>(() => {
     const map = new Map()
