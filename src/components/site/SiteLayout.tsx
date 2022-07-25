@@ -52,6 +52,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         subscribed={!!subscription}
         viewer={viewer}
       />
+      <style>{ site?.css }</style>
       <div className={clsx(`max-w-screen-md mx-auto px-5 pb-12`, `pt-12`)}>
         {children}
       </div>

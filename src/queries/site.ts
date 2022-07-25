@@ -20,14 +20,7 @@ export const useGetSite = (input: string) => {
 export function useUpdateSite() {
   const queryClient = useQueryClient();
   const mutation = useMutation(async (
-    payload: {
-      site: string
-      name?: string
-      description?: string
-      icon?: string | null
-      subdomain?: string
-      navigation?: SiteNavigationItem[]
-    }) => {
+    payload: Parameters<typeof siteModel.updateSite>[0]) => {
     return siteModel.updateSite(payload)
   }, {
     onSuccess: (data, variables) => {

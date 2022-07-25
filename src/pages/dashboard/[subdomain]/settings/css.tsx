@@ -18,14 +18,14 @@ export default function SettingsDomainsPage() {
 
   const form = useForm({
     defaultValues: {
-      subdomain: "",
+      css: "",
     },
   })
 
   const handleSubmit = form.handleSubmit((values) => {
     updateSite.mutate({
       site: subdomain,
-      subdomain: values.subdomain,
+      css: values.css,
     })
   })
 
@@ -33,20 +33,17 @@ export default function SettingsDomainsPage() {
     if (updateSite.isSuccess) {
       if (updateSite.data?.code === 0) {
         toast.success("Saved!")
-        router.replace(
-          `/dashboard/${updateSite.variables?.subdomain}/settings/domains`
-        )
       } else {
         toast.error("Failed to update site" + ": " + updateSite.data.message)
       }
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite, router])
+  }, [updateSite.isSuccess, updateSite.isError, router])
 
   useEffect(() => {
     if (site.isSuccess && site.data) {
-      form.setValue("subdomain", site.data.username || "")
+      form.setValue("css", site.data.css || "")
     }
   }, [form, site.data, site.isSuccess])
 
@@ -58,10 +55,15 @@ export default function SettingsDomainsPage() {
           <div className="">
             <Input
               id="subdomain"
-              label="Subdomain"
-              addon={`.${OUR_DOMAIN}`}
-              className="w-28"
-              {...form.register("subdomain")}
+              label="Custom CSS"
+              className="w-full"
+              style={
+                {
+                  height: "400px",
+                }
+              }
+              multiline
+              {...form.register("css")}
             />
           </div>
           <div className="mt-5">

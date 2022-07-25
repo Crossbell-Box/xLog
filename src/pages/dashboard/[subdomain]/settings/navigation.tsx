@@ -113,7 +113,7 @@ export default function SiteSettingsNavigationPage() {
     } else if (updateSite.isError) {
       toast.error("Failed to save")
     }
-  }, [updateSite, router])
+  }, [updateSite.isSuccess, updateSite.isError, router])
 
   const removeItem: RemoveItem = (id) => {
     setItems((items) => items.filter((item) => item.id !== id))

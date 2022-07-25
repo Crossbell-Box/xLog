@@ -20,6 +20,7 @@ export const SettingsLayout: React.FC<{
             href: `/dashboard/${subdomain}/settings/navigation`,
           },
           { text: "Domains", href: `/dashboard/${subdomain}/settings/domains` },
+          { text: "Custom CSS", href: `/dashboard/${subdomain}/settings/css` },
         ]
       : [{ text: "Profile", href: `/dashboard/${subdomain}/account/profile` }]
   ).map((item) => ({ ...item, active: router.asPath === item.href }))
