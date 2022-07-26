@@ -2,13 +2,31 @@ import * as pageModel from "~/models/page.model"
 import { queryClientServer } from "~/lib/query-client.server"
 
 export const fetchGetPage = async (input: Parameters<typeof pageModel.getPage>[0]) => {
-  return await queryClientServer.fetchQuery(['getPage', input.page, input], async () => {
+  const key = ['getPage', input.page, input]
+  const data = queryClientServer.getQueryData(key)
+  if (!data) {
+    return await queryClientServer.fetchQuery(key, async () => {
       return pageModel.getPage(input)
-  })
+    })
+  } else {
+    queryClientServer.prefetchQuery(key, async () => {
+      return pageModel.getPage(input)
+    })
+    return data
+  }
 }
 
 export const prefetchGetPagesBySite = async (input: Parameters<typeof pageModel.getPagesBySite>[0]) => {
-  await queryClientServer.fetchQuery(['getPagesBySite', input.site, input], async () => {
+  const key = ['getPagesBySite', input.site, input]
+  const data = queryClientServer.getQueryData(key)
+  if (!data) {
+    return await queryClientServer.fetchQuery(key, async () => {
       return pageModel.getPagesBySite(input)
-  })
+    })
+  } else {
+    queryClientServer.prefetchQuery(key, async () => {
+      return pageModel.getPagesBySite(input)
+    })
+    return data
+  }
 }
