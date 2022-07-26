@@ -1,11 +1,12 @@
 import { QueryClient } from '@tanstack/react-query'
 
-const cacheTime = parseInt(process.env.CACHE_MAX_AGE || "600000")
+const staleTime = parseInt(process.env.CACHE_MAX_AGE || "60 * 60 * 1000")
 
 const queryClientServerIn = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime,
+      staleTime,
+      cacheTime: staleTime * 2,
     },
   },
 })
