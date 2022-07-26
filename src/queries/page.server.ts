@@ -3,7 +3,7 @@ import { queryClientServer } from "~/lib/query-client.server"
 
 export const fetchGetPage = async (input: Parameters<typeof pageModel.getPage>[0]) => {
   const key = ['getPage', input.page, input]
-  const data = queryClientServer.getQueryData(key)
+  const data: ReturnType<typeof pageModel.getPage> | undefined = queryClientServer.getQueryData(key)
   if (!data) {
     return await queryClientServer.fetchQuery(key, async () => {
       return pageModel.getPage(input)
@@ -20,13 +20,12 @@ export const prefetchGetPagesBySite = async (input: Parameters<typeof pageModel.
   const key = ['getPagesBySite', input.site, input]
   const data = queryClientServer.getQueryData(key)
   if (!data) {
-    return await queryClientServer.fetchQuery(key, async () => {
+    await queryClientServer.prefetchQuery(key, async () => {
       return pageModel.getPagesBySite(input)
     })
   } else {
     queryClientServer.prefetchQuery(key, async () => {
       return pageModel.getPagesBySite(input)
     })
-    return data
   }
 }
