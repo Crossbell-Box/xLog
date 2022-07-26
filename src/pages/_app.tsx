@@ -14,6 +14,8 @@ import {
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
+import { createIDBPersister } from '~/lib/persister.client'
 
 import '@rainbow-me/rainbowkit/styles.css'
 
@@ -52,20 +54,28 @@ const wagmiClient = createClient({
   provider
 })
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  },
+});
+
+const persister = createIDBPersister()
 
 function MyApp({ Component, pageProps }: any) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <StoreProvider createStore={createStore}>
-          <QueryClientProvider client={queryClient}>
+          <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
             <Hydrate state={pageProps.dehydratedState}>
               <ReactQueryDevtools />
               <Component {...pageProps} />
               <Toaster />
             </Hydrate>
-          </QueryClientProvider>
+          </PersistQueryClientProvider>
         </StoreProvider>
       </RainbowKitProvider>
     </WagmiConfig>

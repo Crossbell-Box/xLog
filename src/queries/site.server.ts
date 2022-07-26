@@ -1,10 +1,8 @@
 import * as siteModel from "~/models/site.model"
-import { queryClientServer, cacheMaxAge } from "~/queries/server"
-
-export const queryClient = queryClientServer
+import { queryClientServer } from "~/lib/query-client.server"
 
 export const prefetchGetSite = async (input: string) => {
   await queryClientServer.prefetchQuery(['getSite', input], async () => {
       return siteModel.getSite(input)
-  }, { staleTime: cacheMaxAge })
+  })
 }

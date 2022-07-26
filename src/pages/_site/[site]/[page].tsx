@@ -7,7 +7,8 @@ import { SitePage } from "~/components/site/SitePage"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { getViewer } from "~/lib/viewer"
 import { Viewer, Profile, Note } from "~/lib/types"
-import { queryClient, prefetchGetSite } from "~/queries/site.server"
+import { queryClientServer } from "~/lib/query-client.server"
+import { prefetchGetSite } from "~/queries/site.server"
 import { useGetSite } from "~/queries/site"
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 import { fetchGetPage } from "~/queries/page.server"
@@ -34,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 
     return {
       props: {
-        dehydratedState: dehydrate(queryClient),
+        dehydratedState: dehydrate(queryClientServer),
         domainOrSubdomain,
         pageSlug,
       },

@@ -7,7 +7,8 @@ import { Viewer, Profile, Notes } from "~/lib/types"
 import { getViewer } from "~/lib/viewer"
 import { useAccount } from 'wagmi'
 import { useEffect, useState } from 'react'
-import { queryClient, prefetchGetSite } from "~/queries/site.server"
+import { queryClientServer } from "~/lib/query-client.server"
+import { prefetchGetSite } from "~/queries/site.server"
 import { useGetSite } from "~/queries/site"
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 import { useGetPagesBySite } from "~/queries/page"
@@ -27,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClientServer),
       domainOrSubdomain,
     },
   }
