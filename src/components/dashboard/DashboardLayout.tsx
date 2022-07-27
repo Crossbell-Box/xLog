@@ -11,7 +11,7 @@ import { DashboardSidebar } from "./DashboardSidebar"
 import { SiteSwitcher } from "./SiteSwitcher"
 import { useGetUserSites } from "~/queries/site"
 import { useAccount } from 'wagmi'
-import type { Profile } from "unidata.js"
+import { ConnectButton } from "~/components/common/ConnectButton"
 
 export function DashboardLayout({
   children,
@@ -76,12 +76,8 @@ export function DashboardLayout({
       <SEOHead title={title} siteName={APP_NAME} />
       <div className="flex">
         <DashboardSidebar>
-          <div className="mb-2">
-            <SiteSwitcher
-              subdomain={subdomain}
-              subscriptions={userSite.data || []}
-              viewer={viewer}
-            />
+          <div className="mb-2 px-5 pt-3 pb-2">
+            <ConnectButton />
           </div>
 
           <div className="px-3 space-y-[2px] text-zinc-500">

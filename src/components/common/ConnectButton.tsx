@@ -38,15 +38,18 @@ export const ConnectButton = () => {
                 );
               }
               return (
-                <div style={{ display: 'flex', gap: 12 }}>
-                  <button onClick={openAccountModal} type="button">
+                <div className="flex" style={{ gap: 12 }}>
+                  <button className="flex items-center" onClick={openAccountModal} type="button">
                     <Avatar
                       className="align-middle mr-2"
                       images={userSites.data?.[0]?.avatars || []}
                       name={userSites.data?.[0]?.name}
-                      size={22}
+                      size={30}
                     />
-                    <span className="align-middle">{userSites.data?.[0]?.name || account.displayName}</span>
+                    <div className="flex flex-col">
+                      <span className="text-left leading-none text-gray-600 font-bold" style={{ "marginBottom": "0.15rem" }}>{userSites.data?.[0]?.name || account.displayName}</span>
+                      <span className="text-left leading-none text-xs text-gray-400">{"@" + userSites.data?.[0]?.username || account.displayName}</span>
+                    </div>
                   </button>
                 </div>
               );
