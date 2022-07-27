@@ -31,7 +31,12 @@ export function DashboardLayout({
     if (!viewer?.address) {
       router.push("/")
     }
-  }, [viewer?.address, router])
+    if (userSite.isSuccess && subdomain) {
+      if (!userSite.data?.find((site) => site.username === subdomain)) {
+        router.push("/")
+      }
+    }
+  }, [viewer?.address, router, userSite.isSuccess, userSite.data, subdomain])
 
   const links: {
     href: string
