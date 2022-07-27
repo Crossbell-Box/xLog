@@ -77,7 +77,7 @@ export function DashboardLayout({
       <div className="flex">
         <DashboardSidebar>
           <div className="mb-2 px-5 pt-3 pb-2">
-            <ConnectButton />
+            <ConnectButton left={true} />
           </div>
 
           <div className="px-3 space-y-[2px] text-zinc-500">

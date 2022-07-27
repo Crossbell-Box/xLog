@@ -1,11 +1,51 @@
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit"
 import { useGetUserSites } from "~/queries/site"
-import { useAccount } from "wagmi"
+import { useAccount, useDisconnect } from "wagmi"
 import { Avatar } from "~/components/ui/Avatar";
+import type { HeaderLinkType } from "~/components/site/SiteHeader"
+import { DashboardIcon } from "../icons/DashboardIcon"
+import { LogoutIcon } from "../icons/LogoutIcon"
+import { CopyIcon } from "../icons/CopyIcon"
+import { IS_PROD } from "~/lib/constants"
+import { OUR_DOMAIN } from "~/lib/env"
+import { UniLink } from "../ui/UniLink"
+import { useState } from "react"
 
-export const ConnectButton = () => {
+export const ConnectButton: React.FC<{
+  left?: boolean
+}> = ({ left, }) => {
   const { data: viewer } = useAccount()
   const userSites = useGetUserSites(viewer?.address)
+  const { disconnect } = useDisconnect()
+
+  const addressDisplay = viewer?.address?.slice(0, 5) + "..." + viewer?.address?.slice(-4)
+  const [copyLabel, setCopyLabel] = useState(addressDisplay)
+
+  const dropdownLinks: HeaderLinkType[] = [
+    {
+      icon: <CopyIcon />,
+      label: copyLabel,
+      onClick() {
+        navigator.clipboard.writeText(viewer?.address || "")
+        setCopyLabel("Copied!")
+        setTimeout(() => {
+          setCopyLabel(addressDisplay)
+        }, 1000)
+      },
+    },
+    {
+      icon: <DashboardIcon />,
+      label: "Writer dashboard",
+      url: `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}/dashboard`,
+    },
+    {
+      icon: <LogoutIcon />,
+      label: "Disconnect",
+      onClick() {
+        disconnect()
+      },
+    },
+  ]
 
   return (
     <RainbowConnectButton.Custom>
@@ -38,7 +78,7 @@ export const ConnectButton = () => {
                 );
               }
               return (
-                <div className="flex" style={{ gap: 12 }}>
+                <div className="flex relative group" style={{ gap: 12 }}>
                   <button className="flex items-center" onClick={openAccountModal} type="button">
                     <Avatar
                       className="align-middle mr-2"
@@ -51,6 +91,23 @@ export const ConnectButton = () => {
                       <span className="text-left leading-none text-xs text-gray-400">{"@" + userSites.data?.[0]?.username || account.displayName}</span>
                     </div>
                   </button>
+                  <div className={`absolute hidden ${left ? "left" : "right"}-0 pt-2 group-hover:block top-full z-10 text-gray-600`}>
+                    <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2">
+                      {dropdownLinks.map((link, i) => {
+                        return (
+                          <UniLink
+                            key={i}
+                            href={link.url}
+                            onClick={link.onClick}
+                            className="px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
+                          >
+                            <span className="mr-2">{link.icon}</span>
+                            {link.label}
+                          </UniLink>
+                        )
+                      })}
+                    </div>
+                  </div>
                 </div>
               );
             })()}
