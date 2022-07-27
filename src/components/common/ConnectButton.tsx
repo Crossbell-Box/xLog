@@ -78,36 +78,40 @@ export const ConnectButton: React.FC<{
                 );
               }
               return (
-                <div className="flex relative group" style={{ gap: 12 }}>
-                  <button className="flex items-center" onClick={openAccountModal} type="button">
-                    <Avatar
-                      className="align-middle mr-2"
-                      images={userSites.data?.[0]?.avatars || []}
-                      name={userSites.data?.[0]?.name}
-                      size={30}
-                    />
-                    <div className="flex flex-col">
-                      <span className="text-left leading-none text-gray-600 font-bold" style={{ "marginBottom": "0.15rem" }}>{userSites.data?.[0]?.name || account.displayName}</span>
-                      <span className="text-left leading-none text-xs text-gray-400">{"@" + userSites.data?.[0]?.username || account.displayName}</span>
+                <div className="flex relative group" style={{ gap: 12, height: "30px" }}>
+                  {userSites.isSuccess ?
+                  <>
+                    <button className="flex items-center" type="button">
+                      <Avatar
+                        className="align-middle mr-2"
+                        images={userSites.data?.[0]?.avatars || []}
+                        name={userSites.data?.[0]?.name}
+                        size={30}
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-left leading-none text-gray-600 font-bold" style={{ "marginBottom": "0.15rem" }}>{userSites.data?.[0]?.name || account.displayName}</span>
+                        <span className="text-left leading-none text-xs text-gray-400">{"@" + userSites.data?.[0]?.username || account.displayName}</span>
+                      </div>
+                    </button>
+                    <div className={`absolute hidden ${left ? "left" : "right"}-0 pt-2 group-hover:block top-full z-10 text-gray-600`}>
+                      <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
+                        {dropdownLinks.map((link, i) => {
+                          return (
+                            <UniLink
+                              key={i}
+                              href={link.url}
+                              onClick={link.onClick}
+                              className="px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
+                            >
+                              <span className="mr-2">{link.icon}</span>
+                              {link.label}
+                            </UniLink>
+                          )
+                        })}
+                      </div>
                     </div>
-                  </button>
-                  <div className={`absolute hidden ${left ? "left" : "right"}-0 pt-2 group-hover:block top-full z-10 text-gray-600`}>
-                    <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2">
-                      {dropdownLinks.map((link, i) => {
-                        return (
-                          <UniLink
-                            key={i}
-                            href={link.url}
-                            onClick={link.onClick}
-                            className="px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
-                          >
-                            <span className="mr-2">{link.icon}</span>
-                            {link.label}
-                          </UniLink>
-                        )
-                      })}
-                    </div>
-                  </div>
+                  </>
+                  : ""}
                 </div>
               );
             })()}
