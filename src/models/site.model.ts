@@ -38,14 +38,25 @@ export const checkSubdomain = async ({
   }
 }
 
-export const getUserSites = async (address: string) => {
+export const getUserSites = async (address?: string) => {
+  if (!address) {
+    return null
+  }
   const profiles = await unidata.profiles.get({
     source: 'Crossbell Profile',
     identity: address,
     platform: 'Ethereum',
   });
 
-  const sites = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0)).map((profile) => {
+  const sites = profiles.list?.sort((a, b) => {
+    if (a.metadata?.primary) {
+      return -1
+    } else if (b.metadata?.primary) {
+      return 1
+    } else {
+      return +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0)
+    }
+  }).map((profile) => {
     profile.name = profile.name || profile.username;
     return profile
   })

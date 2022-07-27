@@ -7,7 +7,7 @@ import { getAuthUser } from "~/lib/auth.server"
 import { FLY_REGION } from "~/lib/env.server"
 import { useStore } from "~/lib/store"
 import { useAccount } from 'wagmi'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { ConnectButton } from "~/components/common/ConnectButton"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {

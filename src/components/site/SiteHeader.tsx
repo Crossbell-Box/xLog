@@ -12,6 +12,7 @@ import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
 import { Profile } from "unidata.js"
+import { ConnectButton } from "../common/ConnectButton"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -86,6 +87,7 @@ export const SiteHeader: React.FC<{
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}
           </div>
+          <ConnectButton />
         </div>
       </div>
     </header>

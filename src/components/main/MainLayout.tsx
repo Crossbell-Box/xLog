@@ -9,7 +9,7 @@ import {
 import { useStore } from "~/lib/store"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { ConnectButton } from "../common/ConnectButton"
 
 export function MainLayout({
   children,
@@ -28,7 +28,7 @@ export function MainLayout({
       <header className="py-10">
         <div className="max-w-screen-md px-5 mx-auto flex justify-between items-center">
           <h1 className="inline-block text-2xl font-extrabold">{APP_NAME}</h1>
-          <div className="space-x-5">
+          <div className="space-x-5 text-zinc-500">
             <ConnectButton />
           </div>
         </div>
