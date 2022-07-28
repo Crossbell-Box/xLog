@@ -84,8 +84,9 @@ export async function createOrUpdatePage(
         mime_type: 'text/markdown',
       }
     }),
-    tags: [input.isPost ? "post" : "page", ...(input.slug ? ["slug:" + input.slug] : [])],
+    tags: [input.isPost ? "post" : "page"],
     applications: ["Crosslog"],
+    ...(input.slug && {id: input.slug})
   })
 }
 
@@ -178,7 +179,7 @@ export async function getPagesBySite(
           }
         }
       }
-      page.slug = page.tags?.find((tag) => tag.startsWith("slug:"))?.replace(/^slug:/, "") || page.id
+      page.slug = page.id
       return page
     }))
   }
@@ -226,7 +227,7 @@ export async function getPage<TRender extends boolean = false>(
   let page;
   if (input.page) {
     page = pages?.list.find((item) => {
-      item.slug = item.tags?.find((tag) => tag.startsWith("slug:"))?.replace(/^slug:/, "") || item.id
+      item.slug = item.id
       return item.slug === input.page
     })
   } else {
@@ -252,7 +253,7 @@ export async function getPage<TRender extends boolean = false>(
           }
         }
       }
-      page.slug = page.tags?.find((tag) => tag.startsWith("slug:"))?.replace(/^slug:/, "") || page.id
+      page.slug = page.id
       return page
     }))
   }
