@@ -85,6 +85,7 @@ export async function createOrUpdatePage(
       }
     }),
     tags: [input.isPost ? "post" : "page", ...(input.slug ? ["slug:" + input.slug] : [])],
+    applications: ["Crosslog"],
   })
 }
 
