@@ -9,7 +9,7 @@ import { CopyIcon } from "../icons/CopyIcon"
 import { IS_PROD } from "~/lib/constants"
 import { OUR_DOMAIN } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -18,8 +18,12 @@ export const ConnectButton: React.FC<{
   const userSites = useGetUserSites(viewer?.address)
   const { disconnect } = useDisconnect()
 
-  const addressDisplay = viewer?.address?.slice(0, 5) + "..." + viewer?.address?.slice(-4)
-  const [copyLabel, setCopyLabel] = useState(addressDisplay)
+  const [copyLabel, setCopyLabel] = useState("")
+  useEffect(() => {
+    if (viewer?.address) {
+      setCopyLabel(viewer?.address?.slice(0, 5) + "..." + viewer?.address?.slice(-4))
+    }
+  }, [viewer?.address])
 
   const dropdownLinks: HeaderLinkType[] = [
     {
@@ -29,7 +33,7 @@ export const ConnectButton: React.FC<{
         navigator.clipboard.writeText(viewer?.address || "")
         setCopyLabel("Copied!")
         setTimeout(() => {
-          setCopyLabel(addressDisplay)
+          setCopyLabel(viewer?.address?.slice(0, 5) + "..." + viewer?.address?.slice(-4))
         }, 1000)
       },
     },
