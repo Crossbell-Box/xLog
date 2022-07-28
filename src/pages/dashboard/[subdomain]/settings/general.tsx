@@ -42,7 +42,7 @@ export default function SiteSettingsGeneralPage() {
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite, router])
+  }, [updateSite.isSuccess, updateSite.isError])
 
   useEffect(() => {
     if (site.data) {

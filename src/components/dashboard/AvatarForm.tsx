@@ -46,7 +46,7 @@ const AvatarEditorModal: React.FC<{
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite, setIsOpen])
+  }, [updateSite.isSuccess, updateSite.isError])
 
   return (
     <Dialog

@@ -87,14 +87,14 @@ export default function SubdomainEditor() {
   }
 
   useEffect(() => {
-    if (createOrUpdatePage.data) {
+    if (createOrUpdatePage.isSuccess) {
       if (createOrUpdatePage.data?.code === 0) {
         toast.success(values.published ? "Updated" : "Saved!")
       } else {
         toast.error("Error: " + createOrUpdatePage.data?.message)
       }
     }
-  }, [createOrUpdatePage.data, values.published])
+  }, [createOrUpdatePage.isSuccess])
 
   const handleDropFile = useCallback(
     async (file: File, view: EditorView) => {

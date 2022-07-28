@@ -42,7 +42,7 @@ export default function SettingsDomainsPage() {
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite, router])
+  }, [updateSite])
 
   useEffect(() => {
     if (site.isSuccess && site.data) {
