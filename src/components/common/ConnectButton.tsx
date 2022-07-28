@@ -72,7 +72,7 @@ export const ConnectButton: React.FC<{
             {(() => {
               if (!mounted || !account || !chain) {
                 return (
-                  <button className="text-indigo-600" onClick={openConnectModal} type="button">
+                  <button className="text-indigo-600" onClick={openConnectModal} type="button" style={{ height: "30px" }}>
                     Connect Wallet
                   </button>
                 );

@@ -19,5 +19,5 @@ export default function Dashboard() {
     }
   }, [userSites, router])
 
-  return <div>Loading...</div>
+  return <div className="flex items-center justify-center w-full h-60">Loading...</div>
 }

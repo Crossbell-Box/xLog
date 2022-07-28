@@ -72,6 +72,18 @@ body {
   @apply text-gray-500;
 }
 
+.button.is-rss3 {
+  background-color: #e7f1ff;
+  fill: #1064ff;
+  color: #1064ff;
+}
+
+.button.is-crossbell {
+  background-color: #fff5e1;
+  fill: #e5b65a;
+  color: #e5b65a;
+}
+
 .button.is-text {
   @apply shadow-none;
   @apply text-gray-500;

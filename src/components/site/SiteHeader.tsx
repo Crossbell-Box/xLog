@@ -13,6 +13,9 @@ import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
 import { Profile } from "unidata.js"
 import { ConnectButton } from "../common/ConnectButton"
+import { RSS3Icon } from "../icons/RSS3"
+import { CrossbellIcon } from "../icons/Crossbell"
+import { useAccount } from "wagmi"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -45,12 +48,12 @@ export const SiteHeader: React.FC<{
   icon: string | null | undefined
   navigation?: HeaderLinkType[]
   subscribed?: boolean
-  viewer?: Profile | null
-}> = ({ siteName, description, icon, navigation, subscribed, viewer }) => {
+}> = ({ siteName, description, icon, navigation, subscribed }) => {
   const setSubscribeModalOpened = useStore(
     (store) => store.setSubscribeModalOpened,
   )
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
+  const { data: viewer } = useAccount()
 
   const handleClickSubscribe = () => {
     setSubscribeModalOpened(true)
@@ -78,6 +81,36 @@ export const SiteHeader: React.FC<{
               {description && (
                 <div className="text-gray-500 text-sm">{description}</div>
               )}
+              <div className="mt-3 text-sm">
+                <Button
+                  rounded="full"
+                  size="sm"
+                  variant="rss3"
+                  onClick={() => window.open(`https://rss3.io/result?search=${viewer?.address}&filter=social`, '_blank')}
+                  className="space-x-1 mr-2"
+                >
+                  <span className="pl-1">
+                    <RSS3Icon />
+                  </span>
+                  <span className="pr-1">
+                    Watch on RSS3
+                  </span>
+                </Button>
+                <Button
+                  rounded="full"
+                  size="sm"
+                  variant="crossbell"
+                  onClick={() => window.open(`https://crossbell.io`, '_blank')}
+                  className="space-x-1"
+                >
+                  <span className="pl-1">
+                    <CrossbellIcon />
+                  </span>
+                  <span className="pr-1">
+                    Follow on Crossbell
+                  </span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
