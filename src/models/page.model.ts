@@ -85,8 +85,8 @@ export async function createOrUpdatePage(
       }
     }),
     tags: [input.isPost ? "post" : "page"],
-    applications: ["Crosslog"],
-    ...(input.slug && {_crosslog_slug: input.slug})
+    applications: ["xlog"],
+    ...(input.slug && {_xlog_slug: input.slug})
   })
 }
 
@@ -162,7 +162,7 @@ export async function getPagesBySite(
         pages.list = pages.list.filter(page => +new Date(page.date_published) > +new Date() && page.date_published !== new Date('9999-01-01').toISOString())
         break
     }
-    pages.list = pages.list.filter(page => page.applications?.includes("Crosslog")).filter(page => page.tags?.includes(input.type))
+    pages.list = pages.list.filter(page => page.applications?.includes("Crosslog") || page.applications?.includes("xlog")).filter(page => page.tags?.includes(input.type))
     pages.total = pages.list.length
 
     pages.list = await Promise.all(pages?.list.map(async (page) => {
@@ -179,7 +179,7 @@ export async function getPagesBySite(
           }
         }
       }
-      page.slug = page.metadata?.raw?._crosslog_slug || page.id
+      page.slug = page.metadata?.raw?._xlog_slug || page.metadata?.raw?._crosslog_slug || page.id
       return page
     }))
   }
@@ -227,7 +227,7 @@ export async function getPage<TRender extends boolean = false>(
   let page;
   if (input.page) {
     page = pages?.list.find((item) => {
-      item.slug = item.metadata?.raw?._crosslog_slug || item.id
+      item.slug = item.metadata?.raw?._xlog_slug || item.metadata?.raw?._crosslog_slug || item.id
       return item.slug === input.page
     })
   } else {
@@ -253,7 +253,7 @@ export async function getPage<TRender extends boolean = false>(
           }
         }
       }
-      page.slug = page.metadata?.raw?._crosslog_slug || page.id
+      page.slug = page.metadata?.raw?._xlog_slug || page.metadata?.raw?._crosslog_slug || page.id
       return page
     }))
   }

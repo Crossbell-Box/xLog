@@ -43,7 +43,7 @@ export default function Home({
               for Absolutely Everyone
             </h2>
             <h3 className="mt-5 text-zinc-500">
-              Meet Crosslog, the on-chain and open-source blogging platform for everyone.
+              Meet xlog, the on-chain and open-source blogging platform for everyone.
               <br />
               Permanently stored on-chain and signed by you.
             </h3>

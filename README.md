@@ -1,8 +1,8 @@
-# Crosslog
+# xlog
 
 > On-Chain Content Creating for Absolutely Everyone
 
-Meet Crosslog, the on-chain and open-source blogging platform for everyone. Permanently stored on-chain and signed by you.
+Meet xlog, the on-chain and open-source blogging platform for everyone. Permanently stored on-chain and signed by you.
 
 This project is developed based on [proselog](https://github.com/proselog/proselog)
 

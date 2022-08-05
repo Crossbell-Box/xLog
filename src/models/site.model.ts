@@ -74,8 +74,8 @@ export const getSite = async (input: string) => {
   });
 
   const site: Profile = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))?.[0]
-  site.navigation = site.metadata?.raw?.['_crosslog_navigation'] || [{ id: nanoid(), label: "Archives", url: "/archives" }]
-  site.css = site.metadata?.raw?.['_crosslog_css'] || ''
+  site.navigation = site.metadata?.raw?.['_xlog_navigation'] || site.metadata?.raw?.['_crosslog_navigation'] || [{ id: nanoid(), label: "Archives", url: "/archives" }]
+  site.css = site.metadata?.raw?.['_xlog_css'] || site.metadata?.raw?.['_crosslog_css'] || ''
   site.name = site.name || site.username
 
   return site
@@ -117,8 +117,8 @@ export async function updateSite(
     ...(payload.description && { bio: payload.description }),
     ...(payload.icon && { avatars: [payload.icon] }),
     ...(payload.subdomain && { username: payload.subdomain }),
-    ...(payload.navigation && { _crosslog_navigation: payload.navigation }),
-    ...(payload.css && { _crosslog_css: payload.css }),
+    ...(payload.navigation && { _xlog_navigation: payload.navigation }),
+    ...(payload.css && { _xlog_css: payload.css }),
   })
 }
 
