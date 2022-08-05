@@ -65,11 +65,13 @@ body {
   --shadow-color-button: theme("colors.indigo.700");
   @apply bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-700;
   @apply text-white;
+  @apply fill-indigo-500;
 }
 
 .button.is-secondary {
   @apply bg-gray-50 hover:bg-gray-100 focus:bg-gray-200;
   @apply text-gray-500;
+  @apply fill-gray-500;
 }
 
 .button.is-rss3 {

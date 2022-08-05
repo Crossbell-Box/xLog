@@ -17,6 +17,18 @@ export const useGetSite = (input: string) => {
   })
 }
 
+export const useGetSubscription = (data: {
+  userId: string
+  siteId: string
+}) => {
+  return useQuery(['getSubscription', data], async () => {
+    if (!data.userId || !data.siteId) {
+      return false
+    }
+    return siteModel.getSubscription(data)
+  })
+}
+
 export function useUpdateSite() {
   const queryClient = useQueryClient();
   const mutation = useMutation(async (
@@ -41,6 +53,28 @@ export function useCreateSite() {
   }, {
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries(['getUserSites', variables.address])
+    },
+  })
+}
+
+export function useSubscribeToSite() {
+  const queryClient = useQueryClient();
+  return useMutation(async (input: Parameters<typeof siteModel.subscribeToSite>[0]) => {
+    return siteModel.subscribeToSite(input)
+  }, {
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries(['getSubscription', variables])
+    },
+  })
+}
+
+export function useUnsubscribeFromSite() {
+  const queryClient = useQueryClient();
+  return useMutation(async (input: Parameters<typeof siteModel.subscribeToSite>[0]) => {
+    return siteModel.unsubscribeFromSite(input)
+  }, {
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries(['getSubscription', variables])
     },
   })
 }

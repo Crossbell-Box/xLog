@@ -11,7 +11,6 @@ import { useStore } from "~/lib/store"
 export type SiteLayoutProps = {
   site?: Profile
   viewer?: Profile | null
-  subscription?: { email?: boolean } | null
   children: React.ReactNode
   title?: string | null
   ogDescription?: string | null
@@ -20,7 +19,6 @@ export type SiteLayoutProps = {
 export const SiteLayout: React.FC<SiteLayoutProps> = ({
   site,
   viewer,
-  subscription,
   children,
   title,
   ogDescription,
@@ -49,7 +47,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         siteName={site?.name}
         description={site?.bio}
         icon={site?.avatars?.[0]}
-        subscribed={!!subscription}
+        site={site?.username}
       />
       <style>{ site?.css }</style>
       <div className={clsx(`max-w-screen-md mx-auto px-5 pb-12`, `pt-12`)}>

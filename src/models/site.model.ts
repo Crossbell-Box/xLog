@@ -85,18 +85,15 @@ export const getSubscription = async (data: {
   userId: string
   siteId: string
 }) => {
-  const membership = await getMembership({
-    ...data,
-    role: MembershipRole.SUBSCRIBER,
+  const links = await unidata.links.get({
+    source: 'Crossbell Link',
+    identity: data.userId,
+    platform: 'Ethereum',
+    filter: {
+      to: data.siteId
+    }
   })
-  if (!membership) return
-  const config = membership.config as any
-  return {
-    ...membership,
-    config: config && {
-      email: config.email,
-    },
-  }
+  return !!links?.list?.length
 }
 
 export async function updateSite(
@@ -148,85 +145,35 @@ export async function createSite(
 }
 
 export async function subscribeToSite(
-  gate: Gate,
   input: {
+    userId: string
     siteId: string
-    email?: boolean
-    newUser?: {
-      email: string
-      url: string
-    }
   },
 ) {
-  // const { newUser } = input
-  // if (newUser) {
-  //   // Create the login token instead
-  //   sendLoginEmail({
-  //     email: newUser.email,
-  //     url: newUser.url,
-  //     toSubscribeSiteId: input.siteId,
-  //   })
-  //   return
-  // }
-
-  // const user = gate.getUser(true)
-
-  // const site = await getSite(input.siteId)
-  // const subscription = await getSubscription({
-  //   userId: user.id,
-  //   siteId: site.id,
-  // })
-  // if (!subscription) {
-  //   await prismaPrimary.membership.create({
-  //     data: {
-  //       role: MembershipRole.SUBSCRIBER,
-  //       user: {
-  //         connect: {
-  //           id: user.id,
-  //         },
-  //       },
-  //       site: {
-  //         connect: {
-  //           id: site.id,
-  //         },
-  //       },
-  //       config: {
-  //         email: input.email,
-  //       },
-  //     },
-  //   })
-  // } else {
-  //   await prismaPrimary.membership.update({
-  //     where: {
-  //       id: subscription.id,
-  //     },
-  //     data: {
-  //       config: {
-  //         email: input.email,
-  //       },
-  //     },
-  //   })
-  // }
+  return unidata.links.set({
+    source: 'Crossbell Link',
+    identity: input.userId,
+    platform: 'Ethereum',
+    action: 'add',
+  }, {
+    to: input.siteId,
+    type: 'follow',
+  })
 }
 
 export async function unsubscribeFromSite(
-  gate: Gate,
-  input: { siteId: string },
+  input: {
+    userId: string
+    siteId: string
+  },
 ) {
-  const user = gate.getUser(true)
-
-  const subscription = await getSubscription({
-    userId: user.id,
-    siteId: input.siteId,
-  })
-
-  if (!subscription) {
-    throw new Error(`Subscription not found`)
-  }
-
-  await prismaPrimary.membership.delete({
-    where: {
-      id: subscription.id,
-    },
+  return unidata.links.set({
+    source: 'Crossbell Link',
+    identity: input.userId,
+    platform: 'Ethereum',
+    action: 'remove',
+  }, {
+    to: input.siteId,
+    type: 'follow',
   })
 }

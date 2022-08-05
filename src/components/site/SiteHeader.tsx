@@ -16,6 +16,10 @@ import { ConnectButton } from "../common/ConnectButton"
 import { RSS3Icon } from "../icons/RSS3"
 import { CrossbellIcon } from "../icons/Crossbell"
 import { useAccount } from "wagmi"
+import unidata from "~/lib/unidata"
+import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
+import { useGetSubscription, useSubscribeToSite, useUnsubscribeFromSite } from "~/queries/site"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -47,17 +51,32 @@ export const SiteHeader: React.FC<{
   description: string | undefined | null
   icon: string | null | undefined
   navigation?: HeaderLinkType[]
-  subscribed?: boolean
-}> = ({ siteName, description, icon, navigation, subscribed }) => {
-  const setSubscribeModalOpened = useStore(
-    (store) => store.setSubscribeModalOpened,
-  )
-  const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
+  site?: string | undefined
+}> = ({ siteName, description, icon, navigation, site }) => {
   const { data: viewer } = useAccount()
+  const subscribeToSite = useSubscribeToSite()
+  const unsubscribeFromSite = useUnsubscribeFromSite()
 
-  const handleClickSubscribe = () => {
-    setSubscribeModalOpened(true)
+  const handleClickSubscribe = async () => {
+    if (site && viewer?.address) {
+      if (subscription.data) {
+        unsubscribeFromSite.mutate({
+          userId: viewer.address,
+          siteId: site,
+        })
+      } else {
+        subscribeToSite.mutate({
+          userId: viewer.address,
+          siteId: site,
+        })
+      }
+    }
   }
+
+  const subscription = useGetSubscription({
+    userId: viewer?.address || '',
+    siteId: site || '',
+  })
 
   const leftLinks: HeaderLinkType[] = [
     { label: "Home", url: "/" },
@@ -82,34 +101,42 @@ export const SiteHeader: React.FC<{
                 <div className="text-gray-500 text-sm">{description}</div>
               )}
               <div className="mt-3 text-sm">
-                <Button
-                  rounded="full"
-                  size="sm"
-                  variant="rss3"
-                  onClick={() => window.open(`https://rss3.io/result?search=${viewer?.address}&filter=social`, '_blank')}
-                  className="space-x-1 mr-2"
-                >
-                  <span className="pl-1">
-                    <RSS3Icon />
-                  </span>
-                  <span className="pr-1">
-                    Watch on RSS3
-                  </span>
-                </Button>
-                <Button
-                  rounded="full"
-                  size="sm"
-                  variant="crossbell"
-                  onClick={() => window.open(`https://crossbell.io`, '_blank')}
-                  className="space-x-1"
-                >
-                  <span className="pl-1">
-                    <CrossbellIcon />
-                  </span>
-                  <span className="pr-1">
-                    Follow on Crossbell
-                  </span>
-                </Button>
+                {subscription.data ? 
+                  <Button
+                    rounded="full"
+                    size="sm"
+                    variant="secondary"
+                    onClick={handleClickSubscribe}
+                    className="space-x-1 group"
+                    isLoading={unsubscribeFromSite.isLoading || subscribeToSite.isLoading}
+                  >
+                    <span className="pl-1">
+                      <CrossbellIcon />
+                    </span>
+                    <span className="pr-1 group-hover:hidden">
+                      Following
+                    </span>
+                    <span className="pr-1 hidden group-hover:block">
+                      Unfollow
+                    </span>
+                  </Button> : 
+                  <Button
+                    rounded="full"
+                    size="sm"
+                    variant="crossbell"
+                    onClick={handleClickSubscribe}
+                    className="space-x-1"
+                    isLoading={unsubscribeFromSite.isLoading || subscribeToSite.isLoading || subscription.isLoading}
+                  >
+                    <span className="pl-1">
+                      <CrossbellIcon />
+                    </span>
+                    <span className="pr-1">
+                      Follow
+                    </span>
+                  </Button>
+                }
+                
               </div>
             </div>
           </div>
