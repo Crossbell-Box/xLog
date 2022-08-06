@@ -16,6 +16,35 @@ export const useGetPage = (input: Parameters<typeof pageModel.getPage>[0]) => {
   })
 }
 
+export const useGetLikes = (input: { pageId?: string }) => {
+  return useQuery(["getLikes", input.pageId], async () => {
+    if (!input.pageId) {
+      return {
+        count: 0,
+        list: [],
+      }
+    }
+    return pageModel.getLikes({
+      pageId: input.pageId,
+    })
+  })
+}
+
+export const useCheckLike = (input: { address?: string; pageId?: string }) => {
+  return useQuery(["checkLike", input.pageId, input.address], async () => {
+    if (!input.pageId || !input.address) {
+      return {
+        count: 0,
+        list: [],
+      }
+    }
+    return pageModel.checkLike({
+      address: input.address,
+      pageId: input.pageId,
+    })
+  })
+}
+
 export function useCreateOrUpdatePage() {
   const queryClient = useQueryClient()
   const mutation = useMutation(
@@ -42,6 +71,44 @@ export function useDeletePage() {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["getPagesBySite", variables.site])
         queryClient.invalidateQueries(["getPage", variables.id])
+      },
+    },
+  )
+}
+
+export function useLikePage() {
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof pageModel.likePage>[0]) => {
+      return pageModel.likePage(input)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "checkLike",
+          variables.pageId,
+          variables.address,
+        ])
+        queryClient.invalidateQueries(["getLikes", variables.pageId])
+      },
+    },
+  )
+}
+
+export function useUnlikePage() {
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof pageModel.unlikePage>[0]) => {
+      return pageModel.unlikePage(input)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "checkLike",
+          variables.pageId,
+          variables.address,
+        ])
+        queryClient.invalidateQueries(["getLikes", variables.pageId])
       },
     },
   )

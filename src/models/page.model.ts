@@ -13,6 +13,7 @@ import { PageVisibilityEnum, Notes } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
 import { stripHTML } from "~/lib/utils"
 import unidata from "~/lib/unidata"
+import { indexer, contract } from "~/lib/crossbell"
 
 const checkPageSlug = async ({
   slug,
@@ -91,31 +92,6 @@ export async function createOrUpdatePage(input: {
       ...(input.slug && { _xlog_slug: input.slug }),
     },
   )
-}
-
-export async function scheduleEmailForPost(
-  gate: Gate,
-  input: { pageId: string; emailSubject?: string },
-) {
-  // const page = await getPage(gate, { page: input.pageId })
-  // if (!gate.allows({ type: "can-update-page", siteId: page.siteId })) {
-  //   throw gate.permissionError()
-  // }
-  // if (page.emailStatus) {
-  //   throw new Error("Email already scheduled or sent")
-  // }
-  // await prismaPrimary.page.update({
-  //   where: {
-  //     id: page.id,
-  //   },
-  //   data: {
-  //     emailStatus: "PENDING",
-  //     emailSubject: input.emailSubject,
-  //   },
-  // })
-  // await notifySubscribersForNewPost(gate, {
-  //   pageId: page.id,
-  // })
 }
 
 export async function getPagesBySite(input: {
@@ -313,69 +289,77 @@ export async function getPage<TRender extends boolean = false>(input: {
   return page
 }
 
-export const notifySubscribersForNewPost = async (
-  gate: Gate,
-  input: {
-    pageId: string
-  },
-) => {
-  // const page = await getPage(gate, { page: input.pageId, render: true })
-  // const site = await getSite(page.siteId)
-  // if (page.emailStatus !== PageEmailStatus.PENDING) {
-  //   return
-  // }
-  // if (!page.published || page.publishedAt > new Date()) {
-  //   return
-  // }
-  // if (page.type === "PAGE") {
-  //   throw new Error("You can only notify subscribers for post updates")
-  // }
-  // if (!gate.allows({ type: "can-notify-site-subscribers", site })) {
-  //   throw gate.permissionError()
-  // }
-  // await prismaPrimary.page.update({
-  //   where: {
-  //     id: page.id,
-  //   },
-  //   data: {
-  //     emailStatus: PageEmailStatus.RUNNING,
-  //   },
-  // })
-  // const memberships = await prismaPrimary.membership.findMany({
-  //   where: {
-  //     role: MembershipRole.SUBSCRIBER,
-  //     siteId: site.id,
-  //   },
-  //   include: {
-  //     user: true,
-  //   },
-  // })
-  // const emailSubscribers = memberships
-  //   .filter((member) => (member.config as any).email)
-  //   .map((member) => member.user)
-  // try {
-  //   await sendEmailForNewPost({
-  //     post: page,
-  //     site,
-  //     subscribers: emailSubscribers,
-  //   })
-  //   await prismaPrimary.page.update({
-  //     where: {
-  //       id: page.id,
-  //     },
-  //     data: {
-  //       emailStatus: PageEmailStatus.SUCCESS,
-  //     },
-  //   })
-  // } catch (error) {
-  //   await prismaPrimary.page.update({
-  //     where: {
-  //       id: page.id,
-  //     },
-  //     data: {
-  //       emailStatus: PageEmailStatus.FAILED,
-  //     },
-  //   })
-  //   console.error("failed to send email", error)
-  // }
+async function getPrimaryCharacter(address: string) {
+  const character = await indexer.getPrimaryCharacter(address)
+  return character?.characterId
+}
+
+export async function likePage({
+  address,
+  pageId,
+}: {
+  address: string
+  pageId: string
+}) {
+  const characterId = await getPrimaryCharacter(address)
+  if (!characterId) {
+    throw notFound(`character not found`)
+  } else {
+    return contract?.linkNote(
+      characterId,
+      pageId.split("-")[0],
+      pageId.split("-")[1],
+      "like",
+    )
+  }
+}
+
+export async function unlikePage({
+  address,
+  pageId,
+}: {
+  address: string
+  pageId: string
+}) {
+  const characterId = await getPrimaryCharacter(address)
+  if (!characterId) {
+    throw notFound(`character not found`)
+  } else {
+    return contract?.unlinkNote(
+      characterId,
+      pageId.split("-")[0],
+      pageId.split("-")[1],
+      "like",
+    )
+  }
+}
+
+export async function getLikes({ pageId }: { pageId: string }) {
+  return indexer.getBacklinksOfNote(
+    pageId.split("-")[0],
+    pageId.split("-")[1],
+    {
+      linkType: "like",
+      limit: 0,
+    },
+  )
+}
+
+export async function checkLike({
+  address,
+  pageId,
+}: {
+  address: string
+  pageId: string
+}) {
+  const characterId = await getPrimaryCharacter(address)
+  if (!characterId) {
+    throw notFound(`character not found`)
+  } else {
+    return indexer.getLinks(characterId, {
+      linkType: "like",
+      toCharacterId: pageId.split("-")[0],
+      toNoteId: pageId.split("-")[1],
+    })
+  }
 }

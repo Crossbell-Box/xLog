@@ -88,17 +88,13 @@ export const SiteHeader: React.FC<{
   })
 
   useEffect(() => {
-    if (
-      followProgress &&
-      address &&
-      subscription.isSuccess &&
-      !subscription.data &&
-      site?.username
-    ) {
-      subscribeToSite.mutate({
-        userId: address,
-        siteId: site.username,
-      })
+    if (followProgress && address && subscription.isSuccess && site?.username) {
+      if (!subscription.data) {
+        subscribeToSite.mutate({
+          userId: address,
+          siteId: site.username,
+        })
+      }
       setFollowProgress(false)
     }
   }, [

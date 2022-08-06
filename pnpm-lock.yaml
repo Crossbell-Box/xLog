@@ -46,6 +46,7 @@ specifiers:
   clsx: ^1.1.1
   cookie: ^0.5.0
   cross-spawn: ^7.0.3
+  crossbell.js: ^0.10.13
   dayjs: ^1.11.1
   dotenv: ^16.0.0
   esbuild: ^0.14.39
@@ -123,6 +124,7 @@ dependencies:
   busboy: 1.6.0
   clsx: 1.1.1
   cookie: 0.5.0
+  crossbell.js: 0.10.13
   dayjs: 1.11.3
   dotenv: 16.0.1
   ethers: 5.6.9
@@ -3143,6 +3145,23 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crossbell.js/0.10.13:
+    resolution: {integrity: sha512-D+uc+oP6P4sr1MOTFCZDjjrNzMEYCUytGSVAo6D0TcCiVVPqNoaaAJhzGILosmXUHlLZxbqam9zk/zfEJ0PrHg==}
+    dependencies:
+      async-retry: 1.3.3
+      ethers: 5.6.9
+      fetch-undici: 3.0.1
+      is-ipfs: 6.0.2
+      query-string: 7.1.1
+      ts-mixer: 6.0.1
+      web3-providers-ws: 1.7.4
+    transitivePeerDependencies:
+      - bufferutil
+      - node-fetch
+      - supports-color
+      - utf-8-validate
+    dev: false
 
   /crossbell.js/0.10.2:
     resolution: {integrity: sha512-FtoxTeinXcFjLbB5ya/NwyJX3d0VNbeOlj0fCNCpdiOf7+bibQWMkjdhnKpIieDYqt6i2dNfMbeygxhIHLWZkw==}
