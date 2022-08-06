@@ -57,9 +57,14 @@ export const SiteHeader: React.FC<{
   const { address } = useAccount()
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
+  const { openConnectModal } = useConnectModal()
+  const [followProgress, setFollowProgress] = useState<boolean>(false)
 
   const handleClickSubscribe = async () => {
-    if (site && address) {
+    if (!address) {
+      setFollowProgress(true)
+      openConnectModal?.()
+    } else if (site) {
       if (subscription.data) {
         unsubscribeFromSite.mutate({
           userId: address,
@@ -78,6 +83,16 @@ export const SiteHeader: React.FC<{
     userId: address || '',
     siteId: site || '',
   })
+
+  useEffect(() => {
+    if (followProgress && address && subscription.isSuccess && !subscription.data && site) {
+      subscribeToSite.mutate({
+        userId: address,
+        siteId: site,
+      })
+      setFollowProgress(false)
+    }
+  }, [followProgress, address, subscription.isSuccess, subscription.data, site, subscribeToSite])
 
   const leftLinks: HeaderLinkType[] = [
     { label: "Home", url: "/" },
