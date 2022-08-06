@@ -18,9 +18,11 @@ const AvatarEditorModal: React.FC<{
 }> = ({ isOpen, setIsOpen, image, site, uploadFile }) => {
   const editorRef = useRef<ReactAvatarEditor | null>(null)
   const updateSite = useUpdateSite()
+  const [uploadFileProgress, setUploadFileProgress] = useState(false)
 
   const useCropAndSave = async () => {
     let key
+    setUploadFileProgress(true)
     // Get cropped image
     if (editorRef.current) {
       const fromCanvas = editorRef.current?.getImage()
@@ -37,6 +39,7 @@ const AvatarEditorModal: React.FC<{
 
     // Save the image to profile / site
     updateSite.mutate({ site, icon: key })
+    setUploadFileProgress(false)
   }
 
   useEffect(() => {
@@ -77,7 +80,7 @@ const AvatarEditorModal: React.FC<{
             <Button
               isBlock
               onClick={useCropAndSave}
-              isLoading={updateSite.isLoading}
+              isLoading={uploadFileProgress || updateSite.isLoading}
             >
               Crop and Save
             </Button>
