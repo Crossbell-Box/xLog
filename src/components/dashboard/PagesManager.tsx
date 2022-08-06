@@ -12,6 +12,7 @@ import toast from "react-hot-toast"
 import { EmptyState } from "../ui/EmptyState"
 import type { Note } from "unidata.js"
 import { useGetPagesBySite, useDeletePage } from "~/queries/page"
+import { MoreIcon } from "~/components/icons/MoreIcon"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -205,14 +206,7 @@ export const PagesManager: React.FC<{
                               e.stopPropagation()
                             }}
                           >
-                            <svg
-                              className="w-5 h-5"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                            </svg>
+                            <MoreIcon className="w-5 h-5" />
                           </button>
                         </Menu.Button>
                         <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64">

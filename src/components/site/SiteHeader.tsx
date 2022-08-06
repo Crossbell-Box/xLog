@@ -13,14 +13,17 @@ import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
 import { Profile } from "unidata.js"
 import { ConnectButton } from "../common/ConnectButton"
-import { RSS3Icon } from "../icons/RSS3"
-import { CrossbellIcon } from "../icons/Crossbell"
 import { useAccount } from "wagmi"
 import unidata from "~/lib/unidata"
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { useGetSubscription, useSubscribeToSite, useUnsubscribeFromSite } from "~/queries/site"
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { Menu } from "@headlessui/react"
+import { MoreIcon } from "~/components/icons/MoreIcon"
+import { RSS3Icon } from "~/components/icons/RSS3Icon"
+import { CrossbellIcon } from "~/components/icons/CrossbellIcon"
+import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -59,6 +62,7 @@ export const SiteHeader: React.FC<{
   const unsubscribeFromSite = useUnsubscribeFromSite()
   const { openConnectModal } = useConnectModal()
   const [followProgress, setFollowProgress] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleClickSubscribe = async () => {
     if (!address) {
@@ -99,6 +103,24 @@ export const SiteHeader: React.FC<{
     ...(navigation || []),
   ]
 
+  const moreMenuItems = [
+    {
+      text: "View on Crossbell.io",
+      icon: <CrossbellIcon />,
+      url: `https://crossbell.kindjeff.com/@${site}`,
+    },
+    {
+      text: "View on RSS3",
+      icon: <RSS3Icon />,
+      url: `https://rss3.io/result?search=${address}`,
+    },
+    {
+      text: "View on blockchain explorer",
+      icon: <BlockchainIcon />,
+      url: `https://scan.crossbell.io/address/${address}/transactions`,
+    },
+  ]
+
   return (
     <header className="border-b">
       <div className="px-5 max-w-screen-md mx-auto">
@@ -123,16 +145,16 @@ export const SiteHeader: React.FC<{
                     size="sm"
                     variant="secondary"
                     onClick={handleClickSubscribe}
-                    className="space-x-1 group"
+                    className="space-x-1 group align-middle mr-2"
                     isLoading={unsubscribeFromSite.isLoading || subscribeToSite.isLoading}
                   >
                     <span className="pl-1">
                       <CrossbellIcon />
                     </span>
-                    <span className="pr-1 group-hover:hidden">
+                    <span className="pr-1 group-hover:hidden w-16">
                       Following
                     </span>
-                    <span className="pr-1 hidden group-hover:block">
+                    <span className="pr-1 hidden group-hover:block w-16">
                       Unfollow
                     </span>
                   </Button> : 
@@ -141,7 +163,7 @@ export const SiteHeader: React.FC<{
                     size="sm"
                     variant="crossbell"
                     onClick={handleClickSubscribe}
-                    className="space-x-1"
+                    className="space-x-1 align-middle"
                     isLoading={unsubscribeFromSite.isLoading || subscribeToSite.isLoading || subscription.isLoading}
                   >
                     <span className="pl-1">
@@ -152,7 +174,40 @@ export const SiteHeader: React.FC<{
                     </span>
                   </Button>
                 }
-                
+                <div className="relative inline-block align-middle h-7">
+                  <Menu>
+                    {() => (
+                      <>
+                        <Menu.Button as={Fragment}>
+                          <Button
+                            rounded="full"
+                            size="sm"
+                            variant="secondary"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                            }}
+                          >
+                            <MoreIcon className="w-5 h-5" />
+                          </Button>
+                        </Menu.Button>
+                        <Menu.Items className="text-sm absolute z-20 left-0 top-8 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-60 text-gray-500">
+                          {moreMenuItems.map((item) => {
+                            return (
+                              <UniLink
+                                key={item.text}
+                                href={item.url}
+                                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
+                              >
+                                <span className="fill-gray-500">{item.icon}</span>
+                                <span>{item.text}</span>
+                              </UniLink>
+                            )
+                          })}
+                        </Menu.Items>
+                      </>
+                    )}
+                  </Menu>
+                </div>
               </div>
             </div>
           </div>
