@@ -11,7 +11,7 @@ import { DashboardIcon } from "../icons/DashboardIcon"
 import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
-import { Profile } from "unidata.js"
+import { Profile } from "~/lib/types"
 import { ConnectButton } from "../common/ConnectButton"
 import { useAccount } from "wagmi"
 import unidata from "~/lib/unidata"
@@ -51,33 +51,28 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
 }
 
 export const SiteHeader: React.FC<{
-  siteName: string | undefined
-  description: string | undefined | null
-  icon: string | null | undefined
-  navigation?: HeaderLinkType[]
-  site?: string | undefined
-}> = ({ siteName, description, icon, navigation, site }) => {
+  site?: Profile | undefined
+}> = ({ site }) => {
   const { address } = useAccount()
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
   const { openConnectModal } = useConnectModal()
   const [followProgress, setFollowProgress] = useState<boolean>(false)
-  const router = useRouter()
 
   const handleClickSubscribe = async () => {
     if (!address) {
       setFollowProgress(true)
       openConnectModal?.()
-    } else if (site) {
+    } else if (site?.username) {
       if (subscription.data) {
         unsubscribeFromSite.mutate({
           userId: address,
-          siteId: site,
+          siteId: site.username,
         })
       } else {
         subscribeToSite.mutate({
           userId: address,
-          siteId: site,
+          siteId: site.username,
         })
       }
     }
@@ -85,39 +80,39 @@ export const SiteHeader: React.FC<{
 
   const subscription = useGetSubscription({
     userId: address || '',
-    siteId: site || '',
+    siteId: site?.username || '',
   })
 
   useEffect(() => {
-    if (followProgress && address && subscription.isSuccess && !subscription.data && site) {
+    if (followProgress && address && subscription.isSuccess && !subscription.data && site?.username) {
       subscribeToSite.mutate({
         userId: address,
-        siteId: site,
+        siteId: site.username,
       })
       setFollowProgress(false)
     }
-  }, [followProgress, address, subscription.isSuccess, subscription.data, site, subscribeToSite])
+  }, [followProgress, address, subscription.isSuccess, subscription.data, site?.username, subscribeToSite])
 
   const leftLinks: HeaderLinkType[] = [
     { label: "Home", url: "/" },
-    ...(navigation || []),
+    ...(site?.navigation || []),
   ]
 
   const moreMenuItems = [
     {
       text: "View on Crossbell.io",
       icon: <CrossbellIcon />,
-      url: `https://crossbell.kindjeff.com/@${site}`,
+      url: `https://crossbell.kindjeff.com/@${site?.username}`,
     },
     {
       text: "View on RSS3",
       icon: <RSS3Icon />,
-      url: `https://rss3.io/result?search=${address}`,
+      url: `https://rss3.io/result?search=${site?.metadata?.owner}`,
     },
     {
       text: "View on blockchain explorer",
       icon: <BlockchainIcon />,
-      url: `https://scan.crossbell.io/address/${address}/transactions`,
+      url: `https://scan.crossbell.io/address/${site?.metadata?.owner}/transactions`,
     },
   ]
 
@@ -126,17 +121,17 @@ export const SiteHeader: React.FC<{
       <div className="px-5 max-w-screen-md mx-auto">
         <div className="flex py-10">
           <div className="flex space-x-6 items-center">
-            {icon && (
+            {site?.avatars?.[0] && (
               <Avatar
-                images={[getUserContentsUrl(icon)]}
+                images={[getUserContentsUrl(site?.avatars?.[0])]}
                 size={100}
-                name={siteName}
+                name={site?.name}
               />
             )}
             <div>
-              <div className="text-2xl font-bold">{siteName}</div>
-              {description && (
-                <div className="text-gray-500 text-sm">{description}</div>
+              <div className="text-2xl font-bold">{site?.name}</div>
+              {site?.bio && (
+                <div className="text-gray-500 text-sm">{site?.bio}</div>
               )}
               <div className="mt-3 text-sm">
                 {subscription.data ? 

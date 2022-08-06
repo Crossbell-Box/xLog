@@ -9,15 +9,6 @@ export const SiteFooter: React.FC<{
   site?: Profile
   page?: Note
 }> = ({ site, page }) => {
-  const { address } = useAccount()
-
-  const [addressIn, setAddressIn] = useState("")
-  useEffect(() => {
-    if (address) {
-      setAddressIn(address)
-    }
-  }, [address])
-
   return (
     <footer className="text-zinc-500 border-t">
       <div className="max-w-screen-md mx-auto px-5 py-10 text-xs">
@@ -48,7 +39,7 @@ export const SiteFooter: React.FC<{
           <li className="mt-2">
             <div className="font-bold">Author Address</div>
             <div>
-              <a target="_blank" rel="noreferrer" className="inline-block mr-4 break-all" href={`https://scan.crossbell.io/address/${addressIn}`} key={addressIn}>{addressIn}</a>
+              <a target="_blank" rel="noreferrer" className="inline-block mr-4 break-all" href={`https://scan.crossbell.io/address/${site?.metadata?.owner}`} key={site?.metadata?.owner}>{site?.metadata?.owner}</a>
             </div>
           </li>
         </ul>

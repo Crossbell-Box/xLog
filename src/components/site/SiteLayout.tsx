@@ -45,11 +45,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         image={getUserContentsUrl(site?.avatars?.[0])}
       />
       <SiteHeader
-        navigation={site?.navigation || []}
-        siteName={site?.name}
-        description={site?.bio}
-        icon={site?.avatars?.[0]}
-        site={site?.username}
+        site={site}
       />
       <style>{ site?.css }</style>
       <div className={clsx(`max-w-screen-md mx-auto px-5 pb-12`, `pt-12`)}>
