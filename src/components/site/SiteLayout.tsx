@@ -2,7 +2,7 @@ import clsx from "clsx"
 import React, { useEffect } from "react"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { SEOHead } from "../common/SEOHead"
-import { SiteNavigationItem, Viewer, Profile } from "~/lib/types"
+import { SiteNavigationItem, Viewer, Profile, Note } from "~/lib/types"
 import { SiteFooter } from "./SiteFooter"
 import { SiteHeader } from "./SiteHeader"
 import { useRouter } from "next/router"
@@ -14,6 +14,7 @@ export type SiteLayoutProps = {
   children: React.ReactNode
   title?: string | null
   ogDescription?: string | null
+  page?: Note
 }
 
 export const SiteLayout: React.FC<SiteLayoutProps> = ({
@@ -22,6 +23,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   children,
   title,
   ogDescription,
+  page,
 }) => {
   const router = useRouter()
   const setSubscribeModalOpened = useStore(
@@ -37,7 +39,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   return (
     <>
       <SEOHead
-        title={title || ""}
+        title={title || page?.title || ""}
         siteName={site?.name || ""}
         description={ogDescription ?? site?.bio}
         image={getUserContentsUrl(site?.avatars?.[0])}
@@ -53,7 +55,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
       <div className={clsx(`max-w-screen-md mx-auto px-5 pb-12`, `pt-12`)}>
         {children}
       </div>
-      <SiteFooter site={site} />
+      <SiteFooter site={site} page={page} />
     </>
   )
 }

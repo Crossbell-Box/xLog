@@ -145,7 +145,7 @@ export const SiteHeader: React.FC<{
                     size="sm"
                     variant="secondary"
                     onClick={handleClickSubscribe}
-                    className="space-x-1 group align-middle mr-2"
+                    className="space-x-1 group align-middle"
                     isLoading={unsubscribeFromSite.isLoading || subscribeToSite.isLoading}
                   >
                     <span className="pl-1">
@@ -183,6 +183,7 @@ export const SiteHeader: React.FC<{
                             rounded="full"
                             size="sm"
                             variant="secondary"
+                            className="ml-2"
                             onClick={(e) => {
                               e.stopPropagation()
                             }}

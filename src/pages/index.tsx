@@ -45,7 +45,7 @@ export default function Home({
             <h3 className="mt-5 text-zinc-500">
               Meet xlog, the on-chain and open-source blogging platform for everyone.
               <br />
-              Permanently stored on-chain and signed by you.
+              Permanently stored on the blockchain and signed by you.
             </h3>
             <div className="mt-10">
               {addressIn ? (

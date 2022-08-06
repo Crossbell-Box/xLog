@@ -63,8 +63,8 @@ function SitePagePage({
   return (
     <SiteLayout
       site={site.data}
-      title={page.data?.title}
       ogDescription={ogDescription}
+      page={page.data}
     >
       <SitePage site={site.data} page={page.data} />
     </SiteLayout>
