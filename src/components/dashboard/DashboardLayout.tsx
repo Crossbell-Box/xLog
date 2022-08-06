@@ -10,7 +10,7 @@ import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
 import { SiteSwitcher } from "./SiteSwitcher"
 import { useGetUserSites } from "~/queries/site"
-import { useAccount } from 'wagmi'
+import { useAccount } from "wagmi"
 import { ConnectButton } from "~/components/common/ConnectButton"
 
 export function DashboardLayout({
@@ -25,7 +25,7 @@ export function DashboardLayout({
 
   const { address } = useAccount()
 
-  const userSite = useGetUserSites(address);
+  const userSite = useGetUserSites(address)
 
   useEffect(() => {
     if (!address) {

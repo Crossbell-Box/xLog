@@ -41,7 +41,7 @@ const findUserFromToken = async (token: string) => {
 
 export const getAuthUser = async <TRequireAuth extends boolean | undefined>(
   request: IncomingMessage,
-  requireAuth?: TRequireAuth
+  requireAuth?: TRequireAuth,
 ) => {
   const token = getAuthTokenFromRequest(request)
 
@@ -80,18 +80,18 @@ export const getAuthCookieOptions = ({
 export const generateCookie = (
   options:
     | { type: "clear"; domain?: string }
-    | { type: "auth"; token: string; domain?: string }
+    | { type: "auth"; token: string; domain?: string },
 ) => {
   if (options.type === "clear") {
     return Cookie.serialize(
       AUTH_COOKIE_NAME,
       "",
-      getAuthCookieOptions({ domain: options.domain, clearCookie: true })
+      getAuthCookieOptions({ domain: options.domain, clearCookie: true }),
     )
   }
   return Cookie.serialize(
     AUTH_COOKIE_NAME,
     options.token,
-    getAuthCookieOptions({ domain: options.domain })
+    getAuthCookieOptions({ domain: options.domain }),
   )
 }

@@ -44,10 +44,8 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         description={ogDescription ?? site?.bio}
         image={getUserContentsUrl(site?.avatars?.[0])}
       />
-      <SiteHeader
-        site={site}
-      />
-      <style>{ site?.css }</style>
+      <SiteHeader site={site} />
+      <style>{site?.css}</style>
       <div className={clsx(`max-w-screen-md mx-auto px-5 pb-12`, `pt-12`)}>
         {children}
       </div>

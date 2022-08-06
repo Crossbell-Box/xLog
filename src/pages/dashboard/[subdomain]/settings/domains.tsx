@@ -34,7 +34,7 @@ export default function SettingsDomainsPage() {
       if (updateSite.data?.code === 0) {
         toast.success("Saved!")
         router.replace(
-          `/dashboard/${updateSite.variables?.subdomain}/settings/domains`
+          `/dashboard/${updateSite.variables?.subdomain}/settings/domains`,
         )
       } else {
         toast.error("Failed to update site" + ": " + updateSite.data.message)

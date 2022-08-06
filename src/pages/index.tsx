@@ -6,7 +6,7 @@ import { UniLink } from "~/components/ui/UniLink"
 import { getAuthUser } from "~/lib/auth.server"
 import { FLY_REGION } from "~/lib/env.server"
 import { useStore } from "~/lib/store"
-import { useAccount } from 'wagmi'
+import { useAccount } from "wagmi"
 import { ConnectButton } from "~/components/common/ConnectButton"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -17,19 +17,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-export default function Home({
-  region,
-}: {
-  region: string | null
-}) {
+export default function Home({ region }: { region: string | null }) {
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
-  const [addressIn, setAddressIn] = useState<string>('')
+  const [addressIn, setAddressIn] = useState<string>("")
   const { address } = useAccount()
 
   useEffect(() => {
     console.log("-> region", region)
 
-    setAddressIn(address || '')
+    setAddressIn(address || "")
   }, [region, address])
 
   return (
@@ -43,7 +39,8 @@ export default function Home({
               for Absolutely Everyone
             </h2>
             <h3 className="mt-5 text-zinc-500">
-              Meet xlog, the on-chain and open-source blogging platform for everyone.
+              Meet xlog, the on-chain and open-source blogging platform for
+              everyone.
               <br />
               Permanently stored on the blockchain and signed by you.
             </h3>

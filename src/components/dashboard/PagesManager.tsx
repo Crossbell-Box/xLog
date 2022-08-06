@@ -25,7 +25,7 @@ export const PagesManager: React.FC<{
       router.query.visibility
         ? (router.query.visibility as PageVisibilityEnum)
         : PageVisibilityEnum.All,
-    [router.query.visibility]
+    [router.query.visibility],
   )
 
   const deletePage = useDeletePage()
@@ -128,7 +128,7 @@ export const PagesManager: React.FC<{
         onClick() {
           deletePage.mutate({
             site: subdomain,
-            id: page.id
+            id: page.id,
           })
         },
       },
@@ -146,11 +146,11 @@ export const PagesManager: React.FC<{
           className={clsx(
             `space-x-2 px-3 h-9 inline-flex items-center justify-center text-white rounded-lg text-sm`,
 
-            isPost ? `bg-pink-500` : `bg-blue-500`
+            isPost ? `bg-pink-500` : `bg-blue-500`,
           )}
           onClick={() =>
             router.push(
-              `/dashboard/${subdomain}/editor?type=${isPost ? "post" : "page"}`
+              `/dashboard/${subdomain}/editor?type=${isPost ? "post" : "page"}`,
             )
           }
         >
@@ -182,14 +182,18 @@ export const PagesManager: React.FC<{
               <a className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex justify-between">
                 <div>
                   <div className="flex items-center">
-                    <span>{page.title || 'Untitled'}</span>
+                    <span>{page.title || "Untitled"}</span>
                   </div>
                   <div className="text-zinc-400 text-xs mt-1">
                     <span className="capitalize">
                       {getPageVisibility(page).toLowerCase()}
                     </span>
                     <span className="mx-2">·</span>
-                    <span>{getPageVisibility(page) === PageVisibilityEnum.Draft ? formatDate(page.date_updated) : formatDate(page.date_published)}</span>
+                    <span>
+                      {getPageVisibility(page) === PageVisibilityEnum.Draft
+                        ? formatDate(page.date_updated)
+                        : formatDate(page.date_published)}
+                    </span>
                   </div>
                 </div>
                 <div className="w-10 flex-shrink-0">
@@ -200,7 +204,7 @@ export const PagesManager: React.FC<{
                           <button
                             className={clsx(
                               `text-gray-400 relative z-50 w-8 h-8 rounded inline-flex invisible group-hover:visible justify-center items-center`,
-                              open ? `bg-gray-200` : `hover:bg-gray-200`
+                              open ? `bg-gray-200` : `hover:bg-gray-200`,
                             )}
                             onClick={(e) => {
                               e.stopPropagation()

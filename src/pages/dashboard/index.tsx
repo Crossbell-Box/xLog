@@ -1,8 +1,8 @@
 import { redirect } from "~/lib/server-side-props"
 import { useGetUserSites } from "~/queries/site"
-import { useAccount } from 'wagmi'
+import { useAccount } from "wagmi"
 import { useEffect } from "react"
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 
 export default function Dashboard() {
   const { address } = useAccount()
@@ -19,5 +19,9 @@ export default function Dashboard() {
     }
   }, [userSites, router])
 
-  return <div className="flex items-center justify-center w-full h-60">Loading...</div>
+  return (
+    <div className="flex items-center justify-center w-full h-60">
+      Loading...
+    </div>
+  )
 }

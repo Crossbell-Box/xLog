@@ -5,7 +5,7 @@ import { PostMeta } from "./PostMeta"
 import { Profile, Note } from "~/lib/types"
 
 export const SitePage: React.FC<{
-  site?: Profile,
+  site?: Profile
   page?: Note
 }> = ({ site, page }) => {
   return (
@@ -19,18 +19,19 @@ export const SitePage: React.FC<{
         {page?.tags?.includes("post") && (
           <PostMeta
             publishedAt={page.date_published}
-            authors={[{
-              id: site?.username || "",
-              name: site?.name || "",
-              avatar: site?.avatars?.[0] || null,
-            }] || []}
+            authors={
+              [
+                {
+                  id: site?.username || "",
+                  name: site?.name || "",
+                  avatar: site?.avatars?.[0] || null,
+                },
+              ] || []
+            }
           />
         )}
       </div>
-      <PageContent
-        contentHTML={page?.body?.content || ""}
-        className="my-10"
-      />
+      <PageContent contentHTML={page?.body?.content || ""} className="my-10" />
     </>
   )
 }

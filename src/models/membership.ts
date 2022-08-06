@@ -44,7 +44,7 @@ export const getMemberships = async ({
 
 export const updateMembership = async (
   membershipId: string,
-  input: { lastSwitchedTo?: Date }
+  input: { lastSwitchedTo?: Date },
 ) => {
   await prismaPrimary.membership.update({
     where: {

@@ -10,7 +10,7 @@ import { Viewer, Profile, Note } from "~/lib/types"
 import { queryClientServer } from "~/lib/query-client.server"
 import { prefetchGetSite } from "~/queries/site.server"
 import { useGetSite } from "~/queries/site"
-import { dehydrate, QueryClient } from '@tanstack/react-query'
+import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { fetchGetPage } from "~/queries/page.server"
 import { useGetPage } from "~/queries/page"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
     const domainOrSubdomain = ctx.params!.site as string
     const pageSlug = ctx.params!.page as string
-    
+
     await prefetchGetSite(domainOrSubdomain)
     const page = await fetchGetPage({
       site: domainOrSubdomain,
@@ -61,11 +61,7 @@ function SitePagePage({
   const site = useGetSite(domainOrSubdomain)
 
   return (
-    <SiteLayout
-      site={site.data}
-      ogDescription={ogDescription}
-      page={page.data}
-    >
+    <SiteLayout site={site.data} ogDescription={ogDescription} page={page.data}>
       <SitePage site={site.data} page={page.data} />
     </SiteLayout>
   )

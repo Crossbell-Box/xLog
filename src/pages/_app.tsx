@@ -2,62 +2,60 @@ import { Toaster } from "react-hot-toast"
 import "~/css/main.css"
 import "~/generated/uno.css"
 import { StoreProvider, createStore } from "~/lib/store"
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit"
+import { configureChains, createClient, WagmiConfig } from "wagmi"
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
 import {
-  getDefaultWallets,
-  RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
-import {
-  configureChains,
-  createClient,
-  WagmiConfig,
-} from 'wagmi'
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
-import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
-import { createIDBPersister } from '~/lib/persister.client'
-import { connectorsForWallets, wallet } from '@rainbow-me/rainbowkit'
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
+import { createIDBPersister } from "~/lib/persister.client"
+import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit"
 
-import '@rainbow-me/rainbowkit/styles.css'
+import "@rainbow-me/rainbowkit/styles.css"
 
 const { chains, provider } = configureChains(
-  [{
-    id: 3737,
-    name: 'Crossbell',
-    network: 'crossbell',
-    rpcUrls: {
-      default: 'https://rpc.crossbell.io',
-    },
-    iconUrl: 'https://gateway.ipfs.io/ipfs/QmS8zEetTb6pwdNpVjv5bz55BXiSMGP9BjTJmNcjcUT91t',
-    nativeCurrency: {
-      decimals: 18,
-      name: 'Crossbell Token',
-      symbol: 'CSB',
-    },
-    blockExplorers: {
-      default: { name: 'Crossbell Explorer', url: 'https://scan.crossbell.io' },
-    },
-    testnet: false,
-  } as any],
   [
-    jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) })
-  ]
+    {
+      id: 3737,
+      name: "Crossbell",
+      network: "crossbell",
+      rpcUrls: {
+        default: "https://rpc.crossbell.io",
+      },
+      iconUrl:
+        "https://gateway.ipfs.io/ipfs/QmS8zEetTb6pwdNpVjv5bz55BXiSMGP9BjTJmNcjcUT91t",
+      nativeCurrency: {
+        decimals: 18,
+        name: "Crossbell Token",
+        symbol: "CSB",
+      },
+      blockExplorers: {
+        default: {
+          name: "Crossbell Explorer",
+          url: "https://scan.crossbell.io",
+        },
+      },
+      testnet: false,
+    } as any,
+  ],
+  [jsonRpcProvider({ rpc: (chain) => ({ http: chain.rpcUrls.default }) })],
 )
 
 const connectors = connectorsForWallets([
   {
-    groupName: 'Recommended',
-    wallets: [
-      wallet.metaMask({ chains }),
-      wallet.walletConnect({ chains }),
-    ],
+    groupName: "Recommended",
+    wallets: [wallet.metaMask({ chains }), wallet.walletConnect({ chains })],
   },
 ])
 
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
-  provider
+  provider,
 })
 
 const queryClient = new QueryClient({
@@ -66,7 +64,7 @@ const queryClient = new QueryClient({
       cacheTime: 1000 * 60 * 60 * 24, // 24 hours
     },
   },
-});
+})
 
 const persister = createIDBPersister()
 
@@ -75,7 +73,10 @@ function MyApp({ Component, pageProps }: any) {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <StoreProvider createStore={createStore}>
-          <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{ persister }}
+          >
             <Hydrate state={pageProps.dehydratedState}>
               <ReactQueryDevtools />
               <Component {...pageProps} />

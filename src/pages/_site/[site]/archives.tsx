@@ -10,7 +10,7 @@ import { Viewer, Profile, Notes } from "~/lib/types"
 import { queryClientServer } from "~/lib/query-client.server"
 import { prefetchGetSite } from "~/queries/site.server"
 import { useGetSite } from "~/queries/site"
-import { dehydrate, QueryClient } from '@tanstack/react-query'
+import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { useGetPagesBySite } from "~/queries/page"
 import { prefetchGetPagesBySite } from "~/queries/page.server"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -18,7 +18,7 @@ import { PageVisibilityEnum } from "~/lib/types"
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
     const domainOrSubdomain = ctx.params!.site as string
-    
+
     await prefetchGetSite(domainOrSubdomain)
     await prefetchGetPagesBySite({
       site: domainOrSubdomain,
@@ -33,14 +33,14 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
         domainOrSubdomain,
       },
     }
-  }
+  },
 )
 
 function SiteArchivesPage({
   domainOrSubdomain,
 }: {
-  site: Profile,
-  posts: Notes,
+  site: Profile
+  posts: Notes
   domainOrSubdomain: string
 }) {
   const site = useGetSite(domainOrSubdomain)
@@ -52,10 +52,7 @@ function SiteArchivesPage({
   })
 
   return (
-    <SiteLayout
-      site={site.data}
-      title="Archives"
-    >
+    <SiteLayout site={site.data} title="Archives">
       <SiteArchives posts={posts.data} />
     </SiteLayout>
   )

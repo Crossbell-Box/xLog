@@ -57,11 +57,9 @@ export default function SettingsDomainsPage() {
               id="subdomain"
               label="Custom CSS"
               className="w-full"
-              style={
-                {
-                  height: "400px",
-                }
-              }
+              style={{
+                height: "400px",
+              }}
               multiline
               {...form.register("css")}
             />

@@ -76,8 +76,8 @@ export type Note = UniNote & {
 }
 
 export type Notes = {
-  total: number,
-  list: Note[],
+  total: number
+  list: Note[]
 }
 
 export type Profile = UniProfile & {
@@ -86,6 +86,6 @@ export type Profile = UniProfile & {
 }
 
 export type Profiles = {
-  total: number,
-  list: Note[],
+  total: number
+  list: Note[]
 }

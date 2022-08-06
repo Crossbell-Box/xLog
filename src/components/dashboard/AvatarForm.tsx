@@ -20,7 +20,7 @@ const AvatarEditorModal: React.FC<{
   const updateSite = useUpdateSite()
 
   const useCropAndSave = async () => {
-    let key;
+    let key
     // Get cropped image
     if (editorRef.current) {
       const fromCanvas = editorRef.current?.getImage()
@@ -74,7 +74,11 @@ const AvatarEditorModal: React.FC<{
           </div>
 
           <div className="h-16 border-t flex items-center px-5">
-            <Button isBlock onClick={useCropAndSave} isLoading={updateSite.isLoading}>
+            <Button
+              isBlock
+              onClick={useCropAndSave}
+              isLoading={updateSite.isLoading}
+            >
               Crop and Save
             </Button>
           </div>

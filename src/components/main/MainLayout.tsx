@@ -37,7 +37,15 @@ export function MainLayout({
       <footer className="mt-10 text-sm font-medium text-zinc-500">
         <div className="max-w-screen-md px-5 mx-auto flex justify-between">
           <div>
-            <span className="align-middle">&copy; <UniLink href={`https://blog.${OUR_DOMAIN}`} className="hover:text-indigo-500">{APP_NAME}</UniLink></span>
+            <span className="align-middle">
+              &copy;{" "}
+              <UniLink
+                href={`https://blog.${OUR_DOMAIN}`}
+                className="hover:text-indigo-500"
+              >
+                {APP_NAME}
+              </UniLink>
+            </span>
             <span className="text-zinc-400 ml-2 inline-flex items-center space-x-1 align-middle">
               <UniLink href={DISCORD_LINK}>
                 <span className="inline-block i-mdi-discord text-xl hover:text-indigo-500"></span>

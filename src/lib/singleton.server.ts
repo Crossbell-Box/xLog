@@ -11,7 +11,7 @@ export const singleton = <T>(id: string, factory: () => T): T => {
 export const singletonAsync = <T>(
   id: string,
   factory: () => Promise<T>,
-  enableSingleton = true
+  enableSingleton = true,
 ): { readonly value: T; wait: Promise<void> } => {
   if (globalThis._singletons[id] && enableSingleton) {
     return {

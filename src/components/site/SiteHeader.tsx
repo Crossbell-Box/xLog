@@ -17,8 +17,12 @@ import { useAccount } from "wagmi"
 import unidata from "~/lib/unidata"
 import { Fragment, useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import { useGetSubscription, useSubscribeToSite, useUnsubscribeFromSite } from "~/queries/site"
-import { useConnectModal } from '@rainbow-me/rainbowkit';
+import {
+  useGetSubscription,
+  useSubscribeToSite,
+  useUnsubscribeFromSite,
+} from "~/queries/site"
+import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { Menu } from "@headlessui/react"
 import { MoreIcon } from "~/components/icons/MoreIcon"
 import { RSS3Icon } from "~/components/icons/RSS3Icon"
@@ -79,19 +83,32 @@ export const SiteHeader: React.FC<{
   }
 
   const subscription = useGetSubscription({
-    userId: address || '',
-    siteId: site?.username || '',
+    userId: address || "",
+    siteId: site?.username || "",
   })
 
   useEffect(() => {
-    if (followProgress && address && subscription.isSuccess && !subscription.data && site?.username) {
+    if (
+      followProgress &&
+      address &&
+      subscription.isSuccess &&
+      !subscription.data &&
+      site?.username
+    ) {
       subscribeToSite.mutate({
         userId: address,
         siteId: site.username,
       })
       setFollowProgress(false)
     }
-  }, [followProgress, address, subscription.isSuccess, subscription.data, site?.username, subscribeToSite])
+  }, [
+    followProgress,
+    address,
+    subscription.isSuccess,
+    subscription.data,
+    site?.username,
+    subscribeToSite,
+  ])
 
   const leftLinks: HeaderLinkType[] = [
     { label: "Home", url: "/" },
@@ -134,14 +151,16 @@ export const SiteHeader: React.FC<{
                 <div className="text-gray-500 text-sm">{site?.bio}</div>
               )}
               <div className="mt-3 text-sm">
-                {subscription.data ? 
+                {subscription.data ? (
                   <Button
                     rounded="full"
                     size="sm"
                     variant="secondary"
                     onClick={handleClickSubscribe}
                     className="space-x-1 group align-middle"
-                    isLoading={unsubscribeFromSite.isLoading || subscribeToSite.isLoading}
+                    isLoading={
+                      unsubscribeFromSite.isLoading || subscribeToSite.isLoading
+                    }
                   >
                     <span className="pl-1">
                       <CrossbellIcon />
@@ -152,23 +171,26 @@ export const SiteHeader: React.FC<{
                     <span className="pr-1 hidden group-hover:block w-16">
                       Unfollow
                     </span>
-                  </Button> : 
+                  </Button>
+                ) : (
                   <Button
                     rounded="full"
                     size="sm"
                     variant="crossbell"
                     onClick={handleClickSubscribe}
                     className="space-x-1 align-middle"
-                    isLoading={unsubscribeFromSite.isLoading || subscribeToSite.isLoading || subscription.isLoading}
+                    isLoading={
+                      unsubscribeFromSite.isLoading ||
+                      subscribeToSite.isLoading ||
+                      subscription.isLoading
+                    }
                   >
                     <span className="pl-1">
                       <CrossbellIcon />
                     </span>
-                    <span className="pr-1">
-                      Follow
-                    </span>
+                    <span className="pr-1">Follow</span>
                   </Button>
-                }
+                )}
                 <div className="relative inline-block align-middle h-7">
                   <Menu>
                     {() => (
@@ -194,7 +216,9 @@ export const SiteHeader: React.FC<{
                                 href={item.url}
                                 className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
                               >
-                                <span className="fill-gray-500">{item.icon}</span>
+                                <span className="fill-gray-500">
+                                  {item.icon}
+                                </span>
                                 <span>{item.text}</span>
                               </UniLink>
                             )

@@ -8,7 +8,9 @@ export const DashboardMain: React.FC<{
     <div className="md:pl-sidebar w-full">
       <div
         className={clsx(
-          fullWidth ? "relative" : "max-w-screen-xl relative px-5 py-5 md:px-10"
+          fullWidth
+            ? "relative"
+            : "max-w-screen-xl relative px-5 py-5 md:px-10",
         )}
       >
         {children}

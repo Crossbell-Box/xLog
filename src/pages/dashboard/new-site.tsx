@@ -14,12 +14,12 @@ export default function NewSitePage() {
   const router = useRouter()
   const createSite = useCreateSite()
 
-  const [addressIn, setAddressIn] = useState<string>('')
+  const [addressIn, setAddressIn] = useState<string>("")
   const { address } = useAccount()
 
   useEffect(() => {
     if (address) {
-      setAddressIn(address || '')
+      setAddressIn(address || "")
     } else {
       router.push("/")
     }

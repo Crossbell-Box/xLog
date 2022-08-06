@@ -11,7 +11,7 @@ export const userModel = {
       avatar?: string
       bio?: string
       email?: string
-    }
+    },
   ) {
     const user = gate.getUser(true)
 

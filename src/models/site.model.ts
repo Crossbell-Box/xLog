@@ -43,23 +43,25 @@ export const getUserSites = async (address?: string) => {
     return null
   }
   const profiles = await unidata.profiles.get({
-    source: 'Crossbell Profile',
+    source: "Crossbell Profile",
     identity: address,
-    platform: 'Ethereum',
-  });
-
-  const sites = profiles.list?.sort((a, b) => {
-    if (a.metadata?.primary) {
-      return -1
-    } else if (b.metadata?.primary) {
-      return 1
-    } else {
-      return +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0)
-    }
-  }).map((profile) => {
-    profile.name = profile.name || profile.username;
-    return profile
+    platform: "Ethereum",
   })
+
+  const sites = profiles.list
+    ?.sort((a, b) => {
+      if (a.metadata?.primary) {
+        return -1
+      } else if (b.metadata?.primary) {
+        return 1
+      } else {
+        return +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0)
+      }
+    })
+    .map((profile) => {
+      profile.name = profile.name || profile.username
+      return profile
+    })
 
   if (!sites || !sites.length) return null
 
@@ -68,14 +70,22 @@ export const getUserSites = async (address?: string) => {
 
 export const getSite = async (input: string) => {
   const profiles = await unidata.profiles.get({
-    source: 'Crossbell Profile',
+    source: "Crossbell Profile",
     identity: input,
-    platform: 'Crossbell',
-  });
+    platform: "Crossbell",
+  })
 
-  const site: Profile = profiles.list?.sort((a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0))?.[0]
-  site.navigation = site.metadata?.raw?.['_xlog_navigation'] || site.metadata?.raw?.['_crosslog_navigation'] || [{ id: nanoid(), label: "Archives", url: "/archives" }]
-  site.css = site.metadata?.raw?.['_xlog_css'] || site.metadata?.raw?.['_crosslog_css'] || ''
+  const site: Profile = profiles.list?.sort(
+    (a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0),
+  )?.[0]
+  site.navigation = site.metadata?.raw?.["_xlog_navigation"] ||
+    site.metadata?.raw?.["_crosslog_navigation"] || [
+      { id: nanoid(), label: "Archives", url: "/archives" },
+    ]
+  site.css =
+    site.metadata?.raw?.["_xlog_css"] ||
+    site.metadata?.raw?.["_crosslog_css"] ||
+    ""
   site.name = site.name || site.username
 
   return site
@@ -86,94 +96,103 @@ export const getSubscription = async (data: {
   siteId: string
 }) => {
   const links = await unidata.links.get({
-    source: 'Crossbell Link',
+    source: "Crossbell Link",
     identity: data.userId,
-    platform: 'Ethereum',
+    platform: "Ethereum",
     filter: {
-      to: data.siteId
-    }
+      to: data.siteId,
+    },
   })
   return !!links?.list?.length
 }
 
-export async function updateSite(
-  payload: {
-    site: string
-    name?: string
-    description?: string
-    icon?: string | null
-    subdomain?: string
-    navigation?: SiteNavigationItem[]
-    css?: string
-  },
-) {
-  return await unidata.profiles.set({
-    source: 'Crossbell Profile',
-    identity: payload.site,
-    platform: 'Crossbell',
-    action: 'update',
-  }, {
-    ...(payload.name && { name: payload.name }),
-    ...(payload.description && { bio: payload.description }),
-    ...(payload.icon && { avatars: [payload.icon] }),
-    ...(payload.subdomain && { username: payload.subdomain }),
-    ...(payload.navigation && { _xlog_navigation: payload.navigation }),
-    ...(payload.css && { _xlog_css: payload.css }),
-  })
+export async function updateSite(payload: {
+  site: string
+  name?: string
+  description?: string
+  icon?: string | null
+  subdomain?: string
+  navigation?: SiteNavigationItem[]
+  css?: string
+}) {
+  return await unidata.profiles.set(
+    {
+      source: "Crossbell Profile",
+      identity: payload.site,
+      platform: "Crossbell",
+      action: "update",
+    },
+    {
+      ...(payload.name && { name: payload.name }),
+      ...(payload.description && { bio: payload.description }),
+      ...(payload.icon && { avatars: [payload.icon] }),
+      ...(payload.subdomain && { username: payload.subdomain }),
+      ...(payload.navigation && { _xlog_navigation: payload.navigation }),
+      ...(payload.css && { _xlog_css: payload.css }),
+    },
+  )
 }
 
 export async function createSite(
   address: string,
   payload: { name: string; subdomain: string },
 ) {
-  return await unidata.profiles.set({
-    source: 'Crossbell Profile',
-    identity: address,
-    platform: 'Ethereum',
-    action: 'add',
-  }, {
-    username: payload.subdomain,
-    name: payload.name,
-    tags: ['navigation:' + JSON.stringify([
-      {
-        id: nanoid(),
-        label: "Archives",
-        url: "/archives",
-      },
-    ])],
-  })
+  return await unidata.profiles.set(
+    {
+      source: "Crossbell Profile",
+      identity: address,
+      platform: "Ethereum",
+      action: "add",
+    },
+    {
+      username: payload.subdomain,
+      name: payload.name,
+      tags: [
+        "navigation:" +
+          JSON.stringify([
+            {
+              id: nanoid(),
+              label: "Archives",
+              url: "/archives",
+            },
+          ]),
+      ],
+    },
+  )
 }
 
-export async function subscribeToSite(
-  input: {
-    userId: string
-    siteId: string
-  },
-) {
-  return unidata.links.set({
-    source: 'Crossbell Link',
-    identity: input.userId,
-    platform: 'Ethereum',
-    action: 'add',
-  }, {
-    to: input.siteId,
-    type: 'follow',
-  })
+export async function subscribeToSite(input: {
+  userId: string
+  siteId: string
+}) {
+  return unidata.links.set(
+    {
+      source: "Crossbell Link",
+      identity: input.userId,
+      platform: "Ethereum",
+      action: "add",
+    },
+    {
+      to: input.siteId,
+      type: "follow",
+    },
+  )
 }
 
-export async function unsubscribeFromSite(
-  input: {
-    userId: string
-    siteId: string
-  },
-) {
-  return unidata.links.set({
-    source: 'Crossbell Link',
-    identity: input.userId,
-    platform: 'Ethereum',
-    action: 'remove',
-  }, {
-    to: input.siteId,
-    type: 'follow',
-  })
+export async function unsubscribeFromSite(input: {
+  userId: string
+  siteId: string
+}) {
+  return unidata.links.set(
+    {
+      source: "Crossbell Link",
+      identity: input.userId,
+      platform: "Ethereum",
+      action: "remove",
+    },
+    {
+      to: input.siteId,
+      type: "follow",
+    },
+  )
 }

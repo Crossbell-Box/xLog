@@ -5,11 +5,11 @@ import { createSSGHelpers } from "@trpc/react/ssg"
 import { getTRPCContext } from "~/lib/trpc.server"
 import { Viewer, Profile, Notes } from "~/lib/types"
 import { getViewer } from "~/lib/viewer"
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
 import { queryClientServer } from "~/lib/query-client.server"
 import { prefetchGetSite } from "~/queries/site.server"
 import { useGetSite } from "~/queries/site"
-import { dehydrate, QueryClient } from '@tanstack/react-query'
+import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { useGetPagesBySite } from "~/queries/page"
 import { prefetchGetPagesBySite } from "~/queries/page.server"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -33,11 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-function SiteIndexPage({
-  domainOrSubdomain,
-}: {
-  domainOrSubdomain: string
-}) {
+function SiteIndexPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
   const site = useGetSite(domainOrSubdomain)
   const posts = useGetPagesBySite({
     site: domainOrSubdomain,

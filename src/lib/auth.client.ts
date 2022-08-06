@@ -7,7 +7,7 @@ export const logout = () => {
   if (location.host !== OUR_DOMAIN) {
     url.searchParams.set(
       "next",
-      `${location.protocol}//${location.host}/api/logout`
+      `${location.protocol}//${location.host}/api/logout`,
     )
   }
   location.href = url.href

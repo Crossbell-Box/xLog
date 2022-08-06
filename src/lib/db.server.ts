@@ -53,11 +53,11 @@ const createPrisma = (readonly: boolean) => {
 }
 
 export const prismaPrimary = /* @__PURE__ */ singleton("prisma-primary", () =>
-  createPrisma(false)
+  createPrisma(false),
 )
 
 export const prismaRead = /* @__PURE__ */ singleton("prisma-read", () =>
-  createPrisma(true)
+  createPrisma(true),
 )
 
 export * from "@prisma/client"

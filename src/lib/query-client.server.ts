@@ -1,6 +1,6 @@
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient } from "@tanstack/react-query"
 import { createRedisPersister } from "~/lib/persister.server"
-import { persistQueryClient } from '@tanstack/react-query-persist-client'
+import { persistQueryClient } from "@tanstack/react-query-persist-client"
 
 const cacheTime = 30 * 60 * 60 * 1000 // 30 days
 

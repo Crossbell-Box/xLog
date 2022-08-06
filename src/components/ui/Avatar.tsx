@@ -34,7 +34,7 @@ export const Avatar: React.FC<
         className={clsx(
           `inline-flex text-white bg-gray-400 items-center justify-center text-xl font-medium uppercase flex-shrink-0`,
           borderRadius,
-          className
+          className,
         )}
         style={{
           width: `${size}px`,
@@ -53,7 +53,7 @@ export const Avatar: React.FC<
       className={clsx(
         `inline-flex text-zinc-500 bg-gray-400 flex-shrink-0 items-center justify-center text-xl font-medium uppercase`,
         borderRadius,
-        className
+        className,
       )}
       style={{
         width: `${size}px`,

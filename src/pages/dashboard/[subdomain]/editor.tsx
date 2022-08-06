@@ -38,10 +38,13 @@ export default function SubdomainEditor() {
   const page = useGetPage({
     site: subdomain!,
     pageId: pageId,
-    render: false
+    render: false,
   })
 
-  const pageContent = useMemo(() => page.data?.body?.content, [page.data?.body?.content])
+  const pageContent = useMemo(
+    () => page.data?.body?.content,
+    [page.data?.body?.content],
+  )
 
   const visibility = getPageVisibility({
     date_published: page.data?.date_published,
@@ -137,9 +140,13 @@ export default function SubdomainEditor() {
     if (!page.data) return
 
     setValues({
-      title: page.data.title || '',
-      publishedAt: page.data.date_published === new Date('9999-01-01').toISOString() ? new Date().toISOString() : page.data.date_published,
-      published: page.data.date_published !== new Date('9999-01-01').toISOString(),
+      title: page.data.title || "",
+      publishedAt:
+        page.data.date_published === new Date("9999-01-01").toISOString()
+          ? new Date().toISOString()
+          : page.data.date_published,
+      published:
+        page.data.date_published !== new Date("9999-01-01").toISOString(),
       excerpt: page.data.summary?.content || "",
       slug: page.data.slug!,
     })

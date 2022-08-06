@@ -1,7 +1,7 @@
 import React from "react"
 
 export const MoreIcon: React.FC<React.ComponentPropsWithoutRef<"svg">> = (
-  props
+  props,
 ) => {
   return (
     <svg

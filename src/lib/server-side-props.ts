@@ -19,14 +19,14 @@ export const notFound = (message?: string) => new NotFound(message)
 export const isNotFoundError = (error: unknown) => error instanceof NotFound
 
 export const serverSidePropsHandler = <
-  TProps extends { [key: string]: any } = { [key: string]: any }
+  TProps extends { [key: string]: any } = { [key: string]: any },
 >(
   fn: (
-    ctx: GetServerSidePropsContext
-  ) => Promise<{ props: TProps } | Redirect | NotFound>
+    ctx: GetServerSidePropsContext,
+  ) => Promise<{ props: TProps } | Redirect | NotFound>,
 ) => {
   return async (
-    ctx: GetServerSidePropsContext
+    ctx: GetServerSidePropsContext,
   ): Promise<GetServerSidePropsResult<TProps>> => {
     try {
       const result = await fn(ctx)

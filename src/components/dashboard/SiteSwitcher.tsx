@@ -16,9 +16,7 @@ export const SiteSwitcher: React.FC<Props> = ({
   subscriptions,
   viewer,
 }) => {
-  const activeSubscription = subscriptions.find(
-    (s) => s.username === subdomain
-  )
+  const activeSubscription = subscriptions.find((s) => s.username === subdomain)
 
   return (
     <div className="px-3 pt-3 pb-2 text-sm">
@@ -63,7 +61,8 @@ export const SiteSwitcher: React.FC<Props> = ({
                       <span className="truncate w-8/12">
                         {subscription.name}
                       </span>
-                      {activeSubscription?.username === subscription.username && (
+                      {activeSubscription?.username ===
+                        subscription.username && (
                         <span className="text-accent">
                           <svg
                             className="w-5 h-5"
