@@ -12,14 +12,14 @@ export const SiteFooter: React.FC<{
   return (
     <footer className="text-zinc-500 border-t">
       <div className="max-w-screen-md mx-auto px-5 py-10 text-xs">
-        <p className="mb-4">
+        <p className="font-medium mb-4 text-gray-700">
           🔔 This{" "}
           {page ? (page.tags?.includes("post") ? "post" : "page") : "blog"} has
           been permanently stored on the blockchain and signed by its creator.
         </p>
         <ul className="mb-6">
           <li className="mt-2">
-            <div className="font-bold">Blockchain Transaction</div>
+            <div className="font-bold">Blockchain Transactions</div>
             <div>
               {page
                 ? page?.related_urls
@@ -60,33 +60,46 @@ export const SiteFooter: React.FC<{
                   })}
             </div>
           </li>
-          {page && (
-            <li className="mt-2">
-              <div className="font-bold">IPFS Address</div>
-              <div>
-                {page?.related_urls
-                  ?.filter((url) =>
-                    url.startsWith("https://gateway.ipfs.io/ipfs/"),
-                  )
-                  .map((url) => {
-                    return (
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-block mr-4 break-all"
-                        href={url}
-                        key={url}
-                      >
-                        {url.replace(
-                          "https://gateway.ipfs.io/ipfs/",
-                          "ipfs://",
-                        )}
-                      </a>
+          <li className="mt-2">
+            <div className="font-bold">IPFS Address</div>
+            <div>
+              {page
+                ? page.related_urls
+                    ?.filter((url) =>
+                      url.startsWith("https://gateway.ipfs.io/ipfs/"),
                     )
-                  })}
-              </div>
-            </li>
-          )}
+                    .map((url) => {
+                      return (
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-block mr-4 break-all"
+                          href={url}
+                          key={url}
+                        >
+                          {url.replace(
+                            "https://gateway.ipfs.io/ipfs/",
+                            "ipfs://",
+                          )}
+                        </a>
+                      )
+                    })
+                : site?.metadata?.uri && (
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-block mr-4 break-all"
+                      href={site?.metadata?.uri.replace(
+                        "ipfs://",
+                        "https://gateway.ipfs.io/ipfs/",
+                      )}
+                      key={site?.metadata?.uri}
+                    >
+                      {site?.metadata?.uri}
+                    </a>
+                  )}
+            </div>
+          </li>
           <li className="mt-2">
             <div className="font-bold">Author Address</div>
             <div>
