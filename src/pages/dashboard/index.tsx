@@ -5,9 +5,9 @@ import { useEffect } from "react"
 import { useRouter } from 'next/router'
 
 export default function Dashboard() {
-  const { data: wagmiData } = useAccount()
+  const { address } = useAccount()
   const router = useRouter()
-  const userSites = useGetUserSites(wagmiData?.address)
+  const userSites = useGetUserSites(address)
 
   useEffect(() => {
     if (userSites.isSuccess) {

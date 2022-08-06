@@ -23,12 +23,12 @@ export function DashboardLayout({
   const router = useRouter()
   const subdomain = router.query.subdomain as string
 
-  const { data: viewer } = useAccount()
+  const { address } = useAccount()
 
-  const userSite = useGetUserSites(viewer?.address);
+  const userSite = useGetUserSites(address);
 
   useEffect(() => {
-    if (!viewer?.address) {
+    if (!address) {
       router.push("/")
     }
     if (userSite.isSuccess && subdomain) {
@@ -36,7 +36,7 @@ export function DashboardLayout({
         router.push("/")
       }
     }
-  }, [viewer?.address, router, userSite.isSuccess, userSite.data, subdomain])
+  }, [address, router, userSite.isSuccess, userSite.data, subdomain])
 
   const links: {
     href: string

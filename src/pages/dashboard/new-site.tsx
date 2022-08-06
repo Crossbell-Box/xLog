@@ -14,16 +14,16 @@ export default function NewSitePage() {
   const router = useRouter()
   const createSite = useCreateSite()
 
-  const [address, setAddress] = useState<string>('')
-  const { data: wagmiData } = useAccount()
+  const [addressIn, setAddressIn] = useState<string>('')
+  const { address } = useAccount()
 
   useEffect(() => {
-    if (wagmiData?.address) {
-      setAddress(wagmiData?.address || '')
+    if (address) {
+      setAddressIn(address || '')
     } else {
       router.push("/")
     }
-  }, [wagmiData, router])
+  }, [address, router])
 
   const form = useForm({
     defaultValues: {
@@ -34,7 +34,7 @@ export default function NewSitePage() {
 
   const handleSubmit = form.handleSubmit(async (values) => {
     createSite.mutate({
-      address: wagmiData!.address!,
+      address: address!,
       payload: values,
     })
   })
@@ -75,7 +75,7 @@ export default function NewSitePage() {
           </Link>
           <div>
             <div className="text-zinc-400">Logged in as:</div>
-            <div>{address}</div>
+            <div>{addressIn}</div>
           </div>
         </header>
         <div className="max-w-sm mx-auto mt-20">

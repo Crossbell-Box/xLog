@@ -14,26 +14,26 @@ import { useEffect, useState } from "react"
 export const ConnectButton: React.FC<{
   left?: boolean
 }> = ({ left, }) => {
-  const { data: viewer } = useAccount()
-  const userSites = useGetUserSites(viewer?.address)
+  const { address } = useAccount()
+  const userSites = useGetUserSites(address)
   const { disconnect } = useDisconnect()
 
   const [copyLabel, setCopyLabel] = useState("")
   useEffect(() => {
-    if (viewer?.address) {
-      setCopyLabel(viewer?.address?.slice(0, 5) + "..." + viewer?.address?.slice(-4))
+    if (address) {
+      setCopyLabel(address?.slice(0, 5) + "..." + address?.slice(-4))
     }
-  }, [viewer?.address])
+  }, [address])
 
   const dropdownLinks: HeaderLinkType[] = [
     {
       icon: <CopyIcon />,
       label: copyLabel,
       onClick() {
-        navigator.clipboard.writeText(viewer?.address || "")
+        navigator.clipboard.writeText(address || "")
         setCopyLabel("Copied!")
         setTimeout(() => {
-          setCopyLabel(viewer?.address?.slice(0, 5) + "..." + viewer?.address?.slice(-4))
+          setCopyLabel(address?.slice(0, 5) + "..." + address?.slice(-4))
         }, 1000)
       },
     },

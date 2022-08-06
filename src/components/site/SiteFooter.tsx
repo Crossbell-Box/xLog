@@ -6,16 +6,16 @@ import { useEffect, useState } from "react"
 import { Profile } from "~/lib/types"
 
 export const SiteFooter: React.FC<{ site?: Profile }> = ({ site }) => {
-  const { data: viewer } = useAccount()
+  const { address } = useAccount()
 
   const [isOwner, setIsOwner] = useState(false)
   useEffect(() => {
-    if (viewer?.address && viewer.address.toLowerCase() === site?.metadata?.owner) {
+    if (address && address.toLowerCase() === site?.metadata?.owner) {
       setIsOwner(true)
     } else {
       setIsOwner(false)
     }
-  }, [viewer?.address, site?.metadata?.owner])
+  }, [address, site?.metadata?.owner])
 
   return (
     <footer className="text-zinc-500 border-t">

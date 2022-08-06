@@ -5,7 +5,6 @@ import { createSSGHelpers } from "@trpc/react/ssg"
 import { getTRPCContext } from "~/lib/trpc.server"
 import { Viewer, Profile, Notes } from "~/lib/types"
 import { getViewer } from "~/lib/viewer"
-import { useAccount } from 'wagmi'
 import { useEffect, useState } from 'react'
 import { queryClientServer } from "~/lib/query-client.server"
 import { prefetchGetSite } from "~/queries/site.server"

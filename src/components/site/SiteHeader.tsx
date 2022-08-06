@@ -20,6 +20,7 @@ import unidata from "~/lib/unidata"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { useGetSubscription, useSubscribeToSite, useUnsubscribeFromSite } from "~/queries/site"
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -53,20 +54,20 @@ export const SiteHeader: React.FC<{
   navigation?: HeaderLinkType[]
   site?: string | undefined
 }> = ({ siteName, description, icon, navigation, site }) => {
-  const { data: viewer } = useAccount()
+  const { address } = useAccount()
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
 
   const handleClickSubscribe = async () => {
-    if (site && viewer?.address) {
+    if (site && address) {
       if (subscription.data) {
         unsubscribeFromSite.mutate({
-          userId: viewer.address,
+          userId: address,
           siteId: site,
         })
       } else {
         subscribeToSite.mutate({
-          userId: viewer.address,
+          userId: address,
           siteId: site,
         })
       }
@@ -74,7 +75,7 @@ export const SiteHeader: React.FC<{
   }
 
   const subscription = useGetSubscription({
-    userId: viewer?.address || '',
+    userId: address || '',
     siteId: site || '',
   })
 

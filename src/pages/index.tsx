@@ -23,14 +23,14 @@ export default function Home({
   region: string | null
 }) {
   const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
-  const [address, setAddress] = useState<string>('')
-  const { data: wagmiData } = useAccount()
+  const [addressIn, setAddressIn] = useState<string>('')
+  const { address } = useAccount()
 
   useEffect(() => {
     console.log("-> region", region)
 
-    setAddress(wagmiData?.address || '')
-  }, [region, wagmiData])
+    setAddressIn(address || '')
+  }, [region, address])
 
   return (
     <MainLayout>
@@ -48,7 +48,7 @@ export default function Home({
               Permanently stored on-chain and signed by you.
             </h3>
             <div className="mt-10">
-              {address ? (
+              {addressIn ? (
                 <UniLink
                   href="/dashboard"
                   className="text-indigo-500 inline-flex items-center space-x-2 hover:text-indigo-600"
