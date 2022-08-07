@@ -208,42 +208,34 @@ export const SiteHeader: React.FC<{
                     <span className="pr-1">Follow</span>
                   </Button>
                 )}
-                <div className="relative inline-block align-middle h-7">
-                  <Menu>
-                    {() => (
-                      <>
-                        <Menu.Button as={Fragment}>
-                          <Button
-                            rounded="full"
-                            size="sm"
-                            variant="secondary"
-                            className="ml-2"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                            }}
+                <div className="relative inline-block align-middle h-7 group">
+                  <Button
+                    rounded="full"
+                    size="sm"
+                    variant="secondary"
+                    className="ml-2"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }}
+                  >
+                    <DotsHorizontalIcon className="w-5 h-5" />
+                  </Button>
+                  <div className="absolute hidden left-0 pt-2 group-hover:block top-full z-10 text-gray-600 w-60">
+                    <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
+                      {moreMenuItems.map((item) => {
+                        return (
+                          <UniLink
+                            key={item.text}
+                            href={item.url}
+                            className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
                           >
-                            <DotsHorizontalIcon className="w-5 h-5" />
-                          </Button>
-                        </Menu.Button>
-                        <Menu.Items className="text-sm absolute z-20 left-0 top-8 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-60 text-gray-500">
-                          {moreMenuItems.map((item) => {
-                            return (
-                              <UniLink
-                                key={item.text}
-                                href={item.url}
-                                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
-                              >
-                                <span className="fill-gray-500">
-                                  {item.icon}
-                                </span>
-                                <span>{item.text}</span>
-                              </UniLink>
-                            )
-                          })}
-                        </Menu.Items>
-                      </>
-                    )}
-                  </Menu>
+                            <span className="fill-gray-500">{item.icon}</span>
+                            <span>{item.text}</span>
+                          </UniLink>
+                        )
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
