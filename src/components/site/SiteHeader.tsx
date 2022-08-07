@@ -162,7 +162,9 @@ export const SiteHeader: React.FC<{
               />
             )}
             <div>
-              <div className="text-2xl font-bold">{site?.name}</div>
+              <div className="text-2xl font-bold text-zinc-900">
+                {site?.name}
+              </div>
               {site?.bio && (
                 <div className="text-gray-500 text-sm">{site?.bio}</div>
               )}

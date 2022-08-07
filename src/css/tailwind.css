@@ -2,36 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: SFCompactRounded;
-  font-weight: 400;
-  src: url("../fonts/SF-Compact-Rounded-Regular.otf") format("opentype");
-}
-
-@font-face {
-  font-family: SFCompactRounded;
-  font-weight: 300;
-  src: url("../fonts/SF-Compact-Rounded-Light.otf") format("opentype");
-}
-
-@font-face {
-  font-family: SFCompactRounded;
-  font-weight: 500;
-  src: url("../fonts/SF-Compact-Rounded-Medium.otf") format("opentype");
-}
-
-@font-face {
-  font-family: SFCompactRounded;
-  font-weight: 600;
-  src: url("../fonts/SF-Compact-Rounded-Semibold.otf") format("opentype");
-}
-
 @layer base {
   html {
-    font-family: SFCompactRounded, ui-sans-serif, system-ui, -apple-system,
-      BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-      "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol", "Noto Color Emoji";
+    @apply text-zinc-800;
   }
 }
 
