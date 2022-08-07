@@ -2,7 +2,7 @@ import clsx from "clsx"
 import { useRouter } from "next/router"
 import { logout } from "~/lib/auth.client"
 import { IS_PROD } from "~/lib/constants"
-import { OUR_DOMAIN } from "~/lib/env"
+import { SITE_URL } from "~/lib/env"
 import { useStore } from "~/lib/store"
 import { Viewer } from "~/lib/types"
 import { getUserContentsUrl } from "~/lib/user-contents"
@@ -21,6 +21,7 @@ import {
   useGetSubscription,
   useSubscribeToSite,
   useUnsubscribeFromSite,
+  useGetUserSites,
 } from "~/queries/site"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { Menu } from "@headlessui/react"
@@ -62,11 +63,15 @@ export const SiteHeader: React.FC<{
   const unsubscribeFromSite = useUnsubscribeFromSite()
   const { openConnectModal } = useConnectModal()
   const [followProgress, setFollowProgress] = useState<boolean>(false)
+  const userSite = useGetUserSites(address)
+  const router = useRouter()
 
   const handleClickSubscribe = async () => {
     if (!address) {
       setFollowProgress(true)
       openConnectModal?.()
+    } else if (!userSite.data) {
+      router.push(`${SITE_URL}/dashboard/new-site`)
     } else if (site?.username) {
       if (subscription.data) {
         unsubscribeFromSite.mutate({
@@ -89,6 +94,9 @@ export const SiteHeader: React.FC<{
 
   useEffect(() => {
     if (followProgress && address && subscription.isSuccess && site?.username) {
+      if (!userSite.data) {
+        router.push(`${SITE_URL}/dashboard/new-site`)
+      }
       if (!subscription.data) {
         subscribeToSite.mutate({
           userId: address,
@@ -98,6 +106,8 @@ export const SiteHeader: React.FC<{
       setFollowProgress(false)
     }
   }, [
+    userSite.data,
+    router,
     followProgress,
     address,
     subscription.isSuccess,
@@ -105,6 +115,17 @@ export const SiteHeader: React.FC<{
     site?.username,
     subscribeToSite,
   ])
+
+  useEffect(() => {
+    if (subscribeToSite.isError || subscribeToSite.data?.code) {
+      toast.error(
+        "Failed to follow: " +
+          (subscribeToSite.data?.message ||
+            (subscribeToSite.error as any)?.message),
+      )
+      subscribeToSite.reset()
+    }
+  }, [subscribeToSite.isError, subscribeToSite.data?.code])
 
   const leftLinks: HeaderLinkType[] = [
     { label: "Home", url: "/" },
@@ -176,6 +197,7 @@ export const SiteHeader: React.FC<{
                     onClick={handleClickSubscribe}
                     className="space-x-1 align-middle"
                     isLoading={
+                      userSite.isLoading ||
                       unsubscribeFromSite.isLoading ||
                       subscribeToSite.isLoading ||
                       subscription.isLoading

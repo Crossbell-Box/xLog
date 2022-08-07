@@ -10,10 +10,13 @@ import {
   useGetMints,
   useCheckMint,
 } from "~/queries/page"
+import { useGetUserSites } from "~/queries/site"
 import { useAccount } from "wagmi"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useState, useEffect } from "react"
 import { Button } from "../ui/Button"
+import { useRouter } from "next/router"
+import { SITE_URL } from "~/lib/env"
 
 export const PostFooter: React.FC<{
   page?: Note
@@ -26,11 +29,15 @@ export const PostFooter: React.FC<{
   const { openConnectModal } = useConnectModal()
   const [likeProgress, setLikeProgress] = useState(false)
   const [mintProgress, setMintProgress] = useState(false)
+  const userSite = useGetUserSites(address)
+  const router = useRouter()
 
   const like = async () => {
     if (!address) {
       setLikeProgress(true)
       openConnectModal?.()
+    } else if (!userSite.data) {
+      router.push(`${SITE_URL}/dashboard/new-site`)
     } else if (page?.id) {
       if (isLike.data?.count) {
         // unlikePage.mutate({
@@ -51,6 +58,8 @@ export const PostFooter: React.FC<{
     if (!address) {
       setMintProgress(true)
       openConnectModal?.()
+    } else if (!userSite.data) {
+      router.push(`${SITE_URL}/dashboard/new-site`)
     } else if (page?.id) {
       if (isMint.data?.count) {
         // TODO
@@ -81,6 +90,9 @@ export const PostFooter: React.FC<{
 
   useEffect(() => {
     if (mintProgress && address && isMint.isSuccess && page?.id) {
+      if (!userSite.data) {
+        router.push(`${SITE_URL}/dashboard/new-site`)
+      }
       if (!isMint.data.count) {
         mintPage.mutate({
           address,
@@ -90,6 +102,8 @@ export const PostFooter: React.FC<{
       setMintProgress(false)
     }
   }, [
+    userSite.data,
+    router,
     mintProgress,
     address,
     isMint.isSuccess,
@@ -100,6 +114,9 @@ export const PostFooter: React.FC<{
 
   useEffect(() => {
     if (likeProgress && address && isLike.isSuccess && page?.id) {
+      if (!userSite.data) {
+        router.push(`${SITE_URL}/dashboard/new-site`)
+      }
       if (!isLike.data.count) {
         likePage.mutate({
           address,
@@ -109,6 +126,8 @@ export const PostFooter: React.FC<{
       setLikeProgress(false)
     }
   }, [
+    userSite.data,
+    router,
     likeProgress,
     address,
     isLike.isSuccess,
@@ -124,7 +143,12 @@ export const PostFooter: React.FC<{
         className="flex items-center mr-10"
         isAutoWidth={true}
         onClick={like}
-        isLoading={likePage.isLoading || unlikePage.isLoading || likeProgress}
+        isLoading={
+          userSite.isLoading ||
+          likePage.isLoading ||
+          unlikePage.isLoading ||
+          likeProgress
+        }
         style={
           isLike.isSuccess && isLike.data.count
             ? {

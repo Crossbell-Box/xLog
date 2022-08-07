@@ -10,6 +10,7 @@ import { useStore } from "~/lib/store"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { ConnectButton } from "../common/ConnectButton"
+import { getSiteLink } from "~/lib/helpers"
 
 export function MainLayout({
   children,
@@ -40,7 +41,9 @@ export function MainLayout({
             <span className="align-middle">
               &copy;{" "}
               <UniLink
-                href={`https://blog.${OUR_DOMAIN}`}
+                href={getSiteLink({
+                  subdomain: "blog",
+                })}
                 className="hover:text-indigo-500"
               >
                 {APP_NAME}
