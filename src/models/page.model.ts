@@ -151,6 +151,7 @@ export async function getPagesBySite(input: {
           page.applications?.includes("xlog"),
       )
       .filter((page) => page.tags?.includes(input.type))
+      .sort((a, b) => +new Date(b.date_published) - +new Date(a.date_published))
     pages.total = pages.list.length
 
     pages.list = await Promise.all(
