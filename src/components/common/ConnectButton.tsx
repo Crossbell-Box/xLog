@@ -4,12 +4,11 @@ import { useAccount, useDisconnect } from "wagmi"
 import { Avatar } from "~/components/ui/Avatar"
 import type { HeaderLinkType } from "~/components/site/SiteHeader"
 import { DashboardIcon } from "../icons/DashboardIcon"
-import { LogoutIcon } from "../icons/LogoutIcon"
-import { CopyIcon } from "../icons/CopyIcon"
 import { IS_PROD } from "~/lib/constants"
 import { OUR_DOMAIN } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { useEffect, useState } from "react"
+import { DuplicateIcon, LogoutIcon } from "@heroicons/react/outline"
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -27,7 +26,7 @@ export const ConnectButton: React.FC<{
 
   const dropdownLinks: HeaderLinkType[] = [
     {
-      icon: <CopyIcon />,
+      icon: <DuplicateIcon className="w-4 h-4" />,
       label: copyLabel,
       onClick() {
         navigator.clipboard.writeText(address || "")
@@ -43,7 +42,7 @@ export const ConnectButton: React.FC<{
       url: `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}/dashboard`,
     },
     {
-      icon: <LogoutIcon />,
+      icon: <LogoutIcon className="w-4 h-4" />,
       label: "Disconnect",
       onClick() {
         disconnect()

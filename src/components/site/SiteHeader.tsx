@@ -25,10 +25,9 @@ import {
 } from "~/queries/site"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { Menu } from "@headlessui/react"
-import { MoreIcon } from "~/components/icons/MoreIcon"
-import { RSS3Icon } from "~/components/icons/RSS3Icon"
 import { CrossbellIcon } from "~/components/icons/CrossbellIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { DotsHorizontalIcon, RssIcon } from "@heroicons/react/solid"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -140,7 +139,7 @@ export const SiteHeader: React.FC<{
     },
     {
       text: "View on RSS3",
-      icon: <RSS3Icon />,
+      icon: <RssIcon className="w-4 h-4" />,
       url: `https://rss3.io/result?search=${site?.metadata?.owner}`,
     },
     {
@@ -223,7 +222,7 @@ export const SiteHeader: React.FC<{
                               e.stopPropagation()
                             }}
                           >
-                            <MoreIcon className="w-5 h-5" />
+                            <DotsHorizontalIcon className="w-5 h-5" />
                           </Button>
                         </Menu.Button>
                         <Menu.Items className="text-sm absolute z-20 left-0 top-8 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-60 text-gray-500">

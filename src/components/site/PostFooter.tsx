@@ -1,6 +1,5 @@
 import { Note } from "~/lib/types"
 import { LikeIcon } from "~/components/icons/LikeIcon"
-import { CollectIcon } from "~/components/icons/CollectIcon"
 import {
   useLikePage,
   useUnlikePage,
@@ -17,6 +16,7 @@ import { useState, useEffect } from "react"
 import { Button } from "../ui/Button"
 import { useRouter } from "next/router"
 import { SITE_URL } from "~/lib/env"
+import { DuplicateIcon } from "@heroicons/react/solid"
 
 export const PostFooter: React.FC<{
   page?: Note
@@ -176,7 +176,7 @@ export const PostFooter: React.FC<{
             : {}
         }
       >
-        <CollectIcon className="mr-2 w-10 h-10" />
+        <DuplicateIcon className="mr-2 w-10 h-10" />
         <span>{mints.data?.count || 0}</span>
       </Button>
     </div>
