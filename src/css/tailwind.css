@@ -74,22 +74,36 @@ body {
   @apply fill-gray-500;
 }
 
-.button.is-rss3 {
-  background-color: #e7f1ff;
-  fill: #1064ff;
-  color: #1064ff;
-}
-
-.button.is-crossbell {
-  background-color: #fff5e1;
-  fill: #e5b65a;
-  color: #e5b65a;
-}
-
 .button.is-text {
   @apply shadow-none p-0;
   @apply text-gray-500 fill-gray-500;
   @apply hover:text-gray-600 hover:fill-gray-600;
+}
+
+.button.is-like {
+  @apply shadow-none p-0;
+  @apply text-gray-500 fill-gray-500;
+}
+.button.is-like:hover {
+  color: #f91880;
+  fill: #f91880;
+}
+.button.is-like.active {
+  color: #f91880;
+  fill: #f91880;
+}
+
+.button.is-collect {
+  @apply shadow-none p-0;
+  @apply text-gray-500 fill-gray-500;
+}
+.button.is-collect:hover {
+  color: #ffcf55;
+  fill: #ffcf55;
+}
+.button.is-collect.active {
+  color: #ffcf55;
+  fill: #ffcf55;
 }
 
 .button.is-green {

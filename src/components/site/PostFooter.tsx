@@ -32,6 +32,22 @@ export const PostFooter: React.FC<{
   const userSite = useGetUserSites(address)
   const router = useRouter()
 
+  const likes = useGetLikes({
+    pageId: page?.id,
+  })
+  const isLike = useCheckLike({
+    address,
+    pageId: page?.id,
+  })
+
+  const mints = useGetMints({
+    pageId: page?.id,
+  })
+  const isMint = useCheckMint({
+    address,
+    pageId: page?.id,
+  })
+
   const like = async () => {
     if (!address) {
       setLikeProgress(true)
@@ -71,22 +87,6 @@ export const PostFooter: React.FC<{
       }
     }
   }
-
-  const likes = useGetLikes({
-    pageId: page?.id,
-  })
-  const isLike = useCheckLike({
-    address,
-    pageId: page?.id,
-  })
-
-  const mints = useGetMints({
-    pageId: page?.id,
-  })
-  const isMint = useCheckMint({
-    address,
-    pageId: page?.id,
-  })
 
   useEffect(() => {
     if (mintProgress && address && isMint.isSuccess && page?.id) {
@@ -139,8 +139,10 @@ export const PostFooter: React.FC<{
   return (
     <div className="flex fill-gray-400 text-gray-500 mt-14">
       <Button
-        variant="text"
-        className="flex items-center mr-10"
+        variant="like"
+        className={`flex items-center mr-10 ${
+          isLike.isSuccess && isLike.data.count && "active"
+        }`}
         isAutoWidth={true}
         onClick={like}
         isLoading={
@@ -149,32 +151,18 @@ export const PostFooter: React.FC<{
           unlikePage.isLoading ||
           likeProgress
         }
-        style={
-          isLike.isSuccess && isLike.data.count
-            ? {
-                color: "#f91880",
-                fill: "#f91880",
-              }
-            : {}
-        }
       >
         <LikeIcon className="mr-2 w-10 h-10" />
         <span>{likes.data?.count || 0}</span>
       </Button>
       <Button
-        variant="text"
-        className="flex items-center mr-10"
+        variant="collect"
+        className={`flex items-center mr-10 ${
+          isMint.isSuccess && isMint.data.count && "active"
+        }`}
         isAutoWidth={true}
         onClick={mint}
         isLoading={mintPage.isLoading || likeProgress}
-        style={
-          isMint.isSuccess && isMint.data.count
-            ? {
-                color: "#FFCF55",
-                fill: "#FFCF55",
-              }
-            : {}
-        }
       >
         <DuplicateIcon className="mr-2 w-10 h-10" />
         <span>{mints.data?.count || 0}</span>
