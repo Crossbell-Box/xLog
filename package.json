@@ -26,6 +26,7 @@
     "@codemirror/view": "^0.20.3",
     "@floating-ui/react-dom-interactions": "^0.6.3",
     "@headlessui/react": "^1.6.0",
+    "@heroicons/react": "^1.0.6",
     "@prisma/client": "^3.14.0",
     "@proselog/jwt": "^0.1.1",
     "@rainbow-me/rainbowkit": "^0.4.5",

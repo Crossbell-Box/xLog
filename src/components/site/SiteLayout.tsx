@@ -7,6 +7,7 @@ import { SiteFooter } from "./SiteFooter"
 import { SiteHeader } from "./SiteHeader"
 import { useRouter } from "next/router"
 import { useStore } from "~/lib/store"
+import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 
 export type SiteLayoutProps = {
   site?: Profile
@@ -46,8 +47,9 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
       />
       <SiteHeader site={site} />
       <style>{site?.css}</style>
-      <div className={clsx(`max-w-screen-md mx-auto px-5 pb-12`, `pt-12`)}>
-        {children}
+      <div className="max-w-screen-md mx-auto px-5 pt-12">{children}</div>
+      <div className="max-w-screen-md mx-auto pt-12 pb-10">
+        <BlockchainInfo site={site} page={page} />
       </div>
       <SiteFooter site={site} page={page} />
     </>
