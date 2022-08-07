@@ -13,7 +13,7 @@ import { PageVisibilityEnum, Notes } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
 import { stripHTML } from "~/lib/utils"
 import unidata from "~/lib/unidata"
-import { indexer, contract } from "~/lib/crossbell"
+import { indexer, getContract } from "~/lib/crossbell"
 
 const checkPageSlug = async ({
   slug,
@@ -305,7 +305,7 @@ export async function likePage({
   if (!characterId) {
     throw notFound(`character not found`)
   } else {
-    return contract?.linkNote(
+    return getContract()?.linkNote(
       characterId,
       pageId.split("-")[0],
       pageId.split("-")[1],
@@ -325,7 +325,7 @@ export async function unlikePage({
   if (!characterId) {
     throw notFound(`character not found`)
   } else {
-    return contract?.unlinkNote(
+    return getContract()?.unlinkNote(
       characterId,
       pageId.split("-")[0],
       pageId.split("-")[1],
@@ -371,7 +371,11 @@ export async function mintPage({
   address: string
   pageId: string
 }) {
-  return contract?.mintNote(pageId.split("-")[0], pageId.split("-")[1], address)
+  return getContract()?.mintNote(
+    pageId.split("-")[0],
+    pageId.split("-")[1],
+    address,
+  )
 }
 
 export async function getMints({ pageId }: { pageId: string }) {

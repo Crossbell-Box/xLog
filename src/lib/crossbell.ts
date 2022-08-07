@@ -1,12 +1,15 @@
 import { Contract, Indexer } from "crossbell.js"
 
 const indexer = new Indexer()
-const contract =
-  typeof window !== "undefined"
-    ? new Contract((<any>window).ethereum)
-    : undefined
-if (contract) {
-  contract.connect()
+
+let contract: Contract | undefined
+
+const getContract = () => {
+  if (!contract && typeof window !== "undefined") {
+    contract = new Contract((<any>window).ethereum)
+    contract.connect()
+  }
+  return contract
 }
 
-export { indexer, contract }
+export { indexer, getContract }
