@@ -12,7 +12,7 @@ import toast from "react-hot-toast"
 import { EmptyState } from "../ui/EmptyState"
 import type { Note } from "unidata.js"
 import { useGetPagesBySite, useDeletePage } from "~/queries/page"
-import { MoreIcon } from "~/components/icons/MoreIcon"
+import { DotsHorizontalIcon } from "@heroicons/react/solid"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -198,7 +198,7 @@ export const PagesManager: React.FC<{
                 </div>
                 <div className="w-10 flex-shrink-0">
                   <Menu>
-                    {({ open }) => (
+                    {({ open }: { open: boolean }) => (
                       <>
                         <Menu.Button as={Fragment}>
                           <button
@@ -210,7 +210,7 @@ export const PagesManager: React.FC<{
                               e.stopPropagation()
                             }}
                           >
-                            <MoreIcon className="w-5 h-5" />
+                            <DotsHorizontalIcon className="w-5 h-5" />
                           </button>
                         </Menu.Button>
                         <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64">

@@ -1,5 +1,5 @@
 .prose {
-  @apply text-zinc-600 leading-normal;
+  @apply text-zinc-600 leading-loose;
 }
 
 .prose > p {
@@ -12,10 +12,6 @@
 
 .prose > *:last-child {
   @apply mb-0;
-}
-
-.prose {
-  @apply text-lg;
 }
 
 .prose h2 {

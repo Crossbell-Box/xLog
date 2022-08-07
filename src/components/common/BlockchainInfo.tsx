@@ -13,7 +13,7 @@ export const BlockchainInfo: React.FC<{
       <Disclosure>
         {({ open }: { open: boolean }) => (
           <>
-            <Disclosure.Button className="flex w-full justify-between rounded-lg px-4 py-2 text-left font-medium text-gray-900 hover:bg-zinc-100 transition-colors md:rounded-xl">
+            <Disclosure.Button className="flex w-full justify-between rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-zinc-100 transition-colors md:rounded-xl">
               <span>
                 🔔 This{" "}
                 {page
@@ -33,7 +33,16 @@ export const BlockchainInfo: React.FC<{
             <Disclosure.Panel className="px-5 pt-4 pb-2 text-sm text-gray-500">
               <ul>
                 <li className="mt-2">
-                  <div className="font-bold">Blockchain Transactions</div>
+                  <div className="font-medium">
+                    Blockchain Transaction
+                    {(
+                      page?.related_urls?.filter((url) =>
+                        url.startsWith("https://scan.crossbell.io/tx/"),
+                      ) || site?.metadata?.transactions
+                    )?.length > 1
+                      ? "s"
+                      : ""}
+                  </div>
                   <div>
                     {page
                       ? page?.related_urls
@@ -75,7 +84,7 @@ export const BlockchainInfo: React.FC<{
                   </div>
                 </li>
                 <li className="mt-2">
-                  <div className="font-bold">IPFS Address</div>
+                  <div className="font-medium">IPFS Address</div>
                   <div>
                     {page
                       ? page.related_urls
@@ -115,7 +124,7 @@ export const BlockchainInfo: React.FC<{
                   </div>
                 </li>
                 <li className="mt-2">
-                  <div className="font-bold">Author Address</div>
+                  <div className="font-medium">Author Address</div>
                   <div>
                     <a
                       target="_blank"

@@ -100,7 +100,7 @@ export const ConnectButton: React.FC<{
                         />
                         <div className="flex flex-col">
                           <span
-                            className="text-left leading-none text-gray-600 font-bold"
+                            className="text-left leading-none text-gray-600 font-medium"
                             style={{ marginBottom: "0.15rem" }}
                           >
                             {userSites.data?.[0]?.name || account.displayName}
