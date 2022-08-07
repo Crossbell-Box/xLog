@@ -106,10 +106,12 @@ export const ConnectButton: React.FC<{
                           >
                             {userSites.data?.[0]?.name || account.displayName}
                           </span>
-                          <span className="text-left leading-none text-xs text-gray-400">
-                            {"@" + userSites.data?.[0]?.username ||
-                              account.displayName}
-                          </span>
+                          {userSites.data?.[0]?.username && (
+                            <span className="text-left leading-none text-xs text-gray-400">
+                              {"@" + userSites.data?.[0]?.username ||
+                                account.displayName}
+                            </span>
+                          )}
                         </div>
                       </button>
                       <div

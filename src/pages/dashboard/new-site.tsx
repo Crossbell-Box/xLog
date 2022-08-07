@@ -56,7 +56,7 @@ export default function NewSitePage() {
       <SEOHead title="New Site" siteName={APP_NAME} />
       <div>
         <header className="px-5 text-sm  md:px-14 flex justify-between items-start py-10">
-          <Link href="/dashboard">
+          <button onClick={() => router.back()}>
             <a className="flex space-x-1 items-center">
               <svg
                 className="w-4 h-4"
@@ -70,16 +70,20 @@ export default function NewSitePage() {
                   clipRule="evenodd"
                 />
               </svg>
-              <span>Back to dashboard</span>
+              <span>Back</span>
             </a>
-          </Link>
+          </button>
           <div>
             <div className="text-zinc-400">Logged in as:</div>
             <div>{addressIn}</div>
           </div>
         </header>
         <div className="max-w-sm mx-auto mt-20">
-          <h2 className="text-3xl mb-10 text-center">Create a new site</h2>
+          <h2 className="text-3xl mb-8 text-center">Create a new site</h2>
+          <p className="mb-8 text-gray-500">
+            After creating your own site, you can start writing your blog and
+            interacting with other bloggers
+          </p>
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <Input
