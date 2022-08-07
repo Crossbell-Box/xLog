@@ -363,3 +363,36 @@ export async function checkLike({
     })
   }
 }
+
+export async function mintPage({
+  address,
+  pageId,
+}: {
+  address: string
+  pageId: string
+}) {
+  return contract?.mintNote(pageId.split("-")[0], pageId.split("-")[1], address)
+}
+
+export async function getMints({ pageId }: { pageId: string }) {
+  return indexer.getMintedNotesOfNote(
+    pageId.split("-")[0],
+    pageId.split("-")[1],
+    {
+      limit: 0,
+    },
+  )
+}
+
+export async function checkMint({
+  address,
+  pageId,
+}: {
+  address: string
+  pageId: string
+}) {
+  return indexer.getMintedNotesOfAddress(address, {
+    noteCharacterId: pageId.split("-")[0],
+    noteId: pageId.split("-")[1],
+  })
+}

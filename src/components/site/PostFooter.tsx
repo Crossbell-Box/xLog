@@ -4,8 +4,11 @@ import { CollectIcon } from "~/components/icons/CollectIcon"
 import {
   useLikePage,
   useUnlikePage,
+  useMintPage,
   useGetLikes,
   useCheckLike,
+  useGetMints,
+  useCheckMint,
 } from "~/queries/page"
 import { useAccount } from "wagmi"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
@@ -17,9 +20,12 @@ export const PostFooter: React.FC<{
 }> = ({ page }) => {
   const likePage = useLikePage()
   const unlikePage = useUnlikePage()
+  const mintPage = useMintPage()
+
   const { address } = useAccount()
   const { openConnectModal } = useConnectModal()
   const [likeProgress, setLikeProgress] = useState(false)
+  const [mintProgress, setMintProgress] = useState(false)
 
   const like = async () => {
     if (!address) {
@@ -27,12 +33,29 @@ export const PostFooter: React.FC<{
       openConnectModal?.()
     } else if (page?.id) {
       if (isLike.data?.count) {
-        unlikePage.mutate({
+        // unlikePage.mutate({
+        //   address,
+        //   pageId: page?.id,
+        // })
+        // TODO
+      } else {
+        likePage.mutate({
           address,
           pageId: page?.id,
         })
+      }
+    }
+  }
+
+  const mint = async () => {
+    if (!address) {
+      setMintProgress(true)
+      openConnectModal?.()
+    } else if (page?.id) {
+      if (isMint.data?.count) {
+        // TODO
       } else {
-        likePage.mutate({
+        mintPage.mutate({
           address,
           pageId: page?.id,
         })
@@ -47,6 +70,33 @@ export const PostFooter: React.FC<{
     address,
     pageId: page?.id,
   })
+
+  const mints = useGetMints({
+    pageId: page?.id,
+  })
+  const isMint = useCheckMint({
+    address,
+    pageId: page?.id,
+  })
+
+  useEffect(() => {
+    if (mintProgress && address && isMint.isSuccess && page?.id) {
+      if (!isMint.data.count) {
+        mintPage.mutate({
+          address,
+          pageId: page?.id,
+        })
+      }
+      setMintProgress(false)
+    }
+  }, [
+    mintProgress,
+    address,
+    isMint.isSuccess,
+    isMint.data?.count,
+    mintPage,
+    page?.id,
+  ])
 
   useEffect(() => {
     if (likeProgress && address && isLike.isSuccess && page?.id) {
@@ -68,7 +118,7 @@ export const PostFooter: React.FC<{
   ])
 
   return (
-    <div className="flex fill-gray-400 text-gray-500 mt-10">
+    <div className="flex fill-gray-400 text-gray-500 mt-14">
       <Button
         variant="text"
         className="flex items-center mr-10"
@@ -87,9 +137,23 @@ export const PostFooter: React.FC<{
         <LikeIcon className="mr-2 w-10 h-10" />
         <span>{likes.data?.count || 0}</span>
       </Button>
-      <Button variant="text" className="flex items-center" isAutoWidth={true}>
+      <Button
+        variant="text"
+        className="flex items-center mr-10"
+        isAutoWidth={true}
+        onClick={mint}
+        isLoading={mintPage.isLoading || likeProgress}
+        style={
+          isMint.isSuccess && isMint.data.count
+            ? {
+                color: "#FFCF55",
+                fill: "#FFCF55",
+              }
+            : {}
+        }
+      >
         <CollectIcon className="mr-2 w-10 h-10" />
-        <span>0</span>
+        <span>{mints.data?.count || 0}</span>
       </Button>
     </div>
   )

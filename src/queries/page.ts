@@ -45,6 +45,35 @@ export const useCheckLike = (input: { address?: string; pageId?: string }) => {
   })
 }
 
+export const useGetMints = (input: { pageId?: string }) => {
+  return useQuery(["getMints", input.pageId], async () => {
+    if (!input.pageId) {
+      return {
+        count: 0,
+        list: [],
+      }
+    }
+    return pageModel.getMints({
+      pageId: input.pageId,
+    })
+  })
+}
+
+export const useCheckMint = (input: { address?: string; pageId?: string }) => {
+  return useQuery(["checkMint", input.pageId, input.address], async () => {
+    if (!input.pageId || !input.address) {
+      return {
+        count: 0,
+        list: [],
+      }
+    }
+    return pageModel.checkMint({
+      address: input.address,
+      pageId: input.pageId,
+    })
+  })
+}
+
 export function useCreateOrUpdatePage() {
   const queryClient = useQueryClient()
   const mutation = useMutation(
@@ -109,6 +138,25 @@ export function useUnlikePage() {
           variables.address,
         ])
         queryClient.invalidateQueries(["getLikes", variables.pageId])
+      },
+    },
+  )
+}
+
+export function useMintPage() {
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof pageModel.mintPage>[0]) => {
+      return pageModel.mintPage(input)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "checkMint",
+          variables.pageId,
+          variables.address,
+        ])
+        queryClient.invalidateQueries(["getMints", variables.pageId])
       },
     },
   )
