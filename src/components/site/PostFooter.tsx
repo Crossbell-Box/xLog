@@ -18,6 +18,8 @@ import { useRouter } from "next/router"
 import { SITE_URL } from "~/lib/env"
 import { DuplicateIcon } from "@heroicons/react/solid"
 import { Comment } from "~/components/common/Comment"
+import { UniLink } from "~/components/ui/UniLink"
+import { Modal } from "~/components/ui/Modal"
 
 export const PostFooter: React.FC<{
   page?: Note
@@ -32,6 +34,24 @@ export const PostFooter: React.FC<{
   const [mintProgress, setMintProgress] = useState(false)
   const userSite = useGetUserSites(address)
   const router = useRouter()
+  let [isLikeOpen, setIsLikeOpen] = useState(false)
+  let [isMintOpen, setIsMintOpen] = useState(false)
+
+  function closeLikeModal() {
+    setIsLikeOpen(false)
+  }
+
+  function openLikeModal() {
+    setIsLikeOpen(true)
+  }
+
+  function closeMintModal() {
+    setIsMintOpen(false)
+  }
+
+  function openMintModal() {
+    setIsMintOpen(true)
+  }
 
   const likes = useGetLikes({
     pageId: page?.id,
@@ -57,11 +77,7 @@ export const PostFooter: React.FC<{
       router.push(`${SITE_URL}/dashboard/new-site`)
     } else if (page?.id) {
       if (isLike.data?.count) {
-        // unlikePage.mutate({
-        //   address,
-        //   pageId: page?.id,
-        // })
-        // TODO
+        openLikeModal()
       } else {
         likePage.mutate({
           address,
@@ -79,7 +95,7 @@ export const PostFooter: React.FC<{
       router.push(`${SITE_URL}/dashboard/new-site`)
     } else if (page?.id) {
       if (isMint.data?.count) {
-        // TODO
+        openMintModal()
       } else {
         mintPage.mutate({
           address,
@@ -169,6 +185,47 @@ export const PostFooter: React.FC<{
           <DuplicateIcon className="mr-2 w-10 h-10" />
           <span>{mints.data?.count || 0}</span>
         </Button>
+        <Modal
+          open={isLikeOpen}
+          setOpen={closeLikeModal}
+          title="Like successfull"
+        >
+          <div className="p-5">
+            Your like has been permanently stored on the blockchain, view them{" "}
+            <UniLink
+              className="text-indigo-600"
+              href={`https://scan.crossbell.io/tx/${isLike.data?.list?.[0]?.transactionHash}`}
+            >
+              here
+            </UniLink>
+          </div>
+          <div className="h-16 border-t flex items-center px-5">
+            <Button isBlock onClick={closeLikeModal}>
+              Got it, thanks!
+            </Button>
+          </div>
+        </Modal>
+        <Modal
+          open={isMintOpen}
+          setOpen={closeMintModal}
+          title="Mint successfull"
+        >
+          <div className="p-5">
+            Your minting has been permanently stored on the blockchain, view
+            them{" "}
+            <UniLink
+              className="text-indigo-600"
+              href={`https://scan.crossbell.io/tx/${isMint.data?.list?.[0]?.transactionHash}`}
+            >
+              here
+            </UniLink>
+          </div>
+          <div className="h-16 border-t flex items-center px-5">
+            <Button isBlock onClick={closeMintModal}>
+              Got it, thanks!
+            </Button>
+          </div>
+        </Modal>
       </div>
       <Comment page={page} />
     </>

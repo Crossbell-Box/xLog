@@ -416,16 +416,6 @@ export async function commentPage({
   if (!characterId) {
     throw notFound(`character not found`)
   } else {
-    console.log(
-      characterId,
-      {
-        content,
-        sources: ["xlog"],
-        tags: ["comment"],
-      },
-      pageId.split("-")[0],
-      pageId.split("-")[1],
-    )
     return getContract()?.postNoteForNote(
       characterId,
       {
