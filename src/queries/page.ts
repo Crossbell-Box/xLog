@@ -161,3 +161,28 @@ export function useMintPage() {
     },
   )
 }
+
+export function useCommentPage() {
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof pageModel.commentPage>[0]) => {
+      return pageModel.commentPage(input)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(["getComments", variables.pageId])
+      },
+    },
+  )
+}
+
+export function useGetComments(input: { pageId?: string }) {
+  return useQuery(["getComments", input.pageId], async () => {
+    if (!input.pageId) {
+      return
+    }
+    return pageModel.getComments({
+      pageId: input.pageId,
+    })
+  })
+}

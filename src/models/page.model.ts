@@ -9,11 +9,12 @@ import {
 import { type Gate } from "~/lib/gate.server"
 import { Rendered, renderPageContent } from "~/markdown"
 import { notFound } from "~/lib/server-side-props"
-import { PageVisibilityEnum, Notes } from "~/lib/types"
+import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
 import { isUUID } from "~/lib/uuid"
 import { stripHTML } from "~/lib/utils"
 import unidata from "~/lib/unidata"
 import { indexer, getContract } from "~/lib/crossbell"
+import { NoteEntity, CharacterEntity } from "crossbell.js"
 
 const checkPageSlug = async ({
   slug,
@@ -400,4 +401,60 @@ export async function checkMint({
     noteCharacterId: pageId.split("-")[0],
     noteId: pageId.split("-")[1],
   })
+}
+
+export async function commentPage({
+  address,
+  pageId,
+  content,
+}: {
+  address: string
+  pageId: string
+  content: string
+}) {
+  const characterId = await getPrimaryCharacter(address)
+  if (!characterId) {
+    throw notFound(`character not found`)
+  } else {
+    console.log(
+      characterId,
+      {
+        content,
+        sources: ["xlog"],
+        tags: ["comment"],
+      },
+      pageId.split("-")[0],
+      pageId.split("-")[1],
+    )
+    return getContract()?.postNoteForNote(
+      characterId,
+      {
+        content,
+        sources: ["xlog"],
+        tags: ["comment"],
+      },
+      pageId.split("-")[0],
+      pageId.split("-")[1],
+    )
+  }
+}
+
+export async function getComments({ pageId }: { pageId: string }) {
+  const list: (NoteEntity & {
+    character?: CharacterEntity | null
+  })[] = (
+    await indexer.getNotes({
+      toCharacterId: pageId.split("-")[0],
+      toNoteId: pageId.split("-")[1],
+    })
+  ).list
+
+  await Promise.all(
+    list.map(async (item) => {
+      const characterId = item.characterId
+      item.character = await indexer.getCharacter(characterId)
+    }),
+  )
+
+  return list
 }

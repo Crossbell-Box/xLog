@@ -1,0 +1,162 @@
+import clsx from "clsx"
+import { Note, Profile } from "~/lib/types"
+import { useAccount } from "wagmi"
+import { useGetUserSites } from "~/queries/site"
+import { Avatar } from "~/components/ui/Avatar"
+import { Input } from "~/components/ui/Input"
+import { Button } from "~/components/ui/Button"
+import { useForm } from "react-hook-form"
+import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { useState, useEffect } from "react"
+import { useCommentPage, useGetComments } from "~/queries/page"
+import { useRouter } from "next/router"
+import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration"
+import relativeTime from "dayjs/plugin/relativeTime"
+import { UniLink } from "~/components/ui/UniLink"
+import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+
+dayjs.extend(duration)
+dayjs.extend(relativeTime)
+
+export const Comment: React.FC<{
+  page?: Note
+  className?: string
+}> = ({ page, className }) => {
+  const { address } = useAccount()
+  const userSites = useGetUserSites(address)
+  const { openConnectModal } = useConnectModal()
+  const commentPage = useCommentPage()
+  const router = useRouter()
+  const [viewer, setViewer] = useState<Profile | null>(null)
+  const [addressIn, setAddressIn] = useState("")
+  const comments = useGetComments({
+    pageId: page?.id,
+  })
+
+  useEffect(() => {
+    setAddressIn(address || "")
+  }, [address])
+
+  useEffect(() => {
+    if (userSites.isSuccess && userSites.data?.length) {
+      setViewer(userSites.data[0])
+    }
+  }, [userSites, router])
+
+  const form = useForm({
+    defaultValues: {
+      content: "",
+    },
+  })
+
+  const handleSubmit = form.handleSubmit(async (values) => {
+    if (!address) {
+      openConnectModal?.()
+    } else if (userSites.isSuccess && !userSites.data?.length) {
+      router.push(`/dashboard/new-site`)
+    } else {
+      commentPage.mutate({
+        address,
+        pageId: page!.id,
+        content: values.content,
+      })
+    }
+  })
+
+  useEffect(() => {
+    if (commentPage.isSuccess) {
+      form.reset()
+    }
+  }, [commentPage.isSuccess, form])
+
+  return (
+    <div className={clsx("comment", className)}>
+      <div className="border-b pb-2 mb-6">
+        <span>
+          {comments.data?.length || "0"} Comment
+          {comments.data?.length && comments.data.length > 1 ? "s" : ""}
+        </span>
+      </div>
+      <div className="flex">
+        <Avatar
+          className="align-middle mr-3"
+          images={viewer?.avatars || []}
+          name={viewer?.name}
+          size={45}
+        />
+        <form className="w-full" onSubmit={handleSubmit}>
+          <div>
+            <Input
+              id="content"
+              isBlock
+              required={
+                !!addressIn && userSites.isSuccess && !!userSites.data?.length
+              }
+              disabled={
+                !addressIn || !userSites.isSuccess || !userSites.data?.length
+              }
+              multiline
+              maxLength={30}
+              className="mb-4"
+              placeholder="Write a comment on the blockchain"
+              {...form.register("content", {})}
+            />
+          </div>
+          <div className="text-right">
+            <Button
+              type="submit"
+              isLoading={userSites.isLoading || commentPage.isLoading}
+            >
+              {addressIn
+                ? userSites.isSuccess && !userSites.data?.length
+                  ? "Create Character"
+                  : "Submit"
+                : "Connect Wallet"}
+            </Button>
+          </div>
+        </form>
+      </div>
+      <div>
+        {comments.data?.map((comment) => (
+          <div key={comment.transactionHash} className="flex mt-5">
+            <UniLink
+              href={`https://crossbell.kindjeff.com/@${comment?.character?.handle}`}
+              className="align-middle mr-3"
+            >
+              <Avatar
+                images={comment?.character?.metadata?.content?.avatars || []}
+                name={comment?.character?.metadata?.content?.name}
+                size={45}
+              />
+            </UniLink>
+            <div className="flex-1 flex flex-col rounded-lg px-4 py-3 bg-zinc-50">
+              <div className="mb-2 text-sm">
+                <UniLink
+                  href={`https://crossbell.kindjeff.com/@${comment?.character?.handle}`}
+                  className="font-medium text-indigo-600"
+                >
+                  {comment?.character?.metadata?.content?.name}
+                </UniLink>{" "}
+                ·{" "}
+                {dayjs
+                  .duration(
+                    dayjs(comment?.createdAt).diff(dayjs(), "minute"),
+                    "minute",
+                  )
+                  .humanize()}{" "}
+                ago ·{" "}
+                <UniLink
+                  href={`https://scan.crossbell.io/tx/${comment.transactionHash}`}
+                >
+                  <BlockchainIcon className="w-3 h-3 inline-block" />
+                </UniLink>
+              </div>
+              <div>{comment.metadata?.content?.content}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}

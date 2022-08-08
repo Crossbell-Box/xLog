@@ -3,6 +3,7 @@ import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import { Disclosure } from "@headlessui/react"
 import { ChevronUpIcon } from "@heroicons/react/solid"
+import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 
 export const BlockchainInfo: React.FC<{
   site?: Profile
@@ -15,14 +16,17 @@ export const BlockchainInfo: React.FC<{
           <>
             <Disclosure.Button className="flex w-full justify-between rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-zinc-100 transition-colors md:rounded-xl">
               <span>
-                🔔 This{" "}
-                {page
-                  ? page.tags?.includes("post")
-                    ? "post"
-                    : "page"
-                  : "blog"}{" "}
-                has been permanently stored on the blockchain and signed by its
-                creator.
+                <BlockchainIcon className="w-4 h-4 inline-block align-middle mr-2" />
+                <span className="align-middle">
+                  This{" "}
+                  {page
+                    ? page.tags?.includes("post")
+                      ? "post"
+                      : "page"
+                    : "blog"}{" "}
+                  has been permanently stored on the blockchain and signed by
+                  its creator.
+                </span>
               </span>
               <ChevronUpIcon
                 className={`${

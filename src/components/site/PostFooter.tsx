@@ -17,6 +17,7 @@ import { Button } from "../ui/Button"
 import { useRouter } from "next/router"
 import { SITE_URL } from "~/lib/env"
 import { DuplicateIcon } from "@heroicons/react/solid"
+import { Comment } from "~/components/common/Comment"
 
 export const PostFooter: React.FC<{
   page?: Note
@@ -137,36 +138,39 @@ export const PostFooter: React.FC<{
   ])
 
   return (
-    <div className="flex fill-gray-400 text-gray-500 mt-14">
-      <Button
-        variant="like"
-        className={`flex items-center mr-10 ${
-          isLike.isSuccess && isLike.data.count && "active"
-        }`}
-        isAutoWidth={true}
-        onClick={like}
-        isLoading={
-          userSite.isLoading ||
-          likePage.isLoading ||
-          unlikePage.isLoading ||
-          likeProgress
-        }
-      >
-        <LikeIcon className="mr-2 w-10 h-10" />
-        <span>{likes.data?.count || 0}</span>
-      </Button>
-      <Button
-        variant="collect"
-        className={`flex items-center mr-10 ${
-          isMint.isSuccess && isMint.data.count && "active"
-        }`}
-        isAutoWidth={true}
-        onClick={mint}
-        isLoading={mintPage.isLoading || likeProgress}
-      >
-        <DuplicateIcon className="mr-2 w-10 h-10" />
-        <span>{mints.data?.count || 0}</span>
-      </Button>
-    </div>
+    <>
+      <div className="flex fill-gray-400 text-gray-500 mt-14 mb-12">
+        <Button
+          variant="like"
+          className={`flex items-center mr-10 ${
+            isLike.isSuccess && isLike.data.count && "active"
+          }`}
+          isAutoWidth={true}
+          onClick={like}
+          isLoading={
+            userSite.isLoading ||
+            likePage.isLoading ||
+            unlikePage.isLoading ||
+            likeProgress
+          }
+        >
+          <LikeIcon className="mr-2 w-10 h-10" />
+          <span>{likes.data?.count || 0}</span>
+        </Button>
+        <Button
+          variant="collect"
+          className={`flex items-center mr-10 ${
+            isMint.isSuccess && isMint.data.count && "active"
+          }`}
+          isAutoWidth={true}
+          onClick={mint}
+          isLoading={mintPage.isLoading || likeProgress}
+        >
+          <DuplicateIcon className="mr-2 w-10 h-10" />
+          <span>{mints.data?.count || 0}</span>
+        </Button>
+      </div>
+      <Comment page={page} />
+    </>
   )
 }

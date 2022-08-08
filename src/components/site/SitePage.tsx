@@ -17,9 +17,7 @@ export const SitePage: React.FC<{
         ) : (
           <h2 className="text-xl font-bold page-title">{page?.title}</h2>
         )}
-        {page?.tags?.includes("post") && (
-          <PostMeta publishedAt={page.date_published} />
-        )}
+        {page?.tags?.includes("post") && <PostMeta page={page} />}
       </div>
       <PageContent contentHTML={page?.body?.content || ""} className="mt-10" />
       <PostFooter page={page} />

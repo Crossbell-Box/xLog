@@ -5,6 +5,7 @@
 @layer base {
   html {
     @apply text-zinc-800;
+    @apply fill-zinc-800;
   }
 }
 
@@ -110,6 +111,12 @@ body {
 .button.is-collect.active {
   color: #ffcf55;
   fill: #ffcf55;
+}
+
+.button.is-crossbell {
+  background-color: #fff5e1;
+  fill: #e5b65a;
+  color: #e5b65a;
 }
 
 .button.is-green {
