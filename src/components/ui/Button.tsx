@@ -12,7 +12,7 @@ type ButtonProps = {
   isBlock?: boolean
   isDisabled?: boolean
   isAutoWidth?: boolean
-  variant?: "primary" | "secondary" | "text" | "like" | "collect"
+  variant?: "primary" | "secondary" | "text" | "like" | "collect" | "crossbell"
   variantColor?: "green" | "red" | "gray"
   size?: "sm"
   rounded?: "full" | "lg"
