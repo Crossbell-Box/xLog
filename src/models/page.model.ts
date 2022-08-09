@@ -307,7 +307,7 @@ export async function likePage({
   if (!characterId) {
     throw notFound(`character not found`)
   } else {
-    return getContract()?.linkNote(
+    return (await getContract())?.linkNote(
       characterId,
       pageId.split("-")[0],
       pageId.split("-")[1],
@@ -327,7 +327,7 @@ export async function unlikePage({
   if (!characterId) {
     throw notFound(`character not found`)
   } else {
-    return getContract()?.unlinkNote(
+    return (await getContract())?.unlinkNote(
       characterId,
       pageId.split("-")[0],
       pageId.split("-")[1],
@@ -373,7 +373,7 @@ export async function mintPage({
   address: string
   pageId: string
 }) {
-  return getContract()?.mintNote(
+  return (await getContract())?.mintNote(
     pageId.split("-")[0],
     pageId.split("-")[1],
     address,
@@ -416,7 +416,7 @@ export async function commentPage({
   if (!characterId) {
     throw notFound(`character not found`)
   } else {
-    return getContract()?.postNoteForNote(
+    return (await getContract())?.postNoteForNote(
       characterId,
       {
         content,

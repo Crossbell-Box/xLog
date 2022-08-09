@@ -4,10 +4,10 @@ const indexer = new Indexer()
 
 let contract: Contract | undefined
 
-const getContract = () => {
+const getContract = async () => {
   if (!contract && typeof window !== "undefined") {
     contract = new Contract((<any>window).ethereum)
-    contract.connect()
+    await contract.connect()
   }
   return contract
 }
