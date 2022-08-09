@@ -14,7 +14,7 @@ type ButtonProps = {
   isAutoWidth?: boolean
   variant?: "primary" | "secondary" | "text" | "like" | "collect" | "crossbell"
   variantColor?: "green" | "red" | "gray"
-  size?: "sm"
+  size?: "sm" | "xl"
   rounded?: "full" | "lg"
 }
 

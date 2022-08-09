@@ -141,6 +141,13 @@ body {
   @apply min-w-[auto];
 }
 
+.button.is-xl {
+  @apply h-10;
+  @apply px-6;
+  @apply text-xl;
+  @apply min-w-[auto];
+}
+
 .button-group {
   @apply flex items-center;
 }

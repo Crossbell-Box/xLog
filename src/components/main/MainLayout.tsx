@@ -27,7 +27,7 @@ export function MainLayout({
         description={APP_DESCRIPTION}
       />
       <header className="py-10">
-        <div className="max-w-screen-md px-5 mx-auto flex justify-between items-center">
+        <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
           <h1 className="inline-block text-2xl font-extrabold">{APP_NAME}</h1>
           <div className="space-x-5 text-zinc-500">
             <ConnectButton />
@@ -35,8 +35,8 @@ export function MainLayout({
         </div>
       </header>
       {children}
-      <footer className="mt-10 text-sm font-medium text-zinc-500">
-        <div className="max-w-screen-md px-5 mx-auto flex justify-between">
+      <footer className="mt-10 font-medium text-zinc-500 border-t">
+        <div className="max-w-screen-lg px-5 py-14 mx-auto flex justify-between">
           <div>
             <span className="align-middle">
               &copy;{" "}
@@ -50,11 +50,11 @@ export function MainLayout({
               </UniLink>
             </span>
             <span className="text-zinc-400 ml-2 inline-flex items-center space-x-1 align-middle">
-              <UniLink href={DISCORD_LINK}>
+              <UniLink className="flex items-center" href={DISCORD_LINK}>
                 <span className="inline-block i-mdi-discord text-xl hover:text-indigo-500"></span>
               </UniLink>
               {GITHUB_LINK && (
-                <UniLink href={GITHUB_LINK}>
+                <UniLink className="flex items-center" href={GITHUB_LINK}>
                   <span className="inline-block i-mdi-github text-xl hover:text-zinc-900"></span>
                 </UniLink>
               )}
