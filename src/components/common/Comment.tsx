@@ -15,6 +15,11 @@ import duration from "dayjs/plugin/duration"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { UniLink } from "~/components/ui/UniLink"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import data from "@emoji-mart/data"
+// @ts-ignore
+import Picker from "@emoji-mart/react"
+import { Popover } from "@headlessui/react"
+import { EmojiHappyIcon } from "@heroicons/react/outline"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -98,12 +103,32 @@ export const Comment: React.FC<{
               }
               multiline
               maxLength={30}
-              className="mb-4"
+              className="mb-2"
               placeholder="Write a comment on the blockchain"
               {...form.register("content", {})}
             />
           </div>
-          <div className="text-right">
+          <div className="flex justify-between">
+            <Popover className="relative">
+              {({ open }: { open: boolean }) => (
+                <>
+                  <Popover.Button className="group inline-flex items-center rounded-md px-2 text-xl">
+                    <EmojiHappyIcon className="w-6 h-6 text-zinc-400 hover:text-zinc-500" />
+                  </Popover.Button>
+                  <Popover.Panel className="absolute left-0 mt-3 ">
+                    <Picker
+                      data={data}
+                      onEmojiSelect={(e: any) =>
+                        form.setValue(
+                          "content",
+                          form.getValues("content") + e.native,
+                        )
+                      }
+                    />
+                  </Popover.Panel>
+                </>
+              )}
+            </Popover>
             <Button
               type="submit"
               isLoading={userSites.isLoading || commentPage.isLoading}
@@ -119,7 +144,10 @@ export const Comment: React.FC<{
       </div>
       <div>
         {comments.data?.map((comment) => (
-          <div key={comment.transactionHash} className="flex mt-5">
+          <div
+            key={comment.transactionHash}
+            className="flex border-b border-dashed py-6"
+          >
             <UniLink
               href={`https://crossbell.kindjeff.com/@${comment?.character?.handle}`}
               className="align-middle mr-3"
@@ -130,7 +158,7 @@ export const Comment: React.FC<{
                 size={45}
               />
             </UniLink>
-            <div className="flex-1 flex flex-col rounded-lg px-4 py-3 bg-zinc-50">
+            <div className="flex-1 flex flex-col rounded-lg">
               <div className="mb-2 text-sm">
                 <UniLink
                   href={`https://crossbell.kindjeff.com/@${comment?.character?.handle}`}

@@ -6,6 +6,8 @@ specifiers:
   '@codemirror/language': ^0.20.0
   '@codemirror/state': ^0.20.0
   '@codemirror/view': ^0.20.3
+  '@emoji-mart/data': ^1.0.3
+  '@emoji-mart/react': ^1.0.0
   '@floating-ui/react-dom-interactions': ^0.6.3
   '@headlessui/react': ^1.6.0
   '@heroicons/react': ^1.0.6
@@ -50,6 +52,7 @@ specifiers:
   crossbell.js: ^0.10.13
   dayjs: ^1.11.1
   dotenv: ^16.0.0
+  emoji-mart: ^5.2.0
   esbuild: ^0.14.39
   esbuild-register: ^3.3.2
   eslint: ^8.15.0
@@ -108,6 +111,8 @@ dependencies:
   '@codemirror/language': 0.20.2
   '@codemirror/state': 0.20.1
   '@codemirror/view': 0.20.7
+  '@emoji-mart/data': 1.0.3
+  '@emoji-mart/react': 1.0.0_kbqdcrm7a2jamcyb7krk3b53dq
   '@floating-ui/react-dom-interactions': 0.6.6_twyhzqqpkwvvgrmyeapdo6i4my
   '@headlessui/react': 1.6.5_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 1.0.6_react@18.2.0
@@ -129,6 +134,7 @@ dependencies:
   crossbell.js: 0.10.13
   dayjs: 1.11.3
   dotenv: 16.0.1
+  emoji-mart: 5.2.0
   ethers: 5.6.9
   fast-deep-equal: 3.1.3
   form-data: 4.0.0
@@ -617,6 +623,20 @@ packages:
       - '@babel/core'
       - encoding
       - supports-color
+    dev: false
+
+  /@emoji-mart/data/1.0.3:
+    resolution: {integrity: sha512-SwxtfLOPiis9iXwWLjZHpUIUwYV/ghfBG6jpVP2HZgCt/dE8Q4r1RQg1Y5TyYBYKk8N5RKuLWJi1DNrEUIWj+A==}
+    dev: false
+
+  /@emoji-mart/react/1.0.0_kbqdcrm7a2jamcyb7krk3b53dq:
+    resolution: {integrity: sha512-pRZ+e0uWJKVpUBcALevyjnp14HUFG/7p+XsUqNAkz322ruPzyDQ7/qUNONU0KGjQF71O4OIoFdvDPcxVpx1/xg==}
+    peerDependencies:
+      emoji-mart: ^5.2
+      react: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      emoji-mart: 5.2.0
+      react: 18.2.0
     dev: false
 
   /@emotion/hash/0.8.0:
@@ -3497,6 +3517,10 @@ packages:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
+    dev: false
+
+  /emoji-mart/5.2.0:
+    resolution: {integrity: sha512-0ZTIbemlRjEV0ydF8lDqho2N5l4M7qdNFWGp+w3v32D+F6+DYsmuaZr/k4O79EBvqlDx6rx+B8jeaH2qa0ZNDQ==}
     dev: false
 
   /emoji-regex/7.0.3:
