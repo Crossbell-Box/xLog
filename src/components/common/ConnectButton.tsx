@@ -1,6 +1,6 @@
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit"
 import { useGetUserSites } from "~/queries/site"
-import { useAccount, useDisconnect } from "wagmi"
+import { useAccount, useDisconnect, useBalance } from "wagmi"
 import { Avatar } from "~/components/ui/Avatar"
 import type { HeaderLinkType } from "~/components/site/SiteHeader"
 import { DashboardIcon } from "../icons/DashboardIcon"
@@ -9,6 +9,8 @@ import { OUR_DOMAIN } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { useEffect, useState } from "react"
 import { DuplicateIcon, LogoutIcon } from "@heroicons/react/outline"
+import { BigNumber } from "ethers"
+import { CrossbellIcon } from "~/components/icons/CrossbellIcon"
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -49,6 +51,24 @@ export const ConnectButton: React.FC<{
       },
     },
   ]
+
+  const { data: balance } = useBalance({
+    addressOrName: address,
+  })
+
+  const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (balance !== undefined) {
+      if (
+        balance.value.gt(BigNumber.from("1" + "0".repeat(balance.decimals - 2)))
+      ) {
+        setInsufficientBalance(false)
+      } else {
+        setInsufficientBalance(true)
+      }
+    }
+  }, [balance])
 
   return (
     <RainbowConnectButton.Custom>
@@ -100,13 +120,23 @@ export const ConnectButton: React.FC<{
                         />
                         <div className="flex flex-col">
                           <span
-                            className="text-left leading-none text-gray-600 font-medium"
+                            className={`text-left leading-none font-medium ${
+                              InsufficientBalance
+                                ? "text-red-600"
+                                : "text-gray-600"
+                            }`}
                             style={{ marginBottom: "0.15rem" }}
                           >
                             {userSites.data?.[0]?.name || account.displayName}
                           </span>
                           {userSites.data?.[0]?.username && (
-                            <span className="text-left leading-none text-xs text-gray-400">
+                            <span
+                              className={`text-left leading-none text-xs ${
+                                InsufficientBalance
+                                  ? "text-red-400"
+                                  : "text-gray-400"
+                              }`}
+                            >
                               {"@" + userSites.data?.[0]?.username ||
                                 account.displayName}
                             </span>
@@ -119,6 +149,17 @@ export const ConnectButton: React.FC<{
                         }-0 pt-2 group-hover:block top-full z-10 text-gray-600`}
                       >
                         <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
+                          {InsufficientBalance && (
+                            <UniLink
+                              href="https://faucet.crossbell.io/"
+                              className="text-red-600 px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
+                            >
+                              <span className="mr-2 fill-red-600">
+                                <CrossbellIcon />
+                              </span>
+                              Insufficient $CSB balance ({balance?.formatted})
+                            </UniLink>
+                          )}
                           {dropdownLinks.map((link, i) => {
                             return (
                               <UniLink

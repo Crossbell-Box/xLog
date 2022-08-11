@@ -7,8 +7,10 @@ import { SEOHead } from "~/components/common/SEOHead"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
-import { useAccount } from "wagmi"
+import { useAccount, useBalance } from "wagmi"
 import { useCreateSite } from "~/queries/site"
+import { BigNumber } from "ethers"
+import { UniLink } from "~/components/ui/UniLink"
 
 export default function NewSitePage() {
   const router = useRouter()
@@ -16,6 +18,25 @@ export default function NewSitePage() {
 
   const [addressIn, setAddressIn] = useState<string>("")
   const { address } = useAccount()
+  const { data: balance } = useBalance({
+    addressOrName: address,
+  })
+  const [balanceFormatted, setBalanceFormatted] = useState<string>("")
+
+  const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (balance !== undefined) {
+      setBalanceFormatted(balance.formatted)
+      if (
+        balance.value.gt(BigNumber.from("1" + "0".repeat(balance.decimals - 2)))
+      ) {
+        setInsufficientBalance(false)
+      } else {
+        setInsufficientBalance(true)
+      }
+    }
+  }, [balance])
 
   useEffect(() => {
     if (address) {
@@ -82,8 +103,23 @@ export default function NewSitePage() {
           <h2 className="text-3xl mb-8 text-center">Create a new site</h2>
           <p className="mb-8 text-gray-500">
             After creating your own site, you can start writing your blog and
-            interacting with other bloggers
+            interacting with other bloggers.
           </p>
+          {InsufficientBalance ? (
+            <p className="mb-8 text-red-400">
+              Your $CSB balance ({balanceFormatted}) may not be sufficient,
+              please go to{" "}
+              <UniLink
+                href="https://faucet.crossbell.io/"
+                className="font-bold text-red-500"
+              >
+                our faucet
+              </UniLink>{" "}
+              to get some free $CSB.
+            </p>
+          ) : (
+            ""
+          )}
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <Input
