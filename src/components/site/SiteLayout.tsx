@@ -40,7 +40,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   return (
     <>
       <SEOHead
-        title={title || page?.title || ""}
+        title={title || page?.title || site?.name}
         siteName={site?.name || ""}
         description={ogDescription ?? site?.bio}
         image={getUserContentsUrl(site?.avatars?.[0])}
