@@ -56,8 +56,8 @@ export default function Home({ region }: { region: string | null }) {
     {
       screenshot: {
         src: "/screenshot4.png",
-        width: 1548,
-        height: 626,
+        width: 1542,
+        height: 630,
       },
       icon: <BlockchainIcon className="inline mb-2" />,
       title: "Blockchain",
@@ -65,8 +65,7 @@ export default function Home({ region }: { region: string | null }) {
         <>
           All blog data, including config, posts, following, comment...
           Permanently stored on the blockchain <b>by your own hands</b> and can
-          only be controlled by yourself and not the platform like some other
-          &quot;Web3&quot; publishing platform.
+          only be controlled by yourself and not the platform.
         </>
       ),
     },
@@ -77,7 +76,7 @@ export default function Home({ region }: { region: string | null }) {
         height: 1041,
       },
       icon: <LoveIcon className="inline mb-2" />,
-      title: "Rich interactions",
+      title: "Rich Interactions",
       text: "Users can follow, comment, like, and collect your blog and posts, all on the blockchain of course.",
     },
     {
@@ -87,7 +86,7 @@ export default function Home({ region }: { region: string | null }) {
         height: 721,
       },
       icon: <DashboardIcon className="inline mb-2" />,
-      title: "Highly customizable",
+      title: "Highly Customizable",
       text: "Domain name, navigation bar, custom styles, all as you wish, and stored on the blockchain.",
     },
     {
@@ -103,15 +102,17 @@ export default function Home({ region }: { region: string | null }) {
   ]
 
   const comparing = [
-    "Only controlled by yourself",
-    "Like function",
-    "Comment function",
-    "Following function",
-    "Custom domain",
+    "Only Controlled by Yourself",
+    "Open Source",
+    "Self-hosting",
+    "Like Interaction",
+    "Comment Interaction",
+    "Following Interaction",
+    "Custom Domain",
     "Custom CSS",
     "Navigation",
     "Pages",
-    "Scheduled publishing",
+    "Scheduled Publishing",
   ]
 
   return (
