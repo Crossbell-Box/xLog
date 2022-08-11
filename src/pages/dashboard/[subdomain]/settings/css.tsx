@@ -42,7 +42,7 @@ export default function SettingsDomainsPage() {
   }, [updateSite.isSuccess, updateSite.isError])
 
   useEffect(() => {
-    if (site.isSuccess && site.data) {
+    if (site.isSuccess && site.data && !form.getFieldState("css")) {
       form.setValue("css", site.data.css || "")
     }
   }, [form, site.data, site.isSuccess])
