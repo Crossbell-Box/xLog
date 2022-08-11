@@ -9,12 +9,14 @@ import { useStore } from "~/lib/store"
 import { useAccount } from "wagmi"
 import { ConnectButton } from "~/components/common/ConnectButton"
 import Image from "next/image"
-import { DotsHorizontalIcon } from "@heroicons/react/solid"
+import { DotsHorizontalIcon, CheckIcon, XIcon } from "@heroicons/react/solid"
 import { LaughIcon } from "~/components/icons/LaughIcon"
 import { LoveIcon } from "~/components/icons/LoveIcon"
+import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Button } from "~/components/ui/Button"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useRouter } from "next/router"
+import { GITHUB_LINK } from "~/lib/env"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
@@ -50,6 +52,68 @@ export default function Home({ region }: { region: string | null }) {
     }
   }, [isTry, address, router])
 
+  const description = [
+    {
+      screenshot: {
+        src: "/screenshot4.png",
+        width: 1548,
+        height: 626,
+      },
+      icon: <BlockchainIcon className="inline mb-2" />,
+      title: "Blockchain",
+      text: (
+        <>
+          All blog data, including config, posts, following, comment...
+          Permanently stored on the blockchain <b>by your own hands</b> and can
+          only be controlled by yourself and not the platform like some other
+          &quot;Web3&quot; publishing platform.
+        </>
+      ),
+    },
+    {
+      screenshot: {
+        src: "/screenshot2.png",
+        width: 812,
+        height: 1041,
+      },
+      icon: <LoveIcon className="inline mb-2" />,
+      title: "Rich interactions",
+      text: "Users can follow, comment, like, and collect your blog and posts, all on the blockchain of course.",
+    },
+    {
+      screenshot: {
+        src: "/screenshot3.png",
+        width: 1101,
+        height: 721,
+      },
+      icon: <DashboardIcon className="inline mb-2" />,
+      title: "Highly customizable",
+      text: "Domain name, navigation bar, custom styles, all as you wish, and stored on the blockchain.",
+    },
+    {
+      screenshot: {
+        src: "/screenshot1.png",
+        width: 812,
+        height: 835,
+      },
+      icon: <LaughIcon className="inline mb-2" />,
+      title: "Elegant",
+      text: "Elegant and clean default theme allows you to get a great looking blog straight away.",
+    },
+  ]
+
+  const comparing = [
+    "Only controlled by yourself",
+    "Like function",
+    "Comment function",
+    "Following function",
+    "Custom domain",
+    "Custom CSS",
+    "Navigation",
+    "Pages",
+    "Scheduled publishing",
+  ]
+
   return (
     <MainLayout>
       <section>
@@ -61,11 +125,9 @@ export default function Home({ region }: { region: string | null }) {
               Blogging geekily.
             </h2>
             <h3 className="mt-5 text-zinc-500">
-              Meet xlog, the on-chain and open-source blogging platform for
-              everyone.
-              <br />
-              Blog data, including config, posts, following, comment...
-              Permanently stored on the blockchain and signed by you.
+              Meet xlog, the on-chain and{" "}
+              <UniLink href={GITHUB_LINK}>open-source</UniLink> blogging
+              platform for everyone.
             </h3>
             <div className="mt-10">
               {addressIn ? (
@@ -99,73 +161,53 @@ export default function Home({ region }: { region: string | null }) {
               </ul>
             </div>
             <ul className="my-28 space-y-24">
-              <li className="relative w-full flex items-center justify-center">
-                <div className="w-3/5">
-                  <Image
-                    src="/screenshot2.png"
-                    alt="screenshot2"
-                    width="812"
-                    height="1041"
-                  ></Image>
-                </div>
-                <div className="w-2/5 px-8">
-                  <p className="text-4xl font-bold">
-                    <LoveIcon className="inline mb-2" />
-                    <br />
-                    Rich interactions
-                  </p>
-                  <p className="text-zinc-500 mt-4">
-                    Users can follow, comment, like, and collect your blog and
-                    posts, all on the blockchain of course.
-                  </p>
-                </div>
-              </li>
-              <li className="relative w-full flex items-center justify-center">
-                <div className="w-3/5">
-                  <Image
-                    src="/screenshot3.png"
-                    alt="screenshot3"
-                    width="1101"
-                    height="721"
-                  ></Image>
-                </div>
-                <div className="w-2/5 px-8">
-                  <p className="text-4xl font-bold">
-                    <DashboardIcon className="inline mb-2" />
-                    <br />
-                    Highly customizable
-                  </p>
-                  <p className="text-zinc-500 mt-4">
-                    Domain name, navigation bar, custom styles, all as you wish,
-                    and stored on the blockchain.
-                  </p>
-                </div>
-              </li>
-              <li className="relative w-full flex items-center justify-center">
-                <div className="w-3/5">
-                  <Image
-                    src="/screenshot1.png"
-                    alt="screenshot1"
-                    width="812"
-                    height="835"
-                  ></Image>
-                </div>
-                <div className="w-2/5 px-8">
-                  <p className="text-4xl font-bold">
-                    <LaughIcon className="inline mb-2" />
-                    <br />
-                    Elegant
-                  </p>
-                  <p className="text-zinc-500 mt-4">
-                    Elegant and clean default theme allows you to get a great
-                    looking blog straight away.
-                  </p>
-                </div>
-              </li>
+              {description.map((item, index) => (
+                <li
+                  className="relative w-full flex items-center justify-center"
+                  key={index}
+                >
+                  <div className="w-3/5">
+                    <Image
+                      src={item.screenshot.src}
+                      alt={item.title}
+                      width={item.screenshot.width}
+                      height={item.screenshot.height}
+                    ></Image>
+                  </div>
+                  <div className="w-2/5 px-8">
+                    <p className="text-4xl font-bold">
+                      {item.icon}
+                      <br />
+                      {item.title}
+                    </p>
+                    <p className="text-zinc-500 mt-4">{item.text}</p>
+                  </div>
+                </li>
+              ))}
             </ul>
+            <table className="mb-28 w-full table-fixed">
+              <tbody>
+                <tr className="border-b text-xl">
+                  <th className="text-center w-60"></th>
+                  <th className="text-center py-3">xlog</th>
+                  <th className="text-center">Mirror.xyz</th>
+                </tr>
+                {comparing.map((item, index) => (
+                  <tr className="border-b" key={index}>
+                    <td className="text-center py-3">{item}</td>
+                    <td className="text-center">
+                      <CheckIcon className="inline-block w-6 h-6 text-green-600" />
+                    </td>
+                    <td className="text-center">
+                      <XIcon className="inline-block w-6 h-6 text-red-600" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
           <div className="mt-10 text-center">
-            <p className="text-5xl font-bold mb-8">xlog</p>
+            <p className="text-5xl font-bold mb-8">logo</p>
             {addressIn ? (
               <UniLink
                 href="/dashboard"
