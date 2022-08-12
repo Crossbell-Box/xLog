@@ -8,7 +8,7 @@ spec:
   - web
   routes:
   - kind: Rule
-    match: "HostRegexp(`{subdomain:.*}.xlog.app`)"
+    match: "HostRegexp(`xlog.app`, `{subdomain:.*}.xlog.app`)"
     services:
     - name: xlog
       port: 3000
