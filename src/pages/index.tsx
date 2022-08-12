@@ -77,7 +77,7 @@ export default function Home({ region }: { region: string | null }) {
       },
       icon: <LoveIcon className="inline mb-2" />,
       title: "Rich Interactions",
-      text: "Users can follow, comment, like, and collect your blog and posts, all on the blockchain of course.",
+      text: "Users can follow, comment, like, and mint your blog and posts, all on the blockchain of course.",
     },
     {
       screenshot: {
@@ -105,9 +105,8 @@ export default function Home({ region }: { region: string | null }) {
     "Only Controlled by Yourself",
     "Open Source",
     "Self-hosting",
-    "Like Interaction",
-    "Comment Interaction",
-    "Following Interaction",
+    "Like Posts",
+    "Comment Posts",
     "Custom Domain",
     "Custom CSS",
     "Navigation",

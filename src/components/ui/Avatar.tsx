@@ -21,7 +21,8 @@ export const Avatar: React.FC<
 
   const image = useMemo(() => {
     for (const image of images) {
-      if (image) return image
+      if (image)
+        return image.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
     }
   }, [images])
 
@@ -51,7 +52,7 @@ export const Avatar: React.FC<
     <span
       {...props}
       className={clsx(
-        `inline-flex text-zinc-500 bg-gray-400 flex-shrink-0 items-center justify-center text-xl font-medium uppercase`,
+        `inline-flex text-zinc-500 bg-gray-400 flex-shrink-0 items-center justify-center text-xl font-medium uppercase overflow-hidden`,
         borderRadius,
         className,
       )}
@@ -61,13 +62,7 @@ export const Avatar: React.FC<
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className={borderRadius}
-        src={image}
-        width={size}
-        height={size}
-        alt={name || ""}
-      />
+      <img src={image} width={size} height={size} alt={name || ""} />
     </span>
   )
 }

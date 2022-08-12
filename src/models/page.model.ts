@@ -342,7 +342,6 @@ export async function getLikes({ pageId }: { pageId: string }) {
     pageId.split("-")[1],
     {
       linkType: "like",
-      limit: 0,
     },
   )
 }
@@ -381,13 +380,19 @@ export async function mintPage({
 }
 
 export async function getMints({ pageId }: { pageId: string }) {
-  return indexer.getMintedNotesOfNote(
+  const data = await indexer.getMintedNotesOfNote(
     pageId.split("-")[0],
     pageId.split("-")[1],
-    {
-      limit: 0,
-    },
   )
+
+  await Promise.all(
+    data.list.map(async (item: any) => {
+      const owner = item.owner
+      item.character = await indexer.getPrimaryCharacter(owner)
+    }),
+  )
+
+  return data
 }
 
 export async function checkMint({
