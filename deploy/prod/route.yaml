@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: xlog
+  namespace: crossbell
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: "HostRegexp(`{subdomain:.*}.xlog.app`)"
+    services:
+    - name: xlog
+      port: 3000
