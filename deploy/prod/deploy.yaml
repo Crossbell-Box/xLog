@@ -25,6 +25,7 @@ spec:
         - image: $IMAGE_TAG_RELEASE
           imagePullPolicy: Always
           name: xlog
+          command: ["npm", "run", "start"]
           envFrom:
             - secretRef:
                 name: xlog
