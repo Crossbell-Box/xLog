@@ -84,6 +84,7 @@ export type Notes = {
 export type Profile = UniProfile & {
   navigation?: SiteNavigationItem[]
   css?: string
+  ga?: string
 }
 
 export type Profiles = {

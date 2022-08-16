@@ -177,6 +177,9 @@ body {
   @apply w-full;
 }
 
+.input.has-prefix {
+  @apply rounded-l-none;
+}
 .input.has-addon {
   @apply rounded-r-none;
 }

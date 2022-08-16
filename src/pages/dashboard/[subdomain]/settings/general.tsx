@@ -8,6 +8,7 @@ import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { useForm } from "react-hook-form"
 import { useGetSite, useUpdateSite } from "~/queries/site"
+import { UniLink } from "~/components/ui/UniLink"
 
 export default function SiteSettingsGeneralPage() {
   const router = useRouter()
@@ -21,6 +22,7 @@ export default function SiteSettingsGeneralPage() {
     defaultValues: {
       name: "",
       description: "",
+      ga: "",
     },
   })
 
@@ -29,6 +31,7 @@ export default function SiteSettingsGeneralPage() {
       site: subdomain,
       name: values.name,
       description: values.description,
+      ga: values.ga,
     })
   })
 
@@ -46,8 +49,10 @@ export default function SiteSettingsGeneralPage() {
 
   useEffect(() => {
     if (site.data) {
-      form.setValue("name", site.data.name || "")
-      form.setValue("description", site.data.bio || "")
+      !form.getValues("name") && form.setValue("name", site.data.name || "")
+      !form.getValues("description") &&
+        form.setValue("description", site.data.bio || "")
+      !form.getValues("ga") && form.setValue("ga", site.data.ga || "")
     }
   }, [site.data, form])
 
@@ -75,8 +80,29 @@ export default function SiteSettingsGeneralPage() {
             <textarea
               id="description"
               className="input is-block"
-              rows={6}
+              rows={2}
               {...form.register("description")}
+            />
+          </div>
+          <div className="mt-5">
+            <Input
+              id="ga"
+              {...form.register("ga")}
+              prefix="G-"
+              label="Google Analytics"
+              help={
+                <p>
+                  Integrate Google Analytics into your xlog. You can follow the
+                  instructions{" "}
+                  <UniLink
+                    className="underline"
+                    href="https://support.google.com/analytics/answer/9539598"
+                  >
+                    here
+                  </UniLink>{" "}
+                  to find your Measurement ID.
+                </p>
+              }
             />
           </div>
           <div className="mt-5">
