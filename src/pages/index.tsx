@@ -16,7 +16,7 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Button } from "~/components/ui/Button"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useRouter } from "next/router"
-import { GITHUB_LINK } from "~/lib/env"
+import { GITHUB_LINK, APP_NAME } from "~/lib/env"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
@@ -125,7 +125,7 @@ export default function Home({ region }: { region: string | null }) {
               Blogging geekily.
             </h2>
             <h3 className="mt-5 text-zinc-500">
-              Meet xlog, the on-chain and{" "}
+              Meet {APP_NAME}, the on-chain and{" "}
               <UniLink href={GITHUB_LINK}>open-source</UniLink> blogging
               platform for everyone.
             </h3>
@@ -189,7 +189,7 @@ export default function Home({ region }: { region: string | null }) {
               <tbody>
                 <tr className="border-b text-xl">
                   <th className="text-center w-60"></th>
-                  <th className="text-center py-3">xlog</th>
+                  <th className="text-center py-3">{APP_NAME}</th>
                   <th className="text-center">Mirror.xyz</th>
                 </tr>
                 {comparing.map((item, index) => (
@@ -207,17 +207,19 @@ export default function Home({ region }: { region: string | null }) {
             </table>
           </div>
           <div className="mt-10 text-center">
-            <p className="text-5xl font-bold mb-8">logo</p>
+            <div className="w-20 h-20 mx-auto mb-8">
+              <Image alt="logo" src="/logo.svg" width={100} height={100} />
+            </div>
             {addressIn ? (
               <UniLink
                 href="/dashboard"
                 className="text-indigo-500 inline-flex items-center space-x-2 hover:text-indigo-600"
               >
-                <Button size="xl">Try xlog today</Button>
+                <Button size="xl">Try {APP_NAME} today</Button>
               </UniLink>
             ) : (
               <Button onClick={tryNow} size="xl">
-                Try xlog today
+                Try {APP_NAME} today
               </Button>
             )}
           </div>

@@ -92,7 +92,7 @@ export default function SiteSettingsGeneralPage() {
               label="Google Analytics"
               help={
                 <p>
-                  Integrate Google Analytics into your xlog. You can follow the
+                  Integrate Google Analytics into your site. You can follow the
                   instructions{" "}
                   <UniLink
                     className="underline"

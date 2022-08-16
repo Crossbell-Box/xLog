@@ -11,6 +11,7 @@ import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { ConnectButton } from "../common/ConnectButton"
 import { getSiteLink } from "~/lib/helpers"
+import Image from "next/image"
 
 export function MainLayout({
   children,
@@ -28,7 +29,12 @@ export function MainLayout({
       />
       <header className="py-10">
         <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
-          <h1 className="inline-block text-2xl font-extrabold">{APP_NAME}</h1>
+          <div className="text-3xl font-extrabold flex items-center">
+            <div className="inline-block w-16 h-16 mr-4">
+              <Image alt={APP_NAME} src="/logo.svg" width={100} height={100} />
+            </div>
+            {APP_NAME.toUpperCase()}
+          </div>
           <div className="space-x-5 text-zinc-500">
             <ConnectButton />
           </div>
