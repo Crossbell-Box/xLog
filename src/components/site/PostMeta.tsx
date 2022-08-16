@@ -2,6 +2,7 @@ import { formatDate } from "~/lib/date"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { UniLink } from "~/components/ui/UniLink"
 import { Note } from "~/lib/types"
+import { CSB_SCAN } from "~/lib/env"
 
 export const PostMeta: React.FC<{
   page: Note
@@ -14,7 +15,7 @@ export const PostMeta: React.FC<{
         className="align-middle inline-block"
         href={
           page.related_urls?.filter((url) =>
-            url.startsWith("https://scan.crossbell.io/tx/"),
+            url.startsWith(CSB_SCAN + "/tx/"),
           )?.[0]
         }
       >

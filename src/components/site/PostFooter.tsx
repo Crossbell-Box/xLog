@@ -15,7 +15,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useState, useEffect } from "react"
 import { Button } from "../ui/Button"
 import { useRouter } from "next/router"
-import { SITE_URL } from "~/lib/env"
+import { SITE_URL, CSB_SCAN, CSB_IO } from "~/lib/env"
 import { DuplicateIcon } from "@heroicons/react/solid"
 import { Comment } from "~/components/common/Comment"
 import { UniLink } from "~/components/ui/UniLink"
@@ -240,7 +240,7 @@ export const PostFooter: React.FC<{
             Your like has been permanently stored on the blockchain, view them{" "}
             <UniLink
               className="text-indigo-600"
-              href={`https://scan.crossbell.io/tx/${isLike.data?.list?.[0]?.transactionHash}`}
+              href={`${CSB_SCAN}/tx/${isLike.data?.list?.[0]?.transactionHash}`}
             >
               here
             </UniLink>
@@ -261,7 +261,7 @@ export const PostFooter: React.FC<{
             them{" "}
             <UniLink
               className="text-indigo-600"
-              href={`https://scan.crossbell.io/tx/${isMint.data?.list?.[0]?.transactionHash}`}
+              href={`${CSB_SCAN}/tx/${isMint.data?.list?.[0]?.transactionHash}`}
             >
               here
             </UniLink>
@@ -284,7 +284,7 @@ export const PostFooter: React.FC<{
                 key={index}
               >
                 <UniLink
-                  href={`https://crossbell.kindjeff.com/@${like?.fromCharacter?.handle}`}
+                  href={CSB_IO && `${CSB_IO}/@${like?.fromCharacter?.handle}`}
                   className="flex items-center space-x-2 text-sm"
                 >
                   <Avatar
@@ -300,9 +300,7 @@ export const PostFooter: React.FC<{
                     @{like.fromCharacter?.handle}
                   </span>
                 </UniLink>
-                <UniLink
-                  href={"https://scan.crossbell.io/tx/" + like.transactionHash}
-                >
+                <UniLink href={CSB_SCAN + "/tx/" + like.transactionHash}>
                   <BlockchainIcon />
                 </UniLink>
               </li>
@@ -326,7 +324,7 @@ export const PostFooter: React.FC<{
                 key={index}
               >
                 <UniLink
-                  href={`https://crossbell.kindjeff.com/@${mint?.character?.handle}`}
+                  href={CSB_IO && `${CSB_IO}/@${mint?.character?.handle}`}
                   className="flex items-center space-x-2 text-sm"
                 >
                   <Avatar
@@ -340,9 +338,7 @@ export const PostFooter: React.FC<{
                     @{mint.character?.handle}
                   </span>
                 </UniLink>
-                <UniLink
-                  href={"https://scan.crossbell.io/tx/" + mint.transactionHash}
-                >
+                <UniLink href={CSB_SCAN + "/tx/" + mint.transactionHash}>
                   <BlockchainIcon />
                 </UniLink>
               </li>

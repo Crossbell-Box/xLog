@@ -15,8 +15,7 @@ export const UniLink: React.FC<{
   }
 
   if (!href) {
-    console.error("missing href")
-    return null
+    return <span className={className}>{children}</span>
   }
 
   const isExternal = href && /^https?:\/\//.test(href)

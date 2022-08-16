@@ -14,6 +14,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 import { createIDBPersister } from "~/lib/persister.client"
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit"
+import { CSB_SCAN } from "~/lib/env"
 
 import "@rainbow-me/rainbowkit/styles.css"
 
@@ -36,7 +37,7 @@ const { chains, provider } = configureChains(
       blockExplorers: {
         default: {
           name: "Crossbell Explorer",
-          url: "https://scan.crossbell.io",
+          url: CSB_SCAN,
         },
       },
       testnet: false,

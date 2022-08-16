@@ -1,4 +1,4 @@
-import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
+import { CSB_SCAN } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import { Disclosure } from "@headlessui/react"
@@ -40,7 +40,7 @@ export const BlockchainInfo: React.FC<{
                     Blockchain Transaction
                     {(
                       page?.related_urls?.filter((url) =>
-                        url.startsWith("https://scan.crossbell.io/tx/"),
+                        url.startsWith(CSB_SCAN + "/tx/"),
                       ) || site?.metadata?.transactions
                     )?.length > 1
                       ? "s"
@@ -49,9 +49,7 @@ export const BlockchainInfo: React.FC<{
                   <div>
                     {page
                       ? page?.related_urls
-                          ?.filter((url) =>
-                            url.startsWith("https://scan.crossbell.io/tx/"),
-                          )
+                          ?.filter((url) => url.startsWith(CSB_SCAN + "/tx/"))
                           .map((url) => {
                             return (
                               <a
@@ -62,12 +60,10 @@ export const BlockchainInfo: React.FC<{
                                 key={url}
                               >
                                 {url
-                                  .replace("https://scan.crossbell.io/tx/", "")
+                                  .replace(CSB_SCAN + "/tx/", "")
                                   .slice(0, 10)}
                                 ...
-                                {url
-                                  .replace("https://scan.crossbell.io/tx/", "")
-                                  .slice(-10)}
+                                {url.replace(CSB_SCAN + "/tx/", "").slice(-10)}
                               </a>
                             )
                           })
@@ -77,7 +73,7 @@ export const BlockchainInfo: React.FC<{
                               target="_blank"
                               rel="noreferrer"
                               className="inline-block mr-4 break-all"
-                              href={`https://scan.crossbell.io/tx/${hash}`}
+                              href={`${CSB_SCAN}/tx/${hash}`}
                               key={hash}
                             >
                               {hash.slice(0, 10)}...{hash.slice(-10)}
@@ -133,7 +129,7 @@ export const BlockchainInfo: React.FC<{
                       target="_blank"
                       rel="noreferrer"
                       className="inline-block mr-4 break-all"
-                      href={`https://scan.crossbell.io/address/${
+                      href={`${CSB_SCAN}/address/${
                         page?.metadata?.owner || site?.metadata?.owner
                       }`}
                       key={page?.metadata?.owner || site?.metadata?.owner}

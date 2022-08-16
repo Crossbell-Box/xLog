@@ -2,7 +2,7 @@ import clsx from "clsx"
 import { useRouter } from "next/router"
 import { logout } from "~/lib/auth.client"
 import { IS_PROD } from "~/lib/constants"
-import { SITE_URL } from "~/lib/env"
+import { SITE_URL, CSB_SCAN, CSB_IO } from "~/lib/env"
 import { useStore } from "~/lib/store"
 import { Viewer } from "~/lib/types"
 import { getUserContentsUrl } from "~/lib/user-contents"
@@ -142,7 +142,7 @@ export const SiteHeader: React.FC<{
     {
       text: "View on Crossbell.io",
       icon: <CrossbellIcon />,
-      url: `https://crossbell.kindjeff.com/@${site?.username}`,
+      url: CSB_IO && `${CSB_IO}/@${site?.username}`,
     },
     {
       text: "View on RSS3",
@@ -152,7 +152,7 @@ export const SiteHeader: React.FC<{
     {
       text: "View on blockchain explorer",
       icon: <BlockchainIcon />,
-      url: `https://scan.crossbell.io/address/${site?.metadata?.owner}/transactions`,
+      url: `${CSB_SCAN}/address/${site?.metadata?.owner}/transactions`,
     },
   ]
 
