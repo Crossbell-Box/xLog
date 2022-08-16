@@ -139,11 +139,11 @@ export const SiteHeader: React.FC<{
   ]
 
   const moreMenuItems = [
-    // {
-    //   text: "View on Crossbell.io",
-    //   icon: <CrossbellIcon />,
-    //   url: `https://crossbell.kindjeff.com/@${site?.username}`,
-    // },
+    {
+      text: "View on Crossbell.io",
+      icon: <CrossbellIcon />,
+      url: `https://crossbell.kindjeff.com/@${site?.username}`,
+    },
     {
       text: "View on RSS3",
       icon: <RssIcon className="w-4 h-4" />,
