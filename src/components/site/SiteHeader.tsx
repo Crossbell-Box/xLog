@@ -92,7 +92,13 @@ export const SiteHeader: React.FC<{
   })
 
   useEffect(() => {
-    if (followProgress && address && subscription.isSuccess && site?.username) {
+    if (
+      followProgress &&
+      address &&
+      subscription.isSuccess &&
+      site?.username &&
+      userSite.isSuccess
+    ) {
       if (!userSite.data) {
         router.push(`${SITE_URL}/dashboard/new-site`)
       }
@@ -105,6 +111,7 @@ export const SiteHeader: React.FC<{
       setFollowProgress(false)
     }
   }, [
+    userSite.isSuccess,
     userSite.data,
     router,
     followProgress,

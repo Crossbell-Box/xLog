@@ -94,7 +94,13 @@ export const PostFooter: React.FC<{
   }
 
   useEffect(() => {
-    if (mintProgress && address && isMint.isSuccess && page?.id) {
+    if (
+      mintProgress &&
+      address &&
+      isMint.isSuccess &&
+      page?.id &&
+      userSite.isSuccess
+    ) {
       if (!userSite.data) {
         router.push(`${SITE_URL}/dashboard/new-site`)
       }
@@ -107,6 +113,7 @@ export const PostFooter: React.FC<{
       setMintProgress(false)
     }
   }, [
+    userSite.isSuccess,
     userSite.data,
     router,
     mintProgress,
@@ -118,7 +125,13 @@ export const PostFooter: React.FC<{
   ])
 
   useEffect(() => {
-    if (likeProgress && address && isLike.isSuccess && page?.id) {
+    if (
+      likeProgress &&
+      address &&
+      isLike.isSuccess &&
+      page?.id &&
+      userSite.isSuccess
+    ) {
       if (!userSite.data) {
         router.push(`${SITE_URL}/dashboard/new-site`)
       }
@@ -131,6 +144,7 @@ export const PostFooter: React.FC<{
       setLikeProgress(false)
     }
   }, [
+    userSite.isSuccess,
     userSite.data,
     router,
     likeProgress,
