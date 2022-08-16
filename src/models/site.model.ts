@@ -78,11 +78,19 @@ export const getSite = async (input: string) => {
   const site: Profile = profiles.list?.sort(
     (a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0),
   )?.[0]
-  site.navigation = site.metadata?.raw?.["_xlog_navigation"] ||
+  site.navigation = JSON.parse(
+    site.metadata?.raw?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_navigation",
+    )?.value || "null",
+  ) ||
+    site.metadata?.raw?.["_xlog_navigation"] ||
     site.metadata?.raw?.["_crosslog_navigation"] || [
       { id: nanoid(), label: "Archives", url: "/archives" },
     ]
   site.css =
+    site.metadata?.raw?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_css",
+    )?.value ||
     site.metadata?.raw?.["_xlog_css"] ||
     site.metadata?.raw?.["_crosslog_css"] ||
     ""
@@ -127,8 +135,26 @@ export async function updateSite(payload: {
       ...(payload.description && { bio: payload.description }),
       ...(payload.icon && { avatars: [payload.icon] }),
       ...(payload.subdomain && { username: payload.subdomain }),
-      ...(payload.navigation && { _xlog_navigation: payload.navigation }),
-      ...(payload.css && { _xlog_css: payload.css }),
+      ...((payload.navigation || payload.css) && {
+        attributes: [
+          ...(payload.navigation
+            ? [
+                {
+                  trait_type: "xlog_navigation",
+                  value: JSON.stringify(payload.navigation),
+                },
+              ]
+            : []),
+          ...(payload.css
+            ? [
+                {
+                  trait_type: "xlog_css",
+                  value: payload.css,
+                },
+              ]
+            : []),
+        ],
+      }),
     },
   )
 }

@@ -90,7 +90,14 @@ export async function createOrUpdatePage(input: {
       }),
       tags: [input.isPost ? "post" : "page"],
       applications: ["xlog"],
-      ...(input.slug && { _xlog_slug: input.slug }),
+      ...(input.slug && {
+        attributes: [
+          {
+            trait_type: "xlog_slug",
+            value: input.slug,
+          },
+        ],
+      }),
     },
   )
 }
@@ -175,6 +182,7 @@ export async function getPagesBySite(input: {
           }
         }
         page.slug =
+          page.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
           page.metadata?.raw?._xlog_slug ||
           page.metadata?.raw?._crosslog_slug ||
           page.id
@@ -228,6 +236,7 @@ export async function getPage<TRender extends boolean = false>(input: {
   if (input.page) {
     page = pages?.list.find((item) => {
       item.slug =
+        item.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
         item.metadata?.raw?._xlog_slug ||
         item.metadata?.raw?._crosslog_slug ||
         item.id
@@ -262,6 +271,7 @@ export async function getPage<TRender extends boolean = false>(input: {
           }
         }
         page.slug =
+          page.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
           page.metadata?.raw?._xlog_slug ||
           page.metadata?.raw?._crosslog_slug ||
           page.id

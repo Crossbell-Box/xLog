@@ -49,7 +49,7 @@ specifiers:
   clsx: ^1.1.1
   cookie: ^0.5.0
   cross-spawn: ^7.0.3
-  crossbell.js: ^0.10.13
+  crossbell.js: ^0.10.15
   dayjs: ^1.11.1
   dotenv: ^16.0.0
   emoji-mart: ^5.2.0
@@ -92,7 +92,7 @@ specifiers:
   tailwindcss: ^3.0.24
   typescript: ^4.5.5
   ua-parser-js: ^1.0.2
-  unidata.js: ^0.6.9
+  unidata.js: ^0.6.12
   unified: ^10.1.2
   unist-builder: ^3.0.0
   unist-util-visit: ^4.1.0
@@ -131,7 +131,7 @@ dependencies:
   busboy: 1.6.0
   clsx: 1.1.1
   cookie: 0.5.0
-  crossbell.js: 0.10.13
+  crossbell.js: 0.10.15
   dayjs: 1.11.3
   dotenv: 16.0.1
   emoji-mart: 5.2.0
@@ -163,7 +163,7 @@ dependencies:
   remark-rehype: 10.1.0
   sortablejs: 1.15.0
   ua-parser-js: 1.0.2
-  unidata.js: 0.6.9
+  unidata.js: 0.6.12
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.0
@@ -3176,25 +3176,8 @@ packages:
       which: 2.0.2
     dev: true
 
-  /crossbell.js/0.10.13:
-    resolution: {integrity: sha512-D+uc+oP6P4sr1MOTFCZDjjrNzMEYCUytGSVAo6D0TcCiVVPqNoaaAJhzGILosmXUHlLZxbqam9zk/zfEJ0PrHg==}
-    dependencies:
-      async-retry: 1.3.3
-      ethers: 5.6.9
-      fetch-undici: 3.0.1
-      is-ipfs: 6.0.2
-      query-string: 7.1.1
-      ts-mixer: 6.0.1
-      web3-providers-ws: 1.7.4
-    transitivePeerDependencies:
-      - bufferutil
-      - node-fetch
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  /crossbell.js/0.10.2:
-    resolution: {integrity: sha512-FtoxTeinXcFjLbB5ya/NwyJX3d0VNbeOlj0fCNCpdiOf7+bibQWMkjdhnKpIieDYqt6i2dNfMbeygxhIHLWZkw==}
+  /crossbell.js/0.10.15:
+    resolution: {integrity: sha512-sJ6J+tHwvqBGsTWAwqu8/is3B7WfTkyuwJ1Qb56/JoCj/l51Dha5KLUGaACJKlBuknvkmVB3zCPenEvmmbwMtQ==}
     dependencies:
       async-retry: 1.3.3
       ethers: 5.6.9
@@ -3238,7 +3221,7 @@ packages:
   /d/1.0.1:
     resolution: {integrity: sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA==}
     dependencies:
-      es5-ext: 0.10.61
+      es5-ext: 0.10.62
       type: 1.2.0
     dev: false
 
@@ -3605,8 +3588,8 @@ packages:
       is-date-object: 1.0.5
       is-symbol: 1.0.4
 
-  /es5-ext/0.10.61:
-    resolution: {integrity: sha512-yFhIqQAzu2Ca2I4SE2Au3rxVfmohU9Y7wqGR+s7+H7krk26NXhIRAZDgqd6xqjCEFUomDEA3/Bo/7fKmIkW1kA==}
+  /es5-ext/0.10.62:
+    resolution: {integrity: sha512-BHLqn0klhEpnOKSrzn/Xsz2UIW8j+cGmo9JLzr8BiUapV8hPL9+FliFqjwr9ngW7jWdnxv6eO+/LqyhJVqgrjA==}
     engines: {node: '>=0.10'}
     requiresBuild: true
     dependencies:
@@ -3619,7 +3602,7 @@ packages:
     resolution: {integrity: sha512-zw4SRzoUkd+cl+ZoE15A9o1oQd920Bb0iOJMQkQhl3jNc03YqVjAhG7scf9C5KWRU/R13Orf588uCC6525o02g==}
     dependencies:
       d: 1.0.1
-      es5-ext: 0.10.61
+      es5-ext: 0.10.62
       es6-symbol: 3.1.3
     dev: false
 
@@ -4383,7 +4366,7 @@ packages:
   /ext/1.6.0:
     resolution: {integrity: sha512-sdBImtzkq2HpkdRLtlLWDa6w4DX22ijZLKx8BMPUuKe1c5lbN6xwQDQCxSfxBQnHZ13ls/FH0MQZx/q/gr6FQg==}
     dependencies:
-      type: 2.6.0
+      type: 2.7.2
     dev: false
 
   /extend/3.0.2:
@@ -4440,7 +4423,7 @@ packages:
     resolution: {integrity: sha512-UHHu1HqW22ZhK6C/1Zmjf7mQpOwPwLYZ+xcsOgpzistONU8QqvCop6Od29p/kw1GUVoq2Ihu6ItpKLtlojx4FQ==}
     engines: {node: '>=16'}
     dependencies:
-      undici: 5.8.0
+      undici: 5.8.2
     dev: false
 
   /file-entry-cache/6.0.1:
@@ -5163,11 +5146,11 @@ packages:
       interface-datastore: 6.1.1
       libp2p-crypto: 0.21.2
       long: 4.0.0
-      multiformats: 9.7.0
+      multiformats: 9.7.1
       peer-id: 0.16.0
       protobufjs: 6.11.3
       timestamp-nano: 1.0.0
-      uint8arrays: 3.0.0
+      uint8arrays: 3.1.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -5299,7 +5282,7 @@ packages:
       mafmt: 10.0.0
       multiaddr: 10.0.1
       multiformats: 9.7.1
-      uint8arrays: 3.0.0
+      uint8arrays: 3.1.0
     transitivePeerDependencies:
       - node-fetch
       - supports-color
@@ -6896,9 +6879,9 @@ packages:
     dependencies:
       class-is: 1.1.0
       libp2p-crypto: 0.21.2
-      multiformats: 9.7.0
+      multiformats: 9.7.1
       protobufjs: 6.11.3
-      uint8arrays: 3.0.0
+      uint8arrays: 3.1.0
     dev: false
 
   /perfect-debounce/0.1.3:
@@ -8238,8 +8221,8 @@ packages:
     resolution: {integrity: sha512-+5nt5AAniqsCnu2cEQQdpzCAh33kVx8n0VoFidKpB1dVVLAN/F+bgVOqOJqOnEnrhp222clB5p3vUlD+1QAnfg==}
     dev: false
 
-  /type/2.6.0:
-    resolution: {integrity: sha512-eiDBDOmkih5pMbo9OqsqPRGMljLodLcwd5XD5JbtNB0o89xZAwynY9EdCDsJU7LtcVCClu9DvM7/0Ep1hYX3EQ==}
+  /type/2.7.2:
+    resolution: {integrity: sha512-dzlvlNlt6AXU7EBSfpAscydQ7gXB+pPGsPnfJnZpiNJBDj7IaJzQlBZYGdEi4R9HmPdBv2XmWJ6YUtoTa7lmCw==}
     dev: false
 
   /typedarray-to-buffer/3.1.5:
@@ -8295,18 +8278,18 @@ packages:
     engines: {node: '>=12.18'}
     dev: true
 
-  /undici/5.8.0:
-    resolution: {integrity: sha512-1F7Vtcez5w/LwH2G2tGnFIihuWUlc58YidwLiCv+jR2Z50x0tNXpRRw7eOIJ+GvqCqIkg9SB7NWAJ/T9TLfv8Q==}
+  /undici/5.8.2:
+    resolution: {integrity: sha512-3KLq3pXMS0Y4IELV045fTxqz04Nk9Ms7yfBBHum3yxsTR4XNn+ZCaUbf/mWitgYDAhsplQ0B1G4S5D345lMO3A==}
     engines: {node: '>=12.18'}
     dev: false
 
-  /unidata.js/0.6.9:
-    resolution: {integrity: sha512-IwG/hUqZm5abESj/VsfrvVSPCoLK7koWdrowMNyNz639Beky4JFyqERUO4eEjKR0SYrpmmTdI8pMJeBxsbPSmA==}
+  /unidata.js/0.6.12:
+    resolution: {integrity: sha512-fQ0C54+exK7n5j8zb91dBGy+o3vy9QWyCdJhyVXLrgGpBHOLbx4BOGO5sb0BK8fqY4w+TVFr/+CM7KboOU8mGg==}
     dependencies:
       '@types/lodash': 4.14.182
       '@urql/core': 2.5.0_graphql@16.5.0
       axios: 0.27.2
-      crossbell.js: 0.10.2
+      crossbell.js: 0.10.15
       ethers: 5.6.9
       graphql: 16.5.0
       lodash: 4.17.21
@@ -8714,14 +8697,6 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
-  /web3-core-helpers/1.7.4:
-    resolution: {integrity: sha512-F8PH11qIkE/LpK4/h1fF/lGYgt4B6doeMi8rukeV/s4ivseZHHslv1L6aaijLX/g/j4PsFmR42byynBI/MIzFg==}
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      web3-eth-iban: 1.7.4
-      web3-utils: 1.7.4
-    dev: false
-
   /web3-core-helpers/1.7.5:
     resolution: {integrity: sha512-lDDjTks6Q6aNUO87RYrY2xub3UWTKr/RIWxpHJODEqkLxZS1dWdyliJ6aIx3031VQwsNT5HE7NvABe/t0p3iDQ==}
     engines: {node: '>=8.0.0'}
@@ -8730,31 +8705,12 @@ packages:
       web3-utils: 1.7.5
     dev: false
 
-  /web3-eth-iban/1.7.4:
-    resolution: {integrity: sha512-XyrsgWlZQMv5gRcjXMsNvAoCRvV5wN7YCfFV5+tHUCqN8g9T/o4XUS20vDWD0k4HNiAcWGFqT1nrls02MGZ08w==}
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      bn.js: 5.2.1
-      web3-utils: 1.7.4
-    dev: false
-
   /web3-eth-iban/1.7.5:
     resolution: {integrity: sha512-mn2W5t/1IpL8OZvzAabLKT4kvwRnZSJ9K0tctndl9sDNWkfITYQibEEhUaNNA50Q5fJKgVudHI/m0gwIVTyG8Q==}
     engines: {node: '>=8.0.0'}
     dependencies:
       bn.js: 5.2.1
       web3-utils: 1.7.5
-    dev: false
-
-  /web3-providers-ws/1.7.4:
-    resolution: {integrity: sha512-g72X77nrcHMFU8hRzQJzfgi/072n8dHwRCoTw+WQrGp+XCQ71fsk2qIu3Tp+nlp5BPn8bRudQbPblVm2uT4myQ==}
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      eventemitter3: 4.0.4
-      web3-core-helpers: 1.7.4
-      websocket: 1.0.34
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /web3-providers-ws/1.7.5:
@@ -8766,19 +8722,6 @@ packages:
       websocket: 1.0.34
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /web3-utils/1.7.4:
-    resolution: {integrity: sha512-acBdm6Evd0TEZRnChM/MCvGsMwYKmSh7OaUfNf5OKG0CIeGWD/6gqLOWIwmwSnre/2WrA1nKGId5uW2e5EfluA==}
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      bn.js: 5.2.1
-      ethereum-bloom-filters: 1.0.10
-      ethereumjs-util: 7.1.5
-      ethjs-unit: 0.1.6
-      number-to-bn: 1.7.0
-      randombytes: 2.1.0
-      utf8: 3.0.0
     dev: false
 
   /web3-utils/1.7.5:
@@ -8862,7 +8805,7 @@ packages:
     dependencies:
       bufferutil: 4.0.6
       debug: 2.6.9
-      es5-ext: 0.10.61
+      es5-ext: 0.10.62
       typedarray-to-buffer: 3.1.5
       utf-8-validate: 5.0.9
       yaeti: 0.0.6
