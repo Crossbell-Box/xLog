@@ -283,23 +283,21 @@ export const PostFooter: React.FC<{
                 className="py-3 flex items-center space-x-2 text-sm"
                 key={index}
               >
-                <UniLink
+                {/* <UniLink
                   href={`https://crossbell.kindjeff.com/@${like?.fromCharacter?.handle}`}
                   className="flex items-center space-x-2 text-sm"
-                >
-                  <Avatar
-                    className="align-middle border-2 border-white"
-                    images={
-                      like.fromCharacter?.metadata?.content?.avatars || []
-                    }
-                    name={like.fromCharacter?.metadata?.content?.name}
-                    size={40}
-                  />
-                  <span>{like.fromCharacter?.metadata?.content?.name}</span>
-                  <span className="text-zinc-400">
-                    @{like.fromCharacter?.handle}
-                  </span>
-                </UniLink>
+                > */}
+                <Avatar
+                  className="align-middle border-2 border-white"
+                  images={like.fromCharacter?.metadata?.content?.avatars || []}
+                  name={like.fromCharacter?.metadata?.content?.name}
+                  size={40}
+                />
+                <span>{like.fromCharacter?.metadata?.content?.name}</span>
+                <span className="text-zinc-400">
+                  @{like.fromCharacter?.handle}
+                </span>
+                {/* </UniLink> */}
                 <UniLink
                   href={"https://scan.crossbell.io/tx/" + like.transactionHash}
                 >
@@ -325,21 +323,19 @@ export const PostFooter: React.FC<{
                 className="py-3 flex items-center space-x-2 text-sm"
                 key={index}
               >
-                <UniLink
+                {/* <UniLink
                   href={`https://crossbell.kindjeff.com/@${mint?.character?.handle}`}
                   className="flex items-center space-x-2 text-sm"
-                >
-                  <Avatar
-                    className="align-middle border-2 border-white"
-                    images={mint.character?.metadata?.content?.avatars || []}
-                    name={mint.character?.metadata?.content?.name}
-                    size={40}
-                  />
-                  <span>{mint.character?.metadata?.content?.name}</span>
-                  <span className="text-zinc-400">
-                    @{mint.character?.handle}
-                  </span>
-                </UniLink>
+                > */}
+                <Avatar
+                  className="align-middle border-2 border-white"
+                  images={mint.character?.metadata?.content?.avatars || []}
+                  name={mint.character?.metadata?.content?.name}
+                  size={40}
+                />
+                <span>{mint.character?.metadata?.content?.name}</span>
+                <span className="text-zinc-400">@{mint.character?.handle}</span>
+                {/* </UniLink> */}
                 <UniLink
                   href={"https://scan.crossbell.io/tx/" + mint.transactionHash}
                 >

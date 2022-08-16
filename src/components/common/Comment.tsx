@@ -148,25 +148,24 @@ export const Comment: React.FC<{
             key={comment.transactionHash}
             className="flex border-b border-dashed py-6"
           >
-            <UniLink
+            {/* <UniLink
               href={`https://crossbell.kindjeff.com/@${comment?.character?.handle}`}
               className="align-middle mr-3"
-            >
-              <Avatar
-                images={comment?.character?.metadata?.content?.avatars || []}
-                name={comment?.character?.metadata?.content?.name}
-                size={45}
-              />
-            </UniLink>
+            > */}
+            <Avatar
+              images={comment?.character?.metadata?.content?.avatars || []}
+              name={comment?.character?.metadata?.content?.name}
+              size={45}
+            />
+            {/* </UniLink> */}
             <div className="flex-1 flex flex-col rounded-lg">
               <div className="mb-2 text-sm">
-                <UniLink
+                {/* <UniLink
                   href={`https://crossbell.kindjeff.com/@${comment?.character?.handle}`}
                   className="font-medium text-indigo-600"
-                >
-                  {comment?.character?.metadata?.content?.name}
-                </UniLink>{" "}
-                ·{" "}
+                > */}
+                {comment?.character?.metadata?.content?.name}
+                {/* </UniLink> */} ·{" "}
                 {dayjs
                   .duration(
                     dayjs(comment?.createdAt).diff(dayjs(), "minute"),
