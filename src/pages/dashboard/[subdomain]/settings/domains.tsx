@@ -45,7 +45,7 @@ export default function SettingsDomainsPage() {
   }, [updateSite])
 
   useEffect(() => {
-    if (site.isSuccess && site.data) {
+    if (site.isSuccess && site.data && !form.getValues("subdomain")) {
       form.setValue("subdomain", site.data.username || "")
     }
   }, [form, site.data, site.isSuccess])
