@@ -232,7 +232,7 @@ export default function SubdomainEditor() {
                   }}
                   help={`This ${
                     isPost ? "post" : "page"
-                  } will be accesisble from this time`}
+                  } will be accessible from this time`}
                 />
               </div>
               <div>
