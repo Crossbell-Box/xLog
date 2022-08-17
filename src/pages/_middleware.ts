@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { IS_PROD } from "~/lib/constants"
-import { DISCORD_LINK } from "~/lib/env"
+import { DISCORD_LINK, OUR_DOMAIN } from "~/lib/env"
 import { FLY_REGION, IS_PRIMARY_REGION, PRIMARY_REGION } from "~/lib/env.server"
 import { getTenant } from "~/lib/tenant.server"
 
@@ -12,7 +12,7 @@ const ALWAYS_REPLAY_ROUTES = [
   "/api/logout",
 ]
 
-export default function middleware(req: NextRequest) {
+export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   if (pathname === "/favicon.ico") {
@@ -39,7 +39,22 @@ export default function middleware(req: NextRequest) {
     })
   }
 
-  const tenant = getTenant(req, req.nextUrl.searchParams)
+  let tenant
+
+  if (req.nextUrl.hostname !== OUR_DOMAIN) {
+    const res = await fetch(
+      `https://cloudflare-dns.com/dns-query?name=_xlog-challenge.${req.nextUrl.hostname}&type=TXT`,
+      {
+        headers: {
+          accept: "application/dns-json",
+        },
+      },
+    )
+    const txt = await res.json()
+    tenant = txt?.Answer?.[0]?.data.replace(/^"|"$/g, "")
+  } else {
+    tenant = getTenant(req, req.nextUrl.searchParams)
+  }
 
   if (pathname.startsWith("/api/") || pathname.startsWith("/dashboard")) {
     return NextResponse.next()
