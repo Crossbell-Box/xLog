@@ -89,6 +89,10 @@ export const getSite = async (input: string) => {
   site.ga =
     site.metadata?.raw?.attributes?.find((a: any) => a.trait_type === "xlog_ga")
       ?.value || ""
+  site.custom_domain =
+    site.metadata?.raw?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_custom_domain",
+    )?.value || ""
   site.name = site.name || site.username
 
   return site
@@ -118,6 +122,7 @@ export async function updateSite(payload: {
   navigation?: SiteNavigationItem[]
   css?: string
   ga?: string
+  custom_domain?: string
 }) {
   return await unidata.profiles.set(
     {
@@ -131,7 +136,10 @@ export async function updateSite(payload: {
       ...(payload.description && { bio: payload.description }),
       ...(payload.icon && { avatars: [payload.icon] }),
       ...(payload.subdomain && { username: payload.subdomain }),
-      ...((payload.navigation || payload.css || payload.ga) && {
+      ...((payload.navigation ||
+        payload.css ||
+        payload.ga ||
+        payload.custom_domain) && {
         attributes: [
           ...(payload.navigation
             ? [
@@ -154,6 +162,14 @@ export async function updateSite(payload: {
                 {
                   trait_type: "xlog_ga",
                   value: payload.ga,
+                },
+              ]
+            : []),
+          ...(payload.custom_domain
+            ? [
+                {
+                  trait_type: "xlog_custom_domain",
+                  value: payload.custom_domain,
                 },
               ]
             : []),

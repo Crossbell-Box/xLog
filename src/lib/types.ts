@@ -85,6 +85,7 @@ export type Profile = UniProfile & {
   navigation?: SiteNavigationItem[]
   css?: string
   ga?: string
+  custom_domain?: string
 }
 
 export type Profiles = {

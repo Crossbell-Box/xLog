@@ -10,6 +10,7 @@ type InputProps<TMultiline extends boolean> = {
   error?: string
   help?: React.ReactNode
   multiline?: TMultiline
+  onChangeText?: (value: string) => void
 } & React.ComponentPropsWithRef<TMultiline extends true ? "textarea" : "input">
 
 export const Input = forwardRef(function Input<
@@ -24,6 +25,7 @@ export const Input = forwardRef(function Input<
     error,
     help,
     multiline,
+    onChangeText,
     ...inputProps
   }: InputProps<TMutliline>,
   ref: TMutliline extends true
@@ -53,6 +55,7 @@ export const Input = forwardRef(function Input<
             isBlock && `is-block`,
             className,
           )}
+          onChange={onChangeText}
         />
         {addon && (
           <span className="flex items-center px-3 text-gray-600 bg-gray-50 h-10 border border-l-0 rounded-r-lg relative -z-10">

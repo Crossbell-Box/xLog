@@ -6,7 +6,7 @@ import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { OUR_DOMAIN } from "~/lib/env"
+import { OUR_DOMAIN, APP_NAME } from "~/lib/env"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export default function SettingsDomainsPage() {
@@ -19,6 +19,7 @@ export default function SettingsDomainsPage() {
   const form = useForm({
     defaultValues: {
       subdomain: "",
+      custom_domain: "",
     },
   })
 
@@ -26,8 +27,18 @@ export default function SettingsDomainsPage() {
     updateSite.mutate({
       site: subdomain,
       subdomain: values.subdomain,
+      custom_domain: values.custom_domain,
     })
   })
+
+  const getSubdomain = (domain?: string) => {
+    return domain?.split(".").slice(0, -2).join(".") || ""
+  }
+
+  const [customDomain, setCustomDomain] = useState("")
+  const customDomainChange = (e: any) => {
+    setCustomDomain(e.target.value)
+  }
 
   useEffect(() => {
     if (updateSite.isSuccess) {
@@ -42,27 +53,71 @@ export default function SettingsDomainsPage() {
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite])
+  }, [updateSite.data?.code])
 
+  const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
-    if (site.isSuccess && site.data && !form.getValues("subdomain")) {
+    if (site.isSuccess && site.data && !hasSet) {
+      setHasSet(true)
       form.setValue("subdomain", site.data.username || "")
+      form.setValue("custom_domain", site.data.custom_domain || "")
+      setCustomDomain(site.data.custom_domain || "")
     }
-  }, [form, site.data, site.isSuccess])
+  }, [form, site.data, site.isSuccess, customDomain])
 
   const title = "Site Settings"
   return (
     <DashboardLayout title={"Domains"}>
       <SettingsLayout title={"Site Settings"} type="site">
         <form onSubmit={handleSubmit}>
-          <div className="">
+          <div>
             <Input
               id="subdomain"
-              label="Subdomain"
+              label={`${APP_NAME} subdomain`}
               addon={`.${OUR_DOMAIN}`}
               className="w-28"
               {...form.register("subdomain")}
             />
+          </div>
+          <div className="mt-5">
+            <Input
+              id="custom_domain"
+              label="Custom Domain"
+              className="w-64"
+              onChangeText={customDomainChange}
+              {...form.register("custom_domain")}
+            />
+            {customDomain && (
+              <div className="mt-2 text-xs">
+                <p className="mb-2">
+                  Set the following record on your DNS provider to active your
+                  custom domain:
+                </p>
+                <table className="">
+                  <tbody>
+                    <tr className="border-b">
+                      <th className="text-center p-3">Type</th>
+                      <th className="text-center p-3">Name</th>
+                      <th className="text-center p-3">Value</th>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="text-center p-3">CNAME</td>
+                      <td className="text-center p-3">
+                        {getSubdomain(customDomain) || "@"}
+                      </td>
+                      <td className="text-center p-3">cname.xlog.app</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="text-center p-3">TXT</td>
+                      <td className="text-center p-3">{`_xlog-challenge.${getSubdomain(
+                        customDomain,
+                      )}`}</td>
+                      <td className="text-center p-3">{subdomain}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
           <div className="mt-5">
             <Button type="submit" isLoading={updateSite.isLoading}>
