@@ -79,6 +79,12 @@ export function useSubscribeToSite() {
     },
     {
       onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "useGetSiteSubscriptions",
+          {
+            siteId: variables.siteId,
+          },
+        ])
         queryClient.invalidateQueries(["getSubscription", variables])
       },
     },
@@ -93,6 +99,12 @@ export function useUnsubscribeFromSite() {
     },
     {
       onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "useGetSiteSubscriptions",
+          {
+            siteId: variables.siteId,
+          },
+        ])
         queryClient.invalidateQueries(["getSubscription", variables])
       },
     },
