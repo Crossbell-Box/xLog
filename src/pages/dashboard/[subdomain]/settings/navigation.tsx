@@ -128,6 +128,19 @@ export default function SiteSettingsNavigationPage() {
   return (
     <DashboardLayout title="Navigation">
       <SettingsLayout title="Site Settings" type="site">
+        <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
+          <p className="text-zinc-800 text-sm font-bold">
+            Tips: built-in pages
+          </p>
+          <p>
+            <span className="text-zinc-800">Archives page:</span>{" "}
+            <span className="bg-zinc-200 rounded-lg px-2">/archives</span>
+          </p>
+          <p>
+            <span className="text-zinc-900">Tag page:</span>{" "}
+            <span className="bg-zinc-200 rounded-lg px-2">/tag/[tag]</span>
+          </p>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="bg-zinc-50 rounded-lg overflow-hidden">
             {items.length === 0 && (

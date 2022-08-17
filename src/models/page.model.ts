@@ -107,6 +107,7 @@ export async function getPagesBySite(input: {
   includeContent?: boolean
   includeExcerpt?: boolean
   render?: boolean
+  tags?: string[]
 }) {
   if (!input.site) {
     return {
@@ -122,6 +123,9 @@ export async function getPagesBySite(input: {
     identity: input.site,
     platform: "Crossbell",
     limit: input.take || 1000,
+    filter: {
+      tags: [...(input.tags || []), input.type],
+    },
   })) || {
     total: 0,
     list: [],
@@ -154,7 +158,6 @@ export async function getPagesBySite(input: {
           page.applications?.includes("Crosslog") ||
           page.applications?.includes("xlog"),
       )
-      .filter((page) => page.tags?.includes(input.type))
       .sort((a, b) => +new Date(b.date_published) - +new Date(a.date_published))
     pages.total = pages.list.length
 

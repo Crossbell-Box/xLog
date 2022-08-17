@@ -49,7 +49,7 @@ specifiers:
   clsx: ^1.1.1
   cookie: ^0.5.0
   cross-spawn: ^7.0.3
-  crossbell.js: ^0.10.15
+  crossbell.js: ^0.10.17
   dayjs: ^1.11.1
   dotenv: ^16.0.0
   emoji-mart: ^5.2.0
@@ -92,7 +92,7 @@ specifiers:
   tailwindcss: ^3.0.24
   typescript: ^4.5.5
   ua-parser-js: ^1.0.2
-  unidata.js: ^0.6.12
+  unidata.js: ^0.6.14
   unified: ^10.1.2
   unist-builder: ^3.0.0
   unist-util-visit: ^4.1.0
@@ -131,7 +131,7 @@ dependencies:
   busboy: 1.6.0
   clsx: 1.1.1
   cookie: 0.5.0
-  crossbell.js: 0.10.15
+  crossbell.js: 0.10.17
   dayjs: 1.11.3
   dotenv: 16.0.1
   emoji-mart: 5.2.0
@@ -163,7 +163,7 @@ dependencies:
   remark-rehype: 10.1.0
   sortablejs: 1.15.0
   ua-parser-js: 1.0.2
-  unidata.js: 0.6.12
+  unidata.js: 0.6.14
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.0
@@ -1662,8 +1662,8 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
-  /@types/lodash/4.14.182:
-    resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
+  /@types/lodash/4.14.183:
+    resolution: {integrity: sha512-UXavyuxzXKMqJPEpFPri6Ku5F9af6ZJXUneHhvQJxavrEjuHkFp2YnDWHcxJiG7hk8ZkWqjcyNeW1s/smZv5cw==}
     dev: false
 
   /@types/long/4.0.2:
@@ -3176,8 +3176,8 @@ packages:
       which: 2.0.2
     dev: true
 
-  /crossbell.js/0.10.15:
-    resolution: {integrity: sha512-sJ6J+tHwvqBGsTWAwqu8/is3B7WfTkyuwJ1Qb56/JoCj/l51Dha5KLUGaACJKlBuknvkmVB3zCPenEvmmbwMtQ==}
+  /crossbell.js/0.10.17:
+    resolution: {integrity: sha512-BRgclp6m0QsI9eA48mlBXaIIEBnYYNOW3hJPnegPqqrtaWafSdJhJPLP/qoKY13YdGEQBLszpjivrRYc+GKFhA==}
     dependencies:
       async-retry: 1.3.3
       ethers: 5.6.9
@@ -4423,7 +4423,7 @@ packages:
     resolution: {integrity: sha512-UHHu1HqW22ZhK6C/1Zmjf7mQpOwPwLYZ+xcsOgpzistONU8QqvCop6Od29p/kw1GUVoq2Ihu6ItpKLtlojx4FQ==}
     engines: {node: '>=16'}
     dependencies:
-      undici: 5.8.2
+      undici: 5.9.1
     dev: false
 
   /file-entry-cache/6.0.1:
@@ -8278,18 +8278,18 @@ packages:
     engines: {node: '>=12.18'}
     dev: true
 
-  /undici/5.8.2:
-    resolution: {integrity: sha512-3KLq3pXMS0Y4IELV045fTxqz04Nk9Ms7yfBBHum3yxsTR4XNn+ZCaUbf/mWitgYDAhsplQ0B1G4S5D345lMO3A==}
+  /undici/5.9.1:
+    resolution: {integrity: sha512-6fB3a+SNnWEm4CJbgo0/CWR8RGcOCQP68SF4X0mxtYTq2VNN8T88NYrWVBAeSX+zb7bny2dx2iYhP3XHi00omg==}
     engines: {node: '>=12.18'}
     dev: false
 
-  /unidata.js/0.6.12:
-    resolution: {integrity: sha512-fQ0C54+exK7n5j8zb91dBGy+o3vy9QWyCdJhyVXLrgGpBHOLbx4BOGO5sb0BK8fqY4w+TVFr/+CM7KboOU8mGg==}
+  /unidata.js/0.6.14:
+    resolution: {integrity: sha512-T6aQfebvrG+Y67z1a5lKHo6cf5yRL5quO9xqphxmFY1wS+0aOdaFc2TDRSdwnOGEWGtr/rEkPVzDiLUGJMpZCw==}
     dependencies:
-      '@types/lodash': 4.14.182
+      '@types/lodash': 4.14.183
       '@urql/core': 2.5.0_graphql@16.5.0
       axios: 0.27.2
-      crossbell.js: 0.10.15
+      crossbell.js: 0.10.17
       ethers: 5.6.9
       graphql: 16.5.0
       lodash: 4.17.21

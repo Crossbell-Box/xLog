@@ -6,7 +6,8 @@ import { Notes, Note } from "~/lib/types"
 
 export const SiteArchives: React.FC<{
   posts?: Notes
-}> = ({ posts }) => {
+  title?: string
+}> = ({ posts, title }) => {
   const groupedByYear = useMemo<Map<string, Note[]>>(() => {
     const map = new Map()
 
@@ -26,7 +27,7 @@ export const SiteArchives: React.FC<{
 
   return (
     <>
-      <h2 className="text-xl font-bold page-title">Archives</h2>
+      <h2 className="text-xl font-bold page-title">{title || "Archives"}</h2>
       {posts.list.length === 0 && (
         <div className="mt-5">
           <EmptyState />

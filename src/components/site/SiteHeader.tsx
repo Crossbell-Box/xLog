@@ -96,7 +96,6 @@ export const SiteHeader: React.FC<{
   const siteSubscriptions = useGetSiteSubscriptions({
     siteId: site?.username || "",
   })
-  console.log(siteSubscriptions.data)
 
   useEffect(() => {
     if (
