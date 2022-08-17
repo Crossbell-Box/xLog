@@ -42,6 +42,7 @@ export async function createOrUpdatePage(input: {
   pageId?: string
   siteId: string
   slug?: string
+  tags?: string
   title?: string
   content?: string
   published?: boolean
@@ -77,7 +78,13 @@ export async function createOrUpdatePage(input: {
           mime_type: "text/markdown",
         },
       }),
-      tags: [input.isPost ? "post" : "page"],
+      tags: [
+        input.isPost ? "post" : "page",
+        ...(input.tags
+          ?.split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag) || []),
+      ],
       applications: ["xlog"],
       ...(input.slug && {
         attributes: [

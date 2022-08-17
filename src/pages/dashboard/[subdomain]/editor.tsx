@@ -59,6 +59,7 @@ export default function SubdomainEditor() {
     published: false,
     excerpt: "",
     slug: "",
+    tags: "",
   })
   const [content, setContent] = useState("")
 
@@ -149,6 +150,10 @@ export default function SubdomainEditor() {
         page.data.date_published !== new Date("9999-01-01").toISOString(),
       excerpt: page.data.summary?.content || "",
       slug: page.data.slug!,
+      tags:
+        page.data.tags
+          ?.filter((tag) => tag !== "post" && tag !== "page")
+          ?.join(", ") || "",
     })
   }, [page.data])
 
@@ -242,7 +247,6 @@ export default function SubdomainEditor() {
                   label="Page slug"
                   id="slug"
                   isBlock
-                  placeholder="some-slug"
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     updateValue("slug", e.target.value)
                   }
@@ -264,6 +268,19 @@ export default function SubdomainEditor() {
                       )}
                     </>
                   }
+                />
+              </div>
+              <div>
+                <Input
+                  name="tags"
+                  value={values.tags}
+                  label="Tags"
+                  id="tags"
+                  isBlock
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    updateValue("tags", e.target.value)
+                  }
+                  help="Separate multiple tags with commas"
                 />
               </div>
               <div>
