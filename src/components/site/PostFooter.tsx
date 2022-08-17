@@ -303,11 +303,14 @@ export const PostFooter: React.FC<{
                     images={
                       like.fromCharacter?.metadata?.content?.avatars || []
                     }
-                    name={like.fromCharacter?.metadata?.content?.name}
+                    name={
+                      like.fromCharacter?.metadata?.content?.name ||
+                      like.fromCharacter?.handle
+                    }
                     size={40}
                   />
                   <span>{like.fromCharacter?.metadata?.content?.name}</span>
-                  <span className="text-zinc-400">
+                  <span className="text-zinc-400 truncate max-w-xs">
                     @{like.fromCharacter?.handle}
                   </span>
                 </UniLink>
@@ -341,11 +344,14 @@ export const PostFooter: React.FC<{
                   <Avatar
                     className="align-middle border-2 border-white"
                     images={mint.character?.metadata?.content?.avatars || []}
-                    name={mint.character?.metadata?.content?.name}
+                    name={
+                      mint.character?.metadata?.content?.name ||
+                      mint.character?.handle
+                    }
                     size={40}
                   />
                   <span>{mint.character?.metadata?.content?.name}</span>
-                  <span className="text-zinc-400">
+                  <span className="text-zinc-400 truncate max-w-xs">
                     @{mint.character?.handle}
                   </span>
                 </UniLink>

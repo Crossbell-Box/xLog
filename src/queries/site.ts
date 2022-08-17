@@ -29,6 +29,15 @@ export const useGetSubscription = (data: {
   })
 }
 
+export const useGetSiteSubscriptions = (data: { siteId: string }) => {
+  return useQuery(["getSiteSubscriptions", data], async () => {
+    if (!data.siteId) {
+      return null
+    }
+    return siteModel.getSiteSubscriptions(data)
+  })
+}
+
 export function useUpdateSite() {
   const queryClient = useQueryClient()
   const mutation = useMutation(

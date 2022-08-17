@@ -18,6 +18,7 @@ import { Fragment, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import {
   useGetSubscription,
+  useGetSiteSubscriptions,
   useSubscribeToSite,
   useUnsubscribeFromSite,
   useGetUserSites,
@@ -27,6 +28,7 @@ import { Menu } from "@headlessui/react"
 import { CrossbellIcon } from "~/components/icons/CrossbellIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { DotsHorizontalIcon, RssIcon } from "@heroicons/react/solid"
+import { Modal } from "~/components/ui/Modal"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -63,6 +65,7 @@ export const SiteHeader: React.FC<{
   const [followProgress, setFollowProgress] = useState<boolean>(false)
   const userSite = useGetUserSites(address)
   const router = useRouter()
+  let [isFollowListOpen, setIsFollowListOpen] = useState(false)
 
   const handleClickSubscribe = async () => {
     if (!address) {
@@ -89,6 +92,11 @@ export const SiteHeader: React.FC<{
     userId: address || "",
     siteId: site?.username || "",
   })
+
+  const siteSubscriptions = useGetSiteSubscriptions({
+    siteId: site?.username || "",
+  })
+  console.log(siteSubscriptions.data)
 
   useEffect(() => {
     if (
@@ -175,6 +183,19 @@ export const SiteHeader: React.FC<{
                 <div className="text-gray-500 text-sm">{site?.bio}</div>
               )}
               <div className="mt-3 text-sm">
+                {siteSubscriptions.data ? (
+                  <span
+                    className="mr-2 align-middle text-zinc-500 text-sm cursor-pointer"
+                    onClick={() => setIsFollowListOpen(true)}
+                  >
+                    <span className="font-bold text-zinc-700">
+                      {siteSubscriptions.data.total}
+                    </span>{" "}
+                    Followers
+                  </span>
+                ) : (
+                  ""
+                )}
                 {subscription.data ? (
                   <Button
                     rounded="full"
@@ -258,6 +279,47 @@ export const SiteHeader: React.FC<{
           <ConnectButton />
         </div>
       </div>
+      <Modal
+        open={isFollowListOpen}
+        setOpen={setIsFollowListOpen}
+        title="Follow List"
+      >
+        <ul className="px-5">
+          {siteSubscriptions.data?.list?.map((sub: any, index) => (
+            <li
+              className="py-3 flex items-center space-x-2 text-sm"
+              key={index}
+            >
+              <UniLink
+                href={CSB_IO && `${CSB_IO}/@${sub?.character?.handle}`}
+                className="flex items-center space-x-2 text-sm"
+              >
+                <Avatar
+                  className="align-middle border-2 border-white"
+                  images={sub.character?.metadata?.content?.avatars || []}
+                  name={
+                    sub.character?.metadata?.content?.name ||
+                    sub.character?.handle
+                  }
+                  size={40}
+                />
+                <span>{sub.character?.metadata?.content?.name}</span>
+                <span className="text-zinc-400 truncate max-w-xs">
+                  @{sub.character?.handle}
+                </span>
+              </UniLink>
+              <UniLink href={CSB_SCAN + "/tx/" + sub.metadata?.proof}>
+                <BlockchainIcon />
+              </UniLink>
+            </li>
+          ))}
+        </ul>
+        <div className="h-16 border-t flex items-center px-5">
+          <Button isBlock onClick={() => setIsFollowListOpen(false)}>
+            Close
+          </Button>
+        </div>
+      </Modal>
     </header>
   )
 }

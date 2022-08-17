@@ -2,6 +2,7 @@ import { SiteNavigationItem, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { checkReservedWords } from "~/lib/reserved-words"
 import unidata from "~/lib/unidata"
+import { indexer, getContract } from "~/lib/crossbell"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -111,6 +112,23 @@ export const getSubscription = async (data: {
     },
   })
   return !!links?.list?.length
+}
+
+export const getSiteSubscriptions = async (data: { siteId: string }) => {
+  const links = await unidata.links.get({
+    source: "Crossbell Link",
+    identity: data.siteId,
+    platform: "Crossbell",
+    reversed: true,
+  })
+
+  await Promise.all(
+    links?.list.map(async (item: any) => {
+      const owner = item.from
+      item.character = await indexer.getCharacterByHandle(owner)
+    }) || [],
+  )
+  return links
 }
 
 export async function updateSite(payload: {
