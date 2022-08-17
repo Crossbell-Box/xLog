@@ -1,4 +1,7 @@
-import { Contract, Indexer } from "crossbell.js"
+import { Contract, Indexer, Network } from "crossbell.js"
+import { IPFS_GATEWAY } from "../lib/env"
+
+Network.setIpfsGateway(IPFS_GATEWAY)
 
 const indexer = new Indexer()
 

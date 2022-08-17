@@ -1,4 +1,4 @@
-import { CSB_SCAN } from "~/lib/env"
+import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import { Disclosure } from "@headlessui/react"
@@ -87,9 +87,7 @@ export const BlockchainInfo: React.FC<{
                   <div>
                     {page
                       ? page.related_urls
-                          ?.filter((url) =>
-                            url.startsWith("https://gateway.ipfs.io/ipfs/"),
-                          )
+                          ?.filter((url) => url.startsWith(IPFS_GATEWAY))
                           .map((url) => {
                             return (
                               <a
@@ -99,10 +97,7 @@ export const BlockchainInfo: React.FC<{
                                 href={url}
                                 key={url}
                               >
-                                {url.replace(
-                                  "https://gateway.ipfs.io/ipfs/",
-                                  "ipfs://",
-                                )}
+                                {url.replace(IPFS_GATEWAY, "ipfs://")}
                               </a>
                             )
                           })
@@ -113,7 +108,7 @@ export const BlockchainInfo: React.FC<{
                             className="inline-block mr-4 break-all"
                             href={site?.metadata?.uri.replace(
                               "ipfs://",
-                              "https://gateway.ipfs.io/ipfs/",
+                              IPFS_GATEWAY,
                             )}
                             key={site?.metadata?.uri}
                           >

@@ -1,5 +1,6 @@
 import { useCallback } from "react"
 import { Web3Storage } from "web3.storage"
+import { IPFS_GATEWAY } from "../lib/env"
 
 export const useUploadFile = () => {
   const uploadFile = useCallback<UploadFile>(async (blob, filename) => {
@@ -14,7 +15,7 @@ export const useUploadFile = () => {
       wrapWithDirectory: false,
     })
     return {
-      key: `https://gateway.ipfs.io/ipfs/${cid}`,
+      key: `${IPFS_GATEWAY}${cid}`,
     }
   }, [])
 

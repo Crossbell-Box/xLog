@@ -14,7 +14,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 import { createIDBPersister } from "~/lib/persister.client"
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit"
-import { CSB_SCAN } from "~/lib/env"
+import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
 
 import "@rainbow-me/rainbowkit/styles.css"
 
@@ -27,8 +27,7 @@ const { chains, provider } = configureChains(
       rpcUrls: {
         default: "https://rpc.crossbell.io",
       },
-      iconUrl:
-        "https://gateway.ipfs.io/ipfs/QmS8zEetTb6pwdNpVjv5bz55BXiSMGP9BjTJmNcjcUT91t",
+      iconUrl: `${IPFS_GATEWAY}QmS8zEetTb6pwdNpVjv5bz55BXiSMGP9BjTJmNcjcUT91t`,
       nativeCurrency: {
         decimals: 18,
         name: "Crossbell Token",

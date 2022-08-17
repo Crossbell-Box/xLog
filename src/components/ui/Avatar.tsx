@@ -1,5 +1,6 @@
 import clsx from "clsx"
 import React, { useMemo } from "react"
+import { IPFS_GATEWAY } from "~/lib/env"
 
 export const Avatar: React.FC<
   {
@@ -22,7 +23,9 @@ export const Avatar: React.FC<
   const image = useMemo(() => {
     for (const image of images) {
       if (image)
-        return image.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
+        return image
+          .replace("ipfs://", IPFS_GATEWAY)
+          .replace("https://gateway.ipfs.io/ipfs/", IPFS_GATEWAY)
     }
   }, [images])
 
