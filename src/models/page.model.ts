@@ -239,36 +239,6 @@ export async function getPage<TRender extends boolean = false>(input: {
     throw notFound(`page ${input.page} not found`)
   }
 
-  if (pages?.list) {
-    pages.list = await Promise.all(
-      pages?.list.map(async (page) => {
-        if (
-          page.body?.content &&
-          page.body?.mime_type === "text/markdown" &&
-          input.render
-        ) {
-          const rendered = await renderPageContent(page.body.content)
-          page.body = {
-            content: rendered.contentHTML,
-            mime_type: "text/html",
-          }
-          if (!page.summary) {
-            page.summary = {
-              content: rendered.excerpt,
-              mime_type: "text/html",
-            }
-          }
-        }
-        page.slug =
-          page.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
-          page.metadata?.raw?._xlog_slug ||
-          page.metadata?.raw?._crosslog_slug ||
-          page.id
-        return page
-      }),
-    )
-  }
-
   if (
     page.body?.content &&
     page.body?.mime_type === "text/markdown" &&

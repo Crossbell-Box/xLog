@@ -8,8 +8,12 @@ export const remarkExcerpt: Plugin<Array<{ env: MarkdownEnv }>, Root> =
   (tree) => {
     for (const node of tree.children) {
       if (node.type === "paragraph") {
-        env.excerpt = mdAstToString(node)
-        break
+        env.excerpt = mdAstToString(node, {
+          includeImageAlt: false,
+        }).slice(0, 140)
+        if (env.excerpt) {
+          break
+        }
       }
     }
   }
