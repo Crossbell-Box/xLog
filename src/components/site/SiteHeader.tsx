@@ -1,6 +1,5 @@
 import clsx from "clsx"
 import { useRouter } from "next/router"
-import { logout } from "~/lib/auth.client"
 import { IS_PROD } from "~/lib/constants"
 import { SITE_URL, CSB_SCAN, CSB_IO } from "~/lib/env"
 import { useStore } from "~/lib/store"

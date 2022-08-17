@@ -1,17 +1,6 @@
-import { nanoid } from "nanoid"
-import {
-  prismaPrimary,
-  Prisma,
-  prismaRead,
-  MembershipRole,
-  PageEmailStatus,
-} from "~/lib/db.server"
-import { type Gate } from "~/lib/gate.server"
 import { Rendered, renderPageContent } from "~/markdown"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
-import { isUUID } from "~/lib/uuid"
-import { stripHTML } from "~/lib/utils"
 import unidata from "~/lib/unidata"
 import { indexer, getContract } from "~/lib/crossbell"
 import { NoteEntity, CharacterEntity } from "crossbell.js"

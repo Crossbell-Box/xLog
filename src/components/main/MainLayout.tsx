@@ -1,12 +1,4 @@
-import {
-  APP_DESCRIPTION,
-  APP_NAME,
-  DOCS_DOMAIN,
-  GITHUB_LINK,
-  OUR_DOMAIN,
-  DISCORD_LINK,
-} from "~/lib/env"
-import { useStore } from "~/lib/store"
+import { APP_DESCRIPTION, APP_NAME, GITHUB_LINK, DISCORD_LINK } from "~/lib/env"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { ConnectButton } from "../common/ConnectButton"

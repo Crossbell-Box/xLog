@@ -4,8 +4,6 @@ import { useAccount, useDisconnect, useBalance } from "wagmi"
 import { Avatar } from "~/components/ui/Avatar"
 import type { HeaderLinkType } from "~/components/site/SiteHeader"
 import { DashboardIcon } from "../icons/DashboardIcon"
-import { IS_PROD } from "~/lib/constants"
-import { OUR_DOMAIN } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { useEffect, useState } from "react"
 import { DuplicateIcon, LogoutIcon } from "@heroicons/react/outline"
@@ -41,7 +39,7 @@ export const ConnectButton: React.FC<{
     {
       icon: <DashboardIcon />,
       label: "Writer dashboard",
-      url: `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}/dashboard`,
+      url: `/dashboard`,
     },
     {
       icon: <LogoutIcon className="w-4 h-4" />,

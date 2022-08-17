@@ -6,7 +6,6 @@ import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { OUR_DOMAIN } from "~/lib/env"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export default function SettingsDomainsPage() {

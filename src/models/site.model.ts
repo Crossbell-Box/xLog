@@ -1,10 +1,5 @@
-import { prismaPrimary, prismaRead } from "~/lib/db.server"
-import { isUUID } from "~/lib/uuid"
-import { MembershipRole, PageType, type Site } from "~/lib/db.server"
-import { Gate } from "~/lib/gate.server"
 import { SiteNavigationItem, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
-import { getMembership } from "./membership"
 import { checkReservedWords } from "~/lib/reserved-words"
 import unidata from "~/lib/unidata"
 
@@ -15,27 +10,24 @@ export const checkSubdomain = async ({
   subdomain: string
   updatingSiteId?: string
 }) => {
-  checkReservedWords(subdomain)
-
-  const existingSite = await prismaPrimary.site.findUnique({
-    where: {
-      subdomain,
-    },
-  })
-
-  if (existingSite?.deletedAt) {
-    // Actuall delete the site so that the subdomain can be used again
-    await prismaPrimary.site.delete({
-      where: {
-        id: existingSite.id,
-      },
-    })
-    return
-  }
-
-  if (existingSite && (!updatingSiteId || existingSite.id !== updatingSiteId)) {
-    throw new Error(`Subdomain already taken`)
-  }
+  // checkReservedWords(subdomain)
+  // const existingSite = await prismaPrimary.site.findUnique({
+  //   where: {
+  //     subdomain,
+  //   },
+  // })
+  // if (existingSite?.deletedAt) {
+  //   // Actuall delete the site so that the subdomain can be used again
+  //   await prismaPrimary.site.delete({
+  //     where: {
+  //       id: existingSite.id,
+  //     },
+  //   })
+  //   return
+  // }
+  // if (existingSite && (!updatingSiteId || existingSite.id !== updatingSiteId)) {
+  //   throw new Error(`Subdomain already taken`)
+  // }
 }
 
 export const getUserSites = async (address?: string) => {
