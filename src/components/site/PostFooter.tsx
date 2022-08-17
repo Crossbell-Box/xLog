@@ -22,6 +22,7 @@ import { UniLink } from "~/components/ui/UniLink"
 import { Modal } from "~/components/ui/Modal"
 import { Avatar } from "../ui/Avatar"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { MintIcon } from "~/components/icons/MintIcon"
 
 export const PostFooter: React.FC<{
   page?: Note
@@ -211,7 +212,7 @@ export const PostFooter: React.FC<{
           onClick={mint}
           isLoading={mintPage.isLoading || likeProgress}
         >
-          <DuplicateIcon className="mr-1 w-10 h-10" />
+          <MintIcon className="mr-2 w-8 h-8" />
           <span>{mints.data?.count || 0}</span>
         </Button>
         <ul
