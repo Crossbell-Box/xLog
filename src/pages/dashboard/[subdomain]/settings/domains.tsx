@@ -36,9 +36,9 @@ export default function SettingsDomainsPage() {
   }
 
   const [customDomain, setCustomDomain] = useState("")
-  const customDomainChange = (e: any) => {
-    setCustomDomain(e.target.value)
-  }
+  form.register("custom_domain", {
+    onChange: (e) => setCustomDomain(e.target.value),
+  })
 
   useEffect(() => {
     if (updateSite.isSuccess) {
@@ -84,7 +84,6 @@ export default function SettingsDomainsPage() {
               id="custom_domain"
               label="Custom Domain"
               className="w-64"
-              onChangeText={customDomainChange}
               {...form.register("custom_domain")}
             />
             {customDomain && (
