@@ -1,6 +1,6 @@
 import { OUR_DOMAIN } from "./env"
 
-export const getTenant = (request: Request, search: URLSearchParams) => {
+export const getTenant = async (request: Request, search: URLSearchParams) => {
   const host = request.headers.get("host")
 
   if (!OUR_DOMAIN) {
@@ -21,7 +21,16 @@ export const getTenant = (request: Request, search: URLSearchParams) => {
       return subdomain
     }
     if (host !== OUR_DOMAIN) {
-      return host
+      const res = await fetch(
+        `https://cloudflare-dns.com/dns-query?name=_xlog-challenge.${host}&type=TXT`,
+        {
+          headers: {
+            accept: "application/dns-json",
+          },
+        },
+      )
+      const txt = await res.json()
+      return txt?.Answer?.[0]?.data.replace(/^"|"$/g, "")
     }
   }
   return

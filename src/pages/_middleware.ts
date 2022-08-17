@@ -12,7 +12,7 @@ const ALWAYS_REPLAY_ROUTES = [
   "/api/logout",
 ]
 
-export default function middleware(req: NextRequest) {
+export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   if (pathname === "/favicon.ico") {
@@ -39,7 +39,7 @@ export default function middleware(req: NextRequest) {
     })
   }
 
-  const tenant = getTenant(req, req.nextUrl.searchParams)
+  const tenant = await getTenant(req, req.nextUrl.searchParams)
 
   if (pathname.startsWith("/api/") || pathname.startsWith("/dashboard")) {
     return NextResponse.next()
