@@ -5,8 +5,9 @@ import toast from "react-hot-toast"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
-import { Input } from "~/components/ui/Input"
 import { useGetSite, useUpdateSite } from "~/queries/site"
+import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react"
+import { FieldLabel } from "~/components/ui/FieldLabel"
 
 export default function SettingsDomainsPage() {
   const router = useRouter()
@@ -15,18 +16,14 @@ export default function SettingsDomainsPage() {
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
 
-  const form = useForm({
-    defaultValues: {
-      css: "",
-    },
-  })
-
-  const handleSubmit = form.handleSubmit((values) => {
+  const [css, setCss] = useState("")
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
     updateSite.mutate({
       site: subdomain,
-      css: values.css,
+      css: css,
     })
-  })
+  }
 
   useEffect(() => {
     if (updateSite.isSuccess) {
@@ -41,10 +38,10 @@ export default function SettingsDomainsPage() {
   }, [updateSite.isSuccess, updateSite.isError])
 
   useEffect(() => {
-    if (site.isSuccess && site.data && !form.getValues("css")) {
-      form.setValue("css", site.data.css || "")
+    if (site.isSuccess && site.data && !css) {
+      setCss(site.data.css || "")
     }
-  }, [form, site.data, site.isSuccess])
+  }, [site.data, site.isSuccess, css])
 
   const title = "Site Settings"
   return (
@@ -52,15 +49,15 @@ export default function SettingsDomainsPage() {
       <SettingsLayout title={"Site Settings"} type="site">
         <form onSubmit={handleSubmit}>
           <div className="">
-            <Input
-              id="subdomain"
-              label="Custom CSS"
-              className="w-full"
-              style={{
-                height: "400px",
+            <FieldLabel label="Custom CSS" />
+            <Editor
+              className="w-full h-96 border outline-none py-3 rounded-lg inline-flex items-center overflow-hidden"
+              defaultLanguage="css"
+              defaultValue={css}
+              onChange={(value) => setCss(value || "")}
+              options={{
+                fontSize: 14,
               }}
-              multiline
-              {...form.register("css")}
             />
           </div>
           <div className="mt-5">

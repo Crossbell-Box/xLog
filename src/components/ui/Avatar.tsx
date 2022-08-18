@@ -65,7 +65,13 @@ export const Avatar: React.FC<
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={image} width={size} height={size} alt={name || ""} />
+      <img
+        className="overflow-hidden"
+        src={image}
+        width={size}
+        height={size}
+        alt={name || ""}
+      />
     </span>
   )
 }
