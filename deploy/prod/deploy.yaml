@@ -33,11 +33,11 @@ spec:
               protocol: TCP
           resources:
             requests:
-              memory: '200Mi'
-              cpu: '150m'
+              memory: "200Mi"
+              cpu: "150m"
             limits:
-              memory: '500Mi'
-              cpu: '500m'
+              memory: "500Mi"
+              cpu: "500m"
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           readinessProbe:
@@ -50,8 +50,41 @@ spec:
               port: 3000
             initialDelaySeconds: 40
             periodSeconds: 20
+        - name: caddy
+          image: kindjeff/caddy-tlsredis-docker
+          imagePullPolicy: Always
+          command: ["caddy", "run", "-config", "/app/Caddyfile"]
+          envFrom:
+            - secretRef:
+                name: xlog-caddy
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 443
+              name: https
+          volumeMounts:
+            - name: caddyfile
+              mountPath: /app
+        - name: caddy-validator
+          image: python
+          command: ["/bin/sh", "-c"]
+          args: ["pip install flask requests; flask --app=app run"]
+          ports:
+            - containerPort: 5000
+              name: http
+          volumeMounts:
+            - name: validator
+              mountPath: /app.py
+              subPath: app.py
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: caddyfile
+          configMap:
+            name: xlog-caddy
+        - name: validator
+          configMap:
+            name: xlog-caddy-validator
