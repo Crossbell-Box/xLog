@@ -40,6 +40,8 @@ data:
         domain = request.args.get("domain")
         if not domain:
             return Response(status=404)
+        if domain.endswith('xlog.app'):
+            return Response(status=200)
 
         # get TXT
         res = requests.get("https://cloudflare-dns.com/dns-query", params={
