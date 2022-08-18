@@ -6,20 +6,28 @@ metadata:
 data:
   Caddyfile: |
     {
-        storage redis {
-        }
+    	storage redis {
+    	}
 
-        on_demand_tls {
-            ask http://localhost:5000/
-        }
+    	on_demand_tls {
+    		ask http://localhost:5000/
+    	}
+    }
+
+    xlog.app, *.xlog.app {
+    	tls jeff@rss3.io {
+    		dns cloudflare {env.CF_API_TOKEN}
+    	}
+
+    	reverse_proxy 127.0.0.1:3000
     }
 
     :80, :443 {
-        tls {
-            on_demand
-        }
+    	tls jeff@rss3.io {
+    		on_demand
+    	}
 
-        reverse_proxy 127.0.0.1:3000
+    	reverse_proxy 127.0.0.1:3000
     }
 ---
 apiVersion: v1
