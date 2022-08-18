@@ -40,7 +40,7 @@ data:
         domain = request.args.get("domain")
         if not domain:
             return Response(status=404)
-        if domain.endswith('xlog.app'):
+        if domain.endswith('.xlog.app') or domain == "xlog.app":
             return Response(status=200)
 
         # get TXT
