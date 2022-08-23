@@ -39,6 +39,9 @@ export const getUserSites = async (address?: string) => {
     source: "Crossbell Profile",
     identity: address,
     platform: "Ethereum",
+    filter: {
+      primary: true,
+    },
   })
 
   const sites = profiles.list
