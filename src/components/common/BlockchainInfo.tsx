@@ -4,6 +4,7 @@ import { Profile, Note } from "~/lib/types"
 import { Disclosure } from "@headlessui/react"
 import { ChevronUpIcon } from "@heroicons/react/solid"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { toIPFS, toGateway } from "~/lib/ipfs-parser"
 
 export const BlockchainInfo: React.FC<{
   site?: Profile
@@ -97,7 +98,7 @@ export const BlockchainInfo: React.FC<{
                                 href={url}
                                 key={url}
                               >
-                                {url.replace(IPFS_GATEWAY, "ipfs://")}
+                                {toIPFS(url)}
                               </a>
                             )
                           })
@@ -106,10 +107,7 @@ export const BlockchainInfo: React.FC<{
                             target="_blank"
                             rel="noreferrer"
                             className="inline-block mr-4 break-all"
-                            href={site?.metadata?.uri.replace(
-                              "ipfs://",
-                              IPFS_GATEWAY,
-                            )}
+                            href={toGateway(site?.metadata?.uri)}
                             key={site?.metadata?.uri}
                           >
                             {site?.metadata?.uri}
