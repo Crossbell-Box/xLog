@@ -15,7 +15,7 @@ export const UploadImage: ICommand = {
 
       const file = e.target?.files?.[0]
       try {
-        const { key } = await UploadFile(file, file.name)
+        const { key } = await UploadFile(file)
         wrapExecute({ view, prepend: "", append: `![${file.name}](${key})` })
 
         toast.success("Uploaded!", {

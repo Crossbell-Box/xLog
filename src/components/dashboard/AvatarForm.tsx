@@ -34,7 +34,7 @@ const AvatarEditorModal: React.FC<{
       const blob = await pica.toBlob(result, "image/jpeg", 0.9)
 
       // Upload image to R2
-      key = (await uploadFile(blob, image!.name)).key
+      key = (await uploadFile(blob)).key
     }
 
     // Save the image to profile / site

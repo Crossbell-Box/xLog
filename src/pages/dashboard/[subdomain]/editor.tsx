@@ -108,7 +108,7 @@ export default function SubdomainEditor() {
           throw new Error("You can only upload images")
         }
 
-        const { key } = await uploadFile(file, file.name)
+        const { key } = await uploadFile(file)
         toast.success("Uploaded!", {
           id: toastId,
         })
