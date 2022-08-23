@@ -16,6 +16,7 @@ import { Button } from "~/components/ui/Button"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useRouter } from "next/router"
 import { GITHUB_LINK, APP_NAME } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
@@ -71,8 +72,8 @@ export default function Home({ region }: { region: string | null }) {
     {
       screenshot: {
         src: "/screenshot2.png",
-        width: 812,
-        height: 1041,
+        width: 1528,
+        height: 1204,
       },
       icon: <LoveIcon className="inline mb-2" />,
       title: "Rich Interactions",
@@ -81,8 +82,8 @@ export default function Home({ region }: { region: string | null }) {
     {
       screenshot: {
         src: "/screenshot3.png",
-        width: 1101,
-        height: 721,
+        width: 4232,
+        height: 1486,
       },
       icon: <DashboardIcon className="inline mb-2" />,
       title: "Highly Customizable",
@@ -91,8 +92,8 @@ export default function Home({ region }: { region: string | null }) {
     {
       screenshot: {
         src: "/screenshot1.png",
-        width: 812,
-        height: 835,
+        width: 1520,
+        height: 1331,
       },
       icon: <LaughIcon className="inline mb-2" />,
       title: "Elegant",
@@ -145,12 +146,32 @@ export default function Home({ region }: { region: string | null }) {
               Trusted by these awesome teams and geeks
               <ul className="mt-4 space-x-4">
                 <li className="inline-flex w-20 align-middle items-center">
-                  <Image
-                    src="/RSS3.png"
-                    alt="RSS3"
-                    width="2518"
-                    height="629"
-                  ></Image>
+                  <UniLink
+                    href={getSiteLink({
+                      subdomain: "rss3",
+                    })}
+                  >
+                    <Image
+                      src="/RSS3.png"
+                      alt="RSS3"
+                      width="2518"
+                      height="629"
+                    ></Image>
+                  </UniLink>
+                </li>
+                <li className="inline-flex w-12 align-middle items-center">
+                  <UniLink
+                    href={getSiteLink({
+                      subdomain: "crossbell-blog",
+                    })}
+                  >
+                    <Image
+                      src="/Crossbell.svg"
+                      alt="Crossbell"
+                      width="1000"
+                      height="1000"
+                    ></Image>
+                  </UniLink>
                 </li>
                 <li className="inline-flex h-5 align-middle items-center">
                   <UniLink className="inline-block" href="#">
