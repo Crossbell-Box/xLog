@@ -106,7 +106,10 @@ export function DashboardLayout({
 
           <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center px-4">
             <UniLink
-              href={getSiteLink({ subdomain })}
+              href={getSiteLink({
+                subdomain,
+                domain: userSite.data?.[0]?.custom_domain,
+              })}
               className="space-x-2 border rounded-lg bg-gray-100 border-gray-200 text-gray-500 hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-500 flex w-full h-12 items-center justify-center transition-colors"
             >
               <span className="i-bi:box-arrow-up-right"></span>

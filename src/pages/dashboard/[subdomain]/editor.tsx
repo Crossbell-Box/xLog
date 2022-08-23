@@ -18,10 +18,8 @@ import { inLocalTimezone } from "~/lib/date"
 import { getSiteLink } from "~/lib/helpers"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { PageVisibilityEnum, Note } from "~/lib/types"
-import { FieldLabel } from "~/components/ui/FieldLabel"
-import { Button } from "~/components/ui/Button"
-import { useStore } from "~/lib/store"
 import { useGetPage, useCreateOrUpdatePage } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -34,6 +32,8 @@ export default function SubdomainEditor() {
   const subdomain = router.query.subdomain as string
   const isPost = router.query.type === "post"
   const pageId = router.query.id as string | undefined
+
+  const site = useGetSite(subdomain)
 
   const page = useGetPage({
     site: subdomain!,
@@ -87,6 +87,11 @@ export default function SubdomainEditor() {
       isPost: isPost,
       published,
       content,
+      externalUrl:
+        values.slug &&
+        `${getSiteLink({ subdomain, domain: site.data?.custom_domain })}/${
+          values.slug
+        }`,
     })
   }
 
@@ -256,13 +261,18 @@ export default function SubdomainEditor() {
                         <>
                           This {isPost ? "post" : "page"} will be accessible at{" "}
                           <UniLink
-                            href={`${getSiteLink({ subdomain })}/${
-                              values.slug
-                            }`}
+                            href={`${getSiteLink({
+                              subdomain,
+                              domain: site.data?.custom_domain,
+                            })}/${values.slug}`}
                             className="hover:underline"
                           >
-                            {getSiteLink({ subdomain, noProtocol: true })}/
-                            {values.slug}
+                            {getSiteLink({
+                              subdomain,
+                              domain: site.data?.custom_domain,
+                              noProtocol: true,
+                            })}
+                            /{values.slug}
                           </UniLink>
                         </>
                       )}

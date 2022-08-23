@@ -50,6 +50,7 @@ export async function createOrUpdatePage(input: {
   excerpt?: string
   /** Only needed when creating page */
   isPost?: boolean
+  externalUrl?: string
 }) {
   return await unidata.notes.set(
     {
@@ -59,6 +60,7 @@ export async function createOrUpdatePage(input: {
       action: input.pageId ? "update" : "add",
     },
     {
+      ...(input.externalUrl && { related_urls: [input.externalUrl] }),
       ...(input.pageId && { id: input.pageId }),
       ...(input.title && { title: input.title }),
       ...(input.content && {
@@ -391,10 +393,12 @@ export async function commentPage({
   address,
   pageId,
   content,
+  externalUrl,
 }: {
   address: string
   pageId: string
   content: string
+  externalUrl: string
 }) {
   const characterId = await getPrimaryCharacter(address)
   if (!characterId) {
@@ -405,6 +409,7 @@ export async function commentPage({
       {
         content,
         sources: ["xlog"],
+        external_urls: [externalUrl],
         tags: ["comment"],
       },
       pageId.split("-")[0],

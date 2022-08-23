@@ -66,6 +66,7 @@ export const Comment: React.FC<{
         address,
         pageId: page!.id,
         content: values.content,
+        externalUrl: window.location.href,
       })
     }
   })

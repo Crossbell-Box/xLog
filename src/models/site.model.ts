@@ -31,49 +31,7 @@ export const checkSubdomain = async ({
   // }
 }
 
-export const getUserSites = async (address?: string) => {
-  if (!address) {
-    return null
-  }
-  const profiles = await unidata.profiles.get({
-    source: "Crossbell Profile",
-    identity: address,
-    platform: "Ethereum",
-    filter: {
-      primary: true,
-    },
-  })
-
-  const sites = profiles.list
-    ?.sort((a, b) => {
-      if (a.metadata?.primary) {
-        return -1
-      } else if (b.metadata?.primary) {
-        return 1
-      } else {
-        return +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0)
-      }
-    })
-    .map((profile) => {
-      profile.name = profile.name || profile.username
-      return profile
-    })
-
-  if (!sites || !sites.length) return null
-
-  return sites
-}
-
-export const getSite = async (input: string) => {
-  const profiles = await unidata.profiles.get({
-    source: "Crossbell Profile",
-    identity: input,
-    platform: "Crossbell",
-  })
-
-  const site: Profile = profiles.list?.sort(
-    (a, b) => +new Date(b.date_updated || 0) - +new Date(a.date_updated || 0),
-  )?.[0]
+const expandSite = (site: Profile) => {
   site.navigation = JSON.parse(
     site.metadata?.raw?.attributes?.find(
       (a: any) => a.trait_type === "xlog_navigation",
@@ -98,6 +56,42 @@ export const getSite = async (input: string) => {
       (a: any) => a.trait_type === "xlog_custom_domain",
     )?.value || ""
   site.name = site.name || site.username
+
+  return site
+}
+
+export const getUserSites = async (address?: string) => {
+  if (!address) {
+    return null
+  }
+  const profiles = await unidata.profiles.get({
+    source: "Crossbell Profile",
+    identity: address,
+    platform: "Ethereum",
+    filter: {
+      primary: true,
+    },
+  })
+
+  const sites: Profile[] = profiles.list?.map((profile) => {
+    expandSite(profile)
+    return profile
+  })
+
+  if (!sites || !sites.length) return null
+
+  return sites
+}
+
+export const getSite = async (input: string) => {
+  const profiles = await unidata.profiles.get({
+    source: "Crossbell Profile",
+    identity: input,
+    platform: "Crossbell",
+  })
+
+  const site: Profile = profiles.list[0]
+  expandSite(site)
 
   return site
 }
