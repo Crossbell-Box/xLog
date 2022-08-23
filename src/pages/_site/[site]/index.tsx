@@ -18,6 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     take: 1000,
     type: "post",
     visibility: PageVisibilityEnum.Published,
+    render: true,
   })
 
   return {
