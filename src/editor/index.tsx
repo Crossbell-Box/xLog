@@ -6,6 +6,7 @@ import { Code } from "./Code"
 import { CodeBlock } from "./CodeBlock"
 import { Heading } from "./Heading"
 import { Image } from "./Image"
+import { UploadImage } from "./UploadImage"
 import { Italic } from "./Italic"
 import { Link } from "./Link"
 import { ListOrdered } from "./ListOrdered"
@@ -128,6 +129,7 @@ export const toolbars: ICommand[] = [
   ListOrdered,
   Link,
   Image,
+  UploadImage,
 ]
 
 export const modeToolbars: ICommand[] = [Preview]

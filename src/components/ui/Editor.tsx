@@ -28,10 +28,10 @@ const theme = EditorView.theme({
     fontFamily: "var(--font-sans)",
     fontSize: "1rem",
     overflow: "auto",
-    paddingBottom: "200px",
+    height: "100%",
   },
   ".cm-content": {
-    minHeight: "400px",
+    height: "100%",
   },
   "&.cm-editor.cm-focused": {
     outline: "none",

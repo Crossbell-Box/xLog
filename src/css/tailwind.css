@@ -232,3 +232,7 @@ textarea.input {
   @apply text-3xl;
   @apply font-extrabold;
 }
+
+.cm-editor {
+  @apply h-full;
+}
