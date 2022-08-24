@@ -119,11 +119,13 @@ export default function SiteSettingsNavigationPage() {
     setItems((items) => items.filter((item) => item.id !== id))
   }
 
+  const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
-    if (site.data?.navigation) {
+    if (site.data?.navigation && !hasSet) {
+      setHasSet(true)
       setItems(site.data?.navigation)
     }
-  }, [site.data?.navigation])
+  }, [site.data?.navigation, hasSet])
 
   return (
     <DashboardLayout title="Navigation">
