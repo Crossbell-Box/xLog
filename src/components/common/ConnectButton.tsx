@@ -104,21 +104,24 @@ export const ConnectButton: React.FC<{
               }
               return (
                 <div
-                  className="flex relative group"
+                  className="relative group"
                   style={{ gap: 12, height: "30px" }}
                 >
                   {userSites.isSuccess ? (
                     <>
-                      <button className="flex items-center" type="button">
+                      <button
+                        className="flex items-center w-full"
+                        type="button"
+                      >
                         <Avatar
                           className="align-middle mr-2"
                           images={userSites.data?.[0]?.avatars || []}
                           name={userSites.data?.[0]?.name}
                           size={30}
                         />
-                        <div className="flex flex-col">
+                        <div className="flex-1 flex flex-col min-w-0">
                           <span
-                            className={`text-left leading-none font-medium ${
+                            className={`text-left leading-none font-medium truncate ${
                               InsufficientBalance
                                 ? "text-red-600"
                                 : "text-gray-600"
@@ -129,7 +132,7 @@ export const ConnectButton: React.FC<{
                           </span>
                           {userSites.data?.[0]?.username && (
                             <span
-                              className={`text-left leading-none text-xs ${
+                              className={`text-left leading-none text-xs truncate ${
                                 InsufficientBalance
                                   ? "text-red-400"
                                   : "text-gray-400"
