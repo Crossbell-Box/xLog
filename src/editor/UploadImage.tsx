@@ -4,7 +4,7 @@ import { UploadFile } from "~/lib/upload-file"
 import toast from "react-hot-toast"
 
 export const UploadImage: ICommand = {
-  name: "image",
+  name: "upload-image",
   label: "Upload Image",
   icon: "i-carbon:cloud-upload",
   execute: (view) => {
