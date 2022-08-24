@@ -9,9 +9,12 @@ export const PostMeta: React.FC<{
 }> = ({ page }) => {
   return (
     <div className="text-zinc-400 mt-2">
-      <span className="align-middle">{formatDate(page.date_published)}</span>
+      <span className="align-middle" xlog-label="post-date">
+        {formatDate(page.date_published)}
+      </span>
       <span className="align-middle mx-1"> · </span>
       <UniLink
+        xlog-label="post-blockchain"
         className="align-middle inline-block"
         href={
           page.related_urls?.filter((url) =>

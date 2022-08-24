@@ -5,7 +5,7 @@ export const UniLink: React.FC<{
   onClick?: () => void
   children: React.ReactNode
   className?: string
-}> = ({ href, onClick, children, className }) => {
+}> = ({ href, onClick, children, className, ...props }) => {
   if (onClick) {
     return (
       <button className={className} onClick={onClick}>
@@ -23,6 +23,7 @@ export const UniLink: React.FC<{
   if (isExternal) {
     return (
       <a
+        {...props}
         className={className}
         href={href}
         target="_blank"

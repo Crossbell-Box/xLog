@@ -9,6 +9,7 @@ export const PageContent: React.FC<{
 
   return (
     <div
+      xlog-label="post-content"
       className={clsx(`prose`, className)}
       dangerouslySetInnerHTML={{ __html: contentHTML }}
     ></div>
