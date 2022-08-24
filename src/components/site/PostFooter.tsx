@@ -158,11 +158,8 @@ export const PostFooter: React.FC<{
 
   return (
     <>
-      <div
-        className="flex fill-gray-400 text-gray-500 mt-14 mb-12 items-center"
-        xlog-label="post-footer"
-      >
-        <div className="flex items-center" xlog-label="post-like">
+      <div className="xlog-post-footer flex fill-gray-400 text-gray-500 mt-14 mb-12 items-center">
+        <div className="xlog-post-like flex items-center">
           <Button
             variant="like"
             className={`flex items-center mr-2 ${
@@ -210,7 +207,7 @@ export const PostFooter: React.FC<{
             )}
           </ul>
         </div>
-        <div className="flex items-center" xlog-label="post-mint">
+        <div className="xlog-post-mint flex items-center">
           <Button
             variant="collect"
             className={`flex items-center mr-2 ${

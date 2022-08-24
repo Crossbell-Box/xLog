@@ -166,35 +166,28 @@ export const SiteHeader: React.FC<{
     <header className="border-b">
       <div className="px-5 max-w-screen-md mx-auto">
         <div className="flex py-10">
-          <div xlog-label="site-info" className="flex space-x-6 items-center">
+          <div className="xlog-site-info flex space-x-6 items-center">
             {site?.avatars?.[0] && (
               <Avatar
-                xlog-label="site-icon"
+                className="xlog-site-icon"
                 images={[getUserContentsUrl(site?.avatars?.[0])]}
                 size={100}
                 name={site?.name}
               />
             )}
             <div>
-              <div
-                xlog-label="site-name"
-                className="text-2xl font-bold text-zinc-900"
-              >
+              <div className="xlog-site-name text-2xl font-bold text-zinc-900">
                 {site?.name}
               </div>
               {site?.bio && (
-                <div
-                  xlog-label="site-description"
-                  className="text-gray-500 text-sm"
-                >
+                <div className="xlog-site-description text-gray-500 text-sm">
                   {site?.bio}
                 </div>
               )}
               <div className="mt-3 text-sm">
                 {siteSubscriptions.data ? (
                   <span
-                    xlog-label="site-followers"
-                    className="mr-2 align-middle text-zinc-500 text-sm cursor-pointer"
+                    className="xlog-site-followers mr-2 align-middle text-zinc-500 text-sm cursor-pointer"
                     onClick={() => setIsFollowListOpen(true)}
                   >
                     <span className="font-bold text-zinc-700">
@@ -280,10 +273,7 @@ export const SiteHeader: React.FC<{
           </div>
         </div>
         <div className="text-sm text-gray-400 flex items-center justify-between">
-          <div
-            xlog-label="site-navigation"
-            className="flex items-center space-x-5"
-          >
+          <div className="xlog-site-navigation flex items-center space-x-5">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}

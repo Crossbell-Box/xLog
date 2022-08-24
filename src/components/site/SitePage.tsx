@@ -13,11 +13,9 @@ export const SitePage: React.FC<{
     <>
       <div className="">
         {page?.tags?.includes("post") ? (
-          <h2 className="text-4xl font-bold" xlog-label="post-title">
-            {page.title}
-          </h2>
+          <h2 className="xlog-post-title text-4xl font-bold">{page.title}</h2>
         ) : (
-          <h2 className="text-xl font-bold page-title" xlog-label="post-title">
+          <h2 className="xlog-post-title text-xl font-bold page-title">
             {page?.title}
           </h2>
         )}

@@ -78,14 +78,14 @@ export const Comment: React.FC<{
   }, [commentPage.isSuccess, form])
 
   return (
-    <div className={clsx("comment", className)} xlog-label="comment">
-      <div className="border-b pb-2 mb-6" xlog-label="comment-count">
+    <div className={clsx("xlog-comment", "comment", className)}>
+      <div className="xlog-comment-count border-b pb-2 mb-6">
         <span>
           {comments.data?.length || "0"} Comment
           {comments.data?.length && comments.data.length > 1 ? "s" : ""}
         </span>
       </div>
-      <div className="flex" xlog-label="comment-input">
+      <div className="xlog-comment-input flex">
         <Avatar
           className="align-middle mr-3"
           images={viewer?.avatars || []}
@@ -144,7 +144,7 @@ export const Comment: React.FC<{
           </div>
         </form>
       </div>
-      <div xlog-label="comment-list">
+      <div className="xlog-comment-list">
         {comments.data?.map((comment) => (
           <div
             key={comment.transactionHash}
