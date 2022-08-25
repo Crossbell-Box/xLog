@@ -34,36 +34,31 @@ export const PublishButton: React.FC<{
         >
           {published ? "Update" : "Publish"}
         </Button>
-        <Button
-          isAutoWidth
-          style={{ padding: "0 5px" }}
-          onClick={() => {
-            setShowDropdown(!showDropdown)
-          }}
-          ref={triggerRef}
-          isDisabled={isSaving}
-        >
-          <svg className="w-7 h-7" viewBox="0 0 24 24">
-            <path fill="currentColor" d="m7 10l5 5l5-5z"></path>
-          </svg>
-        </Button>
+        {published && (
+          <Button
+            isAutoWidth
+            style={{ padding: "0 5px" }}
+            onClick={() => {
+              setShowDropdown(!showDropdown)
+            }}
+            ref={triggerRef}
+            isDisabled={isSaving}
+          >
+            <svg className="w-7 h-7" viewBox="0 0 24 24">
+              <path fill="currentColor" d="m7 10l5 5l5-5z"></path>
+            </svg>
+          </Button>
+        )}
       </ButtonGroup>
       {showDropdown && (
         <div className="absolute right-0 min-w-[200px] pt-2" ref={dropdownRef}>
           <div className="bg-white py-2 rounded-lg shadow-modal">
-            {published ? (
+            {published && (
               <button
                 className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
                 onClick={() => save(false)}
               >
                 Unpublish
-              </button>
-            ) : (
-              <button
-                className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
-                onClick={() => save(false)}
-              >
-                Save Draft
               </button>
             )}
           </div>

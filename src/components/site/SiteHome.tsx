@@ -16,7 +16,7 @@ export const SiteHome: React.FC<{
           {posts.list.map((post) => {
             const excerpt = post.summary?.content
             return (
-              <Link key={post.slug} href={`/${post.slug}`}>
+              <Link key={post.id} href={`/${post.slug || post.id}`}>
                 <a className="xlog-post block hover:bg-zinc-100 transition-colors p-5 -mx-5 first:-mt-5 md:rounded-xl">
                   <h3 className="xlog-post-title text-2xl font-bold">
                     {post.title}

@@ -4,6 +4,7 @@ import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
 import unidata from "~/lib/unidata"
 import { indexer, getContract } from "~/lib/crossbell"
 import { NoteEntity, CharacterEntity } from "crossbell.js"
+import { getStorage, getKeys } from "~/lib/storage"
 
 const checkPageSlug = async ({
   slug,
@@ -70,9 +71,7 @@ export async function createOrUpdatePage(input: {
         },
       }),
       ...(input.publishedAt && {
-        date_published: input.published
-          ? input.publishedAt
-          : new Date("9999-01-01").toISOString(),
+        date_published: input.publishedAt,
       }),
       ...(input.excerpt && {
         summary: {
@@ -122,8 +121,47 @@ const expandPage = async (page: Note, render: boolean) => {
     page.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
     page.metadata?.raw?._xlog_slug ||
     page.metadata?.raw?._crosslog_slug ||
-    page.id
+    ""
   return page
+}
+
+const getLocalPages = (input: { site: string; isPost?: boolean }) => {
+  const pages: Note[] = []
+  getKeys(`draft-${input.site}-local`).forEach((key) => {
+    const page = getStorage(key)
+    if (input.isPost === undefined || page.isPost === input.isPost) {
+      pages.push({
+        id: key.replace(`draft-${input.site}-`, ""),
+        title: page.values?.title,
+        body: {
+          content: page.values?.content,
+          mime_type: "text/markdown",
+        },
+        date_published: page.values?.publishedAt,
+        summary: {
+          content: page.values?.excerpt,
+          mime_type: "text/markdown",
+        },
+        tags: [
+          page.isPost ? "post" : "page",
+          ...(page.values?.tags
+            ?.split(",")
+            .map((tag: string) => tag.trim())
+            .filter((tag: string) => tag) || []),
+        ],
+        applications: ["xlog"],
+        ...(page.values?.slug && {
+          attributes: [
+            {
+              trait_type: "xlog_slug",
+              value: page.values?.slug,
+            },
+          ],
+        }),
+      })
+    }
+  })
+  return pages
 }
 
 export async function getPagesBySite(input: {
@@ -153,38 +191,40 @@ export async function getPagesBySite(input: {
     limit: input.take || 1000,
     filter: {
       tags: [...(input.tags || []), input.type],
+      applications: ["xlog"],
     },
   })) || {
     total: 0,
     list: [],
   }
 
+  const local = getLocalPages({
+    site: input.site,
+    isPost: input.type === "post",
+  })
+  pages.list = pages.list.concat(local)
+  pages.total += local.length
+
   if (pages?.list) {
     switch (visibility) {
       case PageVisibilityEnum.Published:
         pages.list = pages.list.filter(
-          (page) => +new Date(page.date_published) <= +new Date(),
+          (page) =>
+            +new Date(page.date_published) <= +new Date() && page.metadata,
         )
         break
       case PageVisibilityEnum.Draft:
-        pages.list = pages.list.filter(
-          (page) =>
-            page.date_published === new Date("9999-01-01").toISOString(),
-        )
+        pages.list = pages.list.filter((page) => !page.metadata)
         break
       case PageVisibilityEnum.Scheduled:
         pages.list = pages.list.filter(
-          (page) =>
-            +new Date(page.date_published) > +new Date() &&
-            page.date_published !== new Date("9999-01-01").toISOString(),
+          (page) => +new Date(page.date_published) > +new Date(),
         )
         break
     }
     pages.list = pages.list
       .filter(
-        (page) =>
-          page.applications?.includes("Crosslog") ||
-          page.applications?.includes("xlog"),
+        (page) => page.date_published !== new Date("9999-01-01").toISOString(),
       )
       .sort((a, b) => +new Date(b.date_published) - +new Date(a.date_published))
     pages.total = pages.list.length
@@ -200,20 +240,6 @@ export async function getPagesBySite(input: {
   return pages
 }
 
-export async function deletePage({ site, id }: { site: string; id: string }) {
-  return await unidata.notes.set(
-    {
-      source: "Crossbell Note",
-      identity: site,
-      platform: "Crossbell",
-      action: "remove",
-    },
-    {
-      id,
-    },
-  )
-}
-
 export async function getPage<TRender extends boolean = false>(input: {
   /** page slug or id,  `site` is needed when `page` is a slug  */
   page?: string
@@ -226,30 +252,39 @@ export async function getPage<TRender extends boolean = false>(input: {
     return undefined
   }
 
-  const pages: Notes | null = await unidata.notes.get({
-    source: "Crossbell Note",
-    identity: input.site,
-    platform: "Crossbell",
-    limit: 1000,
-    ...(input.pageId && {
-      filter: {
-        id: input.pageId,
-      },
-    }),
+  const local = getLocalPages({
+    site: input.site,
   })
+  const localPage = local.find((page) => page.id === input.pageId)
 
   let page
-  if (input.page) {
-    page = pages?.list.find((item) => {
-      item.slug =
-        item.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
-        item.metadata?.raw?._xlog_slug ||
-        item.metadata?.raw?._crosslog_slug ||
-        item.id
-      return item.slug === input.page
-    })
+  if (localPage) {
+    page = localPage
   } else {
-    page = pages?.list[0]
+    const pages: Notes | null = await unidata.notes.get({
+      source: "Crossbell Note",
+      identity: input.site,
+      platform: "Crossbell",
+      limit: 1000,
+      ...(input.pageId && {
+        filter: {
+          id: input.pageId,
+        },
+      }),
+    })
+
+    if (input.page) {
+      page = pages?.list.find((item) => {
+        item.slug =
+          item.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
+          item.metadata?.raw?._xlog_slug ||
+          item.metadata?.raw?._crosslog_slug ||
+          item.id
+        return item.slug === input.page || item.id === input.page
+      })
+    } else {
+      page = pages?.list[0]
+    }
   }
 
   if (!page) {
@@ -264,6 +299,20 @@ export async function getPage<TRender extends boolean = false>(input: {
 async function getPrimaryCharacter(address: string) {
   const character = await indexer.getPrimaryCharacter(address)
   return character?.characterId
+}
+
+export async function deletePage({ site, id }: { site: string; id: string }) {
+  return await unidata.notes.set(
+    {
+      source: "Crossbell Note",
+      identity: site,
+      platform: "Crossbell",
+      action: "remove",
+    },
+    {
+      id,
+    },
+  )
 }
 
 export async function likePage({
@@ -414,6 +463,7 @@ export async function getComments({ pageId }: { pageId: string }) {
     await indexer.getNotes({
       toCharacterId: pageId.split("-")[0],
       toNoteId: pageId.split("-")[1],
+      sources: ["xlog"],
     })
   ).list
 

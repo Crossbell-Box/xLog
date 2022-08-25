@@ -13,6 +13,8 @@ import { EmptyState } from "../ui/EmptyState"
 import type { Note } from "unidata.js"
 import { useGetPagesBySite, useDeletePage } from "~/queries/page"
 import { DotsHorizontalIcon } from "@heroicons/react/solid"
+import { delStorage } from "~/lib/storage"
+import { useQueryClient } from "@tanstack/react-query"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -85,7 +87,8 @@ export const PagesManager: React.FC<{
     }`
   }
 
-  const getPageMenuItems = (page: { id: string }) => {
+  const queryClient = useQueryClient()
+  const getPageMenuItems = (page: { id: string; metadata?: Object }) => {
     return [
       {
         text: "Edit",
@@ -126,10 +129,16 @@ export const PagesManager: React.FC<{
           </svg>
         ),
         onClick() {
-          deletePage.mutate({
-            site: subdomain,
-            id: page.id,
-          })
+          if (!page.metadata) {
+            delStorage(`draft-${subdomain}-${page.id}`)
+            queryClient.invalidateQueries(["getPagesBySite", subdomain])
+            queryClient.invalidateQueries(["getPage", page.id])
+          } else {
+            deletePage.mutate({
+              site: subdomain,
+              id: page.id,
+            })
+          }
         },
       },
     ]

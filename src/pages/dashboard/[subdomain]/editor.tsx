@@ -20,6 +20,9 @@ import { getPageVisibility } from "~/lib/page-helpers"
 import { PageVisibilityEnum, Note } from "~/lib/types"
 import { useGetPage, useCreateOrUpdatePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
+import { getStorage, setStorage, delStorage } from "~/lib/storage"
+import { nanoid } from "nanoid"
+import { useQueryClient } from "@tanstack/react-query"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -28,10 +31,29 @@ const getInputDatetimeValue = (date: Date | string) => {
 
 export default function SubdomainEditor() {
   const router = useRouter()
+  const queryClient = useQueryClient()
 
+  let pageId = router.query.id as string | undefined
   const subdomain = router.query.subdomain as string
   const isPost = router.query.type === "post"
-  const pageId = router.query.id as string | undefined
+
+  const [draftKey, setDraftKey] = useState<string>("")
+  useEffect(() => {
+    if (subdomain) {
+      if (!pageId) {
+        const key = `draft-${subdomain}-local-${nanoid()}`
+        setDraftKey(key)
+        setStorage(key, {
+          date: +new Date(),
+          isPost: isPost,
+          values,
+        })
+        queryClient.invalidateQueries(["getPagesBySite", subdomain])
+      } else {
+        setDraftKey(`draft-${subdomain}-${pageId}`)
+      }
+    }
+  }, [subdomain, pageId])
 
   const site = useGetSite(subdomain)
 
@@ -41,14 +63,9 @@ export default function SubdomainEditor() {
     render: false,
   })
 
-  const pageContent = useMemo(
-    () => page.data?.body?.content,
-    [page.data?.body?.content],
-  )
-
-  const visibility = getPageVisibility({
-    date_published: page.data?.date_published,
-  })
+  const visibility = page.data
+    ? getPageVisibility(page.data)
+    : PageVisibilityEnum.Draft
   const published = visibility !== PageVisibilityEnum.Draft
 
   const uploadFile = useUploadFile()
@@ -60,6 +77,7 @@ export default function SubdomainEditor() {
     excerpt: "",
     slug: "",
     tags: "",
+    content: "",
   })
   const [content, setContent] = useState("")
 
@@ -69,12 +87,18 @@ export default function SubdomainEditor() {
 
   const updateValue = useCallback(
     <K extends keyof Values>(key: K, value: Values[K]) => {
-      setValues({
-        ...values,
-        [key]: value,
-      })
+      const newValues = { ...values, [key]: value }
+      if (draftKey) {
+        setStorage(draftKey, {
+          date: +new Date(),
+          values: newValues,
+          isPost: isPost,
+        })
+        queryClient.invalidateQueries(["getPagesBySite", subdomain])
+      }
+      setValues(newValues)
     },
-    [setValues, values],
+    [setValues, values, draftKey, isPost, queryClient, subdomain],
   )
 
   const createOrUpdatePage = useCreateOrUpdatePage()
@@ -83,10 +107,9 @@ export default function SubdomainEditor() {
     createOrUpdatePage.mutate({
       ...values,
       siteId: subdomain,
-      pageId: pageId,
+      ...(visibility === PageVisibilityEnum.Draft ? {} : { pageId: pageId }),
       isPost: isPost,
       published,
-      content,
       externalUrl:
         values.slug &&
         `${getSiteLink({ subdomain, domain: site.data?.custom_domain })}/${
@@ -98,7 +121,19 @@ export default function SubdomainEditor() {
   useEffect(() => {
     if (createOrUpdatePage.isSuccess) {
       if (createOrUpdatePage.data?.code === 0) {
-        toast.success(values.published ? "Updated" : "Saved!")
+        if (values.published) {
+          toast.success("Updated!")
+        } else {
+          toast.success(
+            "Published!\nPlease wait a few seconds for the blockchain indexing to complete.",
+          )
+          router.push(`/dashboard/${subdomain}/posts`)
+        }
+        if (draftKey) {
+          delStorage(draftKey)
+          queryClient.invalidateQueries(["getPagesBySite", subdomain])
+          queryClient.invalidateQueries(["getPage", draftKey])
+        }
       } else {
         toast.error("Error: " + createOrUpdatePage.data?.message)
       }
@@ -135,6 +170,12 @@ export default function SubdomainEditor() {
     setContent(newValue)
   }
 
+  useEffect(() => {
+    if (content !== values.content) {
+      updateValue("content", content)
+    }
+  }, [content, updateValue, values.content])
+
   const { editorRef, view } = useEditor({
     value: content,
     onChange: handleEditorChange,
@@ -143,30 +184,30 @@ export default function SubdomainEditor() {
   })
 
   useEffect(() => {
-    if (!page.data) return
+    if (!page.data || !draftKey) return
 
-    setValues({
-      title: page.data.title || "",
-      publishedAt:
-        page.data.date_published === new Date("9999-01-01").toISOString()
-          ? new Date().toISOString()
-          : page.data.date_published,
-      published:
-        page.data.date_published !== new Date("9999-01-01").toISOString(),
-      excerpt: page.data.summary?.content || "",
-      slug: page.data.slug!,
-      tags:
-        page.data.tags
-          ?.filter((tag) => tag !== "post" && tag !== "page")
-          ?.join(", ") || "",
-    })
-  }, [page.data])
-
-  useEffect(() => {
-    if (typeof pageContent === "string") {
-      setContent(pageContent)
+    const local = getStorage(draftKey)
+    const useLocal =
+      local?.date && +new Date(local?.date) > +new Date(page.data.date_updated)
+    if (useLocal && local?.values) {
+      setValues(local?.values)
+      setContent(local?.values.content || "")
+    } else {
+      setValues({
+        title: page.data.title || "",
+        publishedAt: page.data.date_published,
+        published: !!page.data.id,
+        excerpt: page.data.summary?.content || "",
+        slug: page.data.slug || "",
+        tags:
+          page.data.tags
+            ?.filter((tag) => tag !== "post" && tag !== "page")
+            ?.join(", ") || "",
+        content: page.data.body?.content || "",
+      })
+      setContent(page.data.body?.content || "")
     }
-  }, [pageContent])
+  }, [page.data, subdomain, draftKey])
 
   return (
     <>
