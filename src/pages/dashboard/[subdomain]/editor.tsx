@@ -229,7 +229,11 @@ export default function SubdomainEditor() {
                 )}
               >
                 {visibility === PageVisibilityEnum.Published
-                  ? "Published"
+                  ? `Published${
+                      getStorage(draftKey)
+                        ? " and local modifications exist"
+                        : ""
+                    }`
                   : visibility === PageVisibilityEnum.Scheduled
                   ? "Scheduled"
                   : "Draft"}
@@ -238,6 +242,7 @@ export default function SubdomainEditor() {
                 save={savePage}
                 published={published}
                 isSaving={createOrUpdatePage.isLoading}
+                isDisabled={published && !getStorage(draftKey) ? true : false}
               />
             </div>
           </header>

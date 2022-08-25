@@ -7,7 +7,8 @@ export const PublishButton: React.FC<{
   save: (published: boolean) => void
   published: boolean
   isSaving: boolean
-}> = ({ save, published, isSaving }) => {
+  isDisabled: boolean
+}> = ({ save, published, isSaving, isDisabled }) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -31,6 +32,7 @@ export const PublishButton: React.FC<{
           style={{ padding: "0 15px" }}
           onClick={() => save(true)}
           isLoading={isSaving}
+          isDisabled={isDisabled}
         >
           {published ? "Update" : "Publish"}
         </Button>
