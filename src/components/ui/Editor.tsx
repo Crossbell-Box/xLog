@@ -29,6 +29,7 @@ const theme = EditorView.theme({
     fontSize: "1rem",
     overflow: "auto",
     height: "100%",
+    paddingBottom: "200px",
   },
   ".cm-content": {
     height: "100%",

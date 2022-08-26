@@ -47,7 +47,11 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
       />
       <SiteHeader site={site} />
       <style>{site?.css}</style>
-      <div className="max-w-screen-md mx-auto px-5 pt-12">{children}</div>
+      <div
+        className={`xlog-post-id-${page?.id} max-w-screen-md mx-auto px-5 pt-12`}
+      >
+        {children}
+      </div>
       <div className="max-w-screen-md mx-auto pt-12 pb-10">
         <BlockchainInfo site={site} page={page} />
       </div>
