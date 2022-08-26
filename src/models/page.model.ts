@@ -5,6 +5,8 @@ import unidata from "~/lib/unidata"
 import { indexer, getContract } from "~/lib/crossbell"
 import { NoteEntity, CharacterEntity } from "crossbell.js"
 import { getStorage, getKeys } from "~/lib/storage"
+import axios from "axios"
+import { toGateway } from "~/lib/ipfs-parser"
 
 const checkPageSlug = async ({
   slug,
@@ -369,13 +371,34 @@ export async function unlikePage({
 }
 
 export async function getLikes({ pageId }: { pageId: string }) {
-  return indexer.getBacklinksOfNote(
+  const res = await indexer.getBacklinksOfNote(
     pageId.split("-")[0],
     pageId.split("-")[1],
     {
       linkType: "like",
     },
   )
+  await Promise.all(
+    res.list?.map(async (item) => {
+      if (
+        !item.fromCharacter?.metadata?.content &&
+        item.fromCharacter?.metadata?.uri
+      ) {
+        item.fromCharacter.metadata.content = (
+          await axios.get(toGateway(item.fromCharacter?.metadata?.uri), {
+            ...(typeof window === "undefined" && {
+              headers: {
+                "User-Agent":
+                  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+              },
+            }),
+          })
+        ).data
+      }
+    }),
+  )
+
+  return res
 }
 
 export async function checkLike({
@@ -421,6 +444,18 @@ export async function getMints({ pageId }: { pageId: string }) {
     data.list.map(async (item: any) => {
       const owner = item.owner
       item.character = await indexer.getPrimaryCharacter(owner)
+      if (!item.character?.metadata?.content && item.character?.metadata?.uri) {
+        item.character.metadata.content = (
+          await axios.get(toGateway(item.character?.metadata?.uri), {
+            ...(typeof window === "undefined" && {
+              headers: {
+                "User-Agent":
+                  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+              },
+            }),
+          })
+        ).data
+      }
     }),
   )
 
