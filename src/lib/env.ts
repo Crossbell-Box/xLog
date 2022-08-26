@@ -8,7 +8,7 @@ export const R2_URL = process.env.NEXT_PUBLIC_R2_URL
 export const APP_DESCRIPTION = process.env.APP_DESCRIPTION
 export const DISCORD_LINK = process.env.NEXT_PUBLIC_DISCORD_LINK
 export const GITHUB_LINK = process.env.NEXT_PUBLIC_GITHUB_LINK
-export const CSB_IO = process.env.NEXT_PUBLIC_CSB_IO
+export const CSB_IO = process.env.NEXT_PUBLIC_CSB_IO || "https://crossbell.io"
 export const CSB_SCAN =
   process.env.NEXT_PUBLIC_CSB_SCAN || "https://scan.crossbell.io"
 export const IPFS_GATEWAY =
