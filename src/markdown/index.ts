@@ -43,6 +43,7 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
       ...defaultSchema,
       attributes: {
         ...defaultSchema.attributes,
+        div: [...(defaultSchema.attributes?.div || []), ["className"]],
         code: [["className"]],
         blockquote: allowedBlockquoteAttrs,
       },
