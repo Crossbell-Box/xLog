@@ -41,11 +41,30 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
     .use(rehypeImage)
     .use(rehypeSanitize, {
       ...defaultSchema,
+      tagNames: [...(defaultSchema.tagNames || []), "video", "iframe"],
       attributes: {
         ...defaultSchema.attributes,
         div: [...(defaultSchema.attributes?.div || []), ["className"]],
         code: [["className"]],
         blockquote: allowedBlockquoteAttrs,
+        video: [
+          ["className"],
+          ["src"],
+          ["controls"],
+          ["loop"],
+          ["muted"],
+          ["autoplay"],
+          ["playsinline"],
+        ],
+        iframe: [
+          ["className"],
+          ["src"],
+          ["allowfullscreen"],
+          ["frameborder"],
+          ["width"],
+          ["height"],
+          ["allow"],
+        ],
       },
     })
     .use(rehypePrism, {
