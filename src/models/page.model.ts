@@ -53,6 +53,19 @@ export async function createOrUpdatePage(input: {
   isPost?: boolean
   externalUrl?: string
 }) {
+  if (!input.published) {
+    return await unidata.notes.set(
+      {
+        source: "Crossbell Note",
+        identity: input.siteId,
+        platform: "Crossbell",
+        action: "remove",
+      },
+      {
+        id: input.pageId,
+      },
+    )
+  }
   return await unidata.notes.set(
     {
       source: "Crossbell Note",

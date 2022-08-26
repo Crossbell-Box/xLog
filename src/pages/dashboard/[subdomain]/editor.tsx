@@ -127,13 +127,13 @@ export default function SubdomainEditor() {
           toast.success(
             "Published!\nPlease wait a few seconds for the blockchain indexing to complete.",
           )
-          router.push(`/dashboard/${subdomain}/posts`)
         }
         if (draftKey) {
           delStorage(draftKey)
           queryClient.invalidateQueries(["getPagesBySite", subdomain])
           queryClient.invalidateQueries(["getPage", draftKey])
         }
+        router.push(`/dashboard/${subdomain}/posts`)
       } else {
         toast.error("Error: " + createOrUpdatePage.data?.message)
       }
