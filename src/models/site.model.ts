@@ -3,6 +3,7 @@ import { nanoid } from "nanoid"
 import { checkReservedWords } from "~/lib/reserved-words"
 import unidata from "~/lib/unidata"
 import { indexer, getContract } from "~/lib/crossbell"
+import { renderPageContent } from "~/markdown"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -31,7 +32,7 @@ export const checkSubdomain = async ({
   // }
 }
 
-const expandSite = (site: Profile) => {
+const expandSite = async (site: Profile) => {
   site.navigation = JSON.parse(
     site.metadata?.raw?.attributes?.find(
       (a: any) => a.trait_type === "xlog_navigation",
@@ -56,6 +57,7 @@ const expandSite = (site: Profile) => {
       (a: any) => a.trait_type === "xlog_custom_domain",
     )?.value || ""
   site.name = site.name || site.username
+  site.description = (await renderPageContent(site.bio || "")).contentHTML
 
   return site
 }
@@ -73,10 +75,12 @@ export const getUserSites = async (address?: string) => {
     },
   })
 
-  const sites: Profile[] = profiles.list?.map((profile) => {
-    expandSite(profile)
-    return profile
-  })
+  const sites: Profile[] = await Promise.all(
+    profiles.list?.map((profile) => {
+      expandSite(profile)
+      return profile
+    }),
+  )
 
   if (!sites || !sites.length) return null
 
@@ -91,7 +95,7 @@ export const getSite = async (input: string) => {
   })
 
   const site: Profile = profiles.list[0]
-  expandSite(site)
+  await expandSite(site)
 
   return site
 }

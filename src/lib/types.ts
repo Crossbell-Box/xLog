@@ -86,6 +86,7 @@ export type Profile = UniProfile & {
   css?: string
   ga?: string
   custom_domain?: string
+  description?: string
 }
 
 export type Profiles = {

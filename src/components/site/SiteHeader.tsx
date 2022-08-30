@@ -180,9 +180,10 @@ export const SiteHeader: React.FC<{
                 {site?.name}
               </div>
               {site?.bio && (
-                <div className="xlog-site-description text-gray-500 text-sm">
-                  {site?.bio}
-                </div>
+                <div
+                  className="xlog-site-description text-gray-500 text-xs mt-1"
+                  dangerouslySetInnerHTML={{ __html: site?.description || "" }}
+                ></div>
               )}
               <div className="mt-3 text-sm">
                 {siteSubscriptions.data ? (

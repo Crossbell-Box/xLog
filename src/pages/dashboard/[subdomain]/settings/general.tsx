@@ -77,10 +77,12 @@ export default function SiteSettingsGeneralPage() {
             <label htmlFor="description" className="form-label">
               Description
             </label>
-            <textarea
+            <Input
+              multiline
               id="description"
               className="input is-block"
               rows={2}
+              help="Support Markdown"
               {...form.register("description")}
             />
           </div>

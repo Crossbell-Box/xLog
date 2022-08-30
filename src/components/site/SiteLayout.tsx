@@ -42,7 +42,9 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
       <SEOHead
         title={title || page?.title || site?.name}
         siteName={site?.name || ""}
-        description={ogDescription ?? site?.bio}
+        description={
+          ogDescription ?? site?.description?.replace(/<[^>]*>/g, "")
+        }
         image={getUserContentsUrl(site?.avatars?.[0])}
       />
       <SiteHeader site={site} />
