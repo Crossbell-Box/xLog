@@ -49,6 +49,21 @@ export default function SettingsDomainsPage() {
       <SettingsLayout title={"Site Settings"} type="site">
         <form onSubmit={handleSubmit}>
           <div className="">
+            <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
+              <p className="text-zinc-800 text-sm font-bold">
+                Tips: you can override the built-in CSS variables
+              </p>
+              <p>
+                <span className="bg-zinc-200 rounded-lg px-2">
+                  --theme-color: #4f46e5;
+                </span>
+              </p>
+              <p>
+                <span className="bg-zinc-200 rounded-lg px-2">
+                  --theme-color-dark: #4338ca;
+                </span>
+              </p>
+            </div>
             <FieldLabel label="Custom CSS" />
             <Editor
               className="w-full h-96 border outline-none py-3 rounded-lg inline-flex items-center overflow-hidden"
