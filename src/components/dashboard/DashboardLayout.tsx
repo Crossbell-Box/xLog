@@ -12,6 +12,7 @@ import { SiteSwitcher } from "./SiteSwitcher"
 import { useGetUserSites } from "~/queries/site"
 import { useAccount } from "wagmi"
 import { ConnectButton } from "~/components/common/ConnectButton"
+import { useGetSite } from "~/queries/site"
 
 export function DashboardLayout({
   children,
@@ -22,6 +23,7 @@ export function DashboardLayout({
 }) {
   const router = useRouter()
   const subdomain = router.query.subdomain as string
+  const site = useGetSite(subdomain)
 
   const { address } = useAccount()
 
@@ -74,6 +76,7 @@ export function DashboardLayout({
   return (
     <>
       <SEOHead title={title} siteName={APP_NAME} />
+      <style>{site.data?.css}</style>
       <div className="flex">
         <DashboardSidebar>
           <div className="mb-2 px-5 pt-3 pb-2">
@@ -110,7 +113,7 @@ export function DashboardLayout({
                 subdomain,
                 domain: userSite.data?.[0]?.custom_domain,
               })}
-              className="space-x-2 border rounded-lg bg-gray-100 border-gray-200 text-gray-500 hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-500 flex w-full h-12 items-center justify-center transition-colors"
+              className="space-x-2 border rounded-lg bg-gray-100 border-gray-200 text-gray-500 hover-text-theme-color flex w-full h-12 items-center justify-center transition-colors"
             >
               <span className="i-bi:box-arrow-up-right"></span>
               <span>View Site</span>

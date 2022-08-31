@@ -10,7 +10,7 @@ module.exports = {
       },
       colors: {
         border: "var(--border-color)",
-        accent: "var(--accent-color)",
+        accent: "var(--theme-color)",
       },
       spacing: {
         sidebar: `240px`,

@@ -3,7 +3,11 @@
 }
 
 .prose > p {
-  @apply my-7;
+  @apply mb-5;
+}
+
+.prose img {
+  @apply inline-block;
 }
 
 .prose > *:first-child {
@@ -33,7 +37,7 @@
 }
 
 .prose blockquote {
-  @apply border-l-4 border-indigo-500;
+  @apply border-l-4 border-theme-color;
   @apply pl-5;
   @apply my-7;
   @apply text-zinc-900 font-medium;
@@ -55,7 +59,7 @@
 }
 
 .prose a {
-  @apply text-indigo-600;
+  @apply text-theme-color-dark;
   @apply hover:underline;
 }
 
@@ -99,7 +103,7 @@
 }
 
 .prose .callout {
-  @apply border border-indigo-100 bg-indigo-50 text-indigo-700 rounded-xl p-5 md:p-8 font-normal;
+  @apply border border-zinc-100 bg-zinc-50 text-theme-color rounded-xl p-5 md:p-8 font-normal;
   @apply -mx-5 md:-mx-8 my-10;
 }
 

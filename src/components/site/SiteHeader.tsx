@@ -46,7 +46,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
       onClick={link.onClick}
       className={clsx(
         `h-10 flex items-center border-b-2 space-x-1 hover:border-gray-500 hover:text-gray-700`,
-        active ? `text-indigo-700 border-accent` : `border-transparent`,
+        active ? `text-theme-color border-accent` : `border-transparent`,
       )}
     >
       {link.icon && <span>{link.icon}</span>}

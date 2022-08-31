@@ -42,14 +42,14 @@ export function MainLayout({
                 href={getSiteLink({
                   subdomain: "blog",
                 })}
-                className="hover:text-indigo-500"
+                className="hover-text-theme-color"
               >
                 {APP_NAME}
               </UniLink>
             </span>
             <span className="text-zinc-400 ml-2 inline-flex items-center space-x-1 align-middle">
               <UniLink className="flex items-center" href={DISCORD_LINK}>
-                <span className="inline-block i-mdi-discord text-xl hover:text-indigo-500"></span>
+                <span className="inline-block i-mdi-discord text-xl hover-text-theme-color"></span>
               </UniLink>
               {GITHUB_LINK && (
                 <UniLink className="flex items-center" href={GITHUB_LINK}>

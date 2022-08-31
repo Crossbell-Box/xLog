@@ -45,7 +45,7 @@ body {
   @apply opacity-50;
 }
 
-.button[disabled] {
+.button.button.button[disabled] {
   @apply opacity-50;
   @apply cursor-not-allowed;
 }
@@ -69,10 +69,21 @@ body {
 }
 
 .button.is-primary {
-  --shadow-color-button: theme("colors.indigo.700");
-  @apply bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-700;
+  --shadow-color-button: var(--theme-color-dark);
   @apply text-white;
-  @apply fill-indigo-500;
+  fill: var(--theme-color);
+  background-color: var(--theme-color);
+  opacity: 0.9;
+}
+
+.button.is-primary:hover {
+  opacity: 1;
+  background-color: var(--theme-color);
+}
+
+.button.is-primary:focus {
+  opacity: 1;
+  background-color: var(--theme-color);
 }
 
 .button.is-secondary {
@@ -169,8 +180,11 @@ body {
   @apply inline-flex;
   @apply items-center;
   @apply focus:ring-1;
-  @apply focus:ring-indigo-400;
-  @apply focus:border-indigo-400;
+  --tw-ring-color: var(--theme-color);
+}
+
+.input:focus {
+  border-color: var(--theme-color);
 }
 
 .input.is-block {
@@ -239,4 +253,24 @@ textarea.input {
 
 .xlog-site-description a {
   @apply underline;
+}
+
+.text-theme-color {
+  color: var(--theme-color);
+}
+
+.hover-text-theme-color:hover {
+  color: var(--theme-color);
+}
+
+.border-theme-color {
+  border-color: var(--theme-color);
+}
+
+.bg-theme-color {
+  background-color: var(--theme-color);
+}
+
+.text-theme-color-dark {
+  color: var(--theme-color-dark);
 }

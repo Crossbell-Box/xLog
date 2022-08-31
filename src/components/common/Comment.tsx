@@ -164,7 +164,7 @@ export const Comment: React.FC<{
               <div className="mb-2 text-sm">
                 <UniLink
                   href={CSB_IO && `${CSB_IO}/@${comment?.character?.handle}`}
-                  className="font-medium text-indigo-600"
+                  className="font-medium text-theme-color"
                 >
                   {comment?.character?.metadata?.content?.name}
                 </UniLink>{" "}

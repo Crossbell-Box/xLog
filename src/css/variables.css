@@ -2,7 +2,8 @@
   --border-color: #eee;
   --font-fans: theme("fontFamily.sans");
   --shadow-color-button: theme("colors.gray.300");
-  --accent-color: theme("colors.indigo.500");
+  --theme-color: theme("colors.indigo.600");
+  --theme-color-dark: theme("colors.indigo.700");
   /* Accent color for form controls */
-  accent-color: var(--accent-color);
+  accent-color: var(--theme-color);
 }

@@ -93,7 +93,7 @@ export const ConnectButton: React.FC<{
               if (!mounted || !account || !chain) {
                 return (
                   <button
-                    className="text-indigo-600"
+                    className="text-theme-color"
                     onClick={openConnectModal}
                     type="button"
                     style={{ height: "30px" }}

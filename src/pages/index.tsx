@@ -133,7 +133,7 @@ export default function Home({ region }: { region: string | null }) {
               {addressIn ? (
                 <UniLink
                   href="/dashboard"
-                  className="text-indigo-500 inline-flex items-center space-x-2 hover:text-indigo-600"
+                  className="text-theme-color inline-flex items-center space-x-2"
                 >
                   <span className="i-bi-grid text-lg"></span>
                   <span>Dashboard</span>
@@ -233,7 +233,7 @@ export default function Home({ region }: { region: string | null }) {
             {addressIn ? (
               <UniLink
                 href="/dashboard"
-                className="text-indigo-500 inline-flex items-center space-x-2 hover:text-indigo-600"
+                className="text-theme-color inline-flex items-center space-x-2"
               >
                 <Button size="xl">Try {APP_NAME} today</Button>
               </UniLink>
