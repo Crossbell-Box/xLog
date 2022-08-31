@@ -133,7 +133,7 @@ export default function SubdomainEditor() {
           queryClient.invalidateQueries(["getPagesBySite", subdomain])
           queryClient.invalidateQueries(["getPage", draftKey])
         }
-        router.push(`/dashboard/${subdomain}/posts`)
+        router.push(`/dashboard/${subdomain}/${isPost ? "posts" : "pages"}`)
       } else {
         toast.error("Error: " + createOrUpdatePage.data?.message)
       }
