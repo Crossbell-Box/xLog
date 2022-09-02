@@ -28,7 +28,7 @@ export const Modal: React.FC<{
         {/* The actual dialog panel  */}
         <Dialog.Panel
           className={clsx(
-            `mx-auto rounded-lg bg-white w-full shadow-modal -mt-40`,
+            `mx-auto rounded-lg bg-white w-full shadow-modal max-h-full overflow-y-auto`,
 
             size === "md"
               ? `max-w-md`
