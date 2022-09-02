@@ -6,7 +6,7 @@ export const toGateway = (url: string) => {
     .replace("https://gateway.ipfs.io/ipfs/", IPFS_GATEWAY)
     .replace("https://ipfs.io/ipfs/", IPFS_GATEWAY)
     .replace("https://cf-ipfs.com/ipfs/", IPFS_GATEWAY)
-    .replace("https://ipfs.4everland.io/ipfs/", IPFS_GATEWAY)
+    .replace("https://ipfs.4everland.xyz/ipfs/", IPFS_GATEWAY)
 }
 
 export const toIPFS = (url: string) => {
