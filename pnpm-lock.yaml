@@ -94,7 +94,7 @@ specifiers:
   tailwindcss: ^3.0.24
   typescript: ^4.5.5
   ua-parser-js: ^1.0.2
-  unidata.js: ^0.6.19
+  unidata.js: ^0.6.21
   unified: ^10.1.2
   unist-builder: ^3.0.0
   unist-util-visit: ^4.1.0
@@ -167,7 +167,7 @@ dependencies:
   remark-rehype: 10.1.0
   sortablejs: 1.15.0
   ua-parser-js: 1.0.2
-  unidata.js: 0.6.19
+  unidata.js: 0.6.21
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.0
@@ -8665,8 +8665,8 @@ packages:
     engines: {node: '>=12.18'}
     dev: false
 
-  /unidata.js/0.6.19:
-    resolution: {integrity: sha512-ByvjhUEhE3ZKV3jSKoGAY2yHXdZCoy13NBkydiP+ELw2gouUR1ujysNybQxcrUdEvjQlrJZ3mR4SSwgQwPWqTg==}
+  /unidata.js/0.6.21:
+    resolution: {integrity: sha512-HiEG+tTJ4HXbajBm3qY6MUw1CExuQvR9aZMRjNCCzBTvI3w+SFHmD3is+e8akPNapyN7d0sI8xIwYrqFjUAtsA==}
     dependencies:
       '@types/lodash': 4.14.184
       '@urql/core': 2.5.0_graphql@16.5.0
