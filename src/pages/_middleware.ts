@@ -47,7 +47,9 @@ export default async function middleware(req: NextRequest) {
 
   if (tenant) {
     const url = req.nextUrl.clone()
-    url.pathname = `/_site/${tenant}${url.pathname}`
+    if (url.pathname !== "/ipfs-gateway-sw.js") {
+      url.pathname = `/_site/${tenant}${url.pathname}`
+    }
     return NextResponse.rewrite(url)
   }
 
