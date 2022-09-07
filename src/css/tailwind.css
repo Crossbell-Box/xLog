@@ -29,7 +29,7 @@ body {
   @apply items-center;
   @apply justify-center;
   @apply h-8;
-  @apply px-3;
+  @apply px-5;
   @apply min-w-[100px];
   @apply shadow-button;
   @apply whitespace-nowrap;
@@ -94,8 +94,6 @@ body {
 
 .button.is-text {
   @apply shadow-none p-0;
-  @apply text-gray-500 fill-gray-500;
-  @apply hover:text-gray-600 hover:fill-gray-600;
 }
 
 .button.is-like {

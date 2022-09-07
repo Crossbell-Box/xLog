@@ -279,7 +279,7 @@ export const SiteHeader: React.FC<{
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}
           </div>
-          <ConnectButton />
+          <ConnectButton variant="text" />
         </div>
       </div>
       <Modal

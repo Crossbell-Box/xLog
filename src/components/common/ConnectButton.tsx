@@ -2,6 +2,7 @@ import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit"
 import { useGetUserSites } from "~/queries/site"
 import { useAccount, useDisconnect, useBalance } from "wagmi"
 import { Avatar } from "~/components/ui/Avatar"
+import { Button } from "~/components/ui/Button"
 import type { HeaderLinkType } from "~/components/site/SiteHeader"
 import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
@@ -12,7 +13,8 @@ import { CrossbellIcon } from "~/components/icons/CrossbellIcon"
 
 export const ConnectButton: React.FC<{
   left?: boolean
-}> = ({ left }) => {
+  variant?: "text" | "primary" | "secondary" | "like" | "collect" | "crossbell"
+}> = ({ left, variant }) => {
   const { address } = useAccount()
   const userSites = useGetUserSites(address)
   const { disconnect } = useDisconnect()
@@ -92,14 +94,14 @@ export const ConnectButton: React.FC<{
             {(() => {
               if (!mounted || !account || !chain) {
                 return (
-                  <button
+                  <Button
                     className="text-theme-color"
                     onClick={openConnectModal}
-                    type="button"
                     style={{ height: "30px" }}
+                    variant={variant || "primary"}
                   >
-                    Connect Wallet
-                  </button>
+                    Connect
+                  </Button>
                 )
               }
               return (

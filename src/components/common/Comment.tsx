@@ -139,7 +139,7 @@ export const Comment: React.FC<{
                 ? userSites.isSuccess && !userSites.data?.length
                   ? "Create Character"
                   : "Submit"
-                : "Connect Wallet"}
+                : "Connect"}
             </Button>
           </div>
         </form>
