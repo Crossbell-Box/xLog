@@ -4,13 +4,16 @@ import { UniLink } from "../ui/UniLink"
 import { ConnectButton } from "../common/ConnectButton"
 import { getSiteLink } from "~/lib/helpers"
 import Image from "next/image"
+import { Link } from "react-scroll"
 
 export function MainLayout({
   children,
   title,
+  tabs,
 }: {
   children?: React.ReactNode
   title?: string
+  tabs?: string[]
 }) {
   return (
     <>
@@ -19,45 +22,57 @@ export function MainLayout({
         siteName={APP_NAME}
         description={APP_DESCRIPTION}
       />
-      <header className="py-10">
+      <header className="py-5 fixed w-full top-0 bg-white z-50">
         <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
           <div className="text-3xl font-extrabold flex items-center">
-            <div className="inline-block w-16 h-16 mr-4">
+            <div className="inline-block w-9 h-9">
               <Image alt={APP_NAME} src="/logo.svg" width={100} height={100} />
             </div>
-            {APP_NAME.toUpperCase()}
           </div>
-          <div className="space-x-5 text-zinc-500">
+          <div className="space-x-14 text-zinc-500 flex">
+            {tabs?.map((tab, index) => (
+              <Link
+                activeClass="text-theme-color"
+                className="cursor-pointer flex items-center"
+                to={tab}
+                spy={true}
+                smooth={true}
+                duration={500}
+                key={tab}
+              >
+                {tab}
+              </Link>
+            ))}
             <ConnectButton />
           </div>
         </div>
       </header>
       {children}
-      <footer className="mt-10 font-medium text-zinc-500 border-t">
+      <footer className="mt-10 font-medium border-t">
         <div className="max-w-screen-lg px-5 py-14 mx-auto flex justify-between">
-          <div>
-            <span className="align-middle">
-              &copy;{" "}
-              <UniLink
-                href={getSiteLink({
-                  subdomain: "blog",
-                })}
-                className="hover-text-theme-color"
-              >
-                {APP_NAME}
+          <span className="text-zinc-700 ml-2 inline-flex items-center space-x-5 align-middle">
+            {GITHUB_LINK && (
+              <UniLink className="flex items-center" href={GITHUB_LINK}>
+                <span className="inline-block i-mdi-github text-2xl hover:text-zinc-900"></span>
               </UniLink>
-            </span>
-            <span className="text-zinc-400 ml-2 inline-flex items-center space-x-1 align-middle">
+            )}
+            {DISCORD_LINK && (
               <UniLink className="flex items-center" href={DISCORD_LINK}>
-                <span className="inline-block i-mdi-discord text-xl hover-text-theme-color"></span>
+                <span className="inline-block i-mdi-discord text-2xl hover-text-theme-color"></span>
               </UniLink>
-              {GITHUB_LINK && (
-                <UniLink className="flex items-center" href={GITHUB_LINK}>
-                  <span className="inline-block i-mdi-github text-xl hover:text-zinc-900"></span>
-                </UniLink>
-              )}
-            </span>
-          </div>
+            )}
+          </span>
+          <span className="align-middle">
+            &copy;{" "}
+            <UniLink
+              href={getSiteLink({
+                subdomain: "blog",
+              })}
+              className="hover-text-theme-color"
+            >
+              {APP_NAME}
+            </UniLink>
+          </span>
         </div>
       </footer>
     </>
