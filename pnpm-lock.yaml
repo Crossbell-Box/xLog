@@ -19,6 +19,7 @@ specifiers:
   '@iconify-json/carbon': ^1.1.5
   '@iconify-json/fluent': ^1.1.8
   '@iconify-json/mdi': ^1.1.19
+  '@iconify-json/tabler': ^1.1.31
   '@monaco-editor/react': ^4.4.5
   '@playwright/test': ^1.22.1
   '@prisma/client': ^3.14.0
@@ -125,6 +126,7 @@ dependencies:
   '@floating-ui/react-dom-interactions': 0.6.6_twyhzqqpkwvvgrmyeapdo6i4my
   '@headlessui/react': 1.6.5_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 1.0.6_react@18.2.0
+  '@iconify-json/tabler': 1.1.31
   '@monaco-editor/react': 4.4.5_biqbaboplfbrettd7655fr4n2y
   '@prisma/client': 3.15.2_prisma@3.15.2
   '@proselog/jwt': 0.1.1
@@ -1457,9 +1459,14 @@ packages:
       '@iconify/types': 1.1.0
     dev: true
 
+  /@iconify-json/tabler/1.1.31:
+    resolution: {integrity: sha512-cRc12zNuggknZkl2WKAqN1QfTJOe6J400v+3icwwXhdvQPXAgECk98fd2xEZFDcrEQlr8I6s1TqWNQ0KLg/HDg==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: false
+
   /@iconify/types/1.1.0:
     resolution: {integrity: sha512-Jh0llaK2LRXQoYsorIH8maClebsnzTcve+7U3rQUSnC11X4jtPnFuyatqFLvMxZ8MLG8dB4zfHsbPfuvxluONw==}
-    dev: true
 
   /@iconify/utils/1.0.33:
     resolution: {integrity: sha512-vGeAqo7aGPxOQmGdVoXFUOuyN+0V7Lcrx2EvaiRjxUD1x6Om0Tvq2bdm7E24l2Pz++4S0mWMCVFXe/17EtKImQ==}

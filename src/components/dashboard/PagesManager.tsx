@@ -11,9 +11,13 @@ import Link from "next/link"
 import toast from "react-hot-toast"
 import { EmptyState } from "../ui/EmptyState"
 import type { Note } from "unidata.js"
-import { useGetPagesBySite, useDeletePage } from "~/queries/page"
+import {
+  useGetPagesBySite,
+  useDeletePage,
+  useCreateOrUpdatePage,
+} from "~/queries/page"
 import { DotsHorizontalIcon } from "@heroicons/react/solid"
-import { delStorage } from "~/lib/storage"
+import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useQueryClient } from "@tanstack/react-query"
 import { Button } from "../ui/Button"
 
@@ -32,6 +36,7 @@ export const PagesManager: React.FC<{
   )
 
   const deletePage = useDeletePage()
+  const createOrUpdatePage = useCreateOrUpdatePage()
 
   useEffect(() => {
     if (deletePage.isSuccess) {
@@ -89,7 +94,7 @@ export const PagesManager: React.FC<{
   }
 
   const queryClient = useQueryClient()
-  const getPageMenuItems = (page: { id: string; metadata?: Object }) => {
+  const getPageMenuItems = (page: Note) => {
     return [
       {
         text: "Edit",
@@ -109,6 +114,29 @@ export const PagesManager: React.FC<{
         ),
         onClick() {
           router.push(getPageEditLink(page))
+        },
+      },
+      {
+        text: "Convert to " + (isPost ? "Page" : "Post"),
+        icon: <span className="i-tabler:transform inline-block"></span>,
+        onClick() {
+          if (!page.metadata) {
+            const data = getStorage(`draft-${subdomain}-${page.id}`)
+            data.isPost = !isPost
+            setStorage(`draft-${subdomain}-${page.id}`, data)
+            queryClient.invalidateQueries(["getPagesBySite", subdomain])
+            queryClient.invalidateQueries(["getPage", page.id])
+          } else {
+            createOrUpdatePage.mutate({
+              published: true,
+              pageId: page.id,
+              siteId: subdomain,
+              tags: page.tags
+                ?.filter((tag) => tag !== "post" && tag !== "page")
+                ?.join(", "),
+              isPost: !isPost,
+            })
+          }
         },
       },
       {
@@ -230,7 +258,9 @@ export const PagesManager: React.FC<{
                                     item.onClick()
                                   }}
                                 >
-                                  <span>{item.icon}</span>
+                                  <span className="inline-flex">
+                                    {item.icon}
+                                  </span>
                                   <span>{item.text}</span>
                                 </button>
                               </Menu.Item>
