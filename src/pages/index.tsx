@@ -116,8 +116,10 @@ export default function Home({ region }: { region: string | null }) {
             <h2 className="text-3xl sm:text-5xl font-bold mb-5">Blog Free</h2>
             <h3 className="mt-5 text-zinc-800 text-4xl sm:text-6xl font-light">
               {APP_NAME}, an on-chain and{" "}
-              <UniLink href={GITHUB_LINK}>open-source</UniLink> blogging
-              platform for everyone.
+              <UniLink className="underline decoration-2" href={GITHUB_LINK}>
+                open-source
+              </UniLink>{" "}
+              blogging platform for everyone.
             </h3>
             <div className="my-10 sm:my-16">
               <Button

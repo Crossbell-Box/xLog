@@ -15,6 +15,7 @@ import { useGetPagesBySite, useDeletePage } from "~/queries/page"
 import { DotsHorizontalIcon } from "@heroicons/react/solid"
 import { delStorage } from "~/lib/storage"
 import { useQueryClient } from "@tanstack/react-query"
+import { Button } from "../ui/Button"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -150,13 +151,8 @@ export const PagesManager: React.FC<{
     <DashboardMain>
       <header className="mb-8 flex justify-between items-center">
         <h2 className="text-2xl font-bold">{title}</h2>
-        <button
-          type="button"
-          className={clsx(
-            `space-x-2 px-3 h-9 inline-flex items-center justify-center text-white rounded-lg text-sm`,
-
-            isPost ? `bg-pink-500` : `bg-blue-500`,
-          )}
+        <Button
+          className={clsx(`space-x-2 inline-flex`)}
           onClick={() =>
             router.push(
               `/dashboard/${subdomain}/editor?type=${isPost ? "post" : "page"}`,
@@ -176,7 +172,7 @@ export const PagesManager: React.FC<{
             <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
           </svg>
           <span>New {isPost ? "Post" : "Page"}</span>
-        </button>
+        </Button>
       </header>
       <Tabs items={tabItems} />
 

@@ -188,7 +188,7 @@ export const SiteHeader: React.FC<{
               <div className="mt-3 text-sm">
                 {siteSubscriptions.data ? (
                   <span
-                    className="xlog-site-followers mr-2 align-middle text-zinc-500 text-sm cursor-pointer"
+                    className="xlog-site-followers align-middle text-zinc-500 text-sm cursor-pointer"
                     onClick={() => setIsFollowListOpen(true)}
                   >
                     <span className="font-bold text-zinc-700">
@@ -199,53 +199,37 @@ export const SiteHeader: React.FC<{
                 ) : (
                   ""
                 )}
-                {subscription.data ? (
-                  <Button
-                    rounded="full"
-                    size="sm"
-                    variant="secondary"
-                    onClick={handleClickSubscribe}
-                    className="space-x-1 group align-middle"
-                    isLoading={
-                      unsubscribeFromSite.isLoading || subscribeToSite.isLoading
-                    }
-                  >
-                    <span className="pl-1">
-                      <CrossbellIcon />
-                    </span>
-                    <span className="pr-1 group-hover:hidden w-16">
-                      Following
-                    </span>
-                    <span className="pr-1 hidden group-hover:block w-16">
-                      Unfollow
-                    </span>
-                  </Button>
-                ) : (
-                  <Button
-                    rounded="full"
-                    size="sm"
-                    variant="crossbell"
-                    onClick={handleClickSubscribe}
-                    className="space-x-1 align-middle"
-                    isLoading={
-                      userSite.isLoading ||
-                      unsubscribeFromSite.isLoading ||
-                      subscribeToSite.isLoading ||
-                      subscription.isLoading
-                    }
-                  >
-                    <span className="pl-1">
-                      <CrossbellIcon />
-                    </span>
+                <Button
+                  variant="text"
+                  onClick={handleClickSubscribe}
+                  className="space-x-1 group align-middle text-theme-color mx-5"
+                  isLoading={
+                    subscription.data
+                      ? unsubscribeFromSite.isLoading ||
+                        subscribeToSite.isLoading
+                      : userSite.isLoading ||
+                        unsubscribeFromSite.isLoading ||
+                        subscribeToSite.isLoading ||
+                        subscription.isLoading
+                  }
+                >
+                  <span className="i-bxs:bell"></span>
+                  {subscription.data ? (
+                    <>
+                      <span className="pr-1 group-hover:hidden w-16">
+                        Following
+                      </span>
+                      <span className="pr-1 hidden group-hover:block w-16">
+                        Unfollow
+                      </span>
+                    </>
+                  ) : (
                     <span className="pr-1">Follow</span>
-                  </Button>
-                )}
+                  )}
+                </Button>
                 <div className="relative inline-block align-middle h-7 group">
                   <Button
-                    rounded="full"
-                    size="sm"
-                    variant="secondary"
-                    className="ml-2"
+                    variant="text"
                     onClick={(e) => {
                       e.stopPropagation()
                     }}

@@ -94,6 +94,7 @@ body {
 
 .button.is-text {
   @apply shadow-none p-0;
+  @apply min-w-0;
 }
 
 .button.is-like {
