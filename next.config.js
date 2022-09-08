@@ -1,6 +1,7 @@
 // @ts-check
 const pkg = require("./package.json")
 const spawn = require("cross-spawn")
+const { withIpfsGateway } = require("@crossbell/ipfs-gateway-next")
 
 class UnoCSS {
   /**
@@ -22,7 +23,7 @@ class UnoCSS {
 }
 
 /** @type {import('next').NextConfig} */
-module.exports = {
+module.exports = withIpfsGateway({
   env: {
     APP_DESCRIPTION: pkg.description,
   },
@@ -35,4 +36,8 @@ module.exports = {
     config.plugins.push(new UnoCSS())
     return config
   },
-}
+
+  ipfsGateway: {
+    gatewayPath: "/_ipfs/:cid/:pathToResource*",
+  },
+})

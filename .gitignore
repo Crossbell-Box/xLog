@@ -8,3 +8,7 @@ dist
 .env.production
 generated/
 test-results/
+
+# IDE Specific
+.idea
+.vscode

@@ -2,6 +2,7 @@ import { Toaster } from "react-hot-toast"
 import "~/css/main.css"
 import "~/generated/uno.css"
 import { StoreProvider, createStore } from "~/lib/store"
+import { IpfsGatewayContext } from "@crossbell/ipfs-react"
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit"
 import { configureChains, createClient, WagmiConfig } from "wagmi"
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
@@ -15,6 +16,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { createIDBPersister } from "~/lib/persister.client"
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit"
 import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
+import { ipfsGateway } from "~/lib/ipfs-gateway"
 
 import "@rainbow-me/rainbowkit/styles.css"
 
@@ -79,7 +81,9 @@ function MyApp({ Component, pageProps }: any) {
           >
             <Hydrate state={pageProps.dehydratedState}>
               <ReactQueryDevtools />
-              <Component {...pageProps} />
+              <IpfsGatewayContext.Provider value={ipfsGateway}>
+                <Component {...pageProps} />
+              </IpfsGatewayContext.Provider>
               <Toaster />
             </Hydrate>
           </PersistQueryClientProvider>
