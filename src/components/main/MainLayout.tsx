@@ -33,7 +33,7 @@ export function MainLayout({
             {tabs?.map((tab, index) => (
               <Link
                 activeClass="text-theme-color"
-                className="cursor-pointer flex items-center"
+                className="cursor-pointer items-center hidden sm:flex"
                 to={tab}
                 spy={true}
                 smooth={true}

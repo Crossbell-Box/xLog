@@ -64,9 +64,9 @@ export default function Home({ region }: { region: string | null }) {
       title: "On-chain",
       text: (
         <>
-          All blog data, including config, posts, following, comment, etc., are
-          permanently stored on the blockchain <b>by your own hands</b> and can
-          only be controlled by yourself and not the platform.
+          All blog data, including configs, posts, following, comments, etc.,
+          are permanently stored on the blockchain <b>with your own hands</b>{" "}
+          and can only be controlled by yourself and not the platform.
         </>
       ),
     },
@@ -113,13 +113,13 @@ export default function Home({ region }: { region: string | null }) {
             <div className="w-28 h-28 mb-16">
               <Image alt="logo" src="/logo.svg" width={200} height={200} />
             </div>
-            <h2 className="text-5xl font-bold mb-5">Blog Free</h2>
-            <h3 className="mt-5 text-zinc-800 text-6xl font-light">
+            <h2 className="text-3xl sm:text-5xl font-bold mb-5">Blog Free</h2>
+            <h3 className="mt-5 text-zinc-800 text-4xl sm:text-6xl font-light">
               {APP_NAME}, an on-chain and{" "}
               <UniLink href={GITHUB_LINK}>open-source</UniLink> blogging
               platform for everyone.
             </h3>
-            <div className="my-16">
+            <div className="my-10 sm:my-16">
               <Button
                 className="text-theme-color w-80 h-10"
                 onClick={() =>
@@ -173,6 +173,13 @@ export default function Home({ region }: { region: string | null }) {
             </Element>
             <Element name={`Why ${APP_NAME}`}>
               <div className="pt-28 text-4xl font-bold">Why {APP_NAME}</div>
+              <div className="text-xl mt-10 leading-normal">
+                We believe freedom of expression is a universal right. In your
+                long-form writing, you should be able to express your thoughts
+                freely; without fear of your post being removed or censored.
+                Xlog ensures that whatever you write, it will be immutable and
+                permanently stored.
+              </div>
               <div className="my-10 text-zinc-500">
                 Trusted by these awesome teams and geeks
                 <ul className="mt-4 space-x-4">
@@ -211,26 +218,6 @@ export default function Home({ region }: { region: string | null }) {
                   </li>
                 </ul>
               </div>
-              <table className="w-full table-fixed border-y-2 border-zinc-800">
-                <tbody>
-                  <tr className="text-xl">
-                    <th className="text-center w-60"></th>
-                    <th className="text-center py-3">{APP_NAME}</th>
-                    <th className="text-center">Mirror.xyz</th>
-                  </tr>
-                  {comparing.map((item, index) => (
-                    <tr className="" key={index}>
-                      <td className="text-center py-3">{item}</td>
-                      <td className="text-center">
-                        <span className="i-bxs:check-circle inline-block text-green-600 text-lg"></span>
-                      </td>
-                      <td className="text-center">
-                        <span className="i-bxs:x-circle inline-block text-red-600 text-lg"></span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
             </Element>
           </div>
           <div className="my-20 text-center">
