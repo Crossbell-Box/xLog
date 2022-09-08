@@ -1,14 +1,33 @@
-import { IPFS_GATEWAY } from "~/lib/env"
+import { isIpfsUrl } from "@crossbell/ipfs-gateway"
 
-export const toGateway = (url: string) => {
-  return url
-    ?.replace("ipfs://", IPFS_GATEWAY)
-    .replace("https://gateway.ipfs.io/ipfs/", IPFS_GATEWAY)
-    .replace("https://ipfs.io/ipfs/", IPFS_GATEWAY)
-    .replace("https://cf-ipfs.com/ipfs/", IPFS_GATEWAY)
-    .replace("https://ipfs.4everland.xyz/ipfs/", IPFS_GATEWAY)
+import { IPFS_GATEWAY } from "~/lib/env"
+import { ipfsGateway } from "./ipfs-gateway"
+
+const IPFS_PREFIX = "ipfs://"
+
+export type ToGatewayConfig = {
+  needRequestAtServerSide?: boolean
+}
+
+export const toGateway = (url: string, config?: ToGatewayConfig) => {
+  const ipfsUrl = toIPFS(url)
+
+  if (isIpfsUrl(ipfsUrl)) {
+    if (config?.needRequestAtServerSide && typeof window === "undefined") {
+      return ipfsGateway.getFallbackWeb2Url(ipfsUrl)
+    } else {
+      return ipfsGateway.getSwWeb2Url(ipfsUrl)
+    }
+  } else {
+    return url
+  }
 }
 
 export const toIPFS = (url: string) => {
-  return url?.replace(IPFS_GATEWAY, "ipfs://")
+  return url
+    ?.replace(IPFS_GATEWAY, IPFS_PREFIX)
+    .replace("https://gateway.ipfs.io/ipfs/", IPFS_PREFIX)
+    .replace("https://ipfs.io/ipfs/", IPFS_PREFIX)
+    .replace("https://cf-ipfs.com/ipfs/", IPFS_PREFIX)
+    .replace("https://ipfs.4everland.xyz/ipfs/", IPFS_PREFIX)
 }

@@ -1,7 +1,9 @@
 import { IpfsGateway } from "@crossbell/ipfs-gateway"
 
+export const IPFS_SW_GATEWAY_PREFIX = "/_ipfs/"
+
 export const ipfsGateway = new IpfsGateway({
   serviceWorker: {
-    gatewayPrefix: "/_ipfs/",
+    gatewayPrefix: IPFS_SW_GATEWAY_PREFIX,
   },
 })
