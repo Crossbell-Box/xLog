@@ -15,7 +15,7 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Button } from "~/components/ui/Button"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useRouter } from "next/router"
-import { GITHUB_LINK, APP_NAME } from "~/lib/env"
+import { GITHUB_LINK, APP_NAME, CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { Link, Element } from "react-scroll"
 
@@ -115,7 +115,11 @@ export default function Home({ region }: { region: string | null }) {
             </div>
             <h2 className="text-3xl sm:text-5xl font-bold mb-5">Blog Free</h2>
             <h3 className="mt-5 text-zinc-800 text-4xl sm:text-6xl font-light">
-              {APP_NAME}, an on-chain and{" "}
+              {APP_NAME}, an{" "}
+              <UniLink className="underline decoration-2" href={CSB_SCAN}>
+                on-chain
+              </UniLink>{" "}
+              and{" "}
               <UniLink className="underline decoration-2" href={GITHUB_LINK}>
                 open-source
               </UniLink>{" "}
@@ -231,11 +235,11 @@ export default function Home({ region }: { region: string | null }) {
                 href="/dashboard"
                 className="text-theme-color inline-flex items-center space-x-2"
               >
-                <Button size="xl">Try {APP_NAME} today</Button>
+                <Button size="xl">Try {APP_NAME} Today</Button>
               </UniLink>
             ) : (
               <Button onClick={tryNow} size="xl">
-                Try {APP_NAME} today
+                Try {APP_NAME} Today
               </Button>
             )}
           </div>

@@ -33,7 +33,7 @@ export function MainLayout({
             {tabs?.map((tab, index) => (
               <Link
                 activeClass="text-theme-color"
-                className="cursor-pointer items-center hidden sm:flex"
+                className="cursor-pointer items-center hidden sm:flex hover-text-theme-color"
                 to={tab}
                 spy={true}
                 smooth={true}
@@ -43,6 +43,12 @@ export function MainLayout({
                 {tab}
               </Link>
             ))}
+            <UniLink
+              href={GITHUB_LINK}
+              className="items-center hidden sm:flex hover-text-theme-color"
+            >
+              GitHub
+            </UniLink>
             <ConnectButton />
           </div>
         </div>
