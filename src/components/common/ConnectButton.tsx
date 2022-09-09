@@ -9,7 +9,6 @@ import { UniLink } from "../ui/UniLink"
 import { useEffect, useState } from "react"
 import { DuplicateIcon, LogoutIcon } from "@heroicons/react/outline"
 import { BigNumber } from "ethers"
-import { CrossbellIcon } from "~/components/icons/CrossbellIcon"
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -56,7 +55,7 @@ export const ConnectButton: React.FC<{
     addressOrName: address,
   })
 
-  const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(true)
+  const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(false)
 
   useEffect(() => {
     if (balance !== undefined) {
@@ -157,9 +156,7 @@ export const ConnectButton: React.FC<{
                               href="https://faucet.crossbell.io/"
                               className="text-red-600 px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
                             >
-                              <span className="mr-2 fill-red-600">
-                                <CrossbellIcon />
-                              </span>
+                              <span className="mr-2 fill-red-600 i-bxs:bell"></span>
                               Insufficient $CSB balance ({balance?.formatted})
                             </UniLink>
                           )}

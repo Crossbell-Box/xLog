@@ -24,8 +24,6 @@ import {
   useGetUserSites,
 } from "~/queries/site"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
-import { Menu } from "@headlessui/react"
-import { CrossbellIcon } from "~/components/icons/CrossbellIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { DotsHorizontalIcon, RssIcon } from "@heroicons/react/solid"
 import { Modal } from "~/components/ui/Modal"
@@ -147,7 +145,7 @@ export const SiteHeader: React.FC<{
   const moreMenuItems = [
     {
       text: "View on Crossbell.io",
-      icon: <CrossbellIcon />,
+      icon: <span className="i-bxs:bell inline-block"></span>,
       url: CSB_IO && `${CSB_IO}/@${site?.username}`,
     },
     {
@@ -245,7 +243,9 @@ export const SiteHeader: React.FC<{
                             href={item.url}
                             className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
                           >
-                            <span className="fill-gray-500">{item.icon}</span>
+                            <span className="fill-gray-500 flex">
+                              {item.icon}
+                            </span>
                             <span>{item.text}</span>
                           </UniLink>
                         )
