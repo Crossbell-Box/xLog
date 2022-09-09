@@ -24,8 +24,8 @@
     "@codemirror/language": "^0.20.0",
     "@codemirror/state": "^0.20.0",
     "@codemirror/view": "^0.20.3",
-    "@crossbell/ipfs-gateway": "0.0.8",
-    "@crossbell/ipfs-react": "0.0.8",
+    "@crossbell/ipfs-gateway": "0.0.10",
+    "@crossbell/ipfs-react": "0.0.10",
     "@emoji-mart/data": "^1.0.3",
     "@emoji-mart/react": "^1.0.0",
     "@floating-ui/react-dom-interactions": "^0.6.3",
@@ -94,7 +94,7 @@
     "zustand": "4.0.0-rc.1"
   },
   "devDependencies": {
-    "@crossbell/ipfs-gateway-next": "0.0.8",
+    "@crossbell/ipfs-gateway-next": "0.0.10",
     "@iconify-json/bi": "^1.1.3",
     "@iconify-json/bxs": "^1.1.2",
     "@iconify-json/carbon": "^1.1.5",
