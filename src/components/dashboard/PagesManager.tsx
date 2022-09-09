@@ -20,6 +20,7 @@ import { DotsHorizontalIcon } from "@heroicons/react/solid"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useQueryClient } from "@tanstack/react-query"
 import { Button } from "../ui/Button"
+import { UniLink } from "../ui/UniLink"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -196,33 +197,79 @@ export const PagesManager: React.FC<{
   }
 
   const title = isPost ? "Posts" : "Pages"
+  const description = isPost ? (
+    <>
+      <p>
+        <UniLink
+          className="underline"
+          href="https://wordpress.com/support/post-vs-page/"
+        >
+          Post vs. Page
+        </UniLink>
+        . Posts are entries listed in reverse chronological order on your site.
+        Think of them as articles or updates that you share to offer up new
+        content to your readers.
+      </p>
+    </>
+  ) : (
+    <>
+      <p>
+        <UniLink
+          className="underline"
+          href="https://wordpress.com/support/post-vs-page/"
+        >
+          Post vs. Page
+        </UniLink>
+        . Pages are static and are not affected by date. Think of them as more
+        permanent fixtures of your site — an About page, and a Contact page are
+        great examples of this.
+      </p>
+      <p>
+        After you create a page, you can{" "}
+        <UniLink
+          className="underline"
+          href={`/dashboard/${subdomain}/settings/navigation`}
+        >
+          add it to your site&apos;s navigation menu
+        </UniLink>{" "}
+        so your visitors can find it.
+      </p>
+    </>
+  )
 
   return (
     <DashboardMain>
-      <header className="mb-8 flex justify-between items-center">
-        <h2 className="text-2xl font-bold">{title}</h2>
-        <Button
-          className={clsx(`space-x-2 inline-flex`)}
-          onClick={() =>
-            router.push(
-              `/dashboard/${subdomain}/editor?type=${isPost ? "post" : "page"}`,
-            )
-          }
-        >
-          <svg
-            className="w-5 h-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+      <header className="mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">{title}</h2>
+          <Button
+            className={clsx(`space-x-2 inline-flex`)}
+            onClick={() =>
+              router.push(
+                `/dashboard/${subdomain}/editor?type=${
+                  isPost ? "post" : "page"
+                }`,
+              )
+            }
           >
-            <path d="M12 20h9"></path>
-            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-          </svg>
-          <span>New {isPost ? "Post" : "Page"}</span>
-        </Button>
+            <svg
+              className="w-5 h-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+            </svg>
+            <span>New {isPost ? "Post" : "Page"}</span>
+          </Button>
+        </div>
+        <div className="text-sm text-zinc-500 leading-relaxed">
+          {description}
+        </div>
       </header>
       <Tabs items={tabItems} />
 
