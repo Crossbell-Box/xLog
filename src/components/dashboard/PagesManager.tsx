@@ -37,12 +37,24 @@ export const PagesManager: React.FC<{
 
   const deletePage = useDeletePage()
   const createOrUpdatePage = useCreateOrUpdatePage()
+  const [convertToastId, setConvertToastId] = useState("")
+  const [deleteToastId, setDeleteToastId] = useState("")
 
   useEffect(() => {
     if (deletePage.isSuccess) {
-      toast.success("Deleted!")
+      toast.success("Deleted!", {
+        id: deleteToastId,
+      })
     }
-  }, [deletePage.isSuccess])
+  }, [deletePage.isSuccess, deleteToastId])
+
+  useEffect(() => {
+    if (createOrUpdatePage.isSuccess) {
+      toast.success("Converted!", {
+        id: convertToastId,
+      })
+    }
+  }, [createOrUpdatePage.isSuccess, convertToastId])
 
   const pages = useGetPagesBySite({
     type: isPost ? "post" : "page",
@@ -121,12 +133,17 @@ export const PagesManager: React.FC<{
         icon: <span className="i-tabler:transform inline-block"></span>,
         onClick() {
           if (!page.metadata) {
+            const toastId = toast.loading("Converting...")
             const data = getStorage(`draft-${subdomain}-${page.id}`)
             data.isPost = !isPost
             setStorage(`draft-${subdomain}-${page.id}`, data)
             queryClient.invalidateQueries(["getPagesBySite", subdomain])
             queryClient.invalidateQueries(["getPage", page.id])
+            toast.success("Converted!", {
+              id: toastId,
+            })
           } else {
+            setConvertToastId(toast.loading("Converting..."))
             createOrUpdatePage.mutate({
               published: true,
               pageId: page.id,
@@ -159,10 +176,15 @@ export const PagesManager: React.FC<{
         ),
         onClick() {
           if (!page.metadata) {
+            const toastId = toast.loading("Deleting...")
             delStorage(`draft-${subdomain}-${page.id}`)
             queryClient.invalidateQueries(["getPagesBySite", subdomain])
             queryClient.invalidateQueries(["getPage", page.id])
+            toast.success("Deleted!", {
+              id: toastId,
+            })
           } else {
+            setDeleteToastId(toast.loading("Deleting..."))
             deletePage.mutate({
               site: subdomain,
               id: page.id,
