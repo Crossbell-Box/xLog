@@ -236,7 +236,7 @@ export const SiteHeader: React.FC<{
                   >
                     <DotsHorizontalIcon className="w-5 h-5" />
                   </Button>
-                  <div className="absolute hidden left-0 pt-2 group-hover:block top-full z-10 text-gray-600 w-60">
+                  <div className="absolute hidden right-0 sm:left-0 pt-2 group-hover:block top-full z-10 text-gray-600 w-60">
                     <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
                       {moreMenuItems.map((item) => {
                         return (
