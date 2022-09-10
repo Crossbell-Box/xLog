@@ -21,6 +21,8 @@ import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useQueryClient } from "@tanstack/react-query"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
+import { nanoid } from "nanoid"
+import { renderPageContent } from "~/markdown"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -242,30 +244,90 @@ export const PagesManager: React.FC<{
       <header className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">{title}</h2>
-          <Button
-            className={clsx(`space-x-2 inline-flex`)}
-            onClick={() =>
-              router.push(
-                `/dashboard/${subdomain}/editor?type=${
-                  isPost ? "post" : "page"
-                }`,
-              )
-            }
-          >
-            <svg
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          <div className="flex justify-center items-center">
+            <Button
+              className={clsx(`space-x-2 inline-flex mr-4`)}
+              onClick={() =>
+                router.push(
+                  `/dashboard/${subdomain}/editor?type=${
+                    isPost ? "post" : "page"
+                  }`,
+                )
+              }
             >
-              <path d="M12 20h9"></path>
-              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-            </svg>
-            <span>New {isPost ? "Post" : "Page"}</span>
-          </Button>
+              <svg
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+              <span>New {isPost ? "Post" : "Page"}</span>
+            </Button>
+            <Button
+              className={clsx(`space-x-2 inline-flex`)}
+              onClick={() => {
+                const input = document.createElement("input")
+                input.type = "file"
+                input.accept = "text/markdown"
+                input.addEventListener("change", async (e: any) => {
+                  const file = e.target?.files?.[0]
+                  const reader = new FileReader()
+                  reader.readAsText(file, "UTF-8")
+                  reader.onload = async (evt) => {
+                    if (evt.target?.result) {
+                      const pageContent = await renderPageContent(
+                        evt.target.result as string,
+                      )
+
+                      const id = nanoid()
+                      const key = `draft-${subdomain}-local-${id}`
+                      const tags =
+                        pageContent.frontMatter.tags ||
+                        pageContent.frontMatter.categories
+                      setStorage(key, {
+                        date: +new Date(),
+                        values: {
+                          content: evt.target.result,
+                          published: false,
+                          publishedAt: (
+                            pageContent.frontMatter.date || new Date()
+                          ).toISOString(),
+                          slug:
+                            pageContent.frontMatter.permalink ||
+                            file.name.split(".").slice(0, -1).join("."),
+                          tags: tags?.join?.(", ") || tags,
+                          title: pageContent.frontMatter.title,
+                        },
+                        isPost: isPost,
+                      })
+                      queryClient.invalidateQueries([
+                        "getPagesBySite",
+                        subdomain,
+                      ])
+                      router.push(
+                        `/dashboard/${subdomain}/editor?id=local-${id}&type=${
+                          isPost ? "post" : "page"
+                        }`,
+                      )
+                    }
+                  }
+                  reader.onerror = (evt) => {
+                    toast.error("Error reading file")
+                  }
+                })
+                input.click()
+              }}
+            >
+              <span className="i-bxs:duplicate inline-block"></span>
+              <span>Import</span>
+            </Button>
+          </div>
         </div>
         <div className="text-sm text-zinc-500 leading-relaxed">
           {description}

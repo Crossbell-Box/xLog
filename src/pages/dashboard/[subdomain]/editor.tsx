@@ -43,11 +43,6 @@ export default function SubdomainEditor() {
       if (!pageId) {
         const key = `draft-${subdomain}-local-${nanoid()}`
         setDraftKey(key)
-        setStorage(key, {
-          date: +new Date(),
-          isPost: isPost,
-          values,
-        })
         queryClient.invalidateQueries(["getPagesBySite", subdomain])
       } else {
         setDraftKey(`draft-${subdomain}-${pageId}`)
@@ -184,6 +179,7 @@ export default function SubdomainEditor() {
   })
 
   useEffect(() => {
+    console.log("!page.data", page.data)
     if (!page.data || !draftKey) return
 
     const local = getStorage(draftKey)
