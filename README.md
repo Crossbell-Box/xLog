@@ -1,8 +1,8 @@
-# xlog
+# xLog
 
 > On-Chain Content Creating for Absolutely Everyone
 
-Meet xlog, the on-chain and open-source blogging platform for everyone. Permanently stored on the blockchain by yourself.
+Meet xLog, the on-chain and open-source blogging platform for everyone. Permanently stored on the blockchain by yourself.
 
 This project is developed based on [proselog](https://github.com/proselog/proselog)
 
