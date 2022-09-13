@@ -296,7 +296,9 @@ export const PagesManager: React.FC<{
                           content: evt.target.result,
                           published: false,
                           publishedAt: (
-                            pageContent.frontMatter.date || new Date()
+                            pageContent.frontMatter.date ||
+                            file.lastModifiedDate ||
+                            new Date()
                           ).toISOString(),
                           slug:
                             pageContent.frontMatter.permalink ||
