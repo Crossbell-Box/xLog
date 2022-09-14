@@ -246,10 +246,6 @@ textarea.input {
   @apply font-extrabold;
 }
 
-.cm-editor {
-  @apply h-full;
-}
-
 .xlog-site-description a {
   @apply underline;
 }

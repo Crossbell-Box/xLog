@@ -244,7 +244,7 @@ export default function SubdomainEditor() {
           </header>
           <div className="h-screen pt-14 flex w-full">
             <div className="h-full overflow-auto w-full">
-              <div className="h-full mx-auto py-5 flex flex-col">
+              <div className="h-full mx-auto pt-5 flex flex-col">
                 <div className="px-5 h-12">
                   <input
                     type="text"
@@ -260,13 +260,13 @@ export default function SubdomainEditor() {
                     placeholder="Title goes here.."
                   />
                 </div>
-                <div className="mt-5 flex-1 flex">
+                <div className="mt-5 flex-1 flex overflow-hidden">
                   <div
-                    className="px-5 h-full border-r w-1/2"
+                    className="px-5 h-full border-r w-1/2 overflow-scroll"
                     ref={editorRef}
                   ></div>
                   <EditorPreview
-                    className="px-5 w-1/2"
+                    className="px-5 w-1/2 overflow-scroll"
                     content={content}
                   ></EditorPreview>
                 </div>
