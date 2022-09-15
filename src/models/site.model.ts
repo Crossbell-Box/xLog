@@ -115,12 +115,16 @@ export const getSubscription = async (data: {
   return !!links?.list?.length
 }
 
-export const getSiteSubscriptions = async (data: { siteId: string }) => {
+export const getSiteSubscriptions = async (data: {
+  siteId: string
+  cursor?: string
+}) => {
   const links = await unidata.links.get({
     source: "Crossbell Link",
     identity: data.siteId,
     platform: "Crossbell",
     reversed: true,
+    cursor: data.cursor,
   })
 
   await Promise.all(

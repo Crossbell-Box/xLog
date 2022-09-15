@@ -28,7 +28,7 @@ export const Modal: React.FC<{
         {/* The actual dialog panel  */}
         <Dialog.Panel
           className={clsx(
-            `mx-auto rounded-lg bg-white w-full shadow-modal max-h-full overflow-y-auto`,
+            `mx-auto rounded-lg bg-white w-full shadow-modal max-h-full overflow-y-auto flex flex-col`,
 
             size === "md"
               ? `max-w-md`
@@ -38,7 +38,7 @@ export const Modal: React.FC<{
           )}
         >
           {title && (
-            <Dialog.Title className="text-lg border-b h-14 flex items-center px-5 space-x-2">
+            <Dialog.Title className="text-lg border-b h-14 flex items-center px-5 space-x-2 py-4">
               {titleIcon && <span>{titleIcon}</span>}
               <span>{title}</span>
             </Dialog.Title>

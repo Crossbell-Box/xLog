@@ -1,20 +1,14 @@
 import clsx from "clsx"
 import { useRouter } from "next/router"
-import { IS_PROD } from "~/lib/constants"
 import { SITE_URL, CSB_SCAN, CSB_IO } from "~/lib/env"
-import { useStore } from "~/lib/store"
-import { Viewer } from "~/lib/types"
 import { getUserContentsUrl } from "~/lib/user-contents"
-import { truthy } from "~/lib/utils"
-import { DashboardIcon } from "../icons/DashboardIcon"
 import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
 import { Profile } from "~/lib/types"
 import { ConnectButton } from "../common/ConnectButton"
 import { useAccount } from "wagmi"
-import unidata from "~/lib/unidata"
-import { Fragment, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import {
   useGetSubscription,
@@ -26,7 +20,9 @@ import {
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { DotsHorizontalIcon, RssIcon } from "@heroicons/react/solid"
-import { Modal } from "~/components/ui/Modal"
+import type { Link } from "unidata.js"
+import { getSiteSubscriptions } from "~/models/site.model"
+import { CharacterList } from "~/components/common/CharacterList"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -160,6 +156,26 @@ export const SiteHeader: React.FC<{
     },
   ]
 
+  const [siteSubscriptionList, setSiteSubscriptionList] = useState<Link[]>([])
+  const [cursor, setCursor] = useState<string>()
+  useEffect(() => {
+    if (siteSubscriptions.isSuccess) {
+      setSiteSubscriptionList(siteSubscriptions.data?.list || [])
+      setCursor(siteSubscriptions.data?.cursor)
+    }
+  }, [siteSubscriptions.isSuccess])
+
+  const loadMoreSubscriptions = async () => {
+    if (cursor) {
+      const subs = await getSiteSubscriptions({
+        siteId: site?.username || "",
+        cursor,
+      })
+      setSiteSubscriptionList((prev) => [...prev, ...(subs?.list || [])])
+      setCursor(subs?.cursor)
+    }
+  }
+
   return (
     <header className="border-b">
       <div className="px-5 max-w-screen-md mx-auto">
@@ -266,47 +282,14 @@ export const SiteHeader: React.FC<{
           <ConnectButton variant="text" />
         </div>
       </div>
-      <Modal
+      <CharacterList
         open={isFollowListOpen}
         setOpen={setIsFollowListOpen}
         title="Follow List"
-      >
-        <ul className="px-5">
-          {siteSubscriptions.data?.list?.map((sub: any, index) => (
-            <li
-              className="py-3 flex items-center space-x-2 text-sm"
-              key={index}
-            >
-              <UniLink
-                href={CSB_IO && `${CSB_IO}/@${sub?.character?.handle}`}
-                className="flex items-center space-x-2 text-sm"
-              >
-                <Avatar
-                  className="align-middle border-2 border-white"
-                  images={sub.character?.metadata?.content?.avatars || []}
-                  name={
-                    sub.character?.metadata?.content?.name ||
-                    sub.character?.handle
-                  }
-                  size={40}
-                />
-                <span>{sub.character?.metadata?.content?.name}</span>
-                <span className="text-zinc-400 truncate max-w-xs">
-                  @{sub.character?.handle}
-                </span>
-              </UniLink>
-              <UniLink href={CSB_SCAN + "/tx/" + sub.metadata?.proof}>
-                <BlockchainIcon />
-              </UniLink>
-            </li>
-          ))}
-        </ul>
-        <div className="h-16 border-t flex items-center px-5">
-          <Button isBlock onClick={() => setIsFollowListOpen(false)}>
-            Close
-          </Button>
-        </div>
-      </Modal>
+        loadMore={loadMoreSubscriptions}
+        hasMore={!!cursor}
+        list={siteSubscriptionList}
+      ></CharacterList>
     </header>
   )
 }

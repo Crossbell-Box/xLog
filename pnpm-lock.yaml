@@ -43,6 +43,7 @@ specifiers:
   '@types/react': ^18.0.9
   '@types/react-avatar-editor': ^12.0.0
   '@types/react-dom': ^18.0.3
+  '@types/react-infinite-scroller': ^1.2.3
   '@types/react-scroll': ^1.8.4
   '@types/sortablejs': ^1.13.0
   '@types/ua-parser-js': ^0.7.36
@@ -88,6 +89,7 @@ specifiers:
   react-dom: ^18.1.0
   react-hook-form: ^7.31.1
   react-hot-toast: ^2.2.0
+  react-infinite-scroller: ^1.2.6
   react-scroll: ^1.8.7
   react-sortablejs: ^6.1.1
   refractor: ^4.7.0
@@ -170,6 +172,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.33.0_react@18.2.0
   react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
+  react-infinite-scroller: 1.2.6_react@18.2.0
   react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
   react-sortablejs: 6.1.4_yi7d4rnqh6snv6o2bvvwtjnph4
   refractor: 4.7.0
@@ -214,6 +217,7 @@ devDependencies:
   '@types/react': 18.0.14
   '@types/react-avatar-editor': 12.0.0
   '@types/react-dom': 18.0.5
+  '@types/react-infinite-scroller': 1.2.3
   '@types/react-scroll': 1.8.4
   '@types/sortablejs': 1.13.0
   '@types/ua-parser-js': 0.7.36
@@ -2173,6 +2177,12 @@ packages:
 
   /@types/react-dom/18.0.5:
     resolution: {integrity: sha512-OWPWTUrY/NIrjsAPkAk1wW9LZeIjSvkXRhclsFO8CZcZGCOg2G0YZy4ft+rOyYxy8B7ui5iZzi9OkDebZ7/QSA==}
+    dependencies:
+      '@types/react': 18.0.14
+    dev: true
+
+  /@types/react-infinite-scroller/1.2.3:
+    resolution: {integrity: sha512-l60JckVoO+dxmKW2eEG7jbliEpITsTJvRPTe97GazjF5+ylagAuyYdXl8YY9DQsTP9QjhqGKZROknzgscGJy0A==}
     dependencies:
       '@types/react': 18.0.14
     dev: true
@@ -7995,6 +8005,15 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
       - csstype
+    dev: false
+
+  /react-infinite-scroller/1.2.6_react@18.2.0:
+    resolution: {integrity: sha512-mGdMyOD00YArJ1S1F3TVU9y4fGSfVVl6p5gh/Vt4u99CJOptfVu/q5V/Wlle72TMgYlBwIhbxK5wF0C/R33PXQ==}
+    peerDependencies:
+      react: ^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-is/16.13.1:
