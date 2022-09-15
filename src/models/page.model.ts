@@ -3,7 +3,7 @@ import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
 import unidata from "~/lib/unidata"
 import { indexer, getContract } from "~/lib/crossbell"
-import { NoteEntity, CharacterEntity } from "crossbell.js"
+import { NoteEntity, CharacterEntity, ListResponse } from "crossbell.js"
 import { getStorage, getKeys } from "~/lib/storage"
 import axios from "axios"
 import { toGateway } from "~/lib/ipfs-parser"
@@ -537,22 +537,41 @@ export async function commentPage({
 }
 
 export async function getComments({ pageId }: { pageId: string }) {
-  const list: (NoteEntity & {
-    character?: CharacterEntity | null
-  })[] = (
-    await indexer.getNotes({
-      toCharacterId: pageId.split("-")[0],
-      toNoteId: pageId.split("-")[1],
-      sources: ["xlog"],
-    })
-  ).list
+  const options = {
+    toCharacterId: pageId.split("-")[0],
+    toNoteId: pageId.split("-")[1],
+    sources: ["xlog"],
+    cursor: "",
+  }
+
+  let pages: ListResponse<
+    NoteEntity & {
+      character?: CharacterEntity | null
+    }
+  > = {
+    count: 0,
+    list: [],
+    cursor: "",
+  }
+
+  let cursor = ""
+  do {
+    options.cursor = cursor
+    const res = (await indexer.getNotes(options)) || {
+      total: 0,
+      list: [],
+    }
+    pages.count = res.count
+    pages.list = pages.list.concat(res.list)
+    cursor = res.cursor || ""
+  } while (cursor)
 
   await Promise.all(
-    list.map(async (item) => {
+    pages.list.map(async (item) => {
       const characterId = item.characterId
       item.character = await indexer.getCharacter(characterId)
     }),
   )
 
-  return list
+  return pages
 }

@@ -81,8 +81,8 @@ export const Comment: React.FC<{
     <div className={clsx("xlog-comment", "comment", className)}>
       <div className="xlog-comment-count border-b pb-2 mb-6">
         <span>
-          {comments.data?.length || "0"} Comment
-          {comments.data?.length && comments.data.length > 1 ? "s" : ""}
+          {comments.data?.count || "0"} Comment
+          {comments.data?.count && comments.data.count > 1 ? "s" : ""}
         </span>
       </div>
       <div className="xlog-comment-input flex">
@@ -145,7 +145,7 @@ export const Comment: React.FC<{
         </form>
       </div>
       <div className="xlog-comment-list">
-        {comments.data?.map((comment) => (
+        {comments.data?.list?.map((comment) => (
           <div
             key={comment.transactionHash}
             className="flex border-b border-dashed py-6"
