@@ -385,12 +385,19 @@ export async function unlikePage({
   }
 }
 
-export async function getLikes({ pageId }: { pageId: string }) {
+export async function getLikes({
+  pageId,
+  cursor,
+}: {
+  pageId: string
+  cursor?: string
+}) {
   const res = await indexer.getBacklinksOfNote(
     pageId.split("-")[0],
     pageId.split("-")[1],
     {
       linkType: "like",
+      cursor,
     },
   )
   await Promise.all(
@@ -410,6 +417,7 @@ export async function getLikes({ pageId }: { pageId: string }) {
           })
         ).data
       }
+      ;(<any>item).character = item.fromCharacter
     }),
   )
 
@@ -449,10 +457,19 @@ export async function mintPage({
   )
 }
 
-export async function getMints({ pageId }: { pageId: string }) {
+export async function getMints({
+  pageId,
+  cursor,
+}: {
+  pageId: string
+  cursor?: string
+}) {
   const data = await indexer.getMintedNotesOfNote(
     pageId.split("-")[0],
     pageId.split("-")[1],
+    {
+      cursor,
+    },
   )
 
   await Promise.all(

@@ -21,8 +21,9 @@ import { Comment } from "~/components/common/Comment"
 import { UniLink } from "~/components/ui/UniLink"
 import { Modal } from "~/components/ui/Modal"
 import { Avatar } from "../ui/Avatar"
-import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { MintIcon } from "~/components/icons/MintIcon"
+import { getLikes, getMints } from "~/models/page.model"
+import { CharacterList } from "~/components/common/CharacterList"
 
 export const PostFooter: React.FC<{
   page?: Note
@@ -155,6 +156,46 @@ export const PostFooter: React.FC<{
     likePage,
     page?.id,
   ])
+
+  const [likeList, setLikeList] = useState<any[]>([])
+  const [likeCursor, setLikeCursor] = useState<string>()
+  useEffect(() => {
+    if (likes.isSuccess && likes.data) {
+      setLikeList(likes.data.list || [])
+      setLikeCursor(likes.data.cursor || "")
+    }
+  }, [likes.isSuccess])
+
+  const loadMoreLikes = async () => {
+    if (likeCursor && page?.id) {
+      const subs = await getLikes({
+        pageId: page.id,
+        cursor: likeCursor,
+      })
+      setLikeList((prev) => [...prev, ...(subs?.list || [])])
+      setLikeCursor(subs?.cursor || "")
+    }
+  }
+
+  const [mintList, setMintList] = useState<any[]>([])
+  const [mintCursor, setMintCursor] = useState<string>()
+  useEffect(() => {
+    if (mints.isSuccess && mints.data) {
+      setMintList(mints.data.list || [])
+      setMintCursor(mints.data.cursor || "")
+    }
+  }, [mints.isSuccess])
+
+  const loadMoreMints = async () => {
+    if (mintCursor && page?.id) {
+      const subs = await getMints({
+        pageId: page.id,
+        cursor: mintCursor,
+      })
+      setMintList((prev) => [...prev, ...(subs?.list || [])])
+      setMintCursor(subs?.cursor || "")
+    }
+  }
 
   return (
     <>
@@ -289,90 +330,22 @@ export const PostFooter: React.FC<{
             </Button>
           </div>
         </Modal>
-        <Modal
+        <CharacterList
           open={isLikeListOpen}
           setOpen={setIsLikeListOpen}
           title="Like List"
-        >
-          <ul className="px-5">
-            {likes.data?.list?.map((like: any, index) => (
-              <li
-                className="py-3 flex items-center space-x-2 text-sm"
-                key={index}
-              >
-                <UniLink
-                  href={CSB_IO && `${CSB_IO}/@${like?.fromCharacter?.handle}`}
-                  className="flex items-center space-x-2 text-sm"
-                >
-                  <Avatar
-                    className="align-middle border-2 border-white"
-                    images={
-                      like.fromCharacter?.metadata?.content?.avatars || []
-                    }
-                    name={
-                      like.fromCharacter?.metadata?.content?.name ||
-                      like.fromCharacter?.handle
-                    }
-                    size={40}
-                  />
-                  <span>{like.fromCharacter?.metadata?.content?.name}</span>
-                  <span className="text-zinc-400 truncate max-w-xs">
-                    @{like.fromCharacter?.handle}
-                  </span>
-                </UniLink>
-                <UniLink href={CSB_SCAN + "/tx/" + like.transactionHash}>
-                  <BlockchainIcon />
-                </UniLink>
-              </li>
-            ))}
-          </ul>
-          <div className="h-16 border-t flex items-center px-5">
-            <Button isBlock onClick={() => setIsLikeListOpen(false)}>
-              Close
-            </Button>
-          </div>
-        </Modal>
-        <Modal
+          loadMore={loadMoreLikes}
+          hasMore={!!likeCursor}
+          list={likeList}
+        ></CharacterList>
+        <CharacterList
           open={isMintListOpen}
           setOpen={setIsMintListOpen}
           title="Mint List"
-        >
-          <ul className="px-5">
-            {mints.data?.list?.map((mint: any, index) => (
-              <li
-                className="py-3 flex items-center space-x-2 text-sm"
-                key={index}
-              >
-                <UniLink
-                  href={CSB_IO && `${CSB_IO}/@${mint?.character?.handle}`}
-                  className="flex items-center space-x-2 text-sm"
-                >
-                  <Avatar
-                    className="align-middle border-2 border-white"
-                    images={mint.character?.metadata?.content?.avatars || []}
-                    name={
-                      mint.character?.metadata?.content?.name ||
-                      mint.character?.handle
-                    }
-                    size={40}
-                  />
-                  <span>{mint.character?.metadata?.content?.name}</span>
-                  <span className="text-zinc-400 truncate max-w-xs">
-                    @{mint.character?.handle}
-                  </span>
-                </UniLink>
-                <UniLink href={CSB_SCAN + "/tx/" + mint.transactionHash}>
-                  <BlockchainIcon />
-                </UniLink>
-              </li>
-            ))}
-          </ul>
-          <div className="h-16 border-t flex items-center px-5">
-            <Button isBlock onClick={() => setIsMintListOpen(false)}>
-              Close
-            </Button>
-          </div>
-        </Modal>
+          loadMore={loadMoreMints}
+          hasMore={!!mintCursor}
+          list={mintList}
+        ></CharacterList>
       </div>
       <Comment page={page} />
     </>

@@ -52,7 +52,13 @@ export const CharacterList: React.FC<{
                     @{sub.character?.handle}
                   </span>
                 </UniLink>
-                <UniLink href={CSB_SCAN + "/tx/" + sub.metadata?.proof}>
+                <UniLink
+                  href={
+                    CSB_SCAN +
+                    "/tx/" +
+                    (sub.metadata?.proof || sub.transactionHash)
+                  }
+                >
                   <BlockchainIcon />
                 </UniLink>
               </div>

@@ -22,6 +22,7 @@ export const useGetLikes = (input: { pageId?: string }) => {
       return {
         count: 0,
         list: [],
+        cursor: undefined,
       }
     }
     return pageModel.getLikes({
@@ -51,6 +52,7 @@ export const useGetMints = (input: { pageId?: string }) => {
       return {
         count: 0,
         list: [],
+        cursor: undefined,
       }
     }
     return pageModel.getMints({
