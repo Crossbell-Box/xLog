@@ -540,7 +540,6 @@ export async function getComments({ pageId }: { pageId: string }) {
   const options = {
     toCharacterId: pageId.split("-")[0],
     toNoteId: pageId.split("-")[1],
-    sources: ["xlog"],
     cursor: "",
   }
 
