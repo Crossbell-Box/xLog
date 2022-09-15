@@ -1,10 +1,11 @@
-import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
+import { CSB_SCAN } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import { Disclosure } from "@headlessui/react"
 import { ChevronUpIcon } from "@heroicons/react/solid"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { toIPFS, toGateway } from "~/lib/ipfs-parser"
+import { IPFS_SW_GATEWAY_PREFIX } from "~/lib/ipfs-gateway"
 
 export const BlockchainInfo: React.FC<{
   site?: Profile
@@ -88,7 +89,9 @@ export const BlockchainInfo: React.FC<{
                   <div>
                     {page
                       ? page.related_urls
-                          ?.filter((url) => url.startsWith(IPFS_GATEWAY))
+                          ?.filter((url) =>
+                            url.startsWith(IPFS_SW_GATEWAY_PREFIX),
+                          )
                           .map((url) => {
                             return (
                               <a

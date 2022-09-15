@@ -1,6 +1,5 @@
 import clsx from "clsx"
 import React, { useMemo } from "react"
-import { IPFS_GATEWAY } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 
 export const Avatar: React.FC<

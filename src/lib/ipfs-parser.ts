@@ -1,7 +1,7 @@
 import { isIpfsUrl } from "@crossbell/ipfs-gateway"
 
 import { IPFS_GATEWAY } from "~/lib/env"
-import { ipfsGateway } from "./ipfs-gateway"
+import { ipfsGateway, IPFS_SW_GATEWAY_PREFIX } from "./ipfs-gateway"
 
 const IPFS_PREFIX = "ipfs://"
 
@@ -26,6 +26,7 @@ export const toGateway = (url: string, config?: ToGatewayConfig) => {
 export const toIPFS = (url: string) => {
   return url
     ?.replace(IPFS_GATEWAY, IPFS_PREFIX)
+    .replace(IPFS_SW_GATEWAY_PREFIX, IPFS_PREFIX)
     .replace("https://gateway.ipfs.io/ipfs/", IPFS_PREFIX)
     .replace("https://ipfs.io/ipfs/", IPFS_PREFIX)
     .replace("https://cf-ipfs.com/ipfs/", IPFS_PREFIX)
