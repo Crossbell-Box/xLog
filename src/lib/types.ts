@@ -79,6 +79,7 @@ export type Note = UniNote & {
 export type Notes = {
   total: number
   list: Note[]
+  cursor?: string
 }
 
 export type Profile = UniProfile & {

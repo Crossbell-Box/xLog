@@ -199,7 +199,7 @@ export async function getPagesBySite(input: {
 
   const visibility = input.visibility || PageVisibilityEnum.All
 
-  let pages: Notes = (await unidata.notes.get({
+  const options = {
     source: "Crossbell Note",
     identity: input.site,
     platform: "Crossbell",
@@ -208,10 +208,25 @@ export async function getPagesBySite(input: {
       tags: [...(input.tags || []), input.type],
       applications: ["xlog"],
     },
-  })) || {
+    cursor: "",
+  }
+
+  let pages: Notes = {
     total: 0,
     list: [],
   }
+
+  let cursor = ""
+  do {
+    options.cursor = cursor
+    const res = (await unidata.notes.get(options)) || {
+      total: 0,
+      list: [],
+    }
+    pages.total = res.total
+    pages.list = pages.list.concat(res.list)
+    cursor = res.cursor
+  } while (cursor)
 
   const local = getLocalPages({
     site: input.site,
