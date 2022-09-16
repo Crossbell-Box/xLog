@@ -20,7 +20,8 @@ import data from "@emoji-mart/data"
 import Picker from "@emoji-mart/react"
 import { Popover } from "@headlessui/react"
 import { EmojiHappyIcon } from "@heroicons/react/outline"
-import { CSB_SCAN, CSB_IO } from "~/lib/env"
+import { CSB_SCAN } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -151,7 +152,12 @@ export const Comment: React.FC<{
             className="flex border-b border-dashed py-6"
           >
             <UniLink
-              href={CSB_IO && `${CSB_IO}/@${comment?.character?.handle}`}
+              href={
+                comment?.character?.handle &&
+                getSiteLink({
+                  subdomain: comment.character.handle,
+                })
+              }
               className="align-middle mr-3"
             >
               <Avatar
@@ -163,7 +169,12 @@ export const Comment: React.FC<{
             <div className="flex-1 flex flex-col rounded-lg">
               <div className="mb-2 text-sm">
                 <UniLink
-                  href={CSB_IO && `${CSB_IO}/@${comment?.character?.handle}`}
+                  href={
+                    comment?.character?.handle &&
+                    getSiteLink({
+                      subdomain: comment.character.handle,
+                    })
+                  }
                   className="font-medium text-theme-color"
                 >
                   {comment?.character?.metadata?.content?.name}

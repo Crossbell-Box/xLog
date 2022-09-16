@@ -3,9 +3,10 @@ import { Modal } from "~/components/ui/Modal"
 import InfiniteScroll from "react-infinite-scroller"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
-import { CSB_SCAN, CSB_IO } from "~/lib/env"
+import { CSB_SCAN } from "~/lib/env"
 import { Avatar } from "../ui/Avatar"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { getSiteLink } from "~/lib/helpers"
 
 export const CharacterList: React.FC<{
   open: boolean
@@ -35,7 +36,9 @@ export const CharacterList: React.FC<{
                 key={index}
               >
                 <UniLink
-                  href={CSB_IO && `${CSB_IO}/@${sub?.character?.handle}`}
+                  href={getSiteLink({
+                    subdomain: sub?.character?.handle,
+                  })}
                   className="flex items-center space-x-2 text-sm"
                 >
                   <Avatar
