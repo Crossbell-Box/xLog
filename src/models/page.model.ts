@@ -131,6 +131,7 @@ const expandPage = async (page: Note, render: boolean) => {
         mime_type: "text/html",
       }
     }
+    page.cover = rendered.cover
   }
   page.slug =
     page.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||

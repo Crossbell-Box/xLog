@@ -74,6 +74,7 @@ export type SiteNavigationItem = {
 export type Note = UniNote & {
   slug?: string
   character?: Profile
+  cover?: string
 }
 
 export type Notes = {

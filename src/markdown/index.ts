@@ -20,12 +20,14 @@ export type MarkdownEnv = {
   excerpt: string
   frontMatter: Record<string, any>
   __internal: Record<string, any>
+  cover: string
 }
 
 export type Rendered = {
   contentHTML: string
   excerpt: string
   frontMatter: Record<string, any>
+  cover: string
 }
 
 refractor.alias("html", ["svelte", "vue"])
@@ -33,7 +35,12 @@ refractor.alias("html", ["svelte", "vue"])
 const rehypePrism = rehypePrismGenerator(refractor)
 
 export const renderPageContent = async (content: string): Promise<Rendered> => {
-  const env: MarkdownEnv = { excerpt: "", __internal: {}, frontMatter: {} }
+  const env: MarkdownEnv = {
+    excerpt: "",
+    __internal: {},
+    frontMatter: {},
+    cover: "",
+  }
 
   const result = await unified()
     .use(remarkParse)
@@ -55,7 +62,7 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
     .use(remarkCallout)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
-    .use(rehypeImage)
+    .use(rehypeImage, { env })
     .use(rehypeSanitize, {
       ...defaultSchema,
       tagNames: [...(defaultSchema.tagNames || []), "video", "iframe"],
@@ -94,5 +101,10 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
 
   const contentHTML = result.toString()
 
-  return { contentHTML, excerpt: env.excerpt, frontMatter: env.frontMatter }
+  return {
+    contentHTML,
+    excerpt: env.excerpt,
+    frontMatter: env.frontMatter,
+    cover: env.cover,
+  }
 }

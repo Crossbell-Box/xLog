@@ -45,7 +45,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         description={
           ogDescription ?? site?.description?.replace(/<[^>]*>/g, "")
         }
-        image={getUserContentsUrl(site?.avatars?.[0])}
+        image={page?.cover || getUserContentsUrl(site?.avatars?.[0])}
       />
       <SiteHeader site={site} />
       <style>{site?.css}</style>
