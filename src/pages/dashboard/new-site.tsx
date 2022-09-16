@@ -12,6 +12,7 @@ import { useCreateSite } from "~/queries/site"
 import { BigNumber } from "ethers"
 import { UniLink } from "~/components/ui/UniLink"
 import { useGetUserSites } from "~/queries/site"
+import { getSite } from "~/models/site.model"
 
 export default function NewSitePage() {
   const router = useRouter()
@@ -64,11 +65,46 @@ export default function NewSitePage() {
     },
   })
 
+  const checkIfHandleExists = async (handle: string) => {
+    try {
+      const owner = await getSite(handle)
+
+      if (owner) {
+        return true
+      } else {
+        return false
+      }
+    } catch (e: any) {
+      console.error(`Error: ${e.message}`)
+    }
+  }
+
+  const [checkLoading, setCheckLoading] = useState<boolean>(false)
   const handleSubmit = form.handleSubmit(async (values) => {
+    setCheckLoading(true)
+    if (!/^[a-z0-9\-\_]*$/.test(values.subdomain)) {
+      toast.error(
+        "Handle must be alphanumeric and contain only dashes and underscores.",
+      )
+      setCheckLoading(false)
+      return
+    }
+    if (!(values.subdomain.length >= 3 && values.subdomain.length <= 31)) {
+      toast.error("Handle must be between 3 and 31 characters long.")
+      setCheckLoading(false)
+      return
+    }
+
+    if (await checkIfHandleExists(values.subdomain)) {
+      toast.error("Handle already exists.")
+      setCheckLoading(false)
+      return
+    }
     createSite.mutate({
       address: address!,
       payload: values,
     })
+    setCheckLoading(false)
   })
 
   useEffect(() => {
@@ -155,7 +191,11 @@ export default function NewSitePage() {
               />
             </div>
             <div>
-              <Button type="submit" isBlock isLoading={createSite.isLoading}>
+              <Button
+                type="submit"
+                isBlock
+                isLoading={checkLoading || createSite.isLoading}
+              >
                 Create
               </Button>
             </div>

@@ -95,7 +95,9 @@ export const getSite = async (input: string) => {
   })
 
   const site: Profile = profiles.list[0]
-  await expandSite(site)
+  if (site) {
+    await expandSite(site)
+  }
 
   return site
 }
