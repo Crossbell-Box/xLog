@@ -41,14 +41,20 @@ export default async function middleware(req: NextRequest) {
 
   const tenant = await getTenant(req, req.nextUrl.searchParams)
 
+  if (tenant?.redirect && IS_PROD) {
+    return NextResponse.redirect(
+      `${tenant.redirect}${req.nextUrl.pathname}${req.nextUrl.search}`,
+    )
+  }
+
   if (pathname.startsWith("/api/") || pathname.startsWith("/dashboard")) {
     return NextResponse.next()
   }
 
-  if (tenant) {
+  if (tenant?.subdomain) {
     const url = req.nextUrl.clone()
     if (url.pathname !== "/ipfs-gateway-sw.js") {
-      url.pathname = `/_site/${tenant}${url.pathname}`
+      url.pathname = `/_site/${tenant?.subdomain}${url.pathname}`
     }
     return NextResponse.rewrite(url)
   }

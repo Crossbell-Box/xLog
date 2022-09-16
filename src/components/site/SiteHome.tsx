@@ -31,8 +31,8 @@ export const SiteHome: React.FC<{
                     </div>
                   </div>
                   <div className="xlog-post-cover flex items-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     {post.cover && (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         className="object-cover w-24 h-24 rounded ml-4"
                         alt="cover"
