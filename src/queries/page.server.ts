@@ -34,3 +34,21 @@ export const prefetchGetPagesBySite = async (
     })
   }
 }
+
+export const fetchGetPagesBySite = async (
+  input: Parameters<typeof pageModel.getPagesBySite>[0],
+) => {
+  const key = ["getPagesBySite", input.site, input]
+  const data: ReturnType<typeof pageModel.getPagesBySite> | undefined =
+    queryClientServer.getQueryData(key)
+  if (!data) {
+    return await queryClientServer.fetchQuery(key, async () => {
+      return pageModel.getPagesBySite(input)
+    })
+  } else {
+    queryClientServer.fetchQuery(key, async () => {
+      return pageModel.getPagesBySite(input)
+    })
+    return data
+  }
+}

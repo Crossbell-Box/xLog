@@ -22,6 +22,12 @@ export const SEOHead: React.FC<{
           <meta name="twitter:image" content={image} />
         </>
       )}
+      <link
+        rel="alternate"
+        href="/feed"
+        title={title}
+        type="application/feed+json"
+      ></link>
     </Head>
   )
 }

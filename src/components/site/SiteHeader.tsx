@@ -19,6 +19,7 @@ import {
 } from "~/queries/site"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { RSS3Icon } from "~/components/icons/RSS3Icon"
 import { DotsHorizontalIcon, RssIcon } from "@heroicons/react/solid"
 import type { Link } from "unidata.js"
 import { getSiteSubscriptions } from "~/models/site.model"
@@ -146,13 +147,18 @@ export const SiteHeader: React.FC<{
     },
     {
       text: "View on RSS3",
-      icon: <RssIcon className="w-4 h-4" />,
+      icon: <RSS3Icon />,
       url: `https://rss3.io/result?search=${site?.metadata?.owner}`,
     },
     {
       text: "View on blockchain explorer",
       icon: <BlockchainIcon />,
       url: `${CSB_SCAN}/address/${site?.metadata?.owner}/transactions`,
+    },
+    {
+      text: "JSON Feed",
+      icon: <RssIcon className="w-4 h-4" />,
+      url: `/feed`,
     },
   ]
 

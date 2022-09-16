@@ -14,3 +14,19 @@ export const prefetchGetSite = async (input: string) => {
     })
   }
 }
+
+export const fetchGetSite = async (input: string) => {
+  const key = ["getSite", input]
+  const data: ReturnType<typeof siteModel.getSite> | undefined =
+    queryClientServer.getQueryData(key)
+  if (!data) {
+    return await queryClientServer.fetchQuery(["getSite", input], async () => {
+      return siteModel.getSite(input)
+    })
+  } else {
+    queryClientServer.fetchQuery(["getSite", input], async () => {
+      return siteModel.getSite(input)
+    })
+    return data
+  }
+}
