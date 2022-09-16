@@ -11,6 +11,7 @@ import { useAccount, useBalance } from "wagmi"
 import { useCreateSite } from "~/queries/site"
 import { BigNumber } from "ethers"
 import { UniLink } from "~/components/ui/UniLink"
+import { useGetUserSites } from "~/queries/site"
 
 export default function NewSitePage() {
   const router = useRouter()
@@ -24,6 +25,16 @@ export default function NewSitePage() {
   const [balanceFormatted, setBalanceFormatted] = useState<string>("")
 
   const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(true)
+
+  const userSites = useGetUserSites(address)
+
+  useEffect(() => {
+    if (userSites.isSuccess) {
+      if (userSites.data?.length) {
+        router.push(`/dashboard/${userSites.data[0].username}`)
+      }
+    }
+  }, [userSites, router])
 
   useEffect(() => {
     if (balance !== undefined) {
