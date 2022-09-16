@@ -36,6 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       feed_url: `${link}/feed.json`,
       items: pages.list?.map((page) => ({
         id: page.id,
+        title: page.title,
         content_html: page.body?.content,
         summary: page.summary?.content,
         url: `${link}/${page.slug || page.id}`,
