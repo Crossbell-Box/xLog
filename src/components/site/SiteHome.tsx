@@ -25,7 +25,12 @@ export const SiteHome: React.FC<{
                     <div className="xlog-post-date text-sm text-zinc-400 mt-1">
                       {formatDate(post.date_published)}
                     </div>
-                    <div className="xlog-post-excerpt mt-3 text-zinc-500">
+                    <div
+                      className="xlog-post-excerpt mt-3 text-zinc-500"
+                      style={{
+                        wordBreak: "break-word",
+                      }}
+                    >
                       {excerpt}
                       {excerpt && "..."}
                     </div>
