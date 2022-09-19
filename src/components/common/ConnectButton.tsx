@@ -9,6 +9,7 @@ import { UniLink } from "../ui/UniLink"
 import { useEffect, useState } from "react"
 import { DuplicateIcon, LogoutIcon } from "@heroicons/react/outline"
 import { BigNumber } from "ethers"
+import { SITE_URL } from "~/lib/env"
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -40,7 +41,7 @@ export const ConnectButton: React.FC<{
     {
       icon: <DashboardIcon />,
       label: "Writer dashboard",
-      url: `/dashboard`,
+      url: `${SITE_URL}/dashboard`,
     },
     {
       icon: <LogoutIcon className="w-4 h-4" />,

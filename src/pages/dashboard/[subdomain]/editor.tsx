@@ -149,7 +149,7 @@ export default function SubdomainEditor() {
         })
         view.dispatch(
           view.state.replaceSelection(
-            `\n\n![${file.name.replace(/\.\w+$/, "")}](${key})\n\n`,
+            `\n![${file.name.replace(/\.\w+$/, "")}](${key})\n`,
           ),
         )
       } catch (error) {
@@ -266,7 +266,7 @@ export default function SubdomainEditor() {
                     ref={editorRef}
                   ></div>
                   <EditorPreview
-                    className="px-5 w-1/2 overflow-scroll"
+                    className="px-5 w-1/2 overflow-scroll pb-[200px]"
                     content={content}
                   ></EditorPreview>
                 </div>

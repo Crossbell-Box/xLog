@@ -37,10 +37,10 @@
 }
 
 .prose blockquote {
-  @apply border-l-4 border-theme-color;
+  @apply border-l-4 border-zinc-300;
   @apply pl-5;
-  @apply my-7;
-  @apply text-zinc-900 font-medium;
+  @apply mb-5;
+  @apply text-zinc-500;
 }
 
 .prose ul {

@@ -269,3 +269,8 @@ textarea.input {
 .text-theme-color-dark {
   color: var(--theme-color-dark);
 }
+
+::selection {
+  background-color: var(--theme-color);
+  color: #fff;
+}
