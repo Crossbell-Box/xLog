@@ -93,6 +93,7 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
     })
     .use(rehypePrism, {
       ignoreMissing: true,
+      showLineNumbers: true,
     })
     .use(rehypeTable)
     .use(rehypeExternalLink)

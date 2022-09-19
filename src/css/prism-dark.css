@@ -1,9 +1,9 @@
 /** based on prism tomorror */
 
-pre {
-  --lang-color: #8d8c8c;
-  --code-bg: rgb(18, 18, 38);
-  --code-fg: #fff;
+pre,
+code {
+  --code-bg: #f7f7f7;
+  --code-fg: #4d4d4c;
 }
 
 .token.comment,
