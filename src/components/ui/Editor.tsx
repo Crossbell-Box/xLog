@@ -87,6 +87,12 @@ export const useEditor = ({
 
                 onDropFile?.(file, view)
               },
+              paste(e) {
+                const file = e.clipboardData?.files[0]
+                if (!file) return
+
+                onDropFile?.(file, view)
+              },
             }),
           ],
         }),

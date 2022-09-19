@@ -182,7 +182,7 @@ export default function Home({ region }: { region: string | null }) {
                 We believe freedom of expression is a universal right. In your
                 long-form writing, you should be able to express your thoughts
                 freely; without fear of your post being removed or censored.
-                Xlog ensures that whatever you write, it will be immutable and
+                xLog ensures that whatever you write, it will be immutable and
                 permanently stored.
               </div>
               <div className="my-10 text-zinc-500">
