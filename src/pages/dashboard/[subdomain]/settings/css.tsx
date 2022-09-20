@@ -63,6 +63,16 @@ export default function SettingsDomainsPage() {
                   --theme-color-dark: #4338ca;
                 </span>
               </p>
+              <p>
+                <span className="bg-zinc-200 rounded-lg px-2">
+                  --font-fans: ui-sans-serif, system-ui, -apple-system,
+                  BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto,
+                  &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;,
+                  sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI
+                  Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color
+                  Emoji&quot;;
+                </span>
+              </p>
             </div>
             <FieldLabel label="Custom CSS" />
             <Editor

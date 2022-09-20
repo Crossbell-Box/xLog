@@ -6,6 +6,7 @@
   html {
     @apply text-zinc-800;
     @apply fill-zinc-800;
+    font-family: var(--font-fans);
   }
 }
 
