@@ -43,11 +43,9 @@ export const SiteArchives: React.FC<{
                 {posts.map((post) => {
                   return (
                     <Link key={post.id} href={`/${post.slug || post.id}`}>
-                      <a className="flex justify-between items-center p-1 px-2 rounded-lg -mx-2 hover:bg-zinc-100">
-                        <span className="text-accent font-medium">
-                          {post.title}
-                        </span>
-                        <span className="text-zinc-400 mr-3 font-medium whitespace-nowrap">
+                      <a className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-zinc-100">
+                        <span className="text-zinc-700">{post.title}</span>
+                        <span className="text-zinc-400 mr-3 whitespace-nowrap">
                           {formatDate(post.date_published, "MMM D")}
                         </span>
                       </a>

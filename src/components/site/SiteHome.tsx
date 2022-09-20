@@ -2,17 +2,20 @@ import Link from "next/link"
 import { formatDate } from "~/lib/date"
 import { Paginated, type PostOnSiteHome, Notes } from "~/lib/types"
 import { EmptyState } from "../ui/EmptyState"
+import { useRouter } from "next/router"
 
 export const SiteHome: React.FC<{
   posts?: Notes
 }> = ({ posts }) => {
+  const router = useRouter()
+
   if (!posts) return null
 
   return (
     <div className="">
       {posts.total === 0 && <EmptyState />}
       {posts.total > 0 && (
-        <div className="xlog-posts space-y-3">
+        <div className="xlog-posts space-y-8">
           {posts.list.map((post) => {
             const excerpt = post.summary?.content
             return (
@@ -22,8 +25,26 @@ export const SiteHome: React.FC<{
                     <h3 className="xlog-post-title text-2xl font-bold">
                       {post.title}
                     </h3>
-                    <div className="xlog-post-date text-sm text-zinc-400 mt-1">
-                      {formatDate(post.date_published)}
+                    <div className="xlog-post-meta text-sm text-zinc-400 mt-1">
+                      <span className="xlog-post-date">
+                        {formatDate(post.date_published)}
+                      </span>
+                      <span className="xlog-post-tags ml-4 space-x-1">
+                        {post.tags
+                          ?.filter((tag) => tag !== "post" && tag !== "page")
+                          .map((tag) => (
+                            <span
+                              className="hover:text-zinc-600"
+                              key={tag}
+                              onClick={(e) => {
+                                e.preventDefault()
+                                router.push(`/tag/${tag}`)
+                              }}
+                            >
+                              #{tag}
+                            </span>
+                          ))}
+                      </span>
                     </div>
                     <div
                       className="xlog-post-excerpt mt-3 text-zinc-500"
