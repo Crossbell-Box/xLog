@@ -126,7 +126,7 @@ export default function Home({ region }: { region: string | null }) {
             </h3>
             <div className="my-10 sm:my-16">
               <Button
-                className="text-theme-color w-80 h-10"
+                className="text-accent w-80 h-10"
                 onClick={() =>
                   addressIn ? router.push("/dashboard") : openConnectModal?.()
                 }
@@ -232,7 +232,7 @@ export default function Home({ region }: { region: string | null }) {
             {addressIn ? (
               <UniLink
                 href="/dashboard"
-                className="text-theme-color inline-flex items-center space-x-2"
+                className="text-accent inline-flex items-center space-x-2"
               >
                 <Button size="xl">Try {APP_NAME} Today</Button>
               </UniLink>

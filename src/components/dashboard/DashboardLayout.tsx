@@ -113,7 +113,7 @@ export function DashboardLayout({
                 subdomain,
                 domain: userSite.data?.[0]?.custom_domain,
               })}
-              className="space-x-2 border rounded-lg bg-gray-100 border-gray-200 text-gray-500 hover-text-theme-color flex w-full h-12 items-center justify-center transition-colors"
+              className="space-x-2 border rounded-lg bg-gray-100 border-gray-200 text-gray-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
             >
               <span className="i-bi:box-arrow-up-right"></span>
               <span>View Site</span>

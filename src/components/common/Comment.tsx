@@ -175,7 +175,7 @@ export const Comment: React.FC<{
                       subdomain: comment.character.handle,
                     })
                   }
-                  className="font-medium text-theme-color"
+                  className="font-medium text-accent"
                 >
                   {comment?.character?.metadata?.content?.name}
                 </UniLink>{" "}

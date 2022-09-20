@@ -297,7 +297,7 @@ export const PostFooter: React.FC<{
           <div className="p-5">
             Your like has been permanently stored on the blockchain, view them{" "}
             <UniLink
-              className="text-theme-color"
+              className="text-accent"
               href={`${CSB_SCAN}/tx/${isLike.data?.list?.[0]?.transactionHash}`}
             >
               here
@@ -318,7 +318,7 @@ export const PostFooter: React.FC<{
             Your minting has been permanently stored on the blockchain, view
             them{" "}
             <UniLink
-              className="text-theme-color"
+              className="text-accent"
               href={`${CSB_SCAN}/tx/${isMint.data?.list?.[0]?.transactionHash}`}
             >
               here

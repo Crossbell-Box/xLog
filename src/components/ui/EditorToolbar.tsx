@@ -40,7 +40,7 @@ export const EditorToolbar: FC<EditorToolbarProps> = ({
             className={clsx(
               "w-7 h-7 transition-colors text-lg border border-transparent rounded flex items-center justify-center",
               active
-                ? `bg-theme-color text-white border-theme-color`
+                ? `text-white bg-accent border-accent`
                 : disabled
                 ? `text-zinc-400 cursor-not-allowed`
                 : `text-zinc-400 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100`,

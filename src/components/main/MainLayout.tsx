@@ -32,8 +32,8 @@ export function MainLayout({
           <div className="space-x-14 text-zinc-500 flex">
             {tabs?.map((tab, index) => (
               <Link
-                activeClass="text-theme-color"
-                className="cursor-pointer items-center hidden sm:flex hover-text-theme-color"
+                activeClass="text-accent"
+                className="cursor-pointer items-center hidden sm:flex hover:text-accent"
                 to={tab}
                 spy={true}
                 smooth={true}
@@ -45,7 +45,7 @@ export function MainLayout({
             ))}
             <UniLink
               href={GITHUB_LINK}
-              className="items-center hidden sm:flex hover-text-theme-color"
+              className="items-center hidden sm:flex hover:text-accent"
             >
               GitHub
             </UniLink>
@@ -64,7 +64,7 @@ export function MainLayout({
             )}
             {DISCORD_LINK && (
               <UniLink className="flex items-center" href={DISCORD_LINK}>
-                <span className="inline-block i-mdi-discord text-2xl hover-text-theme-color"></span>
+                <span className="inline-block i-mdi-discord text-2xl hover:text-accent"></span>
               </UniLink>
             )}
           </span>
@@ -74,7 +74,7 @@ export function MainLayout({
               href={getSiteLink({
                 subdomain: "blog",
               })}
-              className="hover-text-theme-color"
+              className="hover:text-accent"
             >
               {APP_NAME}
             </UniLink>

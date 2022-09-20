@@ -13,13 +13,13 @@ export const SiteFooter: React.FC<{
         <div className="max-w-screen-md mx-auto px-5 py-10 text-xs">
           <p className="font-medium text-base">
             &copy;{" "}
-            <UniLink href="/" className="hover-text-theme-color">
+            <UniLink href="/" className="hover:text-accent">
               {site?.username}
             </UniLink>{" "}
             · Powered by{" "}
             <UniLink
               href={`https://${OUR_DOMAIN}`}
-              className="hover-text-theme-color"
+              className="hover:text-accent"
             >
               {APP_NAME}
             </UniLink>

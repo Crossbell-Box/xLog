@@ -59,7 +59,7 @@
 }
 
 .prose a {
-  @apply text-theme-color-dark;
+  @apply text-accent-dark;
   @apply hover:underline;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .prose .callout {
-  @apply border border-zinc-100 bg-zinc-50 text-theme-color rounded-xl p-5 md:p-8 font-normal;
+  @apply border border-zinc-100 bg-zinc-50 text-accent rounded-xl p-5 md:p-8 font-normal;
   @apply -mx-5 md:-mx-8 my-10;
 }
 

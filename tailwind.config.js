@@ -11,6 +11,7 @@ module.exports = {
       colors: {
         border: "var(--border-color)",
         accent: "var(--theme-color)",
+        "accent-dark": "var(--theme-color-dark)",
       },
       spacing: {
         sidebar: `240px`,

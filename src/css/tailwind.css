@@ -71,19 +71,19 @@ body {
 .button.is-primary {
   --shadow-color-button: var(--theme-color-dark);
   @apply text-white;
-  fill: var(--theme-color);
-  background-color: var(--theme-color);
+  @apply fill-accent;
+  @apply bg-accent;
   opacity: 0.9;
 }
 
 .button.is-primary:hover {
   opacity: 1;
-  background-color: var(--theme-color);
+  @apply bg-accent;
 }
 
 .button.is-primary:focus {
   opacity: 1;
-  background-color: var(--theme-color);
+  @apply bg-accent;
 }
 
 .button.is-secondary {
@@ -183,7 +183,7 @@ body {
 }
 
 .input:focus {
-  border-color: var(--theme-color);
+  @apply border-accent;
 }
 
 .input.is-block {
@@ -250,27 +250,7 @@ textarea.input {
   @apply underline;
 }
 
-.text-theme-color {
-  color: var(--theme-color);
-}
-
-.hover-text-theme-color:hover {
-  color: var(--theme-color);
-}
-
-.border-theme-color {
-  border-color: var(--theme-color);
-}
-
-.bg-theme-color {
-  background-color: var(--theme-color);
-}
-
-.text-theme-color-dark {
-  color: var(--theme-color-dark);
-}
-
 ::selection {
-  background-color: var(--theme-color);
+  @apply bg-accent;
   color: #fff;
 }
