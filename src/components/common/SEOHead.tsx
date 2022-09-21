@@ -1,4 +1,5 @@
 import Head from "next/head"
+import { SITE_URL } from "~/lib/env"
 
 export const SEOHead: React.FC<{
   siteName: string
@@ -28,6 +29,7 @@ export const SEOHead: React.FC<{
         title={title}
         type="application/feed+json"
       ></link>
+      <link rel="icon" href={image || `${SITE_URL}/logo.svg`}></link>
     </Head>
   )
 }
