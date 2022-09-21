@@ -255,3 +255,11 @@ textarea.input {
   @apply bg-accent;
   color: #fff;
 }
+
+.xlog-header {
+  height: var(--header-height);
+}
+
+.xlog-banner {
+  background-color: var(--banner-bg-color);
+}

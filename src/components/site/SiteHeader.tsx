@@ -183,10 +183,30 @@ export const SiteHeader: React.FC<{
   }
 
   return (
-    <header className="border-b">
-      <div className="px-5 max-w-screen-md mx-auto">
-        <div className="flex py-10">
-          <div className="xlog-site-info flex space-x-6 items-center">
+    <header className="xlog-header border-b relative">
+      <div className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden">
+        {site?.banners?.[0]?.mime_type.split("/")[0] === "image" && (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            className="max-w-screen-md mx-auto object-cover h-full w-full"
+            src={site?.banners?.[0]?.address}
+            alt="banner"
+          />
+        )}
+        {site?.banners?.[0]?.mime_type.split("/")[0] === "video" && (
+          <video
+            className="max-w-screen-md mx-auto object-cover h-full w-full"
+            src={site?.banners?.[0]?.address}
+            autoPlay
+            muted
+            playsInline
+          />
+        )}
+      </div>
+      <div className="px-5 max-w-screen-md mx-auto h-full relative flex items-center flex-col">
+        <div className="mb-auto"></div>
+        <div className="flex py-10 w-full">
+          <div className="xlog-site-info flex space-x-6 items-center w-full">
             {site?.avatars?.[0] && (
               <Avatar
                 className="xlog-site-icon"
@@ -279,7 +299,7 @@ export const SiteHeader: React.FC<{
             </div>
           </div>
         </div>
-        <div className="text-sm text-gray-400 flex items-center justify-between">
+        <div className="text-sm text-gray-400 flex items-center justify-between w-full mt-auto">
           <div className="xlog-site-navigation flex items-center space-x-5">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />

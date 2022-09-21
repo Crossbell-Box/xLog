@@ -65,6 +65,16 @@ export default function SettingsDomainsPage() {
               </p>
               <p>
                 <span className="bg-zinc-200 rounded-lg px-2">
+                  --header-height: auto;
+                </span>
+              </p>
+              <p>
+                <span className="bg-zinc-200 rounded-lg px-2">
+                  --header-bg-color: #fff;
+                </span>
+              </p>
+              <p>
+                <span className="bg-zinc-200 rounded-lg px-2">
                   --font-fans: ui-sans-serif, system-ui, -apple-system,
                   BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto,
                   &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;,
