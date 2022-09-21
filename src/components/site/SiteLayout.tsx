@@ -8,6 +8,7 @@ import { SiteHeader } from "./SiteHeader"
 import { useRouter } from "next/router"
 import { useStore } from "~/lib/store"
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
+import type { Links } from "unidata.js"
 
 export type SiteLayoutProps = {
   site?: Profile
@@ -16,6 +17,7 @@ export type SiteLayoutProps = {
   title?: string | null
   ogDescription?: string | null
   page?: Note
+  subscriptions?: Links | null
 }
 
 export const SiteLayout: React.FC<SiteLayoutProps> = ({
@@ -25,6 +27,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   title,
   ogDescription,
   page,
+  subscriptions,
 }) => {
   const router = useRouter()
   const setSubscribeModalOpened = useStore(
@@ -48,7 +51,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         image={page?.cover || getUserContentsUrl(site?.avatars?.[0])}
         icon={getUserContentsUrl(site?.avatars?.[0])}
       />
-      <SiteHeader site={site} />
+      <SiteHeader site={site} subscriptions={subscriptions} />
       <style>{site?.css}</style>
       <div
         className={`xlog-post-id-${page?.id} max-w-screen-md mx-auto px-5 pt-12`}

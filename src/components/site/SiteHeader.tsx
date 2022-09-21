@@ -24,6 +24,7 @@ import { DotsHorizontalIcon, RssIcon } from "@heroicons/react/solid"
 import type { Link } from "unidata.js"
 import { getSiteSubscriptions } from "~/models/site.model"
 import { CharacterList } from "~/components/common/CharacterList"
+import type { Links } from "unidata.js"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -52,7 +53,8 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
 
 export const SiteHeader: React.FC<{
   site?: Profile | undefined
-}> = ({ site }) => {
+  subscriptions?: Links | null
+}> = ({ site, subscriptions }) => {
   const { address } = useAccount()
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
@@ -85,10 +87,6 @@ export const SiteHeader: React.FC<{
 
   const subscription = useGetSubscription({
     userId: address || "",
-    siteId: site?.username || "",
-  })
-
-  const siteSubscriptions = useGetSiteSubscriptions({
     siteId: site?.username || "",
   })
 
@@ -165,11 +163,11 @@ export const SiteHeader: React.FC<{
   const [siteSubscriptionList, setSiteSubscriptionList] = useState<Link[]>([])
   const [cursor, setCursor] = useState<string>()
   useEffect(() => {
-    if (siteSubscriptions.isSuccess) {
-      setSiteSubscriptionList(siteSubscriptions.data?.list || [])
-      setCursor(siteSubscriptions.data?.cursor)
+    if (subscriptions && !siteSubscriptionList.length) {
+      setSiteSubscriptionList(subscriptions.list || [])
+      setCursor(subscriptions.cursor)
     }
-  }, [siteSubscriptions.isSuccess])
+  }, [subscriptions])
 
   const loadMoreSubscriptions = async () => {
     if (cursor) {
@@ -226,13 +224,13 @@ export const SiteHeader: React.FC<{
                 ></div>
               )}
               <div className="mt-3 text-sm">
-                {siteSubscriptions.data ? (
+                {subscriptions ? (
                   <span
                     className="xlog-site-followers align-middle text-zinc-500 text-sm cursor-pointer"
                     onClick={() => setIsFollowListOpen(true)}
                   >
                     <span className="font-bold text-zinc-700">
-                      {siteSubscriptions.data.total}
+                      {subscriptions.total}
                     </span>{" "}
                     Followers
                   </span>

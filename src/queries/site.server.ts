@@ -30,3 +30,25 @@ export const fetchGetSite = async (input: string) => {
     return data
   }
 }
+
+export const prefetchGetSiteSubscriptions = async (
+  input: Parameters<typeof siteModel.getSiteSubscriptions>[0],
+) => {
+  const key = ["getSite", input]
+  const data = queryClientServer.getQueryData(key)
+  if (!data) {
+    await queryClientServer.prefetchQuery(
+      ["getSiteSubscriptions", input],
+      async () => {
+        return siteModel.getSiteSubscriptions(input)
+      },
+    )
+  } else {
+    queryClientServer.prefetchQuery(
+      ["getSiteSubscriptions", input],
+      async () => {
+        return siteModel.getSiteSubscriptions(input)
+      },
+    )
+  }
+}
