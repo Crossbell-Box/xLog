@@ -6,7 +6,8 @@ export const SEOHead: React.FC<{
   title: string | undefined
   description?: string | null
   image?: string | null
-}> = ({ siteName, title, description, image }) => {
+  icon?: string | null
+}> = ({ siteName, title, description, image, icon }) => {
   return (
     <Head>
       <title>{title ? `${title} - ${siteName}` : siteName}</title>
@@ -29,7 +30,7 @@ export const SEOHead: React.FC<{
         title={title}
         type="application/feed+json"
       ></link>
-      <link rel="icon" href={image || `${SITE_URL}/logo.svg`}></link>
+      <link rel="icon" href={icon || `${SITE_URL}/logo.svg`}></link>
     </Head>
   )
 }
