@@ -262,7 +262,7 @@ export async function getPagesBySite(input: {
 
     pages.list = await Promise.all(
       pages?.list.map(async (page) => {
-        expandPage(page, input.render || false)
+        await expandPage(page, input.render || false)
         return page
       }),
     )

@@ -76,8 +76,8 @@ export const getUserSites = async (address?: string) => {
   })
 
   const sites: Profile[] = await Promise.all(
-    profiles.list?.map((profile) => {
-      expandSite(profile)
+    profiles.list?.map(async (profile) => {
+      await expandSite(profile)
       return profile
     }),
   )
@@ -129,12 +129,10 @@ export const getSiteSubscriptions = async (data: {
     cursor: data.cursor,
   })
 
-  await Promise.all(
-    links?.list.map(async (item: any) => {
-      const owner = item.from
-      item.character = await indexer.getCharacterByHandle(owner)
-    }) || [],
-  )
+  links?.list.map(async (item: any) => {
+    item.character = item.metadata.from_raw
+  }) || []
+
   return links
 }
 
