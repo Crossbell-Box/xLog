@@ -1,9 +1,7 @@
 import { GetServerSideProps } from "next"
 import { SiteHome } from "~/components/site/SiteHome"
-import {
-  SiteLayout,
-  getServerSideProps as getLayoutServerSideProps,
-} from "~/components/site/SiteLayout"
+import { SiteLayout } from "~/components/site/SiteLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { queryClientServer } from "~/lib/query-client.server"
 import { dehydrate } from "@tanstack/react-query"
 import { useGetPagesBySite } from "~/queries/page"

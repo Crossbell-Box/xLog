@@ -1,8 +1,6 @@
 import { GetServerSideProps } from "next"
-import {
-  SiteLayout,
-  getServerSideProps as getLayoutServerSideProps,
-} from "~/components/site/SiteLayout"
+import { SiteLayout } from "~/components/site/SiteLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { SitePage } from "~/components/site/SitePage"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { queryClientServer } from "~/lib/query-client.server"
