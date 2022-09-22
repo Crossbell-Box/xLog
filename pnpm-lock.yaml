@@ -76,6 +76,7 @@ specifiers:
   mdast-util-to-string: ^3.1.0
   nanoid: ^4.0.0
   next: ^12.3.1
+  nextjs-progressbar: ^0.0.14
   pica: ^9.0.1
   postcss-import: ^15.0.0
   posthtml: ^0.16.6
@@ -159,6 +160,7 @@ dependencies:
   mdast-util-to-string: 3.1.0
   nanoid: 4.0.0
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+  nextjs-progressbar: 0.0.14_next@12.3.1+react@18.2.0
   pica: 9.0.1
   posthtml: 0.16.6
   prismjs: 1.29.0
@@ -7640,6 +7642,18 @@ packages:
       - '@babel/core'
       - babel-plugin-macros
 
+  /nextjs-progressbar/0.0.14_next@12.3.1+react@18.2.0:
+    resolution: {integrity: sha512-AXYXHDN6M52AwFnGqH/vlwyo0gbC9zM7QS/4ryOTI0RUqfze5FJl8uSrxKJMzK6hGFdDeQXcZoWsLGXeCVtTwg==}
+    peerDependencies:
+      next: '>= 6.0.0'
+      react: '>= 16.0.0'
+    dependencies:
+      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      nprogress: 0.2.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /node-addon-api/2.0.2:
     resolution: {integrity: sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==}
     dev: false
@@ -7720,6 +7734,10 @@ packages:
     dependencies:
       path-key: 4.0.0
     dev: true
+
+  /nprogress/0.2.0:
+    resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
+    dev: false
 
   /number-to-bn/1.7.0:
     resolution: {integrity: sha512-wsJ9gfSz1/s4ZsJN01lyonwuxA1tml6X1yBDnfpMglypcBRFZZkus26EdPSlqS5GJfYddVZa22p3VNb3z5m5Ig==}

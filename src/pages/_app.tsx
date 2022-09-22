@@ -12,6 +12,7 @@ import { createIDBPersister } from "~/lib/persister.client"
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit"
 import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
 import { ipfsGateway } from "~/lib/ipfs-gateway"
+import NextNProgress from "nextjs-progressbar"
 
 import "@rainbow-me/rainbowkit/styles.css"
 
@@ -78,6 +79,9 @@ function MyApp({ Component, pageProps }: any) {
           <Hydrate state={pageProps.dehydratedState}>
             <ReactQueryDevtools />
             <IpfsGatewayContext.Provider value={ipfsGateway}>
+              <NextNProgress
+                options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
+              />
               {getLayout(<Component {...pageProps} />)}
             </IpfsGatewayContext.Provider>
             <Toaster />

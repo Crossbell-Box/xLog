@@ -263,3 +263,16 @@ textarea.input {
 .xlog-banner {
   background-color: var(--banner-bg-color);
 }
+
+#nprogress .bar {
+  @apply bg-accent !important;
+}
+
+#nprogress .peg {
+  @apply shadow-none !important;
+}
+
+#nprogress .spinner-icon {
+  @apply border-t-accent !important;
+  @apply border-l-accent !important;
+}
