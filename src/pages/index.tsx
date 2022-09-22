@@ -101,6 +101,45 @@ export default function Home({ region }: { region: string | null }) {
     "Scheduled Publishing",
   ]
 
+  const stars = [
+    {
+      username: "rss3",
+      avartar: "bafkreigjinhazhgvqaj423fhuuev7ormzf5vsm4iu4vrx2zgk2l5nugm4m",
+    },
+    {
+      username: "crossbell-blog",
+      avartar: "bafkreic5k3zvarbsondfrowy7kpbj6xo7cj25hobksgileqbbupjvvmkoq",
+    },
+    {
+      username: "diygod",
+      avartar: "bafybeibefx2tyow77m2wcnsh5anaaxfy7ypxbcuapb52c4h255onqp72ye",
+    },
+    {
+      username: "hey",
+      avartar: "bafkreigfhmqizqi7jwg5sw522kwcqilq7m6g4mbicpyit4avezaztvovey",
+    },
+    {
+      username: "song",
+      avartar: "QmQArk2yEF9t2Ud7vbhMyAQu8DJnTzc3EduSm7rcF2LQv4",
+    },
+    {
+      username: "atlas-thinking",
+      avartar: "QmNks3cJWDXzG5WSBzTVv1regkhXhzChK6LhJYu1HiBLS2",
+    },
+    {
+      username: "joshua",
+      avartar: "QmTUYz29S5bMqozK2uyQ1Y91DZzka4PLjReAD7J2nkbLMN",
+    },
+    {
+      username: "jeff",
+      avartar: "QmdvVh2w375eVMfDmi9yb2hks1X3MDDEAbbJB7FH2FVKxd",
+    },
+    {
+      username: "walter",
+      avartar: "QmRXkowLwfqjMKZS41KrnjM6JjAG5eerGWyFbo6ZzB1uUD",
+    },
+  ]
+
   return (
     <MainLayout tabs={["Features", `Why ${APP_NAME}`]}>
       <section>
@@ -185,37 +224,31 @@ export default function Home({ region }: { region: string | null }) {
               <div className="my-10 text-zinc-500">
                 Trusted by these awesome teams and geeks
                 <ul className="mt-4 space-x-4">
-                  <li className="inline-flex w-20 align-middle items-center">
-                    <UniLink
-                      href={getSiteLink({
-                        subdomain: "rss3",
-                      })}
+                  {stars.map((item) => (
+                    <li
+                      className="inline-flex align-middle"
+                      key={item.username}
                     >
-                      <Image
-                        src="/RSS3.png"
-                        alt="RSS3"
-                        width="2518"
-                        height="629"
-                      ></Image>
-                    </UniLink>
-                  </li>
-                  <li className="inline-flex w-12 align-middle items-center">
-                    <UniLink
-                      href={getSiteLink({
-                        subdomain: "crossbell-blog",
-                      })}
-                    >
-                      <Image
-                        src="/Crossbell.svg"
-                        alt="Crossbell"
-                        width="1000"
-                        height="1000"
-                      ></Image>
-                    </UniLink>
-                  </li>
+                      <UniLink
+                        href={getSiteLink({
+                          subdomain: item.username,
+                        })}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          className="rounded-full w-14 h-14"
+                          src={`/_ipfs/${item.avartar}`}
+                          alt={item.username}
+                        ></img>
+                      </UniLink>
+                    </li>
+                  ))}
                   <li className="inline-flex h-5 align-middle items-center">
-                    <UniLink className="inline-block" href="#">
-                      <EllipsisHorizontalIcon className="w-4 h-4" />
+                    <UniLink
+                      className="inline-block"
+                      href="https://github.com/Crossbell-Box/xLog/issues/new"
+                    >
+                      <EllipsisHorizontalIcon className="w-14 h-4" />
                     </UniLink>
                   </li>
                 </ul>
