@@ -20,7 +20,7 @@ import {
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { RSS3Icon } from "~/components/icons/RSS3Icon"
-import { DotsHorizontalIcon, RssIcon } from "@heroicons/react/solid"
+import { EllipsisHorizontalIcon, RssIcon } from "@heroicons/react/20/solid"
 import type { Link } from "unidata.js"
 import { getSiteSubscriptions } from "~/models/site.model"
 import { CharacterList } from "~/components/common/CharacterList"
@@ -272,7 +272,7 @@ export const SiteHeader: React.FC<{
                       e.stopPropagation()
                     }}
                   >
-                    <DotsHorizontalIcon className="w-5 h-5" />
+                    <EllipsisHorizontalIcon className="w-5 h-5" />
                   </Button>
                   <div className="absolute hidden right-0 sm:left-0 pt-2 group-hover:block top-full z-10 text-gray-600 w-60">
                     <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">

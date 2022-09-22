@@ -4,11 +4,9 @@ import { DashboardIcon } from "~/components/icons/DashboardIcon"
 import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
 import { FLY_REGION } from "~/lib/env.server"
-import { useStore } from "~/lib/store"
 import { useAccount } from "wagmi"
-import { ConnectButton } from "~/components/common/ConnectButton"
 import Image from "next/image"
-import { DotsHorizontalIcon, CheckIcon, XIcon } from "@heroicons/react/solid"
+import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { LoveIcon } from "~/components/icons/LoveIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Button } from "~/components/ui/Button"
@@ -27,7 +25,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 export default function Home({ region }: { region: string | null }) {
-  const setLoginModalOpened = useStore((store) => store.setLoginModalOpened)
   const [addressIn, setAddressIn] = useState<string>("")
   const { address } = useAccount()
   const { openConnectModal } = useConnectModal()
@@ -218,7 +215,7 @@ export default function Home({ region }: { region: string | null }) {
                   </li>
                   <li className="inline-flex h-5 align-middle items-center">
                     <UniLink className="inline-block" href="#">
-                      <DotsHorizontalIcon className="w-4 h-4" />
+                      <EllipsisHorizontalIcon className="w-4 h-4" />
                     </UniLink>
                   </li>
                 </ul>

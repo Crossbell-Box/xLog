@@ -16,30 +16,7 @@ const checkPageSlug = async ({
   slug: string
   excludePage?: string
   siteId: string
-}) => {
-  // if (!slug) {
-  //   throw new Error("Missing page slug")
-  // }
-  // const page = await prismaPrimary.page.findFirst({
-  //   where: {
-  //     siteId,
-  //     slug,
-  //     id: excludePage && {
-  //       not: excludePage,
-  //     },
-  //   },
-  // })
-  // if (!page) return
-  // if (page.deletedAt) {
-  //   await prismaPrimary.page.delete({
-  //     where: {
-  //       id: page.id,
-  //     },
-  //   })
-  //   return
-  // }
-  // throw new Error("Page slug already used")
-}
+}) => {}
 
 export async function createOrUpdatePage(input: {
   pageId?: string

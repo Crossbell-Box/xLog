@@ -15,28 +15,15 @@ const ALWAYS_REPLAY_ROUTES = [
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  if (pathname === "/favicon.ico") {
-    return new Response(null, { status: 404 })
-  }
-
   console.log(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
 
   if (
-    IS_PROD &&
-    !IS_PRIMARY_REGION &&
-    (!METHODS_TO_NOT_REPLAY.includes(req.method) ||
-      ALWAYS_REPLAY_ROUTES.includes(pathname))
+    pathname.startsWith("/api/") ||
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/_next") ||
+    pathname === "/ipfs-gateway-sw.js"
   ) {
-    console.log("replayed", {
-      PRIMARY_REGION,
-      FLY_REGION,
-      url: req.url,
-    })
-    return new Response("replayed", {
-      headers: {
-        "fly-replay": `region=${PRIMARY_REGION}`,
-      },
-    })
+    return NextResponse.next()
   }
 
   const tenant = await getTenant(req, req.nextUrl.searchParams)
@@ -47,15 +34,9 @@ export default async function middleware(req: NextRequest) {
     )
   }
 
-  if (pathname.startsWith("/api/") || pathname.startsWith("/dashboard")) {
-    return NextResponse.next()
-  }
-
   if (tenant?.subdomain) {
     const url = req.nextUrl.clone()
-    if (url.pathname !== "/ipfs-gateway-sw.js") {
-      url.pathname = `/_site/${tenant?.subdomain}${url.pathname}`
-    }
+    url.pathname = `/_site/${tenant?.subdomain}${url.pathname}`
     return NextResponse.rewrite(url)
   }
 

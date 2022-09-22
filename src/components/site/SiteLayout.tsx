@@ -4,7 +4,6 @@ import { SEOHead } from "../common/SEOHead"
 import { SiteFooter } from "./SiteFooter"
 import { SiteHeader } from "./SiteHeader"
 import { useRouter } from "next/router"
-import { useStore } from "~/lib/store"
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { useGetSiteSubscriptions } from "~/queries/site"
 import { useGetSite } from "~/queries/site"
@@ -28,19 +27,10 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({ children, title }) => {
     includeAuthors: true,
   })
 
-  const setSubscribeModalOpened = useStore(
-    (store) => store.setSubscribeModalOpened,
-  )
   const site = useGetSite(domainOrSubdomain)
   const subscriptions = useGetSiteSubscriptions({
     siteId: domainOrSubdomain,
   })
-
-  useEffect(() => {
-    if ("subscription" in router.query) {
-      setSubscribeModalOpened(true)
-    }
-  }, [setSubscribeModalOpened, router.query])
 
   return (
     <>

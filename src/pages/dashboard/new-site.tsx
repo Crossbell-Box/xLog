@@ -160,7 +160,7 @@ export default function NewSitePage() {
                 href="https://faucet.crossbell.io/"
                 className="font-bold text-red-500"
               >
-                our faucet
+                Crossbell faucet
               </UniLink>{" "}
               to get some free $CSB.
             </p>

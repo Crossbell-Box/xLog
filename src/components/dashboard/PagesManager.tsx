@@ -16,7 +16,7 @@ import {
   useDeletePage,
   useCreateOrUpdatePage,
 } from "~/queries/page"
-import { DotsHorizontalIcon } from "@heroicons/react/solid"
+import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useQueryClient } from "@tanstack/react-query"
 import { Button } from "../ui/Button"
@@ -376,7 +376,7 @@ export const PagesManager: React.FC<{
                               e.stopPropagation()
                             }}
                           >
-                            <DotsHorizontalIcon className="w-5 h-5" />
+                            <EllipsisHorizontalIcon className="w-5 h-5" />
                           </button>
                         </Menu.Button>
                         <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64">

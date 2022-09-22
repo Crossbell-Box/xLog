@@ -19,7 +19,7 @@ import data from "@emoji-mart/data"
 // @ts-ignore
 import Picker from "@emoji-mart/react"
 import { Popover } from "@headlessui/react"
-import { EmojiHappyIcon } from "@heroicons/react/outline"
+import { FaceSmileIcon } from "@heroicons/react/24/outline"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 
@@ -112,11 +112,11 @@ export const Comment: React.FC<{
             />
           </div>
           <div className="flex justify-between">
-            <Popover className="relative">
+            <Popover className="relative flex justify-center">
               {({ open }: { open: boolean }) => (
                 <>
                   <Popover.Button className="group inline-flex items-center rounded-md px-2 text-xl">
-                    <EmojiHappyIcon className="w-6 h-6 text-zinc-400 hover:text-zinc-500" />
+                    <FaceSmileIcon className="w-6 h-6 text-zinc-400 hover:text-zinc-500" />
                   </Popover.Button>
                   <Popover.Panel className="absolute left-0 mt-3 ">
                     <Picker

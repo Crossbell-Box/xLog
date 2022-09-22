@@ -7,17 +7,8 @@ export const getTenant = async (request: Request, search: URLSearchParams) => {
     throw new Error("missing OUR_DOMAIN env")
   }
 
-  if (search.has("tenant")) {
-    return {
-      subdomain: search.get("tenant"),
-    }
-  }
-
   const OUR_DOMAIN_SUFFIX = `.${OUR_DOMAIN}`
-  if (host) {
-    if (host.endsWith(".fly.dev")) {
-      return
-    }
+  if (host && host !== OUR_DOMAIN) {
     if (host.endsWith(OUR_DOMAIN_SUFFIX)) {
       const subdomain = host.replace(OUR_DOMAIN_SUFFIX, "")
       const res = await fetch(
@@ -40,8 +31,7 @@ export const getTenant = async (request: Request, search: URLSearchParams) => {
           subdomain: subdomain,
         }
       }
-    }
-    if (host !== OUR_DOMAIN) {
+    } else {
       const res = await fetch(
         `https://cloudflare-dns.com/dns-query?name=_xlog-challenge.${host}&type=TXT`,
         {

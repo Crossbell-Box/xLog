@@ -1,16 +1,11 @@
 import { Toaster } from "react-hot-toast"
 import "~/css/main.css"
 import "~/generated/uno.css"
-import { StoreProvider, createStore } from "~/lib/store"
 import { IpfsGatewayContext } from "@crossbell/ipfs-react"
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit"
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit"
 import { configureChains, createClient, WagmiConfig } from "wagmi"
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
-import {
-  Hydrate,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query"
+import { Hydrate, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 import { createIDBPersister } from "~/lib/persister.client"
@@ -76,20 +71,18 @@ function MyApp({ Component, pageProps }: any) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <StoreProvider createStore={createStore}>
-          <PersistQueryClientProvider
-            client={queryClient}
-            persistOptions={{ persister }}
-          >
-            <Hydrate state={pageProps.dehydratedState}>
-              <ReactQueryDevtools />
-              <IpfsGatewayContext.Provider value={ipfsGateway}>
-                {getLayout(<Component {...pageProps} />)}
-              </IpfsGatewayContext.Provider>
-              <Toaster />
-            </Hydrate>
-          </PersistQueryClientProvider>
-        </StoreProvider>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister }}
+        >
+          <Hydrate state={pageProps.dehydratedState}>
+            <ReactQueryDevtools />
+            <IpfsGatewayContext.Provider value={ipfsGateway}>
+              {getLayout(<Component {...pageProps} />)}
+            </IpfsGatewayContext.Provider>
+            <Toaster />
+          </Hydrate>
+        </PersistQueryClientProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   )

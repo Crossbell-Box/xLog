@@ -7,7 +7,10 @@ import type { HeaderLinkType } from "~/components/site/SiteHeader"
 import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
 import { useEffect, useState } from "react"
-import { DuplicateIcon, LogoutIcon } from "@heroicons/react/outline"
+import {
+  Square2StackIcon,
+  ArrowRightOnRectangleIcon,
+} from "@heroicons/react/24/outline"
 import { BigNumber } from "ethers"
 import { SITE_URL } from "~/lib/env"
 
@@ -28,7 +31,7 @@ export const ConnectButton: React.FC<{
 
   const dropdownLinks: HeaderLinkType[] = [
     {
-      icon: <DuplicateIcon className="w-4 h-4" />,
+      icon: <Square2StackIcon className="w-4 h-4" />,
       label: copyLabel,
       onClick() {
         navigator.clipboard.writeText(address || "")
@@ -44,7 +47,7 @@ export const ConnectButton: React.FC<{
       url: `${SITE_URL}/dashboard`,
     },
     {
-      icon: <LogoutIcon className="w-4 h-4" />,
+      icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
       label: "Disconnect",
       onClick() {
         disconnect()
@@ -61,7 +64,9 @@ export const ConnectButton: React.FC<{
   useEffect(() => {
     if (balance !== undefined) {
       if (
-        balance.value.gt(BigNumber.from("1" + "0".repeat(balance.decimals - 2)))
+        BigNumber.from(balance.value).gt(
+          BigNumber.from("1" + "0".repeat(balance.decimals - 2)),
+        )
       ) {
         setInsufficientBalance(false)
       } else {

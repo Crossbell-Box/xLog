@@ -1,8 +1,7 @@
 ##### BASE
 FROM node:16-bullseye-slim as base
 
-# install open ssl for prisma
-RUN apt-get update && apt-get install -y openssl
+RUN apt-get update
 
 RUN npm i -g pnpm
 

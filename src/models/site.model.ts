@@ -10,26 +10,7 @@ export const checkSubdomain = async ({
 }: {
   subdomain: string
   updatingSiteId?: string
-}) => {
-  // checkReservedWords(subdomain)
-  // const existingSite = await prismaPrimary.site.findUnique({
-  //   where: {
-  //     subdomain,
-  //   },
-  // })
-  // if (existingSite?.deletedAt) {
-  //   // Actuall delete the site so that the subdomain can be used again
-  //   await prismaPrimary.site.delete({
-  //     where: {
-  //       id: existingSite.id,
-  //     },
-  //   })
-  //   return
-  // }
-  // if (existingSite && (!updatingSiteId || existingSite.id !== updatingSiteId)) {
-  //   throw new Error(`Subdomain already taken`)
-  // }
-}
+}) => {}
 
 const expandSite = async (site: Profile) => {
   site.navigation = JSON.parse(

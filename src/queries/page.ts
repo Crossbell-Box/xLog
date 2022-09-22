@@ -12,6 +12,9 @@ export const useGetPagesBySite = (
 
 export const useGetPage = (input: Parameters<typeof pageModel.getPage>[0]) => {
   return useQuery(["getPage", input.page, input], async () => {
+    if (!input.site || !(input.page || input.pageId)) {
+      return null
+    }
     return pageModel.getPage(input)
   })
 }
