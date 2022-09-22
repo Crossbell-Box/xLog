@@ -71,6 +71,8 @@ const queryClient = new QueryClient({
 const persister = createIDBPersister()
 
 function MyApp({ Component, pageProps }: any) {
+  const getLayout = Component.getLayout ?? ((page: any) => page)
+
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
@@ -82,7 +84,7 @@ function MyApp({ Component, pageProps }: any) {
             <Hydrate state={pageProps.dehydratedState}>
               <ReactQueryDevtools />
               <IpfsGatewayContext.Provider value={ipfsGateway}>
-                <Component {...pageProps} />
+                {getLayout(<Component {...pageProps} />)}
               </IpfsGatewayContext.Provider>
               <Toaster />
             </Hydrate>

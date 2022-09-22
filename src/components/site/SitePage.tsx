@@ -1,14 +1,11 @@
-import type { PageType } from "~/lib/db.server"
-import { Rendered } from "~/markdown"
 import { PageContent } from "../common/PageContent"
 import { PostMeta } from "./PostMeta"
 import { PostFooter } from "./PostFooter"
-import { Profile, Note } from "~/lib/types"
+import { Note } from "~/lib/types"
 
 export const SitePage: React.FC<{
-  site?: Profile
   page?: Note
-}> = ({ site, page }) => {
+}> = ({ page }) => {
   return (
     <>
       <div className="">
