@@ -5,11 +5,11 @@ export const prefetchGetSite = async (input: string) => {
   const key = ["getSite", input]
   const data = queryClientServer.getQueryData(key)
   if (!data) {
-    await queryClientServer.prefetchQuery(["getSite", input], async () => {
+    await queryClientServer.prefetchQuery(key, async () => {
       return siteModel.getSite(input)
     })
   } else {
-    queryClientServer.prefetchQuery(["getSite", input], async () => {
+    queryClientServer.prefetchQuery(key, async () => {
       return siteModel.getSite(input)
     })
   }
@@ -20,11 +20,11 @@ export const fetchGetSite = async (input: string) => {
   const data: ReturnType<typeof siteModel.getSite> | undefined =
     queryClientServer.getQueryData(key)
   if (!data) {
-    return await queryClientServer.fetchQuery(["getSite", input], async () => {
+    return await queryClientServer.fetchQuery(key, async () => {
       return siteModel.getSite(input)
     })
   } else {
-    queryClientServer.fetchQuery(["getSite", input], async () => {
+    queryClientServer.fetchQuery(key, async () => {
       return siteModel.getSite(input)
     })
     return data
@@ -34,21 +34,15 @@ export const fetchGetSite = async (input: string) => {
 export const prefetchGetSiteSubscriptions = async (
   input: Parameters<typeof siteModel.getSiteSubscriptions>[0],
 ) => {
-  const key = ["getSite", input]
+  const key = ["getSiteSubscriptions", input]
   const data = queryClientServer.getQueryData(key)
   if (!data) {
-    await queryClientServer.prefetchQuery(
-      ["getSiteSubscriptions", input],
-      async () => {
-        return siteModel.getSiteSubscriptions(input)
-      },
-    )
+    await queryClientServer.prefetchQuery(key, async () => {
+      return siteModel.getSiteSubscriptions(input)
+    })
   } else {
-    queryClientServer.prefetchQuery(
-      ["getSiteSubscriptions", input],
-      async () => {
-        return siteModel.getSiteSubscriptions(input)
-      },
-    )
+    queryClientServer.prefetchQuery(key, async () => {
+      return siteModel.getSiteSubscriptions(input)
+    })
   }
 }
