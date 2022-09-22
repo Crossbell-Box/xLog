@@ -1,9 +1,8 @@
 import { SiteNavigationItem, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
-import { checkReservedWords } from "~/lib/reserved-words"
 import unidata from "~/lib/unidata"
-import { indexer, getContract } from "~/lib/crossbell"
 import { renderPageContent } from "~/markdown"
+import { toGateway } from "~/lib/ipfs-parser"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -58,6 +57,16 @@ const expandSite = async (site: Profile) => {
     )?.value || ""
   site.name = site.name || site.username
   site.description = (await renderPageContent(site.bio || "")).contentHTML
+
+  if (site.avatars) {
+    site.avatars = site.avatars.map((avatar) => toGateway(avatar))
+  }
+  if (site.banners) {
+    site.banners.map((banner) => {
+      banner.address = toGateway(banner.address)
+      return banner
+    })
+  }
 
   return site
 }
