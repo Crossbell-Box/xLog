@@ -118,9 +118,14 @@ export const Comment: React.FC<{
                   <Popover.Button className="group inline-flex items-center rounded-md px-2 text-xl">
                     <FaceSmileIcon className="w-6 h-6 text-zinc-400 hover:text-zinc-500" />
                   </Popover.Button>
-                  <Popover.Panel className="absolute left-0 mt-3 ">
+                  <Popover.Panel className="absolute left-0 top-full">
                     <Picker
-                      data={data}
+                      data={async () => {
+                        const response = await fetch(
+                          "https://cdn.jsdelivr.net/npm/@emoji-mart/data",
+                        )
+                        return response.json()
+                      }}
                       onEmojiSelect={(e: any) =>
                         form.setValue(
                           "content",

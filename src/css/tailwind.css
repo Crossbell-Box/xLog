@@ -25,6 +25,11 @@ body {
   @apply mx-auto;
 }
 
+button,
+a {
+  @apply focus-visible:outline-none;
+}
+
 .button {
   @apply inline-flex;
   @apply items-center;
