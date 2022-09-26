@@ -9,7 +9,6 @@ import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { PublishButton } from "~/components/dashboard/PublishButton"
 import { useEditor } from "~/components/ui/Editor"
-import { EditorPreview } from "~/components/ui/EditorPreview"
 import { EditorToolbar } from "~/components/ui/EditorToolbar"
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
@@ -23,6 +22,7 @@ import { useGetSite } from "~/queries/site"
 import { getStorage, setStorage, delStorage } from "~/lib/storage"
 import { nanoid } from "nanoid"
 import { useQueryClient } from "@tanstack/react-query"
+import { PageContent } from "~/components/common/PageContent"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -265,10 +265,10 @@ export default function SubdomainEditor() {
                     className="px-5 h-full border-r w-1/2 overflow-scroll"
                     ref={editorRef}
                   ></div>
-                  <EditorPreview
+                  <PageContent
                     className="px-5 w-1/2 overflow-scroll pb-[200px]"
                     content={content}
-                  ></EditorPreview>
+                  ></PageContent>
                 </div>
               </div>
             </div>

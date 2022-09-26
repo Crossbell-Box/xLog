@@ -38,7 +38,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({ children, title }) => {
         title={title || tag || page.data?.title || ""}
         siteName={site.data?.name || ""}
         description={
-          (page.data?.summary?.content || page.data?.body?.content) ??
+          page.data?.summary?.content ??
           site.data?.description?.replace(/<[^>]*>/g, "")
         }
         image={page.data?.cover || getUserContentsUrl(site.data?.avatars?.[0])}

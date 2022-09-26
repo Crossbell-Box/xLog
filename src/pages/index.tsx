@@ -5,7 +5,6 @@ import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
 import { FLY_REGION } from "~/lib/env.server"
 import { useAccount } from "wagmi"
-import Image from "next/image"
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { LoveIcon } from "~/components/icons/LoveIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
@@ -15,6 +14,7 @@ import { useRouter } from "next/router"
 import { GITHUB_LINK, APP_NAME, CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { Link, Element } from "react-scroll"
+import { Image } from "~/components/ui/Image"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
@@ -234,12 +234,13 @@ export default function Home({ region }: { region: string | null }) {
                           subdomain: item.username,
                         })}
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          className="rounded-full w-14 h-14"
+                        <Image
+                          className="rounded-full"
                           src={`/_ipfs/${item.avartar}`}
                           alt={item.username}
-                        ></img>
+                          width="56"
+                          height="56"
+                        ></Image>
                       </UniLink>
                     </li>
                   ))}

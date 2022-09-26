@@ -44,5 +44,10 @@ module.exports = withBundleAnalyzer(
     ipfsGateway: {
       gatewayPath: "/_ipfs/:cid/:pathToResource*",
     },
+
+    images: {
+      dangerouslyAllowSVG: true,
+      domains: ["4everland.xyz"],
+    },
   }),
 )

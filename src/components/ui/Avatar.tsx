@@ -1,6 +1,7 @@
 import clsx from "clsx"
 import React, { useMemo } from "react"
 import { toGateway } from "~/lib/ipfs-parser"
+import { Image } from "~/components/ui/Image"
 
 export const Avatar: React.FC<
   {
@@ -61,8 +62,7 @@ export const Avatar: React.FC<
         height: `${size}px`,
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         className="overflow-hidden"
         src={image}
         width={size}

@@ -18,7 +18,10 @@ export const SitePage: React.FC<{
         )}
         {page?.tags?.includes("post") && <PostMeta page={page} />}
       </div>
-      <PageContent contentHTML={page?.body?.content || ""} className="mt-10" />
+      <PageContent
+        className="mt-10"
+        content={page?.body?.content}
+      ></PageContent>
       <PostFooter page={page} />
     </>
   )

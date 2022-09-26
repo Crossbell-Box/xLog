@@ -25,6 +25,7 @@ import type { Link } from "unidata.js"
 import { getSiteSubscriptions } from "~/models/site.model"
 import { CharacterList } from "~/components/common/CharacterList"
 import type { Links } from "unidata.js"
+import { Image } from "~/components/ui/Image"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -184,8 +185,7 @@ export const SiteHeader: React.FC<{
     <header className="xlog-header border-b relative">
       <div className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden">
         {site?.banners?.[0]?.mime_type.split("/")[0] === "image" && (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             className="max-w-screen-md mx-auto object-cover h-full w-full"
             src={site?.banners?.[0]?.address}
             alt="banner"

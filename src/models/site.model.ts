@@ -37,7 +37,7 @@ const expandSite = async (site: Profile) => {
       (a: any) => a.trait_type === "xlog_custom_domain",
     )?.value || ""
   site.name = site.name || site.username
-  site.description = (await renderPageContent(site.bio || "")).contentHTML
+  site.description = renderPageContent(site.bio || "", true).contentHTML
 
   if (site.avatars) {
     site.avatars = site.avatars.map((avatar) => toGateway(avatar))

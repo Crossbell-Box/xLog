@@ -3,6 +3,7 @@ import { formatDate } from "~/lib/date"
 import { Paginated, type PostOnSiteHome, Notes } from "~/lib/types"
 import { EmptyState } from "../ui/EmptyState"
 import { useRouter } from "next/router"
+import { Image } from "~/components/ui/Image"
 
 export const SiteHome: React.FC<{
   posts?: Notes
@@ -20,7 +21,7 @@ export const SiteHome: React.FC<{
             const excerpt = post.summary?.content
             return (
               <Link key={post.id} href={`/${post.slug || post.id}`}>
-                <a className="xlog-post hover:bg-zinc-100 transition-colors p-5 -mx-5 first:-mt-5 md:rounded-xl flex">
+                <a className="xlog-post hover:bg-zinc-100 transition-colors p-5 -mx-5 first:-mt-5 md:rounded-xl flex items-center">
                   <div className="flex-1 flex justify-center flex-col">
                     <h3 className="xlog-post-title text-2xl font-bold">
                       {post.title}
@@ -56,16 +57,16 @@ export const SiteHome: React.FC<{
                       {excerpt && "..."}
                     </div>
                   </div>
-                  <div className="xlog-post-cover flex items-center">
-                    {post.cover && (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        className="object-cover w-24 h-24 rounded ml-4"
+                  {post.cover && (
+                    <div className="xlog-post-cover flex items-center relative w-24 h-24 ml-4">
+                      <Image
+                        className="object-cover rounded w-24 h-24"
                         alt="cover"
+                        layout="fill"
                         src={post.cover}
-                      ></img>
-                    )}
-                  </div>
+                      ></Image>
+                    </div>
+                  )}
                 </a>
               </Link>
             )

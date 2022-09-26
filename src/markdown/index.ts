@@ -15,6 +15,9 @@ import { allowedBlockquoteAttrs, remarkCallout } from "./remark-callout"
 import { rehypeExternalLink } from "./rehyper-external-link"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import jsYaml from "js-yaml"
+import rehypeReact from "rehype-react"
+import { createElement, ReactElement } from "react"
+import { Image } from "~/components/ui/Image"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -25,6 +28,7 @@ export type MarkdownEnv = {
 
 export type Rendered = {
   contentHTML: string
+  element?: ReactElement
   excerpt: string
   frontMatter: Record<string, any>
   cover: string
@@ -34,7 +38,10 @@ refractor.alias("html", ["svelte", "vue"])
 
 const rehypePrism = rehypePrismGenerator(refractor)
 
-export const renderPageContent = async (content: string): Promise<Rendered> => {
+export const renderPageContent = (
+  content: string,
+  html?: boolean,
+): Rendered => {
   const env: MarkdownEnv = {
     excerpt: "",
     __internal: {},
@@ -42,7 +49,7 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
     cover: "",
   }
 
-  const result = await unified()
+  const result = unified()
     .use(remarkParse)
     .use(rehypeStringify)
     .use(remarkFrontmatter, ["yaml"])
@@ -98,12 +105,19 @@ export const renderPageContent = async (content: string): Promise<Rendered> => {
     .use(rehypeTable)
     .use(rehypeExternalLink)
     .use(rehypeWrapCode)
-    .process(content)
+    .use(html ? () => (tree: any) => {} : rehypeReact, {
+      createElement: createElement,
+      components: {
+        img: Image as any,
+      },
+    })
+    .processSync(content)
 
   const contentHTML = result.toString()
 
   return {
     contentHTML,
+    element: result.result,
     excerpt: env.excerpt,
     frontMatter: env.frontMatter,
     cover: env.cover,

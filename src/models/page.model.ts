@@ -91,16 +91,16 @@ export async function createOrUpdatePage(input: {
   )
 }
 
-const expandPage = async (page: Note, render: boolean) => {
+const expandPage = (page: Note, render: boolean) => {
   if (
     page.body?.content &&
     page.body?.mime_type === "text/markdown" &&
     render
   ) {
-    const rendered = await renderPageContent(page.body.content)
+    const rendered = renderPageContent(page.body.content, true)
     page.body = {
-      content: rendered.contentHTML,
-      mime_type: "text/html",
+      content: page.body.content,
+      mime_type: "text/markdown",
     }
     if (!page.summary) {
       page.summary = {
@@ -237,12 +237,10 @@ export async function getPagesBySite(input: {
       .sort((a, b) => +new Date(b.date_published) - +new Date(a.date_published))
     pages.total = pages.list.length
 
-    pages.list = await Promise.all(
-      pages?.list.map(async (page) => {
-        await expandPage(page, input.render || false)
-        return page
-      }),
-    )
+    pages?.list.map((page) => {
+      expandPage(page, input.render || false)
+      return page
+    })
   }
 
   return pages

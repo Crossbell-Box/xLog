@@ -1,16 +1,27 @@
 import clsx from "clsx"
 import { useCodeCopy } from "~/hooks/useCodeCopy"
+import { renderPageContent } from "~/markdown"
 
 export const PageContent: React.FC<{
-  contentHTML: string
+  content?: string
   className?: string
-}> = ({ contentHTML, className }) => {
+}> = ({ className, content }) => {
   useCodeCopy()
 
+  // TODO
+  // const [element, setElement] = useState<ReactElement>()
+  // const renderMarkdown = useCallback((doc: string) => {
+  //   setElement(renderPageContent(doc).element)
+  // }, [])
+  // useEffect(() => {
+  //   if (content) {
+  //     renderMarkdown(content)
+  //   }
+  // }, [content, renderMarkdown])
+
   return (
-    <div
-      className={clsx("xlog-post-content", `prose`, className)}
-      dangerouslySetInnerHTML={{ __html: contentHTML }}
-    ></div>
+    <div className={clsx("xlog-post-content", `prose`, className)}>
+      {content && renderPageContent(content).element}
+    </div>
   )
 }

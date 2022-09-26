@@ -1,4 +1,5 @@
 import type { Note as UniNote, Profile as UniProfile } from "unidata.js"
+import { ReactElement } from "react"
 
 export type Site = {
   id: string
@@ -75,6 +76,12 @@ export type Note = UniNote & {
   slug?: string
   character?: Profile
   cover?: string
+  body?: {
+    content?: string
+    address?: string
+    mime_type?: string
+    element?: ReactElement
+  }
 }
 
 export type Notes = {

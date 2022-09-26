@@ -4,6 +4,7 @@ import { fetchGetPagesBySite } from "~/queries/page.server"
 import { PageVisibilityEnum } from "~/lib/types"
 import { getSiteLink } from "~/lib/helpers"
 import { QueryClient } from "@tanstack/react-query"
+import { renderPageContent } from "~/markdown"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -36,7 +37,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       items: pages.list?.map((page) => ({
         id: page.id,
         title: page.title,
-        content_html: page.body?.content,
+        content_html:
+          page.body?.content &&
+          renderPageContent(page.body?.content, true).contentHTML,
         summary: page.summary?.content,
         url: `${link}/${page.slug || page.id}`,
         image: page.cover,

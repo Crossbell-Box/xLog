@@ -279,9 +279,9 @@ export const PagesManager: React.FC<{
                   const file = e.target?.files?.[0]
                   const reader = new FileReader()
                   reader.readAsText(file, "UTF-8")
-                  reader.onload = async (evt) => {
+                  reader.onload = (evt) => {
                     if (evt.target?.result) {
-                      const pageContent = await renderPageContent(
+                      const pageContent = renderPageContent(
                         evt.target.result as string,
                       )
 
