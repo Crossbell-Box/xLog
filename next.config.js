@@ -2,6 +2,9 @@
 const pkg = require("./package.json")
 const spawn = require("cross-spawn")
 const { withIpfsGateway } = require("@crossbell/ipfs-gateway-next")
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+})
 
 class UnoCSS {
   /**
@@ -23,21 +26,23 @@ class UnoCSS {
 }
 
 /** @type {import('next').NextConfig} */
-module.exports = withIpfsGateway({
-  env: {
-    APP_DESCRIPTION: pkg.description,
-  },
-  experimental: {
-    scrollRestoration: true,
-    outputStandalone: true,
-  },
+module.exports = withBundleAnalyzer(
+  withIpfsGateway({
+    env: {
+      APP_DESCRIPTION: pkg.description,
+    },
+    experimental: {
+      scrollRestoration: true,
+    },
+    output: "standalone",
 
-  webpack(config) {
-    config.plugins.push(new UnoCSS())
-    return config
-  },
+    webpack(config) {
+      config.plugins.push(new UnoCSS())
+      return config
+    },
 
-  ipfsGateway: {
-    gatewayPath: "/_ipfs/:cid/:pathToResource*",
-  },
-})
+    ipfsGateway: {
+      gatewayPath: "/_ipfs/:cid/:pathToResource*",
+    },
+  }),
+)
