@@ -27,7 +27,7 @@ dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
 export const Comment: React.FC<{
-  page?: Note
+  page?: Note | null
   className?: string
 }> = ({ page, className }) => {
   const { address } = useAccount()

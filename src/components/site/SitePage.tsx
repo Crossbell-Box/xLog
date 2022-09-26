@@ -4,7 +4,7 @@ import { PostFooter } from "./PostFooter"
 import { Note } from "~/lib/types"
 
 export const SitePage: React.FC<{
-  page?: Note
+  page?: Note | null
 }> = ({ page }) => {
   return (
     <>

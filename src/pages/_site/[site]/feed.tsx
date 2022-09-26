@@ -3,19 +3,24 @@ import { fetchGetSite } from "~/queries/site.server"
 import { fetchGetPagesBySite } from "~/queries/page.server"
 import { PageVisibilityEnum } from "~/lib/types"
 import { getSiteLink } from "~/lib/helpers"
+import { QueryClient } from "@tanstack/react-query"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const queryClient = new QueryClient()
   ctx.res.setHeader("Content-Type", "application/feed+json")
   const domainOrSubdomain = ctx.params!.site as string
 
-  const site = await fetchGetSite(domainOrSubdomain)
-  const pages = await fetchGetPagesBySite({
-    site: domainOrSubdomain,
-    take: 1000,
-    type: "post",
-    visibility: PageVisibilityEnum.Published,
-    render: true,
-  })
+  const site = await fetchGetSite(domainOrSubdomain, queryClient)
+  const pages = await fetchGetPagesBySite(
+    {
+      site: domainOrSubdomain,
+      take: 1000,
+      type: "post",
+      visibility: PageVisibilityEnum.Published,
+      render: true,
+    },
+    queryClient,
+  )
 
   const link = getSiteLink({
     subdomain: site.username || "",

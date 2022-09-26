@@ -9,7 +9,7 @@ import { IPFS_SW_GATEWAY_PREFIX } from "~/lib/ipfs-gateway"
 
 export const BlockchainInfo: React.FC<{
   site?: Profile
-  page?: Note
+  page?: Note | null
 }> = ({ site, page }) => {
   return (
     <div className="text-sm">

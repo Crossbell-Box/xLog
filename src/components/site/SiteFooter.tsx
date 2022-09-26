@@ -5,7 +5,7 @@ import Script from "next/script"
 
 export const SiteFooter: React.FC<{
   site?: Profile
-  page?: Note
+  page?: Note | null
 }> = ({ site, page }) => {
   return (
     <>

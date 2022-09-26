@@ -1,48 +1,29 @@
 import * as siteModel from "~/models/site.model"
-import { queryClientServer } from "~/lib/query-client.server"
+import { QueryClient } from "@tanstack/react-query"
 
-export const prefetchGetSite = async (input: string) => {
+export const prefetchGetSite = async (
+  input: string,
+  queryClient: QueryClient,
+) => {
   const key = ["getSite", input]
-  const data = queryClientServer.getQueryData(key)
-  if (!data) {
-    await queryClientServer.prefetchQuery(key, async () => {
-      return siteModel.getSite(input)
-    })
-  } else {
-    queryClientServer.prefetchQuery(key, async () => {
-      return siteModel.getSite(input)
-    })
-  }
+  await queryClient.prefetchQuery(key, async () => {
+    return siteModel.getSite(input)
+  })
 }
 
-export const fetchGetSite = async (input: string) => {
+export const fetchGetSite = async (input: string, queryClient: QueryClient) => {
   const key = ["getSite", input]
-  const data: ReturnType<typeof siteModel.getSite> | undefined =
-    queryClientServer.getQueryData(key)
-  if (!data) {
-    return await queryClientServer.fetchQuery(key, async () => {
-      return siteModel.getSite(input)
-    })
-  } else {
-    queryClientServer.fetchQuery(key, async () => {
-      return siteModel.getSite(input)
-    })
-    return data
-  }
+  return await queryClient.fetchQuery(key, async () => {
+    return siteModel.getSite(input)
+  })
 }
 
 export const prefetchGetSiteSubscriptions = async (
   input: Parameters<typeof siteModel.getSiteSubscriptions>[0],
+  queryClient: QueryClient,
 ) => {
   const key = ["getSiteSubscriptions", input]
-  const data = queryClientServer.getQueryData(key)
-  if (!data) {
-    await queryClientServer.prefetchQuery(key, async () => {
-      return siteModel.getSiteSubscriptions(input)
-    })
-  } else {
-    queryClientServer.prefetchQuery(key, async () => {
-      return siteModel.getSiteSubscriptions(input)
-    })
-  }
+  await queryClient.prefetchQuery(key, async () => {
+    return siteModel.getSiteSubscriptions(input)
+  })
 }

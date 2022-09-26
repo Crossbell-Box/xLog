@@ -25,7 +25,7 @@ import { getLikes, getMints } from "~/models/page.model"
 import { CharacterList } from "~/components/common/CharacterList"
 
 export const PostFooter: React.FC<{
-  page?: Note
+  page?: Note | null
 }> = ({ page }) => {
   const likePage = useLikePage()
   const unlikePage = useUnlikePage()

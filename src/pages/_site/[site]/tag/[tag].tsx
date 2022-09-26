@@ -4,22 +4,22 @@ import { getServerSideProps as getLayoutServerSideProps } from "~/components/sit
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { SiteArchives } from "~/components/site/SiteArchives"
 import { Profile, Notes } from "~/lib/types"
-import { queryClientServer } from "~/lib/query-client.server"
-import { dehydrate } from "@tanstack/react-query"
+import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { useGetPagesBySite } from "~/queries/page"
 import { PageVisibilityEnum } from "~/lib/types"
 import type { ReactElement } from "react"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
+    const queryClient = new QueryClient()
     const domainOrSubdomain = ctx.params!.site as string
     const tag = ctx.params!.tag as string
 
-    await getLayoutServerSideProps(ctx)
+    await getLayoutServerSideProps(ctx, queryClient)
 
     return {
       props: {
-        dehydratedState: dehydrate(queryClientServer),
+        dehydratedState: dehydrate(queryClient),
         domainOrSubdomain,
         tag,
       },
