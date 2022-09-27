@@ -15,49 +15,33 @@ export const Image: React.FC<
 > = ({ layout, className, alt, src, width, height, ...props }) => {
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
+  const autoSize = !width && !width && !layout
 
   return (
-    <>
-      {isIpfsUrl(src) ? (
-        <span
-          className={clsx(
-            "relative inline-flex justify-center",
-            !width && !width && !layout ? "w-full h-full" : "",
-          )}
-          style={{ paddingTop }}
-        >
-          <NextImage
-            {...props}
-            src={toGateway(src, {
-              forceFallback: true,
-            })}
-            className={className}
-            alt={alt}
-            width={width}
-            height={height}
-            layout={!width && !height ? "fill" : layout}
-            onLoad={({ target }) => {
-              if (!width && !width && !layout) {
-                const { naturalWidth, naturalHeight } =
-                  target as HTMLImageElement
-                setPaddingTop(
-                  `calc(100% / (${naturalWidth} / ${naturalHeight})`,
-                )
-              }
-            }}
-          />
-        </span>
-      ) : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          {...props}
-          src={toGateway(src, {
-            forceFallback: true,
-          })}
-          className={className}
-          alt={alt}
-        />
+    <span
+      className={clsx(
+        "inline-flex justify-center",
+        autoSize ? "relative w-full h-full" : "",
       )}
-    </>
+      style={autoSize ? { paddingTop } : {}}
+    >
+      <NextImage
+        {...props}
+        src={toGateway(src, {
+          forceFallback: true,
+        })}
+        className={className}
+        alt={alt}
+        width={width}
+        height={height}
+        layout={autoSize ? "fill" : layout}
+        onLoad={({ target }) => {
+          if (autoSize) {
+            const { naturalWidth, naturalHeight } = target as HTMLImageElement
+            setPaddingTop(`calc(100% / (${naturalWidth} / ${naturalHeight})`)
+          }
+        }}
+      />
+    </span>
   )
 }

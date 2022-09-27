@@ -229,7 +229,7 @@ export const PostFooter: React.FC<{
               ?.map((like: any, index) => (
                 <li className="inline-block" key={index}>
                   <Avatar
-                    className="align-middle border-2 border-white"
+                    className="relative align-middle border-2 border-white"
                     images={
                       like.fromCharacter?.metadata?.content?.avatars || []
                     }
@@ -240,7 +240,7 @@ export const PostFooter: React.FC<{
               ))}
             {(likes.data?.count || 0) > 3 && (
               <li className="inline-block">
-                <div className="align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
+                <div className="relative align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
                   +{likes.data!.count - 3}
                 </div>
               </li>
@@ -272,7 +272,7 @@ export const PostFooter: React.FC<{
               .map((mint: any, index) => (
                 <li className="inline-block" key={index}>
                   <Avatar
-                    className="align-middle border-2 border-white"
+                    className="relative align-middle border-2 border-white"
                     images={mint.character?.metadata?.content?.avatars || []}
                     name={mint.character?.metadata?.content?.name}
                     size={40}
@@ -281,7 +281,7 @@ export const PostFooter: React.FC<{
               ))}
             {(mints.data?.count || 0) > 3 && (
               <li className="inline-block">
-                <div className="align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
+                <div className="relative align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
                   +{mints.data!.count - 3}
                 </div>
               </li>

@@ -47,7 +47,8 @@ module.exports = withBundleAnalyzer(
 
     images: {
       dangerouslyAllowSVG: true,
-      domains: ["4everland.xyz"],
+      contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+      remotePatterns: [{ hostname: "**" }],
     },
   }),
 )
