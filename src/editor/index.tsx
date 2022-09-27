@@ -11,7 +11,6 @@ import { Italic } from "./Italic"
 import { Link } from "./Link"
 import { ListOrdered } from "./ListOrdered"
 import { ListUnordered } from "./ListUnordered"
-import { Preview } from "./Preview"
 import { Quote } from "./Quote"
 import { Strikethrough } from "./Strikethrough"
 import { Underline } from "./Underline"
@@ -131,5 +130,3 @@ export const toolbars: ICommand[] = [
   Image,
   UploadImage,
 ]
-
-export const modeToolbars: ICommand[] = [Preview]

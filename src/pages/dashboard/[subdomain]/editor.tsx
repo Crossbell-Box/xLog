@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import { useRouter } from "next/router"
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 import toast from "react-hot-toast"
-import { modeToolbars, toolbars } from "~/editor"
+import { toolbars } from "~/editor"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { PublishButton } from "~/components/dashboard/PublishButton"
@@ -75,8 +75,6 @@ export default function SubdomainEditor() {
     content: "",
   })
   const [content, setContent] = useState("")
-
-  const [previewVisible, setPreviewVisible] = useState(false)
 
   type Values = typeof values
 
@@ -210,13 +208,7 @@ export default function SubdomainEditor() {
       <DashboardLayout title="Editor">
         <DashboardMain fullWidth>
           <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
-            <EditorToolbar
-              view={view}
-              toolbars={toolbars}
-              modeToolbars={modeToolbars}
-              previewVisible={previewVisible}
-              setPreviewVisible={setPreviewVisible}
-            ></EditorToolbar>
+            <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
             <div className="flex items-center space-x-3">
               <span
                 className={clsx(
