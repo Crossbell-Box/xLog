@@ -41,6 +41,9 @@ const { chains, provider } = configureChains(
     } as any,
   ],
   [jsonRpcProvider({ rpc: (chain) => ({ http: chain.rpcUrls.default }) })],
+  {
+    pollingInterval: 1000,
+  },
 )
 
 const connectors = connectorsForWallets([

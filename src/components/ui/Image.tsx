@@ -1,7 +1,6 @@
 import React from "react"
 import { default as NextImage, ImageProps } from "next/image"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
-import { isIpfsUrl } from "@crossbell/ipfs-gateway"
 import clsx from "clsx"
 
 export const Image: React.FC<
@@ -15,7 +14,7 @@ export const Image: React.FC<
 > = ({ layout, className, alt, src, width, height, ...props }) => {
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
-  const autoSize = !width && !width && !layout
+  const autoSize = !width && !height && !layout
 
   return (
     <span
