@@ -105,7 +105,7 @@ export const Comment: React.FC<{
                 !addressIn || !userSites.isSuccess || !userSites.data?.length
               }
               multiline
-              maxLength={30}
+              maxLength={300}
               className="mb-2"
               placeholder="Write a comment on the blockchain"
               {...form.register("content", {})}
