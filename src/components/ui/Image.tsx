@@ -29,10 +29,7 @@ export const Image: React.FC<
       }
     >
       <span
-        className={clsx(
-          "inline-flex justify-center",
-          autoSize ? "relative w-full h-full" : "",
-        )}
+        className="inline-flex justify-center relative w-full h-full"
         style={autoSize ? { paddingTop } : {}}
       >
         <NextImage
