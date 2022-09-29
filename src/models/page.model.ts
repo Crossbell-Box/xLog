@@ -31,6 +31,7 @@ export async function createOrUpdatePage(input: {
   /** Only needed when creating page */
   isPost?: boolean
   externalUrl?: string
+  applications?: string[]
 }) {
   if (!input.published) {
     return await unidata.notes.set(
@@ -78,7 +79,10 @@ export async function createOrUpdatePage(input: {
           .map((tag) => tag.trim())
           .filter((tag) => tag) || []),
       ],
-      applications: ["xlog"],
+      applications: [
+        "xlog",
+        ...(input.applications?.filter((app) => app !== "xlog") || []),
+      ],
       ...(input.slug && {
         attributes: [
           {
@@ -176,6 +180,7 @@ export async function getPagesBySite(input: {
   }
 
   const visibility = input.visibility || PageVisibilityEnum.All
+  const crossbell = visibility === PageVisibilityEnum.Crossbell
 
   const options = {
     source: "Crossbell Note",
@@ -183,8 +188,8 @@ export async function getPagesBySite(input: {
     platform: "Crossbell",
     limit: input.take || 1000,
     filter: {
-      tags: [...(input.tags || []), input.type],
-      applications: ["xlog"],
+      tags: [...(input.tags || []), ...(crossbell ? [] : [input.type])],
+      applications: [...(crossbell ? [] : ["xlog"])],
     },
     cursor: "",
   }
@@ -206,12 +211,14 @@ export async function getPagesBySite(input: {
     cursor = res.cursor
   } while (cursor)
 
-  const local = getLocalPages({
-    site: input.site,
-    isPost: input.type === "post",
-  })
-  pages.list = pages.list.concat(local)
-  pages.total += local.length
+  if (!crossbell) {
+    const local = getLocalPages({
+      site: input.site,
+      isPost: input.type === "post",
+    })
+    pages.list = pages.list.concat(local)
+    pages.total += local.length
+  }
 
   if (pages?.list) {
     switch (visibility) {
@@ -227,6 +234,11 @@ export async function getPagesBySite(input: {
       case PageVisibilityEnum.Scheduled:
         pages.list = pages.list.filter(
           (page) => +new Date(page.date_published) > +new Date(),
+        )
+        break
+      case PageVisibilityEnum.Crossbell:
+        pages.list = pages.list.filter(
+          (page) => !page.applications?.includes("xlog"),
         )
         break
     }

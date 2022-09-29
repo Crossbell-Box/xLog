@@ -108,6 +108,7 @@ export default function SubdomainEditor() {
         `${getSiteLink({ subdomain, domain: site.data?.custom_domain })}/${
           values.slug
         }`,
+      applications: page.data?.applications,
     })
   }
 

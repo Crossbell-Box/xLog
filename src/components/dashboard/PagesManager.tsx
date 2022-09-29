@@ -24,6 +24,7 @@ import { UniLink } from "../ui/UniLink"
 import { nanoid } from "nanoid"
 import { renderPageContent } from "~/markdown"
 import { Tooltip } from "../ui/Tooltip"
+import { APP_NAME } from "~/lib/env"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -57,8 +58,12 @@ export const PagesManager: React.FC<{
       toast.success("Converted!", {
         id: convertToastId,
       })
+    } else if (createOrUpdatePage.isError) {
+      toast.error("Failed to convert.", {
+        id: convertToastId,
+      })
     }
-  }, [createOrUpdatePage.isSuccess, convertToastId])
+  }, [createOrUpdatePage.isSuccess, createOrUpdatePage.isError, convertToastId])
 
   const pages = useGetPagesBySite({
     type: isPost ? "post" : "page",
@@ -84,6 +89,10 @@ export const PagesManager: React.FC<{
     {
       value: PageVisibilityEnum.Scheduled,
       text: "Scheduled",
+    },
+    {
+      value: PageVisibilityEnum.Crossbell,
+      text: "Others on Crossbell",
     },
   ].map((item) => ({
     text: item.text,
@@ -111,6 +120,7 @@ export const PagesManager: React.FC<{
 
   const queryClient = useQueryClient()
   const getPageMenuItems = (page: Note) => {
+    const isCrossbell = !page.applications?.includes("xlog")
     return [
       {
         text: "Edit",
@@ -133,21 +143,18 @@ export const PagesManager: React.FC<{
         },
       },
       {
-        text: "Convert to " + (isPost ? "Page" : "Post"),
+        text:
+          "Convert to " +
+          (isCrossbell
+            ? `${APP_NAME} ${isPost ? "Post" : "Page"}`
+            : isPost
+            ? "Page"
+            : "Post"),
         icon: <span className="i-tabler:transform inline-block"></span>,
         onClick() {
-          if (!page.metadata) {
-            const toastId = toast.loading("Converting...")
-            const data = getStorage(`draft-${subdomain}-${page.id}`)
-            data.isPost = !isPost
-            setStorage(`draft-${subdomain}-${page.id}`, data)
-            queryClient.invalidateQueries(["getPagesBySite", subdomain])
-            queryClient.invalidateQueries(["getPage", page.id])
-            toast.success("Converted!", {
-              id: toastId,
-            })
-          } else {
-            setConvertToastId(toast.loading("Converting..."))
+          const toastId = toast.loading("Converting...")
+          if (isCrossbell) {
+            setConvertToastId(toastId)
             createOrUpdatePage.mutate({
               published: true,
               pageId: page.id,
@@ -155,8 +162,32 @@ export const PagesManager: React.FC<{
               tags: page.tags
                 ?.filter((tag) => tag !== "post" && tag !== "page")
                 ?.join(", "),
-              isPost: !isPost,
+              isPost: isPost,
+              applications: page.applications,
             })
+          } else {
+            if (!page.metadata) {
+              const data = getStorage(`draft-${subdomain}-${page.id}`)
+              data.isPost = !isPost
+              setStorage(`draft-${subdomain}-${page.id}`, data)
+              queryClient.invalidateQueries(["getPagesBySite", subdomain])
+              queryClient.invalidateQueries(["getPage", page.id])
+              toast.success("Converted!", {
+                id: toastId,
+              })
+            } else {
+              setConvertToastId(toastId)
+              createOrUpdatePage.mutate({
+                published: true,
+                pageId: page.id,
+                siteId: subdomain,
+                tags: page.tags
+                  ?.filter((tag) => tag !== "post" && tag !== "page")
+                  ?.join(", "),
+                isPost: !isPost,
+                applications: page.applications,
+              })
+            }
           }
         },
       },
@@ -197,6 +228,55 @@ export const PagesManager: React.FC<{
         },
       },
     ]
+  }
+
+  const importFile = () => {
+    const input = document.createElement("input")
+    input.type = "file"
+    input.accept = ".md"
+    input.addEventListener("change", async (e: any) => {
+      const file = e.target?.files?.[0]
+      const reader = new FileReader()
+      reader.readAsText(file, "UTF-8")
+      reader.onload = (evt) => {
+        if (evt.target?.result) {
+          const pageContent = renderPageContent(evt.target.result as string)
+
+          const id = nanoid()
+          const key = `draft-${subdomain}-local-${id}`
+          const tags =
+            pageContent.frontMatter.tags || pageContent.frontMatter.categories
+          setStorage(key, {
+            date: +new Date(),
+            values: {
+              content: evt.target.result,
+              published: false,
+              publishedAt: (
+                pageContent.frontMatter.date ||
+                file.lastModifiedDate ||
+                new Date()
+              ).toISOString(),
+              slug:
+                pageContent.frontMatter.permalink ||
+                file.name.split(".").slice(0, -1).join("."),
+              tags: tags?.join?.(", ") || tags,
+              title: pageContent.frontMatter.title,
+            },
+            isPost: isPost,
+          })
+          queryClient.invalidateQueries(["getPagesBySite", subdomain])
+          router.push(
+            `/dashboard/${subdomain}/editor?id=local-${id}&type=${
+              isPost ? "post" : "page"
+            }`,
+          )
+        }
+      }
+      reader.onerror = (evt) => {
+        toast.error("Error reading file")
+      }
+    })
+    input.click()
   }
 
   const title = isPost ? "Posts" : "Pages"
@@ -276,60 +356,7 @@ export const PagesManager: React.FC<{
             >
               <Button
                 className={clsx(`space-x-2 inline-flex`)}
-                onClick={() => {
-                  const input = document.createElement("input")
-                  input.type = "file"
-                  input.accept = ".md"
-                  input.addEventListener("change", async (e: any) => {
-                    const file = e.target?.files?.[0]
-                    const reader = new FileReader()
-                    reader.readAsText(file, "UTF-8")
-                    reader.onload = (evt) => {
-                      if (evt.target?.result) {
-                        const pageContent = renderPageContent(
-                          evt.target.result as string,
-                        )
-
-                        const id = nanoid()
-                        const key = `draft-${subdomain}-local-${id}`
-                        const tags =
-                          pageContent.frontMatter.tags ||
-                          pageContent.frontMatter.categories
-                        setStorage(key, {
-                          date: +new Date(),
-                          values: {
-                            content: evt.target.result,
-                            published: false,
-                            publishedAt: (
-                              pageContent.frontMatter.date ||
-                              file.lastModifiedDate ||
-                              new Date()
-                            ).toISOString(),
-                            slug:
-                              pageContent.frontMatter.permalink ||
-                              file.name.split(".").slice(0, -1).join("."),
-                            tags: tags?.join?.(", ") || tags,
-                            title: pageContent.frontMatter.title,
-                          },
-                          isPost: isPost,
-                        })
-                        queryClient.invalidateQueries([
-                          "getPagesBySite",
-                          subdomain,
-                        ])
-                        router.push(
-                          `/dashboard/${subdomain}/editor?id=local-${id}&type=${
-                            isPost ? "post" : "page"
-                          }`,
-                        )
-                      }
-                    }
-                    reader.onerror = (evt) => {
-                      toast.error("Error reading file")
-                    }
-                  })
-                  input.click()
-                }}
+                onClick={importFile}
               >
                 <span className="i-bxs:duplicate inline-block"></span>
                 <span>Import</span>
@@ -352,10 +379,16 @@ export const PagesManager: React.FC<{
           return (
             <Link key={page.id} href={getPageEditLink(page)}>
               <a className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex justify-between">
-                <div>
-                  <div className="flex items-center">
-                    <span>{page.title || "Untitled"}</span>
-                  </div>
+                <div className="min-w-0">
+                  {page.title ? (
+                    <div className="flex items-center">
+                      <span>{page.title}</span>
+                    </div>
+                  ) : (
+                    <div className="text-zinc-500 text-xs mt-1 truncate">
+                      <span>{page.summary?.content}</span>
+                    </div>
+                  )}
                   <div className="text-zinc-400 text-xs mt-1">
                     <span className="capitalize">
                       {getPageVisibility(page).toLowerCase()}
