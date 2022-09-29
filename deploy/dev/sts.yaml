@@ -4,10 +4,8 @@ metadata:
   name: xlog
   namespace: crossbell
 spec:
-  progressDeadlineSeconds: 600
-  serviceName: "xlog-lb"
   replicas: 1
-  revisionHistoryLimit: 5
+  serviceName: "xlog-lb"
   selector:
     matchLabels:
       app: xlog
