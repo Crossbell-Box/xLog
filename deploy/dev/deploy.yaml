@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: xlog
+  namespace: crossbell
+spec:
+  progressDeadlineSeconds: 600
+  serviceName: "xlog-lb"
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: xlog
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: xlog
+    spec:
+      enableServiceLinks: false
+      containers:
+        - image: $IMAGE_TAG_RELEASE
+          imagePullPolicy: Always
+          name: xlog
+          envFrom:
+            - secretRef:
+                name: xlog
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "150m"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 40
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          volumeMounts:
+            - name: data
+              mountPath: "/app/.next/cache/images"
+              subPath: images
+        - name: caddy
+          image: kindjeff/caddy-tlsredis-docker
+          imagePullPolicy: Always
+          command: ["caddy", "run", "-config", "/app/Caddyfile"]
+          envFrom:
+            - secretRef:
+                name: xlog-caddy
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 443
+              name: https
+          volumeMounts:
+            - name: caddyfile
+              mountPath: /app
+        - name: caddy-validator
+          image: python
+          command: ["/bin/sh", "-c"]
+          args: ["pip install flask requests; flask --app=app run"]
+          ports:
+            - containerPort: 5000
+              name: http
+          volumeMounts:
+            - name: validator
+              mountPath: /app.py
+              subPath: app.py
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: caddyfile
+          configMap:
+            name: xlog-caddy
+        - name: validator
+          configMap:
+            name: xlog-caddy-validator
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "alicloud-disk-ssd"
+        resources:
+          requests:
+            storage: 20Gi
