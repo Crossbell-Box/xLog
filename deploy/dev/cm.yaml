@@ -14,7 +14,7 @@ data:
     	}
     }
 
-    xlog.cf, *.xlog.cf {
+    xlog.page, *.xlog.page {
     	tls jeff@rss3.io {
     		dns cloudflare {env.CF_API_TOKEN}
     	}
@@ -48,7 +48,7 @@ data:
         domain = request.args.get("domain")
         if not domain:
             return Response(status=404)
-        if domain.endswith('.xlog.cf') or domain == "xlog.cf":
+        if domain.endswith('.xlog.page') or domain == "xlog.page":
             return Response(status=200)
 
         # get TXT
