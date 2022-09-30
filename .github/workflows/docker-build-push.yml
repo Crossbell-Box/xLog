@@ -4,10 +4,8 @@ name: Build & Deploy
 on:
   push:
     branches:
+      - "dev"
       - "main"
-      - "master"
-    tags:
-      - "v*.*.*"
 
 env:
   IMAGE_NAME: rss3/xlog
@@ -47,33 +45,33 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  # deploy-dev:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: Set K8s context
-  #       uses: aliyun/ack-set-context@v1
-  #       with:
-  #         access-key-id: "${{ secrets.ACCESS_KEY_ID }}"
-  #         access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
-  #         cluster-id: "${{ env.DEV_ACK_CLUSTER_ID }}"
-  #     - run: |
-  #         wget https://github.com/mikefarah/yq/releases/download/v4.25.1/yq_linux_amd64.tar.gz -O - | tar xz && mv yq_linux_amd64 /usr/local/bin/yq
-  #         curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.22.10/bin/linux/amd64/kubectl && chmod +x kubectl && mv kubectl /usr/local/bin/kubectl
-  #     - uses: sljeff/secrets2env@main
-  #       with:
-  #         secrets-json: ${{ toJson(secrets) }}
-  #     - env:
-  #         IMAGE_TAG_RELEASE: ${{ env.IMAGE_NAME }}:${{ needs.build.outputs.version }}
-  #       run: |
-  #         sh apply.sh deploy/dev/*
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set K8s context
+        uses: aliyun/ack-set-context@v1
+        with:
+          access-key-id: "${{ secrets.ACCESS_KEY_ID }}"
+          access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
+          cluster-id: "${{ env.DEV_ACK_CLUSTER_ID }}"
+      - run: |
+          wget https://github.com/mikefarah/yq/releases/download/v4.25.1/yq_linux_amd64.tar.gz -O - | tar xz && mv yq_linux_amd64 /usr/local/bin/yq
+          curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.22.10/bin/linux/amd64/kubectl && chmod +x kubectl && mv kubectl /usr/local/bin/kubectl
+      - uses: sljeff/secrets2env@main
+        with:
+          secrets-json: ${{ toJson(secrets) }}
+      - env:
+          IMAGE_TAG_RELEASE: ${{ env.IMAGE_NAME }}:${{ needs.build.outputs.version }}
+        run: |
+          sh apply.sh deploy/dev/*
 
   deploy-prod:
-    # if: startsWith(github.ref, 'refs/tags/v')
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [build, deploy-dev]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
