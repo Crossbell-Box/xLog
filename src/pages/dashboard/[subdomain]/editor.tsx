@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import { useRouter } from "next/router"
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 import toast from "react-hot-toast"
-import { modeToolbars, toolbars } from "~/editor"
+import { toolbars } from "~/editor"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { PublishButton } from "~/components/dashboard/PublishButton"
@@ -23,6 +23,7 @@ import { getStorage, setStorage, delStorage } from "~/lib/storage"
 import { nanoid } from "nanoid"
 import { useQueryClient } from "@tanstack/react-query"
 import { PageContent } from "~/components/common/PageContent"
+import pinyin from "pinyin"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -75,13 +76,24 @@ export default function SubdomainEditor() {
     content: "",
   })
   const [content, setContent] = useState("")
-
-  const [previewVisible, setPreviewVisible] = useState(false)
+  const [defaultSlug, setDefaultSlug] = useState("")
 
   type Values = typeof values
 
   const updateValue = useCallback(
     <K extends keyof Values>(key: K, value: Values[K]) => {
+      if (key === "title") {
+        setDefaultSlug(
+          pinyin(value as string, {
+            style: pinyin.STYLE_NORMAL,
+            compact: true,
+          })?.[0]
+            ?.map((word) => word.trim())
+            ?.filter((word) => word)
+            ?.join("-")
+            ?.replace(/\s+/g, "-") || "",
+        )
+      }
       const newValues = { ...values, [key]: value }
       if (draftKey) {
         setStorage(draftKey, {
@@ -101,15 +113,17 @@ export default function SubdomainEditor() {
   const savePage = (published: boolean) => {
     createOrUpdatePage.mutate({
       ...values,
+      slug: values.slug || defaultSlug,
       siteId: subdomain,
       ...(visibility === PageVisibilityEnum.Draft ? {} : { pageId: pageId }),
       isPost: isPost,
       published,
       externalUrl:
-        values.slug &&
+        (values.slug || defaultSlug) &&
         `${getSiteLink({ subdomain, domain: site.data?.custom_domain })}/${
-          values.slug
+          values.slug || defaultSlug
         }`,
+      applications: page.data?.applications,
     })
   }
 
@@ -210,13 +224,7 @@ export default function SubdomainEditor() {
       <DashboardLayout title="Editor">
         <DashboardMain fullWidth>
           <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
-            <EditorToolbar
-              view={view}
-              toolbars={toolbars}
-              modeToolbars={modeToolbars}
-              previewVisible={previewVisible}
-              setPreviewVisible={setPreviewVisible}
-            ></EditorToolbar>
+            <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
             <div className="flex items-center space-x-3">
               <span
                 className={clsx(
@@ -293,7 +301,7 @@ export default function SubdomainEditor() {
               <div>
                 <Input
                   name="slug"
-                  value={values.slug}
+                  value={values.slug || defaultSlug}
                   label="Page slug"
                   id="slug"
                   isBlock
@@ -302,14 +310,14 @@ export default function SubdomainEditor() {
                   }
                   help={
                     <>
-                      {values.slug && (
+                      {(values.slug || defaultSlug) && (
                         <>
                           This {isPost ? "post" : "page"} will be accessible at{" "}
                           <UniLink
                             href={`${getSiteLink({
                               subdomain,
                               domain: site.data?.custom_domain,
-                            })}/${values.slug}`}
+                            })}/${values.slug || defaultSlug}`}
                             className="hover:underline"
                           >
                             {getSiteLink({
@@ -317,7 +325,7 @@ export default function SubdomainEditor() {
                               domain: site.data?.custom_domain,
                               noProtocol: true,
                             })}
-                            /{values.slug}
+                            /{values.slug || defaultSlug}
                           </UniLink>
                         </>
                       )}

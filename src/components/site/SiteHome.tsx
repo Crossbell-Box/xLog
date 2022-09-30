@@ -63,8 +63,6 @@ export const SiteHome: React.FC<{
                         className="object-cover rounded w-24 h-24"
                         alt="cover"
                         layout="fill"
-                        width={96}
-                        height={96}
                         src={post.cover}
                       ></Image>
                     </div>

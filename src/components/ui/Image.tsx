@@ -14,33 +14,43 @@ export const Image: React.FC<
 > = ({ layout, className, alt, src, width, height, ...props }) => {
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
+  const [autoWidth, setAutoWidth] = React.useState(0)
   const autoSize = !width && !height && !layout
 
   return (
     <span
-      className={clsx(
-        "inline-flex justify-center",
-        autoSize ? "relative w-full h-full" : "",
-      )}
-      style={autoSize ? { paddingTop } : {}}
+      className="inline-block w-full h-full"
+      style={
+        autoSize
+          ? {
+              maxWidth: `${autoWidth}px`,
+            }
+          : {}
+      }
     >
-      <NextImage
-        {...props}
-        src={toGateway(src, {
-          forceFallback: true,
-        })}
-        className={className}
-        alt={alt}
-        width={width}
-        height={height}
-        layout={autoSize ? "fill" : layout}
-        onLoad={({ target }) => {
-          if (autoSize) {
-            const { naturalWidth, naturalHeight } = target as HTMLImageElement
-            setPaddingTop(`calc(100% / (${naturalWidth} / ${naturalHeight})`)
-          }
-        }}
-      />
+      <span
+        className="inline-flex justify-center relative w-full h-full"
+        style={autoSize ? { paddingTop } : {}}
+      >
+        <NextImage
+          {...props}
+          src={toGateway(src, {
+            forceFallback: true,
+          })}
+          className={className}
+          alt={alt}
+          width={width}
+          height={height}
+          layout={autoSize ? "fill" : layout}
+          onLoad={({ target }) => {
+            if (autoSize) {
+              const { naturalWidth, naturalHeight } = target as HTMLImageElement
+              setPaddingTop(`calc(100% / (${naturalWidth} / ${naturalHeight})`)
+              setAutoWidth(naturalWidth)
+            }
+          }}
+        />
+      </span>
     </span>
   )
 }

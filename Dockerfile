@@ -1,7 +1,7 @@
 ##### BASE
 FROM node:16-bullseye-slim as base
 
-RUN apt-get update
+RUN apt-get update || : && apt-get install python3 build-essential -y
 
 RUN npm i -g pnpm
 
