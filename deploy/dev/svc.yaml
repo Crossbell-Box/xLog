@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: xlog-lb
+  namespace: crossbell
+  annotations:
+    service.beta.kubernetes.io/alibaba-cloud-loadbalancer-name: "xlog-dev"
+    service.beta.kubernetes.io/alibaba-cloud-loadbalancer-spec: "slb.s1.small"
+spec:
+  type: LoadBalancer
+  selector:
+    app: xlog
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
