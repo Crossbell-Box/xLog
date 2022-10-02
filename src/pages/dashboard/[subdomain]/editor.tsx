@@ -343,7 +343,7 @@ export default function SubdomainEditor() {
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     updateValue("tags", e.target.value)
                   }
-                  help="Separate multiple tags with commas"
+                  help='Separate multiple tags with English commas ","'
                 />
               </div>
               <div>

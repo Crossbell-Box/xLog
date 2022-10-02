@@ -72,10 +72,14 @@ export const renderPageContent = (
     .use(rehypeImage, { env })
     .use(rehypeSanitize, {
       ...defaultSchema,
-      tagNames: [...(defaultSchema.tagNames || []), "video", "iframe"],
+      tagNames: [...(defaultSchema.tagNames || []), "video", "iframe", "style"],
       attributes: {
         ...defaultSchema.attributes,
-        div: [...(defaultSchema.attributes?.div || []), ["className"]],
+        div: [
+          ...(defaultSchema.attributes?.div || []),
+          ["className"],
+          ["style"],
+        ],
         code: [["className"]],
         blockquote: allowedBlockquoteAttrs,
         video: [
