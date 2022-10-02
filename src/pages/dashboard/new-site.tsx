@@ -41,7 +41,9 @@ export default function NewSitePage() {
     if (balance !== undefined) {
       setBalanceFormatted(balance.formatted)
       if (
-        balance.value.gt(BigNumber.from("1" + "0".repeat(balance.decimals - 2)))
+        BigNumber.from(balance.value).gt(
+          BigNumber.from("1" + "0".repeat(balance.decimals - 2)),
+        )
       ) {
         setInsufficientBalance(false)
       } else {
