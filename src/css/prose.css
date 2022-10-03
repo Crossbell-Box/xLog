@@ -18,6 +18,22 @@
   @apply mb-0;
 }
 
+.prose .xlog-anchor {
+  @apply pr-1 -ml-5 text-base align-middle hidden;
+}
+
+.prose .xlog-anchor > span {
+  @apply inline-block text-zinc-900;
+}
+
+.prose h2:hover .xlog-anchor,
+.prose h3:hover .xlog-anchor,
+.prose h4:hover .xlog-anchor,
+.prose h5:hover .xlog-anchor,
+.prose h6:hover .xlog-anchor {
+  @apply inline;
+}
+
 .prose h2 {
   @apply text-3xl font-semibold;
   @apply my-7;

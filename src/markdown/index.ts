@@ -22,6 +22,8 @@ import remarkDirective from "remark-directive"
 import remarkDirectiveRehype from "remark-directive-rehype"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
+import rehypeSlug from "rehype-slug"
+import rehypeAutolinkHeadings from "rehype-autolink-headings"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -85,6 +87,22 @@ export const renderPageContent = (
     .use(rehypeTable)
     .use(rehypeExternalLink)
     .use(rehypeWrapCode)
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings, {
+      properties: {
+        className: ["xlog-anchor"],
+        ariaHidden: true,
+        tabIndex: -1,
+      },
+      content: {
+        type: "element",
+        tagName: "span",
+        properties: {
+          className: ["i-akar-icons:link-chain"],
+        },
+        children: [],
+      },
+    })
     .use(html ? () => (tree: any) => {} : rehypeReact, {
       createElement: createElement,
       components: {
