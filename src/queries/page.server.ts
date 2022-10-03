@@ -5,7 +5,6 @@ export const fetchGetPage = async (
   input: Parameters<typeof pageModel.getPage>[0],
   queryClient: QueryClient,
 ) => {
-  console.log("fetchGetPage", input)
   const key = ["getPage", input.page, input]
   return await queryClient.fetchQuery(key, async () => {
     return pageModel.getPage(input)

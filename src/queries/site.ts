@@ -1,19 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import * as siteModel from "~/models/site.model"
-import { SiteNavigationItem, Profile } from "~/lib/types"
+import { useUnidata } from "./unidata"
 
 export const useGetUserSites = (address?: string) => {
+  const unidata = useUnidata()
   return useQuery(["getUserSites", address], async () => {
     if (!address) {
       return []
     }
-    return siteModel.getUserSites(address)
+    return siteModel.getUserSites(address, unidata)
   })
 }
 
 export const useGetSite = (input: string) => {
+  const unidata = useUnidata()
   return useQuery(["getSite", input], async () => {
-    return siteModel.getSite(input)
+    return siteModel.getSite(input, unidata)
   })
 }
 
@@ -21,28 +23,31 @@ export const useGetSubscription = (data: {
   userId: string
   siteId: string
 }) => {
+  const unidata = useUnidata()
   return useQuery(["getSubscription", data], async () => {
     if (!data.userId || !data.siteId) {
       return false
     }
-    return siteModel.getSubscription(data)
+    return siteModel.getSubscription(data, unidata)
   })
 }
 
 export const useGetSiteSubscriptions = (data: { siteId: string }) => {
+  const unidata = useUnidata()
   return useQuery(["getSiteSubscriptions", data], async () => {
     if (!data.siteId) {
       return null
     }
-    return siteModel.getSiteSubscriptions(data)
+    return siteModel.getSiteSubscriptions(data, unidata)
   })
 }
 
 export function useUpdateSite() {
+  const unidata = useUnidata()
   const queryClient = useQueryClient()
   const mutation = useMutation(
     async (payload: Parameters<typeof siteModel.updateSite>[0]) => {
-      return siteModel.updateSite(payload)
+      return siteModel.updateSite(payload, unidata)
     },
     {
       onSuccess: (data, variables) => {
@@ -55,13 +60,14 @@ export function useUpdateSite() {
 }
 
 export function useCreateSite() {
+  const unidata = useUnidata()
   const queryClient = useQueryClient()
   return useMutation(
     async (input: {
       address: string
       payload: { name: string; subdomain: string }
     }) => {
-      return siteModel.createSite(input.address, input.payload)
+      return siteModel.createSite(input.address, input.payload, unidata)
     },
     {
       onSuccess: (data, variables) => {
@@ -72,10 +78,11 @@ export function useCreateSite() {
 }
 
 export function useSubscribeToSite() {
+  const unidata = useUnidata()
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof siteModel.subscribeToSite>[0]) => {
-      return siteModel.subscribeToSite(input)
+      return siteModel.subscribeToSite(input, unidata)
     },
     {
       onSuccess: (data, variables) => {
@@ -92,10 +99,11 @@ export function useSubscribeToSite() {
 }
 
 export function useUnsubscribeFromSite() {
+  const unidata = useUnidata()
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof siteModel.subscribeToSite>[0]) => {
-      return siteModel.unsubscribeFromSite(input)
+      return siteModel.unsubscribeFromSite(input, unidata)
     },
     {
       onSuccess: (data, variables) => {

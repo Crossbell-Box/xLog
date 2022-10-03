@@ -1,21 +1,24 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import * as pageModel from "~/models/page.model"
-import { PageVisibilityEnum } from "~/lib/types"
+import { useUnidata } from "./unidata"
+import { useContract } from "./crossbell"
 
 export const useGetPagesBySite = (
   input: Parameters<typeof pageModel.getPagesBySite>[0],
 ) => {
+  const unidata = useUnidata()
   return useQuery(["getPagesBySite", input.site, input], async () => {
-    return pageModel.getPagesBySite(input)
+    return pageModel.getPagesBySite(input, unidata)
   })
 }
 
 export const useGetPage = (input: Parameters<typeof pageModel.getPage>[0]) => {
+  const unidata = useUnidata()
   return useQuery(["getPage", input.page, input], async () => {
     if (!input.site || !(input.page || input.pageId)) {
       return null
     }
-    return pageModel.getPage(input)
+    return pageModel.getPage(input, unidata)
   })
 }
 
@@ -80,10 +83,11 @@ export const useCheckMint = (input: { address?: string; pageId?: string }) => {
 }
 
 export function useCreateOrUpdatePage() {
+  const unidata = useUnidata()
   const queryClient = useQueryClient()
   const mutation = useMutation(
     async (payload: Parameters<typeof pageModel.createOrUpdatePage>[0]) => {
-      return pageModel.createOrUpdatePage(payload)
+      return pageModel.createOrUpdatePage(payload, unidata)
     },
     {
       onSuccess: (data, variables) => {
@@ -96,10 +100,11 @@ export function useCreateOrUpdatePage() {
 }
 
 export function useDeletePage() {
+  const unidata = useUnidata()
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof pageModel.deletePage>[0]) => {
-      return pageModel.deletePage(input)
+      return pageModel.deletePage(input, unidata)
     },
     {
       onSuccess: (data, variables) => {
@@ -111,10 +116,11 @@ export function useDeletePage() {
 }
 
 export function useLikePage() {
+  const contract = useContract()
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof pageModel.likePage>[0]) => {
-      return pageModel.likePage(input)
+      return pageModel.likePage(input, contract)
     },
     {
       onSuccess: (data, variables) => {
@@ -130,10 +136,11 @@ export function useLikePage() {
 }
 
 export function useUnlikePage() {
+  const contract = useContract()
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof pageModel.unlikePage>[0]) => {
-      return pageModel.unlikePage(input)
+      return pageModel.unlikePage(input, contract)
     },
     {
       onSuccess: (data, variables) => {
@@ -149,10 +156,11 @@ export function useUnlikePage() {
 }
 
 export function useMintPage() {
+  const contract = useContract()
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof pageModel.mintPage>[0]) => {
-      return pageModel.mintPage(input)
+      return pageModel.mintPage(input, contract)
     },
     {
       onSuccess: (data, variables) => {
@@ -168,10 +176,11 @@ export function useMintPage() {
 }
 
 export function useCommentPage() {
+  const contract = useContract()
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof pageModel.commentPage>[0]) => {
-      return pageModel.commentPage(input)
+      return pageModel.commentPage(input, contract)
     },
     {
       onSuccess: (data, variables) => {

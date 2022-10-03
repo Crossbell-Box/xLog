@@ -1,12 +1,14 @@
 import { Rendered, renderPageContent } from "~/markdown"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
-import unidata from "~/lib/unidata"
-import { indexer, getContract } from "~/lib/crossbell"
+import unidata from "~/queries/unidata.server"
+import { indexer } from "~/queries/crossbell"
 import { NoteEntity, CharacterEntity, ListResponse } from "crossbell.js"
 import { getStorage, getKeys } from "~/lib/storage"
 import axios from "axios"
 import { toGateway } from "~/lib/ipfs-parser"
+import type Unidata from "unidata.js"
+import type { Contract } from "crossbell.js"
 
 const checkPageSlug = async ({
   slug,
@@ -18,23 +20,26 @@ const checkPageSlug = async ({
   siteId: string
 }) => {}
 
-export async function createOrUpdatePage(input: {
-  pageId?: string
-  siteId: string
-  slug?: string
-  tags?: string
-  title?: string
-  content?: string
-  published?: boolean
-  publishedAt?: string
-  excerpt?: string
-  /** Only needed when creating page */
-  isPost?: boolean
-  externalUrl?: string
-  applications?: string[]
-}) {
+export async function createOrUpdatePage(
+  input: {
+    pageId?: string
+    siteId: string
+    slug?: string
+    tags?: string
+    title?: string
+    content?: string
+    published?: boolean
+    publishedAt?: string
+    excerpt?: string
+    /** Only needed when creating page */
+    isPost?: boolean
+    externalUrl?: string
+    applications?: string[]
+  },
+  customUnidata?: Unidata,
+) {
   if (!input.published) {
-    return await unidata.notes.set(
+    return await (customUnidata || unidata).notes.set(
       {
         source: "Crossbell Note",
         identity: input.siteId,
@@ -46,7 +51,7 @@ export async function createOrUpdatePage(input: {
       },
     )
   }
-  return await unidata.notes.set(
+  return await (customUnidata || unidata).notes.set(
     {
       source: "Crossbell Note",
       identity: input.siteId,
@@ -161,17 +166,20 @@ const getLocalPages = (input: { site: string; isPost?: boolean }) => {
   return pages
 }
 
-export async function getPagesBySite(input: {
-  site?: string
-  type: "post" | "page"
-  visibility?: PageVisibilityEnum | null
-  take?: number | null
-  cursor?: string | null
-  includeContent?: boolean
-  includeExcerpt?: boolean
-  render?: boolean
-  tags?: string[]
-}) {
+export async function getPagesBySite(
+  input: {
+    site?: string
+    type: "post" | "page"
+    visibility?: PageVisibilityEnum | null
+    take?: number | null
+    cursor?: string | null
+    includeContent?: boolean
+    includeExcerpt?: boolean
+    render?: boolean
+    tags?: string[]
+  },
+  customUnidata?: Unidata,
+) {
   if (!input.site) {
     return {
       total: 0,
@@ -202,7 +210,7 @@ export async function getPagesBySite(input: {
   let cursor = ""
   do {
     options.cursor = cursor
-    const res = (await unidata.notes.get(options)) || {
+    const res = (await (customUnidata || unidata).notes.get(options)) || {
       total: 0,
       list: [],
     }
@@ -258,14 +266,17 @@ export async function getPagesBySite(input: {
   return pages
 }
 
-export async function getPage<TRender extends boolean = false>(input: {
-  /** page slug or id,  `site` is needed when `page` is a slug  */
-  page?: string
-  pageId?: string
-  site?: string
-  render?: TRender
-  includeAuthors?: boolean
-}) {
+export async function getPage<TRender extends boolean = false>(
+  input: {
+    /** page slug or id,  `site` is needed when `page` is a slug  */
+    page?: string
+    pageId?: string
+    site?: string
+    render?: TRender
+    includeAuthors?: boolean
+  },
+  customUnidata?: Unidata,
+) {
   if (!input.site || !(input.page || input.pageId)) {
     return undefined
   }
@@ -279,7 +290,7 @@ export async function getPage<TRender extends boolean = false>(input: {
   if (localPage) {
     page = localPage
   } else {
-    const pages: Notes | null = await unidata.notes.get({
+    const pages: Notes | null = await (customUnidata || unidata).notes.get({
       source: "Crossbell Note",
       identity: input.site,
       platform: "Crossbell",
@@ -319,8 +330,11 @@ async function getPrimaryCharacter(address: string) {
   return character?.characterId
 }
 
-export async function deletePage({ site, id }: { site: string; id: string }) {
-  return await unidata.notes.set(
+export async function deletePage(
+  { site, id }: { site: string; id: string },
+  customUnidata?: Unidata,
+) {
+  return await (customUnidata || unidata).notes.set(
     {
       source: "Crossbell Note",
       identity: site,
@@ -333,18 +347,21 @@ export async function deletePage({ site, id }: { site: string; id: string }) {
   )
 }
 
-export async function likePage({
-  address,
-  pageId,
-}: {
-  address: string
-  pageId: string
-}) {
+export async function likePage(
+  {
+    address,
+    pageId,
+  }: {
+    address: string
+    pageId: string
+  },
+  contract?: Contract,
+) {
   const characterId = await getPrimaryCharacter(address)
   if (!characterId) {
     throw notFound(`character not found`)
   } else {
-    return (await getContract())?.linkNote(
+    return contract?.linkNote(
       characterId,
       pageId.split("-")[0],
       pageId.split("-")[1],
@@ -353,18 +370,21 @@ export async function likePage({
   }
 }
 
-export async function unlikePage({
-  address,
-  pageId,
-}: {
-  address: string
-  pageId: string
-}) {
+export async function unlikePage(
+  {
+    address,
+    pageId,
+  }: {
+    address: string
+    pageId: string
+  },
+  contract?: Contract,
+) {
   const characterId = await getPrimaryCharacter(address)
   if (!characterId) {
     throw notFound(`character not found`)
   } else {
-    return (await getContract())?.unlinkNote(
+    return contract?.unlinkNote(
       characterId,
       pageId.split("-")[0],
       pageId.split("-")[1],
@@ -431,18 +451,17 @@ export async function checkLike({
   }
 }
 
-export async function mintPage({
-  address,
-  pageId,
-}: {
-  address: string
-  pageId: string
-}) {
-  return (await getContract())?.mintNote(
-    pageId.split("-")[0],
-    pageId.split("-")[1],
+export async function mintPage(
+  {
     address,
-  )
+    pageId,
+  }: {
+    address: string
+    pageId: string
+  },
+  contract?: Contract,
+) {
+  return contract?.mintNote(pageId.split("-")[0], pageId.split("-")[1], address)
 }
 
 export async function getMints({
@@ -495,22 +514,25 @@ export async function checkMint({
   })
 }
 
-export async function commentPage({
-  address,
-  pageId,
-  content,
-  externalUrl,
-}: {
-  address: string
-  pageId: string
-  content: string
-  externalUrl: string
-}) {
+export async function commentPage(
+  {
+    address,
+    pageId,
+    content,
+    externalUrl,
+  }: {
+    address: string
+    pageId: string
+    content: string
+    externalUrl: string
+  },
+  contract?: Contract,
+) {
   const characterId = await getPrimaryCharacter(address)
   if (!characterId) {
     throw notFound(`character not found`)
   } else {
-    return (await getContract())?.postNoteForNote(
+    return contract?.postNoteForNote(
       characterId,
       {
         content,

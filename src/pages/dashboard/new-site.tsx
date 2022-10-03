@@ -119,7 +119,7 @@ export default function NewSitePage() {
     } else if (createSite.isError) {
       toast.error("Failed to create site")
     }
-  }, [createSite, router])
+  }, [createSite.isSuccess, createSite.isError, router])
 
   return (
     <>

@@ -1,8 +1,9 @@
 import { SiteNavigationItem, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
-import unidata from "~/lib/unidata"
+import unidata from "~/queries/unidata.server"
 import { renderPageContent } from "~/markdown"
 import { toGateway } from "~/lib/ipfs-parser"
+import type Unidata from "unidata.js"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -52,11 +53,14 @@ const expandSite = async (site: Profile) => {
   return site
 }
 
-export const getUserSites = async (address?: string) => {
+export const getUserSites = async (
+  address?: string,
+  customUnidata?: Unidata,
+) => {
   if (!address) {
     return null
   }
-  const profiles = await unidata.profiles.get({
+  const profiles = await (customUnidata || unidata).profiles.get({
     source: "Crossbell Profile",
     identity: address,
     platform: "Ethereum",
@@ -77,8 +81,8 @@ export const getUserSites = async (address?: string) => {
   return sites
 }
 
-export const getSite = async (input: string) => {
-  const profiles = await unidata.profiles.get({
+export const getSite = async (input: string, customUnidata?: Unidata) => {
+  const profiles = await (customUnidata || unidata).profiles.get({
     source: "Crossbell Profile",
     identity: input,
     platform: "Crossbell",
@@ -92,11 +96,14 @@ export const getSite = async (input: string) => {
   return site
 }
 
-export const getSubscription = async (data: {
-  userId: string
-  siteId: string
-}) => {
-  const links = await unidata.links.get({
+export const getSubscription = async (
+  data: {
+    userId: string
+    siteId: string
+  },
+  customUnidata?: Unidata,
+) => {
+  const links = await (customUnidata || unidata).links.get({
     source: "Crossbell Link",
     identity: data.userId,
     platform: "Ethereum",
@@ -107,11 +114,14 @@ export const getSubscription = async (data: {
   return !!links?.list?.length
 }
 
-export const getSiteSubscriptions = async (data: {
-  siteId: string
-  cursor?: string
-}) => {
-  const links = await unidata.links.get({
+export const getSiteSubscriptions = async (
+  data: {
+    siteId: string
+    cursor?: string
+  },
+  customUnidata?: Unidata,
+) => {
+  const links = await (customUnidata || unidata).links.get({
     source: "Crossbell Link",
     identity: data.siteId,
     platform: "Crossbell",
@@ -126,18 +136,21 @@ export const getSiteSubscriptions = async (data: {
   return links
 }
 
-export async function updateSite(payload: {
-  site: string
-  name?: string
-  description?: string
-  icon?: string | null
-  subdomain?: string
-  navigation?: SiteNavigationItem[]
-  css?: string
-  ga?: string
-  custom_domain?: string
-}) {
-  return await unidata.profiles.set(
+export async function updateSite(
+  payload: {
+    site: string
+    name?: string
+    description?: string
+    icon?: string | null
+    subdomain?: string
+    navigation?: SiteNavigationItem[]
+    css?: string
+    ga?: string
+    custom_domain?: string
+  },
+  customUnidata?: Unidata,
+) {
+  return await (customUnidata || unidata).profiles.set(
     {
       source: "Crossbell Profile",
       identity: payload.site,
@@ -195,8 +208,9 @@ export async function updateSite(payload: {
 export async function createSite(
   address: string,
   payload: { name: string; subdomain: string },
+  customUnidata?: Unidata,
 ) {
-  return await unidata.profiles.set(
+  return await (customUnidata || unidata).profiles.set(
     {
       source: "Crossbell Profile",
       identity: address,
@@ -220,11 +234,14 @@ export async function createSite(
   )
 }
 
-export async function subscribeToSite(input: {
-  userId: string
-  siteId: string
-}) {
-  return unidata.links.set(
+export async function subscribeToSite(
+  input: {
+    userId: string
+    siteId: string
+  },
+  customUnidata?: Unidata,
+) {
+  return (customUnidata || unidata).links.set(
     {
       source: "Crossbell Link",
       identity: input.userId,
@@ -238,11 +255,14 @@ export async function subscribeToSite(input: {
   )
 }
 
-export async function unsubscribeFromSite(input: {
-  userId: string
-  siteId: string
-}) {
-  return unidata.links.set(
+export async function unsubscribeFromSite(
+  input: {
+    userId: string
+    siteId: string
+  },
+  customUnidata?: Unidata,
+) {
+  return (customUnidata || unidata).links.set(
     {
       source: "Crossbell Link",
       identity: input.userId,
