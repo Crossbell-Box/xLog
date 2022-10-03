@@ -20,6 +20,7 @@ import { createElement, ReactElement } from "react"
 import { Image } from "~/components/ui/Image"
 import remarkDirective from "remark-directive"
 import remarkDirectiveRehype from "remark-directive-rehype"
+import { remarkYoutube } from "./remark-youtube"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -70,13 +71,20 @@ export const renderPageContent = (
     .use(remarkCallout)
     .use(remarkDirective)
     .use(remarkDirectiveRehype)
+    .use(remarkYoutube)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeStringify)
     .use(rehypeRaw)
     .use(rehypeImage, { env })
     .use(rehypeSanitize, {
       ...defaultSchema,
-      tagNames: [...(defaultSchema.tagNames || []), "video", "iframe", "style"],
+      tagNames: [
+        ...(defaultSchema.tagNames || []),
+        "video",
+        "iframe",
+        "style",
+        "youtube",
+      ],
       attributes: {
         ...defaultSchema.attributes,
         div: [
@@ -99,7 +107,7 @@ export const renderPageContent = (
         iframe: [
           ["className"],
           ["src"],
-          ["allowfullscreen"],
+          ["allowFullScreen"],
           ["frameborder"],
           ["width"],
           ["height"],
