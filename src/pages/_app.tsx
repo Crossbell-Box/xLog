@@ -49,7 +49,14 @@ const { chains, provider } = configureChains(
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
-    wallets: [wallet.metaMask({ chains }), wallet.walletConnect({ chains })],
+    wallets: [
+      wallet.metaMask({ chains }),
+      wallet.walletConnect({ chains }),
+      wallet.rainbow({ chains }),
+      wallet.brave({ chains, shimDisconnect: true }),
+      wallet.coinbase({ appName: "Crossbell.io", chains }),
+      wallet.injected({ chains, shimDisconnect: true }),
+    ],
   },
 ])
 
