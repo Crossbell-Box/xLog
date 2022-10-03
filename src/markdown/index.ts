@@ -4,14 +4,14 @@ import remarkRehype from "remark-rehype"
 import remarkFrontmatter from "remark-frontmatter"
 import rehypeStringify from "rehype-stringify"
 import remarkGfm from "remark-gfm"
-import rehypeSanitize, { defaultSchema } from "rehype-sanitize"
+import rehypeSanitize from "rehype-sanitize"
 import rehypeRaw from "rehype-raw"
 import { refractor } from "refractor"
 import rehypePrismGenerator from "rehype-prism-plus/generator"
 import { rehypeImage } from "./rehype-image"
 import { remarkExcerpt } from "./remark-excerpt"
 import { rehypeTable } from "./rehype-table"
-import { allowedBlockquoteAttrs, remarkCallout } from "./remark-callout"
+import { remarkCallout } from "./remark-callout"
 import { rehypeExternalLink } from "./rehyper-external-link"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import jsYaml from "js-yaml"
@@ -21,6 +21,7 @@ import { Image } from "~/components/ui/Image"
 import remarkDirective from "remark-directive"
 import remarkDirectiveRehype from "remark-directive-rehype"
 import { remarkYoutube } from "./remark-youtube"
+import sanitizeScheme from "./sanitize-schema"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -76,45 +77,7 @@ export const renderPageContent = (
     .use(rehypeStringify)
     .use(rehypeRaw)
     .use(rehypeImage, { env })
-    .use(rehypeSanitize, {
-      ...defaultSchema,
-      tagNames: [
-        ...(defaultSchema.tagNames || []),
-        "video",
-        "iframe",
-        "style",
-        "youtube",
-      ],
-      attributes: {
-        ...defaultSchema.attributes,
-        div: [
-          ...(defaultSchema.attributes?.div || []),
-          ["className"],
-          ["style"],
-          ["id"],
-        ],
-        code: [["className"]],
-        blockquote: allowedBlockquoteAttrs,
-        video: [
-          ["className"],
-          ["src"],
-          ["controls"],
-          ["loop"],
-          ["muted"],
-          ["autoplay"],
-          ["playsinline"],
-        ],
-        iframe: [
-          ["className"],
-          ["src"],
-          ["allowFullScreen"],
-          ["frameborder"],
-          ["width"],
-          ["height"],
-          ["allow"],
-        ],
-      },
-    })
+    .use(rehypeSanitize, sanitizeScheme)
     .use(rehypePrism, {
       ignoreMissing: true,
       showLineNumbers: true,

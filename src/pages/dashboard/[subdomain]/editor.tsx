@@ -193,7 +193,6 @@ export default function SubdomainEditor() {
   })
 
   useEffect(() => {
-    console.log("!page.data", page.data)
     if (!page.data || !draftKey) return
 
     const local = getStorage(draftKey)
