@@ -18,6 +18,8 @@ import jsYaml from "js-yaml"
 import rehypeReact from "rehype-react"
 import { createElement, ReactElement } from "react"
 import { Image } from "~/components/ui/Image"
+import remarkDirective from "remark-directive"
+import remarkDirectiveRehype from "remark-directive-rehype"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -51,7 +53,6 @@ export const renderPageContent = (
 
   const result = unified()
     .use(remarkParse)
-    .use(rehypeStringify)
     .use(remarkFrontmatter, ["yaml"])
     .use(() => (tree) => {
       const yaml = tree.children.find((node) => node.type === "yaml")
@@ -67,7 +68,10 @@ export const renderPageContent = (
     .use(remarkGfm, {})
     .use(remarkExcerpt, { env })
     .use(remarkCallout)
+    .use(remarkDirective)
+    .use(remarkDirectiveRehype)
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeStringify)
     .use(rehypeRaw)
     .use(rehypeImage, { env })
     .use(rehypeSanitize, {
@@ -79,6 +83,7 @@ export const renderPageContent = (
           ...(defaultSchema.attributes?.div || []),
           ["className"],
           ["style"],
+          ["id"],
         ],
         code: [["className"]],
         blockquote: allowedBlockquoteAttrs,
