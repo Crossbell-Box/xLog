@@ -24,6 +24,7 @@ import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
+import remarkToc from "remark-toc"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -68,6 +69,10 @@ export const renderPageContent = (
       } catch (e) {
         console.log(e)
       }
+    })
+    .use(remarkToc, {
+      tight: true,
+      ordered: true,
     })
     .use(remarkGfm, {})
     .use(remarkExcerpt, { env })
