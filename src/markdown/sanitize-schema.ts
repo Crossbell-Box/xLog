@@ -1,9 +1,7 @@
 import { defaultSchema } from "rehype-sanitize"
 import { allowedBlockquoteAttrs } from "./remark-callout"
-// @ts-ignore
-import type { Schema } from "hast-util-sanitize/lib"
 
-const scheme: Schema = {
+const scheme = {
   ...defaultSchema,
   tagNames: [
     ...(defaultSchema.tagNames || []),
@@ -14,31 +12,26 @@ const scheme: Schema = {
   ],
   attributes: {
     ...defaultSchema.attributes,
-    div: [
-      ...(defaultSchema.attributes?.div || []),
-      ["className"],
-      ["style"],
-      ["id"],
-    ],
-    code: [["className"]],
+    div: [...(defaultSchema.attributes?.div || []), "className", "style", "id"],
+    code: ["className"],
     blockquote: allowedBlockquoteAttrs,
     video: [
-      ["className"],
-      ["src"],
-      ["controls"],
-      ["loop"],
-      ["muted"],
-      ["autoplay"],
-      ["playsinline"],
+      "className",
+      "src",
+      "controls",
+      "loop",
+      "muted",
+      "autoplay",
+      "playsinline",
     ],
     iframe: [
-      ["className"],
-      ["src"],
-      ["allowFullScreen"],
-      ["frameborder"],
-      ["width"],
-      ["height"],
-      ["allow"],
+      "className",
+      "src",
+      "allowFullScreen",
+      "frameborder",
+      "width",
+      "height",
+      "allow",
     ],
   },
 }
