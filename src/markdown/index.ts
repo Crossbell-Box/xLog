@@ -26,6 +26,8 @@ import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import { toc } from "mdast-util-toc"
 import { PostToc } from "~/components/site/PostToc"
+import { getPostHeading } from "~/components/site/PostHeading"
+import { PostLink } from "~/components/site/PostLink"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -123,7 +125,13 @@ export const renderPageContent = (
       createElement: createElement,
       components: {
         img: Image,
+        a: PostLink,
         toc: PostToc,
+        h2: getPostHeading("h2"),
+        h3: getPostHeading("h3"),
+        h4: getPostHeading("h4"),
+        h5: getPostHeading("h5"),
+        h6: getPostHeading("h6"),
       } as any,
     })
     .processSync(content)
