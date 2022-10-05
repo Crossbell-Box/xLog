@@ -10,6 +10,7 @@ const scheme = {
     "style",
     "youtube",
     "toc",
+    "anchor",
   ],
   attributes: {
     ...defaultSchema.attributes,

@@ -9,6 +9,7 @@ export const PostLink: React.FC<any> = ({ children, ...props }) => {
         spy={true}
         smooth={true}
         duration={500}
+        offset={-20}
         {...props}
       >
         {children}

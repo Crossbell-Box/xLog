@@ -26,8 +26,8 @@ import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import { toc } from "mdast-util-toc"
 import { PostToc } from "~/components/site/PostToc"
-import { getPostHeading } from "~/components/site/PostHeading"
 import { PostLink } from "~/components/site/PostLink"
+import { Element } from "react-scroll"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -112,13 +112,25 @@ export const renderPageContent = (
         ariaHidden: true,
         tabIndex: -1,
       },
-      content: {
-        type: "element",
-        tagName: "span",
-        properties: {
-          className: ["i-akar-icons:link-chain"],
-        },
-        children: [],
+      content(node) {
+        return [
+          {
+            type: "element",
+            tagName: "span",
+            properties: {
+              className: ["i-akar-icons:link-chain"],
+            },
+            children: [],
+          },
+          {
+            type: "element",
+            tagName: "anchor",
+            properties: {
+              name: node.properties?.id,
+            },
+            children: [],
+          },
+        ]
       },
     })
     .use(html ? () => (tree: any) => {} : rehypeReact, {
@@ -127,11 +139,7 @@ export const renderPageContent = (
         img: Image,
         a: PostLink,
         toc: PostToc,
-        h2: getPostHeading("h2"),
-        h3: getPostHeading("h3"),
-        h4: getPostHeading("h4"),
-        h5: getPostHeading("h5"),
-        h6: getPostHeading("h6"),
+        anchor: Element,
       } as any,
     })
     .processSync(content)
