@@ -21,6 +21,7 @@ export const SitePage: React.FC<{
       <PageContent
         className="mt-10"
         content={page?.body?.content}
+        toc={true}
       ></PageContent>
       <PostFooter page={page} />
     </>

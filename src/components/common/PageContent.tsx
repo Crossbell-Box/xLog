@@ -5,7 +5,8 @@ import { renderPageContent } from "~/markdown"
 export const PageContent: React.FC<{
   content?: string
   className?: string
-}> = ({ className, content }) => {
+  toc?: boolean
+}> = ({ className, content, toc }) => {
   useCodeCopy()
 
   // TODO
@@ -21,7 +22,7 @@ export const PageContent: React.FC<{
 
   return (
     <div className={clsx("xlog-post-content", `prose`, className)}>
-      {content && renderPageContent(content).element}
+      {content && renderPageContent(content, false, toc).element}
     </div>
   )
 }

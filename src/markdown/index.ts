@@ -24,7 +24,8 @@ import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
-import remarkToc from "remark-toc"
+import { toc } from "mdast-util-toc"
+import { PostToc } from "~/components/site/PostToc"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -48,6 +49,7 @@ const rehypePrism = rehypePrismGenerator(refractor)
 export const renderPageContent = (
   content: string,
   html?: boolean,
+  enableToc?: boolean,
 ): Rendered => {
   const env: MarkdownEnv = {
     excerpt: "",
@@ -70,9 +72,18 @@ export const renderPageContent = (
         console.log(e)
       }
     })
-    .use(remarkToc, {
-      tight: true,
-      ordered: true,
+    .use(() => (tree) => {
+      if (enableToc) {
+        const result = toc(tree, { tight: true, ordered: true })
+        if (result.map) {
+          tree.children = [
+            ...tree.children,
+            { type: "html", value: "<toc>" },
+            result.map,
+            { type: "html", value: "</toc>" },
+          ]
+        }
+      }
     })
     .use(remarkGfm, {})
     .use(remarkExcerpt, { env })
@@ -111,8 +122,9 @@ export const renderPageContent = (
     .use(html ? () => (tree: any) => {} : rehypeReact, {
       createElement: createElement,
       components: {
-        img: Image as any,
-      },
+        img: Image,
+        toc: PostToc,
+      } as any,
     })
     .processSync(content)
 

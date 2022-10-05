@@ -1,5 +1,5 @@
 .prose {
-  @apply text-zinc-600 leading-loose;
+  @apply text-zinc-600 leading-loose relative;
 }
 
 .prose > p {
@@ -66,7 +66,7 @@
 
 .prose ol {
   @apply list-decimal;
-  @apply pl-5;
+  @apply pl-6;
 }
 
 .prose > ul,
@@ -150,4 +150,8 @@
 
 .prose .code-wrapper:hover .copy-button {
   @apply inline-flex;
+}
+
+.xlog-post-toc a {
+  @apply truncate inline-block max-w-full align-bottom text-zinc-700 hover:text-accent-dark;
 }

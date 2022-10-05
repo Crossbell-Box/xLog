@@ -9,6 +9,7 @@ const scheme = {
     "iframe",
     "style",
     "youtube",
+    "toc",
   ],
   attributes: {
     ...defaultSchema.attributes,
