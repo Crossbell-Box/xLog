@@ -3,7 +3,6 @@ import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import Script from "next/script"
 import Image from "next/image"
-import { getSiteLink } from "~/lib/helpers"
 
 export const SiteFooter: React.FC<{
   site?: Profile
@@ -21,7 +20,7 @@ export const SiteFooter: React.FC<{
             · Powered by{" "}
             <UniLink
               href={SITE_URL}
-              className="hover:text-accent inline-flex items-center align-text-bottom ml-1"
+              className="hover:text-accent inline-flex items-center align-text-top ml-1"
             >
               <Image
                 alt={APP_NAME}

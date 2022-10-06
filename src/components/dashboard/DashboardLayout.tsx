@@ -35,7 +35,7 @@ export function DashboardLayout({
     }
     if (userSite.isSuccess && subdomain) {
       if (!userSite.data?.find((site) => site.username === subdomain)) {
-        router.push("/")
+        router.push("/dashboard")
       }
     }
   }, [address, router, userSite.isSuccess, userSite.data, subdomain])
