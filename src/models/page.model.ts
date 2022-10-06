@@ -551,6 +551,7 @@ export async function getComments({ pageId }: { pageId: string }) {
     toCharacterId: pageId.split("-")[0],
     toNoteId: pageId.split("-")[1],
     cursor: "",
+    includeCharacter: true,
   }
 
   let pages: ListResponse<
@@ -574,13 +575,6 @@ export async function getComments({ pageId }: { pageId: string }) {
     pages.list = pages.list.concat(res.list)
     cursor = res.cursor || ""
   } while (cursor)
-
-  await Promise.all(
-    pages.list.map(async (item) => {
-      const characterId = item.characterId
-      item.character = await indexer.getCharacter(characterId)
-    }),
-  )
 
   return pages
 }

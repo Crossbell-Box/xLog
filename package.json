@@ -47,7 +47,7 @@
     "busboy": "^1.6.0",
     "clsx": "^1.2.1",
     "cookie": "^0.5.0",
-    "crossbell.js": "^0.10.34",
+    "crossbell.js": "^0.10.35",
     "dayjs": "^1.11.5",
     "dotenv": "^16.0.2",
     "emoji-mart": "^5.2.2",
