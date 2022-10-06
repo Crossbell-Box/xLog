@@ -47,7 +47,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({ children, title }) => {
       <SiteHeader site={site.data} subscriptions={subscriptions.data} />
       <style>{site.data?.css}</style>
       <div
-        className={`xlog-post-id-${page.data?.id} max-w-screen-md mx-auto px-5 pt-12`}
+        className={`xlog-post-id-${page.data?.id} max-w-screen-md mx-auto px-5 pt-12 relative`}
       >
         {children}
       </div>

@@ -24,9 +24,7 @@ import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
-import { toc } from "mdast-util-toc"
-import { PostToc } from "~/components/site/PostToc"
-import { PostLink } from "~/components/site/PostLink"
+import { toc, Result as TocResult } from "mdast-util-toc"
 import { Element } from "react-scroll"
 
 export type MarkdownEnv = {
@@ -34,6 +32,7 @@ export type MarkdownEnv = {
   frontMatter: Record<string, any>
   __internal: Record<string, any>
   cover: string
+  toc: TocResult | null
 }
 
 export type Rendered = {
@@ -42,6 +41,7 @@ export type Rendered = {
   excerpt: string
   frontMatter: Record<string, any>
   cover: string
+  toc: TocResult | null
 }
 
 refractor.alias("html", ["svelte", "vue"])
@@ -58,6 +58,7 @@ export const renderPageContent = (
     __internal: {},
     frontMatter: {},
     cover: "",
+    toc: null,
   }
 
   const result = unified()
@@ -75,17 +76,7 @@ export const renderPageContent = (
       }
     })
     .use(() => (tree) => {
-      if (enableToc) {
-        const result = toc(tree, { tight: true, ordered: true })
-        if (result.map) {
-          tree.children = [
-            ...tree.children,
-            { type: "html", value: "<toc>" },
-            result.map,
-            { type: "html", value: "</toc>" },
-          ]
-        }
-      }
+      env.toc = toc(tree, { tight: true, ordered: true })
     })
     .use(remarkGfm, {})
     .use(remarkExcerpt, { env })
@@ -137,8 +128,6 @@ export const renderPageContent = (
       createElement: createElement,
       components: {
         img: Image,
-        a: PostLink,
-        toc: PostToc,
         anchor: Element,
       } as any,
     })
@@ -152,5 +141,6 @@ export const renderPageContent = (
     excerpt: env.excerpt,
     frontMatter: env.frontMatter,
     cover: env.cover,
+    toc: env.toc,
   }
 }

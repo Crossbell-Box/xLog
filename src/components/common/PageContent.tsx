@@ -1,6 +1,7 @@
 import clsx from "clsx"
 import { useCodeCopy } from "~/hooks/useCodeCopy"
 import { renderPageContent } from "~/markdown"
+import { PostToc } from "~/components/site/PostToc"
 
 export const PageContent: React.FC<{
   content?: string
@@ -9,20 +10,17 @@ export const PageContent: React.FC<{
 }> = ({ className, content, toc }) => {
   useCodeCopy()
 
-  // TODO
-  // const [element, setElement] = useState<ReactElement>()
-  // const renderMarkdown = useCallback((doc: string) => {
-  //   setElement(renderPageContent(doc).element)
-  // }, [])
-  // useEffect(() => {
-  //   if (content) {
-  //     renderMarkdown(content)
-  //   }
-  // }, [content, renderMarkdown])
+  let parsedContent: ReturnType<typeof renderPageContent> | null = null
+  if (content) {
+    parsedContent = renderPageContent(content)
+  }
 
   return (
-    <div className={clsx("xlog-post-content", `prose`, className)}>
-      {content && renderPageContent(content, false, toc).element}
-    </div>
+    <>
+      <div className={clsx("xlog-post-content", `prose`, className)}>
+        {parsedContent?.element}
+      </div>
+      {toc && parsedContent?.toc && <PostToc data={parsedContent?.toc} />}
+    </>
   )
 }

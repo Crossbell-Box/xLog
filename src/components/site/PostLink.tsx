@@ -1,7 +1,6 @@
 import { Link } from "react-scroll"
 
 export const PostLink: React.FC<any> = ({ children, ...props }) => {
-  console.log(props.href)
   if (props.href?.startsWith("#")) {
     return (
       <Link
