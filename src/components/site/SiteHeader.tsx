@@ -147,7 +147,7 @@ export const SiteHeader: React.FC<{
     {
       text: "View on RSS3",
       icon: <RSS3Icon />,
-      url: `https://rss3.io/result?search=${site?.metadata?.owner}`,
+      url: `https://rss3.io/result?search=${site?.username}.csb`,
     },
     {
       text: "View on blockchain explorer",
