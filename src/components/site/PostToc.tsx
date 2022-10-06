@@ -107,7 +107,7 @@ export const PostToc: React.FC<{
 
   return (
     <div
-      className="xlog-post-toc absolute left-full pl-10 h-full top-[124px]"
+      className="xlog-post-toc absolute left-full pl-10 h-full top-0"
       style={{
         maxWidth: maxWidth > 40 ? maxWidth : 0,
       }}

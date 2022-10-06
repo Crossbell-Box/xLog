@@ -16,11 +16,11 @@ export const PageContent: React.FC<{
   }
 
   return (
-    <>
+    <div className="relative">
       <div className={clsx("xlog-post-content", `prose`, className)}>
         {parsedContent?.element}
       </div>
       {toc && parsedContent?.toc && <PostToc data={parsedContent?.toc} />}
-    </>
+    </div>
   )
 }
