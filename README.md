@@ -1,10 +1,37 @@
-# xLog
+<p align="center">
+<img src="https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/logo.svg" alt="xLog" width="100">
+</p>
+<h1 align="center">xLog</h1>
 
-> On-Chain Content Creating for Absolutely Everyone
-
-Meet xLog, the on-chain and open-source blogging platform for everyone. Permanently stored on the blockchain by yourself.
+> An on-chain and open-source blogging platform for everyone.
 
 This project is developed based on [proselog](https://github.com/proselog/proselog)
+
+## Features
+
+## Elegant
+
+Out-of-the-box, good looking, no friction.
+
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/screenshot1.png)
+
+### On-chain
+
+All blog data, including configs, posts, following, comments, etc., are permanently stored on the blockchain with your own hands and can only be controlled by yourself and not the platform.
+
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/screenshot4.png)
+
+### Rich Interactions
+
+You can follow, comment, like, and mint your blog and posts, all on the blockchain of course.
+
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/screenshot2.png)
+
+### Highly Customizable
+
+Domain name, navigation bar, custom styles, all as you wish, and stored on the blockchain.
+
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/screenshot3.png)
 
 ## Development
 

@@ -52,9 +52,19 @@ export default function Home({ region }: { region: string | null }) {
   const description = [
     {
       screenshot: {
+        src: "/screenshot1.png",
+        width: 3947,
+        height: 1888,
+      },
+      icon: <BlockchainIcon className="inline mb-2" />,
+      title: "Elegent",
+      text: <>Out-of-the-box, good looking, no friction.</>,
+    },
+    {
+      screenshot: {
         src: "/screenshot4.png",
         width: 1542,
-        height: 630,
+        height: 467,
       },
       icon: <BlockchainIcon className="inline mb-2" />,
       title: "On-chain",
@@ -70,7 +80,7 @@ export default function Home({ region }: { region: string | null }) {
       screenshot: {
         src: "/screenshot2.png",
         width: 1528,
-        height: 946,
+        height: 758,
       },
       icon: <LoveIcon className="inline mb-2" />,
       title: "Rich Interactions",
@@ -79,8 +89,8 @@ export default function Home({ region }: { region: string | null }) {
     {
       screenshot: {
         src: "/screenshot3.png",
-        width: 4232,
-        height: 1486,
+        width: 4394,
+        height: 1854,
       },
       icon: <DashboardIcon className="inline mb-2" />,
       title: "Highly Customizable",
