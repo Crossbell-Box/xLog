@@ -16,41 +16,45 @@ export const getServerSideProps = async (
   const pageSlug = ctx.params!.page as string
   const tag = ctx.params!.tag as string
 
-  await prefetchGetSite(domainOrSubdomain, queryClient)
-  await prefetchGetSiteSubscriptions(
-    {
-      siteId: domainOrSubdomain,
-    },
-    queryClient,
-  )
-
-  if (pageSlug) {
-    const page = await fetchGetPage(
+  await Promise.all([
+    prefetchGetSite(domainOrSubdomain, queryClient),
+    prefetchGetSiteSubscriptions(
       {
-        site: domainOrSubdomain,
-        page: pageSlug,
-        render: true,
-        includeAuthors: true,
+        siteId: domainOrSubdomain,
       },
       queryClient,
-    )
+    ),
+    new Promise(async (resolve) => {
+      if (pageSlug) {
+        const page = await fetchGetPage(
+          {
+            site: domainOrSubdomain,
+            page: pageSlug,
+            render: true,
+            includeAuthors: true,
+          },
+          queryClient,
+        )
 
-    if (new Date(page!.date_published) > new Date()) {
-      throw notFound()
-    }
-  } else {
-    await prefetchGetPagesBySite(
-      {
-        site: domainOrSubdomain,
-        take: 1000,
-        type: "post",
-        visibility: PageVisibilityEnum.Published,
-        render: true,
-        ...(tag && { tags: [tag] }),
-      },
-      queryClient,
-    )
-  }
+        if (new Date(page!.date_published) > new Date()) {
+          throw notFound()
+        }
+      } else {
+        await prefetchGetPagesBySite(
+          {
+            site: domainOrSubdomain,
+            take: 1000,
+            type: "post",
+            visibility: PageVisibilityEnum.Published,
+            render: true,
+            ...(tag && { tags: [tag] }),
+          },
+          queryClient,
+        )
+      }
+      resolve(null)
+    }),
+  ])
 
   return {
     props: {
