@@ -223,7 +223,15 @@ export default function SubdomainEditor() {
       <DashboardLayout title="Editor">
         <DashboardMain fullWidth>
           <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
-            <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
+            <div className="flex items-center">
+              <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
+              <UniLink
+                className="ml-7 align-middle"
+                href="https://github.com/Crossbell-Box/xLog/wiki/xLog-Flavored-Markdown"
+              >
+                Tip: xLog Flavored Markdown
+              </UniLink>
+            </div>
             <div className="flex items-center space-x-3">
               <span
                 className={clsx(
