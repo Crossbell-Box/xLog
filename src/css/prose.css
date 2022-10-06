@@ -155,7 +155,3 @@
 .prose .code-wrapper:hover .copy-button {
   @apply inline-flex;
 }
-
-.xlog-post-toc a {
-  @apply truncate inline-block max-w-full align-bottom text-zinc-700 hover:text-accent-dark;
-}
