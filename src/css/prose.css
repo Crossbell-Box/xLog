@@ -56,10 +56,14 @@
   @apply text-zinc-900;
 }
 
+.prose p {
+  @apply my-3;
+}
+
 .prose blockquote {
   @apply border-l-4 border-zinc-300;
   @apply pl-5;
-  @apply mb-5;
+  @apply my-3;
   @apply text-zinc-500;
 }
 
