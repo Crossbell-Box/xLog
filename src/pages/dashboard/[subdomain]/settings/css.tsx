@@ -75,7 +75,7 @@ export default function SettingsDomainsPage() {
               </p>
               <p>
                 <span className="bg-zinc-200 rounded-lg px-2">
-                  --header-bg-color: #fff;
+                  --banner-bg-color: #fff;
                 </span>
               </p>
               <p>
