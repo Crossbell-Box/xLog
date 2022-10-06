@@ -1,7 +1,9 @@
-import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
+import { APP_NAME, SITE_URL } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import Script from "next/script"
+import Image from "next/image"
+import { getSiteLink } from "~/lib/helpers"
 
 export const SiteFooter: React.FC<{
   site?: Profile
@@ -18,10 +20,15 @@ export const SiteFooter: React.FC<{
             </UniLink>{" "}
             · Powered by{" "}
             <UniLink
-              href={`https://${OUR_DOMAIN}`}
-              className="hover:text-accent"
+              href={SITE_URL}
+              className="hover:text-accent inline-flex items-center align-text-bottom ml-1"
             >
-              {APP_NAME}
+              <Image
+                alt={APP_NAME}
+                src={`${SITE_URL}/logo.svg`}
+                width={20}
+                height={20}
+              />
             </UniLink>
           </p>
         </div>
