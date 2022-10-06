@@ -19,7 +19,9 @@ export const Image: React.FC<
 
   return (
     <span
-      className="inline-block w-full h-full"
+      className={
+        "inline-flex justify-center" + (autoSize ? " w-full h-full" : "")
+      }
       style={
         autoSize
           ? {
@@ -29,7 +31,10 @@ export const Image: React.FC<
       }
     >
       <span
-        className="inline-flex justify-center relative w-full h-full"
+        className={
+          "inline-flex justify-center relative" +
+          (autoSize ? " w-full h-full" : "")
+        }
         style={autoSize ? { paddingTop } : {}}
       >
         <NextImage
