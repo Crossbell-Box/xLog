@@ -75,7 +75,7 @@ a {
 }
 
 .button.is-primary {
-  --shadow-color-button: var(--theme-color-dark);
+  --shadow-color-button: var(--theme-color-emphasis);
   @apply text-white;
   @apply fill-accent;
   @apply bg-accent;

@@ -65,7 +65,7 @@ export default function SettingsDomainsPage() {
               </p>
               <p>
                 <span className="bg-zinc-200 rounded-lg px-2">
-                  --theme-color-dark: #4338ca;
+                  --theme-color-emphasis: #4338ca;
                 </span>
               </p>
               <p>
