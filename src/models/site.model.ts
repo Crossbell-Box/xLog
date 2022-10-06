@@ -13,7 +13,7 @@ export const checkSubdomain = async ({
   updatingSiteId?: string
 }) => {}
 
-const expandSite = async (site: Profile) => {
+const expandSite = (site: Profile) => {
   site.navigation = JSON.parse(
     site.metadata?.raw?.attributes?.find(
       (a: any) => a.trait_type === "xlog_navigation",
@@ -69,12 +69,10 @@ export const getUserSites = async (
     },
   })
 
-  const sites: Profile[] = await Promise.all(
-    profiles.list?.map(async (profile) => {
-      await expandSite(profile)
-      return profile
-    }),
-  )
+  const sites: Profile[] = profiles.list?.map((profile) => {
+    expandSite(profile)
+    return profile
+  })
 
   if (!sites || !sites.length) return null
 
@@ -90,7 +88,7 @@ export const getSite = async (input: string, customUnidata?: Unidata) => {
 
   const site: Profile = profiles.list[0]
   if (site) {
-    await expandSite(site)
+    expandSite(site)
   }
 
   return site
