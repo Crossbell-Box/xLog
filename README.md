@@ -5,11 +5,11 @@
 
 > An on-chain and open-source blogging platform for everyone.
 
-This project is developed based on [proselog](https://github.com/proselog/proselog)
+[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/ZzFdEkVP) [![build](https://img.shields.io/github/workflow/status/Crossbell-Box/xLog/Build%20&%20Deploy?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
 
 ## Features
 
-## Elegant
+### Elegant
 
 Out-of-the-box, good looking, no friction.
 
@@ -40,3 +40,5 @@ Follow the steps to run it locally.
 1. Copy `.env.example` to `.env`
 2. Install dependencies: `pnpm i`
 3. Start dev server: `pnpm dev`
+
+This project is developed based on [proselog](https://github.com/proselog/proselog)
