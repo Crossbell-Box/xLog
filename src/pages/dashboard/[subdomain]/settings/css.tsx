@@ -50,6 +50,11 @@ export default function SettingsDomainsPage() {
         <form onSubmit={handleSubmit}>
           <div className="">
             <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
+              <p className="text-zinc-800 text-sm font-bold">Scope</p>
+              <p>
+                These styles will be applied to your entire blog, including this
+                dashboard.
+              </p>
               <p className="text-zinc-800 text-sm font-bold">
                 Tips: you can override the built-in CSS variables
               </p>
