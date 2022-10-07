@@ -8,6 +8,7 @@ import { useAccount } from "wagmi"
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { LoveIcon } from "~/components/icons/LoveIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { LaughIcon } from "~/components/icons/LaughIcon"
 import { Button } from "~/components/ui/Button"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useRouter } from "next/router"
@@ -56,7 +57,7 @@ export default function Home({ region }: { region: string | null }) {
         width: 3947,
         height: 1888,
       },
-      icon: <BlockchainIcon className="inline mb-2" />,
+      icon: <LaughIcon className="inline mb-2" />,
       title: "Elegent",
       text: <>Out-of-the-box, good looking, no friction.</>,
     },
