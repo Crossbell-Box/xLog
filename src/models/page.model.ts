@@ -536,7 +536,6 @@ export async function commentPage(
       characterId,
       {
         content,
-        sources: ["xlog"],
         external_urls: [externalUrl],
         tags: ["comment"],
       },
