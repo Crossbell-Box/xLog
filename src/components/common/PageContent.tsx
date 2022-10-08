@@ -16,11 +16,9 @@ export const PageContent: React.FC<{
   }
 
   return (
-    <>
-      <div className={clsx("relative xlog-post-content prose", className)}>
-        {parsedContent?.element}
-      </div>
+    <div className={clsx("relative", className)}>
+      <div className="xlog-post-content prose">{parsedContent?.element}</div>
       {toc && parsedContent?.toc && <PostToc data={parsedContent?.toc} />}
-    </>
+    </div>
   )
 }
