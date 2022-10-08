@@ -1,5 +1,6 @@
 import * as pageModel from "~/models/page.model"
 import { QueryClient } from "@tanstack/react-query"
+import { cacheGet } from "~/lib/redis.server"
 
 export const fetchGetPage = async (
   input: Parameters<typeof pageModel.getPage>[0],
@@ -7,7 +8,7 @@ export const fetchGetPage = async (
 ) => {
   const key = ["getPage", input.page, input]
   return await queryClient.fetchQuery(key, async () => {
-    return pageModel.getPage(input)
+    return cacheGet(key, () => pageModel.getPage(input))
   })
 }
 
@@ -17,7 +18,7 @@ export const prefetchGetPagesBySite = async (
 ) => {
   const key = ["getPagesBySite", input.site, input]
   await queryClient.prefetchQuery(key, async () => {
-    return pageModel.getPagesBySite(input)
+    return cacheGet(key, () => pageModel.getPagesBySite(input))
   })
 }
 
@@ -27,6 +28,6 @@ export const fetchGetPagesBySite = async (
 ) => {
   const key = ["getPagesBySite", input.site, input]
   return await queryClient.fetchQuery(key, async () => {
-    return pageModel.getPagesBySite(input)
+    return cacheGet(key, () => pageModel.getPagesBySite(input))
   })
 }

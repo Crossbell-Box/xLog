@@ -14,3 +14,8 @@ export const FLY_REGION = process.env.FLY_REGION || "local"
 export const IS_PRIMARY_REGION = FLY_REGION === PRIMARY_REGION
 export const UMAMI_TOKEN = process.env.UMAMI_TOKEN
 export const UMAMI_ENDPOINT = process.env.UMAMI_ENDPOINT
+
+export const REDIS_URL = process.env.REDIS_URL
+export const REDIS_EXPIRE =
+  parseInt(process.env.REDIS_URL || "0") || 60 * 60 * 24 * 7 // 1 week
+export const REDIS_REFRESH = parseInt(process.env.REDIS_URL || "0") || 5 * 1000 // 5 seconds
