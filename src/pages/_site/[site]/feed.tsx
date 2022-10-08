@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       icon: site.avatars?.[0],
       home_page_url: link,
       feed_url: `${link}/feed.json`,
-      items: pages.list?.map((page) => ({
+      items: pages.list?.map((page: any) => ({
         id: page.id,
         title: page.title,
         content_html:
@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         image: page.cover,
         date_published: page.date_published,
         date_modified: page.date_updated,
-        authors: page.authors?.map((author) => ({
+        authors: page.authors?.map((author: any) => ({
           name: author,
         })),
         tags: page.tags,
