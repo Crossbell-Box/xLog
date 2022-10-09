@@ -37,6 +37,9 @@ const theme = EditorView.theme({
   "&.cm-editor.cm-focused": {
     outline: "none",
   },
+  "&.cm-editor": {
+    height: "100%",
+  },
 })
 
 export const useEditor = ({
