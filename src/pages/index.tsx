@@ -244,6 +244,7 @@ export default function Home({ region }: { region: string | null }) {
                         href={getSiteLink({
                           subdomain: item.username,
                         })}
+                        className="w-14 h-14"
                       >
                         <Image
                           className="rounded-full"
