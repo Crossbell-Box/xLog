@@ -8,6 +8,8 @@ import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { useGetSiteSubscriptions } from "~/queries/site"
 import { useGetSite } from "~/queries/site"
 import { useGetPage } from "~/queries/page"
+import { OUR_DOMAIN, SITE_URL } from "~/lib/env"
+import { IS_PROD } from "~/lib/constants"
 
 export type SiteLayoutProps = {
   children: React.ReactNode
@@ -31,6 +33,18 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({ children, title }) => {
   const subscriptions = useGetSiteSubscriptions({
     siteId: domainOrSubdomain,
   })
+
+  useEffect(() => {
+    if (site.data) {
+      if (
+        window.location.host.split(".").slice(-2).join(".") !== OUR_DOMAIN &&
+        window.location.host !== site.data?.custom_domain &&
+        IS_PROD
+      ) {
+        window.location.href = SITE_URL
+      }
+    }
+  }, [site.isSuccess, site.data])
 
   return (
     <>
