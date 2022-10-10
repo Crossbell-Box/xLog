@@ -77,7 +77,7 @@ export default function SiteSettingsNavigationPage() {
 
   const itemsModified = useMemo(() => {
     if (!site.isSuccess) return false
-    return !equal(items, site.data.navigation)
+    return !equal(items, site.data?.navigation)
   }, [items, site.data, site.isSuccess])
 
   const updateItem: UpdateItem = (id, newItem) => {

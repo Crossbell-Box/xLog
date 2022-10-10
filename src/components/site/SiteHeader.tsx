@@ -53,7 +53,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
 }
 
 export const SiteHeader: React.FC<{
-  site?: Profile | undefined
+  site?: Profile | undefined | null
   subscriptions?: Links | null
 }> = ({ site, subscriptions }) => {
   const { address } = useAccount()

@@ -5,7 +5,7 @@ import Script from "next/script"
 import Image from "next/image"
 
 export const SiteFooter: React.FC<{
-  site?: Profile
+  site?: Profile | null
   page?: Note | null
 }> = ({ site, page }) => {
   return (

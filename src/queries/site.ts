@@ -15,6 +15,9 @@ export const useGetUserSites = (address?: string) => {
 export const useGetSite = (input: string) => {
   const unidata = useUnidata()
   return useQuery(["getSite", input], async () => {
+    if (!input) {
+      return null
+    }
     return siteModel.getSite(input, unidata)
   })
 }

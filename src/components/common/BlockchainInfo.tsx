@@ -8,7 +8,7 @@ import { toIPFS, toGateway } from "~/lib/ipfs-parser"
 import { IPFS_SW_GATEWAY_PREFIX } from "~/lib/ipfs-gateway"
 
 export const BlockchainInfo: React.FC<{
-  site?: Profile
+  site?: Profile | null
   page?: Note | null
 }> = ({ site, page }) => {
   return (
