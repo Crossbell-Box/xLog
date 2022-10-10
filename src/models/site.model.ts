@@ -160,12 +160,12 @@ export async function updateSite(
       ...(payload.description && { bio: payload.description }),
       ...(payload.icon && { avatars: [payload.icon] }),
       ...(payload.subdomain && { username: payload.subdomain }),
-      ...((payload.navigation ||
-        payload.css ||
-        payload.ga ||
-        payload.custom_domain) && {
+      ...((payload.navigation !== undefined ||
+        payload.css !== undefined ||
+        payload.ga !== undefined ||
+        payload.custom_domain !== undefined) && {
         attributes: [
-          ...(payload.navigation
+          ...(payload.navigation !== undefined
             ? [
                 {
                   trait_type: "xlog_navigation",
@@ -173,7 +173,7 @@ export async function updateSite(
                 },
               ]
             : []),
-          ...(payload.css
+          ...(payload.css !== undefined
             ? [
                 {
                   trait_type: "xlog_css",
@@ -181,7 +181,7 @@ export async function updateSite(
                 },
               ]
             : []),
-          ...(payload.ga
+          ...(payload.ga !== undefined
             ? [
                 {
                   trait_type: "xlog_ga",
@@ -189,7 +189,7 @@ export async function updateSite(
                 },
               ]
             : []),
-          ...(payload.custom_domain
+          ...(payload.custom_domain !== undefined
             ? [
                 {
                   trait_type: "xlog_custom_domain",

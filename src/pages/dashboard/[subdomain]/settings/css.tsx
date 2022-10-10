@@ -37,11 +37,13 @@ export default function SettingsDomainsPage() {
     }
   }, [updateSite.isSuccess, updateSite.isError])
 
+  const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
-    if (site.isSuccess && site.data && !css) {
+    if (site.isSuccess && site.data && !css && !hasSet && subdomain) {
       setCss(site.data.css || "")
+      setHasSet(true)
     }
-  }, [site.data, site.isSuccess, css])
+  }, [site.data, site.isSuccess, css, hasSet, subdomain])
 
   const title = "Site Settings"
   return (
