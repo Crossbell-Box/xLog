@@ -29,16 +29,13 @@ const theme = EditorView.theme({
     fontSize: "1rem",
     overflow: "auto",
     height: "100%",
-    paddingBottom: "200px",
   },
   ".cm-content": {
     height: "100%",
+    paddingBottom: "600px",
   },
   "&.cm-editor.cm-focused": {
     outline: "none",
-  },
-  "&.cm-editor": {
-    height: "100%",
   },
 })
 

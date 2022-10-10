@@ -9,7 +9,7 @@ export const remarkCallout: Plugin<Array<void>, Root> = () => (tree) => {
     if (node.type !== "blockquote") return
 
     const firstChild = node.children[0]
-    if (firstChild.type === "paragraph") {
+    if (firstChild?.type === "paragraph") {
       const paragraphFirstChild = firstChild.children[0]
       if (
         paragraphFirstChild.type === "text" &&
