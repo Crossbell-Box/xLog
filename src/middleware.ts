@@ -15,15 +15,6 @@ const ALWAYS_REPLAY_ROUTES = [
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  if (IS_PROD && req.headers.get("x-forwarded-proto") !== "https") {
-    return NextResponse.redirect(
-      `https://${req.headers.get("host")}${req.nextUrl.pathname}${
-        req.nextUrl.search
-      }`,
-      301,
-    )
-  }
-
   console.log(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
 
   if (
