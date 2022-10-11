@@ -104,7 +104,7 @@ export default function SettingsDomainsPage() {
                       <td className="text-center p-3">
                         {getSubdomain(customDomain) || "@"}
                       </td>
-                      <td className="text-center p-3">cname.xlog.app</td>
+                      <td className="text-center p-3">cname.{OUR_DOMAIN}</td>
                     </tr>
                     <tr className="border-b">
                       <td className="text-center p-3">TXT</td>
