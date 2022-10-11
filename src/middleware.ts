@@ -15,6 +15,30 @@ const ALWAYS_REPLAY_ROUTES = [
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
+  console.log(
+    `x-forwarded-proto: ${req.headers.get(
+      "x-forwarded-proto",
+    )}, cf-visitor: ${req.headers.get("cf-visitor")}`,
+  )
+  if (IS_PROD && req.headers.get("x-forwarded-proto") !== "https") {
+    let cfHttps = false
+    try {
+      if (
+        JSON.parse(req.headers.get("cf-visitor") || "{}").scheme === "https"
+      ) {
+        cfHttps = true
+      }
+    } catch (error) {}
+    if (!cfHttps) {
+      return NextResponse.redirect(
+        `https://${req.headers.get("host")}${req.nextUrl.pathname}${
+          req.nextUrl.search
+        }`,
+        301,
+      )
+    }
+  }
+
   console.log(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
 
   if (
