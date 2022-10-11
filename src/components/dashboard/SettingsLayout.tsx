@@ -21,6 +21,10 @@ export const SettingsLayout: React.FC<{
           },
           { text: "Domains", href: `/dashboard/${subdomain}/settings/domains` },
           { text: "Custom CSS", href: `/dashboard/${subdomain}/settings/css` },
+          {
+            text: "Export data",
+            href: `https://export.crossbell.io/?handle=${subdomain}`,
+          },
         ]
       : [{ text: "Profile", href: `/dashboard/${subdomain}/account/profile` }]
   ).map((item) => ({ ...item, active: router.asPath === item.href }))
