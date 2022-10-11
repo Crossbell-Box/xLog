@@ -15,11 +15,6 @@ const ALWAYS_REPLAY_ROUTES = [
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  console.log(
-    `x-forwarded-proto: ${req.headers.get(
-      "x-forwarded-proto",
-    )}, cf-visitor: ${req.headers.get("cf-visitor")}`,
-  )
   if (IS_PROD && req.headers.get("x-forwarded-proto") !== "https") {
     let cfHttps = false
     try {
@@ -50,7 +45,17 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
-  const tenant = await getTenant(req, req.nextUrl.searchParams)
+  let tenant: {
+    subdomain?: string
+    redirect?: string
+  } = {}
+  try {
+    tenant = await (
+      await fetch(
+        new URL(`/api/host2handle?host=${req.headers.get("host")}`, req.url),
+      )
+    ).json()
+  } catch (error) {}
 
   if (tenant?.redirect && IS_PROD) {
     return NextResponse.redirect(
