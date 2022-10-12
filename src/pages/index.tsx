@@ -16,10 +16,18 @@ import { GITHUB_LINK, APP_NAME, CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { Link, Element } from "react-scroll"
 import { Image } from "~/components/ui/Image"
+import { dehydrate, QueryClient } from "@tanstack/react-query"
+import { prefetchGetSites } from "~/queries/site.server"
+import { useGetSites } from "~/queries/site"
+import showcase from "../../showcase.json"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const queryClient = new QueryClient()
+  await prefetchGetSites(showcase, queryClient)
+
   return {
     props: {
+      dehydratedState: dehydrate(queryClient),
       region: FLY_REGION,
     },
   }
@@ -30,6 +38,7 @@ export default function Home({ region }: { region: string | null }) {
   const { address } = useAccount()
   const { openConnectModal } = useConnectModal()
   const router = useRouter()
+  const showcaseSites = useGetSites(showcase)
 
   useEffect(() => {
     console.log("-> region", region)
@@ -99,60 +108,8 @@ export default function Home({ region }: { region: string | null }) {
     },
   ]
 
-  const comparing = [
-    "Only Controlled by Yourself",
-    "Open Source",
-    "Self-hosting",
-    "Like Posts",
-    "Comment Posts",
-    "Custom Domain",
-    "Custom CSS",
-    "Navigation",
-    "Pages",
-    "Scheduled Publishing",
-  ]
-
-  const stars = [
-    {
-      username: "rss3",
-      avartar: "bafkreigjinhazhgvqaj423fhuuev7ormzf5vsm4iu4vrx2zgk2l5nugm4m",
-    },
-    {
-      username: "crossbell-blog",
-      avartar: "bafkreic5k3zvarbsondfrowy7kpbj6xo7cj25hobksgileqbbupjvvmkoq",
-    },
-    {
-      username: "diygod",
-      avartar: "bafybeibefx2tyow77m2wcnsh5anaaxfy7ypxbcuapb52c4h255onqp72ye",
-    },
-    {
-      username: "hey",
-      avartar: "bafkreigfhmqizqi7jwg5sw522kwcqilq7m6g4mbicpyit4avezaztvovey",
-    },
-    {
-      username: "song",
-      avartar: "QmQArk2yEF9t2Ud7vbhMyAQu8DJnTzc3EduSm7rcF2LQv4",
-    },
-    {
-      username: "atlas-thinking",
-      avartar: "QmNks3cJWDXzG5WSBzTVv1regkhXhzChK6LhJYu1HiBLS2",
-    },
-    {
-      username: "joshua",
-      avartar: "QmTUYz29S5bMqozK2uyQ1Y91DZzka4PLjReAD7J2nkbLMN",
-    },
-    {
-      username: "jeff",
-      avartar: "QmdvVh2w375eVMfDmi9yb2hks1X3MDDEAbbJB7FH2FVKxd",
-    },
-    {
-      username: "walter",
-      avartar: "QmRXkowLwfqjMKZS41KrnjM6JjAG5eerGWyFbo6ZzB1uUD",
-    },
-  ]
-
   return (
-    <MainLayout tabs={["Features", `Why ${APP_NAME}`]}>
+    <MainLayout tabs={["Features", "Showcase"]}>
       <section>
         <div className="max-w-screen-lg px-5 mx-auto">
           <div className="h-screen w-full flex justify-center flex-col relative">
@@ -223,45 +180,57 @@ export default function Home({ region }: { region: string | null }) {
                 ))}
               </ul>
             </Element>
-            <Element name={`Why ${APP_NAME}`}>
-              <div className="pt-28 text-4xl font-bold">Why {APP_NAME}</div>
-              <div className="text-xl mt-10 leading-normal">
-                We believe freedom of expression is a universal right. In your
-                long-form writing, you should be able to express your thoughts
-                freely; without fear of your post being removed or censored.
-                xLog ensures that whatever you write, it will be immutable and
-                permanently stored.
-              </div>
+            <Element name="Showcase">
+              <div className="pt-28 text-4xl font-bold">Showcase</div>
               <div className="my-10 text-zinc-500">
-                Trusted by these awesome teams and geeks
-                <ul className="mt-4 space-x-4">
-                  {stars.map((item) => (
+                Discover these awesome teams and geeks (sorted by update time)
+                <ul className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {showcaseSites.data?.map((site: any) => (
                     <li
-                      className="inline-flex align-middle"
-                      key={item.username}
+                      className="inline-flex align-middle py-2"
+                      key={site.handle}
                     >
                       <UniLink
-                        href={getSiteLink({
-                          subdomain: item.username,
-                        })}
-                        className="w-14 h-14"
+                        href={
+                          site.custom_domain
+                            ? `https://${site.custom_domain}`
+                            : getSiteLink({
+                                subdomain: site.handle,
+                              })
+                        }
+                        className="inline-flex align-middle w-full"
                       >
-                        <Image
-                          className="rounded-full"
-                          src={`/_ipfs/${item.avartar}`}
-                          alt={item.username}
-                          width="56"
-                          height="56"
-                        ></Image>
+                        <span className="w-14 h-14">
+                          <Image
+                            className="rounded-full"
+                            src={
+                              site.metadata.content?.avatars?.[0] ||
+                              "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
+                            }
+                            alt={site.handle}
+                            width="56"
+                            height="56"
+                          ></Image>
+                        </span>
+                        <span className="ml-4 min-w-0 flex-1">
+                          <span className="truncate w-full inline-block">
+                            {site.metadata.content?.name}
+                          </span>
+                          {site.metadata.content?.bio && (
+                            <span className="text-gray-500 text-xs truncate w-full inline-block">
+                              {site.metadata.content?.bio}
+                            </span>
+                          )}
+                        </span>
                       </UniLink>
                     </li>
                   ))}
-                  <li className="inline-flex h-5 align-middle items-center">
+                  <li className="inline-flex h-full align-middle items-center">
                     <UniLink
-                      className="inline-block"
-                      href="https://github.com/Crossbell-Box/xLog/issues/new"
+                      className="inline-block text-accent text-center pl-2"
+                      href="https://github.com/Crossbell-Box/xLog/edit/dev/showcase.json"
                     >
-                      <EllipsisHorizontalIcon className="w-14 h-4" />
+                      Submit yours
                     </UniLink>
                   </li>
                 </ul>

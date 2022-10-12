@@ -22,6 +22,15 @@ export const useGetSite = (input: string) => {
   })
 }
 
+export const useGetSites = (input: string[]) => {
+  return useQuery(["getSites", input], async () => {
+    if (!input) {
+      return null
+    }
+    return siteModel.getSites(input)
+  })
+}
+
 export const useGetSubscription = (data: {
   userId: string
   siteId: string

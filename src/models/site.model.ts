@@ -4,6 +4,8 @@ import unidata from "~/queries/unidata.server"
 import { renderPageContent } from "~/markdown"
 import { toGateway } from "~/lib/ipfs-parser"
 import type Unidata from "unidata.js"
+import { createClient } from "@urql/core"
+import axios from "axios"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -92,6 +94,72 @@ export const getSite = async (input: string, customUnidata?: Unidata) => {
   }
 
   return site
+}
+
+export const getSites = async (input: string[]) => {
+  const client = createClient({
+    url: "https://indexer.crossbell.io/v1/graphql",
+  })
+  const result = await client
+    .query(
+      `
+        query getCharacters($identities: [String!], $limit: Int) {
+          characters( where: { handle: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
+            handle
+            updatedAt
+            notes {
+              updatedAt
+            }
+            metadata {
+              uri
+              content
+            }
+          }
+        }`,
+      {
+        identities: input,
+      },
+    )
+    .toPromise()
+
+  await Promise.all(
+    result.data?.characters?.map(async (site: any) => {
+      if (!site?.metadata?.content && site?.metadata?.uri) {
+        site.metadata.content = (
+          await axios.get(
+            toGateway(site?.metadata?.uri, {
+              needRequestAtServerSide: true,
+            }),
+            {
+              ...(typeof window === "undefined" && {
+                headers: {
+                  "User-Agent":
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+                },
+              }),
+            },
+          )
+        ).data
+      }
+      site.metadata.content.name = site.metadata.content.name || site.handle
+
+      site.custom_domain =
+        site.metadata?.content?.attributes?.find(
+          (a: any) => a.trait_type === "xlog_custom_domain",
+        )?.value || ""
+
+      site.updatedAt = [...site.notes, site]
+        .map((i) => i.updatedAt)
+        .sort()
+        .pop()
+    }),
+  )
+
+  result.data?.characters?.sort((a: any, b: any) => {
+    return b.updatedAt > a.updatedAt ? 1 : -1
+  })
+
+  return result.data?.characters
 }
 
 export const getSubscription = async (

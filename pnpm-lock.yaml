@@ -51,6 +51,7 @@ specifiers:
   '@types/uuid': ^8.3.4
   '@unocss/cli': ^0.45.25
   '@unocss/preset-icons': ^0.45.25
+  '@urql/core': ^3.0.3
   '@web-std/form-data': ^3.0.2
   async-busboy: ^1.1.0
   autoprefixer: ^10.4.12
@@ -153,6 +154,7 @@ dependencies:
   '@trpc/next': 9.27.2_dyodlyrl4jlccmeg4rab7q5slm
   '@trpc/react': 9.27.2_r3nohbkvzkycnbsdj5gzhfx2rm
   '@trpc/server': 9.27.2
+  '@urql/core': 3.0.3
   '@web-std/form-data': 3.0.2
   async-busboy: 1.1.0
   axios: 0.27.2
@@ -1316,6 +1318,12 @@ packages:
       '@floating-ui/dom': 1.0.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@graphql-typed-document-node/core/3.1.1:
+    resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dev: false
 
   /@graphql-typed-document-node/core/3.1.1_graphql@16.5.0:
@@ -2772,6 +2780,15 @@ packages:
       '@graphql-typed-document-node/core': 3.1.1_graphql@16.5.0
       graphql: 16.5.0
       wonka: 4.0.15
+    dev: false
+
+  /@urql/core/3.0.3:
+    resolution: {integrity: sha512-raQP51ERNtg5BvlN8x8mHVRvk4K0ugWQ69n53BdkjKpXVV5kuWp7trnwriGv1fQKa8HuiGNSCfyslUucc0OVQg==}
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1
+      wonka: 6.1.0
     dev: false
 
   /@vanilla-extract/css/1.7.0:
@@ -11094,6 +11111,10 @@ packages:
 
   /wonka/4.0.15:
     resolution: {integrity: sha512-U0IUQHKXXn6PFo9nqsHphVCE5m3IntqZNB9Jjn7EB1lrR7YTDY3YWgFvEvwniTzXSvOH/XMzAZaIfJF/LvHYXg==}
+    dev: false
+
+  /wonka/6.1.0:
+    resolution: {integrity: sha512-VgiMCz7BXOiDbgpVhf5iNhK7hurteY5Jv0fDJewUkY0s4fbxQD2iKqfGxNXNTwp2v3bgT8QVu2l5H7YdkZ5WIA==}
     dev: false
 
   /word-wrap/1.2.3:
