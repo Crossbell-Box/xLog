@@ -182,14 +182,11 @@ export default function Home({ region }: { region: string | null }) {
             </Element>
             <Element name="Showcase">
               <div className="pt-28 text-4xl font-bold">Showcase</div>
-              <div className="my-10 text-zinc-500">
+              <div className="my-10 text-zinc-700">
                 Discover these awesome teams and geeks (sorted by update time)
-                <ul className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+                <ul className="mt-10 grid grid-cols-2 md:grid-cols-3 gap-10">
                   {showcaseSites.data?.map((site: any) => (
-                    <li
-                      className="inline-flex align-middle py-2"
-                      key={site.handle}
-                    >
+                    <li className="inline-flex align-middle" key={site.handle}>
                       <UniLink
                         href={
                           site.custom_domain
@@ -212,12 +209,12 @@ export default function Home({ region }: { region: string | null }) {
                             height="56"
                           ></Image>
                         </span>
-                        <span className="ml-4 min-w-0 flex-1">
-                          <span className="truncate w-full inline-block">
+                        <span className="ml-3 min-w-0 flex-1 justify-center inline-flex flex-col">
+                          <span className="truncate w-full inline-block font-medium">
                             {site.metadata.content?.name}
                           </span>
                           {site.metadata.content?.bio && (
-                            <span className="text-gray-500 text-xs truncate w-full inline-block">
+                            <span className="text-gray-500 text-xs truncate w-full inline-block mt-1">
                               {site.metadata.content?.bio}
                             </span>
                           )}
