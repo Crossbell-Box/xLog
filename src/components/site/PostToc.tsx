@@ -110,6 +110,7 @@ export const PostToc: React.FC<{
       className="xlog-post-toc absolute left-full pl-10 h-full top-0"
       style={{
         maxWidth: maxWidth > 40 ? maxWidth : 0,
+        display: maxWidth > 40 ? "block" : "none",
       }}
       ref={containerRef}
     >
