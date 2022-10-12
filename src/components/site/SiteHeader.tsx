@@ -133,9 +133,9 @@ export const SiteHeader: React.FC<{
     }
   }, [subscribeToSite.isError, subscribeToSite.data?.code])
 
-  const leftLinks: HeaderLinkType[] = [
-    ...(site?.navigation || [{ label: "Home", url: "/" }]),
-  ]
+ const leftLinks: HeaderLinkType[] = site?.navigation?.find(nav => nav.url === "/") ? 
+ site.navigation : [{ label: "Home", url: "/" }, ...(site?.navigation || [])]
+
 
   const moreMenuItems = [
     {
