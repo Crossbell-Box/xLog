@@ -50,7 +50,7 @@ const SortableNavigationItem: React.FC<{
         id={`${item.id}-url`}
         type="text"
         value={item.url}
-        pattern="(https?://|/).+"
+        pattern="(https?://|/)(.*)?"
         title="URL must start with / or http:// or https://"
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           updateItem(item.id, { url: e.target.value })
@@ -133,6 +133,12 @@ export default function SiteSettingsNavigationPage() {
         <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
           <p className="text-zinc-800 text-sm font-bold">
             Tips: built-in pages
+          </p>
+          <p>
+            <span className="text-zinc-800">
+              Home page (use your own Label to replace the default Label):
+            </span>{" "}
+            <span className="bg-zinc-200 rounded-lg px-2">/</span>
           </p>
           <p>
             <span className="text-zinc-800">Archives page:</span>{" "}
