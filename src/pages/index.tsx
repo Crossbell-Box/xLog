@@ -109,7 +109,7 @@ export default function Home({ region }: { region: string | null }) {
   ]
 
   return (
-    <MainLayout tabs={["Features", "Showcase"]}>
+    <MainLayout tabs={["Features", "Showcase", "Integration"]}>
       <section>
         <div className="max-w-screen-lg px-5 mx-auto">
           <div className="h-screen w-full flex justify-center flex-col relative">
@@ -183,7 +183,10 @@ export default function Home({ region }: { region: string | null }) {
             <Element name="Showcase">
               <div className="pt-28 text-4xl font-bold">Showcase</div>
               <div className="my-10 text-zinc-700">
-                Discover these awesome teams and geeks (sorted by update time)
+                <p className="text-lg">
+                  Discover these awesome teams and geeks on xLog (sorted by
+                  update time)
+                </p>
                 <ul className="mt-10 grid grid-cols-2 md:grid-cols-3 gap-10">
                   {showcaseSites.data?.map((site: any) => (
                     <li className="inline-flex align-middle" key={site.handle}>
@@ -222,12 +225,88 @@ export default function Home({ region }: { region: string | null }) {
                       </UniLink>
                     </li>
                   ))}
-                  <li className="inline-flex h-full align-middle items-center">
+                  <li className="inline-flex h-14 align-middle items-center">
                     <UniLink
-                      className="inline-block text-accent text-center pl-2"
+                      className="inline-block text-accent text-center"
                       href="https://github.com/Crossbell-Box/xLog/edit/dev/showcase.json"
                     >
                       Submit yours
+                    </UniLink>
+                  </li>
+                </ul>
+              </div>
+            </Element>
+            <Element name="Integration">
+              <div className="pt-28 text-4xl font-bold">Integration</div>
+              <div className="my-10 text-zinc-700">
+                <p className="text-xl">
+                  You can integrate xLog with all of Crossbell&apos;s
+                  eco-projects without friction
+                </p>
+                <ul className="space-y-8 mt-8">
+                  <li>
+                    <UniLink href="https://crossbell.io">
+                      <p className="font-bold text-xl">Crossbell.io</p>
+                      <p className="text-zinc-500 my-4 text-lg">
+                        Check the updates of the xLogs you follow and the posts
+                        you collected
+                      </p>
+                      <Image
+                        className="rounded-lg"
+                        src="/integration1.png"
+                        alt="integration1"
+                        width="3726"
+                        height="1888"
+                      ></Image>
+                    </UniLink>
+                  </li>
+                  <li>
+                    <UniLink href="https://www.raycast.com/Songkeys/crossbell">
+                      <p className="font-bold text-xl">Raycast Crossbell</p>
+                      <p className="text-zinc-500 my-4 text-lg">
+                        Searching and browsing xLog in Raycast
+                      </p>
+                      <Image
+                        className="rounded-lg"
+                        src="/integration2.png"
+                        alt="integration2"
+                        width="1724"
+                        height="1172"
+                      ></Image>
+                    </UniLink>
+                  </li>
+                  <li>
+                    <UniLink href="https://www.raycast.com/Songkeys/crossbell">
+                      <p className="font-bold text-xl">Export Crossbell Data</p>
+                      <p className="text-zinc-500 my-4 text-lg">
+                        Thinking of leaving or backing up? Pack all your xLog
+                        site data and interaction data in one click here
+                      </p>
+                      <Image
+                        className="rounded-lg"
+                        src="/integration3.png"
+                        alt="integration3"
+                        width="3726"
+                        height="1888"
+                      ></Image>
+                    </UniLink>
+                  </li>
+                  <li>
+                    <UniLink href="https://github.com/Crossbell-Box/crossbell.js">
+                      <p className="font-bold text-xl">
+                        Crossbell SDK and Indexer API
+                      </p>
+                      <p className="text-zinc-500 my-4 text-lg">
+                        Create your own application or integration using
+                        Crossbell&apos;s powerful SDK and Indexer API
+                      </p>
+                      <Image
+                        className="rounded-lg"
+                        src="/integration4.png"
+                        alt="integration4"
+                        width="3726"
+                        height="1888"
+                      ></Image>
                     </UniLink>
                   </li>
                 </ul>
