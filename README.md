@@ -5,7 +5,7 @@
 
 > An on-chain and open-source blogging platform for everyone.
 
-[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/ZzFdEkVP) [![build](https://img.shields.io/github/workflow/status/Crossbell-Box/xLog/Build%20&%20Deploy?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
+[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/ZzFdEkVP) [![Twitter](https://img.shields.io/twitter/follow/_xLog?color=1d9bf0&logo=twitter&style=flat-square)](https://twitter.com/_xLog) [![build](https://img.shields.io/github/workflow/status/Crossbell-Box/xLog/Build%20&%20Deploy?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
 
 ## Features
 

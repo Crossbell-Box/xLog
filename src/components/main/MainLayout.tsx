@@ -1,4 +1,10 @@
-import { APP_DESCRIPTION, APP_NAME, GITHUB_LINK, DISCORD_LINK } from "~/lib/env"
+import {
+  APP_DESCRIPTION,
+  APP_NAME,
+  GITHUB_LINK,
+  DISCORD_LINK,
+  TWITTER_LINK,
+} from "~/lib/env"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { ConnectButton } from "../common/ConnectButton"
@@ -65,6 +71,11 @@ export function MainLayout({
             {DISCORD_LINK && (
               <UniLink className="flex items-center" href={DISCORD_LINK}>
                 <span className="inline-block i-mdi-discord text-2xl hover:text-accent"></span>
+              </UniLink>
+            )}
+            {TWITTER_LINK && (
+              <UniLink className="flex items-center" href={TWITTER_LINK}>
+                <span className="inline-block i-mdi-twitter text-2xl hover:text-accent"></span>
               </UniLink>
             )}
           </span>
