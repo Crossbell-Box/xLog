@@ -26,15 +26,22 @@ const AvatarEditorModal: React.FC<{
     // Get cropped image
     if (editorRef.current) {
       const fromCanvas = editorRef.current?.getImage()
-      const toCanvas = document.createElement("canvas")
-      toCanvas.width = 460
-      toCanvas.height = 460
-      const pica = createPica()
-      const result = await pica.resize(fromCanvas, toCanvas)
-      const blob = await pica.toBlob(result, "image/jpeg", 0.9)
+      let blob: Blob | null = null
+      try {
+        const toCanvas = document.createElement("canvas")
+        toCanvas.width = 460
+        toCanvas.height = 460
+        const pica = createPica()
+        const result = await pica.resize(fromCanvas, toCanvas)
+        blob = await pica.toBlob(result, "image/jpeg", 0.9)
+      } catch (error) {
+        blob = await new Promise((resolve) => fromCanvas.toBlob(resolve))
+      }
 
       // Upload image to R2
-      key = (await uploadFile(blob)).key
+      if (blob) {
+        key = (await uploadFile(blob)).key
+      }
     }
 
     // Save the image to profile / site
