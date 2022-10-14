@@ -2,7 +2,7 @@ import { type EditorView } from "@codemirror/view"
 import clsx from "clsx"
 import dayjs from "dayjs"
 import { useRouter } from "next/router"
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { toolbars } from "~/editor"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
@@ -16,7 +16,7 @@ import { useUploadFile } from "~/hooks/useUploadFile"
 import { inLocalTimezone } from "~/lib/date"
 import { getSiteLink } from "~/lib/helpers"
 import { getPageVisibility } from "~/lib/page-helpers"
-import { PageVisibilityEnum, Note } from "~/lib/types"
+import { PageVisibilityEnum } from "~/lib/types"
 import { useGetPage, useCreateOrUpdatePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 import { getStorage, setStorage, delStorage } from "~/lib/storage"
@@ -49,7 +49,7 @@ export default function SubdomainEditor() {
         setDraftKey(`draft-${subdomain}-${pageId}`)
       }
     }
-  }, [subdomain, pageId])
+  }, [subdomain, pageId, queryClient])
 
   const site = useGetSite(subdomain)
 
@@ -147,7 +147,15 @@ export default function SubdomainEditor() {
         toast.error("Error: " + createOrUpdatePage.data?.message)
       }
     }
-  }, [createOrUpdatePage.isSuccess])
+  }, [
+    createOrUpdatePage,
+    draftKey,
+    isPost,
+    queryClient,
+    router,
+    subdomain,
+    values.published,
+  ])
 
   const handleDropFile = useCallback(
     async (file: File, view: EditorView) => {

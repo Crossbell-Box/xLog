@@ -5,7 +5,7 @@ import toast from "react-hot-toast"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { SiteNavigationItem, Profile } from "~/lib/types"
+import { SiteNavigationItem } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { ReactSortable } from "react-sortablejs"
 import equal from "fast-deep-equal"
@@ -113,7 +113,7 @@ export default function SiteSettingsNavigationPage() {
     } else if (updateSite.isError) {
       toast.error("Failed to save")
     }
-  }, [updateSite.isSuccess, updateSite.isError])
+  }, [updateSite.isSuccess, updateSite.isError, updateSite.data])
 
   const removeItem: RemoveItem = (id) => {
     setItems((items) => items.filter((item) => item.id !== id))

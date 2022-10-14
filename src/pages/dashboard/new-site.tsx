@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -119,7 +118,7 @@ export default function NewSitePage() {
     } else if (createSite.isError) {
       toast.error("Failed to create site")
     }
-  }, [createSite.isSuccess, createSite.isError, router])
+  }, [createSite, router])
 
   return (
     <>

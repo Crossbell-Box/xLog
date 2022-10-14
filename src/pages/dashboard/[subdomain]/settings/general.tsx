@@ -1,7 +1,7 @@
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { AvatarForm } from "~/components/dashboard/AvatarForm"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import toast from "react-hot-toast"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { useRouter } from "next/router"
@@ -45,7 +45,7 @@ export default function SiteSettingsGeneralPage() {
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite.isSuccess, updateSite.isError])
+  }, [updateSite.isSuccess, updateSite.isError, updateSite.data])
 
   useEffect(() => {
     if (site.data) {

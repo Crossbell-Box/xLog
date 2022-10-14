@@ -1,12 +1,11 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { useGetSite, useUpdateSite } from "~/queries/site"
-import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react"
+import Editor from "@monaco-editor/react"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 
 export default function SettingsDomainsPage() {
@@ -35,7 +34,7 @@ export default function SettingsDomainsPage() {
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite.isSuccess, updateSite.isError])
+  }, [updateSite.isSuccess, updateSite.isError, updateSite.data])
 
   const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
@@ -45,7 +44,6 @@ export default function SettingsDomainsPage() {
     }
   }, [site.data, site.isSuccess, css, hasSet])
 
-  const title = "Site Settings"
   return (
     <DashboardLayout title={"Domains"}>
       <SettingsLayout title={"Site Settings"} type="site">
