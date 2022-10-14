@@ -539,6 +539,7 @@ export async function commentPage(
         content,
         external_urls: [externalUrl],
         tags: ["comment"],
+        sources: ["xlog"],
       },
       pageId.split("-")[0],
       pageId.split("-")[1],
