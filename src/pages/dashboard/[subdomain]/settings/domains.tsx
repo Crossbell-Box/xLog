@@ -31,14 +31,12 @@ export default function SettingsDomainsPage() {
     })
   })
 
-  const getSubdomain = (domain?: string) => {
-    return domain?.split(".").slice(0, -2).join(".") || ""
-  }
-
   const [customDomain, setCustomDomain] = useState("")
   form.register("custom_domain", {
     onChange: (e) => setCustomDomain(e.target.value),
   })
+
+  const customSubdomain = customDomain?.split(".").slice(0, -2).join(".") || ""
 
   useEffect(() => {
     if (updateSite.isSuccess) {
@@ -102,15 +100,17 @@ export default function SettingsDomainsPage() {
                     <tr className="border-b">
                       <td className="text-center p-3">CNAME</td>
                       <td className="text-center p-3">
-                        {getSubdomain(customDomain) || "@"}
+                        {customSubdomain || "@"}
                       </td>
                       <td className="text-center p-3">cname.{OUR_DOMAIN}</td>
                     </tr>
                     <tr className="border-b">
                       <td className="text-center p-3">TXT</td>
-                      <td className="text-center p-3">{`_xlog-challenge.${getSubdomain(
-                        customDomain,
-                      )}`}</td>
+                      <td className="text-center p-3">{`_xlog-challenge${
+                        customSubdomain
+                          ? `.${customSubdomain}`
+                          : customSubdomain
+                      }`}</td>
                       <td className="text-center p-3">{subdomain}</td>
                     </tr>
                   </tbody>
