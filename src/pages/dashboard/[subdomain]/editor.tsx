@@ -24,6 +24,7 @@ import { nanoid } from "nanoid"
 import { useQueryClient } from "@tanstack/react-query"
 import { PageContent } from "~/components/common/PageContent"
 import pinyin from "pinyin"
+import { GITHUB_LINK } from "~/lib/env"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -227,7 +228,7 @@ export default function SubdomainEditor() {
               <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
               <UniLink
                 className="ml-7 align-middle"
-                href="https://github.com/Crossbell-Box/xLog/wiki/xLog-Flavored-Markdown"
+                href={`${GITHUB_LINK}/wiki/xLog-Flavored-Markdown`}
               >
                 Tip: xLog Flavored Markdown
               </UniLink>

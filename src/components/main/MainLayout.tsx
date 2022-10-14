@@ -83,7 +83,7 @@ export function MainLayout({
             &copy;{" "}
             <UniLink
               href={getSiteLink({
-                subdomain: "blog",
+                subdomain: "xlog",
               })}
               className="hover:text-accent"
             >

@@ -3,6 +3,8 @@ import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { UniLink } from "~/components/ui/UniLink"
 import Image from "next/image"
+import { DISCORD_LINK, TWITTER_LINK, GITHUB_LINK, APP_NAME } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
 
 export default function SubdomainIndex() {
   const router = useRouter()
@@ -19,7 +21,7 @@ export default function SubdomainIndex() {
             This page is quite empty for now, but we will polish it very soon!
             Maybe some useful analytics!
           </p>
-          <p>Here{`'`}re some useful links:</p>
+          <p>Here{`'`}re some useful links to get started:</p>
           <ul>
             <li>
               <UniLink href={`/dashboard/${subdomain}/editor?type=post`}>
@@ -29,6 +31,40 @@ export default function SubdomainIndex() {
             <li>
               <UniLink href={`/dashboard/${subdomain}/settings/general`}>
                 Change Site Name or Icon
+              </UniLink>
+            </li>
+          </ul>
+          <p>
+            You are not alone, join the community to meet friends or give xLog
+            some advice:
+          </p>
+          <ul>
+            <li>
+              <UniLink href={DISCORD_LINK}>
+                Join {APP_NAME}
+                {`'`}s Discord server
+              </UniLink>
+            </li>
+            <li>
+              <UniLink
+                href={getSiteLink({
+                  subdomain: "xlog",
+                })}
+              >
+                Follow {APP_NAME}
+                {`'`}s xLog
+              </UniLink>
+            </li>
+            <li>
+              <UniLink href={GITHUB_LINK}>
+                View {APP_NAME}
+                {`'`}s source code or participate in its development
+              </UniLink>
+            </li>
+            <li>
+              <UniLink href={TWITTER_LINK}>
+                Follow {APP_NAME}
+                {`'`}s Twitter
               </UniLink>
             </li>
           </ul>

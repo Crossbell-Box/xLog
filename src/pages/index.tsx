@@ -228,7 +228,7 @@ export default function Home({ region }: { region: string | null }) {
                   <li className="inline-flex h-14 align-middle items-center">
                     <UniLink
                       className="inline-block text-accent text-center"
-                      href="https://github.com/Crossbell-Box/xLog/edit/dev/showcase.json"
+                      href={`${GITHUB_LINK}/edit/dev/showcase.json`}
                     >
                       Submit yours
                     </UniLink>
