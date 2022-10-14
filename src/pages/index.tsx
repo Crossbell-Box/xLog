@@ -276,7 +276,7 @@ export default function Home({ region }: { region: string | null }) {
                     </UniLink>
                   </li>
                   <li>
-                    <UniLink href="https://www.raycast.com/Songkeys/crossbell">
+                    <UniLink href="https://export.crossbell.io">
                       <p className="font-bold text-xl">Export Crossbell Data</p>
                       <p className="text-zinc-500 my-4 text-lg">
                         Thinking of leaving or backing up? Pack all your xLog
