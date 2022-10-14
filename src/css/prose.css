@@ -159,3 +159,15 @@
 .prose .code-wrapper:hover .copy-button {
   @apply inline-flex;
 }
+
+.xlog-comment .prose {
+  @apply leading-normal text-[15px];
+}
+
+.xlog-comment .prose blockquote {
+  @apply my-1;
+}
+
+.xlog-comment .prose p {
+  @apply my-1;
+}

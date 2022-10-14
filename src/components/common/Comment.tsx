@@ -22,6 +22,7 @@ import { Popover } from "@headlessui/react"
 import { FaceSmileIcon } from "@heroicons/react/24/outline"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { renderPageContent } from "~/markdown"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -172,7 +173,7 @@ export const Comment: React.FC<{
               />
             </UniLink>
             <div className="flex-1 flex flex-col rounded-lg">
-              <div className="mb-2 text-sm">
+              <div className="mb-1 text-sm">
                 <UniLink
                   href={
                     comment?.character?.handle &&
@@ -196,7 +197,12 @@ export const Comment: React.FC<{
                   <BlockchainIcon className="w-3 h-3 inline-block" />
                 </UniLink>
               </div>
-              <div>{comment.metadata?.content?.content}</div>
+              <div className="prose">
+                {
+                  renderPageContent(comment.metadata?.content?.content || "")
+                    .element
+                }
+              </div>
             </div>
           </div>
         ))}
