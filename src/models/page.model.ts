@@ -119,11 +119,12 @@ const expandPage = (page: Note, render: boolean) => {
     }
     page.cover = rendered.cover
   }
-  page.slug =
+  page.slug = encodeURIComponent(
     page.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
-    page.metadata?.raw?._xlog_slug ||
-    page.metadata?.raw?._crosslog_slug ||
-    ""
+      page.metadata?.raw?._xlog_slug ||
+      page.metadata?.raw?._crosslog_slug ||
+      "",
+  )
   return page
 }
 
