@@ -34,17 +34,17 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({ children, title }) => {
     siteId: domainOrSubdomain,
   })
 
-  useEffect(() => {
-    if (site.data) {
-      if (
-        window.location.host.split(".").slice(-2).join(".") !== OUR_DOMAIN &&
-        window.location.host !== site.data?.custom_domain &&
-        IS_PROD
-      ) {
-        window.location.href = SITE_URL
-      }
-    }
-  }, [site.isSuccess, site.data])
+  // useEffect(() => {
+  //   if (site.data) {
+  //     if (
+  //       window.location.host.split(".").slice(-2).join(".") !== OUR_DOMAIN &&
+  //       window.location.host !== site.data?.custom_domain &&
+  //       IS_PROD
+  //     ) {
+  //       window.location.href = SITE_URL
+  //     }
+  //   }
+  // }, [site.isSuccess, site.data])
 
   return (
     <>
