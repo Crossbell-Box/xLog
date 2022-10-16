@@ -11,6 +11,7 @@ export const SEOHead: React.FC<{
   return (
     <Head>
       <title>{title ? `${title} - ${siteName}` : siteName}</title>
+      <meta name="twitter:card" content="summary_large_image" />
       <meta name="og:site_name" content={siteName} />
       <meta name="og:title" content={title} />
       <meta name="twitter:title" content={title} />
@@ -20,8 +21,11 @@ export const SEOHead: React.FC<{
       <meta name="twitter:card" content="summary" />
       {image && (
         <>
-          <meta name="og:image" content={image} />
-          <meta name="twitter:image" content={image} />
+          <meta name="og:image" content={new URL(image, SITE_URL).toString()} />
+          <meta
+            name="twitter:image"
+            content={new URL(image, SITE_URL).toString()}
+          />
         </>
       )}
       <link
