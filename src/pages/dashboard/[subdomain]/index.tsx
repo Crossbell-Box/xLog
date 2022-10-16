@@ -42,7 +42,7 @@ export default function SubdomainIndex() {
             <li>
               <UniLink href={DISCORD_LINK}>
                 Join {APP_NAME}
-                {`'`}s Discord server
+                {`'`}s Discord channel
               </UniLink>
             </li>
             <li>
