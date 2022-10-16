@@ -118,6 +118,10 @@
   @apply bg-zinc-100;
 }
 
+.prose iframe {
+  max-width: 100%;
+}
+
 .prose .task-list-item {
   @apply list-none;
 }
