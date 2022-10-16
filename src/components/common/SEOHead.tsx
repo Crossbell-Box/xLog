@@ -18,7 +18,7 @@ export const SEOHead: React.FC<{
       <meta name="description" content={description || ""} />
       <meta name="og:description" content={description || ""} />
       <meta name="twitter:description" content={description || ""} />
-      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:card" content="summary_large_image" />
       {image && (
         <>
           <meta name="og:image" content={new URL(image, SITE_URL).toString()} />
