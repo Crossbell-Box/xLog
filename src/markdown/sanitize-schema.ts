@@ -34,6 +34,7 @@ const scheme = {
       "width",
       "height",
       "allow",
+      "style",
     ],
   },
 }
