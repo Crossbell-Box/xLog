@@ -51,7 +51,7 @@ export default function SettingsDomainsPage() {
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite.data?.code])
+  }, [updateSite, router])
 
   const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
@@ -61,9 +61,8 @@ export default function SettingsDomainsPage() {
       form.setValue("custom_domain", site.data.custom_domain || "")
       setCustomDomain(site.data.custom_domain || "")
     }
-  }, [form, site.data, site.isSuccess, customDomain])
+  }, [form, site.data, site.isSuccess, customDomain, hasSet])
 
-  const title = "Site Settings"
   return (
     <DashboardLayout title={"Domains"}>
       <SettingsLayout title={"Site Settings"} type="site">

@@ -26,7 +26,7 @@ const AvatarEditorModal: React.FC<{
     // Get cropped image
     if (editorRef.current) {
       const fromCanvas = editorRef.current?.getImage()
-      let blob: Blob | null = null
+      let blob: Blob | null
       try {
         const toCanvas = document.createElement("canvas")
         toCanvas.width = 460
@@ -56,7 +56,7 @@ const AvatarEditorModal: React.FC<{
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite.isSuccess, updateSite.isError])
+  }, [updateSite.isSuccess, updateSite.isError, setIsOpen])
 
   return (
     <Dialog
