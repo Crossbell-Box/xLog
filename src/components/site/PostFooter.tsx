@@ -163,7 +163,7 @@ export const PostFooter: React.FC<{
       setLikeList(likes.data.list || [])
       setLikeCursor(likes.data.cursor || "")
     }
-  }, [likes.isSuccess])
+  }, [likes.isSuccess, likes.data])
 
   const loadMoreLikes = async () => {
     if (likeCursor && page?.id) {
@@ -183,7 +183,7 @@ export const PostFooter: React.FC<{
       setMintList(mints.data.list || [])
       setMintCursor(mints.data.cursor || "")
     }
-  }, [mints.isSuccess])
+  }, [mints.isSuccess, mints.data])
 
   const loadMoreMints = async () => {
     if (mintCursor && page?.id) {

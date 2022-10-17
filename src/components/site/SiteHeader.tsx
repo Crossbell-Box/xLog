@@ -12,7 +12,6 @@ import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import {
   useGetSubscription,
-  useGetSiteSubscriptions,
   useSubscribeToSite,
   useUnsubscribeFromSite,
   useGetUserSites,
@@ -131,11 +130,13 @@ export const SiteHeader: React.FC<{
       )
       subscribeToSite.reset()
     }
-  }, [subscribeToSite.isError, subscribeToSite.data?.code])
+  }, [subscribeToSite.isError, subscribeToSite.data?.code, subscribeToSite])
 
- const leftLinks: HeaderLinkType[] = site?.navigation?.find(nav => nav.url === "/") ? 
- site.navigation : [{ label: "Home", url: "/" }, ...(site?.navigation || [])]
-
+  const leftLinks: HeaderLinkType[] = site?.navigation?.find(
+    (nav) => nav.url === "/",
+  )
+    ? site.navigation
+    : [{ label: "Home", url: "/" }, ...(site?.navigation || [])]
 
   const moreMenuItems = [
     {
@@ -167,7 +168,7 @@ export const SiteHeader: React.FC<{
       setSiteSubscriptionList(subscriptions.list || [])
       setCursor(subscriptions.cursor)
     }
-  }, [subscriptions])
+  }, [subscriptions, siteSubscriptionList.length])
 
   const loadMoreSubscriptions = async () => {
     if (cursor) {
