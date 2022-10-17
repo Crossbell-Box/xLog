@@ -15,14 +15,13 @@ import duration from "dayjs/plugin/duration"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { UniLink } from "~/components/ui/UniLink"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import data from "@emoji-mart/data"
 // @ts-ignore
 import Picker from "@emoji-mart/react"
 import { Popover } from "@headlessui/react"
 import { FaceSmileIcon } from "@heroicons/react/24/outline"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { renderPageContent } from "~/markdown"
+import { PageContent } from "~/components/common/PageContent"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -197,12 +196,9 @@ export const Comment: React.FC<{
                   <BlockchainIcon className="w-3 h-3 inline-block" />
                 </UniLink>
               </div>
-              <div className="prose">
-                {
-                  renderPageContent(comment.metadata?.content?.content || "")
-                    .element
-                }
-              </div>
+              <PageContent
+                content={comment.metadata?.content?.content}
+              ></PageContent>
             </div>
           </div>
         ))}
