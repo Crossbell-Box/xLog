@@ -5,7 +5,7 @@ import { ICommand } from "~/editor"
 import { Tooltip } from "./Tooltip"
 
 export interface EditorToolbarProps {
-  view: EditorView | null
+  view?: EditorView
   toolbars: ICommand[]
 }
 

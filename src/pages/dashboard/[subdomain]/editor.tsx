@@ -1,14 +1,12 @@
-import { type EditorView } from "@codemirror/view"
 import clsx from "clsx"
 import dayjs from "dayjs"
 import { useRouter } from "next/router"
-import { ChangeEvent, useCallback, useEffect, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useState, useRef } from "react"
 import toast from "react-hot-toast"
 import { toolbars } from "~/editor"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { PublishButton } from "~/components/dashboard/PublishButton"
-import { useEditor } from "~/components/ui/Editor"
 import { EditorToolbar } from "~/components/ui/EditorToolbar"
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
@@ -25,6 +23,10 @@ import { useQueryClient } from "@tanstack/react-query"
 import { PageContent } from "~/components/common/PageContent"
 import pinyin from "pinyin"
 import { GITHUB_LINK } from "~/lib/env"
+import type { Root } from "hast"
+import CodeMirror from "@uiw/react-codemirror"
+import { EditorView } from "@codemirror/view"
+import { markdown } from "@codemirror/lang-markdown"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -76,7 +78,6 @@ export default function SubdomainEditor() {
     tags: "",
     content: "",
   })
-  const [content, setContent] = useState("")
   const [defaultSlug, setDefaultSlug] = useState("")
 
   type Values = typeof values
@@ -151,7 +152,7 @@ export default function SubdomainEditor() {
   }, [createOrUpdatePage.isSuccess])
 
   const handleDropFile = useCallback(
-    async (file: File, view: EditorView) => {
+    async (file: File, view?: EditorView | null) => {
       const toastId = toast.loading("Uploading...")
       try {
         if (!file.type.startsWith("image/")) {
@@ -162,7 +163,7 @@ export default function SubdomainEditor() {
         toast.success("Uploaded!", {
           id: toastId,
         })
-        view.dispatch(
+        view?.dispatch(
           view.state.replaceSelection(
             `\n![${file.name.replace(/\.\w+$/, "")}](${key})\n`,
           ),
@@ -176,23 +177,6 @@ export default function SubdomainEditor() {
     [uploadFile],
   )
 
-  const handleEditorChange = (newValue: string) => {
-    setContent(newValue)
-  }
-
-  useEffect(() => {
-    if (content !== values.content) {
-      updateValue("content", content)
-    }
-  }, [content, updateValue, values.content])
-
-  const { editorRef, view } = useEditor({
-    value: content,
-    onChange: handleEditorChange,
-    onDropFile: handleDropFile,
-    placeholder: `Start writing...`,
-  })
-
   useEffect(() => {
     if (!page.data || !draftKey) return
 
@@ -201,7 +185,6 @@ export default function SubdomainEditor() {
       local?.date && +new Date(local?.date) > +new Date(page.data.date_updated)
     if (useLocal && local?.values) {
       setValues(local?.values)
-      setContent(local?.values.content || "")
     } else {
       setValues({
         title: page.data.title || "",
@@ -215,9 +198,45 @@ export default function SubdomainEditor() {
             ?.join(", ") || "",
         content: page.data.body?.content || "",
       })
-      setContent(page.data.body?.content || "")
     }
   }, [page.data, subdomain, draftKey])
+
+  const [view, setView] = useState<EditorView>()
+
+  const extensions = [
+    markdown(),
+    EditorView.theme({
+      ".cm-scroller": {
+        fontFamily: "var(--font-sans)",
+        fontSize: "1rem",
+        overflow: "auto",
+        height: "100%",
+      },
+      ".cm-content": {
+        paddingBottom: "600px",
+      },
+      "&.cm-editor.cm-focused": {
+        outline: "none",
+      },
+      "&.cm-editor": {
+        height: "100%",
+      },
+    }),
+    EditorView.domEventHandlers({
+      drop(e) {
+        const file = e.dataTransfer?.items[0]?.getAsFile()
+        if (!file) return
+
+        handleDropFile(file, view)
+      },
+      paste(e) {
+        const file = e.clipboardData?.files[0]
+        if (!file) return
+
+        handleDropFile(file, view)
+      },
+    }),
+  ]
 
   return (
     <>
@@ -273,17 +292,35 @@ export default function SubdomainEditor() {
                     }}
                     onChange={(e) => updateValue("title", e.target.value)}
                     className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none"
-                    placeholder="Title goes here.."
                   />
                 </div>
                 <div className="mt-5 flex-1 flex overflow-hidden">
-                  <div
-                    className="px-5 h-full border-r w-1/2 overflow-scroll"
-                    ref={editorRef}
-                  ></div>
+                  <CodeMirror
+                    className="px-5 h-full border-r w-1/2"
+                    value={values.content}
+                    extensions={extensions}
+                    onCreateEditor={(view) => setView(view)}
+                    basicSetup={{
+                      lineNumbers: false,
+                      foldGutter: false,
+                      highlightActiveLine: false,
+                      history: true,
+                      defaultKeymap: true,
+                      historyKeymap: true,
+                      dropCursor: true,
+                      drawSelection: true,
+                      indentOnInput: true,
+                      crosshairCursor: true,
+                      allowMultipleSelections: true,
+                      syntaxHighlighting: true,
+                    }}
+                    indentWithTab={true}
+                    onChange={(value) => updateValue("content", value)}
+                    placeholder="Start writing..."
+                  />
                   <PageContent
                     className="px-5 w-1/2 overflow-scroll pb-[200px]"
-                    content={content}
+                    content={values.content}
                   ></PageContent>
                 </div>
               </div>

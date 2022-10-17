@@ -36,6 +36,7 @@ specifiers:
   '@types/async-busboy': ^1.1.1
   '@types/busboy': ^1.5.0
   '@types/cookie': ^0.5.1
+  '@types/hast': ^2.3.4
   '@types/js-yaml': ^4.0.5
   '@types/mjml': ^4.7.0
   '@types/node': ^18.7.23
@@ -49,6 +50,7 @@ specifiers:
   '@types/sortablejs': ^1.15.0
   '@types/ua-parser-js': ^0.7.36
   '@types/uuid': ^8.3.4
+  '@uiw/react-codemirror': ^4.12.4
   '@unocss/cli': ^0.45.25
   '@unocss/preset-icons': ^0.45.25
   '@urql/core': ^3.0.3
@@ -154,6 +156,7 @@ dependencies:
   '@trpc/next': 9.27.2_dyodlyrl4jlccmeg4rab7q5slm
   '@trpc/react': 9.27.2_r3nohbkvzkycnbsdj5gzhfx2rm
   '@trpc/server': 9.27.2
+  '@uiw/react-codemirror': 4.12.4_s3us5uspwddq2sobjfryl7muay
   '@urql/core': 3.0.3
   '@web-std/form-data': 3.0.2
   async-busboy: 1.1.0
@@ -230,6 +233,7 @@ devDependencies:
   '@types/async-busboy': 1.1.1
   '@types/busboy': 1.5.0
   '@types/cookie': 0.5.1
+  '@types/hast': 2.3.4
   '@types/js-yaml': 4.0.5
   '@types/mjml': 4.7.0
   '@types/node': 18.7.23
@@ -410,6 +414,19 @@ packages:
       to-fast-properties: 2.0.0
     dev: false
 
+  /@codemirror/autocomplete/6.3.0_eqnojjybujbpyzalc7hq3ayyuy:
+    resolution: {integrity: sha512-4jEvh3AjJZTDKazd10J6ZsCIqaYxDMCeua5ouQxY8hlFIml+nr7le0SgBhT3SIytFBmdzPK3AUhXGuW3T79nVg==}
+    peerDependencies:
+      '@codemirror/language': ^6.0.0
+      '@codemirror/state': ^6.0.0
+      '@codemirror/view': ^6.0.0
+    dependencies:
+      '@codemirror/language': 6.2.1
+      '@codemirror/state': 6.1.2
+      '@codemirror/view': 6.2.5
+      '@lezer/common': 1.0.1
+    dev: false
+
   /@codemirror/autocomplete/6.3.0_vswjzb6pveu6y6iyyyir6hfjfy:
     resolution: {integrity: sha512-4jEvh3AjJZTDKazd10J6ZsCIqaYxDMCeua5ouQxY8hlFIml+nr7le0SgBhT3SIytFBmdzPK3AUhXGuW3T79nVg==}
     peerDependencies:
@@ -500,8 +517,25 @@ packages:
       crelt: 1.0.5
     dev: false
 
+  /@codemirror/search/6.2.1:
+    resolution: {integrity: sha512-Q1JgUSBjQZRPIddlXzad/AVDigdhriLxQNFyP0gfrDTq6LDHNhr95U/tW3bpVssGenkaLzujtu/7XoK4kyvL3g==}
+    dependencies:
+      '@codemirror/state': 6.1.2
+      '@codemirror/view': 6.2.5
+      crelt: 1.0.5
+    dev: false
+
   /@codemirror/state/6.1.2:
     resolution: {integrity: sha512-Mxff85Hp5va+zuj+H748KbubXjrinX/k28lj43H14T2D0+4kuvEFIEIO7hCEcvBT8ubZyIelt9yGOjj2MWOEQA==}
+    dev: false
+
+  /@codemirror/theme-one-dark/6.1.0:
+    resolution: {integrity: sha512-AiTHtFRu8+vWT9wWUWDM+cog6ZwgivJogB1Tm/g40NIpLwph7AnmxrSzWfvJN5fBVufsuwBxecQCNmdcR5D7Aw==}
+    dependencies:
+      '@codemirror/language': 6.2.1
+      '@codemirror/state': 6.1.2
+      '@codemirror/view': 6.2.5
+      '@lezer/highlight': 1.1.0
     dev: false
 
   /@codemirror/view/6.2.5:
@@ -2289,7 +2323,6 @@ packages:
     resolution: {integrity: sha512-wLEm0QvaoawEDoTRwzTXp4b4jpwiJDvR5KMnFnVodm3scufTlBOWRD6N1OBf9TZMhjlNsSfcO5V+7AF4+Vy+9g==}
     dependencies:
       '@types/unist': 2.0.6
-    dev: false
 
   /@types/js-yaml/4.0.5:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
@@ -2434,7 +2467,6 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
-    dev: false
 
   /@types/uuid/8.3.4:
     resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
@@ -2612,6 +2644,44 @@ packages:
       '@typescript-eslint/types': 5.38.0
       eslint-visitor-keys: 3.3.0
     dev: true
+
+  /@uiw/codemirror-extensions-basic-setup/4.12.4_ofmrkt3gkrq4pi4vmtirqlyx44:
+    resolution: {integrity: sha512-owSCcRBtS2wYjxgBFkuIjfjWJHsR8AxgsQtqPpHB/6U0zCLuzKS/OM5ZRS2T3rdOizg0hCPztVvmshWeKjF+qw==}
+    peerDependencies:
+      '@codemirror/commands': '>=6.0.0'
+      '@codemirror/language': '>=6.0.0'
+      '@codemirror/state': '>=6.0.0'
+      '@codemirror/view': '>=6.0.0'
+    dependencies:
+      '@codemirror/autocomplete': 6.3.0_eqnojjybujbpyzalc7hq3ayyuy
+      '@codemirror/commands': 6.1.0
+      '@codemirror/language': 6.2.1
+      '@codemirror/lint': 6.0.0
+      '@codemirror/search': 6.2.1
+      '@codemirror/state': 6.1.2
+      '@codemirror/view': 6.2.5
+    dev: false
+
+  /@uiw/react-codemirror/4.12.4_s3us5uspwddq2sobjfryl7muay:
+    resolution: {integrity: sha512-92TAvN2z5snPjPtJDLmbqrqsXXYFYlBnWraXZuDc1XGaw80tB26ZkdEW79CD2QM4Y9LhFIt+sauwlmiAVDs/5A==}
+    peerDependencies:
+      '@codemirror/state': '>=6.0.0'
+      '@codemirror/view': '>=6.0.0'
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@babel/runtime': 7.19.0
+      '@codemirror/commands': 6.1.0
+      '@codemirror/state': 6.1.2
+      '@codemirror/theme-one-dark': 6.1.0
+      '@codemirror/view': 6.2.5
+      '@uiw/codemirror-extensions-basic-setup': 4.12.4_ofmrkt3gkrq4pi4vmtirqlyx44
+      codemirror: 6.0.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    transitivePeerDependencies:
+      - '@codemirror/language'
+    dev: false
 
   /@unocss/astro/0.45.25:
     resolution: {integrity: sha512-TxFxESIvSZtaVIRP/cDyrwnYlHz78mG9ohhAhI0adLGi0v0yBwoGJ1krlqxAuTzhV191InTlwD/C5QevTsf86Q==}
@@ -4083,6 +4153,18 @@ packages:
   /cluster-key-slot/1.1.0:
     resolution: {integrity: sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /codemirror/6.0.1:
+    resolution: {integrity: sha512-J8j+nZ+CdWmIeFIGXEFbFPtpiYacFMDR8GlHK3IyHQJMCaVRfGx9NT+Hxivv1ckLWPvNdZqndbr/7lVhrf/Svg==}
+    dependencies:
+      '@codemirror/autocomplete': 6.3.0_eqnojjybujbpyzalc7hq3ayyuy
+      '@codemirror/commands': 6.1.0
+      '@codemirror/language': 6.2.1
+      '@codemirror/lint': 6.0.0
+      '@codemirror/search': 6.2.1
+      '@codemirror/state': 6.1.2
+      '@codemirror/view': 6.2.5
     dev: false
 
   /color-convert/1.9.3:
