@@ -148,15 +148,7 @@ export default function SubdomainEditor() {
         toast.error("Error: " + createOrUpdatePage.data?.message)
       }
     }
-  }, [
-    createOrUpdatePage,
-    draftKey,
-    isPost,
-    queryClient,
-    router,
-    subdomain,
-    values.published,
-  ])
+  }, [createOrUpdatePage.isSuccess])
 
   const handleDropFile = useCallback(
     async (file: File, view: EditorView) => {

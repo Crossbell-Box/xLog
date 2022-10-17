@@ -6,7 +6,7 @@ export const fetchGetPage = async (
   input: Parameters<typeof pageModel.getPage>[0],
   queryClient: QueryClient,
 ) => {
-  const key = ["getPage", input.page]
+  const key = ["getPage", input.site, input.page]
   return await queryClient.fetchQuery(key, async () => {
     return cacheGet(key, () => pageModel.getPage(input))
   })

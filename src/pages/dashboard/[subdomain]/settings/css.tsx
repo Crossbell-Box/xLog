@@ -34,7 +34,7 @@ export default function SettingsDomainsPage() {
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }
-  }, [updateSite.isSuccess, updateSite.isError, updateSite.data])
+  }, [updateSite.isSuccess, updateSite.isError])
 
   const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
