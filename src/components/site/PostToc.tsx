@@ -71,7 +71,8 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
                   }
                 >
                   {`${prefix}${index + 1}. ${
-                    child.children[0].children?.[0]?.value
+                    child.children[0].children?.[0]?.value ||
+                    child.children[0].children?.[0]?.children?.[0]?.value
                   }`}
                 </Link>
               )}
