@@ -2,15 +2,25 @@ import { Toaster } from "react-hot-toast"
 import "~/css/main.css"
 import "~/generated/uno.css"
 import { IpfsGatewayContext } from "@crossbell/ipfs-react"
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit"
 import { configureChains, createClient, WagmiConfig } from "wagmi"
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
 import { Hydrate, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 import { createIDBPersister } from "~/lib/persister.client"
-import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit"
-import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
+import {
+  RainbowKitProvider,
+  connectorsForWallets,
+} from "@rainbow-me/rainbowkit"
+import {
+  injectedWallet,
+  rainbowWallet,
+  metaMaskWallet,
+  coinbaseWallet,
+  walletConnectWallet,
+  braveWallet,
+} from "@rainbow-me/rainbowkit/wallets"
+import { APP_NAME, CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
 import { ipfsGateway } from "~/lib/ipfs-gateway"
 import NextNProgress from "nextjs-progressbar"
 
@@ -50,12 +60,12 @@ const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      wallet.metaMask({ chains }),
-      wallet.walletConnect({ chains }),
-      wallet.rainbow({ chains }),
-      wallet.brave({ chains, shimDisconnect: true }),
-      wallet.coinbase({ appName: "Crossbell.io", chains }),
-      wallet.injected({ chains, shimDisconnect: true }),
+      metaMaskWallet({ chains }),
+      walletConnectWallet({ chains }),
+      rainbowWallet({ chains }),
+      braveWallet({ chains, shimDisconnect: true }),
+      coinbaseWallet({ appName: APP_NAME, chains }),
+      injectedWallet({ chains, shimDisconnect: true }),
     ],
   },
 ])
