@@ -50,6 +50,7 @@ specifiers:
   '@types/sortablejs': ^1.15.0
   '@types/ua-parser-js': ^0.7.36
   '@types/uuid': ^8.3.4
+  '@uiw/codemirror-extensions-events': ^4.12.4
   '@uiw/react-codemirror': ^4.12.4
   '@unocss/cli': ^0.45.25
   '@unocss/preset-icons': ^0.45.25
@@ -156,6 +157,7 @@ dependencies:
   '@trpc/next': 9.27.2_dyodlyrl4jlccmeg4rab7q5slm
   '@trpc/react': 9.27.2_r3nohbkvzkycnbsdj5gzhfx2rm
   '@trpc/server': 9.27.2
+  '@uiw/codemirror-extensions-events': 4.12.4_@codemirror+view@6.2.5
   '@uiw/react-codemirror': 4.12.4_s3us5uspwddq2sobjfryl7muay
   '@urql/core': 3.0.3
   '@web-std/form-data': 3.0.2
@@ -420,6 +422,7 @@ packages:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
+      '@lezer/common': ^1.0.0
     dependencies:
       '@codemirror/language': 6.2.1
       '@codemirror/state': 6.1.2
@@ -2660,6 +2663,16 @@ packages:
       '@codemirror/search': 6.2.1
       '@codemirror/state': 6.1.2
       '@codemirror/view': 6.2.5
+    transitivePeerDependencies:
+      - '@lezer/common'
+    dev: false
+
+  /@uiw/codemirror-extensions-events/4.12.4_@codemirror+view@6.2.5:
+    resolution: {integrity: sha512-wbALZgg+NvTwwbeo3eHA4DVQCNGn88aYydrZe9w8ddFtZOsPx3j5hvPqETcEXQybgbpjoTdAKH/oNFD07MTgKQ==}
+    peerDependencies:
+      '@codemirror/view': '>=6.0.0'
+    dependencies:
+      '@codemirror/view': 6.2.5
     dev: false
 
   /@uiw/react-codemirror/4.12.4_s3us5uspwddq2sobjfryl7muay:
@@ -2681,6 +2694,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
       - '@codemirror/language'
+      - '@lezer/common'
     dev: false
 
   /@unocss/astro/0.45.25:
@@ -4165,6 +4179,8 @@ packages:
       '@codemirror/search': 6.2.1
       '@codemirror/state': 6.1.2
       '@codemirror/view': 6.2.5
+    transitivePeerDependencies:
+      - '@lezer/common'
     dev: false
 
   /color-convert/1.9.3:

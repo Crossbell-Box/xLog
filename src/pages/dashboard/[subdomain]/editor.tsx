@@ -1,7 +1,14 @@
 import clsx from "clsx"
 import dayjs from "dayjs"
 import { useRouter } from "next/router"
-import { ChangeEvent, useCallback, useEffect, useState, useRef } from "react"
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+} from "react"
 import toast from "react-hot-toast"
 import { toolbars } from "~/editor"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
@@ -24,9 +31,9 @@ import { PageContent } from "~/components/common/PageContent"
 import pinyin from "pinyin"
 import { GITHUB_LINK } from "~/lib/env"
 import type { Root } from "hast"
-import CodeMirror from "@uiw/react-codemirror"
-import { EditorView } from "@codemirror/view"
-import { markdown } from "@codemirror/lang-markdown"
+import type { EditorView } from "@codemirror/view"
+import { Editor } from "~/components/ui/Editor"
+import { renderPageContent } from "~/markdown"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -151,32 +158,6 @@ export default function SubdomainEditor() {
     }
   }, [createOrUpdatePage.isSuccess])
 
-  const handleDropFile = useCallback(
-    async (file: File, view?: EditorView | null) => {
-      const toastId = toast.loading("Uploading...")
-      try {
-        if (!file.type.startsWith("image/")) {
-          throw new Error("You can only upload images")
-        }
-
-        const { key } = await uploadFile(file)
-        toast.success("Uploaded!", {
-          id: toastId,
-        })
-        view?.dispatch(
-          view.state.replaceSelection(
-            `\n![${file.name.replace(/\.\w+$/, "")}](${key})\n`,
-          ),
-        )
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message, { id: toastId })
-        }
-      }
-    },
-    [uploadFile],
-  )
-
   useEffect(() => {
     if (!page.data || !draftKey) return
 
@@ -201,42 +182,159 @@ export default function SubdomainEditor() {
     }
   }, [page.data, subdomain, draftKey])
 
+  const [currentScrollArea, setCurrentScrollArea] = useState<string>("")
   const [view, setView] = useState<EditorView>()
+  const [tree, setTree] = useState<Root | null>()
 
-  const extensions = [
-    markdown(),
-    EditorView.theme({
-      ".cm-scroller": {
-        fontFamily: "var(--font-sans)",
-        fontSize: "1rem",
-        overflow: "auto",
-        height: "100%",
-      },
-      ".cm-content": {
-        paddingBottom: "600px",
-      },
-      "&.cm-editor.cm-focused": {
-        outline: "none",
-      },
-      "&.cm-editor": {
-        height: "100%",
-      },
-    }),
-    EditorView.domEventHandlers({
-      drop(e) {
-        const file = e.dataTransfer?.items[0]?.getAsFile()
-        if (!file) return
+  // preview
+  const parsedContent = useMemo(() => {
+    if (values.content) {
+      const result = renderPageContent(values.content)
+      setTree(result.tree)
+      return result
+    }
+  }, [values.content])
 
-        handleDropFile(file, view)
-      },
-      paste(e) {
-        const file = e.clipboardData?.files[0]
-        if (!file) return
+  const previewRef = useRef<HTMLDivElement>(null)
 
-        handleDropFile(file, view)
-      },
-    }),
-  ]
+  // editor
+  const onCreateEditor = useCallback(
+    (view: EditorView) => {
+      setView?.(view)
+    },
+    [setView],
+  )
+  const onChange = useCallback(
+    (value: string) => {
+      updateValue("content", value)
+    },
+    [updateValue],
+  )
+
+  const handleDropFile = useCallback(
+    async (file: File) => {
+      const toastId = toast.loading("Uploading...")
+      try {
+        if (!file.type.startsWith("image/")) {
+          throw new Error("You can only upload images")
+        }
+
+        const { key } = await uploadFile(file)
+        toast.success("Uploaded!", {
+          id: toastId,
+        })
+        view?.dispatch(
+          view.state.replaceSelection(
+            `\n![${file.name.replace(/\.\w+$/, "")}](${key})\n`,
+          ),
+        )
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message, { id: toastId })
+        }
+      }
+    },
+    [uploadFile, view],
+  )
+
+  const computedPosition = useCallback(() => {
+    let previewChildNodes = previewRef.current?.childNodes[0]?.childNodes
+    const editorElementList: number[] = []
+    const previewElementList: number[] = []
+    if (view?.state && previewChildNodes) {
+      tree?.children.forEach((child, index) => {
+        if (
+          child.position &&
+          previewChildNodes?.[index] &&
+          (child as any).tagName !== "style"
+        ) {
+          const line = view.state?.doc.line(child.position.start.line)
+          const block = view.lineBlockAt(line.from)
+          if (block) {
+            editorElementList.push(block.top)
+            previewElementList.push(
+              (previewChildNodes[index] as HTMLElement).offsetTop,
+            )
+          }
+        }
+      })
+    }
+    return {
+      editorElementList,
+      previewElementList,
+    }
+  }, [view, tree])
+
+  const onScroll = useCallback(
+    (scrollTop: number, area: string) => {
+      if (
+        currentScrollArea === area &&
+        previewRef.current?.parentElement &&
+        view
+      ) {
+        const position = computedPosition()
+
+        let selfElement
+        let selfPostion
+        let targetElement
+        let targetPosition
+        if (area === "preview") {
+          selfElement = previewRef.current.parentElement
+          selfPostion = position.previewElementList
+          targetElement = view.scrollDOM
+          targetPosition = position.editorElementList
+        } else {
+          selfElement = view.scrollDOM
+          selfPostion = position.editorElementList
+          targetElement = previewRef.current.parentElement
+          targetPosition = position.previewElementList
+        }
+
+        let scrollElementIndex = 0
+        for (let i = 0; i < selfPostion.length; i++) {
+          if (scrollTop < selfPostion[i]) {
+            scrollElementIndex = i - 1
+            break
+          }
+        }
+
+        // scroll to buttom
+        if (scrollTop >= selfElement.scrollHeight - selfElement.clientHeight) {
+          targetElement.scrollTop =
+            targetElement.scrollHeight - targetElement.clientHeight
+          return
+        }
+
+        // scroll to position
+        if (scrollElementIndex >= 0) {
+          let ratio =
+            (scrollTop - selfPostion[scrollElementIndex]) /
+            (selfPostion[scrollElementIndex + 1] -
+              selfPostion[scrollElementIndex])
+          targetElement.scrollTop =
+            ratio *
+              (targetPosition[scrollElementIndex + 1] -
+                targetPosition[scrollElementIndex]) +
+            targetPosition[scrollElementIndex]
+        }
+      }
+    },
+    [view, computedPosition, currentScrollArea],
+  )
+
+  const onEditorScroll = useCallback(
+    (scrollTop: number) => {
+      onScroll(scrollTop, "editor")
+    },
+    [onScroll],
+  )
+
+  const onPreviewScroll = useCallback(
+    (scrollTop: number) => {
+      onScroll(scrollTop, "preview")
+    },
+    [onScroll],
+  )
 
   return (
     <>
@@ -295,32 +393,25 @@ export default function SubdomainEditor() {
                   />
                 </div>
                 <div className="mt-5 flex-1 flex overflow-hidden">
-                  <CodeMirror
-                    className="px-5 h-full border-r w-1/2"
+                  <Editor
                     value={values.content}
-                    extensions={extensions}
-                    onCreateEditor={(view) => setView(view)}
-                    basicSetup={{
-                      lineNumbers: false,
-                      foldGutter: false,
-                      highlightActiveLine: false,
-                      history: true,
-                      defaultKeymap: true,
-                      historyKeymap: true,
-                      dropCursor: true,
-                      drawSelection: true,
-                      indentOnInput: true,
-                      crosshairCursor: true,
-                      allowMultipleSelections: true,
-                      syntaxHighlighting: true,
+                    onChange={onChange}
+                    handleDropFile={handleDropFile}
+                    onScroll={onEditorScroll}
+                    // onUpdate={onUpdate}
+                    onCreateEditor={onCreateEditor}
+                    onMouseEnter={() => {
+                      setCurrentScrollArea("editor")
                     }}
-                    indentWithTab={true}
-                    onChange={(value) => updateValue("content", value)}
-                    placeholder="Start writing..."
                   />
                   <PageContent
                     className="px-5 w-1/2 overflow-scroll pb-[200px]"
-                    content={values.content}
+                    parsedContent={parsedContent}
+                    inputRef={previewRef}
+                    onScroll={onPreviewScroll}
+                    onMouseEnter={() => {
+                      setCurrentScrollArea("preview")
+                    }}
                   ></PageContent>
                 </div>
               </div>

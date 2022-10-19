@@ -26,6 +26,7 @@ import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import { toc, Result as TocResult } from "mdast-util-toc"
 import { Element } from "react-scroll"
+import type { Root } from "hast"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -33,6 +34,7 @@ export type MarkdownEnv = {
   __internal: Record<string, any>
   cover: string
   toc: TocResult | null
+  tree: Root | null
 }
 
 export type Rendered = {
@@ -42,6 +44,7 @@ export type Rendered = {
   frontMatter: Record<string, any>
   cover: string
   toc: TocResult | null
+  tree: Root | null
 }
 
 refractor.alias("html", ["svelte", "vue"])
@@ -59,6 +62,7 @@ export const renderPageContent = (
     frontMatter: {},
     cover: "",
     toc: null,
+    tree: null,
   }
 
   let contentHTML = ""
@@ -134,6 +138,9 @@ export const renderPageContent = (
           anchor: Element,
         } as any,
       })
+      .use(() => (tree) => {
+        env.tree = tree
+      })
       .processSync(content)
 
     contentHTML = result.toString()
@@ -145,5 +152,6 @@ export const renderPageContent = (
     frontMatter: env.frontMatter,
     cover: env.cover,
     toc: env.toc,
+    tree: env.tree,
   }
 }
