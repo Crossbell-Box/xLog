@@ -24,7 +24,7 @@ import { getPageVisibility } from "~/lib/page-helpers"
 import { PageVisibilityEnum } from "~/lib/types"
 import { useGetPage, useCreateOrUpdatePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
-import { getStorage, setStorage, delStorage } from "~/lib/storage"
+import { setStorage, delStorage } from "~/lib/storage"
 import { nanoid } from "nanoid"
 import { useQueryClient } from "@tanstack/react-query"
 import { PageContent } from "~/components/common/PageContent"
@@ -34,6 +34,7 @@ import type { Root } from "hast"
 import type { EditorView } from "@codemirror/view"
 import { Editor } from "~/components/ui/Editor"
 import { renderPageContent } from "~/markdown"
+import { Button } from "~/components/ui/Button"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -52,9 +53,13 @@ export default function SubdomainEditor() {
   useEffect(() => {
     if (subdomain) {
       if (!pageId) {
-        const key = `draft-${subdomain}-local-${nanoid()}`
+        const randomId = nanoid()
+        const key = `draft-${subdomain}-local-${randomId}`
         setDraftKey(key)
         queryClient.invalidateQueries(["getPagesBySite", subdomain])
+        router.replace(
+          `/dashboard/${subdomain}/editor?id=local-${randomId}&type=${router.query.type}`,
+        )
       } else {
         setDraftKey(`draft-${subdomain}-${pageId}`)
       }
@@ -65,14 +70,13 @@ export default function SubdomainEditor() {
 
   const page = useGetPage({
     site: subdomain!,
-    pageId: pageId,
+    pageId: pageId || draftKey.replace(`draft-${subdomain}-`, ""),
     render: false,
   })
 
   const visibility = page.data
     ? getPageVisibility(page.data)
     : PageVisibilityEnum.Draft
-  const published = visibility !== PageVisibilityEnum.Draft
 
   const uploadFile = useUploadFile()
 
@@ -161,25 +165,18 @@ export default function SubdomainEditor() {
   useEffect(() => {
     if (!page.data || !draftKey) return
 
-    const local = getStorage(draftKey)
-    const useLocal =
-      local?.date && +new Date(local?.date) > +new Date(page.data.date_updated)
-    if (useLocal && local?.values) {
-      setValues(local?.values)
-    } else {
-      setValues({
-        title: page.data.title || "",
-        publishedAt: page.data.date_published,
-        published: !!page.data.id,
-        excerpt: page.data.summary?.content || "",
-        slug: page.data.slug || "",
-        tags:
-          page.data.tags
-            ?.filter((tag) => tag !== "post" && tag !== "page")
-            ?.join(", ") || "",
-        content: page.data.body?.content || "",
-      })
-    }
+    setValues({
+      title: page.data.title || "",
+      publishedAt: page.data.date_published,
+      published: !!page.data.id,
+      excerpt: page.data.summary?.content || "",
+      slug: page.data.slug || "",
+      tags:
+        page.data.tags
+          ?.filter((tag) => tag !== "post" && tag !== "page")
+          ?.join(", ") || "",
+      content: page.data.body?.content || "",
+    })
   }, [page.data, subdomain, draftKey])
 
   const [currentScrollArea, setCurrentScrollArea] = useState<string>("")
@@ -353,25 +350,37 @@ export default function SubdomainEditor() {
             <div className="flex items-center space-x-3">
               <span
                 className={clsx(
-                  `text-sm`,
-                  published ? `text-accent` : `text-zinc-300`,
+                  `text-sm capitalize`,
+                  visibility === PageVisibilityEnum.Draft
+                    ? `text-zinc-300`
+                    : visibility === PageVisibilityEnum.Modified
+                    ? "text-orange-600"
+                    : "text-green-600",
                 )}
               >
-                {visibility === PageVisibilityEnum.Published
-                  ? `Published${
-                      getStorage(draftKey)
-                        ? " and local modifications exist"
-                        : ""
-                    }`
-                  : visibility === PageVisibilityEnum.Scheduled
-                  ? "Scheduled"
-                  : "Draft"}
+                {visibility.toLowerCase()}
               </span>
+              <Button
+                isAutoWidth
+                onClick={() => {
+                  window.open(
+                    `/_site/${subdomain}/preview/${draftKey.replace(
+                      `draft-${subdomain}-`,
+                      "",
+                    )}`,
+                  )
+                }}
+              >
+                Preview
+              </Button>
               <PublishButton
                 save={savePage}
-                published={published}
+                published={visibility !== PageVisibilityEnum.Draft}
                 isSaving={createOrUpdatePage.isLoading}
-                isDisabled={published && !getStorage(draftKey) ? true : false}
+                isDisabled={
+                  visibility !== PageVisibilityEnum.Modified &&
+                  visibility !== PageVisibilityEnum.Draft
+                }
               />
             </div>
           </header>

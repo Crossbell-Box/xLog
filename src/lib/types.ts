@@ -26,6 +26,7 @@ export enum PageVisibilityEnum {
   Scheduled = "scheduled",
   Draft = "draft",
   Crossbell = "crossbell",
+  Modified = "published and modified",
 }
 
 export type PostOnSiteHome = {
@@ -83,6 +84,7 @@ export type Note = UniNote & {
     mime_type?: string
     element?: ReactElement
   }
+  preview?: boolean
 }
 
 export type Notes = {

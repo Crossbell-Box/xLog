@@ -8,7 +8,13 @@ export const SitePage: React.FC<{
 }> = ({ page }) => {
   return (
     <>
-      <div className="">
+      {page?.preview && (
+        <div className="fixed top-0 left-0 w-full text-center text-orange-500 bg-gray-100 py-2 opacity-80 text-sm">
+          Currently in private preview mode, the content is different from the
+          public
+        </div>
+      )}
+      <div>
         {page?.tags?.includes("post") ? (
           <h2 className="xlog-post-title text-4xl font-bold">{page.title}</h2>
         ) : (
@@ -23,7 +29,7 @@ export const SitePage: React.FC<{
         content={page?.body?.content}
         toc={true}
       ></PageContent>
-      <PostFooter page={page} />
+      {page?.metadata && <PostFooter page={page} />}
     </>
   )
 }

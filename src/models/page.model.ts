@@ -130,7 +130,7 @@ const expandPage = (page: Note, render: boolean) => {
 
 const getLocalPages = (input: { site: string; isPost?: boolean }) => {
   const pages: Note[] = []
-  getKeys(`draft-${input.site}-local`).forEach((key) => {
+  getKeys(`draft-${input.site}`).forEach((key) => {
     const page = getStorage(key)
     if (input.isPost === undefined || page.isPost === input.isPost) {
       pages.push({
@@ -140,6 +140,7 @@ const getLocalPages = (input: { site: string; isPost?: boolean }) => {
           content: page.values?.content,
           mime_type: "text/markdown",
         },
+        date_updated: new Date(page.date).toISOString(),
         date_published: page.values?.publishedAt,
         summary: {
           content: page.values?.excerpt,
@@ -161,6 +162,7 @@ const getLocalPages = (input: { site: string; isPost?: boolean }) => {
             },
           ],
         }),
+        preview: true,
       })
     }
   })
@@ -225,8 +227,20 @@ export async function getPagesBySite(
       site: input.site,
       isPost: input.type === "post",
     })
-    pages.list = pages.list.concat(local)
-    pages.total += local.length
+    local.forEach((localPage) => {
+      const index = pages.list.findIndex((page) => page.id === localPage.id)
+      if (
+        index >= 0 &&
+        new Date(localPage.date_updated) >
+          new Date(pages.list[index].date_updated)
+      ) {
+        localPage.metadata = pages.list[index].metadata
+        pages.list[index] = localPage
+      } else {
+        pages.list.push(localPage)
+        pages.total++
+      }
+    })
   }
 
   if (pages?.list) {
@@ -285,43 +299,60 @@ export async function getPage<TRender extends boolean = false>(
   const local = getLocalPages({
     site: input.site,
   })
-  const localPage = local.find((page) => page.id === input.pageId)
+  const localPage = local.find(
+    (page) => page.id === input.page || page.id === input.pageId,
+  )
+
+  const mustLocal = input.pageId?.startsWith("local-")
+
+  const pages: Notes | null = mustLocal
+    ? null
+    : await (customUnidata || unidata).notes.get({
+        source: "Crossbell Note",
+        identity: input.site,
+        platform: "Crossbell",
+        limit: 1000,
+        ...(input.pageId && {
+          filter: {
+            id: input.pageId,
+          },
+        }),
+      })
 
   let page
-  if (localPage) {
-    page = localPage
-  } else {
-    const pages: Notes | null = await (customUnidata || unidata).notes.get({
-      source: "Crossbell Note",
-      identity: input.site,
-      platform: "Crossbell",
-      limit: 1000,
-      ...(input.pageId && {
-        filter: {
-          id: input.pageId,
-        },
-      }),
+  if (input.page) {
+    page = pages?.list.find((item) => {
+      item.slug =
+        item.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
+        item.metadata?.raw?._xlog_slug ||
+        item.metadata?.raw?._crosslog_slug ||
+        item.id
+      return item.slug === input.page || item.id === input.page
     })
+  } else {
+    page = pages?.list[0]
+  }
 
-    if (input.page) {
-      page = pages?.list.find((item) => {
-        item.slug =
-          item.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
-          item.metadata?.raw?._xlog_slug ||
-          item.metadata?.raw?._crosslog_slug ||
-          item.id
-        return item.slug === input.page || item.id === input.page
-      })
+  if (localPage) {
+    if (page) {
+      if (new Date(localPage.date_updated) > new Date(page.date_updated)) {
+        localPage.metadata = page.metadata
+        page = localPage
+      }
     } else {
-      page = pages?.list[0]
+      page = localPage
     }
   }
 
-  if (!page) {
+  if (!page && !mustLocal) {
     throw notFound(`page ${input.page} not found`)
   }
 
-  expandPage(page, input.render || false)
+  if (page) {
+    expandPage(page, input.render || false)
+  } else {
+    page = null
+  }
 
   return page
 }
