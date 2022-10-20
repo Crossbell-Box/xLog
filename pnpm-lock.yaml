@@ -63,7 +63,7 @@ specifiers:
   clsx: 1.2.1
   cookie: 0.5.0
   cross-spawn: 7.0.3
-  crossbell.js: 0.10.37
+  crossbell.js: 0.10.38
   dayjs: 1.11.5
   dotenv: 16.0.3
   emoji-mart: 5.2.2
@@ -166,7 +166,7 @@ dependencies:
   busboy: 1.6.0
   clsx: 1.2.1
   cookie: 0.5.0
-  crossbell.js: 0.10.37
+  crossbell.js: 0.10.38
   dayjs: 1.11.5
   dotenv: 16.0.3
   emoji-mart: 5.2.2
@@ -1590,12 +1590,6 @@ packages:
     dependencies:
       '@lezer/highlight': 1.1.2
       '@lezer/lr': 1.2.3
-    dev: false
-
-  /@lezer/highlight/1.1.0:
-    resolution: {integrity: sha512-DAGFnxWil6aMrfpJ1clvOQrMvgDXjah8K5eA6+TsETioHlSi7Z2n/KSpbJPeuItcI2OeOR5tIWsqZqLnFSGN/w==}
-    dependencies:
-      '@lezer/common': 1.0.1
     dev: false
 
   /@lezer/highlight/1.1.2:
@@ -4416,8 +4410,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /crossbell.js/0.10.37:
-    resolution: {integrity: sha512-x/0x4zhXMtyfAk0Gy2JKttyV9FO9cq8VXMHWPBQpluZ/A+8ukAKJohjIcRApcsEtJeGPitZ7gA5eT76gWTSnkA==}
+  /crossbell.js/0.10.38:
+    resolution: {integrity: sha512-w7z7DkKKQzExl/kC/Q5Z27ybnv7zUxwcG8F9MVrj/Cntfcv7u7rm5LhXipVv5pvmhxMQZaMTPU3DN3gNXAZhkQ==}
     dependencies:
       async-retry: 1.3.3
       ethers: 5.7.2
