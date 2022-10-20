@@ -1,11 +1,11 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@codemirror/commands': ^6.1.2
-  '@codemirror/lang-markdown': ^6.0.2
-  '@codemirror/language': ^6.2.1
-  '@codemirror/state': ^6.1.2
-  '@codemirror/view': ^6.4.0
+  '@codemirror/commands': 6.1.2
+  '@codemirror/lang-markdown': 6.0.2
+  '@codemirror/language': 6.2.1
+  '@codemirror/state': 6.1.2
+  '@codemirror/view': 6.4.0
   '@crossbell/ipfs-gateway': 0.0.15
   '@crossbell/ipfs-gateway-next': 0.0.15
   '@crossbell/ipfs-react': 0.0.15
@@ -498,7 +498,7 @@ packages:
       '@codemirror/state': 6.1.2
       '@codemirror/view': 6.4.0
       '@lezer/common': 1.0.1
-      '@lezer/highlight': 1.1.0
+      '@lezer/highlight': 1.1.2
       '@lezer/lr': 1.2.3
       style-mod: 4.0.0
     dev: false

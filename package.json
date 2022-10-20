@@ -17,11 +17,11 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@codemirror/commands": "^6.1.2",
-    "@codemirror/lang-markdown": "^6.0.2",
-    "@codemirror/language": "^6.2.1",
-    "@codemirror/state": "^6.1.2",
-    "@codemirror/view": "^6.4.0",
+    "@codemirror/commands": "6.1.2",
+    "@codemirror/lang-markdown": "6.0.2",
+    "@codemirror/language": "6.2.1",
+    "@codemirror/state": "6.1.2",
+    "@codemirror/view": "6.4.0",
     "@crossbell/ipfs-gateway": "0.0.15",
     "@crossbell/ipfs-react": "0.0.15",
     "@emoji-mart/data": "^1.0.6",
