@@ -10,21 +10,11 @@ import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useState, useEffect } from "react"
 import { useCommentPage, useGetComments } from "~/queries/page"
 import { useRouter } from "next/router"
-import dayjs from "dayjs"
-import duration from "dayjs/plugin/duration"
-import relativeTime from "dayjs/plugin/relativeTime"
-import { UniLink } from "~/components/ui/UniLink"
-import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 // @ts-ignore
 import Picker from "@emoji-mart/react"
 import { Popover } from "@headlessui/react"
 import { FaceSmileIcon } from "@heroicons/react/24/outline"
-import { CSB_SCAN } from "~/lib/env"
-import { getSiteLink } from "~/lib/helpers"
-import { PageContent } from "~/components/common/PageContent"
-
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
+import { CommentItem } from "~/components/common/CommentItem"
 
 export const Comment: React.FC<{
   page?: Note | null
@@ -118,7 +108,7 @@ export const Comment: React.FC<{
                   <Popover.Button className="group inline-flex items-center rounded-md px-2 text-xl">
                     <FaceSmileIcon className="w-6 h-6 text-zinc-400 hover:text-zinc-500" />
                   </Popover.Button>
-                  <Popover.Panel className="absolute left-0 top-full">
+                  <Popover.Panel className="absolute left-0 top-full z-10">
                     <Picker
                       data={async () => {
                         const response = await fetch(
@@ -150,57 +140,9 @@ export const Comment: React.FC<{
           </div>
         </form>
       </div>
-      <div className="xlog-comment-list">
+      <div className="xlog-comment-list space-y-6 pt-6">
         {comments.data?.list?.map((comment) => (
-          <div
-            key={comment.transactionHash}
-            className="flex border-b border-dashed py-6"
-          >
-            <UniLink
-              href={
-                comment?.character?.handle &&
-                getSiteLink({
-                  subdomain: comment.character.handle,
-                })
-              }
-              className="align-middle mr-3"
-            >
-              <Avatar
-                images={comment?.character?.metadata?.content?.avatars || []}
-                name={comment?.character?.metadata?.content?.name}
-                size={45}
-              />
-            </UniLink>
-            <div className="flex-1 flex flex-col rounded-lg">
-              <div className="mb-1 text-sm">
-                <UniLink
-                  href={
-                    comment?.character?.handle &&
-                    getSiteLink({
-                      subdomain: comment.character.handle,
-                    })
-                  }
-                  className="font-medium text-accent"
-                >
-                  {comment?.character?.metadata?.content?.name}
-                </UniLink>{" "}
-                ·{" "}
-                {dayjs
-                  .duration(
-                    dayjs(comment?.createdAt).diff(dayjs(), "minute"),
-                    "minute",
-                  )
-                  .humanize()}{" "}
-                ago ·{" "}
-                <UniLink href={`${CSB_SCAN}/tx/${comment.transactionHash}`}>
-                  <BlockchainIcon className="w-3 h-3 inline-block" />
-                </UniLink>
-              </div>
-              <PageContent
-                content={comment.metadata?.content?.content}
-              ></PageContent>
-            </div>
-          </div>
+          <CommentItem comment={comment} key={comment.transactionHash} />
         ))}
       </div>
     </div>

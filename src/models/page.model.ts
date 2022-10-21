@@ -584,6 +584,9 @@ export async function getComments({ pageId }: { pageId: string }) {
     toNoteId: pageId.split("-")[1],
     cursor: "",
     includeCharacter: true,
+    includeNestedNotes: true,
+    nestedNotesDepth: 3 as 3,
+    nestedNotesLimit: 20,
   }
 
   let pages: ListResponse<
