@@ -30,7 +30,7 @@
     "@headlessui/react": "1.7.3",
     "@heroicons/react": "2.0.12",
     "@iconify-json/akar-icons": "1.1.9",
-    "@iconify-json/tabler": "1.1.40",
+    "@iconify-json/tabler": "1.1.41",
     "@monaco-editor/react": "4.4.6",
     "@proselog/jwt": "0.1.1",
     "@rainbow-me/rainbowkit": "0.7.2",
