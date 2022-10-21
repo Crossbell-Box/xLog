@@ -25,7 +25,7 @@ specifiers:
   '@next/bundle-analyzer': 12.3.1
   '@playwright/test': 1.27.1
   '@proselog/jwt': 0.1.1
-  '@rainbow-me/rainbowkit': 0.7.2
+  '@rainbow-me/rainbowkit': 0.7.3
   '@tanstack/react-query': 4.12.0
   '@tanstack/react-query-devtools': 4.12.0
   '@tanstack/react-query-persist-client': 4.12.0
@@ -149,7 +149,7 @@ dependencies:
   '@iconify-json/tabler': 1.1.40
   '@monaco-editor/react': 4.4.6_biqbaboplfbrettd7655fr4n2y
   '@proselog/jwt': 0.1.1
-  '@rainbow-me/rainbowkit': 0.7.2_cb4fkzaxwbg4l5jffcmcvy6tvq
+  '@rainbow-me/rainbowkit': 0.7.3_cb4fkzaxwbg4l5jffcmcvy6tvq
   '@tanstack/react-query': 4.12.0_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-query-devtools': 4.12.0_pqnxmwujmmnpcx44ucekqkefny
   '@tanstack/react-query-persist-client': 4.12.0_drd77wjzdtjhkwvbq4fmcrf7wi
@@ -2041,8 +2041,8 @@ packages:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
     dev: false
 
-  /@rainbow-me/rainbowkit/0.7.2_cb4fkzaxwbg4l5jffcmcvy6tvq:
-    resolution: {integrity: sha512-E1M1lyw8ajwFve9G2ZyR47+UfI5xO73AHn7HaqI8lUAPkbhViLJ+A5yA+VzKQk98JWiRsO4Afd9UycrfSu5RRQ==}
+  /@rainbow-me/rainbowkit/0.7.3_cb4fkzaxwbg4l5jffcmcvy6tvq:
+    resolution: {integrity: sha512-a0AdR8F+XcwmtX2Y074Y4dZRfl+3OShJidhQ9FmCTJ3FXsc3JAEXiJGJuoTjiK7QdZtI1BVk/+2W3NEdCIa+8Q==}
     engines: {node: '>=12.4'}
     peerDependencies:
       ethers: '>=5.5.1'
