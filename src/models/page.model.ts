@@ -130,7 +130,7 @@ const expandPage = (page: Note, render: boolean) => {
 
 const getLocalPages = (input: { site: string; isPost?: boolean }) => {
   const pages: Note[] = []
-  getKeys(`draft-${input.site}`).forEach((key) => {
+  getKeys(`draft-${input.site}-`).forEach((key) => {
     const page = getStorage(key)
     if (input.isPost === undefined || page.isPost === input.isPost) {
       pages.push({
