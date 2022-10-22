@@ -74,9 +74,9 @@ export default function SubdomainEditor() {
     render: false,
   })
 
-  const visibility = page.data
-    ? getPageVisibility(page.data)
-    : PageVisibilityEnum.Draft
+  const [visibility, setVisibility] = useState<PageVisibilityEnum>(
+    page.data ? getPageVisibility(page.data) : PageVisibilityEnum.Draft,
+  )
 
   const uploadFile = useUploadFile()
 
@@ -95,6 +95,9 @@ export default function SubdomainEditor() {
 
   const updateValue = useCallback(
     <K extends keyof Values>(key: K, value: Values[K]) => {
+      if (visibility === PageVisibilityEnum.Published) {
+        setVisibility(PageVisibilityEnum.Modified)
+      }
       if (key === "title") {
         setDefaultSlug(
           pinyin(value as string, {
