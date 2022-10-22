@@ -20,15 +20,15 @@ export const CommentItem: React.FC<{
   comment: NoteEntity & {
     character?: CharacterEntity | null
   }
-  isSub?: boolean
   originalId?: string
-}> = ({ comment, isSub, originalId }) => {
+  depth: number
+}> = ({ comment, originalId, depth }) => {
   const [replyOpen, setReplyOpen] = useState(false)
 
   return (
     <div
       key={comment.transactionHash}
-      className={isSub ? "" : "border-b border-dashed pb-6"}
+      className={depth > 0 ? "" : "border-b border-dashed pb-6"}
     >
       <div className="flex group">
         <UniLink
@@ -80,13 +80,15 @@ export const CommentItem: React.FC<{
               size="sm"
               pageId={`${comment.characterId}-${comment.noteId}`}
             />
-            <Button
-              className="text-gray-500 text-[13px] ml-2 mt-[-1px]"
-              variant="text"
-              onClick={() => setReplyOpen(!replyOpen)}
-            >
-              {replyOpen ? "Cancel" : "Reply"}
-            </Button>
+            {depth < 2 && (
+              <Button
+                className="text-gray-500 text-[13px] ml-2 mt-[-1px]"
+                variant="text"
+                onClick={() => setReplyOpen(!replyOpen)}
+              >
+                {replyOpen ? "Cancel" : "Reply"}
+              </Button>
+            )}
           </div>
           {replyOpen && (
             <div className="pt-6">
@@ -109,7 +111,7 @@ export const CommentItem: React.FC<{
               <CommentItem
                 comment={subcomment}
                 key={subcomment.transactionHash}
-                isSub={true}
+                depth={depth + 1}
               />
             ),
           )}

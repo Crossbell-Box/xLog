@@ -27,6 +27,7 @@ export const Comment: React.FC<{
             originalId={page?.id}
             comment={comment}
             key={comment.transactionHash}
+            depth={0}
           />
         ))}
       </div>
