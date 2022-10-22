@@ -179,12 +179,19 @@ export function useCommentPage() {
   const contract = useContract()
   const queryClient = useQueryClient()
   return useMutation(
-    async (input: Parameters<typeof pageModel.commentPage>[0]) => {
+    async (
+      input: Parameters<typeof pageModel.commentPage>[0] & {
+        originalId?: string
+      },
+    ) => {
       return pageModel.commentPage(input, contract)
     },
     {
       onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getComments", variables.pageId])
+        queryClient.invalidateQueries([
+          "getComments",
+          variables.originalId || variables.pageId,
+        ])
       },
     },
   )

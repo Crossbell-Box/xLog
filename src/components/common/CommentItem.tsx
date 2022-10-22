@@ -8,6 +8,10 @@ import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { PageContent } from "~/components/common/PageContent"
 import { NoteEntity, CharacterEntity } from "crossbell.js"
+import { Button } from "~/components/ui/Button"
+import { Reactions } from "~/components/common/Reactions"
+import { useState } from "react"
+import { CommentInput } from "~/components/common/CommentInput"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -17,13 +21,16 @@ export const CommentItem: React.FC<{
     character?: CharacterEntity | null
   }
   isSub?: boolean
-}> = ({ comment, isSub }) => {
+  originalId?: string
+}> = ({ comment, isSub, originalId }) => {
+  const [replyOpen, setReplyOpen] = useState(false)
+
   return (
     <div
       key={comment.transactionHash}
       className={isSub ? "" : "border-b border-dashed pb-6"}
     >
-      <div className="flex">
+      <div className="flex group">
         <UniLink
           href={
             comment?.character?.handle &&
@@ -67,10 +74,32 @@ export const CommentItem: React.FC<{
           <PageContent
             content={comment.metadata?.content?.content}
           ></PageContent>
+          <div className="mt-1 flex items-center">
+            <Reactions
+              className="inline-flex"
+              size="sm"
+              pageId={`${comment.characterId}-${comment.noteId}`}
+            />
+            <Button
+              className="text-gray-500 text-[13px] ml-2 mt-[-1px]"
+              variant="text"
+              onClick={() => setReplyOpen(!replyOpen)}
+            >
+              {replyOpen ? "Cancel" : "Reply"}
+            </Button>
+          </div>
+          {replyOpen && (
+            <div className="pt-6">
+              <CommentInput
+                originalId={originalId}
+                pageId={`${comment.characterId}-${comment.noteId}`}
+              />
+            </div>
+          )}
         </div>
       </div>
       {(comment as any)?.fromNotes?.list?.length > 0 && (
-        <div className="pl-11 space-y-6 pt-6">
+        <div className="pl-[57px] space-y-6 pt-6">
           {(comment as any)?.fromNotes?.list?.map(
             (
               subcomment: NoteEntity & {
