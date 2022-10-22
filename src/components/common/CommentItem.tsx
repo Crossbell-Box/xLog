@@ -86,7 +86,10 @@ export const CommentItem: React.FC<{
                 variant="text"
                 onClick={() => setReplyOpen(!replyOpen)}
               >
-                {replyOpen ? "Cancel" : "Reply"}
+                {replyOpen ? "Cancel " : ""}Reply
+                <span className="ml-1">
+                  {(comment as any)?.fromNotes?.count || 0}
+                </span>
               </Button>
             )}
           </div>
