@@ -5,7 +5,6 @@ import { SiteFooter } from "./SiteFooter"
 import { SiteHeader } from "./SiteHeader"
 import { useRouter } from "next/router"
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
-import { useGetSiteSubscriptions } from "~/queries/site"
 import { useGetSite } from "~/queries/site"
 import { useGetPage } from "~/queries/page"
 import { OUR_DOMAIN, SITE_URL } from "~/lib/env"
@@ -30,9 +29,6 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({ children, title }) => {
   })
 
   const site = useGetSite(domainOrSubdomain)
-  const subscriptions = useGetSiteSubscriptions({
-    siteId: domainOrSubdomain,
-  })
 
   useEffect(() => {
     if (site.data) {
@@ -58,7 +54,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({ children, title }) => {
         image={page.data?.cover || getUserContentsUrl(site.data?.avatars?.[0])}
         icon={getUserContentsUrl(site.data?.avatars?.[0])}
       />
-      <SiteHeader site={site.data} subscriptions={subscriptions.data} />
+      <SiteHeader site={site.data} />
       <style>{site.data?.css}</style>
       <div
         className={`xlog-post-id-${page.data?.id} max-w-screen-md mx-auto px-5 pt-12 relative`}

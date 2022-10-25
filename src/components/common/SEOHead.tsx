@@ -11,7 +11,6 @@ export const SEOHead: React.FC<{
   return (
     <Head>
       <title>{title ? `${title} - ${siteName}` : siteName}</title>
-      <meta name="twitter:card" content="summary_large_image" />
       <meta name="og:site_name" content={siteName} />
       <meta name="og:title" content={title} />
       <meta name="twitter:title" content={title} />

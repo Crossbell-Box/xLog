@@ -1,30 +1,19 @@
 import clsx from "clsx"
 import { useRouter } from "next/router"
-import { SITE_URL, CSB_SCAN, CSB_IO } from "~/lib/env"
+import { CSB_SCAN, CSB_IO } from "~/lib/env"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
 import { Profile } from "~/lib/types"
 import { ConnectButton } from "../common/ConnectButton"
-import { useAccount } from "wagmi"
-import { useEffect, useState } from "react"
-import toast from "react-hot-toast"
-import {
-  useGetSubscription,
-  useSubscribeToSite,
-  useUnsubscribeFromSite,
-  useGetUserSites,
-} from "~/queries/site"
-import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { RSS3Icon } from "~/components/icons/RSS3Icon"
 import { EllipsisHorizontalIcon, RssIcon } from "@heroicons/react/20/solid"
-import type { Link } from "unidata.js"
-import { getSiteSubscriptions } from "~/models/site.model"
-import { CharacterList } from "~/components/common/CharacterList"
 import type { Links } from "unidata.js"
 import { Image } from "~/components/ui/Image"
+import { FollowingButton } from "~/components/common/FollowingButton"
+import { FollowingCount } from "~/components/common/FollowingCount"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -53,85 +42,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
 
 export const SiteHeader: React.FC<{
   site?: Profile | undefined | null
-  subscriptions?: Links | null
-}> = ({ site, subscriptions }) => {
-  const { address } = useAccount()
-  const subscribeToSite = useSubscribeToSite()
-  const unsubscribeFromSite = useUnsubscribeFromSite()
-  const { openConnectModal } = useConnectModal()
-  const [followProgress, setFollowProgress] = useState<boolean>(false)
-  const userSite = useGetUserSites(address)
-  const router = useRouter()
-  let [isFollowListOpen, setIsFollowListOpen] = useState(false)
-
-  const handleClickSubscribe = async () => {
-    if (!address) {
-      setFollowProgress(true)
-      openConnectModal?.()
-    } else if (!userSite.data) {
-      router.push(`${SITE_URL}/dashboard/new-site`)
-    } else if (site?.username) {
-      if (subscription.data) {
-        unsubscribeFromSite.mutate({
-          userId: address,
-          siteId: site.username,
-        })
-      } else {
-        subscribeToSite.mutate({
-          userId: address,
-          siteId: site.username,
-        })
-      }
-    }
-  }
-
-  const subscription = useGetSubscription({
-    userId: address || "",
-    siteId: site?.username || "",
-  })
-
-  useEffect(() => {
-    if (
-      followProgress &&
-      address &&
-      subscription.isSuccess &&
-      site?.username &&
-      userSite.isSuccess
-    ) {
-      if (!userSite.data) {
-        router.push(`${SITE_URL}/dashboard/new-site`)
-      }
-      if (!subscription.data) {
-        subscribeToSite.mutate({
-          userId: address,
-          siteId: site.username,
-        })
-      }
-      setFollowProgress(false)
-    }
-  }, [
-    userSite.isSuccess,
-    userSite.data,
-    router,
-    followProgress,
-    address,
-    subscription.isSuccess,
-    subscription.data,
-    site?.username,
-    subscribeToSite,
-  ])
-
-  useEffect(() => {
-    if (subscribeToSite.isError || subscribeToSite.data?.code) {
-      toast.error(
-        "Failed to follow: " +
-          (subscribeToSite.data?.message ||
-            (subscribeToSite.error as any)?.message),
-      )
-      subscribeToSite.reset()
-    }
-  }, [subscribeToSite.isError, subscribeToSite.data?.code, subscribeToSite])
-
+}> = ({ site }) => {
   const leftLinks: HeaderLinkType[] = site?.navigation?.find(
     (nav) => nav.url === "/",
   )
@@ -160,26 +71,6 @@ export const SiteHeader: React.FC<{
       url: `/feed`,
     },
   ]
-
-  const [siteSubscriptionList, setSiteSubscriptionList] = useState<Link[]>([])
-  const [cursor, setCursor] = useState<string>()
-  useEffect(() => {
-    if (subscriptions && !siteSubscriptionList.length) {
-      setSiteSubscriptionList(subscriptions.list || [])
-      setCursor(subscriptions.cursor)
-    }
-  }, [subscriptions, siteSubscriptionList.length])
-
-  const loadMoreSubscriptions = async () => {
-    if (cursor) {
-      const subs = await getSiteSubscriptions({
-        siteId: site?.username || "",
-        cursor,
-      })
-      setSiteSubscriptionList((prev) => [...prev, ...(subs?.list || [])])
-      setCursor(subs?.cursor)
-    }
-  }
 
   return (
     <header className="xlog-header border-b relative">
@@ -224,47 +115,8 @@ export const SiteHeader: React.FC<{
                 ></div>
               )}
               <div className="mt-3 text-sm">
-                {subscriptions ? (
-                  <span
-                    className="xlog-site-followers align-middle text-zinc-500 text-sm cursor-pointer"
-                    onClick={() => setIsFollowListOpen(true)}
-                  >
-                    <span className="font-bold text-zinc-700">
-                      {subscriptions.total}
-                    </span>{" "}
-                    Followers
-                  </span>
-                ) : (
-                  ""
-                )}
-                <Button
-                  variant="text"
-                  onClick={handleClickSubscribe}
-                  className="space-x-1 group align-middle text-accent mx-5"
-                  isLoading={
-                    subscription.data
-                      ? unsubscribeFromSite.isLoading ||
-                        subscribeToSite.isLoading
-                      : userSite.isLoading ||
-                        unsubscribeFromSite.isLoading ||
-                        subscribeToSite.isLoading ||
-                        subscription.isLoading
-                  }
-                >
-                  <span className="i-bxs:bell"></span>
-                  {subscription.data ? (
-                    <>
-                      <span className="pr-1 group-hover:hidden w-16">
-                        Following
-                      </span>
-                      <span className="pr-1 hidden group-hover:block w-16">
-                        Unfollow
-                      </span>
-                    </>
-                  ) : (
-                    <span className="pr-1">Follow</span>
-                  )}
-                </Button>
+                <FollowingCount siteId={site?.username} />
+                <FollowingButton siteId={site?.username} />
                 <div className="relative inline-block align-middle h-7 group">
                   <Button
                     variant="text"
@@ -306,14 +158,6 @@ export const SiteHeader: React.FC<{
           <ConnectButton variant="text" />
         </div>
       </div>
-      <CharacterList
-        open={isFollowListOpen}
-        setOpen={setIsFollowListOpen}
-        title="Follow List"
-        loadMore={loadMoreSubscriptions}
-        hasMore={!!cursor}
-        list={siteSubscriptionList}
-      ></CharacterList>
     </header>
   )
 }
