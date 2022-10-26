@@ -7,12 +7,20 @@ export const ButtonGroup: React.FC<{ children: React.ReactNode }> = ({
   return <div className="button-group">{children}</div>
 }
 
+export type Variant =
+  | "primary"
+  | "secondary"
+  | "text"
+  | "like"
+  | "collect"
+  | "crossbell"
+
 type ButtonProps = {
   isLoading?: boolean
   isBlock?: boolean
   isDisabled?: boolean
   isAutoWidth?: boolean
-  variant?: "primary" | "secondary" | "text" | "like" | "collect" | "crossbell"
+  variant?: Variant
   variantColor?: "green" | "red" | "gray"
   size?: "sm" | "xl"
   rounded?: "full" | "lg"

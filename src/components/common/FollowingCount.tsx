@@ -8,7 +8,8 @@ import { useGetSiteSubscriptions } from "~/queries/site"
 
 export const FollowingCount: React.FC<{
   siteId?: string
-}> = ({ siteId }) => {
+  disableList?: boolean
+}> = ({ siteId, disableList }) => {
   let [isFollowListOpen, setIsFollowListOpen] = useState(false)
 
   const subscriptions = useGetSiteSubscriptions({
@@ -48,7 +49,10 @@ export const FollowingCount: React.FC<{
     <>
       {subscriptions ? (
         <span
-          className="xlog-site-followers align-middle text-zinc-500 text-sm cursor-pointer"
+          className={
+            "xlog-site-followers align-middle text-zinc-500 text-sm" +
+            (disableList ? "" : " cursor-pointer")
+          }
           onClick={() => setIsFollowListOpen(true)}
         >
           <span className="font-bold text-zinc-700">
@@ -59,14 +63,16 @@ export const FollowingCount: React.FC<{
       ) : (
         ""
       )}
-      <CharacterList
-        open={isFollowListOpen}
-        setOpen={setIsFollowListOpen}
-        title="Follow List"
-        loadMore={loadMoreSubscriptions}
-        hasMore={!!cursor}
-        list={siteSubscriptionList}
-      ></CharacterList>
+      {!disableList && (
+        <CharacterList
+          open={isFollowListOpen}
+          setOpen={setIsFollowListOpen}
+          title="Follow List"
+          loadMore={loadMoreSubscriptions}
+          hasMore={!!cursor}
+          list={siteSubscriptionList}
+        ></CharacterList>
+      )}
     </>
   )
 }

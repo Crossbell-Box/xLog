@@ -152,8 +152,8 @@ a {
 
 .button.is-sm {
   @apply h-7;
-  @apply px-2;
-  @apply text-xs;
+  @apply px-3;
+  @apply text-sm;
   @apply min-w-[auto];
 }
 

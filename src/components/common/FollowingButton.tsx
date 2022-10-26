@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { SITE_URL } from "~/lib/env"
-import { Button } from "../ui/Button"
-import { Profile } from "~/lib/types"
+import { Button } from "~/components/ui/Button"
+import type { Variant } from "~/components/ui/Button"
 import { useAccount } from "wagmi"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
@@ -12,11 +12,15 @@ import {
   useGetUserSites,
 } from "~/queries/site"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
-import type { Links } from "unidata.js"
+import clsx from "clsx"
 
 export const FollowingButton: React.FC<{
   siteId?: string
-}> = ({ siteId }) => {
+  variant?: Variant
+  className?: string
+  size?: "sm" | "xl"
+  loadingStatusChange?: (status: boolean) => void
+}> = ({ siteId, variant, className, size, loadingStatusChange }) => {
   const { address } = useAccount()
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
@@ -93,11 +97,23 @@ export const FollowingButton: React.FC<{
     }
   }, [subscribeToSite.isError, subscribeToSite.data?.code, subscribeToSite])
 
+  useEffect(() => {
+    if (unsubscribeFromSite.isLoading || subscribeToSite.isLoading) {
+      loadingStatusChange?.(true)
+    } else {
+      loadingStatusChange?.(false)
+    }
+  }, [
+    unsubscribeFromSite.isLoading,
+    subscribeToSite.isLoading,
+    loadingStatusChange,
+  ])
+
   return (
     <Button
-      variant="text"
+      variant={variant}
       onClick={handleClickSubscribe}
-      className="space-x-1 group align-middle text-accent mx-5"
+      className={clsx(className, "align-middle space-x-1")}
       isLoading={
         subscription.data
           ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading
@@ -106,6 +122,7 @@ export const FollowingButton: React.FC<{
             subscribeToSite.isLoading ||
             subscription.isLoading
       }
+      size={size}
     >
       <span className="i-bxs:bell"></span>
       {subscription.data ? (

@@ -10,7 +10,6 @@ import { ConnectButton } from "../common/ConnectButton"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { RSS3Icon } from "~/components/icons/RSS3Icon"
 import { EllipsisHorizontalIcon, RssIcon } from "@heroicons/react/20/solid"
-import type { Links } from "unidata.js"
 import { Image } from "~/components/ui/Image"
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
@@ -116,7 +115,11 @@ export const SiteHeader: React.FC<{
               )}
               <div className="mt-3 text-sm">
                 <FollowingCount siteId={site?.username} />
-                <FollowingButton siteId={site?.username} />
+                <FollowingButton
+                  siteId={site?.username}
+                  className="text-accent mx-5"
+                  variant="text"
+                />
                 <div className="relative inline-block align-middle h-7 group">
                   <Button
                     variant="text"

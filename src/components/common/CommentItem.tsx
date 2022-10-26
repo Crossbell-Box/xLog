@@ -12,6 +12,7 @@ import { Button } from "~/components/ui/Button"
 import { Reactions } from "~/components/common/Reactions"
 import { useState } from "react"
 import { CommentInput } from "~/components/common/CommentInput"
+import { CharacterCard } from "~/components/common/CharacterCard"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -31,21 +32,27 @@ export const CommentItem: React.FC<{
       className={depth > 0 ? "" : "border-b border-dashed pb-6"}
     >
       <div className="flex group">
-        <UniLink
-          href={
-            comment?.character?.handle &&
-            getSiteLink({
-              subdomain: comment.character.handle,
-            })
-          }
-          className="align-middle mr-3"
-        >
-          <Avatar
-            images={comment?.character?.metadata?.content?.avatars || []}
-            name={comment?.character?.metadata?.content?.name}
-            size={45}
-          />
-        </UniLink>
+        <div>
+          <CharacterCard siteId={comment?.character?.handle}>
+            <div>
+              <UniLink
+                href={
+                  comment?.character?.handle &&
+                  getSiteLink({
+                    subdomain: comment.character.handle,
+                  })
+                }
+                className="block align-middle mr-3"
+              >
+                <Avatar
+                  images={comment?.character?.metadata?.content?.avatars || []}
+                  name={comment?.character?.metadata?.content?.name}
+                  size={45}
+                />
+              </UniLink>
+            </div>
+          </CharacterCard>
+        </div>
         <div className="flex-1 flex flex-col rounded-lg">
           <div className="mb-1 text-sm">
             <UniLink
