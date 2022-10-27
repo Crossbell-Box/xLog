@@ -44,7 +44,7 @@ specifiers:
   '@types/prismjs': 1.26.0
   '@types/react': 18.0.21
   '@types/react-avatar-editor': 13.0.0
-  '@types/react-dom': 18.0.6
+  '@types/react-dom': 18.0.8
   '@types/react-infinite-scroller': 1.2.3
   '@types/react-scroll': 1.8.4
   '@types/sortablejs': 1.15.0
@@ -243,7 +243,7 @@ devDependencies:
   '@types/prismjs': 1.26.0
   '@types/react': 18.0.21
   '@types/react-avatar-editor': 13.0.0
-  '@types/react-dom': 18.0.6
+  '@types/react-dom': 18.0.8
   '@types/react-infinite-scroller': 1.2.3
   '@types/react-scroll': 1.8.4
   '@types/sortablejs': 1.15.0
@@ -2428,8 +2428,8 @@ packages:
       '@types/react': 18.0.21
     dev: true
 
-  /@types/react-dom/18.0.6:
-    resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
+  /@types/react-dom/18.0.8:
+    resolution: {integrity: sha512-C3GYO0HLaOkk9dDAz3Dl4sbe4AKUGTCfFIZsz3n/82dPNN8Du533HzKatDxeUYWu24wJgMP1xICqkWk1YOLOIw==}
     dependencies:
       '@types/react': 18.0.21
     dev: true
