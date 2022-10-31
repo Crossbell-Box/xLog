@@ -42,13 +42,15 @@ export const SiteArchives: React.FC<{
                 <h3 className="text-lg font-bold mb-1 text-zinc-700">{year}</h3>
                 {posts.map((post) => {
                   return (
-                    <Link key={post.id} href={`/${post.slug || post.id}`}>
-                      <a className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-zinc-100">
-                        <span className="text-zinc-700">{post.title}</span>
-                        <span className="text-zinc-400 mr-3 whitespace-nowrap">
-                          {formatDate(post.date_published, "MMM D")}
-                        </span>
-                      </a>
+                    <Link
+                      key={post.id}
+                      href={`/${post.slug || post.id}`}
+                      className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-zinc-100"
+                    >
+                      <span className="text-zinc-700">{post.title}</span>
+                      <span className="text-zinc-400 mr-3 whitespace-nowrap">
+                        {formatDate(post.date_published, "MMM D")}
+                      </span>
                     </Link>
                   )
                 })}

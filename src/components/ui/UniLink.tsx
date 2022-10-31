@@ -35,8 +35,8 @@ export const UniLink: React.FC<{
   }
 
   return (
-    <Link href={href}>
-      <a className={className}>{children}</a>
+    <Link href={href} className={className}>
+      {children}
     </Link>
   )
 }

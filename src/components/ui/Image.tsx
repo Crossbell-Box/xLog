@@ -11,11 +11,11 @@ export const Image: React.FC<
     height?: number | string
   } & React.HTMLAttributes<HTMLImageElement> &
     ImageProps
-> = ({ layout, className, alt, src, width, height, ...props }) => {
+> = ({ fill, className, alt, src, width, height, ...props }) => {
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
   const [autoWidth, setAutoWidth] = React.useState(0)
-  const autoSize = !width && !height && !layout
+  const autoSize = !width && !height && !fill
 
   return (
     <span
@@ -41,7 +41,7 @@ export const Image: React.FC<
           alt={alt}
           width={width}
           height={height}
-          layout={autoSize ? "fill" : layout}
+          fill={fill || autoSize}
           onLoad={({ target }) => {
             if (autoSize) {
               const { naturalWidth, naturalHeight } = target as HTMLImageElement

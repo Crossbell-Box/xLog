@@ -118,18 +118,18 @@ export function DashboardLayout({
                 href: link.href,
               })
               return (
-                <Link href={link.href} key={link.href}>
-                  <a
-                    className={clsx(
-                      `flex px-2 h-8 text-sm items-center rounded-lg space-x-2`,
-                      active
-                        ? `bg-gray-200 font-medium text-gray-800`
-                        : `hover:bg-gray-200 hover:bg-opacity-50`,
-                    )}
-                  >
-                    <span className={clsx(link.icon, "text-lg")}></span>
-                    <span>{link.text}</span>
-                  </a>
+                <Link
+                  href={link.href}
+                  key={link.href}
+                  className={clsx(
+                    `flex px-2 h-8 text-sm items-center rounded-lg space-x-2`,
+                    active
+                      ? `bg-gray-200 font-medium text-gray-800`
+                      : `hover:bg-gray-200 hover:bg-opacity-50`,
+                  )}
+                >
+                  <span className={clsx(link.icon, "text-lg")}></span>
+                  <span>{link.text}</span>
                 </Link>
               )
             })}
