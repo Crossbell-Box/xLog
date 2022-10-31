@@ -12,6 +12,8 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
 import { PageContent } from "~/components/common/PageContent"
+import { useEffect, useMemo, useState } from "react"
+import { setStorage, getStorage } from "~/lib/storage"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -25,6 +27,24 @@ export default function SubdomainIndex() {
   const notifications = useGetNotifications({
     siteCId: site.data?.metadata?.proof,
   })
+
+  const [lastNotificationCreated, setLastNotificationCreated] = useState(0)
+
+  useMemo(() => {
+    if (subdomain && !lastNotificationCreated) {
+      setLastNotificationCreated(
+        +new Date(getStorage(`notification-${subdomain}`)?.createdAt || 1),
+      )
+    }
+  }, [subdomain])
+
+  useEffect(() => {
+    if (notifications.data?.[0].createdAt && subdomain) {
+      setStorage(`notification-${subdomain}`, {
+        createdAt: notifications.data[0].createdAt,
+      })
+    }
+  }, [notifications.data, subdomain])
 
   return (
     <DashboardLayout title="Dashboard">
@@ -59,7 +79,13 @@ export default function SubdomainIndex() {
 
               return (
                 <div key={key} className="border-t border-dashed pt-4">
-                  <div className="flex group items-center">
+                  <div className="flex group items-center relative">
+                    {+new Date(notification.createdAt) >
+                      +new Date(lastNotificationCreated) && (
+                      <div className="absolute right-full text-xs pr-2 top-1/2 -translate-y-1/2 font-bold text-accent">
+                        New
+                      </div>
+                    )}
                     <div>
                       <CharacterCard siteId={character?.handle}>
                         <div>
@@ -70,7 +96,7 @@ export default function SubdomainIndex() {
                                 subdomain: character.handle,
                               })
                             }
-                            className="block align-middle mr-3"
+                            className="block align-middle mr-3 text-[0px]"
                           >
                             <Avatar
                               images={

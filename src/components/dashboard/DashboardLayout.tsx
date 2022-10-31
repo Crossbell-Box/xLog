@@ -12,7 +12,8 @@ import { SiteSwitcher } from "./SiteSwitcher"
 import { useGetUserSites } from "~/queries/site"
 import { useAccount } from "wagmi"
 import { ConnectButton } from "~/components/common/ConnectButton"
-import { useGetSite } from "~/queries/site"
+import { useGetNotifications, useGetSite } from "~/queries/site"
+import { getStorage } from "~/lib/storage"
 
 export function DashboardLayout({
   children,
@@ -28,6 +29,25 @@ export function DashboardLayout({
   const { address } = useAccount()
 
   const userSite = useGetUserSites(address)
+
+  const notifications = useGetNotifications({
+    siteCId: site.data?.metadata?.proof,
+  })
+
+  const notificationCreatedAt =
+    getStorage(`notification-${subdomain}`)?.createdAt || 0
+
+  const [notificationCount, setNotificationCount] = useState(0)
+
+  useEffect(() => {
+    if (notifications.data && subdomain) {
+      const count = notifications.data.filter(
+        (notification: any) =>
+          +new Date(notification.createdAt) > +new Date(notificationCreatedAt),
+      ).length
+      setNotificationCount(count)
+    }
+  }, [notifications.data, subdomain, notificationCreatedAt])
 
   useEffect(() => {
     if (!address) {
@@ -67,8 +87,10 @@ export function DashboardLayout({
     {
       href: `/dashboard/${subdomain}/notifications`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-bi:bell",
-      text: "Notifications",
+      icon: notificationCount > 0 ? "i-bi:bell-fill" : "i-bi:bell",
+      text:
+        "Notifications" +
+        (notificationCount > 0 ? ` (${notificationCount})` : ""),
     },
     {
       href: `/dashboard/${subdomain}/settings/general`,
