@@ -65,6 +65,12 @@ export function DashboardLayout({
       text: "Pages",
     },
     {
+      href: `/dashboard/${subdomain}/notifications`,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: "i-bi:bell",
+      text: "Notifications",
+    },
+    {
       href: `/dashboard/${subdomain}/settings/general`,
       isActive: ({ pathname }) =>
         pathname.startsWith(`/dashboard/${subdomain}/settings`),

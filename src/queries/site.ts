@@ -130,3 +130,14 @@ export function useUnsubscribeFromSite() {
     },
   )
 }
+
+export const useGetNotifications = (data: { siteCId?: string }) => {
+  return useQuery(["getNotifications", data], async () => {
+    if (!data.siteCId) {
+      return null
+    }
+    return siteModel.getNotifications({
+      siteCId: data.siteCId,
+    })
+  })
+}
