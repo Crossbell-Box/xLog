@@ -24,20 +24,24 @@ export const getServerSideProps = async (
       },
       queryClient,
     ),
-    new Promise(async (resolve) => {
+    new Promise(async (resolve, reject) => {
       if (pageSlug) {
-        const page = await fetchGetPage(
-          {
-            site: domainOrSubdomain,
-            page: pageSlug,
-            render: true,
-            includeAuthors: true,
-          },
-          queryClient,
-        )
+        try {
+          const page = await fetchGetPage(
+            {
+              site: domainOrSubdomain,
+              page: pageSlug,
+              render: true,
+              includeAuthors: true,
+            },
+            queryClient,
+          )
 
-        if (new Date(page!.date_published) > new Date()) {
-          throw notFound()
+          if (!page || new Date(page!.date_published) > new Date()) {
+            reject(notFound())
+          }
+        } catch (error) {
+          reject(error)
         }
       } else {
         await prefetchGetPagesBySite(
