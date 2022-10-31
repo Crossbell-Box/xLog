@@ -130,7 +130,7 @@ specifiers:
   wagmi: 0.7.5
   web3.storage: 4.4.0
   zod: 3.19.1
-  zustand: 4.1.2
+  zustand: 4.1.4
 
 dependencies:
   '@codemirror/commands': 6.1.2
@@ -221,7 +221,7 @@ dependencies:
   wagmi: 0.7.5_ir5rj4sfbt34e63yhlgyn6mx7a
   web3.storage: 4.4.0_typescript@4.8.4
   zod: 3.19.1
-  zustand: 4.1.2_react@18.2.0
+  zustand: 4.1.4_react@18.2.0
 
 devDependencies:
   '@crossbell/ipfs-gateway-next': 0.0.15_wopfow6xixa7rxdb4mdmswoxq4
@@ -2930,7 +2930,7 @@ packages:
       abitype: 0.1.7_typescript@4.8.4
       ethers: 5.7.2
       eventemitter3: 4.0.7
-      zustand: 4.1.2_react@18.2.0
+      zustand: 4.1.4_react@18.2.0
     transitivePeerDependencies:
       - immer
       - react
@@ -11369,8 +11369,8 @@ packages:
     resolution: {integrity: sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==}
     dev: false
 
-  /zustand/4.1.2_react@18.2.0:
-    resolution: {integrity: sha512-gcRaKchcxFPbImrBb/BKgujOhHhik9YhVpIeP87ETT7uokEe2Szu7KkuZ9ghjtD+/KKkcrRNktR2AiLXPIbKIQ==}
+  /zustand/4.1.4_react@18.2.0:
+    resolution: {integrity: sha512-k2jVOlWo8p4R83mQ+/uyB8ILPO2PCJOf+QVjcL+1PbMCk1w5OoPYpAIxy9zd93FSfmJqoH6lGdwzzjwqJIRU5A==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       immer: '>=9.0'
