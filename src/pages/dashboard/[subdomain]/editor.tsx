@@ -360,7 +360,9 @@ export default function SubdomainEditor() {
                   ></EditorToolbar>
                   <UniLink
                     className="ml-7 align-middle"
-                    href={`${GITHUB_LINK}/wiki/xLog-Flavored-Markdown`}
+                    href={`${getSiteLink({
+                      subdomain: "xlog",
+                    })}/xfm`}
                   >
                     Tip: xLog Flavored Markdown
                   </UniLink>
