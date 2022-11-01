@@ -122,7 +122,7 @@
     "@types/hast": "2.3.4",
     "@types/js-yaml": "4.0.5",
     "@types/mjml": "4.7.0",
-    "@types/node": "18.11.2",
+    "@types/node": "18.11.9",
     "@types/pica": "9.0.1",
     "@types/prismjs": "1.26.0",
     "@types/react": "18.0.21",
