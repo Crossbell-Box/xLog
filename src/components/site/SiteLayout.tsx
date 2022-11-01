@@ -13,11 +13,16 @@ import { IS_PROD } from "~/lib/constants"
 export type SiteLayoutProps = {
   children: React.ReactNode
   title?: string | null
+  siteId?: string
 }
 
-export const SiteLayout: React.FC<SiteLayoutProps> = ({ children, title }) => {
+export const SiteLayout: React.FC<SiteLayoutProps> = ({
+  children,
+  title,
+  siteId,
+}) => {
   const router = useRouter()
-  const domainOrSubdomain = router.query.site as string
+  const domainOrSubdomain = (router.query.site || siteId) as string
   const pageSlug = router.query.page as string
   const tag = router.query.tag as string
 
@@ -54,16 +59,18 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({ children, title }) => {
         image={page.data?.cover || getUserContentsUrl(site.data?.avatars?.[0])}
         icon={getUserContentsUrl(site.data?.avatars?.[0])}
       />
-      <SiteHeader site={site.data} />
+      {site.data && <SiteHeader site={site.data} />}
       <style>{site.data?.css}</style>
       <div
         className={`xlog-post-id-${page.data?.id} max-w-screen-md mx-auto px-5 pt-12 relative`}
       >
         {children}
       </div>
-      <div className="max-w-screen-md mx-auto pt-12 pb-10">
-        <BlockchainInfo site={site.data} page={page.data} />
-      </div>
+      {site.data && (
+        <div className="max-w-screen-md mx-auto pt-12 pb-10">
+          <BlockchainInfo site={site.data} page={page.data} />
+        </div>
+      )}
       <SiteFooter site={site.data} page={page.data} />
     </>
   )

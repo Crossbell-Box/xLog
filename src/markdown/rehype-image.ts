@@ -4,6 +4,7 @@ import { visit } from "unist-util-visit"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { toGateway } from "~/lib/ipfs-parser"
 import { MarkdownEnv } from "."
+import { IS_PROD } from "~/lib/constants"
 
 const isExternLink = (url: string) => /^https?:\/\//.test(url)
 
@@ -31,7 +32,7 @@ export const rehypeImage: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
       }
 
       if (isExternLink(url)) {
-        if (!url.startsWith("https:")) {
+        if (!url.startsWith("https:") && IS_PROD) {
           throw new Error(`External image url must start with https`)
         }
         return

@@ -144,7 +144,9 @@ export const renderPageContent = (
       .processSync(content)
 
     contentHTML = result.toString()
-  } catch (error) {}
+  } catch (error) {
+    console.error(error)
+  }
   return {
     contentHTML,
     element: result?.result,
