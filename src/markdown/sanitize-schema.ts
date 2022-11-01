@@ -11,6 +11,7 @@ const scheme = {
     "youtube",
     "toc",
     "anchor",
+    "mention",
   ],
   attributes: {
     ...defaultSchema.attributes,

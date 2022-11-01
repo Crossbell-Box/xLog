@@ -27,6 +27,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import { toc, Result as TocResult } from "mdast-util-toc"
 import { Element } from "react-scroll"
 import type { Root } from "hast"
+import { Mention } from "~/components/ui/Mention"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -136,6 +137,7 @@ export const renderPageContent = (
         components: {
           img: Image,
           anchor: Element,
+          mention: Mention,
         } as any,
       })
       .use(() => (tree) => {

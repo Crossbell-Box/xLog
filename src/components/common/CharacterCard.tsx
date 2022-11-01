@@ -45,12 +45,12 @@ export const CharacterCard: React.FC<{
   ])
 
   const [buttonLoading, setButtonLoading] = useState(false)
-  const [firstOpen, setFirstOpen] = useState(false)
+  const [firstOpen, setFirstOpen] = useState("")
   const [site, setSite] = useState<Profile>()
 
   useEffect(() => {
-    if (!firstOpen && open && siteId && !site) {
-      setFirstOpen(true)
+    if (open && siteId && (firstOpen !== siteId || !site)) {
+      setFirstOpen(siteId)
       siteModel.getSite(siteId).then((site) => setSite(site))
     }
   }, [open, firstOpen, siteId, site])
