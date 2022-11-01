@@ -8,7 +8,9 @@ import { renderPageContent } from "~/markdown"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
-  ctx.res.setHeader("Content-Type", "application/feed+json")
+  ctx.res.setHeader("Content-Type", "application/feed+json; charset=utf-8")
+  ctx.res.setHeader("Access-Control-Allow-Methods", "GET")
+  ctx.res.setHeader("Access-Control-Allow-Origin", "*")
   const domainOrSubdomain = ctx.params!.site as string
 
   const site = await fetchGetSite(domainOrSubdomain, queryClient)
