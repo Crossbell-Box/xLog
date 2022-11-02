@@ -29,7 +29,8 @@ export const FollowingButton: React.FC<{
   const userSite = useGetUserSites(address)
   const router = useRouter()
 
-  const handleClickSubscribe = async () => {
+  const handleClickSubscribe = async (e: any) => {
+    e.preventDefault()
     if (!address) {
       setFollowProgress(true)
       openConnectModal?.()

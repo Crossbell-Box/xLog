@@ -19,6 +19,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { prefetchGetSites } from "~/queries/site.server"
 import { useGetSites } from "~/queries/site"
 import showcase from "../../showcase.json"
+import { CharacterCard } from "~/components/common/CharacterCard"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -200,16 +201,20 @@ export default function Home({ region }: { region: string | null }) {
                         className="inline-flex align-middle w-full"
                       >
                         <span className="w-14 h-14">
-                          <Image
-                            className="rounded-full"
-                            src={
-                              site.metadata.content?.avatars?.[0] ||
-                              "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
-                            }
-                            alt={site.handle}
-                            width="56"
-                            height="56"
-                          ></Image>
+                          <CharacterCard siteId={site.handle}>
+                            <span className="w-full h-full">
+                              <Image
+                                className="rounded-full"
+                                src={
+                                  site.metadata.content?.avatars?.[0] ||
+                                  "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
+                                }
+                                alt={site.handle}
+                                width="56"
+                                height="56"
+                              ></Image>
+                            </span>
+                          </CharacterCard>
                         </span>
                         <span className="ml-3 min-w-0 flex-1 justify-center inline-flex flex-col">
                           <span className="truncate w-full inline-block font-medium">
