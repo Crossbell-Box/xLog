@@ -20,6 +20,8 @@ import { prefetchGetSites } from "~/queries/site.server"
 import { useGetSites } from "~/queries/site"
 import showcase from "../../showcase.json"
 import { CharacterCard } from "~/components/common/CharacterCard"
+import { useGetUserSites, useSubscribeToSites } from "~/queries/site"
+import { SITE_URL } from "~/lib/env"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -108,6 +110,52 @@ export default function Home({ region }: { region: string | null }) {
     },
   ]
 
+  const [followProgress, setFollowProgress] = useState<boolean>(false)
+  const userSite = useGetUserSites(address)
+  const subscribeToSites = useSubscribeToSites()
+
+  const followAll = async (e: any) => {
+    if (!address) {
+      setFollowProgress(true)
+      openConnectModal?.()
+    } else if (!userSite.data?.[0]) {
+      router.push(`${SITE_URL}/dashboard/new-site`)
+    } else {
+      subscribeToSites.mutate({
+        user: userSite.data?.[0],
+        sites: showcaseSites.data,
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (
+      followProgress &&
+      address &&
+      showcaseSites.isSuccess &&
+      userSite.data?.[0] &&
+      userSite.isSuccess
+    ) {
+      if (!userSite.data) {
+        router.push(`${SITE_URL}/dashboard/new-site`)
+      }
+      subscribeToSites.mutate({
+        user: userSite.data?.[0],
+        sites: showcaseSites.data,
+      })
+      setFollowProgress(false)
+    }
+  }, [
+    userSite.isSuccess,
+    userSite.data,
+    router,
+    followProgress,
+    address,
+    showcaseSites.isSuccess,
+    showcaseSites.data,
+    subscribeToSites,
+  ])
+
   return (
     <MainLayout tabs={["Features", "Showcase", "Integration"]}>
       <section>
@@ -187,6 +235,19 @@ export default function Home({ region }: { region: string | null }) {
                   Discover these awesome teams and geeks on xLog (sorted by
                   update time)
                 </p>
+                <Button
+                  size="xl"
+                  className="mt-5"
+                  onClick={followAll}
+                  isLoading={
+                    followProgress ||
+                    showcaseSites.isLoading ||
+                    userSite.isLoading ||
+                    subscribeToSites.isLoading
+                  }
+                >
+                  🥳 Follow All!
+                </Button>
                 <ul className="mt-10 grid grid-cols-2 md:grid-cols-3 gap-10">
                   {showcaseSites.data?.map((site: any) => (
                     <li className="inline-flex align-middle" key={site.handle}>

@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import * as siteModel from "~/models/site.model"
 import { useUnidata } from "./unidata"
+import { useContract } from "./crossbell"
 
 export const useGetUserSites = (address?: string) => {
   const unidata = useUnidata()
@@ -115,6 +116,35 @@ export function useSubscribeToSite() {
           },
         ])
         queryClient.invalidateQueries(["getSubscription", variables])
+      },
+    },
+  )
+}
+
+export function useSubscribeToSites() {
+  const contract = useContract()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof siteModel.subscribeToSites>[0]) => {
+      return siteModel.subscribeToSites(input, contract)
+    },
+    {
+      onSuccess: (data, variables) => {
+        variables.sites.forEach((site) => {
+          queryClient.invalidateQueries([
+            "useGetSiteSubscriptions",
+            {
+              siteId: site.metadata?.proof,
+            },
+          ])
+          queryClient.invalidateQueries([
+            "getSubscription",
+            {
+              userId: variables.user.metadata?.proof,
+              siteId: site.metadata?.proof,
+            },
+          ])
+        })
       },
     },
   )

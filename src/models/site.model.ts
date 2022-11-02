@@ -8,6 +8,7 @@ import { createClient } from "@urql/core"
 import axios from "axios"
 import { indexer } from "~/queries/crossbell"
 import type { LinkEntity, NoteEntity } from "crossbell.js"
+import type { Contract } from "crossbell.js"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -109,6 +110,7 @@ export const getSites = async (input: string[]) => {
           characters( where: { handle: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
             handle
             updatedAt
+            characterId
             notes {
               updatedAt
             }
@@ -342,6 +344,25 @@ export async function subscribeToSite(
       type: "follow",
     },
   )
+}
+
+export async function subscribeToSites(
+  input: {
+    user: Profile
+    sites: {
+      characterId: string
+    }[]
+  },
+  contract?: Contract,
+) {
+  if (input.user.metadata?.proof) {
+    return contract?.linkCharactersInBatch(
+      input.user.metadata.proof,
+      input.sites.map((s) => s.characterId).filter((c) => c) as any,
+      [],
+      "follow",
+    )
+  }
 }
 
 export async function unsubscribeFromSite(
