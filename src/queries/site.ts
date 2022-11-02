@@ -134,14 +134,14 @@ export function useSubscribeToSites() {
           queryClient.invalidateQueries([
             "useGetSiteSubscriptions",
             {
-              siteId: site.metadata?.proof,
+              siteId: site.characterId,
             },
           ])
           queryClient.invalidateQueries([
             "getSubscription",
             {
               userId: variables.user.metadata?.proof,
-              siteId: site.metadata?.proof,
+              siteId: site.characterId,
             },
           ])
         })
