@@ -39,7 +39,7 @@ function SiteArchivesPage({
     render: true,
   })
 
-  return <SiteArchives posts={posts.data} />
+  return <SiteArchives posts={posts.data} showTags={true} />
 }
 
 SiteArchivesPage.getLayout = (page: ReactElement) => {
