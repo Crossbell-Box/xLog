@@ -186,6 +186,16 @@ export default function SubdomainEditor() {
           ?.join(", ") || "",
       content: page.data.body?.content || "",
     })
+    setDefaultSlug(
+      pinyin(page.data.title || "", {
+        style: pinyin.STYLE_NORMAL,
+        compact: true,
+      })?.[0]
+        ?.map((word) => word.trim())
+        ?.filter((word) => word)
+        ?.join("-")
+        ?.replace(/\s+/g, "-") || "",
+    )
   }, [page.data, subdomain, draftKey])
 
   const [currentScrollArea, setCurrentScrollArea] = useState<string>("")
@@ -469,7 +479,8 @@ export default function SubdomainEditor() {
                   <div>
                     <Input
                       name="slug"
-                      value={values.slug || defaultSlug}
+                      value={values.slug}
+                      placeholder={defaultSlug}
                       label="Page slug"
                       id="slug"
                       isBlock
