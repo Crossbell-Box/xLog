@@ -54,6 +54,16 @@ export const useGetSiteSubscriptions = (data: { siteId: string }) => {
   })
 }
 
+export const useGetSiteToSubscriptions = (data: { siteId: string }) => {
+  const unidata = useUnidata()
+  return useQuery(["getSiteToSubscriptions", data], async () => {
+    if (!data.siteId) {
+      return null
+    }
+    return siteModel.getSiteToSubscriptions(data, unidata)
+  })
+}
+
 export function useUpdateSite() {
   const unidata = useUnidata()
   const queryClient = useQueryClient()

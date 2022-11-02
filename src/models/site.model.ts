@@ -204,6 +204,27 @@ export const getSiteSubscriptions = async (
   return links
 }
 
+export const getSiteToSubscriptions = async (
+  data: {
+    siteId: string
+    cursor?: string
+  },
+  customUnidata?: Unidata,
+) => {
+  const links = await (customUnidata || unidata).links.get({
+    source: "Crossbell Link",
+    identity: data.siteId,
+    platform: "Crossbell",
+    cursor: data.cursor,
+  })
+
+  links?.list.map(async (item: any) => {
+    item.character = item.metadata.to_raw
+  }) || []
+
+  return links
+}
+
 export async function updateSite(
   payload: {
     site: string

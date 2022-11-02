@@ -29,6 +29,16 @@ export const prefetchGetSiteSubscriptions = async (
   })
 }
 
+export const prefetchGetSiteToSubscriptions = async (
+  input: Parameters<typeof siteModel.getSiteToSubscriptions>[0],
+  queryClient: QueryClient,
+) => {
+  const key = ["getSiteToSubscriptions", input]
+  await queryClient.prefetchQuery(key, async () => {
+    return cacheGet(key, () => siteModel.getSiteToSubscriptions(input))
+  })
+}
+
 export const prefetchGetSites = async (
   input: string[],
   queryClient: QueryClient,

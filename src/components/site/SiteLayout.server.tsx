@@ -1,6 +1,7 @@
 import {
   prefetchGetSite,
   prefetchGetSiteSubscriptions,
+  prefetchGetSiteToSubscriptions,
 } from "~/queries/site.server"
 import { prefetchGetPagesBySite } from "~/queries/page.server"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -19,6 +20,12 @@ export const getServerSideProps = async (
   await Promise.all([
     prefetchGetSite(domainOrSubdomain, queryClient),
     prefetchGetSiteSubscriptions(
+      {
+        siteId: domainOrSubdomain,
+      },
+      queryClient,
+    ),
+    prefetchGetSiteToSubscriptions(
       {
         siteId: domainOrSubdomain,
       },
