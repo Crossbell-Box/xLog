@@ -51,7 +51,7 @@ export const Button = React.forwardRef<
       {...props}
       ref={ref}
       type={type || "button"}
-      disabled={isDisabled}
+      disabled={isDisabled || isLoading}
       className={clsx(
         className,
         "button",
