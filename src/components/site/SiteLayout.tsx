@@ -30,7 +30,6 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
     site: domainOrSubdomain,
     page: pageSlug,
     render: true,
-    includeAuthors: true,
   })
 
   const site = useGetSite(domainOrSubdomain)

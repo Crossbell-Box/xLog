@@ -36,7 +36,6 @@ function SitePagePage({
     site: domainOrSubdomain,
     page: pageSlug,
     render: true,
-    includeAuthors: true,
   })
 
   return <SitePage page={page.data} />

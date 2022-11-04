@@ -13,7 +13,6 @@ function SitePagePage() {
     site: site,
     page: pageSlug,
     render: true,
-    includeAuthors: true,
   })
 
   return <SitePage page={page.data} />
