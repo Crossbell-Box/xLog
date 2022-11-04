@@ -47,7 +47,7 @@ export default async function middleware(req: NextRequest) {
     ).json()
   } catch (error) {}
 
-  if (tenant?.redirect && IS_PROD) {
+  if (tenant?.redirect && IS_PROD && !pathname.startsWith("/feed")) {
     return NextResponse.redirect(
       `${tenant.redirect}${req.nextUrl.pathname}${req.nextUrl.search}`,
     )
