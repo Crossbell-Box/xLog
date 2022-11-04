@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           renderPageContent(page.body?.content, true).contentHTML,
         summary: page.summary?.content,
         url: `${link}/${page.slug || page.id}`,
-        image: page.cover,
+        image: `${link}${page.cover}`,
         date_published: page.date_published,
         date_modified: page.date_updated,
         authors: page.authors?.map((author: any) => ({
