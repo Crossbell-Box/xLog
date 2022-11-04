@@ -23,13 +23,13 @@ import { getSiteLink } from "~/lib/helpers"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { PageVisibilityEnum } from "~/lib/types"
 import { useGetPage, useCreateOrUpdatePage } from "~/queries/page"
+import { checkPageSlug } from "~/models/page.model"
 import { useGetSite } from "~/queries/site"
 import { setStorage, delStorage } from "~/lib/storage"
 import { nanoid } from "nanoid"
 import { useQueryClient } from "@tanstack/react-query"
 import { PageContent } from "~/components/common/PageContent"
 import pinyin from "pinyin"
-import { GITHUB_LINK } from "~/lib/env"
 import type { Root } from "hast"
 import type { EditorView } from "@codemirror/view"
 import { Editor } from "~/components/ui/Editor"
@@ -132,21 +132,30 @@ export default function SubdomainEditor() {
 
   const createOrUpdatePage = useCreateOrUpdatePage()
 
-  const savePage = (published: boolean) => {
-    createOrUpdatePage.mutate({
-      ...values,
+  const savePage = async (published: boolean) => {
+    const check = await checkPageSlug({
       slug: values.slug || defaultSlug,
-      siteId: subdomain,
-      ...(visibility === PageVisibilityEnum.Draft ? {} : { pageId: pageId }),
-      isPost: isPost,
-      published,
-      externalUrl:
-        (values.slug || defaultSlug) &&
-        `${getSiteLink({ subdomain, domain: site.data?.custom_domain })}/${
-          values.slug || defaultSlug
-        }`,
-      applications: page.data?.applications,
+      site: subdomain,
+      pageId: pageId,
     })
+    if (check) {
+      toast.error(check)
+    } else {
+      createOrUpdatePage.mutate({
+        ...values,
+        slug: values.slug || defaultSlug,
+        siteId: subdomain,
+        ...(visibility === PageVisibilityEnum.Draft ? {} : { pageId: pageId }),
+        isPost: isPost,
+        published,
+        externalUrl:
+          (values.slug || defaultSlug) &&
+          `${getSiteLink({ subdomain, domain: site.data?.custom_domain })}/${
+            values.slug || defaultSlug
+          }`,
+        applications: page.data?.applications,
+      })
+    }
   }
 
   useEffect(() => {

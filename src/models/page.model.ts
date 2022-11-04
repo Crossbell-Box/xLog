@@ -9,16 +9,34 @@ import axios from "axios"
 import { toGateway } from "~/lib/ipfs-parser"
 import type Unidata from "unidata.js"
 import type { Contract } from "crossbell.js"
+import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 
-const checkPageSlug = async ({
-  slug,
-  excludePage,
-  siteId,
-}: {
-  slug: string
-  excludePage?: string
-  siteId: string
-}) => {}
+export async function checkPageSlug(
+  input: {
+    slug: string
+    site: string
+    pageId?: string
+  },
+  customUnidata?: Unidata,
+) {
+  const reserved = checkSlugReservedWords(input.slug)
+  if (reserved) {
+    return reserved
+  } else {
+    try {
+      const page = await getPage(
+        {
+          page: input.slug,
+          site: input.site,
+        },
+        customUnidata,
+      )
+      if (page && page.id !== input.pageId) {
+        return `Slug "${input.slug}" has already been used`
+      }
+    } catch (error) {}
+  }
+}
 
 export async function createOrUpdatePage(
   input: {
@@ -288,7 +306,6 @@ export async function getPage<TRender extends boolean = false>(
     pageId?: string
     site?: string
     render?: TRender
-    includeAuthors?: boolean
   },
   customUnidata?: Unidata,
 ) {
