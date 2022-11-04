@@ -48,3 +48,20 @@ export const prefetchGetSites = async (
     return cacheGet(key, () => siteModel.getSites(input))
   })
 }
+
+export const fetchGetNotifications = async (
+  data: { siteCId?: string },
+  queryClient: QueryClient,
+) => {
+  const key = ["getNotifications", data]
+  if (!data.siteCId) {
+    return null
+  }
+  return await queryClient.fetchQuery(key, async () => {
+    return cacheGet(key, () =>
+      siteModel.getNotifications({
+        siteCId: data.siteCId!,
+      }),
+    )
+  })
+}

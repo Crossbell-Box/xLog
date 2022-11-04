@@ -66,12 +66,16 @@ export default function SubdomainIndex() {
                   ) {
                     return null
                   }
-                  key = notification.characterId + notification.noteId
+                  key =
+                    "notes" +
+                    notification.characterId +
+                    "-" +
+                    notification.noteId
                   character = notification?.character
-                  message = "commented on your post"
+                  message = "commented on"
                   break
                 case "backlinks":
-                  key = notification.fromCharacter.handle
+                  key = "backlinks" + notification.fromCharacter.handle
                   character = notification.fromCharacter
                   message = "follows you"
                   break
