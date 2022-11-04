@@ -26,8 +26,10 @@ export default function SettingsDomainsPage() {
   const handleSubmit = form.handleSubmit((values) => {
     updateSite.mutate({
       site: subdomain,
-      subdomain: values.subdomain,
-      custom_domain: values.custom_domain,
+      ...(subdomain !== values.subdomain && { subdomain: values.subdomain }),
+      ...(site.data?.custom_domain !== values.custom_domain && {
+        custom_domain: values.custom_domain,
+      }),
     })
   })
 
