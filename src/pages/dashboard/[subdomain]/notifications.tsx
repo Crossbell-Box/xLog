@@ -50,6 +50,18 @@ export default function SubdomainIndex() {
     <DashboardLayout title="Dashboard">
       <DashboardMain>
         <h2 className="text-2xl font-bold">Notifications</h2>
+        <p className="mt-4">
+          Subscribing the{" "}
+          <UniLink
+            className="text-accent-emphasis"
+            href={`${getSiteLink({
+              subdomain: subdomain,
+            })}/feed/notifications`}
+          >
+            notifications feed
+          </UniLink>{" "}
+          via RSS Reader is a great way to get notified in a timely manner.
+        </p>
         <div className="xlog-comment">
           <div className="prose space-y-4 pt-4">
             {notifications.data?.map((notification) => {

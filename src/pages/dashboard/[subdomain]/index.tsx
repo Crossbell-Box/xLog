@@ -33,6 +33,25 @@ export default function SubdomainIndex() {
                 Change Site Name or Icon
               </UniLink>
             </li>
+            <li>
+              Subscribe the{" "}
+              <UniLink
+                href={`${getSiteLink({
+                  subdomain: subdomain,
+                })}/feed`}
+              >
+                posts feed
+              </UniLink>{" "}
+              and{" "}
+              <UniLink
+                href={`${getSiteLink({
+                  subdomain: subdomain,
+                })}/feed/notifications`}
+              >
+                notifications feed
+              </UniLink>{" "}
+              via RSS Reader
+            </li>
           </ul>
           <p>
             You are not alone, join the community to meet friends or give xLog
