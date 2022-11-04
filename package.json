@@ -125,7 +125,7 @@
     "@types/node": "18.11.2",
     "@types/pica": "9.0.1",
     "@types/prismjs": "1.26.0",
-    "@types/react": "18.0.21",
+    "@types/react": "18.0.25",
     "@types/react-avatar-editor": "13.0.0",
     "@types/react-dom": "18.0.6",
     "@types/react-infinite-scroller": "1.2.3",
