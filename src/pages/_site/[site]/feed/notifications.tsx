@@ -27,11 +27,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   ctx.res.write(
     JSON.stringify({
       version: "https://jsonfeed.org/version/1.1",
-      title: site.name,
+      title: "Notifications on " + site.name,
       description: site.description,
-      icon: site.avatars?.[0],
+      icon: link + site.avatars?.[0],
       home_page_url: link,
-      feed_url: `${link}/feed.json`,
+      feed_url: `${link}/feed/notifications`,
       items: notifications
         ?.map((notification: any) => {
           let key = ""

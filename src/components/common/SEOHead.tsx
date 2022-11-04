@@ -33,6 +33,12 @@ export const SEOHead: React.FC<{
         title={title}
         type="application/feed+json"
       ></link>
+      <link
+        rel="alternate"
+        href="/feed"
+        title={`Notifications on ${title}`}
+        type="application/feed+json"
+      ></link>
       <link rel="icon" href={icon || `${SITE_URL}/logo.svg`}></link>
     </Head>
   )

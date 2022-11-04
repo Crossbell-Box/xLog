@@ -33,9 +33,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       version: "https://jsonfeed.org/version/1.1",
       title: site.name,
       description: site.description,
-      icon: site.avatars?.[0],
+      icon: link + site.avatars?.[0],
       home_page_url: link,
-      feed_url: `${link}/feed.json`,
+      feed_url: `${link}/feed`,
       items: pages.list?.map((page: any) => ({
         id: page.id,
         title: page.title,
