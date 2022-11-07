@@ -92,7 +92,7 @@
     "sharp": "0.31.2",
     "sortablejs": "1.15.0",
     "ua-parser-js": "1.0.32",
-    "unidata.js": "0.7.2",
+    "unidata.js": "0.7.3",
     "unified": "10.1.2",
     "unist-builder": "3.0.0",
     "unist-util-visit": "4.1.1",
