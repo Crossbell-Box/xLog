@@ -115,7 +115,7 @@ specifiers:
   tailwindcss: 3.2.2
   typescript: 4.8.4
   ua-parser-js: 1.0.32
-  unidata.js: 0.7.2
+  unidata.js: 0.7.3
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.1
@@ -204,7 +204,7 @@ dependencies:
   sharp: 0.31.2
   sortablejs: 1.15.0
   ua-parser-js: 1.0.32
-  unidata.js: 0.7.2
+  unidata.js: 0.7.3
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.1
@@ -3642,6 +3642,13 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /axios-retry/3.3.1:
+    resolution: {integrity: sha512-RohAUQTDxBSWLFEnoIG/6bvmy8l3TfpkclgStjl5MDCMBDgapAWCmr1r/9harQfWC8bzLC8job6UcL1A1Yc+/Q==}
+    dependencies:
+      '@babel/runtime': 7.20.1
+      is-retry-allowed: 2.2.0
+    dev: false
+
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
@@ -6977,6 +6984,11 @@ packages:
     dependencies:
       call-bind: 1.0.2
       has-tostringtag: 1.0.0
+
+  /is-retry-allowed/2.2.0:
+    resolution: {integrity: sha512-XVm7LOeLpTW4jV19QSH38vkswxoLud8sQ57YwJVTPWdiaI9I8keEhGFpBlslyVsgdQy4Opg8QOLb8YRgsyZiQg==}
+    engines: {node: '>=10'}
+    dev: false
 
   /is-shared-array-buffer/1.0.2:
     resolution: {integrity: sha512-sqN2UDu1/0y6uvXyStCOzyhAjCSlHceFoMKJW8W9EU9cvic/QdsZ0kEU93HEy3IUEFZIiH/3w+AH/UQbPHNdhA==}
@@ -10490,12 +10502,13 @@ packages:
       busboy: 1.6.0
     dev: true
 
-  /unidata.js/0.7.2:
-    resolution: {integrity: sha512-wjFrX7o5vkVhUyDstn2t5xMmvoEqcpGMKMayFz6EvSg5feNIqwYVDkdaRXB2U0qUIOekdKAYPjqk4tejAw8Gtw==}
+  /unidata.js/0.7.3:
+    resolution: {integrity: sha512-ASpfXErxAohrc7CPmtecUQdtD0fn+1ChqEfQ/YGAZdDmUmXWcsqNgRtIZthEGAXkYVpxbhOdfQ8PTBhtlkNc6A==}
     dependencies:
       '@types/lodash': 4.14.185
       '@urql/core': 2.5.0_graphql@16.5.0
       axios: 0.27.2
+      axios-retry: 3.3.1
       crossbell.js: 0.10.27
       ethers: 5.6.9
       graphql: 16.5.0
