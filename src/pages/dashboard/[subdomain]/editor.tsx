@@ -150,9 +150,10 @@ export default function SubdomainEditor() {
         published,
         externalUrl:
           (values.slug || defaultSlug) &&
-          `${getSiteLink({ subdomain, domain: site.data?.custom_domain })}/${
-            values.slug || defaultSlug
-          }`,
+          `${getSiteLink({
+            subdomain,
+            domain: site.data?.custom_domain,
+          })}/${encodeURIComponent(values.slug || defaultSlug)}`,
         applications: page.data?.applications,
       })
     }
