@@ -47,7 +47,7 @@ specifiers:
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 8.3.4
   '@uiw/codemirror-extensions-events': 4.12.4
-  '@uiw/react-codemirror': 4.12.4
+  '@uiw/react-codemirror': 4.13.0
   '@unocss/cli': 0.46.3
   '@unocss/preset-icons': 0.46.3
   '@urql/core': 3.0.5
@@ -150,7 +150,7 @@ dependencies:
   '@tanstack/react-query-devtools': 4.14.5_gyxsqtja23hdhagyzodcyyjlny
   '@tanstack/react-query-persist-client': 4.14.5_5ranp5o74eejvyb3vbwp2u74vy
   '@uiw/codemirror-extensions-events': 4.12.4_@codemirror+view@6.4.0
-  '@uiw/react-codemirror': 4.12.4_ctvapb2rx4lcpu2krqk2wtzbzq
+  '@uiw/react-codemirror': 4.13.0_ctvapb2rx4lcpu2krqk2wtzbzq
   '@urql/core': 3.0.5
   '@web-std/form-data': 3.0.2
   async-busboy: 1.1.0
@@ -2625,8 +2625,8 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@uiw/codemirror-extensions-basic-setup/4.12.4_l7k4l6cq6ajotpunl35asesgfa:
-    resolution: {integrity: sha512-owSCcRBtS2wYjxgBFkuIjfjWJHsR8AxgsQtqPpHB/6U0zCLuzKS/OM5ZRS2T3rdOizg0hCPztVvmshWeKjF+qw==}
+  /@uiw/codemirror-extensions-basic-setup/4.13.0_l7k4l6cq6ajotpunl35asesgfa:
+    resolution: {integrity: sha512-AR7/VMBjC2S0UJhKXQRNhehDX8O0mRfC1f4VZqQ8SaO2YXThjjBG8czZrEGOG1tmqpeUXgQR3x32A51R5OYcnQ==}
     peerDependencies:
       '@codemirror/commands': '>=6.0.0'
       '@codemirror/language': '>=6.0.0'
@@ -2652,20 +2652,20 @@ packages:
       '@codemirror/view': 6.4.0
     dev: false
 
-  /@uiw/react-codemirror/4.12.4_ctvapb2rx4lcpu2krqk2wtzbzq:
-    resolution: {integrity: sha512-92TAvN2z5snPjPtJDLmbqrqsXXYFYlBnWraXZuDc1XGaw80tB26ZkdEW79CD2QM4Y9LhFIt+sauwlmiAVDs/5A==}
+  /@uiw/react-codemirror/4.13.0_ctvapb2rx4lcpu2krqk2wtzbzq:
+    resolution: {integrity: sha512-M7GHI8aRVsu2qPfuVpYuGp5iBsLzeJxoSx1zLC630zINTSaxRO2xJsptKKupuWXi855yCxGMJMhUo/FFs+Nydw==}
     peerDependencies:
       '@codemirror/state': '>=6.0.0'
       '@codemirror/view': '>=6.0.0'
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@babel/runtime': 7.19.4
+      '@babel/runtime': 7.20.1
       '@codemirror/commands': 6.1.2
       '@codemirror/state': 6.1.2
       '@codemirror/theme-one-dark': 6.1.0
       '@codemirror/view': 6.4.0
-      '@uiw/codemirror-extensions-basic-setup': 4.12.4_l7k4l6cq6ajotpunl35asesgfa
+      '@uiw/codemirror-extensions-basic-setup': 4.13.0_l7k4l6cq6ajotpunl35asesgfa
       codemirror: 6.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
