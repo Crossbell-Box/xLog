@@ -281,3 +281,16 @@ textarea.input {
   @apply border-t-accent !important;
   @apply border-l-accent !important;
 }
+
+.loading:before {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 9999px;
+  border-width: 2px;
+  content: "";
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: currentColor;
+  border-right-color: currentColor;
+  @apply animate-spin;
+}

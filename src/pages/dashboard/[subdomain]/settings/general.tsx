@@ -1,14 +1,15 @@
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { AvatarForm } from "~/components/dashboard/AvatarForm"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 import { UniLink } from "~/components/ui/UniLink"
+import { ImageUploader } from "~/components/ui/ImageUploader"
+import { toIPFS } from "~/lib/ipfs-parser"
 
 export default function SiteSettingsGeneralPage() {
   const router = useRouter()
@@ -20,6 +21,7 @@ export default function SiteSettingsGeneralPage() {
 
   const form = useForm({
     defaultValues: {
+      icon: "",
       name: "",
       description: "",
       ga: "",
@@ -28,6 +30,7 @@ export default function SiteSettingsGeneralPage() {
 
   const handleSubmit = form.handleSubmit((values) => {
     updateSite.mutate({
+      icon: values.icon,
       site: subdomain,
       name: values.name,
       description: values.description,
@@ -49,6 +52,8 @@ export default function SiteSettingsGeneralPage() {
 
   useEffect(() => {
     if (site.data) {
+      !form.getValues("icon") &&
+        form.setValue("icon", toIPFS(site.data?.avatars?.[0] || ""))
       !form.getValues("name") && form.setValue("name", site.data.name || "")
       !form.getValues("description") &&
         form.setValue("description", site.data.bio || "")
@@ -56,20 +61,35 @@ export default function SiteSettingsGeneralPage() {
     }
   }, [site.data, form])
 
+  const [iconUploading, setIconUploading] = useState(false)
+
   return (
     <DashboardLayout title="Site Settings">
       <SettingsLayout title="Site Settings" type="site">
-        {site && (
-          <div>
-            <label className="form-label">Icon</label>
-            <AvatarForm
-              site={site.data?.username!}
-              name={site.data?.name || site.data?.username || ""}
-              filename={site.data?.avatars?.[0] || undefined}
+        <form onSubmit={handleSubmit}>
+          <div className="mt-5">
+            <label htmlFor="icon" className="form-label">
+              Icon
+            </label>
+            <Controller
+              name="icon"
+              control={form.control}
+              render={({ field }) => (
+                <ImageUploader
+                  id="icon"
+                  className="w-24 h-24 rounded-full"
+                  uploadStart={() => {
+                    setIconUploading(true)
+                  }}
+                  uploadEnd={(key) => {
+                    form.setValue("icon", key)
+                    setIconUploading(false)
+                  }}
+                  {...field}
+                />
+              )}
             />
           </div>
-        )}
-        <form onSubmit={handleSubmit}>
           <div className="mt-5">
             <Input required label="Name" id="name" {...form.register("name")} />
           </div>
@@ -108,7 +128,11 @@ export default function SiteSettingsGeneralPage() {
             />
           </div>
           <div className="mt-5">
-            <Button type="submit" isLoading={updateSite.isLoading}>
+            <Button
+              type="submit"
+              isLoading={updateSite.isLoading}
+              isDisabled={iconUploading}
+            >
               Save
             </Button>
           </div>
