@@ -22,15 +22,26 @@ export default function SiteSettingsGeneralPage() {
   const form = useForm({
     defaultValues: {
       icon: "",
+      banner: undefined,
       name: "",
       description: "",
       ga: "",
+    } as {
+      icon: string
+      banner?: {
+        address: string
+        mime_type: string
+      }
+      name: string
+      description: string
+      ga: string
     },
   })
 
   const handleSubmit = form.handleSubmit((values) => {
     updateSite.mutate({
       icon: values.icon,
+      banner: values.banner,
       site: subdomain,
       name: values.name,
       description: values.description,
@@ -54,6 +65,16 @@ export default function SiteSettingsGeneralPage() {
     if (site.data) {
       !form.getValues("icon") &&
         form.setValue("icon", toIPFS(site.data?.avatars?.[0] || ""))
+      !form.getValues("banner") &&
+        form.setValue(
+          "banner",
+          site.data?.banners?.[0]
+            ? {
+                address: toIPFS(site.data?.banners?.[0].address || ""),
+                mime_type: site.data?.banners?.[0].mime_type,
+              }
+            : undefined,
+        )
       !form.getValues("name") && form.setValue("name", site.data.name || "")
       !form.getValues("description") &&
         form.setValue("description", site.data.bio || "")
@@ -62,6 +83,7 @@ export default function SiteSettingsGeneralPage() {
   }, [site.data, form])
 
   const [iconUploading, setIconUploading] = useState(false)
+  const [bannerUploading, setBannerUploading] = useState(false)
 
   return (
     <DashboardLayout title="Site Settings">
@@ -82,13 +104,44 @@ export default function SiteSettingsGeneralPage() {
                     setIconUploading(true)
                   }}
                   uploadEnd={(key) => {
-                    form.setValue("icon", key)
+                    form.setValue("icon", key as string)
                     setIconUploading(false)
                   }}
                   {...field}
                 />
               )}
             />
+          </div>
+          <div className="mt-5">
+            <label htmlFor="icon" className="form-label">
+              Banner
+            </label>
+            <Controller
+              name="banner"
+              control={form.control}
+              render={({ field }) => (
+                <ImageUploader
+                  id="banner"
+                  className="max-w-screen-md h-[220px]"
+                  uploadStart={() => {
+                    setBannerUploading(true)
+                  }}
+                  uploadEnd={(key) => {
+                    form.setValue(
+                      "banner",
+                      key as { address: string; mime_type: string },
+                    )
+                    setBannerUploading(false)
+                  }}
+                  withMimeType={true}
+                  hasClose={true}
+                  {...(field as any)}
+                />
+              )}
+            />
+            <div className="text-xs text-gray-400 mt-1">
+              Click to upload. Supports both pictures and videos.
+            </div>
           </div>
           <div className="mt-5">
             <Input required label="Name" id="name" {...form.register("name")} />
@@ -131,7 +184,7 @@ export default function SiteSettingsGeneralPage() {
             <Button
               type="submit"
               isLoading={updateSite.isLoading}
-              isDisabled={iconUploading}
+              isDisabled={iconUploading || bannerUploading}
             >
               Save
             </Button>

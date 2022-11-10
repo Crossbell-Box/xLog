@@ -238,6 +238,10 @@ export async function updateSite(
     css?: string
     ga?: string
     custom_domain?: string
+    banner?: {
+      address: string
+      mime_type: string
+    }
   },
   customUnidata?: Unidata,
 ) {
@@ -252,6 +256,7 @@ export async function updateSite(
       ...(payload.name && { name: payload.name }),
       ...(payload.description && { bio: payload.description }),
       ...(payload.icon && { avatars: [payload.icon] }),
+      ...(payload.banner && { banners: [payload.banner] }),
       ...(payload.subdomain && { username: payload.subdomain }),
       ...((payload.navigation !== undefined ||
         payload.css !== undefined ||

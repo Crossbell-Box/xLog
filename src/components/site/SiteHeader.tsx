@@ -76,9 +76,10 @@ export const SiteHeader: React.FC<{
       <div className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden">
         {site?.banners?.[0]?.mime_type.split("/")[0] === "image" && (
           <Image
-            className="max-w-screen-md mx-auto object-cover h-full w-full"
+            className="max-w-screen-md mx-auto object-cover"
             src={site?.banners?.[0]?.address}
             alt="banner"
+            fill
           />
         )}
         {site?.banners?.[0]?.mime_type.split("/")[0] === "video" && (
