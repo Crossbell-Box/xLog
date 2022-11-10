@@ -114,7 +114,7 @@
     "@types/ua-parser-js": "0.7.36",
     "@types/uuid": "8.3.4",
     "@unocss/cli": "0.46.3",
-    "@unocss/preset-icons": "0.46.3",
+    "@unocss/preset-icons": "0.46.4",
     "autoprefixer": "10.4.13",
     "cross-spawn": "7.0.3",
     "esbuild": "0.15.13",
