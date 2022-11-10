@@ -126,15 +126,20 @@ export const ImageUploader = forwardRef(function ImageUploader(
             playsInline
           />
         )}
+      {!imageUrl && (
+        <div className="w-full h-full flex justify-center items-center text-zinc-500 text-center">
+          Click to select files
+        </div>
+      )}
       <input
         onChange={handleChange}
         type="file"
         className="absolute top-0 bottom-0 left-0 right-0 opacity-0"
       />
-      {hasClose && (
+      {imageUrl && hasClose && (
         <div
           onClick={clear}
-          className="w-8 h-8 absolute top-4 right-4 shadow-lg bg-white rounded-full cursor-pointer"
+          className="w-8 h-8 absolute top-4 right-4 shadow bg-white rounded-full cursor-pointer"
         >
           <XMarkIcon />
         </div>

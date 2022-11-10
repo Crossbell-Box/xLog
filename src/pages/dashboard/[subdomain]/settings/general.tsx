@@ -140,7 +140,7 @@ export default function SiteSettingsGeneralPage() {
               )}
             />
             <div className="text-xs text-gray-400 mt-1">
-              Click to upload. Supports both pictures and videos.
+              Supports both pictures and videos.
             </div>
           </div>
           <div className="mt-5">
