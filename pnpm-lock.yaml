@@ -60,7 +60,7 @@ specifiers:
   eslint-config-next: 13.0.2
   ethers: 5.7.2
   fast-deep-equal: 3.1.3
-  husky: 8.0.1
+  husky: 8.0.2
   idb-keyval: 6.2.0
   ioredis: 5.2.4
   js-yaml: 4.1.0
@@ -217,7 +217,7 @@ devDependencies:
   esbuild-register: 3.3.3_esbuild@0.15.13
   eslint: 8.27.0
   eslint-config-next: 13.0.2_rmayb2veg2btbq6mbmnyivgasy
-  husky: 8.0.1
+  husky: 8.0.2
   lint-staged: 13.0.3
   postcss-import: 15.0.0
   prettier: 2.7.1
@@ -348,13 +348,6 @@ packages:
       regenerator-runtime: 0.13.10
     dev: true
 
-  /@babel/runtime/7.19.4:
-    resolution: {integrity: sha512-EXpLCrk55f+cYqmHsSR+yD/0gAIMxxA9QK9lnQWzhMCvt+YmoBN7Zx94s++Kv0+unHk39vxNO8t+CMA2WSS3wA==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.10
-    dev: false
-
   /@babel/runtime/7.20.1:
     resolution: {integrity: sha512-mrzLkl6U9YLF8qpqI7TB82PESyEGjm/0Ly91jG575eVxMMlb8fYfOXFZIJ8XfLrJZQbm7dlKry2bJmXBUEkdFg==}
     engines: {node: '>=6.9.0'}
@@ -376,6 +369,7 @@ packages:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
+      '@lezer/common': ^1.0.0
     dependencies:
       '@codemirror/language': 6.3.0
       '@codemirror/state': 6.1.2
@@ -2305,6 +2299,8 @@ packages:
       '@codemirror/search': 6.2.1
       '@codemirror/state': 6.1.2
       '@codemirror/view': 6.4.0
+    transitivePeerDependencies:
+      - '@lezer/common'
     dev: false
 
   /@uiw/codemirror-extensions-events/4.12.4_@codemirror+view@6.4.0:
@@ -2334,6 +2330,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
       - '@codemirror/language'
+      - '@lezer/common'
     dev: false
 
   /@unocss/astro/0.46.4:
@@ -3752,6 +3749,8 @@ packages:
       '@codemirror/search': 6.2.1
       '@codemirror/state': 6.1.2
       '@codemirror/view': 6.4.0
+    transitivePeerDependencies:
+      - '@lezer/common'
     dev: false
 
   /color-convert/1.9.3:
@@ -5720,8 +5719,8 @@ packages:
     engines: {node: '>=12.20.0'}
     dev: true
 
-  /husky/8.0.1:
-    resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==}
+  /husky/8.0.2:
+    resolution: {integrity: sha512-Tkv80jtvbnkK3mYWxPZePGFpQ/tT3HNSs/sasF9P2YfkMezDl3ON37YN6jUUI4eTg5LcyVynlb6r4eyvOmspvg==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
