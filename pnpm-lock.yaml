@@ -55,7 +55,7 @@ specifiers:
   dotenv: 16.0.3
   emoji-mart: 5.2.2
   esbuild: 0.15.13
-  esbuild-register: 3.3.3
+  esbuild-register: 3.4.1
   eslint: 8.27.0
   eslint-config-next: 13.0.2
   ethers: 5.7.2
@@ -214,7 +214,7 @@ devDependencies:
   autoprefixer: 10.4.13
   cross-spawn: 7.0.3
   esbuild: 0.15.13
-  esbuild-register: 3.3.3_esbuild@0.15.13
+  esbuild-register: 3.4.1_esbuild@0.15.13
   eslint: 8.27.0
   eslint-config-next: 13.0.2_rmayb2veg2btbq6mbmnyivgasy
   husky: 8.0.2
@@ -4432,12 +4432,15 @@ packages:
     dev: true
     optional: true
 
-  /esbuild-register/3.3.3_esbuild@0.15.13:
-    resolution: {integrity: sha512-eFHOkutgIMJY5gc8LUp/7c+LLlDqzNi9T6AwCZ2WKKl3HmT+5ef3ZRyPPxDOynInML0fgaC50yszPKfPnjC0NQ==}
+  /esbuild-register/3.4.1_esbuild@0.15.13:
+    resolution: {integrity: sha512-iCgs88/1wA5dIRx4i65eSjbkgrQQQJGpY6Z1eD2XPlzrSjbgNtfkw2/rfSMzJ4dTtlOD8EZTxrIA3fyYp0FsMA==}
     peerDependencies:
       esbuild: '>=0.12 <1'
     dependencies:
+      debug: 4.3.4
       esbuild: 0.15.13
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /esbuild-sunos-64/0.15.13:

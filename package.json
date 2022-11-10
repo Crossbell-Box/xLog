@@ -118,7 +118,7 @@
     "autoprefixer": "10.4.13",
     "cross-spawn": "7.0.3",
     "esbuild": "0.15.13",
-    "esbuild-register": "3.3.3",
+    "esbuild-register": "3.4.1",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.2",
     "husky": "8.0.2",
