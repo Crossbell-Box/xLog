@@ -44,7 +44,7 @@ specifiers:
   '@uiw/codemirror-extensions-events': 4.12.4
   '@uiw/react-codemirror': 4.13.0
   '@unocss/cli': 0.46.3
-  '@unocss/preset-icons': 0.46.3
+  '@unocss/preset-icons': 0.46.4
   '@urql/core': 3.0.5
   autoprefixer: 10.4.13
   axios: 1.1.3
@@ -210,7 +210,7 @@ devDependencies:
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 8.3.4
   '@unocss/cli': 0.46.3
-  '@unocss/preset-icons': 0.46.3
+  '@unocss/preset-icons': 0.46.4
   autoprefixer: 10.4.13
   cross-spawn: 7.0.3
   esbuild: 0.15.13
@@ -348,13 +348,6 @@ packages:
       regenerator-runtime: 0.13.10
     dev: true
 
-  /@babel/runtime/7.19.4:
-    resolution: {integrity: sha512-EXpLCrk55f+cYqmHsSR+yD/0gAIMxxA9QK9lnQWzhMCvt+YmoBN7Zx94s++Kv0+unHk39vxNO8t+CMA2WSS3wA==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.10
-    dev: false
-
   /@babel/runtime/7.20.1:
     resolution: {integrity: sha512-mrzLkl6U9YLF8qpqI7TB82PESyEGjm/0Ly91jG575eVxMMlb8fYfOXFZIJ8XfLrJZQbm7dlKry2bJmXBUEkdFg==}
     engines: {node: '>=6.9.0'}
@@ -376,6 +369,7 @@ packages:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
+      '@lezer/common': ^1.0.0
     dependencies:
       '@codemirror/language': 6.3.0
       '@codemirror/state': 6.1.2
@@ -2305,6 +2299,8 @@ packages:
       '@codemirror/search': 6.2.1
       '@codemirror/state': 6.1.2
       '@codemirror/view': 6.4.0
+    transitivePeerDependencies:
+      - '@lezer/common'
     dev: false
 
   /@uiw/codemirror-extensions-events/4.12.4_@codemirror+view@6.4.0:
@@ -2334,6 +2330,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
       - '@codemirror/language'
+      - '@lezer/common'
     dev: false
 
   /@unocss/astro/0.46.4:
@@ -2426,16 +2423,6 @@ packages:
     resolution: {integrity: sha512-B3N5J0PRjNaMr2ma0eGqinEwbxYoosAtN4a/5vOKWsbkBoVAKZl+6lyvbjDNtPnwKxjEuHL3MbMUvzG46kLGGA==}
     dependencies:
       '@unocss/core': 0.46.4
-    dev: true
-
-  /@unocss/preset-icons/0.46.3:
-    resolution: {integrity: sha512-n0i4LQzj7nKZ/2MF1OH5srjDbqMec3EJZdAKIFKLohuBCpEzddRlC2rZzMdP6KCYyuxg4eJ0EIEuXgX7tWHu+Q==}
-    dependencies:
-      '@iconify/utils': 2.0.1
-      '@unocss/core': 0.46.3
-      ohmyfetch: 0.4.21
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@unocss/preset-icons/0.46.4:
@@ -3752,6 +3739,8 @@ packages:
       '@codemirror/search': 6.2.1
       '@codemirror/state': 6.1.2
       '@codemirror/view': 6.4.0
+    transitivePeerDependencies:
+      - '@lezer/common'
     dev: false
 
   /color-convert/1.9.3:
