@@ -463,16 +463,20 @@ export async function getLikes({
         !item.fromCharacter?.metadata?.content &&
         item.fromCharacter?.metadata?.uri
       ) {
-        item.fromCharacter.metadata.content = (
-          await axios.get(toGateway(item.fromCharacter?.metadata?.uri), {
-            ...(typeof window === "undefined" && {
-              headers: {
-                "User-Agent":
-                  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-              },
-            }),
-          })
-        ).data
+        try {
+          item.fromCharacter.metadata.content = (
+            await axios.get(toGateway(item.fromCharacter?.metadata?.uri), {
+              ...(typeof window === "undefined" && {
+                headers: {
+                  "User-Agent":
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+                },
+              }),
+            })
+          ).data
+        } catch (error) {
+          console.warn(error)
+        }
       }
       ;(<any>item).character = item.fromCharacter
     }),
@@ -533,16 +537,20 @@ export async function getMints({
       const owner = item.owner
       item.character = await indexer.getPrimaryCharacter(owner)
       if (!item.character?.metadata?.content && item.character?.metadata?.uri) {
-        item.character.metadata.content = (
-          await axios.get(toGateway(item.character?.metadata?.uri), {
-            ...(typeof window === "undefined" && {
-              headers: {
-                "User-Agent":
-                  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-              },
-            }),
-          })
-        ).data
+        try {
+          item.character.metadata.content = (
+            await axios.get(toGateway(item.character?.metadata?.uri), {
+              ...(typeof window === "undefined" && {
+                headers: {
+                  "User-Agent":
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+                },
+              }),
+            })
+          ).data
+        } catch (error) {
+          console.warn(error)
+        }
       }
     }),
   )

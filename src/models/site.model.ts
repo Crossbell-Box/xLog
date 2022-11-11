@@ -129,21 +129,25 @@ export const getSites = async (input: string[]) => {
   await Promise.all(
     result.data?.characters?.map(async (site: any) => {
       if (!site?.metadata?.content && site?.metadata?.uri) {
-        site.metadata.content = (
-          await axios.get(
-            toGateway(site?.metadata?.uri, {
-              needRequestAtServerSide: true,
-            }),
-            {
-              ...(typeof window === "undefined" && {
-                headers: {
-                  "User-Agent":
-                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-                },
+        try {
+          site.metadata.content = (
+            await axios.get(
+              toGateway(site?.metadata?.uri, {
+                needRequestAtServerSide: true,
               }),
-            },
-          )
-        ).data
+              {
+                ...(typeof window === "undefined" && {
+                  headers: {
+                    "User-Agent":
+                      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+                  },
+                }),
+              },
+            )
+          ).data
+        } catch (error) {
+          console.warn(error)
+        }
       }
       site.metadata.content.name = site.metadata.content.name || site.handle
 
