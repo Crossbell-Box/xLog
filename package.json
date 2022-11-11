@@ -24,7 +24,7 @@
     "@codemirror/view": "6.4.2",
     "@crossbell/ipfs-gateway": "0.0.15",
     "@crossbell/ipfs-react": "0.0.15",
-    "@emoji-mart/data": "1.0.7",
+    "@emoji-mart/data": "1.0.8",
     "@emoji-mart/react": "1.0.1",
     "@floating-ui/react-dom-interactions": "0.10.3",
     "@headlessui/react": "1.7.4",

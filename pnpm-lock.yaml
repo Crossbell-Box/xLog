@@ -9,7 +9,7 @@ specifiers:
   '@crossbell/ipfs-gateway': 0.0.15
   '@crossbell/ipfs-gateway-next': 0.0.15
   '@crossbell/ipfs-react': 0.0.15
-  '@emoji-mart/data': 1.0.7
+  '@emoji-mart/data': 1.0.8
   '@emoji-mart/react': 1.0.1
   '@floating-ui/react-dom-interactions': 0.10.3
   '@headlessui/react': 1.7.4
@@ -120,7 +120,7 @@ dependencies:
   '@codemirror/view': 6.4.2
   '@crossbell/ipfs-gateway': 0.0.15
   '@crossbell/ipfs-react': 0.0.15_3cuac2dr7yf6nu67tvbbs2j6ry
-  '@emoji-mart/data': 1.0.7
+  '@emoji-mart/data': 1.0.8
   '@emoji-mart/react': 1.0.1_poadgewxbtjc7jksys4uruvyii
   '@floating-ui/react-dom-interactions': 0.10.3_2zx2umvpluuhvlq44va5bta2da
   '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
@@ -569,8 +569,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@emoji-mart/data/1.0.7:
-    resolution: {integrity: sha512-kebZ4Yvjn9wsrIdos7zLtprDfLDn8ymnpUnecUDBDmW62+qeHsC0+bzi6SuFMnDoJ006O6aCKmnmB9WFTPX0Hg==}
+  /@emoji-mart/data/1.0.8:
+    resolution: {integrity: sha512-AMpqLrR80dHfj8ZA6xaf8/t9reBy88vz07fBdwKVVoUX6X2Wi+R2p2uhIZFqNZe8zRd6kga3hKheqK+deElEZw==}
     dev: false
 
   /@emoji-mart/react/1.0.1_poadgewxbtjc7jksys4uruvyii:
