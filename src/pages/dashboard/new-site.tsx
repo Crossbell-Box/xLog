@@ -20,7 +20,7 @@ export default function NewSitePage() {
   const [addressIn, setAddressIn] = useState<string>("")
   const { address } = useAccount()
   const { data: balance } = useBalance({
-    addressOrName: address,
+    address: address,
   })
   const [balanceFormatted, setBalanceFormatted] = useState<string>("")
 

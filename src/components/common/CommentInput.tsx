@@ -10,8 +10,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useState, useEffect } from "react"
 import { useCommentPage } from "~/queries/page"
 import { useRouter } from "next/router"
-// @ts-ignore
-import Picker from "@emoji-mart/react"
+import { EmojiPicker } from "./EmojiPicker"
 import { Popover } from "@headlessui/react"
 import { FaceSmileIcon } from "@heroicons/react/24/outline"
 
@@ -99,13 +98,7 @@ export const CommentInput: React.FC<{
                   <FaceSmileIcon className="w-6 h-6 text-zinc-400 hover:text-zinc-500" />
                 </Popover.Button>
                 <Popover.Panel className="absolute left-0 top-full z-10">
-                  <Picker
-                    data={async () => {
-                      const response = await fetch(
-                        "https://cdn.jsdelivr.net/npm/@emoji-mart/data",
-                      )
-                      return response.json()
-                    }}
+                  <EmojiPicker
                     onEmojiSelect={(e: any) =>
                       form.setValue(
                         "content",

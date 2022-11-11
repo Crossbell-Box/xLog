@@ -56,7 +56,7 @@ export const ConnectButton: React.FC<{
   ]
 
   const { data: balance } = useBalance({
-    addressOrName: address,
+    address: address,
   })
 
   const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(false)
