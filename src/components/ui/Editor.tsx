@@ -45,15 +45,29 @@ export const Editor: React.FC<{
       }),
       EditorView.domEventHandlers({
         drop(e) {
-          const file = e.dataTransfer?.items[0]?.getAsFile()
-          if (file) {
-            handleDropFile?.(file)
+          const items = Array.from(e.dataTransfer?.items || [])
+          {
+            ;(async () => {
+              for (let i = 0; i < items.length; i++) {
+                const file = items[i]?.getAsFile()
+                if (file) {
+                  await handleDropFile?.(file)
+                }
+              }
+            })()
           }
         },
         paste(e) {
-          const file = e.clipboardData?.files[0]
-          if (file) {
-            handleDropFile?.(file)
+          const files = e.clipboardData?.files
+          if (files) {
+            const items = Array.from(files)
+            {
+              ;(async () => {
+                for (let i = 0; i < items.length; i++) {
+                  await handleDropFile?.(items[i])
+                }
+              })()
+            }
           }
         },
       }),
