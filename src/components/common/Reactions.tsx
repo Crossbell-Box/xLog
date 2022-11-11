@@ -240,7 +240,7 @@ export const Reactions: React.FC<{
             >
               {likes.data?.list
                 ?.sort((a, b) =>
-                  b.fromCharacter?.metadata?.content?.avatars ? 1 : -1,
+                  b.fromCharacter?.metadata?.content?.avatars?.[0] ? 1 : -1,
                 )
                 .slice(0, 3)
                 ?.map((like: any, index) => (
@@ -287,7 +287,7 @@ export const Reactions: React.FC<{
             >
               {mints.data?.list
                 ?.sort((a, b: any) =>
-                  b.character?.metadata?.content?.avatars ? 1 : -1,
+                  b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
                 )
                 .slice(0, 3)
                 .map((mint: any, index) => (
