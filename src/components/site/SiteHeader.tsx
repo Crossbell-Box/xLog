@@ -29,7 +29,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
       href={link.url}
       onClick={link.onClick}
       className={clsx(
-        `h-10 flex items-center border-b-2 space-x-1 hover:border-gray-500 hover:text-gray-700`,
+        `xlog-site-navigation-item h-10 flex items-center border-b-2 space-x-1 hover:border-gray-500 hover:text-gray-700`,
         active ? `text-accent border-accent` : `border-transparent`,
       )}
     >
@@ -72,7 +72,7 @@ export const SiteHeader: React.FC<{
   ]
 
   return (
-    <header className="xlog-header border-b relative">
+    <header className="xlog-header border-b border-zinc-100 relative">
       <div className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden">
         {site?.banners?.[0]?.mime_type.split("/")[0] === "image" && (
           <Image
@@ -114,7 +114,7 @@ export const SiteHeader: React.FC<{
                   dangerouslySetInnerHTML={{ __html: site?.description || "" }}
                 ></div>
               )}
-              <div className="mt-3 text-sm">
+              <div className="xlog-site-others mt-3 text-sm">
                 <FollowingCount siteId={site?.username} />
                 <FollowingButton
                   siteId={site?.username}

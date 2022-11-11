@@ -23,7 +23,7 @@ export const SiteHome: React.FC<{
               <Link
                 key={post.id}
                 href={`/${post.slug || post.id}`}
-                className="xlog-post hover:bg-zinc-100 transition-colors p-5 -mx-5 first:-mt-5 md:rounded-xl flex items-center"
+                className="xlog-post hover:bg-zinc-100 transition-colors px-5 py-7 -mx-5 first:-mt-5 md:rounded-xl flex items-center"
               >
                 <div className="flex-1 flex justify-center flex-col">
                   <h3 className="xlog-post-title text-2xl font-bold">
