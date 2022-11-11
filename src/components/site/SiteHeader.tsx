@@ -110,15 +110,15 @@ export const SiteHeader: React.FC<{
               </div>
               {site?.bio && (
                 <div
-                  className="xlog-site-description text-gray-500 text-xs mt-1"
+                  className="xlog-site-description text-gray-500 text-xs leading-8"
                   dangerouslySetInnerHTML={{ __html: site?.description || "" }}
                 ></div>
               )}
-              <div className="xlog-site-others mt-3 text-sm">
+              <div className="xlog-site-others text-sm">
                 <FollowingCount siteId={site?.username} />
                 <FollowingButton
                   siteId={site?.username}
-                  className="text-accent mx-5"
+                  className="text-accent mr-5 min-[438px]:mx-5"
                   variant="text"
                 />
                 <div className="relative inline-block align-middle h-7 group">
