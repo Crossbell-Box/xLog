@@ -445,9 +445,11 @@ export async function unlikePage(
 export async function getLikes({
   pageId,
   cursor,
+  includeCharacter,
 }: {
   pageId: string
   cursor?: string
+  includeCharacter?: boolean
 }) {
   const res = await indexer.getBacklinksOfNote(
     pageId.split("-")[0],
@@ -457,30 +459,32 @@ export async function getLikes({
       cursor,
     },
   )
-  await Promise.all(
-    res.list?.map(async (item) => {
-      if (
-        !item.fromCharacter?.metadata?.content &&
-        item.fromCharacter?.metadata?.uri
-      ) {
-        try {
-          item.fromCharacter.metadata.content = (
-            await axios.get(toGateway(item.fromCharacter?.metadata?.uri), {
-              ...(typeof window === "undefined" && {
-                headers: {
-                  "User-Agent":
-                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-                },
-              }),
-            })
-          ).data
-        } catch (error) {
-          console.warn(error)
+  if (includeCharacter) {
+    await Promise.all(
+      res.list?.map(async (item) => {
+        if (
+          !item.fromCharacter?.metadata?.content &&
+          item.fromCharacter?.metadata?.uri
+        ) {
+          try {
+            item.fromCharacter.metadata.content = (
+              await axios.get(toGateway(item.fromCharacter?.metadata?.uri), {
+                ...(typeof window === "undefined" && {
+                  headers: {
+                    "User-Agent":
+                      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+                  },
+                }),
+              })
+            ).data
+          } catch (error) {
+            console.warn(error)
+          }
         }
-      }
-      ;(<any>item).character = item.fromCharacter
-    }),
-  )
+        ;(<any>item).character = item.fromCharacter
+      }),
+    )
+  }
 
   return res
 }
@@ -520,9 +524,11 @@ export async function mintPage(
 export async function getMints({
   pageId,
   cursor,
+  includeCharacter,
 }: {
   pageId: string
   cursor?: string
+  includeCharacter?: boolean
 }) {
   const data = await indexer.getMintedNotesOfNote(
     pageId.split("-")[0],
@@ -532,28 +538,33 @@ export async function getMints({
     },
   )
 
-  await Promise.all(
-    data.list.map(async (item: any) => {
-      const owner = item.owner
-      item.character = await indexer.getPrimaryCharacter(owner)
-      if (!item.character?.metadata?.content && item.character?.metadata?.uri) {
-        try {
-          item.character.metadata.content = (
-            await axios.get(toGateway(item.character?.metadata?.uri), {
-              ...(typeof window === "undefined" && {
-                headers: {
-                  "User-Agent":
-                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-                },
-              }),
-            })
-          ).data
-        } catch (error) {
-          console.warn(error)
+  if (includeCharacter) {
+    await Promise.all(
+      data.list.map(async (item: any) => {
+        const owner = item.owner
+        item.character = await indexer.getPrimaryCharacter(owner)
+        if (
+          !item.character?.metadata?.content &&
+          item.character?.metadata?.uri
+        ) {
+          try {
+            item.character.metadata.content = (
+              await axios.get(toGateway(item.character?.metadata?.uri), {
+                ...(typeof window === "undefined" && {
+                  headers: {
+                    "User-Agent":
+                      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+                  },
+                }),
+              })
+            ).data
+          } catch (error) {
+            console.warn(error)
+          }
         }
-      }
-    }),
-  )
+      }),
+    )
+  }
 
   return data
 }

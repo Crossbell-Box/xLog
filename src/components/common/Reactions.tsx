@@ -45,6 +45,7 @@ export const Reactions: React.FC<{
 
   const likes = useGetLikes({
     pageId: pageId,
+    includeCharacter: size !== "sm",
   })
   const isLike = useCheckLike({
     address,
@@ -53,6 +54,7 @@ export const Reactions: React.FC<{
 
   const mints = useGetMints({
     pageId: pageId,
+    includeCharacter: size !== "sm",
   })
   const isMint = useCheckMint({
     address,

@@ -22,19 +22,26 @@ export const useGetPage = (input: Parameters<typeof pageModel.getPage>[0]) => {
   })
 }
 
-export const useGetLikes = (input: { pageId?: string }) => {
-  return useQuery(["getLikes", input.pageId], async () => {
-    if (!input.pageId) {
-      return {
-        count: 0,
-        list: [],
-        cursor: undefined,
+export const useGetLikes = (input: {
+  pageId?: string
+  includeCharacter?: boolean
+}) => {
+  return useQuery(
+    ["getLikes", input.pageId, input.includeCharacter],
+    async () => {
+      if (!input.pageId) {
+        return {
+          count: 0,
+          list: [],
+          cursor: undefined,
+        }
       }
-    }
-    return pageModel.getLikes({
-      pageId: input.pageId,
-    })
-  })
+      return pageModel.getLikes({
+        pageId: input.pageId,
+        includeCharacter: input.includeCharacter,
+      })
+    },
+  )
 }
 
 export const useCheckLike = (input: { address?: string; pageId?: string }) => {
@@ -52,19 +59,26 @@ export const useCheckLike = (input: { address?: string; pageId?: string }) => {
   })
 }
 
-export const useGetMints = (input: { pageId?: string }) => {
-  return useQuery(["getMints", input.pageId], async () => {
-    if (!input.pageId) {
-      return {
-        count: 0,
-        list: [],
-        cursor: undefined,
+export const useGetMints = (input: {
+  pageId?: string
+  includeCharacter?: boolean
+}) => {
+  return useQuery(
+    ["getMints", input.pageId, input.includeCharacter],
+    async () => {
+      if (!input.pageId) {
+        return {
+          count: 0,
+          list: [],
+          cursor: undefined,
+        }
       }
-    }
-    return pageModel.getMints({
-      pageId: input.pageId,
-    })
-  })
+      return pageModel.getMints({
+        pageId: input.pageId,
+        includeCharacter: input.includeCharacter,
+      })
+    },
+  )
 }
 
 export const useCheckMint = (input: { address?: string; pageId?: string }) => {
