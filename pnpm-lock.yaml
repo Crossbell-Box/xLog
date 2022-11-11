@@ -53,7 +53,7 @@ specifiers:
   crossbell.js: 0.10.38
   dayjs: 1.11.6
   dotenv: 16.0.3
-  emoji-mart: 5.3.1
+  emoji-mart: 5.3.2
   esbuild: 0.15.13
   esbuild-register: 3.4.1
   eslint: 8.27.0
@@ -121,7 +121,7 @@ dependencies:
   '@crossbell/ipfs-gateway': 0.0.15
   '@crossbell/ipfs-react': 0.0.15_3cuac2dr7yf6nu67tvbbs2j6ry
   '@emoji-mart/data': 1.0.7
-  '@emoji-mart/react': 1.0.1_poadgewxbtjc7jksys4uruvyii
+  '@emoji-mart/react': 1.0.1_26n2ievu4rj5ncw7zx7ojbmtrq
   '@floating-ui/react-dom-interactions': 0.10.3_2zx2umvpluuhvlq44va5bta2da
   '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.13_react@18.2.0
@@ -140,7 +140,7 @@ dependencies:
   crossbell.js: 0.10.38
   dayjs: 1.11.6
   dotenv: 16.0.3
-  emoji-mart: 5.3.1
+  emoji-mart: 5.3.2
   ethers: 5.7.2
   fast-deep-equal: 3.1.3
   idb-keyval: 6.2.0
@@ -573,13 +573,13 @@ packages:
     resolution: {integrity: sha512-kebZ4Yvjn9wsrIdos7zLtprDfLDn8ymnpUnecUDBDmW62+qeHsC0+bzi6SuFMnDoJ006O6aCKmnmB9WFTPX0Hg==}
     dev: false
 
-  /@emoji-mart/react/1.0.1_poadgewxbtjc7jksys4uruvyii:
+  /@emoji-mart/react/1.0.1_26n2ievu4rj5ncw7zx7ojbmtrq:
     resolution: {integrity: sha512-ALhLD96BOL5w+a4NI5NpmfqfF1aVjjj2qJE0dLst/OhjBfVmpteWNgn/h8LZy9ulU6AnbeS+13KnPFzDjCvRRw==}
     peerDependencies:
       emoji-mart: ^5.2
       react: ^16.8 || ^17 || ^18
     dependencies:
-      emoji-mart: 5.3.1
+      emoji-mart: 5.3.2
       react: 18.2.0
     dev: false
 
@@ -4163,8 +4163,8 @@ packages:
       minimalistic-crypto-utils: 1.0.1
     dev: false
 
-  /emoji-mart/5.3.1:
-    resolution: {integrity: sha512-jBZMB5AehlNXViZk1vpru/pnJRbZ/el01zp0y9xjw96JXR72Asc+Vi2YO5e/6X7KZ50DNa63a6IknYp9YUZd/g==}
+  /emoji-mart/5.3.2:
+    resolution: {integrity: sha512-og6K4jYkZITe8pnFPHdFE576Tc6fCFl8JPhl98jRunH3bDulk3iqA+6Ue0iUZ/L/GWzLf9XME9QnpBd53N5YTg==}
     dev: false
 
   /emoji-regex/7.0.3:
