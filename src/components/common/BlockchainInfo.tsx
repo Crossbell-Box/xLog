@@ -42,7 +42,7 @@ export const BlockchainInfo: React.FC<{
                 } h-5 w-5 text-gray-500 transform transition-transform`}
               />
             </Disclosure.Button>
-            <Disclosure.Panel className="px-5 py-2 text-sm text-gray-500">
+            <Disclosure.Panel className="px-5 py-2 text-sm text-gray-500 w-full overflow-hidden">
               <ul className="space-y-2">
                 {page && (
                   <li>
