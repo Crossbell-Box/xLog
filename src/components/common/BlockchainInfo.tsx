@@ -1,4 +1,4 @@
-import { CSB_SCAN } from "~/lib/env"
+import { CSB_IO, CSB_SCAN } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import { Disclosure } from "@headlessui/react"
@@ -6,6 +6,12 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { toIPFS, toGateway } from "~/lib/ipfs-parser"
 import { IPFS_SW_GATEWAY_PREFIX } from "~/lib/ipfs-gateway"
+import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration"
+import relativeTime from "dayjs/plugin/relativeTime"
+
+dayjs.extend(duration)
+dayjs.extend(relativeTime)
 
 export const BlockchainInfo: React.FC<{
   site?: Profile | null
@@ -13,7 +19,7 @@ export const BlockchainInfo: React.FC<{
 }> = ({ site, page }) => {
   return (
     <div className="text-sm">
-      <Disclosure>
+      <Disclosure defaultOpen={true}>
         {({ open }: { open: boolean }) => (
           <>
             <Disclosure.Button className="flex w-full justify-between rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-zinc-100 transition-colors md:rounded-xl">
@@ -26,7 +32,8 @@ export const BlockchainInfo: React.FC<{
                       ? "post"
                       : "page"
                     : "blog"}{" "}
-                  has been permanently stored on the blockchain by its creator.
+                  has been signed and permanently stored on the blockchain by
+                  its creator.
                 </span>
               </span>
               <ChevronUpIcon
@@ -35,24 +42,47 @@ export const BlockchainInfo: React.FC<{
                 } h-5 w-5 text-gray-500 transform transition-transform`}
               />
             </Disclosure.Button>
-            <Disclosure.Panel className="px-5 pt-4 pb-2 text-sm text-gray-500">
-              <ul>
-                <li className="mt-2">
-                  <div className="font-medium">
-                    Blockchain Transaction
-                    {(
-                      page?.related_urls?.filter((url) =>
-                        url.startsWith(CSB_SCAN + "/tx/"),
-                      ) || site?.metadata?.transactions
-                    )?.length > 1
-                      ? "s"
-                      : ""}
+            <Disclosure.Panel className="px-5 py-2 text-sm text-gray-500">
+              <ul className="space-y-2">
+                {page && (
+                  <li>
+                    <div className="font-medium">Note ID</div>
+                    <div>
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-block mr-4 break-all"
+                        href={`${CSB_IO}/notes/${page?.id}`}
+                        key={page?.id}
+                      >
+                        {page?.id}
+                      </a>
+                    </div>
+                  </li>
+                )}
+                <li>
+                  <div className="font-medium">Owner</div>
+                  <div>
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-block mr-4 break-all"
+                      href={`${CSB_SCAN}/address/${
+                        page?.metadata?.owner || site?.metadata?.owner
+                      }`}
+                      key={page?.metadata?.owner || site?.metadata?.owner}
+                    >
+                      {page?.metadata?.owner || site?.metadata?.owner}
+                    </a>
                   </div>
+                </li>
+                <li>
+                  <div className="font-medium">Transaction Hash</div>
                   <div>
                     {page
                       ? page?.related_urls
                           ?.filter((url) => url.startsWith(CSB_SCAN + "/tx/"))
-                          .map((url) => {
+                          .map((url, index) => {
                             return (
                               <a
                                 target="_blank"
@@ -61,6 +91,20 @@ export const BlockchainInfo: React.FC<{
                                 href={url}
                                 key={url}
                               >
+                                {index === 0 ? "Created" : "Last updated"}{" "}
+                                {dayjs
+                                  .duration(
+                                    dayjs(
+                                      page?.[
+                                        index === 0
+                                          ? "date_created"
+                                          : "date_updated"
+                                      ],
+                                    ).diff(dayjs(), "minute"),
+                                    "minute",
+                                  )
+                                  .humanize()}{" "}
+                                ago{" "}
                                 {url
                                   .replace(CSB_SCAN + "/tx/", "")
                                   .slice(0, 10)}
@@ -69,22 +113,37 @@ export const BlockchainInfo: React.FC<{
                               </a>
                             )
                           })
-                      : site?.metadata?.transactions.map((hash: string) => {
-                          return (
-                            <a
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-block mr-4 break-all"
-                              href={`${CSB_SCAN}/tx/${hash}`}
-                              key={hash}
-                            >
-                              {hash.slice(0, 10)}...{hash.slice(-10)}
-                            </a>
-                          )
-                        })}
+                      : site?.metadata?.transactions.map(
+                          (hash: string, index: number) => {
+                            return (
+                              <a
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-block mr-4 break-all"
+                                href={`${CSB_SCAN}/tx/${hash}`}
+                                key={hash}
+                              >
+                                {index === 1 ? "Last updated" : "Created"}{" "}
+                                {dayjs
+                                  .duration(
+                                    dayjs(
+                                      site?.[
+                                        index === 0
+                                          ? "date_created"
+                                          : "date_updated"
+                                      ],
+                                    ).diff(dayjs(), "minute"),
+                                    "minute",
+                                  )
+                                  .humanize()}{" "}
+                                ago {hash.slice(0, 10)}...{hash.slice(-10)}
+                              </a>
+                            )
+                          },
+                        )}
                   </div>
                 </li>
-                <li className="mt-2">
+                <li>
                   <div className="font-medium">IPFS Address</div>
                   <div>
                     {page
@@ -116,22 +175,6 @@ export const BlockchainInfo: React.FC<{
                             {site?.metadata?.uri}
                           </a>
                         )}
-                  </div>
-                </li>
-                <li className="mt-2">
-                  <div className="font-medium">Author Address</div>
-                  <div>
-                    <a
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-block mr-4 break-all"
-                      href={`${CSB_SCAN}/address/${
-                        page?.metadata?.owner || site?.metadata?.owner
-                      }`}
-                      key={page?.metadata?.owner || site?.metadata?.owner}
-                    >
-                      {page?.metadata?.owner || site?.metadata?.owner}
-                    </a>
                   </div>
                 </li>
               </ul>
