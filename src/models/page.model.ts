@@ -143,6 +143,7 @@ const expandPage = (page: Note, render: boolean) => {
       page.metadata?.raw?._crosslog_slug ||
       "",
   )
+  delete page.metadata?.raw
   return page
 }
 
@@ -292,6 +293,7 @@ export async function getPagesBySite(
 
     pages?.list.map((page) => {
       expandPage(page, input.render || false)
+      delete page.body
       return page
     })
   }

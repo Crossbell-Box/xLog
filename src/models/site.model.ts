@@ -54,6 +54,7 @@ const expandSite = (site: Profile) => {
       return banner
     })
   }
+  delete site.metadata?.raw
 
   return site
 }
