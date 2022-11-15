@@ -7,7 +7,6 @@ export const Mention: React.FC<{
   id: string
 }> = ({ id }) => {
   const siteId = id?.replace(/^user-content-/, "")
-  console.log(siteId)
   return (
     <CharacterCard siteId={siteId}>
       <UniLink
