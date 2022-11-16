@@ -216,12 +216,13 @@ export async function getPagesBySite(
     source: "Crossbell Note",
     identity: input.site,
     platform: "Crossbell",
-    limit: input.take || 1000,
+    limit: input.take || 10,
+    order_by: "date_published" as "date_published",
     filter: {
       tags: [...(input.tags || []), ...(crossbell ? [] : [input.type])],
       applications: [...(crossbell ? [] : ["xlog"])],
     },
-    cursor: "",
+    cursor: input.cursor,
   }
 
   let pages: Notes = {
@@ -229,17 +230,10 @@ export async function getPagesBySite(
     list: [],
   }
 
-  let cursor = ""
-  do {
-    options.cursor = cursor
-    const res = (await (customUnidata || unidata).notes.get(options)) || {
-      total: 0,
-      list: [],
-    }
-    pages.total = res.total
-    pages.list = pages.list.concat(res.list)
-    cursor = res.cursor
-  } while (cursor)
+  pages = (await (customUnidata || unidata).notes.get(options)) || {
+    total: 0,
+    list: [],
+  }
 
   if (!crossbell) {
     const local = getLocalPages({
@@ -284,12 +278,10 @@ export async function getPagesBySite(
         )
         break
     }
-    pages.list = pages.list
-      .filter(
-        (page) => page.date_published !== new Date("9999-01-01").toISOString(),
-      )
-      .sort((a, b) => +new Date(b.date_published) - +new Date(a.date_published))
-    pages.total = pages.list.length
+    pages.list = pages.list.filter(
+      (page) => page.date_published !== new Date("9999-01-01").toISOString(),
+    )
+    pages.total = pages.total - ((input.take || 10) - pages.list.length)
 
     pages?.list.map((page) => {
       expandPage(page, input.render || false)

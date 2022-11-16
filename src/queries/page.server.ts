@@ -17,8 +17,17 @@ export const prefetchGetPagesBySite = async (
   queryClient: QueryClient,
 ) => {
   const key = ["getPagesBySite", input.site, input]
-  await queryClient.prefetchQuery(key, async () => {
-    return cacheGet(key, () => pageModel.getPagesBySite(input))
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: key,
+    queryFn: async ({ pageParam }) => {
+      return cacheGet(key, () =>
+        pageModel.getPagesBySite({
+          ...input,
+          cursor: pageParam,
+        }),
+      )
+    },
+    getNextPageParam: (lastPage) => lastPage.cursor,
   })
 }
 

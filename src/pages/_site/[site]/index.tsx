@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       domainOrSubdomain,
     },
   }
@@ -23,13 +23,19 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 function SiteIndexPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
   const posts = useGetPagesBySite({
     site: domainOrSubdomain,
-    take: 1000,
     type: "post",
     visibility: PageVisibilityEnum.Published,
     render: true,
   })
 
-  return <SiteHome posts={posts.data} />
+  return (
+    <SiteHome
+      postPages={posts.data?.pages}
+      fetchNextPage={posts.fetchNextPage}
+      hasNextPage={posts.hasNextPage}
+      isFetchingNextPage={posts.isFetchingNextPage}
+    />
+  )
 }
 
 SiteIndexPage.getLayout = (page: ReactElement) => {

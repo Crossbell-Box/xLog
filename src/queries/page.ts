@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query"
 import * as pageModel from "~/models/page.model"
 import { useUnidata } from "./unidata"
 import { useContract } from "./crossbell"
@@ -7,8 +12,18 @@ export const useGetPagesBySite = (
   input: Parameters<typeof pageModel.getPagesBySite>[0],
 ) => {
   const unidata = useUnidata()
-  return useQuery(["getPagesBySite", input.site, input], async () => {
-    return pageModel.getPagesBySite(input, unidata)
+  return useInfiniteQuery({
+    queryKey: ["getPagesBySite", input.site, input],
+    queryFn: async ({ pageParam }) => {
+      return pageModel.getPagesBySite(
+        {
+          ...input,
+          cursor: pageParam,
+        },
+        unidata,
+      )
+    },
+    getNextPageParam: (lastPage) => lastPage.cursor,
   })
 }
 

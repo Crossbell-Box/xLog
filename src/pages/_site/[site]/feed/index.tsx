@@ -17,7 +17,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const pages = await fetchGetPagesBySite(
     {
       site: domainOrSubdomain,
-      take: 1000,
       type: "post",
       visibility: PageVisibilityEnum.Published,
       render: true,

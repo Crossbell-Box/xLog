@@ -53,7 +53,6 @@ export const getServerSideProps = async (
         await prefetchGetPagesBySite(
           {
             site: domainOrSubdomain,
-            take: 1000,
             type: "post",
             visibility: PageVisibilityEnum.Published,
             render: true,
