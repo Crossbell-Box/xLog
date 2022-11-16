@@ -104,7 +104,16 @@ export function DashboardLayout({
   return (
     <>
       <SEOHead title={title} siteName={APP_NAME} />
-      <style>{site.data?.css}</style>
+      {site?.data?.css && (
+        <link
+          type="text/css"
+          rel="stylesheet"
+          href={
+            "data:text/css;base64," +
+            Buffer.from(site?.data?.css).toString("base64")
+          }
+        />
+      )}
       <div className="flex">
         <DashboardSidebar>
           <div className="mb-2 px-5 pt-3 pb-2">
