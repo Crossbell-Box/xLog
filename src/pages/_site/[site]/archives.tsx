@@ -13,11 +13,13 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
     const queryClient = new QueryClient()
     const domainOrSubdomain = ctx.params!.site as string
-    await getLayoutServerSideProps(ctx, queryClient)
+    await getLayoutServerSideProps(ctx, queryClient, {
+      take: 100,
+    })
 
     return {
       props: {
-        dehydratedState: dehydrate(queryClient),
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
         domainOrSubdomain,
       },
     }
@@ -33,13 +35,21 @@ function SiteArchivesPage({
 }) {
   const posts = useGetPagesBySite({
     site: domainOrSubdomain,
-    take: 1000,
+    take: 100,
     type: "post",
     visibility: PageVisibilityEnum.Published,
     render: true,
   })
 
-  return <SiteArchives posts={posts.data} showTags={true} />
+  return (
+    <SiteArchives
+      postPages={posts.data?.pages}
+      fetchNextPage={posts.fetchNextPage}
+      hasNextPage={posts.hasNextPage}
+      isFetchingNextPage={posts.isFetchingNextPage}
+      showTags={true}
+    />
+  )
 }
 
 SiteArchivesPage.getLayout = (page: ReactElement) => {

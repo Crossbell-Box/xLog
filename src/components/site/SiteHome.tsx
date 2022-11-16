@@ -90,9 +90,9 @@ export const SiteHome: React.FC<{
           onClick={fetchNextPage}
           isLoading={isFetchingNextPage}
         >
-          There are {postPages[0].total - currentLength} more{" "}
-          {postPages[0].total - currentLength > 1 ? "posts" : "post"}, click to
-          load more
+          There are {postPages[0].total - currentLength} more post
+          {postPages[0].total - currentLength > 1 ? "s" : ""}, click to load
+          more
         </Button>
       )}
     </>

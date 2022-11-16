@@ -68,7 +68,7 @@ export const PagesManager: React.FC<{
   const pages = useGetPagesBySite({
     type: isPost ? "post" : "page",
     site: subdomain!,
-    take: 1000,
+    take: 100,
     visibility,
     render: true,
   })
@@ -320,6 +320,8 @@ export const PagesManager: React.FC<{
     </>
   )
 
+  let currentLength = 0
+
   return (
     <DashboardMain>
       <header className="mb-8">
@@ -371,82 +373,101 @@ export const PagesManager: React.FC<{
       <Tabs items={tabItems} />
 
       <div className="-mt-3">
-        {pages.data?.list.length === 0 && (
+        {!pages.data?.pages?.[0].total && (
           <EmptyState resource={isPost ? "posts" : "pages"} />
         )}
 
-        {pages.data?.list?.map((page) => {
-          return (
-            <Link
-              key={page.id}
-              href={getPageEditLink(page)}
-              className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex justify-between"
-            >
-              <div className="min-w-0">
-                {page.title ? (
-                  <div className="flex items-center">
-                    <span>{page.title}</span>
-                  </div>
-                ) : (
-                  <div className="text-zinc-500 text-xs mt-1 truncate">
-                    <span>{page.summary?.content}</span>
-                  </div>
-                )}
-                <div className="text-zinc-400 text-xs mt-1">
-                  <span className="capitalize">
-                    {getPageVisibility(page).toLowerCase()}
-                  </span>
-                  <span className="mx-2">·</span>
-                  <span>
-                    {getPageVisibility(page) === PageVisibilityEnum.Draft
-                      ? formatDate(page.date_updated)
-                      : formatDate(page.date_published)}
-                  </span>
-                </div>
-              </div>
-              <div className="w-10 flex-shrink-0">
-                <Menu>
-                  {({ open }: { open: boolean }) => (
-                    <>
-                      <Menu.Button as={Fragment}>
-                        <button
-                          className={clsx(
-                            `text-gray-400 relative z-50 w-8 h-8 rounded inline-flex invisible group-hover:visible justify-center items-center`,
-                            open ? `bg-gray-200` : `hover:bg-gray-200`,
-                          )}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                          }}
-                        >
-                          <EllipsisHorizontalIcon className="w-5 h-5" />
-                        </button>
-                      </Menu.Button>
-                      <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64">
-                        {getPageMenuItems(page).map((item) => {
-                          return (
-                            <Menu.Item key={item.text}>
-                              <button
-                                type="button"
-                                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
-                                onClick={(e) => {
-                                  e.preventDefault()
-                                  item.onClick()
-                                }}
-                              >
-                                <span className="inline-flex">{item.icon}</span>
-                                <span>{item.text}</span>
-                              </button>
-                            </Menu.Item>
-                          )
-                        })}
-                      </Menu.Items>
-                    </>
+        {pages.data?.pages.map((page) =>
+          page.list?.map((page) => {
+            currentLength++
+            return (
+              <Link
+                key={page.id}
+                href={getPageEditLink(page)}
+                className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex justify-between"
+              >
+                <div className="min-w-0">
+                  {page.title ? (
+                    <div className="flex items-center">
+                      <span>{page.title}</span>
+                    </div>
+                  ) : (
+                    <div className="text-zinc-500 text-xs mt-1 truncate">
+                      <span>{page.summary?.content}</span>
+                    </div>
                   )}
-                </Menu>
-              </div>
-            </Link>
-          )
-        })}
+                  <div className="text-zinc-400 text-xs mt-1">
+                    <span className="capitalize">
+                      {getPageVisibility(page).toLowerCase()}
+                    </span>
+                    <span className="mx-2">·</span>
+                    <span>
+                      {getPageVisibility(page) === PageVisibilityEnum.Draft
+                        ? formatDate(page.date_updated)
+                        : formatDate(page.date_published)}
+                    </span>
+                  </div>
+                </div>
+                <div className="w-10 flex-shrink-0">
+                  <Menu>
+                    {({ open }: { open: boolean }) => (
+                      <>
+                        <Menu.Button as={Fragment}>
+                          <button
+                            className={clsx(
+                              `text-gray-400 relative z-50 w-8 h-8 rounded inline-flex invisible group-hover:visible justify-center items-center`,
+                              open ? `bg-gray-200` : `hover:bg-gray-200`,
+                            )}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                            }}
+                          >
+                            <EllipsisHorizontalIcon className="w-5 h-5" />
+                          </button>
+                        </Menu.Button>
+                        <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64">
+                          {getPageMenuItems(page).map((item) => {
+                            return (
+                              <Menu.Item key={item.text}>
+                                <button
+                                  type="button"
+                                  className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
+                                  onClick={(e) => {
+                                    e.preventDefault()
+                                    item.onClick()
+                                  }}
+                                >
+                                  <span className="inline-flex">
+                                    {item.icon}
+                                  </span>
+                                  <span>{item.text}</span>
+                                </button>
+                              </Menu.Item>
+                            )
+                          })}
+                        </Menu.Items>
+                      </>
+                    )}
+                  </Menu>
+                </div>
+              </Link>
+            )
+          }),
+        )}
+
+        {pages.hasNextPage && (
+          <Button
+            className="w-full hover:bg-zinc-100 bg-zinc-50 rounded-lg transition-colors mt-4"
+            variant="text"
+            onClick={pages.fetchNextPage as () => void}
+            isLoading={pages.isFetchingNextPage}
+          >
+            There are {(pages.data?.pages?.[0].total || 0) - currentLength} more{" "}
+            {isPost ? "post" : "page"}
+            {(pages.data?.pages?.[0].total || 0) - currentLength > 1 ? "s" : ""}
+            , click to load more
+          </Button>
+        )}
       </div>
     </DashboardMain>
   )

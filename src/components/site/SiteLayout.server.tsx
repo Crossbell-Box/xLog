@@ -12,6 +12,9 @@ import { notFound } from "~/lib/server-side-props"
 export const getServerSideProps = async (
   ctx: any,
   queryClient: QueryClient,
+  options?: {
+    take?: number
+  },
 ) => {
   const domainOrSubdomain = ctx.params!.site as string
   const pageSlug = ctx.params!.page as string
@@ -53,6 +56,7 @@ export const getServerSideProps = async (
         await prefetchGetPagesBySite(
           {
             site: domainOrSubdomain,
+            ...(options?.take && { take: options.take }),
             type: "post",
             visibility: PageVisibilityEnum.Published,
             render: true,

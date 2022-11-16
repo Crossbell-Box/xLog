@@ -4,58 +4,75 @@ import { formatDate } from "~/lib/date"
 import { EmptyState } from "../ui/EmptyState"
 import { Notes, Note } from "~/lib/types"
 import { UniLink } from "../ui/UniLink"
+import { Button } from "~/components/ui/Button"
 
 export const SiteArchives: React.FC<{
-  posts?: Notes
   title?: string
   showTags?: boolean
-}> = ({ posts, title, showTags }) => {
+  postPages?: Notes[]
+  fetchNextPage: () => void
+  hasNextPage?: boolean
+  isFetchingNextPage?: boolean
+}> = ({
+  title,
+  showTags,
+  postPages,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+}) => {
+  let currentLength = 0
+
   const groupedByYear = useMemo<Map<string, Note[]>>(() => {
     const map = new Map()
 
-    if (posts) {
-      for (const post of posts.list) {
-        const year = formatDate(post.date_published, "YYYY")
-        const items = map.get(year) || []
-        items.push(post)
-        map.set(year, items)
+    if (postPages?.length) {
+      for (const posts of postPages) {
+        for (const post of posts.list) {
+          const year = formatDate(post.date_published, "YYYY")
+          const items = map.get(year) || []
+          items.push(post)
+          map.set(year, items)
+        }
       }
     }
 
     return map
-  }, [posts])
+  }, [postPages])
 
   const tags = useMemo<Map<string, number>>(() => {
     const result = new Map()
 
-    if (posts) {
-      for (const post of posts.list) {
-        post.tags?.forEach((tag) => {
-          if (tag !== "post" && tag !== "page") {
-            if (result.has(tag)) {
-              result.set(tag, result.get(tag) + 1)
-            } else {
-              result.set(tag, 1)
+    if (postPages?.length) {
+      for (const posts of postPages) {
+        for (const post of posts.list) {
+          post.tags?.forEach((tag) => {
+            if (tag !== "post" && tag !== "page") {
+              if (result.has(tag)) {
+                result.set(tag, result.get(tag) + 1)
+              } else {
+                result.set(tag, 1)
+              }
             }
-          }
-        })
+          })
+        }
       }
     }
 
     return result
-  }, [posts])
+  }, [postPages])
 
-  if (!posts) return null
+  if (!postPages?.length) return null
 
   return (
     <>
       <h2 className="text-xl font-bold page-title">{title || "Archives"}</h2>
-      {posts.list.length === 0 && (
+      {!postPages[0].total && (
         <div className="mt-5">
           <EmptyState />
         </div>
       )}
-      {posts.list.length > 0 && (
+      {postPages[0].total && (
         <>
           {showTags && tags.size > 0 && (
             <div className="mt-5">
@@ -74,6 +91,7 @@ export const SiteArchives: React.FC<{
           )}
           <div className="mt-5 space-y-5">
             {[...groupedByYear.keys()].map((year) => {
+              currentLength++
               const posts = groupedByYear.get(year)!
               return (
                 <div key={year}>
@@ -97,6 +115,18 @@ export const SiteArchives: React.FC<{
                 </div>
               )
             })}
+            {hasNextPage && (
+              <Button
+                className="mt-8 w-full hover:bg-zinc-100 bg-zinc-50 transition-colors text-sm"
+                variant="text"
+                onClick={fetchNextPage}
+                isLoading={isFetchingNextPage}
+              >
+                There are {postPages[0].total - currentLength} more post
+                {postPages[0].total - currentLength > 1 ? "s" : ""}, click to
+                load more
+              </Button>
+            )}
           </div>
         </>
       )}

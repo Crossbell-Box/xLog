@@ -15,11 +15,13 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
     const domainOrSubdomain = ctx.params!.site as string
     const tag = ctx.params!.tag as string
 
-    await getLayoutServerSideProps(ctx, queryClient)
+    await getLayoutServerSideProps(ctx, queryClient, {
+      take: 100,
+    })
 
     return {
       props: {
-        dehydratedState: dehydrate(queryClient),
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
         domainOrSubdomain,
         tag,
       },
@@ -38,14 +40,22 @@ function SiteTagPage({
 }) {
   const posts = useGetPagesBySite({
     site: domainOrSubdomain,
-    take: 1000,
+    take: 100,
     type: "post",
     visibility: PageVisibilityEnum.Published,
     render: true,
     tags: [tag],
   })
 
-  return <SiteArchives posts={posts.data} title={tag} />
+  return (
+    <SiteArchives
+      postPages={posts.data?.pages}
+      fetchNextPage={posts.fetchNextPage}
+      hasNextPage={posts.hasNextPage}
+      isFetchingNextPage={posts.isFetchingNextPage}
+      title={tag}
+    />
+  )
 }
 
 SiteTagPage.getLayout = (page: ReactElement) => {
