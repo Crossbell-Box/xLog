@@ -1,12 +1,9 @@
-import { useRouter } from "next/router"
 import { SitePage } from "~/components/site/SitePage"
 import { SITE_URL } from "~/lib/env"
 import { SiteLayout } from "~/components/site/SiteLayout"
 import { useState } from "react"
 
 export default function Custom404() {
-  const router = useRouter()
-
   const [siteId, setSiteId] = useState("")
 
   try {

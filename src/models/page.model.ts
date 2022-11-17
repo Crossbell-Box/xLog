@@ -304,7 +304,22 @@ export async function getPage<TRender extends boolean = false>(
   customUnidata?: Unidata,
 ) {
   if (!input.site || !(input.page || input.pageId)) {
-    return undefined
+    return null
+  }
+
+  if (!input.pageId) {
+    const slug2Id = (
+      await axios.get("/api/slug2id", {
+        params: {
+          handle: input.site,
+          slug: input.page,
+        },
+      })
+    ).data
+    input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
+    if (!input.pageId) {
+      return null
+    }
   }
 
   const local = getLocalPages({
@@ -322,27 +337,12 @@ export async function getPage<TRender extends boolean = false>(
         source: "Crossbell Note",
         identity: input.site,
         platform: "Crossbell",
-        limit: 1000,
-        ...(input.pageId && {
-          filter: {
-            id: input.pageId,
-          },
-        }),
+        filter: {
+          id: input.pageId,
+        },
       })
 
-  let page
-  if (input.page) {
-    page = pages?.list.find((item) => {
-      item.slug =
-        item.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
-        item.metadata?.raw?._xlog_slug ||
-        item.metadata?.raw?._crosslog_slug ||
-        item.id
-      return item.slug === input.page || item.id === input.page
-    })
-  } else {
-    page = pages?.list[0]
-  }
+  let page = pages?.list[0] || null
 
   if (localPage) {
     if (page) {
@@ -361,8 +361,6 @@ export async function getPage<TRender extends boolean = false>(
 
   if (page) {
     expandPage(page, input.render || false)
-  } else {
-    page = null
   }
 
   return page

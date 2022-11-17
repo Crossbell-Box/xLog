@@ -1,6 +1,7 @@
 import * as pageModel from "~/models/page.model"
 import { QueryClient } from "@tanstack/react-query"
 import { cacheGet } from "~/lib/redis.server"
+import { getIdBySlug } from "~/pages/api/slug2id"
 
 export const fetchGetPage = async (
   input: Parameters<typeof pageModel.getPage>[0],
@@ -8,6 +9,17 @@ export const fetchGetPage = async (
 ) => {
   const key = ["getPage", input.page, input]
   return await queryClient.fetchQuery(key, async () => {
+    if (!input.pageId) {
+      if (!input.page || !input.site) {
+        return null
+      }
+      const slug2Id = await getIdBySlug(input.page, input.site)
+      input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
+      if (!input.pageId) {
+        return null
+      }
+    }
+    delete input.page
     return cacheGet(key, () => pageModel.getPage(input))
   })
 }

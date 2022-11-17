@@ -19,6 +19,7 @@ if (REDIS_URL) {
 export async function cacheGet(
   key: string | (Record<string, any> | string | undefined)[],
   getValueFun: () => Promise<any>,
+  noUpdate?: boolean,
 ) {
   if (redis && redis.status === "ready") {
     let redisKey: string
@@ -31,11 +32,13 @@ export async function cacheGet(
     }
     const cacheValue = await redis.get(redisKey)
     if (cacheValue) {
-      setTimeout(() => {
-        getValueFun().then((value) => {
-          redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
-        })
-      }, Math.random() * REDIS_REFRESH)
+      if (!noUpdate) {
+        setTimeout(() => {
+          getValueFun().then((value) => {
+            redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+          })
+        }, Math.random() * REDIS_REFRESH)
+      }
       return JSON.parse(cacheValue)
     } else {
       const value = await getValueFun()
@@ -45,5 +48,21 @@ export async function cacheGet(
   } else {
     console.log("redis not ready")
     return await getValueFun()
+  }
+}
+
+export function cacheDelete(
+  key: string | (Record<string, any> | string | undefined)[],
+) {
+  if (redis && redis.status === "ready") {
+    let redisKey: string
+    if (Array.isArray(key)) {
+      redisKey = key
+        .map((k) => (typeof k === "string" ? k : JSON.stringify(k)))
+        .join(":")
+    } else {
+      redisKey = key
+    }
+    redis.del(redisKey)
   }
 }
