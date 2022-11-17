@@ -14,10 +14,10 @@ export const fetchGetPage = async (
         return null
       }
       const slug2Id = await getIdBySlug(input.page, input.site)
-      input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
-      if (!input.pageId) {
+      if (!slug2Id?.noteId) {
         return null
       }
+      input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
     }
     delete input.page
     return cacheGet(key, () => pageModel.getPage(input))

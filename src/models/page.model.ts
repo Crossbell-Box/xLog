@@ -316,10 +316,10 @@ export async function getPage<TRender extends boolean = false>(
         },
       })
     ).data
-    input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
-    if (!input.pageId) {
+    if (!slug2Id?.noteId) {
       return null
     }
+    input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
   }
 
   const local = getLocalPages({
