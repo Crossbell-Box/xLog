@@ -71,7 +71,6 @@ export default function SubdomainEditor() {
   const page = useGetPage({
     site: subdomain!,
     pageId: pageId || draftKey.replace(`draft-${subdomain}-`, ""),
-    render: false,
   })
 
   const [visibility, setVisibility] = useState<PageVisibilityEnum>()

@@ -12,7 +12,6 @@ function SitePagePage() {
   const page = useGetPage({
     site: site,
     page: pageSlug,
-    render: true,
   })
 
   return <SitePage page={page.data} />

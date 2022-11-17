@@ -29,7 +29,6 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   const page = useGetPage({
     site: domainOrSubdomain,
     page: pageSlug,
-    render: true,
   })
 
   const site = useGetSite(domainOrSubdomain)

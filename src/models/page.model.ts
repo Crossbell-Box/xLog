@@ -1,4 +1,3 @@
-import { Rendered, renderPageContent } from "~/markdown"
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
 import unidata from "~/queries/unidata.server"
@@ -118,12 +117,9 @@ export async function createOrUpdatePage(
   )
 }
 
-const expandPage = (page: Note, render: boolean) => {
-  if (
-    page.body?.content &&
-    page.body?.mime_type === "text/markdown" &&
-    render
-  ) {
+const expandPage = async (page: Note) => {
+  if (page.body?.content && page.body?.mime_type === "text/markdown") {
+    const { renderPageContent } = await import("~/markdown")
     const rendered = renderPageContent(page.body.content, true)
     page.body = {
       content: page.body.content,
@@ -280,11 +276,13 @@ export async function getPagesBySite(
     )
     pages.total = pages.total - ((input.take || 10) - pages.list.length)
 
-    pages?.list.map((page) => {
-      expandPage(page, true)
-      delete page.body
-      return page
-    })
+    await Promise.all(
+      pages?.list.map(async (page) => {
+        await expandPage(page)
+        delete page.body
+        return page
+      }),
+    )
   }
 
   return pages
@@ -296,7 +294,6 @@ export async function getPage<TRender extends boolean = false>(
     page?: string
     pageId?: string
     site?: string
-    render?: TRender
   },
   customUnidata?: Unidata,
 ) {
@@ -357,7 +354,7 @@ export async function getPage<TRender extends boolean = false>(
   }
 
   if (page) {
-    expandPage(page, input.render || false)
+    await expandPage(page)
   }
 
   return page

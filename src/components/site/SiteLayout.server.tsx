@@ -41,7 +41,6 @@ export const getServerSideProps = async (
             {
               site: domainOrSubdomain,
               page: pageSlug,
-              render: true,
             },
             queryClient,
           )
