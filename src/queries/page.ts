@@ -11,17 +11,19 @@ import { useContract } from "./crossbell"
 export const useGetPagesBySite = (
   input: Parameters<typeof pageModel.getPagesBySite>[0],
 ) => {
-  const unidata = useUnidata()
   return useInfiniteQuery({
     queryKey: ["getPagesBySite", input.site, input],
     queryFn: async ({ pageParam }) => {
-      return pageModel.getPagesBySite(
-        {
-          ...input,
-          cursor: pageParam,
-        },
-        unidata,
-      )
+      const result: ReturnType<typeof pageModel.getPagesBySite> = await (
+        await fetch(
+          "/api/pages?" +
+            new URLSearchParams({
+              ...input,
+              ...(pageParam && { cursor: pageParam }),
+            } as any),
+        )
+      ).json()
+      return result
     },
     getNextPageParam: (lastPage) => lastPage.cursor,
   })

@@ -19,7 +19,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       site: domainOrSubdomain,
       type: "post",
       visibility: PageVisibilityEnum.Published,
-      render: true,
     },
     queryClient,
   )

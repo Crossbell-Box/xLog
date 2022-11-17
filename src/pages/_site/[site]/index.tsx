@@ -25,7 +25,6 @@ function SiteIndexPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
     site: domainOrSubdomain,
     type: "post",
     visibility: PageVisibilityEnum.Published,
-    render: true,
   })
 
   return (

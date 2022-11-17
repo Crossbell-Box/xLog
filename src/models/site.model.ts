@@ -43,7 +43,7 @@ const expandSite = (site: Profile) => {
       (a: any) => a.trait_type === "xlog_custom_domain",
     )?.value || ""
   site.name = site.name || site.username
-  site.description = renderPageContent(site.bio || "", true).contentHTML
+  site.description = site.bio
 
   if (site.avatars) {
     site.avatars = site.avatars.map((avatar) => toGateway(avatar))

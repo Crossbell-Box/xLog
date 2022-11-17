@@ -38,7 +38,6 @@ function SiteArchivesPage({
     take: 100,
     type: "post",
     visibility: PageVisibilityEnum.Published,
-    render: true,
   })
 
   return (

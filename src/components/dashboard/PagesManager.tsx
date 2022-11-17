@@ -70,7 +70,6 @@ export const PagesManager: React.FC<{
     site: subdomain!,
     take: 100,
     visibility,
-    render: true,
   })
 
   const tabItems: TabItem[] = [

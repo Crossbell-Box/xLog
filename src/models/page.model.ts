@@ -195,9 +195,6 @@ export async function getPagesBySite(
     visibility?: PageVisibilityEnum | null
     take?: number | null
     cursor?: string | null
-    includeContent?: boolean
-    includeExcerpt?: boolean
-    render?: boolean
     tags?: string[]
   },
   customUnidata?: Unidata,
@@ -284,7 +281,7 @@ export async function getPagesBySite(
     pages.total = pages.total - ((input.take || 10) - pages.list.length)
 
     pages?.list.map((page) => {
-      expandPage(page, input.render || false)
+      expandPage(page, true)
       delete page.body
       return page
     })

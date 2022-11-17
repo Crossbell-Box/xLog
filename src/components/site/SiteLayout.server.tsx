@@ -59,7 +59,6 @@ export const getServerSideProps = async (
             ...(options?.take && { take: options.take }),
             type: "post",
             visibility: PageVisibilityEnum.Published,
-            render: true,
             ...(tag && { tags: [tag] }),
           },
           queryClient,
