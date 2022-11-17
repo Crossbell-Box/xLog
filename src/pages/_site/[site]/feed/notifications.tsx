@@ -1,7 +1,5 @@
 import { GetServerSideProps } from "next"
 import { fetchGetSite, fetchGetNotifications } from "~/queries/site.server"
-import { fetchGetPagesBySite } from "~/queries/page.server"
-import { PageVisibilityEnum } from "~/lib/types"
 import { getSiteLink } from "~/lib/helpers"
 import { QueryClient } from "@tanstack/react-query"
 import { renderPageContent } from "~/markdown"

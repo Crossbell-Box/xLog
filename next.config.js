@@ -38,6 +38,7 @@ module.exports = withBundleAnalyzer(
       scrollRestoration: true,
     },
     output: "standalone",
+    productionBrowserSourceMaps: true,
 
     webpack(config) {
       config.plugins.push(new UnoCSS())
