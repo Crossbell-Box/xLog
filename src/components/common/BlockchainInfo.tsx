@@ -91,20 +91,7 @@ export const BlockchainInfo: React.FC<{
                                 href={url}
                                 key={url}
                               >
-                                {index === 0 ? "Created" : "Last updated"}{" "}
-                                {dayjs
-                                  .duration(
-                                    dayjs(
-                                      page?.[
-                                        index === 0
-                                          ? "date_created"
-                                          : "date_updated"
-                                      ],
-                                    ).diff(dayjs(), "minute"),
-                                    "minute",
-                                  )
-                                  .humanize()}{" "}
-                                ago{" "}
+                                {index === 0 ? "Creation" : "Last Update"}{" "}
                                 {url
                                   .replace(CSB_SCAN + "/tx/", "")
                                   .slice(0, 10)}
@@ -123,20 +110,8 @@ export const BlockchainInfo: React.FC<{
                                 href={`${CSB_SCAN}/tx/${hash}`}
                                 key={hash}
                               >
-                                {index === 1 ? "Last updated" : "Created"}{" "}
-                                {dayjs
-                                  .duration(
-                                    dayjs(
-                                      site?.[
-                                        index === 0
-                                          ? "date_created"
-                                          : "date_updated"
-                                      ],
-                                    ).diff(dayjs(), "minute"),
-                                    "minute",
-                                  )
-                                  .humanize()}{" "}
-                                ago {hash.slice(0, 10)}...{hash.slice(-10)}
+                                {index === 0 ? "Creation" : "Last Update"}{" "}
+                                {hash.slice(0, 10)}...{hash.slice(-10)}
                               </a>
                             )
                           },
