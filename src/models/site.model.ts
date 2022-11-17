@@ -1,7 +1,6 @@
 import { SiteNavigationItem, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
 import unidata from "~/queries/unidata.server"
-import { renderPageContent } from "~/markdown"
 import { toGateway } from "~/lib/ipfs-parser"
 import type Unidata from "unidata.js"
 import { createClient } from "@urql/core"
