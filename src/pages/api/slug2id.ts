@@ -27,6 +27,14 @@ export async function getIdBySlug(slug: string, handle: string) {
       ).json()
       const cid = characterRes?.characterId
 
+      const noteIdMatch = slug.match(`^${cid}-(\\d+)$`)
+      if (noteIdMatch?.[1]) {
+        return {
+          noteId: noteIdMatch?.[1],
+          characterId: cid,
+        }
+      }
+
       do {
         const response = await (
           await fetch(
@@ -35,7 +43,8 @@ export async function getIdBySlug(slug: string, handle: string) {
         ).json()
         cursor = response.cursor
         note = response?.list?.find(
-          (item: any) => slug === (getSlug(item) || `${cid}-${item.noteId}`),
+          (item: any) =>
+            slug === getSlug(item) || slug === `${cid}-${item.noteId}`,
         )
       } while (!note && cursor)
 
@@ -49,22 +58,27 @@ export async function getIdBySlug(slug: string, handle: string) {
     true,
   )
 
+  // revalidate
   if (result) {
-    fetch(
-      `https://indexer.crossbell.io/v1/characters/${result.characterId}/notes/${result.noteId}`,
-    )
-      .then((res) => res.json())
-      .then((note) => {
-        if (note) {
-          const currentSlug =
-            getSlug(note) || `${result.characterId}-${note.noteId}`
-          if (currentSlug !== slug) {
+    const noteIdMatch = slug.match(`^${result.characterId}-(\\d+)$`)
+    if (!noteIdMatch?.[1]) {
+      fetch(
+        `https://indexer.crossbell.io/v1/characters/${result.characterId}/notes/${result.noteId}`,
+      )
+        .then((res) => res.json())
+        .then((note) => {
+          if (note && getSlug(note) !== slug) {
             cacheDelete(["slug2id", handle, slug])
           }
-        } else {
-          cacheDelete(["slug2id", handle, slug])
-        }
-      })
+        })
+      fetch(`https://indexer.crossbell.io/v1/characters/${result.characterId}`)
+        .then((res) => res.json())
+        .then((character) => {
+          if (character && character.handle !== handle) {
+            cacheDelete(["slug2id", handle, slug])
+          }
+        })
+    }
   }
 
   return result

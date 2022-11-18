@@ -301,42 +301,45 @@ export async function getPage<TRender extends boolean = false>(
     return null
   }
 
-  if (!input.pageId) {
-    const slug2Id = (
-      await axios.get("/api/slug2id", {
-        params: {
-          handle: input.site,
-          slug: input.page,
-        },
-      })
-    ).data
-    if (!slug2Id?.noteId) {
-      return null
+  const mustLocal = input.pageId?.startsWith("local-")
+
+  let page: Note | null = null
+
+  if (!mustLocal) {
+    // on-chain page
+    if (!input.pageId) {
+      const slug2Id = (
+        await axios.get("/api/slug2id", {
+          params: {
+            handle: input.site,
+            slug: input.page,
+          },
+        })
+      ).data
+      if (!slug2Id?.noteId) {
+        return null
+      }
+      input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
     }
-    input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
+
+    const pages = await (customUnidata || unidata).notes.get({
+      source: "Crossbell Note",
+      identity: input.site,
+      platform: "Crossbell",
+      filter: {
+        id: input.pageId,
+      },
+    })
+    page = pages?.list[0] || null
   }
 
+  // local page
   const local = getLocalPages({
     site: input.site,
   })
   const localPage = local.find(
     (page) => page.id === input.page || page.id === input.pageId,
   )
-
-  const mustLocal = input.pageId?.startsWith("local-")
-
-  const pages: Notes | null = mustLocal
-    ? null
-    : await (customUnidata || unidata).notes.get({
-        source: "Crossbell Note",
-        identity: input.site,
-        platform: "Crossbell",
-        filter: {
-          id: input.pageId,
-        },
-      })
-
-  let page = pages?.list[0] || null
 
   if (localPage) {
     if (page) {
