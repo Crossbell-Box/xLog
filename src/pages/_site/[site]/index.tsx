@@ -3,7 +3,7 @@ import { SiteHome } from "~/components/site/SiteHome"
 import { SiteLayout } from "~/components/site/SiteLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
-import { useGetPagesBySite } from "~/queries/page"
+import { useGetPagesBySiteLite } from "~/queries/page"
 import { PageVisibilityEnum } from "~/lib/types"
 import type { ReactElement } from "react"
 
@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 function SiteIndexPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
-  const posts = useGetPagesBySite({
+  const posts = useGetPagesBySiteLite({
     site: domainOrSubdomain,
     type: "post",
     visibility: PageVisibilityEnum.Published,

@@ -247,6 +247,9 @@ export async function getPagesBySite(
         pages.total++
       }
     })
+    pages.list = pages.list.sort(
+      (a, b) => +new Date(b.date_published) - +new Date(a.date_published),
+    )
   }
 
   if (pages?.list) {

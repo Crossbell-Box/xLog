@@ -8,7 +8,7 @@ import * as pageModel from "~/models/page.model"
 import { useUnidata } from "./unidata"
 import { useContract } from "./crossbell"
 
-export const useGetPagesBySite = (
+export const useGetPagesBySiteLite = (
   input: Parameters<typeof pageModel.getPagesBySite>[0],
 ) => {
   return useInfiniteQuery({
@@ -24,6 +24,25 @@ export const useGetPagesBySite = (
         )
       ).json()
       return result
+    },
+    getNextPageParam: (lastPage) => lastPage.cursor,
+  })
+}
+
+export const useGetPagesBySite = (
+  input: Parameters<typeof pageModel.getPagesBySite>[0],
+) => {
+  const unidata = useUnidata()
+  return useInfiniteQuery({
+    queryKey: ["getPagesBySite", input.site, input],
+    queryFn: async ({ pageParam }) => {
+      return pageModel.getPagesBySite(
+        {
+          ...input,
+          cursor: pageParam,
+        },
+        unidata,
+      )
     },
     getNextPageParam: (lastPage) => lastPage.cursor,
   })
