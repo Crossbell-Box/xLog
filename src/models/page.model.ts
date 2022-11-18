@@ -274,10 +274,11 @@ export async function getPagesBySite(
         )
         break
     }
+    const allLength = pages.list.length
     pages.list = pages.list.filter(
       (page) => page.date_published !== new Date("9999-01-01").toISOString(),
     )
-    pages.total = pages.total - ((input.take || 10) - pages.list.length)
+    pages.total = pages.total - (allLength - pages.list.length)
 
     await Promise.all(
       pages?.list.map(async (page) => {
