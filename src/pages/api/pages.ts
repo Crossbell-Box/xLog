@@ -12,11 +12,13 @@ export default async function handler(
     site: query.site as string,
     type: query.type as "post" | "page",
     visibility: query.visibility as PageVisibilityEnum,
-    take: query.take ? parseInt(query.take as string) : null,
+    take: query.take ? parseInt(query.take as string) : undefined,
     cursor: query.cursor as string,
-    tags: Array.isArray(query.tags)
-      ? (query.tags as string[])
-      : [query.tags as string],
+    ...(query.tags && {
+      tags: Array.isArray(query.tags)
+        ? (query.tags as string[])
+        : [query.tags as string],
+    }),
   })
 
   res.status(200).json(result)
