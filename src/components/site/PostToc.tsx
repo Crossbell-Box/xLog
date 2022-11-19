@@ -53,8 +53,8 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
     <ol className={prefix ? "pl-5" : ""}>
       {items?.children?.map((item, index) => (
         <li key={index}>
-          {item.children.map((child: any) => (
-            <>
+          {item.children.map((child: any, i) => (
+            <span key={index + "-" + i}>
               {child.type === "paragraph" && child.children?.[0]?.url && (
                 <Link
                   to={decodeURI(child.children[0].url.slice(1))}
@@ -78,7 +78,7 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
               )}
               {child.type === "list" &&
                 renderItems(child, activeId, `${index + 1}.`)}
-            </>
+            </span>
           ))}
         </li>
       ))}

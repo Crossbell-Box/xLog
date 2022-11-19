@@ -56,14 +56,14 @@ export const CharacterCard: React.FC<{
   }, [open, firstOpen, siteId, site])
 
   return (
-    <div {...getReferenceProps({ ref: reference, ...children.props })}>
+    <span {...getReferenceProps({ ref: reference, ...children.props })}>
       {children}
       {(open || buttonLoading) && (
-        <div
+        <span
           {...getFloatingProps({
             ref: floating,
             className:
-              "border-gray-100 rounded-lg p-4 bg-white z-10 space-y-2 text-sm w-80 shadow-xl",
+              "border-gray-100 rounded-lg p-4 bg-white z-10 space-y-2 text-sm w-80 shadow-xl block",
             style: {
               position: strategy,
               top: y ?? "",
@@ -73,7 +73,7 @@ export const CharacterCard: React.FC<{
         >
           {site ? (
             <>
-              <div className="flex items-center justify-between">
+              <span className="flex items-center justify-between">
                 <Avatar
                   images={site?.avatars || []}
                   name={site?.name}
@@ -84,21 +84,21 @@ export const CharacterCard: React.FC<{
                   size="sm"
                   loadingStatusChange={(status) => setButtonLoading(status)}
                 />
-              </div>
-              <div>
+              </span>
+              <span className="block">
                 <span className="font-bold text-base">{site?.name}</span>
                 <span className="ml-1 text-gray-600">@{siteId}</span>
-              </div>
+              </span>
               {site?.description && (
-                <div
-                  className="text-gray-600"
+                <span
+                  className="block text-gray-600"
                   dangerouslySetInnerHTML={{ __html: site?.description || "" }}
-                ></div>
+                ></span>
               )}
-              <div>
+              <span className="block">
                 <FollowingCount siteId={siteId} disableList={true} />
-              </div>
-              <div className="text-gray-500">
+              </span>
+              <span className="block text-gray-500">
                 Joined{" "}
                 {dayjs
                   .duration(
@@ -107,13 +107,13 @@ export const CharacterCard: React.FC<{
                   )
                   .humanize()}{" "}
                 ago
-              </div>
+              </span>
             </>
           ) : (
             "Loading..."
           )}
-        </div>
+        </span>
       )}
-    </div>
+    </span>
   )
 }
