@@ -9,8 +9,9 @@ dayjs.extend(tz)
 export const formatDate = (
   date: string | Date,
   format: "MMM D" | "MMM D, YYYY" | "YYYY" = "MMM D, YYYY",
+  timezone?: string,
 ) => {
-  return dayjs(date).format(format)
+  return dayjs(date).tz(timezone).format(format)
 }
 
 export const inLocalTimezone = (date: string | Date) => {

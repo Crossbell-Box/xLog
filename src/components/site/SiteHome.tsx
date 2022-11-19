@@ -5,6 +5,7 @@ import { EmptyState } from "../ui/EmptyState"
 import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
 import { Button } from "~/components/ui/Button"
+import { useEffect, useState } from "react"
 
 export const SiteHome: React.FC<{
   postPages?: Notes[]
@@ -13,6 +14,12 @@ export const SiteHome: React.FC<{
   isFetchingNextPage?: boolean
 }> = ({ postPages, fetchNextPage, hasNextPage, isFetchingNextPage }) => {
   const router = useRouter()
+
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   if (!postPages?.length) return null
 
@@ -38,7 +45,11 @@ export const SiteHome: React.FC<{
                     </h3>
                     <div className="xlog-post-meta text-sm text-zinc-400 mt-1">
                       <span className="xlog-post-date">
-                        {formatDate(post.date_published)}
+                        {formatDate(
+                          post.date_published,
+                          undefined,
+                          isMounted ? undefined : "America/Los_Angeles",
+                        )}
                       </span>
                       <span className="xlog-post-tags ml-4 space-x-1">
                         {post.tags

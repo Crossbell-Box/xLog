@@ -3,14 +3,25 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { UniLink } from "~/components/ui/UniLink"
 import { Note } from "~/lib/types"
 import { CSB_SCAN } from "~/lib/env"
+import { useEffect, useState } from "react"
 
 export const PostMeta: React.FC<{
   page: Note
 }> = ({ page }) => {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   return (
     <div className="text-zinc-400 mt-2 xlog-post-meta">
       <span className="xlog-post-date align-middle">
-        {formatDate(page.date_published)}
+        {formatDate(
+          page.date_published,
+          undefined,
+          isMounted ? undefined : "America/Los_Angeles",
+        )}
       </span>
       <span className="xlog-post-tags ml-4 space-x-1 align-middle">
         {page.tags
