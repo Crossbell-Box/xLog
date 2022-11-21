@@ -6,17 +6,12 @@ import { getSiteLink } from "~/lib/helpers"
 import { useGetNotifications, useGetSite } from "~/queries/site"
 import { CharacterCard } from "~/components/common/CharacterCard"
 import { Avatar } from "~/components/ui/Avatar"
-import dayjs from "dayjs"
-import duration from "dayjs/plugin/duration"
-import relativeTime from "dayjs/plugin/relativeTime"
+import dayjs from "~/lib/date"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
 import { PageContent } from "~/components/common/PageContent"
 import { useEffect, useMemo, useState } from "react"
 import { setStorage, getStorage } from "~/lib/storage"
-
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
 
 export default function SubdomainIndex() {
   const router = useRouter()

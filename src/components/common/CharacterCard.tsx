@@ -12,16 +12,11 @@ import {
   useDismiss,
 } from "@floating-ui/react-dom-interactions"
 import { Avatar } from "~/components/ui/Avatar"
-import dayjs from "dayjs"
-import duration from "dayjs/plugin/duration"
-import relativeTime from "dayjs/plugin/relativeTime"
+import dayjs from "~/lib/date"
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import * as siteModel from "~/models/site.model"
 import type { Profile } from "~/lib/types"
-
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
 
 export const CharacterCard: React.FC<{
   siteId?: string

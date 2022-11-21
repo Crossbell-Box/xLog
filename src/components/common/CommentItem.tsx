@@ -1,7 +1,5 @@
 import { Avatar } from "~/components/ui/Avatar"
-import dayjs from "dayjs"
-import duration from "dayjs/plugin/duration"
-import relativeTime from "dayjs/plugin/relativeTime"
+import dayjs from "~/lib/date"
 import { UniLink } from "~/components/ui/UniLink"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
@@ -13,9 +11,6 @@ import { Reactions } from "~/components/common/Reactions"
 import { useState } from "react"
 import { CommentInput } from "~/components/common/CommentInput"
 import { CharacterCard } from "~/components/common/CharacterCard"
-
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
 
 export const CommentItem: React.FC<{
   comment: NoteEntity & {

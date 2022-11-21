@@ -6,12 +6,6 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { toIPFS, toGateway } from "~/lib/ipfs-parser"
 import { IPFS_SW_GATEWAY_PREFIX } from "~/lib/ipfs-gateway"
-import dayjs from "dayjs"
-import duration from "dayjs/plugin/duration"
-import relativeTime from "dayjs/plugin/relativeTime"
-
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
 
 export const BlockchainInfo: React.FC<{
   site?: Profile | null

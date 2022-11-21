@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import dayjs from "dayjs"
+import dayjs from "~/lib/date"
 import { useRouter } from "next/router"
 import {
   ChangeEvent,
