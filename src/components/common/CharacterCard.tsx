@@ -12,7 +12,7 @@ import {
   useDismiss,
 } from "@floating-ui/react-dom-interactions"
 import { Avatar } from "~/components/ui/Avatar"
-import dayjs from "~/lib/date"
+import dayjs, { formatToISO } from "~/lib/date"
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import * as siteModel from "~/models/site.model"
@@ -95,13 +95,15 @@ export const CharacterCard: React.FC<{
               </span>
               <span className="block text-gray-500">
                 Joined{" "}
-                {dayjs
-                  .duration(
-                    dayjs(site?.date_created).diff(dayjs(), "minute"),
-                    "minute",
-                  )
-                  .humanize()}{" "}
-                ago
+                <time dateTime={formatToISO(site?.date_created)}>
+                  {dayjs
+                    .duration(
+                      dayjs(site?.date_created).diff(dayjs(), "minute"),
+                      "minute",
+                    )
+                    .humanize()}{" "}
+                  ago
+                </time>
               </span>
             </>
           ) : (

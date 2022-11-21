@@ -1,5 +1,5 @@
 import { Avatar } from "~/components/ui/Avatar"
-import dayjs from "~/lib/date"
+import dayjs, { formatToISO } from "~/lib/date"
 import { UniLink } from "~/components/ui/UniLink"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
@@ -62,13 +62,16 @@ export const CommentItem: React.FC<{
               {comment?.character?.metadata?.content?.name}
             </UniLink>{" "}
             ·{" "}
-            {dayjs
-              .duration(
-                dayjs(comment?.createdAt).diff(dayjs(), "minute"),
-                "minute",
-              )
-              .humanize()}{" "}
-            ago ·{" "}
+            <time dateTime={formatToISO(comment?.createdAt)}>
+              {dayjs
+                .duration(
+                  dayjs(comment?.createdAt).diff(dayjs(), "minute"),
+                  "minute",
+                )
+                .humanize()}{" "}
+              ago
+            </time>{" "}
+            ·{" "}
             <UniLink href={`${CSB_SCAN}/tx/${comment.transactionHash}`}>
               <BlockchainIcon className="w-3 h-3 inline-block" />
             </UniLink>
