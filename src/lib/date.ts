@@ -11,6 +11,7 @@ export const formatDate = (
   format: "MMM D" | "MMM D, YYYY" | "YYYY" = "MMM D, YYYY",
   timezone?: string,
 ) => {
+  console.log("date", date, timezone, format)
   return dayjs(date).tz(timezone).format(format)
 }
 
