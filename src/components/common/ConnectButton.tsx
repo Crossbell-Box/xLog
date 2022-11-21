@@ -119,6 +119,7 @@ export const ConnectButton: React.FC<{
                       <button
                         className="flex items-center w-full"
                         type="button"
+                        aria-label="connector"
                       >
                         <Avatar
                           className="align-middle mr-2"
@@ -173,6 +174,7 @@ export const ConnectButton: React.FC<{
                                 href={link.url}
                                 onClick={link.onClick}
                                 className="px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
+                                aria-label={link.label}
                               >
                                 <span className="mr-2">{link.icon}</span>
                                 {link.label}

@@ -121,6 +121,7 @@ export const SiteArchives: React.FC<{
                 variant="text"
                 onClick={fetchNextPage}
                 isLoading={isFetchingNextPage}
+                aria-label="load more"
               >
                 There are {postPages[0].total - currentLength} more post
                 {postPages[0].total - currentLength > 1 ? "s" : ""}, click to

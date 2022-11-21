@@ -124,6 +124,7 @@ export const FollowingButton: React.FC<{
             subscription.isLoading
       }
       size={size}
+      aria-label="follow"
     >
       <span className="i-bxs:bell"></span>
       {subscription.data ? (

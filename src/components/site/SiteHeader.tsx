@@ -127,6 +127,7 @@ export const SiteHeader: React.FC<{
                     onClick={(e) => {
                       e.stopPropagation()
                     }}
+                    aria-label="more"
                   >
                     <EllipsisHorizontalIcon className="w-5 h-5" />
                   </Button>
