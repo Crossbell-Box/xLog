@@ -15,18 +15,12 @@ dayjs.extend(relativeTime)
 export const formatDate = (
   date: string | Date,
   format: "MMM D" | "MMM D, YYYY" | "YYYY" = "MMM D, YYYY",
-  timezone?: string,
 ) => {
-  console.log(
-    "date",
-    date,
-    timezone,
-    format,
-    dayjs(date),
-    dayjs(date).tz(timezone),
-    dayjs(date).tz(timezone).format(format),
-  )
-  return dayjs(date).tz(timezone).format(format)
+  return dayjs(date).format(format)
+}
+
+export const formatToISO = (date: string | Date) => {
+  return dayjs(date).toISOString()
 }
 
 export const inLocalTimezone = (date: string | Date) => {

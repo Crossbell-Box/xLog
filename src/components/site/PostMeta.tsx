@@ -1,4 +1,4 @@
-import { formatDate } from "~/lib/date"
+import { formatDate, formatToISO } from "~/lib/date"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { UniLink } from "~/components/ui/UniLink"
 import { Note } from "~/lib/types"
@@ -16,13 +16,14 @@ export const PostMeta: React.FC<{
 
   return (
     <div className="text-zinc-400 mt-2 xlog-post-meta">
-      <span className="xlog-post-date align-middle">
-        {formatDate(
-          page.date_published,
-          undefined,
-          isMounted ? undefined : "America/Los_Angeles",
-        )}
-      </span>
+      <time
+        dateTime={formatToISO(page.date_published)}
+        className="xlog-post-date align-middle"
+      >
+        {isMounted
+          ? formatDate(page.date_published)
+          : formatToISO(page.date_published)}
+      </time>
       <span className="xlog-post-tags ml-4 space-x-1 align-middle">
         {page.tags
           ?.filter((tag) => tag !== "post" && tag !== "page")

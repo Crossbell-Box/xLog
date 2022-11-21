@@ -1,6 +1,6 @@
 import Link from "next/link"
-import { formatDate } from "~/lib/date"
-import { Paginated, type PostOnSiteHome, Notes } from "~/lib/types"
+import { formatDate, formatToISO } from "~/lib/date"
+import { Notes } from "~/lib/types"
 import { EmptyState } from "../ui/EmptyState"
 import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
@@ -44,13 +44,14 @@ export const SiteHome: React.FC<{
                       {post.title}
                     </h3>
                     <div className="xlog-post-meta text-sm text-zinc-400 mt-1">
-                      <span className="xlog-post-date">
-                        {formatDate(
-                          post.date_published,
-                          undefined,
-                          isMounted ? undefined : "America/Los_Angeles",
-                        )}
-                      </span>
+                      <time
+                        dateTime={formatToISO(post.date_published)}
+                        className="xlog-post-date"
+                      >
+                        {isMounted
+                          ? formatDate(post.date_published)
+                          : formatToISO(post.date_published)}
+                      </time>
                       <span className="xlog-post-tags ml-4 space-x-1">
                         {post.tags
                           ?.filter((tag) => tag !== "post" && tag !== "page")
