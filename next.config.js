@@ -1,7 +1,6 @@
 // @ts-check
 const pkg = require("./package.json")
 const spawn = require("cross-spawn")
-const { withIpfsGateway } = require("@crossbell/ipfs-gateway-next")
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 })
@@ -29,35 +28,29 @@ class UnoCSS {
 }
 
 /** @type {import('next').NextConfig} */
-module.exports = withBundleAnalyzer(
-  withIpfsGateway({
-    env: {
-      APP_DESCRIPTION: pkg.description,
-    },
-    experimental: {
-      scrollRestoration: true,
-    },
-    output: "standalone",
-    productionBrowserSourceMaps: true,
+module.exports = withBundleAnalyzer({
+  env: {
+    APP_DESCRIPTION: pkg.description,
+  },
+  experimental: {
+    scrollRestoration: true,
+  },
+  output: "standalone",
+  productionBrowserSourceMaps: true,
 
-    webpack(config) {
-      config.plugins.push(new UnoCSS())
-      return config
-    },
+  webpack(config) {
+    config.plugins.push(new UnoCSS())
+    return config
+  },
 
-    ipfsGateway: {
-      gatewayPath: "/_ipfs/:cid/:pathToResource*",
-    },
+  images: {
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy:
+      "default-src 'self'; script-src 'none'; sandbox; style-src 'unsafe-inline';",
+    remotePatterns: [{ hostname: "**" }],
+  },
 
-    images: {
-      dangerouslyAllowSVG: true,
-      contentSecurityPolicy:
-        "default-src 'self'; script-src 'none'; sandbox; style-src 'unsafe-inline';",
-      remotePatterns: [{ hostname: "**" }],
-    },
-
-    async generateBuildId() {
-      return execSync(lastCommitCommand).toString().trim()
-    },
-  }),
-)
+  async generateBuildId() {
+    return execSync(lastCommitCommand).toString().trim()
+  },
+})

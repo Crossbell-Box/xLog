@@ -131,19 +131,14 @@ export const getSites = async (input: string[]) => {
       if (!site?.metadata?.content && site?.metadata?.uri) {
         try {
           site.metadata.content = (
-            await axios.get(
-              toGateway(site?.metadata?.uri, {
-                needRequestAtServerSide: true,
+            await axios.get(toGateway(site?.metadata?.uri), {
+              ...(typeof window === "undefined" && {
+                headers: {
+                  "User-Agent":
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+                },
               }),
-              {
-                ...(typeof window === "undefined" && {
-                  headers: {
-                    "User-Agent":
-                      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-                  },
-                }),
-              },
-            )
+            })
           ).data
         } catch (error) {
           console.warn(error)

@@ -5,7 +5,7 @@ import { Disclosure } from "@headlessui/react"
 import { ChevronUpIcon } from "@heroicons/react/20/solid"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { toIPFS, toGateway } from "~/lib/ipfs-parser"
-import { IPFS_SW_GATEWAY_PREFIX } from "~/lib/ipfs-gateway"
+import { IPFS_GATEWAY } from "~/lib/env"
 
 export const BlockchainInfo: React.FC<{
   site?: Profile | null
@@ -117,9 +117,7 @@ export const BlockchainInfo: React.FC<{
                   <div>
                     {page
                       ? page.related_urls
-                          ?.filter((url) =>
-                            url.startsWith(IPFS_SW_GATEWAY_PREFIX),
-                          )
+                          ?.filter((url) => url.startsWith(IPFS_GATEWAY))
                           .map((url) => {
                             return (
                               <a

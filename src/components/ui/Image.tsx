@@ -34,9 +34,7 @@ export const Image: React.FC<
       >
         <NextImage
           {...props}
-          src={toGateway(src, {
-            forceFallback: true,
-          })}
+          src={toGateway(src)}
           className={className}
           alt={alt}
           width={width}

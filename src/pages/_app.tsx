@@ -1,7 +1,6 @@
 import { Toaster } from "react-hot-toast"
 import "~/css/main.css"
 import "~/generated/uno.css"
-import { IpfsGatewayContext } from "@crossbell/ipfs-react"
 import { configureChains, createClient, WagmiConfig } from "wagmi"
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
 import { Hydrate, QueryClient } from "@tanstack/react-query"
@@ -21,7 +20,6 @@ import {
   braveWallet,
 } from "@rainbow-me/rainbowkit/wallets"
 import { APP_NAME, CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
-import { ipfsGateway } from "~/lib/ipfs-gateway"
 import NextNProgress from "nextjs-progressbar"
 
 import "@rainbow-me/rainbowkit/styles.css"
@@ -98,12 +96,10 @@ function MyApp({ Component, pageProps }: any) {
         >
           <Hydrate state={pageProps.dehydratedState}>
             <ReactQueryDevtools />
-            <IpfsGatewayContext.Provider value={ipfsGateway}>
-              <NextNProgress
-                options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
-              />
-              {getLayout(<Component {...pageProps} />)}
-            </IpfsGatewayContext.Provider>
+            <NextNProgress
+              options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
+            />
+            {getLayout(<Component {...pageProps} />)}
             <Toaster />
           </Hydrate>
         </PersistQueryClientProvider>
