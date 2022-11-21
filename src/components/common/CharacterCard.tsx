@@ -93,18 +93,20 @@ export const CharacterCard: React.FC<{
               <span className="block">
                 <FollowingCount siteId={siteId} disableList={true} />
               </span>
-              <span className="block text-gray-500">
-                Joined{" "}
-                <time dateTime={formatToISO(site?.date_created)}>
-                  {dayjs
-                    .duration(
-                      dayjs(site?.date_created).diff(dayjs(), "minute"),
-                      "minute",
-                    )
-                    .humanize()}{" "}
-                  ago
-                </time>
-              </span>
+              {site?.date_created && (
+                <span className="block text-gray-500">
+                  Joined{" "}
+                  <time dateTime={formatToISO(site.date_created)}>
+                    {dayjs
+                      .duration(
+                        dayjs(site.date_created).diff(dayjs(), "minute"),
+                        "minute",
+                      )
+                      .humanize()}{" "}
+                    ago
+                  </time>
+                </span>
+              )}
             </>
           ) : (
             "Loading..."
