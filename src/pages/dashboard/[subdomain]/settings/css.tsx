@@ -55,6 +55,9 @@ export default function SettingsDomainsPage() {
                 These styles will be applied to your entire blog, including this
                 dashboard.
               </p>
+              <p>
+                Support <code>ipfs://</code>
+              </p>
               <p className="text-zinc-800 text-sm font-bold">
                 Tips: you can override the built-in CSS variables
               </p>

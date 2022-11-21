@@ -5,15 +5,14 @@ import React, { useState, useEffect } from "react"
 import { APP_NAME } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { SEOHead } from "../common/SEOHead"
-import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
-import { SiteSwitcher } from "./SiteSwitcher"
 import { useGetUserSites } from "~/queries/site"
 import { useAccount } from "wagmi"
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { useGetNotifications, useGetSite } from "~/queries/site"
 import { getStorage } from "~/lib/storage"
+import { toGateway } from "~/lib/ipfs-parser"
 
 export function DashboardLayout({
   children,
@@ -110,7 +109,7 @@ export function DashboardLayout({
           rel="stylesheet"
           href={
             "data:text/css;base64," +
-            Buffer.from(site?.data?.css).toString("base64")
+            Buffer.from(toGateway(site.data.css)).toString("base64")
           }
         />
       )}

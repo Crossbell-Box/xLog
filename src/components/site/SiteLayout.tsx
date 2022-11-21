@@ -9,6 +9,7 @@ import { useGetSite } from "~/queries/site"
 import { useGetPage } from "~/queries/page"
 import { OUR_DOMAIN, SITE_URL } from "~/lib/env"
 import { IS_PROD } from "~/lib/constants"
+import { toGateway } from "~/lib/ipfs-parser"
 
 export type SiteLayoutProps = {
   children: React.ReactNode
@@ -63,7 +64,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
           rel="stylesheet"
           href={
             "data:text/css;base64," +
-            Buffer.from(site?.data?.css).toString("base64")
+            Buffer.from(toGateway(site.data.css)).toString("base64")
           }
         />
       )}
