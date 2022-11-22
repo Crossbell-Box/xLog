@@ -22,6 +22,7 @@ import showcase from "../../showcase.json"
 import { CharacterCard } from "~/components/common/CharacterCard"
 import { useGetUserSites, useSubscribeToSites } from "~/queries/site"
 import { SITE_URL } from "~/lib/env"
+import { BoltIcon } from "@heroicons/react/24/outline"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -85,6 +86,22 @@ export default function Home({ region }: { region: string | null }) {
           All blog data, including configs, posts, following, comments, etc.,
           are permanently stored on the blockchain <b>with your own hands</b>{" "}
           and can only be controlled by yourself and not the platform.
+        </>
+      ),
+    },
+    {
+      screenshot: {
+        src: "/screenshot5.png",
+        width: 1712,
+        height: 1866,
+      },
+      icon: <BoltIcon className="inline mb-2 w-8 h-8" />,
+      title: "Fast",
+      text: (
+        <>
+          Blockchain doesn&apos;t always mean inefficiency. xLog&apos;s
+          experienced open-source maintainers have been making optimizations to
+          get xLog to peak speed.
         </>
       ),
     },
@@ -166,7 +183,7 @@ export default function Home({ region }: { region: string | null }) {
             </div>
             <h2 className="text-3xl sm:text-5xl font-bold mb-5">Blog Free</h2>
             <h3 className="mt-5 text-zinc-800 text-4xl sm:text-6xl font-light">
-              {APP_NAME}, an{" "}
+              {APP_NAME}, the first{" "}
               <UniLink className="underline decoration-2" href={CSB_SCAN}>
                 on-chain
               </UniLink>{" "}
@@ -310,7 +327,7 @@ export default function Home({ region }: { region: string | null }) {
                 </p>
                 <ul className="space-y-8 mt-8">
                   <li>
-                    <UniLink href="https://crossbell.io">
+                    <UniLink href="https://crossbell.io/@xlog">
                       <p className="font-bold text-xl">Crossbell.io</p>
                       <p className="text-zinc-500 my-4 text-lg">
                         Check the updates of the xLogs you follow and the posts
@@ -321,6 +338,22 @@ export default function Home({ region }: { region: string | null }) {
                         src="/integration1.png"
                         alt="integration1"
                         width="3726"
+                        height="1888"
+                      ></Image>
+                    </UniLink>
+                  </li>
+                  <li>
+                    <UniLink href="https://rss3.io/result?search=xlog.csb">
+                      <p className="font-bold text-xl">RSS3</p>
+                      <p className="text-zinc-500 my-4 text-lg">
+                        All your activities on xLog are supported and displayed
+                        by RSS3 and all eco-projects of RSS3
+                      </p>
+                      <Image
+                        className="rounded-lg"
+                        src="/integration5.png"
+                        alt="integration5"
+                        width="3730"
                         height="1888"
                       ></Image>
                     </UniLink>
