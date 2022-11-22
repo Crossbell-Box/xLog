@@ -94,7 +94,7 @@
     "@iconify-json/bxs": "1.1.4",
     "@iconify-json/carbon": "1.1.10",
     "@iconify-json/fluent": "1.1.16",
-    "@iconify-json/mdi": "1.1.35",
+    "@iconify-json/mdi": "1.1.36",
     "@next/bundle-analyzer": "13.0.4",
     "@playwright/test": "1.28.0",
     "@types/cookie": "0.5.1",

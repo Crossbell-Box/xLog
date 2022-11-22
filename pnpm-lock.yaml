@@ -16,7 +16,7 @@ specifiers:
   '@iconify-json/bxs': 1.1.4
   '@iconify-json/carbon': 1.1.10
   '@iconify-json/fluent': 1.1.16
-  '@iconify-json/mdi': 1.1.35
+  '@iconify-json/mdi': 1.1.36
   '@iconify-json/tabler': 1.1.47
   '@monaco-editor/react': 4.4.6
   '@next/bundle-analyzer': 13.0.4
@@ -187,7 +187,7 @@ devDependencies:
   '@iconify-json/bxs': 1.1.4
   '@iconify-json/carbon': 1.1.10
   '@iconify-json/fluent': 1.1.16
-  '@iconify-json/mdi': 1.1.35
+  '@iconify-json/mdi': 1.1.36
   '@next/bundle-analyzer': 13.0.4
   '@playwright/test': 1.28.0
   '@types/cookie': 0.5.1
@@ -1014,8 +1014,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
-  /@iconify-json/mdi/1.1.35:
-    resolution: {integrity: sha512-xphV75eI+isNlqi5Ro0k4RDroNkUswQtlHszVcnzuJvSlrg11i+lBqULVXtF95qn4cOsbGMHwkbe3W7phBZI7A==}
+  /@iconify-json/mdi/1.1.36:
+    resolution: {integrity: sha512-3aWCVjDIseO8COo8zPkmxOZUFjdWsvTQQnk6zVrOaJh2K8oKuBznw10FSJZgQM7qAn6S54/oejyqkWfODRZV1Q==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
