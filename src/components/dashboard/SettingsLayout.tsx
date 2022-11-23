@@ -22,6 +22,10 @@ export const SettingsLayout: React.FC<{
           { text: "Domains", href: `/dashboard/${subdomain}/settings/domains` },
           { text: "Custom CSS", href: `/dashboard/${subdomain}/settings/css` },
           {
+            text: "Operators",
+            href: `/dashboard/${subdomain}/settings/operator`,
+          },
+          {
             text: "Export data",
             href: `https://export.crossbell.io/?handle=${subdomain}`,
           },

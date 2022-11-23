@@ -3,6 +3,7 @@ import { nanoid } from "nanoid"
 import unidata from "~/queries/unidata.server"
 import { toGateway } from "~/lib/ipfs-parser"
 import type Unidata from "unidata.js"
+import type { Profiles as UniProfiles } from "unidata.js"
 import { createClient } from "@urql/core"
 import axios from "axios"
 import { indexer } from "~/queries/crossbell"
@@ -65,16 +66,22 @@ export const getUserSites = async (
   if (!address) {
     return null
   }
-  const profiles = await (customUnidata || unidata).profiles.get({
-    source: "Crossbell Profile",
-    identity: address,
-    platform: "Ethereum",
-    filter: {
-      primary: true,
-    },
-  })
 
-  const sites: Profile[] = profiles.list?.map((profile) => {
+  let profiles: UniProfiles
+  try {
+    profiles = await (customUnidata || unidata).profiles.get({
+      source: "Crossbell Profile",
+      identity: address,
+      platform: "Ethereum",
+      filter: {
+        primary: true,
+      },
+    })
+  } catch (error) {
+    return null
+  }
+
+  const sites: Profile[] = profiles?.list?.map((profile) => {
     expandSite(profile)
     return profile
   })
@@ -429,4 +436,51 @@ export async function getNotifications(input: { siteCId: string }) {
     .sort((a, b) => {
       return b.createdAt > a.createdAt ? 1 : -1
     })
+}
+
+export async function addOperator(
+  input: {
+    characterId: number
+    operator: string
+  },
+  contract?: Contract,
+) {
+  if (input.operator && input.characterId) {
+    return contract?.addOperator(input.characterId, input.operator)
+  }
+}
+
+export async function getOperators(
+  input: {
+    characterId?: number
+  },
+  contract?: Contract,
+) {
+  if (input.characterId) {
+    return contract?.getOperators(input.characterId)
+  }
+}
+
+export async function isOperators(
+  input: {
+    characterId: number
+    operator: string
+  },
+  contract?: Contract,
+) {
+  if (input.characterId) {
+    return contract?.isOperator(input.characterId, input.operator)
+  }
+}
+
+export async function removeOperator(
+  input: {
+    characterId: number
+    operator: string
+  },
+  contract?: Contract,
+) {
+  if (input.characterId) {
+    return contract?.removeOperator(input.characterId, input.operator)
+  }
 }

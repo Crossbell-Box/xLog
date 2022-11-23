@@ -181,3 +181,77 @@ export const useGetNotifications = (data: { siteCId?: string }) => {
     })
   })
 }
+
+export const useGetOperators = (
+  data: Parameters<typeof siteModel.getOperators>[0],
+) => {
+  const contract = useContract()
+  return useQuery(["getOperators", data], async () => {
+    if (!data.characterId) {
+      return null
+    }
+    return (await siteModel.getOperators(data, contract))?.data?.filter(
+      (operator) => operator !== "0x0000000000000000000000000000000000000000",
+    )
+  })
+}
+
+export const useIsOperators = (
+  data: Parameters<typeof siteModel.isOperators>[0],
+) => {
+  const contract = useContract()
+  return useQuery(["isOperators", data], async () => {
+    return siteModel.isOperators(data, contract)
+  })
+}
+
+export function useAddOperator() {
+  const contract = useContract()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof siteModel.addOperator>[0]) => {
+      return siteModel.addOperator(input, contract)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getOperators",
+          {
+            characterId: variables.characterId,
+          },
+        ])
+        queryClient.invalidateQueries(["isOperators", variables])
+      },
+    },
+  )
+}
+
+export function useRemoveOperator() {
+  const contract = useContract()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Partial<Parameters<typeof siteModel.removeOperator>[0]>) => {
+      if (!input.operator || !input.characterId) {
+        return null
+      }
+      return siteModel.removeOperator(
+        {
+          operator: input.operator,
+          characterId: input.characterId,
+        },
+        contract,
+      )
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getOperators",
+          {
+            characterId: variables.characterId,
+          },
+        ])
+        queryClient.invalidateQueries(["isOperators", variables])
+      },
+    },
+  )
+}

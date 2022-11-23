@@ -1,5 +1,5 @@
 import React from "react"
-import { CharacterCard } from "../common/CharacterCard"
+import { CharacterFloatCard } from "../common/CharacterFloatCard"
 import { UniLink } from "./UniLink"
 import { getSiteLink } from "~/lib/helpers"
 
@@ -8,7 +8,7 @@ export const Mention: React.FC<{
 }> = ({ id }) => {
   const siteId = id?.replace(/^user-content-/, "")
   return (
-    <CharacterCard siteId={siteId}>
+    <CharacterFloatCard siteId={siteId}>
       <UniLink
         href={getSiteLink({
           subdomain: siteId,
@@ -17,6 +17,6 @@ export const Mention: React.FC<{
       >
         @{siteId}
       </UniLink>
-    </CharacterCard>
+    </CharacterFloatCard>
   )
 }

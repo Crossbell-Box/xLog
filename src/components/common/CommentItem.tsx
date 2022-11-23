@@ -10,7 +10,7 @@ import { Button } from "~/components/ui/Button"
 import { Reactions } from "~/components/common/Reactions"
 import { useState } from "react"
 import { CommentInput } from "~/components/common/CommentInput"
-import { CharacterCard } from "~/components/common/CharacterCard"
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 
 export const CommentItem: React.FC<{
   comment: NoteEntity & {
@@ -28,7 +28,7 @@ export const CommentItem: React.FC<{
     >
       <div className="flex group">
         <div>
-          <CharacterCard siteId={comment?.character?.handle}>
+          <CharacterFloatCard siteId={comment?.character?.handle}>
             <div>
               <UniLink
                 href={
@@ -46,7 +46,7 @@ export const CommentItem: React.FC<{
                 />
               </UniLink>
             </div>
-          </CharacterCard>
+          </CharacterFloatCard>
         </div>
         <div className="flex-1 flex flex-col rounded-lg">
           <div className="mb-1 text-sm">

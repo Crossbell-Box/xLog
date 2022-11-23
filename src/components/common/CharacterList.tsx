@@ -7,7 +7,7 @@ import { CSB_SCAN } from "~/lib/env"
 import { Avatar } from "../ui/Avatar"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { getSiteLink } from "~/lib/helpers"
-import { CharacterCard } from "~/components/common/CharacterCard"
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 
 export const CharacterList: React.FC<{
   open: boolean
@@ -42,7 +42,7 @@ export const CharacterList: React.FC<{
                   })}
                   className="flex items-center space-x-2 text-sm"
                 >
-                  <CharacterCard siteId={sub?.character?.handle}>
+                  <CharacterFloatCard siteId={sub?.character?.handle}>
                     <Avatar
                       className="align-middle border-2 border-white"
                       images={sub.character?.metadata?.content?.avatars || []}
@@ -52,7 +52,7 @@ export const CharacterList: React.FC<{
                       }
                       size={40}
                     />
-                  </CharacterCard>
+                  </CharacterFloatCard>
                   <span>{sub.character?.metadata?.content?.name}</span>
                   <span className="text-zinc-400 truncate max-w-xs">
                     @{sub.character?.handle}

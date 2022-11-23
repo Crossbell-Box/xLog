@@ -4,7 +4,7 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
 import { useGetNotifications, useGetSite } from "~/queries/site"
-import { CharacterCard } from "~/components/common/CharacterCard"
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { Avatar } from "~/components/ui/Avatar"
 import dayjs from "~/lib/date"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
@@ -98,7 +98,7 @@ export default function SubdomainIndex() {
                       </div>
                     )}
                     <div>
-                      <CharacterCard siteId={character?.handle}>
+                      <CharacterFloatCard siteId={character?.handle}>
                         <div>
                           <UniLink
                             href={
@@ -118,7 +118,7 @@ export default function SubdomainIndex() {
                             />
                           </UniLink>
                         </div>
-                      </CharacterCard>
+                      </CharacterFloatCard>
                     </div>
                     <div className="flex-1 flex flex-col rounded-lg">
                       <div className="mb-1 text-sm">

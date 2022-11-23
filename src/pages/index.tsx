@@ -19,7 +19,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { prefetchGetSites } from "~/queries/site.server"
 import { useGetSites } from "~/queries/site"
 import showcase from "../../showcase.json"
-import { CharacterCard } from "~/components/common/CharacterCard"
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useGetUserSites, useSubscribeToSites } from "~/queries/site"
 import { SITE_URL } from "~/lib/env"
 import { BoltIcon } from "@heroicons/react/24/outline"
@@ -279,7 +279,7 @@ export default function Home({ region }: { region: string | null }) {
                         className="inline-flex align-middle w-full"
                       >
                         <span className="w-14 h-14">
-                          <CharacterCard siteId={site.handle}>
+                          <CharacterFloatCard siteId={site.handle}>
                             <span className="w-full h-full">
                               <Image
                                 className="rounded-full"
@@ -292,7 +292,7 @@ export default function Home({ region }: { region: string | null }) {
                                 height="56"
                               ></Image>
                             </span>
-                          </CharacterCard>
+                          </CharacterFloatCard>
                         </span>
                         <span className="ml-3 min-w-0 flex-1 justify-center inline-flex flex-col">
                           <span className="truncate w-full inline-block font-medium">
