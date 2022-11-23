@@ -20,9 +20,11 @@ export const PostMeta: React.FC<{
         dateTime={formatToISO(page.date_published)}
         className="xlog-post-date align-middle"
       >
-        {isMounted
-          ? formatDate(page.date_published)
-          : formatToISO(page.date_published)}
+        {formatDate(
+          page.date_published,
+          undefined,
+          isMounted ? undefined : "America/Los_Angeles",
+        )}
       </time>
       <span className="xlog-post-tags ml-4 space-x-1 align-middle">
         {page.tags

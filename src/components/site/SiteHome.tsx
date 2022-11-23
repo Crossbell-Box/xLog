@@ -48,9 +48,11 @@ export const SiteHome: React.FC<{
                         dateTime={formatToISO(post.date_published)}
                         className="xlog-post-date"
                       >
-                        {isMounted
-                          ? formatDate(post.date_published)
-                          : formatToISO(post.date_published)}
+                        {formatDate(
+                          post.date_published,
+                          undefined,
+                          isMounted ? undefined : "America/Los_Angeles",
+                        )}
                       </time>
                       <span className="xlog-post-tags ml-4 space-x-1">
                         {post.tags

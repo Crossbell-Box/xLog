@@ -15,8 +15,9 @@ dayjs.extend(relativeTime)
 export const formatDate = (
   date: string | Date,
   format: "MMM D" | "MMM D, YYYY" | "YYYY" = "MMM D, YYYY",
+  timezone?: string,
 ) => {
-  return dayjs(date).format(format)
+  return dayjs(date).tz(timezone).format(format)
 }
 
 export const formatToISO = (date: string | Date) => {
