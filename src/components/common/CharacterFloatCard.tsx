@@ -47,8 +47,8 @@ export const CharacterFloatCard: React.FC<{
               "z-10 block w-80" + (open || buttonLoading ? "" : " hidden"),
             style: {
               position: strategy,
-              top: y ?? "",
-              left: x ?? "",
+              top: y ?? "0",
+              left: x ?? "0",
             },
           })}
         >
