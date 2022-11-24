@@ -1,11 +1,12 @@
 import { PageContent } from "../common/PageContent"
 import { PostMeta } from "./PostMeta"
 import { PostFooter } from "./PostFooter"
-import { Note } from "~/lib/types"
+import { Note, Profile } from "~/lib/types"
 
 export const SitePage: React.FC<{
   page?: Note | null
-}> = ({ page }) => {
+  site?: Profile | null
+}> = ({ page, site }) => {
   return (
     <>
       {page?.preview && (
@@ -22,7 +23,7 @@ export const SitePage: React.FC<{
             {page?.title}
           </h2>
         )}
-        {page?.tags?.includes("post") && <PostMeta page={page} />}
+        {page?.tags?.includes("post") && <PostMeta page={page} site={site} />}
       </div>
       <PageContent
         className="mt-10"

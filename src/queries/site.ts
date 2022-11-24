@@ -197,11 +197,20 @@ export const useGetOperators = (
 }
 
 export const useIsOperators = (
-  data: Parameters<typeof siteModel.isOperators>[0],
+  data: Partial<Parameters<typeof siteModel.isOperators>[0]>,
 ) => {
   const contract = useContract()
   return useQuery(["isOperators", data], async () => {
-    return siteModel.isOperators(data, contract)
+    if (!data.characterId || !data.operator) {
+      return null
+    }
+    return siteModel.isOperators(
+      {
+        characterId: data.characterId,
+        operator: data.operator,
+      },
+      contract,
+    )
   })
 }
 

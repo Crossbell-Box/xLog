@@ -53,7 +53,9 @@ export const CharacterCard: React.FC<{
             )}
           </span>
           <span className="block">
-            <span className="font-bold text-base">{site?.name}</span>
+            <span className="font-bold text-base text-zinc-800">
+              {site?.name}
+            </span>
             <span className="ml-1 text-gray-600">@{site.username}</span>
           </span>
           {site?.description && (

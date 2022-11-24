@@ -53,7 +53,7 @@ export const Avatar: React.FC<
     <span
       {...props}
       className={clsx(
-        `inline-flex text-zinc-500 bg-gray-400 flex-shrink-0 items-center justify-center text-xl font-medium uppercase overflow-hidden`,
+        `inline-flex text-zinc-500 bg-gray-400 flex-shrink-0 items-center justify-center text-xl font-medium uppercase overflow-hidden text-[0px]`,
         borderRadius,
         className,
       )}

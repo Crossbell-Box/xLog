@@ -98,7 +98,7 @@ specifiers:
   sortablejs: 1.15.0
   tailwindcss: 3.2.4
   typescript: 4.9.3
-  unidata.js: 0.7.6
+  unidata.js: 0.7.7
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.1
@@ -173,7 +173,7 @@ dependencies:
   remark-stringify: 10.0.2
   sharp: 0.31.2
   sortablejs: 1.15.0
-  unidata.js: 0.7.6
+  unidata.js: 0.7.7
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.1
@@ -1734,8 +1734,8 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
-  /@types/lodash/4.14.189:
-    resolution: {integrity: sha512-kb9/98N6X8gyME9Cf7YaqIMvYGnBSWqEci6tiettE6iJWH1XdJz/PO8LB0GtLCG7x8dU3KWhZT+lA1a35127tA==}
+  /@types/lodash/4.14.190:
+    resolution: {integrity: sha512-5iJ3FBJBvQHQ8sFhEhJfjUP+G+LalhavTkYyrAYqz5MEJG+erSv0k9KJLb6q7++17Lafk1scaTIFXcMJlwK8Mw==}
     dev: false
 
   /@types/mdast/3.0.10:
@@ -8284,10 +8284,10 @@ packages:
     dependencies:
       busboy: 1.6.0
 
-  /unidata.js/0.7.6:
-    resolution: {integrity: sha512-m5RBr4BIjbhUV0V8OlLnh40z+zmj0fS8iZlEjmgLF5mz5Bz0c7sFVCLZSmwWWV5Xlnl1ToFRDzzh8HUR5hihZA==}
+  /unidata.js/0.7.7:
+    resolution: {integrity: sha512-RPUA4r6nf63TNeuFaY1CljfHOly1iIWFmjS+UC8h4ew/gWgTzBKxqOLRRk9+0tiorOzjyoysJsvQIoNn/BRc+A==}
     dependencies:
-      '@types/lodash': 4.14.189
+      '@types/lodash': 4.14.190
       '@urql/core': 3.0.5_graphql@16.6.0
       axios: 1.1.3
       axios-retry: 3.3.1

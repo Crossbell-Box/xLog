@@ -5,6 +5,7 @@ import { SitePage } from "~/components/site/SitePage"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { useGetPage } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 import type { ReactElement } from "react"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
@@ -36,8 +37,9 @@ function SitePagePage({
     site: domainOrSubdomain,
     page: pageSlug,
   })
+  const site = useGetSite(domainOrSubdomain)
 
-  return <SitePage page={page.data} />
+  return <SitePage page={page.data} site={site.data} />
 }
 
 SitePagePage.getLayout = (page: ReactElement) => {

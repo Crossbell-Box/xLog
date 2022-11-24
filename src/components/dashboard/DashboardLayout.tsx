@@ -10,7 +10,7 @@ import { DashboardSidebar } from "./DashboardSidebar"
 import { useGetUserSites } from "~/queries/site"
 import { useAccount } from "wagmi"
 import { ConnectButton } from "~/components/common/ConnectButton"
-import { useGetNotifications, useGetSite } from "~/queries/site"
+import { useGetNotifications, useGetSite, useIsOperators } from "~/queries/site"
 import { getStorage } from "~/lib/storage"
 import { toGateway } from "~/lib/ipfs-parser"
 
@@ -33,6 +33,11 @@ export function DashboardLayout({
     siteCId: site.data?.metadata?.proof,
   })
 
+  const isOperator = useIsOperators({
+    characterId: +(site.data?.metadata?.proof || 0),
+    operator: address,
+  })
+
   const notificationCreatedAt =
     getStorage(`notification-${subdomain}`)?.createdAt || 0
 
@@ -53,11 +58,21 @@ export function DashboardLayout({
       router.push("/")
     }
     if (userSite.isSuccess && subdomain) {
-      if (!userSite.data?.find((site) => site.username === subdomain)) {
+      if (
+        !userSite.data?.find((site) => site.username === subdomain) &&
+        !isOperator.data
+      ) {
         router.push("/dashboard")
       }
     }
-  }, [address, router, userSite.isSuccess, userSite.data, subdomain])
+  }, [
+    address,
+    router,
+    userSite.isSuccess,
+    userSite.data,
+    subdomain,
+    isOperator.data,
+  ])
 
   const links: {
     href: string
@@ -147,7 +162,6 @@ export function DashboardLayout({
             <UniLink
               href={getSiteLink({
                 subdomain,
-                domain: userSite.data?.[0]?.custom_domain,
               })}
               className="space-x-2 border rounded-lg bg-gray-100 border-gray-200 text-gray-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
             >
