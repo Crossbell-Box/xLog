@@ -20,7 +20,7 @@ specifiers:
   '@iconify-json/tabler': 1.1.47
   '@monaco-editor/react': 4.4.6
   '@next/bundle-analyzer': 13.0.4
-  '@playwright/test': 1.28.0
+  '@playwright/test': 1.28.1
   '@rainbow-me/rainbowkit': 0.8.0
   '@tanstack/react-query': 4.16.1
   '@tanstack/react-query-devtools': 4.16.1
@@ -189,7 +189,7 @@ devDependencies:
   '@iconify-json/fluent': 1.1.17
   '@iconify-json/mdi': 1.1.36
   '@next/bundle-analyzer': 13.0.4
-  '@playwright/test': 1.28.0
+  '@playwright/test': 1.28.1
   '@types/cookie': 0.5.1
   '@types/hast': 2.3.4
   '@types/js-yaml': 4.0.5
@@ -1507,13 +1507,13 @@ packages:
       tslib: 2.4.1
     dev: true
 
-  /@playwright/test/1.28.0:
-    resolution: {integrity: sha512-vrHs5DFTPwYox5SGKq/7TDn/S4q6RA1zArd7uhO6EyP9hj3XgZBBM12ktMbnDQNxh/fL1IUKsTNLxihmsU38lQ==}
+  /@playwright/test/1.28.1:
+    resolution: {integrity: sha512-xN6spdqrNlwSn9KabIhqfZR7IWjPpFK1835tFNgjrlysaSezuX8PYUwaz38V/yI8TJLG9PkAMEXoHRXYXlpTPQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 18.11.9
-      playwright-core: 1.28.0
+      playwright-core: 1.28.1
     dev: true
 
   /@polka/url/1.0.0-next.21:
@@ -6859,8 +6859,8 @@ packages:
       - supports-color
     dev: false
 
-  /playwright-core/1.28.0:
-    resolution: {integrity: sha512-nJLknd28kPBiCNTbqpu6Wmkrh63OEqJSFw9xOfL9qxfNwody7h6/L3O2dZoWQ6Oxcm0VOHjWmGiCUGkc0X3VZA==}
+  /playwright-core/1.28.1:
+    resolution: {integrity: sha512-3PixLnGPno0E8rSBJjtwqTwJe3Yw72QwBBBxNoukIj3lEeBNXwbNiKrNuB1oyQgTBw5QHUhNO3SteEtHaMK6ag==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
