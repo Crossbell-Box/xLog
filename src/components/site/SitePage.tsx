@@ -10,27 +10,31 @@ export const SitePage: React.FC<{
   page?: Note | null
   site?: Profile | null
 }> = ({ page, site }) => {
-  const author = useGetUserSites(page?.authors[0])
+  const author = useGetUserSites(page?.authors?.[0])
 
   function addPageJsonLd() {
     return {
-      __html: `{
+      __html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "headline": "${page?.title}",
-        "image": [
-          "${page?.cover}"
-         ],
-        "datePublished": "${page?.date_published}",
-        "dateModified": "${page?.date_updated}",
-        "author": [{
-          "@type": "Person",
-          "name": "${author?.data?.[0]?.name}",
-          "url": "${getSiteLink({
-            subdomain: author?.data?.[0].username || "",
-          })}"
-        }]
-      }`,
+        headline: page?.title,
+        ...(page?.cover && {
+          image: [page?.cover],
+        }),
+        datePublished: page?.date_published,
+        dateModified: page?.date_updated,
+        ...(author && {
+          author: [
+            {
+              "@type": "Person",
+              name: author?.data?.[0]?.name,
+              url: getSiteLink({
+                subdomain: author?.data?.[0]?.username || "",
+              }),
+            },
+          ],
+        }),
+      }),
     }
   }
 
