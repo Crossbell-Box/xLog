@@ -45,9 +45,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         image: `${link}${page.cover}`,
         date_published: page.date_published,
         date_modified: page.date_updated,
-        authors: page.authors?.map((author: any) => ({
-          name: author,
-        })),
+        // authors: page.authors?.map((author: any) => ({
+        //   name: author,
+        // })),
         tags: page.tags,
       })),
     }),

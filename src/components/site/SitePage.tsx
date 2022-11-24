@@ -10,7 +10,7 @@ export const SitePage: React.FC<{
   page?: Note | null
   site?: Profile | null
 }> = ({ page, site }) => {
-  const author = useGetUserSites(page?.authors?.[0])
+  // const author = useGetUserSites(page?.authors?.[0])
 
   function addPageJsonLd() {
     return {
@@ -23,17 +23,15 @@ export const SitePage: React.FC<{
         }),
         datePublished: page?.date_published,
         dateModified: page?.date_updated,
-        ...(author && {
-          author: [
-            {
-              "@type": "Person",
-              name: author?.data?.[0]?.name,
-              url: getSiteLink({
-                subdomain: author?.data?.[0]?.username || "",
-              }),
-            },
-          ],
-        }),
+        author: [
+          {
+            "@type": "Person",
+            name: site?.name,
+            url: getSiteLink({
+              subdomain: site?.username || "",
+            }),
+          },
+        ],
       }),
     }
   }
@@ -61,9 +59,7 @@ export const SitePage: React.FC<{
               {page?.title}
             </h2>
           )}
-          {page?.tags?.includes("post") && (
-            <PostMeta page={page} site={site} author={author.data?.[0]} />
-          )}
+          {page?.tags?.includes("post") && <PostMeta page={page} site={site} />}
         </div>
         <PageContent
           className="mt-10"
