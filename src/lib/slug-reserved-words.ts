@@ -8,6 +8,7 @@ const slugReservedWords = [
   "sitemap.xml",
   "dashboard",
   "robots.txt",
+  "nft",
 ]
 
 export const checkSlugReservedWords = (word: string) => {
