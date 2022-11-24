@@ -156,8 +156,8 @@ export default function SiteSettingsNavigationPage() {
           <p className="text-zinc-800 text-sm font-bold">⚠️ Warning:</p>
           <p>
             <span className="text-zinc-800">
-              Operators have permissions to enter your dashboard and post
-              contents on your site.
+              Operators have permissions to enter your dashboard, change your
+              settings(excluding xLog subdomain) and post contents on your site.
             </span>
           </p>
         </div>
