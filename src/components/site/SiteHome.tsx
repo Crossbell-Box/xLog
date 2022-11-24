@@ -28,7 +28,7 @@ export const SiteHome: React.FC<{
   return (
     <>
       {!postPages[0].total && <EmptyState />}
-      {postPages[0].total && (
+      {!!postPages[0].total && (
         <div className="xlog-posts space-y-8">
           {postPages.map((posts) =>
             posts.list.map((post) => {
