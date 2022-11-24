@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { getSiteLink } from "~/lib/helpers"
 import { Avatar } from "~/components/ui/Avatar"
+import { EyeIcon } from "@heroicons/react/24/outline"
 
 export const PostMeta: React.FC<{
   page: Note
@@ -48,6 +49,10 @@ export const PostMeta: React.FC<{
           </span>
         </>
       ) : null}
+      <span className="xlog-post-views inline-flex items-center">
+        <EyeIcon className="w-4 h-4 inline-block mr-[2px]" />
+        <span>{page.views}</span>
+      </span>
       {author?.username && site?.username !== author?.username && (
         <>
           <span className="inline-flex items-center">

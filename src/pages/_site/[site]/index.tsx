@@ -10,7 +10,9 @@ import type { ReactElement } from "react"
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
   const domainOrSubdomain = ctx.params!.site as string
-  await getLayoutServerSideProps(ctx, queryClient)
+  await getLayoutServerSideProps(ctx, queryClient, {
+    useStat: true,
+  })
 
   return {
     props: {
@@ -25,6 +27,7 @@ function SiteIndexPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
     site: domainOrSubdomain,
     type: "post",
     visibility: PageVisibilityEnum.Published,
+    useStat: true,
   })
 
   return (

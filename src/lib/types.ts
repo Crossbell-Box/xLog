@@ -85,6 +85,7 @@ export type Note = UniNote & {
     element?: ReactElement
   }
   preview?: boolean
+  views?: number
 }
 
 export type Notes = {

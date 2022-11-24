@@ -14,7 +14,9 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
     const domainOrSubdomain = ctx.params!.site as string
     const pageSlug = ctx.params!.page as string
 
-    await getLayoutServerSideProps(ctx, queryClient)
+    await getLayoutServerSideProps(ctx, queryClient, {
+      useStat: true,
+    })
 
     return {
       props: {
@@ -36,6 +38,7 @@ function SitePagePage({
   const page = useGetPage({
     site: domainOrSubdomain,
     page: pageSlug,
+    useStat: true,
   })
   const site = useGetSite(domainOrSubdomain)
 

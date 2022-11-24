@@ -15,6 +15,7 @@ export const getServerSideProps = async (
   queryClient: QueryClient,
   options?: {
     take?: number
+    useStat?: boolean
   },
 ) => {
   const domainOrSubdomain = ctx.params!.site as string
@@ -42,6 +43,9 @@ export const getServerSideProps = async (
             {
               site: domainOrSubdomain,
               page: pageSlug,
+              ...(options?.useStat && {
+                useStat: true,
+              }),
             },
             queryClient,
           )
@@ -64,6 +68,9 @@ export const getServerSideProps = async (
             type: "post",
             visibility: PageVisibilityEnum.Published,
             ...(tag && { tags: [tag] }),
+            ...(options?.useStat && {
+              useStat: true,
+            }),
           },
           queryClient,
         )

@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
 import { Button } from "~/components/ui/Button"
 import { useEffect, useState } from "react"
+import { EyeIcon } from "@heroicons/react/24/outline"
 
 export const SiteHome: React.FC<{
   postPages?: Notes[]
@@ -43,7 +44,7 @@ export const SiteHome: React.FC<{
                     <h3 className="xlog-post-title text-2xl font-bold">
                       {post.title}
                     </h3>
-                    <div className="xlog-post-meta text-sm text-zinc-400 mt-1">
+                    <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center">
                       <time
                         dateTime={formatToISO(post.date_published)}
                         className="xlog-post-date"
@@ -54,21 +55,29 @@ export const SiteHome: React.FC<{
                           isMounted ? undefined : "America/Los_Angeles",
                         )}
                       </time>
-                      <span className="xlog-post-tags ml-4 space-x-1">
-                        {post.tags
-                          ?.filter((tag) => tag !== "post" && tag !== "page")
-                          .map((tag) => (
-                            <span
-                              className="hover:text-zinc-600"
-                              key={tag}
-                              onClick={(e) => {
-                                e.preventDefault()
-                                router.push(`/tag/${tag}`)
-                              }}
-                            >
-                              #{tag}
-                            </span>
-                          ))}
+                      {!!post.tags?.filter(
+                        (tag) => tag !== "post" && tag !== "page",
+                      ).length && (
+                        <span className="xlog-post-tags space-x-1">
+                          {post.tags
+                            ?.filter((tag) => tag !== "post" && tag !== "page")
+                            .map((tag) => (
+                              <span
+                                className="hover:text-zinc-600"
+                                key={tag}
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  router.push(`/tag/${tag}`)
+                                }}
+                              >
+                                #{tag}
+                              </span>
+                            ))}
+                        </span>
+                      )}
+                      <span className="xlog-post-views inline-flex items-center">
+                        <EyeIcon className="w-4 h-4 inline-block mr-[2px]" />
+                        <span>{post.views}</span>
                       </span>
                     </div>
                     <div

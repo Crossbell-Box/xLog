@@ -14,6 +14,7 @@ export default async function handler(
     visibility: query.visibility as PageVisibilityEnum,
     take: query.take ? parseInt(query.take as string) : undefined,
     cursor: query.cursor as string,
+    useStat: true,
     ...(query.tags && {
       tags: Array.isArray(query.tags)
         ? (query.tags as string[])

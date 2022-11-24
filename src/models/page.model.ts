@@ -117,7 +117,7 @@ export async function createOrUpdatePage(
   )
 }
 
-const expandPage = async (page: Note) => {
+const expandPage = async (page: Note, useStat?: boolean) => {
   if (page.body?.content && page.body?.mime_type === "text/markdown") {
     const { renderPageContent } = await import("~/markdown")
     const rendered = renderPageContent(page.body.content, true)
@@ -140,6 +140,19 @@ const expandPage = async (page: Note) => {
       "",
   )
   delete page.metadata?.raw
+
+  if (useStat) {
+    const stat = await (
+      await fetch(
+        `https://indexer.crossbell.io/v1/stat/notes/${page.id.replace(
+          "-",
+          "/",
+        )}`,
+      )
+    ).json()
+    page.views = stat.viewDetailCount
+  }
+
   return page
 }
 
@@ -192,6 +205,7 @@ export async function getPagesBySite(
     take?: number | null
     cursor?: string | null
     tags?: string[]
+    useStat?: boolean
   },
   customUnidata?: Unidata,
 ) {
@@ -282,7 +296,7 @@ export async function getPagesBySite(
 
     await Promise.all(
       pages?.list.map(async (page) => {
-        await expandPage(page)
+        await expandPage(page, input.useStat)
         delete page.body
         return page
       }),
@@ -298,6 +312,7 @@ export async function getPage<TRender extends boolean = false>(
     page?: string
     pageId?: string
     site?: string
+    useStat?: boolean
   },
   customUnidata?: Unidata,
 ) {
@@ -361,7 +376,7 @@ export async function getPage<TRender extends boolean = false>(
   }
 
   if (page) {
-    await expandPage(page)
+    await expandPage(page, input.useStat)
   }
 
   return page
