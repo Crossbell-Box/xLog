@@ -4,7 +4,6 @@ import { UniLink } from "~/components/ui/UniLink"
 import { Note, Profile } from "~/lib/types"
 import { CSB_SCAN } from "~/lib/env"
 import { useEffect, useState } from "react"
-import { useGetUserSites } from "~/queries/site"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { getSiteLink } from "~/lib/helpers"
 import { Avatar } from "~/components/ui/Avatar"
@@ -12,9 +11,9 @@ import { Avatar } from "~/components/ui/Avatar"
 export const PostMeta: React.FC<{
   page: Note
   site?: Profile | null
-}> = ({ page, site }) => {
+  author?: Profile | null
+}> = ({ page, site, author }) => {
   const [isMounted, setIsMounted] = useState(false)
-  const author = useGetUserSites(page.authors[0])
 
   useEffect(() => {
     setIsMounted(true)
@@ -49,29 +48,28 @@ export const PostMeta: React.FC<{
           </span>
         </>
       ) : null}
-      {author.data?.[0].username &&
-        site?.username !== author.data?.[0].username && (
-          <>
-            <span className="inline-flex items-center">
-              <CharacterFloatCard siteId={author.data[0].username}>
-                <UniLink
-                  href={getSiteLink({
-                    subdomain: author.data?.[0].username,
-                  })}
-                  className="cursor-pointer hover:text-zinc-600 inline-flex items-center"
-                >
-                  <Avatar
-                    className="mr-1"
-                    images={author.data[0].avatars || []}
-                    size={19}
-                    name={author.data[0].name}
-                  />
-                  <span>{author.data[0].name}</span>
-                </UniLink>
-              </CharacterFloatCard>
-            </span>
-          </>
-        )}
+      {author?.username && site?.username !== author?.username && (
+        <>
+          <span className="inline-flex items-center">
+            <CharacterFloatCard siteId={author?.username}>
+              <UniLink
+                href={getSiteLink({
+                  subdomain: author?.username,
+                })}
+                className="cursor-pointer hover:text-zinc-600 inline-flex items-center"
+              >
+                <Avatar
+                  className="mr-1"
+                  images={author?.avatars || []}
+                  size={19}
+                  name={author?.name}
+                />
+                <span>{author?.name}</span>
+              </UniLink>
+            </CharacterFloatCard>
+          </span>
+        </>
+      )}
       <UniLink
         className="xlog-post-blockchain inline-block"
         href={

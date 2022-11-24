@@ -44,7 +44,7 @@ export const prefetchGetSites = async (
   queryClient: QueryClient,
 ) => {
   const key = ["getSites", input]
-  return await queryClient.fetchQuery(key, async () => {
+  await queryClient.fetchQuery(key, async () => {
     return cacheGet(key, () => siteModel.getSites(input))
   })
 }
@@ -63,5 +63,15 @@ export const fetchGetNotifications = async (
         siteCId: data.siteCId!,
       }),
     )
+  })
+}
+
+export const prefetchGetUserSites = async (
+  address: string,
+  queryClient: QueryClient,
+) => {
+  const key = ["getUserSites", address]
+  await queryClient.prefetchQuery(key, async () => {
+    return cacheGet(key, () => siteModel.getUserSites(address))
   })
 }
