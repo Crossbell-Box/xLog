@@ -15,12 +15,14 @@ export type SiteLayoutProps = {
   children: React.ReactNode
   title?: string | null
   siteId?: string
+  useStat?: boolean
 }
 
 export const SiteLayout: React.FC<SiteLayoutProps> = ({
   children,
   title,
   siteId,
+  useStat,
 }) => {
   const router = useRouter()
   const domainOrSubdomain = (router.query.site || siteId) as string
@@ -30,6 +32,9 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   const page = useGetPage({
     site: domainOrSubdomain,
     page: pageSlug,
+    ...(useStat && {
+      useStat: true,
+    }),
   })
 
   const site = useGetSite(domainOrSubdomain)

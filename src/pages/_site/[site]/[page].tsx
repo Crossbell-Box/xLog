@@ -46,7 +46,7 @@ function SitePagePage({
 }
 
 SitePagePage.getLayout = (page: ReactElement) => {
-  return <SiteLayout>{page}</SiteLayout>
+  return <SiteLayout useStat={true}>{page}</SiteLayout>
 }
 
 export default SitePagePage
