@@ -55,7 +55,6 @@ const rehypePrism = rehypePrismGenerator(refractor)
 export const renderPageContent = (
   content: string,
   html?: boolean,
-  enableToc?: boolean,
 ): Rendered => {
   const env: MarkdownEnv = {
     excerpt: "",

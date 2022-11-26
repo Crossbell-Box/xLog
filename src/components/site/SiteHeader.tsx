@@ -69,6 +69,11 @@ export const SiteHeader: React.FC<{
       icon: <RssIcon className="w-4 h-4" />,
       url: `/feed`,
     },
+    {
+      text: "RSS",
+      icon: <RssIcon className="w-4 h-4" />,
+      url: `/feed/xml`,
+    },
   ]
 
   return (

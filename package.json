@@ -48,6 +48,7 @@
     "idb-keyval": "6.2.0",
     "ioredis": "5.2.4",
     "js-yaml": "4.1.0",
+    "jsonfeed-to-rss": "^3.0.6",
     "mdast-util-to-string": "3.1.0",
     "mdast-util-toc": "6.1.0",
     "nanoid": "4.0.0",

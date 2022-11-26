@@ -206,6 +206,7 @@ export async function getPagesBySite(
     cursor?: string | null
     tags?: string[]
     useStat?: boolean
+    keepBody?: boolean
   },
   customUnidata?: Unidata,
 ) {
@@ -297,7 +298,11 @@ export async function getPagesBySite(
     await Promise.all(
       pages?.list.map(async (page) => {
         await expandPage(page, input.useStat)
-        delete page.body
+
+        if (!input.keepBody) {
+          delete page.body
+        }
+
         return page
       }),
     )

@@ -18,7 +18,8 @@ export const UniLink: React.FC<{
     return <span className={className}>{children}</span>
   }
 
-  const isExternal = href && (/^https?:\/\//.test(href) || href === "/feed")
+  const isExternal =
+    href && (/^https?:\/\//.test(href) || href.startsWith("/feed"))
 
   if (isExternal) {
     return (

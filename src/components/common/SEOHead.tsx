@@ -29,14 +29,20 @@ export const SEOHead: React.FC<{
       )}
       <link
         rel="alternate"
+        href="/feed/xml"
+        title={siteName}
+        type="application/rss+xml"
+      ></link>
+      <link
+        rel="alternate"
         href="/feed"
-        title={title}
+        title={siteName}
         type="application/feed+json"
       ></link>
       <link
         rel="alternate"
         href="/feed"
-        title={`Notifications on ${title}`}
+        title={`Notifications on ${siteName}`}
         type="application/feed+json"
       ></link>
       <link rel="icon" href={icon || `${SITE_URL}/logo.svg`}></link>
