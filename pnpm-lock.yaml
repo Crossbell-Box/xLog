@@ -99,7 +99,7 @@ specifiers:
   sortablejs: 1.15.0
   tailwindcss: 3.2.4
   typescript: 4.9.3
-  unidata.js: 0.7.7
+  unidata.js: 0.7.9
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.1
@@ -175,7 +175,7 @@ dependencies:
   remark-stringify: 10.0.2
   sharp: 0.31.2
   sortablejs: 1.15.0
-  unidata.js: 0.7.7
+  unidata.js: 0.7.9
   unified: 10.1.2
   unist-builder: 3.0.0
   unist-util-visit: 4.1.1
@@ -3361,8 +3361,8 @@ packages:
       which: 2.0.2
     dev: true
 
-  /crossbell.js/0.10.40:
-    resolution: {integrity: sha512-kGuAVKJA9PyYISGJRSmUmsInm2mN2y6p5pnO4cAAOPtiBI+uicXPAk+4FFS1sykYMyO0Iqc4gWycK1254apqOw==}
+  /crossbell.js/0.11.1:
+    resolution: {integrity: sha512-mAYlD05rqVKN12xYJW8MgCWrLiWMMgxyGXb6OOCvnpMtCKkRPKHjHAOPd/X07GwqVj2kZQ+0f5/xccsn1M3V5A==}
     dependencies:
       async-retry: 1.3.3
       ethers: 5.7.2
@@ -3378,8 +3378,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /crossbell.js/0.11.1:
-    resolution: {integrity: sha512-mAYlD05rqVKN12xYJW8MgCWrLiWMMgxyGXb6OOCvnpMtCKkRPKHjHAOPd/X07GwqVj2kZQ+0f5/xccsn1M3V5A==}
+  /crossbell.js/0.11.5:
+    resolution: {integrity: sha512-25lvV2YVNpgb7mZapJAO429ToYuFvx7f2I4/MM13YP91YtvABWoiBrne/gHIyXlEb6QqclQNVRY1H63Vhdabrg==}
     dependencies:
       async-retry: 1.3.3
       ethers: 5.7.2
@@ -8401,14 +8401,14 @@ packages:
     dependencies:
       busboy: 1.6.0
 
-  /unidata.js/0.7.7:
-    resolution: {integrity: sha512-RPUA4r6nf63TNeuFaY1CljfHOly1iIWFmjS+UC8h4ew/gWgTzBKxqOLRRk9+0tiorOzjyoysJsvQIoNn/BRc+A==}
+  /unidata.js/0.7.9:
+    resolution: {integrity: sha512-QSJGVGAgN+5KJA8wio0Yith/3ukSd8kVdSUDx9IYE0r7qMkNiasVtzVdx1appGADRR2XWnHeeLjZ/5n8cfemuQ==}
     dependencies:
       '@types/lodash': 4.14.190
       '@urql/core': 3.0.5_graphql@16.6.0
       axios: 1.1.3
       axios-retry: 3.3.1
-      crossbell.js: 0.10.40
+      crossbell.js: 0.11.5
       ethers: 5.7.2
       graphql: 16.6.0
       lodash: 4.17.21
