@@ -81,7 +81,7 @@
     "remark-stringify": "10.0.2",
     "sharp": "0.31.2",
     "sortablejs": "1.15.0",
-    "unidata.js": "0.7.7",
+    "unidata.js": "0.7.9",
     "unified": "10.1.2",
     "unist-builder": "3.0.0",
     "unist-util-visit": "4.1.1",

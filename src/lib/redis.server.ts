@@ -16,6 +16,8 @@ if (REDIS_URL) {
   })
 }
 
+export const getRedis = () => redis
+
 export async function cacheGet(
   key: string | (Record<string, any> | string | undefined)[],
   getValueFun: () => Promise<any>,

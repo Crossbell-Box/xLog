@@ -484,3 +484,11 @@ export async function removeOperator(
     return contract?.removeOperator(input.characterId, input.operator)
   }
 }
+
+export async function getNFTs(address: string, customUnidata?: Unidata) {
+  const assets = await (customUnidata || unidata).assets.get({
+    source: "Ethereum NFT",
+    identity: address,
+  })
+  return assets
+}

@@ -264,3 +264,19 @@ export function useRemoveOperator() {
     },
   )
 }
+
+export const useGetNFTs = (address: string) => {
+  return useQuery(["getNFTs", address], async () => {
+    if (!address) {
+      return null
+    }
+    return await (
+      await fetch(
+        "/api/nfts?" +
+          new URLSearchParams({
+            address,
+          } as any),
+      )
+    ).json()
+  })
+}

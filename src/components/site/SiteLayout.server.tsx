@@ -16,6 +16,7 @@ export const getServerSideProps = async (
   options?: {
     take?: number
     useStat?: boolean
+    skipPages?: boolean
   },
 ) => {
   const domainOrSubdomain = ctx.params!.site as string
@@ -61,19 +62,21 @@ export const getServerSideProps = async (
           reject(error)
         }
       } else {
-        await prefetchGetPagesBySite(
-          {
-            site: domainOrSubdomain,
-            ...(options?.take && { take: options.take }),
-            type: "post",
-            visibility: PageVisibilityEnum.Published,
-            ...(tag && { tags: [tag] }),
-            ...(options?.useStat && {
-              useStat: true,
-            }),
-          },
-          queryClient,
-        )
+        if (!options?.skipPages) {
+          await prefetchGetPagesBySite(
+            {
+              site: domainOrSubdomain,
+              ...(options?.take && { take: options.take }),
+              type: "post",
+              visibility: PageVisibilityEnum.Published,
+              ...(tag && { tags: [tag] }),
+              ...(options?.useStat && {
+                useStat: true,
+              }),
+            },
+            queryClient,
+          )
+        }
       }
       resolve(null)
     }),

@@ -9,6 +9,7 @@ export const Image: React.FC<
     src?: string
     width?: number | string
     height?: number | string
+    "original-src"?: string
   } & React.HTMLAttributes<HTMLImageElement> &
     ImageProps
 > = ({ fill, className, alt, src, width, height, ...props }) => {

@@ -19,3 +19,9 @@ export const REDIS_URL = process.env.REDIS_URL
 export const REDIS_EXPIRE =
   parseInt(process.env.REDIS_URL || "0") || 60 * 60 * 24 * 7 // 1 week
 export const REDIS_REFRESH = parseInt(process.env.REDIS_URL || "0") || 5 * 1000 // 5 seconds
+
+export const MORALIS_WEB3_API_KEY = process.env.MORALIS_WEB3_API_KEY
+export const ALCHEMY_ETHEREUM_API_KEY = process.env.ALCHEMY_ETHEREUM_API_KEY
+export const ALCHEMY_POLYGON_API_KEY = process.env.ALCHEMY_POLYGON_API_KEY
+export const NFTSCAN_API_KEY = process.env.NFTSCAN_API_KEY
+export const OPENSEA_API_KEY = process.env.OPENSEA_API_KEY

@@ -10,6 +10,7 @@ export const useUnidata = () => {
     connector?.getProvider().then((provider) => {
       unidata = new Unidata({
         ethereumProvider: provider,
+        ipfsGateway: IPFS_GATEWAY,
       })
     })
   } else {

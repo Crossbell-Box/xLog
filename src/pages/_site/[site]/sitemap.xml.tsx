@@ -23,7 +23,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
     queryClient,
   )
-  console.log(pages)
 
   const link = getSiteLink({
     subdomain: site.username || "",
