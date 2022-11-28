@@ -131,22 +131,24 @@ export function DashboardLayout({
       )}
       <div className="flex">
         <DashboardSidebar>
-          {userSite.data?.[0].username !== subdomain && (
-            <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
-              <div className="mb-2">You are operating</div>
-              <Avatar
-                images={site.data?.avatars || []}
-                size={60}
-                name={site.data?.name}
-              />
-              <span className="flex flex-col justify-center">
-                <span className="block">{site.data?.name}</span>
-                <span className="block text-sm text-zinc-400">
-                  @{site.data?.username}
+          {userSite.data?.[0].username &&
+            subdomain &&
+            userSite.data[0].username !== subdomain && (
+              <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
+                <div className="mb-2">You are operating</div>
+                <Avatar
+                  images={site.data?.avatars || []}
+                  size={60}
+                  name={site.data?.name}
+                />
+                <span className="flex flex-col justify-center">
+                  <span className="block">{site.data?.name}</span>
+                  <span className="block text-sm text-zinc-400">
+                    @{site.data?.username}
+                  </span>
                 </span>
-              </span>
-            </div>
-          )}
+              </div>
+            )}
           <div className="mb-2 px-5 pt-3 pb-2">
             <ConnectButton left={true} />
           </div>
