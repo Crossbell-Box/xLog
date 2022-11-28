@@ -61,7 +61,7 @@ export function DashboardLayout({
     if (userSite.isSuccess && subdomain) {
       if (
         !userSite.data?.find((site) => site.username === subdomain) &&
-        !isOperator.data
+        !isOperator.data?.data
       ) {
         router.push("/dashboard")
       }
