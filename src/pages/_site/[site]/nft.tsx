@@ -43,28 +43,34 @@ function SiteNFTPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
         src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer.min.js"
       ></Script>
       <h2 className="text-xl font-bold page-title">NFT Showcase</h2>
-      <div className="grid grid-cols-3 md:grid-cols-4 gap-10 mt-8">
-        {nfts
-          .filter((nft) => nft.items?.[0]?.address)
-          .map((nft: Asset) => (
-            <UniLink
-              key={nft.metadata?.proof}
-              className="xlog-nft flex items-center flex-col"
-              href={nft.related_urls?.[nft.related_urls.length - 1]}
-              data-collection={nft.metadata?.collection_address}
-              data-network={nft.metadata?.network}
-              data-token-id={nft.metadata?.token_id}
-              data-name={nft.name}
-            >
-              <UniMedia
-                src={nft.items?.[0]?.address || ""}
-                mime_type={nft.items?.[0].mime_type}
-              />
-              <div className="text-xs mt-2 text-center font-medium">
-                {nft.name}
-              </div>
-            </UniLink>
-          ))}
+      <div className="mt-8">
+        {nftsOrigin.isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <div className="grid grid-cols-3 md:grid-cols-4 gap-10">
+            {nfts
+              .filter((nft) => nft.items?.[0]?.address)
+              .map((nft: Asset) => (
+                <UniLink
+                  key={nft.metadata?.proof}
+                  className="xlog-nft flex items-center flex-col"
+                  href={nft.related_urls?.[nft.related_urls.length - 1]}
+                  data-collection={nft.metadata?.collection_address}
+                  data-network={nft.metadata?.network}
+                  data-token-id={nft.metadata?.token_id}
+                  data-name={nft.name}
+                >
+                  <UniMedia
+                    src={nft.items?.[0]?.address || ""}
+                    mime_type={nft.items?.[0].mime_type}
+                  />
+                  <div className="text-xs mt-2 text-center font-medium">
+                    {nft.name}
+                  </div>
+                </UniLink>
+              ))}
+          </div>
+        )}
       </div>
     </>
   )
