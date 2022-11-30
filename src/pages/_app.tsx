@@ -84,6 +84,16 @@ const queryClient = new QueryClient({
 
 const persister = createIDBPersister()
 
+try {
+  navigator.serviceWorker?.getRegistrations?.().then((registrations) => {
+    registrations?.forEach((registration) => {
+      registration.unregister()
+    })
+  })
+} catch (error) {
+  console.warn(error)
+}
+
 function MyApp({ Component, pageProps }: any) {
   const getLayout = Component.getLayout ?? ((page: any) => page)
 
