@@ -22,9 +22,9 @@ specifiers:
   '@next/bundle-analyzer': 13.0.5
   '@playwright/test': 1.28.1
   '@rainbow-me/rainbowkit': 0.8.0
-  '@tanstack/react-query': 4.18.0
-  '@tanstack/react-query-devtools': 4.18.0
-  '@tanstack/react-query-persist-client': 4.18.0
+  '@tanstack/react-query': 4.19.1
+  '@tanstack/react-query-devtools': 4.19.1
+  '@tanstack/react-query-persist-client': 4.19.1
   '@types/cookie': 0.5.1
   '@types/hast': 2.3.4
   '@types/js-yaml': 4.0.5
@@ -125,9 +125,9 @@ dependencies:
   '@iconify-json/tabler': 1.1.48
   '@monaco-editor/react': 4.4.6_biqbaboplfbrettd7655fr4n2y
   '@rainbow-me/rainbowkit': 0.8.0_445ooho66msoszbwm4htrap4fa
-  '@tanstack/react-query': 4.18.0_biqbaboplfbrettd7655fr4n2y
-  '@tanstack/react-query-devtools': 4.18.0_2ryzfomli4bbns3rdhwnpgjdhm
-  '@tanstack/react-query-persist-client': 4.18.0_pte4ud6ks4vszidjhei5554okm
+  '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
+  '@tanstack/react-query-devtools': 4.19.1_xnkyuugmv5unvdsxvtkktqsuae
+  '@tanstack/react-query-persist-client': 4.19.1_tbzjkhe5jt5eajidrzbcozbyna
   '@uiw/codemirror-extensions-events': 4.15.1_@codemirror+view@6.6.0
   '@uiw/react-codemirror': 4.15.1_yq6aeky74yow54yayh2dxuj2iu
   '@urql/core': 3.0.5
@@ -1618,21 +1618,27 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /@tanstack/match-sorter-utils/8.1.1:
-    resolution: {integrity: sha512-IdmEekEYxQsoLOR0XQyw3jD1GujBpRRYaGJYQUw1eOT1eUugWxdc7jomh1VQ1EKHcdwDLpLaCz/8y4KraU4T9A==}
+  /@tanstack/match-sorter-utils/8.7.0:
+    resolution: {integrity: sha512-OgfIPMHTfuw9JGcXCCoEHWFP/eSP2eyhCYwkrFnWBM3NbUPAgOlFP11DbM7cozDRVB0XbPr1tD4pLAtWKlVUVg==}
     engines: {node: '>=12'}
     dependencies:
       remove-accents: 0.4.2
     dev: false
 
-  /@tanstack/query-core/4.18.0:
-    resolution: {integrity: sha512-PP4mG8MD08sq64RZCqMfXMYfaj7+Oulwg7xZ/fJoEOdTZNcPIgaOkHajZvUBsNLbi/0ViMvJB4cFkL2Jg2WPbw==}
+  /@tanstack/query-core/4.19.1:
+    resolution: {integrity: sha512-Zp0aIose5C8skBzqbVFGk9HJsPtUhRVDVNWIqVzFbGQQgYSeLZMd3Sdb4+EnA5wl1J7X+bre2PJGnQg9x/zHOA==}
     dev: false
 
   /@tanstack/query-persist-client-core/4.18.0:
     resolution: {integrity: sha512-GZlZTQdW0MH0pTQv1T4JyOG4PO6xZA+OKUDRnYHjbG5hp6njouoxisaNV/zhGN9m6zpqb+mV+4tbz7WM42i0Vw==}
     peerDependencies:
       '@tanstack/query-core': 4.18.0
+    dev: false
+
+  /@tanstack/query-persist-client-core/4.19.1:
+    resolution: {integrity: sha512-Tlx9tgeYMDoJ5w8O79TXx85Bk46LDQLvojdjWzQbzKWPIEtvwK6OmG2Z3zxz6qEA3FiVmG0BYjsVMsT6PZOhGg==}
+    peerDependencies:
+      '@tanstack/query-core': 4.19.1
     dev: false
 
   /@tanstack/query-sync-storage-persister/4.18.0:
@@ -1643,34 +1649,34 @@ packages:
       - '@tanstack/query-core'
     dev: false
 
-  /@tanstack/react-query-devtools/4.18.0_2ryzfomli4bbns3rdhwnpgjdhm:
-    resolution: {integrity: sha512-L51D0AUqLTs7J+W7RypJrUEKXsS0y0eEhXAgO+rhcZH6i8jVrKLhcNZStQSnE+UpZqPm73uxt2e8TJgYfzz0nw==}
+  /@tanstack/react-query-devtools/4.19.1_xnkyuugmv5unvdsxvtkktqsuae:
+    resolution: {integrity: sha512-U63A+ly9JLPJj7ryR9omdXT3n+gS7jlExrHty4klsd/6xdUhC38CKZyZ0Gi3vctaVYRGTU8/vI+uKzBYdFqLaA==}
     peerDependencies:
-      '@tanstack/react-query': 4.18.0
+      '@tanstack/react-query': 4.19.1
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@tanstack/match-sorter-utils': 8.1.1
-      '@tanstack/react-query': 4.18.0_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/match-sorter-utils': 8.7.0
+      '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       superjson: 1.11.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
-  /@tanstack/react-query-persist-client/4.18.0_pte4ud6ks4vszidjhei5554okm:
-    resolution: {integrity: sha512-CMXPrrK4oEMhD5FS0LJSbp18j+Q/ob22T0hUINwhMJADsiijEabpVzxQ4NE8bmmOJ6YBJpKm1cIslJj7AxiF3A==}
+  /@tanstack/react-query-persist-client/4.19.1_tbzjkhe5jt5eajidrzbcozbyna:
+    resolution: {integrity: sha512-uNHCBfK7YiNXTjlO3B/Rym7HrNX6OnrcWIw3iiuGFK+gC566/BB3lcLHvriHwanxbnFvWiua8g9hvddeXVQzeA==}
     peerDependencies:
-      '@tanstack/react-query': 4.18.0
+      '@tanstack/react-query': 4.19.1
     dependencies:
-      '@tanstack/query-persist-client-core': 4.18.0
-      '@tanstack/react-query': 4.18.0_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/query-persist-client-core': 4.19.1
+      '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - '@tanstack/query-core'
     dev: false
 
-  /@tanstack/react-query/4.18.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-s1kdbGMdVcfUIllzsHUqVUdktBT5uuIRgnvrqFNLjl9TSOXEoBSDrhjsGjao0INQZv8cMpQlgOh3YH9YtN6cKw==}
+  /@tanstack/react-query/4.19.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-5dvHvmc0vrWI03AJugzvKfirxCyCLe+qawrWFCXdu8t7dklIhJ7D5ZhgTypv7mMtIpdHPcECtCiT/+V74wCn2A==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -1681,7 +1687,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@tanstack/query-core': 4.18.0
+      '@tanstack/query-core': 4.19.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -8820,8 +8826,8 @@ packages:
     dependencies:
       '@coinbase/wallet-sdk': 3.6.0
       '@tanstack/query-sync-storage-persister': 4.18.0
-      '@tanstack/react-query': 4.18.0_biqbaboplfbrettd7655fr4n2y
-      '@tanstack/react-query-persist-client': 4.18.0_pte4ud6ks4vszidjhei5554okm
+      '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query-persist-client': 4.19.1_tbzjkhe5jt5eajidrzbcozbyna
       '@wagmi/core': 0.7.6_gpkupqtljcjyzyxbfsgg6srd74
       '@walletconnect/ethereum-provider': 1.8.0
       abitype: 0.1.8_typescript@4.9.3
