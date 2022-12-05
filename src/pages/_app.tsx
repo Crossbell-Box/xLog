@@ -85,11 +85,13 @@ const queryClient = new QueryClient({
 const persister = createIDBPersister()
 
 try {
-  navigator.serviceWorker?.getRegistrations?.().then((registrations) => {
-    registrations?.forEach((registration) => {
-      registration.unregister()
+  if (typeof window !== "undefined") {
+    navigator.serviceWorker?.getRegistrations?.().then((registrations) => {
+      registrations?.forEach((registration) => {
+        registration.unregister()
+      })
     })
-  })
+  }
 } catch (error) {
   console.warn(error)
 }
