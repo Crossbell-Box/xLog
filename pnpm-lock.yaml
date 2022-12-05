@@ -44,7 +44,7 @@ specifiers:
   '@unocss/preset-icons': 0.47.5
   '@urql/core': 3.0.5
   autoprefixer: 10.4.13
-  axios: 1.2.0
+  axios: 1.2.1
   clsx: 1.2.1
   cross-spawn: 7.0.3
   crossbell.js: 0.11.5
@@ -133,7 +133,7 @@ dependencies:
   '@uiw/codemirror-extensions-events': 4.17.1_@codemirror+view@6.6.0
   '@uiw/react-codemirror': 4.17.1_yq6aeky74yow54yayh2dxuj2iu
   '@urql/core': 3.0.5
-  axios: 1.2.0
+  axios: 1.2.1
   clsx: 1.2.1
   crossbell.js: 0.11.5
   dayjs: 1.11.6
@@ -2755,8 +2755,8 @@ packages:
       - debug
     dev: false
 
-  /axios/1.2.0:
-    resolution: {integrity: sha512-zT7wZyNYu3N5Bu0wuZ6QccIf93Qk1eV8LOewxgjOZFd2DenOs98cJ7+Y6703d0wkaXGY6/nZd4EweJaHz9uzQw==}
+  /axios/1.2.1:
+    resolution: {integrity: sha512-I88cFiGu9ryt/tfVEi4kX2SITsvDddTajXTOFmt2uK1ZVA8LytjtdeyefdQWEf5PU8w+4SSJDoYnggflB5tW4A==}
     dependencies:
       follow-redirects: 1.15.2
       form-data: 4.0.0

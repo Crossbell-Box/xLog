@@ -37,7 +37,7 @@
     "@uiw/codemirror-extensions-events": "4.17.1",
     "@uiw/react-codemirror": "4.17.1",
     "@urql/core": "3.0.5",
-    "axios": "1.2.0",
+    "axios": "1.2.1",
     "clsx": "1.2.1",
     "crossbell.js": "0.11.5",
     "dayjs": "1.11.6",
