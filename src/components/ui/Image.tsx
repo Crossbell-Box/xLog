@@ -20,7 +20,7 @@ export const Image: React.FC<
 
   return (
     <span
-      className="inline-block w-full h-full"
+      className="inline-block w-full h-full overflow-hidden"
       style={
         autoSize
           ? {
