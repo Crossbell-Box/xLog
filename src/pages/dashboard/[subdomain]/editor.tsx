@@ -490,7 +490,7 @@ export default function SubdomainEditor() {
                       name="slug"
                       value={values.slug}
                       placeholder={defaultSlug}
-                      label="Page slug"
+                      label={`${isPost ? "Post" : "Page"} slug`}
                       id="slug"
                       isBlock
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>

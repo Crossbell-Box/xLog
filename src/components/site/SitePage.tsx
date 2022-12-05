@@ -46,8 +46,7 @@ export const SitePage: React.FC<{
       </Head>
       {page?.preview && (
         <div className="fixed top-0 left-0 w-full text-center text-orange-500 bg-gray-100 py-2 opacity-80 text-sm">
-          Currently in private preview mode, the content is different from the
-          public
+          Currently in private preview mode, public can’t see this
         </div>
       )}
       <article>
