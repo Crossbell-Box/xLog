@@ -12,6 +12,8 @@ const scheme = {
     "toc",
     "anchor",
     "mention",
+    "audio",
+    "source",
   ],
   attributes: {
     ...defaultSchema.attributes,
@@ -27,6 +29,8 @@ const scheme = {
       "autoplay",
       "playsinline",
     ],
+    audio: ["className", "src", "controls", "loop", "muted", "autoplay"],
+    source: ["src", "type"],
     iframe: [
       "className",
       "src",
