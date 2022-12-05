@@ -41,6 +41,7 @@ const scheme = {
       "allow",
       "style",
     ],
+    span: ["className", "style"],
   },
 }
 

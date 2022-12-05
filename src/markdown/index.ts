@@ -28,6 +28,8 @@ import { toc, Result as TocResult } from "mdast-util-toc"
 import { Element } from "react-scroll"
 import type { Root } from "hast"
 import { Mention } from "~/components/ui/Mention"
+import remarkMath from "remark-math"
+import rehypeKatex from "rehype-katex"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -91,7 +93,9 @@ export const renderPageContent = (
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
       .use(remarkYoutube)
+      .use(remarkMath)
       .use(remarkRehype, { allowDangerousHtml: true })
+      .use(rehypeKatex)
       .use(rehypeStringify)
       .use(rehypeRaw)
       .use(rehypeImage, { env })
