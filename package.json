@@ -90,7 +90,7 @@
     "use-onclickoutside": "0.4.1",
     "uuid": "9.0.0",
     "wagmi": "0.8.10",
-    "zustand": "4.1.4"
+    "zustand": "4.1.5"
   },
   "devDependencies": {
     "@iconify-json/bi": "1.1.12",
