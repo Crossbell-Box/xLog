@@ -40,7 +40,7 @@
     "axios": "1.2.0",
     "clsx": "1.2.1",
     "crossbell.js": "0.11.5",
-    "dayjs": "1.11.6",
+    "dayjs": "1.11.7",
     "dotenv": "16.0.3",
     "emoji-mart": "5.3.3",
     "ethers": "5.7.2",
