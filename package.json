@@ -24,7 +24,7 @@
     "@codemirror/view": "6.6.0",
     "@emoji-mart/data": "1.0.8",
     "@emoji-mart/react": "1.0.1",
-    "@floating-ui/react-dom-interactions": "0.13.0",
+    "@floating-ui/react-dom-interactions": "0.13.3",
     "@headlessui/react": "1.7.4",
     "@heroicons/react": "2.0.13",
     "@iconify-json/akar-icons": "1.1.10",

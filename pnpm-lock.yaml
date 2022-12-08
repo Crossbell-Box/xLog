@@ -8,7 +8,7 @@ specifiers:
   '@codemirror/view': 6.6.0
   '@emoji-mart/data': 1.0.8
   '@emoji-mart/react': 1.0.1
-  '@floating-ui/react-dom-interactions': 0.13.0
+  '@floating-ui/react-dom-interactions': 0.13.3
   '@headlessui/react': 1.7.4
   '@heroicons/react': 2.0.13
   '@iconify-json/akar-icons': 1.1.10
@@ -120,7 +120,7 @@ dependencies:
   '@codemirror/view': 6.6.0
   '@emoji-mart/data': 1.0.8
   '@emoji-mart/react': 1.0.1_flkxl6spvtjvsiujs6a55ujlt4
-  '@floating-ui/react-dom-interactions': 0.13.0_ib3m5ricvtkl2cll7qpr2f6lvq
+  '@floating-ui/react-dom-interactions': 0.13.3_ib3m5ricvtkl2cll7qpr2f6lvq
   '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.13_react@18.2.0
   '@iconify-json/akar-icons': 1.1.10
@@ -924,8 +924,8 @@ packages:
       '@floating-ui/core': 1.0.2
     dev: false
 
-  /@floating-ui/react-dom-interactions/0.13.0_ib3m5ricvtkl2cll7qpr2f6lvq:
-    resolution: {integrity: sha512-R+jXsv3eJ8LQn879NMO9ONvk9Hy0XQiPvBWK+wdWADZsrvu7FmmlSq5xG/qid745g+uNs3xvhf+lNnCIlEZpEA==}
+  /@floating-ui/react-dom-interactions/0.13.3_ib3m5ricvtkl2cll7qpr2f6lvq:
+    resolution: {integrity: sha512-AnCW06eIZxzD/Hl1Qbi2JkQRU5KpY7Dn81k3xRfbvs+HylhB+t3x88/GNKLK39mMTlJ/ylxm5prUpiLrTWvifQ==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
