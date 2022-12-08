@@ -81,7 +81,7 @@ export const SiteHome: React.FC<{
                       </span>
                     </div>
                     <div
-                      className="xlog-post-excerpt mt-3 text-zinc-500"
+                      className="xlog-post-excerpt mt-3 text-zinc-500 line-clamp-2"
                       style={{
                         wordBreak: "break-word",
                       }}
