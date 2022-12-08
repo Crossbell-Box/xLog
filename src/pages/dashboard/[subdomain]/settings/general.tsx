@@ -155,7 +155,6 @@ export default function SiteSettingsGeneralPage() {
               id="description"
               className="input is-block"
               rows={2}
-              help="Support Markdown"
               {...form.register("description")}
             />
           </div>

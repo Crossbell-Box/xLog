@@ -98,7 +98,7 @@ export default function SiteSettingsNavigationPage() {
   }
 
   useEffect(() => {
-    setItems(operators.data || [])
+    setItems(operators.data?.list.map((o) => o.operator) || [])
   }, [operators.data])
 
   const [isOpen, setIsOpen] = useState(false)

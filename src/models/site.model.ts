@@ -8,7 +8,7 @@ import { createClient } from "@urql/core"
 import axios from "axios"
 import { indexer } from "~/queries/crossbell"
 import type { LinkEntity, NoteEntity } from "crossbell.js"
-import type { Contract } from "crossbell.js"
+import type { Contract, CharacterOperatorPermission } from "crossbell.js"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -438,6 +438,12 @@ export async function getNotifications(input: { siteCId: string }) {
     })
 }
 
+const xLogOperatorPermissions: CharacterOperatorPermission[] = [
+  "SET_NOTE_URI",
+  "DELETE_NOTE",
+  "POST_NOTE",
+]
+
 export async function addOperator(
   input: {
     characterId: number
@@ -446,31 +452,53 @@ export async function addOperator(
   contract?: Contract,
 ) {
   if (input.operator && input.characterId) {
-    return contract?.addOperator(input.characterId, input.operator)
+    return contract?.grantOperatorPermissionsForCharacter(
+      input.characterId,
+      input.operator,
+      xLogOperatorPermissions,
+    )
   }
 }
 
-export async function getOperators(
-  input: {
-    characterId?: number
-  },
-  contract?: Contract,
-) {
+export async function getOperators(input: { characterId?: number }) {
   if (input.characterId) {
-    return contract?.getOperators(input.characterId)
+    const result = await indexer?.getCharacterOperators(input.characterId, {
+      limit: 100,
+    })
+    result.list = result.list
+      .filter(
+        (o) =>
+          o.operator !== "0x0000000000000000000000000000000000000000" &&
+          o.operator !== "0x0f588318a494e4508a121a32b6670b5494ca3357",
+      ) // remove 0 and xSync
+      .filter((o) => {
+        for (const permission of xLogOperatorPermissions) {
+          if (!o.permissions.includes(permission)) {
+            return false
+          }
+        }
+        return true
+      })
+    return result
   }
 }
 
-export async function isOperators(
-  input: {
-    characterId: number
-    operator: string
-  },
-  contract?: Contract,
-) {
+export async function isOperators(input: {
+  characterId: number
+  operator: string
+}) {
   if (input.characterId) {
-    return contract?.isOperator(input.characterId, input.operator)
+    const permissions =
+      (await indexer?.getCharacterOperator(input.characterId, input.operator))
+        ?.permissions || []
+    for (const permission of xLogOperatorPermissions) {
+      if (!permissions.includes(permission)) {
+        return false
+      }
+    }
+    return true
   }
+  return false
 }
 
 export async function removeOperator(
@@ -481,7 +509,11 @@ export async function removeOperator(
   contract?: Contract,
 ) {
   if (input.characterId) {
-    return contract?.removeOperator(input.characterId, input.operator)
+    return contract?.grantOperatorPermissionsForCharacter(
+      input.characterId,
+      input.operator,
+      [],
+    )
   }
 }
 

@@ -185,32 +185,25 @@ export const useGetNotifications = (data: { siteCId?: string }) => {
 export const useGetOperators = (
   data: Parameters<typeof siteModel.getOperators>[0],
 ) => {
-  const contract = useContract()
   return useQuery(["getOperators", data], async () => {
     if (!data.characterId) {
       return null
     }
-    return (await siteModel.getOperators(data, contract))?.data?.filter(
-      (operator) => operator !== "0x0000000000000000000000000000000000000000",
-    )
+    return siteModel.getOperators(data)
   })
 }
 
 export const useIsOperators = (
   data: Partial<Parameters<typeof siteModel.isOperators>[0]>,
 ) => {
-  const contract = useContract()
   return useQuery(["isOperators", data], async () => {
     if (!data.characterId || !data.operator) {
       return null
     }
-    return siteModel.isOperators(
-      {
-        characterId: data.characterId,
-        operator: data.operator,
-      },
-      contract,
-    )
+    return siteModel.isOperators({
+      characterId: data.characterId,
+      operator: data.operator,
+    })
   })
 }
 
