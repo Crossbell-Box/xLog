@@ -43,7 +43,7 @@ specifiers:
   '@uiw/react-codemirror': 4.19.1
   '@unocss/cli': 0.47.5
   '@unocss/preset-icons': 0.47.5
-  '@urql/core': 3.0.5
+  '@urql/core': 3.1.1
   autoprefixer: 10.4.13
   axios: 1.2.1
   clsx: 1.2.1
@@ -134,7 +134,7 @@ dependencies:
   '@tanstack/react-query-persist-client': 4.19.1_tbzjkhe5jt5eajidrzbcozbyna
   '@uiw/codemirror-extensions-events': 4.19.1_@codemirror+view@6.7.0
   '@uiw/react-codemirror': 4.19.1_hyb5to5u4twfhgokb4qeeija2e
-  '@urql/core': 3.0.5
+  '@urql/core': 3.1.1
   axios: 1.2.1
   clsx: 1.2.1
   crossbell.js: 0.13.0
@@ -1150,12 +1150,6 @@ packages:
       '@floating-ui/dom': 1.0.9
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /@graphql-typed-document-node/core/3.1.1:
-    resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dev: false
 
   /@graphql-typed-document-node/core/3.1.1_graphql@16.6.0:
@@ -2365,15 +2359,6 @@ packages:
       - rollup
     dev: true
 
-  /@urql/core/3.0.5:
-    resolution: {integrity: sha512-6/1HG+WEAcPs+hXSFnxWBTWkNUwa8dj2cHysWokMaFIbAioGtUaSdxp2q9FDMtWAIGdc640NFSt2B8itGLdoAA==}
-    peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      '@graphql-typed-document-node/core': 3.1.1
-      wonka: 6.1.1
-    dev: false
-
   /@urql/core/3.0.5_graphql@16.6.0:
     resolution: {integrity: sha512-6/1HG+WEAcPs+hXSFnxWBTWkNUwa8dj2cHysWokMaFIbAioGtUaSdxp2q9FDMtWAIGdc640NFSt2B8itGLdoAA==}
     peerDependencies:
@@ -2381,7 +2366,15 @@ packages:
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@16.6.0
       graphql: 16.6.0
-      wonka: 6.1.1
+      wonka: 6.1.2
+    dev: false
+
+  /@urql/core/3.1.1:
+    resolution: {integrity: sha512-Mnxtq4I4QeFJsgs7Iytw+HyhiGxISR6qtyk66c9tipozLZ6QVxrCiUPF2HY4BxNIabaxcp+rivadvm8NAnXj4Q==}
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      wonka: 6.1.2
     dev: false
 
   /@vanilla-extract/css/1.9.1:
@@ -9430,8 +9423,8 @@ packages:
       string-width: 4.2.3
     dev: false
 
-  /wonka/6.1.1:
-    resolution: {integrity: sha512-shBtyZ0KFvUadtnDGlTRA4mF4pgcRoyZKikdputKhmShoXWcZDvlg6CUw6Jx9nTL7Ub8QUJoIarPpxdlosg9cw==}
+  /wonka/6.1.2:
+    resolution: {integrity: sha512-zNrXPMccg/7OEp9tSfFkMgTvhhowqasiSHdJ3eCZolXxVTV/aT6HUTofoZk9gwRbGoFey/Nss3JaZKUMKMbofg==}
     dev: false
 
   /word-wrap/1.2.3:
