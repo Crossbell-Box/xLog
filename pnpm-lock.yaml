@@ -9,7 +9,7 @@ specifiers:
   '@emoji-mart/data': 1.0.8
   '@emoji-mart/react': 1.0.1
   '@floating-ui/react-dom-interactions': 0.13.3
-  '@headlessui/react': 1.7.4
+  '@headlessui/react': 1.7.7
   '@heroicons/react': 2.0.13
   '@iconify-json/akar-icons': 1.1.10
   '@iconify-json/bi': 1.1.12
@@ -123,7 +123,7 @@ dependencies:
   '@emoji-mart/data': 1.0.8
   '@emoji-mart/react': 1.0.1_flkxl6spvtjvsiujs6a55ujlt4
   '@floating-ui/react-dom-interactions': 0.13.3_ib3m5ricvtkl2cll7qpr2f6lvq
-  '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
+  '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.13_react@18.2.0
   '@iconify-json/akar-icons': 1.1.10
   '@iconify-json/tabler': 1.1.50
@@ -1166,8 +1166,8 @@ packages:
       graphql: 16.6.0
     dev: false
 
-  /@headlessui/react/1.7.4_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-D8n5yGCF3WIkPsjEYeM8knn9jQ70bigGGb5aUvN6y4BGxcT3OcOQOKcM3zRGllRCZCFxCZyQvYJF6ZE7bQUOyQ==}
+  /@headlessui/react/1.7.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-BqDOd/tB9u2tA0T3Z0fn18ktw+KbVwMnkxxsGPIH2hzssrQhKB5n/6StZOyvLYP/FsYtvuXfi9I0YowKPv2c1w==}
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16 || ^17 || ^18
