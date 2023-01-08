@@ -39,7 +39,7 @@
     "@urql/core": "3.0.5",
     "axios": "1.2.1",
     "clsx": "1.2.1",
-    "crossbell.js": "0.13.0",
+    "crossbell.js": "0.16.1",
     "dayjs": "1.11.7",
     "dotenv": "16.0.3",
     "emoji-mart": "5.3.3",
