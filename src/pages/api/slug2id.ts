@@ -67,7 +67,7 @@ export async function getIdBySlug(slug: string, handle: string) {
       )
         .then((res) => res.json())
         .then((note) => {
-          if (note && getSlug(note) !== slug) {
+          if ((note && getSlug(note) !== slug) || note.deleted) {
             cacheDelete(["slug2id", handle, slug])
           }
         })
