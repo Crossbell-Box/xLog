@@ -151,7 +151,13 @@ export const getSites = async (input: string[]) => {
           console.warn(error)
         }
       }
-      site.metadata.content.name = site.metadata.content.name || site.handle
+      if (site.metadata.content) {
+        site.metadata.content.name = site.metadata?.content?.name || site.handle
+      } else {
+        site.metadata.content = {
+          name: site.handle,
+        }
+      }
 
       site.custom_domain =
         site.metadata?.content?.attributes?.find(
