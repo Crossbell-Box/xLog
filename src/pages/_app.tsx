@@ -13,7 +13,6 @@ import {
 } from "@rainbow-me/rainbowkit"
 import {
   injectedWallet,
-  rainbowWallet,
   metaMaskWallet,
   coinbaseWallet,
   walletConnectWallet,
