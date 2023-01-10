@@ -6,7 +6,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "next build",
-    "dev": "next",
+    "dev": "next -p 2222",
     "test-unit": "vitest run",
     "test-e2e": "playwright test",
     "start": "node server.js",
