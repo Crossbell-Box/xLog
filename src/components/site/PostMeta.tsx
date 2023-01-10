@@ -24,7 +24,7 @@ export const PostMeta: React.FC<{
     <div className="text-zinc-400 mt-4 xlog-post-meta space-x-5 flex items-center">
       <time
         dateTime={formatToISO(page.date_published)}
-        className="xlog-post-date"
+        className="xlog-post-date whitespace-nowrap"
       >
         {formatDate(
           page.date_published,
@@ -34,7 +34,7 @@ export const PostMeta: React.FC<{
       </time>
       {page.tags?.filter((tag) => tag !== "post" && tag !== "page").length ? (
         <>
-          <span className="xlog-post-tags space-x-1">
+          <span className="xlog-post-tags space-x-1 truncate min-w-0">
             {page.tags
               ?.filter((tag) => tag !== "post" && tag !== "page")
               .map((tag) => (
