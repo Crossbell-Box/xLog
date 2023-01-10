@@ -7,8 +7,8 @@ import type { Profiles as UniProfiles } from "unidata.js"
 import { createClient } from "@urql/core"
 import axios from "axios"
 import { indexer } from "~/queries/crossbell"
-import type { LinkEntity, NoteEntity } from "crossbell.js"
-import type { Contract, CharacterOperatorPermission } from "crossbell.js"
+import type { LinkEntity, NoteEntity, Contract } from "crossbell.js"
+import { CharacterOperatorPermission } from "crossbell.js"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -445,9 +445,9 @@ export async function getNotifications(input: { siteCId: string }) {
 }
 
 const xLogOperatorPermissions: CharacterOperatorPermission[] = [
-  "SET_NOTE_URI",
-  "DELETE_NOTE",
-  "POST_NOTE",
+  CharacterOperatorPermission.SET_NOTE_URI,
+  CharacterOperatorPermission.DELETE_NOTE,
+  CharacterOperatorPermission.POST_NOTE,
 ]
 
 export async function addOperator(
