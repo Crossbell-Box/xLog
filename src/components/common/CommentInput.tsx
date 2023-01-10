@@ -6,7 +6,7 @@ import { Avatar } from "~/components/ui/Avatar"
 import { Input } from "~/components/ui/Input"
 import { Button } from "~/components/ui/Button"
 import { useForm } from "react-hook-form"
-import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { useConnectModal } from "@crossbell/connect-kit"
 import { useState, useEffect } from "react"
 import { useCommentPage } from "~/queries/page"
 import { useRouter } from "next/router"
@@ -20,7 +20,7 @@ export const CommentInput: React.FC<{
 }> = ({ pageId, originalId }) => {
   const { address } = useAccount()
   const userSites = useGetUserSites(address)
-  const { openConnectModal } = useConnectModal()
+  const { show: openConnectModal } = useConnectModal()
   const commentPage = useCommentPage()
   const router = useRouter()
   const [viewer, setViewer] = useState<Profile | null>(null)

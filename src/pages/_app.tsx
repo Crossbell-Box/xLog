@@ -1,70 +1,24 @@
-import { Toaster } from "react-hot-toast"
 import "~/css/main.css"
 import "~/generated/uno.css"
-import { configureChains, createClient, WagmiConfig } from "wagmi"
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
+
+import { Toaster } from "react-hot-toast"
+import { createClient, WagmiConfig } from "wagmi"
 import { Hydrate, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
-import { createIDBPersister } from "~/lib/persister.client"
 import {
-  RainbowKitProvider,
-  connectorsForWallets,
-} from "@rainbow-me/rainbowkit"
-import {
-  injectedWallet,
-  metaMaskWallet,
-  coinbaseWallet,
-  walletConnectWallet,
-  braveWallet,
-} from "@rainbow-me/rainbowkit/wallets"
-import { APP_NAME, CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
+  ConnectKitProvider,
+  useAccountState,
+  useConnectModal,
+  useUpgradeAccountModal,
+} from "@crossbell/connect-kit"
+import { InitContractProvider } from "@crossbell/contract"
+import { useRefCallback } from "@crossbell/util-hooks"
 import NextNProgress from "nextjs-progressbar"
 
-import "@rainbow-me/rainbowkit/styles.css"
-
-const { chains, provider } = configureChains(
-  [
-    {
-      id: 3737,
-      name: "Crossbell",
-      network: "crossbell",
-      rpcUrls: {
-        default: "https://rpc.crossbell.io",
-      },
-      iconUrl: `${IPFS_GATEWAY}QmS8zEetTb6pwdNpVjv5bz55BXiSMGP9BjTJmNcjcUT91t`,
-      nativeCurrency: {
-        decimals: 18,
-        name: "Crossbell Token",
-        symbol: "CSB",
-      },
-      blockExplorers: {
-        default: {
-          name: "Crossbell Explorer",
-          url: CSB_SCAN,
-        },
-      },
-      testnet: false,
-    } as any,
-  ],
-  [jsonRpcProvider({ rpc: (chain) => ({ http: chain.rpcUrls.default }) })],
-  {
-    pollingInterval: 1000,
-  },
-)
-
-const connectors = connectorsForWallets([
-  {
-    groupName: "Recommended",
-    wallets: [
-      metaMaskWallet({ chains }),
-      walletConnectWallet({ chains }),
-      braveWallet({ chains, shimDisconnect: true }),
-      coinbaseWallet({ appName: APP_NAME, chains }),
-      injectedWallet({ chains, shimDisconnect: true }),
-    ],
-  },
-])
+import { toGateway } from "~/lib/ipfs-parser"
+import { connectors, provider } from "~/lib/wallet-config"
+import { createIDBPersister } from "~/lib/persister.client"
 
 const wagmiClient = createClient({
   autoConnect: true,
@@ -96,24 +50,46 @@ try {
 
 function MyApp({ Component, pageProps }: any) {
   const getLayout = Component.getLayout ?? ((page: any) => page)
+  const connectModal = useConnectModal()
+  const upgradeAccountModal = useUpgradeAccountModal()
+  const [isEmailConnected, characterId] = useAccountState((s) => [
+    !!s.email,
+    s.computed.account?.characterId,
+  ])
+  const getCurrentCharacterId = useRefCallback(() => characterId ?? null)
 
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <PersistQueryClientProvider
-          client={queryClient}
-          persistOptions={{ persister }}
-        >
-          <Hydrate state={pageProps.dehydratedState}>
-            <ReactQueryDevtools />
-            <NextNProgress
-              options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
-            />
-            {getLayout(<Component {...pageProps} />)}
-            <Toaster />
-          </Hydrate>
-        </PersistQueryClientProvider>
-      </RainbowKitProvider>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister }}
+      >
+        <ConnectKitProvider ipfsLinkToHttpLink={toGateway}>
+          <InitContractProvider
+            openFaucetHintModel={() => {
+              console.log("openFaucetHintModel")
+              // FIXME: - openFaucetHintModel
+            }}
+            openMintNewCharacterModel={() => {
+              console.log("openMintNewCharacterModel")
+              // FIXME: - openMintNewCharacterModel
+            }}
+            openConnectModal={
+              isEmailConnected ? upgradeAccountModal.show : connectModal.show
+            }
+            getCurrentCharacterId={getCurrentCharacterId}
+          >
+            <Hydrate state={pageProps.dehydratedState}>
+              <ReactQueryDevtools />
+              <NextNProgress
+                options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
+              />
+              {getLayout(<Component {...pageProps} />)}
+              <Toaster />
+            </Hydrate>
+          </InitContractProvider>
+        </ConnectKitProvider>
+      </PersistQueryClientProvider>
     </WagmiConfig>
   )
 }

@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useContract } from "@crossbell/contract"
+
 import * as siteModel from "~/models/site.model"
 import { useUnidata } from "./unidata"
-import { useContract } from "./crossbell"
 
 export const useGetUserSites = (address?: string) => {
   const unidata = useUnidata()

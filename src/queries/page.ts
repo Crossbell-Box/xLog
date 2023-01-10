@@ -4,9 +4,10 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from "@tanstack/react-query"
+import { useContract } from "@crossbell/contract"
+
 import * as pageModel from "~/models/page.model"
 import { useUnidata } from "./unidata"
-import { useContract } from "./crossbell"
 
 export const useGetPagesBySiteLite = (
   input: Parameters<typeof pageModel.getPagesBySite>[0],

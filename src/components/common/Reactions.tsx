@@ -10,7 +10,7 @@ import {
 } from "~/queries/page"
 import { useGetUserSites } from "~/queries/site"
 import { useAccount } from "wagmi"
-import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { useConnectModal } from "@crossbell/connect-kit"
 import { useState, useEffect } from "react"
 import { Button } from "../ui/Button"
 import { useRouter } from "next/router"
@@ -33,7 +33,7 @@ export const Reactions: React.FC<{
   const mintPage = useMintPage()
 
   const { address } = useAccount()
-  const { openConnectModal } = useConnectModal()
+  const { show: openConnectModal } = useConnectModal()
   const [likeProgress, setLikeProgress] = useState(false)
   const [mintProgress, setMintProgress] = useState(false)
   const userSite = useGetUserSites(address)

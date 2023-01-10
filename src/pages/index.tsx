@@ -9,7 +9,7 @@ import { LoveIcon } from "~/components/icons/LoveIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { LaughIcon } from "~/components/icons/LaughIcon"
 import { Button } from "~/components/ui/Button"
-import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { useConnectModal } from "@crossbell/connect-kit"
 import { useRouter } from "next/router"
 import { GITHUB_LINK, APP_NAME, CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 export default function Home({ region }: { region: string | null }) {
   const [addressIn, setAddressIn] = useState<string>("")
   const { address } = useAccount()
-  const { openConnectModal } = useConnectModal()
+  const { show: openConnectModal } = useConnectModal()
   const router = useRouter()
   const showcaseSites = useGetSites(showcase)
 
