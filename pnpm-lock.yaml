@@ -35,7 +35,7 @@ specifiers:
   '@types/react': 18.0.26
   '@types/react-dom': 18.0.10
   '@types/react-infinite-scroller': 1.2.3
-  '@types/react-scroll': 1.8.5
+  '@types/react-scroll': 1.8.6
   '@types/sortablejs': 1.15.0
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 9.0.0
@@ -209,7 +209,7 @@ devDependencies:
   '@types/react': 18.0.26
   '@types/react-dom': 18.0.10
   '@types/react-infinite-scroller': 1.2.3
-  '@types/react-scroll': 1.8.5
+  '@types/react-scroll': 1.8.6
   '@types/sortablejs': 1.15.0
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 9.0.0
@@ -2013,8 +2013,8 @@ packages:
       '@types/react': 18.0.26
     dev: true
 
-  /@types/react-scroll/1.8.5:
-    resolution: {integrity: sha512-+adEt41hQHMX4aoBOD9Y336QzQzAtlFXTrsFWToS+efgqsYXUOo0JKLeI0O5GLE50Peap6DsbUQRK6gnv8t6wQ==}
+  /@types/react-scroll/1.8.6:
+    resolution: {integrity: sha512-aMTiNgcmA7dwn1yjoHsiL78RfRnKCXzFyMbv63VrZTXloSfNePBdKtVObC3/My6irwDf0Oz0U4VjEC/vrv6/9w==}
     dependencies:
       '@types/react': 18.0.26
     dev: true
