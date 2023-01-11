@@ -6,7 +6,7 @@ import type Unidata from "unidata.js"
 import type { Profiles as UniProfiles } from "unidata.js"
 import { createClient } from "@urql/core"
 import axios from "axios"
-import { indexer } from "~/queries/crossbell"
+import { indexer } from "@crossbell/indexer"
 import type { LinkEntity, NoteEntity, Contract } from "crossbell.js"
 import { CharacterOperatorPermission } from "crossbell.js"
 

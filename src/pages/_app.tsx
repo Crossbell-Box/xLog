@@ -15,10 +15,14 @@ import {
 import { InitContractProvider } from "@crossbell/contract"
 import { useRefCallback } from "@crossbell/util-hooks"
 import NextNProgress from "nextjs-progressbar"
+import { Network } from "crossbell.js"
 
+import { IPFS_GATEWAY } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 import { connectors, provider } from "~/lib/wallet-config"
 import { createIDBPersister } from "~/lib/persister.client"
+
+Network.setIpfsGateway(IPFS_GATEWAY)
 
 const wagmiClient = createClient({
   autoConnect: true,

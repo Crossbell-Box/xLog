@@ -1,7 +1,7 @@
 import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
 import unidata from "~/queries/unidata.server"
-import { indexer } from "~/queries/crossbell"
+import { indexer } from "@crossbell/indexer"
 import { NoteEntity, CharacterEntity, ListResponse } from "crossbell.js"
 import { getStorage, getKeys } from "~/lib/storage"
 import axios from "axios"
