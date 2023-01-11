@@ -1,6 +1,5 @@
 import { Note, Profile } from "~/lib/types"
-import { useAccount } from "wagmi"
-import { useGetCurrentUserSites } from "~/queries/site"
+import { useGetCurrentUserSites, useAccountAddress } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
 import { Input } from "~/components/ui/Input"
 import { Button } from "~/components/ui/Button"
@@ -17,7 +16,7 @@ export const CommentInput: React.FC<{
   pageId?: string
   originalId?: string
 }> = ({ pageId, originalId }) => {
-  const { address } = useAccount()
+  const address = useAccountAddress()
   const userSites = useGetCurrentUserSites()
   const { show: openConnectModal } = useConnectModal()
   const commentPage = useCommentPage()

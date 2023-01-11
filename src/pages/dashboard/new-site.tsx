@@ -6,22 +6,20 @@ import { SEOHead } from "~/components/common/SEOHead"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
-import { useAccount, useBalance } from "wagmi"
-import { useCreateSite } from "~/queries/site"
+import { useCreateSite, useAccountAddress } from "~/queries/site"
 import { BigNumber } from "ethers"
 import { UniLink } from "~/components/ui/UniLink"
 import { useGetCurrentUserSites } from "~/queries/site"
 import { getSite } from "~/models/site.model"
+import { useAccountBalance } from "@crossbell/connect-kit"
 
 export default function NewSitePage() {
   const router = useRouter()
   const createSite = useCreateSite()
 
   const [addressIn, setAddressIn] = useState<string>("")
-  const { address } = useAccount()
-  const { data: balance } = useBalance({
-    address: address,
-  })
+  const address = useAccountAddress()
+  const { balance } = useAccountBalance()
   const [balanceFormatted, setBalanceFormatted] = useState<string>("")
 
   const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(true)
@@ -37,7 +35,7 @@ export default function NewSitePage() {
   }, [userSites, router])
 
   useEffect(() => {
-    if (balance !== undefined) {
+    if (balance) {
       setBalanceFormatted(balance.formatted)
       if (
         BigNumber.from(balance.value).gt(

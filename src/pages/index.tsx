@@ -4,7 +4,6 @@ import { DashboardIcon } from "~/components/icons/DashboardIcon"
 import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
 import { FLY_REGION } from "~/lib/env.server"
-import { useAccount } from "wagmi"
 import { LoveIcon } from "~/components/icons/LoveIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { LaughIcon } from "~/components/icons/LaughIcon"
@@ -17,7 +16,7 @@ import { Link, Element } from "react-scroll"
 import { Image } from "~/components/ui/Image"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { prefetchGetSites } from "~/queries/site.server"
-import { useGetSites } from "~/queries/site"
+import { useGetSites, useAccountAddress } from "~/queries/site"
 import showcase from "../../showcase.json"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useGetCurrentUserSites, useSubscribeToSites } from "~/queries/site"
@@ -38,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function Home({ region }: { region: string | null }) {
   const [addressIn, setAddressIn] = useState<string>("")
-  const { address } = useAccount()
+  const address = useAccountAddress()
   const { show: openConnectModal } = useConnectModal()
   const router = useRouter()
   const showcaseSites = useGetSites(showcase)

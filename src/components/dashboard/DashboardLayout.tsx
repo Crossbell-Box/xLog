@@ -7,8 +7,7 @@ import { getSiteLink } from "~/lib/helpers"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
-import { useGetCurrentUserSites } from "~/queries/site"
-import { useAccount } from "wagmi"
+import { useGetCurrentUserSites, useAccountAddress } from "~/queries/site"
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { useGetNotifications, useGetSite, useIsOperators } from "~/queries/site"
 import { getStorage } from "~/lib/storage"
@@ -26,7 +25,7 @@ export function DashboardLayout({
   const subdomain = router.query.subdomain as string
   const site = useGetSite(subdomain)
 
-  const { address } = useAccount()
+  const address = useAccountAddress()
 
   const userSite = useGetCurrentUserSites()
 

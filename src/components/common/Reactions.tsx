@@ -8,8 +8,7 @@ import {
   useGetMints,
   useCheckMint,
 } from "~/queries/page"
-import { useGetCurrentUserSites } from "~/queries/site"
-import { useAccount } from "wagmi"
+import { useGetCurrentUserSites, useAccountAddress } from "~/queries/site"
 import { useConnectModal } from "@crossbell/connect-kit"
 import { useState, useEffect } from "react"
 import { Button } from "../ui/Button"
@@ -32,7 +31,7 @@ export const Reactions: React.FC<{
   const unlikePage = useUnlikePage()
   const mintPage = useMintPage()
 
-  const { address } = useAccount()
+  const address = useAccountAddress()
   const { show: openConnectModal } = useConnectModal()
   const [likeProgress, setLikeProgress] = useState(false)
   const [mintProgress, setMintProgress] = useState(false)

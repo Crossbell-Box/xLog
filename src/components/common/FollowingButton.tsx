@@ -2,7 +2,6 @@ import { useRouter } from "next/router"
 import { SITE_URL } from "~/lib/env"
 import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
-import { useAccount } from "wagmi"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import {
@@ -10,6 +9,7 @@ import {
   useSubscribeToSite,
   useUnsubscribeFromSite,
   useGetCurrentUserSites,
+  useAccountAddress,
 } from "~/queries/site"
 import { useConnectModal } from "@crossbell/connect-kit"
 import clsx from "clsx"
@@ -21,7 +21,7 @@ export const FollowingButton: React.FC<{
   size?: "sm" | "xl"
   loadingStatusChange?: (status: boolean) => void
 }> = ({ siteId, variant, className, size, loadingStatusChange }) => {
-  const { address } = useAccount()
+  const address = useAccountAddress()
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
   const { show: openConnectModal } = useConnectModal()

@@ -15,12 +15,16 @@ export const useGetUserSites = (address?: string) => {
   })
 }
 
-export const useGetCurrentUserSites = () => {
+export function useAccountAddress() {
   const account = useAccountState((s) => s.computed.account)
 
-  return useGetUserSites(
-    account?.type === "email" ? account.email : account?.address,
-  )
+  return account?.type === "email" ? account.email : account?.address
+}
+
+export const useGetCurrentUserSites = () => {
+  const address = useAccountAddress()
+
+  return useGetUserSites(address)
 }
 
 export const useGetSite = (input: string) => {
