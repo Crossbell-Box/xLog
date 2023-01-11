@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { useContract } from "@crossbell/contract"
+import { useAccountState } from "@crossbell/connect-kit"
 
 import * as siteModel from "~/models/site.model"
 import { useUnidata } from "./unidata"
@@ -12,6 +13,14 @@ export const useGetUserSites = (address?: string) => {
     }
     return siteModel.getUserSites(address, unidata)
   })
+}
+
+export const useGetCurrentUserSites = () => {
+  const account = useAccountState((s) => s.computed.account)
+
+  return useGetUserSites(
+    account?.type === "email" ? account.email : account?.address,
+  )
 }
 
 export const useGetSite = (input: string) => {

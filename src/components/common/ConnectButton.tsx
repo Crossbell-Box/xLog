@@ -5,13 +5,13 @@ import {
   useAccountBalance,
   GeneralAccount,
 } from "@crossbell/connect-kit"
-import { useGetUserSites } from "~/queries/site"
+import { useGetCurrentUserSites } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import type { HeaderLinkType } from "~/components/site/SiteHeader"
 import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState } from "react"
 import {
   Square2StackIcon,
   ArrowRightOnRectangleIcon,
@@ -34,7 +34,7 @@ export const ConnectButton: React.FC<{
   const { balance } = useAccountBalance()
   const [copyLabelDisplay, copyLabel] = useCopyLabel(account)
 
-  const userSites = useGetUserSites(account?.address)
+  const userSites = useGetCurrentUserSites()
 
   const dropdownLinks: HeaderLinkType[] = [
     {

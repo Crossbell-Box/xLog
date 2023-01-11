@@ -1,13 +1,10 @@
-import { redirect } from "~/lib/server-side-props"
-import { useGetUserSites } from "~/queries/site"
-import { useAccount } from "wagmi"
+import { useGetCurrentUserSites } from "~/queries/site"
 import { useEffect } from "react"
 import { useRouter } from "next/router"
 
 export default function Dashboard() {
-  const { address } = useAccount()
   const router = useRouter()
-  const userSites = useGetUserSites(address)
+  const userSites = useGetCurrentUserSites()
 
   useEffect(() => {
     if (userSites.isSuccess) {

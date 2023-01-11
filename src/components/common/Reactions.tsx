@@ -8,7 +8,7 @@ import {
   useGetMints,
   useCheckMint,
 } from "~/queries/page"
-import { useGetUserSites } from "~/queries/site"
+import { useGetCurrentUserSites } from "~/queries/site"
 import { useAccount } from "wagmi"
 import { useConnectModal } from "@crossbell/connect-kit"
 import { useState, useEffect } from "react"
@@ -36,7 +36,7 @@ export const Reactions: React.FC<{
   const { show: openConnectModal } = useConnectModal()
   const [likeProgress, setLikeProgress] = useState(false)
   const [mintProgress, setMintProgress] = useState(false)
-  const userSite = useGetUserSites(address)
+  const userSite = useGetCurrentUserSites()
   const router = useRouter()
   let [isLikeOpen, setIsLikeOpen] = useState(false)
   let [isMintOpen, setIsMintOpen] = useState(false)

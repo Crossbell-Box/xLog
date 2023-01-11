@@ -3,7 +3,6 @@ import { PostMeta } from "./PostMeta"
 import { PostFooter } from "./PostFooter"
 import { Note, Profile } from "~/lib/types"
 import Head from "next/head"
-import { useGetUserSites } from "~/queries/site"
 import { getSiteLink } from "~/lib/helpers"
 
 export const SitePage: React.FC<{

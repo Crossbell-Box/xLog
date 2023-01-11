@@ -10,7 +10,7 @@ import { useAccount, useBalance } from "wagmi"
 import { useCreateSite } from "~/queries/site"
 import { BigNumber } from "ethers"
 import { UniLink } from "~/components/ui/UniLink"
-import { useGetUserSites } from "~/queries/site"
+import { useGetCurrentUserSites } from "~/queries/site"
 import { getSite } from "~/models/site.model"
 
 export default function NewSitePage() {
@@ -26,7 +26,7 @@ export default function NewSitePage() {
 
   const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(true)
 
-  const userSites = useGetUserSites(address)
+  const userSites = useGetCurrentUserSites()
 
   useEffect(() => {
     if (userSites.isSuccess) {

@@ -7,7 +7,7 @@ import { getSiteLink } from "~/lib/helpers"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
-import { useGetUserSites } from "~/queries/site"
+import { useGetCurrentUserSites } from "~/queries/site"
 import { useAccount } from "wagmi"
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { useGetNotifications, useGetSite, useIsOperators } from "~/queries/site"
@@ -28,7 +28,7 @@ export function DashboardLayout({
 
   const { address } = useAccount()
 
-  const userSite = useGetUserSites(address)
+  const userSite = useGetCurrentUserSites()
 
   const notifications = useGetNotifications({
     siteCId: site.data?.metadata?.proof,

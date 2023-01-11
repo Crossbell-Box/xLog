@@ -1,7 +1,6 @@
-import clsx from "clsx"
 import { Note, Profile } from "~/lib/types"
 import { useAccount } from "wagmi"
-import { useGetUserSites } from "~/queries/site"
+import { useGetCurrentUserSites } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
 import { Input } from "~/components/ui/Input"
 import { Button } from "~/components/ui/Button"
@@ -19,7 +18,7 @@ export const CommentInput: React.FC<{
   originalId?: string
 }> = ({ pageId, originalId }) => {
   const { address } = useAccount()
-  const userSites = useGetUserSites(address)
+  const userSites = useGetCurrentUserSites()
   const { show: openConnectModal } = useConnectModal()
   const commentPage = useCommentPage()
   const router = useRouter()
