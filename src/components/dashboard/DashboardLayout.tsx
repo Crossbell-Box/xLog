@@ -134,7 +134,7 @@ export function DashboardLayout({
       )}
       <div className="flex">
         <DashboardSidebar>
-          {userSite.data?.[0].username &&
+          {userSite.data?.[0]?.username &&
             subdomain &&
             userSite.data[0].username !== subdomain && (
               <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
