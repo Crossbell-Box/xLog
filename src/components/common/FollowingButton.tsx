@@ -9,9 +9,8 @@ import {
   useSubscribeToSite,
   useUnsubscribeFromSite,
   useAccountSites,
-  useAccountAddress,
 } from "~/queries/site"
-import { useConnectModal } from "@crossbell/connect-kit"
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import clsx from "clsx"
 
 export const FollowingButton: React.FC<{
@@ -21,7 +20,7 @@ export const FollowingButton: React.FC<{
   size?: "sm" | "xl"
   loadingStatusChange?: (status: boolean) => void
 }> = ({ siteId, variant, className, size, loadingStatusChange }) => {
-  const address = useAccountAddress()
+  const account = useAccountState((s) => s.computed.account)
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
   const { show: openConnectModal } = useConnectModal()
@@ -31,22 +30,16 @@ export const FollowingButton: React.FC<{
 
   const handleClickSubscribe = async (e: any) => {
     e.preventDefault()
-    if (!address) {
+    if (!account) {
       setFollowProgress(true)
       openConnectModal?.()
     } else if (!userSite.data) {
       router.push(`${SITE_URL}/dashboard/new-site`)
     } else if (siteId) {
       if (subscription.data) {
-        unsubscribeFromSite.mutate({
-          userId: address,
-          siteId: siteId,
-        })
+        unsubscribeFromSite.mutate({ siteId })
       } else {
-        subscribeToSite.mutate({
-          userId: address,
-          siteId: siteId,
-        })
+        subscribeToSite.mutate({ siteId })
       }
     }
   }
@@ -56,7 +49,7 @@ export const FollowingButton: React.FC<{
   useEffect(() => {
     if (
       followProgress &&
-      address &&
+      account &&
       subscription.isSuccess &&
       siteId &&
       userSite.isSuccess
@@ -65,10 +58,7 @@ export const FollowingButton: React.FC<{
         router.push(`${SITE_URL}/dashboard/new-site`)
       }
       if (!subscription.data) {
-        subscribeToSite.mutate({
-          userId: address,
-          siteId: siteId,
-        })
+        subscribeToSite.mutate({ siteId })
       }
       setFollowProgress(false)
     }
@@ -77,7 +67,7 @@ export const FollowingButton: React.FC<{
     userSite.data,
     router,
     followProgress,
-    address,
+    account,
     subscription.isSuccess,
     subscription.data,
     siteId,

@@ -121,23 +121,26 @@ export function useSubscribeToSite() {
   const account = useAccountState((s) => s.computed.account)
 
   return useMutation(
-    async (input: Parameters<typeof siteModel.subscribeToSite>[0]) => {
-      return siteModel.subscribeToSite(input, unidata)
+    async ({ siteId }: { siteId: string }) => {
+      if (account?.type === "wallet") {
+        // FIXME: - Support email users
+        return siteModel.subscribeToSite(
+          { siteId, userId: account.address },
+          unidata,
+        )
+      }
     },
     {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "useGetSiteSubscriptions",
-          {
-            siteId: variables.siteId,
-          },
-        ])
-        queryClient.invalidateQueries([
-          "getSubscription",
-          variables.siteId,
-          account?.characterId,
-        ])
-      },
+      onSuccess: (data, { siteId }) =>
+        Promise.all([
+          queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
+
+          queryClient.invalidateQueries([
+            "getSubscription",
+            siteId,
+            account?.characterId,
+          ]),
+        ]),
     },
   )
 }
@@ -147,26 +150,25 @@ export function useSubscribeToSites() {
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof siteModel.subscribeToSites>[0]) => {
+      // FIXME: - Support email users
       return siteModel.subscribeToSites(input, contract)
     },
     {
-      onSuccess: (data, variables) => {
-        variables.sites.forEach((site) => {
-          queryClient.invalidateQueries([
-            "useGetSiteSubscriptions",
-            {
-              siteId: site.characterId,
-            },
-          ])
-          queryClient.invalidateQueries([
-            "getSubscription",
-            {
-              userId: variables.user.metadata?.proof,
-              siteId: site.characterId,
-            },
-          ])
-        })
-      },
+      onSuccess: (data, variables) =>
+        Promise.all(
+          variables.sites.flatMap((site) => [
+            queryClient.invalidateQueries([
+              "useGetSiteSubscriptions",
+              site.characterId,
+            ]),
+
+            queryClient.invalidateQueries([
+              "getSubscription",
+              site.characterId,
+              variables.user.metadata?.proof,
+            ]),
+          ]),
+        ),
     },
   )
 }
@@ -177,23 +179,25 @@ export function useUnsubscribeFromSite() {
   const account = useAccountState((s) => s.computed.account)
 
   return useMutation(
-    async (input: Parameters<typeof siteModel.subscribeToSite>[0]) => {
-      return siteModel.unsubscribeFromSite(input, unidata)
+    async ({ siteId }: { siteId: string }) => {
+      if (account?.type === "wallet") {
+        // FIXME: - Support email users
+        return siteModel.unsubscribeFromSite(
+          { siteId, userId: account.address },
+          unidata,
+        )
+      }
     },
     {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "useGetSiteSubscriptions",
-          {
-            siteId: variables.siteId,
-          },
-        ])
-        queryClient.invalidateQueries([
-          "getSubscription",
-          variables.siteId,
-          account?.characterId,
-        ])
-      },
+      onSuccess: (data, { siteId }) =>
+        Promise.all([
+          queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
+          queryClient.invalidateQueries([
+            "getSubscription",
+            siteId,
+            account?.characterId,
+          ]),
+        ]),
     },
   )
 }
