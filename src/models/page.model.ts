@@ -388,11 +388,6 @@ export async function getPage<TRender extends boolean = false>(
   return page
 }
 
-async function getPrimaryCharacter(address: string) {
-  const character = await indexer.getPrimaryCharacter(address)
-  return character?.characterId
-}
-
 export async function deletePage(
   { site, id }: { site: string; id: string },
   customUnidata?: Unidata,
