@@ -42,7 +42,7 @@ specifiers:
   '@uiw/codemirror-extensions-events': 4.19.1
   '@uiw/react-codemirror': 4.19.1
   '@unocss/cli': 0.48.3
-  '@unocss/preset-icons': 0.48.3
+  '@unocss/preset-icons': 0.48.4
   '@urql/core': 3.1.1
   autoprefixer: 10.4.13
   axios: 1.2.2
@@ -214,7 +214,7 @@ devDependencies:
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 9.0.0
   '@unocss/cli': 0.48.3
-  '@unocss/preset-icons': 0.48.3
+  '@unocss/preset-icons': 0.48.4
   autoprefixer: 10.4.13
   cross-spawn: 7.0.3
   esbuild: 0.16.16
@@ -370,31 +370,17 @@ packages:
       existy: 1.0.1
     dev: false
 
-  /@codemirror/autocomplete/6.4.0_2oew43mvjdijhmfrdvqmoytsm4:
-    resolution: {integrity: sha512-HLF2PnZAm1s4kGs30EiqKMgD7XsYaQ0XJnMR0rofEWQ5t5D60SfqpDIkIh1ze5tiEbyUWm8+VJ6W1/erVvBMIA==}
-    peerDependencies:
-      '@codemirror/language': ^6.0.0
-      '@codemirror/state': ^6.0.0
-      '@codemirror/view': ^6.0.0
-      '@lezer/common': ^1.0.0
-    dependencies:
-      '@codemirror/language': 6.3.1
-      '@codemirror/state': 6.1.4
-      '@codemirror/view': 6.7.0
-      '@lezer/common': 1.0.2
-    dev: false
-
   /@codemirror/autocomplete/6.4.0_xho5z7vebvnwbrancz7lieaqzy:
     resolution: {integrity: sha512-HLF2PnZAm1s4kGs30EiqKMgD7XsYaQ0XJnMR0rofEWQ5t5D60SfqpDIkIh1ze5tiEbyUWm8+VJ6W1/erVvBMIA==}
     peerDependencies:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
-      '@lezer/common': ^1.0.0
     dependencies:
       '@codemirror/language': 6.3.1
       '@codemirror/state': 6.1.4
       '@codemirror/view': 6.7.0
+      '@lezer/common': 1.0.2
     dev: false
 
   /@codemirror/commands/6.1.2:
@@ -406,23 +392,22 @@ packages:
       '@lezer/common': 1.0.2
     dev: false
 
-  /@codemirror/lang-css/6.0.1_qyqanq7q55jrk4csdy4c34j4ki:
+  /@codemirror/lang-css/6.0.1_@codemirror+view@6.7.0:
     resolution: {integrity: sha512-rlLq1Dt0WJl+2epLQeAsfqIsx3lGu4HStHCJu95nGGuz2P2fNugbU3dQYafr2VRjM4eMC9HviI6jvS98CNtG5w==}
     dependencies:
-      '@codemirror/autocomplete': 6.4.0_2oew43mvjdijhmfrdvqmoytsm4
+      '@codemirror/autocomplete': 6.4.0_xho5z7vebvnwbrancz7lieaqzy
       '@codemirror/language': 6.3.1
       '@codemirror/state': 6.1.4
       '@lezer/css': 1.1.1
     transitivePeerDependencies:
       - '@codemirror/view'
-      - '@lezer/common'
     dev: false
 
   /@codemirror/lang-html/6.4.0:
     resolution: {integrity: sha512-HHged0d9AQ/mpjYLTYDVdtI7235dO0COFNgc5uuiGokgjWx3L/sjMSw5aS/Nk7JG++LhsohG5HMNTCuqAq3Tcg==}
     dependencies:
-      '@codemirror/autocomplete': 6.4.0_2oew43mvjdijhmfrdvqmoytsm4
-      '@codemirror/lang-css': 6.0.1_qyqanq7q55jrk4csdy4c34j4ki
+      '@codemirror/autocomplete': 6.4.0_xho5z7vebvnwbrancz7lieaqzy
+      '@codemirror/lang-css': 6.0.1_@codemirror+view@6.7.0
       '@codemirror/lang-javascript': 6.1.2
       '@codemirror/language': 6.3.1
       '@codemirror/state': 6.1.4
@@ -435,7 +420,7 @@ packages:
   /@codemirror/lang-javascript/6.1.2:
     resolution: {integrity: sha512-OcwLfZXdQ1OHrLiIcKCn7MqZ7nx205CMKlhe+vL88pe2ymhT9+2P+QhwkYGxMICj8TDHyp8HFKVwpiisUT7iEQ==}
     dependencies:
-      '@codemirror/autocomplete': 6.4.0_2oew43mvjdijhmfrdvqmoytsm4
+      '@codemirror/autocomplete': 6.4.0_xho5z7vebvnwbrancz7lieaqzy
       '@codemirror/language': 6.3.1
       '@codemirror/lint': 6.1.0
       '@codemirror/state': 6.1.4
@@ -2132,8 +2117,6 @@ packages:
       '@codemirror/search': 6.2.3
       '@codemirror/state': 6.1.4
       '@codemirror/view': 6.7.0
-    transitivePeerDependencies:
-      - '@lezer/common'
     dev: false
 
   /@uiw/codemirror-extensions-events/4.19.1_@codemirror+view@6.7.0:
@@ -2163,7 +2146,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
       - '@codemirror/language'
-      - '@lezer/common'
     dev: false
 
   /@unocss/astro/0.48.3:
@@ -2211,6 +2193,10 @@ packages:
     resolution: {integrity: sha512-CHlJkXUoV4M35yrpFm6TUx6avdlVEbzjusSNVYhxbQC3Wii5XepY6VqswYmA9G29g9URSfl6IBTx5PBqx/lacw==}
     dev: true
 
+  /@unocss/core/0.48.4:
+    resolution: {integrity: sha512-ecoTzblwEIQGD4QhMo1U36rVwvTR9XW+gtJRhCnVyjy7L23AbGJu2xkRZSsH3k/v0gs0gx/SHNfyOqA52BNfoA==}
+    dev: true
+
   /@unocss/inspector/0.48.3:
     resolution: {integrity: sha512-qsTtbb0PxJdEoGrl9fY02V8XZdZwIuPt2UClgTzHEjxmvmHOnb1b3dBR9DfaqD/wURfaPhBmF30y6wzmVcEWNQ==}
     dependencies:
@@ -2229,6 +2215,16 @@ packages:
     dependencies:
       '@iconify/utils': 2.0.11
       '@unocss/core': 0.48.3
+      ohmyfetch: 0.4.21
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@unocss/preset-icons/0.48.4:
+    resolution: {integrity: sha512-7VJ4mnOpWIvKUKy2HO/yd1sFmw5uAOAcPL3yD6KHMOoE0igH1ohcx06WPAtyrHIALjWe1gBrvYhpPrhYhMH1tQ==}
+    dependencies:
+      '@iconify/utils': 2.0.11
+      '@unocss/core': 0.48.4
       ohmyfetch: 0.4.21
     transitivePeerDependencies:
       - supports-color
@@ -3412,8 +3408,6 @@ packages:
       '@codemirror/search': 6.2.3
       '@codemirror/state': 6.1.4
       '@codemirror/view': 6.7.0
-    transitivePeerDependencies:
-      - '@lezer/common'
     dev: false
 
   /color-convert/1.9.3:
