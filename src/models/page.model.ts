@@ -595,38 +595,6 @@ export async function checkMint({
   })
 }
 
-export async function commentPage(
-  {
-    address,
-    pageId,
-    content,
-    externalUrl,
-  }: {
-    address: string
-    pageId: string
-    content: string
-    externalUrl: string
-  },
-  contract?: Contract,
-) {
-  const characterId = await getPrimaryCharacter(address)
-  if (!characterId) {
-    throw notFound(`character not found`)
-  } else {
-    return contract?.postNoteForNote(
-      characterId,
-      {
-        content,
-        external_urls: [externalUrl],
-        tags: ["comment"],
-        sources: ["xlog"],
-      },
-      pageId.split("-")[0],
-      pageId.split("-")[1],
-    )
-  }
-}
-
 export async function getComments({ pageId }: { pageId: string }) {
   const options = {
     toCharacterId: pageId.split("-")[0],

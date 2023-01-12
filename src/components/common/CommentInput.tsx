@@ -1,10 +1,10 @@
-import { Note, Profile } from "~/lib/types"
-import { useAccountSites, useAccountAddress } from "~/queries/site"
+import { Profile } from "~/lib/types"
+import { useAccountSites } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
 import { Input } from "~/components/ui/Input"
 import { Button } from "~/components/ui/Button"
 import { useForm } from "react-hook-form"
-import { useConnectModal } from "@crossbell/connect-kit"
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { useState, useEffect } from "react"
 import { useCommentPage } from "~/queries/page"
 import { useRouter } from "next/router"
@@ -16,17 +16,12 @@ export const CommentInput: React.FC<{
   pageId?: string
   originalId?: string
 }> = ({ pageId, originalId }) => {
-  const address = useAccountAddress()
+  const account = useAccountState((s) => s.computed.account)
   const userSites = useAccountSites()
   const { show: openConnectModal } = useConnectModal()
   const commentPage = useCommentPage()
   const router = useRouter()
   const [viewer, setViewer] = useState<Profile | null>(null)
-  const [addressIn, setAddressIn] = useState("")
-
-  useEffect(() => {
-    setAddressIn(address || "")
-  }, [address])
 
   useEffect(() => {
     if (userSites.isSuccess && userSites.data?.length) {
@@ -41,13 +36,12 @@ export const CommentInput: React.FC<{
   })
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    if (!address) {
+    if (!account) {
       openConnectModal?.()
     } else if (userSites.isSuccess && !userSites.data?.length) {
       router.push(`/dashboard/new-site`)
     } else if (pageId) {
       commentPage.mutate({
-        address,
         pageId: pageId,
         content: values.content,
         externalUrl: window.location.href,
@@ -76,10 +70,10 @@ export const CommentInput: React.FC<{
             id="content"
             isBlock
             required={
-              !!addressIn && userSites.isSuccess && !!userSites.data?.length
+              !!account && userSites.isSuccess && !!userSites.data?.length
             }
             disabled={
-              !addressIn || !userSites.isSuccess || !userSites.data?.length
+              !account || !userSites.isSuccess || !userSites.data?.length
             }
             multiline
             maxLength={300}
@@ -112,7 +106,7 @@ export const CommentInput: React.FC<{
             type="submit"
             isLoading={userSites.isLoading || commentPage.isLoading}
           >
-            {addressIn
+            {account
               ? userSites.isSuccess && !userSites.data?.length
                 ? "Create Character"
                 : "Submit"

@@ -4,7 +4,9 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from "@tanstack/react-query"
+import { usePostNoteForNote } from "@crossbell/connect-kit"
 import { useContract } from "@crossbell/contract"
+import { useRefCallback } from "@crossbell/util-hooks"
 
 import * as pageModel from "~/models/page.model"
 import { useUnidata } from "./unidata"
@@ -227,25 +229,45 @@ export function useMintPage() {
 }
 
 export function useCommentPage() {
-  const contract = useContract()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (
-      input: Parameters<typeof pageModel.commentPage>[0] & {
-        originalId?: string
-      },
-    ) => {
-      return pageModel.commentPage(input, contract)
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "getComments",
-          variables.originalId || variables.pageId,
-        ])
-      },
+  const { mutateAsync: _, ...postNoteForNote } = usePostNoteForNote()
+
+  const mutate = useRefCallback(
+    ({
+      pageId,
+      content,
+      externalUrl,
+      originalId,
+    }: {
+      pageId: string
+      content: string
+      externalUrl: string
+      originalId?: string
+    }) => {
+      const [characterId, noteId] = pageId.split("-").map(Number)
+      return postNoteForNote.mutate(
+        {
+          note: { characterId, noteId },
+          metadata: {
+            content,
+            external_urls: [externalUrl],
+            tags: ["comment"],
+            sources: ["xlog"],
+          },
+        },
+        {
+          onSuccess() {
+            queryClient.invalidateQueries(["getComments", originalId || pageId])
+          },
+        },
+      )
     },
   )
+
+  return {
+    ...postNoteForNote,
+    mutate,
+  }
 }
 
 export function useGetComments(input: { pageId?: string }) {
