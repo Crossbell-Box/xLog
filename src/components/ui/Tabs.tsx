@@ -5,6 +5,7 @@ import { UniLink } from "./UniLink"
 export type TabItem = {
   text: string
   href?: string
+  hidden?: boolean
   onClick?: () => void
   active?: boolean
 }
@@ -13,6 +14,8 @@ export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
   return (
     <div className="flex border-b space-x-5 mb-8">
       {items.map((item) => {
+        if (item.hidden) return null
+
         return (
           <UniLink
             href={item.href}
