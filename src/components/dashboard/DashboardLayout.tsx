@@ -2,6 +2,8 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useState, useEffect } from "react"
+import { useAccountState } from "@crossbell/connect-kit"
+
 import { APP_NAME } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { SEOHead } from "../common/SEOHead"
@@ -24,7 +26,7 @@ export function DashboardLayout({
   const router = useRouter()
   const subdomain = router.query.subdomain as string
   const site = useGetSite(subdomain)
-
+  const ssrReady = useAccountState((s) => s.ssrReady)
   const address = useAccountAddress()
 
   const userSite = useAccountSites()
@@ -54,9 +56,10 @@ export function DashboardLayout({
   }, [notifications.data, subdomain, notificationCreatedAt])
 
   useEffect(() => {
-    if (!address) {
+    if (ssrReady && !address) {
       router.push("/")
     }
+
     if (userSite.isSuccess && subdomain) {
       if (
         !userSite.data?.find((site) => site.username === subdomain) &&
@@ -66,6 +69,7 @@ export function DashboardLayout({
       }
     }
   }, [
+    ssrReady,
     address,
     router,
     userSite.isSuccess,
