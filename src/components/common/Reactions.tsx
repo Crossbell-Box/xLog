@@ -18,7 +18,7 @@ import { UniLink } from "~/components/ui/UniLink"
 import { Modal } from "~/components/ui/Modal"
 import { Avatar } from "../ui/Avatar"
 import { MintIcon } from "~/components/icons/MintIcon"
-import { getLikes, getMints } from "~/models/page.model"
+import { getLikes, getMints, parsePageId } from "~/models/page.model"
 import { CharacterList } from "~/components/common/CharacterList"
 import clsx from "clsx"
 
@@ -46,10 +46,7 @@ export const Reactions: React.FC<{
     pageId: pageId,
     includeCharacter: size !== "sm",
   })
-  const isLike = useCheckLike({
-    address,
-    pageId: pageId,
-  })
+  const isLike = useCheckLike({ pageId })
 
   const mints = useGetMints({
     pageId: pageId,
@@ -70,10 +67,7 @@ export const Reactions: React.FC<{
       if (isLike.data?.count) {
         setIsLikeOpen(true)
       } else {
-        likePage.mutate({
-          address,
-          pageId: pageId,
-        })
+        likePage.mutate(parsePageId(pageId))
       }
     }
   }
@@ -139,10 +133,7 @@ export const Reactions: React.FC<{
         router.push(`${SITE_URL}/dashboard/new-site`)
       }
       if (!isLike.data.count) {
-        likePage.mutate({
-          address,
-          pageId: pageId,
-        })
+        likePage.mutate(parsePageId(pageId))
       }
       setLikeProgress(false)
     }

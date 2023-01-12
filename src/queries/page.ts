@@ -4,7 +4,12 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from "@tanstack/react-query"
-import { usePostNoteForNote } from "@crossbell/connect-kit"
+import {
+  useAccountState,
+  usePostNoteForNote,
+  useLikeNote,
+  useUnlikeNote,
+} from "@crossbell/connect-kit"
 import { useContract } from "@crossbell/contract"
 import { useRefCallback } from "@crossbell/util-hooks"
 
@@ -83,19 +88,19 @@ export const useGetLikes = (input: {
   )
 }
 
-export const useCheckLike = (input: { address?: string; pageId?: string }) => {
-  return useQuery(["checkLike", input.pageId, input.address], async () => {
-    if (!input.pageId || !input.address) {
-      return {
-        count: 0,
-        list: [],
+export const useCheckLike = (input: { pageId?: string }) => {
+  const account = useAccountState((s) => s.computed.account)
+
+  return useQuery(
+    ["checkLike", input.pageId, account?.characterId],
+    async () => {
+      if (!input.pageId || !account?.characterId) {
+        return { count: 0, list: [] }
       }
-    }
-    return pageModel.checkLike({
-      address: input.address,
-      pageId: input.pageId,
-    })
-  })
+
+      return pageModel.checkLike({ account, pageId: input.pageId })
+    },
+  )
 }
 
 export const useGetMints = (input: {
@@ -169,43 +174,35 @@ export function useDeletePage() {
 }
 
 export function useLikePage() {
-  const contract = useContract()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (input: Parameters<typeof pageModel.likePage>[0]) => {
-      return pageModel.likePage(input, contract)
+  const account = useAccountState((s) => s.computed.account)
+
+  return useLikeNote({
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries([
+        "checkLike",
+        pageModel.toPageId(variables),
+        account?.characterId,
+      ])
+      queryClient.invalidateQueries(["getLikes", pageModel.toPageId(variables)])
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "checkLike",
-          variables.pageId,
-          variables.address,
-        ])
-        queryClient.invalidateQueries(["getLikes", variables.pageId])
-      },
-    },
-  )
+  })
 }
 
 export function useUnlikePage() {
-  const contract = useContract()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (input: Parameters<typeof pageModel.unlikePage>[0]) => {
-      return pageModel.unlikePage(input, contract)
+  const account = useAccountState((s) => s.computed.account)
+
+  return useUnlikeNote({
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries([
+        "checkLike",
+        pageModel.toPageId(variables),
+        account?.characterId,
+      ])
+      queryClient.invalidateQueries(["getLikes", pageModel.toPageId(variables)])
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "checkLike",
-          variables.pageId,
-          variables.address,
-        ])
-        queryClient.invalidateQueries(["getLikes", variables.pageId])
-      },
-    },
-  )
+  })
 }
 
 export function useMintPage() {
@@ -244,10 +241,9 @@ export function useCommentPage() {
       externalUrl: string
       originalId?: string
     }) => {
-      const [characterId, noteId] = pageId.split("-").map(Number)
       return postNoteForNote.mutate(
         {
-          note: { characterId, noteId },
+          note: pageModel.parsePageId(pageId),
           metadata: {
             content,
             external_urls: [externalUrl],

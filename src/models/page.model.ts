@@ -9,6 +9,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 import type Unidata from "unidata.js"
 import type { Contract } from "crossbell.js"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
+import { GeneralAccount } from "@crossbell/connect-kit"
 
 export async function checkPageSlug(
   input: {
@@ -409,52 +410,6 @@ export async function deletePage(
   )
 }
 
-export async function likePage(
-  {
-    address,
-    pageId,
-  }: {
-    address: string
-    pageId: string
-  },
-  contract?: Contract,
-) {
-  const characterId = await getPrimaryCharacter(address)
-  if (!characterId) {
-    throw notFound(`character not found`)
-  } else {
-    return contract?.linkNote(
-      characterId,
-      pageId.split("-")[0],
-      pageId.split("-")[1],
-      "like",
-    )
-  }
-}
-
-export async function unlikePage(
-  {
-    address,
-    pageId,
-  }: {
-    address: string
-    pageId: string
-  },
-  contract?: Contract,
-) {
-  const characterId = await getPrimaryCharacter(address)
-  if (!characterId) {
-    throw notFound(`character not found`)
-  } else {
-    return contract?.unlinkNote(
-      characterId,
-      pageId.split("-")[0],
-      pageId.split("-")[1],
-      "like",
-    )
-  }
-}
-
 export async function getLikes({
   pageId,
   cursor,
@@ -503,17 +458,16 @@ export async function getLikes({
 }
 
 export async function checkLike({
-  address,
+  account,
   pageId,
 }: {
-  address: string
+  account: GeneralAccount
   pageId: string
 }) {
-  const characterId = await getPrimaryCharacter(address)
-  if (!characterId) {
+  if (!account.characterId) {
     throw notFound(`character not found`)
   } else {
-    return indexer.getLinks(characterId, {
+    return indexer.getLinks(account.characterId, {
       linkType: "like",
       toCharacterId: pageId.split("-")[0],
       toNoteId: pageId.split("-")[1],
@@ -629,4 +583,17 @@ export async function getComments({ pageId }: { pageId: string }) {
   } while (cursor)
 
   return pages
+}
+
+export function parsePageId(pageId: string) {
+  const [characterId, noteId] = pageId.split("-").map(Number)
+
+  return { characterId, noteId }
+}
+
+export function toPageId({
+  characterId,
+  noteId,
+}: ReturnType<typeof parsePageId>) {
+  return `${characterId}-${noteId}`
 }
