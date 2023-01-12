@@ -52,10 +52,7 @@ export const Reactions: React.FC<{
     pageId: pageId,
     includeCharacter: size !== "sm",
   })
-  const isMint = useCheckMint({
-    address,
-    pageId: pageId,
-  })
+  const isMint = useCheckMint(pageId)
 
   const like = async () => {
     if (!address) {

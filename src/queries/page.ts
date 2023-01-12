@@ -125,18 +125,15 @@ export const useGetMints = (input: {
   )
 }
 
-export const useCheckMint = (input: { address?: string; pageId?: string }) => {
-  return useQuery(["checkMint", input.pageId, input.address], async () => {
-    if (!input.pageId || !input.address) {
-      return {
-        count: 0,
-        list: [],
-      }
+export const useCheckMint = (pageId: string | undefined) => {
+  const address = useAccountState((s) => s.wallet?.address)
+
+  return useQuery(["checkMint", pageId, address], async () => {
+    if (!pageId || !address) {
+      return { count: 0, list: [] }
     }
-    return pageModel.checkMint({
-      address: input.address,
-      pageId: input.pageId,
-    })
+
+    return pageModel.checkMint({ pageId, address })
   })
 }
 
