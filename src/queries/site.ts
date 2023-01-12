@@ -5,26 +5,24 @@ import { useAccountState } from "@crossbell/connect-kit"
 import * as siteModel from "~/models/site.model"
 import { useUnidata } from "./unidata"
 
-export const useGetUserSites = (address?: string) => {
-  const unidata = useUnidata()
-  return useQuery(["getUserSites", address], async () => {
-    if (!address) {
-      return []
-    }
-    return siteModel.getUserSites(address, unidata)
-  })
-}
-
 export function useAccountAddress() {
   const account = useAccountState((s) => s.computed.account)
 
   return account?.type === "email" ? account.email : account?.address
 }
 
-export const useGetCurrentUserSites = () => {
-  const address = useAccountAddress()
+export const useAccountSites = () => {
+  const account = useAccountState((s) => s.computed.account)
+  const accountAddress = useAccountAddress()
+  const unidata = useUnidata()
 
-  return useGetUserSites(address)
+  return useQuery(["getUserSites", accountAddress], async () => {
+    if (!account) {
+      return []
+    }
+
+    return siteModel.getAccountSites({ account, unidata })
+  })
 }
 
 export const useGetSite = (input: string) => {

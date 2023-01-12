@@ -1,5 +1,5 @@
 import { Note, Profile } from "~/lib/types"
-import { useGetCurrentUserSites, useAccountAddress } from "~/queries/site"
+import { useAccountSites, useAccountAddress } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
 import { Input } from "~/components/ui/Input"
 import { Button } from "~/components/ui/Button"
@@ -17,7 +17,7 @@ export const CommentInput: React.FC<{
   originalId?: string
 }> = ({ pageId, originalId }) => {
   const address = useAccountAddress()
-  const userSites = useGetCurrentUserSites()
+  const userSites = useAccountSites()
   const { show: openConnectModal } = useConnectModal()
   const commentPage = useCommentPage()
   const router = useRouter()

@@ -19,7 +19,7 @@ import { prefetchGetSites } from "~/queries/site.server"
 import { useGetSites, useAccountAddress } from "~/queries/site"
 import showcase from "../../showcase.json"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
-import { useGetCurrentUserSites, useSubscribeToSites } from "~/queries/site"
+import { useAccountSites, useSubscribeToSites } from "~/queries/site"
 import { SITE_URL } from "~/lib/env"
 import { BoltIcon } from "@heroicons/react/24/outline"
 
@@ -127,7 +127,7 @@ export default function Home({ region }: { region: string | null }) {
   ]
 
   const [followProgress, setFollowProgress] = useState<boolean>(false)
-  const userSite = useGetCurrentUserSites()
+  const userSite = useAccountSites()
   const subscribeToSites = useSubscribeToSites()
 
   const followAll = async (e: any) => {

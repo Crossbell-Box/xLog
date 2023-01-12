@@ -5,7 +5,7 @@ import {
   useAccountBalance,
   GeneralAccount,
 } from "@crossbell/connect-kit"
-import { useGetCurrentUserSites } from "~/queries/site"
+import { useAccountSites } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import type { HeaderLinkType } from "~/components/site/SiteHeader"
@@ -34,7 +34,7 @@ export const ConnectButton: React.FC<{
   const { balance } = useAccountBalance()
   const [copyLabelDisplay, copyLabel] = useCopyLabel(account)
 
-  const userSites = useGetCurrentUserSites()
+  const userSites = useAccountSites()
 
   const dropdownLinks: HeaderLinkType[] = [
     {

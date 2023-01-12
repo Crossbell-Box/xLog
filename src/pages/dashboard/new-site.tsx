@@ -9,7 +9,7 @@ import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
 import { useCreateSite, useAccountAddress } from "~/queries/site"
 import { BigNumber } from "ethers"
 import { UniLink } from "~/components/ui/UniLink"
-import { useGetCurrentUserSites } from "~/queries/site"
+import { useAccountSites } from "~/queries/site"
 import { getSite } from "~/models/site.model"
 import { useAccountBalance } from "@crossbell/connect-kit"
 
@@ -24,7 +24,7 @@ export default function NewSitePage() {
 
   const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(true)
 
-  const userSites = useGetCurrentUserSites()
+  const userSites = useAccountSites()
 
   useEffect(() => {
     if (userSites.isSuccess) {

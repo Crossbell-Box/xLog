@@ -9,6 +9,8 @@ import axios from "axios"
 import { indexer } from "@crossbell/indexer"
 import type { LinkEntity, NoteEntity, Contract } from "crossbell.js"
 import { CharacterOperatorPermission } from "crossbell.js"
+import { isEmail } from "~/lib/utils"
+import { GeneralAccount } from "@crossbell/connect-kit"
 
 export const checkSubdomain = async ({
   subdomain,
@@ -59,36 +61,73 @@ const expandSite = (site: Profile) => {
   return site
 }
 
-export const getUserSites = async (
-  address?: string,
-  customUnidata?: Unidata,
-) => {
-  if (!address) {
-    return null
-  }
+export type GetUserSitesParams =
+  | {
+      address: string
+      unidata?: Unidata
+    }
+  | {
+      handle: string
+      unidata?: Unidata
+    }
 
-  let profiles: UniProfiles
+export const getUserSites = async (params: GetUserSitesParams) => {
+  let profiles: UniProfiles | null = null
+
   try {
-    profiles = await (customUnidata || unidata).profiles.get({
-      source: "Crossbell Profile",
-      identity: address,
-      platform: "Ethereum",
-      filter: {
-        primary: true,
-      },
-    })
+    const source = "Crossbell Profile"
+    const filter = { primary: true }
+
+    if ("address" in params) {
+      profiles = await (params.unidata || unidata).profiles.get({
+        source,
+        filter,
+        identity: params.address,
+        platform: "Ethereum",
+      })
+    }
+
+    if ("handle" in params) {
+      profiles = await (params.unidata || unidata).profiles.get({
+        source,
+        filter,
+        identity: params.handle,
+        platform: "Crossbell",
+      })
+    }
   } catch (error) {
     return null
   }
 
-  const sites: Profile[] = profiles?.list?.map((profile) => {
-    expandSite(profile)
-    return profile
-  })
+  const sites: Profile[] =
+    profiles?.list?.map((profile) => {
+      expandSite(profile)
+      return profile
+    }) ?? []
 
-  if (!sites || !sites.length) return null
+  return sites.length > 0 ? sites : null
+}
 
-  return sites
+export type GetAccountSitesParams = {
+  account: GeneralAccount
+  unidata?: Unidata
+}
+
+export const getAccountSites = (
+  params: GetAccountSitesParams,
+): Promise<Profile[] | null> => {
+  switch (params.account.type) {
+    case "email":
+      return getUserSites({
+        handle: params.account.character.handle,
+        unidata: params.unidata,
+      })
+    case "wallet":
+      return getUserSites({
+        address: params.account.address,
+        unidata: params.unidata,
+      })
+  }
 }
 
 export const getSite = async (input: string, customUnidata?: Unidata) => {

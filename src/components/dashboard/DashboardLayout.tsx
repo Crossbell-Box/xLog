@@ -7,7 +7,7 @@ import { getSiteLink } from "~/lib/helpers"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
-import { useGetCurrentUserSites, useAccountAddress } from "~/queries/site"
+import { useAccountSites, useAccountAddress } from "~/queries/site"
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { useGetNotifications, useGetSite, useIsOperators } from "~/queries/site"
 import { getStorage } from "~/lib/storage"
@@ -27,7 +27,7 @@ export function DashboardLayout({
 
   const address = useAccountAddress()
 
-  const userSite = useGetCurrentUserSites()
+  const userSite = useAccountSites()
 
   const notifications = useGetNotifications({
     siteCId: site.data?.metadata?.proof,

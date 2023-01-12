@@ -8,7 +8,7 @@ import {
   useGetSubscription,
   useSubscribeToSite,
   useUnsubscribeFromSite,
-  useGetCurrentUserSites,
+  useAccountSites,
   useAccountAddress,
 } from "~/queries/site"
 import { useConnectModal } from "@crossbell/connect-kit"
@@ -26,7 +26,7 @@ export const FollowingButton: React.FC<{
   const unsubscribeFromSite = useUnsubscribeFromSite()
   const { show: openConnectModal } = useConnectModal()
   const [followProgress, setFollowProgress] = useState<boolean>(false)
-  const userSite = useGetCurrentUserSites()
+  const userSite = useAccountSites()
   const router = useRouter()
 
   const handleClickSubscribe = async (e: any) => {

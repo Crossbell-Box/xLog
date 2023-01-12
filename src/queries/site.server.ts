@@ -65,13 +65,3 @@ export const fetchGetNotifications = async (
     )
   })
 }
-
-export const prefetchGetUserSites = async (
-  address: string,
-  queryClient: QueryClient,
-) => {
-  const key = ["getUserSites", address]
-  await queryClient.prefetchQuery(key, async () => {
-    return cacheGet(key, () => siteModel.getUserSites(address))
-  })
-}

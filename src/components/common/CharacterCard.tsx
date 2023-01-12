@@ -25,7 +25,9 @@ export const CharacterCard: React.FC<{
         if (siteId) {
           siteModel.getSite(siteId).then((site) => setSite(site))
         } else if (address) {
-          siteModel.getUserSites(address).then((sites) => setSite(sites?.[0]))
+          siteModel
+            .getUserSites({ address })
+            .then((sites) => setSite(sites?.[0]))
         }
       } else {
         setSite(undefined)

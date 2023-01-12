@@ -2,7 +2,6 @@ import {
   prefetchGetSite,
   prefetchGetSiteSubscriptions,
   prefetchGetSiteToSubscriptions,
-  prefetchGetUserSites,
 } from "~/queries/site.server"
 import { prefetchGetPagesBySite } from "~/queries/page.server"
 import { PageVisibilityEnum } from "~/lib/types"
