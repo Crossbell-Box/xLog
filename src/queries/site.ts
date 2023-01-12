@@ -44,17 +44,20 @@ export const useGetSites = (input: string[]) => {
   })
 }
 
-export const useGetSubscription = (data: {
-  userId: string
-  siteId: string
-}) => {
+export const useGetSubscription = (siteId: string | undefined) => {
+  const account = useAccountState((s) => s.computed.account)
   const unidata = useUnidata()
-  return useQuery(["getSubscription", data], async () => {
-    if (!data.userId || !data.siteId) {
-      return false
-    }
-    return siteModel.getSubscription(data, unidata)
-  })
+
+  return useQuery(
+    ["getSubscription", siteId, account?.characterId],
+    async () => {
+      if (!account || !siteId) {
+        return false
+      }
+
+      return siteModel.getSubscription(siteId, account, unidata)
+    },
+  )
 }
 
 export const useGetSiteSubscriptions = (data: { siteId: string }) => {
@@ -115,6 +118,8 @@ export function useCreateSite() {
 export function useSubscribeToSite() {
   const unidata = useUnidata()
   const queryClient = useQueryClient()
+  const account = useAccountState((s) => s.computed.account)
+
   return useMutation(
     async (input: Parameters<typeof siteModel.subscribeToSite>[0]) => {
       return siteModel.subscribeToSite(input, unidata)
@@ -127,7 +132,11 @@ export function useSubscribeToSite() {
             siteId: variables.siteId,
           },
         ])
-        queryClient.invalidateQueries(["getSubscription", variables])
+        queryClient.invalidateQueries([
+          "getSubscription",
+          variables.siteId,
+          account?.characterId,
+        ])
       },
     },
   )
@@ -165,6 +174,8 @@ export function useSubscribeToSites() {
 export function useUnsubscribeFromSite() {
   const unidata = useUnidata()
   const queryClient = useQueryClient()
+  const account = useAccountState((s) => s.computed.account)
+
   return useMutation(
     async (input: Parameters<typeof siteModel.subscribeToSite>[0]) => {
       return siteModel.unsubscribeFromSite(input, unidata)
@@ -177,7 +188,11 @@ export function useUnsubscribeFromSite() {
             siteId: variables.siteId,
           },
         ])
-        queryClient.invalidateQueries(["getSubscription", variables])
+        queryClient.invalidateQueries([
+          "getSubscription",
+          variables.siteId,
+          account?.characterId,
+        ])
       },
     },
   )

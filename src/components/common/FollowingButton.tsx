@@ -51,10 +51,7 @@ export const FollowingButton: React.FC<{
     }
   }
 
-  const subscription = useGetSubscription({
-    userId: address || "",
-    siteId: siteId || "",
-  })
+  const subscription = useGetSubscription(siteId)
 
   useEffect(() => {
     if (

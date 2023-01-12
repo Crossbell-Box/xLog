@@ -218,20 +218,29 @@ export const getSites = async (input: string[]) => {
 }
 
 export const getSubscription = async (
-  data: {
-    userId: string
-    siteId: string
-  },
+  siteId: string,
+  account: GeneralAccount,
   customUnidata?: Unidata,
 ) => {
-  const links = await (customUnidata || unidata).links.get({
-    source: "Crossbell Link",
-    identity: data.userId,
-    platform: "Ethereum",
-    filter: {
-      to: data.siteId,
-    },
-  })
+  const links = await (() => {
+    switch (account.type) {
+      case "email":
+        return (customUnidata || unidata).links.get({
+          source: "Crossbell Link",
+          identity: account.character.handle,
+          platform: "Crossbell",
+          filter: { to: siteId },
+        })
+      case "wallet":
+        return (customUnidata || unidata).links.get({
+          source: "Crossbell Link",
+          identity: account.address,
+          platform: "Ethereum",
+          filter: { to: siteId },
+        })
+    }
+  })()
+
   return !!links?.list?.length
 }
 
