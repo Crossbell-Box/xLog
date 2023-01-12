@@ -79,10 +79,7 @@ export const Reactions: React.FC<{
       if (isMint.data?.count) {
         setIsMintOpen(true)
       } else {
-        mintPage.mutate({
-          address,
-          pageId: pageId,
-        })
+        mintPage.mutate(parsePageId(pageId))
       }
     }
   }
@@ -99,10 +96,7 @@ export const Reactions: React.FC<{
         router.push(`${SITE_URL}/dashboard/new-site`)
       }
       if (!isMint.data.count) {
-        mintPage.mutate({
-          address,
-          pageId: pageId,
-        })
+        mintPage.mutate(parsePageId(pageId))
       }
       setMintProgress(false)
     }

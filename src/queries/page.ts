@@ -9,11 +9,12 @@ import {
   usePostNoteForNote,
   useLikeNote,
   useUnlikeNote,
+  useMintNote,
 } from "@crossbell/connect-kit"
-import { useContract } from "@crossbell/contract"
 import { useRefCallback } from "@crossbell/util-hooks"
 
 import * as pageModel from "~/models/page.model"
+
 import { useUnidata } from "./unidata"
 
 export const useGetPagesBySiteLite = (
@@ -203,23 +204,19 @@ export function useUnlikePage() {
 }
 
 export function useMintPage() {
-  const contract = useContract()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (input: Parameters<typeof pageModel.mintPage>[0]) => {
-      return pageModel.mintPage(input, contract)
+  const address = useAccountState((s) => s.wallet?.address)
+
+  return useMintNote({
+    onSuccess: (_, variables) => {
+      const pageId = pageModel.toPageId(variables)
+
+      return Promise.all([
+        queryClient.invalidateQueries(["checkMint", pageId, address]),
+        queryClient.invalidateQueries(["getMints", pageId]),
+      ])
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "checkMint",
-          variables.pageId,
-          variables.address,
-        ])
-        queryClient.invalidateQueries(["getMints", variables.pageId])
-      },
-    },
-  )
+  })
 }
 
 export function useCommentPage() {
