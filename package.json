@@ -115,7 +115,7 @@
     "@types/sortablejs": "1.15.0",
     "@types/ua-parser-js": "0.7.36",
     "@types/uuid": "9.0.0",
-    "@unocss/cli": "0.48.3",
+    "@unocss/cli": "0.48.4",
     "@unocss/preset-icons": "0.48.3",
     "autoprefixer": "10.4.13",
     "cross-spawn": "7.0.3",
