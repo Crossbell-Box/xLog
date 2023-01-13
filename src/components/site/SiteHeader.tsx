@@ -122,7 +122,7 @@ export const SiteHeader: React.FC<{
               <div className="xlog-site-others text-sm">
                 <FollowingCount siteId={site?.username} />
                 <FollowingButton
-                  siteId={site?.username}
+                  site={site}
                   className="text-accent mr-5 min-[438px]:mx-5"
                   variant="text"
                 />

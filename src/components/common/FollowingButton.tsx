@@ -3,7 +3,6 @@ import { SITE_URL } from "~/lib/env"
 import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
 import { useEffect, useState } from "react"
-import toast from "react-hot-toast"
 import {
   useGetSubscription,
   useSubscribeToSite,
@@ -12,14 +11,15 @@ import {
 } from "~/queries/site"
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import clsx from "clsx"
+import { Profile } from "~/lib/types"
 
 export const FollowingButton: React.FC<{
-  siteId?: string
+  site: Profile | undefined | null
   variant?: Variant
   className?: string
   size?: "sm" | "xl"
   loadingStatusChange?: (status: boolean) => void
-}> = ({ siteId, variant, className, size, loadingStatusChange }) => {
+}> = ({ site, variant, className, size, loadingStatusChange }) => {
   const account = useAccountState((s) => s.computed.account)
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
@@ -27,6 +27,7 @@ export const FollowingButton: React.FC<{
   const [followProgress, setFollowProgress] = useState<boolean>(false)
   const userSite = useAccountSites()
   const router = useRouter()
+  const characterId = site?.metadata?.proof ? Number(site.metadata.proof) : null
 
   const handleClickSubscribe = async (e: any) => {
     e.preventDefault()
@@ -35,30 +36,30 @@ export const FollowingButton: React.FC<{
       openConnectModal?.()
     } else if (!userSite.data) {
       router.push(`${SITE_URL}/dashboard/new-site`)
-    } else if (siteId) {
+    } else if (characterId) {
       if (subscription.data) {
-        unsubscribeFromSite.mutate({ siteId })
+        unsubscribeFromSite.mutate({ characterId })
       } else {
-        subscribeToSite.mutate({ siteId })
+        subscribeToSite.mutate({ characterId })
       }
     }
   }
 
-  const subscription = useGetSubscription(siteId)
+  const subscription = useGetSubscription(site?.username)
 
   useEffect(() => {
     if (
       followProgress &&
       account &&
       subscription.isSuccess &&
-      siteId &&
+      characterId &&
       userSite.isSuccess
     ) {
       if (!userSite.data) {
         router.push(`${SITE_URL}/dashboard/new-site`)
       }
       if (!subscription.data) {
-        subscribeToSite.mutate({ siteId })
+        subscribeToSite.mutate({ characterId })
       }
       setFollowProgress(false)
     }
@@ -70,20 +71,15 @@ export const FollowingButton: React.FC<{
     account,
     subscription.isSuccess,
     subscription.data,
-    siteId,
+    characterId,
     subscribeToSite,
   ])
 
   useEffect(() => {
-    if (subscribeToSite.isError || subscribeToSite.data?.code) {
-      toast.error(
-        "Failed to follow: " +
-          (subscribeToSite.data?.message ||
-            (subscribeToSite.error as any)?.message),
-      )
+    if (subscribeToSite.isError) {
       subscribeToSite.reset()
     }
-  }, [subscribeToSite.isError, subscribeToSite.data?.code, subscribeToSite])
+  }, [subscribeToSite])
 
   useEffect(() => {
     if (unsubscribeFromSite.isLoading || subscribeToSite.isLoading) {

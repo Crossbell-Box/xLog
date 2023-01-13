@@ -48,7 +48,7 @@ export const CharacterCard: React.FC<{
             <Avatar images={site?.avatars || []} name={site?.name} size={45} />
             {!hideFollowButton && (
               <FollowingButton
-                siteId={site.username}
+                site={site}
                 size="sm"
                 loadingStatusChange={(status) => setButtonLoading?.(status)}
               />

@@ -1,6 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { useContract } from "@crossbell/contract"
-import { useAccountState, useFollowCharacters } from "@crossbell/connect-kit"
+import {
+  useAccountState,
+  useFollowCharacter,
+  useFollowCharacters,
+  useUnfollowCharacter,
+} from "@crossbell/connect-kit"
 
 import * as siteModel from "~/models/site.model"
 import { useUnidata } from "./unidata"
@@ -113,33 +118,23 @@ export function useCreateSite() {
 }
 
 export function useSubscribeToSite() {
-  const unidata = useUnidata()
   const queryClient = useQueryClient()
   const account = useAccountState((s) => s.computed.account)
 
-  return useMutation(
-    async ({ siteId }: { siteId: string }) => {
-      if (account?.type === "wallet") {
-        // FIXME: - Support email users
-        return siteModel.subscribeToSite(
-          { siteId, userId: account.address },
-          unidata,
-        )
-      }
-    },
-    {
-      onSuccess: (data, { siteId }) =>
-        Promise.all([
-          queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
+  return useFollowCharacter({
+    onSuccess: (data, { characterId }) => {
+      const siteId = `${characterId}`
+      return Promise.all([
+        queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
 
-          queryClient.invalidateQueries([
-            "getSubscription",
-            siteId,
-            account?.characterId,
-          ]),
+        queryClient.invalidateQueries([
+          "getSubscription",
+          siteId,
+          account?.characterId,
         ]),
+      ])
     },
-  )
+  })
 }
 
 export function useSubscribeToSites() {
@@ -151,49 +146,41 @@ export function useSubscribeToSites() {
   return useFollowCharacters({
     onSuccess: (_, { characterIds = [] }) =>
       Promise.all(
-        characterIds.flatMap((characterId) => [
-          queryClient.invalidateQueries([
-            "useGetSiteSubscriptions",
-            characterId,
-          ]),
+        characterIds.flatMap((characterId) => {
+          const siteId = `${characterId}`
 
-          queryClient.invalidateQueries([
-            "getSubscription",
-            characterId,
-            currentCharacterId,
-          ]),
-        ]),
+          return [
+            queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
+
+            queryClient.invalidateQueries([
+              "getSubscription",
+              siteId,
+              currentCharacterId,
+            ]),
+          ]
+        }),
       ),
   })
 }
 
 export function useUnsubscribeFromSite() {
-  const unidata = useUnidata()
   const queryClient = useQueryClient()
   const account = useAccountState((s) => s.computed.account)
 
-  return useMutation(
-    async ({ siteId }: { siteId: string }) => {
-      if (account?.type === "wallet") {
-        // FIXME: - Support email users
-        return siteModel.unsubscribeFromSite(
-          { siteId, userId: account.address },
-          unidata,
-        )
-      }
-    },
-    {
-      onSuccess: (data, { siteId }) =>
-        Promise.all([
-          queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
-          queryClient.invalidateQueries([
-            "getSubscription",
-            siteId,
-            account?.characterId,
-          ]),
+  return useUnfollowCharacter({
+    onSuccess: (data, { characterId }) => {
+      const siteId = `${characterId}`
+
+      return Promise.all([
+        queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
+        queryClient.invalidateQueries([
+          "getSubscription",
+          siteId,
+          account?.characterId,
         ]),
+      ])
     },
-  )
+  })
 }
 
 export const useGetNotifications = (data: { siteCId?: string }) => {
