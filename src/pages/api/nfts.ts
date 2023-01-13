@@ -18,7 +18,10 @@ export default async function handler(
   const redis = getRedis()
   const redisKey = `nfts/${query.address}`
 
-  const cache = await redis.get(redisKey)
+  let cache
+  try {
+    cache = await redis.get(redisKey)
+  } catch (error) {}
   if (cache) {
     res.status(200).json(JSON.parse(cache))
   } else {

@@ -6,6 +6,7 @@ import {
   ALCHEMY_POLYGON_API_KEY,
   NFTSCAN_API_KEY,
   OPENSEA_API_KEY,
+  POAP_API_KEY,
 } from "../lib/env.server"
 
 export default new Unidata({
@@ -15,4 +16,5 @@ export default new Unidata({
   alchemyPolygonAPIKey: ALCHEMY_POLYGON_API_KEY,
   nftscanAPIKey: NFTSCAN_API_KEY,
   openseaAPIKey: OPENSEA_API_KEY,
+  poapAPIKey: POAP_API_KEY,
 })

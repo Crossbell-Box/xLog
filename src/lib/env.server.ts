@@ -25,3 +25,4 @@ export const ALCHEMY_ETHEREUM_API_KEY = process.env.ALCHEMY_ETHEREUM_API_KEY
 export const ALCHEMY_POLYGON_API_KEY = process.env.ALCHEMY_POLYGON_API_KEY
 export const NFTSCAN_API_KEY = process.env.NFTSCAN_API_KEY
 export const OPENSEA_API_KEY = process.env.OPENSEA_API_KEY
+export const POAP_API_KEY = process.env.POAP_API_KEY
