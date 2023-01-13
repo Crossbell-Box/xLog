@@ -5,18 +5,12 @@ import { useAccountState } from "@crossbell/connect-kit"
 import * as siteModel from "~/models/site.model"
 import { useUnidata } from "./unidata"
 
-export function useAccountAddress() {
-  const account = useAccountState((s) => s.computed.account)
-
-  return account?.type === "email" ? account.email : account?.address
-}
-
 export const useAccountSites = () => {
-  const account = useAccountState((s) => s.computed.account)
-  const accountAddress = useAccountAddress()
   const unidata = useUnidata()
+  const account = useAccountState((s) => s.computed.account)
+  const address = account?.type === "email" ? account.email : account?.address
 
-  return useQuery(["getUserSites", accountAddress], async () => {
+  return useQuery(["getUserSites", address], async () => {
     if (!account) {
       return []
     }
@@ -100,16 +94,19 @@ export function useUpdateSite() {
 export function useCreateSite() {
   const unidata = useUnidata()
   const queryClient = useQueryClient()
+  const account = useAccountState((s) => s.computed.account)
+  const address = account?.type === "email" ? account.email : account?.address
+
   return useMutation(
-    async (input: {
-      address: string
-      payload: { name: string; subdomain: string }
-    }) => {
-      return siteModel.createSite(input.address, input.payload, unidata)
+    async (payload: { name: string; subdomain: string }) => {
+      if (address) {
+        // FIXME: - Support email users
+        return siteModel.createSite(address, payload, unidata)
+      }
     },
     {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getUserSites", variables.address])
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getUserSites", address])
       },
     },
   )

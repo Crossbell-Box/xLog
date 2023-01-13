@@ -8,8 +8,8 @@ import {
   useGetMints,
   useCheckMint,
 } from "~/queries/page"
-import { useAccountSites, useAccountAddress } from "~/queries/site"
-import { useConnectModal } from "@crossbell/connect-kit"
+import { useAccountSites } from "~/queries/site"
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { useState, useEffect } from "react"
 import { Button } from "../ui/Button"
 import { useRouter } from "next/router"
@@ -31,7 +31,7 @@ export const Reactions: React.FC<{
   const unlikePage = useUnlikePage()
   const mintPage = useMintPage()
 
-  const address = useAccountAddress()
+  const isConnected = useAccountState((s) => !!s.computed.account)
   const { show: openConnectModal } = useConnectModal()
   const [likeProgress, setLikeProgress] = useState(false)
   const [mintProgress, setMintProgress] = useState(false)
@@ -55,7 +55,7 @@ export const Reactions: React.FC<{
   const isMint = useCheckMint(pageId)
 
   const like = async () => {
-    if (!address) {
+    if (!isConnected) {
       setLikeProgress(true)
       openConnectModal?.()
     } else if (!userSite.data) {
@@ -70,7 +70,7 @@ export const Reactions: React.FC<{
   }
 
   const mint = async () => {
-    if (!address) {
+    if (!isConnected) {
       setMintProgress(true)
       openConnectModal?.()
     } else if (!userSite.data) {
@@ -87,7 +87,7 @@ export const Reactions: React.FC<{
   useEffect(() => {
     if (
       mintProgress &&
-      address &&
+      isConnected &&
       isMint.isSuccess &&
       pageId &&
       userSite.isSuccess
@@ -105,7 +105,7 @@ export const Reactions: React.FC<{
     userSite.data,
     router,
     mintProgress,
-    address,
+    isConnected,
     isMint.isSuccess,
     isMint.data?.count,
     mintPage,
@@ -115,7 +115,7 @@ export const Reactions: React.FC<{
   useEffect(() => {
     if (
       likeProgress &&
-      address &&
+      isConnected &&
       isLike.isSuccess &&
       pageId &&
       userSite.isSuccess
@@ -133,7 +133,7 @@ export const Reactions: React.FC<{
     userSite.data,
     router,
     likeProgress,
-    address,
+    isConnected,
     isLike.isSuccess,
     isLike.data?.count,
     likePage,

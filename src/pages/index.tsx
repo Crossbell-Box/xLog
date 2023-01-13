@@ -8,7 +8,7 @@ import { LoveIcon } from "~/components/icons/LoveIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { LaughIcon } from "~/components/icons/LaughIcon"
 import { Button } from "~/components/ui/Button"
-import { useConnectModal } from "@crossbell/connect-kit"
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { useRouter } from "next/router"
 import { GITHUB_LINK, APP_NAME, CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
@@ -16,7 +16,7 @@ import { Link, Element } from "react-scroll"
 import { Image } from "~/components/ui/Image"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { prefetchGetSites } from "~/queries/site.server"
-import { useGetSites, useAccountAddress } from "~/queries/site"
+import { useGetSites } from "~/queries/site"
 import showcase from "../../showcase.json"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useAccountSites, useSubscribeToSites } from "~/queries/site"
@@ -36,17 +36,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 export default function Home({ region }: { region: string | null }) {
-  const [addressIn, setAddressIn] = useState<string>("")
-  const address = useAccountAddress()
+  const isConnected = useAccountState((s) => !!s.computed.account)
   const { show: openConnectModal } = useConnectModal()
   const router = useRouter()
   const showcaseSites = useGetSites(showcase)
 
   useEffect(() => {
     console.log("-> region", region)
-
-    setAddressIn(address || "")
-  }, [region, address])
+  }, [region])
 
   const [isTry, setIsTry] = useState(false)
   const tryNow = () => {
@@ -55,11 +52,11 @@ export default function Home({ region }: { region: string | null }) {
   }
 
   useEffect(() => {
-    if (isTry && address) {
+    if (isTry && isConnected) {
       router.push("/dashboard")
       setIsTry(false)
     }
-  }, [isTry, address, router])
+  }, [isTry, isConnected, router])
 
   const description = [
     {
@@ -130,8 +127,8 @@ export default function Home({ region }: { region: string | null }) {
   const userSite = useAccountSites()
   const subscribeToSites = useSubscribeToSites()
 
-  const followAll = async (e: any) => {
-    if (!address) {
+  const followAll = async () => {
+    if (!isConnected) {
       setFollowProgress(true)
       openConnectModal?.()
     } else if (!userSite.data?.[0]) {
@@ -147,7 +144,7 @@ export default function Home({ region }: { region: string | null }) {
   useEffect(() => {
     if (
       followProgress &&
-      address &&
+      isConnected &&
       showcaseSites.isSuccess &&
       userSite.data?.[0] &&
       userSite.isSuccess
@@ -166,7 +163,7 @@ export default function Home({ region }: { region: string | null }) {
     userSite.data,
     router,
     followProgress,
-    address,
+    isConnected,
     showcaseSites.isSuccess,
     showcaseSites.data,
     subscribeToSites,
@@ -196,11 +193,11 @@ export default function Home({ region }: { region: string | null }) {
               <Button
                 className="text-accent w-80 h-10"
                 onClick={() =>
-                  addressIn ? router.push("/dashboard") : openConnectModal?.()
+                  isConnected ? router.push("/dashboard") : openConnectModal?.()
                 }
                 size="xl"
               >
-                {addressIn ? (
+                {isConnected ? (
                   <>
                     <span className="i-bi-grid text-lg mr-2"></span>
                     <span>Dashboard</span>
@@ -414,7 +411,7 @@ export default function Home({ region }: { region: string | null }) {
             <div className="w-20 h-20 mx-auto mb-8">
               <Image alt="logo" src="/logo.svg" width={100} height={100} />
             </div>
-            {addressIn ? (
+            {isConnected ? (
               <UniLink
                 href="/dashboard"
                 className="text-accent inline-flex items-center space-x-2"

@@ -6,19 +6,18 @@ import { SEOHead } from "~/components/common/SEOHead"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
-import { useCreateSite, useAccountAddress } from "~/queries/site"
+import { useCreateSite } from "~/queries/site"
 import { BigNumber } from "ethers"
 import { UniLink } from "~/components/ui/UniLink"
 import { useAccountSites } from "~/queries/site"
 import { getSite } from "~/models/site.model"
-import { useAccountBalance } from "@crossbell/connect-kit"
+import { useAccountBalance, useAccountState } from "@crossbell/connect-kit"
 
 export default function NewSitePage() {
   const router = useRouter()
   const createSite = useCreateSite()
-
-  const [addressIn, setAddressIn] = useState<string>("")
-  const address = useAccountAddress()
+  const account = useAccountState((s) => s.computed.account)
+  const isConnected = !!account
   const { balance } = useAccountBalance()
   const [balanceFormatted, setBalanceFormatted] = useState<string>("")
 
@@ -50,12 +49,10 @@ export default function NewSitePage() {
   }, [balance])
 
   useEffect(() => {
-    if (address) {
-      setAddressIn(address || "")
-    } else {
+    if (!isConnected) {
       router.push("/")
     }
-  }, [address, router])
+  }, [isConnected, router])
 
   const form = useForm({
     defaultValues: {
@@ -99,19 +96,16 @@ export default function NewSitePage() {
       setCheckLoading(false)
       return
     }
-    createSite.mutate({
-      address: address!,
-      payload: values,
-    })
+    createSite.mutate(values)
     setCheckLoading(false)
   })
 
   useEffect(() => {
     if (createSite.isSuccess) {
       if (createSite.data?.code === 0) {
-        router.push(`/dashboard/${createSite.variables?.payload.subdomain}`)
+        router.push(`/dashboard/${createSite.variables?.subdomain}`)
       } else {
-        toast.error("Failed to create site" + ": " + createSite.data.message)
+        toast.error("Failed to create site" + ": " + createSite.data?.message)
       }
     } else if (createSite.isError) {
       toast.error("Failed to create site")
@@ -142,7 +136,9 @@ export default function NewSitePage() {
           </button>
           <div>
             <div className="text-zinc-400">Logged in as:</div>
-            <div>{addressIn}</div>
+            <div>
+              {account?.type === "email" ? account.email : account?.address}
+            </div>
           </div>
         </header>
         <div className="max-w-sm mx-auto mt-20">

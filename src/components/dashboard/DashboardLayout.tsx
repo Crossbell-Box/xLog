@@ -9,7 +9,7 @@ import { getSiteLink } from "~/lib/helpers"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
-import { useAccountSites, useAccountAddress } from "~/queries/site"
+import { useAccountSites } from "~/queries/site"
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { useGetNotifications, useGetSite, useIsOperators } from "~/queries/site"
 import { getStorage } from "~/lib/storage"
@@ -26,8 +26,11 @@ export function DashboardLayout({
   const router = useRouter()
   const subdomain = router.query.subdomain as string
   const site = useGetSite(subdomain)
-  const ssrReady = useAccountState((s) => s.ssrReady)
-  const address = useAccountAddress()
+  const [ssrReady, isConnected, address] = useAccountState((s) => [
+    s.ssrReady,
+    !!s.computed.account,
+    s.computed.account?.address,
+  ])
 
   const userSite = useAccountSites()
 
@@ -56,7 +59,7 @@ export function DashboardLayout({
   }, [notifications.data, subdomain, notificationCreatedAt])
 
   useEffect(() => {
-    if (ssrReady && !address) {
+    if (ssrReady && !isConnected) {
       router.push("/")
     }
 
@@ -70,7 +73,7 @@ export function DashboardLayout({
     }
   }, [
     ssrReady,
-    address,
+    isConnected,
     router,
     userSite.isSuccess,
     userSite.data,

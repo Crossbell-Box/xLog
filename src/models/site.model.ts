@@ -9,7 +9,6 @@ import axios from "axios"
 import { indexer } from "@crossbell/indexer"
 import type { LinkEntity, NoteEntity, Contract } from "crossbell.js"
 import { CharacterOperatorPermission } from "crossbell.js"
-import { isEmail } from "~/lib/utils"
 import { GeneralAccount } from "@crossbell/connect-kit"
 
 export const checkSubdomain = async ({
