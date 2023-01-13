@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { useContract } from "@crossbell/contract"
-import { useAccountState } from "@crossbell/connect-kit"
+import { useAccountState, useFollowCharacters } from "@crossbell/connect-kit"
 
 import * as siteModel from "~/models/site.model"
 import { useUnidata } from "./unidata"
@@ -143,31 +143,28 @@ export function useSubscribeToSite() {
 }
 
 export function useSubscribeToSites() {
-  const contract = useContract()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (input: Parameters<typeof siteModel.subscribeToSites>[0]) => {
-      // FIXME: - Support email users
-      return siteModel.subscribeToSites(input, contract)
-    },
-    {
-      onSuccess: (data, variables) =>
-        Promise.all(
-          variables.sites.flatMap((site) => [
-            queryClient.invalidateQueries([
-              "useGetSiteSubscriptions",
-              site.characterId,
-            ]),
-
-            queryClient.invalidateQueries([
-              "getSubscription",
-              site.characterId,
-              variables.user.metadata?.proof,
-            ]),
-          ]),
-        ),
-    },
+  const currentCharacterId = useAccountState(
+    (s) => s.computed.account?.characterId,
   )
+
+  return useFollowCharacters({
+    onSuccess: (_, { characterIds = [] }) =>
+      Promise.all(
+        characterIds.flatMap((characterId) => [
+          queryClient.invalidateQueries([
+            "useGetSiteSubscriptions",
+            characterId,
+          ]),
+
+          queryClient.invalidateQueries([
+            "getSubscription",
+            characterId,
+            currentCharacterId,
+          ]),
+        ]),
+      ),
+  })
 }
 
 export function useUnsubscribeFromSite() {

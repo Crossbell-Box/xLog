@@ -9,6 +9,7 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { LaughIcon } from "~/components/icons/LaughIcon"
 import { Button } from "~/components/ui/Button"
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+import { useRefCallback } from "@crossbell/util-hooks"
 import { useRouter } from "next/router"
 import { GITHUB_LINK, APP_NAME, CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
@@ -127,6 +128,15 @@ export default function Home({ region }: { region: string | null }) {
   const userSite = useAccountSites()
   const subscribeToSites = useSubscribeToSites()
 
+  const doSubscribeToSites = useRefCallback(() => {
+    subscribeToSites.mutate({
+      characterIds: showcaseSites.data
+        ?.map((s: { characterId?: string }) => s.characterId)
+        .filter(Boolean)
+        .map(Number),
+    })
+  })
+
   const followAll = async () => {
     if (!isConnected) {
       setFollowProgress(true)
@@ -134,10 +144,7 @@ export default function Home({ region }: { region: string | null }) {
     } else if (!userSite.data?.[0]) {
       router.push(`${SITE_URL}/dashboard/new-site`)
     } else {
-      subscribeToSites.mutate({
-        user: userSite.data?.[0],
-        sites: showcaseSites.data,
-      })
+      doSubscribeToSites()
     }
   }
 
@@ -152,10 +159,7 @@ export default function Home({ region }: { region: string | null }) {
       if (!userSite.data) {
         router.push(`${SITE_URL}/dashboard/new-site`)
       }
-      subscribeToSites.mutate({
-        user: userSite.data?.[0],
-        sites: showcaseSites.data,
-      })
+      doSubscribeToSites()
       setFollowProgress(false)
     }
   }, [
@@ -167,6 +171,7 @@ export default function Home({ region }: { region: string | null }) {
     showcaseSites.isSuccess,
     showcaseSites.data,
     subscribeToSites,
+    doSubscribeToSites,
   ])
 
   return (
