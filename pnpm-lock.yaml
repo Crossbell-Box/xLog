@@ -112,7 +112,7 @@ specifiers:
   uuid: 9.0.0
   vitest: 0.27.1
   wagmi: 0.8.10
-  zustand: 4.3.1
+  zustand: 4.3.2
 
 dependencies:
   '@codemirror/commands': 6.1.2
@@ -189,7 +189,7 @@ dependencies:
   use-onclickoutside: 0.4.1_kzbn2opkn2327fwg5yzwzya5o4
   uuid: 9.0.0
   wagmi: 0.8.10_5fkdkfy2bkgsnhvxgn477z7iae
-  zustand: 4.3.1_react@18.2.0
+  zustand: 4.3.2_react@18.2.0
 
 devDependencies:
   '@iconify-json/bi': 1.1.14
@@ -2386,7 +2386,7 @@ packages:
       abitype: 0.1.8_typescript@4.9.4
       ethers: 5.7.2
       eventemitter3: 4.0.7
-      zustand: 4.3.1_react@18.2.0
+      zustand: 4.3.2_react@18.2.0
     transitivePeerDependencies:
       - immer
       - react
@@ -9529,8 +9529,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zustand/4.3.1_react@18.2.0:
-    resolution: {integrity: sha512-EVyo/eLlOTcJm/X5M00rwtbYFXwRVTaRteSvhtbTZUCQFJkNfIyHPiJ6Ke68MSWzcKHpPzvqNH4gC2ZS/sbNqw==}
+  /zustand/4.3.2_react@18.2.0:
+    resolution: {integrity: sha512-rd4haDmlwMTVWVqwvgy00ny8rtti/klRoZjFbL/MAcDnmD5qSw/RZc+Vddstdv90M5Lv6RPgWvm1Hivyn0QgJw==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       immer: '>=9.0'
