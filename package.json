@@ -121,7 +121,7 @@
     "cross-spawn": "7.0.3",
     "esbuild": "0.16.17",
     "esbuild-register": "3.4.2",
-    "eslint": "8.31.0",
+    "eslint": "8.32.0",
     "eslint-config-next": "13.1.2",
     "husky": "8.0.3",
     "lint-staged": "13.1.0",
