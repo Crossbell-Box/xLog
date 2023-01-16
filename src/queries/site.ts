@@ -80,11 +80,12 @@ export const useGetSiteToSubscriptions = (data: { siteId: string }) => {
 }
 
 export function useUpdateSite() {
+  const newbieToken = useAccountState((s) => s.email?.token)
   const unidata = useUnidata()
   const queryClient = useQueryClient()
   const mutation = useMutation(
     async (payload: Parameters<typeof siteModel.updateSite>[0]) => {
-      return siteModel.updateSite(payload, unidata)
+      return siteModel.updateSite(payload, unidata, newbieToken)
     },
     {
       onSuccess: (data, variables) => {

@@ -139,11 +139,12 @@ export const useCheckMint = (pageId: string | undefined) => {
 }
 
 export function useCreateOrUpdatePage() {
+  const newbieToken = useAccountState((s) => s.email?.token)
   const unidata = useUnidata()
   const queryClient = useQueryClient()
   const mutation = useMutation(
     async (payload: Parameters<typeof pageModel.createOrUpdatePage>[0]) => {
-      return pageModel.createOrUpdatePage(payload, unidata)
+      return pageModel.createOrUpdatePage(payload, unidata, newbieToken)
     },
     {
       onSuccess: (data, variables) => {
@@ -156,11 +157,12 @@ export function useCreateOrUpdatePage() {
 }
 
 export function useDeletePage() {
+  const newbieToken = useAccountState((s) => s.email?.token)
   const unidata = useUnidata()
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof pageModel.deletePage>[0]) => {
-      return pageModel.deletePage(input, unidata)
+      return pageModel.deletePage(input, unidata, newbieToken)
     },
     {
       onSuccess: (data, variables) => {

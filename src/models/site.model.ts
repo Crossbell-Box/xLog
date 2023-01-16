@@ -303,6 +303,7 @@ export async function updateSite(
     }
   },
   customUnidata?: Unidata,
+  newbieToken?: string,
 ) {
   return await (customUnidata || unidata).profiles.set(
     {
@@ -356,6 +357,9 @@ export async function updateSite(
             : []),
         ],
       }),
+    },
+    {
+      newbieToken,
     },
   )
 }

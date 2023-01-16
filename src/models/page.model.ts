@@ -55,6 +55,7 @@ export async function createOrUpdatePage(
     applications?: string[]
   },
   customUnidata?: Unidata,
+  newbieToken?: string,
 ) {
   if (!input.published) {
     return await (customUnidata || unidata).notes.set(
@@ -66,6 +67,9 @@ export async function createOrUpdatePage(
       },
       {
         id: input.pageId,
+      },
+      {
+        newbieToken,
       },
     )
   }
@@ -114,6 +118,9 @@ export async function createOrUpdatePage(
           },
         ],
       }),
+    },
+    {
+      newbieToken,
     },
   )
 }
@@ -391,6 +398,7 @@ export async function getPage<TRender extends boolean = false>(
 export async function deletePage(
   { site, id }: { site: string; id: string },
   customUnidata?: Unidata,
+  newbieToken?: string,
 ) {
   return await (customUnidata || unidata).notes.set(
     {
@@ -401,6 +409,9 @@ export async function deletePage(
     },
     {
       id,
+    },
+    {
+      newbieToken,
     },
   )
 }
