@@ -8,6 +8,9 @@ import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { OUR_DOMAIN, APP_NAME } from "~/lib/env"
 import { useGetSite, useUpdateSite } from "~/queries/site"
+import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
+import { UniLink } from "~/components/ui/UniLink"
+import { getSiteLink } from "~/lib/helpers"
 
 export default function SettingsDomainsPage() {
   const router = useRouter()
@@ -15,6 +18,11 @@ export default function SettingsDomainsPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
+
+  const isEmailAccount = useAccountState(
+    (s) => s.computed.account?.type === "email",
+  )
+  const upgradeAccountModal = useUpgradeAccountModal()
 
   const form = useForm({
     defaultValues: {
@@ -76,7 +84,31 @@ export default function SettingsDomainsPage() {
               addon={`.${OUR_DOMAIN}`}
               className="w-28"
               {...form.register("subdomain")}
+              disabled={isEmailAccount}
             />
+            {isEmailAccount && (
+              <div className="text-sm text-orange-400 mt-1">
+                Email users cannot change subdomain/handle.{" "}
+                <UniLink
+                  className="underline"
+                  href={
+                    getSiteLink({
+                      subdomain: "crossbell-blog",
+                    }) + "/newbie-villa"
+                  }
+                >
+                  Learn more
+                </UniLink>{" "}
+                or{" "}
+                <span
+                  className="underline cursor-pointer"
+                  onClick={upgradeAccountModal.show}
+                >
+                  upgrade account
+                </span>
+                .
+              </div>
+            )}
           </div>
           <div className="mt-5">
             <Input

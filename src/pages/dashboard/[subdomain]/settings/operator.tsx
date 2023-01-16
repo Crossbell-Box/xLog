@@ -13,6 +13,9 @@ import {
 } from "~/queries/site"
 import { Dialog } from "@headlessui/react"
 import { CharacterCard } from "~/components/common/CharacterCard"
+import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
+import { UniLink } from "~/components/ui/UniLink"
+import { getSiteLink } from "~/lib/helpers"
 
 type RemoveItem = (operator: string) => void
 
@@ -20,7 +23,8 @@ const SortableNavigationItem: React.FC<{
   item: string
   removeItem: RemoveItem
   isLoading: boolean
-}> = ({ item, removeItem, isLoading }) => {
+  disabled?: boolean
+}> = ({ item, removeItem, isLoading, disabled }) => {
   return (
     <div className="flex space-x-5 border-b p-5 bg-zinc-50 last:border-0 items-center">
       <div className="text-sm space-y-4">
@@ -38,6 +42,7 @@ const SortableNavigationItem: React.FC<{
           onClick={() => removeItem(item)}
           variantColor="red"
           isLoading={isLoading}
+          isDisabled={disabled}
         >
           Remove
         </Button>
@@ -57,6 +62,10 @@ export default function SiteSettingsNavigationPage() {
   const operators = useGetOperators({
     characterId: +(site.data?.metadata?.proof || 0),
   })
+  const isEmailAccount = useAccountState(
+    (s) => s.computed.account?.type === "email",
+  )
+  const upgradeAccountModal = useUpgradeAccountModal()
 
   const [items, setItems] = useState<string[]>([])
 
@@ -152,16 +161,43 @@ export default function SiteSettingsNavigationPage() {
             </div>
           </div>
         </Dialog>
-        <div className="p-5 text-zinc-500 bg-orange-50 mb-5 rounded-lg text-xs space-y-2">
+        <div className="p-5 text-zinc-500 bg-orange-50 mb-5 rounded-lg text-sm space-y-2">
           <p className="text-zinc-800 text-sm font-bold">⚠️ Warning:</p>
           <p>
             <span className="text-zinc-800">
-              Operators have permissions to enter your dashboard, change your
-              settings(excluding xLog subdomain) and post contents on your site.
+              {isEmailAccount ? (
+                <span>
+                  Email users cannot set operators.{" "}
+                  <UniLink
+                    className="underline"
+                    href={
+                      getSiteLink({
+                        subdomain: "crossbell-blog",
+                      }) + "/newbie-villa"
+                    }
+                  >
+                    Learn more
+                  </UniLink>{" "}
+                  or{" "}
+                  <span
+                    className="underline cursor-pointer"
+                    onClick={upgradeAccountModal.show}
+                  >
+                    upgrade account
+                  </span>
+                  .
+                </span>
+              ) : (
+                <span>
+                  Operators have permissions to enter your dashboard, change
+                  your settings(excluding xLog subdomain) and post contents on
+                  your site.
+                </span>
+              )}
             </span>
           </p>
         </div>
-        <div>
+        <div className={isEmailAccount ? `grayscale cursor-not-allowed` : ""}>
           <div className="bg-zinc-50 rounded-lg overflow-hidden">
             {items.length === 0 && (
               <div className="text-center text-zinc-500 p-5">
@@ -175,6 +211,7 @@ export default function SiteSettingsNavigationPage() {
                   item={item}
                   removeItem={removeItem}
                   isLoading={removeOperator.isLoading}
+                  disabled={isEmailAccount}
                 />
               )
             })}
@@ -185,7 +222,9 @@ export default function SiteSettingsNavigationPage() {
             `}</style>
           </div>
           <div className="border-t pt-5 mt-10 space-x-3 flex items-center">
-            <Button onClick={newEmptyItem}>Add</Button>
+            <Button onClick={newEmptyItem} isDisabled={isEmailAccount}>
+              Add
+            </Button>
           </div>
         </div>
       </SettingsLayout>

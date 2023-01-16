@@ -1,6 +1,5 @@
 import { useRouter } from "next/router"
 import React from "react"
-import { useAccountState } from "@crossbell/connect-kit"
 
 import { type TabItem, Tabs } from "../ui/Tabs"
 import { DashboardMain } from "./DashboardMain"
@@ -11,9 +10,6 @@ export const SettingsLayout: React.FC<{
   type: "site" | "account"
 }> = ({ title, children, type }) => {
   const router = useRouter()
-  const isEmailAccount = useAccountState(
-    (s) => s.computed.account?.type === "email",
-  )
 
   const subdomain = router.query.subdomain as string
   const tabItems: TabItem[] = (
@@ -28,7 +24,6 @@ export const SettingsLayout: React.FC<{
           { text: "Custom CSS", href: `/dashboard/${subdomain}/settings/css` },
           {
             text: "Operators",
-            hidden: isEmailAccount,
             href: `/dashboard/${subdomain}/settings/operator`,
           },
           {
