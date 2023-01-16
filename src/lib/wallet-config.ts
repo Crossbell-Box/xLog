@@ -14,7 +14,9 @@ export const { chains, provider } = configureChains(
       name: "Crossbell",
       network: "crossbell",
       rpcUrls: {
-        default: "https://rpc.crossbell.io",
+        default: {
+          http: ["https://rpc.crossbell.io"],
+        },
       },
       iconUrl: `${IPFS_GATEWAY}QmS8zEetTb6pwdNpVjv5bz55BXiSMGP9BjTJmNcjcUT91t`,
       nativeCurrency: {
@@ -31,7 +33,11 @@ export const { chains, provider } = configureChains(
       testnet: false,
     } as any,
   ],
-  [jsonRpcProvider({ rpc: (chain) => ({ http: chain.rpcUrls.default }) })],
+  [
+    jsonRpcProvider({
+      rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
+    }),
+  ],
   {
     pollingInterval: 1000,
   },
