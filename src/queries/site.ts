@@ -123,14 +123,18 @@ export function useSubscribeToSite() {
   const account = useAccountState((s) => s.computed.account)
 
   return useFollowCharacter({
-    onSuccess: (data, { characterId }) => {
-      const siteId = `${characterId}`
+    onSuccess: (data, variables: any) => {
       return Promise.all([
-        queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
+        queryClient.invalidateQueries([
+          "getSiteSubscriptions",
+          {
+            siteId: variables.siteId,
+          },
+        ]),
 
         queryClient.invalidateQueries([
           "getSubscription",
-          siteId,
+          variables.siteId,
           account?.characterId,
         ]),
       ])
@@ -145,13 +149,16 @@ export function useSubscribeToSites() {
   )
 
   return useFollowCharacters({
-    onSuccess: (_, { characterIds = [] }) =>
+    onSuccess: (_, variables: any) =>
       Promise.all(
-        characterIds.flatMap((characterId) => {
-          const siteId = `${characterId}`
-
+        variables.siteIds.flatMap((siteId: string) => {
           return [
-            queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
+            queryClient.invalidateQueries([
+              "getSiteSubscriptions",
+              {
+                siteId,
+              },
+            ]),
 
             queryClient.invalidateQueries([
               "getSubscription",
@@ -169,14 +176,17 @@ export function useUnsubscribeFromSite() {
   const account = useAccountState((s) => s.computed.account)
 
   return useUnfollowCharacter({
-    onSuccess: (data, { characterId }) => {
-      const siteId = `${characterId}`
-
+    onSuccess: (data, variables: any) => {
       return Promise.all([
-        queryClient.invalidateQueries(["useGetSiteSubscriptions", siteId]),
+        queryClient.invalidateQueries([
+          "getSiteSubscriptions",
+          {
+            siteId: variables.siteId,
+          },
+        ]),
         queryClient.invalidateQueries([
           "getSubscription",
-          siteId,
+          variables.siteId,
           account?.characterId,
         ]),
       ])

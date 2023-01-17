@@ -38,9 +38,15 @@ export const FollowingButton: React.FC<{
       router.push(`${SITE_URL}/dashboard/new-site`)
     } else if (characterId) {
       if (subscription.data) {
-        unsubscribeFromSite.mutate({ characterId })
+        unsubscribeFromSite.mutate({
+          characterId,
+          siteId: site?.username,
+        } as any)
       } else {
-        subscribeToSite.mutate({ characterId })
+        subscribeToSite.mutate({
+          characterId,
+          siteId: site?.username,
+        } as any)
       }
     }
   }

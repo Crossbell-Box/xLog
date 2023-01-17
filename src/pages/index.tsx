@@ -134,7 +134,8 @@ export default function Home({ region }: { region: string | null }) {
         ?.map((s: { characterId?: string }) => s.characterId)
         .filter(Boolean)
         .map(Number),
-    })
+      siteIds: showcaseSites.data?.map((s: { handle: string }) => s.handle),
+    } as any)
   })
 
   const followAll = async () => {
