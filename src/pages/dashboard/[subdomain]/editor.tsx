@@ -81,7 +81,7 @@ export default function SubdomainEditor() {
         page.data ? getPageVisibility(page.data) : PageVisibilityEnum.Draft,
       )
     }
-  }, [page.isSuccess])
+  }, [page.isSuccess, page.data])
 
   const uploadFile = useUploadFile()
 
@@ -171,9 +171,19 @@ export default function SubdomainEditor() {
         if (draftKey) {
           delStorage(draftKey)
           queryClient.invalidateQueries(["getPagesBySite", subdomain])
-          queryClient.invalidateQueries(["getPage", draftKey])
+          queryClient.invalidateQueries([
+            "getPage",
+            draftKey.replace(`draft-${subdomain}-`, ""),
+          ])
+        } else {
+          queryClient.invalidateQueries(["getPage", pageId])
         }
-        router.push(`/dashboard/${subdomain}/${isPost ? "posts" : "pages"}`)
+
+        if (createOrUpdatePage.data.data) {
+          router.replace(
+            `/dashboard/${subdomain}/editor?id=${site.data?.metadata?.proof}-${createOrUpdatePage.data.data}&type=${router.query.type}`,
+          )
+        }
       } else {
         toast.error("Error: " + createOrUpdatePage.data?.message)
       }

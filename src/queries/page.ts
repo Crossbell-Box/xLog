@@ -59,7 +59,7 @@ export const useGetPagesBySite = (
 
 export const useGetPage = (input: Parameters<typeof pageModel.getPage>[0]) => {
   const unidata = useUnidata()
-  return useQuery(["getPage", input.page, input], async () => {
+  return useQuery(["getPage", input.page || input.pageId, input], async () => {
     if (!input.site || !(input.page || input.pageId)) {
       return null
     }
