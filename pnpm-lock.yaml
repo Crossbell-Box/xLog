@@ -46,7 +46,7 @@ specifiers:
   '@types/sortablejs': 1.15.0
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 9.0.0
-  '@uiw/codemirror-extensions-events': 4.19.6
+  '@uiw/codemirror-extensions-events': 4.19.7
   '@uiw/react-codemirror': 4.19.6
   '@unocss/cli': 0.48.4
   '@unocss/preset-icons': 0.48.4
@@ -147,7 +147,7 @@ dependencies:
   '@tanstack/react-query': 4.22.0_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-query-devtools': 4.22.0_gp275tdwez2a4eujt75dnnp754
   '@tanstack/react-query-persist-client': 4.22.0_tqsbl3x6ixew47ctvte2nz2yki
-  '@uiw/codemirror-extensions-events': 4.19.6_@codemirror+view@6.7.0
+  '@uiw/codemirror-extensions-events': 4.19.7_@codemirror+view@6.7.0
   '@uiw/react-codemirror': 4.19.6_hyb5to5u4twfhgokb4qeeija2e
   '@urql/core': 3.1.1
   axios: 1.2.2
@@ -2898,8 +2898,8 @@ packages:
       - '@lezer/common'
     dev: false
 
-  /@uiw/codemirror-extensions-events/4.19.6_@codemirror+view@6.7.0:
-    resolution: {integrity: sha512-lKZmsxr5DR+VEYPRWCwMeu0bY2+UjkGdNdYF11VgoT++rf88w6wJmaW6f7cxV97WRGZ2miju8za9MHwmfom6dw==}
+  /@uiw/codemirror-extensions-events/4.19.7_@codemirror+view@6.7.0:
+    resolution: {integrity: sha512-6Jc+mBZQ8PSPFEu7QLsicrXB7Wu1NiF65j/ll6HZLxQuOEV16U9J/WyiWQjSaAD0nFCxKpLyPHNstDb4bcmmmA==}
     peerDependencies:
       '@codemirror/view': '>=6.0.0'
     dependencies:
