@@ -33,6 +33,7 @@ specifiers:
   '@tanstack/react-query': 4.22.0
   '@tanstack/react-query-devtools': 4.22.0
   '@tanstack/react-query-persist-client': 4.22.0
+  '@types/canvas-confetti': ^1.6.0
   '@types/cookie': 0.5.1
   '@types/hast': 2.3.4
   '@types/js-yaml': 4.0.5
@@ -53,6 +54,7 @@ specifiers:
   '@urql/core': 3.1.1
   autoprefixer: 10.4.13
   axios: 1.2.2
+  canvas-confetti: ^1.6.0
   clsx: 1.2.1
   cross-spawn: 7.0.3
   crossbell.js: 0.16.1
@@ -151,6 +153,7 @@ dependencies:
   '@uiw/react-codemirror': 4.19.6_hyb5to5u4twfhgokb4qeeija2e
   '@urql/core': 3.1.1
   axios: 1.2.2
+  canvas-confetti: 1.6.0
   clsx: 1.2.1
   crossbell.js: 0.16.1
   dayjs: 1.11.7
@@ -216,6 +219,7 @@ devDependencies:
   '@next/bundle-analyzer': 13.1.2
   '@playwright/test': 1.29.2
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.4
+  '@types/canvas-confetti': 1.6.0
   '@types/cookie': 0.5.1
   '@types/hast': 2.3.4
   '@types/js-yaml': 4.0.5
@@ -2652,6 +2656,10 @@ packages:
     dependencies:
       '@types/node': 18.11.18
     dev: false
+
+  /@types/canvas-confetti/1.6.0:
+    resolution: {integrity: sha512-Yq6rIccwcco0TLD5SMUrIM7Fk7Fe/C0jmNRxJJCLtAF6gebDkPuUjK5EHedxecm69Pi/aA+It39Ux4OHmFhjRw==}
+    dev: true
 
   /@types/chai-subset/1.3.3:
     resolution: {integrity: sha512-frBecisrNGz+F4T6bcc+NLeolfiojh5FxW2klu669+8BARtyQv2C/GkNW6FUodVe4BroGMP/wER/YDGc7rEllw==}

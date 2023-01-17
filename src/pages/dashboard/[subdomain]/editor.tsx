@@ -35,6 +35,9 @@ import type { EditorView } from "@codemirror/view"
 import { Editor } from "~/components/ui/Editor"
 import { renderPageContent } from "~/markdown"
 import { Button } from "~/components/ui/Button"
+import { Modal } from "~/components/ui/Modal"
+import { CSB_SCAN } from "~/lib/env"
+import { showConfetti } from "~/lib/confetti"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -158,16 +161,11 @@ export default function SubdomainEditor() {
     }
   }
 
+  const [isCheersOpen, setIsCheersOpen] = useState(false)
+
   useEffect(() => {
     if (createOrUpdatePage.isSuccess) {
       if (createOrUpdatePage.data?.code === 0) {
-        if (values.published) {
-          toast.success("Updated!")
-        } else {
-          toast.success(
-            "Published!\nPlease wait a few seconds for the blockchain indexing to complete.",
-          )
-        }
         if (draftKey) {
           delStorage(draftKey)
           queryClient.invalidateQueries(["getPagesBySite", subdomain])
@@ -184,6 +182,9 @@ export default function SubdomainEditor() {
             `/dashboard/${subdomain}/editor?id=${site.data?.metadata?.proof}-${createOrUpdatePage.data.data}&type=${router.query.type}`,
           )
         }
+
+        setIsCheersOpen(true)
+        showConfetti()
       } else {
         toast.error("Error: " + createOrUpdatePage.data?.message)
       }
@@ -566,6 +567,63 @@ export default function SubdomainEditor() {
           )}
         </DashboardMain>
       </DashboardLayout>
+      <Modal
+        open={isCheersOpen}
+        setOpen={setIsCheersOpen}
+        title="🎉 Published!"
+      >
+        <div className="p-5">
+          Your post has been permanently stored on the blockchain. Now you may
+          want to
+          <ul className="list-disc pl-5 mt-2 space-y-1">
+            <li>
+              <UniLink
+                className="text-accent"
+                href={`${getSiteLink({
+                  subdomain,
+                  domain: site.data?.custom_domain,
+                })}/${values.slug || defaultSlug}`}
+              >
+                View the post
+              </UniLink>
+            </li>
+            <li>
+              <UniLink
+                className="text-accent"
+                href={
+                  page.data?.metadata?.transactions &&
+                  `${CSB_SCAN}/tx/${
+                    page.data?.metadata?.transactions[1] ||
+                    page.data?.metadata?.transactions[0]
+                  }`
+                }
+              >
+                View the transaction
+              </UniLink>
+            </li>
+            <li>
+              <UniLink
+                className="text-accent"
+                href={`https://twitter.com/intent/tweet?url=${getSiteLink({
+                  subdomain,
+                  domain: site.data?.custom_domain,
+                })}/${
+                  values.slug || defaultSlug
+                }&via=_xLog&text=${encodeURIComponent(
+                  `Read my new post - ${page.data?.title}`,
+                )}`}
+              >
+                Share to Twitter
+              </UniLink>
+            </li>
+          </ul>
+        </div>
+        <div className="h-16 border-t flex items-center px-5">
+          <Button isBlock onClick={() => setIsCheersOpen(false)}>
+            Got it, thanks!
+          </Button>
+        </div>
+      </Modal>
     </>
   )
 }
