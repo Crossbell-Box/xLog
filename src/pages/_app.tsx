@@ -22,6 +22,8 @@ import { toGateway } from "~/lib/ipfs-parser"
 import { connectors, provider } from "~/lib/wallet-config"
 import { createIDBPersister } from "~/lib/persister.client"
 
+import { NotificationModal } from "@crossbell/notification"
+
 Network.setIpfsGateway(IPFS_GATEWAY)
 
 const wagmiClient = createClient({
@@ -90,6 +92,7 @@ function MyApp({ Component, pageProps }: any) {
               />
               {getLayout(<Component {...pageProps} />)}
               <Toaster />
+              <NotificationModal />
             </Hydrate>
           </InitContractProvider>
         </ConnectKitProvider>

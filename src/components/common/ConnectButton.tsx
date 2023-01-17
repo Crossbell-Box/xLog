@@ -19,6 +19,10 @@ import {
 import { BigNumber } from "ethers"
 import { SITE_URL } from "~/lib/env"
 import { useRefCallback } from "@crossbell/util-hooks"
+import {
+  useShowNotificationModal,
+  useNotifications,
+} from "@crossbell/notification"
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -36,11 +40,25 @@ export const ConnectButton: React.FC<{
 
   const userSites = useAccountSites()
 
+  const showNotificationModal = useShowNotificationModal()
+  const { isAllRead } = useNotifications()
+
   const dropdownLinks: HeaderLinkType[] = [
     {
       icon: <Square2StackIcon className="w-4 h-4" />,
       label: copyLabelDisplay,
       onClick: copyLabel,
+    },
+    {
+      icon: (
+        <span
+          className={
+            (isAllRead ? "i-bi:bell" : "i-bi:bell-fill") + " inline-block"
+          }
+        />
+      ),
+      label: isAllRead ? "Notifications" : "Unread notifications",
+      onClick: showNotificationModal,
     },
     {
       icon: <DashboardIcon />,
@@ -155,7 +173,9 @@ export const ConnectButton: React.FC<{
                           className="px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
                           aria-label={link.label}
                         >
-                          <span className="mr-2">{link.icon}</span>
+                          <span className="mr-2 flex justify-center">
+                            {link.icon}
+                          </span>
                           {link.label}
                         </UniLink>
                       )

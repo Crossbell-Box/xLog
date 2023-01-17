@@ -15,6 +15,10 @@ import { useGetNotifications, useGetSite, useIsOperators } from "~/queries/site"
 import { getStorage } from "~/lib/storage"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Avatar } from "~/components/ui/Avatar"
+import {
+  useShowNotificationModal,
+  useNotifications,
+} from "@crossbell/notification"
 
 export function DashboardLayout({
   children,
@@ -81,8 +85,12 @@ export function DashboardLayout({
     isOperator.data,
   ])
 
+  const showNotificationModal = useShowNotificationModal()
+  const { isAllRead } = useNotifications()
+
   const links: {
-    href: string
+    href?: string
+    onClick?: () => void
     isActive: (ctx: { href: string; pathname: string }) => boolean
     icon: React.ReactNode
     text: string
@@ -106,12 +114,10 @@ export function DashboardLayout({
       text: "Pages",
     },
     {
-      href: `/dashboard/${subdomain}/notifications`,
+      onClick: showNotificationModal,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: notificationCount > 0 ? "i-bi:bell-fill" : "i-bi:bell",
-      text:
-        "Notifications" +
-        (notificationCount > 0 ? ` (${notificationCount})` : ""),
+      icon: isAllRead ? "i-bi:bell" : "i-bi:bell-fill",
+      text: isAllRead ? "Notifications" : "Unread notifications",
     },
     {
       href: `/dashboard/${subdomain}/settings/general`,
@@ -161,24 +167,27 @@ export function DashboardLayout({
 
           <div className="px-3 space-y-[2px] text-zinc-500">
             {links.map((link) => {
-              const active = link.isActive({
-                pathname: router.asPath,
-                href: link.href,
-              })
+              const active =
+                link.href &&
+                link.isActive({
+                  pathname: router.asPath,
+                  href: link.href,
+                })
               return (
-                <Link
+                <UniLink
                   href={link.href}
                   key={link.href}
                   className={clsx(
-                    `flex px-2 h-8 text-sm items-center rounded-lg space-x-2`,
+                    `flex px-2 h-8 text-sm items-center rounded-lg space-x-2 w-full`,
                     active
                       ? `bg-gray-200 font-medium text-gray-800`
                       : `hover:bg-gray-200 hover:bg-opacity-50`,
                   )}
+                  onClick={link.onClick}
                 >
                   <span className={clsx(link.icon, "text-lg")}></span>
                   <span>{link.text}</span>
-                </Link>
+                </UniLink>
               )
             })}
           </div>
