@@ -47,7 +47,7 @@ specifiers:
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 9.0.0
   '@uiw/codemirror-extensions-events': 4.19.6
-  '@uiw/react-codemirror': 4.19.6
+  '@uiw/react-codemirror': 4.19.7
   '@unocss/cli': 0.48.4
   '@unocss/preset-icons': 0.48.4
   '@urql/core': 3.1.1
@@ -148,7 +148,7 @@ dependencies:
   '@tanstack/react-query-devtools': 4.22.0_gp275tdwez2a4eujt75dnnp754
   '@tanstack/react-query-persist-client': 4.22.0_tqsbl3x6ixew47ctvte2nz2yki
   '@uiw/codemirror-extensions-events': 4.19.6_@codemirror+view@6.7.0
-  '@uiw/react-codemirror': 4.19.6_hyb5to5u4twfhgokb4qeeija2e
+  '@uiw/react-codemirror': 4.19.7_hyb5to5u4twfhgokb4qeeija2e
   '@urql/core': 3.1.1
   axios: 1.2.2
   clsx: 1.2.1
@@ -2879,8 +2879,8 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@uiw/codemirror-extensions-basic-setup/4.19.6_qcb7tv5t4cqzjjjodkykbg5gqu:
-    resolution: {integrity: sha512-VGBHdvBSu8K4t+XpbK+1DPMV0eCzfaccfueu7OnOpGs/zVdSf4MBbZ5/B+UvFyj2tUrPV0m/FGgDv5l1Y7oAvg==}
+  /@uiw/codemirror-extensions-basic-setup/4.19.7_qcb7tv5t4cqzjjjodkykbg5gqu:
+    resolution: {integrity: sha512-pk0JTFJAZOGxouBB1pdBtb59qKibO9DW4hER4VSFGBGW3TBDeXUwL/gKujhRpySHG2MtG09cgt4a3XOFIWwXTw==}
     peerDependencies:
       '@codemirror/commands': '>=6.0.0'
       '@codemirror/language': '>=6.0.0'
@@ -2906,8 +2906,8 @@ packages:
       '@codemirror/view': 6.7.0
     dev: false
 
-  /@uiw/react-codemirror/4.19.6_hyb5to5u4twfhgokb4qeeija2e:
-    resolution: {integrity: sha512-Y5c0Pu2apfpfzzfFMPYKVb1L7jxqVZlTgIeilT5dOF0J8JhdBZo3oV5WWCdPA1N5NG9uY9iPO2/0JuNNtq+Q0Q==}
+  /@uiw/react-codemirror/4.19.7_hyb5to5u4twfhgokb4qeeija2e:
+    resolution: {integrity: sha512-IHvpYWVSdiaHX0Fk6oY6YyAJigDnyvSpWKNUTRzsMNxB+8/wqZ8lior4TprXH0zyLxW5F1+bTyifFFTeg+X3Sw==}
     peerDependencies:
       '@codemirror/state': '>=6.0.0'
       '@codemirror/view': '>=6.0.0'
@@ -2919,7 +2919,7 @@ packages:
       '@codemirror/state': 6.1.4
       '@codemirror/theme-one-dark': 6.1.0
       '@codemirror/view': 6.7.0
-      '@uiw/codemirror-extensions-basic-setup': 4.19.6_qcb7tv5t4cqzjjjodkykbg5gqu
+      '@uiw/codemirror-extensions-basic-setup': 4.19.7_qcb7tv5t4cqzjjjodkykbg5gqu
       codemirror: 6.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
