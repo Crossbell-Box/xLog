@@ -97,7 +97,7 @@ specifiers:
   rehype-katex: ^6.0.2
   rehype-prism-plus: 1.5.0
   rehype-raw: 6.1.1
-  rehype-react: 7.1.1
+  rehype-react: 7.1.2
   rehype-sanitize: 5.0.1
   rehype-slug: 5.1.0
   rehype-stringify: 9.0.3
@@ -187,7 +187,7 @@ dependencies:
   rehype-katex: 6.0.2
   rehype-prism-plus: 1.5.0
   rehype-raw: 6.1.1
-  rehype-react: 7.1.1_@types+react@18.0.26
+  rehype-react: 7.1.2_@types+react@18.0.26
   rehype-sanitize: 5.0.1
   rehype-slug: 5.1.0
   rehype-stringify: 9.0.3
@@ -9101,8 +9101,8 @@ packages:
       unified: 10.1.2
     dev: false
 
-  /rehype-react/7.1.1_@types+react@18.0.26:
-    resolution: {integrity: sha512-6yaitxM95JFsuTA74OH54OyvTAeRqR4/A6f45S2sEk2FEG04iGgsObcmEIFQRsjK9pfAhc74lR4iGf/W2G/sBw==}
+  /rehype-react/7.1.2_@types+react@18.0.26:
+    resolution: {integrity: sha512-IWsFMS2M4NTbvWzumBBKhdb39ElV+r5YQHA2HafDDRrH84bEryJA2YPPNbF9he4QzAFOssaMJ9buSC6cDcJTLw==}
     peerDependencies:
       '@types/react': '>=17'
     dependencies:
