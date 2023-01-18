@@ -12,10 +12,12 @@ import {
   useConnectModal,
   useUpgradeAccountModal,
 } from "@crossbell/connect-kit"
+import { UrlComposer } from "@crossbell/ui"
+
 import { InitContractProvider } from "@crossbell/contract"
 import { useRefCallback } from "@crossbell/util-hooks"
 import NextNProgress from "nextjs-progressbar"
-import { Network } from "crossbell.js"
+import { CharacterEntity, Network } from "crossbell.js"
 
 import { IPFS_GATEWAY } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
@@ -23,6 +25,7 @@ import { connectors, provider } from "~/lib/wallet-config"
 import { createIDBPersister } from "~/lib/persister.client"
 
 import { NotificationModal } from "@crossbell/notification"
+import { getSiteLink } from "~/lib/helpers"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
@@ -54,6 +57,19 @@ try {
   console.warn(error)
 }
 
+const urlComposer: Partial<UrlComposer> = {
+  characterUrl: ({ handle }) => getSiteLink({ subdomain: handle }),
+  noteUrl: (note) => {
+    const { character } = note as { character?: CharacterEntity }
+
+    if (character) {
+      // ...
+    }
+
+    return ``
+  },
+}
+
 function MyApp({ Component, pageProps }: any) {
   const getLayout = Component.getLayout ?? ((page: any) => page)
   const connectModal = useConnectModal()
@@ -70,7 +86,10 @@ function MyApp({ Component, pageProps }: any) {
         client={queryClient}
         persistOptions={{ persister }}
       >
-        <ConnectKitProvider ipfsLinkToHttpLink={toGateway}>
+        <ConnectKitProvider
+          ipfsLinkToHttpLink={toGateway}
+          urlComposer={urlComposer}
+        >
           <InitContractProvider
             openFaucetHintModel={() => {
               console.log("openFaucetHintModel")
