@@ -12,7 +12,7 @@ export type TabItem = {
 
 export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
   return (
-    <div className="flex border-b space-x-5 mb-8">
+    <div className="flex border-b space-x-5 mb-8 overflow-x-scroll">
       {items.map((item) => {
         if (item.hidden) return null
 
@@ -22,7 +22,7 @@ export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
             onClick={item.onClick}
             key={item.text}
             className={clsx(
-              `border-b-2 inline-flex items-center h-10`,
+              `border-b-2 inline-flex items-center h-10 whitespace-nowrap`,
               item.active
                 ? `border-accent text-black font-medium`
                 : `text-gray-500  border-transparent hover:border-gray-300`,

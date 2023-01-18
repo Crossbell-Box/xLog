@@ -326,9 +326,9 @@ export const PagesManager: React.FC<{
       <header className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">{title}</h2>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center space-x-4">
             <Button
-              className={clsx(`space-x-2 inline-flex mr-4`)}
+              className={clsx(`space-x-2 inline-flex`)}
               onClick={() =>
                 router.push(
                   `/dashboard/${subdomain}/editor?type=${
@@ -351,18 +351,17 @@ export const PagesManager: React.FC<{
               </svg>
               <span>New {isPost ? "Post" : "Page"}</span>
             </Button>
-            <Tooltip
-              label="Import markdown file with front matter supported"
-              placement="bottom"
-            >
-              <Button
-                className={clsx(`space-x-2 inline-flex`)}
-                onClick={importFile}
+            <span className="hidden sm:inline-flex">
+              <Tooltip
+                label="Import markdown file with front matter supported"
+                placement="bottom"
               >
-                <span className="i-bxs:duplicate inline-block"></span>
-                <span>Import</span>
-              </Button>
-            </Tooltip>
+                <Button className={clsx(`space-x-2`)} onClick={importFile}>
+                  <span className="i-bxs:duplicate inline-block"></span>
+                  <span>Import</span>
+                </Button>
+              </Tooltip>
+            </span>
           </div>
         </div>
         <div className="text-sm text-zinc-500 leading-relaxed">

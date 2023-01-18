@@ -431,7 +431,7 @@ export default function SubdomainEditor() {
                 />
               </div>
             </header>
-            <div className="h-screen pt-14 flex w-full">
+            <div className="h-screen pt-14 flex w-full min-w-[840px]">
               <div className="h-full overflow-auto w-full">
                 <div className="h-full mx-auto pt-5 flex flex-col">
                   <div className="px-5 h-12">
