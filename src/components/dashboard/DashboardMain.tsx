@@ -5,7 +5,7 @@ export const DashboardMain: React.FC<{
   fullWidth?: boolean
 }> = ({ children, fullWidth }) => {
   return (
-    <div className="md:pl-sidebar w-full">
+    <div className="flex-1 overflow-scroll">
       <div
         className={clsx(
           fullWidth

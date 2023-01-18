@@ -121,68 +121,73 @@ export function DashboardLayout({
           }
         />
       )}
-      <div className="flex">
+      <div className="flex h-screen">
         <DashboardSidebar>
-          {userSite.data?.[0]?.username &&
-            subdomain &&
-            userSite.data[0].username !== subdomain && (
-              <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
-                <div className="mb-2">You are operating</div>
-                <Avatar
-                  images={site.data?.avatars || []}
-                  size={60}
-                  name={site.data?.name}
-                />
-                <span className="flex flex-col justify-center">
-                  <span className="block">{site.data?.name}</span>
-                  <span className="block text-sm text-zinc-400">
-                    @{site.data?.username}
-                  </span>
-                </span>
+          {(isOpen) => (
+            <>
+              {userSite.data?.[0]?.username &&
+                subdomain &&
+                userSite.data[0].username !== subdomain && (
+                  <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
+                    <div className="mb-2">You are operating</div>
+                    <Avatar
+                      images={site.data?.avatars || []}
+                      size={60}
+                      name={site.data?.name}
+                    />
+                    <span className="flex flex-col justify-center">
+                      <span className="block">{site.data?.name}</span>
+                      <span className="block text-sm text-zinc-400">
+                        @{site.data?.username}
+                      </span>
+                    </span>
+                  </div>
+                )}
+              <div className="mb-2 px-5 pt-3 pb-2">
+                <ConnectButton left={true} size="base" />
               </div>
-            )}
-          <div className="mb-2 px-5 pt-3 pb-2">
-            <ConnectButton left={true} size="base" />
-          </div>
 
-          <div className="px-3 space-y-[2px] text-zinc-500">
-            {links.map((link) => {
-              const active =
-                link.href &&
-                link.isActive({
-                  pathname: router.asPath,
-                  href: link.href,
-                })
-              return (
+              <div className="px-3 space-y-[2px] text-zinc-500">
+                {links.map((link) => {
+                  const active =
+                    link.href &&
+                    link.isActive({
+                      pathname: router.asPath,
+                      href: link.href,
+                    })
+                  return (
+                    <UniLink
+                      href={link.href}
+                      key={link.href}
+                      className={clsx(
+                        `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
+                        active
+                          ? `bg-slate-200 font-medium text-slate-800`
+                          : `hover:bg-slate-200 hover:bg-opacity-50`,
+                        !isOpen && "justify-center",
+                      )}
+                      onClick={link.onClick}
+                    >
+                      <span className={clsx(link.icon, "text-lg")}></span>
+                      {isOpen && <span>{link.text}</span>}
+                    </UniLink>
+                  )
+                })}
+              </div>
+
+              <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center px-4">
                 <UniLink
-                  href={link.href}
-                  key={link.href}
-                  className={clsx(
-                    `flex px-4 h-12 items-center rounded-md space-x-2 w-full`,
-                    active
-                      ? `bg-slate-200 font-medium text-slate-800`
-                      : `hover:bg-slate-200 hover:bg-opacity-50`,
-                  )}
-                  onClick={link.onClick}
+                  href={getSiteLink({
+                    subdomain,
+                  })}
+                  className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-slate-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
                 >
-                  <span className={clsx(link.icon, "text-lg")}></span>
-                  <span>{link.text}</span>
+                  <span className="i-bi:box-arrow-up-right"></span>
+                  {isOpen && <span>View Site</span>}
                 </UniLink>
-              )
-            })}
-          </div>
-
-          <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center px-4">
-            <UniLink
-              href={getSiteLink({
-                subdomain,
-              })}
-              className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-slate-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
-            >
-              <span className="i-bi:box-arrow-up-right"></span>
-              <span>View Site</span>
-            </UniLink>
-          </div>
+              </div>
+            </>
+          )}
         </DashboardSidebar>
         {children}
       </div>
