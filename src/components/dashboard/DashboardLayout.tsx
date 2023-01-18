@@ -11,8 +11,7 @@ import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
 import { useAccountSites } from "~/queries/site"
 import { ConnectButton } from "~/components/common/ConnectButton"
-import { useGetNotifications, useGetSite, useIsOperators } from "~/queries/site"
-import { getStorage } from "~/lib/storage"
+import { useGetSite, useIsOperators } from "~/queries/site"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Avatar } from "~/components/ui/Avatar"
 import {
@@ -38,29 +37,10 @@ export function DashboardLayout({
 
   const userSite = useAccountSites()
 
-  const notifications = useGetNotifications({
-    siteCId: site.data?.metadata?.proof,
-  })
-
   const isOperator = useIsOperators({
     characterId: +(site.data?.metadata?.proof || 0),
     operator: address,
   })
-
-  const notificationCreatedAt =
-    getStorage(`notification-${subdomain}`)?.createdAt || 0
-
-  const [notificationCount, setNotificationCount] = useState(0)
-
-  useEffect(() => {
-    if (notifications.data && subdomain) {
-      const count = notifications.data.filter(
-        (notification: any) =>
-          +new Date(notification.createdAt) > +new Date(notificationCreatedAt),
-      ).length
-      setNotificationCount(count)
-    }
-  }, [notifications.data, subdomain, notificationCreatedAt])
 
   useEffect(() => {
     if (ssrReady && !isConnected) {

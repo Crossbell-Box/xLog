@@ -454,47 +454,6 @@ export async function unsubscribeFromSite(
   )
 }
 
-export async function getNotifications(input: { siteCId: string }) {
-  const [subscriptions, notes] = await Promise.all([
-    indexer.getBacklinksOfCharacter(input.siteCId, {
-      limit: 100,
-    }),
-    indexer.getNotes({
-      toCharacterId: input.siteCId,
-      limit: 100,
-      includeCharacter: true,
-    }),
-  ])
-
-  return [
-    ...(subscriptions.list.map(
-      (
-        item: LinkEntity & {
-          type?: "backlinks"
-        },
-      ) => {
-        item.type = "backlinks"
-        return item
-      },
-    ) as any),
-  ]
-    .concat(
-      notes.list.map(
-        (
-          item: NoteEntity & {
-            type?: "notes"
-          },
-        ) => {
-          item.type = "notes"
-          return item
-        },
-      ),
-    )
-    .sort((a, b) => {
-      return b.createdAt > a.createdAt ? 1 : -1
-    })
-}
-
 const xLogOperatorPermissions: CharacterOperatorPermission[] = [
   CharacterOperatorPermission.SET_NOTE_URI,
   CharacterOperatorPermission.DELETE_NOTE,

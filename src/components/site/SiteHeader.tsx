@@ -62,7 +62,7 @@ export const SiteHeader: React.FC<{
     {
       text: "View on blockchain explorer",
       icon: <BlockchainIcon />,
-      url: `${CSB_SCAN}/address/${site?.metadata?.owner}/transactions`,
+      url: `${CSB_SCAN}/address/${site?.metadata?.owner}`,
     },
     {
       text: "JSON Feed",
