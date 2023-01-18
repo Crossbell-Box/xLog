@@ -11,6 +11,7 @@ import { useGetSite, useUpdateSite } from "~/queries/site"
 import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
+import type { ReactElement } from "react"
 
 export default function SettingsDomainsPage() {
   const router = useRouter()
@@ -74,90 +75,90 @@ export default function SettingsDomainsPage() {
   }, [form, site.data, site.isSuccess, customDomain, hasSet])
 
   return (
-    <DashboardLayout title={"Domains"}>
-      <SettingsLayout title={"Site Settings"} type="site">
-        <form onSubmit={handleSubmit}>
-          <div>
-            <Input
-              id="subdomain"
-              label={`${APP_NAME} subdomain`}
-              addon={`.${OUR_DOMAIN}`}
-              className="w-28"
-              {...form.register("subdomain")}
-              disabled={isEmailAccount}
-            />
-            {isEmailAccount && (
-              <div className="text-sm text-orange-400 mt-1">
-                Email users cannot change subdomain/handle.{" "}
-                <UniLink
-                  className="underline"
-                  href={
-                    getSiteLink({
-                      subdomain: "crossbell-blog",
-                    }) + "/newbie-villa"
-                  }
-                >
-                  Learn more
-                </UniLink>{" "}
-                or{" "}
-                <span
-                  className="underline cursor-pointer"
-                  onClick={upgradeAccountModal.show}
-                >
-                  upgrade account
-                </span>
-                .
-              </div>
-            )}
-          </div>
-          <div className="mt-5">
-            <Input
-              id="custom_domain"
-              label="Custom Domain"
-              className="w-64"
-              {...form.register("custom_domain")}
-            />
-            {customDomain && (
-              <div className="mt-2 text-xs">
-                <p className="mb-2">
-                  Set the following record on your DNS provider to active your
-                  custom domain:
-                </p>
-                <table className="">
-                  <tbody>
-                    <tr className="border-b">
-                      <th className="text-center p-3">Type</th>
-                      <th className="text-center p-3">Name</th>
-                      <th className="text-center p-3">Value</th>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="text-center p-3">CNAME</td>
-                      <td className="text-center p-3">
-                        {customSubdomain || "@"}
-                      </td>
-                      <td className="text-center p-3">cname.{OUR_DOMAIN}</td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="text-center p-3">TXT</td>
-                      <td className="text-center p-3">{`_xlog-challenge${
-                        customSubdomain
-                          ? `.${customSubdomain}`
-                          : customSubdomain
-                      }`}</td>
-                      <td className="text-center p-3">{subdomain}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-          <div className="mt-5">
-            <Button type="submit" isLoading={updateSite.isLoading}>
-              Save
-            </Button>
-          </div>
-        </form>
-      </SettingsLayout>
-    </DashboardLayout>
+    <SettingsLayout title={"Site Settings"} type="site">
+      <form onSubmit={handleSubmit}>
+        <div>
+          <Input
+            id="subdomain"
+            label={`${APP_NAME} subdomain`}
+            addon={`.${OUR_DOMAIN}`}
+            className="w-28"
+            {...form.register("subdomain")}
+            disabled={isEmailAccount}
+          />
+          {isEmailAccount && (
+            <div className="text-sm text-orange-400 mt-1">
+              Email users cannot change subdomain/handle.{" "}
+              <UniLink
+                className="underline"
+                href={
+                  getSiteLink({
+                    subdomain: "crossbell-blog",
+                  }) + "/newbie-villa"
+                }
+              >
+                Learn more
+              </UniLink>{" "}
+              or{" "}
+              <span
+                className="underline cursor-pointer"
+                onClick={upgradeAccountModal.show}
+              >
+                upgrade account
+              </span>
+              .
+            </div>
+          )}
+        </div>
+        <div className="mt-5">
+          <Input
+            id="custom_domain"
+            label="Custom Domain"
+            className="w-64"
+            {...form.register("custom_domain")}
+          />
+          {customDomain && (
+            <div className="mt-2 text-xs">
+              <p className="mb-2">
+                Set the following record on your DNS provider to active your
+                custom domain:
+              </p>
+              <table className="">
+                <tbody>
+                  <tr className="border-b">
+                    <th className="text-center p-3">Type</th>
+                    <th className="text-center p-3">Name</th>
+                    <th className="text-center p-3">Value</th>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="text-center p-3">CNAME</td>
+                    <td className="text-center p-3">
+                      {customSubdomain || "@"}
+                    </td>
+                    <td className="text-center p-3">cname.{OUR_DOMAIN}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="text-center p-3">TXT</td>
+                    <td className="text-center p-3">{`_xlog-challenge${
+                      customSubdomain ? `.${customSubdomain}` : customSubdomain
+                    }`}</td>
+                    <td className="text-center p-3">{subdomain}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+        <div className="mt-5">
+          <Button type="submit" isLoading={updateSite.isLoading}>
+            Save
+          </Button>
+        </div>
+      </form>
+    </SettingsLayout>
   )
+}
+
+SettingsDomainsPage.getLayout = (page: ReactElement) => {
+  return <DashboardLayout title="Site Settings">{page}</DashboardLayout>
 }

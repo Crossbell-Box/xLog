@@ -10,6 +10,7 @@ import { useGetSite, useUpdateSite } from "~/queries/site"
 import { UniLink } from "~/components/ui/UniLink"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { toIPFS } from "~/lib/ipfs-parser"
+import type { ReactElement } from "react"
 
 export default function SiteSettingsGeneralPage() {
   const router = useRouter()
@@ -86,118 +87,120 @@ export default function SiteSettingsGeneralPage() {
   const [bannerUploading, setBannerUploading] = useState(false)
 
   return (
-    <DashboardLayout title="Site Settings">
-      <SettingsLayout title="Site Settings" type="site">
-        <form onSubmit={handleSubmit}>
-          <div className="mt-5">
-            <label htmlFor="icon" className="form-label">
-              Icon
-            </label>
-            <Controller
-              name="icon"
-              control={form.control}
-              render={({ field }) => (
-                <ImageUploader
-                  id="icon"
-                  className="w-24 h-24 rounded-full"
-                  uploadStart={() => {
-                    setIconUploading(true)
-                  }}
-                  uploadEnd={(key) => {
-                    form.setValue("icon", key as string)
-                    setIconUploading(false)
-                  }}
-                  {...field}
-                />
-              )}
-            />
+    <SettingsLayout title="Site Settings" type="site">
+      <form onSubmit={handleSubmit}>
+        <div className="mt-5">
+          <label htmlFor="icon" className="form-label">
+            Icon
+          </label>
+          <Controller
+            name="icon"
+            control={form.control}
+            render={({ field }) => (
+              <ImageUploader
+                id="icon"
+                className="w-24 h-24 rounded-full"
+                uploadStart={() => {
+                  setIconUploading(true)
+                }}
+                uploadEnd={(key) => {
+                  form.setValue("icon", key as string)
+                  setIconUploading(false)
+                }}
+                {...field}
+              />
+            )}
+          />
+        </div>
+        <div className="mt-5">
+          <label htmlFor="icon" className="form-label">
+            Banner
+          </label>
+          <Controller
+            name="banner"
+            control={form.control}
+            render={({ field }) => (
+              <ImageUploader
+                id="banner"
+                className="max-w-screen-md h-[220px]"
+                uploadStart={() => {
+                  setBannerUploading(true)
+                }}
+                uploadEnd={(key) => {
+                  form.setValue(
+                    "banner",
+                    key as { address: string; mime_type: string },
+                  )
+                  setBannerUploading(false)
+                }}
+                withMimeType={true}
+                hasClose={true}
+                {...(field as any)}
+              />
+            )}
+          />
+          <div className="text-xs text-gray-400 mt-1">
+            Supports both pictures and videos.
           </div>
-          <div className="mt-5">
-            <label htmlFor="icon" className="form-label">
-              Banner
-            </label>
-            <Controller
-              name="banner"
-              control={form.control}
-              render={({ field }) => (
-                <ImageUploader
-                  id="banner"
-                  className="max-w-screen-md h-[220px]"
-                  uploadStart={() => {
-                    setBannerUploading(true)
-                  }}
-                  uploadEnd={(key) => {
-                    form.setValue(
-                      "banner",
-                      key as { address: string; mime_type: string },
-                    )
-                    setBannerUploading(false)
-                  }}
-                  withMimeType={true}
-                  hasClose={true}
-                  {...(field as any)}
-                />
-              )}
-            />
-            <div className="text-xs text-gray-400 mt-1">
-              Supports both pictures and videos.
-            </div>
-          </div>
-          <div className="mt-5">
-            <Input required label="Name" id="name" {...form.register("name")} />
-          </div>
-          <div className="mt-5">
-            <label htmlFor="description" className="form-label">
-              Description
-            </label>
-            <Input
-              multiline
-              id="description"
-              className="input is-block"
-              rows={2}
-              {...form.register("description")}
-            />
-          </div>
-          <div className="mt-5">
-            <Input
-              id="ga"
-              {...form.register("ga")}
-              prefix="G-"
-              label="Google Analytics"
-              help={
-                <p>
-                  Integrate Google Analytics into your site. You can follow the
-                  instructions{" "}
-                  <UniLink
-                    className="underline"
-                    href="https://support.google.com/analytics/answer/9539598"
-                  >
-                    here
-                  </UniLink>{" "}
-                  to find your Measurement ID.
-                </p>
-              }
-            />
-          </div>
-          <div className="mt-5">
-            <Button
-              type="submit"
-              isLoading={updateSite.isLoading}
-              isDisabled={iconUploading || bannerUploading}
-            >
-              Save
-            </Button>
-          </div>
-        </form>
-        {/* <div className="mt-14 border-t pt-8">
-        <h3 className="text-red-500 text-lg mb-5">Danger Zone</h3>
-        <form>
-          <Button variantColor="red" type="submit">
-            Delete Site
+        </div>
+        <div className="mt-5">
+          <Input required label="Name" id="name" {...form.register("name")} />
+        </div>
+        <div className="mt-5">
+          <label htmlFor="description" className="form-label">
+            Description
+          </label>
+          <Input
+            multiline
+            id="description"
+            className="input is-block"
+            rows={2}
+            {...form.register("description")}
+          />
+        </div>
+        <div className="mt-5">
+          <Input
+            id="ga"
+            {...form.register("ga")}
+            prefix="G-"
+            label="Google Analytics"
+            help={
+              <p>
+                Integrate Google Analytics into your site. You can follow the
+                instructions{" "}
+                <UniLink
+                  className="underline"
+                  href="https://support.google.com/analytics/answer/9539598"
+                >
+                  here
+                </UniLink>{" "}
+                to find your Measurement ID.
+              </p>
+            }
+          />
+        </div>
+        <div className="mt-5">
+          <Button
+            type="submit"
+            isLoading={updateSite.isLoading}
+            isDisabled={iconUploading || bannerUploading}
+          >
+            Save
           </Button>
-        </form>
-      </div> */}
-      </SettingsLayout>
-    </DashboardLayout>
+        </div>
+      </form>
+      {/* <div className="mt-14 border-t pt-8">
+      <h3 className="text-red-500 text-lg mb-5">Danger Zone</h3>
+      <form>
+        <Button variantColor="red" type="submit">
+          Delete Site
+        </Button>
+      </form>
+    </div> */}
+    </SettingsLayout>
   )
+}
+
+SiteSettingsGeneralPage.getLayout = (page: ReactElement) => {
+  return <DashboardLayout title="Site Settings">{page}</DashboardLayout>
 }

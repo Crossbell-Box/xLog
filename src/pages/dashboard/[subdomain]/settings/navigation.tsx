@@ -10,6 +10,7 @@ import { nanoid } from "nanoid"
 import { ReactSortable } from "react-sortablejs"
 import equal from "fast-deep-equal"
 import { useGetSite, useUpdateSite } from "~/queries/site"
+import type { ReactElement } from "react"
 
 type UpdateItem = (id: string, newItem: Partial<SiteNavigationItem>) => void
 
@@ -128,74 +129,70 @@ export default function SiteSettingsNavigationPage() {
   }, [site.data?.navigation, hasSet])
 
   return (
-    <DashboardLayout title="Navigation">
-      <SettingsLayout title="Site Settings" type="site">
-        <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
-          <p className="text-zinc-800 text-sm font-bold">
-            Tips: built-in pages
-          </p>
-          <p>
-            <span className="text-zinc-800">
-              Home page (use your own Label to replace the default Label):
-            </span>{" "}
-            <span className="bg-zinc-200 rounded-lg px-2">/</span>
-          </p>
-          <p>
-            <span className="text-zinc-800">Archives page:</span>{" "}
-            <span className="bg-zinc-200 rounded-lg px-2">/archives</span>
-          </p>
-          <p>
-            <span className="text-zinc-900">Tag page:</span>{" "}
-            <span className="bg-zinc-200 rounded-lg px-2">/tag/[tag]</span>
-          </p>
-          <p>
-            <span className="text-zinc-900">NFT Showcase page:</span>{" "}
-            <span className="bg-zinc-200 rounded-lg px-2">/nft</span>
-          </p>
+    <SettingsLayout title="Site Settings" type="site">
+      <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
+        <p className="text-zinc-800 text-sm font-bold">Tips: built-in pages</p>
+        <p>
+          <span className="text-zinc-800">
+            Home page (use your own Label to replace the default Label):
+          </span>{" "}
+          <span className="bg-zinc-200 rounded-lg px-2">/</span>
+        </p>
+        <p>
+          <span className="text-zinc-800">Archives page:</span>{" "}
+          <span className="bg-zinc-200 rounded-lg px-2">/archives</span>
+        </p>
+        <p>
+          <span className="text-zinc-900">Tag page:</span>{" "}
+          <span className="bg-zinc-200 rounded-lg px-2">/tag/[tag]</span>
+        </p>
+        <p>
+          <span className="text-zinc-900">NFT Showcase page:</span>{" "}
+          <span className="bg-zinc-200 rounded-lg px-2">/nft</span>
+        </p>
+      </div>
+      <form onSubmit={handleSubmit}>
+        <div className="bg-zinc-50 rounded-lg overflow-hidden">
+          {items.length === 0 && (
+            <div className="text-center text-zinc-500 p-5">
+              No navigation items yet
+            </div>
+          )}
+          <ReactSortable list={items} setList={setItems} handle=".drag-handle">
+            {items.map((item) => {
+              return (
+                <SortableNavigationItem
+                  key={item.id}
+                  item={item}
+                  updateItem={updateItem}
+                  removeItem={removeItem}
+                />
+              )
+            })}
+            <style jsx global>{`
+              .sortable-ghost {
+                opacity: 0.4;
+              }
+            `}</style>
+          </ReactSortable>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="bg-zinc-50 rounded-lg overflow-hidden">
-            {items.length === 0 && (
-              <div className="text-center text-zinc-500 p-5">
-                No navigation items yet
-              </div>
-            )}
-            <ReactSortable
-              list={items}
-              setList={setItems}
-              handle=".drag-handle"
-            >
-              {items.map((item) => {
-                return (
-                  <SortableNavigationItem
-                    key={item.id}
-                    item={item}
-                    updateItem={updateItem}
-                    removeItem={removeItem}
-                  />
-                )
-              })}
-              <style jsx global>{`
-                .sortable-ghost {
-                  opacity: 0.4;
-                }
-              `}</style>
-            </ReactSortable>
-          </div>
-          <div className="border-t pt-5 mt-10 space-x-3 flex items-center">
-            <Button
-              type="submit"
-              isLoading={updateSite.isLoading}
-              isDisabled={!itemsModified}
-            >
-              Save
-            </Button>
-            <Button variant="secondary" onClick={newEmptyItem}>
-              New Item
-            </Button>
-          </div>
-        </form>
-      </SettingsLayout>
-    </DashboardLayout>
+        <div className="border-t pt-5 mt-10 space-x-3 flex items-center">
+          <Button
+            type="submit"
+            isLoading={updateSite.isLoading}
+            isDisabled={!itemsModified}
+          >
+            Save
+          </Button>
+          <Button variant="secondary" onClick={newEmptyItem}>
+            New Item
+          </Button>
+        </div>
+      </form>
+    </SettingsLayout>
   )
+}
+
+SiteSettingsNavigationPage.getLayout = (page: ReactElement) => {
+  return <DashboardLayout title="Site Settings">{page}</DashboardLayout>
 }

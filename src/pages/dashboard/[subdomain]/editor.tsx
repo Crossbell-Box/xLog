@@ -38,6 +38,7 @@ import { Button } from "~/components/ui/Button"
 import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN } from "~/lib/env"
 import { showConfetti } from "~/lib/confetti"
+import type { ReactElement } from "react"
 
 const getInputDatetimeValue = (date: Date | string) => {
   const str = dayjs(date).format()
@@ -374,199 +375,194 @@ export default function SubdomainEditor() {
 
   return (
     <>
-      <DashboardLayout title="Editor">
-        <DashboardMain fullWidth>
-          {page.isLoading ? (
-            <div className="flex justify-center items-center min-h-[300px]">
-              Loading...
-            </div>
-          ) : (
-            <>
-              <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
-                <div className="flex items-center">
-                  <EditorToolbar
-                    view={view}
-                    toolbars={toolbars}
-                  ></EditorToolbar>
-                  <UniLink
-                    className="ml-7 align-middle"
-                    href={`${getSiteLink({
-                      subdomain: "xlog",
-                    })}/xfm`}
-                  >
-                    Tip: xLog Flavored Markdown
-                  </UniLink>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <span
-                    className={clsx(
-                      `text-sm capitalize`,
-                      visibility === PageVisibilityEnum.Draft
-                        ? `text-zinc-300`
-                        : visibility === PageVisibilityEnum.Modified
-                        ? "text-orange-600"
-                        : "text-green-600",
-                    )}
-                  >
-                    {visibility?.toLowerCase()}
-                  </span>
-                  <Button
-                    isAutoWidth
-                    onClick={() => {
-                      window.open(
-                        `/_site/${subdomain}/preview/${draftKey.replace(
-                          `draft-${subdomain}-`,
-                          "",
-                        )}`,
-                      )
-                    }}
-                  >
-                    Preview
-                  </Button>
-                  <PublishButton
-                    save={savePage}
-                    published={visibility !== PageVisibilityEnum.Draft}
-                    isSaving={createOrUpdatePage.isLoading}
-                    isDisabled={
-                      visibility !== PageVisibilityEnum.Modified &&
-                      visibility !== PageVisibilityEnum.Draft
-                    }
-                  />
-                </div>
-              </header>
-              <div className="h-screen pt-14 flex w-full">
-                <div className="h-full overflow-auto w-full">
-                  <div className="h-full mx-auto pt-5 flex flex-col">
-                    <div className="px-5 h-12">
-                      <input
-                        type="text"
-                        name="title"
-                        value={values.title}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            view?.focus()
-                          }
-                        }}
-                        onChange={(e) => updateValue("title", e.target.value)}
-                        className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none"
-                        placeholder="Title goes here.."
-                      />
-                    </div>
-                    <div className="mt-5 flex-1 flex overflow-hidden">
-                      <Editor
-                        value={values.content}
-                        onChange={onChange}
-                        handleDropFile={handleDropFile}
-                        onScroll={onEditorScroll}
-                        // onUpdate={onUpdate}
-                        onCreateEditor={onCreateEditor}
-                        onMouseEnter={() => {
-                          setCurrentScrollArea("editor")
-                        }}
-                      />
-                      <PageContent
-                        className="px-5 w-1/2 overflow-scroll pb-[200px]"
-                        parsedContent={parsedContent}
-                        inputRef={previewRef}
-                        onScroll={onPreviewScroll}
-                        onMouseEnter={() => {
-                          setCurrentScrollArea("preview")
-                        }}
-                      ></PageContent>
-                    </div>
-                  </div>
-                </div>
-                <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
-                  <div>
-                    <Input
-                      type="datetime-local"
-                      label="Publish at"
-                      isBlock
-                      name="publishAt"
-                      id="publishAt"
-                      value={getInputDatetimeValue(values.publishedAt)}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        const value = inLocalTimezone(
-                          e.target.value,
-                        ).toISOString()
-                        updateValue("publishedAt", value)
+      <DashboardMain fullWidth>
+        {page.isLoading ? (
+          <div className="flex justify-center items-center min-h-[300px]">
+            Loading...
+          </div>
+        ) : (
+          <>
+            <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
+              <div className="flex items-center">
+                <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
+                <UniLink
+                  className="ml-7 align-middle"
+                  href={`${getSiteLink({
+                    subdomain: "xlog",
+                  })}/xfm`}
+                >
+                  Tip: xLog Flavored Markdown
+                </UniLink>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span
+                  className={clsx(
+                    `text-sm capitalize`,
+                    visibility === PageVisibilityEnum.Draft
+                      ? `text-zinc-300`
+                      : visibility === PageVisibilityEnum.Modified
+                      ? "text-orange-600"
+                      : "text-green-600",
+                  )}
+                >
+                  {visibility?.toLowerCase()}
+                </span>
+                <Button
+                  isAutoWidth
+                  onClick={() => {
+                    window.open(
+                      `/_site/${subdomain}/preview/${draftKey.replace(
+                        `draft-${subdomain}-`,
+                        "",
+                      )}`,
+                    )
+                  }}
+                >
+                  Preview
+                </Button>
+                <PublishButton
+                  save={savePage}
+                  published={visibility !== PageVisibilityEnum.Draft}
+                  isSaving={createOrUpdatePage.isLoading}
+                  isDisabled={
+                    visibility !== PageVisibilityEnum.Modified &&
+                    visibility !== PageVisibilityEnum.Draft
+                  }
+                />
+              </div>
+            </header>
+            <div className="h-screen pt-14 flex w-full">
+              <div className="h-full overflow-auto w-full">
+                <div className="h-full mx-auto pt-5 flex flex-col">
+                  <div className="px-5 h-12">
+                    <input
+                      type="text"
+                      name="title"
+                      value={values.title}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          view?.focus()
+                        }
                       }}
-                      help={`This ${
-                        isPost ? "post" : "page"
-                      } will be accessible from this time`}
+                      onChange={(e) => updateValue("title", e.target.value)}
+                      className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none"
+                      placeholder="Title goes here.."
                     />
                   </div>
-                  <div>
-                    <Input
-                      name="slug"
-                      value={values.slug}
-                      placeholder={defaultSlug}
-                      label={`${isPost ? "Post" : "Page"} slug`}
-                      id="slug"
-                      isBlock
-                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        updateValue("slug", e.target.value)
-                      }
-                      help={
-                        <>
-                          {(values.slug || defaultSlug) && (
-                            <>
-                              This {isPost ? "post" : "page"} will be accessible
-                              at{" "}
-                              <UniLink
-                                href={`${getSiteLink({
-                                  subdomain,
-                                  domain: site.data?.custom_domain,
-                                })}/${values.slug || defaultSlug}`}
-                                className="hover:underline"
-                              >
-                                {getSiteLink({
-                                  subdomain,
-                                  domain: site.data?.custom_domain,
-                                  noProtocol: true,
-                                })}
-                                /{values.slug || defaultSlug}
-                              </UniLink>
-                            </>
-                          )}
-                        </>
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      name="tags"
-                      value={values.tags}
-                      label="Tags"
-                      id="tags"
-                      isBlock
-                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        updateValue("tags", e.target.value)
-                      }
-                      help='Separate multiple tags with English commas ","'
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      label="Excerpt"
-                      isBlock
-                      name="excerpt"
-                      id="excerpt"
-                      value={values.excerpt}
-                      multiline
-                      rows={5}
-                      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-                        updateValue("excerpt", e.target.value)
+                  <div className="mt-5 flex-1 flex overflow-hidden">
+                    <Editor
+                      value={values.content}
+                      onChange={onChange}
+                      handleDropFile={handleDropFile}
+                      onScroll={onEditorScroll}
+                      // onUpdate={onUpdate}
+                      onCreateEditor={onCreateEditor}
+                      onMouseEnter={() => {
+                        setCurrentScrollArea("editor")
                       }}
-                      help="Leave it blank to use auto-generated excerpt"
                     />
+                    <PageContent
+                      className="px-5 w-1/2 overflow-scroll pb-[200px]"
+                      parsedContent={parsedContent}
+                      inputRef={previewRef}
+                      onScroll={onPreviewScroll}
+                      onMouseEnter={() => {
+                        setCurrentScrollArea("preview")
+                      }}
+                    ></PageContent>
                   </div>
                 </div>
               </div>
-            </>
-          )}
-        </DashboardMain>
-      </DashboardLayout>
+              <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+                <div>
+                  <Input
+                    type="datetime-local"
+                    label="Publish at"
+                    isBlock
+                    name="publishAt"
+                    id="publishAt"
+                    value={getInputDatetimeValue(values.publishedAt)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      const value = inLocalTimezone(
+                        e.target.value,
+                      ).toISOString()
+                      updateValue("publishedAt", value)
+                    }}
+                    help={`This ${
+                      isPost ? "post" : "page"
+                    } will be accessible from this time`}
+                  />
+                </div>
+                <div>
+                  <Input
+                    name="slug"
+                    value={values.slug}
+                    placeholder={defaultSlug}
+                    label={`${isPost ? "Post" : "Page"} slug`}
+                    id="slug"
+                    isBlock
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      updateValue("slug", e.target.value)
+                    }
+                    help={
+                      <>
+                        {(values.slug || defaultSlug) && (
+                          <>
+                            This {isPost ? "post" : "page"} will be accessible
+                            at{" "}
+                            <UniLink
+                              href={`${getSiteLink({
+                                subdomain,
+                                domain: site.data?.custom_domain,
+                              })}/${values.slug || defaultSlug}`}
+                              className="hover:underline"
+                            >
+                              {getSiteLink({
+                                subdomain,
+                                domain: site.data?.custom_domain,
+                                noProtocol: true,
+                              })}
+                              /{values.slug || defaultSlug}
+                            </UniLink>
+                          </>
+                        )}
+                      </>
+                    }
+                  />
+                </div>
+                <div>
+                  <Input
+                    name="tags"
+                    value={values.tags}
+                    label="Tags"
+                    id="tags"
+                    isBlock
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      updateValue("tags", e.target.value)
+                    }
+                    help='Separate multiple tags with English commas ","'
+                  />
+                </div>
+                <div>
+                  <Input
+                    label="Excerpt"
+                    isBlock
+                    name="excerpt"
+                    id="excerpt"
+                    value={values.excerpt}
+                    multiline
+                    rows={5}
+                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                      updateValue("excerpt", e.target.value)
+                    }}
+                    help="Leave it blank to use auto-generated excerpt"
+                  />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </DashboardMain>
       <Modal
         open={isCheersOpen}
         setOpen={setIsCheersOpen}
@@ -626,4 +622,8 @@ export default function SubdomainEditor() {
       </Modal>
     </>
   )
+}
+
+SubdomainEditor.getLayout = (page: ReactElement) => {
+  return <DashboardLayout title="Editor">{page}</DashboardLayout>
 }

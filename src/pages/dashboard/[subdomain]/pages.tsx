@@ -1,10 +1,11 @@
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { PagesManager } from "~/components/dashboard/PagesManager"
+import type { ReactElement } from "react"
 
 export default function SubdomainPages() {
-  return (
-    <DashboardLayout title="Pages">
-      <PagesManager isPost={false} />
-    </DashboardLayout>
-  )
+  return <PagesManager isPost={false} />
+}
+
+SubdomainPages.getLayout = (page: ReactElement) => {
+  return <DashboardLayout title="Pages">{page}</DashboardLayout>
 }

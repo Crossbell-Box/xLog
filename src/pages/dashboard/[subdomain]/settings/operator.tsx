@@ -16,6 +16,7 @@ import { CharacterCard } from "~/components/common/CharacterCard"
 import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
+import type { ReactElement } from "react"
 
 type RemoveItem = (operator: string) => void
 
@@ -51,7 +52,7 @@ const SortableNavigationItem: React.FC<{
   )
 }
 
-export default function SiteSettingsNavigationPage() {
+export default function SettingsOperatorPage() {
   const router = useRouter()
 
   const subdomain = router.query.subdomain as string
@@ -114,120 +115,122 @@ export default function SiteSettingsNavigationPage() {
   const [address, setAddress] = useState("")
 
   return (
-    <DashboardLayout title="Navigation">
-      <SettingsLayout title="Site Settings" type="site">
-        <Dialog
-          open={isOpen}
-          onClose={() => setIsOpen(false)}
-          className="fixed z-10 inset-0 overflow-y-auto"
-        >
-          <div className="flex items-center justify-center min-h-screen">
-            <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+    <SettingsLayout title="Site Settings" type="site">
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="fixed z-10 inset-0 overflow-y-auto"
+      >
+        <div className="flex items-center justify-center min-h-screen">
+          <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
 
-            <div className="relative bg-white rounded-lg max-w-md w-full mx-auto">
-              <Dialog.Title className="px-5 h-12 flex items-center border-b">
-                New operator
-              </Dialog.Title>
+          <div className="relative bg-white rounded-lg max-w-md w-full mx-auto">
+            <Dialog.Title className="px-5 h-12 flex items-center border-b">
+              New operator
+            </Dialog.Title>
 
-              <div className="p-5">
-                <Input
-                  className="w-full"
-                  label="Operator Address"
-                  required
-                  onChange={(e) => {
-                    setAddress(e.target.value)
-                  }}
+            <div className="p-5">
+              <Input
+                className="w-full"
+                label="Operator Address"
+                required
+                onChange={(e) => {
+                  setAddress(e.target.value)
+                }}
+              />
+              <div className="form-label mt-5">Operator Character Check</div>
+              <div>
+                <CharacterCard
+                  address={address}
+                  open={true}
+                  hideFollowButton={true}
+                  style="flat"
                 />
-                <div className="form-label mt-5">Operator Character Check</div>
-                <div>
-                  <CharacterCard
-                    address={address}
-                    open={true}
-                    hideFollowButton={true}
-                    style="flat"
-                  />
-                </div>
-              </div>
-
-              <div className="h-16 border-t flex items-center px-5">
-                <Button
-                  isLoading={addOperator.isLoading}
-                  isDisabled={!address}
-                  onClick={addItem}
-                >
-                  Save
-                </Button>
               </div>
             </div>
+
+            <div className="h-16 border-t flex items-center px-5">
+              <Button
+                isLoading={addOperator.isLoading}
+                isDisabled={!address}
+                onClick={addItem}
+              >
+                Save
+              </Button>
+            </div>
           </div>
-        </Dialog>
-        <div className="p-5 text-zinc-500 bg-orange-50 mb-5 rounded-lg text-sm space-y-2">
-          <p className="text-zinc-800 text-sm font-bold">⚠️ Warning:</p>
-          <p>
-            <span className="text-zinc-800">
-              {isEmailAccount ? (
-                <span>
-                  Email users cannot set operators.{" "}
-                  <UniLink
-                    className="underline"
-                    href={
-                      getSiteLink({
-                        subdomain: "crossbell-blog",
-                      }) + "/newbie-villa"
-                    }
-                  >
-                    Learn more
-                  </UniLink>{" "}
-                  or{" "}
-                  <span
-                    className="underline cursor-pointer"
-                    onClick={upgradeAccountModal.show}
-                  >
-                    upgrade account
-                  </span>
-                  .
-                </span>
-              ) : (
-                <span>
-                  Operators have permissions to enter your dashboard, change
-                  your settings(excluding xLog subdomain) and post contents on
-                  your site.
-                </span>
-              )}
-            </span>
-          </p>
         </div>
-        <div className={isEmailAccount ? `grayscale cursor-not-allowed` : ""}>
-          <div className="bg-zinc-50 rounded-lg overflow-hidden">
-            {items.length === 0 && (
-              <div className="text-center text-zinc-500 p-5">
-                No operators yet
-              </div>
+      </Dialog>
+      <div className="p-5 text-zinc-500 bg-orange-50 mb-5 rounded-lg text-sm space-y-2">
+        <p className="text-zinc-800 text-sm font-bold">⚠️ Warning:</p>
+        <p>
+          <span className="text-zinc-800">
+            {isEmailAccount ? (
+              <span>
+                Email users cannot set operators.{" "}
+                <UniLink
+                  className="underline"
+                  href={
+                    getSiteLink({
+                      subdomain: "crossbell-blog",
+                    }) + "/newbie-villa"
+                  }
+                >
+                  Learn more
+                </UniLink>{" "}
+                or{" "}
+                <span
+                  className="underline cursor-pointer"
+                  onClick={upgradeAccountModal.show}
+                >
+                  upgrade account
+                </span>
+                .
+              </span>
+            ) : (
+              <span>
+                Operators have permissions to enter your dashboard, change your
+                settings(excluding xLog subdomain) and post contents on your
+                site.
+              </span>
             )}
-            {items.map((item, index) => {
-              return (
-                <SortableNavigationItem
-                  key={index}
-                  item={item}
-                  removeItem={removeItem}
-                  isLoading={removeOperator.isLoading}
-                  disabled={isEmailAccount}
-                />
-              )
-            })}
-            <style jsx global>{`
-              .sortable-ghost {
-                opacity: 0.4;
-              }
-            `}</style>
-          </div>
-          <div className="border-t pt-5 mt-10 space-x-3 flex items-center">
-            <Button onClick={newEmptyItem} isDisabled={isEmailAccount}>
-              Add
-            </Button>
-          </div>
+          </span>
+        </p>
+      </div>
+      <div className={isEmailAccount ? `grayscale cursor-not-allowed` : ""}>
+        <div className="bg-zinc-50 rounded-lg overflow-hidden">
+          {items.length === 0 && (
+            <div className="text-center text-zinc-500 p-5">
+              No operators yet
+            </div>
+          )}
+          {items.map((item, index) => {
+            return (
+              <SortableNavigationItem
+                key={index}
+                item={item}
+                removeItem={removeItem}
+                isLoading={removeOperator.isLoading}
+                disabled={isEmailAccount}
+              />
+            )
+          })}
+          <style jsx global>{`
+            .sortable-ghost {
+              opacity: 0.4;
+            }
+          `}</style>
         </div>
-      </SettingsLayout>
-    </DashboardLayout>
+        <div className="border-t pt-5 mt-10 space-x-3 flex items-center">
+          <Button onClick={newEmptyItem} isDisabled={isEmailAccount}>
+            Add
+          </Button>
+        </div>
+      </div>
+    </SettingsLayout>
   )
+}
+
+SettingsOperatorPage.getLayout = (page: ReactElement) => {
+  return <DashboardLayout title="Site Settings">{page}</DashboardLayout>
 }
