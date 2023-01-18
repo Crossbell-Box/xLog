@@ -22,7 +22,7 @@ export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
             onClick={item.onClick}
             key={item.text}
             className={clsx(
-              `border-b-2 text-sm inline-flex items-center h-10`,
+              `border-b-2 inline-flex items-center h-10`,
               item.active
                 ? `border-accent text-black font-medium`
                 : `text-gray-500  border-transparent hover:border-gray-300`,

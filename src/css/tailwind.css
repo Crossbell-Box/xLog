@@ -212,7 +212,6 @@ textarea.input {
 .form-label {
   @apply block;
   @apply mb-2;
-  @apply text-sm;
   @apply font-bold;
   @apply text-gray-700;
   @apply capitalize;

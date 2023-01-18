@@ -142,7 +142,7 @@ export function DashboardLayout({
               </div>
             )}
           <div className="mb-2 px-5 pt-3 pb-2">
-            <ConnectButton left={true} />
+            <ConnectButton left={true} size="base" />
           </div>
 
           <div className="px-3 space-y-[2px] text-zinc-500">
@@ -158,10 +158,10 @@ export function DashboardLayout({
                   href={link.href}
                   key={link.href}
                   className={clsx(
-                    `flex px-2 h-8 text-sm items-center rounded-lg space-x-2 w-full`,
+                    `flex px-4 h-12 items-center rounded-md space-x-2 w-full`,
                     active
-                      ? `bg-gray-200 font-medium text-gray-800`
-                      : `hover:bg-gray-200 hover:bg-opacity-50`,
+                      ? `bg-slate-200 font-medium text-slate-800`
+                      : `hover:bg-slate-200 hover:bg-opacity-50`,
                   )}
                   onClick={link.onClick}
                 >
@@ -177,7 +177,7 @@ export function DashboardLayout({
               href={getSiteLink({
                 subdomain,
               })}
-              className="space-x-2 border rounded-lg bg-gray-100 border-gray-200 text-gray-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
+              className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-slate-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
             >
               <span className="i-bi:box-arrow-up-right"></span>
               <span>View Site</span>

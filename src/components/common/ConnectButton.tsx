@@ -27,7 +27,20 @@ import {
 export const ConnectButton: React.FC<{
   left?: boolean
   variant?: "text" | "primary" | "secondary" | "like" | "collect" | "crossbell"
-}> = ({ left, variant }) => {
+  size?: "base" | "sm"
+}> = ({ left, variant, size = "sm" }) => {
+  let avatarSize
+  let sizeDecrease
+  switch (size) {
+    case "base":
+      avatarSize = 40
+      sizeDecrease = "sm"
+      break
+    default:
+      avatarSize = 30
+      sizeDecrease = "xs"
+  }
+
   const [ssrReady, account] = useAccountState(({ ssrReady, computed }) => [
     ssrReady,
     computed.account,
@@ -105,7 +118,7 @@ export const ConnectButton: React.FC<{
             <Button
               className="text-accent"
               onClick={openConnectModal}
-              style={{ height: "30px" }}
+              style={{ height: avatarSize + "px" }}
               variant={variant || "primary"}
             >
               Connect
@@ -113,7 +126,10 @@ export const ConnectButton: React.FC<{
           )
         }
         return (
-          <div className="relative group" style={{ gap: 12, height: "30px" }}>
+          <div
+            className="relative group"
+            style={{ gap: 12, height: avatarSize + "px" }}
+          >
             {userSites.isSuccess ? (
               <>
                 <button
@@ -125,13 +141,13 @@ export const ConnectButton: React.FC<{
                     className="align-middle mr-2"
                     images={userSites.data?.[0]?.avatars || []}
                     name={userSites.data?.[0]?.name}
-                    size={30}
+                    size={avatarSize}
                   />
                   <div className="flex-1 flex flex-col min-w-0">
                     <span
                       className={`text-left leading-none font-medium truncate ${
                         InsufficientBalance ? "text-red-600" : "text-gray-600"
-                      }`}
+                      } ${size === "base" ? "text-base" : "text-sm"}`}
                       style={{ marginBottom: "0.15rem" }}
                     >
                       {userSites.data?.[0]?.name ||
@@ -139,7 +155,9 @@ export const ConnectButton: React.FC<{
                     </span>
                     {userSites.data?.[0]?.username && (
                       <span
-                        className={`text-left leading-none text-xs truncate ${
+                        className={`text-left leading-none ${
+                          sizeDecrease === "sm" ? "text-sm" : "text-xs"
+                        } truncate ${
                           InsufficientBalance ? "text-red-400" : "text-gray-400"
                         }`}
                       >
@@ -154,7 +172,11 @@ export const ConnectButton: React.FC<{
                     left ? "left" : "right"
                   }-0 pt-2 group-hover:block top-full z-10 text-gray-600`}
                 >
-                  <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
+                  <div
+                    className={`bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 ${
+                      size === "base" ? "text-base" : "text-sm"
+                    }`}
+                  >
                     {InsufficientBalance && (
                       <UniLink
                         href="https://faucet.crossbell.io/"
@@ -170,7 +192,9 @@ export const ConnectButton: React.FC<{
                           key={i}
                           href={link.url}
                           onClick={link.onClick}
-                          className="px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
+                          className={`${
+                            size === "base" ? "pl-5 pr-6 h-11" : "pl-4 pr-5 h-9"
+                          } flex items-center w-full whitespace-nowrap hover:bg-zinc-100`}
                           aria-label={link.label}
                         >
                           <span className="mr-2 flex justify-center">
