@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { DashboardIcon } from "~/components/icons/DashboardIcon"
 import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
-import { FLY_REGION } from "~/lib/env.server"
 import { LoveIcon } from "~/components/icons/LoveIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { LaughIcon } from "~/components/icons/LaughIcon"
@@ -31,20 +30,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      region: FLY_REGION,
     },
   }
 }
 
-export default function Home({ region }: { region: string | null }) {
+export default function Home() {
   const isConnected = useAccountState((s) => !!s.computed.account)
   const { show: openConnectModal } = useConnectModal()
   const router = useRouter()
   const showcaseSites = useGetSites(showcase)
-
-  useEffect(() => {
-    console.log("-> region", region)
-  }, [region])
 
   const [isTry, setIsTry] = useState(false)
   const tryNow = () => {

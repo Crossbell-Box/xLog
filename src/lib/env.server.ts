@@ -1,28 +1,23 @@
-export const R2_API_TOKEN = process.env.R2_API_TOKEN
-export const MAILGUN_APIKEY = process.env.MAILGUN_APIKEY
-export const MAILGUN_DOMAIN_TRANSANCTION =
-  process.env.MAILGUN_DOMAIN_TRANSANCTION
-export const MAILGUN_DOMAIN_NEWSLETTER = process.env.MAILGUN_DOMAIN_NEWSLETTER
-export const ENCRYPT_SECRET = process.env.BUILD_STEP
-  ? // This won't be used in actual runtime
-    "random_string_to_make_next_build_happy"
-  : process.env.ENCRYPT_SECRET
+import getConfig from "next/config"
 
-export const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME
-export const PRIMARY_REGION = process.env.PRIMARY_REGION
-export const FLY_REGION = process.env.FLY_REGION || "local"
-export const IS_PRIMARY_REGION = FLY_REGION === PRIMARY_REGION
-export const UMAMI_TOKEN = process.env.UMAMI_TOKEN
-export const UMAMI_ENDPOINT = process.env.UMAMI_ENDPOINT
+const config = getConfig()
 
-export const REDIS_URL = process.env.REDIS_URL
+export const REDIS_URL = config.ENV_REDIS_URL || process.env.REDIS_URL
 export const REDIS_EXPIRE =
-  parseInt(process.env.REDIS_URL || "0") || 60 * 60 * 24 * 7 // 1 week
-export const REDIS_REFRESH = parseInt(process.env.REDIS_URL || "0") || 5 * 1000 // 5 seconds
+  parseInt(config.ENV_REDIS_EXPIRE || process.env.REDIS_EXPIRE || "0") ||
+  60 * 60 * 24 * 7 // 1 week
+export const REDIS_REFRESH =
+  parseInt(config.ENV_REDIS_REFRESH || process.env.REDIS_REFRESH || "0") ||
+  5 * 1000 // 5 seconds
 
-export const MORALIS_WEB3_API_KEY = process.env.MORALIS_WEB3_API_KEY
-export const ALCHEMY_ETHEREUM_API_KEY = process.env.ALCHEMY_ETHEREUM_API_KEY
-export const ALCHEMY_POLYGON_API_KEY = process.env.ALCHEMY_POLYGON_API_KEY
-export const NFTSCAN_API_KEY = process.env.NFTSCAN_API_KEY
-export const OPENSEA_API_KEY = process.env.OPENSEA_API_KEY
-export const POAP_API_KEY = process.env.POAP_API_KEY
+export const MORALIS_WEB3_API_KEY =
+  config.ENV_MORALIS_WEB3_API_KEY || process.env.MORALIS_WEB3_API_KEY
+export const ALCHEMY_ETHEREUM_API_KEY =
+  config.ENV_ALCHEMY_ETHEREUM_API_KEY || process.env.ALCHEMY_ETHEREUM_API_KEY
+export const ALCHEMY_POLYGON_API_KEY =
+  config.ENV_ALCHEMY_POLYGON_API_KEY || process.env.ALCHEMY_POLYGON_API_KEY
+export const NFTSCAN_API_KEY =
+  config.ENV_NFTSCAN_API_KEY || process.env.NFTSCAN_API_KEY
+export const OPENSEA_API_KEY =
+  config.ENV_OPENSEA_API_KEY || process.env.OPENSEA_API_KEY
+export const POAP_API_KEY = config.ENV_POAP_API_KEY || process.env.POAP_API_KEY
