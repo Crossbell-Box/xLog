@@ -12,19 +12,17 @@ import {
   useConnectModal,
   useUpgradeAccountModal,
 } from "@crossbell/connect-kit"
-import { UrlComposer } from "@crossbell/ui"
-
 import { NotificationModal } from "@crossbell/notification"
 import { InitContractProvider } from "@crossbell/contract"
 import { useRefCallback } from "@crossbell/util-hooks"
 import NextNProgress from "nextjs-progressbar"
 import { Network } from "crossbell.js"
 
-import { IPFS_GATEWAY, CSB_IO } from "~/lib/env"
+import { IPFS_GATEWAY } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 import { connectors, provider } from "~/lib/wallet-config"
 import { createIDBPersister } from "~/lib/persister.client"
-import { getNoteSlug, getSiteLink } from "~/lib/helpers"
+import { urlComposer } from "~/lib/url-composer"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
@@ -54,35 +52,6 @@ try {
   }
 } catch (error) {
   console.warn(error)
-}
-
-const urlComposer: Partial<UrlComposer> = {
-  characterUrl: ({ handle }) => getSiteLink({ subdomain: handle }),
-  noteUrl: (note) => {
-    let originalNote = note
-    while (originalNote?.toNote) {
-      originalNote = originalNote.toNote
-    }
-
-    if (originalNote.metadata?.content?.sources?.includes("xlog")) {
-      const { character } = originalNote
-
-      if (character) {
-        return (
-          getSiteLink({
-            subdomain: character.handle,
-          }) +
-          "/" +
-          getNoteSlug(originalNote) +
-          (originalNote !== note ? `#comments` : "")
-        )
-      } else {
-        return ""
-      }
-    } else {
-      return `${CSB_IO}/notes/${note.characterId}-${note.noteId}`
-    }
-  },
 }
 
 function MyApp({ Component, pageProps }: any) {
