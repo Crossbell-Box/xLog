@@ -24,7 +24,7 @@ export const DashboardSidebar: React.FC<{
     <div
       className={`${
         isOpen ? `w-sidebar` : "w-20"
-      } relative bg-slate-50 z-10 h-full`}
+      } relative bg-slate-50 z-10 h-full transition-all`}
     >
       {children(isOpen)}
       <div className="w-[1px] bg-border absolute top-0 right-0 bottom-0"></div>

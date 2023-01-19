@@ -21,6 +21,7 @@ import { MintIcon } from "~/components/icons/MintIcon"
 import { getLikes, getMints, parsePageId } from "~/models/page.model"
 import { CharacterList } from "~/components/common/CharacterList"
 import clsx from "clsx"
+import { Tooltip } from "~/components/ui/Tooltip"
 
 export const Reactions: React.FC<{
   className?: string
@@ -247,20 +248,34 @@ export const Reactions: React.FC<{
           )}
         </div>
         <div className="xlog-reactions-mint flex items-center">
-          <Button
-            variant="collect"
-            className={`flex items-center mr-2 ${
-              isMint.isSuccess && isMint.data.count && "active"
-            }`}
-            isAutoWidth={true}
-            onClick={mint}
-            isLoading={mintPage.isLoading || likeProgress}
-          >
-            <MintIcon
-              className={clsx("mr-2", size === "sm" ? "w-3 h-3" : "w-8 h-8")}
-            />
-            <span>{mints.data?.count || 0}</span>
-          </Button>
+          {(() => {
+            const inner = (
+              <Button
+                variant="collect"
+                className={`flex items-center mr-2 ${
+                  isMint.isSuccess && isMint.data.count && "active"
+                }`}
+                isAutoWidth={true}
+                onClick={mint}
+                isLoading={mintPage.isLoading || likeProgress}
+              >
+                <MintIcon
+                  className={clsx(
+                    "mr-2",
+                    size === "sm" ? "w-3 h-3" : "w-8 h-8",
+                  )}
+                />
+                <span>{mints.data?.count || 0}</span>
+              </Button>
+            )
+            return size !== "sm" ? (
+              <Tooltip label="Mint as an NFT" placement="top">
+                {inner}
+              </Tooltip>
+            ) : (
+              inner
+            )
+          })()}
           {size !== "sm" && (
             <ul
               className="-space-x-4 cursor-pointer"

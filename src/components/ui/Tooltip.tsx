@@ -47,7 +47,7 @@ export const Tooltip = ({ children, label, placement = "top" }: Props) => {
         <div
           {...getFloatingProps({
             ref: floating,
-            className: "bg-black/75 text-white rounded-lg shadow-lg px-3 py-2",
+            className: "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1",
             style: {
               position: strategy,
               top: y ?? "",
