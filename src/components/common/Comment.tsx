@@ -13,7 +13,7 @@ export const Comment: React.FC<{
   })
 
   return (
-    <div className={clsx("xlog-comment", "comment", className)}>
+    <div className={clsx("xlog-comment", "comment", className)} id="comments">
       <div className="xlog-comment-count border-b pb-2 mb-6">
         <span>
           {comments.data?.count || "0"} Comment
