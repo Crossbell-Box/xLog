@@ -7,7 +7,7 @@ specifiers:
   '@codemirror/state': 6.1.4
   '@codemirror/view': 6.7.0
   '@crossbell/connect-kit': 0.0.11
-  '@crossbell/contract': 0.0.11
+  '@crossbell/contract': 0.0.13
   '@crossbell/indexer': 0.0.11
   '@crossbell/notification': 0.0.11
   '@crossbell/ui': 0.0.11
@@ -130,8 +130,8 @@ dependencies:
   '@codemirror/language': 6.3.1
   '@codemirror/state': 6.1.4
   '@codemirror/view': 6.7.0
-  '@crossbell/connect-kit': 0.0.11_xqwzwhmeene7tuwubu4pu6wgzi
-  '@crossbell/contract': 0.0.11_ifk7cvmbpvucp4sb7h6sd5o5kq
+  '@crossbell/connect-kit': 0.0.11_u6obk2fxp2yxgn6ijd7em4cmhe
+  '@crossbell/contract': 0.0.13_ifk7cvmbpvucp4sb7h6sd5o5kq
   '@crossbell/indexer': 0.0.11_vt6dormuwd2i74k7gl7bwphuya
   '@crossbell/notification': 0.0.11_y6ffar5brqibuemfyj3waevmza
   '@crossbell/ui': 0.0.11_vm5up772e3bfwjegpqi42n6g7m
@@ -583,7 +583,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit/0.0.11_xqwzwhmeene7tuwubu4pu6wgzi:
+  /@crossbell/connect-kit/0.0.11_u6obk2fxp2yxgn6ijd7em4cmhe:
     resolution: {integrity: sha512-j+vRjWrC+XN6iV4y+yzNt/IWfm73CSbgVo8dCY5ofjAkhwlj+OZyYhLpWP93YVwrKbqp4XGuimus8vpunqDvfg==}
     peerDependencies:
       '@crossbell/contract': 0.0.11
@@ -600,7 +600,7 @@ packages:
       wagmi: '*'
       zustand: ^4
     dependencies:
-      '@crossbell/contract': 0.0.11_ifk7cvmbpvucp4sb7h6sd5o5kq
+      '@crossbell/contract': 0.0.13_ifk7cvmbpvucp4sb7h6sd5o5kq
       '@crossbell/indexer': 0.0.11_vt6dormuwd2i74k7gl7bwphuya
       '@crossbell/ui': 0.0.11_vm5up772e3bfwjegpqi42n6g7m
       '@crossbell/util-hooks': 0.0.11_react@18.2.0
@@ -630,11 +630,11 @@ packages:
       - react-dom
     dev: false
 
-  /@crossbell/contract/0.0.11_ifk7cvmbpvucp4sb7h6sd5o5kq:
-    resolution: {integrity: sha512-gP++AgQjS4g0SY+ikp3vcwWCWUYWq/UKTpxYt11yZaBgxFTZqIPCPRRm/8GcYNIGoc8EpHIUSDfOcYEUzlSdSA==}
+  /@crossbell/contract/0.0.13_ifk7cvmbpvucp4sb7h6sd5o5kq:
+    resolution: {integrity: sha512-2iPP/i2yi+aZDGCsVtrb4btDufdiD2ZulB78bzF2K62IQQLbitIZg/hLhh4c+Ih3wsbvUePZxOuKDYfFM6w8hg==}
     peerDependencies:
-      '@crossbell/indexer': 0.0.11
-      '@crossbell/util-hooks': 0.0.11
+      '@crossbell/indexer': 0.0.13
+      '@crossbell/util-hooks': 0.0.13
       crossbell.js: 0.16.x
       ethers: 5.x.x
       react: 18.x.x
@@ -678,7 +678,7 @@ packages:
       react: 18.x.x
       zustand: ^4.1.5
     dependencies:
-      '@crossbell/connect-kit': 0.0.11_xqwzwhmeene7tuwubu4pu6wgzi
+      '@crossbell/connect-kit': 0.0.11_u6obk2fxp2yxgn6ijd7em4cmhe
       '@crossbell/indexer': 0.0.11_vt6dormuwd2i74k7gl7bwphuya
       '@crossbell/ui': 0.0.11_vm5up772e3bfwjegpqi42n6g7m
       '@crossbell/util-hooks': 0.0.11_react@18.2.0
