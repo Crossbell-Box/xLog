@@ -1,15 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { cacheGet, cacheDelete } from "~/lib/redis.server"
 
-const getSlug = (note: any) => {
-  return (
-    note.metadata?.content?.attributes?.find(
-      (a: any) => a?.trait_type === "xlog_slug",
-    )?.value ||
-    note.metadata?.content?._xlog_slug ||
-    note.metadata?.content?._crosslog_slug
-  )?.toLowerCase?.()
-}
+import { cacheGet, cacheDelete } from "~/lib/redis.server"
+import { getNoteSlug } from "~/lib/helpers"
 
 export async function getIdBySlug(slug: string, handle: string) {
   slug = (slug as string)?.toLowerCase?.()
@@ -44,7 +36,7 @@ export async function getIdBySlug(slug: string, handle: string) {
         cursor = response.cursor
         note = response?.list?.find(
           (item: any) =>
-            slug === getSlug(item) || slug === `${cid}-${item.noteId}`,
+            slug === getNoteSlug(item) || slug === `${cid}-${item.noteId}`,
         )
       } while (!note && cursor)
 
@@ -67,7 +59,7 @@ export async function getIdBySlug(slug: string, handle: string) {
       )
         .then((res) => res.json())
         .then((note) => {
-          if ((note && getSlug(note) !== slug) || note.deleted) {
+          if ((note && getNoteSlug(note) !== slug) || note.deleted) {
             cacheDelete(["slug2id", handle, slug])
           }
         })

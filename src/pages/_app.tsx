@@ -14,19 +14,17 @@ import {
 } from "@crossbell/connect-kit"
 import { UrlComposer } from "@crossbell/ui"
 
+import { NotificationModal } from "@crossbell/notification"
 import { InitContractProvider } from "@crossbell/contract"
 import { useRefCallback } from "@crossbell/util-hooks"
 import NextNProgress from "nextjs-progressbar"
-import { CharacterEntity, Network } from "crossbell.js"
+import { Network } from "crossbell.js"
 
 import { IPFS_GATEWAY, CSB_IO } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 import { connectors, provider } from "~/lib/wallet-config"
 import { createIDBPersister } from "~/lib/persister.client"
-
-import { NotificationModal } from "@crossbell/notification"
-import { getSiteLink } from "~/lib/helpers"
-import type { NoteEntity } from "crossbell.js"
+import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
@@ -75,13 +73,7 @@ const urlComposer: Partial<UrlComposer> = {
             subdomain: character.handle,
           }) +
           "/" +
-          (
-            originalNote.metadata?.content?.attributes?.find(
-              (a: any) => a?.trait_type === "xlog_slug",
-            )?.value ||
-            (originalNote as any).metadata?.content?._xlog_slug ||
-            (originalNote as any).metadata?.content?._crosslog_slug
-          )?.toLowerCase?.() +
+          getNoteSlug(originalNote) +
           (originalNote !== note ? `#comments` : "")
         )
       } else {
