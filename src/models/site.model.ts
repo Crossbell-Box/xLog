@@ -7,17 +7,9 @@ import type { Profiles as UniProfiles } from "unidata.js"
 import { createClient } from "@urql/core"
 import axios from "axios"
 import { indexer } from "@crossbell/indexer"
-import type { LinkEntity, NoteEntity, Contract } from "crossbell.js"
+import type { Contract } from "crossbell.js"
 import { CharacterOperatorPermission } from "crossbell.js"
 import { GeneralAccount } from "@crossbell/connect-kit"
-
-export const checkSubdomain = async ({
-  subdomain,
-  updatingSiteId,
-}: {
-  subdomain: string
-  updatingSiteId?: string
-}) => {}
 
 const expandSite = (site: Profile) => {
   site.navigation = JSON.parse(
@@ -247,6 +239,7 @@ export const getSiteSubscriptions = async (
   data: {
     siteId: string
     cursor?: string
+    limit?: number
   },
   customUnidata?: Unidata,
 ) => {
@@ -256,6 +249,7 @@ export const getSiteSubscriptions = async (
     platform: "Crossbell",
     reversed: true,
     cursor: data.cursor,
+    limit: data.limit,
   })
 
   links?.list.map(async (item: any) => {
@@ -539,4 +533,36 @@ export async function getNFTs(address: string, customUnidata?: Unidata) {
     identity: address,
   })
   return assets
+}
+
+export async function getStat({ characterId }: { characterId: string }) {
+  if (characterId) {
+    const [stat, site, subscriptions, comments, notes] = await Promise.all([
+      (
+        await fetch(
+          `https://indexer.crossbell.io/v1/stat/characters/${characterId}`,
+        )
+      ).json(),
+      indexer.getCharacter(characterId),
+      indexer.getBacklinksOfCharacter(characterId, {
+        limit: 0,
+      }),
+      indexer.getNotes({
+        limit: 0,
+        toCharacterId: characterId,
+      }),
+      indexer.getNotes({
+        characterId,
+        sources: "xlog",
+        limit: 0,
+      }),
+    ])
+    return {
+      viewsCount: stat.viewNoteCount,
+      createdAt: site?.createdAt,
+      subscriptionCount: subscriptions?.count,
+      commentsCount: comments?.count,
+      notesCount: notes?.count,
+    }
+  }
 }

@@ -285,3 +285,16 @@ export const useGetNFTs = (address: string) => {
     ).json()
   })
 }
+
+export const useGetStat = (
+  data: Partial<Parameters<typeof siteModel.getStat>[0]>,
+) => {
+  return useQuery(["getStat", data.characterId], async () => {
+    if (!data.characterId) {
+      return null
+    }
+    return siteModel.getStat({
+      characterId: data.characterId,
+    })
+  })
+}
