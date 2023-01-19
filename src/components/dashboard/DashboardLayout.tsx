@@ -158,7 +158,7 @@ export function DashboardLayout({
                   return (
                     <UniLink
                       href={link.href}
-                      key={link.href}
+                      key={link.text}
                       className={clsx(
                         `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
                         active
