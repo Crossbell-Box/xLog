@@ -9,6 +9,8 @@ const slugReservedWords = [
   "dashboard",
   "robots.txt",
   "nft",
+  "sw.js",
+  "manifest.json",
 ]
 
 export const checkSlugReservedWords = (word: string) => {

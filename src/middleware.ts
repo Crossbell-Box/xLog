@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { IS_PROD } from "~/lib/constants"
-import { DISCORD_LINK } from "~/lib/env"
+import { DISCORD_LINK, IPFS_GATEWAY } from "~/lib/env"
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
@@ -29,8 +29,11 @@ export default async function middleware(req: NextRequest) {
   if (
     pathname.startsWith("/api/") ||
     pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/_next") ||
-    pathname === "/ipfs-gateway-sw.js"
+    pathname.startsWith("/_next/") ||
+    pathname.match(/^\/(workbox|worker|fallback)-\w+\.js(\.map)?$/) ||
+    pathname === "/sw.js" ||
+    pathname === "/sw.js.map" ||
+    pathname === "/logo.png"
   ) {
     return NextResponse.next()
   }

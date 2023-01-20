@@ -46,6 +46,7 @@ export const SEOHead: React.FC<{
         type="application/feed+json"
       ></link>
       <link rel="icon" href={icon || `${SITE_URL}/logo.svg`}></link>
+      <link rel="manifest" href="/manifest.json" />
     </Head>
   )
 }
