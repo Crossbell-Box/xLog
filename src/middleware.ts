@@ -30,11 +30,10 @@ export default async function middleware(req: NextRequest) {
     pathname.startsWith("/api/") ||
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/_next/") ||
+    pathname.startsWith("/assets/") ||
     pathname.match(/^\/(workbox|worker|fallback)-\w+\.js(\.map)?$/) ||
     pathname === "/sw.js" ||
-    pathname === "/sw.js.map" ||
-    pathname === "/logo.png" ||
-    pathname === "/404.svg"
+    pathname === "/sw.js.map"
   ) {
     return NextResponse.next()
   }

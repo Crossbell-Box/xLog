@@ -45,7 +45,7 @@ export const SEOHead: React.FC<{
         title={`Notifications on ${siteName}`}
         type="application/feed+json"
       ></link>
-      <link rel="icon" href={icon || `${SITE_URL}/logo.svg`}></link>
+      <link rel="icon" href={icon || `${SITE_URL}/assets/logo.svg`}></link>
       <link rel="manifest" href="/manifest.json" />
     </Head>
   )

@@ -32,7 +32,12 @@ export function MainLayout({
         <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
           <div className="text-3xl font-extrabold flex items-center">
             <div className="inline-block w-9 h-9">
-              <Image alt={APP_NAME} src="/logo.svg" width={100} height={100} />
+              <Image
+                alt={APP_NAME}
+                src="/assets/logo.svg"
+                width={100}
+                height={100}
+              />
             </div>
           </div>
           <div className="space-x-14 text-zinc-500 flex">

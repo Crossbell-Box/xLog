@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       description: site.description,
       icons: [
         {
-          src: site.avatars?.[0] || "logo.png",
+          src: site.avatars?.[0] || "assets/logo.png",
           type: "image/png",
           sizes: "any",
         },

@@ -27,7 +27,7 @@ export default function Custom404() {
 - [Back to Home](/)
 - [All posts](/archives)
 
-![image](${SITE_URL}/404.svg)
+![image](${SITE_URL}/assets/404.svg)
 `,
             },
           } as any

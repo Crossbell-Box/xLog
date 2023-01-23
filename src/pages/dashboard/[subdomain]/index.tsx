@@ -44,7 +44,7 @@ export default function SubdomainIndex() {
     <DashboardMain>
       <div className="prose min-w-[270px] max-w-screen-md">
         <div className="w-14 h-14 mb-8">
-          <Image alt="logo" src="/logo.svg" width={100} height={100} />
+          <Image alt="logo" src="/assets/logo.svg" width={100} height={100} />
         </div>
         <p className="text-2xl font-bold">Site Stat</p>
         <div className="grid gap-4 sm:grid-cols-3 grid-cols-2 mb-8">

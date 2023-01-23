@@ -56,7 +56,7 @@ export default function Home() {
   const description = [
     {
       screenshot: {
-        src: "/screenshot1.png",
+        src: "/assets/screenshot1.png",
         width: 3947,
         height: 1888,
       },
@@ -66,7 +66,7 @@ export default function Home() {
     },
     {
       screenshot: {
-        src: "/screenshot4.png",
+        src: "/assets/screenshot4.png",
         width: 1542,
         height: 467,
       },
@@ -82,7 +82,7 @@ export default function Home() {
     },
     {
       screenshot: {
-        src: "/screenshot5.png",
+        src: "/assets/screenshot5.png",
         width: 1712,
         height: 1866,
       },
@@ -98,7 +98,7 @@ export default function Home() {
     },
     {
       screenshot: {
-        src: "/screenshot2.png",
+        src: "/assets/screenshot2.png",
         width: 1528,
         height: 758,
       },
@@ -108,7 +108,7 @@ export default function Home() {
     },
     {
       screenshot: {
-        src: "/screenshot3.png",
+        src: "/assets/screenshot3.png",
         width: 4394,
         height: 1854,
       },
@@ -175,7 +175,12 @@ export default function Home() {
         <div className="max-w-screen-lg px-5 mx-auto">
           <div className="h-screen w-full flex justify-center flex-col relative">
             <div className="w-28 h-28 mb-16">
-              <Image alt="logo" src="/logo.svg" width={200} height={200} />
+              <Image
+                alt="logo"
+                src="/assets/logo.svg"
+                width={200}
+                height={200}
+              />
             </div>
             <h2 className="text-3xl sm:text-5xl font-bold mb-5">Blog Free</h2>
             <h3 className="mt-5 text-zinc-800 text-4xl sm:text-6xl font-light">
@@ -331,7 +336,7 @@ export default function Home() {
                       </p>
                       <Image
                         className="rounded-lg"
-                        src="/integration1.png"
+                        src="/assets/integration1.png"
                         alt="integration1"
                         width="3726"
                         height="1888"
@@ -347,7 +352,7 @@ export default function Home() {
                       </p>
                       <Image
                         className="rounded-lg"
-                        src="/integration5.png"
+                        src="/assets/integration5.png"
                         alt="integration5"
                         width="3730"
                         height="1888"
@@ -362,7 +367,7 @@ export default function Home() {
                       </p>
                       <Image
                         className="rounded-lg"
-                        src="/integration2.png"
+                        src="/assets/integration2.png"
                         alt="integration2"
                         width="1724"
                         height="1172"
@@ -378,7 +383,7 @@ export default function Home() {
                       </p>
                       <Image
                         className="rounded-lg"
-                        src="/integration3.png"
+                        src="/assets/integration3.png"
                         alt="integration3"
                         width="3726"
                         height="1888"
@@ -396,7 +401,7 @@ export default function Home() {
                       </p>
                       <Image
                         className="rounded-lg"
-                        src="/integration4.png"
+                        src="/assets/integration4.png"
                         alt="integration4"
                         width="3726"
                         height="1888"
@@ -409,7 +414,12 @@ export default function Home() {
           </div>
           <div className="my-20 text-center">
             <div className="w-20 h-20 mx-auto mb-8">
-              <Image alt="logo" src="/logo.svg" width={100} height={100} />
+              <Image
+                alt="logo"
+                src="/assets/logo.svg"
+                width={100}
+                height={100}
+              />
             </div>
             {isConnected ? (
               <UniLink

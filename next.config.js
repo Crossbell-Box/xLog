@@ -69,5 +69,9 @@ module.exports = withBundleAnalyzer(
       ENV_OPENSEA_API_KEY: process.env.OPENSEA_API_KEY,
       ENV_POAP_API_KEY: process.env.POAP_API_KEY,
     },
+
+    pwa: {
+      publicExcludes: ["*"],
+    },
   }),
 )

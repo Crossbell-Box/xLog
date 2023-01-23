@@ -24,7 +24,7 @@ export const SiteFooter: React.FC<{
             >
               <Image
                 alt={APP_NAME}
-                src={`${SITE_URL}/logo.svg`}
+                src={`${SITE_URL}/assets/logo.svg`}
                 width={20}
                 height={20}
               />
