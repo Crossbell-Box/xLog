@@ -160,12 +160,14 @@ export const SiteHeader: React.FC<{
           </div>
         </div>
         <div className="text-sm text-gray-400 flex items-center justify-between w-full mt-auto">
-          <div className="xlog-site-navigation flex items-center space-x-5">
+          <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}
           </div>
-          <ConnectButton variant="text" />
+          <div className="mb-[2px] pl-1">
+            <ConnectButton variant="text" />
+          </div>
         </div>
       </div>
     </header>
