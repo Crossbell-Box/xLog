@@ -10,6 +10,7 @@ const cache = require("next-pwa/cache")
 const withPWA = require("next-pwa")({
   dest: "public",
   publicExcludes: ["*"],
+  dynamicStartUrl: false,
   runtimeCaching: [
     {
       urlPattern: ({ url }) => {
@@ -37,6 +38,12 @@ const withPWA = require("next-pwa")({
           maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
         },
       },
+    },
+    {
+      urlPattern: ({ request }) => {
+        return request.headers.get("x-middleware-prefetch")
+      },
+      handler: "NetworkOnly",
     },
     // @ts-ignore
     ...cache,
