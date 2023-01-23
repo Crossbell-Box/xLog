@@ -5,10 +5,43 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 })
 const execSync = require("child_process").execSync
+
+const cache = require("next-pwa/cache")
 const withPWA = require("next-pwa")({
   dest: "public",
+  publicExcludes: ["*"],
+  runtimeCaching: [
+    {
+      urlPattern: ({ url }) => {
+        return /\/ipfs\/([^/?#]+)$/.test(url.toString())
+      },
+      handler: "CacheFirst",
+      options: {
+        cacheName: "next-ipfs",
+        expiration: {
+          maxEntries: 64,
+          maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+        },
+        cacheableResponse: {
+          statuses: [0, 200],
+        },
+      },
+    },
+    {
+      urlPattern: /\/_next\/image\?url=.+%2Fipfs%2F([^/?#]+)$/i,
+      handler: "CacheFirst",
+      options: {
+        cacheName: "next-ipfs",
+        expiration: {
+          maxEntries: 64,
+          maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+        },
+      },
+    },
+    // @ts-ignore
+    ...cache,
+  ],
 })
-const cache = require("next-pwa/cache")
 
 const lastCommitCommand = "git rev-parse HEAD"
 
@@ -70,36 +103,6 @@ module.exports = withBundleAnalyzer(
       ENV_NFTSCAN_API_KEY: process.env.NFTSCAN_API_KEY,
       ENV_OPENSEA_API_KEY: process.env.OPENSEA_API_KEY,
       ENV_POAP_API_KEY: process.env.POAP_API_KEY,
-    },
-
-    pwa: {
-      publicExcludes: ["*"],
-      dynamicStartUrl: true,
-      runtimeCaching: [
-        {
-          urlPattern: /\/(ipfs)\/([^/?#]+)/i,
-          handler: "CacheFirst",
-          options: {
-            cacheName: "next-ipfs",
-            expiration: {
-              maxEntries: 64,
-              maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
-            },
-          },
-        },
-        {
-          urlPattern: /\/_next\/image\?url=.+%2Fipfs%2F([^/?#]+)$/i,
-          handler: "CacheFirst",
-          options: {
-            cacheName: "next-ipfs",
-            expiration: {
-              maxEntries: 64,
-              maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
-            },
-          },
-        },
-        ...cache,
-      ],
     },
   }),
 )
