@@ -7,7 +7,8 @@ export const SEOHead: React.FC<{
   description?: string | null
   image?: string | null
   icon?: string | null
-}> = ({ siteName, title, description, image, icon }) => {
+  site?: string
+}> = ({ siteName, title, description, image, icon, site }) => {
   return (
     <Head>
       <title>{title ? `${title} - ${siteName}` : siteName}</title>
@@ -27,26 +28,30 @@ export const SEOHead: React.FC<{
           />
         </>
       )}
-      <link
-        rel="alternate"
-        href="/feed/xml"
-        title={siteName}
-        type="application/rss+xml"
-      ></link>
-      <link
-        rel="alternate"
-        href="/feed"
-        title={siteName}
-        type="application/feed+json"
-      ></link>
-      <link
-        rel="alternate"
-        href="/feed"
-        title={`Notifications on ${siteName}`}
-        type="application/feed+json"
-      ></link>
       <link rel="icon" href={icon || `${SITE_URL}/assets/logo.svg`}></link>
-      <link rel="manifest" href="/manifest.json" />
+      {site && (
+        <>
+          <link
+            rel="alternate"
+            href="/feed/xml"
+            title={siteName}
+            type="application/rss+xml"
+          ></link>
+          <link
+            rel="alternate"
+            href="/feed"
+            title={siteName}
+            type="application/feed+json"
+          ></link>
+          <link
+            rel="alternate"
+            href="/feed"
+            title={`Notifications on ${siteName}`}
+            type="application/feed+json"
+          ></link>
+          <link rel="manifest" href="/manifest.json" />
+        </>
+      )}
     </Head>
   )
 }

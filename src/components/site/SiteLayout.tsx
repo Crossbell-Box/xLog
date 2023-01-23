@@ -62,6 +62,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         }
         image={page.data?.cover || getUserContentsUrl(site.data?.avatars?.[0])}
         icon={getUserContentsUrl(site.data?.avatars?.[0])}
+        site={domainOrSubdomain}
       />
       {site?.data?.css && (
         <link
