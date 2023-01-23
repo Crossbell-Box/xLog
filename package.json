@@ -107,7 +107,7 @@
     "@iconify-json/bxs": "1.1.5",
     "@iconify-json/carbon": "1.1.13",
     "@iconify-json/fluent": "1.1.17",
-    "@iconify-json/mdi": "1.1.43",
+    "@iconify-json/mdi": "1.1.44",
     "@next/bundle-analyzer": "13.1.2",
     "@playwright/test": "1.29.2",
     "@tailwindcss/line-clamp": "^0.4.2",
