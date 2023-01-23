@@ -8,6 +8,7 @@ const execSync = require("child_process").execSync
 const withPWA = require("next-pwa")({
   dest: "public",
 })
+const cache = require("next-pwa/cache")
 
 const lastCommitCommand = "git rev-parse HEAD"
 
@@ -32,6 +33,7 @@ class UnoCSS {
 
 /** @type {import('next').NextConfig} */
 module.exports = withBundleAnalyzer(
+  // @ts-ignore
   withPWA({
     env: {
       APP_DESCRIPTION: pkg.description,
@@ -72,6 +74,32 @@ module.exports = withBundleAnalyzer(
 
     pwa: {
       publicExcludes: ["*"],
+      dynamicStartUrl: true,
+      runtimeCaching: [
+        {
+          urlPattern: /\/(ipfs)\/([^/?#]+)/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "next-ipfs",
+            expiration: {
+              maxEntries: 64,
+              maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+            },
+          },
+        },
+        {
+          urlPattern: /\/_next\/image\?url=.+%2Fipfs%2F([^/?#]+)$/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "next-ipfs",
+            expiration: {
+              maxEntries: 64,
+              maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+            },
+          },
+        },
+        ...cache,
+      ],
     },
   }),
 )
