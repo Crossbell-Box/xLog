@@ -116,7 +116,7 @@ specifiers:
   typescript: 4.9.4
   unidata.js: 0.7.13
   unified: 10.1.2
-  unist-builder: 3.0.0
+  unist-builder: 3.0.1
   unist-util-visit: 4.1.1
   unocss: 0.48.4
   use-onclickoutside: 0.4.1
@@ -204,7 +204,7 @@ dependencies:
   sortablejs: 1.15.0
   unidata.js: 0.7.13
   unified: 10.1.2
-  unist-builder: 3.0.0
+  unist-builder: 3.0.1
   unist-util-visit: 4.1.1
   use-onclickoutside: 0.4.1_3stiutgnnbnfnf3uowm5cip22i
   uuid: 9.0.0
@@ -9092,7 +9092,7 @@ packages:
       mdast-util-definitions: 5.1.1
       micromark-util-sanitize-uri: 1.1.0
       trim-lines: 3.0.1
-      unist-builder: 3.0.0
+      unist-builder: 3.0.1
       unist-util-generated: 2.0.0
       unist-util-position: 4.0.3
       unist-util-visit: 4.1.1
@@ -12101,8 +12101,8 @@ packages:
       crypto-random-string: 2.0.0
     dev: true
 
-  /unist-builder/3.0.0:
-    resolution: {integrity: sha512-GFxmfEAa0vi9i5sd0R2kcrI9ks0r82NasRq5QHh2ysGngrc6GiqD5CDf1FjPenY4vApmFASBIIlk/jj5J5YbmQ==}
+  /unist-builder/3.0.1:
+    resolution: {integrity: sha512-gnpOw7DIpCA0vpr6NqdPvTWnlPTApCTRzr+38E6hCWx3rz/cjo83SsKIlS1Z+L5ttScQ2AwutNnb8+tAvpb6qQ==}
     dependencies:
       '@types/unist': 2.0.6
     dev: false
