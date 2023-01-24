@@ -96,7 +96,7 @@
     "unidata.js": "0.7.13",
     "unified": "10.1.2",
     "unist-builder": "3.0.1",
-    "unist-util-visit": "4.1.1",
+    "unist-util-visit": "4.1.2",
     "use-onclickoutside": "0.4.1",
     "uuid": "9.0.0",
     "wagmi": "0.10.14",

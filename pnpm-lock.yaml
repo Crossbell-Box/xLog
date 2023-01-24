@@ -117,7 +117,7 @@ specifiers:
   unidata.js: 0.7.13
   unified: 10.1.2
   unist-builder: 3.0.1
-  unist-util-visit: 4.1.1
+  unist-util-visit: 4.1.2
   unocss: 0.48.4
   use-onclickoutside: 0.4.1
   uuid: 9.0.0
@@ -205,7 +205,7 @@ dependencies:
   unidata.js: 0.7.13
   unified: 10.1.2
   unist-builder: 3.0.1
-  unist-util-visit: 4.1.1
+  unist-util-visit: 4.1.2
   use-onclickoutside: 0.4.1_3stiutgnnbnfnf3uowm5cip22i
   uuid: 9.0.0
   wagmi: 0.10.14_dimbt66mphipov4qgblkb6hdkm
@@ -7935,7 +7935,7 @@ packages:
       html-void-elements: 2.0.1
       parse5: 6.0.1
       unist-util-position: 4.0.3
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
       vfile: 5.3.6
       web-namespaces: 2.0.1
       zwitch: 2.0.4
@@ -7963,7 +7963,7 @@ packages:
       nth-check: 2.1.1
       property-information: 6.2.0
       space-separated-tokens: 2.0.2
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
       zwitch: 2.0.4
     dev: false
 
@@ -9030,7 +9030,7 @@ packages:
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
     dev: false
 
   /mdast-util-directive/2.2.2:
@@ -9159,7 +9159,7 @@ packages:
       unist-builder: 3.0.1
       unist-util-generated: 2.0.0
       unist-util-position: 4.0.3
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
     dev: false
 
   /mdast-util-to-markdown/1.5.0:
@@ -9171,7 +9171,7 @@ packages:
       mdast-util-phrasing: 3.0.0
       mdast-util-to-string: 3.1.0
       micromark-util-decode-string: 1.0.2
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
       zwitch: 2.0.4
     dev: false
 
@@ -10845,7 +10845,7 @@ packages:
       hast-util-heading-rank: 2.1.1
       hast-util-is-element: 2.1.3
       unified: 10.1.2
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
     dev: false
 
   /rehype-infer-description-meta/1.1.0:
@@ -10870,7 +10870,7 @@ packages:
       rehype-parse: 8.0.4
       unified: 10.1.2
       unist-util-remove-position: 4.0.1
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
     dev: false
 
   /rehype-parse/8.0.4:
@@ -10890,7 +10890,7 @@ packages:
       refractor: 4.8.0
       rehype-parse: 8.0.4
       unist-util-filter: 4.0.0
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
     dev: false
 
   /rehype-raw/6.1.1:
@@ -10931,7 +10931,7 @@ packages:
       hast-util-heading-rank: 2.1.1
       hast-util-to-string: 2.0.0
       unified: 10.1.2
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
     dev: false
 
   /rehype-stringify/9.0.3:
@@ -12238,7 +12238,7 @@ packages:
     resolution: {integrity: sha512-0yDkppiIhDlPrfHELgB+NLQD5mfjup3a8UYclHruTJWmY74je8g+CIFr79x5f6AkmzSwlvKLbs63hC0meOMowQ==}
     dependencies:
       '@types/unist': 2.0.6
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
     dev: false
 
   /unist-util-stringify-position/3.0.2:
@@ -12281,8 +12281,8 @@ packages:
       unist-util-visit-parents: 4.1.1
     dev: false
 
-  /unist-util-visit/4.1.1:
-    resolution: {integrity: sha512-n9KN3WV9k4h1DxYR1LoajgN93wpEi/7ZplVe02IoB4gH5ctI1AaF2670BLHQYbwj+pY83gFtyeySFiyMHJklrg==}
+  /unist-util-visit/4.1.2:
+    resolution: {integrity: sha512-MSd8OUGISqHdVvfY9TPhyK2VdUrPgxkUtWSuMHF6XAAFuL4LokseigBnZtPnJMu+FbynTkFNnFlyjxpVKujMRg==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
