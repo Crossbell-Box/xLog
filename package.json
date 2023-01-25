@@ -109,7 +109,7 @@
     "@iconify-json/fluent": "1.1.17",
     "@iconify-json/mdi": "1.1.44",
     "@next/bundle-analyzer": "13.1.5",
-    "@playwright/test": "1.29.2",
+    "@playwright/test": "1.30.0",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@types/canvas-confetti": "^1.6.0",
     "@types/cookie": "0.5.1",
