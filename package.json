@@ -129,7 +129,7 @@
     "@unocss/preset-icons": "0.48.4",
     "autoprefixer": "10.4.13",
     "cross-spawn": "7.0.3",
-    "esbuild": "0.17.4",
+    "esbuild": "0.17.5",
     "esbuild-register": "3.4.2",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.5",
