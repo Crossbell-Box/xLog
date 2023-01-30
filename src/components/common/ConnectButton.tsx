@@ -2,7 +2,6 @@ import {
   useConnectModal,
   useAccountState,
   useDisconnectModal,
-  useAccountBalance,
   GeneralAccount,
 } from "@crossbell/connect-kit"
 import { useAccountSites } from "~/queries/site"
@@ -23,6 +22,7 @@ import {
   useShowNotificationModal,
   useNotifications,
 } from "@crossbell/notification"
+import { useAccountBalance } from "~/hooks/use-account-balance"
 
 export const ConnectButton: React.FC<{
   left?: boolean
