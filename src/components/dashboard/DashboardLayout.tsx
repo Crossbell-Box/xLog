@@ -30,7 +30,7 @@ export function DashboardLayout({
   const site = useGetSite(subdomain)
   const userSite = useAccountSites()
 
-  const isOwner = useIsOwner()
+  const isOwner = useIsOwner(subdomain)
 
   useEffect(() => {
     if (isOwner.isSuccess && !isOwner.data) {

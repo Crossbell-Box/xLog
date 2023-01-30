@@ -24,7 +24,7 @@ export const useAccountSites = () => {
   })
 }
 
-export const useGetSite = (input: string) => {
+export const useGetSite = (input?: string) => {
   const unidata = useUnidata()
   return useQuery(["getSite", input], async () => {
     if (!input) {

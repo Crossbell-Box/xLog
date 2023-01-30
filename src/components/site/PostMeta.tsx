@@ -2,12 +2,13 @@ import { formatDate, formatToISO } from "~/lib/date"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { UniLink } from "~/components/ui/UniLink"
 import { Note, Profile } from "~/lib/types"
-import { CSB_SCAN } from "~/lib/env"
+import { CSB_SCAN, SITE_URL } from "~/lib/env"
 import { useEffect, useState } from "react"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { getSiteLink } from "~/lib/helpers"
 import { Avatar } from "~/components/ui/Avatar"
-import { EyeIcon } from "@heroicons/react/24/outline"
+import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline"
+import { useIsOwner } from "~/hooks/useIsOwner"
 
 export const PostMeta: React.FC<{
   page: Note
@@ -19,6 +20,14 @@ export const PostMeta: React.FC<{
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  const [showEdit, setShowEdit] = useState(false)
+  const isOwner = useIsOwner(site?.username)
+  useEffect(() => {
+    if (isOwner.isSuccess && isOwner.data) {
+      setShowEdit(true)
+    }
+  }, [isOwner.isSuccess, isOwner.data])
 
   return (
     <div className="text-zinc-400 mt-4 xlog-post-meta space-x-5 flex items-center">
@@ -85,6 +94,14 @@ export const PostMeta: React.FC<{
       >
         <BlockchainIcon className="fill-zinc-500 ml-1" />
       </UniLink>
+      {showEdit && (
+        <UniLink
+          className="xlog-post-editor inline-flex items-center"
+          href={`${SITE_URL}/dashboard/${site?.username}/editor?id=${page.id}`}
+        >
+          <PencilSquareIcon className="w-4 h-4 mx-1 inline-block" /> Edit
+        </UniLink>
+      )}
     </div>
   )
 }
