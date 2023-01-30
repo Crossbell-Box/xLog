@@ -1,8 +1,6 @@
 import clsx from "clsx"
-import Link from "next/link"
 import { useRouter } from "next/router"
-import React, { useState, useEffect } from "react"
-import { useAccountState } from "@crossbell/connect-kit"
+import React, { useEffect } from "react"
 
 import { APP_NAME } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
@@ -11,13 +9,14 @@ import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
 import { useAccountSites } from "~/queries/site"
 import { ConnectButton } from "~/components/common/ConnectButton"
-import { useGetSite, useIsOperators } from "~/queries/site"
+import { useGetSite } from "~/queries/site"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Avatar } from "~/components/ui/Avatar"
 import {
   useShowNotificationModal,
   useNotifications,
 } from "@crossbell/notification"
+import { useIsOwner } from "~/hooks/useIsOwner"
 
 export function DashboardLayout({
   children,
@@ -29,41 +28,15 @@ export function DashboardLayout({
   const router = useRouter()
   const subdomain = router.query.subdomain as string
   const site = useGetSite(subdomain)
-  const [ssrReady, isConnected, address] = useAccountState((s) => [
-    s.ssrReady,
-    !!s.computed.account,
-    s.computed.account?.address,
-  ])
-
   const userSite = useAccountSites()
 
-  const isOperator = useIsOperators({
-    characterId: +(site.data?.metadata?.proof || 0),
-    operator: address,
-  })
+  const isOwner = useIsOwner()
 
   useEffect(() => {
-    if (ssrReady && !isConnected) {
-      router.push("/")
+    if (isOwner.isSuccess && !isOwner.data) {
+      router.push("/dashboard")
     }
-
-    if (userSite.isSuccess && subdomain) {
-      if (
-        !userSite.data?.find((site) => site.username === subdomain) &&
-        !isOperator.data
-      ) {
-        router.push("/dashboard")
-      }
-    }
-  }, [
-    ssrReady,
-    isConnected,
-    router,
-    userSite.isSuccess,
-    userSite.data,
-    subdomain,
-    isOperator.data,
-  ])
+  }, [router, isOwner])
 
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
