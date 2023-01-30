@@ -11,7 +11,8 @@ import { BigNumber } from "ethers"
 import { UniLink } from "~/components/ui/UniLink"
 import { useAccountSites } from "~/queries/site"
 import { getSite } from "~/models/site.model"
-import { useAccountBalance, useAccountState } from "@crossbell/connect-kit"
+import { useAccountState } from "@crossbell/connect-kit"
+import { useAccountBalance } from "~/hooks/use-account-balance"
 
 export default function NewSitePage() {
   const router = useRouter()
