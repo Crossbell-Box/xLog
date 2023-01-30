@@ -10,6 +10,11 @@ import { useGetPage } from "~/queries/page"
 import { OUR_DOMAIN, SITE_URL } from "~/lib/env"
 import { IS_PROD } from "~/lib/constants"
 import { toGateway } from "~/lib/ipfs-parser"
+import { useIsOwner } from "~/hooks/useIsOwner"
+import { useGetSubscription } from "~/queries/site"
+import clsx from "clsx"
+import { useCheckLike, useCheckMint } from "~/queries/page"
+import { useAccountState } from "@crossbell/connect-kit"
 
 export type SiteLayoutProps = {
   children: React.ReactNode
@@ -39,6 +44,12 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
 
   const site = useGetSite(domainOrSubdomain)
 
+  const isConnected = useAccountState((s) => !!s.computed.account)
+  const isOwner = useIsOwner(domainOrSubdomain)
+  const subscription = useGetSubscription(domainOrSubdomain)
+  const isLike = useCheckLike({ pageId: page.data?.id })
+  const isMint = useCheckMint(page.data?.id)
+
   useEffect(() => {
     if (site.data) {
       if (
@@ -52,7 +63,16 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   }, [site.isSuccess, site.data])
 
   return (
-    <>
+    <div
+      className={clsx({
+        "xlog-user": true,
+        "xlog-user-login": isConnected,
+        "xlog-user-site-owner": isOwner?.data,
+        "xlog-user-site-follower": subscription?.data,
+        "xlog-user-post-liker": isLike.data?.count,
+        "xlog-user-post-minter": isMint?.data?.count,
+      })}
+    >
       <SEOHead
         title={title || tag || page.data?.title || ""}
         siteName={site.data?.name || ""}
@@ -86,6 +106,6 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         </div>
       )}
       <SiteFooter site={site.data} page={page.data} />
-    </>
+    </div>
   )
 }
