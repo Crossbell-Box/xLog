@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import { useRouter } from "next/router"
-import { CSB_SCAN, CSB_IO } from "~/lib/env"
+import { CSB_SCAN, CSB_IO, CSB_XCHAR } from "~/lib/env"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
@@ -9,10 +9,13 @@ import { Profile } from "~/lib/types"
 import { ConnectButton } from "../common/ConnectButton"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { RSS3Icon } from "~/components/icons/RSS3Icon"
-import { EllipsisHorizontalIcon, RssIcon } from "@heroicons/react/20/solid"
+import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { Image } from "~/components/ui/Image"
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
+import { RssIcon } from "@heroicons/react/24/solid"
+import { XCharIcon } from "~/components/icons/XCharIcon"
+import { XFeedIcon } from "~/components/icons/XFeedIcon"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -50,28 +53,33 @@ export const SiteHeader: React.FC<{
 
   const moreMenuItems = [
     {
-      text: "View on Crossbell.io",
-      icon: <span className="i-bxs:bell inline-block"></span>,
-      url: CSB_IO && `${CSB_IO}/@${site?.username}`,
+      text: "View on xChar",
+      icon: <XCharIcon className="w-4 h-4" />,
+      url: `${CSB_XCHAR}/${site?.username}`,
+    },
+    {
+      text: "View on xFeed",
+      icon: <XFeedIcon className="w-4 h-4" />,
+      url: `${CSB_IO}/@${site?.username}`,
     },
     {
       text: "View on RSS3",
-      icon: <RSS3Icon />,
+      icon: <RSS3Icon className="w-4 h-4 rounded" />,
       url: `https://rss3.io/result?search=${site?.username}.csb`,
     },
     {
-      text: "View on blockchain explorer",
-      icon: <BlockchainIcon />,
+      text: "View on Crossbell Scan",
+      icon: <BlockchainIcon className="fill-[#c09526]" />,
       url: `${CSB_SCAN}/address/${site?.metadata?.owner}`,
     },
     {
       text: "JSON Feed",
-      icon: <RssIcon className="w-4 h-4" />,
+      icon: <RssIcon className="w-4 h-4 text-[#ee832f]" />,
       url: `/feed`,
     },
     {
       text: "RSS",
-      icon: <RssIcon className="w-4 h-4" />,
+      icon: <RssIcon className="w-4 h-4 text-[#ee832f]" />,
       url: `/feed/xml`,
     },
   ]
@@ -136,8 +144,8 @@ export const SiteHeader: React.FC<{
                   >
                     <EllipsisHorizontalIcon className="w-5 h-5" />
                   </Button>
-                  <div className="absolute hidden right-0 sm:left-0 pt-2 group-hover:block top-full z-10 text-gray-600 w-60">
-                    <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
+                  <div className="absolute hidden right-0 sm:left-0 pt-2 group-hover:block top-full z-10 text-gray-600 w-52">
+                    <div className="bg-white rounded-lg ring-1 ring-zinc-100 shadow-md py-2 text-sm">
                       {moreMenuItems.map((item) => {
                         return (
                           <UniLink
