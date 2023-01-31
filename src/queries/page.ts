@@ -34,7 +34,7 @@ export const useGetPagesBySiteLite = (
       ).json()
       return result
     },
-    getNextPageParam: (lastPage) => lastPage.cursor,
+    getNextPageParam: (lastPage) => lastPage.cursor || undefined,
   })
 }
 
@@ -53,7 +53,7 @@ export const useGetPagesBySite = (
         unidata,
       )
     },
-    getNextPageParam: (lastPage) => lastPage.cursor,
+    getNextPageParam: (lastPage) => lastPage.cursor || undefined,
   })
 }
 

@@ -39,7 +39,7 @@ export const prefetchGetPagesBySite = async (
         }),
       )
     },
-    getNextPageParam: (lastPage) => lastPage.cursor,
+    getNextPageParam: (lastPage) => lastPage.cursor || undefined,
   })
 }
 
