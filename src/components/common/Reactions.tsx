@@ -13,7 +13,7 @@ import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { useState, useEffect } from "react"
 import { Button } from "../ui/Button"
 import { useRouter } from "next/router"
-import { SITE_URL, CSB_SCAN } from "~/lib/env"
+import { SITE_URL, CSB_SCAN, CSB_XCHAR } from "~/lib/env"
 import { UniLink } from "~/components/ui/UniLink"
 import { Modal } from "~/components/ui/Modal"
 import { Avatar } from "../ui/Avatar"
@@ -312,12 +312,12 @@ export const Reactions: React.FC<{
           title="Like successfull"
         >
           <div className="p-5">
-            Your like has been permanently stored on the blockchain, view them{" "}
+            Your like has been stored on the blockchain, view it on{" "}
             <UniLink
               className="text-accent"
               href={`${CSB_SCAN}/tx/${isLike.data?.list?.[0]?.transactionHash}`}
             >
-              here
+              Crossbell Scan
             </UniLink>
           </div>
           <div className="h-16 border-t flex items-center px-5">
@@ -332,13 +332,19 @@ export const Reactions: React.FC<{
           title="Mint successfull"
         >
           <div className="p-5">
-            Your minting has been permanently stored on the blockchain, view
-            them{" "}
+            This post has been minted as NFT by you, view it on{" "}
+            <UniLink
+              className="text-accent"
+              href={`${CSB_XCHAR}/${userSite.data?.[0]?.username}/collections`}
+            >
+              xChar
+            </UniLink>{" "}
+            or{" "}
             <UniLink
               className="text-accent"
               href={`${CSB_SCAN}/tx/${isMint.data?.list?.[0]?.transactionHash}`}
             >
-              here
+              Crossbell Scan
             </UniLink>
           </div>
           <div className="h-16 border-t flex items-center px-5">
