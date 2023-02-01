@@ -10,9 +10,10 @@ export const Image: React.FC<
     width?: number | string
     height?: number | string
     "original-src"?: string
+    imageRef?: React.Ref<HTMLImageElement>
   } & React.HTMLAttributes<HTMLImageElement> &
     ImageProps
-> = ({ fill, className, alt, src, width, height, ...props }) => {
+> = ({ fill, className, alt, src, width, height, imageRef, ...props }) => {
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
   const [autoWidth, setAutoWidth] = React.useState(0)
@@ -48,6 +49,7 @@ export const Image: React.FC<
               setAutoWidth(naturalWidth)
             }
           }}
+          ref={imageRef}
         />
       </span>
     </span>

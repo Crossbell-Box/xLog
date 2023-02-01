@@ -17,7 +17,7 @@ import { RssIcon } from "@heroicons/react/24/solid"
 import { XCharIcon } from "~/components/icons/XCharIcon"
 import { XFeedIcon } from "~/components/icons/XFeedIcon"
 import { FastAverageColor } from "fast-average-color"
-import { useState } from "react"
+import { useState, useRef, useEffect, RefObject } from "react"
 import chroma from "chroma-js"
 
 export type HeaderLinkType = {
@@ -26,6 +26,8 @@ export type HeaderLinkType = {
   url?: string
   onClick?: () => void
 }
+
+const fac = new FastAverageColor()
 
 const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
   const router = useRouter()
@@ -89,27 +91,33 @@ export const SiteHeader: React.FC<{
     },
   ]
 
+  const avatarRef = useRef<HTMLImageElement>(null)
+  const bannerRef = useRef<HTMLImageElement | HTMLVideoElement>(null)
+
   const [averageColor, setAverageColor] = useState<string>()
-  const fac = new FastAverageColor()
-  if (site?.banners?.[0]?.address) {
-    fac
-      .getColorAsync(site?.banners?.[0]?.address)
-      .then((color) => {
-        setAverageColor(chroma(color.hex).hex())
-      })
-      .catch((e) => {
-        console.warn(e)
-      })
-  } else {
-    fac
-      .getColorAsync(site?.avatars?.[0] || "")
-      .then((color) => {
-        setAverageColor(chroma(color.hex).luminance(0.95).hex())
-      })
-      .catch((e) => {
-        console.warn(e)
-      })
-  }
+
+  useEffect(() => {
+    if (bannerRef?.current) {
+      console.log(bannerRef?.current)
+      fac
+        .getColorAsync(bannerRef.current)
+        .then((color) => {
+          setAverageColor(chroma(color.hex).hex())
+        })
+        .catch((e) => {
+          console.warn(e)
+        })
+    } else if (avatarRef?.current) {
+      fac
+        .getColorAsync(avatarRef.current)
+        .then((color) => {
+          setAverageColor(chroma(color.hex).luminance(0.95).hex())
+        })
+        .catch((e) => {
+          console.warn(e)
+        })
+    }
+  }, [bannerRef, avatarRef])
 
   return (
     <header className="xlog-header border-b border-zinc-100 relative">
@@ -128,6 +136,7 @@ export const SiteHeader: React.FC<{
                   src={site?.banners?.[0]?.address}
                   alt="banner"
                   fill
+                  imageRef={bannerRef as RefObject<HTMLImageElement>}
                 />
               )
             case "video":
@@ -138,6 +147,8 @@ export const SiteHeader: React.FC<{
                   autoPlay
                   muted
                   playsInline
+                  ref={bannerRef as RefObject<HTMLVideoElement>}
+                  crossOrigin="anonymous"
                 />
               )
             default:
@@ -155,6 +166,7 @@ export const SiteHeader: React.FC<{
                 images={[getUserContentsUrl(site?.avatars?.[0])]}
                 size={110}
                 name={site?.name}
+                imageRef={avatarRef}
               />
             )}
             <div>

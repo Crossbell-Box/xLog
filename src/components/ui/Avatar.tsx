@@ -9,8 +9,9 @@ export const Avatar: React.FC<
     name?: string | null
     size?: number
     rounded?: boolean
+    imageRef?: React.Ref<HTMLImageElement>
   } & React.HTMLAttributes<HTMLSpanElement>
-> = ({ images, size, name, className, rounded, ...props }) => {
+> = ({ images, size, name, className, rounded, imageRef, ...props }) => {
   size = size || 60
 
   const fontSize = size * 0.5
@@ -68,6 +69,7 @@ export const Avatar: React.FC<
         width={size}
         height={size}
         alt={name || ""}
+        imageRef={imageRef}
       />
     </span>
   )
