@@ -32,8 +32,10 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
       href={link.url}
       onClick={link.onClick}
       className={clsx(
-        `xlog-site-navigation-item h-10 flex items-center border-b-2 space-x-1 hover:border-gray-500 hover:text-gray-700 transition-colors`,
-        active ? `text-accent border-accent` : `border-transparent`,
+        `xlog-site-navigation-item h-10 flex items-center space-x-1 transition-colors relative after:content-[''] hover:after:w-full hover:after:left-0 after:transition-[width,left] after:h-[2px] after:block after:absolute after:bottom-0`,
+        active
+          ? `text-accent after:w-full after:left-0 after:bg-accent`
+          : `hover:text-gray-700 after:w-0 after:left-1/2 after:bg-gray-700`,
       )}
     >
       {link.icon && <span>{link.icon}</span>}
