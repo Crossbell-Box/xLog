@@ -12,6 +12,7 @@ import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
 import type { ReactElement } from "react"
+import { useUserRole } from "~/hooks/useUserRole"
 
 export default function SettingsDomainsPage() {
   const router = useRouter()
@@ -19,6 +20,7 @@ export default function SettingsDomainsPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
+  const userRole = useUserRole(subdomain)
 
   const isEmailAccount = useAccountState(
     (s) => s.computed.account?.type === "email",
@@ -84,7 +86,7 @@ export default function SettingsDomainsPage() {
             addon={`.${OUR_DOMAIN}`}
             className="w-28"
             {...form.register("subdomain")}
-            disabled={isEmailAccount}
+            disabled={isEmailAccount || userRole?.data === "operator"}
           />
           {isEmailAccount && (
             <div className="text-sm text-orange-400 mt-1">
@@ -107,6 +109,12 @@ export default function SettingsDomainsPage() {
                 upgrade account
               </span>
               .
+            </div>
+          )}
+          {userRole.data === "operator" && (
+            <div className="text-sm text-orange-400 mt-1">
+              Operators cannot change subdomain/handle. Please contact the site
+              owner.
             </div>
           )}
         </div>

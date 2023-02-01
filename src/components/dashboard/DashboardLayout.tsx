@@ -16,7 +16,7 @@ import {
   useShowNotificationModal,
   useNotifications,
 } from "@crossbell/notification"
-import { useIsOwner } from "~/hooks/useIsOwner"
+import { useUserRole } from "~/hooks/useUserRole"
 
 export function DashboardLayout({
   children,
@@ -30,13 +30,13 @@ export function DashboardLayout({
   const site = useGetSite(subdomain)
   const userSite = useAccountSites()
 
-  const isOwner = useIsOwner(subdomain)
+  const userRole = useUserRole(subdomain)
 
   useEffect(() => {
-    if (isOwner.isSuccess && !isOwner.data) {
+    if (userRole.isSuccess && !userRole.data) {
       router.push("/dashboard")
     }
-  }, [router, isOwner])
+  }, [router, userRole])
 
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()

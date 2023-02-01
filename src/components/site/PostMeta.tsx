@@ -8,7 +8,7 @@ import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { getSiteLink } from "~/lib/helpers"
 import { Avatar } from "~/components/ui/Avatar"
 import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline"
-import { useIsOwner } from "~/hooks/useIsOwner"
+import { useUserRole } from "~/hooks/useUserRole"
 
 export const PostMeta: React.FC<{
   page: Note
@@ -22,12 +22,12 @@ export const PostMeta: React.FC<{
   }, [])
 
   const [showEdit, setShowEdit] = useState(false)
-  const isOwner = useIsOwner(site?.username)
+  const userRole = useUserRole(site?.username)
   useEffect(() => {
-    if (isOwner.isSuccess && isOwner.data) {
+    if (userRole.isSuccess && userRole.data) {
       setShowEdit(true)
     }
-  }, [isOwner.isSuccess, isOwner.data])
+  }, [userRole.isSuccess, userRole.data])
 
   return (
     <div className="text-zinc-400 mt-4 xlog-post-meta space-x-5 flex items-center">

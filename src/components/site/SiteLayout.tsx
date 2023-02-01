@@ -10,7 +10,7 @@ import { useGetPage } from "~/queries/page"
 import { OUR_DOMAIN, SITE_URL } from "~/lib/env"
 import { IS_PROD } from "~/lib/constants"
 import { toGateway } from "~/lib/ipfs-parser"
-import { useIsOwner } from "~/hooks/useIsOwner"
+import { useUserRole } from "~/hooks/useUserRole"
 import { useGetSubscription } from "~/queries/site"
 import clsx from "clsx"
 import { useCheckLike, useCheckMint } from "~/queries/page"
@@ -45,7 +45,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   const site = useGetSite(domainOrSubdomain)
 
   const isConnected = useAccountState((s) => !!s.computed.account)
-  const isOwner = useIsOwner(domainOrSubdomain)
+  const userRole = useUserRole(domainOrSubdomain)
   const subscription = useGetSubscription(domainOrSubdomain)
   const isLike = useCheckLike({ pageId: page.data?.id })
   const isMint = useCheckMint(page.data?.id)
@@ -67,7 +67,8 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
       className={clsx({
         "xlog-user": true,
         "xlog-user-login": isConnected,
-        "xlog-user-site-owner": isOwner?.data,
+        "xlog-user-site-owner": userRole?.data === "owner",
+        "xlog-user-site-operator": userRole?.data === "operator",
         "xlog-user-site-follower": subscription?.data,
         "xlog-user-post-liker": isLike.data?.count,
         "xlog-user-post-minter": isMint?.data?.count,

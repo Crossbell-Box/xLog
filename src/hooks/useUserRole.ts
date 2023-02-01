@@ -3,7 +3,7 @@ import { useAccountSites } from "~/queries/site"
 import { useGetSite, useIsOperators } from "~/queries/site"
 import { useAccountState } from "@crossbell/connect-kit"
 
-export function useIsOwner(subdomain?: string) {
+export function useUserRole(subdomain?: string) {
   const site = useGetSite(subdomain)
 
   const userSite = useAccountSites()
@@ -14,6 +14,15 @@ export function useIsOwner(subdomain?: string) {
     operator: address,
   })
 
+  let role = null
+  if (subdomain && address) {
+    if (userSite.data?.find((site) => site.username === subdomain)) {
+      role = "owner"
+    } else if (isOperator.data) {
+      role = "operator"
+    }
+  }
+
   return {
     isSuccess:
       subdomain &&
@@ -21,11 +30,6 @@ export function useIsOwner(subdomain?: string) {
       site.isSuccess &&
       userSite.isSuccess &&
       isOperator.isSuccess,
-    data: !!(
-      subdomain &&
-      address &&
-      (userSite.data?.find((site) => site.username === subdomain) ||
-        isOperator.data)
-    ),
+    data: role,
   }
 }

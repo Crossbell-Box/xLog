@@ -17,6 +17,7 @@ import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
 import type { ReactElement } from "react"
+import { useUserRole } from "~/hooks/useUserRole"
 
 type RemoveItem = (operator: string) => void
 
@@ -67,6 +68,7 @@ export default function SettingsOperatorPage() {
     (s) => s.computed.account?.type === "email",
   )
   const upgradeAccountModal = useUpgradeAccountModal()
+  const userRole = useUserRole(subdomain)
 
   const [items, setItems] = useState<string[]>([])
 
@@ -165,7 +167,7 @@ export default function SettingsOperatorPage() {
         <p className="text-zinc-800 text-sm font-bold">⚠️ Warning:</p>
         <p>
           <span className="text-zinc-800">
-            {isEmailAccount ? (
+            {isEmailAccount && (
               <span>
                 Email users cannot set operators.{" "}
                 <UniLink
@@ -187,7 +189,14 @@ export default function SettingsOperatorPage() {
                 </span>
                 .
               </span>
-            ) : (
+            )}
+            {userRole.data === "operator" && (
+              <span>
+                Operators cannot set other operators. Please contact the site
+                owner.
+              </span>
+            )}
+            {!isEmailAccount && userRole.data !== "operator" && (
               <span>
                 Operators have permissions to enter your dashboard, change your
                 settings(excluding xLog subdomain) and post contents on your
@@ -197,7 +206,13 @@ export default function SettingsOperatorPage() {
           </span>
         </p>
       </div>
-      <div className={isEmailAccount ? `grayscale cursor-not-allowed` : ""}>
+      <div
+        className={
+          isEmailAccount || userRole.data === "operator"
+            ? `grayscale cursor-not-allowed`
+            : ""
+        }
+      >
         <div className="bg-zinc-50 rounded-lg overflow-hidden">
           {items.length === 0 && (
             <div className="text-center text-zinc-500 p-5">
@@ -211,7 +226,7 @@ export default function SettingsOperatorPage() {
                 item={item}
                 removeItem={removeItem}
                 isLoading={removeOperator.isLoading}
-                disabled={isEmailAccount}
+                disabled={isEmailAccount || userRole.data === "operator"}
               />
             )
           })}
@@ -222,7 +237,10 @@ export default function SettingsOperatorPage() {
           `}</style>
         </div>
         <div className="border-t pt-5 mt-10 space-x-3 flex items-center">
-          <Button onClick={newEmptyItem} isDisabled={isEmailAccount}>
+          <Button
+            onClick={newEmptyItem}
+            isDisabled={isEmailAccount || userRole.data === "operator"}
+          >
             Add
           </Button>
         </div>
