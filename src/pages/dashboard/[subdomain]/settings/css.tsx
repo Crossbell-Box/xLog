@@ -78,7 +78,7 @@ export default function SettingsCSSPage() {
             </p>
             <p>
               <span className="bg-zinc-200 rounded-lg px-2">
-                --banner-bg-color: #fff;
+                --banner-bg-color: #000;
               </span>
             </p>
             <p>

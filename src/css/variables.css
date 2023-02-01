@@ -6,7 +6,6 @@
   --theme-color-dark: theme("colors.indigo.700");
   --theme-color-emphasis: var(--theme-color-dark);
   --header-height: auto;
-  --banner-bg-color: #fff;
   /* Accent color for form controls */
   accent-color: var(--theme-color);
 }
