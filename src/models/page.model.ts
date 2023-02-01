@@ -238,7 +238,7 @@ export async function getPagesBySite(
       tags: [...(input.tags || []), ...(crossbell ? [] : [input.type])],
       applications: [...(crossbell ? [] : ["xlog"])],
     },
-    cursor: input.cursor,
+    ...(input.cursor && { cursor: input.cursor }),
   }
 
   let pages: Notes = {

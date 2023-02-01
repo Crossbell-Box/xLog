@@ -452,6 +452,7 @@ const xLogOperatorPermissions: CharacterOperatorPermission[] = [
   CharacterOperatorPermission.SET_NOTE_URI,
   CharacterOperatorPermission.DELETE_NOTE,
   CharacterOperatorPermission.POST_NOTE,
+  CharacterOperatorPermission.SET_CHARACTER_URI,
 ]
 
 export async function addOperator(
