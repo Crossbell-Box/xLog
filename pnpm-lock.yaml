@@ -34,6 +34,7 @@ specifiers:
   '@tanstack/react-query-devtools': 4.24.4
   '@tanstack/react-query-persist-client': 4.24.4
   '@types/canvas-confetti': ^1.6.0
+  '@types/chroma-js': ^2.1.4
   '@types/cookie': 0.5.1
   '@types/hast': 2.3.4
   '@types/js-yaml': 4.0.5
@@ -55,6 +56,7 @@ specifiers:
   autoprefixer: 10.4.13
   axios: 1.2.6
   canvas-confetti: ^1.6.0
+  chroma-js: ^2.4.2
   clsx: 1.2.1
   cross-spawn: 7.0.3
   crossbell.js: 0.16.3
@@ -66,6 +68,7 @@ specifiers:
   eslint: 8.33.0
   eslint-config-next: 13.1.6
   ethers: 5.7.2
+  fast-average-color: ^9.3.0
   fast-deep-equal: 3.1.3
   husky: 8.0.3
   idb-keyval: 6.2.0
@@ -155,12 +158,14 @@ dependencies:
   '@urql/core': 3.1.1
   axios: 1.2.6
   canvas-confetti: 1.6.0
+  chroma-js: 2.4.2
   clsx: 1.2.1
   crossbell.js: 0.16.3
   dayjs: 1.11.7
   dotenv: 16.0.3
   emoji-mart: 5.5.2
   ethers: 5.7.2
+  fast-average-color: 9.3.0
   fast-deep-equal: 3.1.3
   idb-keyval: 6.2.0
   immer: 9.0.19
@@ -221,6 +226,7 @@ devDependencies:
   '@playwright/test': 1.30.0
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.4
   '@types/canvas-confetti': 1.6.0
+  '@types/chroma-js': 2.1.4
   '@types/cookie': 0.5.1
   '@types/hast': 2.3.4
   '@types/js-yaml': 4.0.5
@@ -3964,6 +3970,10 @@ packages:
     resolution: {integrity: sha512-KnRanxnpfpjUTqTCXslZSEdLfXExwgNxYPdiO2WGUj8+HDjFi8R3k5RVKPeSCzLjCcshCAtVO2QBbVuAV4kTnw==}
     dev: true
 
+  /@types/chroma-js/2.1.4:
+    resolution: {integrity: sha512-l9hWzP7cp7yleJUI7P2acmpllTJNYf5uU6wh50JzSIZt3fFHe+w2FM6w9oZGBTYzjjm2qHdnQvI+fF/JF/E5jQ==}
+    dev: true
+
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
@@ -5854,6 +5864,10 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /chroma-js/2.4.2:
+    resolution: {integrity: sha512-U9eDw6+wt7V8z5NncY2jJfZa+hUH8XEj8FQHgFJTrUFnJfXYf4Ml4adI2vXZOjqRDpFWtYVWypDfZwnJ+HIR4A==}
+    dev: false
+
   /cipher-base/1.0.4:
     resolution: {integrity: sha512-Kkht5ye6ZGmwv40uUDZztayT2ThLQGfnj/T71N/XzeZeo3nf8foyW7zGTsPYkEya3m5f3cAypH+qe7YOrM1U2Q==}
     dependencies:
@@ -7400,6 +7414,11 @@ packages:
 
   /facepaint/1.2.1:
     resolution: {integrity: sha512-oNvBekbhsm/0PNSOWca5raHNAi6dG960Bx6LJgxDPNF59WpuspgQ17bN5MKwOr7JcFdQYc7StW3VZ28DBZLavQ==}
+    dev: false
+
+  /fast-average-color/9.3.0:
+    resolution: {integrity: sha512-FlPROSqDMOnoBgkFhWMHJODPvpS0Od0WDpedcKq4U/t0JVapGAkblNwxOr75qT+ZNd0dQM4qlgqrtnXbCJ8cNg==}
+    engines: {node: '>= 12'}
     dev: false
 
   /fast-deep-equal/3.1.3:
@@ -11163,7 +11182,7 @@ packages:
   /rxjs/7.8.0:
     resolution: {integrity: sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==}
     dependencies:
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: true
 
   /sade/1.8.1:
@@ -12002,10 +12021,6 @@ packages:
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
-
-  /tslib/2.4.1:
-    resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
-    dev: true
 
   /tslib/2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}

@@ -16,6 +16,9 @@ import { FollowingCount } from "~/components/common/FollowingCount"
 import { RssIcon } from "@heroicons/react/24/solid"
 import { XCharIcon } from "~/components/icons/XCharIcon"
 import { XFeedIcon } from "~/components/icons/XFeedIcon"
+import { FastAverageColor } from "fast-average-color"
+import { useState } from "react"
+import chroma from "chroma-js"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -86,26 +89,61 @@ export const SiteHeader: React.FC<{
     },
   ]
 
+  const [averageColor, setAverageColor] = useState<string>()
+  const fac = new FastAverageColor()
+  if (site?.banners?.[0]?.address) {
+    fac
+      .getColorAsync(site?.banners?.[0]?.address)
+      .then((color) => {
+        setAverageColor(chroma(color.hex).hex())
+      })
+      .catch((e) => {
+        console.warn(e)
+      })
+  } else {
+    fac
+      .getColorAsync(site?.avatars?.[0] || "")
+      .then((color) => {
+        setAverageColor(chroma(color.hex).luminance(0.95).hex())
+      })
+      .catch((e) => {
+        console.warn(e)
+      })
+  }
+
   return (
     <header className="xlog-header border-b border-zinc-100 relative">
-      <div className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden">
-        {site?.banners?.[0]?.mime_type.split("/")[0] === "image" && (
-          <Image
-            className="max-w-screen-md mx-auto object-cover"
-            src={site?.banners?.[0]?.address}
-            alt="banner"
-            fill
-          />
-        )}
-        {site?.banners?.[0]?.mime_type.split("/")[0] === "video" && (
-          <video
-            className="max-w-screen-md mx-auto object-cover h-full w-full"
-            src={site?.banners?.[0]?.address}
-            autoPlay
-            muted
-            playsInline
-          />
-        )}
+      <div
+        className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden"
+        style={{
+          backgroundColor: averageColor,
+        }}
+      >
+        {(() => {
+          switch (site?.banners?.[0]?.mime_type.split("/")[0]) {
+            case "image":
+              return (
+                <Image
+                  className="max-w-screen-md mx-auto object-cover"
+                  src={site?.banners?.[0]?.address}
+                  alt="banner"
+                  fill
+                />
+              )
+            case "video":
+              return (
+                <video
+                  className="max-w-screen-md mx-auto object-cover h-full w-full"
+                  src={site?.banners?.[0]?.address}
+                  autoPlay
+                  muted
+                  playsInline
+                />
+              )
+            default:
+              return null
+          }
+        })()}
       </div>
       <div className="px-5 max-w-screen-md mx-auto h-full relative flex items-center flex-col">
         <div className="mb-auto"></div>
@@ -115,17 +153,17 @@ export const SiteHeader: React.FC<{
               <Avatar
                 className="xlog-site-icon"
                 images={[getUserContentsUrl(site?.avatars?.[0])]}
-                size={100}
+                size={110}
                 name={site?.name}
               />
             )}
             <div>
-              <div className="xlog-site-name text-2xl font-bold text-zinc-900">
+              <div className="xlog-site-name text-3xl font-bold text-zinc-900 leading-snug">
                 {site?.name}
               </div>
               {site?.bio && (
                 <div
-                  className="xlog-site-description text-gray-500 text-xs leading-8"
+                  className="xlog-site-description text-gray-500 text-sm leading-snug my-1"
                   dangerouslySetInnerHTML={{ __html: site?.description || "" }}
                 ></div>
               )}
