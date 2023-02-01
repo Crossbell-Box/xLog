@@ -10,7 +10,7 @@ export type ToGatewayConfig = {
 export const toGateway = (url: string) => {
   const ipfsUrl = toIPFS(url)
 
-  return ipfsUrl.replaceAll(IPFS_PREFIX, IPFS_GATEWAY)
+  return ipfsUrl?.replaceAll(IPFS_PREFIX, IPFS_GATEWAY)
 }
 
 export const toIPFS = (url: string) => {
