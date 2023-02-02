@@ -51,7 +51,7 @@ specifiers:
   '@uiw/codemirror-extensions-events': 4.19.7
   '@uiw/react-codemirror': 4.19.7
   '@unocss/cli': 0.49.1
-  '@unocss/preset-icons': 0.49.1
+  '@unocss/preset-icons': 0.49.4
   '@urql/core': 3.1.1
   autoprefixer: 10.4.13
   axios: 1.2.6
@@ -241,7 +241,7 @@ devDependencies:
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 9.0.0
   '@unocss/cli': 0.49.1
-  '@unocss/preset-icons': 0.49.1
+  '@unocss/preset-icons': 0.49.4
   autoprefixer: 10.4.13
   cross-spawn: 7.0.3
   esbuild: 0.17.5
@@ -4308,6 +4308,10 @@ packages:
     resolution: {integrity: sha512-l+L1c8eCwfaQA1sAYDE+xJ+r9ocfyTo9KzRUOIy5eV/wxC82HoLtJN8wIGuWaY8fGQh/gT74Czfq7g7BFNKhaw==}
     dev: true
 
+  /@unocss/core/0.49.4:
+    resolution: {integrity: sha512-1RNV+KBgRo0uuaa5Etwc5cfxkdhJelIXRFz3LeXBOU4dIrTzBAMr352M+oZ/nnkbnAROGf3icTE0UcmSaCA2RQ==}
+    dev: true
+
   /@unocss/inspector/0.49.1:
     resolution: {integrity: sha512-oC/FOtOCcVP3Yp0me3/2+c/X5OVEnstFKmdEimuJB+z0G8j9l2SLHSqJfBMQm2TCH359sZkybk0kiMg5luwXPA==}
     dependencies:
@@ -4327,6 +4331,16 @@ packages:
       '@iconify/utils': 2.1.0
       '@unocss/core': 0.49.1
       ohmyfetch: 0.4.21
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@unocss/preset-icons/0.49.4:
+    resolution: {integrity: sha512-W+0zD1PlNXGSss3vy+RMKEVCl0Mncsyf58fv48YXzuKAldbyG9VeQ9hhs18nEL+1h4dQkSFMvoRqwJ053wVaeA==}
+    dependencies:
+      '@iconify/utils': 2.1.0
+      '@unocss/core': 0.49.4
+      ofetch: 0.4.21
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -9831,6 +9845,10 @@ packages:
     resolution: {integrity: sha512-ZNaury9r0NxaT2oL65GvdGDy+5PlSaHTovT6JV5tOW07k1TQmgC0olZETa4C9KZg0+6zBr99ctTYa3Utqj9P/Q==}
     dev: true
 
+  /node-fetch-native/1.0.1:
+    resolution: {integrity: sha512-VzW+TAk2wE4X9maiKMlT+GsPU4OMmR1U9CrHSmd3DFLn2IcZ9VJ6M6BBugGfYUnPCLSYxXdZy17M0BEJyhUTwg==}
+    dev: true
+
   /node-fetch/2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
     engines: {node: 4.x || >=6.0.0}
@@ -10022,6 +10040,15 @@ packages:
   /object_values/0.1.2:
     resolution: {integrity: sha512-tZgUiKLraVH+4OAedBYrr4/K6KmAQw2RPNd1AuNdhLsuz5WP3VB7WuiKBWbOcjeqqAjus2ChIIWC8dSfmg7ReA==}
     dev: false
+
+  /ofetch/0.4.21:
+    resolution: {integrity: sha512-ZSxLju8DFMTANmM18BTMqKkW6Q9vbjYwiV8EYKDzckBG05HQs7xYYf6E20yTvt0z932BToCryDToANhwwPzRhA==}
+    dependencies:
+      destr: 1.2.2
+      node-fetch-native: 1.0.1
+      ufo: 1.0.1
+      undici: 5.16.0
+    dev: true
 
   /ohmyfetch/0.4.21:
     resolution: {integrity: sha512-VG7f/JRvqvBOYvL0tHyEIEG7XHWm7OqIfAs6/HqwWwDfjiJ1g0huIpe5sFEmyb+7hpFa1EGNH2aERWR72tlClw==}
