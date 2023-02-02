@@ -10,7 +10,8 @@ import {
   useFocus,
   useRole,
   useDismiss,
-} from "@floating-ui/react-dom-interactions"
+  useTransitionStyles,
+} from "@floating-ui/react"
 import { CharacterCard } from "~/components/common/CharacterCard"
 
 export const CharacterFloatCard: React.FC<{
@@ -19,7 +20,7 @@ export const CharacterFloatCard: React.FC<{
 }> = ({ siteId, children }) => {
   const [open, setOpen] = useState(false)
 
-  const { x, y, reference, floating, strategy, context } = useFloating({
+  const { x, y, refs, strategy, context } = useFloating({
     placement: "bottom-start",
     open,
     onOpenChange: setOpen,
@@ -34,31 +35,38 @@ export const CharacterFloatCard: React.FC<{
     useDismiss(context),
   ])
 
+  const { isMounted, styles } = useTransitionStyles(context, {
+    duration: 100,
+  })
+
   const [buttonLoading, setButtonLoading] = useState(false)
 
   return (
-    <span {...getReferenceProps({ ref: reference, ...children.props })}>
-      {children}
-      {
-        <span
-          {...getFloatingProps({
-            ref: floating,
-            className:
-              "z-10 block w-80" + (open || buttonLoading ? "" : " hidden"),
-            style: {
-              position: strategy,
-              top: y ?? "0",
-              left: x ?? "0",
-            },
-          })}
+    <>
+      <div ref={refs.setReference} {...getReferenceProps()}>
+        {children}
+      </div>
+      {isMounted && (
+        <div
+          ref={refs.setFloating}
+          className={
+            "z-10 block w-80" + (open || buttonLoading ? "" : " hidden")
+          }
+          style={{
+            position: strategy,
+            top: y ?? "0",
+            left: x ?? "0",
+            ...styles,
+          }}
+          {...getFloatingProps()}
         >
           <CharacterCard
             siteId={siteId}
             open={open}
             setButtonLoading={setButtonLoading}
           />
-        </span>
-      }
-    </span>
+        </div>
+      )}
+    </>
   )
 }

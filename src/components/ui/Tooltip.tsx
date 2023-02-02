@@ -11,7 +11,8 @@ import {
   useFocus,
   useRole,
   useDismiss,
-} from "@floating-ui/react-dom-interactions"
+  useTransitionStyles,
+} from "@floating-ui/react"
 
 interface Props {
   label: string
@@ -22,7 +23,7 @@ interface Props {
 export const Tooltip = ({ children, label, placement = "top" }: Props) => {
   const [open, setOpen] = useState(false)
 
-  const { x, y, reference, floating, strategy, context } = useFloating({
+  const { x, y, refs, strategy, context } = useFloating({
     placement,
     open,
     onOpenChange: setOpen,
@@ -37,23 +38,26 @@ export const Tooltip = ({ children, label, placement = "top" }: Props) => {
     useDismiss(context),
   ])
 
+  const { isMounted, styles } = useTransitionStyles(context, {
+    duration: 100,
+  })
+
   return (
     <>
-      {cloneElement(
-        children,
-        getReferenceProps({ ref: reference, ...children.props }),
-      )}
-      {open && (
+      <div ref={refs.setReference} {...getReferenceProps()}>
+        {children}
+      </div>
+      {isMounted && (
         <div
-          {...getFloatingProps({
-            ref: floating,
-            className: "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1",
-            style: {
-              position: strategy,
-              top: y ?? "",
-              left: x ?? "",
-            },
-          })}
+          ref={refs.setFloating}
+          className="bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1"
+          style={{
+            position: strategy,
+            top: y ?? "0",
+            left: x ?? "0",
+            ...styles,
+          }}
+          {...getFloatingProps()}
         >
           {label}
         </div>
