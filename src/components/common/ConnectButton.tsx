@@ -23,6 +23,7 @@ import {
   useNotifications,
 } from "@crossbell/notification"
 import { useAccountBalance } from "~/hooks/use-account-balance"
+import { Menu } from "~/components/ui/Menu"
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -127,85 +128,92 @@ export const ConnectButton: React.FC<{
         }
         return (
           <div
-            className="relative group"
+            className="relative"
             style={{ gap: 12, height: avatarSize + "px" }}
           >
             {userSites.isSuccess ? (
               <>
-                <button
-                  className="flex items-center w-full"
-                  type="button"
-                  aria-label="connector"
-                >
-                  <Avatar
-                    className="align-middle mr-2"
-                    images={userSites.data?.[0]?.avatars || []}
-                    name={userSites.data?.[0]?.name}
-                    size={avatarSize}
-                  />
-                  <div className="flex-1 flex flex-col min-w-0">
-                    <span
-                      className={`text-left leading-none font-medium truncate ${
-                        InsufficientBalance ? "text-red-600" : "text-gray-600"
-                      } ${size === "base" ? "text-base" : "text-sm"}`}
-                      style={{ marginBottom: "0.15rem" }}
+                <Menu
+                  placement="bottom-end"
+                  target={
+                    <button
+                      className="flex items-center w-full"
+                      type="button"
+                      aria-label="connector"
                     >
-                      {userSites.data?.[0]?.name ||
-                        getAccountDisplayName(account)}
-                    </span>
-                    {userSites.data?.[0]?.username && (
-                      <span
-                        className={`text-left leading-none ${
-                          sizeDecrease === "sm" ? "text-sm" : "text-xs"
-                        } truncate ${
-                          InsufficientBalance ? "text-red-400" : "text-gray-400"
-                        }`}
-                      >
-                        {"@" + userSites.data?.[0]?.username ||
-                          getAccountDisplayName(account)}
-                      </span>
-                    )}
-                  </div>
-                </button>
-                <div
-                  className={`absolute hidden ${
-                    left ? "left" : "right"
-                  }-0 pt-2 group-hover:block top-full z-10 text-gray-600`}
-                >
-                  <div
-                    className={`bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 ${
-                      size === "base" ? "text-base" : "text-sm"
-                    }`}
-                  >
-                    {InsufficientBalance && (
-                      <UniLink
-                        href="https://faucet.crossbell.io/"
-                        className="text-red-600 px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
-                      >
-                        <span className="mr-2 fill-red-600 i-bxs:bell"></span>
-                        Insufficient $CSB balance ({balance?.formatted})
-                      </UniLink>
-                    )}
-                    {dropdownLinks.map((link, i) => {
-                      return (
-                        <UniLink
-                          key={i}
-                          href={link.url}
-                          onClick={link.onClick}
-                          className={`${
-                            size === "base" ? "pl-5 pr-6 h-11" : "pl-4 pr-5 h-9"
-                          } flex items-center w-full whitespace-nowrap hover:bg-zinc-100`}
-                          aria-label={link.label}
+                      <Avatar
+                        className="align-middle mr-2"
+                        images={userSites.data?.[0]?.avatars || []}
+                        name={userSites.data?.[0]?.name}
+                        size={avatarSize}
+                      />
+                      <div className="flex-1 flex flex-col min-w-0">
+                        <span
+                          className={`text-left leading-none font-medium truncate ${
+                            InsufficientBalance
+                              ? "text-red-600"
+                              : "text-gray-600"
+                          } ${size === "base" ? "text-base" : "text-sm"}`}
+                          style={{ marginBottom: "0.15rem" }}
                         >
-                          <span className="mr-2 flex justify-center">
-                            {link.icon}
+                          {userSites.data?.[0]?.name ||
+                            getAccountDisplayName(account)}
+                        </span>
+                        {userSites.data?.[0]?.username && (
+                          <span
+                            className={`text-left leading-none ${
+                              sizeDecrease === "sm" ? "text-sm" : "text-xs"
+                            } truncate ${
+                              InsufficientBalance
+                                ? "text-red-400"
+                                : "text-gray-400"
+                            }`}
+                          >
+                            {"@" + userSites.data?.[0]?.username ||
+                              getAccountDisplayName(account)}
                           </span>
-                          {link.label}
+                        )}
+                      </div>
+                    </button>
+                  }
+                  dropdown={
+                    <div
+                      className={`text-gray-600 bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 ${
+                        size === "base" ? "text-base" : "text-sm"
+                      } mt-1`}
+                    >
+                      {InsufficientBalance && (
+                        <UniLink
+                          href="https://faucet.crossbell.io/"
+                          className="text-red-600 px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
+                        >
+                          <span className="mr-2 fill-red-600 i-bxs:bell"></span>
+                          Insufficient $CSB balance ({balance?.formatted})
                         </UniLink>
-                      )
-                    })}
-                  </div>
-                </div>
+                      )}
+                      {dropdownLinks.map((link, i) => {
+                        return (
+                          <UniLink
+                            key={i}
+                            href={link.url}
+                            onClick={link.onClick}
+                            className={`${
+                              size === "base"
+                                ? "pl-5 pr-6 h-11"
+                                : "pl-4 pr-5 h-9"
+                            } flex items-center w-full whitespace-nowrap hover:bg-zinc-100`}
+                            aria-label={link.label}
+                          >
+                            <span className="mr-2 flex justify-center">
+                              {link.icon}
+                            </span>
+                            {link.label}
+                          </UniLink>
+                        )
+                      })}
+                    </div>
+                  }
+                />
               </>
             ) : (
               ""

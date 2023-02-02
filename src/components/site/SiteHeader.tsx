@@ -19,6 +19,7 @@ import { XFeedIcon } from "~/components/icons/XFeedIcon"
 import { FastAverageColor } from "fast-average-color"
 import { useState, useRef, useEffect, RefObject } from "react"
 import chroma from "chroma-js"
+import { Menu } from "~/components/ui/Menu"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
@@ -183,37 +184,35 @@ export const SiteHeader: React.FC<{
                 <FollowingCount siteId={site?.username} />
                 <FollowingButton
                   site={site}
-                  className="text-accent mr-5 min-[438px]:mx-5"
+                  className="text-accent mr-1 min-[438px]:ml-5 min-[438px]:mr-3"
                   variant="text"
                 />
-                <div className="relative inline-block align-middle h-7 group">
-                  <Button
-                    variant="text"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                    }}
-                    aria-label="more"
-                  >
-                    <EllipsisHorizontalIcon className="w-5 h-5" />
-                  </Button>
-                  <div className="absolute hidden right-0 sm:left-0 pt-2 group-hover:block top-full z-10 text-gray-600 w-52">
-                    <div className="bg-white rounded-lg ring-1 ring-zinc-100 shadow-md py-2 text-sm">
-                      {moreMenuItems.map((item) => {
-                        return (
-                          <UniLink
-                            key={item.text}
-                            href={item.url}
-                            className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
-                          >
-                            <span className="fill-gray-500 flex">
-                              {item.icon}
-                            </span>
-                            <span>{item.text}</span>
-                          </UniLink>
-                        )
-                      })}
-                    </div>
-                  </div>
+                <div className="relative inline-block align-middle">
+                  <Menu
+                    target={
+                      <Button variant="text" aria-label="more">
+                        <EllipsisHorizontalIcon className="w-5 h-5 mx-2" />
+                      </Button>
+                    }
+                    dropdown={
+                      <div className="text-gray-600 bg-white rounded-lg ring-1 ring-zinc-100 shadow-md py-2 text-sm">
+                        {moreMenuItems.map((item) => {
+                          return (
+                            <UniLink
+                              key={item.text}
+                              href={item.url}
+                              className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
+                            >
+                              <span className="fill-gray-500 flex">
+                                {item.icon}
+                              </span>
+                              <span>{item.text}</span>
+                            </UniLink>
+                          )
+                        })}
+                      </div>
+                    }
+                  />
                 </div>
               </div>
             </div>
