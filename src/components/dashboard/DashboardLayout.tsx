@@ -117,7 +117,11 @@ export function DashboardLayout({
                   </div>
                 )}
               <div className="mb-2 px-5 pt-3 pb-2">
-                <ConnectButton left={true} size="base" />
+                <ConnectButton
+                  left={true}
+                  size="base"
+                  hideNotification={true}
+                />
               </div>
 
               <div className="px-3 space-y-[2px] text-zinc-500">

@@ -14,7 +14,9 @@ import { useEffect, useState } from "react"
 import {
   Square2StackIcon,
   ArrowRightOnRectangleIcon,
+  BellIcon,
 } from "@heroicons/react/24/outline"
+import { BellAlertIcon } from "@heroicons/react/24/solid"
 import { BigNumber } from "ethers"
 import { SITE_URL } from "~/lib/env"
 import { useRefCallback } from "@crossbell/util-hooks"
@@ -29,7 +31,8 @@ export const ConnectButton: React.FC<{
   left?: boolean
   variant?: "text" | "primary" | "secondary" | "like" | "collect" | "crossbell"
   size?: "base" | "sm"
-}> = ({ left, variant, size = "sm" }) => {
+  hideNotification?: boolean
+}> = ({ left, variant, size = "sm", hideNotification }) => {
   let avatarSize
   let sizeDecrease
   switch (size) {
@@ -62,17 +65,6 @@ export const ConnectButton: React.FC<{
       icon: <Square2StackIcon className="w-4 h-4" />,
       label: copyLabelDisplay,
       onClick: copyLabel,
-    },
-    {
-      icon: (
-        <span
-          className={
-            (isAllRead ? "i-bi:bell" : "i-bi:bell-fill") + " inline-block"
-          }
-        />
-      ),
-      label: isAllRead ? "Notifications" : "Unread notifications",
-      onClick: showNotificationModal,
     },
     {
       icon: <DashboardIcon />,
@@ -128,11 +120,30 @@ export const ConnectButton: React.FC<{
         }
         return (
           <div
-            className="relative"
-            style={{ gap: 12, height: avatarSize + "px" }}
+            className="relative flex items-center space-x-2"
+            style={{ height: avatarSize + "px" }}
           >
             {userSites.isSuccess ? (
               <>
+                {!hideNotification && (
+                  <>
+                    {isAllRead ? (
+                      <BellIcon
+                        className="w-5 h-5 text-zinc-500 cursor-pointer"
+                        onClick={showNotificationModal}
+                      />
+                    ) : (
+                      <BellAlertIcon
+                        className="w-5 h-5 text-accent cursor-pointer"
+                        onClick={showNotificationModal}
+                      />
+                    )}
+
+                    <div className="h-full w-[2px] py-1">
+                      <div className="w-full h-full bg-zinc-200 rounded-full"></div>
+                    </div>
+                  </>
+                )}
                 <Menu
                   placement="bottom-end"
                   target={
