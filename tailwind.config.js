@@ -19,6 +19,43 @@ module.exports = {
       fontFamily: {
         mono: `Roboto Mono,Monaco,monospace`,
       },
+      keyframes: {
+        "buzz-out": {
+          "10%": {
+            transform: "translateX(3px) rotate(2deg)",
+          },
+          "20%": {
+            transform: "translateX(-3px) rotate(-2deg)",
+          },
+          "30%": {
+            transform: "translateX(3px) rotate(2deg)",
+          },
+          "40%": {
+            transform: "translateX(-3px) rotate(-2deg)",
+          },
+          "50%": {
+            transform: "translateX(2px) rotate(1deg)",
+          },
+          "60%": {
+            transform: "translateX(-2px) rotate(-1deg)",
+          },
+          "70%": {
+            transform: "translateX(2px) rotate(1deg)",
+          },
+          "80%": {
+            transform: "translateX(-2px) rotate(-1deg)",
+          },
+          "90%": {
+            transform: "translateX(1px) rotate(0)",
+          },
+          "100%": {
+            transform: "translateX(-1px) rotate(0)",
+          },
+        },
+      },
+      animation: {
+        "buzz-out": "buzz-out .75s linear 1",
+      },
     },
   },
   variants: {},
