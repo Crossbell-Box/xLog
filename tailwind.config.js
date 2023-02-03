@@ -12,6 +12,7 @@ module.exports = {
         border: "var(--border-color)",
         accent: "var(--theme-color)",
         "accent-emphasis": "var(--theme-color-emphasis)",
+        hover: "var(--hover-color)",
       },
       spacing: {
         sidebar: `240px`,

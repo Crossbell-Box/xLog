@@ -38,7 +38,7 @@ export const SiteHome: React.FC<{
                 <Link
                   key={post.id}
                   href={`/${post.slug || post.id}`}
-                  className="xlog-post sm:hover:bg-zinc-100 bg-white transition-colors px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
+                  className="xlog-post sm:hover:bg-hover bg-white transition-all px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
                 >
                   <div className="flex-1 flex justify-center flex-col w-full min-w-0">
                     <h3 className="xlog-post-title text-2xl font-bold">
@@ -108,7 +108,7 @@ export const SiteHome: React.FC<{
       )}
       {hasNextPage && (
         <Button
-          className="mt-8 w-full hover:bg-zinc-100 bg-zinc-50 transition-colors text-sm"
+          className="mt-8 w-full hover:bg-hover bg-zinc-50 transition-colors text-sm"
           variant="text"
           onClick={fetchNextPage}
           isLoading={isFetchingNextPage}

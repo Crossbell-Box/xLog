@@ -207,7 +207,7 @@ export const ConnectButton: React.FC<{
                       {InsufficientBalance && (
                         <UniLink
                           href="https://faucet.crossbell.io/"
-                          className="text-red-600 px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
+                          className="text-red-600 px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-hover"
                         >
                           <span className="mr-2 fill-red-600 i-bxs:bell"></span>
                           Insufficient $CSB balance ({balance?.formatted})
@@ -223,7 +223,7 @@ export const ConnectButton: React.FC<{
                               size === "base"
                                 ? "pl-5 pr-6 h-11"
                                 : "pl-4 pr-5 h-9"
-                            } flex items-center w-full whitespace-nowrap hover:bg-zinc-100`}
+                            } flex items-center w-full whitespace-nowrap hover:bg-hover`}
                             aria-label={link.label}
                           >
                             <span className="mr-2 flex justify-center">

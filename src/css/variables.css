@@ -8,4 +8,5 @@
   --header-height: auto;
   /* Accent color for form controls */
   accent-color: var(--theme-color);
+  --hover-color: theme("colors.zinc.100");
 }

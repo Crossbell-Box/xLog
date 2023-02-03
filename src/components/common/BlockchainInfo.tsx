@@ -17,7 +17,7 @@ export const BlockchainInfo: React.FC<{
         {({ open }: { open: boolean }) => (
           <>
             <Disclosure.Button
-              className="flex w-full justify-between rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-zinc-100 transition-colors md:rounded-xl"
+              className="flex w-full justify-between rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-hover transition-colors md:rounded-xl"
               aria-label="toggle chain info"
             >
               <span>

@@ -103,7 +103,7 @@ export const SiteArchives: React.FC<{
                       <Link
                         key={post.id}
                         href={`/${post.slug || post.id}`}
-                        className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-zinc-100"
+                        className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-hover"
                       >
                         <span className="text-zinc-700">{post.title}</span>
                         <span className="text-zinc-400 mr-3 whitespace-nowrap">
@@ -117,7 +117,7 @@ export const SiteArchives: React.FC<{
             })}
             {hasNextPage && (
               <Button
-                className="mt-8 w-full hover:bg-zinc-100 bg-zinc-50 transition-colors text-sm"
+                className="mt-8 w-full hover:bg-hover bg-zinc-50 transition-colors text-sm"
                 variant="text"
                 onClick={fetchNextPage}
                 isLoading={isFetchingNextPage}

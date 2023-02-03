@@ -96,14 +96,15 @@ export const SiteHeader: React.FC<{
   const bannerRef = useRef<HTMLImageElement | HTMLVideoElement>(null)
 
   const [averageColor, setAverageColor] = useState<string>()
+  const [hoverColor, setHoverColor] = useState<string>()
 
   useEffect(() => {
     if (bannerRef?.current) {
-      console.log(bannerRef?.current)
       fac
         .getColorAsync(bannerRef.current)
         .then((color) => {
           setAverageColor(chroma(color.hex).hex())
+          setHoverColor(chroma(color.hex).luminance(0.9).hex())
         })
         .catch((e) => {
           console.warn(e)
@@ -113,6 +114,7 @@ export const SiteHeader: React.FC<{
         .getColorAsync(avatarRef.current)
         .then((color) => {
           setAverageColor(chroma(color.hex).luminance(0.95).hex())
+          setHoverColor(chroma(color.hex).luminance(0.9).hex())
         })
         .catch((e) => {
           console.warn(e)
@@ -122,10 +124,19 @@ export const SiteHeader: React.FC<{
 
   return (
     <header className="xlog-header border-b border-zinc-100 relative">
+      {averageColor && (
+        <style jsx global>{`
+          :root {
+            --hover-color: ${hoverColor};
+          }
+        `}</style>
+      )}
       <div
         className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden"
         style={{
-          backgroundColor: `var(--banner-bg-color, ${averageColor})`,
+          backgroundColor: averageColor
+            ? `var(--banner-bg-color, ${averageColor})`
+            : undefined,
         }}
       >
         {(() => {
@@ -202,7 +213,7 @@ export const SiteHeader: React.FC<{
                               <UniLink
                                 key={item.text}
                                 href={item.url}
-                                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
+                                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-hover"
                               >
                                 <span className="fill-gray-500 flex">
                                   {item.icon}
