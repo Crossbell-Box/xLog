@@ -44,7 +44,11 @@ export const Tooltip = ({ children, label, placement = "top" }: Props) => {
 
   return (
     <>
-      <div ref={refs.setReference} {...getReferenceProps()}>
+      <div
+        ref={refs.setReference}
+        {...getReferenceProps()}
+        className="flex items-center"
+      >
         {children}
       </div>
       {isMounted && (
