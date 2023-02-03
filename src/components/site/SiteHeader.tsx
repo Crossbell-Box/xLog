@@ -182,37 +182,39 @@ export const SiteHeader: React.FC<{
               )}
               <div className="xlog-site-others text-sm">
                 <FollowingCount siteId={site?.username} />
-                <FollowingButton
-                  site={site}
-                  className="text-accent mr-1 min-[438px]:ml-5 min-[438px]:mr-3"
-                  variant="text"
-                />
-                <div className="relative inline-block align-middle">
-                  <Menu
-                    target={
-                      <Button variant="text" aria-label="more">
-                        <EllipsisHorizontalIcon className="w-5 h-5 mx-2" />
-                      </Button>
-                    }
-                    dropdown={
-                      <div className="text-gray-600 bg-white rounded-lg ring-1 ring-zinc-100 shadow-md py-2 text-sm">
-                        {moreMenuItems.map((item) => {
-                          return (
-                            <UniLink
-                              key={item.text}
-                              href={item.url}
-                              className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
-                            >
-                              <span className="fill-gray-500 flex">
-                                {item.icon}
-                              </span>
-                              <span>{item.text}</span>
-                            </UniLink>
-                          )
-                        })}
-                      </div>
-                    }
+                <div className="sm:inline-block">
+                  <FollowingButton
+                    site={site}
+                    className="text-accent mr-1 sm:ml-5 sm:mr-3"
+                    variant="text"
                   />
+                  <div className="relative inline-block align-middle">
+                    <Menu
+                      target={
+                        <Button variant="text" aria-label="more">
+                          <EllipsisHorizontalIcon className="w-5 h-5 mx-2" />
+                        </Button>
+                      }
+                      dropdown={
+                        <div className="text-gray-600 bg-white rounded-lg ring-1 ring-zinc-100 shadow-md py-2 text-sm">
+                          {moreMenuItems.map((item) => {
+                            return (
+                              <UniLink
+                                key={item.text}
+                                href={item.url}
+                                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
+                              >
+                                <span className="fill-gray-500 flex">
+                                  {item.icon}
+                                </span>
+                                <span>{item.text}</span>
+                              </UniLink>
+                            )
+                          })}
+                        </div>
+                      }
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -225,7 +227,7 @@ export const SiteHeader: React.FC<{
             })}
           </div>
           <div className="mb-[2px] pl-1">
-            <ConnectButton variant="text" />
+            <ConnectButton variant="text" mobileSimplification={true} />
           </div>
         </div>
       </div>

@@ -32,7 +32,14 @@ export const ConnectButton: React.FC<{
   variant?: "text" | "primary" | "secondary" | "like" | "collect" | "crossbell"
   size?: "base" | "sm"
   hideNotification?: boolean
-}> = ({ left, variant, size = "sm", hideNotification }) => {
+  mobileSimplification?: boolean
+}> = ({
+  left,
+  variant,
+  size = "sm",
+  hideNotification,
+  mobileSimplification,
+}) => {
   let avatarSize
   let sizeDecrease
   switch (size) {
@@ -129,12 +136,12 @@ export const ConnectButton: React.FC<{
                   <>
                     {isAllRead ? (
                       <BellIcon
-                        className="w-5 h-5 text-zinc-500 cursor-pointer hover:animate-buzz-out"
+                        className="w-5 h-5 text-zinc-500 cursor-pointer sm:hover:animate-buzz-out"
                         onClick={showNotificationModal}
                       />
                     ) : (
                       <BellAlertIcon
-                        className="w-5 h-5 text-accent cursor-pointer hover:animate-buzz-out"
+                        className="w-5 h-5 text-accent cursor-pointer sm:hover:animate-buzz-out"
                         onClick={showNotificationModal}
                       />
                     )}
@@ -148,17 +155,21 @@ export const ConnectButton: React.FC<{
                   placement="bottom-end"
                   target={
                     <button
-                      className="flex items-center w-full"
+                      className="flex items-center w-full space-x-2"
                       type="button"
                       aria-label="connector"
                     >
                       <Avatar
-                        className="align-middle mr-2"
+                        className="align-middle"
                         images={userSites.data?.[0]?.avatars || []}
                         name={userSites.data?.[0]?.name}
                         size={avatarSize}
                       />
-                      <div className="flex-1 flex flex-col min-w-0">
+                      <div
+                        className={`flex-1 flex-col min-w-0 ${
+                          mobileSimplification ? "hidden sm:flex" : "flex"
+                        }`}
+                      >
                         <span
                           className={`text-left leading-none font-medium truncate ${
                             InsufficientBalance

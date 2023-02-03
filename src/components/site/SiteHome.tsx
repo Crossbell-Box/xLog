@@ -38,7 +38,7 @@ export const SiteHome: React.FC<{
                 <Link
                   key={post.id}
                   href={`/${post.slug || post.id}`}
-                  className="xlog-post hover:bg-zinc-100 bg-white transition-colors px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
+                  className="xlog-post sm:hover:bg-zinc-100 bg-white transition-colors px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
                 >
                   <div className="flex-1 flex justify-center flex-col w-full min-w-0">
                     <h3 className="xlog-post-title text-2xl font-bold">
@@ -91,7 +91,7 @@ export const SiteHome: React.FC<{
                     </div>
                   </div>
                   {post.cover && (
-                    <div className="xlog-post-cover flex items-center relative w-full sm:w-24 h-24 mt-2 sm:ml-4 sm:mt-0">
+                    <div className="xlog-post-cover flex items-center relative w-full sm:w-24 h-40 sm:h-24 mt-2 sm:ml-4 sm:mt-0">
                       <Image
                         className="object-cover rounded"
                         alt="cover"
