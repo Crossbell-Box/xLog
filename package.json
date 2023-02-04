@@ -79,7 +79,7 @@
     "rehype-autolink-headings": "6.1.1",
     "rehype-infer-description-meta": "^1.1.0",
     "rehype-katex": "^6.0.2",
-    "rehype-prism-plus": "1.5.0",
+    "rehype-prism-plus": "1.5.1",
     "rehype-raw": "6.1.1",
     "rehype-react": "7.1.2",
     "rehype-sanitize": "5.0.1",
