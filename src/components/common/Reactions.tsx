@@ -10,7 +10,7 @@ import {
 } from "~/queries/page"
 import { useAccountSites } from "~/queries/site"
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "../ui/Button"
 import { useRouter } from "next/router"
 import { SITE_URL, CSB_SCAN, CSB_XCHAR } from "~/lib/env"
@@ -22,6 +22,7 @@ import { getLikes, getMints, parsePageId } from "~/models/page.model"
 import { CharacterList } from "~/components/common/CharacterList"
 import clsx from "clsx"
 import { Tooltip } from "~/components/ui/Tooltip"
+import confetti from "canvas-confetti"
 
 export const Reactions: React.FC<{
   className?: string
@@ -38,10 +39,12 @@ export const Reactions: React.FC<{
   const [mintProgress, setMintProgress] = useState(false)
   const userSite = useAccountSites()
   const router = useRouter()
-  let [isLikeOpen, setIsLikeOpen] = useState(false)
-  let [isMintOpen, setIsMintOpen] = useState(false)
-  let [isLikeListOpen, setIsLikeListOpen] = useState(false)
-  let [isMintListOpen, setIsMintListOpen] = useState(false)
+  const [isLikeOpen, setIsLikeOpen] = useState(false)
+  const [isMintOpen, setIsMintOpen] = useState(false)
+  const [isLikeListOpen, setIsLikeListOpen] = useState(false)
+  const [isMintListOpen, setIsMintListOpen] = useState(false)
+  const likeRef = useRef<HTMLButtonElement>(null)
+  const mintRef = useRef<HTMLButtonElement>(null)
 
   const likes = useGetLikes({
     pageId: pageId,
@@ -70,6 +73,26 @@ export const Reactions: React.FC<{
     }
   }
 
+  useEffect(() => {
+    if (likePage.isSuccess) {
+      if (likeRef.current?.getBoundingClientRect()) {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: {
+            x:
+              (likeRef.current.getBoundingClientRect().left +
+                likeRef.current.getBoundingClientRect().width / 2 || 0.5) /
+              window.innerWidth,
+            y:
+              (likeRef.current.getBoundingClientRect().top || 0.5) /
+              window.innerHeight,
+          },
+        })
+      }
+    }
+  }, [likePage.isSuccess])
+
   const mint = async () => {
     if (!isConnected) {
       setMintProgress(true)
@@ -84,6 +107,32 @@ export const Reactions: React.FC<{
       }
     }
   }
+
+  useEffect(() => {
+    if (mintPage.isSuccess) {
+      if (mintRef.current?.getBoundingClientRect()) {
+        confetti({
+          particleCount: 150,
+          spread: 360,
+          ticks: 50,
+          gravity: 0,
+          decay: 0.94,
+          startVelocity: 30,
+          origin: {
+            x:
+              (mintRef.current.getBoundingClientRect().left +
+                mintRef.current.getBoundingClientRect().width / 2 || 0.5) /
+              window.innerWidth,
+            y:
+              (mintRef.current.getBoundingClientRect().top || 0.5) /
+              window.innerHeight,
+          },
+          shapes: ["star"],
+          colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+        })
+      }
+    }
+  }, [mintPage.isSuccess])
 
   useEffect(() => {
     if (
@@ -209,6 +258,7 @@ export const Reactions: React.FC<{
               unlikePage.isLoading ||
               likeProgress
             }
+            ref={likeRef}
           >
             <LikeIcon
               className={"mr-1 " + (size === "sm" ? "w-4 h-4" : "w-10 h-10")}
@@ -258,6 +308,7 @@ export const Reactions: React.FC<{
                 isAutoWidth={true}
                 onClick={mint}
                 isLoading={mintPage.isLoading || likeProgress}
+                ref={mintRef}
               >
                 <MintIcon
                   className={clsx(
