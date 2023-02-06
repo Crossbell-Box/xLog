@@ -7,7 +7,6 @@ import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { APP_NAME, OUR_DOMAIN } from "~/lib/env"
 import { useCreateSite } from "~/queries/site"
-import { BigNumber } from "ethers"
 import { UniLink } from "~/components/ui/UniLink"
 import { useAccountSites } from "~/queries/site"
 import { getSite } from "~/models/site.model"
@@ -38,9 +37,8 @@ export default function NewSitePage() {
     if (balance) {
       setBalanceFormatted(balance.formatted)
       if (
-        BigNumber.from(balance.value).gt(
-          BigNumber.from("1" + "0".repeat(balance.decimals - 2)),
-        )
+        BigInt(balance.value.toString()) >
+        BigInt("1" + "0".repeat(balance.decimals - 2))
       ) {
         setInsufficientBalance(false)
       } else {
