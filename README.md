@@ -1,11 +1,11 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/logo.svg" alt="xLog" width="100">
+<img src="https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/assets/logo.svg" alt="xLog" width="100">
 </p>
 <h1 align="center">xLog</h1>
 
 > An on-chain and open-source blogging platform for everyone.
 
-[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/ZzFdEkVP) [![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) [![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
+[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) [![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) [![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
 
 ## Features
 
