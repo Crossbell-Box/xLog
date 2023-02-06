@@ -18,6 +18,14 @@ const scheme = {
   attributes: {
     ...defaultSchema.attributes,
     div: [...(defaultSchema.attributes?.div || []), "className", "style", "id"],
+    img: [
+      ...(defaultSchema.attributes?.img || []),
+      "className",
+      "style",
+      "id",
+      "width",
+      "height",
+    ],
     code: ["className"],
     blockquote: allowedBlockquoteAttrs,
     video: [

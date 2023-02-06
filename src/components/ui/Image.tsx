@@ -18,8 +18,27 @@ export const Image: React.FC<
   const [paddingTop, setPaddingTop] = React.useState("0")
   const [autoWidth, setAutoWidth] = React.useState(0)
   const autoSize = !width && !height && !fill
+  const noOptimization = className?.includes("no-optimization")
 
-  return (
+  return noOptimization ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      {...props}
+      src={toGateway(src)}
+      className={className}
+      alt={alt}
+      width={width}
+      height={height}
+      onLoad={({ target }) => {
+        if (autoSize) {
+          const { naturalWidth, naturalHeight } = target as HTMLImageElement
+          setPaddingTop(`calc(100% / (${naturalWidth} / ${naturalHeight})`)
+          setAutoWidth(naturalWidth)
+        }
+      }}
+      ref={imageRef}
+    />
+  ) : (
     <span
       className="inline-block w-full h-full overflow-hidden"
       style={
