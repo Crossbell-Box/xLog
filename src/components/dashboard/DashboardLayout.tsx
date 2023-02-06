@@ -121,6 +121,7 @@ export function DashboardLayout({
                   left={true}
                   size="base"
                   hideNotification={true}
+                  hideName={!isOpen}
                 />
               </div>
 

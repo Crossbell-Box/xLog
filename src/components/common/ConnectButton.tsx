@@ -32,12 +32,14 @@ export const ConnectButton: React.FC<{
   size?: "base" | "sm"
   hideNotification?: boolean
   mobileSimplification?: boolean
+  hideName?: boolean
 }> = ({
   left,
   variant,
   size = "sm",
   hideNotification,
   mobileSimplification,
+  hideName,
 }) => {
   let avatarSize
   let sizeDecrease
@@ -167,37 +169,39 @@ export const ConnectButton: React.FC<{
                         name={userSites.data?.[0]?.name}
                         size={avatarSize}
                       />
-                      <div
-                        className={`flex-1 flex-col min-w-0 ${
-                          mobileSimplification ? "hidden sm:flex" : "flex"
-                        }`}
-                      >
-                        <span
-                          className={`text-left leading-none font-medium truncate ${
-                            InsufficientBalance
-                              ? "text-red-600"
-                              : "text-gray-600"
-                          } ${size === "base" ? "text-base" : "text-sm"}`}
-                          style={{ marginBottom: "0.15rem" }}
+                      {!hideName && (
+                        <div
+                          className={`flex-1 flex-col min-w-0 ${
+                            mobileSimplification ? "hidden sm:flex" : "flex"
+                          }`}
                         >
-                          {userSites.data?.[0]?.name ||
-                            getAccountDisplayName(account)}
-                        </span>
-                        {userSites.data?.[0]?.username && (
                           <span
-                            className={`text-left leading-none ${
-                              sizeDecrease === "sm" ? "text-sm" : "text-xs"
-                            } truncate ${
+                            className={`text-left leading-none font-medium truncate ${
                               InsufficientBalance
-                                ? "text-red-400"
-                                : "text-gray-400"
-                            }`}
+                                ? "text-red-600"
+                                : "text-gray-600"
+                            } ${size === "base" ? "text-base" : "text-sm"}`}
+                            style={{ marginBottom: "0.15rem" }}
                           >
-                            {"@" + userSites.data?.[0]?.username ||
+                            {userSites.data?.[0]?.name ||
                               getAccountDisplayName(account)}
                           </span>
-                        )}
-                      </div>
+                          {userSites.data?.[0]?.username && (
+                            <span
+                              className={`text-left leading-none ${
+                                sizeDecrease === "sm" ? "text-sm" : "text-xs"
+                              } truncate ${
+                                InsufficientBalance
+                                  ? "text-red-400"
+                                  : "text-gray-400"
+                              }`}
+                            >
+                              {"@" + userSites.data?.[0]?.username ||
+                                getAccountDisplayName(account)}
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </button>
                   }
                   dropdown={
