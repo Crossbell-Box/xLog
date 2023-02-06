@@ -17,7 +17,6 @@ import {
   BellIcon,
 } from "@heroicons/react/24/outline"
 import { BellAlertIcon } from "@heroicons/react/24/solid"
-import { BigNumber } from "ethers"
 import { SITE_URL } from "~/lib/env"
 import { useRefCallback } from "@crossbell/util-hooks"
 import {
@@ -90,9 +89,8 @@ export const ConnectButton: React.FC<{
   useEffect(() => {
     if (balance) {
       if (
-        BigNumber.from(balance.value).gt(
-          BigNumber.from("1" + "0".repeat(balance.decimals - 2)),
-        )
+        BigInt(balance.value.toString()) >
+        BigInt("1" + "0".repeat(balance.decimals - 2))
       ) {
         setInsufficientBalance(false)
       } else {
