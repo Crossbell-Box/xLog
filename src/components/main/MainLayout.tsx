@@ -60,7 +60,7 @@ export function MainLayout({
             >
               GitHub
             </UniLink>
-            <ConnectButton />
+            <ConnectButton size="base" />
           </div>
         </div>
       </header>

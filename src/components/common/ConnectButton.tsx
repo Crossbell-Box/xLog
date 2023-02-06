@@ -134,12 +134,16 @@ export const ConnectButton: React.FC<{
                   <>
                     {isAllRead ? (
                       <BellIcon
-                        className="w-5 h-5 text-zinc-500 cursor-pointer sm:hover:animate-buzz-out"
+                        className={`${
+                          size === "base" ? "w-6 h-6" : "w-5 h-5"
+                        } text-zinc-500 cursor-pointer sm:hover:animate-buzz-out`}
                         onClick={showNotificationModal}
                       />
                     ) : (
                       <BellAlertIcon
-                        className="w-5 h-5 text-accent cursor-pointer sm:hover:animate-buzz-out"
+                        className={`${
+                          size === "base" ? "w-6 h-6" : "w-5 h-5"
+                        } text-accent cursor-pointer sm:hover:animate-buzz-out`}
                         onClick={showNotificationModal}
                       />
                     )}
