@@ -279,22 +279,20 @@ export default function Home() {
                         }
                         className="inline-flex align-middle w-full"
                       >
-                        <span className="w-14 h-14">
-                          <CharacterFloatCard siteId={site.handle}>
-                            <span className="w-full h-full">
-                              <Image
-                                className="rounded-full"
-                                src={
-                                  site.metadata.content?.avatars?.[0] ||
-                                  "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
-                                }
-                                alt={site.handle}
-                                width="56"
-                                height="56"
-                              ></Image>
-                            </span>
-                          </CharacterFloatCard>
-                        </span>
+                        <CharacterFloatCard siteId={site.handle}>
+                          <span className="w-14 h-14 inline-block">
+                            <Image
+                              className="rounded-full"
+                              src={
+                                site.metadata.content?.avatars?.[0] ||
+                                "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
+                              }
+                              alt={site.handle}
+                              width="56"
+                              height="56"
+                            ></Image>
+                          </span>
+                        </CharacterFloatCard>
                         <span className="ml-3 min-w-0 flex-1 justify-center inline-flex flex-col">
                           <span className="truncate w-full inline-block font-medium">
                             {site.metadata.content?.name}
