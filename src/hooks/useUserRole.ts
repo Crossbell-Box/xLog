@@ -21,15 +21,15 @@ export function useUserRole(subdomain?: string) {
     } else if (isOperator.data) {
       role = "operator"
     }
-  }
 
-  return {
-    isSuccess:
-      subdomain &&
-      address &&
-      site.isSuccess &&
-      userSite.isSuccess &&
-      isOperator.isSuccess,
-    data: role,
+    return {
+      isSuccess: site.isSuccess && userSite.isSuccess && isOperator.isSuccess,
+      data: role,
+    }
+  } else {
+    return {
+      isSuccess: true,
+      data: null,
+    }
   }
 }
