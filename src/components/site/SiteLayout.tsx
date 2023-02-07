@@ -21,6 +21,7 @@ export type SiteLayoutProps = {
   title?: string | null
   siteId?: string
   useStat?: boolean
+  type: "index" | "post" | "tag" | "nft" | "404" | "archive"
 }
 
 export const SiteLayout: React.FC<SiteLayoutProps> = ({
@@ -28,6 +29,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   title,
   siteId,
   useStat,
+  type,
 }) => {
   const router = useRouter()
   const domainOrSubdomain = (router.query.site || siteId) as string
@@ -64,15 +66,18 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
 
   return (
     <div
-      className={clsx({
-        "xlog-user": true,
-        "xlog-user-login": isConnected,
-        "xlog-user-site-owner": userRole?.data === "owner",
-        "xlog-user-site-operator": userRole?.data === "operator",
-        "xlog-user-site-follower": subscription?.data,
-        "xlog-user-post-liker": isLike.data?.count,
-        "xlog-user-post-minter": isMint?.data?.count,
-      })}
+      className={clsx(
+        {
+          "xlog-user": true,
+          "xlog-user-login": isConnected,
+          "xlog-user-site-owner": userRole?.data === "owner",
+          "xlog-user-site-operator": userRole?.data === "operator",
+          "xlog-user-site-follower": subscription?.data,
+          "xlog-user-post-liker": isLike.data?.count,
+          "xlog-user-post-minter": isMint?.data?.count,
+        },
+        `xlog-page-${type}`,
+      )}
     >
       <SEOHead
         title={title || tag || page.data?.title || ""}

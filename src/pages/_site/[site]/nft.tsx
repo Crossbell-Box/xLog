@@ -77,7 +77,7 @@ function SiteNFTPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
 }
 
 SiteNFTPage.getLayout = (page: ReactElement) => {
-  return <SiteLayout>{page}</SiteLayout>
+  return <SiteLayout type="nft">{page}</SiteLayout>
 }
 
 export default SiteNFTPage

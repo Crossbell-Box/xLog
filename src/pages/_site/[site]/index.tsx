@@ -41,7 +41,11 @@ function SiteIndexPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
 }
 
 SiteIndexPage.getLayout = (page: ReactElement) => {
-  return <SiteLayout useStat={true}>{page}</SiteLayout>
+  return (
+    <SiteLayout useStat={true} type="index">
+      {page}
+    </SiteLayout>
+  )
 }
 
 export default SiteIndexPage

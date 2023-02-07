@@ -17,7 +17,7 @@ export default function Custom404() {
   } catch (error) {}
 
   return (
-    <SiteLayout siteId={siteId}>
+    <SiteLayout siteId={siteId} type="404">
       <SitePage
         page={
           {

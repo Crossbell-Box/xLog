@@ -52,7 +52,11 @@ function SiteArchivesPage({
 }
 
 SiteArchivesPage.getLayout = (page: ReactElement) => {
-  return <SiteLayout title="Archives">{page}</SiteLayout>
+  return (
+    <SiteLayout title="Archives" type="archive">
+      {page}
+    </SiteLayout>
+  )
 }
 
 export default SiteArchivesPage

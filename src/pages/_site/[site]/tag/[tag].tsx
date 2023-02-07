@@ -58,7 +58,7 @@ function SiteTagPage({
 }
 
 SiteTagPage.getLayout = (page: ReactElement) => {
-  return <SiteLayout>{page}</SiteLayout>
+  return <SiteLayout type="tag">{page}</SiteLayout>
 }
 
 export default SiteTagPage

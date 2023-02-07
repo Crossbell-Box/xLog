@@ -21,7 +21,7 @@ function SitePagePage() {
 }
 
 SitePagePage.getLayout = (page: ReactElement) => {
-  return <SiteLayout>{page}</SiteLayout>
+  return <SiteLayout type="post">{page}</SiteLayout>
 }
 
 export default SitePagePage
