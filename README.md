@@ -3,35 +3,49 @@
 </p>
 <h1 align="center">xLog</h1>
 
-> An on-chain and open-source blogging platform for everyone.
+> The first An on-chain and open-source blogging platform for everyone.
 
 [![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) [![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) [![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
 
 ## Features
 
-### Elegant
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/dev/public/assets/overall.png)
 
-Out-of-the-box, good looking, no friction.
+### Easy
 
-![](https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/assets/screenshot1.png)
+Connect with your **Web3 Wallet** or **Email**. Build your own site with custom domains, subscriptions, likes, comments, minting as nft, RSS and more in one second. No fees, no friction.
 
-### On-chain
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/dev/public/assets/easy.png)
 
-All blog data, including configs, posts, following, comments, etc., are permanently stored on the blockchain with your own hands and can only be controlled by yourself and not the platform.
+### Safe
 
-![](https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/assets/screenshot4.png)
+All blog data, including configs, posts, subscriptions, comments, etc., are signed and securely stored on the blockchain with your own hands. No one else, including us, can make any changes.
 
-### Rich Interactions
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/dev/public/assets/safe.png)
 
-You can follow, comment, like, and mint your blog and posts, all on the blockchain of course.
+### Fast
 
-![](https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/assets/screenshot2.png)
+Blockchain doesn't always mean inefficiency. xLog's efficient caching mechanism and numerous optimisations take it to the peak of performance.
 
-### Highly Customizable
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/dev/public/assets/fast.png)
 
-Domain name, navigation bar, custom styles, all as you wish, and stored on the blockchain.
+### Customizable
 
-![](https://raw.githubusercontent.com/Crossbell-Box/xLog/main/public/assets/screenshot3.png)
+Use your own domain, customise your site and style it however you like. This is your site, there are no restrictions.
+
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/dev/public/assets/customizable.png)
+
+### Open
+
+Uses **standard Markdown** with export and import tools and rich APIs for a painless move in and out. All code is **open source** on GitHub, all data is **transparent** on the chain. Domain name, navigation bar, custom styles, all as you wish, and stored on the blockchain.
+
+![](https://raw.githubusercontent.com/Crossbell-Box/xLog/dev/public/assets/open.png)
+
+## Integration
+
+xLog's open design allows it to integrate with many other open protocols and applications without friction.
+
+![](https://i.imgur.com/lH9Tmgn.png)
 
 ## Development
 
