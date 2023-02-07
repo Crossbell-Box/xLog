@@ -6,15 +6,9 @@ import { createClient, WagmiConfig } from "wagmi"
 import { Hydrate, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
-import {
-  ConnectKitProvider,
-  useAccountState,
-  useConnectModal,
-  useUpgradeAccountModal,
-} from "@crossbell/connect-kit"
+import { ConnectKitProvider, contractConfig } from "@crossbell/connect-kit"
 import { NotificationModal } from "@crossbell/notification"
 import { InitContractProvider } from "@crossbell/contract"
-import { useRefCallback } from "@crossbell/util-hooks"
 import NextNProgress from "nextjs-progressbar"
 import { Network } from "crossbell.js"
 
@@ -44,13 +38,6 @@ const persister = createIDBPersister()
 
 function MyApp({ Component, pageProps }: any) {
   const getLayout = Component.getLayout ?? ((page: any) => page)
-  const connectModal = useConnectModal()
-  const upgradeAccountModal = useUpgradeAccountModal()
-  const [isEmailConnected, characterId] = useAccountState((s) => [
-    !!s.email,
-    s.computed.account?.characterId,
-  ])
-  const getCurrentCharacterId = useRefCallback(() => characterId ?? null)
 
   return (
     <WagmiConfig client={wagmiClient}>
@@ -58,23 +45,10 @@ function MyApp({ Component, pageProps }: any) {
         client={queryClient}
         persistOptions={{ persister }}
       >
-        <ConnectKitProvider
-          ipfsLinkToHttpLink={toGateway}
-          urlComposer={urlComposer}
-        >
-          <InitContractProvider
-            openFaucetHintModel={() => {
-              console.log("openFaucetHintModel")
-              // FIXME: - openFaucetHintModel
-            }}
-            openMintNewCharacterModel={() => {
-              console.log("openMintNewCharacterModel")
-              // FIXME: - openMintNewCharacterModel
-            }}
-            openConnectModal={
-              isEmailConnected ? upgradeAccountModal.show : connectModal.show
-            }
-            getCurrentCharacterId={getCurrentCharacterId}
+        <InitContractProvider {...contractConfig}>
+          <ConnectKitProvider
+            ipfsLinkToHttpLink={toGateway}
+            urlComposer={urlComposer}
           >
             <Hydrate state={pageProps.dehydratedState}>
               <ReactQueryDevtools />
@@ -85,8 +59,8 @@ function MyApp({ Component, pageProps }: any) {
               <Toaster />
               <NotificationModal />
             </Hydrate>
-          </InitContractProvider>
-        </ConnectKitProvider>
+          </ConnectKitProvider>
+        </InitContractProvider>
       </PersistQueryClientProvider>
     </WagmiConfig>
   )

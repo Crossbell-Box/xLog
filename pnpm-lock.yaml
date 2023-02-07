@@ -6,14 +6,14 @@ specifiers:
   '@codemirror/language': 6.3.1
   '@codemirror/state': 6.1.4
   '@codemirror/view': 6.7.0
-  '@crossbell/connect-kit': 0.0.13
-  '@crossbell/contract': 0.0.13
-  '@crossbell/indexer': 0.0.13
-  '@crossbell/notification': 0.0.13
-  '@crossbell/ui': 0.0.13
-  '@crossbell/util-ethers': 0.0.13
-  '@crossbell/util-hooks': 0.0.13
-  '@crossbell/util-metadata': 0.0.13
+  '@crossbell/connect-kit': 0.0.15
+  '@crossbell/contract': 0.0.15
+  '@crossbell/indexer': 0.0.15
+  '@crossbell/notification': 0.0.15
+  '@crossbell/ui': 0.0.15
+  '@crossbell/util-ethers': 0.0.15
+  '@crossbell/util-hooks': 0.0.15
+  '@crossbell/util-metadata': 0.0.15
   '@emoji-mart/data': 1.1.2
   '@emoji-mart/react': 1.1.1
   '@floating-ui/react': ^0.19.1
@@ -133,14 +133,14 @@ dependencies:
   '@codemirror/language': 6.3.1
   '@codemirror/state': 6.1.4
   '@codemirror/view': 6.7.0
-  '@crossbell/connect-kit': 0.0.13_xvfzq5kat6viey6z4og33zk54y
-  '@crossbell/contract': 0.0.13_7tsjp3cpflizqiwz2tmlh6kya4
-  '@crossbell/indexer': 0.0.13_ep6jj6bkzipkdv7n53yxcdk4gi
-  '@crossbell/notification': 0.0.13_gr637sh5s43232xednspi7qw6u
-  '@crossbell/ui': 0.0.13_kuw3uswnoam3rtxthqrzcmib7u
-  '@crossbell/util-ethers': 0.0.13
-  '@crossbell/util-hooks': 0.0.13_react@18.2.0
-  '@crossbell/util-metadata': 0.0.13_4ovxn7sjklnpis3jm6yalpiqzm
+  '@crossbell/connect-kit': 0.0.15_nyryzn5mcb4sstqgsexp4b7ok4
+  '@crossbell/contract': 0.0.15_4bzevrp3xbm2hvkfokxmfm4ddu
+  '@crossbell/indexer': 0.0.15_ep6jj6bkzipkdv7n53yxcdk4gi
+  '@crossbell/notification': 0.0.15_6xvvzsvjpl5calcvh2tcddix6e
+  '@crossbell/ui': 0.0.15_i7djou32ysqg7kx4s7uqtffal4
+  '@crossbell/util-ethers': 0.0.15
+  '@crossbell/util-hooks': 0.0.15_d45c4uqthorvgm4d5gzjyi3rja
+  '@crossbell/util-metadata': 0.0.15_lii6cdkwvwxzijiheqtmtp6t2i
   '@emoji-mart/data': 1.1.2
   '@emoji-mart/react': 1.1.1_kyrnz3vmphzqyjjk2ivrm6bcsu
   '@floating-ui/react': 0.19.1_5ndqzdd6t4rivxsukjv3i3ak2q
@@ -1447,6 +1447,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
+    dev: false
 
   /@babel/template/7.20.7:
     resolution: {integrity: sha512-8SegXApWe6VoNw0r9JHpSteLKTpTiLZ4rMlGIm9JQ18KiCtyQiAMEazujAHrUS5flrcqYZa75ukev3P6QmUwUw==}
@@ -1675,14 +1676,15 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit/0.0.13_xvfzq5kat6viey6z4og33zk54y:
-    resolution: {integrity: sha512-FNqJdRxJ2cdrqkENXaqE+8ZLSUZWtxciFv+L9HTlAFT55Qf1wkCEdU7SDbp7USf8IGyPbcaMY/ycmf6xpYVAjA==}
+  /@crossbell/connect-kit/0.0.15_nyryzn5mcb4sstqgsexp4b7ok4:
+    resolution: {integrity: sha512-kVh66vJ/fJfSMiDrnjR0kHwAvB17snAdJKxlX4x5In3Uzj4t4tUSl1egArXu7RNqJ2T1zIvL+GVSOC6UB+aKgg==}
     peerDependencies:
-      '@crossbell/contract': 0.0.13
-      '@crossbell/indexer': 0.0.13
-      '@crossbell/ui': 0.0.13
-      '@crossbell/util-hooks': 0.0.13
-      '@crossbell/util-metadata': 0.0.13
+      '@crossbell/contract': 0.0.15
+      '@crossbell/indexer': 0.0.15
+      '@crossbell/ui': 0.0.15
+      '@crossbell/util-ethers': 0.0.15
+      '@crossbell/util-hooks': 0.0.15
+      '@crossbell/util-metadata': 0.0.15
       '@tanstack/react-query': '*'
       '@wagmi/core': '*'
       crossbell.js: ^0.16
@@ -1692,11 +1694,12 @@ packages:
       wagmi: '*'
       zustand: ^4
     dependencies:
-      '@crossbell/contract': 0.0.13_7tsjp3cpflizqiwz2tmlh6kya4
-      '@crossbell/indexer': 0.0.13_ep6jj6bkzipkdv7n53yxcdk4gi
-      '@crossbell/ui': 0.0.13_kuw3uswnoam3rtxthqrzcmib7u
-      '@crossbell/util-hooks': 0.0.13_react@18.2.0
-      '@crossbell/util-metadata': 0.0.13_4ovxn7sjklnpis3jm6yalpiqzm
+      '@crossbell/contract': 0.0.15_4bzevrp3xbm2hvkfokxmfm4ddu
+      '@crossbell/indexer': 0.0.15_ep6jj6bkzipkdv7n53yxcdk4gi
+      '@crossbell/ui': 0.0.15_i7djou32ysqg7kx4s7uqtffal4
+      '@crossbell/util-ethers': 0.0.15
+      '@crossbell/util-hooks': 0.0.15_d45c4uqthorvgm4d5gzjyi3rja
+      '@crossbell/util-metadata': 0.0.15_lii6cdkwvwxzijiheqtmtp6t2i
       '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
       '@mantine/carousel': 5.10.3_mawosyovrpj67pqwizecvkeyyu
       '@mantine/core': 5.10.3_ylq7zkqz7uvrjy7wd5cseqyxu4
@@ -1710,9 +1713,11 @@ packages:
       detect-browser: 5.3.0
       embla-carousel-react: 7.0.9_react@18.2.0
       immer: 9.0.19
+      lodash.debounce: 4.0.8
       qrcode: 1.5.1
       react: 18.2.0
-      react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
+      react-dropzone: 14.2.3_react@18.2.0
+      react-google-recaptcha: 2.1.0_react@18.2.0
       wagmi: 0.11.4_emt4ze7vsguij3w3ptm444dov4
       zustand: 4.3.2_immer@9.0.19+react@18.2.0
     transitivePeerDependencies:
@@ -1721,31 +1726,31 @@ packages:
       - react-dom
     dev: false
 
-  /@crossbell/contract/0.0.13_7tsjp3cpflizqiwz2tmlh6kya4:
-    resolution: {integrity: sha512-2iPP/i2yi+aZDGCsVtrb4btDufdiD2ZulB78bzF2K62IQQLbitIZg/hLhh4c+Ih3wsbvUePZxOuKDYfFM6w8hg==}
+  /@crossbell/contract/0.0.15_4bzevrp3xbm2hvkfokxmfm4ddu:
+    resolution: {integrity: sha512-EWvXJjrFN5O4IE/2SAXw4pqdPbPewlKcPs1Wl09Kp8s6eHglxjpHFBbISvZ52g2GAdRIE1/mbaRlBD+XGampEQ==}
     peerDependencies:
-      '@crossbell/indexer': 0.0.13
-      '@crossbell/util-hooks': 0.0.13
+      '@crossbell/indexer': 0.0.15
+      '@crossbell/util-hooks': 0.0.15
       crossbell.js: 0.16.x
       ethers: 5.x.x
       react: 18.x.x
-      wagmi: 0.7.x
+      wagmi: 0.11.x
     dependencies:
-      '@crossbell/indexer': 0.0.13_ep6jj6bkzipkdv7n53yxcdk4gi
-      '@crossbell/util-hooks': 0.0.13_react@18.2.0
+      '@crossbell/indexer': 0.0.15_ep6jj6bkzipkdv7n53yxcdk4gi
+      '@crossbell/util-hooks': 0.0.15_d45c4uqthorvgm4d5gzjyi3rja
       crossbell.js: 0.16.4
       react: 18.2.0
       wagmi: 0.11.4_emt4ze7vsguij3w3ptm444dov4
     dev: false
 
-  /@crossbell/indexer/0.0.13_ep6jj6bkzipkdv7n53yxcdk4gi:
-    resolution: {integrity: sha512-8fatD2NvwA5jjUaSB/Ifw+CJscaJfNQfka9BdR555ZKOTeU5//YiCNY4L88raEMxY4TBOWv/jId8pe/jcxUf0A==}
+  /@crossbell/indexer/0.0.15_ep6jj6bkzipkdv7n53yxcdk4gi:
+    resolution: {integrity: sha512-iwkzl1H4JrNAkwHyGv246P/gwSD5R13Wdk2WPmXpl2EJhBJNFCBKgqZA6zKn5xr/XCHgwTftYXtPa8343Y0Ahw==}
     peerDependencies:
       '@tanstack/react-query': 4.x
       crossbell.js: 0.16.x
       dayjs: ^1.11.6
       ethers: 5.x
-      wagmi: 0.7.x
+      wagmi: 0.11.x
     dependencies:
       '@tanstack/react-query': 4.24.4_biqbaboplfbrettd7655fr4n2y
       crossbell.js: 0.16.4
@@ -1755,23 +1760,23 @@ packages:
       wagmi: 0.11.4_emt4ze7vsguij3w3ptm444dov4
     dev: false
 
-  /@crossbell/notification/0.0.13_gr637sh5s43232xednspi7qw6u:
-    resolution: {integrity: sha512-gEEIdrI5jpz5MulMPnWIqOmkuSYs/JLXtv2m77wFP7XEVTqcU/DiGdmii+3W2todbEqnhFb9J32XOs1yjYTKmA==}
+  /@crossbell/notification/0.0.15_6xvvzsvjpl5calcvh2tcddix6e:
+    resolution: {integrity: sha512-v/S+HhYNWEQuhlOROl+mPOD8GLdqyVi2eTXDCbn7ZNSKho70kaoRh+4fprf+FXqhSleIEFBEQqi00/+eQvijIg==}
     peerDependencies:
-      '@crossbell/connect-kit': 0.0.13
-      '@crossbell/indexer': 0.0.13
-      '@crossbell/ui': 0.0.13
-      '@crossbell/util-hooks': 0.0.13
-      '@crossbell/util-metadata': 0.0.13
+      '@crossbell/connect-kit': 0.0.15
+      '@crossbell/indexer': 0.0.15
+      '@crossbell/ui': 0.0.15
+      '@crossbell/util-hooks': 0.0.15
+      '@crossbell/util-metadata': 0.0.15
       dayjs: ^1.11.6
       react: 18.x.x
       zustand: ^4.1.5
     dependencies:
-      '@crossbell/connect-kit': 0.0.13_xvfzq5kat6viey6z4og33zk54y
-      '@crossbell/indexer': 0.0.13_ep6jj6bkzipkdv7n53yxcdk4gi
-      '@crossbell/ui': 0.0.13_kuw3uswnoam3rtxthqrzcmib7u
-      '@crossbell/util-hooks': 0.0.13_react@18.2.0
-      '@crossbell/util-metadata': 0.0.13_4ovxn7sjklnpis3jm6yalpiqzm
+      '@crossbell/connect-kit': 0.0.15_nyryzn5mcb4sstqgsexp4b7ok4
+      '@crossbell/indexer': 0.0.15_ep6jj6bkzipkdv7n53yxcdk4gi
+      '@crossbell/ui': 0.0.15_i7djou32ysqg7kx4s7uqtffal4
+      '@crossbell/util-hooks': 0.0.15_d45c4uqthorvgm4d5gzjyi3rja
+      '@crossbell/util-metadata': 0.0.15_lii6cdkwvwxzijiheqtmtp6t2i
       '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
       '@mantine/core': 5.10.3_ylq7zkqz7uvrjy7wd5cseqyxu4
       '@mantine/hooks': 5.10.3_react@18.2.0
@@ -1787,44 +1792,51 @@ packages:
       - react-dom
     dev: false
 
-  /@crossbell/ui/0.0.13_kuw3uswnoam3rtxthqrzcmib7u:
-    resolution: {integrity: sha512-tlZ0G9NJH7rOoLakKc3jlyz4WjCrKENwYAAxHQh1Oyqnr+XBZknu9xDvlo8K7HBkdgB3RvZHekGL3g6e4W/7yQ==}
+  /@crossbell/ui/0.0.15_i7djou32ysqg7kx4s7uqtffal4:
+    resolution: {integrity: sha512-B0CnmEBmR6NknbeHwhe3k6aMM8Qt/L57aVsqLJ81IKLuiEEQ//KVOV5BF8Wh3mNaHd7xrae+pqN4/hTcxANdZg==}
     peerDependencies:
-      '@crossbell/indexer': 0.0.13
-      '@crossbell/util-hooks': 0.0.13
-      '@crossbell/util-metadata': 0.0.13
+      '@crossbell/indexer': 0.0.15
+      '@crossbell/util-hooks': 0.0.15
+      '@crossbell/util-metadata': 0.0.15
       '@tanstack/react-query': '*'
       crossbell.js: ^0.16
       react: 18.x.x
+      react-dom: 18.x.x
     dependencies:
-      '@crossbell/indexer': 0.0.13_ep6jj6bkzipkdv7n53yxcdk4gi
-      '@crossbell/util-hooks': 0.0.13_react@18.2.0
-      '@crossbell/util-metadata': 0.0.13_4ovxn7sjklnpis3jm6yalpiqzm
+      '@crossbell/indexer': 0.0.15_ep6jj6bkzipkdv7n53yxcdk4gi
+      '@crossbell/util-hooks': 0.0.15_d45c4uqthorvgm4d5gzjyi3rja
+      '@crossbell/util-metadata': 0.0.15_lii6cdkwvwxzijiheqtmtp6t2i
       '@tanstack/react-query': 4.24.4_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
       crossbell.js: 0.16.4
       facepaint: 1.2.1
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-intersection-observer: 9.4.1_react@18.2.0
+      react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
     dev: false
 
-  /@crossbell/util-ethers/0.0.13:
-    resolution: {integrity: sha512-14Gey5zmKkunaR+EgfqvYBDWq6j7H3OPhDHREYSYNjcVUov8DgMqc4qQony8xBTSqQyBknJIico5ivIfWPaJ+Q==}
+  /@crossbell/util-ethers/0.0.15:
+    resolution: {integrity: sha512-gxnLFGrkeD6bkWGFRrHJwG7hoLCXE4UJek+KcJChCGYrCgR3ZY5i22UMpaUc3YSstzV6FYJ8fBBUMZnxgDrPKA==}
     dev: false
 
-  /@crossbell/util-hooks/0.0.13_react@18.2.0:
-    resolution: {integrity: sha512-5KKLR38dupXRU5fn1lkDbobAnP0jSj4jdL2ldv0o6G6YgagelPKB8vlUkcPfPIeFDiLx9+MrY02fing2VAzh1Q==}
+  /@crossbell/util-hooks/0.0.15_d45c4uqthorvgm4d5gzjyi3rja:
+    resolution: {integrity: sha512-jKKXFRGqjE63LWC4FcaS//WlDTTBG0tvwncZxcvKevNOC5lByK8YZajgt5nXtfujYj3mw3v2yHIO9CdAJ6QuBw==}
     peerDependencies:
+      '@tanstack/react-query': '*'
       react: 18.x.x
     dependencies:
+      '@tanstack/react-query': 4.24.4_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
     dev: false
 
-  /@crossbell/util-metadata/0.0.13_4ovxn7sjklnpis3jm6yalpiqzm:
-    resolution: {integrity: sha512-rQoGHw1GTVQkJBxSaRRoxDUfcp+2VJNbGNrfvMwybGgQR/LoByrl5Vd03PavoM7KVtbV48pDjVpTIqEnjT80rA==}
+  /@crossbell/util-metadata/0.0.15_lii6cdkwvwxzijiheqtmtp6t2i:
+    resolution: {integrity: sha512-ZrFsFYc95fgOTCJpXS/h4twM+FBl7Zz+H78c2jz2zurg50dHaYZaGwb38XIKl6qomQKTT7DgiwQ/qSPvmsH+XA==}
     peerDependencies:
-      '@crossbell/util-ethers': 0.0.13
+      '@crossbell/util-ethers': 0.0.15
       crossbell.js: 0.16.x
     dependencies:
-      '@crossbell/util-ethers': 0.0.13
+      '@crossbell/util-ethers': 0.0.15
       '@fastify/deepmerge': 1.1.0
       crossbell.js: 0.16.4
     dev: false
@@ -5356,6 +5368,11 @@ packages:
     engines: {node: '>=8.0.0'}
     dev: false
 
+  /attr-accept/2.2.2:
+    resolution: {integrity: sha512-7prDjvt9HmqiZ0cl5CRjtS84sEyhsHP2coDkaZKRKVfCDo9s7iw7ChVmar78Gu9pC4SoR/28wFu/G5JJhTnqEg==}
+    engines: {node: '>=4'}
+    dev: false
+
   /autoprefixer/10.4.13:
     resolution: {integrity: sha512-49vKpMqcZYsJjwotvt4+h/BCjJVnhGwcLpDt5xkcaOG3eLrG/HUYLagrihYsQ+qrIBgIzX1Rw7a6L8I/ZA1Atg==}
     engines: {node: ^10 || ^12 || >=14}
@@ -5383,7 +5400,7 @@ packages:
   /axios-retry/3.3.1:
     resolution: {integrity: sha512-RohAUQTDxBSWLFEnoIG/6bvmy8l3TfpkclgStjl5MDCMBDgapAWCmr1r/9harQfWC8bzLC8job6UcL1A1Yc+/Q==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.20.13
       is-retry-allowed: 2.2.0
     dev: false
 
@@ -7492,6 +7509,13 @@ packages:
     dependencies:
       flat-cache: 3.0.4
     dev: true
+
+  /file-selector/0.6.0:
+    resolution: {integrity: sha512-QlZ5yJC0VxHxQQsQhXvBaC7VRJ2uaxTf+Tfpu4Z/OcVQJVpZO+DGU0rkoVW5ce2SccxugvpBJoMvUs59iILYdw==}
+    engines: {node: '>= 12'}
+    dependencies:
+      tslib: 2.5.0
+    dev: false
 
   /file-uri-to-path/1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
@@ -10640,6 +10664,16 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
 
+  /react-async-script/1.2.0_react@18.2.0:
+    resolution: {integrity: sha512-bCpkbm9JiAuMGhkqoAiC0lLkb40DJ0HOEJIku+9JDjxX3Rcs+ztEOG13wbrOskt3n2DTrjshhaQ/iay+SnGg5Q==}
+    peerDependencies:
+      react: '>=16.4.1'
+    dependencies:
+      hoist-non-react-statics: 3.3.2
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -10648,6 +10682,28 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-dropzone/14.2.3_react@18.2.0:
+    resolution: {integrity: sha512-O3om8I+PkFKbxCukfIR3QAGftYXDZfOE2N1mr/7qebQJHs7U+/RSL/9xomJNpRg9kM5h9soQSdf0Gc7OHF5Fug==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      react: '>= 16.8 || 18.0.0'
+    dependencies:
+      attr-accept: 2.2.2
+      file-selector: 0.6.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
+  /react-google-recaptcha/2.1.0_react@18.2.0:
+    resolution: {integrity: sha512-K9jr7e0CWFigi8KxC3WPvNqZZ47df2RrMAta6KmRoE4RUi7Ys6NmNjytpXpg4HI/svmQJLKR+PncEPaNJ98DqQ==}
+    peerDependencies:
+      react: '>=16.4.1'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-async-script: 1.2.0_react@18.2.0
+    dev: false
 
   /react-hook-form/7.43.0_react@18.2.0:
     resolution: {integrity: sha512-/rVEz7T0gLdSFwPqutJ1kn2e0sQNyb9ci/hmwEYr2YG0KF/LSuRLvNrf9QWJM+gj88CjDpDW5Bh/1AD7B2+z9Q==}
@@ -10842,7 +10898,7 @@ packages:
   /regenerator-transform/0.15.1:
     resolution: {integrity: sha512-knzmNAcuyxV+gQCufkYcvOqX/qIIfHLv0u5x79kRxuGojfYVky1f15TzZEu2Avte8QGepvUNTnLskf8E6X6Vyg==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.20.13
     dev: true
 
   /regexp.prototype.flags/1.4.3:
@@ -12868,7 +12924,7 @@ packages:
       '@apideck/better-ajv-errors': 0.3.6_ajv@8.12.0
       '@babel/core': 7.20.12
       '@babel/preset-env': 7.20.2_@babel+core@7.20.12
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.20.13
       '@rollup/plugin-babel': 5.3.1_3dsfpkpoyvuuxyfgdbpn4j4uzm
       '@rollup/plugin-node-resolve': 11.2.1_rollup@2.79.1
       '@rollup/plugin-replace': 2.4.2_rollup@2.79.1
