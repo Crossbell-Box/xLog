@@ -29,8 +29,8 @@ export const BlockchainInfo: React.FC<{
                       ? "post"
                       : "page"
                     : "blog"}{" "}
-                  has been signed and permanently stored on the blockchain by
-                  its creator.
+                  has been signed and securely stored on the blockchain by its
+                  creator.
                 </span>
               </span>
               <ChevronUpIcon

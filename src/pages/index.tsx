@@ -3,14 +3,13 @@ import { useEffect, useState } from "react"
 import { DashboardIcon } from "~/components/icons/DashboardIcon"
 import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
-import { LoveIcon } from "~/components/icons/LoveIcon"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { LaughIcon } from "~/components/icons/LaughIcon"
 import { Button } from "~/components/ui/Button"
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 import { useRouter } from "next/router"
-import { GITHUB_LINK, APP_NAME, CSB_SCAN } from "~/lib/env"
+import { GITHUB_LINK, APP_NAME, CSB_SCAN, OUR_DOMAIN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { Link, Element } from "react-scroll"
 import { Image } from "~/components/ui/Image"
@@ -21,7 +20,20 @@ import showcase from "../../showcase.json"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useAccountSites, useSubscribeToSites } from "~/queries/site"
 import { SITE_URL } from "~/lib/env"
-import { BoltIcon } from "@heroicons/react/24/outline"
+import {
+  BoltIcon,
+  FingerPrintIcon,
+  RssIcon,
+  EllipsisHorizontalIcon,
+} from "@heroicons/react/24/outline"
+import { XCharIcon } from "~/components/icons/XCharIcon"
+import { XFeedIcon } from "~/components/icons/XFeedIcon"
+import { XSyncIcon } from "~/components/icons/XSyncIcon"
+import { XShopIcon } from "~/components/icons/XShopIcon"
+import { CrossbellIcon } from "~/components/icons/CrossbellIcon"
+import { RSS3Icon } from "~/components/icons/RSS3Icon"
+import { Tooltip } from "~/components/ui/Tooltip"
+import { HootIcon } from "~/components/icons/HootIcon"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -53,68 +65,147 @@ export default function Home() {
     }
   }, [isTry, isConnected, router])
 
-  const description = [
+  const features = [
     {
       screenshot: {
-        src: "/assets/screenshot1.png",
-        width: 3947,
-        height: 1888,
+        src: "/assets/easy.png",
       },
-      icon: <LaughIcon className="inline mb-2" />,
-      title: "Elegent",
-      text: <>Out-of-the-box, good looking, no friction.</>,
-    },
-    {
-      screenshot: {
-        src: "/assets/screenshot4.png",
-        width: 1542,
-        height: 467,
-      },
-      icon: <BlockchainIcon className="inline mb-2" />,
-      title: "On-chain",
+      icon: <LaughIcon />,
+      title: "Easy",
       text: (
         <>
-          All blog data, including configs, posts, following, comments, etc.,
-          are permanently stored on the blockchain <b>with your own hands</b>{" "}
-          and can only be controlled by yourself and not the platform.
+          Connect with your <span className="font-bold">Web3 Wallet</span> or{" "}
+          <span className="font-bold">Email</span>. Build your own site with
+          custom domains, subscriptions, likes, comments, minting as nft, RSS
+          and more in one second. No fees, no friction.
         </>
       ),
     },
     {
       screenshot: {
-        src: "/assets/screenshot5.png",
-        width: 1712,
-        height: 1866,
+        src: "/assets/safe.png",
       },
-      icon: <BoltIcon className="inline mb-2 w-8 h-8" />,
+      icon: <FingerPrintIcon className="w-7 h-7" />,
+      title: "Safe",
+      text: (
+        <>
+          All blog data, including configs, posts, subscriptions, comments,
+          etc., are signed and securely stored on the{" "}
+          <span className="font-bold">blockchain</span> with your own hands. No
+          one else, including us, can make any changes.
+        </>
+      ),
+    },
+    {
+      screenshot: {
+        src: "/assets/fast.png",
+      },
+      icon: <BoltIcon className="w-7 h-7" />,
       title: "Fast",
       text: (
         <>
           Blockchain doesn&apos;t always mean inefficiency. xLog&apos;s
-          experienced open-source maintainers have been making optimizations to
-          get xLog to peak speed.
+          efficient caching mechanism and numerous optimisations take it to the
+          peak of performance.
         </>
       ),
     },
     {
       screenshot: {
-        src: "/assets/screenshot2.png",
-        width: 1528,
-        height: 758,
+        src: "/assets/customizable.png",
       },
-      icon: <LoveIcon className="inline mb-2" />,
-      title: "Rich Interactions",
-      text: "You can follow, comment, like, and mint your blog and posts, all on the blockchain of course.",
+      icon: <DashboardIcon />,
+      title: "Customizable",
+      text: "Use your own domain, customise your site and style it however you like. This is your site, there are no restrictions.",
     },
     {
       screenshot: {
-        src: "/assets/screenshot3.png",
-        width: 4394,
-        height: 1854,
+        src: "/assets/open.png",
       },
-      icon: <DashboardIcon className="inline mb-2" />,
-      title: "Highly Customizable",
-      text: "Domain name, navigation bar, custom styles, all as you wish, and stored on the blockchain.",
+      icon: <BlockchainIcon className="w-6 h-6" />,
+      title: "Open",
+      text: (
+        <>
+          Uses <span className="font-bold">standard Markdown</span> with export
+          and import tools and rich APIs for a painless move in and out. All
+          code is <span className="font-bold">open source</span> on GitHub, all
+          data is <span className="font-bold">transparent</span> on the chain.
+        </>
+      ),
+    },
+  ]
+
+  const integrations = [
+    {
+      name: "RSS",
+      icon: <RssIcon className="w-full h-full text-orange-500" />,
+      url:
+        getSiteLink({
+          subdomain: "xlog",
+        }) + "/feed/xml",
+    },
+    {
+      name: "JSON Feed",
+      icon: <Image src="/assets/json-feed.png" alt="JSON Feed" />,
+      url:
+        getSiteLink({
+          subdomain: "xlog",
+        }) + "/feed",
+    },
+    {
+      name: "xChar",
+      icon: <XCharIcon className="w-full h-full" />,
+      url: "https://xchar.app/",
+    },
+    {
+      name: "xFeed",
+      icon: <XFeedIcon className="w-full h-full" />,
+      url: "https://crossbell.io/feed",
+    },
+    {
+      name: "xSync",
+      icon: <XSyncIcon className="w-full h-full" />,
+      url: "https://xsync.app/",
+    },
+    {
+      name: "xShop",
+      icon: <XShopIcon className="w-full h-full" />,
+      text: "Coming soon",
+    },
+    {
+      name: "Crossbell Scan",
+      icon: <CrossbellIcon className="w-full h-full p-[2px]" />,
+      url: "https://scan.crossbell.io/",
+    },
+    {
+      name: "Crossbell Faucet",
+      icon: <CrossbellIcon className="w-full h-full p-[2px]" />,
+      url: "https://faucet.crossbell.io/",
+    },
+    {
+      name: "Crossbell Export",
+      icon: <CrossbellIcon className="w-full h-full p-[2px]" />,
+      url: "https://export.crossbell.io/",
+    },
+    {
+      name: "Crossbell SDK",
+      icon: <CrossbellIcon className="w-full h-full p-[2px]" />,
+      url: "https://crossbell-box.github.io/crossbell.js/",
+    },
+    {
+      name: "RSS3",
+      icon: <RSS3Icon className="w-full h-full" />,
+      url: "https://rss3.io/",
+    },
+    {
+      name: "Hoot It",
+      icon: <HootIcon className="w-full h-full" />,
+      url: "https://hoot.it/search/xLog",
+    },
+    {
+      name: "Raycast",
+      icon: <Image src="/assets/raycast.png" alt="Raycast" />,
+      url: "https://www.raycast.com/Songkeys/crossbell",
     },
   ]
 
@@ -168,6 +259,8 @@ export default function Home() {
     subscribeToSites,
     doSubscribeToSites,
   ])
+
+  const [showcaseMore, setShowcaseMore] = useState(false)
 
   return (
     <MainLayout tabs={["Features", "Showcase", "Integration"]}>
@@ -224,24 +317,41 @@ export default function Home() {
           </div>
           <div>
             <Element name="Features">
-              <ul className="pt-28 space-y-24">
-                {description.map((item, index) => (
-                  <li className="relative w-full" key={index}>
-                    <p className="text-4xl font-bold">
-                      <span className="mr-4">{item.icon}</span>
-                      {item.title}
-                    </p>
-                    <p className="text-3xl font-light mt-4 leading-normal mb-8">
-                      {item.text}
-                    </p>
-                    <div>
+              <UniLink
+                className="underline pt-28 w-full"
+                href={getSiteLink({
+                  subdomain: "xlog",
+                })}
+              >
+                <Image
+                  src="/assets/overall.png"
+                  alt="overall"
+                  width={3785}
+                  height={2170}
+                ></Image>
+                <p className="text-center">Visit xlog.{OUR_DOMAIN}</p>
+              </UniLink>
+              <ul className="pt-20 grid grid-cols-3 gap-8">
+                {features.map((item, index) => (
+                  <li
+                    className="border rounded-xl overflow-hidden bg-white hover:shadow-md hover:scale-105 transition duration-300 cursor-default"
+                    key={item.title}
+                  >
+                    <div className="w-full h-44">
                       <Image
+                        className="object-cover"
                         src={item.screenshot.src}
                         alt={item.title}
-                        width={item.screenshot.width}
-                        height={item.screenshot.height}
+                        fill
                       ></Image>
                     </div>
+                    <p className="text-2xl font-bold mt-5 flex items-center px-5">
+                      <span className="mr-3">{item.icon}</span>
+                      <span>{item.title}</span>
+                    </p>
+                    <p className="text-base font-light mt-3 mb-4 leading-normal px-5">
+                      {item.text}
+                    </p>
                   </li>
                 ))}
               </ul>
@@ -266,7 +376,19 @@ export default function Home() {
                 >
                   🥳 Follow All!
                 </Button>
-                <ul className="mt-10 grid grid-cols-2 md:grid-cols-3 gap-10">
+                <ul
+                  className={`pt-10 grid grid-cols-2 md:grid-cols-3 gap-10 overflow-y-hidden relative ${
+                    showcaseMore ? "" : "max-h-[540px]"
+                  }`}
+                >
+                  <div
+                    className={`absolute bottom-0 h-20 left-0 right-0 bg-gradient-to-t from-white via-white z-40 flex items-end justify-center font-bold cursor-pointer ${
+                      showcaseMore ? "hidden" : ""
+                    }`}
+                    onClick={() => setShowcaseMore(true)}
+                  >
+                    Show more
+                  </div>
                   {showcaseSites.data?.map((site: any) => (
                     <li className="inline-flex align-middle" key={site.handle}>
                       <UniLink
@@ -321,90 +443,43 @@ export default function Home() {
               <div className="pt-28 text-4xl font-bold">Integration</div>
               <div className="my-10 text-zinc-700">
                 <p className="text-xl">
-                  You can integrate xLog with all of Crossbell&apos;s
-                  eco-projects without friction
+                  xLog&apos;s open design allows it to integrate with many other
+                  open protocols and applications without friction.
                 </p>
-                <ul className="space-y-8 mt-8">
-                  <li>
-                    <UniLink href="https://crossbell.io/@xlog">
-                      <p className="font-bold text-xl">Crossbell.io</p>
-                      <p className="text-zinc-500 my-4 text-lg">
-                        Check the updates of the xLogs you follow and the posts
-                        you collected
-                      </p>
-                      <Image
-                        className="rounded-lg"
-                        src="/assets/integration1.png"
-                        alt="integration1"
-                        width="3726"
-                        height="1888"
-                      ></Image>
-                    </UniLink>
-                  </li>
-                  <li>
-                    <UniLink href="https://rss3.io/result?search=xlog.csb">
-                      <p className="font-bold text-xl">RSS3</p>
-                      <p className="text-zinc-500 my-4 text-lg">
-                        All your activities on xLog are supported and displayed
-                        by RSS3 and all eco-projects of RSS3
-                      </p>
-                      <Image
-                        className="rounded-lg"
-                        src="/assets/integration5.png"
-                        alt="integration5"
-                        width="3730"
-                        height="1888"
-                      ></Image>
-                    </UniLink>
-                  </li>
-                  <li>
-                    <UniLink href="https://www.raycast.com/Songkeys/crossbell">
-                      <p className="font-bold text-xl">Raycast Crossbell</p>
-                      <p className="text-zinc-500 my-4 text-lg">
-                        Searching and browsing xLog in Raycast
-                      </p>
-                      <Image
-                        className="rounded-lg"
-                        src="/assets/integration2.png"
-                        alt="integration2"
-                        width="1724"
-                        height="1172"
-                      ></Image>
-                    </UniLink>
-                  </li>
-                  <li>
-                    <UniLink href="https://export.crossbell.io">
-                      <p className="font-bold text-xl">Export Crossbell Data</p>
-                      <p className="text-zinc-500 my-4 text-lg">
-                        Thinking of leaving or backing up? Pack all your xLog
-                        site data and interaction data in one click here
-                      </p>
-                      <Image
-                        className="rounded-lg"
-                        src="/assets/integration3.png"
-                        alt="integration3"
-                        width="3726"
-                        height="1888"
-                      ></Image>
-                    </UniLink>
-                  </li>
-                  <li>
-                    <UniLink href="https://github.com/Crossbell-Box/crossbell.js">
-                      <p className="font-bold text-xl">
-                        Crossbell SDK and Indexer API
-                      </p>
-                      <p className="text-zinc-500 my-4 text-lg">
-                        Create your own application or integration using
-                        Crossbell&apos;s powerful SDK and Indexer API
-                      </p>
-                      <Image
-                        className="rounded-lg"
-                        src="/assets/integration4.png"
-                        alt="integration4"
-                        width="3726"
-                        height="1888"
-                      ></Image>
-                    </UniLink>
+                <ul className="mt-14 grid grid-cols-5 gap-y-14 gap-x-2">
+                  {integrations.map((item, index) => (
+                    <li
+                      className="hover:scale-105 transition-transform duration-300"
+                      key={index}
+                    >
+                      {item.url ? (
+                        <UniLink
+                          href={item.url}
+                          className="w-full h-full flex items-center flex-col justify-center"
+                        >
+                          <div className="w-12 h-12 rounded-md overflow-hidden">
+                            {item.icon}
+                          </div>
+                          <div className="font-medium text-xl mt-2">
+                            {item.name}
+                          </div>
+                        </UniLink>
+                      ) : (
+                        <Tooltip label={item.text!}>
+                          <div className="w-full h-full flex items-center flex-col justify-center">
+                            <div className="w-12 h-12 rounded-md overflow-hidden">
+                              {item.icon}
+                            </div>
+                            <div className="font-medium text-xl mt-2">
+                              {item.name}
+                            </div>
+                          </div>
+                        </Tooltip>
+                      )}
+                    </li>
+                  ))}
+                  <li className="flex items-center justify-center">
+                    <EllipsisHorizontalIcon className="w-12 h-12" />
                   </li>
                 </ul>
               </div>

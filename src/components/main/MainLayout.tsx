@@ -58,7 +58,7 @@ export function MainLayout({
               href={GITHUB_LINK}
               className="items-center hidden sm:flex hover:text-accent"
             >
-              GitHub
+              Source Code
             </UniLink>
             <ConnectButton size="base" />
           </div>

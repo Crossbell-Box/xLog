@@ -569,8 +569,8 @@ export default function SubdomainEditor() {
         title="🎉 Published!"
       >
         <div className="p-5">
-          Your post has been permanently stored on the blockchain. Now you may
-          want to
+          Your post has been securely stored on the blockchain. Now you may want
+          to
           <ul className="list-disc pl-5 mt-2 space-y-1">
             <li>
               <UniLink
