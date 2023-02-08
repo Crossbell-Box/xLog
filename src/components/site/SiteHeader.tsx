@@ -71,9 +71,19 @@ export const SiteHeader: React.FC<{
       url: `${CSB_IO}/@${site?.username}`,
     },
     {
-      text: "View on RSS3",
-      icon: <RSS3Icon className="w-4 h-4 rounded" />,
-      url: `https://rss3.io/result?search=${site?.username}.csb`,
+      text: "View on Hoot It",
+      icon: (
+        <div className="w-4 h-4">
+          <Image
+            alt="Hoot It"
+            src="/assets/hootit.png"
+            className="rounded"
+            width={16}
+            height={16}
+          />
+        </div>
+      ),
+      url: `https://hoot.it/search/${site?.username}.csb/activities`,
     },
     {
       text: "View on Crossbell Scan",
@@ -82,7 +92,17 @@ export const SiteHeader: React.FC<{
     },
     {
       text: "JSON Feed",
-      icon: <RssIcon className="w-4 h-4 text-[#ee832f]" />,
+      icon: (
+        <div className="w-4 h-4">
+          <Image
+            alt="Hoot It"
+            src="/assets/json-feed.png"
+            className="rounded"
+            width={16}
+            height={16}
+          />
+        </div>
+      ),
       url: `/feed`,
     },
     {

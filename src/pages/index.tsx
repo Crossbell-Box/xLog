@@ -203,6 +203,11 @@ export default function Home() {
       url: "https://hoot.it/search/xLog",
     },
     {
+      name: "Unidata",
+      icon: <Image src="/assets/unidata.png" alt="Unidata" />,
+      url: "https://unidata.app/",
+    },
+    {
       name: "Raycast",
       icon: <Image src="/assets/raycast.png" alt="Raycast" />,
       url: "https://www.raycast.com/Songkeys/crossbell",
