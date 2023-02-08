@@ -94,38 +94,17 @@ export const Reactions: React.FC<{
   }, [likePage.isSuccess])
 
   const mint = async () => {
-    // if (!isConnected) {
-    //   setMintProgress(true)
-    //   openConnectModal?.()
-    // } else if (!userSite.data) {
-    //   router.push(`${SITE_URL}/dashboard/new-site`)
-    // } else if (pageId) {
-    //   if (isMint.data?.count) {
-    //     setIsMintOpen(true)
-    //   } else {
-    //     mintPage.mutate(parsePageId(pageId))
-    //   }
-    // }
-    if (mintRef.current) {
-      confetti({
-        particleCount: 150,
-        spread: 360,
-        ticks: 50,
-        gravity: 0,
-        decay: 0.94,
-        startVelocity: 30,
-        origin: {
-          x:
-            (mintRef.current.getBoundingClientRect().left +
-              mintRef.current.getBoundingClientRect().width / 2 || 0.5) /
-            window.innerWidth,
-          y:
-            (mintRef.current.getBoundingClientRect().top || 0.5) /
-            window.innerHeight,
-        },
-        shapes: ["star"],
-        colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
-      })
+    if (!isConnected) {
+      setMintProgress(true)
+      openConnectModal?.()
+    } else if (!userSite.data) {
+      router.push(`${SITE_URL}/dashboard/new-site`)
+    } else if (pageId) {
+      if (isMint.data?.count) {
+        setIsMintOpen(true)
+      } else {
+        mintPage.mutate(parsePageId(pageId))
+      }
     }
   }
 
