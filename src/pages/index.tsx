@@ -331,7 +331,7 @@ export default function Home() {
                 ></Image>
                 <p className="text-center">Visit xlog.{OUR_DOMAIN}</p>
               </UniLink>
-              <ul className="pt-20 grid grid-cols-3 gap-8">
+              <ul className="pt-20 grid grid-cols-1 sm:grid-cols-3 gap-8">
                 {features.map((item, index) => (
                   <li
                     className="border rounded-xl overflow-hidden bg-white hover:shadow-md hover:scale-105 transition duration-300 cursor-default"
@@ -446,7 +446,7 @@ export default function Home() {
                   xLog&apos;s open design allows it to integrate with many other
                   open protocols and applications without friction.
                 </p>
-                <ul className="mt-14 grid grid-cols-5 gap-y-14 gap-x-2">
+                <ul className="mt-14 grid grid-cols-3 sm:grid-cols-5 gap-y-14 gap-x-2">
                   {integrations.map((item, index) => (
                     <li
                       className="hover:scale-105 transition-transform duration-300"
@@ -455,12 +455,12 @@ export default function Home() {
                       {item.url ? (
                         <UniLink
                           href={item.url}
-                          className="w-full h-full flex items-center flex-col justify-center"
+                          className="w-full flex items-center flex-col justify-center"
                         >
                           <div className="w-12 h-12 rounded-md overflow-hidden">
                             {item.icon}
                           </div>
-                          <div className="font-medium text-xl mt-2">
+                          <div className="font-medium sm:text-lg mt-2 text-center">
                             {item.name}
                           </div>
                         </UniLink>
@@ -470,7 +470,7 @@ export default function Home() {
                             <div className="w-12 h-12 rounded-md overflow-hidden">
                               {item.icon}
                             </div>
-                            <div className="font-medium text-xl mt-2">
+                            <div className="font-medium sm:text-lg mt-2 text-center">
                               {item.name}
                             </div>
                           </div>
