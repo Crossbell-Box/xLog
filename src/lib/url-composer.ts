@@ -13,19 +13,26 @@ export const urlComposer: Partial<UrlComposer> = {
     }
 
     if (originalNote.metadata?.content?.sources?.includes("xlog")) {
-      const { character } = originalNote
-
-      if (character) {
+      if (originalNote.metadata?.content?.external_urls?.[0]) {
         return (
-          getSiteLink({
-            subdomain: character.handle,
-          }) +
-          "/" +
-          getNoteSlug(originalNote) +
+          originalNote.metadata.content.external_urls[0] +
           (originalNote !== note ? `#comments` : "")
         )
       } else {
-        return ""
+        const { character } = originalNote
+
+        if (character) {
+          return (
+            getSiteLink({
+              subdomain: character.handle,
+            }) +
+            "/" +
+            getNoteSlug(originalNote) +
+            (originalNote !== note ? `#comments` : "")
+          )
+        } else {
+          return ""
+        }
       }
     } else {
       return `${CSB_IO}/notes/${note.characterId}-${note.noteId}`
