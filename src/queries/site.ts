@@ -13,14 +13,15 @@ import { useUnidata } from "./unidata"
 export const useAccountSites = () => {
   const unidata = useUnidata()
   const account = useAccountState((s) => s.computed.account)
-  const address = account?.type === "email" ? account.email : account?.address
+  const handle =
+    account?.type === "email" ? account.character?.handle : account?.handle
 
-  return useQuery(["getUserSites", address], async () => {
-    if (!account) {
+  return useQuery(["getUserSites", handle], async () => {
+    if (!account || !handle) {
       return []
     }
 
-    return siteModel.getAccountSites({ account, unidata })
+    return siteModel.getAccountSites({ handle, unidata })
   })
 }
 
@@ -45,18 +46,18 @@ export const useGetSites = (input: string[]) => {
 
 export const useGetSubscription = (siteId: string | undefined) => {
   const account = useAccountState((s) => s.computed.account)
+  const handle =
+    account?.type === "email" ? account.character?.handle : account?.handle
   const unidata = useUnidata()
 
-  return useQuery(
-    ["getSubscription", siteId, account?.characterId],
-    async () => {
-      if (!account || !siteId) {
-        return false
-      }
+  console.log(["getSubscription", siteId, handle])
+  return useQuery(["getSubscription", siteId, handle], async () => {
+    if (!handle || !siteId) {
+      return false
+    }
 
-      return siteModel.getSubscription(siteId, account, unidata)
-    },
-  )
+    return siteModel.getSubscription(siteId, handle, unidata)
+  })
 }
 
 export const useGetSiteSubscriptions = (data: { siteId: string }) => {
@@ -135,7 +136,9 @@ export function useSubscribeToSite() {
         queryClient.invalidateQueries([
           "getSubscription",
           variables.siteId,
-          account?.characterId,
+          account?.type === "email"
+            ? account?.character?.handle
+            : account?.handle,
         ]),
       ])
     },
@@ -187,7 +190,9 @@ export function useUnsubscribeFromSite() {
         queryClient.invalidateQueries([
           "getSubscription",
           variables.siteId,
-          account?.characterId,
+          account?.type === "email"
+            ? account?.character?.handle
+            : account?.handle,
         ]),
       ])
     },

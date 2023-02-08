@@ -100,25 +100,17 @@ export const getUserSites = async (params: GetUserSitesParams) => {
 }
 
 export type GetAccountSitesParams = {
-  account: GeneralAccount
+  handle: string
   unidata?: Unidata
 }
 
 export const getAccountSites = (
   params: GetAccountSitesParams,
 ): Promise<Profile[] | null> => {
-  switch (params.account.type) {
-    case "email":
-      return getUserSites({
-        handle: params.account.character.handle,
-        unidata: params.unidata,
-      })
-    case "wallet":
-      return getUserSites({
-        address: params.account.address,
-        unidata: params.unidata,
-      })
-  }
+  return getUserSites({
+    handle: params.handle,
+    unidata: params.unidata,
+  })
 }
 
 export const getSite = async (input: string, customUnidata?: Unidata) => {
@@ -210,27 +202,15 @@ export const getSites = async (input: string[]) => {
 
 export const getSubscription = async (
   siteId: string,
-  account: GeneralAccount,
+  handle: string,
   customUnidata?: Unidata,
 ) => {
-  const links = await (() => {
-    switch (account.type) {
-      case "email":
-        return (customUnidata || unidata).links.get({
-          source: "Crossbell Link",
-          identity: account.character.handle,
-          platform: "Crossbell",
-          filter: { to: siteId },
-        })
-      case "wallet":
-        return (customUnidata || unidata).links.get({
-          source: "Crossbell Link",
-          identity: account.address,
-          platform: "Ethereum",
-          filter: { to: siteId },
-        })
-    }
-  })()
+  const links = await (customUnidata || unidata).links.get({
+    source: "Crossbell Link",
+    identity: handle,
+    platform: "Crossbell",
+    filter: { to: siteId },
+  })
 
   return !!links?.list?.length
 }
@@ -387,27 +367,6 @@ export async function createSite(
   )
 }
 
-export async function subscribeToSite(
-  input: {
-    userId: string
-    siteId: string
-  },
-  customUnidata?: Unidata,
-) {
-  return (customUnidata || unidata).links.set(
-    {
-      source: "Crossbell Link",
-      identity: input.userId,
-      platform: "Ethereum",
-      action: "add",
-    },
-    {
-      to: input.siteId,
-      type: "follow",
-    },
-  )
-}
-
 export async function subscribeToSites(
   input: {
     user: Profile
@@ -425,27 +384,6 @@ export async function subscribeToSites(
       "follow",
     )
   }
-}
-
-export async function unsubscribeFromSite(
-  input: {
-    userId: string
-    siteId: string
-  },
-  customUnidata?: Unidata,
-) {
-  return (customUnidata || unidata).links.set(
-    {
-      source: "Crossbell Link",
-      identity: input.userId,
-      platform: "Ethereum",
-      action: "remove",
-    },
-    {
-      to: input.siteId,
-      type: "follow",
-    },
-  )
 }
 
 const xLogOperatorPermissions: CharacterOperatorPermission[] = [
