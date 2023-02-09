@@ -8,14 +8,12 @@ import { UniLink } from "../ui/UniLink"
 import { Profile } from "~/lib/types"
 import { ConnectButton } from "../common/ConnectButton"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { RSS3Icon } from "~/components/icons/RSS3Icon"
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { Image } from "~/components/ui/Image"
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import { RssIcon } from "@heroicons/react/24/solid"
-import { XCharIcon } from "~/components/icons/XCharIcon"
-import { XFeedIcon } from "~/components/icons/XFeedIcon"
+import { XCharLogo, XFeedLogo } from "@crossbell/ui"
 import { FastAverageColor } from "fast-average-color"
 import { useState, useRef, useEffect, RefObject } from "react"
 import chroma from "chroma-js"
@@ -62,12 +60,12 @@ export const SiteHeader: React.FC<{
   const moreMenuItems = [
     {
       text: "View on xChar",
-      icon: <XCharIcon className="w-4 h-4" />,
+      icon: <XCharLogo className="w-4 h-4" />,
       url: `${CSB_XCHAR}/${site?.username}`,
     },
     {
       text: "View on xFeed",
-      icon: <XFeedIcon className="w-4 h-4" />,
+      icon: <XFeedLogo className="w-4 h-4" />,
       url: `${CSB_IO}/@${site?.username}`,
     },
     {
@@ -76,7 +74,7 @@ export const SiteHeader: React.FC<{
         <div className="w-4 h-4">
           <Image
             alt="Hoot It"
-            src="/assets/hootit.png"
+            src="/assets/hoot.svg"
             className="rounded"
             width={16}
             height={16}
@@ -95,7 +93,7 @@ export const SiteHeader: React.FC<{
       icon: (
         <div className="w-4 h-4">
           <Image
-            alt="Hoot It"
+            alt="JSON Feed"
             src="/assets/json-feed.png"
             className="rounded"
             width={16}

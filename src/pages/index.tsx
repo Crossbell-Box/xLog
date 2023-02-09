@@ -26,14 +26,14 @@ import {
   RssIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/24/outline"
-import { XCharIcon } from "~/components/icons/XCharIcon"
-import { XFeedIcon } from "~/components/icons/XFeedIcon"
-import { XSyncIcon } from "~/components/icons/XSyncIcon"
-import { XShopIcon } from "~/components/icons/XShopIcon"
-import { CrossbellIcon } from "~/components/icons/CrossbellIcon"
-import { RSS3Icon } from "~/components/icons/RSS3Icon"
 import { Tooltip } from "~/components/ui/Tooltip"
-import { HootIcon } from "~/components/icons/HootIcon"
+import {
+  XCharLogo,
+  XFeedLogo,
+  XSyncLogo,
+  XShopLogo,
+  CrossbellChainLogo,
+} from "@crossbell/ui"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -154,52 +154,56 @@ export default function Home() {
     },
     {
       name: "xChar",
-      icon: <XCharIcon className="w-full h-full" />,
+      icon: <XCharLogo className="w-full h-full" />,
       url: "https://xchar.app/",
     },
     {
       name: "xFeed",
-      icon: <XFeedIcon className="w-full h-full" />,
+      icon: <XFeedLogo className="w-full h-full" />,
       url: "https://crossbell.io/feed",
     },
     {
       name: "xSync",
-      icon: <XSyncIcon className="w-full h-full" />,
+      icon: <XSyncLogo className="w-full h-full" />,
       url: "https://xsync.app/",
     },
     {
       name: "xShop",
-      icon: <XShopIcon className="w-full h-full" />,
+      icon: <XShopLogo className="w-full h-full" />,
       text: "Coming soon",
     },
     {
       name: "Crossbell Scan",
-      icon: <CrossbellIcon className="w-full h-full p-[2px]" />,
+      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
       url: "https://scan.crossbell.io/",
     },
     {
       name: "Crossbell Faucet",
-      icon: <CrossbellIcon className="w-full h-full p-[2px]" />,
+      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
       url: "https://faucet.crossbell.io/",
     },
     {
       name: "Crossbell Export",
-      icon: <CrossbellIcon className="w-full h-full p-[2px]" />,
+      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
       url: "https://export.crossbell.io/",
     },
     {
       name: "Crossbell SDK",
-      icon: <CrossbellIcon className="w-full h-full p-[2px]" />,
+      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
       url: "https://crossbell-box.github.io/crossbell.js/",
     },
     {
       name: "RSS3",
-      icon: <RSS3Icon className="w-full h-full" />,
+      icon: (
+        <Image alt="RSS3" src="/assets/rss3.svg" className="rounded" fill />
+      ),
       url: "https://rss3.io/",
     },
     {
       name: "Hoot It",
-      icon: <HootIcon className="w-full h-full" />,
+      icon: (
+        <Image alt="Hoot It" src="/assets/hoot.svg" className="rounded" fill />
+      ),
       url: "https://hoot.it/search/xLog",
     },
     {
