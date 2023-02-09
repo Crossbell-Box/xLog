@@ -21,7 +21,7 @@ import { Menu } from "~/components/ui/Menu"
 
 export type HeaderLinkType = {
   icon?: React.ReactNode
-  label: string
+  label: string | JSX.Element
   url?: string
   onClick?: () => void
 }

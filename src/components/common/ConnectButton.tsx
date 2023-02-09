@@ -3,6 +3,11 @@ import {
   useAccountState,
   useDisconnectModal,
   GeneralAccount,
+  useCsbDetailModal,
+  useIsOpSignEnabled,
+  useOpSignSettingsModal,
+  useUpgradeAccountModal,
+  useSelectCharactersModal,
 } from "@crossbell/connect-kit"
 import { useAccountSites } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
@@ -15,6 +20,12 @@ import {
   Square2StackIcon,
   ArrowRightOnRectangleIcon,
   BellIcon,
+  CurrencyDollarIcon,
+  UsersIcon,
+  FaceFrownIcon,
+  FaceSmileIcon,
+  ArrowUpCircleIcon,
+  ArrowPathRoundedSquareIcon,
 } from "@heroicons/react/24/outline"
 import { BellAlertIcon } from "@heroicons/react/24/solid"
 import { SITE_URL } from "~/lib/env"
@@ -57,34 +68,23 @@ export const ConnectButton: React.FC<{
     ssrReady,
     computed.account,
   ])
+  const isOpSignEnabled = useIsOpSignEnabled({
+    characterId: account?.characterId,
+  })
 
   const { show: openConnectModal } = useConnectModal()
   const { show: disconnect } = useDisconnectModal()
   const { balance } = useAccountBalance()
   const [copyLabelDisplay, copyLabel] = useCopyLabel(account)
+  const csbDetailModal = useCsbDetailModal()
+  const opSignSettingsModal = useOpSignSettingsModal()
+  const upgradeAccountModal = useUpgradeAccountModal()
+  const selectCharactersModal = useSelectCharactersModal()
 
   const userSites = useAccountSites()
 
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
-
-  const dropdownLinks: HeaderLinkType[] = [
-    {
-      icon: <Square2StackIcon className="w-4 h-4" />,
-      label: copyLabelDisplay,
-      onClick: copyLabel,
-    },
-    {
-      icon: <DashboardIcon />,
-      label: "Writer dashboard",
-      url: `${SITE_URL}/dashboard`,
-    },
-    {
-      icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
-      label: "Disconnect",
-      onClick: disconnect,
-    },
-  ]
 
   const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(false)
 
@@ -100,6 +100,69 @@ export const ConnectButton: React.FC<{
       }
     }
   }, [balance])
+
+  const dropdownLinks: HeaderLinkType[] = [
+    {
+      icon: <DashboardIcon />,
+      label: "Writer dashboard",
+      url: `${SITE_URL}/dashboard`,
+    },
+    {
+      icon: <Square2StackIcon className="w-4 h-4" />,
+      label: copyLabelDisplay,
+      onClick: copyLabel,
+    },
+    ...(account?.type === "wallet"
+      ? [
+          {
+            icon: <UsersIcon className="w-4 h-4" />,
+            label: (
+              <>
+                Operator Sign (
+                {isOpSignEnabled ? (
+                  <FaceSmileIcon className="w-4 h-4" />
+                ) : (
+                  <FaceFrownIcon className="w-4 h-4" />
+                )}
+                )
+              </>
+            ),
+            onClick: () => {
+              if (account?.characterId) {
+                opSignSettingsModal.show(account?.characterId)
+              }
+            },
+          },
+          {
+            icon: <CurrencyDollarIcon className="w-4 h-4" />,
+            label: (
+              <span className={InsufficientBalance ? "text-red-400" : ""}>
+                {balance?.formatted.replace(/\.(\d{5})\d*$/, ".$1") ||
+                  "0.00000"}{" "}
+                CSB
+              </span>
+            ),
+            onClick: csbDetailModal.show,
+          },
+          {
+            icon: <ArrowPathRoundedSquareIcon className="w-4 h-4" />,
+            label: "Switch Character",
+            onClick: selectCharactersModal.show,
+          },
+        ]
+      : [
+          {
+            icon: <ArrowUpCircleIcon className="w-4 h-4" />,
+            label: "Upgrade to Wallet",
+            onClick: upgradeAccountModal.show,
+          },
+        ]),
+    {
+      icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
+      label: "Disconnect",
+      onClick: disconnect,
+    },
+  ]
 
   return (
     <div
@@ -149,7 +212,6 @@ export const ConnectButton: React.FC<{
                         onClick={showNotificationModal}
                       />
                     )}
-
                     <div className="h-full w-[2px] py-1">
                       <div className="w-full h-full bg-zinc-200 rounded-full"></div>
                     </div>
@@ -210,15 +272,6 @@ export const ConnectButton: React.FC<{
                         size === "base" ? "text-base" : "text-sm"
                       } mt-1`}
                     >
-                      {InsufficientBalance && (
-                        <UniLink
-                          href="https://faucet.crossbell.io/"
-                          className="text-red-600 px-4 h-8 flex items-center w-full whitespace-nowrap hover:bg-hover"
-                        >
-                          <span className="mr-2 fill-red-600 i-bxs:bell"></span>
-                          Insufficient $CSB balance ({balance?.formatted})
-                        </UniLink>
-                      )}
                       {dropdownLinks.map((link, i) => {
                         return (
                           <UniLink
