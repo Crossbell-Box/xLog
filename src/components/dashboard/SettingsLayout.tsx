@@ -17,6 +17,10 @@ export const SettingsLayout: React.FC<{
       ? [
           { text: "General", href: `/dashboard/${subdomain}/settings/general` },
           {
+            text: "Social Platforms",
+            href: `/dashboard/${subdomain}/settings/social-platforms`,
+          },
+          {
             text: "Navigation",
             href: `/dashboard/${subdomain}/settings/navigation`,
           },

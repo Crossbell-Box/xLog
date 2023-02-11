@@ -13,14 +13,21 @@ import {
   useDismiss,
   useTransitionStyles,
 } from "@floating-ui/react"
+import clsx from "clsx"
 
 interface Props {
   label: string
   placement?: Placement
   children: JSX.Element
+  className?: string
 }
 
-export const Tooltip = ({ children, label, placement = "top" }: Props) => {
+export const Tooltip = ({
+  children,
+  label,
+  placement = "top",
+  className,
+}: Props) => {
   const [open, setOpen] = useState(false)
 
   const { x, y, refs, strategy, context } = useFloating({
@@ -54,7 +61,10 @@ export const Tooltip = ({ children, label, placement = "top" }: Props) => {
       {isMounted && (
         <div
           ref={refs.setFloating}
-          className="bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1"
+          className={clsx(
+            "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1 whitespace-nowrap",
+            className,
+          )}
           style={{
             position: strategy,
             top: y ?? "0",

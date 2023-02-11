@@ -275,6 +275,7 @@ export async function updateSite(
       address: string
       mime_type: string
     }
+    connected_accounts?: Profile["connected_accounts"]
   },
   customUnidata?: Unidata,
   newbieToken?: string,
@@ -292,6 +293,9 @@ export async function updateSite(
       ...(payload.icon && { avatars: [payload.icon] }),
       ...(payload.banner && { banners: [payload.banner] }),
       ...(payload.subdomain && { username: payload.subdomain }),
+      ...(payload.connected_accounts && {
+        connected_accounts: payload.connected_accounts,
+      }),
       ...((payload.navigation !== undefined ||
         payload.css !== undefined ||
         payload.ga !== undefined ||

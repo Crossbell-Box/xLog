@@ -3,6 +3,7 @@ import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import Script from "next/script"
 import Image from "next/image"
+import { Platform } from "~/components/site/Platform"
 
 export const SiteFooter: React.FC<{
   site?: Profile | null
@@ -11,11 +12,11 @@ export const SiteFooter: React.FC<{
   return (
     <>
       <footer className="text-zinc-500 border-t">
-        <div className="max-w-screen-md mx-auto px-5 py-10 text-xs">
+        <div className="max-w-screen-md mx-auto px-5 py-10 text-xs flex justify-between">
           <p className="font-medium text-base">
             &copy;{" "}
             <UniLink href="/" className="hover:text-accent">
-              {site?.username}
+              {site?.name}
             </UniLink>{" "}
             · Powered by{" "}
             <UniLink
@@ -30,6 +31,18 @@ export const SiteFooter: React.FC<{
               />
             </UniLink>
           </p>
+          {site?.connected_accounts && (
+            <div className="ml-5 -mr-5">
+              {site?.connected_accounts.map((account, index) => (
+                <Platform
+                  key={index}
+                  platform={account.platform}
+                  username={account.identity}
+                  className="mr-2 sm:mr-5"
+                ></Platform>
+              ))}
+            </div>
+          )}
         </div>
       </footer>
       {site?.ga && (
