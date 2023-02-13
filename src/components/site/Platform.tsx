@@ -70,6 +70,11 @@ const syncMap: {
     name: "Nintendo Switch",
     icon: "/assets/social/nintendo_switch.svg",
   },
+  "discord server": {
+    name: "Discord Server",
+    icon: "/assets/social/discord.svg",
+    url: "https://discord.gg/{username}",
+  },
 }
 
 export const Platform: React.FC<{

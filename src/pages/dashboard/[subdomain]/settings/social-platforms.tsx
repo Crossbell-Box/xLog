@@ -155,6 +155,20 @@ export default function SiteSettingsNavigationPage() {
         </p>
         <p>
           <span className="text-zinc-800">
+            We support{" "}
+            <UniLink
+              href="https://github.com/Crossbell-Box/xLog/blob/dev/src/components/site/Platform.tsx#L7"
+              className="underline"
+            >
+              these platforms
+            </UniLink>{" "}
+            with automatic display of logos and links, other platforms will
+            display a default logo. Please feel free to submit an issue or pr to
+            us to support more platforms.
+          </span>
+        </p>
+        <p>
+          <span className="text-zinc-800">
             You can also connect to Twitter, Telegram Channel, Medium, Substack
             and more and automatically sync content on{" "}
             <UniLink href="https://xsync.app/" className="underline">
