@@ -24,7 +24,7 @@ specifiers:
   '@iconify-json/bxs': 1.1.5
   '@iconify-json/carbon': 1.1.14
   '@iconify-json/fluent': 1.1.17
-  '@iconify-json/mdi': 1.1.46
+  '@iconify-json/mdi': 1.1.47
   '@iconify-json/tabler': 1.1.59
   '@monaco-editor/react': 4.4.6
   '@next/bundle-analyzer': 13.1.6
@@ -219,7 +219,7 @@ devDependencies:
   '@iconify-json/bxs': 1.1.5
   '@iconify-json/carbon': 1.1.14
   '@iconify-json/fluent': 1.1.17
-  '@iconify-json/mdi': 1.1.46
+  '@iconify-json/mdi': 1.1.47
   '@next/bundle-analyzer': 13.1.6
   '@playwright/test': 1.30.0
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.6
@@ -2766,8 +2766,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
-  /@iconify-json/mdi/1.1.46:
-    resolution: {integrity: sha512-1BGXzKpVRAgcDuoLGLvignvDXePiaGITbvQpfCi/C2FlhP9r9n0kPIyWVfjRYUYz4YzLnuDKr9YM0jIv9aus9A==}
+  /@iconify-json/mdi/1.1.47:
+    resolution: {integrity: sha512-5E5mazdQaMNl3gmLL7whteh61weJBRfW2R9Rq0/pgAe9B0j22mViyADm/ooHZx07Vkc0ZqnkgUrpT6OsS9Qhzg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
