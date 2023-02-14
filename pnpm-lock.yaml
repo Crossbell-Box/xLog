@@ -75,7 +75,7 @@ specifiers:
   ioredis: 5.3.0
   js-yaml: 4.1.0
   jsonfeed-to-rss: ^3.0.6
-  lint-staged: 13.1.1
+  lint-staged: 13.1.2
   mdast-util-to-string: 3.1.1
   mdast-util-toc: 6.1.1
   nanoid: 4.0.1
@@ -247,7 +247,7 @@ devDependencies:
   eslint: 8.34.0
   eslint-config-next: 13.1.6_7kw3g6rralp5ps6mg3uyzz6azm
   husky: 8.0.3
-  lint-staged: 13.1.1
+  lint-staged: 13.1.2
   next-pwa: 5.6.0_esbuild@0.17.7+next@13.1.6
   postcss-import: 15.1.0
   prettier: 2.8.4
@@ -8812,8 +8812,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: false
 
-  /lint-staged/13.1.1:
-    resolution: {integrity: sha512-LLJLO0Kdbcv2a+CvSF4p1M7jBZOajKSMpBUvyR8+bXccsqPER0/NxTFQSpNHjqwV9kM3tkHczYerTB5wI+bksQ==}
+  /lint-staged/13.1.2:
+    resolution: {integrity: sha512-K9b4FPbWkpnupvK3WXZLbgu9pchUJ6N7TtVZjbaPsoizkqFUDkUReUL25xdrCljJs7uLUF3tZ7nVPeo/6lp+6w==}
     engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
