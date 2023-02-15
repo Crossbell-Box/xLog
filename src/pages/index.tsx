@@ -6,7 +6,11 @@ import { UniLink } from "~/components/ui/UniLink"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { LaughIcon } from "~/components/icons/LaughIcon"
 import { Button } from "~/components/ui/Button"
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+import {
+  useAccountState,
+  useConnectModal,
+  useWalletMintNewCharacterModal,
+} from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 import { useRouter } from "next/router"
 import { GITHUB_LINK, APP_NAME, CSB_SCAN, OUR_DOMAIN } from "~/lib/env"
@@ -221,6 +225,7 @@ export default function Home() {
   const [followProgress, setFollowProgress] = useState<boolean>(false)
   const userSite = useAccountSites()
   const subscribeToSites = useSubscribeToSites()
+  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   const doSubscribeToSites = useRefCallback(() => {
     subscribeToSites.mutate({
@@ -237,7 +242,7 @@ export default function Home() {
       setFollowProgress(true)
       openConnectModal?.()
     } else if (!userSite.data?.[0]) {
-      router.push(`${SITE_URL}/dashboard/new-site`)
+      walletMintNewCharacterModal.show()
     } else {
       doSubscribeToSites()
     }
@@ -252,9 +257,10 @@ export default function Home() {
       userSite.isSuccess
     ) {
       if (!userSite.data) {
-        router.push(`${SITE_URL}/dashboard/new-site`)
+        walletMintNewCharacterModal.show()
+      } else {
+        doSubscribeToSites()
       }
-      doSubscribeToSites()
       setFollowProgress(false)
     }
   }, [
@@ -310,7 +316,7 @@ export default function Home() {
                     <span>Dashboard</span>
                   </>
                 ) : (
-                  "Get started free"
+                  "Get my xLog in 5 minutes"
                 )}
               </Button>
             </div>
@@ -508,11 +514,11 @@ export default function Home() {
                 href="/dashboard"
                 className="text-accent inline-flex items-center space-x-2"
               >
-                <Button size="xl">Get started free</Button>
+                <Button size="xl">Get my xLog in 5 minutes</Button>
               </UniLink>
             ) : (
               <Button onClick={tryNow} size="xl">
-                Get started free
+                Get my xLog in 5 minutes
               </Button>
             )}
           </div>

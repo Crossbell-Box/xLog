@@ -9,7 +9,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (userSites.isSuccess) {
       if (!userSites.data?.length) {
-        router.push(`/dashboard/new-site`)
+        router.push(`/`)
       } else {
         router.push(`/dashboard/${userSites.data[0].username}`)
       }

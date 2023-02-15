@@ -9,7 +9,11 @@ import {
   useCheckMint,
 } from "~/queries/page"
 import { useAccountSites } from "~/queries/site"
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+import {
+  useAccountState,
+  useConnectModal,
+  useWalletMintNewCharacterModal,
+} from "@crossbell/connect-kit"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "../ui/Button"
 import { useRouter } from "next/router"
@@ -33,7 +37,7 @@ export const Reactions: React.FC<{
   const unlikePage = useUnlikePage()
   const mintPage = useMintPage()
 
-  const isConnected = useAccountState((s) => !!s.computed.account)
+  const isConnected = useAccountState((s) => !!s.computed.account) // TODO is logged in
   const { show: openConnectModal } = useConnectModal()
   const [likeProgress, setLikeProgress] = useState(false)
   const [mintProgress, setMintProgress] = useState(false)
@@ -45,6 +49,7 @@ export const Reactions: React.FC<{
   const [isMintListOpen, setIsMintListOpen] = useState(false)
   const likeRef = useRef<HTMLButtonElement>(null)
   const mintRef = useRef<HTMLButtonElement>(null)
+  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   const likes = useGetLikes({
     pageId: pageId,
@@ -62,8 +67,8 @@ export const Reactions: React.FC<{
     if (!isConnected) {
       setLikeProgress(true)
       openConnectModal?.()
-    } else if (!userSite.data) {
-      router.push(`${SITE_URL}/dashboard/new-site`)
+    } else if (!userSite.data?.length) {
+      walletMintNewCharacterModal.show()
     } else if (pageId) {
       if (isLike.data?.count) {
         setIsLikeOpen(true)
@@ -97,8 +102,6 @@ export const Reactions: React.FC<{
     if (!isConnected) {
       setMintProgress(true)
       openConnectModal?.()
-    } else if (!userSite.data) {
-      router.push(`${SITE_URL}/dashboard/new-site`)
     } else if (pageId) {
       if (isMint.data?.count) {
         setIsMintOpen(true)
@@ -143,9 +146,8 @@ export const Reactions: React.FC<{
       userSite.isSuccess
     ) {
       if (!userSite.data) {
-        router.push(`${SITE_URL}/dashboard/new-site`)
-      }
-      if (!isMint.data.count) {
+        walletMintNewCharacterModal.show()
+      } else if (!isMint.data.count) {
         mintPage.mutate(parsePageId(pageId))
       }
       setMintProgress(false)
@@ -171,9 +173,8 @@ export const Reactions: React.FC<{
       userSite.isSuccess
     ) {
       if (!userSite.data) {
-        router.push(`${SITE_URL}/dashboard/new-site`)
-      }
-      if (!isLike.data.count) {
+        walletMintNewCharacterModal.show()
+      } else if (!isLike.data.count) {
         likePage.mutate(parsePageId(pageId))
       }
       setLikeProgress(false)

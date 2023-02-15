@@ -9,7 +9,11 @@ import {
   useUnsubscribeFromSite,
   useAccountSites,
 } from "~/queries/site"
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+import {
+  useAccountState,
+  useConnectModal,
+  useWalletMintNewCharacterModal,
+} from "@crossbell/connect-kit"
 import clsx from "clsx"
 import { Profile } from "~/lib/types"
 
@@ -28,14 +32,15 @@ export const FollowingButton: React.FC<{
   const userSite = useAccountSites()
   const router = useRouter()
   const characterId = site?.metadata?.proof ? Number(site.metadata.proof) : null
+  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   const handleClickSubscribe = async (e: any) => {
     e.preventDefault()
     if (!account) {
       setFollowProgress(true)
       openConnectModal?.()
-    } else if (!userSite.data) {
-      router.push(`${SITE_URL}/dashboard/new-site`)
+    } else if (!userSite.data?.length) {
+      walletMintNewCharacterModal.show()
     } else if (characterId) {
       if (subscription.data) {
         unsubscribeFromSite.mutate({
@@ -62,7 +67,7 @@ export const FollowingButton: React.FC<{
       userSite.isSuccess
     ) {
       if (!userSite.data) {
-        router.push(`${SITE_URL}/dashboard/new-site`)
+        walletMintNewCharacterModal.show()
       }
       if (!subscription.data) {
         subscribeToSite.mutate({ characterId })
