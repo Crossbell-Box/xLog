@@ -17,6 +17,7 @@ import {
   useNotifications,
 } from "@crossbell/notification"
 import { useUserRole } from "~/hooks/useUserRole"
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 
 export function DashboardLayout({
   children,
@@ -31,12 +32,30 @@ export function DashboardLayout({
   const userSite = useAccountSites()
 
   const userRole = useUserRole(subdomain)
+  const [ssrReady, isConnected] = useAccountState(({ ssrReady, computed }) => [
+    ssrReady,
+    !!computed.account,
+  ])
+  const connectModal = useConnectModal()
+  const [ready, setReady] = React.useState(false)
+  const [hasPermission, setHasPermission] = React.useState(false)
 
   useEffect(() => {
-    if (userRole.isSuccess && !userRole.data) {
-      router.push("/dashboard")
+    if (ssrReady) {
+      if (!isConnected) {
+        setReady(false)
+        setHasPermission(false)
+        connectModal.show()
+      } else if (userRole.isSuccess) {
+        setReady(true)
+        if (userRole.data) {
+          setHasPermission(true)
+        } else {
+          setHasPermission(false)
+        }
+      }
     }
-  }, [router, userRole])
+  }, [ssrReady, userRole.isSuccess, userRole.data, isConnected, connectModal])
 
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
@@ -81,94 +100,110 @@ export function DashboardLayout({
     },
   ]
 
-  return (
-    <>
-      <SEOHead title={title} siteName={APP_NAME} />
-      {site?.data?.css && (
-        <link
-          type="text/css"
-          rel="stylesheet"
-          href={
-            "data:text/css;base64," +
-            Buffer.from(toGateway(site.data.css)).toString("base64")
-          }
-        />
-      )}
-      <div className="flex h-screen">
-        <DashboardSidebar>
-          {(isOpen) => (
-            <>
-              {userSite.data?.[0]?.username &&
-                subdomain &&
-                userSite.data[0].username !== subdomain && (
-                  <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
-                    <div className="mb-2">You are operating</div>
-                    <Avatar
-                      images={site.data?.avatars || []}
-                      size={60}
-                      name={site.data?.name}
-                    />
-                    <span className="flex flex-col justify-center">
-                      <span className="block">{site.data?.name}</span>
-                      <span className="block text-sm text-zinc-400">
-                        @{site.data?.username}
+  return ready ? (
+    hasPermission ? (
+      <>
+        <SEOHead title={title} siteName={APP_NAME} />
+        {site?.data?.css && (
+          <link
+            type="text/css"
+            rel="stylesheet"
+            href={
+              "data:text/css;base64," +
+              Buffer.from(toGateway(site.data.css)).toString("base64")
+            }
+          />
+        )}
+        <div className="flex h-screen">
+          <DashboardSidebar>
+            {(isOpen) => (
+              <>
+                {userSite.data?.[0]?.username &&
+                  subdomain &&
+                  userSite.data[0].username !== subdomain && (
+                    <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
+                      <div className="mb-2">You are operating</div>
+                      <Avatar
+                        images={site.data?.avatars || []}
+                        size={60}
+                        name={site.data?.name}
+                      />
+                      <span className="flex flex-col justify-center">
+                        <span className="block">{site.data?.name}</span>
+                        <span className="block text-sm text-zinc-400">
+                          @{site.data?.username}
+                        </span>
                       </span>
-                    </span>
-                  </div>
-                )}
-              <div className="mb-2 px-5 pt-3 pb-2">
-                <ConnectButton
-                  left={true}
-                  size="base"
-                  hideNotification={true}
-                  hideName={!isOpen}
-                />
-              </div>
+                    </div>
+                  )}
+                <div className="mb-2 px-5 pt-3 pb-2">
+                  <ConnectButton
+                    left={true}
+                    size="base"
+                    hideNotification={true}
+                    hideName={!isOpen}
+                  />
+                </div>
 
-              <div className="px-3 space-y-[2px] text-zinc-500">
-                {links.map((link) => {
-                  const active =
-                    link.href &&
-                    link.isActive({
-                      pathname: router.asPath,
-                      href: link.href,
-                    })
-                  return (
-                    <UniLink
-                      href={link.href}
-                      key={link.text}
-                      className={clsx(
-                        `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
-                        active
-                          ? `bg-slate-200 font-medium text-slate-800`
-                          : `hover:bg-slate-200 hover:bg-opacity-50`,
-                        !isOpen && "justify-center",
-                      )}
-                      onClick={link.onClick}
-                    >
-                      <span className={clsx(link.icon, "text-lg")}></span>
-                      {isOpen && <span>{link.text}</span>}
-                    </UniLink>
-                  )
-                })}
-              </div>
-
-              <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center px-4">
-                <UniLink
-                  href={getSiteLink({
-                    subdomain,
+                <div className="px-3 space-y-[2px] text-zinc-500">
+                  {links.map((link) => {
+                    const active =
+                      link.href &&
+                      link.isActive({
+                        pathname: router.asPath,
+                        href: link.href,
+                      })
+                    return (
+                      <UniLink
+                        href={link.href}
+                        key={link.text}
+                        className={clsx(
+                          `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
+                          active
+                            ? `bg-slate-200 font-medium text-slate-800`
+                            : `hover:bg-slate-200 hover:bg-opacity-50`,
+                          !isOpen && "justify-center",
+                        )}
+                        onClick={link.onClick}
+                      >
+                        <span className={clsx(link.icon, "text-lg")}></span>
+                        {isOpen && <span>{link.text}</span>}
+                      </UniLink>
+                    )
                   })}
-                  className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-slate-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
-                >
-                  <span className="i-bi:box-arrow-up-right"></span>
-                  {isOpen && <span>View Site</span>}
-                </UniLink>
-              </div>
-            </>
-          )}
-        </DashboardSidebar>
-        {children}
+                </div>
+
+                <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center px-4">
+                  <UniLink
+                    href={getSiteLink({
+                      subdomain,
+                    })}
+                    className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-slate-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
+                  >
+                    <span className="i-bi:box-arrow-up-right"></span>
+                    {isOpen && <span>View Site</span>}
+                  </UniLink>
+                </div>
+              </>
+            )}
+          </DashboardSidebar>
+          {children}
+        </div>
+      </>
+    ) : (
+      <div className="w-screen h-screen flex items-center justify-center flex-col">
+        <ConnectButton size="base" />
+        <div className="mt-8">
+          Sorry, you do not have permission to access the current page.
+        </div>
+        <div className="mt-4">
+          Please switch account or request the owner to set you as the operator.
+        </div>
       </div>
-    </>
+    )
+  ) : (
+    <div className="w-screen h-screen flex justify-center items-center">
+      Loading...
+    </div>
   )
 }
