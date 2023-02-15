@@ -146,7 +146,7 @@ export const ConnectButton: React.FC<{
           },
           {
             icon: <ArrowPathRoundedSquareIcon className="w-4 h-4" />,
-            label: "Switch Character",
+            label: "Switch Characters",
             onClick: selectCharactersModal.show,
           },
         ]

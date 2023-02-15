@@ -310,7 +310,7 @@ export default function Home() {
                     <span>Dashboard</span>
                   </>
                 ) : (
-                  "Connect"
+                  "Get started free"
                 )}
               </Button>
             </div>
@@ -508,11 +508,11 @@ export default function Home() {
                 href="/dashboard"
                 className="text-accent inline-flex items-center space-x-2"
               >
-                <Button size="xl">Try {APP_NAME} Today</Button>
+                <Button size="xl">Get started free</Button>
               </UniLink>
             ) : (
               <Button onClick={tryNow} size="xl">
-                Try {APP_NAME} Today
+                Get started free
               </Button>
             )}
           </div>

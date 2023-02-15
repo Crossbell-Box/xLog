@@ -50,7 +50,6 @@ export const useGetSubscription = (siteId: string | undefined) => {
     account?.type === "email" ? account.character?.handle : account?.handle
   const unidata = useUnidata()
 
-  console.log(["getSubscription", siteId, handle])
   return useQuery(["getSubscription", siteId, handle], async () => {
     if (!handle || !siteId) {
       return false
