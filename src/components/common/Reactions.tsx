@@ -13,6 +13,7 @@ import {
   useAccountState,
   useConnectModal,
   useWalletMintNewCharacterModal,
+  useConnectedAction,
 } from "@crossbell/connect-kit"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "../ui/Button"
@@ -63,20 +64,15 @@ export const Reactions: React.FC<{
   })
   const isMint = useCheckMint(pageId)
 
-  const like = async () => {
-    if (!isConnected) {
-      setLikeProgress(true)
-      openConnectModal?.()
-    } else if (!userSite.data?.length) {
-      walletMintNewCharacterModal.show()
-    } else if (pageId) {
+  const like = useConnectedAction(() => {
+    if (pageId) {
       if (isLike.data?.count) {
         setIsLikeOpen(true)
       } else {
         likePage.mutate(parsePageId(pageId))
       }
     }
-  }
+  })
 
   useEffect(() => {
     if (likePage.isSuccess) {
