@@ -100,8 +100,7 @@
     "unist-util-visit": "4.1.2",
     "use-onclickoutside": "0.4.1",
     "uuid": "9.0.0",
-    "wagmi": "0.11.5",
-    "zustand": "4.3.3"
+    "wagmi": "0.11.5"
   },
   "devDependencies": {
     "@iconify-json/bi": "1.1.15",
@@ -130,6 +129,7 @@
     "@unocss/cli": "0.49.5",
     "@unocss/preset-icons": "0.49.5",
     "autoprefixer": "10.4.13",
+    "babel-loader": "^9.1.2",
     "cross-spawn": "7.0.3",
     "esbuild": "0.17.8",
     "esbuild-register": "3.4.2",
