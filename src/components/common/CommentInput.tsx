@@ -4,11 +4,7 @@ import { Avatar } from "~/components/ui/Avatar"
 import { Input } from "~/components/ui/Input"
 import { Button } from "~/components/ui/Button"
 import { useForm } from "react-hook-form"
-import {
-  useAccountState,
-  useConnectModal,
-  useWalletMintNewCharacterModal,
-} from "@crossbell/connect-kit"
+import { useAccountState, useConnectedAction } from "@crossbell/connect-kit"
 import { useState, useEffect } from "react"
 import { useCommentPage } from "~/queries/page"
 import { useRouter } from "next/router"
@@ -22,11 +18,9 @@ export const CommentInput: React.FC<{
 }> = ({ pageId, originalId }) => {
   const account = useAccountState((s) => s.computed.account)
   const userSites = useAccountSites()
-  const { show: openConnectModal } = useConnectModal()
   const commentPage = useCommentPage()
   const router = useRouter()
   const [viewer, setViewer] = useState<Profile | null>(null)
-  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   useEffect(() => {
     if (userSites.isSuccess && userSites.data?.length) {
@@ -41,11 +35,7 @@ export const CommentInput: React.FC<{
   })
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    if (!account) {
-      openConnectModal?.()
-    } else if (userSites.isSuccess && !userSites.data?.length) {
-      walletMintNewCharacterModal.show()
-    } else if (pageId) {
+    if (pageId) {
       commentPage.mutate({
         pageId: pageId,
         content: values.content,

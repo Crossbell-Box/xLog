@@ -9,16 +9,10 @@ import {
   useCheckMint,
 } from "~/queries/page"
 import { useAccountSites } from "~/queries/site"
-import {
-  useAccountState,
-  useConnectModal,
-  useWalletMintNewCharacterModal,
-  useConnectedAction,
-} from "@crossbell/connect-kit"
+import { useConnectedAction } from "@crossbell/connect-kit"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "../ui/Button"
-import { useRouter } from "next/router"
-import { SITE_URL, CSB_SCAN, CSB_XCHAR } from "~/lib/env"
+import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
 import { UniLink } from "~/components/ui/UniLink"
 import { Modal } from "~/components/ui/Modal"
 import { Avatar } from "../ui/Avatar"
@@ -38,19 +32,13 @@ export const Reactions: React.FC<{
   const unlikePage = useUnlikePage()
   const mintPage = useMintPage()
 
-  const isConnected = useAccountState((s) => !!s.computed.account) // TODO is logged in
-  const { show: openConnectModal } = useConnectModal()
-  const [likeProgress, setLikeProgress] = useState(false)
-  const [mintProgress, setMintProgress] = useState(false)
   const userSite = useAccountSites()
-  const router = useRouter()
   const [isLikeOpen, setIsLikeOpen] = useState(false)
   const [isMintOpen, setIsMintOpen] = useState(false)
   const [isLikeListOpen, setIsLikeListOpen] = useState(false)
   const [isMintListOpen, setIsMintListOpen] = useState(false)
   const likeRef = useRef<HTMLButtonElement>(null)
   const mintRef = useRef<HTMLButtonElement>(null)
-  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   const likes = useGetLikes({
     pageId: pageId,
@@ -94,18 +82,15 @@ export const Reactions: React.FC<{
     }
   }, [likePage.isSuccess])
 
-  const mint = async () => {
-    if (!isConnected) {
-      setMintProgress(true)
-      openConnectModal?.()
-    } else if (pageId) {
+  const mint = useConnectedAction(() => {
+    if (pageId) {
       if (isMint.data?.count) {
         setIsMintOpen(true)
       } else {
         mintPage.mutate(parsePageId(pageId))
       }
     }
-  }
+  })
 
   useEffect(() => {
     if (mintPage.isSuccess) {
@@ -132,60 +117,6 @@ export const Reactions: React.FC<{
       }
     }
   }, [mintPage.isSuccess])
-
-  useEffect(() => {
-    if (
-      mintProgress &&
-      isConnected &&
-      isMint.isSuccess &&
-      pageId &&
-      userSite.isSuccess
-    ) {
-      if (!userSite.data) {
-        walletMintNewCharacterModal.show()
-      } else if (!isMint.data.count) {
-        mintPage.mutate(parsePageId(pageId))
-      }
-      setMintProgress(false)
-    }
-  }, [
-    userSite.isSuccess,
-    userSite.data,
-    router,
-    mintProgress,
-    isConnected,
-    isMint.isSuccess,
-    isMint.data?.count,
-    mintPage,
-    pageId,
-  ])
-
-  useEffect(() => {
-    if (
-      likeProgress &&
-      isConnected &&
-      isLike.isSuccess &&
-      pageId &&
-      userSite.isSuccess
-    ) {
-      if (!userSite.data) {
-        walletMintNewCharacterModal.show()
-      } else if (!isLike.data.count) {
-        likePage.mutate(parsePageId(pageId))
-      }
-      setLikeProgress(false)
-    }
-  }, [
-    userSite.isSuccess,
-    userSite.data,
-    router,
-    likeProgress,
-    isConnected,
-    isLike.isSuccess,
-    isLike.data?.count,
-    likePage,
-    pageId,
-  ])
 
   const [likeList, setLikeList] = useState<any[]>([])
   const [likeCursor, setLikeCursor] = useState<string>()
@@ -250,10 +181,7 @@ export const Reactions: React.FC<{
             isAutoWidth={true}
             onClick={like}
             isLoading={
-              userSite.isLoading ||
-              likePage.isLoading ||
-              unlikePage.isLoading ||
-              likeProgress
+              userSite.isLoading || likePage.isLoading || unlikePage.isLoading
             }
             ref={likeRef}
           >
@@ -304,7 +232,7 @@ export const Reactions: React.FC<{
                 }`}
                 isAutoWidth={true}
                 onClick={mint}
-                isLoading={mintPage.isLoading || likeProgress}
+                isLoading={mintPage.isLoading}
                 ref={mintRef}
               >
                 <MintIcon

@@ -1,19 +1,13 @@
-import { useRouter } from "next/router"
-import { SITE_URL } from "~/lib/env"
 import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import {
   useGetSubscription,
   useSubscribeToSite,
   useUnsubscribeFromSite,
   useAccountSites,
 } from "~/queries/site"
-import {
-  useAccountState,
-  useConnectModal,
-  useWalletMintNewCharacterModal,
-} from "@crossbell/connect-kit"
+import { useConnectedAction } from "@crossbell/connect-kit"
 import clsx from "clsx"
 import { Profile } from "~/lib/types"
 
@@ -24,24 +18,13 @@ export const FollowingButton: React.FC<{
   size?: "sm" | "xl"
   loadingStatusChange?: (status: boolean) => void
 }> = ({ site, variant, className, size, loadingStatusChange }) => {
-  const account = useAccountState((s) => s.computed.account)
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
-  const { show: openConnectModal } = useConnectModal()
-  const [followProgress, setFollowProgress] = useState<boolean>(false)
   const userSite = useAccountSites()
-  const router = useRouter()
   const characterId = site?.metadata?.proof ? Number(site.metadata.proof) : null
-  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
-  const handleClickSubscribe = async (e: any) => {
-    e.preventDefault()
-    if (!account) {
-      setFollowProgress(true)
-      openConnectModal?.()
-    } else if (!userSite.data?.length) {
-      walletMintNewCharacterModal.show()
-    } else if (characterId) {
+  const handleClickSubscribe = useConnectedAction(() => {
+    if (characterId) {
       if (subscription.data) {
         unsubscribeFromSite.mutate({
           characterId,
@@ -54,37 +37,9 @@ export const FollowingButton: React.FC<{
         } as any)
       }
     }
-  }
+  })
 
   const subscription = useGetSubscription(site?.username)
-
-  useEffect(() => {
-    if (
-      followProgress &&
-      account &&
-      subscription.isSuccess &&
-      characterId &&
-      userSite.isSuccess
-    ) {
-      if (!userSite.data) {
-        walletMintNewCharacterModal.show()
-      }
-      if (!subscription.data) {
-        subscribeToSite.mutate({ characterId })
-      }
-      setFollowProgress(false)
-    }
-  }, [
-    userSite.isSuccess,
-    userSite.data,
-    router,
-    followProgress,
-    account,
-    subscription.isSuccess,
-    subscription.data,
-    characterId,
-    subscribeToSite,
-  ])
 
   useEffect(() => {
     if (subscribeToSite.isError) {

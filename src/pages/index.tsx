@@ -1,16 +1,12 @@
 import { GetServerSideProps } from "next"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { DashboardIcon } from "~/components/icons/DashboardIcon"
 import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { LaughIcon } from "~/components/icons/LaughIcon"
 import { Button } from "~/components/ui/Button"
-import {
-  useAccountState,
-  useConnectModal,
-  useWalletMintNewCharacterModal,
-} from "@crossbell/connect-kit"
+import { useAccountState, useConnectedAction } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 import { useRouter } from "next/router"
 import { GITHUB_LINK, APP_NAME, CSB_SCAN, OUR_DOMAIN } from "~/lib/env"
@@ -23,7 +19,6 @@ import { useGetSites } from "~/queries/site"
 import showcase from "../../showcase.json"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useAccountSites, useSubscribeToSites } from "~/queries/site"
-import { SITE_URL } from "~/lib/env"
 import {
   BoltIcon,
   FingerPrintIcon,
@@ -52,22 +47,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function Home() {
   const isConnected = useAccountState((s) => !!s.computed.account)
-  const { show: openConnectModal } = useConnectModal()
   const router = useRouter()
   const showcaseSites = useGetSites(showcase)
 
-  const [isTry, setIsTry] = useState(false)
-  const tryNow = () => {
-    setIsTry(true)
-    openConnectModal?.()
-  }
-
-  useEffect(() => {
-    if (isTry && isConnected) {
-      router.push("/dashboard")
-      setIsTry(false)
-    }
-  }, [isTry, isConnected, router])
+  const tryNow = useConnectedAction(() => {
+    router.push("/dashboard")
+  })
 
   const features = [
     {
@@ -222,10 +207,8 @@ export default function Home() {
     },
   ]
 
-  const [followProgress, setFollowProgress] = useState<boolean>(false)
   const userSite = useAccountSites()
   const subscribeToSites = useSubscribeToSites()
-  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   const doSubscribeToSites = useRefCallback(() => {
     subscribeToSites.mutate({
@@ -237,43 +220,9 @@ export default function Home() {
     } as any)
   })
 
-  const followAll = async () => {
-    if (!isConnected) {
-      setFollowProgress(true)
-      openConnectModal?.()
-    } else if (!userSite.data?.[0]) {
-      walletMintNewCharacterModal.show()
-    } else {
-      doSubscribeToSites()
-    }
-  }
-
-  useEffect(() => {
-    if (
-      followProgress &&
-      isConnected &&
-      showcaseSites.isSuccess &&
-      userSite.data?.[0] &&
-      userSite.isSuccess
-    ) {
-      if (!userSite.data) {
-        walletMintNewCharacterModal.show()
-      } else {
-        doSubscribeToSites()
-      }
-      setFollowProgress(false)
-    }
-  }, [
-    userSite.isSuccess,
-    userSite.data,
-    router,
-    followProgress,
-    isConnected,
-    showcaseSites.isSuccess,
-    showcaseSites.data,
-    subscribeToSites,
-    doSubscribeToSites,
-  ])
+  const followAll = useConnectedAction(() => {
+    doSubscribeToSites()
+  })
 
   const [showcaseMore, setShowcaseMore] = useState(false)
 
@@ -305,9 +254,7 @@ export default function Home() {
             <div className="my-10 sm:my-16">
               <Button
                 className="text-accent w-80 h-10"
-                onClick={() =>
-                  isConnected ? router.push("/dashboard") : openConnectModal?.()
-                }
+                onClick={tryNow}
                 size="xl"
               >
                 {isConnected ? (
@@ -383,7 +330,6 @@ export default function Home() {
                   className="mt-5"
                   onClick={followAll}
                   isLoading={
-                    followProgress ||
                     showcaseSites.isLoading ||
                     userSite.isLoading ||
                     subscribeToSites.isLoading
