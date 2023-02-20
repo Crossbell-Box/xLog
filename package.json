@@ -131,7 +131,7 @@
     "autoprefixer": "10.4.13",
     "babel-loader": "^9.1.2",
     "cross-spawn": "7.0.3",
-    "esbuild": "0.17.8",
+    "esbuild": "0.17.10",
     "esbuild-register": "3.4.2",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
