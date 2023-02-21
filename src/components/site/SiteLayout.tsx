@@ -49,7 +49,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   const isConnected = useAccountState((s) => !!s.computed.account)
   const userRole = useUserRole(domainOrSubdomain)
   const subscription = useGetSubscription(domainOrSubdomain)
-  const isLike = useCheckLike({ pageId: page.data?.id })
+  const [{ isLiked }] = useCheckLike({ pageId: page.data?.id })
   const isMint = useCheckMint(page.data?.id)
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
           "xlog-user-site-owner": userRole?.data === "owner",
           "xlog-user-site-operator": userRole?.data === "operator",
           "xlog-user-site-follower": subscription?.data,
-          "xlog-user-post-liker": isLike.data?.count,
+          "xlog-user-post-liker": isLiked,
           "xlog-user-post-minter": isMint?.data?.count,
         },
         `xlog-page-${type}`,

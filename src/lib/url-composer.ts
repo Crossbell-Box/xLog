@@ -1,9 +1,9 @@
-import { UrlComposer } from "@crossbell/ui"
+import { ConnectKitProviderProps } from "@crossbell/connect-kit"
 
 import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 import { CSB_IO } from "~/lib/env"
 
-export const urlComposer: Partial<UrlComposer> = {
+export const urlComposer: ConnectKitProviderProps["urlComposer"] = {
   characterUrl: ({ handle }) => getSiteLink({ subdomain: handle }),
   noteUrl: (note) => {
     let originalNote = note
