@@ -11,6 +11,7 @@ import { NotificationModal } from "@crossbell/notification"
 import { InitContractProvider } from "@crossbell/contract"
 import NextNProgress from "nextjs-progressbar"
 import { Network } from "crossbell.js"
+import { appWithTranslation } from "next-i18next"
 
 import { IPFS_GATEWAY } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
@@ -78,4 +79,4 @@ function MyApp({ Component, pageProps }: any) {
 //   return { ...appProps }
 // }
 
-export default MyApp
+export default appWithTranslation(MyApp)

@@ -71,6 +71,7 @@ specifiers:
   fast-average-color: ^9.3.0
   fast-deep-equal: 3.1.3
   husky: 8.0.3
+  i18next: ^22.4.10
   idb-keyval: 6.2.0
   immer: 9.0.19
   ioredis: 5.3.1
@@ -81,6 +82,7 @@ specifiers:
   mdast-util-toc: 6.1.1
   nanoid: 4.0.1
   next: 13.1.6
+  next-i18next: ^13.1.5
   next-pwa: ^5.6.0
   nextjs-progressbar: 0.0.16
   nodejieba: 2.6.0
@@ -92,6 +94,7 @@ specifiers:
   react-dom: 18.2.0
   react-hook-form: 7.43.1
   react-hot-toast: 2.4.0
+  react-i18next: ^12.1.5
   react-infinite-scroller: 1.2.6
   react-scroll: 1.8.9
   react-sortablejs: 6.1.4
@@ -165,6 +168,7 @@ dependencies:
   emoji-mart: 5.5.2
   fast-average-color: 9.3.0
   fast-deep-equal: 3.1.3
+  i18next: 22.4.10
   idb-keyval: 6.2.0
   immer: 9.0.19
   ioredis: 5.3.1
@@ -174,6 +178,7 @@ dependencies:
   mdast-util-toc: 6.1.1
   nanoid: 4.0.1
   next: 13.1.6_biqbaboplfbrettd7655fr4n2y
+  next-i18next: 13.1.5_ict23jwgb5pzpgamw2nvwotxa4
   nextjs-progressbar: 0.0.16_next@13.1.6+react@18.2.0
   nodejieba: 2.6.0
   pinyin: 3.0.0-alpha.5
@@ -182,6 +187,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.43.1_react@18.2.0
   react-hot-toast: 2.4.0_biqbaboplfbrettd7655fr4n2y
+  react-i18next: 12.1.5_3yopsigl4h4eb2nqrqfsy65uwi
   react-infinite-scroller: 1.2.6_react@18.2.0
   react-scroll: 1.8.9_biqbaboplfbrettd7655fr4n2y
   react-sortablejs: 6.1.4_pkvhgat2fktt3g4eqjjiisgkie
@@ -4015,6 +4021,13 @@ packages:
     dependencies:
       '@types/unist': 2.0.6
 
+  /@types/hoist-non-react-statics/3.3.1:
+    resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
+    dependencies:
+      '@types/react': 18.0.28
+      hoist-non-react-statics: 3.3.2
+    dev: false
+
   /@types/js-yaml/4.0.5:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
     dev: true
@@ -6151,6 +6164,11 @@ packages:
     dependencies:
       browserslist: 4.21.4
 
+  /core-js/3.28.0:
+    resolution: {integrity: sha512-GiZn9D4Z/rSYvTeg1ljAIsEqFm0LaN9gVtwDCrKL80zHtS31p9BAjmTxVqTQDMpwlMolJZOFntUG2uwyj7DAqw==}
+    requiresBuild: true
+    dev: false
+
   /cosmiconfig/6.0.0:
     resolution: {integrity: sha512-xb3ZL6+L8b9JLLCx3ZdoZy4+2ECphCMo2PwqgP1tlfVq6M6YReyzBJtvWWtbDSpNr9hn96pkCiZqUcFEc+54Qg==}
     engines: {node: '>=8'}
@@ -8125,6 +8143,12 @@ packages:
       react-is: 16.13.1
     dev: false
 
+  /html-parse-stringify/3.0.1:
+    resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
+    dependencies:
+      void-elements: 3.1.0
+    dev: false
+
   /html-void-elements/2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
     dev: false
@@ -8160,6 +8184,16 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
     dev: true
+
+  /i18next-fs-backend/2.1.1:
+    resolution: {integrity: sha512-FTnj+UmNgT3YRml5ruRv0jMZDG7odOL/OP5PF5mOqvXud2vHrPOOs68Zdk6iqzL47cnnM0ZVkK2BAvpFeDJToA==}
+    dev: false
+
+  /i18next/22.4.10:
+    resolution: {integrity: sha512-3EqgGK6fAJRjnGgfkNSStl4mYLCjUoJID338yVyLMj5APT67HUtWoqSayZewiiC5elzMUB1VEUwcmSCoeQcNEA==}
+    dependencies:
+      '@babel/runtime': 7.20.13
+    dev: false
 
   /idb-keyval/6.2.0:
     resolution: {integrity: sha512-uw+MIyQn2jl3+hroD7hF8J7PUviBU7BPKWw4f/ISf32D4LoGu98yHjrzWWJDASu9QNrX10tCJqk9YY0ClWm8Ng==}
@@ -9792,6 +9826,26 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
+  /next-i18next/13.1.5_ict23jwgb5pzpgamw2nvwotxa4:
+    resolution: {integrity: sha512-gULKQNQmFYIW6C45cb5ZOHa+sw8XUkibFHTqRqrcfbAa1fcBCh3TgX1KtzA0vzeh9R93BkkvFhm+FuhO3kR9jQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      i18next: ^22.0.6
+      next: '>= 12.0.0'
+      react: '>= 17.0.2'
+      react-i18next: ^12.1.5
+    dependencies:
+      '@babel/runtime': 7.20.13
+      '@types/hoist-non-react-statics': 3.3.1
+      core-js: 3.28.0
+      hoist-non-react-statics: 3.3.2
+      i18next: 22.4.10
+      i18next-fs-backend: 2.1.1
+      next: 13.1.6_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-i18next: 12.1.5_3yopsigl4h4eb2nqrqfsy65uwi
+    dev: false
+
   /next-pwa/5.6.0_esbuild@0.17.8+next@13.1.6:
     resolution: {integrity: sha512-XV8g8C6B7UmViXU8askMEYhWwQ4qc/XqJGnexbLV68hzKaGHZDMtHsm2TNxFcbR7+ypVuth/wwpiIlMwpRJJ5A==}
     peerDependencies:
@@ -10756,6 +10810,26 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
       - csstype
+    dev: false
+
+  /react-i18next/12.1.5_3yopsigl4h4eb2nqrqfsy65uwi:
+    resolution: {integrity: sha512-7PQAv6DA0TcStG96fle+8RfTwxVbHVlZZJPoEszwUNvDuWpGldJmNWa3ZPesEsZQZGF6GkzwvEh6p57qpFD2gQ==}
+    peerDependencies:
+      i18next: '>= 19.0.0'
+      react: '>= 16.8.0'
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.20.13
+      html-parse-stringify: 3.0.1
+      i18next: 22.4.10
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-infinite-scroller/1.2.6_react@18.2.0:
@@ -12831,6 +12905,11 @@ packages:
       - supports-color
       - terser
     dev: true
+
+  /void-elements/3.1.0:
+    resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /w3c-keyname/2.2.6:
     resolution: {integrity: sha512-f+fciywl1SJEniZHD6H+kUO8gOnwIr7f4ijKA6+ZvJFjeGi1r4PDLl53Ayud9O/rk64RqgoQine0feoeOU0kXg==}

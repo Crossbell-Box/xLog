@@ -33,6 +33,9 @@ import {
   XShopLogo,
   CrossbellChainLogo,
 } from "@crossbell/ui"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { languageDetector } from "~/lib/language-detector"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -40,6 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
+      ...(await serverSideTranslations(languageDetector(ctx), ["common"])),
       dehydratedState: dehydrate(queryClient),
     },
   }
@@ -49,6 +53,7 @@ export default function Home() {
   const isConnected = useAccountState((s) => !!s.computed.account)
   const router = useRouter()
   const showcaseSites = useGetSites(showcase)
+  const { t } = useTranslation("common")
 
   const tryNow = useConnectedAction(() => {
     router.push("/dashboard")
@@ -60,7 +65,7 @@ export default function Home() {
         src: "/assets/easy.png",
       },
       icon: <LaughIcon />,
-      title: "Easy",
+      title: t("easy"),
       text: (
         <>
           Connect with your <span className="font-bold">Web3 Wallet</span> or{" "}

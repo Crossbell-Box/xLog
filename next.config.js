@@ -5,9 +5,11 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 })
 const execSync = require("child_process").execSync
+const { i18n } = require("./next-i18next.config")
 
 const cache = require("next-pwa/cache")
 const withPWA = require("next-pwa")({
+  disable: process.env.NODE_ENV === "development",
   dest: "public",
   publicExcludes: ["*"],
   runtimeCaching: [
@@ -109,6 +111,11 @@ module.exports = withBundleAnalyzer(
       ENV_NFTSCAN_API_KEY: process.env.NFTSCAN_API_KEY,
       ENV_OPENSEA_API_KEY: process.env.OPENSEA_API_KEY,
       ENV_POAP_API_KEY: process.env.POAP_API_KEY,
+    },
+
+    i18n: {
+      ...i18n,
+      localeDetection: false,
     },
   }),
 )
