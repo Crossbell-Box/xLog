@@ -1,15 +1,14 @@
 import { LikeIcon } from "~/components/icons/LikeIcon"
 import {
-  useLikePage,
-  useUnlikePage,
   useMintPage,
   useGetLikes,
   useCheckLike,
   useGetMints,
   useCheckMint,
+  useToggleLikePage,
+  useGetLikeCounts,
 } from "~/queries/page"
 import { useAccountSites } from "~/queries/site"
-import { useConnectedAction } from "@crossbell/connect-kit"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "../ui/Button"
 import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
@@ -17,7 +16,7 @@ import { UniLink } from "~/components/ui/UniLink"
 import { Modal } from "~/components/ui/Modal"
 import { Avatar } from "../ui/Avatar"
 import { MintIcon } from "~/components/icons/MintIcon"
-import { getLikes, getMints, parsePageId } from "~/models/page.model"
+import { getMints, parsePageId } from "~/models/page.model"
 import { CharacterList } from "~/components/common/CharacterList"
 import clsx from "clsx"
 import { Tooltip } from "~/components/ui/Tooltip"
@@ -28,8 +27,7 @@ export const Reactions: React.FC<{
   size?: "sm" | "base"
   pageId?: string
 }> = ({ className, size, pageId }) => {
-  const likePage = useLikePage()
-  const unlikePage = useUnlikePage()
+  const toggleLikePage = useToggleLikePage()
   const mintPage = useMintPage()
 
   const userSite = useAccountSites()
@@ -40,11 +38,17 @@ export const Reactions: React.FC<{
   const likeRef = useRef<HTMLButtonElement>(null)
   const mintRef = useRef<HTMLButtonElement>(null)
 
-  const likes = useGetLikes({
-    pageId: pageId,
-    includeCharacter: size !== "sm",
+  const [likes, likesMutation] = useGetLikes({ pageId })
+  const [likeStatus] = useCheckLike({
+    pageId,
   })
-  const isLike = useCheckLike({ pageId })
+  const { data: likeCount = 0 } = useGetLikeCounts({ pageId })
+
+  const loadMoreLikes = async () => {
+    if (likesMutation.hasNextPage && !likesMutation.isFetchingNextPage) {
+      await likesMutation.fetchNextPage()
+    }
+  }
 
   const mints = useGetMints({
     pageId: pageId,
@@ -52,18 +56,18 @@ export const Reactions: React.FC<{
   })
   const isMint = useCheckMint(pageId)
 
-  const like = useConnectedAction(() => {
+  const like = () => {
     if (pageId) {
-      if (isLike.data?.count) {
+      if (likeStatus.isLiked) {
         setIsLikeOpen(true)
       } else {
-        likePage.mutate(parsePageId(pageId))
+        toggleLikePage.mutate({ ...parsePageId(pageId), action: "link" })
       }
     }
-  })
+  }
 
   useEffect(() => {
-    if (likePage.isSuccess) {
+    if (toggleLikePage.isSuccess) {
       if (likeRef.current?.getBoundingClientRect()) {
         confetti({
           particleCount: 150,
@@ -80,9 +84,9 @@ export const Reactions: React.FC<{
         })
       }
     }
-  }, [likePage.isSuccess])
+  }, [toggleLikePage.isSuccess])
 
-  const mint = useConnectedAction(() => {
+  const mint = () => {
     if (pageId) {
       if (isMint.data?.count) {
         setIsMintOpen(true)
@@ -90,7 +94,7 @@ export const Reactions: React.FC<{
         mintPage.mutate(parsePageId(pageId))
       }
     }
-  })
+  }
 
   useEffect(() => {
     if (mintPage.isSuccess) {
@@ -117,26 +121,6 @@ export const Reactions: React.FC<{
       }
     }
   }, [mintPage.isSuccess])
-
-  const [likeList, setLikeList] = useState<any[]>([])
-  const [likeCursor, setLikeCursor] = useState<string>()
-  useEffect(() => {
-    if (likes.isSuccess && likes.data) {
-      setLikeList(likes.data.list || [])
-      setLikeCursor(likes.data.cursor || "")
-    }
-  }, [likes.isSuccess, likes.data])
-
-  const loadMoreLikes = async () => {
-    if (likeCursor && pageId) {
-      const subs = await getLikes({
-        pageId: pageId,
-        cursor: likeCursor,
-      })
-      setLikeList((prev) => [...prev, ...(subs?.list || [])])
-      setLikeCursor(subs?.cursor || "")
-    }
-  }
 
   const [mintList, setMintList] = useState<any[]>([])
   const [mintCursor, setMintCursor] = useState<string>()
@@ -176,46 +160,42 @@ export const Reactions: React.FC<{
           <Button
             variant="like"
             className={`flex items-center mr-2 ${
-              isLike.isSuccess && isLike.data.count && "active"
+              likeStatus.isLiked && "active"
             }`}
             isAutoWidth={true}
             onClick={like}
-            isLoading={
-              userSite.isLoading || likePage.isLoading || unlikePage.isLoading
-            }
+            isLoading={userSite.isLoading || toggleLikePage.isPending}
             ref={likeRef}
           >
             <LikeIcon
               className={"mr-1 " + (size === "sm" ? "w-4 h-4" : "w-10 h-10")}
             />
-            <span>{likes.data?.count || 0}</span>
+            <span>{likeCount}</span>
           </Button>
           {size !== "sm" && (
             <ul
               className="-space-x-4 cursor-pointer"
               onClick={() => setIsLikeListOpen(true)}
             >
-              {likes.data?.list
+              {likes
                 ?.sort((a, b) =>
-                  b.fromCharacter?.metadata?.content?.avatars?.[0] ? 1 : -1,
+                  b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
                 )
                 .slice(0, 3)
-                ?.map((like: any, index) => (
+                ?.map((like, index) => (
                   <li className="inline-block" key={index}>
                     <Avatar
                       className="relative align-middle border-2 border-white"
-                      images={
-                        like.fromCharacter?.metadata?.content?.avatars || []
-                      }
-                      name={like.fromCharacter?.metadata?.content?.name}
+                      images={like.character?.metadata?.content?.avatars || []}
+                      name={like.character?.metadata?.content?.name}
                       size={40}
                     />
                   </li>
                 ))}
-              {(likes.data?.count || 0) > 3 && (
+              {likeCount > 3 && (
                 <li className="inline-block">
                   <div className="relative align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
-                    +{likes.data!.count - 3}
+                    +{likeCount - 3}
                   </div>
                 </li>
               )}
@@ -291,7 +271,7 @@ export const Reactions: React.FC<{
             Your like has been stored on the blockchain, view it on{" "}
             <UniLink
               className="text-accent"
-              href={`${CSB_SCAN}/tx/${isLike.data?.list?.[0]?.transactionHash}`}
+              href={`${CSB_SCAN}/tx/${likeStatus.transactionHash}`}
             >
               Crossbell Scan
             </UniLink>
@@ -334,8 +314,8 @@ export const Reactions: React.FC<{
           setOpen={setIsLikeListOpen}
           title="Like List"
           loadMore={loadMoreLikes}
-          hasMore={!!likeCursor}
-          list={likeList}
+          hasMore={!!likesMutation.hasNextPage}
+          list={likes}
         ></CharacterList>
         <CharacterList
           open={isMintListOpen}

@@ -7,9 +7,11 @@ import {
 import {
   useAccountState,
   usePostNoteForNote,
-  useLikeNote,
-  useUnlikeNote,
   useMintNote,
+  useToggleLikeNote,
+  useIsNoteLiked,
+  useNoteLikeList,
+  useNoteLikeCount,
 } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 
@@ -67,41 +69,18 @@ export const useGetPage = (input: Parameters<typeof pageModel.getPage>[0]) => {
   })
 }
 
-export const useGetLikes = (input: {
-  pageId?: string
-  includeCharacter?: boolean
-}) => {
-  return useQuery(
-    ["getLikes", input.pageId, input.includeCharacter],
-    async () => {
-      if (!input.pageId) {
-        return {
-          count: 0,
-          list: [],
-          cursor: undefined,
-        }
-      }
-      return pageModel.getLikes({
-        pageId: input.pageId,
-        includeCharacter: input.includeCharacter,
-      })
-    },
-  )
+export const useGetLikeCounts = ({ pageId = "" }: { pageId?: string }) => {
+  return useNoteLikeCount(pageModel.parsePageId(pageId))
 }
 
-export const useCheckLike = (input: { pageId?: string }) => {
-  const account = useAccountState((s) => s.computed.account)
+export const useGetLikes = ({ pageId = "" }: { pageId?: string }) => {
+  return useNoteLikeList(pageModel.parsePageId(pageId))
+}
 
-  return useQuery(
-    ["checkLike", input.pageId, account?.characterId],
-    async () => {
-      if (!input.pageId || !account?.characterId) {
-        return { count: 0, list: [] }
-      }
+export const useCheckLike = ({ pageId = "" }: { pageId?: string }) => {
+  const { characterId, noteId } = pageModel.parsePageId(pageId)
 
-      return pageModel.checkLike({ account, pageId: input.pageId })
-    },
-  )
+  return useIsNoteLiked({ toNoteId: noteId, toCharacterId: characterId })
 }
 
 export const useGetMints = (input: {
@@ -173,37 +152,7 @@ export function useDeletePage() {
   )
 }
 
-export function useLikePage() {
-  const queryClient = useQueryClient()
-  const account = useAccountState((s) => s.computed.account)
-
-  return useLikeNote({
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries([
-        "checkLike",
-        pageModel.toPageId(variables),
-        account?.characterId,
-      ])
-      queryClient.invalidateQueries(["getLikes", pageModel.toPageId(variables)])
-    },
-  })
-}
-
-export function useUnlikePage() {
-  const queryClient = useQueryClient()
-  const account = useAccountState((s) => s.computed.account)
-
-  return useUnlikeNote({
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries([
-        "checkLike",
-        pageModel.toPageId(variables),
-        account?.characterId,
-      ])
-      queryClient.invalidateQueries(["getLikes", pageModel.toPageId(variables)])
-    },
-  })
-}
+export const useToggleLikePage = useToggleLikeNote
 
 export function useMintPage() {
   const queryClient = useQueryClient()
