@@ -22,6 +22,10 @@ data:
     	reverse_proxy 127.0.0.1:3000
     }
 
+    :8080 {
+      metrics
+    }
+
     :80, :443 {
     	tls jeff@rss3.io {
     		on_demand
