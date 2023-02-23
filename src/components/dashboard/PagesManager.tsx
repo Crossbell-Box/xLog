@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useState } from "react"
 import { getPageVisibility } from "~/lib/page-helpers"
-import { formatDate } from "~/lib/date"
+import { useDate } from "~/hooks/useDate"
 import { TabItem, Tabs } from "../ui/Tabs"
 import { Menu } from "@headlessui/react"
 import clsx from "clsx"
@@ -46,6 +46,7 @@ export const PagesManager: React.FC<{
   const [convertToastId, setConvertToastId] = useState("")
   const [deleteToastId, setDeleteToastId] = useState("")
   const { t } = useTranslation(["site", "common"])
+  const date = useDate()
 
   useEffect(() => {
     if (deletePage.isSuccess) {
@@ -403,8 +404,8 @@ export const PagesManager: React.FC<{
                     <span className="mx-2">·</span>
                     <span>
                       {getPageVisibility(page) === PageVisibilityEnum.Draft
-                        ? formatDate(page.date_updated)
-                        : formatDate(page.date_published)}
+                        ? date.formatDate(page.date_updated)
+                        : date.formatDate(page.date_published)}
                     </span>
                   </div>
                 </div>

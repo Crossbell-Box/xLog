@@ -1,4 +1,4 @@
-import dayjs from "~/lib/date"
+import dayjs from "dayjs"
 import { PageVisibilityEnum } from "./types"
 
 export const getPageVisibility = ({

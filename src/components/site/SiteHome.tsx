@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { formatToISO } from "~/lib/date"
+import { useDate } from "~/hooks/useDate"
 import { Notes } from "~/lib/types"
 import { EmptyState } from "../ui/EmptyState"
 import { useRouter } from "next/router"
@@ -7,6 +7,7 @@ import { Image } from "~/components/ui/Image"
 import { Button } from "~/components/ui/Button"
 import { EyeIcon } from "@heroicons/react/24/outline"
 import { useTranslation } from "next-i18next"
+import { useEffect, useState } from "react"
 
 export const SiteHome: React.FC<{
   postPages?: Notes[]
@@ -17,6 +18,13 @@ export const SiteHome: React.FC<{
   const router = useRouter()
   const { t } = useTranslation("common")
   const { t: siteT } = useTranslation("site")
+  const date = useDate()
+
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   if (!postPages?.length) return null
 
@@ -42,19 +50,14 @@ export const SiteHome: React.FC<{
                     </h3>
                     <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
                       <time
-                        dateTime={formatToISO(post.date_published)}
+                        dateTime={date.formatToISO(post.date_published)}
                         className="xlog-post-date whitespace-nowrap"
                       >
-                        {t("intlDateTime", {
-                          val: new Date(post.date_published),
-                          formatParams: {
-                            val: {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            },
-                          },
-                        })}
+                        {date.formatDate(
+                          post.date_published,
+                          undefined,
+                          isMounted ? undefined : "America/Los_Angeles",
+                        )}
                       </time>
                       {!!post.tags?.filter(
                         (tag) => tag !== "post" && tag !== "page",

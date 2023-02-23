@@ -1,10 +1,10 @@
 import Link from "next/link"
 import { useMemo } from "react"
-import { formatDate } from "~/lib/date"
 import { EmptyState } from "../ui/EmptyState"
 import { Notes, Note } from "~/lib/types"
 import { UniLink } from "../ui/UniLink"
 import { Button } from "~/components/ui/Button"
+import { useDate } from "~/hooks/useDate"
 
 export const SiteArchives: React.FC<{
   title?: string
@@ -22,6 +22,7 @@ export const SiteArchives: React.FC<{
   isFetchingNextPage,
 }) => {
   let currentLength = 0
+  const date = useDate()
 
   const groupedByYear = useMemo<Map<string, Note[]>>(() => {
     const map = new Map()
@@ -29,7 +30,7 @@ export const SiteArchives: React.FC<{
     if (postPages?.length) {
       for (const posts of postPages) {
         for (const post of posts.list) {
-          const year = formatDate(post.date_published, "YYYY")
+          const year = date.formatDate(post.date_published, "YYYY")
           const items = map.get(year) || []
           items.push(post)
           map.set(year, items)

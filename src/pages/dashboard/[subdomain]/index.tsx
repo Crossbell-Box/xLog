@@ -7,7 +7,7 @@ import { DISCORD_LINK, TWITTER_LINK, GITHUB_LINK, APP_NAME } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import type { ReactElement } from "react"
 import { useGetSite, useGetStat } from "~/queries/site"
-import dayjs from "~/lib/date"
+import { useDate } from "~/hooks/useDate"
 
 export default function SubdomainIndex() {
   const router = useRouter()
@@ -17,6 +17,7 @@ export default function SubdomainIndex() {
   const stat = useGetStat({
     characterId,
   })
+  const date = useDate()
   const statMap = [
     {
       name: "Total Posts",
@@ -36,7 +37,8 @@ export default function SubdomainIndex() {
     },
     {
       name: "Site Duration",
-      value: dayjs().diff(dayjs(stat.data?.createdAt), "day") + " days",
+      value:
+        date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day") + " days",
     },
   ]
 

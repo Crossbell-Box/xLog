@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { Avatar } from "~/components/ui/Avatar"
-import dayjs, { formatToISO } from "~/lib/date"
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import * as siteModel from "~/models/site.model"
 import type { Profile } from "~/lib/types"
 import clsx from "clsx"
+import { useDate } from "~/hooks/useDate"
 
 export const CharacterCard: React.FC<{
   siteId?: string
@@ -17,6 +17,7 @@ export const CharacterCard: React.FC<{
 }> = ({ siteId, address, open, setButtonLoading, hideFollowButton, style }) => {
   const [firstOpen, setFirstOpen] = useState("")
   const [site, setSite] = useState<Profile>()
+  const date = useDate()
 
   useEffect(() => {
     if (open && (firstOpen !== (siteId || address) || !site)) {
@@ -72,10 +73,10 @@ export const CharacterCard: React.FC<{
           {site?.date_created && (
             <span className="block text-gray-500">
               Joined{" "}
-              <time dateTime={formatToISO(site.date_created)}>
-                {dayjs
+              <time dateTime={date.formatToISO(site.date_created)}>
+                {date.dayjs
                   .duration(
-                    dayjs(site.date_created).diff(dayjs(), "minute"),
+                    date.dayjs(site.date_created).diff(date.dayjs(), "minute"),
                     "minute",
                   )
                   .humanize()}{" "}

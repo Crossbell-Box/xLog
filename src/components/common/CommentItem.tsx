@@ -1,5 +1,4 @@
 import { Avatar } from "~/components/ui/Avatar"
-import dayjs, { formatToISO } from "~/lib/date"
 import { UniLink } from "~/components/ui/UniLink"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
@@ -12,6 +11,7 @@ import { useState } from "react"
 import { CommentInput } from "~/components/common/CommentInput"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useTranslation } from "next-i18next"
+import { useDate } from "~/hooks/useDate"
 
 export const CommentItem: React.FC<{
   comment: NoteEntity & {
@@ -22,6 +22,7 @@ export const CommentItem: React.FC<{
 }> = ({ comment, originalId, depth }) => {
   const [replyOpen, setReplyOpen] = useState(false)
   const { t } = useTranslation("common")
+  const date = useDate()
 
   return (
     <div
@@ -64,10 +65,10 @@ export const CommentItem: React.FC<{
               {comment?.character?.metadata?.content?.name}
             </UniLink>{" "}
             ·{" "}
-            <time dateTime={formatToISO(comment?.createdAt)}>
-              {dayjs
+            <time dateTime={date.formatToISO(comment?.createdAt)}>
+              {date.dayjs
                 .duration(
-                  dayjs(comment?.createdAt).diff(dayjs(), "minute"),
+                  date.dayjs(comment?.createdAt).diff(date.dayjs(), "minute"),
                   "minute",
                 )
                 .humanize()}{" "}

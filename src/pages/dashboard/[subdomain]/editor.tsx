@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import dayjs from "~/lib/date"
+import { useDate } from "~/hooks/useDate"
 import { useRouter } from "next/router"
 import {
   ChangeEvent,
@@ -18,7 +18,6 @@ import { EditorToolbar } from "~/components/ui/EditorToolbar"
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
 import { useUploadFile } from "~/hooks/useUploadFile"
-import { inLocalTimezone } from "~/lib/date"
 import { getSiteLink } from "~/lib/helpers"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -40,7 +39,7 @@ import { CSB_SCAN } from "~/lib/env"
 import { showConfetti } from "~/lib/confetti"
 import type { ReactElement } from "react"
 
-const getInputDatetimeValue = (date: Date | string) => {
+const getInputDatetimeValue = (date: Date | string, dayjs: any) => {
   const str = dayjs(date).format()
   return str.substring(0, ((str.indexOf("T") | 0) + 6) | 0)
 }
@@ -48,6 +47,7 @@ const getInputDatetimeValue = (date: Date | string) => {
 export default function SubdomainEditor() {
   const router = useRouter()
   const queryClient = useQueryClient()
+  const date = useDate()
 
   let pageId = router.query.id as string | undefined
   const subdomain = router.query.subdomain as string
@@ -481,11 +481,14 @@ export default function SubdomainEditor() {
                     isBlock
                     name="publishAt"
                     id="publishAt"
-                    value={getInputDatetimeValue(values.publishedAt)}
+                    value={getInputDatetimeValue(
+                      values.publishedAt,
+                      date.dayjs,
+                    )}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                      const value = inLocalTimezone(
-                        e.target.value,
-                      ).toISOString()
+                      const value = date
+                        .inLocalTimezone(e.target.value)
+                        .toISOString()
                       updateValue("publishedAt", value)
                     }}
                     help={`This ${
