@@ -1,12 +1,12 @@
 import Link from "next/link"
-import { formatDate, formatToISO } from "~/lib/date"
+import { formatToISO } from "~/lib/date"
 import { Notes } from "~/lib/types"
 import { EmptyState } from "../ui/EmptyState"
 import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
 import { Button } from "~/components/ui/Button"
-import { useEffect, useState } from "react"
 import { EyeIcon } from "@heroicons/react/24/outline"
+import { useTranslation } from "next-i18next"
 
 export const SiteHome: React.FC<{
   postPages?: Notes[]
@@ -15,12 +15,8 @@ export const SiteHome: React.FC<{
   isFetchingNextPage?: boolean
 }> = ({ postPages, fetchNextPage, hasNextPage, isFetchingNextPage }) => {
   const router = useRouter()
-
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
+  const { t } = useTranslation("common")
+  const { t: siteT } = useTranslation("site")
 
   if (!postPages?.length) return null
 
@@ -49,11 +45,16 @@ export const SiteHome: React.FC<{
                         dateTime={formatToISO(post.date_published)}
                         className="xlog-post-date whitespace-nowrap"
                       >
-                        {formatDate(
-                          post.date_published,
-                          undefined,
-                          isMounted ? undefined : "America/Los_Angeles",
-                        )}
+                        {t("intlDateTime", {
+                          val: new Date(post.date_published),
+                          formatParams: {
+                            val: {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            },
+                          },
+                        })}
                       </time>
                       {!!post.tags?.filter(
                         (tag) => tag !== "post" && tag !== "page",
@@ -114,9 +115,12 @@ export const SiteHome: React.FC<{
           isLoading={isFetchingNextPage}
           aria-label="load more"
         >
-          There are {postPages[0].total - currentLength} more post
-          {postPages[0].total - currentLength > 1 ? "s" : ""}, click to load
-          more
+          {siteT("load more", {
+            name: t(
+              "post" + (postPages[0].total - currentLength > 1 ? "s" : ""),
+            ),
+            count: postPages[0].total - currentLength,
+          })}
         </Button>
       )}
     </>

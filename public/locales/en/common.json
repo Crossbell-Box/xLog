@@ -1,3 +1,4 @@
 {
-  "easy": "Easy"
+  "intlDateTime": "{{val, datetime}}",
+  "intlRelativeTime": "{{val, relativetime}}"
 }

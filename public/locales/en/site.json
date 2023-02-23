@@ -1,0 +1,4 @@
+{
+  "load more": "There are {{count}} more {{name}}, click to load more",
+  "signed and stored on the blockchain": "This {{name}} has been signed and securely stored on the blockchain by its creator."
+}

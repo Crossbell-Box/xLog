@@ -25,6 +25,7 @@ import { nanoid } from "nanoid"
 import { renderPageContent } from "~/markdown"
 import { Tooltip } from "../ui/Tooltip"
 import { APP_NAME } from "~/lib/env"
+import { useTranslation } from "next-i18next"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -44,6 +45,7 @@ export const PagesManager: React.FC<{
   const createOrUpdatePage = useCreateOrUpdatePage()
   const [convertToastId, setConvertToastId] = useState("")
   const [deleteToastId, setDeleteToastId] = useState("")
+  const { t } = useTranslation(["site", "common"])
 
   useEffect(() => {
     if (deletePage.isSuccess) {
@@ -460,10 +462,17 @@ export const PagesManager: React.FC<{
             onClick={pages.fetchNextPage as () => void}
             isLoading={pages.isFetchingNextPage}
           >
-            There are {(pages.data?.pages?.[0].total || 0) - currentLength} more{" "}
-            {isPost ? "post" : "page"}
-            {(pages.data?.pages?.[0].total || 0) - currentLength > 1 ? "s" : ""}
-            , click to load more
+            {t("load more", {
+              name: t(
+                isPost
+                  ? "post"
+                  : "page" +
+                      ((pages.data?.pages?.[0].total || 0) - currentLength > 1
+                        ? "s"
+                        : ""),
+              ),
+              count: (pages.data?.pages?.[0].total || 0) - currentLength,
+            })}
           </Button>
         )}
       </div>

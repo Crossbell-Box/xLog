@@ -11,6 +11,7 @@ import { useRouter } from "next/router"
 import { EmojiPicker } from "./EmojiPicker"
 import { Popover } from "@headlessui/react"
 import { FaceSmileIcon } from "@heroicons/react/24/outline"
+import { useTranslation } from "next-i18next"
 
 export const CommentInput: React.FC<{
   pageId?: string
@@ -21,6 +22,8 @@ export const CommentInput: React.FC<{
   const commentPage = useCommentPage()
   const router = useRouter()
   const [viewer, setViewer] = useState<Profile | null>(null)
+  const { t } = useTranslation("common")
+  const { t: siteT } = useTranslation("site")
 
   useEffect(() => {
     if (userSites.isSuccess && userSites.data?.length) {
@@ -73,7 +76,7 @@ export const CommentInput: React.FC<{
             multiline
             maxLength={300}
             className="mb-2"
-            placeholder="Write a comment on the blockchain"
+            placeholder={siteT("Write a comment on the blockchain") || ""}
             {...form.register("content", {})}
           />
         </div>
@@ -101,11 +104,13 @@ export const CommentInput: React.FC<{
             type="submit"
             isLoading={userSites.isLoading || commentPage.isLoading}
           >
-            {account
-              ? userSites.isSuccess && !userSites.data?.length
-                ? "Create Character"
-                : "Submit"
-              : "Connect"}
+            {t(
+              account
+                ? userSites.isSuccess && !userSites.data?.length
+                  ? "Create Character"
+                  : "Submit"
+                : "Connect",
+            )}
           </Button>
         </div>
       </form>

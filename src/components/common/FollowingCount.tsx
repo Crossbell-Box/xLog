@@ -10,6 +10,7 @@ import {
   useGetSiteSubscriptions,
   useGetSiteToSubscriptions,
 } from "~/queries/site"
+import { useTranslation } from "next-i18next"
 
 export const FollowingCount: React.FC<{
   siteId?: string
@@ -17,6 +18,7 @@ export const FollowingCount: React.FC<{
 }> = ({ siteId, disableList }) => {
   let [isFollowListOpen, setIsFollowListOpen] = useState(false)
   let [isToFollowListOpen, setIsToFollowListOpen] = useState(false)
+  const { t } = useTranslation("common")
 
   const subscriptions = useGetSiteSubscriptions({
     siteId: siteId || "",
@@ -97,7 +99,7 @@ export const FollowingCount: React.FC<{
         <span className="font-bold text-zinc-700">
           {subscriptions.data?.total || 0}
         </span>{" "}
-        Followers
+        {t("Followers")}
       </span>
       <span
         className={
@@ -109,7 +111,7 @@ export const FollowingCount: React.FC<{
         <span className="font-bold text-zinc-700">
           {toSubscriptions.data?.total || 0}
         </span>{" "}
-        Followings
+        {t("Followings")}
       </span>
       {!disableList && (
         <CharacterList

@@ -3,6 +3,7 @@ import { Note } from "~/lib/types"
 import { useGetComments } from "~/queries/page"
 import { CommentItem } from "~/components/common/CommentItem"
 import { CommentInput } from "~/components/common/CommentInput"
+import { useTranslation } from "next-i18next"
 
 export const Comment: React.FC<{
   page?: Note | null
@@ -11,13 +12,18 @@ export const Comment: React.FC<{
   const comments = useGetComments({
     pageId: page?.id,
   })
+  const { t } = useTranslation("common")
 
   return (
     <div className={clsx("xlog-comment", "comment", className)} id="comments">
       <div className="xlog-comment-count border-b pb-2 mb-6">
         <span>
-          {comments.data?.count || "0"} Comment
-          {comments.data?.count && comments.data.count > 1 ? "s" : ""}
+          {comments.data?.count || "0"}{" "}
+          {t(
+            `Comment${
+              comments.data?.count && comments.data.count > 1 ? "s" : ""
+            }`,
+          )}
         </span>
       </div>
       <CommentInput pageId={page?.id} />

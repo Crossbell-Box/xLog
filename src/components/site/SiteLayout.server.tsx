@@ -8,6 +8,8 @@ import { PageVisibilityEnum } from "~/lib/types"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { fetchGetPage } from "~/queries/page.server"
 import { notFound } from "~/lib/server-side-props"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { languageDetector } from "~/lib/language-detector"
 
 export const getServerSideProps = async (
   ctx: any,
@@ -83,7 +85,11 @@ export const getServerSideProps = async (
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      ...(await serverSideTranslations(languageDetector(ctx), [
+        "common",
+        "site",
+      ])),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   }
 }

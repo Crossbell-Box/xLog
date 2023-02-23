@@ -11,6 +11,7 @@ import { Reactions } from "~/components/common/Reactions"
 import { useState } from "react"
 import { CommentInput } from "~/components/common/CommentInput"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { useTranslation } from "next-i18next"
 
 export const CommentItem: React.FC<{
   comment: NoteEntity & {
@@ -20,6 +21,7 @@ export const CommentItem: React.FC<{
   depth: number
 }> = ({ comment, originalId, depth }) => {
   const [replyOpen, setReplyOpen] = useState(false)
+  const { t } = useTranslation("common")
 
   return (
     <div
@@ -91,7 +93,7 @@ export const CommentItem: React.FC<{
                 variant="text"
                 onClick={() => setReplyOpen(!replyOpen)}
               >
-                {replyOpen ? "Cancel " : ""}Reply
+                {t(`${replyOpen ? "Cancel " : ""}Reply`)}
                 <span className="ml-1">
                   {(comment as any)?.fromNotes?.count || 0}
                 </span>

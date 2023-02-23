@@ -1,4 +1,4 @@
-import { formatDate, formatToISO } from "~/lib/date"
+import { formatToISO } from "~/lib/date"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { UniLink } from "~/components/ui/UniLink"
 import { Note, Profile } from "~/lib/types"
@@ -9,17 +9,14 @@ import { getSiteLink } from "~/lib/helpers"
 import { Avatar } from "~/components/ui/Avatar"
 import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline"
 import { useUserRole } from "~/hooks/useUserRole"
+import { useTranslation } from "next-i18next"
 
 export const PostMeta: React.FC<{
   page: Note
   site?: Profile | null
   author?: Profile | null
 }> = ({ page, site, author }) => {
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
+  const { t } = useTranslation("common")
 
   const [showEdit, setShowEdit] = useState(false)
   const userRole = useUserRole(site?.username)
@@ -35,11 +32,16 @@ export const PostMeta: React.FC<{
         dateTime={formatToISO(page.date_published)}
         className="xlog-post-date whitespace-nowrap"
       >
-        {formatDate(
-          page.date_published,
-          undefined,
-          isMounted ? undefined : "America/Los_Angeles",
-        )}
+        {t("intlDateTime", {
+          val: new Date(page.date_published),
+          formatParams: {
+            val: {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            },
+          },
+        })}
       </time>
       {page.tags?.filter((tag) => tag !== "post" && tag !== "page").length ? (
         <>

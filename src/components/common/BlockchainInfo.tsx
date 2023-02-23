@@ -6,11 +6,15 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { toIPFS, toGateway } from "~/lib/ipfs-parser"
 import { IPFS_GATEWAY } from "~/lib/env"
+import { useTranslation } from "next-i18next"
 
 export const BlockchainInfo: React.FC<{
   site?: Profile | null
   page?: Note | null
 }> = ({ site, page }) => {
+  const { t } = useTranslation("common")
+  const { t: siteT } = useTranslation("site")
+
   return (
     <div className="text-sm">
       <Disclosure defaultOpen={true}>
@@ -23,14 +27,15 @@ export const BlockchainInfo: React.FC<{
               <span>
                 <BlockchainIcon className="w-4 h-4 inline-block align-middle mr-2" />
                 <span className="align-middle">
-                  This{" "}
-                  {page
-                    ? page.tags?.includes("post")
-                      ? "post"
-                      : "page"
-                    : "blog"}{" "}
-                  has been signed and securely stored on the blockchain by its
-                  creator.
+                  {siteT("signed and stored on the blockchain", {
+                    name: t(
+                      page
+                        ? page.tags?.includes("post")
+                          ? "post"
+                          : "page"
+                        : "blog",
+                    ),
+                  })}
                 </span>
               </span>
               <ChevronUpIcon
@@ -58,7 +63,7 @@ export const BlockchainInfo: React.FC<{
                   </li>
                 )}
                 <li>
-                  <div className="font-medium">Owner</div>
+                  <div className="font-medium">{t("Owner")}</div>
                   <div>
                     <a
                       target="_blank"
@@ -74,7 +79,7 @@ export const BlockchainInfo: React.FC<{
                   </div>
                 </li>
                 <li>
-                  <div className="font-medium">Transaction Hash</div>
+                  <div className="font-medium">{t("Transaction Hash")}</div>
                   <div>
                     {page
                       ? page?.related_urls
@@ -88,7 +93,7 @@ export const BlockchainInfo: React.FC<{
                                 href={url}
                                 key={url}
                               >
-                                {index === 0 ? "Creation" : "Last Update"}{" "}
+                                {t(index === 0 ? "Creation" : "Last Update")}{" "}
                                 {url
                                   .replace(CSB_SCAN + "/tx/", "")
                                   .slice(0, 10)}
@@ -107,7 +112,7 @@ export const BlockchainInfo: React.FC<{
                                 href={`${CSB_SCAN}/tx/${hash}`}
                                 key={hash}
                               >
-                                {index === 0 ? "Creation" : "Last Update"}{" "}
+                                {t(index === 0 ? "Creation" : "Last Update")}{" "}
                                 {hash.slice(0, 10)}...{hash.slice(-10)}
                               </a>
                             )
@@ -116,7 +121,7 @@ export const BlockchainInfo: React.FC<{
                   </div>
                 </li>
                 <li>
-                  <div className="font-medium">IPFS Address</div>
+                  <div className="font-medium">{t("IPFS Address")}</div>
                   <div>
                     {page
                       ? page.related_urls

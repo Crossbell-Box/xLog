@@ -10,6 +10,7 @@ import {
 import { useConnectedAction } from "@crossbell/connect-kit"
 import clsx from "clsx"
 import { Profile } from "~/lib/types"
+import { useTranslation } from "next-i18next"
 
 export const FollowingButton: React.FC<{
   site: Profile | undefined | null
@@ -22,6 +23,7 @@ export const FollowingButton: React.FC<{
   const unsubscribeFromSite = useUnsubscribeFromSite()
   const userSite = useAccountSites()
   const characterId = site?.metadata?.proof ? Number(site.metadata.proof) : null
+  const { t } = useTranslation("common")
 
   const handleClickSubscribe = useConnectedAction(() => {
     if (characterId) {
@@ -63,7 +65,7 @@ export const FollowingButton: React.FC<{
     <Button
       variant={variant}
       onClick={handleClickSubscribe}
-      className={clsx(className, "align-middle space-x-1")}
+      className={clsx(className, "align-middle space-x-1 group")}
       isLoading={
         subscription.data
           ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading
@@ -78,11 +80,13 @@ export const FollowingButton: React.FC<{
       <span className="i-bxs:bell"></span>
       {subscription.data ? (
         <>
-          <span className="pr-1 group-hover:hidden w-16">Following</span>
-          <span className="pr-1 hidden group-hover:block w-16">Unfollow</span>
+          <span className="pr-1 group-hover:hidden w-16">{t("Following")}</span>
+          <span className="pr-1 hidden group-hover:block w-16">
+            {t("Unfollow")}
+          </span>
         </>
       ) : (
-        <span className="pr-1">Follow</span>
+        <span className="pr-1">{t("Follow")}</span>
       )}
     </Button>
   )

@@ -12,7 +12,6 @@ import {
 import { useAccountSites } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
-import type { HeaderLinkType } from "~/components/site/SiteHeader"
 import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
 import { useEffect, useState } from "react"
@@ -36,6 +35,14 @@ import {
 } from "@crossbell/notification"
 import { useAccountBalance } from "~/hooks/use-account-balance"
 import { Menu } from "~/components/ui/Menu"
+import { useTranslation } from "next-i18next"
+
+type HeaderLinkType = {
+  icon?: React.ReactNode
+  label: string | JSX.Element
+  url?: string
+  onClick?: () => void
+}
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -87,6 +94,7 @@ export const ConnectButton: React.FC<{
   const { isAllRead } = useNotifications()
 
   const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(false)
+  const { t } = useTranslation("common")
 
   useEffect(() => {
     if (balance) {
@@ -184,7 +192,7 @@ export const ConnectButton: React.FC<{
               style={{ height: avatarSize + "px" }}
               variant={variant || "primary"}
             >
-              Connect
+              {t("Connect")}
             </Button>
           )
         }

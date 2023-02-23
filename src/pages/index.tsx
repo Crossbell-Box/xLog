@@ -33,7 +33,7 @@ import {
   XShopLogo,
   CrossbellChainLogo,
 } from "@crossbell/ui"
-import { useTranslation } from "next-i18next"
+import { useTranslation, Trans } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { languageDetector } from "~/lib/language-detector"
 
@@ -43,7 +43,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(languageDetector(ctx), ["common"])),
+      ...(await serverSideTranslations(languageDetector(ctx), [
+        "common",
+        "index",
+      ])),
       dehydratedState: dehydrate(queryClient),
     },
   }
@@ -53,7 +56,7 @@ export default function Home() {
   const isConnected = useAccountState((s) => !!s.computed.account)
   const router = useRouter()
   const showcaseSites = useGetSites(showcase)
-  const { t } = useTranslation("common")
+  const { t } = useTranslation("index")
 
   const tryNow = useConnectedAction(() => {
     router.push("/dashboard")
@@ -65,15 +68,8 @@ export default function Home() {
         src: "/assets/easy.png",
       },
       icon: <LaughIcon />,
-      title: t("easy"),
-      text: (
-        <>
-          Connect with your <span className="font-bold">Web3 Wallet</span> or{" "}
-          <span className="font-bold">Email</span>. Build your own site with
-          custom domains, subscriptions, likes, comments, minting as nft, RSS
-          and more in one second. No fees, no friction.
-        </>
-      ),
+      title: "Easy",
+      text: "Connect with your <strong>Web3 Wallet</strong> or <strong>Email</strong>. Build your own site with custom domains, subscriptions, likes, comments, minting as nft, RSS and more in one second. No fees, no friction.",
     },
     {
       screenshot: {
@@ -81,14 +77,7 @@ export default function Home() {
       },
       icon: <FingerPrintIcon className="w-7 h-7" />,
       title: "Safe",
-      text: (
-        <>
-          All blog data, including configs, posts, subscriptions, comments,
-          etc., are signed and securely stored on the{" "}
-          <span className="font-bold">blockchain</span> with your own hands. No
-          one else, including us, can make any changes.
-        </>
-      ),
+      text: "All blog data, including configs, posts, subscriptions, comments, etc., are signed and securely stored on the <strong>blockchain</strong> with your own hands. No one else, including us, can make any changes.",
     },
     {
       screenshot: {
@@ -96,13 +85,7 @@ export default function Home() {
       },
       icon: <BoltIcon className="w-7 h-7" />,
       title: "Fast",
-      text: (
-        <>
-          Blockchain doesn&apos;t always mean inefficiency. xLog&apos;s
-          efficient caching mechanism and numerous optimisations take it to the
-          peak of performance.
-        </>
-      ),
+      text: "Blockchain doesn't always mean inefficiency. xLog's efficient caching mechanism and numerous optimisations take it to the peak of performance.",
     },
     {
       screenshot: {
@@ -110,7 +93,7 @@ export default function Home() {
       },
       icon: <DashboardIcon />,
       title: "Customizable",
-      text: "Use your own domain, customise your site and style it however you like. This is your site, there are no restrictions.",
+      text: "Use your own <strong>domain</strong>, customise your site and <strong>style</strong> it however you like. This is your site, there are no restrictions.",
     },
     {
       screenshot: {
@@ -118,14 +101,7 @@ export default function Home() {
       },
       icon: <BlockchainIcon className="w-6 h-6" />,
       title: "Open",
-      text: (
-        <>
-          Uses <span className="font-bold">standard Markdown</span> with export
-          and import tools and rich APIs for a painless move in and out. All
-          code is <span className="font-bold">open source</span> on GitHub, all
-          data is <span className="font-bold">transparent</span> on the chain.
-        </>
-      ),
+      text: "Uses standard <strong>Markdown</strong> with export and import tools and rich APIs for a painless move in and out. All code is <strong>open source</strong> on GitHub, all <strong>data is transparent</strong> on the chain.",
     },
   ]
 
@@ -244,17 +220,21 @@ export default function Home() {
                 height={200}
               />
             </div>
-            <h2 className="text-3xl sm:text-5xl font-bold mb-5">Blog Free</h2>
+            <h2 className="text-3xl sm:text-5xl font-bold mb-5">
+              {t("Blog Free")}
+            </h2>
             <h3 className="mt-5 text-zinc-800 text-4xl sm:text-6xl font-light">
-              {APP_NAME}, the first{" "}
-              <UniLink className="underline decoration-2" href={CSB_SCAN}>
-                on-chain
-              </UniLink>{" "}
-              and{" "}
-              <UniLink className="underline decoration-2" href={GITHUB_LINK}>
-                open-source
-              </UniLink>{" "}
-              blogging platform for everyone.
+              <Trans i18nKey="description" ns="index">
+                xLog, the first{" "}
+                <UniLink className="underline decoration-2" href={CSB_SCAN}>
+                  on-chain
+                </UniLink>{" "}
+                and{" "}
+                <UniLink className="underline decoration-2" href={GITHUB_LINK}>
+                  open-source
+                </UniLink>{" "}
+                blogging platform for everyone.
+              </Trans>
             </h3>
             <div className="my-10 sm:my-16">
               <Button
@@ -265,10 +245,10 @@ export default function Home() {
                 {isConnected ? (
                   <>
                     <span className="i-bi-grid text-lg mr-2"></span>
-                    <span>Dashboard</span>
+                    <span>{t("Dashboard")}</span>
                   </>
                 ) : (
-                  "Get my xLog in 5 minutes"
+                  t("Get my xLog in 5 minutes")
                 )}
               </Button>
             </div>
@@ -296,7 +276,9 @@ export default function Home() {
                   width={3785}
                   height={2170}
                 ></Image>
-                <p className="text-center">Visit xlog.{OUR_DOMAIN}</p>
+                <p className="text-center">
+                  {t("Visit")} xlog.{OUR_DOMAIN}
+                </p>
               </UniLink>
               <ul className="pt-20 grid grid-cols-1 sm:grid-cols-3 gap-8">
                 {features.map((item, index) => (
@@ -314,22 +296,26 @@ export default function Home() {
                     </div>
                     <p className="text-2xl font-bold mt-5 flex items-center px-5">
                       <span className="mr-3">{item.icon}</span>
-                      <span>{item.title}</span>
+                      <span>{t(item.title)}</span>
                     </p>
                     <p className="text-base font-light mt-3 mb-4 leading-normal px-5">
-                      {item.text}
+                      <Trans
+                        i18nKey={`${item.title} description`}
+                        defaults={item.text}
+                        components={{
+                          strong: <strong className="font-bold" />,
+                        }}
+                        ns="index"
+                      />
                     </p>
                   </li>
                 ))}
               </ul>
             </Element>
             <Element name="Showcase">
-              <div className="pt-28 text-4xl font-bold">Showcase</div>
+              <div className="pt-28 text-4xl font-bold">{t("Showcase")}</div>
               <div className="my-10 text-zinc-700">
-                <p className="text-lg">
-                  Discover these awesome teams and geeks on xLog (sorted by
-                  update time)
-                </p>
+                <p className="text-lg">{t("discover awesome")}</p>
                 <Button
                   size="xl"
                   className="mt-5"
@@ -340,7 +326,7 @@ export default function Home() {
                     subscribeToSites.isLoading
                   }
                 >
-                  🥳 Follow All!
+                  🥳 {t("Follow All!")}
                 </Button>
                 <ul
                   className={`pt-10 grid grid-cols-2 md:grid-cols-3 gap-10 overflow-y-hidden relative ${
@@ -353,7 +339,7 @@ export default function Home() {
                     }`}
                     onClick={() => setShowcaseMore(true)}
                   >
-                    Show more
+                    {t("Show more")}
                   </div>
                   {showcaseSites.data?.map((site: any) => (
                     <li className="inline-flex align-middle" key={site.handle}>
@@ -399,19 +385,16 @@ export default function Home() {
                       className="inline-block text-accent text-center"
                       href={`${GITHUB_LINK}/edit/dev/showcase.json`}
                     >
-                      Submit yours
+                      {t("Submit yours")}
                     </UniLink>
                   </li>
                 </ul>
               </div>
             </Element>
             <Element name="Integration">
-              <div className="pt-28 text-4xl font-bold">Integration</div>
+              <div className="pt-28 text-4xl font-bold">{t("Integration")}</div>
               <div className="my-10 text-zinc-700">
-                <p className="text-xl">
-                  xLog&apos;s open design allows it to integrate with many other
-                  open protocols and applications without friction.
-                </p>
+                <p className="text-xl">{t("Integration description")}</p>
                 <ul className="mt-14 grid grid-cols-3 sm:grid-cols-5 gap-y-14 gap-x-2">
                   {integrations.map((item, index) => (
                     <li
@@ -465,11 +448,11 @@ export default function Home() {
                 href="/dashboard"
                 className="text-accent inline-flex items-center space-x-2"
               >
-                <Button size="xl">Get my xLog in 5 minutes</Button>
+                <Button size="xl">{t("Get my xLog in 5 minutes")}</Button>
               </UniLink>
             ) : (
               <Button onClick={tryNow} size="xl">
-                Get my xLog in 5 minutes
+                {t("Get my xLog in 5 minutes")}
               </Button>
             )}
           </div>

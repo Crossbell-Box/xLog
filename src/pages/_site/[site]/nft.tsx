@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next"
 import { SiteLayout } from "~/components/site/SiteLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
-import { dehydrate, QueryClient } from "@tanstack/react-query"
+import { QueryClient } from "@tanstack/react-query"
 import { useGetSite, useGetNFTs } from "~/queries/site"
 import { ReactElement, useEffect, useState } from "react"
 import type { Asset } from "unidata.js"
@@ -12,13 +12,17 @@ import { UniLink } from "~/components/ui/UniLink"
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
   const domainOrSubdomain = ctx.params!.site as string
-  await getLayoutServerSideProps(ctx, queryClient, {
-    skipPages: true,
-  })
+  const { props: layoutProps } = await getLayoutServerSideProps(
+    ctx,
+    queryClient,
+    {
+      skipPages: true,
+    },
+  )
 
   return {
     props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      ...layoutProps,
       domainOrSubdomain,
     },
   }

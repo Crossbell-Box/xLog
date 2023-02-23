@@ -11,6 +11,7 @@ import { ConnectButton } from "../common/ConnectButton"
 import { getSiteLink } from "~/lib/helpers"
 import Image from "next/image"
 import { Link } from "react-scroll"
+import { useTranslation } from "next-i18next"
 
 export function MainLayout({
   children,
@@ -21,6 +22,8 @@ export function MainLayout({
   title?: string
   tabs?: string[]
 }) {
+  const { t } = useTranslation("index")
+
   return (
     <>
       <SEOHead
@@ -28,7 +31,7 @@ export function MainLayout({
         siteName={APP_NAME}
         description={APP_DESCRIPTION}
       />
-      <header className="py-5 fixed w-full top-0 bg-white z-50">
+      <header className="py-5 fixed w-full top-0 bg-white z-10">
         <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
           <div className="text-3xl font-extrabold flex items-center">
             <div className="inline-block w-9 h-9">
@@ -51,14 +54,14 @@ export function MainLayout({
                 duration={500}
                 key={tab}
               >
-                {tab}
+                {t(tab)}
               </Link>
             ))}
             <UniLink
               href={GITHUB_LINK}
               className="items-center hidden sm:flex hover:text-accent"
             >
-              Source Code
+              {t("Source Code")}
             </UniLink>
             <ConnectButton size="base" />
           </div>

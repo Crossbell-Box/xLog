@@ -18,10 +18,11 @@ import { FastAverageColor } from "fast-average-color"
 import { useState, useRef, useEffect, RefObject } from "react"
 import chroma from "chroma-js"
 import { Menu } from "~/components/ui/Menu"
+import { useTranslation } from "next-i18next"
 
-export type HeaderLinkType = {
+type HeaderLinkType = {
   icon?: React.ReactNode
-  label: string | JSX.Element
+  label: string
   url?: string
   onClick?: () => void
 }
@@ -30,6 +31,7 @@ const fac = new FastAverageColor()
 
 const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
   const router = useRouter()
+  const { t } = useTranslation("site")
   const active = router.asPath === link.url
   return (
     <UniLink
@@ -43,7 +45,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
       )}
     >
       {link.icon && <span>{link.icon}</span>}
-      <span>{link.label}</span>
+      <span>{t(link.label)}</span>
     </UniLink>
   )
 }
