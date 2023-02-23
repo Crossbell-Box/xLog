@@ -8,6 +8,7 @@ import { Avatar } from "../ui/Avatar"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { getSiteLink } from "~/lib/helpers"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { useTranslation } from "next-i18next"
 
 export const CharacterList: React.FC<{
   open: boolean
@@ -17,6 +18,8 @@ export const CharacterList: React.FC<{
   list: any[]
   title: string
 }> = ({ open, setOpen, hasMore, loadMore, list, title }) => {
+  const { t } = useTranslation("common")
+
   return (
     <Modal open={open} setOpen={setOpen} title={title}>
       <div className="px-5 overflow-auto flex-1">
@@ -25,7 +28,7 @@ export const CharacterList: React.FC<{
           hasMore={hasMore}
           loader={
             <div className="text-sm py-3 text-center" key={0}>
-              Loading ...
+              {t("Loading")} ...
             </div>
           }
           useWindow={false}
@@ -71,14 +74,14 @@ export const CharacterList: React.FC<{
             ))
           ) : (
             <div className="py-3 text-center text-zinc-300">
-              No Content Yet.
+              {t("No Content Yet.")}
             </div>
           )}
         </InfiniteScroll>
       </div>
       <div className="h-16 border-t flex items-center px-5 py-4">
         <Button isBlock onClick={() => setOpen(false)}>
-          Close
+          {t("Close")}
         </Button>
       </div>
     </Modal>

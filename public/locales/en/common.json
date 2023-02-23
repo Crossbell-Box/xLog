@@ -1,3 +1,7 @@
 {
-  "intlRelativeTime": "{{val, relativetime}}"
+  "intlRelativeTime": "{{val, relativetime}}",
+  "ago": "{{time}} ago",
+  "joined ago": "Joined {{time}} ago",
+  "like stored": "Your like has been stored on the blockchain, view it on <2>Crossbell Scan</2>",
+  "mint stored": "This post has been minted to NFT by you, view it on <2>xChar</2> or <6>Crossbell Scan</6>"
 }

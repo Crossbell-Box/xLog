@@ -66,13 +66,14 @@ export const CommentItem: React.FC<{
             </UniLink>{" "}
             ·{" "}
             <time dateTime={date.formatToISO(comment?.createdAt)}>
-              {date.dayjs
-                .duration(
-                  date.dayjs(comment?.createdAt).diff(date.dayjs(), "minute"),
-                  "minute",
-                )
-                .humanize()}{" "}
-              ago
+              {t("ago", {
+                time: date.dayjs
+                  .duration(
+                    date.dayjs(comment?.createdAt).diff(date.dayjs(), "minute"),
+                    "minute",
+                  )
+                  .humanize(),
+              })}
             </time>{" "}
             ·{" "}
             <UniLink href={`${CSB_SCAN}/tx/${comment.transactionHash}`}>

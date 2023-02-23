@@ -6,6 +6,7 @@ import * as siteModel from "~/models/site.model"
 import type { Profile } from "~/lib/types"
 import clsx from "clsx"
 import { useDate } from "~/hooks/useDate"
+import { useTranslation } from "next-i18next"
 
 export const CharacterCard: React.FC<{
   siteId?: string
@@ -18,6 +19,7 @@ export const CharacterCard: React.FC<{
   const [firstOpen, setFirstOpen] = useState("")
   const [site, setSite] = useState<Profile>()
   const date = useDate()
+  const { t } = useTranslation("common")
 
   useEffect(() => {
     if (open && (firstOpen !== (siteId || address) || !site)) {
@@ -72,21 +74,23 @@ export const CharacterCard: React.FC<{
           </span>
           {site?.date_created && (
             <span className="block text-gray-500">
-              Joined{" "}
               <time dateTime={date.formatToISO(site.date_created)}>
-                {date.dayjs
-                  .duration(
-                    date.dayjs(site.date_created).diff(date.dayjs(), "minute"),
-                    "minute",
-                  )
-                  .humanize()}{" "}
-                ago
+                {t("joined ago", {
+                  time: date.dayjs
+                    .duration(
+                      date
+                        .dayjs(site.date_created)
+                        .diff(date.dayjs(), "minute"),
+                      "minute",
+                    )
+                    .humanize(),
+                })}
               </time>
             </span>
           )}
         </>
       ) : (
-        "Loading..."
+        <>{t("Loading")}...</>
       )}
     </span>
   )

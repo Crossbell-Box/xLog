@@ -21,6 +21,7 @@ import { CharacterList } from "~/components/common/CharacterList"
 import clsx from "clsx"
 import { Tooltip } from "~/components/ui/Tooltip"
 import confetti from "canvas-confetti"
+import { Trans, useTranslation } from "next-i18next"
 
 export const Reactions: React.FC<{
   className?: string
@@ -29,6 +30,7 @@ export const Reactions: React.FC<{
 }> = ({ className, size, pageId }) => {
   const toggleLikePage = useToggleLikePage()
   const mintPage = useMintPage()
+  const { t } = useTranslation("common")
 
   const userSite = useAccountSites()
   const [isLikeOpen, setIsLikeOpen] = useState(false)
@@ -225,7 +227,7 @@ export const Reactions: React.FC<{
               </Button>
             )
             return size !== "sm" ? (
-              <Tooltip label="Mint as an NFT" placement="top">
+              <Tooltip label={t("Mint to an NFT")} placement="top">
                 {inner}
               </Tooltip>
             ) : (
@@ -265,54 +267,58 @@ export const Reactions: React.FC<{
         <Modal
           open={isLikeOpen}
           setOpen={setIsLikeOpen}
-          title="Like successfull"
+          title={t("Like successfull") || ""}
         >
           <div className="p-5">
-            Your like has been stored on the blockchain, view it on{" "}
-            <UniLink
-              className="text-accent"
-              href={`${CSB_SCAN}/tx/${likeStatus.transactionHash}`}
-            >
-              Crossbell Scan
-            </UniLink>
+            <Trans i18nKey="like stored">
+              Your like has been stored on the blockchain, view it on{" "}
+              <UniLink
+                className="text-accent"
+                href={`${CSB_SCAN}/tx/${likeStatus.transactionHash}`}
+              >
+                Crossbell Scan
+              </UniLink>
+            </Trans>
           </div>
           <div className="h-16 border-t flex items-center px-5">
             <Button isBlock onClick={() => setIsLikeOpen(false)}>
-              Got it, thanks!
+              {t("Got it, thanks!")}
             </Button>
           </div>
         </Modal>
         <Modal
           open={isMintOpen}
           setOpen={setIsMintOpen}
-          title="Mint successfull"
+          title={t("Mint successfull") || ""}
         >
           <div className="p-5">
-            This post has been minted as NFT by you, view it on{" "}
-            <UniLink
-              className="text-accent"
-              href={`${CSB_XCHAR}/${userSite.data?.[0]?.username}/collections`}
-            >
-              xChar
-            </UniLink>{" "}
-            or{" "}
-            <UniLink
-              className="text-accent"
-              href={`${CSB_SCAN}/tx/${isMint.data?.list?.[0]?.transactionHash}`}
-            >
-              Crossbell Scan
-            </UniLink>
+            <Trans i18nKey="mint stored">
+              This post has been minted to NFT by you, view it on{" "}
+              <UniLink
+                className="text-accent"
+                href={`${CSB_XCHAR}/${userSite.data?.[0]?.username}/collections`}
+              >
+                xChar
+              </UniLink>{" "}
+              or{" "}
+              <UniLink
+                className="text-accent"
+                href={`${CSB_SCAN}/tx/${isMint.data?.list?.[0]?.transactionHash}`}
+              >
+                Crossbell Scan
+              </UniLink>
+            </Trans>
           </div>
           <div className="h-16 border-t flex items-center px-5">
             <Button isBlock onClick={() => setIsMintOpen(false)}>
-              Got it, thanks!
+              {t("Got it, thanks!")}
             </Button>
           </div>
         </Modal>
         <CharacterList
           open={isLikeListOpen}
           setOpen={setIsLikeListOpen}
-          title="Like List"
+          title={t("Like List")}
           loadMore={loadMoreLikes}
           hasMore={!!likesMutation.hasNextPage}
           list={likes}
@@ -320,7 +326,7 @@ export const Reactions: React.FC<{
         <CharacterList
           open={isMintListOpen}
           setOpen={setIsMintListOpen}
-          title="Mint List"
+          title={t("Mint List")}
           loadMore={loadMoreMints}
           hasMore={!!mintCursor}
           list={mintList}

@@ -8,6 +8,7 @@ import type { Asset } from "unidata.js"
 import Script from "next/script"
 import { UniMedia } from "~/components/ui/UniMedia"
 import { UniLink } from "~/components/ui/UniLink"
+import { useTranslation } from "next-i18next"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -30,6 +31,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 function SiteNFTPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
   const site = useGetSite(domainOrSubdomain)
+  const { t } = useTranslation("common")
+  const { t: siteT } = useTranslation("site")
 
   const nftsOrigin = useGetNFTs(site.data?.metadata?.owner)
 
@@ -46,10 +49,10 @@ function SiteNFTPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
         type="module"
         src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer.min.js"
       ></Script>
-      <h2 className="text-xl font-bold page-title">NFT Showcase</h2>
+      <h2 className="text-xl font-bold page-title">NFT {siteT("Showcase")}</h2>
       <div className="mt-8">
         {nftsOrigin.isLoading ? (
-          <div>Loading...</div>
+          <div>{t("Loading")}...</div>
         ) : (
           <div className="grid grid-cols-3 md:grid-cols-4 gap-10">
             {nfts

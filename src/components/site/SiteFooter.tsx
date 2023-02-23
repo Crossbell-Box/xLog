@@ -4,11 +4,28 @@ import { Profile, Note } from "~/lib/types"
 import Script from "next/script"
 import Image from "next/image"
 import { Platform } from "~/components/site/Platform"
+import { Trans } from "next-i18next"
 
 export const SiteFooter: React.FC<{
   site?: Profile | null
   page?: Note | null
 }> = ({ site, page }) => {
+  const LogoWithLink = () => {
+    return (
+      <UniLink
+        href={SITE_URL}
+        className="hover:text-accent inline-flex items-center align-text-top mx-1"
+      >
+        <Image
+          alt={APP_NAME}
+          src={`${SITE_URL}/assets/logo.svg`}
+          width={20}
+          height={20}
+        />
+      </UniLink>
+    )
+  }
+
   return (
     <>
       <footer className="text-zinc-500 border-t">
@@ -18,18 +35,15 @@ export const SiteFooter: React.FC<{
             <UniLink href="/" className="hover:text-accent">
               {site?.name}
             </UniLink>{" "}
-            · Powered by{" "}
-            <UniLink
-              href={SITE_URL}
-              className="hover:text-accent inline-flex items-center align-text-top ml-1"
-            >
-              <Image
-                alt={APP_NAME}
-                src={`${SITE_URL}/assets/logo.svg`}
-                width={20}
-                height={20}
-              />
-            </UniLink>
+            ·{" "}
+            <Trans
+              i18nKey="powered by"
+              defaults={"Powered by <name/>"}
+              components={{
+                name: <LogoWithLink />,
+              }}
+              ns="site"
+            />
           </p>
           {site?.connected_accounts && (
             <div className="ml-5 -mr-5">

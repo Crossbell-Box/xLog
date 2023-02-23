@@ -112,12 +112,12 @@ export const ConnectButton: React.FC<{
   const dropdownLinks: HeaderLinkType[] = [
     {
       icon: <DashboardIcon />,
-      label: "Writer dashboard",
+      label: t("Dashboard") || "",
       url: `${SITE_URL}/dashboard`,
     },
     {
       icon: <Square2StackIcon className="w-4 h-4" />,
-      label: copyLabelDisplay,
+      label: t(copyLabelDisplay) || "",
       onClick: copyLabel,
     },
     ...(account?.type === "wallet"
@@ -126,7 +126,7 @@ export const ConnectButton: React.FC<{
             icon: <UsersIcon className="w-4 h-4" />,
             label: (
               <>
-                Operator Sign (
+                {t("Operator Sign")} (
                 {isOpSignEnabled ? (
                   <FaceSmileIcon className="w-4 h-4" />
                 ) : (
@@ -154,20 +154,20 @@ export const ConnectButton: React.FC<{
           },
           {
             icon: <ArrowPathRoundedSquareIcon className="w-4 h-4" />,
-            label: "Switch Characters",
+            label: t("Switch Characters") || "",
             onClick: selectCharactersModal.show,
           },
         ]
       : [
           {
             icon: <ArrowUpCircleIcon className="w-4 h-4" />,
-            label: "Upgrade to Wallet",
+            label: t("Upgrade to Wallet") || "",
             onClick: upgradeAccountModal.show,
           },
         ]),
     {
       icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
-      label: "Disconnect",
+      label: t("Disconnect") || "",
       onClick: disconnect,
     },
   ]

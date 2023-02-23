@@ -5,6 +5,7 @@ import { Notes, Note } from "~/lib/types"
 import { UniLink } from "../ui/UniLink"
 import { Button } from "~/components/ui/Button"
 import { useDate } from "~/hooks/useDate"
+import { useTranslation } from "next-i18next"
 
 export const SiteArchives: React.FC<{
   title?: string
@@ -23,6 +24,8 @@ export const SiteArchives: React.FC<{
 }) => {
   let currentLength = 0
   const date = useDate()
+  const { t } = useTranslation("common")
+  const { t: siteT } = useTranslation("site")
 
   const groupedByYear = useMemo<Map<string, Note[]>>(() => {
     const map = new Map()
@@ -39,7 +42,7 @@ export const SiteArchives: React.FC<{
     }
 
     return map
-  }, [postPages])
+  }, [postPages, date])
 
   const tags = useMemo<Map<string, number>>(() => {
     const result = new Map()
@@ -67,7 +70,9 @@ export const SiteArchives: React.FC<{
 
   return (
     <>
-      <h2 className="text-xl font-bold page-title">{title || "Archives"}</h2>
+      <h2 className="text-xl font-bold page-title">
+        {title || siteT("Archives")}
+      </h2>
       {!postPages[0].total && (
         <div className="mt-5">
           <EmptyState />
@@ -77,7 +82,9 @@ export const SiteArchives: React.FC<{
         <>
           {showTags && tags.size > 0 && (
             <div className="mt-5">
-              <h3 className="text-lg font-bold mb-1 text-zinc-700">Tags</h3>
+              <h3 className="text-lg font-bold mb-1 text-zinc-700">
+                {siteT("Tags")}
+              </h3>
               <div className="pt-2">
                 {[...tags.keys()].map((tag) => (
                   <UniLink key={tag} href={`/tag/${tag}`} className="mr-6">
@@ -108,7 +115,15 @@ export const SiteArchives: React.FC<{
                       >
                         <span className="text-zinc-700">{post.title}</span>
                         <span className="text-zinc-400 mr-3 whitespace-nowrap">
-                          {formatDate(post.date_published, "MMM D")}
+                          {t("intlDateTime", {
+                            val: new Date(post.date_published),
+                            formatParams: {
+                              val: {
+                                month: "short",
+                                day: "numeric",
+                              },
+                            },
+                          })}
                         </span>
                       </Link>
                     )
