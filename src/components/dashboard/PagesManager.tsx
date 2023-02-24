@@ -45,28 +45,33 @@ export const PagesManager: React.FC<{
   const createOrUpdatePage = useCreateOrUpdatePage()
   const [convertToastId, setConvertToastId] = useState("")
   const [deleteToastId, setDeleteToastId] = useState("")
-  const { t } = useTranslation(["site", "common"])
+  const { t } = useTranslation(["common", "site", "dashboard"])
   const date = useDate()
 
   useEffect(() => {
     if (deletePage.isSuccess) {
-      toast.success("Deleted!", {
+      toast.success(t("Deleted!", { ns: "dashboard" }), {
         id: deleteToastId,
       })
     }
-  }, [deletePage.isSuccess, deleteToastId])
+  }, [deletePage.isSuccess, deleteToastId, t])
 
   useEffect(() => {
     if (createOrUpdatePage.isSuccess) {
-      toast.success("Converted!", {
+      toast.success(t("Converted!", { ns: "dashboard" }), {
         id: convertToastId,
       })
     } else if (createOrUpdatePage.isError) {
-      toast.error("Failed to convert.", {
+      toast.error(t("Failed to convert.", { ns: "dashboard" }), {
         id: convertToastId,
       })
     }
-  }, [createOrUpdatePage.isSuccess, createOrUpdatePage.isError, convertToastId])
+  }, [
+    createOrUpdatePage.isSuccess,
+    createOrUpdatePage.isError,
+    convertToastId,
+    t,
+  ])
 
   const pages = useGetPagesBySite({
     type: isPost ? "post" : "page",
@@ -328,7 +333,9 @@ export const PagesManager: React.FC<{
     <DashboardMain>
       <header className="mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">{title}</h2>
+          <h2 className="text-2xl font-bold">
+            {t(title, { ns: "dashboard" })}
+          </h2>
           <div className="flex justify-center items-center space-x-4">
             <Button
               className={clsx(`space-x-2 inline-flex`)}
@@ -473,6 +480,7 @@ export const PagesManager: React.FC<{
                         : ""),
               ),
               count: (pages.data?.pages?.[0].total || 0) - currentLength,
+              ns: "site",
             })}
           </Button>
         )}

@@ -38,6 +38,22 @@ import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN } from "~/lib/env"
 import { showConfetti } from "~/lib/confetti"
 import type { ReactElement } from "react"
+import { useTranslation } from "next-i18next"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { GetServerSideProps } from "next"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
+
+export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
+  async (ctx) => {
+    const { props: layoutProps } = await getLayoutServerSideProps(ctx)
+
+    return {
+      props: {
+        ...layoutProps,
+      },
+    }
+  },
+)
 
 const getInputDatetimeValue = (date: Date | string, dayjs: any) => {
   const str = dayjs(date).format()

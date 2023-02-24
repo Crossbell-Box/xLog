@@ -18,7 +18,7 @@ import {
 } from "@crossbell/notification"
 import { useUserRole } from "~/hooks/useUserRole"
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
-import { useTranslation } from "next-i18next"
+import { useTranslation } from "react-i18next"
 
 export function DashboardLayout({
   children,
@@ -40,7 +40,7 @@ export function DashboardLayout({
   const connectModal = useConnectModal()
   const [ready, setReady] = React.useState(false)
   const [hasPermission, setHasPermission] = React.useState(false)
-  const { t } = useTranslation("common")
+  const { t } = useTranslation(["common", "dashboard"])
 
   useEffect(() => {
     if (ssrReady) {
@@ -169,7 +169,9 @@ export function DashboardLayout({
                         onClick={link.onClick}
                       >
                         <span className={clsx(link.icon, "text-lg")}></span>
-                        {isOpen && <span>{link.text}</span>}
+                        {isOpen && (
+                          <span>{t(link.text, { ns: "dashboard" })}</span>
+                        )}
                       </UniLink>
                     )
                   })}
@@ -205,7 +207,7 @@ export function DashboardLayout({
     )
   ) : (
     <div className="w-screen h-screen flex justify-center items-center">
-      {t("Loading")}...
+      Loading...
     </div>
   )
 }

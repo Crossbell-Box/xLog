@@ -13,6 +13,22 @@ import { useGetSite, useUpdateSite } from "~/queries/site"
 import type { ReactElement } from "react"
 import { UniLink } from "~/components/ui/UniLink"
 import { Platform } from "~/components/site/Platform"
+import { useTranslation } from "next-i18next"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { GetServerSideProps } from "next"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
+
+export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
+  async (ctx) => {
+    const { props: layoutProps } = await getLayoutServerSideProps(ctx)
+
+    return {
+      props: {
+        ...layoutProps,
+      },
+    }
+  },
+)
 
 type Item = Required<Profile>["connected_accounts"][number] & {
   id: string

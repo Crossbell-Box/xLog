@@ -16,8 +16,7 @@ export const SiteHome: React.FC<{
   isFetchingNextPage?: boolean
 }> = ({ postPages, fetchNextPage, hasNextPage, isFetchingNextPage }) => {
   const router = useRouter()
-  const { t } = useTranslation("common")
-  const { t: siteT } = useTranslation("site")
+  const { t } = useTranslation(["common", "site"])
   const date = useDate()
 
   const [isMounted, setIsMounted] = useState(false)
@@ -118,7 +117,8 @@ export const SiteHome: React.FC<{
           isLoading={isFetchingNextPage}
           aria-label="load more"
         >
-          {siteT("load more", {
+          {t("load more", {
+            ns: "site",
             name: t(
               "post" + (postPages[0].total - currentLength > 1 ? "s" : ""),
             ),

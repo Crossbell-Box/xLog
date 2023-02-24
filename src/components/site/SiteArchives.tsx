@@ -24,8 +24,7 @@ export const SiteArchives: React.FC<{
 }) => {
   let currentLength = 0
   const date = useDate()
-  const { t } = useTranslation("common")
-  const { t: siteT } = useTranslation("site")
+  const { t } = useTranslation(["common", "site"])
 
   const groupedByYear = useMemo<Map<string, Note[]>>(() => {
     const map = new Map()
@@ -71,7 +70,7 @@ export const SiteArchives: React.FC<{
   return (
     <>
       <h2 className="text-xl font-bold page-title">
-        {title || siteT("Archives")}
+        {title || t("Archives", { ns: "site" })}
       </h2>
       {!postPages[0].total && (
         <div className="mt-5">
@@ -83,7 +82,7 @@ export const SiteArchives: React.FC<{
           {showTags && tags.size > 0 && (
             <div className="mt-5">
               <h3 className="text-lg font-bold mb-1 text-zinc-700">
-                {siteT("Tags")}
+                {t("Tags", { ns: "site" })}
               </h3>
               <div className="pt-2">
                 {[...tags.keys()].map((tag) => (

@@ -12,8 +12,7 @@ export const BlockchainInfo: React.FC<{
   site?: Profile | null
   page?: Note | null
 }> = ({ site, page }) => {
-  const { t } = useTranslation("common")
-  const { t: siteT } = useTranslation("site")
+  const { t } = useTranslation(["common", "site"])
 
   return (
     <div className="text-sm">
@@ -27,7 +26,8 @@ export const BlockchainInfo: React.FC<{
               <span>
                 <BlockchainIcon className="w-4 h-4 inline-block align-middle mr-2" />
                 <span className="align-middle">
-                  {siteT("signed and stored on the blockchain", {
+                  {t("signed and stored on the blockchain", {
+                    ns: "site",
                     name: t(
                       page
                         ? page.tags?.includes("post")

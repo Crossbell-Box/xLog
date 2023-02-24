@@ -6,6 +6,5 @@
   "load more": "还有 {{count}} 篇{{name}}，点击加载更多",
   "signed and stored on the blockchain": "此{{name}}已经由它的创作者签名并安全地存储在区块链上。",
   "Write a comment on the blockchain": "在区块链上写下你的评论",
-  "powered by": "由 <name/> 提供支持",
-  "Showcase": "展示柜"
+  "powered by": "由 <name/> 提供支持"
 }

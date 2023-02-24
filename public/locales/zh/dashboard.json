@@ -1,1 +1,23 @@
-{}
+{
+  "Dashboard": "仪表盘",
+  "Posts": "文章",
+  "Pages": "页面",
+  "Notifications": "通知",
+  "Settings": "设置",
+  "Site Stats": "站点统计",
+  "Total Posts": "文章总数",
+  "Total Comments": "评论总数",
+  "Total Followers": "关注者总数",
+  "Total Views": "浏览总数",
+  "Site Duration": "站点运行时间",
+  "days": "天",
+  "Deleted!" : "已删除！",
+  "Converted!" : "已转换！",
+  "Failed to convert." : "转换失败。",
+  "All Posts": "所有文章",
+  "All Pages": "所有页面",
+  "Published": "已发布",
+  "Draft": "草稿",
+  "Scheduled": "定时发布",
+  "Others on Crossbell": "Crossbell上的其他内容"
+}

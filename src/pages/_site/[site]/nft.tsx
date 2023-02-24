@@ -31,8 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 function SiteNFTPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
   const site = useGetSite(domainOrSubdomain)
-  const { t } = useTranslation("common")
-  const { t: siteT } = useTranslation("site")
+  const { t } = useTranslation(["common", "site"])
 
   const nftsOrigin = useGetNFTs(site.data?.metadata?.owner)
 
@@ -49,7 +48,7 @@ function SiteNFTPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
         type="module"
         src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer.min.js"
       ></Script>
-      <h2 className="text-xl font-bold page-title">NFT {siteT("Showcase")}</h2>
+      <h2 className="text-xl font-bold page-title">NFT {t("Showcase")}</h2>
       <div className="mt-8">
         {nftsOrigin.isLoading ? (
           <div>{t("Loading")}...</div>

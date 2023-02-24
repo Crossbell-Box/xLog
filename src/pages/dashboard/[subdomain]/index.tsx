@@ -8,6 +8,22 @@ import { getSiteLink } from "~/lib/helpers"
 import type { ReactElement } from "react"
 import { useGetSite, useGetStat } from "~/queries/site"
 import { useDate } from "~/hooks/useDate"
+import { useTranslation } from "next-i18next"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { GetServerSideProps } from "next"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
+
+export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
+  async (ctx) => {
+    const { props: layoutProps } = await getLayoutServerSideProps(ctx)
+
+    return {
+      props: {
+        ...layoutProps,
+      },
+    }
+  },
+)
 
 export default function SubdomainIndex() {
   const router = useRouter()
@@ -18,6 +34,7 @@ export default function SubdomainIndex() {
     characterId,
   })
   const date = useDate()
+  const { t } = useTranslation("dashboard")
   const statMap = [
     {
       name: "Total Posts",
@@ -28,7 +45,7 @@ export default function SubdomainIndex() {
       value: stat.data?.commentsCount,
     },
     {
-      name: "Total Subscribers",
+      name: "Total Followers",
       value: stat.data?.subscriptionCount,
     },
     {
@@ -38,7 +55,9 @@ export default function SubdomainIndex() {
     {
       name: "Site Duration",
       value:
-        date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day") + " days",
+        date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day") +
+        " " +
+        t("days"),
     },
   ]
 
@@ -48,14 +67,14 @@ export default function SubdomainIndex() {
         <div className="w-14 h-14 mb-8">
           <Image alt="logo" src="/assets/logo.svg" width={100} height={100} />
         </div>
-        <p className="text-2xl font-bold">Site Stat</p>
+        <p className="text-2xl font-bold">{t("Site Stats")}</p>
         <div className="grid gap-4 sm:grid-cols-3 grid-cols-2 mb-8">
           {statMap.map((item) => (
             <div
               key={item.name}
               className="bg-slate-100 rounded-lg flex justify-center flex-col py-4 px-6"
             >
-              <span>{item.name}</span>
+              <span>{t(item.name)}</span>
               <span className="font-bold text-2xl text-accent">
                 {item.value}
               </span>

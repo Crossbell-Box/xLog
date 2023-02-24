@@ -1,6 +1,7 @@
 import clsx from "clsx"
 import React from "react"
 import { UniLink } from "./UniLink"
+import { useTranslation } from "next-i18next"
 
 export type TabItem = {
   text: string
@@ -11,6 +12,8 @@ export type TabItem = {
 }
 
 export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
+  const { t } = useTranslation(["dashboard"])
+
   return (
     <div className="flex border-b space-x-5 mb-8 overflow-x-scroll">
       {items.map((item) => {
@@ -28,7 +31,7 @@ export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
                 : `text-gray-500  border-transparent hover:border-gray-300`,
             )}
           >
-            {item.text}
+            {t(item.text)}
           </UniLink>
         )
       })}

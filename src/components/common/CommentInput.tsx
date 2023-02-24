@@ -22,8 +22,7 @@ export const CommentInput: React.FC<{
   const commentPage = useCommentPage()
   const router = useRouter()
   const [viewer, setViewer] = useState<Profile | null>(null)
-  const { t } = useTranslation("common")
-  const { t: siteT } = useTranslation("site")
+  const { t } = useTranslation(["common", "site"])
 
   useEffect(() => {
     if (userSites.isSuccess && userSites.data?.length) {
@@ -76,7 +75,9 @@ export const CommentInput: React.FC<{
             multiline
             maxLength={300}
             className="mb-2"
-            placeholder={siteT("Write a comment on the blockchain") || ""}
+            placeholder={
+              t("Write a comment on the blockchain", { ns: "site" }) || ""
+            }
             {...form.register("content", {})}
           />
         </div>
