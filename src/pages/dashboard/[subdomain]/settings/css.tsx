@@ -31,6 +31,7 @@ export default function SettingsCSSPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
+  const { t } = useTranslation("dashboard")
 
   const [css, setCss] = useState("")
   const handleSubmit = (e: any) => {
@@ -66,38 +67,39 @@ export default function SettingsCSSPage() {
       <form onSubmit={handleSubmit}>
         <div className="">
           <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
-            <p className="text-zinc-800 text-sm font-bold">Scope</p>
+            <p className="text-zinc-800 text-sm font-bold">{t("Tips")}:</p>
             <p>
-              These styles will be applied to your entire blog, including this
-              dashboard.
+              {t(
+                "Scope: These styles will be applied to your entire blog, including this dashboard.",
+              )}
             </p>
             <p>
-              Support <code>ipfs://</code>
-            </p>
-            <p className="text-zinc-800 text-sm font-bold">
-              Tips: you can override the built-in CSS variables
+              {t("Support")} <code>ipfs://</code>
             </p>
             <p>
+              {t("CSS variables: xLog provides some built-in CSS variables")}
+            </p>
+            <p className="pl-2">
               <span className="bg-zinc-200 rounded-lg px-2">
                 --theme-color: #4f46e5;
               </span>
             </p>
-            <p>
+            <p className="pl-2">
               <span className="bg-zinc-200 rounded-lg px-2">
                 --theme-color-emphasis: #4338ca;
               </span>
             </p>
-            <p>
+            <p className="pl-2">
               <span className="bg-zinc-200 rounded-lg px-2">
                 --header-height: auto;
               </span>
             </p>
-            <p>
+            <p className="pl-2">
               <span className="bg-zinc-200 rounded-lg px-2">
                 --banner-bg-color: #000;
               </span>
             </p>
-            <p>
+            <p className="pl-2">
               <span className="bg-zinc-200 rounded-lg px-2">
                 --font-fans: ui-sans-serif, system-ui, -apple-system,
                 BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto,
@@ -108,7 +110,7 @@ export default function SettingsCSSPage() {
               </span>
             </p>
           </div>
-          <FieldLabel label="Custom CSS" />
+          <FieldLabel label={t("Custom CSS")} />
           <Editor
             className="w-full h-96 border outline-none py-3 rounded-lg inline-flex items-center overflow-hidden"
             defaultLanguage="css"
@@ -121,7 +123,7 @@ export default function SettingsCSSPage() {
         </div>
         <div className="mt-5">
           <Button type="submit" isLoading={updateSite.isLoading}>
-            Save
+            {t("Save")}
           </Button>
         </div>
       </form>

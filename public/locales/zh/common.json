@@ -5,7 +5,7 @@
   "Followings": "正在关注",
   "Follow": "关注",
   "Unfollow": "取消关注",
-  "intlRelativeTime": "{{val, relativetime}}",
+  "intlDateTime": "{{val, datetime}}",
   "post": "文章",
   "posts": "文章",
   "page": "页面",

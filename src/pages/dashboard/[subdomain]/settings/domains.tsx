@@ -37,6 +37,7 @@ export default function SettingsDomainsPage() {
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
   const userRole = useUserRole(subdomain)
+  const { t } = useTranslation("dashboard")
 
   const isEmailAccount = useAccountState(
     (s) => s.computed.account?.type === "email",
@@ -98,7 +99,7 @@ export default function SettingsDomainsPage() {
         <div>
           <Input
             id="subdomain"
-            label={`${APP_NAME} subdomain`}
+            label={`xLog ${t("subdomain")}`}
             addon={`.${OUR_DOMAIN}`}
             className="w-28"
             {...form.register("subdomain")}
@@ -137,15 +138,17 @@ export default function SettingsDomainsPage() {
         <div className="mt-5">
           <Input
             id="custom_domain"
-            label="Custom Domain"
+            label={t("Custom Domain") || ""}
             className="w-64"
             {...form.register("custom_domain")}
           />
           {customDomain && (
             <div className="mt-2 text-xs">
               <p className="mb-2">
-                Set the following record on your DNS provider to active your
-                custom domain:
+                {t(
+                  "Set the following record on your DNS provider to active your custom domain",
+                )}
+                :
               </p>
               <table className="">
                 <tbody>
@@ -175,7 +178,7 @@ export default function SettingsDomainsPage() {
         </div>
         <div className="mt-5">
           <Button type="submit" isLoading={updateSite.isLoading}>
-            Save
+            {t("Save")}
           </Button>
         </div>
       </form>

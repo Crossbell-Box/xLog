@@ -43,11 +43,14 @@ const SortableNavigationItem: React.FC<{
   isLoading: boolean
   disabled?: boolean
 }> = ({ item, removeItem, isLoading, disabled }) => {
+  const { t } = useTranslation("dashboard")
   return (
     <div className="flex space-x-5 border-b p-5 bg-zinc-50 last:border-0 items-center">
       <div className="text-sm space-y-4">
-        <div>Address: {item}</div>
-        <div>Character:</div>
+        <div>
+          {t("Address")}: {item}
+        </div>
+        <div>{t("Character")}:</div>
         <CharacterCard
           address={item}
           open={true}
@@ -62,7 +65,7 @@ const SortableNavigationItem: React.FC<{
           isLoading={isLoading}
           isDisabled={disabled}
         >
-          Remove
+          {t("Remove")}
         </Button>
       </div>
     </div>
@@ -85,6 +88,7 @@ export default function SettingsOperatorPage() {
   )
   const upgradeAccountModal = useUpgradeAccountModal()
   const userRole = useUserRole(subdomain)
+  const { t } = useTranslation("dashboard")
 
   const [items, setItems] = useState<string[]>([])
 
@@ -144,19 +148,21 @@ export default function SettingsOperatorPage() {
 
           <div className="relative bg-white rounded-lg max-w-md w-full mx-auto">
             <Dialog.Title className="px-5 h-12 flex items-center border-b">
-              New operator
+              {t("New operator")}
             </Dialog.Title>
 
             <div className="p-5">
               <Input
                 className="w-full"
-                label="Operator Address"
+                label={t("Operator Address") || ""}
                 required
                 onChange={(e) => {
                   setAddress(e.target.value)
                 }}
               />
-              <div className="form-label mt-5">Operator Character Check</div>
+              <div className="form-label mt-5">
+                {t("Operator Character Check")}
+              </div>
               <div>
                 <CharacterCard
                   address={address}
@@ -173,14 +179,14 @@ export default function SettingsOperatorPage() {
                 isDisabled={!address}
                 onClick={addItem}
               >
-                Save
+                {t("Save")}
               </Button>
             </div>
           </div>
         </div>
       </Dialog>
       <div className="p-5 text-zinc-500 bg-orange-50 mb-5 rounded-lg text-sm space-y-2">
-        <p className="text-zinc-800 text-sm font-bold">⚠️ Warning:</p>
+        <p className="text-zinc-800 text-sm font-bold">⚠️ {t("Warning")}:</p>
         <p>
           <span className="text-zinc-800">
             {isEmailAccount && (
@@ -214,9 +220,9 @@ export default function SettingsOperatorPage() {
             )}
             {!isEmailAccount && userRole.data !== "operator" && (
               <span>
-                Operators have permissions to enter your dashboard, change your
-                settings(excluding xLog subdomain) and post contents on your
-                site.
+                {t(
+                  "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site.",
+                )}
               </span>
             )}
           </span>
@@ -257,7 +263,7 @@ export default function SettingsOperatorPage() {
             onClick={newEmptyItem}
             isDisabled={isEmailAccount || userRole.data === "operator"}
           >
-            Add
+            {t("Add")}
           </Button>
         </div>
       </div>

@@ -25,7 +25,7 @@ import { nanoid } from "nanoid"
 import { renderPageContent } from "~/markdown"
 import { Tooltip } from "../ui/Tooltip"
 import { APP_NAME } from "~/lib/env"
-import { useTranslation } from "next-i18next"
+import { Trans, useTranslation } from "next-i18next"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -45,12 +45,12 @@ export const PagesManager: React.FC<{
   const createOrUpdatePage = useCreateOrUpdatePage()
   const [convertToastId, setConvertToastId] = useState("")
   const [deleteToastId, setDeleteToastId] = useState("")
-  const { t } = useTranslation(["common", "site", "dashboard"])
+  const { t } = useTranslation(["dashboard", "site"])
   const date = useDate()
 
   useEffect(() => {
     if (deletePage.isSuccess) {
-      toast.success(t("Deleted!", { ns: "dashboard" }), {
+      toast.success(t("Deleted!"), {
         id: deleteToastId,
       })
     }
@@ -58,11 +58,11 @@ export const PagesManager: React.FC<{
 
   useEffect(() => {
     if (createOrUpdatePage.isSuccess) {
-      toast.success(t("Converted!", { ns: "dashboard" }), {
+      toast.success(t("Converted!"), {
         id: convertToastId,
       })
     } else if (createOrUpdatePage.isError) {
-      toast.error(t("Failed to convert.", { ns: "dashboard" }), {
+      toast.error(t("Failed to convert."), {
         id: convertToastId,
       })
     }
@@ -290,39 +290,42 @@ export const PagesManager: React.FC<{
   const description = isPost ? (
     <>
       <p>
-        <UniLink
-          className="underline"
-          href="https://wordpress.com/support/post-vs-page/"
-        >
-          Post vs. Page
-        </UniLink>
-        . Posts are entries listed in reverse chronological order on your site.
-        Think of them as articles or updates that you share to offer up new
-        content to your readers.
+        <Trans i18nKey="posts description" ns="dashboard">
+          Posts are entries listed in reverse chronological order on your site.
+          Think of them as articles or updates that you share to offer up new
+          content to your readers.{" "}
+          <UniLink className="underline" href={t("link post-vs-page") || ""}>
+            Post vs. Page
+          </UniLink>
+        </Trans>
       </p>
     </>
   ) : (
     <>
       <p>
-        <UniLink
-          className="underline"
-          href="https://wordpress.com/support/post-vs-page/"
-        >
-          Post vs. Page
-        </UniLink>
-        . Pages are static and are not affected by date. Think of them as more
-        permanent fixtures of your site — an About page, and a Contact page are
-        great examples of this.
+        <Trans i18nKey="pages description" ns="dashboard">
+          Pages are static and are not affected by date. Think of them as more
+          permanent fixtures of your site — an About page, and a Contact page
+          are great examples of this.{" "}
+          <UniLink
+            className="underline"
+            href="https://wordpress.com/support/post-vs-page/"
+          >
+            Post vs. Page
+          </UniLink>
+        </Trans>
       </p>
       <p>
-        After you create a page, you can{" "}
-        <UniLink
-          className="underline"
-          href={`/dashboard/${subdomain}/settings/navigation`}
-        >
-          add it to your site&apos;s navigation menu
-        </UniLink>{" "}
-        so your visitors can find it.
+        <Trans i18nKey="pages add" ns="dashboard">
+          After you create a page, you can{" "}
+          <UniLink
+            className="underline"
+            href={`/dashboard/${subdomain}/settings/navigation`}
+          >
+            add it to your site&apos;s navigation menu
+          </UniLink>{" "}
+          so your visitors can find it.
+        </Trans>
       </p>
     </>
   )
@@ -333,9 +336,7 @@ export const PagesManager: React.FC<{
     <DashboardMain>
       <header className="mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">
-            {t(title, { ns: "dashboard" })}
-          </h2>
+          <h2 className="text-2xl font-bold">{t(title)}</h2>
           <div className="flex justify-center items-center space-x-4">
             <Button
               className={clsx(`space-x-2 inline-flex`)}
@@ -359,16 +360,16 @@ export const PagesManager: React.FC<{
                 <path d="M12 20h9"></path>
                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
               </svg>
-              <span>New {isPost ? "Post" : "Page"}</span>
+              <span>{t(`New ${isPost ? "Post" : "Page"}`)}</span>
             </Button>
             <span className="hidden sm:inline-flex">
               <Tooltip
-                label="Import markdown file with front matter supported"
+                label={t("Import markdown file with front matter supported")}
                 placement="bottom"
               >
                 <Button className={clsx(`space-x-2`)} onClick={importFile}>
                   <span className="i-bxs:duplicate inline-block"></span>
-                  <span>Import</span>
+                  <span>{t("Import")}</span>
                 </Button>
               </Tooltip>
             </span>
@@ -406,7 +407,7 @@ export const PagesManager: React.FC<{
                   )}
                   <div className="text-zinc-400 text-xs mt-1">
                     <span className="capitalize">
-                      {getPageVisibility(page).toLowerCase()}
+                      {t(getPageVisibility(page))}
                     </span>
                     <span className="mx-2">·</span>
                     <span>
@@ -448,7 +449,7 @@ export const PagesManager: React.FC<{
                                   <span className="inline-flex">
                                     {item.icon}
                                   </span>
-                                  <span>{item.text}</span>
+                                  <span>{t(item.text)}</span>
                                 </button>
                               </Menu.Item>
                             )

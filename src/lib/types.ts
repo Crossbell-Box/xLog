@@ -26,7 +26,7 @@ export enum PageVisibilityEnum {
   Scheduled = "scheduled",
   Draft = "draft",
   Crossbell = "crossbell",
-  Modified = "published and modified",
+  Modified = "published and local modified",
 }
 
 export type PostOnSiteHome = {

@@ -11,7 +11,7 @@ import { UniLink } from "~/components/ui/UniLink"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { toIPFS } from "~/lib/ipfs-parser"
 import type { ReactElement } from "react"
-import { useTranslation } from "next-i18next"
+import { useTranslation, Trans } from "next-i18next"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
@@ -35,6 +35,7 @@ export default function SiteSettingsGeneralPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
+  const { t } = useTranslation("dashboard")
 
   const form = useForm({
     defaultValues: {
@@ -107,7 +108,7 @@ export default function SiteSettingsGeneralPage() {
       <form onSubmit={handleSubmit}>
         <div className="mt-5">
           <label htmlFor="icon" className="form-label">
-            Icon
+            {t("Icon")}
           </label>
           <Controller
             name="icon"
@@ -130,7 +131,7 @@ export default function SiteSettingsGeneralPage() {
         </div>
         <div className="mt-5">
           <label htmlFor="icon" className="form-label">
-            Banner
+            {t("Banner")}
           </label>
           <Controller
             name="banner"
@@ -156,15 +157,20 @@ export default function SiteSettingsGeneralPage() {
             )}
           />
           <div className="text-xs text-gray-400 mt-1">
-            Supports both pictures and videos.
+            {t("Supports both pictures and videos.")}
           </div>
         </div>
         <div className="mt-5">
-          <Input required label="Name" id="name" {...form.register("name")} />
+          <Input
+            required
+            label={t("Name") || ""}
+            id="name"
+            {...form.register("name")}
+          />
         </div>
         <div className="mt-5">
           <label htmlFor="description" className="form-label">
-            Description
+            {t("Description")}
           </label>
           <Input
             multiline
@@ -182,15 +188,17 @@ export default function SiteSettingsGeneralPage() {
             label="Google Analytics"
             help={
               <p>
-                Integrate Google Analytics into your site. You can follow the
-                instructions{" "}
-                <UniLink
-                  className="underline"
-                  href="https://support.google.com/analytics/answer/9539598"
-                >
-                  here
-                </UniLink>{" "}
-                to find your Measurement ID.
+                <Trans i18nKey="Integrate Google Analytics" ns="dashboard">
+                  Integrate Google Analytics into your site. You can follow the
+                  instructions{" "}
+                  <UniLink
+                    className="underline"
+                    href="https://support.google.com/analytics/answer/9539598"
+                  >
+                    here
+                  </UniLink>{" "}
+                  to find your Measurement ID.
+                </Trans>
               </p>
             }
           />
@@ -201,7 +209,7 @@ export default function SiteSettingsGeneralPage() {
             isLoading={updateSite.isLoading}
             isDisabled={iconUploading || bannerUploading}
           >
-            Save
+            {t("Save")}
           </Button>
         </div>
       </form>

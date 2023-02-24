@@ -40,7 +40,7 @@ export function DashboardLayout({
   const connectModal = useConnectModal()
   const [ready, setReady] = React.useState(false)
   const [hasPermission, setHasPermission] = React.useState(false)
-  const { t } = useTranslation(["common", "dashboard"])
+  const { t } = useTranslation("dashboard")
 
   useEffect(() => {
     if (ssrReady) {
@@ -169,9 +169,7 @@ export function DashboardLayout({
                         onClick={link.onClick}
                       >
                         <span className={clsx(link.icon, "text-lg")}></span>
-                        {isOpen && (
-                          <span>{t(link.text, { ns: "dashboard" })}</span>
-                        )}
+                        {isOpen && <span>{t(link.text)}</span>}
                       </UniLink>
                     )
                   })}
@@ -185,7 +183,7 @@ export function DashboardLayout({
                     className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-slate-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
                   >
                     <span className="i-bi:box-arrow-up-right"></span>
-                    {isOpen && <span>View Site</span>}
+                    {isOpen && <span>{t("View Site")}</span>}
                   </UniLink>
                 </div>
               </>

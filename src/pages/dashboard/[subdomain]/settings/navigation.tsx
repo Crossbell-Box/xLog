@@ -37,6 +37,7 @@ const SortableNavigationItem: React.FC<{
   updateItem: UpdateItem
   removeItem: RemoveItem
 }> = ({ item, updateItem, removeItem }) => {
+  const { t } = useTranslation("dashboard")
   return (
     <div className="flex space-x-5 border-b p-5 bg-zinc-50 last:border-0">
       <div>
@@ -53,7 +54,7 @@ const SortableNavigationItem: React.FC<{
         </button>
       </div>
       <Input
-        label="Label"
+        label={t("Label") || ""}
         required
         id={`${item.id}-label`}
         value={item.label}
@@ -62,7 +63,7 @@ const SortableNavigationItem: React.FC<{
         }
       />
       <Input
-        label="URL"
+        label={t("URL") || ""}
         required
         id={`${item.id}-url`}
         type="text"
@@ -75,7 +76,7 @@ const SortableNavigationItem: React.FC<{
       />
       <div className="flex items-end relative -top-[5px]">
         <Button onClick={() => removeItem(item.id)} variantColor="red">
-          Remove
+          {t("Remove")}
         </Button>
       </div>
     </div>
@@ -89,6 +90,7 @@ export default function SiteSettingsNavigationPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
+  const { t } = useTranslation("dashboard")
 
   const [items, setItems] = useState<SiteNavigationItem[]>([])
 
@@ -147,23 +149,26 @@ export default function SiteSettingsNavigationPage() {
   return (
     <SettingsLayout title="Site Settings" type="site">
       <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
-        <p className="text-zinc-800 text-sm font-bold">Tips: built-in pages</p>
+        <p className="text-zinc-800 text-sm font-bold">{t("Tips")}:</p>
         <p>
-          <span className="text-zinc-800">
-            Home page (use your own Label to replace the default Label):
-          </span>{" "}
+          <span className="text-zinc-800 font-medium">
+            {t("xLog provides some out-of-the-box built-in pages")}:
+          </span>
+        </p>
+        <p>
+          <span className="text-zinc-800">- {t("Home page")}:</span>{" "}
           <span className="bg-zinc-200 rounded-lg px-2">/</span>
         </p>
         <p>
-          <span className="text-zinc-800">Archives page:</span>{" "}
+          <span className="text-zinc-800">- {t("Archives page")}:</span>{" "}
           <span className="bg-zinc-200 rounded-lg px-2">/archives</span>
         </p>
         <p>
-          <span className="text-zinc-900">Tag page:</span>{" "}
+          <span className="text-zinc-900">- {t("Tag page")}:</span>{" "}
           <span className="bg-zinc-200 rounded-lg px-2">/tag/[tag]</span>
         </p>
         <p>
-          <span className="text-zinc-900">NFT Showcase page:</span>{" "}
+          <span className="text-zinc-900">- {t("NFT Showcase page")}:</span>{" "}
           <span className="bg-zinc-200 rounded-lg px-2">/nft</span>
         </p>
       </div>
@@ -198,10 +203,10 @@ export default function SiteSettingsNavigationPage() {
             isLoading={updateSite.isLoading}
             isDisabled={!itemsModified}
           >
-            Save
+            {t("Save")}
           </Button>
           <Button variant="secondary" onClick={newEmptyItem}>
-            New Item
+            {t("New Item")}
           </Button>
         </div>
       </form>

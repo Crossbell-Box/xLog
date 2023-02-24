@@ -8,7 +8,7 @@ import { getSiteLink } from "~/lib/helpers"
 import type { ReactElement } from "react"
 import { useGetSite, useGetStat } from "~/queries/site"
 import { useDate } from "~/hooks/useDate"
-import { useTranslation } from "next-i18next"
+import { useTranslation, Trans } from "next-i18next"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
@@ -81,9 +81,14 @@ export default function SubdomainIndex() {
             </div>
           ))}
         </div>
-        <p>Hello there,</p>
-        <p>Welcome to use {APP_NAME}!</p>
-        <p>Here{`'`}re some useful links to get started:</p>
+        <Trans
+          i18nKey="hello.welcome"
+          defaults="<p>Hello there,</p><p>Welcome to use xLog!</p><p>Here're some useful links to get started:</p>"
+          components={{
+            p: <p />,
+          }}
+          ns="dashboard"
+        />
         <ul>
           <li>
             <UniLink href={`/dashboard/${subdomain}/editor?type=post`}>
@@ -115,7 +120,14 @@ export default function SubdomainIndex() {
             via RSS Reader
           </li>
         </ul>
-        <p>Join the community to meet friends or build {APP_NAME} together:</p>
+        <Trans
+          i18nKey="hello.community"
+          defaults="<p>Join the community to meet friends or build xLog together:</p>"
+          components={{
+            p: <p />,
+          }}
+          ns="dashboard"
+        />
         <ul>
           <li>
             <UniLink href={DISCORD_LINK}>

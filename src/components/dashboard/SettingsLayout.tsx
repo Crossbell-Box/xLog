@@ -3,6 +3,7 @@ import React from "react"
 
 import { type TabItem, Tabs } from "../ui/Tabs"
 import { DashboardMain } from "./DashboardMain"
+import { useTranslation } from "next-i18next"
 
 export const SettingsLayout: React.FC<{
   title: string
@@ -10,6 +11,7 @@ export const SettingsLayout: React.FC<{
   type: "site" | "account"
 }> = ({ title, children, type }) => {
   const router = useRouter()
+  const { t } = useTranslation("dashboard")
 
   const subdomain = router.query.subdomain as string
   const tabItems: TabItem[] = (
@@ -42,7 +44,7 @@ export const SettingsLayout: React.FC<{
     <DashboardMain>
       <div className="">
         <header className="mb-8">
-          <h2 className="text-2xl font-bold">{title}</h2>
+          <h2 className="text-2xl font-bold">{t(title)}</h2>
         </header>
         <div>
           <Tabs items={tabItems} />

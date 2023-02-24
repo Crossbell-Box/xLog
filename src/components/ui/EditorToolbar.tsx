@@ -3,6 +3,7 @@ import clsx from "clsx"
 import { Dispatch, FC, SetStateAction } from "react"
 import { ICommand } from "~/editor"
 import { Tooltip } from "./Tooltip"
+import { useTranslation } from "next-i18next"
 
 export interface EditorToolbarProps {
   view?: EditorView
@@ -15,12 +16,13 @@ enum ToolbarMode {
 }
 
 export const EditorToolbar: FC<EditorToolbarProps> = ({ view, toolbars }) => {
+  const { t } = useTranslation("dashboard")
   const renderToolbar =
     (mode: ToolbarMode) =>
     // eslint-disable-next-line react/display-name
     ({ name, icon, label, execute }: ICommand) => {
       return (
-        <Tooltip key={name} label={label} placement="bottom">
+        <Tooltip key={name} label={t(label)} placement="bottom">
           <button
             key={name}
             type="button"

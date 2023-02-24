@@ -64,6 +64,7 @@ export default function SubdomainEditor() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const date = useDate()
+  const { t } = useTranslation("dashboard")
 
   let pageId = router.query.id as string | undefined
   const subdomain = router.query.subdomain as string
@@ -394,7 +395,7 @@ export default function SubdomainEditor() {
       <DashboardMain fullWidth>
         {page.isLoading ? (
           <div className="flex justify-center items-center min-h-[300px]">
-            Loading...
+            {t("Loading")}...
           </div>
         ) : (
           <>
@@ -407,7 +408,7 @@ export default function SubdomainEditor() {
                     subdomain: "xlog",
                   })}/xfm`}
                 >
-                  Tip: xLog Flavored Markdown
+                  {t("Tip: xLog Flavored Markdown")}
                 </UniLink>
               </div>
               <div className="flex items-center space-x-3">
@@ -421,7 +422,7 @@ export default function SubdomainEditor() {
                       : "text-green-600",
                   )}
                 >
-                  {visibility?.toLowerCase()}
+                  {t(visibility as string)}
                 </span>
                 <Button
                   isAutoWidth
@@ -434,7 +435,7 @@ export default function SubdomainEditor() {
                     )
                   }}
                 >
-                  Preview
+                  {t("Preview")}
                 </Button>
                 <PublishButton
                   save={savePage}
@@ -493,7 +494,7 @@ export default function SubdomainEditor() {
                 <div>
                   <Input
                     type="datetime-local"
-                    label="Publish at"
+                    label={t("Publish at") || ""}
                     isBlock
                     name="publishAt"
                     id="publishAt"
@@ -507,9 +508,11 @@ export default function SubdomainEditor() {
                         .toISOString()
                       updateValue("publishedAt", value)
                     }}
-                    help={`This ${
-                      isPost ? "post" : "page"
-                    } will be accessible from this time`}
+                    help={t(
+                      `This ${
+                        isPost ? "post" : "page"
+                      } will be accessible from this time`,
+                    )}
                   />
                 </div>
                 <div>
@@ -517,7 +520,7 @@ export default function SubdomainEditor() {
                     name="slug"
                     value={values.slug}
                     placeholder={defaultSlug}
-                    label={`${isPost ? "Post" : "Page"} slug`}
+                    label={t(`${isPost ? "Post" : "Page"} slug`) || ""}
                     id="slug"
                     isBlock
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -527,8 +530,11 @@ export default function SubdomainEditor() {
                       <>
                         {(values.slug || defaultSlug) && (
                           <>
-                            This {isPost ? "post" : "page"} will be accessible
-                            at{" "}
+                            {t(
+                              `This ${
+                                isPost ? "post" : "page"
+                              } will be accessible at`,
+                            )}{" "}
                             <UniLink
                               href={`${getSiteLink({
                                 subdomain,
@@ -553,18 +559,20 @@ export default function SubdomainEditor() {
                   <Input
                     name="tags"
                     value={values.tags}
-                    label="Tags"
+                    label={t("Tags") || ""}
                     id="tags"
                     isBlock
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       updateValue("tags", e.target.value)
                     }
-                    help='Separate multiple tags with English commas ","'
+                    help={
+                      t("Separate multiple tags with English commas") + ` ","`
+                    }
                   />
                 </div>
                 <div>
                   <Input
-                    label="Excerpt"
+                    label={t("Excerpt") || ""}
                     isBlock
                     name="excerpt"
                     id="excerpt"
@@ -574,7 +582,7 @@ export default function SubdomainEditor() {
                     onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
                       updateValue("excerpt", e.target.value)
                     }}
-                    help="Leave it blank to use auto-generated excerpt"
+                    help={t("Leave it blank to use auto-generated excerpt")}
                   />
                 </div>
               </div>

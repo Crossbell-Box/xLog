@@ -315,7 +315,11 @@ export default function Home() {
             <Element name="Showcase">
               <div className="pt-28 text-4xl font-bold">{t("Showcase")}</div>
               <div className="my-10 text-zinc-700">
-                <p className="text-lg">{t("discover awesome")}</p>
+                <p className="text-lg">
+                  {t(
+                    "Discover these awesome teams and geeks on xLog (sorted by update time)",
+                  )}
+                </p>
                 <Button
                   size="xl"
                   className="mt-5"
@@ -394,7 +398,11 @@ export default function Home() {
             <Element name="Integration">
               <div className="pt-28 text-4xl font-bold">{t("Integration")}</div>
               <div className="my-10 text-zinc-700">
-                <p className="text-xl">{t("Integration description")}</p>
+                <p className="text-xl">
+                  {t(
+                    "xLog's open design allows it to integrate with many other open protocols and applications without friction.",
+                  )}
+                </p>
                 <ul className="mt-14 grid grid-cols-3 sm:grid-cols-5 gap-y-14 gap-x-2">
                   {integrations.map((item, index) => (
                     <li

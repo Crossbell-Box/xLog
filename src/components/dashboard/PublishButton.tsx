@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
 
 import { Button, ButtonGroup } from "../ui/Button"
+import { useTranslation } from "next-i18next"
 
 export const PublishButton: React.FC<{
   save: (published: boolean) => void
@@ -12,6 +13,7 @@ export const PublishButton: React.FC<{
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
+  const { t } = useTranslation("dashboard")
 
   useOnClickOutside(dropdownRef, (e) => {
     if (triggerRef.current?.contains(e.target as any)) return
@@ -34,7 +36,7 @@ export const PublishButton: React.FC<{
           isLoading={isSaving}
           isDisabled={isDisabled}
         >
-          {published ? "Update" : "Publish"}
+          {t(published ? "Update" : "Publish")}
         </Button>
         {published && (
           <Button
@@ -60,7 +62,7 @@ export const PublishButton: React.FC<{
                 className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
                 onClick={() => save(false)}
               >
-                Unpublish
+                {t("Unpublish")}
               </button>
             )}
           </div>

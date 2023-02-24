@@ -13,7 +13,7 @@ import { useGetSite, useUpdateSite } from "~/queries/site"
 import type { ReactElement } from "react"
 import { UniLink } from "~/components/ui/UniLink"
 import { Platform } from "~/components/site/Platform"
-import { useTranslation } from "next-i18next"
+import { useTranslation, Trans } from "next-i18next"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
@@ -43,6 +43,7 @@ const SortableNavigationItem: React.FC<{
   updateItem: UpdateItem
   removeItem: RemoveItem
 }> = ({ item, updateItem, removeItem }) => {
+  const { t } = useTranslation("dashboard")
   return (
     <div className="flex space-x-5 border-b p-5 bg-zinc-50 last:border-0">
       <div>
@@ -59,7 +60,7 @@ const SortableNavigationItem: React.FC<{
         </button>
       </div>
       <Input
-        label="Platform"
+        label={t("Platform") || ""}
         required
         id={`${item.id}-platform`}
         value={item.platform}
@@ -82,7 +83,7 @@ const SortableNavigationItem: React.FC<{
       </div>
       <div className="flex items-end relative -top-[5px]">
         <Button onClick={() => removeItem(item.id)} variantColor="red">
-          Remove
+          {t("Remove")}
         </Button>
       </div>
     </div>
@@ -96,6 +97,7 @@ export default function SiteSettingsNavigationPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
+  const { t } = useTranslation("dashboard")
 
   const [items, setItems] = useState<Item[]>([])
 
@@ -162,35 +164,36 @@ export default function SiteSettingsNavigationPage() {
   return (
     <SettingsLayout title="Site Settings" type="site">
       <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
-        <p className="text-zinc-800 text-sm font-bold">Tips:</p>
+        <p className="text-zinc-800 text-sm font-bold">{t("Tips")}:</p>
+        <p>
+          <span className="text-zinc-800">{t("social tips.p1")}</span>
+        </p>
         <p>
           <span className="text-zinc-800">
-            These social platforms will be displayed in the bottom right hand
-            corner of your xLog.
+            <Trans ns="dashboard" i18nKey="social tips.p2">
+              We support{" "}
+              <UniLink
+                href="https://github.com/Crossbell-Box/xLog/blob/dev/src/components/site/Platform.tsx#L7"
+                className="underline"
+              >
+                these platforms
+              </UniLink>{" "}
+              with automatic display of logos and links, other platforms will
+              display a default logo. Please feel free to submit an issue or pr
+              to us to support more platforms.
+            </Trans>
           </span>
         </p>
         <p>
           <span className="text-zinc-800">
-            We support{" "}
-            <UniLink
-              href="https://github.com/Crossbell-Box/xLog/blob/dev/src/components/site/Platform.tsx#L7"
-              className="underline"
-            >
-              these platforms
-            </UniLink>{" "}
-            with automatic display of logos and links, other platforms will
-            display a default logo. Please feel free to submit an issue or pr to
-            us to support more platforms.
-          </span>
-        </p>
-        <p>
-          <span className="text-zinc-800">
-            You can also connect to Twitter, Telegram Channel, Medium, Substack
-            and more and automatically sync content on{" "}
-            <UniLink href="https://xsync.app/" className="underline">
-              xSync
-            </UniLink>
-            . When you have set up the sync there, it will also show here.
+            <Trans ns="dashboard" i18nKey="social tips.p3">
+              You can also connect to Twitter, Telegram Channel, Medium,
+              Substack and more and automatically sync content on{" "}
+              <UniLink href="https://xsync.app/" className="underline">
+                xSync
+              </UniLink>
+              . When you have set up the sync there, it will also show here.
+            </Trans>
           </span>
         </p>
       </div>
@@ -225,10 +228,10 @@ export default function SiteSettingsNavigationPage() {
             isLoading={updateSite.isLoading}
             isDisabled={!itemsModified}
           >
-            Save
+            {t("Save")}
           </Button>
           <Button variant="secondary" onClick={newEmptyItem}>
-            New Item
+            {t("New Item")}
           </Button>
         </div>
       </form>
