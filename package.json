@@ -108,7 +108,7 @@
   "devDependencies": {
     "@iconify-json/bi": "1.1.15",
     "@iconify-json/bxs": "1.1.6",
-    "@iconify-json/carbon": "1.1.15",
+    "@iconify-json/carbon": "1.1.16",
     "@iconify-json/fluent": "1.1.18",
     "@iconify-json/mdi": "1.1.47",
     "@next/bundle-analyzer": "13.1.6",

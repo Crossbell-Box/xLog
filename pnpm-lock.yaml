@@ -22,7 +22,7 @@ specifiers:
   '@iconify-json/akar-icons': 1.1.13
   '@iconify-json/bi': 1.1.15
   '@iconify-json/bxs': 1.1.6
-  '@iconify-json/carbon': 1.1.15
+  '@iconify-json/carbon': 1.1.16
   '@iconify-json/fluent': 1.1.18
   '@iconify-json/mdi': 1.1.47
   '@iconify-json/tabler': 1.1.61
@@ -222,7 +222,7 @@ dependencies:
 devDependencies:
   '@iconify-json/bi': 1.1.15
   '@iconify-json/bxs': 1.1.6
-  '@iconify-json/carbon': 1.1.15
+  '@iconify-json/carbon': 1.1.16
   '@iconify-json/fluent': 1.1.18
   '@iconify-json/mdi': 1.1.47
   '@next/bundle-analyzer': 13.1.6
@@ -2753,8 +2753,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
-  /@iconify-json/carbon/1.1.15:
-    resolution: {integrity: sha512-O1JtNFRIFVCJwS0YpU9XmWmZIvZzvGBi+CL7dI2ofAU7b5XV6PNH2IVnwEGKCCxEyAPaok23lR5qpgC7AWbgkQ==}
+  /@iconify-json/carbon/1.1.16:
+    resolution: {integrity: sha512-AD8bcnRSGA0WfcGEass2FbA0sagrUzrpFx5WchuDy3uf7yKBWumdypdQK121DH321fQDl5+zZQ26T6gC9knwUQ==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
