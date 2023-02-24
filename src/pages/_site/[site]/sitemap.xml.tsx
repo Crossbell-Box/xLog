@@ -4,7 +4,7 @@ import { fetchGetPagesBySite } from "~/queries/page.server"
 import { PageVisibilityEnum } from "~/lib/types"
 import { getSiteLink } from "~/lib/helpers"
 import { QueryClient } from "@tanstack/react-query"
-import dayjs from "~/lib/date"
+import dayjs from "dayjs"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
