@@ -6,8 +6,9 @@ import localizedFormat from "dayjs/plugin/localizedFormat"
 import duration from "dayjs/plugin/duration"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { useTranslation } from "next-i18next"
-import "dayjs/locale/zh"
 import "dayjs/locale/en"
+import "dayjs/locale/zh"
+import "dayjs/locale/ja"
 
 dayjs.extend(localizedFormat)
 dayjs.extend(utc)
