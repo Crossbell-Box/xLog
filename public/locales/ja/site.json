@@ -4,7 +4,7 @@
   "About": "紹介",
   "Tags": "タグ",
   "load more": "まだ{{count}}件の{{name}}があります。",
-  "signed and stored on the blockchain": "この{{name}}は、作者によって署名され、ブロックチェーンに安全に保存されています。",
+  "signed and stored on the blockchain": "{{name}}は、創作者によって署名され、ブロックチェーンに安全に保存されています。",
   "Write a comment on the blockchain": "ブロックチェーンでコメントする",
-  "powered by": "<name/>がサポートしています"
+  "powered by": "このサイトは　<name/> によって提供されます"
 }
