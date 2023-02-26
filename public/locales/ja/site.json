@@ -1,10 +1,10 @@
 {
-  "Home": "主页",
-  "Archives": "归档",
-  "About": "关于",
-  "Tags": "标签",
-  "load more": "还有 {{count}} 篇{{name}}，点击加载更多",
-  "signed and stored on the blockchain": "此{{name}}已经由它的创作者签名并安全地存储在区块链上。",
-  "Write a comment on the blockchain": "在区块链上写下你的评论",
-  "powered by": "由 <name/> 提供支持"
+  "Home": "ホーム",
+  "Archives": "アーカイブ",
+  "About": "紹介",
+  "Tags": "タグ",
+  "load more": "まだ{{count}}件の{{name}}があります。",
+  "signed and stored on the blockchain": "この{{name}}は、作者によって署名され、ブロックチェーンに安全に保存されています。",
+  "Write a comment on the blockchain": "ブロックチェーンでコメントする",
+  "powered by": "<name/>がサポートしています"
 }
