@@ -114,7 +114,6 @@
   "Operator Address": "オペレーターアドレス",
   "Operator Character Check": "オペレーターキャラクターチェック",
   "Warning": "警告",
-  "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site.":
-  "シャドー認証では、ダッシュボードへのアクセス、設定の変更（xLogサブドメインを除く）、サイトのコンテンツの公開・修正・削除が可能です。",
+  "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site.": "シャドー認証では、ダッシュボードへのアクセス、設定の変更（xLogサブドメインを除く）、サイトのコンテンツの公開・修正・削除が可能です。",
   "Add": "新規"
 }
