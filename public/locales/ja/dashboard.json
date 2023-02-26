@@ -23,7 +23,7 @@
 "draft": "下書き",
 "Scheduled": "予約済み",
 "scheduled": "予約済み",
-"published and local modified": "公開済みで、ローカルでの修正あり",
+"published and local modified": "公開済みで、ローカルでの編集あり",
 "Others on Crossbell": "Crossbellに関するその他の情報",
 "link post-vs-page": "https://wordpress.com/ja/support/post-vs-page/",
 "posts description": "記事は、時間順に表示されます。読者に新しいコンテンツを提供し続けることで、ブログのフォローワが増えるでしょう。<2>記事</2>",
@@ -115,6 +115,6 @@
 "Operator Character Check": "オペレーターキャラクターチェック",
 "Warning": "警告",
 "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site.":
-  "シャドー認証では、ダッシュボードへのアクセス、設定の変更（xLogサブドメインを除く）、サイトのコンテンツの公開・修正・削除が可能です。",
+"シャドー認証では、ダッシュボードへのアクセス、設定の変更（xLogサブドメインを除く）、サイトのコンテンツの公開・修正・削除が可能です。",
 "Add": "新規"
 }
