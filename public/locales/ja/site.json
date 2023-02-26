@@ -1,10 +1,10 @@
 {
   "Home": "ホーム",
   "Archives": "アーカイブ",
-  "About": "ついて",
+  "About": "紹介",
   "Tags": "タグ",
-  "load more": "{{count}} 個{{name}}があります、クリックしてロードする",
-  "signed and stored on the blockchain": "この{{name}}は創作者によってサインされ安全にブロックチェーンに保存されました",
-  "Write a comment on the blockchain": "ブロックチェーン上にあなたのコメントを。",
-  "powered by": "<name/> によって提供されます"
+  "load more": "まだ{{count}}件の{{name}}があります。",
+  "signed and stored on the blockchain": "{{name}}は、創作者によって署名され、ブロックチェーンに安全に保存されています。",
+  "Write a comment on the blockchain": "ブロックチェーンでコメントする",
+  "powered by": "このサイトは　<name/> によって提供されます"
 }
