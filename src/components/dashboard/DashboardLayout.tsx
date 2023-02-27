@@ -138,7 +138,7 @@ export function DashboardLayout({
                       </span>
                     </div>
                   )}
-                <div className="mb-2 px-5 pt-3 pb-2">
+                <div className="mb-2 px-2 pt-3 pb-2">
                   <ConnectButton
                     left={true}
                     size="base"

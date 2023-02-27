@@ -257,7 +257,7 @@ export const SiteHeader: React.FC<{
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}
           </div>
-          <div className="mb-[2px] pl-1">
+          <div className="pl-1">
             <ConnectButton variant="text" mobileSimplification={true} />
           </div>
         </div>

@@ -11,6 +11,7 @@ import {
   useGetSiteToSubscriptions,
 } from "~/queries/site"
 import { useTranslation } from "next-i18next"
+import { Button } from "~/components/ui/Button"
 
 export const FollowingCount: React.FC<{
   siteId?: string
@@ -89,30 +90,32 @@ export const FollowingCount: React.FC<{
 
   return (
     <>
-      <span
+      <Button
+        variant="text"
         className={
-          "xlog-site-followers align-middle text-zinc-500 text-sm" +
+          "xlog-site-followers align-middle text-zinc-500 text-sm -ml-2" +
           (disableList ? "" : " cursor-pointer")
         }
         onClick={() => setIsFollowListOpen(true)}
       >
-        <span className="font-bold text-zinc-700">
+        <span className="font-bold text-zinc-700 pr-[2px]">
           {subscriptions.data?.total || 0}
         </span>{" "}
         {t("Followers")}
-      </span>
-      <span
+      </Button>
+      <Button
+        variant="text"
         className={
-          "xlog-site-followings align-middle text-zinc-500 text-sm ml-5" +
+          "xlog-site-followings align-middle text-zinc-500 text-sm ml-3" +
           (disableList ? "" : " cursor-pointer")
         }
         onClick={() => setIsToFollowListOpen(true)}
       >
-        <span className="font-bold text-zinc-700">
+        <span className="font-bold text-zinc-700 pr-[2px]">
           {toSubscriptions.data?.total || 0}
         </span>{" "}
         {t("Followings")}
-      </span>
+      </Button>
       {!disableList && (
         <CharacterList
           open={isFollowListOpen}

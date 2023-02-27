@@ -25,6 +25,7 @@ import {
   FaceSmileIcon,
   ArrowUpCircleIcon,
   ArrowPathRoundedSquareIcon,
+  ChevronDownIcon,
 } from "@heroicons/react/24/outline"
 import { BellAlertIcon } from "@heroicons/react/24/solid"
 import { SITE_URL } from "~/lib/env"
@@ -198,7 +199,7 @@ export const ConnectButton: React.FC<{
         }
         return (
           <div
-            className="relative flex items-center space-x-2"
+            className="relative flex items-center -mr-2"
             style={{ height: avatarSize + "px" }}
           >
             {userSites.isSuccess ? (
@@ -220,7 +221,7 @@ export const ConnectButton: React.FC<{
                         onClick={showNotificationModal}
                       />
                     )}
-                    <div className="h-full w-[2px] py-1">
+                    <div className="h-full w-[2px] py-1 ml-3">
                       <div className="w-full h-full bg-zinc-200 rounded-full"></div>
                     </div>
                   </>
@@ -229,7 +230,7 @@ export const ConnectButton: React.FC<{
                   placement="bottom-end"
                   target={
                     <button
-                      className="flex items-center w-full space-x-2"
+                      className="flex items-center w-full hover:bg-hover transition-colors py-1 px-2 rounded-lg ml-1"
                       type="button"
                       aria-label="connector"
                     >
@@ -240,37 +241,40 @@ export const ConnectButton: React.FC<{
                         size={avatarSize}
                       />
                       {!hideName && (
-                        <div
-                          className={`flex-1 flex-col min-w-0 ${
-                            mobileSimplification ? "hidden sm:flex" : "flex"
-                          }`}
-                        >
-                          <span
-                            className={`text-left leading-none font-medium truncate ${
-                              InsufficientBalance
-                                ? "text-red-600"
-                                : "text-gray-600"
-                            } ${size === "base" ? "text-base" : "text-sm"}`}
-                            style={{ marginBottom: "0.15rem" }}
+                        <>
+                          <div
+                            className={`flex-1 flex-col min-w-0 ml-2 max-w-[100px] ${
+                              mobileSimplification ? "hidden sm:flex" : "flex"
+                            }`}
                           >
-                            {userSites.data?.[0]?.name ||
-                              getAccountDisplayName(account)}
-                          </span>
-                          {userSites.data?.[0]?.username && (
                             <span
-                              className={`text-left leading-none ${
-                                sizeDecrease === "sm" ? "text-sm" : "text-xs"
-                              } truncate ${
+                              className={`text-left leading-none font-medium truncate ${
                                 InsufficientBalance
-                                  ? "text-red-400"
-                                  : "text-gray-400"
-                              }`}
+                                  ? "text-red-600"
+                                  : "text-gray-600"
+                              } ${size === "base" ? "text-base" : "text-sm"}`}
+                              style={{ marginBottom: "0.15rem" }}
                             >
-                              {"@" + userSites.data?.[0]?.username ||
+                              {userSites.data?.[0]?.name ||
                                 getAccountDisplayName(account)}
                             </span>
-                          )}
-                        </div>
+                            {userSites.data?.[0]?.username && (
+                              <span
+                                className={`text-left leading-none ${
+                                  sizeDecrease === "sm" ? "text-sm" : "text-xs"
+                                } truncate ${
+                                  InsufficientBalance
+                                    ? "text-red-400"
+                                    : "text-gray-400"
+                                }`}
+                              >
+                                {"@" + userSites.data?.[0]?.username ||
+                                  getAccountDisplayName(account)}
+                              </span>
+                            )}
+                          </div>
+                          <ChevronDownIcon className="w-4 h-4 ml-[2px] stroke-2" />
+                        </>
                       )}
                     </button>
                   }
