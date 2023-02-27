@@ -216,14 +216,14 @@ export const SiteHeader: React.FC<{
                 <div className="sm:inline-block">
                   <FollowingButton
                     site={site}
-                    className="text-accent mr-1 sm:ml-5 sm:mr-3"
+                    className="text-accent mr-1 sm:ml-3 sm:mr-1"
                     variant="text"
                   />
                   <div className="relative inline-block align-middle">
                     <Menu
                       target={
                         <Button variant="text" aria-label="more">
-                          <EllipsisHorizontalIcon className="w-5 h-5 mx-2" />
+                          <EllipsisHorizontalIcon className="w-5 h-5" />
                         </Button>
                       }
                       dropdown={

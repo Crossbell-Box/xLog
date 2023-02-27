@@ -111,7 +111,7 @@ export const SiteHome: React.FC<{
       )}
       {hasNextPage && (
         <Button
-          className="mt-8 w-full hover:bg-hover bg-zinc-50 transition-colors text-sm"
+          className="mt-8 w-full bg-zinc-50 text-sm"
           variant="text"
           onClick={fetchNextPage}
           isLoading={isFetchingNextPage}

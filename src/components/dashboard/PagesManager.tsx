@@ -466,7 +466,7 @@ export const PagesManager: React.FC<{
 
         {pages.hasNextPage && (
           <Button
-            className="w-full hover:bg-zinc-100 bg-zinc-50 rounded-lg transition-colors mt-4"
+            className="w-full bg-zinc-50 rounded-lg mt-4"
             variant="text"
             onClick={pages.fetchNextPage as () => void}
             isLoading={pages.isFetchingNextPage}

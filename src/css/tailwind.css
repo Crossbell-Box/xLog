@@ -99,8 +99,10 @@ a {
 }
 
 .button.is-text {
-  @apply shadow-none p-0;
+  @apply shadow-none py-0 px-2;
   @apply min-w-0;
+  @apply hover:bg-hover;
+  @apply transition-colors;
 }
 
 .button.is-like {
