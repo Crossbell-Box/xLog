@@ -1,6 +1,6 @@
 {
   "Blog Free": "自由に創作する",
-  "description": "<0>xLog</0>は、誰でもが利用できる<3>ブロックチェーン</3>上の<7>オープンソース</7>のブログプラットフォームです。",
+  "description": "<0>xLog</0>は、誰でもが利用できる<3>ブロックチェーン</3>上の<7>オープンソース</7>のブログコミュニティです。",
   "Get my xLog in 5 minutes": "5分で自分のxLogを手に入れよう",
   "Features": "特徴",
   "Showcase": "ショーケース",
@@ -17,7 +17,7 @@
   "Customizable description": "自分の<strong>ドメイン</strong>を使用し、ウェブサイトの<strong>スタイル</strong>をカスタマイズし、完全に自由にウェブサイトを作成できます。これはあなたのウェブサイトであり、何の制限もありません。",
   "Open": "オープン",
   "Open description": "標準的な<strong>Markdown</strong>構文を採用し、インポート/エクスポートツールと豊富なAPIを提供することで、移行が簡単になりました。すべてのコードはGitHubで<strong>オープンソース</strong>であり、すべての<strong>データが透明に</strong>ブロックチェーンに保存されます。",
-  "Discover these awesome teams and geeks on xLog (sorted by update time)": "xLogでこれらの素晴らしいチームやクールな人たちを発見しましょう（更新時間順）",
+  "Discover these awesome teams and creators on xLog (sorted by update time)": "xLogでこれらの素晴らしいチームやクールな人たちを発見しましょう（更新時間順）",
   "Follow All!": "すべてをフォローする！",
   "Show more": "もっと表示する",
   "Submit yours": "自分のを投稿する",

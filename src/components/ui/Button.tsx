@@ -14,6 +14,9 @@ export type Variant =
   | "like"
   | "collect"
   | "crossbell"
+  | "outline"
+
+export type VariantColor = "green" | "red" | "gray" | "gradient" | "black"
 
 type ButtonProps = {
   isLoading?: boolean
@@ -21,8 +24,8 @@ type ButtonProps = {
   isDisabled?: boolean
   isAutoWidth?: boolean
   variant?: Variant
-  variantColor?: "green" | "red" | "gray"
-  size?: "sm" | "xl"
+  variantColor?: VariantColor
+  size?: "sm" | "xl" | "2xl"
   rounded?: "full" | "lg"
 }
 

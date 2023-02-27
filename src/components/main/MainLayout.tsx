@@ -63,7 +63,7 @@ export function MainLayout({
             >
               {t("Source Code")}
             </UniLink>
-            <ConnectButton size="base" />
+            <ConnectButton size="base" variantColor="black" />
           </div>
         </div>
       </header>

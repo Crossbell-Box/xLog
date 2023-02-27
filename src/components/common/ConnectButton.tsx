@@ -11,7 +11,7 @@ import {
 } from "@crossbell/connect-kit"
 import { useAccountSites } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
-import { Button } from "~/components/ui/Button"
+import { Button, type VariantColor, type Variant } from "~/components/ui/Button"
 import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
 import { useEffect, useState } from "react"
@@ -47,7 +47,8 @@ type HeaderLinkType = {
 
 export const ConnectButton: React.FC<{
   left?: boolean
-  variant?: "text" | "primary" | "secondary" | "like" | "collect" | "crossbell"
+  variant?: Variant
+  variantColor?: VariantColor
   size?: "base" | "sm"
   hideNotification?: boolean
   mobileSimplification?: boolean
@@ -55,6 +56,7 @@ export const ConnectButton: React.FC<{
 }> = ({
   left,
   variant,
+  variantColor,
   size = "sm",
   hideNotification,
   mobileSimplification,
@@ -192,6 +194,7 @@ export const ConnectButton: React.FC<{
               onClick={openConnectModal}
               style={{ height: avatarSize + "px" }}
               variant={variant || "primary"}
+              variantColor={variantColor}
             >
               {t("Connect")}
             </Button>

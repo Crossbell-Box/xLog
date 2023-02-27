@@ -39,7 +39,7 @@ a {
   @apply min-w-[100px];
   @apply whitespace-nowrap;
   @apply font-medium;
-  @apply transition-colors;
+  @apply transition;
   @apply active:scale-95;
 }
 
@@ -104,6 +104,13 @@ a {
   @apply transition-colors;
 }
 
+.button.is-outline {
+  @apply border-black;
+  @apply border;
+  @apply text-black;
+  @apply fill-black;
+}
+
 .button.is-like {
   @apply shadow-none p-0;
   @apply text-gray-500 fill-gray-500;
@@ -148,6 +155,23 @@ a {
   @apply bg-gray-500 hover:bg-gray-600 focus:bg-gray-700;
 }
 
+.button.is-gradient {
+  @apply hover:bg-gradient-to-br from-[#FF4D4D] to-[#F9CB28];
+  @apply hover:text-white;
+  @apply hover:border-none;
+}
+
+.button.is-gradient:hover > span {
+  @apply mx-[1px];
+}
+
+.button.is-black {
+  @apply bg-black hover:bg-white focus:bg-white;
+  @apply text-white hover:text-black focus:text-black;
+  @apply fill-white hover:fill-black focus:fill-black;
+  @apply border-black border;
+}
+
 .button.is-sm {
   @apply h-7;
   @apply px-3;
@@ -157,6 +181,13 @@ a {
 
 .button.is-xl {
   @apply h-10;
+  @apply px-6;
+  @apply text-xl;
+  @apply min-w-[auto];
+}
+
+.button.is-2xl {
+  @apply h-12;
   @apply px-6;
   @apply text-xl;
   @apply min-w-[auto];

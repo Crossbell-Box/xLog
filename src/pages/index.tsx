@@ -211,21 +211,21 @@ export default function Home() {
     <MainLayout tabs={["Features", "Showcase", "Integration"]}>
       <section>
         <div className="max-w-screen-lg px-5 mx-auto">
-          <div className="h-screen w-full flex justify-center flex-col relative">
-            <div className="w-28 h-28 mb-16">
-              <Image
-                alt="logo"
-                src="/assets/logo.svg"
-                width={200}
-                height={200}
-              />
-            </div>
-            <h2 className="text-5xl sm:text-7xl font-bold mb-5 text-sky-400">
-              🫧 {t("Blog Free")}
+          <div className="h-screen w-full flex justify-center flex-col relative text-center">
+            <h2 className="text-7xl sm:text-8xl font-bold mb-5">
+              <span className="bg-gradient-to-r from-[#007CF0] to-[#00DFD8] bg-clip-text text-transparent block sm:inline-block sm:mr-1">
+                {t("Write.")}
+              </span>
+              <span className="bg-gradient-to-r from-[#7928CA] to-[#FF0080] bg-clip-text text-transparent block sm:inline-block sm:mr-1">
+                {t("Own.")}
+              </span>
+              <span className="bg-gradient-to-r from-[#FF4D4D] to-[#F9CB28] bg-clip-text text-transparent block sm:inline-block sm:mr-1">
+                {t("Earn.")}
+              </span>
             </h2>
-            <h3 className="mt-5 text-zinc-800 text-4xl sm:text-6xl font-light">
+            <h3 className="mt-5 text-zinc-800 text-2xl sm:text-4xl font-light">
               <Trans i18nKey="description" ns="index">
-                <strong className="font-medium">xLog</strong>, the first{" "}
+                <strong className="font-medium">xLog</strong> is the best{" "}
                 <UniLink
                   className="underline decoration-2 text-yellow-400 font-medium"
                   href={CSB_SCAN}
@@ -239,14 +239,15 @@ export default function Home() {
                 >
                   open-source
                 </UniLink>{" "}
-                blogging platform for everyone.
+                blogging community for everyone.
               </Trans>
             </h3>
-            <div className="my-10 sm:my-16">
+            <div className="my-6 sm:my-12">
               <Button
-                className="text-accent w-80 h-10"
+                className="text-accent h-10 mt-4"
                 onClick={tryNow}
-                size="xl"
+                size="2xl"
+                variantColor="black"
               >
                 {isConnected ? (
                   <>
@@ -257,8 +258,29 @@ export default function Home() {
                   t("Get my xLog in 5 minutes")
                 )}
               </Button>
+              <Button
+                className="text-accent h-10 ml-4 mt-4"
+                size="2xl"
+                variant="outline"
+                variantColor="gradient"
+              >
+                <span>
+                  <Link
+                    to={"Showcase"}
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                    onClick={() => {
+                      setShowcaseMore(true)
+                    }}
+                  >
+                    {t("Look at others'")}
+                  </Link>
+                </span>
+              </Button>
             </div>
-            <div className="text-center absolute bottom-20 w-full">
+            <div className="text-center absolute bottom-20 w-full flex items-center justify-center flex-col">
+              <span>Explore the xLog way</span>
               <Link
                 to="Features"
                 spy={true}
@@ -323,7 +345,7 @@ export default function Home() {
               <div className="my-10 text-zinc-700">
                 <p className="text-lg">
                   {t(
-                    "Discover these awesome teams and geeks on xLog (sorted by update time)",
+                    "Discover these awesome teams and creators on xLog (sorted by update time)",
                   )}
                 </p>
                 <Button
@@ -461,7 +483,7 @@ export default function Home() {
                 <Button size="xl">{t("Get my xLog in 5 minutes")}</Button>
               </UniLink>
             ) : (
-              <Button onClick={tryNow} size="xl">
+              <Button onClick={tryNow} size="2xl" variantColor="black">
                 {t("Get my xLog in 5 minutes")}
               </Button>
             )}
