@@ -1,9 +1,9 @@
 :root {
   --border-color: #eee;
   --font-fans: theme("fontFamily.sans");
-  --theme-color: var(--auto-theme-color, #0f172a);
+  --theme-color: var(--auto-theme-color, theme("colors.slate.900"));
+  --hover-color: var(--auto-hover-color, theme("colors.zinc.100"));
   --header-height: auto;
   /* Accent color for form controls */
   accent-color: var(--theme-color);
-  --hover-color: theme("colors.zinc.100");
 }

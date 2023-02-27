@@ -116,7 +116,7 @@ export const SiteHeader: React.FC<{
   const bannerRef = useRef<HTMLImageElement | HTMLVideoElement>(null)
 
   const [averageColor, setAverageColor] = useState<string>()
-  const [hoverColor, setHoverColor] = useState<string>()
+  const [autoHoverColor, setAutoHoverColor] = useState<string>()
   const [autoThemeColor, setAutoThemeColor] = useState<string>()
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export const SiteHeader: React.FC<{
         .getColorAsync(bannerRef.current)
         .then((color) => {
           setAverageColor(chroma(color.hex).hex())
-          setHoverColor(chroma(color.hex).luminance(0.8).hex())
+          setAutoHoverColor(chroma(color.hex).luminance(0.8).hex())
           setAutoThemeColor(chroma(color.hex).saturate(3).luminance(0.3).hex())
         })
         .catch((e) => {
@@ -136,7 +136,7 @@ export const SiteHeader: React.FC<{
         .getColorAsync(avatarRef.current)
         .then((color) => {
           setAverageColor(chroma(color.hex).luminance(0.95).hex())
-          setHoverColor(chroma(color.hex).luminance(0.8).hex())
+          setAutoHoverColor(chroma(color.hex).luminance(0.8).hex())
           setAutoThemeColor(chroma(color.hex).saturate(3).luminance(0.3).hex())
         })
         .catch((e) => {
@@ -150,7 +150,7 @@ export const SiteHeader: React.FC<{
       {averageColor && (
         <style jsx global>{`
           :root {
-            --hover-color: ${hoverColor};
+            --auto-hover-color: ${autoHoverColor};
             --auto-theme-color: ${autoThemeColor};
           }
         `}</style>
@@ -160,7 +160,7 @@ export const SiteHeader: React.FC<{
         style={{
           backgroundColor: averageColor
             ? `var(--banner-bg-color, ${averageColor})`
-            : undefined,
+            : "var(--banner-bg-color)",
         }}
       >
         {(() => {
