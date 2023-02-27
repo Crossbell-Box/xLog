@@ -67,7 +67,7 @@ export default function Home() {
       screenshot: {
         src: "/assets/easy.png",
       },
-      icon: <LaughIcon />,
+      icon: "😆",
       title: "Easy",
       text: "Connect with your <strong>Web3 Wallet</strong> or <strong>Email</strong>. Build your own site with custom domains, subscriptions, likes, comments, minting as nft, RSS and more in one second. No fees, no friction.",
     },
@@ -75,7 +75,7 @@ export default function Home() {
       screenshot: {
         src: "/assets/safe.png",
       },
-      icon: <FingerPrintIcon className="w-7 h-7" />,
+      icon: "🔒",
       title: "Safe",
       text: "All blog data, including configs, posts, subscriptions, comments, etc., are signed and securely stored on the <strong>blockchain</strong> with your own hands. No one else, including us, can make any changes.",
     },
@@ -83,7 +83,7 @@ export default function Home() {
       screenshot: {
         src: "/assets/fast.png",
       },
-      icon: <BoltIcon className="w-7 h-7" />,
+      icon: "🚀",
       title: "Fast",
       text: "Blockchain doesn't always mean inefficiency. xLog's efficient caching mechanism and numerous optimisations take it to the peak of performance.",
     },
@@ -91,7 +91,7 @@ export default function Home() {
       screenshot: {
         src: "/assets/customizable.png",
       },
-      icon: <DashboardIcon />,
+      icon: "🎨",
       title: "Customizable",
       text: "Use your own <strong>domain</strong>, customise your site and <strong>style</strong> it however you like. This is your site, there are no restrictions.",
     },
@@ -99,7 +99,7 @@ export default function Home() {
       screenshot: {
         src: "/assets/open.png",
       },
-      icon: <BlockchainIcon className="w-6 h-6" />,
+      icon: "🌐",
       title: "Open",
       text: "Uses standard <strong>Markdown</strong> with export and import tools and rich APIs for a painless move in and out. All code is <strong>open source</strong> on GitHub, all <strong>data is transparent</strong> on the chain.",
     },
@@ -220,17 +220,23 @@ export default function Home() {
                 height={200}
               />
             </div>
-            <h2 className="text-3xl sm:text-5xl font-bold mb-5">
-              {t("Blog Free")}
+            <h2 className="text-5xl sm:text-7xl font-bold mb-5 text-sky-400">
+              🫧 {t("Blog Free")}
             </h2>
             <h3 className="mt-5 text-zinc-800 text-4xl sm:text-6xl font-light">
               <Trans i18nKey="description" ns="index">
-                xLog, the first{" "}
-                <UniLink className="underline decoration-2" href={CSB_SCAN}>
+                <strong className="font-medium">xLog</strong>, the first{" "}
+                <UniLink
+                  className="underline decoration-2 text-yellow-400 font-medium"
+                  href={CSB_SCAN}
+                >
                   on-chain
                 </UniLink>{" "}
                 and{" "}
-                <UniLink className="underline decoration-2" href={GITHUB_LINK}>
+                <UniLink
+                  className="underline decoration-2 text-green-400 font-medium"
+                  href={GITHUB_LINK}
+                >
                   open-source
                 </UniLink>{" "}
                 blogging platform for everyone.

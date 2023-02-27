@@ -1,7 +1,7 @@
 :root {
   --border-color: #eee;
   --font-fans: theme("fontFamily.sans");
-  --theme-color: var(--auto-theme-color, theme("colors.slate.900"));
+  --theme-color: var(--auto-theme-color, theme("colors.orange.500"));
   --hover-color: var(--auto-hover-color, theme("colors.zinc.100"));
   --header-height: auto;
   /* Accent color for form controls */
