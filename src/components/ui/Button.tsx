@@ -1,5 +1,5 @@
 import React from "react"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 
 export const ButtonGroup: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -52,7 +52,7 @@ export const Button = React.forwardRef<
       ref={ref}
       type={type || "button"}
       disabled={isDisabled || isLoading}
-      className={clsx(
+      className={cn(
         className,
         "button",
         isLoading && "is-loading",

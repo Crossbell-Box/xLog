@@ -97,6 +97,8 @@
     "remark-stringify": "10.0.2",
     "sharp": "0.31.3",
     "sortablejs": "1.15.0",
+    "tailwind-merge": "^1.10.0",
+    "tailwindcss-animate": "^1.0.5",
     "unidata.js": "0.7.13",
     "unified": "10.1.2",
     "unist-builder": "3.0.1",

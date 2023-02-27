@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { useRouter } from "next/router"
 import { CSB_SCAN, CSB_IO, CSB_XCHAR } from "~/lib/env"
 import { getUserContentsUrl } from "~/lib/user-contents"
@@ -37,7 +37,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
     <UniLink
       href={link.url}
       onClick={link.onClick}
-      className={clsx(
+      className={cn(
         `xlog-site-navigation-item h-10 flex items-center space-x-1 transition-colors relative after:content-[''] hover:after:w-full hover:after:left-0 after:transition-[width,left] after:h-[2px] after:block after:absolute after:bottom-0`,
         active
           ? `text-accent after:w-full after:left-0 after:bg-accent`

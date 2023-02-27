@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { useCodeCopy } from "~/hooks/useCodeCopy"
 import { renderPageContent } from "~/markdown"
 import { PostToc } from "~/components/site/PostToc"
@@ -36,7 +36,7 @@ export const PageContent: React.FC<{
 
   return (
     <div
-      className={clsx("relative", className)}
+      className={cn("relative", className)}
       onMouseEnter={onMouseEnter}
       onScroll={(e) => onScroll?.((e.target as any)?.scrollTop)}
     >

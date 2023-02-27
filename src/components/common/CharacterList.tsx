@@ -1,4 +1,3 @@
-import clsx from "clsx"
 import { Modal } from "~/components/ui/Modal"
 import InfiniteScroll from "react-infinite-scroller"
 import { Button } from "../ui/Button"

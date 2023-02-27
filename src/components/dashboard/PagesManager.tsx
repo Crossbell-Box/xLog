@@ -3,7 +3,7 @@ import { getPageVisibility } from "~/lib/page-helpers"
 import { useDate } from "~/hooks/useDate"
 import { TabItem, Tabs } from "../ui/Tabs"
 import { Menu } from "@headlessui/react"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { PageVisibilityEnum } from "~/lib/types"
 import { DashboardMain } from "./DashboardMain"
 import { useRouter } from "next/router"
@@ -339,7 +339,7 @@ export const PagesManager: React.FC<{
           <h2 className="text-2xl font-bold">{t(title)}</h2>
           <div className="flex justify-center items-center space-x-4">
             <Button
-              className={clsx(`space-x-2 inline-flex`)}
+              className={cn(`space-x-2 inline-flex`)}
               onClick={() =>
                 router.push(
                   `/dashboard/${subdomain}/editor?type=${
@@ -367,7 +367,7 @@ export const PagesManager: React.FC<{
                 label={t("Import markdown file with front matter supported")}
                 placement="bottom"
               >
-                <Button className={clsx(`space-x-2`)} onClick={importFile}>
+                <Button className={cn(`space-x-2`)} onClick={importFile}>
                   <span className="i-bxs:duplicate inline-block"></span>
                   <span>{t("Import")}</span>
                 </Button>
@@ -423,7 +423,7 @@ export const PagesManager: React.FC<{
                       <>
                         <Menu.Button as={Fragment}>
                           <button
-                            className={clsx(
+                            className={cn(
                               `text-gray-400 relative z-50 w-8 h-8 rounded inline-flex invisible group-hover:visible justify-center items-center`,
                               open ? `bg-gray-200` : `hover:bg-gray-200`,
                             )}

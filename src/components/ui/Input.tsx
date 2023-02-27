@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { forwardRef } from "react"
 import { FieldLabel } from "./FieldLabel"
 
@@ -46,7 +46,7 @@ export const Input = forwardRef(function Input<
         <Component
           {...inputProps}
           ref={ref as any}
-          className={clsx(
+          className={cn(
             "input",
             hasAddon && `has-addon`,
             hasPrefix && `has-prefix`,

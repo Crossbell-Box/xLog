@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
@@ -60,5 +61,5 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [require("@tailwindcss/line-clamp")],
+  plugins: [require("@tailwindcss/line-clamp"), require("tailwindcss-animate")],
 }

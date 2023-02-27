@@ -18,7 +18,7 @@ import { Avatar } from "../ui/Avatar"
 import { MintIcon } from "~/components/icons/MintIcon"
 import { getMints, parsePageId } from "~/models/page.model"
 import { CharacterList } from "~/components/common/CharacterList"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { Tooltip } from "~/components/ui/Tooltip"
 import confetti from "canvas-confetti"
 import { Trans, useTranslation } from "next-i18next"
@@ -147,14 +147,14 @@ export const Reactions: React.FC<{
   return (
     <>
       <div
-        className={clsx(
+        className={cn(
           "xlog-reactions flex fill-gray-400 text-gray-500 items-center",
           size === "sm" ? "text-sm" : "",
           className,
         )}
       >
         <div
-          className={clsx(
+          className={cn(
             "xlog-reactions-like flex items-center",
             size === "sm" ? "mr-3" : "mr-10",
           )}
@@ -218,10 +218,7 @@ export const Reactions: React.FC<{
                 ref={mintRef}
               >
                 <MintIcon
-                  className={clsx(
-                    "mr-2",
-                    size === "sm" ? "w-3 h-3" : "w-8 h-8",
-                  )}
+                  className={cn("mr-2", size === "sm" ? "w-3 h-3" : "w-8 h-8")}
                 />
                 <span>{mints.data?.count || 0}</span>
               </Button>

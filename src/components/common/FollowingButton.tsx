@@ -8,7 +8,7 @@ import {
   useAccountSites,
 } from "~/queries/site"
 import { useConnectedAction } from "@crossbell/connect-kit"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { Profile } from "~/lib/types"
 import { useTranslation } from "next-i18next"
 
@@ -65,7 +65,7 @@ export const FollowingButton: React.FC<{
     <Button
       variant={variant}
       onClick={handleClickSubscribe}
-      className={clsx(className, "align-middle space-x-1 group")}
+      className={cn(className, "align-middle space-x-1 group")}
       isLoading={
         subscription.data
           ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading

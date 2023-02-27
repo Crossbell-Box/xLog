@@ -1,5 +1,5 @@
 import { Dialog } from "@headlessui/react"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import React from "react"
 
 export const Modal: React.FC<{
@@ -21,13 +21,13 @@ export const Modal: React.FC<{
 
       {/* Full-screen container to center the panel */}
       <div
-        className={clsx(
+        className={cn(
           `fixed inset-0 flex items-center justify-center p-4 z-40`,
         )}
       >
         {/* The actual dialog panel  */}
         <Dialog.Panel
-          className={clsx(
+          className={cn(
             `mx-auto rounded-lg bg-white w-full shadow-modal max-h-full overflow-y-auto flex flex-col`,
 
             size === "md"

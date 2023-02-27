@@ -2,7 +2,7 @@ import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { PlanetIcon } from "~/components/icons/PlanetIcon"
 import { Tooltip } from "~/components/ui/Tooltip"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 
 const syncMap: {
   [key: string]: {
@@ -85,7 +85,7 @@ export const Platform: React.FC<{
   platform = platform.toLowerCase()
   return (
     <UniLink
-      className={clsx(
+      className={cn(
         "inline-flex hover:scale-110 transition-transform ease align-middle",
         className,
       )}

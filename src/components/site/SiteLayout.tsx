@@ -12,7 +12,7 @@ import { IS_PROD } from "~/lib/constants"
 import { toGateway } from "~/lib/ipfs-parser"
 import { useUserRole } from "~/hooks/useUserRole"
 import { useGetSubscription } from "~/queries/site"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { useCheckLike, useCheckMint } from "~/queries/page"
 import { useAccountState } from "@crossbell/connect-kit"
 
@@ -66,7 +66,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
 
   return (
     <div
-      className={clsx(
+      className={cn(
         {
           "xlog-user": true,
           "xlog-user-login": isConnected,

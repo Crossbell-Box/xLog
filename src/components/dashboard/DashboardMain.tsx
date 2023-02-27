@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 
 export const DashboardMain: React.FC<{
   children: React.ReactNode
@@ -7,7 +7,7 @@ export const DashboardMain: React.FC<{
   return (
     <div className="flex-1 overflow-scroll">
       <div
-        className={clsx(
+        className={cn(
           fullWidth
             ? "relative"
             : "max-w-screen-2xl relative px-5 py-5 md:px-10",

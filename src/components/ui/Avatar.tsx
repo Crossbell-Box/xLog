@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import React, { useMemo } from "react"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Image } from "~/components/ui/Image"
@@ -34,7 +34,7 @@ export const Avatar: React.FC<
     return (
       <span
         {...props}
-        className={clsx(
+        className={cn(
           `inline-flex text-white bg-gray-400 items-center justify-center text-xl font-medium uppercase flex-shrink-0`,
           borderRadius,
           className,
@@ -53,8 +53,8 @@ export const Avatar: React.FC<
   return (
     <span
       {...props}
-      className={clsx(
-        `inline-flex text-zinc-500 bg-gray-400 flex-shrink-0 items-center justify-center text-xl font-medium uppercase overflow-hidden text-[0px]`,
+      className={cn(
+        `inline-flex text-zinc-500 flex-shrink-0 items-center justify-center text-xl font-medium uppercase overflow-hidden text-[0px]`,
         borderRadius,
         className,
       )}

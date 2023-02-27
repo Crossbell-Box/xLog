@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import React, { ChangeEvent, forwardRef, useEffect } from "react"
 import { useState } from "react"
 import { useUploadFile } from "~/hooks/useUploadFile"
@@ -82,7 +82,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
 
   return (
     <div
-      className={clsx(
+      className={cn(
         "relative flex-col overflow-hidden border border-gray-100",
         className,
       )}

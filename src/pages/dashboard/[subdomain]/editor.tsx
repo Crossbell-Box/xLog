@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { useDate } from "~/hooks/useDate"
 import { useRouter } from "next/router"
 import {
@@ -413,7 +413,7 @@ export default function SubdomainEditor() {
               </div>
               <div className="flex items-center space-x-3">
                 <span
-                  className={clsx(
+                  className={cn(
                     `text-sm capitalize`,
                     visibility === PageVisibilityEnum.Draft
                       ? `text-zinc-300`

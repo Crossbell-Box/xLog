@@ -4,7 +4,7 @@ import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import * as siteModel from "~/models/site.model"
 import type { Profile } from "~/lib/types"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { useDate } from "~/hooks/useDate"
 import { useTranslation } from "next-i18next"
 
@@ -40,7 +40,7 @@ export const CharacterCard: React.FC<{
 
   return (
     <span
-      className={clsx(
+      className={cn(
         "border-gray-100 rounded-lg space-y-2 text-sm block",
         style === "flat" ? "" : "p-4 bg-white shadow-xl",
       )}

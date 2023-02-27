@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import React from "react"
 import { UniLink } from "./UniLink"
 import { useTranslation } from "next-i18next"
@@ -24,7 +24,7 @@ export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
             href={item.href}
             onClick={item.onClick}
             key={item.text}
-            className={clsx(
+            className={cn(
               `border-b-2 inline-flex items-center h-10 whitespace-nowrap`,
               item.active
                 ? `border-accent text-black font-medium`

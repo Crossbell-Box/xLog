@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { Note } from "~/lib/types"
 import { useGetComments } from "~/queries/page"
 import { CommentItem } from "~/components/common/CommentItem"
@@ -15,7 +15,7 @@ export const Comment: React.FC<{
   const { t } = useTranslation("common")
 
   return (
-    <div className={clsx("xlog-comment", "comment", className)} id="comments">
+    <div className={cn("xlog-comment", "comment", className)} id="comments">
       <div className="xlog-comment-count border-b pb-2 mb-6">
         <span>
           {comments.data?.count || "0"}{" "}

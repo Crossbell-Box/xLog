@@ -13,7 +13,7 @@ import {
   useDismiss,
   useTransitionStyles,
 } from "@floating-ui/react"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 
 interface Props {
   label: string
@@ -61,7 +61,7 @@ export const Tooltip = ({
       {isMounted && (
         <div
           ref={refs.setFloating}
-          className={clsx(
+          className={cn(
             "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1 whitespace-nowrap",
             className,
           )}

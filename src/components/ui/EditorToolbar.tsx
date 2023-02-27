@@ -1,5 +1,5 @@
 import { EditorView } from "@codemirror/view"
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { Dispatch, FC, SetStateAction } from "react"
 import { ICommand } from "~/editor"
 import { Tooltip } from "./Tooltip"

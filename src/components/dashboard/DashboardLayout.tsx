@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "~/lib/utils"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 
@@ -159,7 +159,7 @@ export function DashboardLayout({
                       <UniLink
                         href={link.href}
                         key={link.text}
-                        className={clsx(
+                        className={cn(
                           `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
                           active
                             ? `bg-slate-200 font-medium text-slate-800`
@@ -168,7 +168,7 @@ export function DashboardLayout({
                         )}
                         onClick={link.onClick}
                       >
-                        <span className={clsx(link.icon, "text-lg")}></span>
+                        <span className={cn(link.icon, "text-lg")}></span>
                         {isOpen && <span>{t(link.text)}</span>}
                       </UniLink>
                     )
