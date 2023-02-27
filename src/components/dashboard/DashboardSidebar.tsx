@@ -29,7 +29,7 @@ export const DashboardSidebar: React.FC<{
       {children(isOpen)}
       <div className="w-[1px] bg-border absolute top-0 right-0 bottom-0"></div>
       <div
-        className="absolute top-5 -right-3 bg-accent shadow-button rounded-full cursor-pointer"
+        className="absolute top-5 -right-3 bg-accent rounded-full cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? (

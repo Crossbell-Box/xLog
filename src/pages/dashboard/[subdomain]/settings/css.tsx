@@ -86,11 +86,6 @@ export default function SettingsCSSPage() {
             </p>
             <p className="pl-2">
               <span className="bg-zinc-200 rounded-lg px-2">
-                --theme-color-emphasis: #4338ca;
-              </span>
-            </p>
-            <p className="pl-2">
-              <span className="bg-zinc-200 rounded-lg px-2">
                 --header-height: auto;
               </span>
             </p>

@@ -83,7 +83,7 @@
 }
 
 .prose a {
-  @apply text-accent-emphasis;
+  @apply text-accent;
   @apply hover:underline;
 }
 

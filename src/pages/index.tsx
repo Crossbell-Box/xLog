@@ -348,13 +348,9 @@ export default function Home() {
                   {showcaseSites.data?.map((site: any) => (
                     <li className="inline-flex align-middle" key={site.handle}>
                       <UniLink
-                        href={
-                          site.custom_domain
-                            ? `https://${site.custom_domain}`
-                            : getSiteLink({
-                                subdomain: site.handle,
-                              })
-                        }
+                        href={getSiteLink({
+                          subdomain: site.handle,
+                        })}
                         className="inline-flex align-middle w-full"
                       >
                         <CharacterFloatCard siteId={site.handle}>

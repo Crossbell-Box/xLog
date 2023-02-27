@@ -12,7 +12,6 @@ module.exports = {
       colors: {
         border: "var(--border-color)",
         accent: "var(--theme-color)",
-        "accent-emphasis": "var(--theme-color-emphasis)",
         hover: "var(--hover-color)",
       },
       spacing: {
