@@ -78,6 +78,7 @@ specifiers:
   js-yaml: 4.1.0
   jsonfeed-to-rss: ^3.0.6
   lint-staged: 13.1.2
+  lottie-react: ^2.4.0
   mdast-util-to-string: 3.1.1
   mdast-util-toc: 6.1.1
   nanoid: 4.0.1
@@ -176,6 +177,7 @@ dependencies:
   ioredis: 5.3.1
   js-yaml: 4.1.0
   jsonfeed-to-rss: 3.0.6
+  lottie-react: 2.4.0_biqbaboplfbrettd7655fr4n2y
   mdast-util-to-string: 3.1.1
   mdast-util-toc: 6.1.1
   nanoid: 4.0.1
@@ -8977,6 +8979,21 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
+
+  /lottie-react/2.4.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-pDJGj+AQlnlyHvOHFK7vLdsDcvbuqvwPZdMlJ360wrzGFurXeKPr8SiRCjLf3LrNYKANQtSsh5dz9UYQHuqx4w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      lottie-web: 5.10.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /lottie-web/5.10.2:
+    resolution: {integrity: sha512-d0PFIGiwuMsJYaF4uPo+qG8dEorlI+xFI2zrrFtE1bGO4WoLIz+NjremxEq1swpR7juR10aeOtmNh3d6G3ub0A==}
+    dev: false
 
   /loupe/2.3.6:
     resolution: {integrity: sha512-RaPMZKiMy8/JruncMU5Bt6na1eftNoo++R4Y+N2FrxkDVTrGvcyzFTsaGif4QTeKESheMGegbhw6iUAq+5A8zA==}

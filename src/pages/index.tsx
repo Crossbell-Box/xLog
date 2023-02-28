@@ -36,7 +36,7 @@ import {
 import { useTranslation, Trans } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { languageDetector } from "~/lib/language-detector"
-import { cn } from "~/lib/utils"
+import { Logo } from "~/components/common/Logo"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -548,13 +548,8 @@ export default function Home() {
             </Element>
           </div>
           <div className="my-20 text-center">
-            <div className="w-20 h-20 mx-auto mb-8">
-              <Image
-                alt="logo"
-                src="/assets/logo.svg"
-                width={100}
-                height={100}
-              />
+            <div className="w-20 h-20 mx-auto mb-10">
+              <Logo type="lottie" width={100} height={100} />
             </div>
             {isConnected ? (
               <UniLink

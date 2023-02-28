@@ -12,6 +12,7 @@ import { useTranslation, Trans } from "next-i18next"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { Logo } from "~/components/common/Logo"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -65,7 +66,7 @@ export default function SubdomainIndex() {
     <DashboardMain>
       <div className="prose min-w-[270px] max-w-screen-md">
         <div className="w-14 h-14 mb-8">
-          <Image alt="logo" src="/assets/logo.svg" width={100} height={100} />
+          <Logo type="lottie" width={100} height={100} />
         </div>
         <p className="text-2xl font-bold">{t("Site Stats")}</p>
         <div className="grid gap-4 sm:grid-cols-3 grid-cols-2 mb-8">

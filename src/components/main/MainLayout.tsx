@@ -9,9 +9,9 @@ import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { ConnectButton } from "../common/ConnectButton"
 import { getSiteLink } from "~/lib/helpers"
-import Image from "next/image"
 import { Link } from "react-scroll"
 import { useTranslation } from "next-i18next"
+import { Logo } from "~/components/common/Logo"
 
 export function MainLayout({
   children,
@@ -35,12 +35,7 @@ export function MainLayout({
         <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
           <div className="text-2xl font-extrabold flex items-center">
             <div className="inline-block w-9 h-9 mr-3">
-              <Image
-                alt={APP_NAME}
-                src="/assets/logo.svg"
-                width={100}
-                height={100}
-              />
+              <Logo type="lottie" width={36} height={36} />
             </div>
             xLog
           </div>

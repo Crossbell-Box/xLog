@@ -60,6 +60,7 @@
     "ioredis": "5.3.1",
     "js-yaml": "4.1.0",
     "jsonfeed-to-rss": "^3.0.6",
+    "lottie-react": "^2.4.0",
     "mdast-util-to-string": "3.1.1",
     "mdast-util-toc": "6.1.1",
     "nanoid": "4.0.1",

@@ -5,23 +5,26 @@ import Script from "next/script"
 import Image from "next/image"
 import { Platform } from "~/components/site/Platform"
 import { Trans } from "next-i18next"
+import { Logo } from "~/components/common/Logo"
+import { useEffect, useState } from "react"
 
 export const SiteFooter: React.FC<{
   site?: Profile | null
   page?: Note | null
 }> = ({ site, page }) => {
+  const [logoType, setLogoType] = useState<"svg" | "png" | "lottie">("svg")
+
+  useEffect(() => {
+    setLogoType("lottie")
+  }, [])
+
   const LogoWithLink = () => {
     return (
       <UniLink
         href={SITE_URL}
-        className="hover:text-accent inline-flex items-center align-text-top mx-1"
+        className="inline-flex items-center align-text-top mx-1"
       >
-        <Image
-          alt={APP_NAME}
-          src={`${SITE_URL}/assets/logo.svg`}
-          width={20}
-          height={20}
-        />
+        <Logo type={logoType} width={20} height={20} />
       </UniLink>
     )
   }
@@ -30,7 +33,7 @@ export const SiteFooter: React.FC<{
     <>
       <footer className="text-zinc-500 border-t">
         <div className="max-w-screen-md mx-auto px-5 py-10 text-xs flex justify-between">
-          <p className="font-medium text-base">
+          <div className="font-medium text-base">
             &copy;{" "}
             <UniLink href="/" className="hover:text-accent">
               {site?.name}
@@ -44,7 +47,7 @@ export const SiteFooter: React.FC<{
               }}
               ns="site"
             />
-          </p>
+          </div>
           {site?.connected_accounts && (
             <div className="ml-5 -mr-5">
               {site?.connected_accounts.map((account, index) => (
