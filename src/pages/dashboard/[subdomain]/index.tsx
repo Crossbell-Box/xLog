@@ -66,7 +66,7 @@ export default function SubdomainIndex() {
     <DashboardMain>
       <div className="prose min-w-[270px] max-w-screen-md">
         <div className="w-14 h-14 mb-8">
-          <Logo type="lottie" width={100} height={100} />
+          <Logo type="lottie" width={56} height={56} />
         </div>
         <p className="text-2xl font-bold">{t("Site Stats")}</p>
         <div className="grid gap-4 sm:grid-cols-3 grid-cols-2 mb-8">

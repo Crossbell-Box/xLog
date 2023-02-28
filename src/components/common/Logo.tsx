@@ -7,7 +7,9 @@ export const Logo: React.FC<{
   type: "svg" | "png" | "lottie"
   width?: number
   height?: number
-}> = ({ type, width, height }) => {
+  loop?: boolean
+  autoplay?: boolean
+}> = ({ type, width, height, loop, autoplay }) => {
   const ref = useRef<LottieRefCurrentProps>(null)
 
   switch (type) {
@@ -33,7 +35,8 @@ export const Logo: React.FC<{
       return (
         <Lottie
           animationData={LogoLottieJSON}
-          loop={false}
+          loop={loop ?? false}
+          autoplay={autoplay ?? true}
           lottieRef={ref}
           onMouseEnter={() => ref.current?.goToAndPlay(0)}
           style={{

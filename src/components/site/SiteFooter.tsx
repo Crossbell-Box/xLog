@@ -24,7 +24,7 @@ export const SiteFooter: React.FC<{
         href={SITE_URL}
         className="inline-flex items-center align-text-top mx-1"
       >
-        <Logo type={logoType} width={20} height={20} />
+        <Logo type={logoType} width={20} height={20} autoplay={false} />
       </UniLink>
     )
   }

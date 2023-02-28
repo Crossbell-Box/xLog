@@ -549,7 +549,7 @@ export default function Home() {
           </div>
           <div className="my-20 text-center">
             <div className="w-20 h-20 mx-auto mb-10">
-              <Logo type="lottie" width={100} height={100} />
+              <Logo type="lottie" width={100} height={100} loop={true} />
             </div>
             {isConnected ? (
               <UniLink
