@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }: any) {
             urlComposer={urlComposer}
           >
             <Hydrate state={pageProps.dehydratedState}>
-              <ReactQueryDevtools />
+              {/* <ReactQueryDevtools /> */}
               <NextNProgress
                 options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
               />

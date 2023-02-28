@@ -30,6 +30,22 @@ a {
   @apply focus-visible:outline-none;
 }
 
+.text-feature {
+  @apply bg-gradient-to-r bg-clip-text text-transparent;
+}
+
+.text-feature-write {
+  @apply from-[#007CF0] to-[#00DFD8];
+}
+
+.text-feature-own {
+  @apply from-[#7928CA] to-[#FF0080];
+}
+
+.text-feature-earn {
+  @apply from-[#FF4D4D] to-[#F9CB28];
+}
+
 .button {
   @apply inline-flex;
   @apply items-center;

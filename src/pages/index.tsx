@@ -36,6 +36,7 @@ import {
 import { useTranslation, Trans } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { languageDetector } from "~/lib/language-detector"
+import { cn } from "~/lib/utils"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -62,46 +63,80 @@ export default function Home() {
     router.push("/dashboard")
   })
 
-  const features = [
+  const features: {
+    title: string
+    subfeatures: {
+      screenshot?: {
+        src: string
+      }
+      icon: string
+      title: string
+    }[]
+  }[] = [
     {
-      screenshot: {
-        src: "/assets/easy.png",
-      },
-      icon: "😆",
-      title: "Easy",
-      text: "Connect with your <strong>Web3 Wallet</strong> or <strong>Email</strong>. Build your own site with custom domains, subscriptions, likes, comments, minting as nft, RSS and more in one second. No fees, no friction.",
+      title: "Write",
+      subfeatures: [
+        {
+          screenshot: {
+            src: "/assets/easy.png",
+          },
+          icon: "🤪",
+          title: "Easy to get started",
+        },
+        {
+          screenshot: {
+            src: "/assets/experience.png",
+          },
+          icon: "😆",
+          title: "Elegant experience",
+        },
+        {
+          screenshot: {
+            src: "/assets/fast.png",
+          },
+          icon: "🚀",
+          title: "Fast",
+        },
+      ],
     },
     {
-      screenshot: {
-        src: "/assets/safe.png",
-      },
-      icon: "🔒",
-      title: "Safe",
-      text: "All blog data, including configs, posts, subscriptions, comments, etc., are signed and securely stored on the <strong>blockchain</strong> with your own hands. No one else, including us, can make any changes.",
+      title: "Own",
+      subfeatures: [
+        {
+          screenshot: {
+            src: "/assets/safe.png",
+          },
+          icon: "🔒",
+          title: "Safe",
+        },
+        {
+          screenshot: {
+            src: "/assets/customizable.png",
+          },
+          icon: "🎨",
+          title: "Customizable",
+        },
+        {
+          screenshot: {
+            src: "/assets/open.png",
+          },
+          icon: "🌐",
+          title: "Open",
+        },
+      ],
     },
     {
-      screenshot: {
-        src: "/assets/fast.png",
-      },
-      icon: "🚀",
-      title: "Fast",
-      text: "Blockchain doesn't always mean inefficiency. xLog's efficient caching mechanism and numerous optimisations take it to the peak of performance.",
-    },
-    {
-      screenshot: {
-        src: "/assets/customizable.png",
-      },
-      icon: "🎨",
-      title: "Customizable",
-      text: "Use your own <strong>domain</strong>, customise your site and <strong>style</strong> it however you like. This is your site, there are no restrictions.",
-    },
-    {
-      screenshot: {
-        src: "/assets/open.png",
-      },
-      icon: "🌐",
-      title: "Open",
-      text: "Uses standard <strong>Markdown</strong> with export and import tools and rich APIs for a painless move in and out. All code is <strong>open source</strong> on GitHub, all <strong>data is transparent</strong> on the chain.",
+      title: "Earn",
+      subfeatures: [
+        {
+          icon: "🪙",
+          title: "Token",
+        },
+        {
+          icon: "🏟️",
+          title: "DAO",
+        },
+      ],
     },
   ]
 
@@ -213,15 +248,15 @@ export default function Home() {
         <div className="max-w-screen-lg px-5 mx-auto">
           <div className="h-screen w-full flex justify-center flex-col relative text-center">
             <h2 className="text-7xl sm:text-8xl font-bold mb-5">
-              <span className="bg-gradient-to-r from-[#007CF0] to-[#00DFD8] bg-clip-text text-transparent block sm:inline-block sm:mr-1">
-                {t("Write.")}
-              </span>
-              <span className="bg-gradient-to-r from-[#7928CA] to-[#FF0080] bg-clip-text text-transparent block sm:inline-block sm:mr-1">
-                {t("Own.")}
-              </span>
-              <span className="bg-gradient-to-r from-[#FF4D4D] to-[#F9CB28] bg-clip-text text-transparent block sm:inline-block sm:mr-1">
-                {t("Earn.")}
-              </span>
+              {features.map((feature) => (
+                <span
+                  key={feature.title}
+                  className={`text-feature text-feature-${feature.title.toLocaleLowerCase()} block sm:inline-block sm:mr-1`}
+                >
+                  {t(feature.title)}
+                  {t(".")}
+                </span>
+              ))}
             </h2>
             <h3 className="mt-5 text-zinc-800 text-2xl sm:text-4xl font-light">
               <Trans i18nKey="description" ns="index">
@@ -244,14 +279,14 @@ export default function Home() {
             </h3>
             <div className="my-6 sm:my-12">
               <Button
-                className="text-accent h-10 mt-4"
+                className="text-accent h-10 mt-4 block sm:inline-block"
                 onClick={tryNow}
                 size="2xl"
                 variantColor="black"
               >
                 {isConnected ? (
                   <>
-                    <span className="i-bi-grid text-lg mr-2"></span>
+                    <span className="i-bi-grid text-lg mr-2 inline-block"></span>
                     <span>{t("Dashboard")}</span>
                   </>
                 ) : (
@@ -259,7 +294,7 @@ export default function Home() {
                 )}
               </Button>
               <Button
-                className="text-accent h-10 ml-4 mt-4"
+                className="text-accent h-10 sm:ml-4 mt-4 block sm:inline-block"
                 size="2xl"
                 variant="outline"
                 variantColor="gradient"
@@ -279,8 +314,8 @@ export default function Home() {
                 </span>
               </Button>
             </div>
-            <div className="text-center absolute bottom-20 w-full flex items-center justify-center flex-col">
-              <span>Explore the xLog way</span>
+            <div className="text-center absolute bottom-14 w-full flex items-center justify-center flex-col">
+              <span className="mb-3">{t("Explore the xLog way")}</span>
               <Link
                 to="Features"
                 spy={true}
@@ -292,56 +327,100 @@ export default function Home() {
           </div>
           <div>
             <Element name="Features">
-              <UniLink
-                className="underline pt-28 w-full"
-                href={getSiteLink({
-                  subdomain: "xlog",
-                })}
-              >
-                <Image
-                  src="/assets/overall.png"
-                  alt="overall"
-                  width={3785}
-                  height={2170}
-                ></Image>
-                <p className="text-center">
-                  {t("Visit")} xlog.{OUR_DOMAIN}
-                </p>
-              </UniLink>
-              <ul className="pt-20 grid grid-cols-1 sm:grid-cols-3 gap-8">
-                {features.map((item, index) => (
-                  <li
-                    className="border rounded-xl overflow-hidden bg-white hover:shadow-md hover:scale-105 transition duration-300 cursor-default"
-                    key={item.title}
-                  >
-                    <div className="w-full h-44">
-                      <Image
-                        className="object-cover"
-                        src={item.screenshot.src}
-                        alt={item.title}
-                        fill
-                      ></Image>
+              {features.map((feature, index) => (
+                <div className="text-center mt-28" key={feature.title}>
+                  <div className="">
+                    <div
+                      className={`h-20 w-[1px] bg-gradient-to-b mx-auto text-feature-${feature.title.toLocaleLowerCase()}`}
+                      style={
+                        {
+                          "--tw-gradient-from": "transparent",
+                        } as any
+                      }
+                    ></div>
+                    <div
+                      className={`block rounded-full w-10 h-10 mx-auto p-2 text-white bg-gradient-to-br text-feature-${feature.title.toLocaleLowerCase()}`}
+                    >
+                      {index + 1}
                     </div>
-                    <p className="text-2xl font-bold mt-5 flex items-center px-5">
-                      <span className="mr-3">{item.icon}</span>
-                      <span>{t(item.title)}</span>
-                    </p>
-                    <p className="text-base font-light mt-3 mb-4 leading-normal px-5">
+                    <h3
+                      className={`mt-6 inline-block text-3xl font-bold text-feature text-feature-${feature.title.toLocaleLowerCase()}`}
+                    >
+                      {t(feature.title)}
+                    </h3>
+                    <h4 className="mt-6 text-5xl sm:text-6xl font-bold">
+                      {t(`${feature.title} subtitle`)}
+                    </h4>
+                    <p className="mt-6 text-zinc-500">
                       <Trans
-                        i18nKey={`${item.title} description`}
-                        defaults={item.text}
+                        i18nKey={`${feature.title} description`}
                         components={{
-                          strong: <strong className="font-bold" />,
+                          aown: (
+                            <UniLink
+                              className="underline"
+                              href="https://github.com/Crossbell-Box/Crossbell-Contracts/wiki"
+                            >
+                              .
+                            </UniLink>
+                          ),
                         }}
                         ns="index"
                       />
                     </p>
-                  </li>
-                ))}
-              </ul>
+                  </div>
+                  <ul className="pt-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
+                    {feature.subfeatures.map((item, index) => (
+                      <li
+                        className="border rounded-xl overflow-hidden bg-white hover:shadow-md hover:scale-105 transition duration-300 cursor-default"
+                        key={item.title}
+                      >
+                        {item.screenshot?.src && (
+                          <div className="w-full h-44">
+                            <Image
+                              className="object-cover"
+                              src={item.screenshot.src}
+                              alt={item.title}
+                              fill
+                            ></Image>
+                          </div>
+                        )}
+                        <p className="text-2xl font-bold mt-5 flex items-center px-5">
+                          <span className="mr-3">{item.icon}</span>
+                          <span
+                            className={`text-feature text-feature-${feature.title.toLocaleLowerCase()}`}
+                          >
+                            {t(item.title)}
+                          </span>
+                        </p>
+                        <p className="text-base font-light mt-3 mb-4 leading-normal px-5 text-left">
+                          <Trans
+                            i18nKey={`${item.title} text`}
+                            components={{
+                              strong: <strong className="font-bold" />,
+                              axfm: (
+                                <UniLink
+                                  className="underline"
+                                  href={`${getSiteLink({
+                                    subdomain: "xlog",
+                                  })}/xfm`}
+                                >
+                                  .
+                                </UniLink>
+                              ),
+                            }}
+                            ns="index"
+                          />
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </Element>
-            <Element name="Showcase">
-              <div className="pt-28 text-4xl font-bold">{t("Showcase")}</div>
+            <Element name="Showcase" className="text-center">
+              <div className="pt-32 text-5xl sm:text-6xl font-bold">
+                {t("Showcase")}
+              </div>
               <div className="my-10 text-zinc-700">
                 <p className="text-lg">
                   {t(
@@ -361,7 +440,7 @@ export default function Home() {
                   🥳 {t("Follow All!")}
                 </Button>
                 <ul
-                  className={`pt-10 grid grid-cols-2 md:grid-cols-3 gap-10 overflow-y-hidden relative ${
+                  className={`pt-10 grid grid-cols-2 md:grid-cols-3 gap-10 overflow-y-hidden relative text-left ${
                     showcaseMore ? "" : "max-h-[540px]"
                   }`}
                 >
@@ -419,8 +498,10 @@ export default function Home() {
                 </ul>
               </div>
             </Element>
-            <Element name="Integration">
-              <div className="pt-28 text-4xl font-bold">{t("Integration")}</div>
+            <Element name="Integration" className="text-center">
+              <div className="pt-32 text-5xl sm:text-6xl font-bold">
+                {t("Integration")}
+              </div>
               <div className="my-10 text-zinc-700">
                 <p className="text-xl">
                   {t(
@@ -480,7 +561,9 @@ export default function Home() {
                 href="/dashboard"
                 className="text-accent inline-flex items-center space-x-2"
               >
-                <Button size="xl">{t("Get my xLog in 5 minutes")}</Button>
+                <Button size="2xl" variantColor="black">
+                  {t("Get my xLog in 5 minutes")}
+                </Button>
               </UniLink>
             ) : (
               <Button onClick={tryNow} size="2xl" variantColor="black">

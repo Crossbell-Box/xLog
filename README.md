@@ -13,7 +13,7 @@
 
 ### Easy
 
-Connect with your **Web3 Wallet** or **Email**. Build your own site with custom domains, subscriptions, likes, comments, minting as nft, RSS and more in one second. No fees, no friction.
+Connect with your **Web3 Wallet** or **Email**. Build your own site with custom domains, subscriptions, likes, comments, minting as NFT, RSS and more in one second. No fees, no friction.
 
 ![](https://raw.githubusercontent.com/Crossbell-Box/xLog/dev/public/assets/easy.png)
 
