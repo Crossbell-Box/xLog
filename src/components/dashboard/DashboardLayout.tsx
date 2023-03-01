@@ -2,7 +2,7 @@ import { cn } from "~/lib/utils"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 
-import { APP_NAME } from "~/lib/env"
+import { DISCORD_LINK, APP_NAME } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
@@ -20,6 +20,7 @@ import { useUserRole } from "~/hooks/useUserRole"
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { useTranslation } from "react-i18next"
 import { Logo } from "~/components/common/Logo"
+import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline"
 
 export function DashboardLayout({
   children,
@@ -191,12 +192,19 @@ export function DashboardLayout({
                   })}
                 </div>
 
-                <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center px-4">
+                <div className="absolute bottom-5 left-0 right-0 flex items-center px-4 flex-col">
+                  <UniLink
+                    href={DISCORD_LINK}
+                    className="space-x-2 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
+                  >
+                    <QuestionMarkCircleIcon className="w-5 h-5" />
+                    {isOpen && <span>{t("Need help?")}</span>}
+                  </UniLink>
                   <UniLink
                     href={getSiteLink({
                       subdomain,
                     })}
-                    className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-slate-500 hover:text-accent flex w-full h-12 items-center justify-center transition-colors"
+                    className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center"
                   >
                     <span className="i-bi:box-arrow-up-right"></span>
                     {isOpen && <span>{t("View Site")}</span>}

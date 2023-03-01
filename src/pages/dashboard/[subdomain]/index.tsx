@@ -88,9 +88,7 @@ export default function SubdomainIndex() {
                 className="bg-slate-100 rounded-lg flex justify-center flex-col py-4 px-6"
               >
                 <span>{t(item.name)}</span>
-                <span className="font-bold text-2xl text-accent">
-                  {item.value}
-                </span>
+                <span className="font-bold text-2xl">{item.value}</span>
               </div>
             ))}
           </div>
@@ -104,6 +102,15 @@ export default function SubdomainIndex() {
               ns="dashboard"
             />
             <ul>
+              <li>
+                <UniLink
+                  href={getSiteLink({
+                    subdomain,
+                  })}
+                >
+                  {t("View Site")}
+                </UniLink>
+              </li>
               <li>
                 <UniLink href={`/dashboard/${subdomain}/editor?type=post`}>
                   Create a Post
@@ -123,7 +130,11 @@ export default function SubdomainIndex() {
               }}
               ns="dashboard"
             />
-            <ul>
+            <ul
+              style={{
+                marginBottom: 0,
+              }}
+            >
               <li>
                 <UniLink href={DISCORD_LINK}>
                   Join {APP_NAME}
