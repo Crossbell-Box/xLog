@@ -72,6 +72,7 @@ export default function Home() {
       icon: string
       title: string
     }[]
+    extra?: boolean
   }[] = [
     {
       title: "Write",
@@ -124,6 +125,7 @@ export default function Home() {
           title: "Open",
         },
       ],
+      extra: true,
     },
     {
       title: "Earn",
@@ -349,11 +351,11 @@ export default function Home() {
                       {t(feature.title)}
                     </h3>
                     <h4 className="mt-6 text-5xl sm:text-6xl font-bold">
-                      {t(`${feature.title} subtitle`)}
+                      {t(`features.${feature.title}.subtitle`)}
                     </h4>
                     <p className="mt-6 text-zinc-500">
                       <Trans
-                        i18nKey={`${feature.title} description`}
+                        i18nKey={`features.${feature.title}.description`}
                         components={{
                           aown: (
                             <UniLink
@@ -414,6 +416,33 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
+                  {feature.extra && (
+                    <div className="border rounded-xl overflow-hidden bg-white hover:shadow-md hover:scale-105 transition duration-300 cursor-default mt-10 px-5 py-8 space-y-4">
+                      <div className="font-bold text-3xl">
+                        🤫{" "}
+                        <span
+                          className={`text-feature text-feature-${feature.title.toLocaleLowerCase()}`}
+                        >
+                          {t(`features.${feature.title}.extra.title`)}
+                        </span>
+                      </div>
+                      <div>
+                        {t(`features.${feature.title}.extra.description`)}
+                      </div>
+                      <Button
+                        variantColor="black"
+                        onClick={() =>
+                          window.open(
+                            getSiteLink({
+                              subdomain: "xlog",
+                            }),
+                          )
+                        }
+                      >
+                        {t(`features.${feature.title}.extra.button`)}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
             </Element>

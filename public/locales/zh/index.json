@@ -7,12 +7,25 @@
   "description": "<0>xLog</0> 是面向所有人的最棒 <3>链上</3> <7>开源</7> 博客社区。",
   "Get my xLog in 5 minutes": "5 分钟拥有自己的 xLog",
   "Explore the xLog way": "探索 xLog 之路",
-  "Write subtitle": "当灵感来临时写作",
-  "Write description": "让创作者们摆脱耗时、不必要的流程，减少写作过程中的阻碍，让你和团队能够专注于创造。",
-  "Own subtitle": "在区块链上拥有自己的内容",
-  "Own description": "通过在 Crossbell 区块链上发布来拥有自己的内容。 xLog 不会存储任何数据，xLog 也无法剥夺或修改您的权利和内容，即使 xLog 想这样做。 <aown>了解 Crossbell 是如何工作的。</aown>",
-  "Earn subtitle": "赚取代币和权利",
-  "Earn description": "优秀的创作者们应该得到更多的奖励和权利，而区块链的设计使得 xLog 可以通过一系列代币激励以及 DAO 机制更好地追求这一目标。",
+  "features": {
+    "Write": {
+      "subtitle": "当灵感来临时写作",
+      "description": "让创作者们摆脱耗时、不必要的流程，减少写作过程中的阻碍，让你和团队能够专注于创造。"
+    },
+    "Own": {
+      "subtitle": "在区块链上拥有自己的内容",
+      "description": "通过在 Crossbell 区块链上发布来拥有自己的内容。 xLog 不会存储任何数据，xLog 也无法剥夺或修改您的权利和内容，即使 xLog 想这样做。 <aown>了解 Crossbell 是如何工作的。</aown>",
+      "extra": {
+        "title": "不要相信，要验证",
+        "description": "在互联网上不轻信任何人是一个好习惯，包括 xLog。因此，我们强烈建议你浏览 xLog 上的任何站点，检查页面底部的交易历史，阅读区块链合约代码，看看实情是否与 xLog 所声称的一致。",
+        "button": "去验证"
+      }
+    },
+    "Earn": {
+      "subtitle": "赚取代币和权利",
+      "description": "优秀的创作者们应该得到更多的奖励和权利，而区块链的设计使得 xLog 可以通过一系列代币激励以及 DAO 机制更好地追求这一目标。"
+    }
+  },
   "Features": "特色",
   "Showcase": "展示柜",
   "Integration": "集成",
@@ -32,8 +45,8 @@
   "Elegant experience text": "xLog 提供双栏编辑器，具有<strong>实时预览</strong>功能，提供优秀的写作体验，使用标准的 <strong>Markdown 语法</strong>，支持 <strong>HTML</strong>、<strong>音视频</strong>和数学表达式。页面设计优雅，为读者提供舒适的阅读体验。",
   "Token": "代币",
   "Token text": "在早期阶段，xLog 将通过我们自掏腰包提供的<strong>稳定币</strong>作为激励。代币经济系统仍在<strong>设计中</strong>，可能需要一些时间。因为垃圾内容是我们的共同敌人，xLog 需要确保社区不会被其淹没。",
-  "DAO": "DAO",
-  "DAO text": "xLog 将以 DAO 的形式进行管理，创作者获得的<strong>代币</strong>将代表他们的<strong>权利</strong>。",
+  "DAO": "去中心化自治组织",
+  "DAO text": "xLog 将以去中心化自治组织 (DAO) 的形式进行管理，创作者获得的<strong>代币</strong>将代表他们的<strong>权利</strong>。",
   "Discover these awesome teams and creators on xLog (sorted by update time)": "在 xLog 上发现这些超棒的团队和创作者们（按更新时间排序）",
   "Follow All!": "关注所有！",
   "Show more": "显示更多",

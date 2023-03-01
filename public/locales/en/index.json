@@ -1,10 +1,23 @@
 {
-  "Write subtitle": "Write when inspiration strikes",
-  "Write description": "Free writers from time-consuming, unnecessary processes that slow your writing, so you and your team can focus on creating.",
-  "Own subtitle": "Own content on the blockchain",
-  "Own description": "You own your content by publishing content on the Crossbell blockchain. xLog won't store any data and can't take away or modify your rights and content, even if xLog wanted to. <aown>Learn how Crossbell works.</aown>",
-  "Earn subtitle": "Earn tokens and rights",
-  "Earn description": "Great creators deserve more rewards and rights, and thanks to the design of blockchain, xLog can better pursue this goal through a range of token incentives, as well as a DAO mechanism.",
+  "features": {
+    "Write": {
+      "subtitle": "Write when inspiration strikes",
+      "description": "Free writers from time-consuming, unnecessary processes that slow your writing, so you and your team can focus on creating."
+    },
+    "Own": {
+      "subtitle": "Own content on the blockchain",
+      "description": "You own your content by publishing content on the Crossbell blockchain. xLog won't store any data and can't take away or modify your rights and content, even if xLog wanted to. <aown>Learn how Crossbell works.</aown>",
+      "extra": {
+        "title": "Don't Trust, Verify",
+        "description": "It's a good habit not to trust anyone easily on the Internet, including xLog. Therefore, we strongly recommend that you visit any site on xLog, check the transaction history at the bottom of the page, read the blockchain contract code, and see if the truth is as xLog claims.",
+        "button": "Verify it"
+      }
+    },
+    "Earn": {
+      "subtitle": "Earn tokens and rights",
+      "description": "Great creators deserve more rewards and rights, and thanks to the design of blockchain, xLog can better pursue this goal through a range of token incentives, as well as a DAO mechanism."
+    }
+  },
   "Easy to get started text": "xLog supports <strong>web3 wallets</strong> and <strong>email</strong> connections, allowing you to quickly create a customized blog with features like a custom domain, subscriptions, comments, NFT minting, RSS feeds, and AI enhancements in just 5 minutes - with no application or costs required.",
   "Elegant experience text": "xLog offers a dual-pane editor with <strong>real-time preview</strong> for an excellent writing experience, using standard <axfm>Markdown syntax</axfm> with support for <strong>HTML</strong>, <strong>audio/video</strong>, and math expressions. The elegantly designed page provides a comfortable reading experience for readers.",
   "Fast text": "Blockchain doesn't always mean low efficiency. xLog operates at peak performance thanks to its efficient caching mechanism and numerous optimizations. The site also supports <strong>PWA</strong> for local installation and use.",
