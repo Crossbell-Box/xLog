@@ -333,7 +333,7 @@ export const PagesManager: React.FC<{
   let currentLength = 0
 
   return (
-    <DashboardMain>
+    <DashboardMain className="max-w-screen-lg">
       <header className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">{t(title)}</h2>
@@ -424,7 +424,7 @@ export const PagesManager: React.FC<{
                         <Menu.Button as={Fragment}>
                           <button
                             className={cn(
-                              `text-gray-400 relative z-50 w-8 h-8 rounded inline-flex invisible group-hover:visible justify-center items-center`,
+                              `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
                               open ? `bg-gray-200` : `hover:bg-gray-200`,
                             )}
                             onClick={(e) => {

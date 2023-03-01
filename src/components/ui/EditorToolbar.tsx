@@ -27,7 +27,7 @@ export const EditorToolbar: FC<EditorToolbarProps> = ({ view, toolbars }) => {
             key={name}
             type="button"
             className={
-              "w-7 h-7 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-400 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
+              "w-9 h-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
             }
             onClick={() => {
               view && execute(view, { container: view.dom })

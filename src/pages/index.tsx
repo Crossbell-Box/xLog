@@ -223,6 +223,18 @@ export default function Home() {
       icon: <Image src="/assets/raycast.png" alt="Raycast" />,
       url: "https://www.raycast.com/Songkeys/crossbell",
     },
+    {
+      name: "Obsidian",
+      icon: (
+        <Image
+          src="/assets/obsidian.svg"
+          alt="Obsidian"
+          className="rounded"
+          fill
+        />
+      ),
+      text: "Coming soon",
+    },
   ]
 
   const userSite = useAccountSites()

@@ -5,7 +5,8 @@ export const DashboardMain: React.FC<{
   children: React.ReactNode
   fullWidth?: boolean
   title?: string
-}> = ({ children, fullWidth, title }) => {
+  className?: string
+}> = ({ children, fullWidth, title, className }) => {
   const { t } = useTranslation("dashboard")
 
   return (
@@ -15,6 +16,7 @@ export const DashboardMain: React.FC<{
           fullWidth
             ? "relative"
             : "max-w-screen-2xl relative px-5 py-5 md:px-10",
+          className,
         )}
       >
         {title && <p className="text-2xl font-bold mb-8">{t(title)}</p>}

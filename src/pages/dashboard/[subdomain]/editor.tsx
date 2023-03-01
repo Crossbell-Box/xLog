@@ -403,7 +403,7 @@ export default function SubdomainEditor() {
               <div className="flex items-center">
                 <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
                 <UniLink
-                  className="ml-7 align-middle"
+                  className="ml-7 align-middle hidden xl:block"
                   href={`${getSiteLink({
                     subdomain: "xlog",
                   })}/xfm`}
