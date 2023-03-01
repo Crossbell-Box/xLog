@@ -14,9 +14,9 @@
     },
     "Own": {
       "subtitle": "在区块链上拥有自己的内容",
-      "description": "通过在 Crossbell 区块链上发布来拥有自己的内容。 xLog 不会存储任何数据，xLog 也无法剥夺或修改您的权利和内容，即使 xLog 想这样做。 <aown>了解 Crossbell 是如何工作的。</aown>",
+      "description": "通过在 Crossbell 区块链上发布来拥有自己的内容。 xLog 不会存储任何数据，也无法剥夺或修改你的权利和内容，即使 xLog 想这样做。 <aown>了解 Crossbell 是如何工作的。</aown>",
       "extra": {
-        "title": "不要相信，要验证",
+        "title": "不要相信，去验证",
         "description": "在互联网上不轻信任何人是一个好习惯，包括 xLog。因此，我们强烈建议你浏览 xLog 上的任何站点，检查页面底部的交易历史，阅读区块链合约代码，看看实情是否与 xLog 所声称的一致。",
         "button": "去验证"
       }
@@ -32,7 +32,7 @@
   "Source Code": "源码",
   "Visit": "访问",
   "Easy to get started": "简单上手",
-  "Easy to get started text": "xLog 支持 <strong>web3 钱包</strong>和<strong>电子邮件</strong>连接，使您能够快速创建一个定制的博客，具有自定义域名、订阅、评论、NFT 铸造、RSS 订阅和 AI 增强等功能，仅需 5 分钟即可完成，无需申请或费用。",
+  "Easy to get started text": "xLog 支持 <strong>web3 钱包</strong>和<strong>电子邮件</strong>连接，使你能够快速创建一个定制的博客，具有自定义域名、订阅、评论、NFT 铸造、RSS 订阅和 AI 增强等功能，仅需 5 分钟即可完成，无需申请或费用。",
   "Safe": "安全",
   "Safe text": "所有博客数据，包括配置、文章、订阅、评论等，都由你自己签名并安全地存储在<strong>区块链</strong>上，只有你持有的<strong>私钥</strong>才能进行控制和访问。包括 xLog 在内的任何人都无法进行更改。",
   "Fast": "快速",

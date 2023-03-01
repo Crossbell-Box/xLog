@@ -19,6 +19,7 @@ import {
 import { useUserRole } from "~/hooks/useUserRole"
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { useTranslation } from "react-i18next"
+import { Logo } from "~/components/common/Logo"
 
 export function DashboardLayout({
   children,
@@ -105,7 +106,7 @@ export function DashboardLayout({
   return ready ? (
     hasPermission ? (
       <>
-        <SEOHead title={title} siteName={APP_NAME} />
+        <SEOHead title={t(title) || ""} siteName={APP_NAME} />
         {site?.data?.css && (
           <link
             type="text/css"
@@ -120,22 +121,37 @@ export function DashboardLayout({
           <DashboardSidebar>
             {(isOpen) => (
               <>
+                <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
+                  <div className="inline-block w-9 h-9 mr-3">
+                    <Logo
+                      type="lottie"
+                      width={36}
+                      height={36}
+                      autoplay={false}
+                    />
+                  </div>
+                  {isOpen && "xLog"}
+                </div>
                 {userSite.data?.[0]?.username &&
                   subdomain &&
                   userSite.data[0].username !== subdomain && (
                     <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
-                      <div className="mb-2">You are operating</div>
+                      <div className="mb-2">
+                        {isOpen && "You are operating"}
+                      </div>
                       <Avatar
                         images={site.data?.avatars || []}
-                        size={60}
+                        size={isOpen ? 60 : 40}
                         name={site.data?.name}
                       />
-                      <span className="flex flex-col justify-center">
-                        <span className="block">{site.data?.name}</span>
-                        <span className="block text-sm text-zinc-400">
-                          @{site.data?.username}
+                      {isOpen && (
+                        <span className="flex flex-col justify-center">
+                          <span className="block">{site.data?.name}</span>
+                          <span className="block text-sm text-zinc-400">
+                            @{site.data?.username}
+                          </span>
                         </span>
-                      </span>
+                      )}
                     </div>
                   )}
                 <div className="mb-2 px-2 pt-3 pb-2">
@@ -162,7 +178,7 @@ export function DashboardLayout({
                         className={cn(
                           `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
                           active
-                            ? `bg-slate-200 font-medium text-slate-800`
+                            ? `bg-slate-200 font-medium text-accent`
                             : `hover:bg-slate-200 hover:bg-opacity-50`,
                           !isOpen && "justify-center",
                         )}

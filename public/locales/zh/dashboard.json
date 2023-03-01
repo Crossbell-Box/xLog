@@ -35,8 +35,9 @@
   "Import markdown file with front matter supported": "导入 Markdown 文件(支持 Front Matter)",
   "View Site": "查看站点",
   "hello" : {
-    "welcome" : "<p>你好，</p><p>欢迎使用xLog！</p><p>以下是一些有用的链接，帮助你开始使用 xLog：</p>",
-    "community": "<p>加入我们的社区，认识新朋友或共同建设xLog：</p>"
+    "welcome" : "<p>👋 你好哇，</p><p>欢迎使用 xLog！</p><p>以下是一些有用的链接，帮助你开始使用 xLog：</p>",
+    "hidden": "👋 你好哇",
+    "community": "<p>加入我们的社区，认识新朋友或共同建设 xLog：</p>"
   },
   "Edit": "编辑",
   "Convert to Page": "转换为页面",
@@ -117,5 +118,8 @@
   "Warning": "警告",
   "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site.":
     "影子授权可以进入你的仪表盘，更改你的设置（不包括 xLog 子域名）并在你的站点上发布、修改、删除内容。",
-  "Add": "添加"
+  "Add": "添加",
+  "xLog News": "xLog 新鲜事",
+  "More": "更多",
+  "Meet New Friends": "认识新朋友"
 }
