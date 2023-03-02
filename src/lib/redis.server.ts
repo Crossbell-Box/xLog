@@ -1,28 +1,37 @@
 import Redis from "ioredis"
 import { REDIS_URL, REDIS_EXPIRE, REDIS_REFRESH } from "~/lib/env.server"
 
-let redis: Redis
-if (REDIS_URL) {
-  redis = new Redis(REDIS_URL)
+if (!REDIS_URL) {
+  console.error("REDIS_URL not set")
+}
+
+let redisPromise: Promise<Redis> = new Promise((resolve, reject) => {
+  let redis = new Redis(REDIS_URL)
+
+  redis.on("ready", () => {
+    console.log("Redis connected.")
+    resolve(redis)
+  })
 
   redis.on("error", (error: any) => {
     console.error("Redis error: ", error)
+    reject(error)
   })
-  redis.on("end", () => {
-    console.log("Redis end")
-  })
-  redis.on("connect", () => {
-    console.log("Redis connected.")
-  })
-}
 
-export const getRedis = () => redis
+  redis.on("end", () => {
+    console.error("Redis end.")
+    reject()
+  })
+})
+
+export const getRedis = () => redisPromise
 
 export async function cacheGet(
   key: string | (Record<string, any> | string | undefined)[],
   getValueFun: () => Promise<any>,
   noUpdate?: boolean,
 ) {
+  const redis = await redisPromise
   if (redis && redis.status === "ready") {
     let redisKey: string
     if (Array.isArray(key)) {
@@ -48,14 +57,15 @@ export async function cacheGet(
       return value
     }
   } else {
-    console.log("redis not ready")
+    console.error("redis not ready")
     return await getValueFun()
   }
 }
 
-export function cacheDelete(
+export async function cacheDelete(
   key: string | (Record<string, any> | string | undefined)[],
 ) {
+  const redis = await redisPromise
   if (redis && redis.status === "ready") {
     let redisKey: string
     if (Array.isArray(key)) {
@@ -66,5 +76,7 @@ export function cacheDelete(
       redisKey = key
     }
     redis.del(redisKey)
+  } else {
+    console.error("redis not ready")
   }
 }
