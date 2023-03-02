@@ -8,14 +8,20 @@ export const prefetchGetSite = async (
 ) => {
   const key = ["getSite", input]
   await queryClient.prefetchQuery(key, async () => {
-    return cacheGet(key, () => siteModel.getSite(input))
+    return cacheGet({
+      key,
+      getValueFun: () => siteModel.getSite(input),
+    })
   })
 }
 
 export const fetchGetSite = async (input: string, queryClient: QueryClient) => {
   const key = ["getSite", input]
   return await queryClient.fetchQuery(key, async () => {
-    return cacheGet(key, () => siteModel.getSite(input))
+    return cacheGet({
+      key,
+      getValueFun: () => siteModel.getSite(input),
+    })
   })
 }
 
@@ -25,7 +31,10 @@ export const prefetchGetSiteSubscriptions = async (
 ) => {
   const key = ["getSiteSubscriptions", input]
   await queryClient.prefetchQuery(key, async () => {
-    return cacheGet(key, () => siteModel.getSiteSubscriptions(input))
+    return cacheGet({
+      key,
+      getValueFun: () => siteModel.getSiteSubscriptions(input),
+    })
   })
 }
 
@@ -35,7 +44,10 @@ export const prefetchGetSiteToSubscriptions = async (
 ) => {
   const key = ["getSiteToSubscriptions", input]
   await queryClient.prefetchQuery(key, async () => {
-    return cacheGet(key, () => siteModel.getSiteToSubscriptions(input))
+    return cacheGet({
+      key,
+      getValueFun: () => siteModel.getSiteToSubscriptions(input),
+    })
   })
 }
 
@@ -45,6 +57,9 @@ export const prefetchGetSites = async (
 ) => {
   const key = ["getSites", input]
   await queryClient.fetchQuery(key, async () => {
-    return cacheGet(key, () => siteModel.getSites(input))
+    return cacheGet({
+      key,
+      getValueFun: () => siteModel.getSites(input),
+    })
   })
 }

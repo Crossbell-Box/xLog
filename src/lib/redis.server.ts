@@ -26,39 +26,39 @@ let redisPromise: Promise<Redis> = new Promise((resolve, reject) => {
 
 export const getRedis = () => redisPromise
 
-export async function cacheGet(
-  key: string | (Record<string, any> | string | undefined)[],
-  getValueFun: () => Promise<any>,
-  noUpdate?: boolean,
-) {
+export async function cacheGet(options: {
+  key: string | (Record<string, any> | string | undefined)[]
+  getValueFun: () => Promise<any>
+  noUpdate?: boolean
+}) {
   const redis = await redisPromise
   if (redis && redis.status === "ready") {
     let redisKey: string
-    if (Array.isArray(key)) {
-      redisKey = key
+    if (Array.isArray(options.key)) {
+      redisKey = options.key
         .map((k) => (typeof k === "string" ? k : JSON.stringify(k)))
         .join(":")
     } else {
-      redisKey = key
+      redisKey = options.key
     }
     const cacheValue = await redis.get(redisKey)
     if (cacheValue) {
-      if (!noUpdate) {
+      if (!options.noUpdate) {
         setTimeout(() => {
-          getValueFun().then((value) => {
+          options.getValueFun().then((value) => {
             redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
           })
         }, Math.random() * REDIS_REFRESH)
       }
       return JSON.parse(cacheValue)
     } else {
-      const value = await getValueFun()
+      const value = await options.getValueFun()
       redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
       return value
     }
   } else {
     console.error("redis not ready")
-    return await getValueFun()
+    return await options.getValueFun()
   }
 }
 

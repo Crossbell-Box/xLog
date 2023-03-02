@@ -15,7 +15,7 @@ export default async function handler(
     return
   }
 
-  const redis = getRedis()
+  const redis = await getRedis()
   const redisKey = `nfts/${query.address}`
 
   let cache
@@ -30,9 +30,9 @@ export default async function handler(
       result.list.map(async (nft: Asset) => {
         if (!nft.items?.[0].mime_type && nft.items?.[0]?.address) {
           try {
-            const mime_type = await cacheGet(
-              `nft-mimetype/${nft.items[0].address}`,
-              async () => {
+            const mime_type = await cacheGet({
+              key: `nft-mimetype/${nft.items[0].address}`,
+              getValueFun: async () => {
                 const head = await fetch(
                   `${nft.items![0].address!.replace(
                     IPFS_GATEWAY,
@@ -44,7 +44,7 @@ export default async function handler(
                 )
                 return head.headers.get("content-type")
               },
-            )
+            })
             nft.items[0].mime_type = mime_type
           } catch (error) {
             console.warn(error)

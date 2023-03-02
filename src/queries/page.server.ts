@@ -20,7 +20,10 @@ export const fetchGetPage = async (
       input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
     }
     delete input.page
-    return cacheGet(key, () => pageModel.getPage(input))
+    return cacheGet({
+      key,
+      getValueFun: () => pageModel.getPage(input),
+    })
   })
 }
 
@@ -32,12 +35,14 @@ export const prefetchGetPagesBySite = async (
   await queryClient.prefetchInfiniteQuery({
     queryKey: key,
     queryFn: async ({ pageParam }) => {
-      return cacheGet(key, () =>
-        pageModel.getPagesBySite({
-          ...input,
-          cursor: pageParam,
-        }),
-      )
+      return cacheGet({
+        key,
+        getValueFun: () =>
+          pageModel.getPagesBySite({
+            ...input,
+            cursor: pageParam,
+          }),
+      })
     },
     getNextPageParam: (lastPage) => lastPage.cursor || undefined,
   })
@@ -49,6 +54,9 @@ export const fetchGetPagesBySite = async (
 ) => {
   const key = ["getPagesBySite", input.site, input]
   return await queryClient.fetchQuery(key, async () => {
-    return cacheGet(key, () => pageModel.getPagesBySite(input))
+    return cacheGet({
+      key,
+      getValueFun: () => pageModel.getPagesBySite(input),
+    })
   })
 }

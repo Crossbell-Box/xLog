@@ -6,9 +6,9 @@ import { getNoteSlug } from "~/lib/helpers"
 export async function getIdBySlug(slug: string, handle: string) {
   slug = (slug as string)?.toLowerCase?.()
 
-  const result = await cacheGet(
-    ["slug2id", handle, slug],
-    async () => {
+  const result = await cacheGet({
+    key: ["slug2id", handle, slug],
+    getValueFun: async () => {
       let note
       let cursor = ""
 
@@ -47,8 +47,8 @@ export async function getIdBySlug(slug: string, handle: string) {
         }
       }
     },
-    true,
-  )
+    noUpdate: true,
+  })
 
   // revalidate
   if (result) {
