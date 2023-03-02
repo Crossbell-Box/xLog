@@ -1,4 +1,3 @@
-import { useAccountBalance as _useAccountBalance } from "@crossbell/connect-kit"
 import { useAccountSites } from "~/queries/site"
 import { useGetSite, useIsOperators } from "~/queries/site"
 import { useAccountState } from "@crossbell/connect-kit"
