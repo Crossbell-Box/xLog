@@ -6,26 +6,23 @@ import { createClient, WagmiConfig } from "wagmi"
 import { Hydrate, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
-import { ConnectKitProvider, contractConfig } from "@crossbell/connect-kit"
+import {
+  ConnectKitProvider,
+  getDefaultClientConfig,
+} from "@crossbell/connect-kit"
 import { NotificationModal } from "@crossbell/notification"
-import { InitContractProvider } from "@crossbell/contract"
 import NextNProgress from "nextjs-progressbar"
 import { Network } from "crossbell.js"
 import { appWithTranslation } from "next-i18next"
 
-import { IPFS_GATEWAY } from "~/lib/env"
+import { APP_NAME, IPFS_GATEWAY } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
-import { connectors, provider } from "~/lib/wallet-config"
 import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider,
-})
+const wagmiClient = createClient(getDefaultClientConfig({ appName: APP_NAME }))
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,22 +43,20 @@ function MyApp({ Component, pageProps }: any) {
         client={queryClient}
         persistOptions={{ persister }}
       >
-        <InitContractProvider {...contractConfig}>
-          <ConnectKitProvider
-            ipfsLinkToHttpLink={toGateway}
-            urlComposer={urlComposer}
-          >
-            <Hydrate state={pageProps.dehydratedState}>
-              {/* <ReactQueryDevtools /> */}
-              <NextNProgress
-                options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
-              />
-              {getLayout(<Component {...pageProps} />)}
-              <Toaster />
-              <NotificationModal />
-            </Hydrate>
-          </ConnectKitProvider>
-        </InitContractProvider>
+        <ConnectKitProvider
+          ipfsLinkToHttpLink={toGateway}
+          urlComposer={urlComposer}
+        >
+          <Hydrate state={pageProps.dehydratedState}>
+            {/* <ReactQueryDevtools /> */}
+            <NextNProgress
+              options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
+            />
+            {getLayout(<Component {...pageProps} />)}
+            <Toaster />
+            <NotificationModal />
+          </Hydrate>
+        </ConnectKitProvider>
       </PersistQueryClientProvider>
     </WagmiConfig>
   )

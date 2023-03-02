@@ -8,6 +8,7 @@ import {
   useOpSignSettingsModal,
   useUpgradeAccountModal,
   useSelectCharactersModal,
+  useAccountBalance,
 } from "@crossbell/connect-kit"
 import { useAccountSites } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
@@ -34,7 +35,6 @@ import {
   useShowNotificationModal,
   useNotifications,
 } from "@crossbell/notification"
-import { useAccountBalance } from "~/hooks/use-account-balance"
 import { Menu } from "~/components/ui/Menu"
 import { useTranslation } from "next-i18next"
 
