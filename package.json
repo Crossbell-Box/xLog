@@ -29,7 +29,7 @@
     "@crossbell/ui": "0.0.36",
     "@crossbell/util-ethers": "0.0.36",
     "@crossbell/util-hooks": "0.0.36",
-    "@crossbell/util-metadata": "0.0.36",
+    "@crossbell/util-metadata": "0.0.39",
     "@emoji-mart/data": "1.1.2",
     "@emoji-mart/react": "1.1.1",
     "@floating-ui/react": "^0.19.2",
