@@ -593,11 +593,12 @@ export default function SubdomainEditor() {
       <Modal
         open={isCheersOpen}
         setOpen={setIsCheersOpen}
-        title="🎉 Published!"
+        title={`🎉 ${t("Published!")}`}
       >
         <div className="p-5">
-          Your post has been securely stored on the blockchain. Now you may want
-          to
+          {t(
+            "Your post has been securely stored on the blockchain. Now you may want to",
+          )}
           <ul className="list-disc pl-5 mt-2 space-y-1">
             <li>
               <UniLink
@@ -607,7 +608,7 @@ export default function SubdomainEditor() {
                   domain: site.data?.custom_domain,
                 })}/${values.slug || defaultSlug}`}
               >
-                View the post
+                {t("View the post")}
               </UniLink>
             </li>
             <li>
@@ -621,7 +622,7 @@ export default function SubdomainEditor() {
                   }`
                 }
               >
-                View the transaction
+                {t("View the transaction")}
               </UniLink>
             </li>
             <li>
@@ -636,14 +637,14 @@ export default function SubdomainEditor() {
                   `Read my new post - ${page.data?.title}`,
                 )}`}
               >
-                Share to Twitter
+                {t("Share to Twitter")}
               </UniLink>
             </li>
           </ul>
         </div>
         <div className="h-16 border-t flex items-center px-5">
           <Button isBlock onClick={() => setIsCheersOpen(false)}>
-            Got it, thanks!
+            {t("Got it, thanks!")}
           </Button>
         </div>
       </Modal>
