@@ -603,3 +603,15 @@ export function toPageId({
 }: ReturnType<typeof parsePageId>) {
   return `${characterId}-${noteId}`
 }
+
+export async function getSummary({
+  cid,
+  lang,
+}: {
+  cid: string
+  lang?: string
+}) {
+  return await (
+    await fetch(`/api/summary?cid=${cid}&lang=${lang || "en"}`)
+  ).text()
+}

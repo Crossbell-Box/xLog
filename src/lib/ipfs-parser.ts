@@ -22,3 +22,13 @@ export const toIPFS = (url: string) => {
     .replaceAll("https://ipfs.4everland.xyz/ipfs/", IPFS_PREFIX)
     .replaceAll("https://rss3.mypinata.cloud/ipfs/", IPFS_PREFIX)
 }
+
+export const toCid = (url: string) => {
+  return url
+    ?.replaceAll(IPFS_GATEWAY, "")
+    .replaceAll("https://gateway.ipfs.io/ipfs/", "")
+    .replaceAll("https://ipfs.io/ipfs/", "")
+    .replaceAll("https://cf-ipfs.com/ipfs/", "")
+    .replaceAll("https://ipfs.4everland.xyz/ipfs/", "")
+    .replaceAll("https://rss3.mypinata.cloud/ipfs/", "")
+}
