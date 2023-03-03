@@ -57,6 +57,7 @@ export async function createOrUpdatePage(
   customUnidata?: Unidata,
   newbieToken?: string,
 ) {
+  console.log("isPost", input.isPost)
   if (!input.published) {
     return await (customUnidata || unidata).notes.set(
       {

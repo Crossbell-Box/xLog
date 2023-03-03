@@ -112,7 +112,9 @@ export const PostMeta: React.FC<{
         {showEdit && (
           <UniLink
             className="xlog-post-editor inline-flex items-center"
-            href={`${SITE_URL}/dashboard/${site?.username}/editor?id=${page.id}`}
+            href={`${SITE_URL}/dashboard/${site?.username}/editor?id=${
+              page.id
+            }&type=${page.tags?.includes("post") ? "post" : "page"}`}
           >
             <PencilSquareIcon className="w-4 h-4 mx-1 inline-block" /> Edit
           </UniLink>
