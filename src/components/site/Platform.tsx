@@ -42,7 +42,7 @@ const syncMap: {
     url: "https://{username}.substack.com/",
   },
   medium: {
-    name: "Mediam",
+    name: "Medium",
     icon: "/assets/social/medium.svg",
     url: "https://medium.com/@{username}",
   },
