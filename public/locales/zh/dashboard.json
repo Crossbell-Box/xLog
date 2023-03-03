@@ -5,6 +5,7 @@
   "Notifications": "通知",
   "Unread notifications": "未读通知",
   "Settings": "设置",
+  "Events": "活动",
   "Site Stats": "站点统计",
   "Total Posts": "文章总数",
   "Total Comments": "评论总数",
@@ -128,5 +129,7 @@
   "View the transaction": "查看交易",
   "Share to Twitter": "分享到 Twitter",
   "Got it, thanks!" : "好的，谢谢！",
-  "Published!" : "已发布！"
+  "Published!" : "已发布！",
+  "Title goes here...": "标题在这里...",
+  "Start writing...": "开始写作..."
 }

@@ -3,7 +3,8 @@ import { EditorView, ViewUpdate } from "@codemirror/view"
 import { markdown } from "@codemirror/lang-markdown"
 import { scroll } from "@uiw/codemirror-extensions-events"
 import type { EditorState } from "@codemirror/state"
-import { useCallback, useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
+import { useTranslation } from "next-i18next"
 
 export const Editor: React.FC<{
   value: string
@@ -22,6 +23,7 @@ export const Editor: React.FC<{
   onCreateEditor,
   onMouseEnter,
 }) => {
+  const { t } = useTranslation("dashboard")
   const [extensions, setExtensions] = useState<any>([])
   useEffect(() => {
     setExtensions([
@@ -103,7 +105,7 @@ export const Editor: React.FC<{
         }}
         indentWithTab={true}
         onChange={onChange}
-        placeholder="Start writing..."
+        placeholder={t("Start writing...") || ""}
         onUpdate={onUpdate}
         onMouseEnter={onMouseEnter}
       />
