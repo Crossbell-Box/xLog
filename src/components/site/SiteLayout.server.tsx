@@ -18,6 +18,7 @@ export const getServerSideProps = async (
     take?: number
     useStat?: boolean
     skipPages?: boolean
+    preview?: boolean
   },
 ) => {
   const domainOrSubdomain = ctx.params!.site as string
@@ -39,7 +40,9 @@ export const getServerSideProps = async (
       queryClient,
     ),
     new Promise(async (resolve, reject) => {
-      if (pageSlug) {
+      if (options?.preview) {
+        // do nothing
+      } else if (pageSlug) {
         try {
           const page = await fetchGetPage(
             {

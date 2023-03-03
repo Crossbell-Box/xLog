@@ -120,7 +120,7 @@ export const PostMeta: React.FC<{
           </UniLink>
         )}
       </div>
-      {!(summary.isSuccess && !summary.data) && (
+      {(summary.isLoading || summary.data) && (
         <div className="border rounded-xl mt-4 p-4 space-y-2">
           <div className="font-bold text-zinc-700 flex items-center">
             <LightBulbIcon className="inline w-4 h-4 mr-2 stroke-[2]" />
