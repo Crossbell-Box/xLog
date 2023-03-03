@@ -2,14 +2,14 @@
   "features": {
     "Write": {
       "subtitle": "Write when inspiration strikes",
-      "description": "Free writers from time-consuming, unnecessary processes that slow your writing, so you and your team can focus on creating."
+      "description": "Frees you from time-consuming, unnecessary processes that slow your writing, so you and your team can focus on creating."
     },
     "Own": {
       "subtitle": "Own content on the blockchain",
       "description": "You own your content by publishing content on the Crossbell blockchain. xLog won't store any data and can't take away or modify your rights and content, even if xLog wanted to. <aown>Learn how Crossbell works.</aown>",
       "extra": {
         "title": "Don't Trust, Verify",
-        "description": "It's a good habit not to trust anyone easily on the Internet, including xLog. Therefore, we strongly recommend that you visit any site on xLog, check the transaction history at the bottom of the page, read the blockchain contract code, and see if the truth is as xLog claims.",
+        "description": "It's a good habit not to trust anyone easily on the Internet, including xLog. Therefore, we strongly recommend that you visit any site on xLog, check the transaction history at the bottom of the page, read the blockchain contract code, and verify for yourself what xLog claims.",
         "button": "Verify it"
       }
     },
