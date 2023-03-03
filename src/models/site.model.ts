@@ -422,7 +422,8 @@ export async function getOperators(input: { characterId?: number }) {
       .filter(
         (o) =>
           o.operator !== "0x0000000000000000000000000000000000000000" &&
-          o.operator !== "0x0f588318a494e4508a121a32b6670b5494ca3357",
+          o.operator !== "0x0f588318a494e4508a121a32b6670b5494ca3357" &&
+          o.operator !== "0xbbc2918c9003d264c25ecae45b44a846702c0e7c",
       ) // remove 0 and xSync
       .filter((o) => {
         for (const permission of xLogOperatorPermissions) {
