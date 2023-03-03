@@ -132,7 +132,7 @@ export default function Home() {
       subfeatures: [
         {
           icon: "🪙",
-          title: "Token",
+          title: "Creator Incentives",
         },
         {
           icon: "🏟️",
