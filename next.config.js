@@ -111,6 +111,7 @@ module.exports = withBundleAnalyzer(
       ENV_NFTSCAN_API_KEY: process.env.NFTSCAN_API_KEY,
       ENV_OPENSEA_API_KEY: process.env.OPENSEA_API_KEY,
       ENV_POAP_API_KEY: process.env.POAP_API_KEY,
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     },
   }),
 )

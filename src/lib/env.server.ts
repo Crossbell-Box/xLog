@@ -21,3 +21,5 @@ export const NFTSCAN_API_KEY =
 export const OPENSEA_API_KEY =
   config.ENV_OPENSEA_API_KEY || process.env.OPENSEA_API_KEY
 export const POAP_API_KEY = config.ENV_POAP_API_KEY || process.env.POAP_API_KEY
+export const OPENAI_API_KEY =
+  config.ENV_OPENAI_API_KEY || process.env.OPENAI_API_KEY
