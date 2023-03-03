@@ -130,14 +130,14 @@ export default function Home() {
     {
       title: "Earn",
       subfeatures: [
-        {
-          icon: "🪙",
-          title: "Token",
-        },
-        {
-          icon: "🏟️",
-          title: "DAO",
-        },
+        // {
+        //   icon: "🪙",
+        //   title: "Token",
+        // },
+        // {
+        //   icon: "🏟️",
+        //   title: "DAO",
+        // },
       ],
     },
   ]
