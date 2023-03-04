@@ -477,8 +477,12 @@ export default function Home() {
                     userSite.isLoading ||
                     subscribeToSites.isLoading
                   }
+                  isDisabled={subscribeToSites.isSuccess}
                 >
-                  🥳 {t("Follow All!")}
+                  🥳{" "}
+                  {subscribeToSites.isSuccess
+                    ? t("Already Followed All!")
+                    : t("Follow All!")}
                 </Button>
                 <ul
                   className={`pt-10 grid grid-cols-2 md:grid-cols-3 gap-10 overflow-y-hidden relative text-left ${
