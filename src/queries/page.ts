@@ -172,7 +172,9 @@ export function useMintPage() {
 
 export function useCommentPage() {
   const queryClient = useQueryClient()
-  const { mutateAsync: _, ...postNoteForNote } = usePostNoteForNote()
+  const { mutateAsync: _, ...postNoteForNote } = usePostNoteForNote({
+    noAutoResume: true,
+  })
 
   const mutate = useRefCallback(
     ({
