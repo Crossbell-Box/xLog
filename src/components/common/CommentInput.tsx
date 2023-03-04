@@ -16,7 +16,8 @@ import { useTranslation } from "next-i18next"
 export const CommentInput: React.FC<{
   pageId?: string
   originalId?: string
-}> = ({ pageId, originalId }) => {
+  onSubmitted?: () => void
+}> = ({ pageId, originalId, onSubmitted }) => {
   const account = useAccountState((s) => s.computed.account)
   const userSites = useAccountSites()
   const commentPage = useCommentPage()
@@ -50,8 +51,9 @@ export const CommentInput: React.FC<{
   useEffect(() => {
     if (commentPage.isSuccess) {
       form.reset()
+      onSubmitted?.()
     }
-  }, [commentPage.isSuccess, form])
+  }, [commentPage.isSuccess, form, onSubmitted])
 
   return (
     <div className="xlog-comment-input flex">

@@ -24,11 +24,12 @@ export const CommentItem: React.FC<{
   const { t } = useTranslation("common")
   const date = useDate()
 
+  if (!comment.metadata?.content?.content) {
+    return null
+  }
+
   return (
-    <div
-      key={comment.transactionHash}
-      className={depth > 0 ? "" : "border-b border-dashed pb-6"}
-    >
+    <div className={depth > 0 ? "" : "border-b border-dashed pb-6"}>
       <div className="flex group">
         <div>
           <CharacterFloatCard siteId={comment?.character?.handle}>
@@ -107,6 +108,7 @@ export const CommentItem: React.FC<{
               <CommentInput
                 originalId={originalId}
                 pageId={`${comment.characterId}-${comment.noteId}`}
+                onSubmitted={() => setReplyOpen(false)}
               />
             </div>
           )}
