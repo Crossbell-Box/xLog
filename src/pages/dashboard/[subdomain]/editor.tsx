@@ -73,19 +73,26 @@ export default function SubdomainEditor() {
   const [draftKey, setDraftKey] = useState<string>("")
   useEffect(() => {
     if (subdomain) {
+      let key
       if (!pageId) {
         const randomId = nanoid()
-        const key = `draft-${subdomain}-local-${randomId}`
+        key = `draft-${subdomain}-local-${randomId}`
         setDraftKey(key)
         queryClient.invalidateQueries(["getPagesBySite", subdomain])
         router.replace(
           `/dashboard/${subdomain}/editor?id=local-${randomId}&type=${router.query.type}`,
         )
       } else {
-        setDraftKey(`draft-${subdomain}-${pageId}`)
+        key = `draft-${subdomain}-${pageId}`
       }
+      setDraftKey(key)
+      setDefaultSlug(
+        key
+          .replace(`draft-${subdomain}-local-`, "")
+          .replace(`draft-${subdomain}-`, ""),
+      )
     }
-  }, [subdomain, pageId, queryClient])
+  }, [subdomain, pageId, queryClient, router])
 
   const site = useGetSite(subdomain)
 
@@ -133,7 +140,10 @@ export default function SubdomainEditor() {
             ?.map((word) => word.trim())
             ?.filter((word) => word)
             ?.join("-")
-            ?.replace(/\s+/g, "-") || "",
+            ?.replace(/\s+/g, "-") ||
+            draftKey
+              .replace(`draft-${subdomain}-local-`, "")
+              .replace(`draft-${subdomain}-`, ""),
         )
       }
       const newValues = { ...values, [key]: value }
