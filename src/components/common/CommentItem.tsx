@@ -123,6 +123,7 @@ export const CommentItem: React.FC<{
               },
             ) => (
               <CommentItem
+                originalId={originalId}
                 comment={subcomment}
                 key={subcomment.transactionHash}
                 depth={depth + 1}
