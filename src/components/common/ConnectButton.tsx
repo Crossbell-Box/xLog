@@ -140,7 +140,9 @@ export const ConnectButton: React.FC<{
             ),
             onClick: () => {
               if (account?.characterId) {
-                opSignSettingsModal.show(account?.characterId)
+                opSignSettingsModal.show({
+                  characterId: account?.characterId,
+                })
               }
             },
           },
