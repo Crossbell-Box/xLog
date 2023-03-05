@@ -8,6 +8,8 @@ import { GetServerSideProps } from "next"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { QueryClient } from "@tanstack/react-query"
+import { useUserRole } from "~/hooks/useUserRole"
+import { getDefaultSlug, getSiteLink } from "~/lib/helpers"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -35,6 +37,7 @@ function SitePagePage() {
   const router = useRouter()
   const domainOrSubdomain = router.query.site as string
   const pageSlug = router.query.page as string
+  const userRole = useUserRole(domainOrSubdomain)
 
   const page = useGetPage({
     site: domainOrSubdomain,
@@ -42,6 +45,17 @@ function SitePagePage() {
   })
 
   const site = useGetSite(domainOrSubdomain)
+
+  if (userRole.isSuccess && !userRole.data && page.isSuccess) {
+    router.push(
+      `${getSiteLink({
+        subdomain: domainOrSubdomain,
+      })}/${
+        page.data?.slug ||
+        getDefaultSlug(page.data?.title || "", page.data?.id || "")
+      }`,
+    )
+  }
 
   return (
     <SitePage
