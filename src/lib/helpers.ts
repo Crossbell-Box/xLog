@@ -2,6 +2,7 @@ import { NoteEntity } from "crossbell.js"
 
 import { IS_PROD } from "./constants"
 import { OUR_DOMAIN } from "./env"
+import pinyin from "pinyin"
 
 export const getSiteLink = ({
   domain,
@@ -29,4 +30,17 @@ export const getNoteSlug = (note: NoteEntity) => {
     (note.metadata?.content as any)?._xlog_slug ||
     (note.metadata?.content as any)?._crosslog_slug
   )?.toLowerCase?.()
+}
+
+export const getDefaultSlug = (title: string, id: string) => {
+  return (
+    pinyin(title as string, {
+      style: pinyin.STYLE_NORMAL,
+      compact: true,
+    })?.[0]
+      ?.map((word) => word.trim())
+      ?.filter((word) => word)
+      ?.join("-")
+      ?.replace(/\s+/g, "-") || id.replace(`local-`, "")
+  )
 }

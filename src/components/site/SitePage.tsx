@@ -4,12 +4,16 @@ import { PostFooter } from "./PostFooter"
 import { Note, Profile } from "~/lib/types"
 import Head from "next/head"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "next-i18next"
+import { UniLink } from "../ui/UniLink"
+import { getDefaultSlug } from "~/lib/helpers"
 
 export const SitePage: React.FC<{
   page?: Note | null
   site?: Profile | null
 }> = ({ page, site }) => {
   // const author = useGetUserSites(page?.authors?.[0])
+  const { t } = useTranslation("site")
 
   function addPageJsonLd() {
     return {
@@ -44,8 +48,24 @@ export const SitePage: React.FC<{
         />
       </Head>
       {page?.preview && (
-        <div className="fixed top-0 left-0 w-full text-center text-orange-500 bg-gray-100 py-2 opacity-80 text-sm">
-          Currently in private preview mode, public can’t see this
+        <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm">
+          {t(
+            "This address is in local editing preview mode and cannot be viewed by the public. The expected online address is:",
+          )}
+          <UniLink
+            href={`${getSiteLink({
+              subdomain: site?.username || "",
+              domain: site?.custom_domain,
+            })}/${page.slug || getDefaultSlug(page.title || "", page.id)}`}
+            className="hover:underline"
+          >
+            {getSiteLink({
+              subdomain: site?.username || "",
+              domain: site?.custom_domain,
+              noProtocol: true,
+            })}
+            /{page.slug || getDefaultSlug(page.title || "", page.id)}
+          </UniLink>
         </div>
       )}
       <article>

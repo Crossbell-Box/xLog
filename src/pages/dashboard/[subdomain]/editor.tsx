@@ -42,6 +42,7 @@ import { useTranslation } from "next-i18next"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { getDefaultSlug } from "~/lib/helpers"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -133,17 +134,10 @@ export default function SubdomainEditor() {
       }
       if (key === "title") {
         setDefaultSlug(
-          pinyin(value as string, {
-            style: pinyin.STYLE_NORMAL,
-            compact: true,
-          })?.[0]
-            ?.map((word) => word.trim())
-            ?.filter((word) => word)
-            ?.join("-")
-            ?.replace(/\s+/g, "-") ||
-            draftKey
-              .replace(`draft-${subdomain}-local-`, "")
-              .replace(`draft-${subdomain}-`, ""),
+          getDefaultSlug(
+            value as string,
+            draftKey.replace(`draft-${subdomain}-`, ""),
+          ),
         )
       }
       const newValues = { ...values, [key]: value }
@@ -235,14 +229,10 @@ export default function SubdomainEditor() {
       content: page.data.body?.content || "",
     })
     setDefaultSlug(
-      pinyin(page.data.title || "", {
-        style: pinyin.STYLE_NORMAL,
-        compact: true,
-      })?.[0]
-        ?.map((word) => word.trim())
-        ?.filter((word) => word)
-        ?.join("-")
-        ?.replace(/\s+/g, "-") || "",
+      getDefaultSlug(
+        page.data.title || "",
+        draftKey.replace(`draft-${subdomain}-`, ""),
+      ),
     )
   }, [page.data, subdomain, draftKey])
 
