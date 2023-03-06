@@ -24,6 +24,13 @@ export default async function middleware(req: NextRequest) {
     }
   }
 
+  if (pathname === "/feed.xml" || pathname === "/atom.xml") {
+    return NextResponse.redirect(
+      `https://${req.headers.get("host")}/feed/xml`,
+      301,
+    )
+  }
+
   console.log(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
 
   if (
