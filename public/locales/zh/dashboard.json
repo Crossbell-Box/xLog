@@ -130,5 +130,6 @@
   "Got it, thanks!" : "好的，谢谢！",
   "Published!" : "已发布！",
   "Title goes here...": "标题在这里...",
-  "Start writing...": "开始写作..."
+  "Start writing...": "开始写作...",
+  "Slug can only contain letters, numbers, hyphens, and underscores." : "短链接只能包含字母、数字、连字符和下划线。"
 }
