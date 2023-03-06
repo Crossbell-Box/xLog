@@ -62,7 +62,7 @@ export const PublishButton: React.FC<{
                 className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
                 onClick={() => save(false)}
               >
-                {t("Unpublish")}
+                {t("Delete")}
               </button>
             )}
           </div>
