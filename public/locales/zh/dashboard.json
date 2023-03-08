@@ -6,6 +6,7 @@
   "Unread notifications": "未读通知",
   "Settings": "设置",
   "Events": "活动",
+  "New Events": "新活动",
   "Site Stats": "站点统计",
   "Total Posts": "文章总数",
   "Total Comments": "评论总数",
@@ -131,5 +132,12 @@
   "Published!" : "已发布！",
   "Title goes here...": "标题在这里...",
   "Start writing...": "开始写作...",
-  "Slug can only contain letters, numbers, hyphens, and underscores." : "短链接只能包含字母、数字、连字符和下划线。"
+  "Slug can only contain letters, numbers, hyphens, and underscores." : "短链接只能包含字母、数字、连字符和下划线。",
+  "Date": "日期",
+  "Prize": "奖金",
+  "Winners": "获奖者",
+  "Learn more": "了解更多",
+  "Ended": "已结束",
+  "Upcoming": "即将开始",
+  "Ongoing": "进行中"
 }

@@ -21,6 +21,8 @@ import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { useTranslation } from "react-i18next"
 import { Logo } from "~/components/common/Logo"
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline"
+import { getStorage } from "~/lib/storage"
+import { useGetPagesBySite } from "~/queries/page"
 
 export function DashboardLayout({
   children,
@@ -64,6 +66,26 @@ export function DashboardLayout({
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
 
+  const pages = useGetPagesBySite({
+    type: "post",
+    site: "xlog-events",
+    take: 1,
+  })
+  const [isEventsAllRead, setIsEventsAllRead] = React.useState(true)
+  const latestEventRead = getStorage("latestEventRead")?.value || 0
+  useEffect(() => {
+    if (pages.isSuccess) {
+      if (
+        new Date(pages.data.pages[0].list?.[0].date_created) >
+        new Date(latestEventRead)
+      ) {
+        setIsEventsAllRead(false)
+      } else {
+        setIsEventsAllRead(true)
+      }
+    }
+  }, [pages.isSuccess, pages.data?.pages, latestEventRead])
+
   const links: {
     href?: string
     onClick?: () => void
@@ -94,6 +116,12 @@ export function DashboardLayout({
       isActive: ({ href, pathname }) => href === pathname,
       icon: isAllRead ? "i-bi:bell" : "i-bi:bell-fill",
       text: isAllRead ? "Notifications" : "Unread notifications",
+    },
+    {
+      href: `/dashboard/${subdomain}/events`,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: isEventsAllRead ? "i-bi-gift" : "i-bi-gift-fill",
+      text: isEventsAllRead ? "Events" : "New Events",
     },
     {
       href: `/dashboard/${subdomain}/settings/general`,
@@ -195,7 +223,7 @@ export function DashboardLayout({
                 <div className="absolute bottom-5 left-0 right-0 flex items-center px-4 flex-col">
                   <UniLink
                     href={DISCORD_LINK}
-                    className="space-x-2 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
+                    className="space-x-1 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
                   >
                     <QuestionMarkCircleIcon className="w-5 h-5" />
                     {isOpen && <span>{t("Need help?")}</span>}
@@ -225,6 +253,9 @@ export function DashboardLayout({
         <div className="mt-4">
           Please switch account or request the owner to set you as the operator.
         </div>
+        <UniLink href="/dashboard" className="mt-4 text-accent">
+          Take me to my own dashboard
+        </UniLink>
       </div>
     )
   ) : (
