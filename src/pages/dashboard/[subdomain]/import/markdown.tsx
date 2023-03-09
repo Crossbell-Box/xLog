@@ -95,7 +95,7 @@ export default function ImportMarkdownPage() {
         <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-4">
           <Input
             className="py-1"
-            label={`Select Markdown Files`}
+            label={t(`Select Markdown Files`) || ""}
             id="notes"
             type="file"
             accept=".md"
@@ -103,13 +103,13 @@ export default function ImportMarkdownPage() {
             {...form.register("files", {})}
           />
           <div>
-            <div className="form-label">Preview</div>
+            <div className="form-label">{t("Preview")}</div>
             {notes?.length ? (
               notes?.map((note) => (
                 <ImportPreview key={note.title} note={note} />
               ))
             ) : (
-              <div className="text-gray-500">No files chosen</div>
+              <div className="text-gray-500">{t("No files chosen")}</div>
             )}
           </div>
           <div>

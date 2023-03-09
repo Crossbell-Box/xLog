@@ -139,5 +139,11 @@
   "Learn more": "了解更多",
   "Ended": "已结束",
   "Upcoming": "即将开始",
-  "Ongoing": "进行中"
+  "Ongoing": "进行中",
+  "Import from Markdown files": "从 Markdown 文件导入",
+  "Import from Mirror.xyz": "从 Mirror.xyz 导入",
+  "Select Markdown Files": "选择 Markdown 文件",
+  "No files chosen": "未选择文件",
+  "No entries": "无条目",
+  "Preview your Mirror.xyz entries": "预览你的 Mirror.xyz 条目"
 }

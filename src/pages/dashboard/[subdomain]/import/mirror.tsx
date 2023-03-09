@@ -8,9 +8,7 @@ import { getServerSideProps as getLayoutServerSideProps } from "~/components/das
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { useForm } from "react-hook-form"
-import { Input } from "~/components/ui/Input"
 import { Button } from "~/components/ui/Button"
-import { readFiles } from "~/lib/read-files"
 import { getSiteLink } from "~/lib/helpers"
 import type { NoteMetadata } from "crossbell.js"
 import { ImportPreview } from "~/components/dashboard/ImportPreview"
@@ -88,13 +86,15 @@ export default function ImportMarkdownPage() {
       <form onSubmit={handleSubmit}>
         <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-4">
           <div>
-            <div className="form-label">Preview your entries on Mirror.xyz</div>
+            <div className="form-label">
+              {t("Preview your Mirror.xyz entries")}
+            </div>
             {notes?.length ? (
               notes?.map((note: NoteMetadata) => (
                 <ImportPreview key={note.title} note={note} />
               ))
             ) : (
-              <div className="text-gray-500">No files chosen</div>
+              <div className="text-gray-500">{t("No entries")}</div>
             )}
           </div>
           <div>
