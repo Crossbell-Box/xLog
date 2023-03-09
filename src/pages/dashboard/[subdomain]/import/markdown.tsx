@@ -1,10 +1,9 @@
 import { useRouter } from "next/router"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
-import { UniLink } from "~/components/ui/UniLink"
 import { ReactElement, useEffect, useState } from "react"
-import { useGetSite, useGetStat } from "~/queries/site"
-import { useTranslation, Trans } from "next-i18next"
+import { useGetSite } from "~/queries/site"
+import { useTranslation } from "next-i18next"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
@@ -12,7 +11,7 @@ import { useForm } from "react-hook-form"
 import { Input } from "~/components/ui/Input"
 import { Button } from "~/components/ui/Button"
 import { readFiles } from "~/lib/read-files"
-import { getDefaultSlug, getSiteLink } from "~/lib/helpers"
+import { getSiteLink } from "~/lib/helpers"
 import type { NoteMetadata } from "crossbell.js"
 import { ImportPreview } from "~/components/dashboard/ImportPreview"
 import { usePostNotes } from "~/queries/page"
@@ -45,8 +44,7 @@ export default function ImportMarkdownPage() {
 
   const [notes, setNotes] = useState<NoteMetadata[]>()
 
-  form.handleSubmit(async (values) => {
-    console.log(values)
+  const handleSubmit = form.handleSubmit(async (values) => {
     if (notes?.length && site.data?.username && site.data.metadata?.proof) {
       postNotes.mutate({
         siteId: site.data.username,
@@ -63,7 +61,7 @@ export default function ImportMarkdownPage() {
         return {
           title: file.title,
           content: file.content,
-          tags: ["post", "Imported from file", ...file.tags],
+          tags: ["post", ...file.tags],
           sources: ["xlog"],
           attributes: [
             {
@@ -81,7 +79,6 @@ export default function ImportMarkdownPage() {
         }
       })
       setNotes(notes)
-      console.log(files, notes)
     },
   })
 
@@ -94,35 +91,39 @@ export default function ImportMarkdownPage() {
 
   return (
     <DashboardMain title="Import from Markdown files">
-      <div className="min-w-[270px] flex flex-col space-y-4">
-        <Input
-          className="py-1"
-          label={`Select Markdown Files`}
-          id="notes"
-          type="file"
-          accept=".md"
-          multiple={true}
-          {...form.register("files", {})}
-        />
-        <div>
-          <div className="form-label">Preview</div>
-          {notes?.length ? (
-            notes?.map((note) => <ImportPreview key={note.title} note={note} />)
-          ) : (
-            <div className="text-gray-500">No files chosen</div>
-          )}
+      <form onSubmit={handleSubmit}>
+        <div className="min-w-[270px] flex flex-col space-y-4">
+          <Input
+            className="py-1"
+            label={`Select Markdown Files`}
+            id="notes"
+            type="file"
+            accept=".md"
+            multiple={true}
+            {...form.register("files", {})}
+          />
+          <div>
+            <div className="form-label">Preview</div>
+            {notes?.length ? (
+              notes?.map((note) => (
+                <ImportPreview key={note.title} note={note} />
+              ))
+            ) : (
+              <div className="text-gray-500">No files chosen</div>
+            )}
+          </div>
+          <div>
+            <Button
+              isAutoWidth={true}
+              type="submit"
+              isLoading={site.isLoading || postNotes.isLoading}
+              disabled={!notes?.length}
+            >
+              {t("Import")}
+            </Button>
+          </div>
         </div>
-        <div>
-          <Button
-            isAutoWidth={true}
-            type="submit"
-            isLoading={site.isLoading || postNotes.isLoading}
-            disabled={!notes?.length}
-          >
-            {t("Import")}
-          </Button>
-        </div>
-      </div>
+      </form>
     </DashboardMain>
   )
 }
