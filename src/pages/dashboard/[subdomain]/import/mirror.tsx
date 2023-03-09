@@ -16,6 +16,7 @@ import type { NoteMetadata } from "crossbell.js"
 import { ImportPreview } from "~/components/dashboard/ImportPreview"
 import { usePostNotes } from "~/queries/page"
 import { toast } from "react-hot-toast"
+import { useGetMirrorXyz } from "~/queries/page"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -37,49 +38,42 @@ export default function ImportMarkdownPage() {
   const form = useForm({
     defaultValues: {
       type: "post",
-      files: [],
     },
   })
   const postNotes = usePostNotes()
+  const mirrorXyz = useGetMirrorXyz({
+    address: site.data?.metadata?.owner,
+  })
 
-  const [notes, setNotes] = useState<NoteMetadata[]>()
+  const notes = mirrorXyz?.data?.map((note) => ({
+    title: note.title,
+    content: note.content,
+    tags: ["post", ...note.tags],
+    sources: ["xlog"],
+    attributes: [
+      {
+        trait_type: "xlog_slug",
+        value: note.slug,
+      },
+    ],
+    date_published: note.date_published,
+    external_urls: [
+      `${getSiteLink({
+        subdomain,
+        domain: site.data?.custom_domain,
+      })}/${encodeURIComponent(note.slug)}`,
+      ...note.external_urls,
+    ],
+  }))
 
   const handleSubmit = form.handleSubmit(async (values) => {
     if (notes?.length && site.data?.username && site.data.metadata?.proof) {
       postNotes.mutate({
         siteId: site.data.username,
         characterId: site.data.metadata.proof,
-        notes,
+        notes: notes,
       })
     }
-  })
-
-  form.register("files", {
-    onChange: async (e) => {
-      const files = await readFiles(e.target.files)
-      const notes = files.map((file) => {
-        return {
-          title: file.title,
-          content: file.content,
-          tags: ["post", ...file.tags],
-          sources: ["xlog"],
-          attributes: [
-            {
-              trait_type: "xlog_slug",
-              value: file.slug,
-            },
-          ],
-          date_published: file.date_published,
-          external_urls: [
-            `${getSiteLink({
-              subdomain,
-              domain: site.data?.custom_domain,
-            })}/${encodeURIComponent(file.slug)}`,
-          ],
-        }
-      })
-      setNotes(notes)
-    },
   })
 
   useEffect(() => {
@@ -90,22 +84,13 @@ export default function ImportMarkdownPage() {
   }, [postNotes.isSuccess, form])
 
   return (
-    <DashboardMain title="Import from Markdown files">
+    <DashboardMain title="Import from Mirror.xyz">
       <form onSubmit={handleSubmit}>
         <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-4">
-          <Input
-            className="py-1"
-            label={`Select Markdown Files`}
-            id="notes"
-            type="file"
-            accept=".md"
-            multiple={true}
-            {...form.register("files", {})}
-          />
           <div>
-            <div className="form-label">Preview</div>
+            <div className="form-label">Preview your entries on Mirror.xyz</div>
             {notes?.length ? (
-              notes?.map((note) => (
+              notes?.map((note: NoteMetadata) => (
                 <ImportPreview key={note.title} note={note} />
               ))
             ) : (
@@ -116,7 +101,9 @@ export default function ImportMarkdownPage() {
             <Button
               isAutoWidth={true}
               type="submit"
-              isLoading={site.isLoading || postNotes.isLoading}
+              isLoading={
+                site.isLoading || mirrorXyz.isLoading || postNotes.isLoading
+              }
               disabled={!notes?.length}
             >
               {t("Import")}
@@ -130,6 +117,6 @@ export default function ImportMarkdownPage() {
 
 ImportMarkdownPage.getLayout = (page: ReactElement) => {
   return (
-    <DashboardLayout title="Import from Markdown files">{page}</DashboardLayout>
+    <DashboardLayout title="Import from Mirror.xyz">{page}</DashboardLayout>
   )
 }

@@ -41,7 +41,7 @@ export default function ImportPage() {
 
   return (
     <DashboardMain title="Import">
-      <div className="min-w-[270px] flex flex-col space-y-4">
+      <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-4">
         {options.map((option) => (
           <UniLink
             className="prose p-6 bg-slate-100 rounded-lg relative"

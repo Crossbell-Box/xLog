@@ -19,6 +19,7 @@ import { useContract } from "@crossbell/contract"
 import * as pageModel from "~/models/page.model"
 
 import { useUnidata } from "./unidata"
+import { getDefaultSlug } from "~/lib/helpers"
 
 export const useGetPagesBySiteLite = (
   input: Parameters<typeof pageModel.getPagesBySite>[0],
@@ -250,5 +251,43 @@ export function useGetSummary(input: { cid?: string; lang?: string }) {
       cid: input.cid,
       lang: input.lang,
     })
+  })
+}
+
+export function useGetMirrorXyz(input: { address: string }) {
+  return useQuery(["getMirror", input.address], async () => {
+    if (!input.address) {
+      return null
+    }
+    const response = await (
+      await fetch(
+        "/api/import/mirror.xyz?" +
+          new URLSearchParams({
+            ...input,
+          } as any),
+      )
+    ).json()
+
+    return response?.data?.projectFeed?.posts?.map((post: any) => {
+      return {
+        title: post.title,
+        date_published: new Date(
+          post.publishedAtTimestamp * 1000,
+        ).toISOString(),
+        slug: getDefaultSlug(post.title, post.digest),
+        tags: ["Mirror.xyz"],
+        content: post.body,
+        external_urls: [`https://mirror.xyz/${input.address}/${post.digest}`],
+      }
+    }) as {
+      title: string
+      type: string
+      size: number
+      date_published: string
+      slug: string
+      tags: string[]
+      content: string
+      external_urls: string[]
+    }[]
   })
 }

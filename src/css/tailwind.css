@@ -259,7 +259,6 @@ textarea.input {
   @apply mb-2;
   @apply font-bold;
   @apply text-gray-700;
-  @apply capitalize;
 }
 
 .post-status-circle {
