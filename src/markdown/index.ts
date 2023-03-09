@@ -89,14 +89,16 @@ export const renderPageContent = (
       .use(() => (tree) => {
         env.toc = toc(tree, { tight: true, ordered: true })
       })
-      .use(remarkGfm, {})
+      .use(remarkGfm, {
+        singleTilde: false,
+      })
       .use(remarkCallout)
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
       .use(remarkYoutube)
-      .use(remarkMath)
+      // .use(remarkMath)
       .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeKatex)
+      // .use(rehypeKatex) // Disabled due to possible $ parsing errors.
       .use(rehypeStringify)
       .use(rehypeRaw)
       .use(rehypeImage, { env })
