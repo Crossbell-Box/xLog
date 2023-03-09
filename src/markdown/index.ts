@@ -30,6 +30,7 @@ import { Mention } from "~/components/ui/Mention"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
+import remarkBreaks from "remark-breaks"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -72,6 +73,7 @@ export const renderPageContent = (
   try {
     result = unified()
       .use(remarkParse)
+      .use(remarkBreaks)
       .use(remarkFrontmatter, ["yaml"])
       .use(() => (tree) => {
         const yaml = tree.children.find((node) => node.type === "yaml")
