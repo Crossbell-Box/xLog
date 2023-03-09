@@ -145,5 +145,7 @@
   "Select Markdown Files": "选择 Markdown 文件",
   "No files chosen": "未选择文件",
   "No entries": "无条目",
-  "Preview your Mirror.xyz entries": "预览你的 Mirror.xyz 条目"
+  "Preview your Mirror.xyz entries": "预览你的 Mirror.xyz 条目",
+  "Please select .md files, multiple files are supported, and front matter is supported.":
+    "请选择 .md 文件，支持多个文件，支持 front matter。"
 }
