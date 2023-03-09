@@ -260,7 +260,7 @@ export const PagesManager: React.FC<{
               published: false,
               publishedAt: (
                 pageContent.frontMatter.date ||
-                file.lastModifiedDate ||
+                file.lastModified ||
                 new Date()
               ).toISOString(),
               slug:

@@ -32,7 +32,7 @@ export const getNoteSlug = (note: NoteEntity) => {
   )?.toLowerCase?.()
 }
 
-export const getDefaultSlug = (title: string, id: string) => {
+export const getDefaultSlug = (title: string, id?: string) => {
   return (
     pinyin(title as string, {
       style: pinyin.STYLE_NORMAL,
@@ -41,6 +41,6 @@ export const getDefaultSlug = (title: string, id: string) => {
       ?.map((word) => word.trim())
       ?.filter((word) => word)
       ?.join("-")
-      ?.replace(/\s+/g, "-") || id.replace(`local-`, "")
+      ?.replace(/\s+/g, "-") || id?.replace(`local-`, "")
   )
 }

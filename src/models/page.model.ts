@@ -2,7 +2,12 @@ import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
 import unidata from "~/queries/unidata.server"
 import { indexer } from "@crossbell/indexer"
-import { NoteEntity, CharacterEntity, ListResponse } from "crossbell.js"
+import {
+  NoteEntity,
+  CharacterEntity,
+  ListResponse,
+  NoteMetadata,
+} from "crossbell.js"
 import { getStorage, getKeys } from "~/lib/storage"
 import axios from "axios"
 import { toGateway } from "~/lib/ipfs-parser"
@@ -57,7 +62,6 @@ export async function createOrUpdatePage(
   customUnidata?: Unidata,
   newbieToken?: string,
 ) {
-  console.log("isPost", input.isPost)
   if (!input.published) {
     return await (customUnidata || unidata).notes.set(
       {
@@ -123,6 +127,22 @@ export async function createOrUpdatePage(
     {
       newbieToken,
     },
+  )
+}
+
+export async function postNotes(
+  input: {
+    siteId: string
+    characterId: string
+    notes: NoteMetadata[]
+  },
+  contract?: Contract,
+) {
+  return contract?.postNotes(
+    input.notes.map((note) => ({
+      characterId: input.characterId,
+      metadataOrUri: note,
+    })),
   )
 }
 

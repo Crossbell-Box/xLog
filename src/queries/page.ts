@@ -14,6 +14,7 @@ import {
   useNoteLikeCount,
 } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
+import { useContract } from "@crossbell/contract"
 
 import * as pageModel from "~/models/page.model"
 
@@ -129,6 +130,22 @@ export function useCreateOrUpdatePage() {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["getPagesBySite", variables.siteId])
         queryClient.invalidateQueries(["getPage", variables.pageId])
+      },
+    },
+  )
+  return mutation
+}
+
+export function usePostNotes() {
+  const queryClient = useQueryClient()
+  const contract = useContract()
+  const mutation = useMutation(
+    async (payload: Parameters<typeof pageModel.postNotes>[0]) => {
+      return pageModel.postNotes(payload, contract)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(["getPagesBySite", variables.siteId])
       },
     },
   )

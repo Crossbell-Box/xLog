@@ -124,6 +124,13 @@ export function DashboardLayout({
       text: isEventsAllRead ? "Events" : "New Events",
     },
     {
+      href: `/dashboard/${subdomain}/import`,
+      isActive: ({ pathname }) =>
+        pathname.startsWith(`/dashboard/${subdomain}/import`),
+      icon: "i-bi-hdd",
+      text: "Import",
+    },
+    {
       href: `/dashboard/${subdomain}/settings/general`,
       isActive: ({ pathname }) =>
         pathname.startsWith(`/dashboard/${subdomain}/settings`),
