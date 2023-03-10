@@ -213,7 +213,7 @@ export const SiteHeader: React.FC<{
                 <div className="xlog-site-name text-3xl font-bold text-zinc-900 leading-snug">
                   {site?.name}
                 </div>
-                <div className="ml-8 space-x-2 flex items-center">
+                <div className="ml-8 space-x-6 flex items-center">
                   <div className="relative inline-block align-middle">
                     <Menu
                       target={
@@ -245,36 +245,30 @@ export const SiteHeader: React.FC<{
                       }
                     />
                   </div>
-                  {moreMenuItems.map((item) => {
-                    if (item.out) {
-                      return (
-                        <Button
-                          variant="text"
-                          aria-label={item.text}
-                          key={item.text}
-                          className="-mx-2"
-                          onClick={() => window.open(item.url, "_blank")}
-                        >
-                          <span className="fill-gray-500 flex w-6 h-6">
-                            {item.icon}
-                          </span>
-                        </Button>
-                      )
-                    } else {
-                      return null
-                    }
-                  })}
-                  {/* <Button
-                    variant="text"
-                    aria-label={"Support"}
-                    key={t("Support")}
-                    className="-mx-2"
-                  >
-                    <span className="text-red-400 flex w-6 h-6">
-                      <HeartIcon />
-                    </span>
-                  </Button> */}
-                  <FollowingButton site={site} />
+                  <div>
+                    {moreMenuItems.map((item) => {
+                      if (item.out) {
+                        return (
+                          <Button
+                            variant="text"
+                            aria-label={item.text}
+                            key={item.text}
+                            className="-mx-2"
+                            onClick={() => window.open(item.url, "_blank")}
+                          >
+                            <span className="fill-gray-500 flex w-6 h-6">
+                              {item.icon}
+                            </span>
+                          </Button>
+                        )
+                      } else {
+                        return null
+                      }
+                    })}
+                  </div>
+                  <div>
+                    <FollowingButton site={site} />
+                  </div>
                 </div>
               </div>
               {site?.bio && (
