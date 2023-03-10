@@ -195,20 +195,20 @@ export const SiteHeader: React.FC<{
       </div>
       <div className="px-5 max-w-screen-md mx-auto h-full relative flex items-center flex-col">
         <div className="mb-auto"></div>
-        <div className="flex py-10 w-full">
+        <div className="flex py-12 w-full">
           <div className="xlog-site-info flex space-x-6 items-center w-full">
             {site?.avatars?.[0] && (
               <Avatar
                 className="xlog-site-icon"
                 images={[getUserContentsUrl(site?.avatars?.[0])]}
-                size={110}
+                size={120}
                 name={site?.name}
                 imageRef={avatarRef}
               />
             )}
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <div className="xlog-site-name text-4xl font-bold text-zinc-900 leading-snug">
+                <div className="xlog-site-name text-3xl font-bold text-zinc-900 leading-snug">
                   {site?.name}
                 </div>
                 <div className="ml-8 space-x-2 flex items-center">
@@ -267,17 +267,17 @@ export const SiteHeader: React.FC<{
               </div>
               {site?.bio && (
                 <div
-                  className="xlog-site-description text-gray-500 leading-snug my-1"
+                  className="xlog-site-description text-gray-500 leading-snug my-3"
                   dangerouslySetInnerHTML={{ __html: site?.description || "" }}
                 ></div>
               )}
-              <div className="xlog-site-others text-sm">
+              <div className="xlog-site-others">
                 <FollowingCount siteId={site?.username} />
               </div>
             </div>
           </div>
         </div>
-        <div className="text-sm text-gray-500 flex items-center justify-between w-full mt-auto">
+        <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
           <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto font-medium">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />

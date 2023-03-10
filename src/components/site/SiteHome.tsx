@@ -44,7 +44,7 @@ export const SiteHome: React.FC<{
                   className="xlog-post sm:hover:bg-hover bg-white transition-all px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
                 >
                   <div className="flex-1 flex justify-center flex-col w-full min-w-0">
-                    <h3 className="xlog-post-title text-2xl font-bold">
+                    <h3 className="xlog-post-title text-2xl font-bold text-zinc-700">
                       {post.title}
                     </h3>
                     <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">

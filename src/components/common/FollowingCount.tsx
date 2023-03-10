@@ -93,12 +93,12 @@ export const FollowingCount: React.FC<{
       <Button
         variant="text"
         className={
-          "xlog-site-followers align-middle text-zinc-500 text-sm -ml-2" +
+          "xlog-site-followers align-middle text-zinc-500 -ml-2" +
           (disableList ? "" : " cursor-pointer")
         }
         onClick={() => setIsFollowListOpen(true)}
       >
-        <span className="font-bold text-zinc-700 pr-[2px]">
+        <span className="font-medium text-zinc-700 pr-[2px]">
           {subscriptions.data?.total || 0}
         </span>{" "}
         {t("Followers")}
@@ -106,12 +106,12 @@ export const FollowingCount: React.FC<{
       <Button
         variant="text"
         className={
-          "xlog-site-followings align-middle text-zinc-500 text-sm ml-3" +
+          "xlog-site-followings align-middle text-zinc-500 ml-3" +
           (disableList ? "" : " cursor-pointer")
         }
         onClick={() => setIsToFollowListOpen(true)}
       >
-        <span className="font-bold text-zinc-700 pr-[2px]">
+        <span className="font-medium text-zinc-700 pr-[2px]">
           {toSubscriptions.data?.total || 0}
         </span>{" "}
         {t("Followings")}
