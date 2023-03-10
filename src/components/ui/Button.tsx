@@ -25,6 +25,7 @@ type ButtonProps = {
   isAutoWidth?: boolean
   variant?: Variant
   variantColor?: VariantColor
+  outlineColor?: VariantColor
   size?: "sm" | "xl" | "2xl"
   rounded?: "full" | "lg"
 }
@@ -42,6 +43,7 @@ export const Button = React.forwardRef<
     isBlock,
     variant,
     variantColor,
+    outlineColor,
     size,
     rounded,
     isAutoWidth,
@@ -61,6 +63,7 @@ export const Button = React.forwardRef<
         isLoading && "is-loading",
         isBlock && `is-block`,
         variantColor && `is-${variantColor}`,
+        variant === "outline" && outlineColor && `is-outline-${outlineColor}`,
         isDisabled && `is-disabled`,
         isAutoWidth && `is-auto-width`,
         size && `is-${size}`,

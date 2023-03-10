@@ -171,6 +171,11 @@ a {
   @apply bg-gray-400 hover:bg-gray-500 focus:bg-gray-500;
 }
 
+.button.is-outline-gray {
+  @apply text-gray-500 hover:text-gray-600 focus:text-gray-600;
+  @apply border-gray-400 hover:border-gray-500 focus:border-gray-500;
+}
+
 .button.is-gradient {
   @apply hover:bg-gradient-to-br from-[#FF4D4D] to-[#F9CB28];
   @apply hover:text-white;

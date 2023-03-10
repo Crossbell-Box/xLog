@@ -63,7 +63,7 @@ export const FollowingButton: React.FC<{
 
   return (
     <Button
-      variant={variant}
+      variant={subscription.data ? "outline" : variant}
       onClick={handleClickSubscribe}
       className={cn(className, "align-middle space-x-1 group")}
       isLoading={
@@ -76,7 +76,7 @@ export const FollowingButton: React.FC<{
       }
       size={size}
       aria-label="follow"
-      variantColor={subscription.data ? "gray" : undefined}
+      outlineColor="gray"
       isAutoWidth
     >
       <span className="i-bxs:bell"></span>

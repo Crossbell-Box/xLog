@@ -19,6 +19,7 @@ import { useState, useRef, useEffect, RefObject } from "react"
 import chroma from "chroma-js"
 import { Menu } from "~/components/ui/Menu"
 import { useTranslation } from "next-i18next"
+import { HeartIcon } from "@heroicons/react/24/solid"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -53,6 +54,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
 export const SiteHeader: React.FC<{
   site?: Profile | undefined | null
 }> = ({ site }) => {
+  const { t } = useTranslation("site")
   const leftLinks: HeaderLinkType[] = site?.navigation?.find(
     (nav) => nav.url === "/",
   )
@@ -248,7 +250,7 @@ export const SiteHeader: React.FC<{
                       return (
                         <Button
                           variant="text"
-                          aria-label="more"
+                          aria-label={item.text}
                           key={item.text}
                           className="-mx-2"
                           onClick={() => window.open(item.url, "_blank")}
@@ -262,6 +264,16 @@ export const SiteHeader: React.FC<{
                       return null
                     }
                   })}
+                  {/* <Button
+                    variant="text"
+                    aria-label={"Support"}
+                    key={t("Support")}
+                    className="-mx-2"
+                  >
+                    <span className="text-red-400 flex w-6 h-6">
+                      <HeartIcon />
+                    </span>
+                  </Button> */}
                   <FollowingButton site={site} />
                 </div>
               </div>
@@ -278,7 +290,7 @@ export const SiteHeader: React.FC<{
           </div>
         </div>
         <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
-          <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto font-medium">
+          <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}
