@@ -65,7 +65,7 @@ export const Button = React.forwardRef<
         isAutoWidth && `is-auto-width`,
         size && `is-${size}`,
         `is-${variant || "primary"}`,
-        rounded === "full" ? "rounded-full" : "rounded-md",
+        rounded === "full" ? "rounded-full" : "rounded-lg",
       )}
     >
       {children}

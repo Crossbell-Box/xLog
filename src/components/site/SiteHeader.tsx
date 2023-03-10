@@ -62,18 +62,18 @@ export const SiteHeader: React.FC<{
   const moreMenuItems = [
     {
       text: "View on xChar",
-      icon: <XCharLogo className="w-4 h-4" />,
+      icon: <XCharLogo className="w-full h-full" />,
       url: `${CSB_XCHAR}/${site?.username}`,
     },
     {
       text: "View on xFeed",
-      icon: <XFeedLogo className="w-4 h-4" />,
+      icon: <XFeedLogo className="w-full h-full" />,
       url: `${CSB_IO}/@${site?.username}`,
     },
     {
       text: "View on Hoot It",
       icon: (
-        <div className="w-4 h-4">
+        <div className="w-full h-full">
           <Image
             alt="Hoot It"
             src="/assets/hoot.svg"
@@ -93,7 +93,7 @@ export const SiteHeader: React.FC<{
     {
       text: "JSON Feed",
       icon: (
-        <div className="w-4 h-4">
+        <div className="w-full h-full">
           <Image
             alt="JSON Feed"
             src="/assets/json-feed.png"
@@ -107,8 +107,9 @@ export const SiteHeader: React.FC<{
     },
     {
       text: "RSS",
-      icon: <RssIcon className="w-4 h-4 text-[#ee832f]" />,
+      icon: <RssIcon className="w-full h-full text-[#ee832f]" />,
       url: `/feed/xml`,
+      out: true,
     },
   ]
 
@@ -205,29 +206,21 @@ export const SiteHeader: React.FC<{
                 imageRef={avatarRef}
               />
             )}
-            <div>
-              <div className="xlog-site-name text-3xl font-bold text-zinc-900 leading-snug">
-                {site?.name}
-              </div>
-              {site?.bio && (
-                <div
-                  className="xlog-site-description text-gray-500 text-sm leading-snug my-1"
-                  dangerouslySetInnerHTML={{ __html: site?.description || "" }}
-                ></div>
-              )}
-              <div className="xlog-site-others text-sm">
-                <FollowingCount siteId={site?.username} />
-                <div className="sm:inline-block">
-                  <FollowingButton
-                    site={site}
-                    className="text-accent mr-1 sm:ml-3 sm:mr-1"
-                    variant="text"
-                  />
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <div className="xlog-site-name text-4xl font-bold text-zinc-900 leading-snug">
+                  {site?.name}
+                </div>
+                <div className="ml-8 space-x-2 flex items-center">
                   <div className="relative inline-block align-middle">
                     <Menu
                       target={
-                        <Button variant="text" aria-label="more">
-                          <EllipsisHorizontalIcon className="w-5 h-5" />
+                        <Button
+                          variant="text"
+                          aria-label="more"
+                          className="-mx-2"
+                        >
+                          <EllipsisHorizontalIcon className="w-5 h-5 text-zinc-600" />
                         </Button>
                       }
                       dropdown={
@@ -239,7 +232,7 @@ export const SiteHeader: React.FC<{
                                 href={item.url}
                                 className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-hover"
                               >
-                                <span className="fill-gray-500 flex">
+                                <span className="fill-gray-500 flex w-4 h-4">
                                   {item.icon}
                                 </span>
                                 <span>{item.text}</span>
@@ -250,7 +243,36 @@ export const SiteHeader: React.FC<{
                       }
                     />
                   </div>
+                  {moreMenuItems.map((item) => {
+                    if (item.out) {
+                      return (
+                        <Button
+                          variant="text"
+                          aria-label="more"
+                          key={item.text}
+                          className="-mx-2"
+                          onClick={() => window.open(item.url, "_blank")}
+                        >
+                          <span className="fill-gray-500 flex w-6 h-6">
+                            {item.icon}
+                          </span>
+                        </Button>
+                      )
+                    } else {
+                      return null
+                    }
+                  })}
+                  <FollowingButton site={site} />
                 </div>
+              </div>
+              {site?.bio && (
+                <div
+                  className="xlog-site-description text-gray-500 leading-snug my-1"
+                  dangerouslySetInnerHTML={{ __html: site?.description || "" }}
+                ></div>
+              )}
+              <div className="xlog-site-others text-sm">
+                <FollowingCount siteId={site?.username} />
               </div>
             </div>
           </div>

@@ -76,17 +76,17 @@ export const FollowingButton: React.FC<{
       }
       size={size}
       aria-label="follow"
+      variantColor={subscription.data ? "gray" : undefined}
+      isAutoWidth
     >
       <span className="i-bxs:bell"></span>
       {subscription.data ? (
         <>
-          <span className="pr-1 group-hover:hidden w-16">{t("Following")}</span>
-          <span className="pr-1 hidden group-hover:block w-16">
-            {t("Unfollow")}
-          </span>
+          <span className="group-hover:hidden">{t("Following")}</span>
+          <span className="hidden group-hover:block">{t("Unfollow")}</span>
         </>
       ) : (
-        <span className="pr-1">{t("Follow")}</span>
+        <span className="">{t("Follow")}</span>
       )}
     </Button>
   )

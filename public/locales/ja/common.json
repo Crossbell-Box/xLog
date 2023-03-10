@@ -47,5 +47,8 @@
   "Upgrade to Wallet": "ウォレットにアップグレード",
   "Disconnect": "中断する",
   "Loading": "読み込み中",
-  "Showcase": "ショーケース"
+  "Showcase": "ショーケース",
+  "AI-generated summary": "AIが生成した要約",
+  "Generating": "生成中",
+  "Show more": "もっと表示する"
 }
