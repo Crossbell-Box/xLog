@@ -19,7 +19,6 @@ import { useState, useRef, useEffect, RefObject } from "react"
 import chroma from "chroma-js"
 import { Menu } from "~/components/ui/Menu"
 import { useTranslation } from "next-i18next"
-import { useMediaQuery } from "~/hooks/useMediaQuery"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -55,7 +54,6 @@ export const SiteHeader: React.FC<{
   site?: Profile | undefined | null
 }> = ({ site }) => {
   const { t } = useTranslation("site")
-  const isSm = useMediaQuery("(min-width: 640px)")
   const leftLinks: HeaderLinkType[] = site?.navigation?.find(
     (nav) => nav.url === "/",
   )
@@ -202,9 +200,9 @@ export const SiteHeader: React.FC<{
           <div className="xlog-site-info flex space-x-6 items-center w-full">
             {site?.avatars?.[0] && (
               <Avatar
-                className="xlog-site-icon"
+                className="xlog-site-icon max-w-[80px] max-h-[80px] sm:max-w-none sm:max-h-none"
                 images={[getUserContentsUrl(site?.avatars?.[0])]}
-                size={isSm ? 120 : 80}
+                size={120}
                 name={site?.name}
                 imageRef={avatarRef}
               />
