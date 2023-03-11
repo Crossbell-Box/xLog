@@ -19,7 +19,7 @@ import { useState, useRef, useEffect, RefObject } from "react"
 import chroma from "chroma-js"
 import { Menu } from "~/components/ui/Menu"
 import { useTranslation } from "next-i18next"
-import { HeartIcon } from "@heroicons/react/24/solid"
+import { useMediaQuery } from "~/hooks/useMediaQuery"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -55,6 +55,7 @@ export const SiteHeader: React.FC<{
   site?: Profile | undefined | null
 }> = ({ site }) => {
   const { t } = useTranslation("site")
+  const isSm = useMediaQuery("(min-width: 640px)")
   const leftLinks: HeaderLinkType[] = site?.navigation?.find(
     (nav) => nav.url === "/",
   )
@@ -203,17 +204,17 @@ export const SiteHeader: React.FC<{
               <Avatar
                 className="xlog-site-icon"
                 images={[getUserContentsUrl(site?.avatars?.[0])]}
-                size={120}
+                size={isSm ? 120 : 80}
                 name={site?.name}
                 imageRef={avatarRef}
               />
             )}
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
-                <div className="xlog-site-name text-3xl font-bold text-zinc-900 leading-snug">
+                <div className="xlog-site-name text-2xl sm:text-3xl font-bold text-zinc-900 leading-snug break-words min-w-0">
                   {site?.name}
                 </div>
-                <div className="ml-8 space-x-6 flex items-center">
+                <div className="ml-4 sm:ml-8 space-x-3 sm:space-x-6 flex items-center">
                   <div className="xlog-site-more-menu relative inline-block align-middle">
                     <Menu
                       target={
@@ -245,7 +246,7 @@ export const SiteHeader: React.FC<{
                       }
                     />
                   </div>
-                  <div className="xlog-site-more-out">
+                  <div className="xlog-site-more-out hidden sm:block">
                     {moreMenuItems.map((item) => {
                       if (item.out) {
                         return (
@@ -273,7 +274,7 @@ export const SiteHeader: React.FC<{
               </div>
               {site?.bio && (
                 <div
-                  className="xlog-site-description text-gray-500 leading-snug my-3"
+                  className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base"
                   dangerouslySetInnerHTML={{ __html: site?.description || "" }}
                 ></div>
               )}

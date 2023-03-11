@@ -79,7 +79,7 @@ export default function EventsPage() {
   return (
     <DashboardMain title="Events">
       <div className="min-w-[270px] flex flex-col xl:flex-row space-y-8 xl:space-y-0">
-        <div className="grid gap-4 grid-cols-2 sm:grid-cols-4">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-4">
           {pages.data?.pages[0]?.list.map((item) => {
             let status
             if (item.metadata?.frontMatter?.EndTime < new Date()) {
