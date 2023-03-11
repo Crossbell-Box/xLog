@@ -214,7 +214,7 @@ export const SiteHeader: React.FC<{
                   {site?.name}
                 </div>
                 <div className="ml-8 space-x-6 flex items-center">
-                  <div className="relative inline-block align-middle">
+                  <div className="xlog-site-more-menu relative inline-block align-middle">
                     <Menu
                       target={
                         <Button
@@ -245,7 +245,7 @@ export const SiteHeader: React.FC<{
                       }
                     />
                   </div>
-                  <div>
+                  <div className="xlog-site-more-out">
                     {moreMenuItems.map((item) => {
                       if (item.out) {
                         return (
@@ -266,7 +266,7 @@ export const SiteHeader: React.FC<{
                       }
                     })}
                   </div>
-                  <div>
+                  <div className="xlog-site-follow-button">
                     <FollowingButton site={site} />
                   </div>
                 </div>
@@ -277,7 +277,7 @@ export const SiteHeader: React.FC<{
                   dangerouslySetInnerHTML={{ __html: site?.description || "" }}
                 ></div>
               )}
-              <div className="xlog-site-others">
+              <div className="xlog-site-follow-count">
                 <FollowingCount siteId={site?.username} />
               </div>
             </div>
