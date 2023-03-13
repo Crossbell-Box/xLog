@@ -161,7 +161,9 @@ const expandPage = async (page: Note, useStat?: boolean) => {
       }
     }
     page.cover = rendered.cover
-    page.metadata!.frontMatter = rendered.frontMatter
+    if (page.metadata) {
+      page.metadata.frontMatter = rendered.frontMatter
+    }
   }
   page.slug = encodeURIComponent(
     page.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||

@@ -77,13 +77,15 @@ export const renderPageContent = (
       .use(remarkFrontmatter, ["yaml"])
       .use(() => (tree) => {
         const yaml = tree.children.find((node) => node.type === "yaml")
-        try {
-          env.frontMatter = jsYaml.load((yaml as any)?.value) as Record<
-            string,
-            any
-          >
-        } catch (e) {
-          console.log(e)
+        if ((yaml as any)?.value) {
+          try {
+            env.frontMatter = jsYaml.load((yaml as any)?.value) as Record<
+              string,
+              any
+            >
+          } catch (e) {
+            console.error(e)
+          }
         }
       })
       .use(() => (tree) => {

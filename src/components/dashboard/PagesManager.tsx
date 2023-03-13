@@ -26,6 +26,7 @@ import { renderPageContent } from "~/markdown"
 import { Tooltip } from "../ui/Tooltip"
 import { APP_NAME } from "~/lib/env"
 import { Trans, useTranslation } from "next-i18next"
+import { readFiles } from "~/lib/read-files"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -242,45 +243,28 @@ export const PagesManager: React.FC<{
     input.type = "file"
     input.accept = ".md"
     input.addEventListener("change", async (e: any) => {
-      const file = e.target?.files?.[0]
-      const reader = new FileReader()
-      reader.readAsText(file, "UTF-8")
-      reader.onload = (evt) => {
-        if (evt.target?.result) {
-          const pageContent = renderPageContent(evt.target.result as string)
-
-          const id = nanoid()
-          const key = `draft-${subdomain}-local-${id}`
-          const tags =
-            pageContent.frontMatter.tags || pageContent.frontMatter.categories
-          setStorage(key, {
-            date: +new Date(),
-            values: {
-              content: evt.target.result,
-              published: false,
-              publishedAt: (
-                pageContent.frontMatter.date ||
-                file.lastModified ||
-                new Date()
-              ).toISOString(),
-              slug:
-                pageContent.frontMatter.permalink ||
-                file.name.split(".").slice(0, -1).join("."),
-              tags: tags?.join?.(", ") || tags,
-              title: pageContent.frontMatter.title,
-            },
-            isPost: isPost,
-          })
-          queryClient.invalidateQueries(["getPagesBySite", subdomain])
-          router.push(
-            `/dashboard/${subdomain}/editor?id=local-${id}&type=${
-              isPost ? "post" : "page"
-            }`,
-          )
-        }
-      }
-      reader.onerror = (evt) => {
-        toast.error("Error reading file")
+      const file = (await readFiles(e.target?.files))?.[0]
+      if (file) {
+        const id = nanoid()
+        const key = `draft-${subdomain}-local-${id}`
+        setStorage(key, {
+          date: +new Date(),
+          values: {
+            content: file.content,
+            published: false,
+            publishedAt: file.date_published,
+            slug: file.slug,
+            tags: file.tags?.join?.(", "),
+            title: file.title,
+          },
+          isPost: isPost,
+        })
+        queryClient.invalidateQueries(["getPagesBySite", subdomain])
+        router.push(
+          `/dashboard/${subdomain}/editor?id=local-${id}&type=${
+            isPost ? "post" : "page"
+          }`,
+        )
       }
     })
     input.click()
