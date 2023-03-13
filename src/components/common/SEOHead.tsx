@@ -11,7 +11,9 @@ export const SEOHead: React.FC<{
 }> = ({ siteName, title, description, image, icon, site }) => {
   return (
     <Head>
-      <title>{title ? `${title} - ${siteName}` : siteName}</title>
+      <title>
+        {title ? `${title} - ${siteName}` : `${siteName} - Write.Own.Earn.`}
+      </title>
       <meta name="og:site_name" content={siteName} />
       <meta name="og:title" content={title} />
       <meta name="twitter:title" content={title} />

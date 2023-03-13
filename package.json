@@ -1,7 +1,7 @@
 {
   "name": "xlog",
   "private": true,
-  "description": "A publishing platform",
+  "description": "xLog is the best on-chain and open-source blogging community for everyone.",
   "license": "AGPL-3.0",
   "sideEffects": false,
   "scripts": {
