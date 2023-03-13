@@ -498,6 +498,7 @@ export async function getStat({ characterId }: { characterId: string }) {
       indexer.getNotes({
         characterId,
         sources: "xlog",
+        tags: ["post"],
         limit: 0,
       }),
     ])
