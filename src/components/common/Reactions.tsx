@@ -1,4 +1,3 @@
-import { LikeIcon } from "~/components/icons/LikeIcon"
 import {
   useMintPage,
   useGetLikes,
@@ -169,9 +168,12 @@ export const Reactions: React.FC<{
             isLoading={userSite.isLoading || toggleLikePage.isPending}
             ref={likeRef}
           >
-            <LikeIcon
-              className={"mr-1 " + (size === "sm" ? "w-4 h-4" : "w-10 h-10")}
-            />
+            <span
+              className={cn(
+                "i-mingcute:thumb-up-2-fill mr-1",
+                size === "sm" ? "text-base" : "text-[40px]",
+              )}
+            ></span>
             <span>{likeCount}</span>
           </Button>
           {size !== "sm" && (

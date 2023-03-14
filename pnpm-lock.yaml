@@ -18,11 +18,12 @@ specifiers:
   '@headlessui/react': 1.7.12
   '@heroicons/react': 2.0.16
   '@iconify-json/akar-icons': 1.1.13
-  '@iconify-json/bi': 1.1.15
-  '@iconify-json/bxs': 1.1.6
-  '@iconify-json/carbon': 1.1.16
-  '@iconify-json/fluent': 1.1.18
-  '@iconify-json/mdi': 1.1.48
+  '@iconify-json/bi': ^1.1.15
+  '@iconify-json/bxs': ^1.1.6
+  '@iconify-json/carbon': ^1.1.16
+  '@iconify-json/fluent': ^1.1.18
+  '@iconify-json/mdi': ^1.1.50
+  '@iconify-json/mingcute': ^1.1.5
   '@iconify-json/tabler': 1.1.63
   '@monaco-editor/react': 4.4.6
   '@next/bundle-analyzer': 13.2.3
@@ -151,6 +152,12 @@ dependencies:
   '@headlessui/react': 1.7.12_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.16_react@18.2.0
   '@iconify-json/akar-icons': 1.1.13
+  '@iconify-json/bi': 1.1.15
+  '@iconify-json/bxs': 1.1.6
+  '@iconify-json/carbon': 1.1.16
+  '@iconify-json/fluent': 1.1.18
+  '@iconify-json/mdi': 1.1.50
+  '@iconify-json/mingcute': 1.1.5
   '@iconify-json/tabler': 1.1.63
   '@monaco-editor/react': 4.4.6_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
@@ -226,11 +233,6 @@ dependencies:
   wagmi: 0.11.7_osprwltll6etshz2owvseumghu
 
 devDependencies:
-  '@iconify-json/bi': 1.1.15
-  '@iconify-json/bxs': 1.1.6
-  '@iconify-json/carbon': 1.1.16
-  '@iconify-json/fluent': 1.1.18
-  '@iconify-json/mdi': 1.1.48
   '@next/bundle-analyzer': 13.2.3
   '@playwright/test': 1.31.1
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.7
@@ -2788,31 +2790,37 @@ packages:
     resolution: {integrity: sha512-NsbDeTVIYwgPLyAT0UgzuaCl79V65Z+M319BjbdEwdnbDGuaYgmAMBJUIWrnBEVoEg7rtouAuvaZRb3nIYIRcA==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: true
+    dev: false
 
   /@iconify-json/bxs/1.1.6:
     resolution: {integrity: sha512-HTn+klVO4TtO/+2kTcFWFzD71aZr6H8rTybkMjuebYwdTEBlMCnjCu/3xdZr+x3Dtpd81WVwZfkZQk14VgNbRA==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: true
+    dev: false
 
   /@iconify-json/carbon/1.1.16:
     resolution: {integrity: sha512-AD8bcnRSGA0WfcGEass2FbA0sagrUzrpFx5WchuDy3uf7yKBWumdypdQK121DH321fQDl5+zZQ26T6gC9knwUQ==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: true
+    dev: false
 
   /@iconify-json/fluent/1.1.18:
     resolution: {integrity: sha512-tdfnNxTJW39t5FhGzf+LPMJyaW9lTIhVYpHReGbbK7Ivt/GksbbOFpXntUgAgrMqglxSmSOz7u0xBARS1a3waQ==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: true
+    dev: false
 
-  /@iconify-json/mdi/1.1.48:
-    resolution: {integrity: sha512-SKnwyS35W7NJoNhWZ1n1xtarYby1AXAtFKLaecPuNh47yMqNtlRk+BhFyZhX9UDMtibMRgcViu9MNKj9sxq3TQ==}
+  /@iconify-json/mdi/1.1.50:
+    resolution: {integrity: sha512-SgbT5w5eHCdOG74ZWPz7HlTGk6VsifIJhNi6lAsxj/5Nlqt6Cz4LlQmSa9eecU9p075Jub2aAx/o7YI+GCahRQ==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: true
+    dev: false
+
+  /@iconify-json/mingcute/1.1.5:
+    resolution: {integrity: sha512-k2CaSPbi3YXvV2O0U+PLPJzjLF+5WqcqTGc1apEle06tj5GPqAwRjCpaZsHjWo8jYhnmi6YyjXJmS/VX+5Kx9g==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
 
   /@iconify-json/tabler/1.1.63:
     resolution: {integrity: sha512-WvIsUJsil2+U1lPbguzbjG4v5sYqMkHp5P0PDXjwz/3XqS4mlFSicxmtSQcthRdQBbX2hMfXamtvqUYrNc2sCQ==}
