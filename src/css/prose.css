@@ -1,5 +1,6 @@
 .prose {
   @apply text-zinc-600 leading-loose relative;
+  word-break: break-word;
 }
 
 .prose > p {
