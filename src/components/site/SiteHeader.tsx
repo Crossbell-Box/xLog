@@ -214,7 +214,7 @@ export const SiteHeader: React.FC<{
                 <div className="xlog-site-name text-2xl sm:text-3xl font-bold text-zinc-900 leading-snug break-words min-w-0">
                   {site?.name}
                 </div>
-                <div className="ml-4 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 right-0">
+                <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 left-0">
                   <div className="xlog-site-more-menu relative inline-block align-middle">
                     <Menu
                       target={
@@ -283,7 +283,7 @@ export const SiteHeader: React.FC<{
                   dangerouslySetInnerHTML={{ __html: site?.description || "" }}
                 ></div>
               )}
-              <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row">
+              <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row text-sm sm:text-base">
                 <span className="xlog-site-follow-count block sm:inline-block">
                   <FollowingCount siteId={site?.username} />
                 </span>
@@ -295,7 +295,7 @@ export const SiteHeader: React.FC<{
           </div>
         </div>
         <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
-          <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto">
+          <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto text-sm sm:text-base">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}

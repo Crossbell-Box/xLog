@@ -67,7 +67,7 @@ export const FollowingButton: React.FC<{
       onClick={handleClickSubscribe}
       className={cn(
         className,
-        "align-middle space-x-1 group border-accent border",
+        "align-middle space-x-1 group border-accent border text-sm sm:text-base",
         {
           "text-accent": subscription.data,
           "opacity-60": subscription.data,
