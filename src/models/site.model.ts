@@ -520,16 +520,21 @@ export async function tipCharacter(
   },
   contract: Contract,
 ) {
+  const decimals = await contract.getMiraTokenDecimals() // TODO
   return await contract?.tipCharacter(
     input.fromCharacterId,
     input.toCharacterId,
-    input.amount,
+    BigInt(input.amount) * BigInt(10) ** BigInt(decimals?.data || 18),
   )
 }
 
-export async function getTips(input: { toCharacterId: string | number }) {
+export async function getTips(
+  input: { toCharacterId: string | number },
+  contract: Contract,
+) {
+  const address = await contract.getMiraTokenAddress() // TODO
   return await indexer?.getTips({
     toCharacterId: input.toCharacterId,
-    tokenAddress: "0xAfB95CC0BD320648B3E8Df6223d9CDD05EbeDC64",
+    tokenAddress: address?.data || "0xAfB95CC0BD320648B3E8Df6223d9CDD05EbeDC64",
   })
 }

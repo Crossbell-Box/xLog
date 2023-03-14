@@ -325,12 +325,16 @@ export function useTipCharacter() {
 }
 
 export const useGetTips = (data: { toCharacterId?: string }) => {
+  const contract = useContract()
   return useQuery(["getTips", data], async () => {
     if (!data.toCharacterId) {
       return null
     }
-    return siteModel.getTips({
-      toCharacterId: data.toCharacterId,
-    })
+    return siteModel.getTips(
+      {
+        toCharacterId: data.toCharacterId,
+      },
+      contract,
+    )
   })
 }
