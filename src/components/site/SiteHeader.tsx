@@ -19,6 +19,8 @@ import { useState, useRef, useEffect, RefObject } from "react"
 import chroma from "chroma-js"
 import { Menu } from "~/components/ui/Menu"
 import { useTranslation } from "next-i18next"
+import { Tooltip } from "~/components/ui/Tooltip"
+import { PatronButton } from "~/components/common/PatronButton"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -92,7 +94,7 @@ export const SiteHeader: React.FC<{
       url: `${CSB_SCAN}/address/${site?.metadata?.owner}`,
     },
     {
-      text: "JSON Feed",
+      text: "Subscribe to JSON Feed",
       icon: (
         <div className="w-full h-full">
           <Image
@@ -107,7 +109,7 @@ export const SiteHeader: React.FC<{
       url: `/feed`,
     },
     {
-      text: "RSS",
+      text: "Subscribe to RSS",
       icon: <RssIcon className="w-full h-full text-[#ee832f]" />,
       url: `/feed/xml`,
       out: true,
@@ -207,12 +209,12 @@ export const SiteHeader: React.FC<{
                 imageRef={avatarRef}
               />
             )}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 relative">
               <div className="flex items-center justify-between">
                 <div className="xlog-site-name text-2xl sm:text-3xl font-bold text-zinc-900 leading-snug break-words min-w-0">
                   {site?.name}
                 </div>
-                <div className="ml-4 sm:ml-8 space-x-3 sm:space-x-6 flex items-center">
+                <div className="ml-4 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 right-0">
                   <div className="xlog-site-more-menu relative inline-block align-middle">
                     <Menu
                       target={
@@ -236,7 +238,7 @@ export const SiteHeader: React.FC<{
                                 <span className="fill-gray-500 flex w-4 h-4">
                                   {item.icon}
                                 </span>
-                                <span>{item.text}</span>
+                                <span>{t(item.text)}</span>
                               </UniLink>
                             )
                           })}
@@ -248,17 +250,22 @@ export const SiteHeader: React.FC<{
                     {moreMenuItems.map((item) => {
                       if (item.out) {
                         return (
-                          <Button
-                            variant="text"
-                            aria-label={item.text}
+                          <Tooltip
+                            label={t(item.text)}
                             key={item.text}
-                            className="-mx-2"
-                            onClick={() => window.open(item.url, "_blank")}
+                            placement="bottom"
                           >
-                            <span className="fill-gray-500 flex w-6 h-6">
-                              {item.icon}
-                            </span>
-                          </Button>
+                            <Button
+                              variant="text"
+                              aria-label={item.text}
+                              className="-mx-2"
+                              onClick={() => window.open(item.url, "_blank")}
+                            >
+                              <span className="fill-gray-500 flex w-6 h-6">
+                                {item.icon}
+                              </span>
+                            </Button>
+                          </Tooltip>
                         )
                       } else {
                         return null
@@ -276,8 +283,13 @@ export const SiteHeader: React.FC<{
                   dangerouslySetInnerHTML={{ __html: site?.description || "" }}
                 ></div>
               )}
-              <div className="xlog-site-follow-count">
-                <FollowingCount siteId={site?.username} />
+              <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row">
+                <span className="xlog-site-follow-count block sm:inline-block">
+                  <FollowingCount siteId={site?.username} />
+                </span>
+                <span className="xlog-site-patron">
+                  <PatronButton site={site} />
+                </span>
               </div>
             </div>
           </div>

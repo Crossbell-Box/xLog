@@ -14,8 +14,17 @@ export const CharacterCard: React.FC<{
   open?: boolean
   setButtonLoading?: (loading: boolean) => void
   hideFollowButton?: boolean
+  simple?: boolean
   style?: "flat" | "normal"
-}> = ({ siteId, address, open, setButtonLoading, hideFollowButton, style }) => {
+}> = ({
+  siteId,
+  address,
+  open,
+  setButtonLoading,
+  hideFollowButton,
+  simple,
+  style,
+}) => {
   const [firstOpen, setFirstOpen] = useState("")
   const [site, setSite] = useState<Profile>()
   const date = useDate()
@@ -41,8 +50,9 @@ export const CharacterCard: React.FC<{
   return (
     <span
       className={cn(
-        "border-gray-100 rounded-lg space-y-2 text-sm block",
+        "border-gray-100 rounded-lg text-sm block",
         style === "flat" ? "" : "p-4 bg-white shadow-xl",
+        simple ? "space-y-1" : "space-y-2",
       )}
     >
       {site ? (
@@ -69,10 +79,12 @@ export const CharacterCard: React.FC<{
               dangerouslySetInnerHTML={{ __html: site?.description || "" }}
             ></span>
           )}
-          <span className="block">
-            <FollowingCount siteId={site.username} disableList={true} />
-          </span>
-          {site?.date_created && (
+          {!simple && (
+            <span className="block">
+              <FollowingCount siteId={site.username} disableList={true} />
+            </span>
+          )}
+          {!simple && site?.date_created && (
             <span className="block text-gray-500">
               <time dateTime={date.formatToISO(site.date_created)}>
                 {t("joined ago", {

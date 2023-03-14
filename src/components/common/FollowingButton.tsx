@@ -65,10 +65,14 @@ export const FollowingButton: React.FC<{
     <Button
       variant={subscription.data ? "text" : variant}
       onClick={handleClickSubscribe}
-      className={cn(className, "align-middle space-x-1 group", {
-        "text-accent": subscription.data,
-        "-mx-2": subscription.data,
-      })}
+      className={cn(
+        className,
+        "align-middle space-x-1 group border-accent border",
+        {
+          "text-accent": subscription.data,
+          "opacity-60": subscription.data,
+        },
+      )}
       isLoading={
         subscription.data
           ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading

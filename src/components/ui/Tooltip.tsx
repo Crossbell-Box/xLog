@@ -20,6 +20,7 @@ interface Props {
   placement?: Placement
   children: JSX.Element
   className?: string
+  inline?: boolean
 }
 
 export const Tooltip = ({
@@ -27,6 +28,7 @@ export const Tooltip = ({
   label,
   placement = "top",
   className,
+  inline,
 }: Props) => {
   const [open, setOpen] = useState(false)
 
@@ -54,7 +56,7 @@ export const Tooltip = ({
       <div
         ref={refs.setReference}
         {...getReferenceProps()}
-        className="flex items-center"
+        className={cn("items-center", inline ? "inline-flex" : "flex")}
       >
         {children}
       </div>

@@ -9,5 +9,10 @@
   "powered by": "由 <name/> 提供支持",
   "This address is in local editing preview mode and cannot be viewed by the public. The expected online address is:":
     "此地址处于本地编辑预览模式，无法被公众查看。预期的在线地址是：",
-  "Support": "支持"
+  "View on xChar": "在 xChar 上查看",
+  "View on xFeed": "在 xFeed 上查看",
+  "View on Hoot It": "在 Hoot It 上查看",
+  "View on Crossbell Scan": "在 Crossbell Scan 上查看",
+  "Subscribe to JSON Feed": "订阅 JSON Feed",
+  "Subscribe to RSS": "订阅 RSS"
 }

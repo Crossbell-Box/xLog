@@ -2,6 +2,7 @@ import { cn } from "~/lib/utils"
 import React from "react"
 import { UniLink } from "./UniLink"
 import { useTranslation } from "next-i18next"
+import { Tooltip } from "~/components/ui/Tooltip"
 
 export type TabItem = {
   text: string
@@ -9,6 +10,7 @@ export type TabItem = {
   hidden?: boolean
   onClick?: () => void
   active?: boolean
+  tooltip?: string
 }
 
 export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
@@ -25,13 +27,19 @@ export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
             onClick={item.onClick}
             key={item.text}
             className={cn(
-              `border-b-2 inline-flex items-center h-10 whitespace-nowrap`,
+              `border-b-2 inline-flex items-center h-10 whitespace-nowrap cursor-pointer`,
               item.active
                 ? `border-accent text-black font-medium`
                 : `text-gray-500  border-transparent hover:border-gray-300`,
             )}
           >
-            {t(item.text)}
+            {item.tooltip ? (
+              <Tooltip label={item.tooltip}>
+                <>{t(item.text)}</>
+              </Tooltip>
+            ) : (
+              <>{t(item.text)}</>
+            )}
           </UniLink>
         )
       })}
