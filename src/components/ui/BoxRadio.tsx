@@ -43,7 +43,10 @@ export const BoxRadio: React.FC<{
     <div className="grid gap-4 grid-cols-3">
       {items.map((item) => {
         return (
-          <div key={item.value} className="relative w-full min-h-[80px]">
+          <div
+            key={item.value || item.text}
+            className="relative w-full min-h-[80px]"
+          >
             {item.value ? (
               <>
                 <input

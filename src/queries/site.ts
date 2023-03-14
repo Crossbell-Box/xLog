@@ -302,3 +302,35 @@ export const useGetStat = (
     })
   })
 }
+
+export function useTipCharacter() {
+  const queryClient = useQueryClient()
+  const contract = useContract()
+  const mutation = useMutation(
+    async (payload: Parameters<typeof siteModel.tipCharacter>[0]) => {
+      return siteModel.tipCharacter(payload, contract)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getTips",
+          {
+            toCharacterId: variables.toCharacterId,
+          },
+        ])
+      },
+    },
+  )
+  return mutation
+}
+
+export const useGetTips = (data: { toCharacterId?: string }) => {
+  return useQuery(["getTips", data], async () => {
+    if (!data.toCharacterId) {
+      return null
+    }
+    return siteModel.getTips({
+      toCharacterId: data.toCharacterId,
+    })
+  })
+}

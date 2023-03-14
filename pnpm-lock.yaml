@@ -58,7 +58,7 @@ specifiers:
   chroma-js: ^2.4.2
   clsx: 1.2.1
   cross-spawn: 7.0.3
-  crossbell.js: 0.16.7
+  crossbell.js: 0.16.13
   dayjs: 1.11.7
   dotenv: 16.0.3
   emoji-mart: 5.5.2
@@ -163,7 +163,7 @@ dependencies:
   canvas-confetti: 1.6.0
   chroma-js: 2.4.2
   clsx: 1.2.1
-  crossbell.js: 0.16.7
+  crossbell.js: 0.16.13
   dayjs: 1.11.7
   dotenv: 16.0.3
   emoji-mart: 5.5.2
@@ -1676,7 +1676,7 @@ packages:
       canvas-confetti: 1.6.0
       check-password-strength: 2.0.7
       classnames: 2.3.2
-      crossbell.js: 0.16.7
+      crossbell.js: 0.16.13
       detect-browser: 5.3.0
       embla-carousel-react: 7.1.0_react@18.2.0
       immer: 9.0.19
@@ -1691,7 +1691,6 @@ packages:
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
-      - node-fetch
       - react-dom
       - react-native
       - supports-color
@@ -1708,12 +1707,11 @@ packages:
     dependencies:
       '@crossbell/indexer': 0.0.41_mesmmewwopkmkl7hvhwkhlmhve
       '@crossbell/util-hooks': 0.0.41_biqbaboplfbrettd7655fr4n2y
-      crossbell.js: 0.16.7
+      crossbell.js: 0.16.13
       react: 18.2.0
       wagmi: 0.11.7_osprwltll6etshz2owvseumghu
     transitivePeerDependencies:
       - bufferutil
-      - node-fetch
       - react-dom
       - react-native
       - supports-color
@@ -1727,19 +1725,22 @@ packages:
       wagmi: ^0.11
     dependencies:
       '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      crossbell.js: 0.16.7
+      crossbell.js: 0.16.13
       dayjs: 1.11.7
       lodash.compact: 3.0.1
       lru-cache: 7.18.1
       wagmi: 0.11.7_osprwltll6etshz2owvseumghu
     transitivePeerDependencies:
       - bufferutil
-      - node-fetch
       - react
       - react-dom
       - react-native
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@crossbell/ipfs-fetch/0.0.15:
+    resolution: {integrity: sha512-AYGDrwiSKqCGNDi0mEPP1k+96loWik+Pd40xH0MzRNM4RtCutPbwm4o+Sj5iWu0tlHoQC2bTs1XcufsLiv+WYw==}
     dev: false
 
   /@crossbell/notification/0.0.41_ogut4lnwvlvmg3jumn6qr7hh6u:
@@ -1766,7 +1767,6 @@ packages:
       - bufferutil
       - ethers
       - immer
-      - node-fetch
       - react-dom
       - react-native
       - supports-color
@@ -1786,7 +1786,7 @@ packages:
       '@crossbell/util-metadata': 0.0.41
       '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
-      crossbell.js: 0.16.7
+      crossbell.js: 0.16.13
       facepaint: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -1798,7 +1798,6 @@ packages:
       - '@types/react'
       - bufferutil
       - ethers
-      - node-fetch
       - react-native
       - supports-color
       - typescript
@@ -1816,11 +1815,10 @@ packages:
       react: ^18
     dependencies:
       '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      crossbell.js: 0.16.7
+      crossbell.js: 0.16.13
       react: 18.2.0
     transitivePeerDependencies:
       - bufferutil
-      - node-fetch
       - react-dom
       - react-native
       - supports-color
@@ -1832,10 +1830,9 @@ packages:
     dependencies:
       '@crossbell/util-ethers': 0.0.41
       '@fastify/deepmerge': 1.3.0
-      crossbell.js: 0.16.7
+      crossbell.js: 0.16.13
     transitivePeerDependencies:
       - bufferutil
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: false
@@ -6351,6 +6348,23 @@ packages:
       which: 2.0.2
     dev: true
 
+  /crossbell.js/0.16.13:
+    resolution: {integrity: sha512-nX1IBr6XKi0NtgV8SAtQwWhyebUA4zwlpIauFFNRsprScSE1dNbcsSKscwX9AXFB49ai6VhYOvPNpG+k8YjGww==}
+    dependencies:
+      '@crossbell/ipfs-fetch': 0.0.15
+      async-retry: 1.3.3
+      browser-or-node: 2.1.1
+      ethers: 5.7.2
+      fetch-undici: 3.0.1
+      p-limit: 3.1.0
+      ts-mixer: 6.0.3
+      web3-providers-ws: 1.8.2
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   /crossbell.js/0.16.2:
     resolution: {integrity: sha512-Rgy1v6EmXy0ou9JVRezMHfUp3L9OHAub0d8jExoN3iJPQtvd0jopy0QNONL0ShvIJxTsiCwM1rg9SAA5sw6gZQ==}
     dependencies:
@@ -6360,24 +6374,6 @@ packages:
       fetch-undici: 3.0.1
       is-ipfs: 6.0.2
       ts-mixer: 6.0.2
-      web3-providers-ws: 1.8.2
-    transitivePeerDependencies:
-      - bufferutil
-      - node-fetch
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  /crossbell.js/0.16.7:
-    resolution: {integrity: sha512-qr6QRdpPKNVsv7pjazqJGmz2s92MBaH+jaf91u/hgNCYILFKOIAuntnpKGLmP/r3HMccopUUwxxBSH/W9QrAxg==}
-    dependencies:
-      async-retry: 1.3.3
-      browser-or-node: 2.1.1
-      ethers: 5.7.2
-      fetch-undici: 3.0.1
-      is-ipfs: 6.0.2
-      p-limit: 3.1.0
-      ts-mixer: 6.0.3
       web3-providers-ws: 1.8.2
     transitivePeerDependencies:
       - bufferutil
@@ -7624,7 +7620,7 @@ packages:
     resolution: {integrity: sha512-UHHu1HqW22ZhK6C/1Zmjf7mQpOwPwLYZ+xcsOgpzistONU8QqvCop6Od29p/kw1GUVoq2Ihu6ItpKLtlojx4FQ==}
     engines: {node: '>=16'}
     dependencies:
-      undici: 5.20.0
+      undici: 5.21.0
     dev: false
 
   /file-entry-cache/6.0.1:
@@ -8065,7 +8061,7 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       inherits: 2.0.4
-      readable-stream: 3.6.1
+      readable-stream: 3.6.2
       safe-buffer: 5.2.1
     dev: false
 
@@ -11385,6 +11381,15 @@ packages:
       util-deprecate: 1.0.2
     dev: false
 
+  /readable-stream/3.6.2:
+    resolution: {integrity: sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==}
+    engines: {node: '>= 6'}
+    dependencies:
+      inherits: 2.0.4
+      string_decoder: 1.3.0
+      util-deprecate: 1.0.2
+    dev: false
+
   /readdirp/3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
     engines: {node: '>=8.10.0'}
@@ -12859,8 +12864,8 @@ packages:
       jiti: 1.17.1
     dev: true
 
-  /undici/5.20.0:
-    resolution: {integrity: sha512-J3j60dYzuo6Eevbawwp1sdg16k5Tf768bxYK4TUJRH7cBM4kFCbf3mOnM/0E3vQYXvpxITbbWmBafaDbxLDz3g==}
+  /undici/5.21.0:
+    resolution: {integrity: sha512-HOjK8l6a57b2ZGXOcUsI5NLfoTrfmbOl90ixJDl0AEFG4wgHNDQxtZy15/ZQp7HhjkpaGlp/eneMgtsu1dIlUA==}
     engines: {node: '>=12.18'}
     dependencies:
       busboy: 1.6.0

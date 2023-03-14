@@ -4,11 +4,15 @@ import { useTranslation } from "next-i18next"
 import { HeartIcon } from "@heroicons/react/24/solid"
 import { cn } from "~/lib/utils"
 import { Modal } from "~/components/ui/Modal"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { BoxRadio } from "~/components/ui/BoxRadio"
 import { CharacterCard } from "~/components/common/CharacterCard"
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline"
 import { Tabs } from "../ui/Tabs"
+import { useTipCharacter, useGetTips } from "~/queries/site"
+import { useAccountState } from "@crossbell/connect-kit"
+import { toast } from "react-hot-toast"
+import confetti from "canvas-confetti"
 
 export const PatronModal: React.FC<{
   site: Profile | undefined | null
@@ -16,6 +20,11 @@ export const PatronModal: React.FC<{
   setOpen: (open: boolean) => void
 }> = ({ site, open, setOpen }) => {
   const { t } = useTranslation("common")
+  const tipCharacter = useTipCharacter()
+  // const tips = useGetTips({
+  //   toCharacterId: site?.metadata?.proof,
+  // })
+  // console.log(tips.data)
 
   const radios = [
     {
@@ -45,9 +54,47 @@ export const PatronModal: React.FC<{
 
   const [value, setValue] = useState(radios[1].value!)
 
+  const currentCharacterId = useAccountState(
+    (s) => s.computed.account?.characterId,
+  )
+
   const submit = () => {
-    console.log(value)
+    if (currentCharacterId && site?.metadata?.proof && parseInt(value)) {
+      tipCharacter.mutate({
+        fromCharacterId: currentCharacterId,
+        toCharacterId: site?.metadata?.proof,
+        amount: parseInt(value),
+      })
+    }
   }
+
+  const submitRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!tipCharacter.isSuccess) {
+      if (submitRef.current?.getBoundingClientRect()) {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: {
+            x:
+              (submitRef.current.getBoundingClientRect().left +
+                submitRef.current.getBoundingClientRect().width / 2 || 0.5) /
+              window.innerWidth,
+            y:
+              (submitRef.current.getBoundingClientRect().top || 0.5) /
+              window.innerHeight,
+          },
+        })
+      }
+    }
+  }, [tipCharacter.isSuccess, t, site?.name])
+
+  useEffect(() => {
+    if (tipCharacter.isError) {
+      toast.error(t("Failed to become a patron"))
+    }
+  }, [tipCharacter.isError, t])
 
   return (
     <Modal
@@ -99,7 +146,16 @@ export const PatronModal: React.FC<{
           </p>
         </div>
         <div>
-          <Button variant="primary" className="w-full" onClick={submit}>
+          <Button
+            variant="primary"
+            className="w-full"
+            onClick={submit}
+            style={{
+              height: "2.5rem",
+            }}
+            isLoading={tipCharacter.isLoading}
+            ref={submitRef}
+          >
             {t("Become a patron to {{name}}", {
               name: site?.name,
             })}

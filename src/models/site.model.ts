@@ -511,3 +511,25 @@ export async function getStat({ characterId }: { characterId: string }) {
     }
   }
 }
+
+export async function tipCharacter(
+  input: {
+    fromCharacterId: string | number
+    toCharacterId: string | number
+    amount: number
+  },
+  contract: Contract,
+) {
+  return await contract?.tipCharacter(
+    input.fromCharacterId,
+    input.toCharacterId,
+    input.amount,
+  )
+}
+
+export async function getTips(input: { toCharacterId: string | number }) {
+  return await indexer?.getTips({
+    toCharacterId: input.toCharacterId,
+    tokenAddress: "0xAfB95CC0BD320648B3E8Df6223d9CDD05EbeDC64",
+  })
+}
