@@ -214,7 +214,7 @@ export const SiteHeader: React.FC<{
                 <div className="xlog-site-name text-2xl sm:text-3xl font-bold text-zinc-900 leading-snug break-words min-w-0">
                   {site?.name}
                 </div>
-                <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 left-0">
+                <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 right-0">
                   <div className="xlog-site-more-menu relative inline-block align-middle">
                     <Menu
                       target={
@@ -287,7 +287,7 @@ export const SiteHeader: React.FC<{
                 <span className="xlog-site-follow-count block sm:inline-block">
                   <FollowingCount siteId={site?.username} />
                 </span>
-                <span className="xlog-site-patron opacity-0 pointer-events-none">
+                <span className="xlog-site-patron">
                   <PatronButton site={site} />
                 </span>
               </div>

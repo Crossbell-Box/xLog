@@ -100,7 +100,7 @@ export const PatronModal: React.FC<{
       open={open}
       setOpen={setOpen}
       title={
-        t("Become a patron to {{name}}", {
+        t("Become a patron of {{name}}", {
           name: site?.name,
         }) || ""
       }
@@ -165,7 +165,7 @@ export const PatronModal: React.FC<{
             isLoading={tipCharacter.isLoading}
             ref={submitRef}
           >
-            {t("Become a patron to {{name}}", {
+            {t("Become a patron of {{name}}", {
               name: site?.name,
             })}
           </Button>

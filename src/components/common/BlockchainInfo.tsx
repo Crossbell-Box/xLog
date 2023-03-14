@@ -7,6 +7,7 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { toIPFS, toGateway } from "~/lib/ipfs-parser"
 import { IPFS_GATEWAY } from "~/lib/env"
 import { useTranslation } from "next-i18next"
+import { cn } from "~/lib/utils"
 
 export const BlockchainInfo: React.FC<{
   site?: Profile | null
@@ -20,7 +21,7 @@ export const BlockchainInfo: React.FC<{
         {({ open }: { open: boolean }) => (
           <>
             <Disclosure.Button
-              className="flex w-full justify-between rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-hover transition-colors md:rounded-xl"
+              className="flex w-full justify-between items-center rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-hover transition-colors md:rounded-xl"
               aria-label="toggle chain info"
             >
               <span>
@@ -38,11 +39,12 @@ export const BlockchainInfo: React.FC<{
                   })}
                 </span>
               </span>
-              <ChevronUpIcon
-                className={`${
-                  open ? "rotate-180" : "rotate-90"
-                } h-5 w-5 text-gray-500 transform transition-transform`}
-              />
+              <span
+                className={cn(
+                  "i-mingcute:down-line text-lg text-gray-500 transform transition-transform",
+                  open ? "" : "rotate-180",
+                )}
+              ></span>
             </Disclosure.Button>
             <Disclosure.Panel className="px-5 py-2 text-sm text-gray-500 w-full overflow-hidden">
               <ul className="space-y-2">
