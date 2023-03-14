@@ -71,7 +71,7 @@ export const CharacterCard: React.FC<{
             <span className="font-bold text-base text-zinc-800">
               {site?.name}
             </span>
-            <span className="ml-1 text-gray-600">@{site.username}</span>
+            <span className="ml-1 text-gray-600">@{site?.username}</span>
           </span>
           {site?.description && (
             <span

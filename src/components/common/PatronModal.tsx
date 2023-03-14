@@ -2,17 +2,16 @@ import { Button } from "~/components/ui/Button"
 import { Profile } from "~/lib/types"
 import { useTranslation } from "next-i18next"
 import { HeartIcon } from "@heroicons/react/24/solid"
-import { cn } from "~/lib/utils"
 import { Modal } from "~/components/ui/Modal"
 import { useEffect, useRef, useState } from "react"
 import { BoxRadio } from "~/components/ui/BoxRadio"
-import { CharacterCard } from "~/components/common/CharacterCard"
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline"
 import { Tabs } from "../ui/Tabs"
 import { useTipCharacter, useGetTips } from "~/queries/site"
 import { useAccountState } from "@crossbell/connect-kit"
 import { toast } from "react-hot-toast"
 import confetti from "canvas-confetti"
+import { Avatar } from "~/components/ui/Avatar"
 
 export const PatronModal: React.FC<{
   site: Profile | undefined | null
@@ -71,7 +70,7 @@ export const PatronModal: React.FC<{
   const submitRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    if (!tipCharacter.isSuccess) {
+    if (tipCharacter.isSuccess) {
       if (submitRef.current?.getBoundingClientRect()) {
         confetti({
           particleCount: 150,
@@ -109,13 +108,23 @@ export const PatronModal: React.FC<{
       size="lg"
     >
       <div className="px-5 py-4 space-y-4">
-        <CharacterCard
-          address={site?.metadata?.owner}
-          open={true}
-          hideFollowButton={true}
-          simple={true}
-          style="flat"
-        />
+        <div className="space-y-1">
+          <span className="flex items-center justify-between">
+            <Avatar images={site?.avatars || []} name={site?.name} size={60} />
+          </span>
+          <span className="block">
+            <span className="font-bold text-lg text-zinc-800">
+              {site?.name}
+            </span>
+            <span className="ml-1 text-gray-600">@{site?.username}</span>
+          </span>
+          {site?.description && (
+            <span
+              className="block text-gray-600 text-sm"
+              dangerouslySetInnerHTML={{ __html: site?.description || "" }}
+            ></span>
+          )}
+        </div>
         <div className="text-lg">{t("Current patrons")}</div>
         <div className="text-zinc-500 text-sm">
           {t("You are here to be the first patron.")}
