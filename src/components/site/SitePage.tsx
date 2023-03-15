@@ -85,7 +85,7 @@ export const SitePage: React.FC<{
           toc={true}
         ></PageContent>
       </article>
-      {page?.metadata && <PostFooter page={page} />}
+      {page?.metadata && <PostFooter page={page} site={site} />}
     </>
   )
 }

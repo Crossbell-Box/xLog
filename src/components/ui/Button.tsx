@@ -15,6 +15,7 @@ export type Variant =
   | "collect"
   | "crossbell"
   | "outline"
+  | "patron"
 
 export type VariantColor = "green" | "red" | "gray" | "gradient" | "black"
 

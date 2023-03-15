@@ -16,7 +16,6 @@ import { CharacterFloatCard } from "./CharacterFloatCard"
 import { UniLink } from "../ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
 import { CSB_SCAN } from "~/lib/env"
-import { BlockchainIcon } from "../icons/BlockchainIcon"
 
 export const PatronModal: React.FC<{
   site: Profile | undefined | null

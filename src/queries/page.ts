@@ -89,9 +89,9 @@ export const useGetMints = (input: {
   pageId?: string
   includeCharacter?: boolean
 }) => {
-  return useQuery(
-    ["getMints", input.pageId, input.includeCharacter],
-    async () => {
+  return useInfiniteQuery({
+    queryKey: ["getMints", input.pageId, input],
+    queryFn: async ({ pageParam }) => {
       if (!input.pageId) {
         return {
           count: 0,
@@ -102,9 +102,11 @@ export const useGetMints = (input: {
       return pageModel.getMints({
         pageId: input.pageId,
         includeCharacter: input.includeCharacter,
+        cursor: pageParam,
       })
     },
-  )
+    getNextPageParam: (lastPage) => lastPage.cursor || undefined,
+  })
 }
 
 export const useCheckMint = (pageId: string | undefined) => {

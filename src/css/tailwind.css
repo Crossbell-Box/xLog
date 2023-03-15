@@ -153,6 +153,19 @@ a {
   fill: #ffcf55;
 }
 
+.button.is-patron {
+  @apply shadow-none p-0;
+  @apply text-gray-500 fill-gray-500;
+}
+.button.is-patron:hover {
+  color: #f87171;
+  fill: #f87171;
+}
+.button.is-patron.active {
+  color: #f87171;
+  fill: #f87171;
+}
+
 .button.is-crossbell {
   background-color: #fff5e1;
   fill: #e5b65a;

@@ -14,7 +14,9 @@ export const CharacterList: React.FC<{
   setOpen: (open: boolean) => void
   hasMore: boolean
   loadMore: () => Promise<void>
-  list: any[]
+  list: {
+    list: any[]
+  }[]
   title: string
 }> = ({ open, setOpen, hasMore, loadMore, list, title }) => {
   const { t } = useTranslation("common")
@@ -33,44 +35,49 @@ export const CharacterList: React.FC<{
           useWindow={false}
         >
           {list?.length ? (
-            list.map((sub: any, index) => (
-              <div
-                className="py-3 flex items-center space-x-2 text-sm"
-                key={index}
-              >
-                <UniLink
-                  href={getSiteLink({
-                    subdomain: sub?.character?.handle,
-                  })}
-                  className="flex items-center space-x-2 text-sm"
-                >
-                  <CharacterFloatCard siteId={sub?.character?.handle}>
-                    <Avatar
-                      className="align-middle border-2 border-white"
-                      images={sub.character?.metadata?.content?.avatars || []}
-                      name={
-                        sub.character?.metadata?.content?.name ||
-                        sub.character?.handle
+            list.map((page) =>
+              page.list?.map((sub: any, index) => {
+                const character = sub?.character || sub?.fromCharacter
+                return (
+                  <div
+                    className="py-3 flex items-center space-x-2 text-sm"
+                    key={index}
+                  >
+                    <UniLink
+                      href={getSiteLink({
+                        subdomain: character?.handle,
+                      })}
+                      className="flex items-center space-x-2 text-sm"
+                    >
+                      <CharacterFloatCard siteId={character?.handle}>
+                        <Avatar
+                          className="align-middle border-2 border-white"
+                          images={character?.metadata?.content?.avatars || []}
+                          name={
+                            character?.metadata?.content?.name ||
+                            character?.handle
+                          }
+                          size={40}
+                        />
+                      </CharacterFloatCard>
+                      <span>{character?.metadata?.content?.name}</span>
+                      <span className="text-zinc-400 truncate max-w-xs">
+                        @{character?.handle}
+                      </span>
+                    </UniLink>
+                    <UniLink
+                      href={
+                        CSB_SCAN +
+                        "/tx/" +
+                        (sub.metadata?.proof || sub.transactionHash)
                       }
-                      size={40}
-                    />
-                  </CharacterFloatCard>
-                  <span>{sub.character?.metadata?.content?.name}</span>
-                  <span className="text-zinc-400 truncate max-w-xs">
-                    @{sub.character?.handle}
-                  </span>
-                </UniLink>
-                <UniLink
-                  href={
-                    CSB_SCAN +
-                    "/tx/" +
-                    (sub.metadata?.proof || sub.transactionHash)
-                  }
-                >
-                  <BlockchainIcon />
-                </UniLink>
-              </div>
-            ))
+                    >
+                      <BlockchainIcon />
+                    </UniLink>
+                  </div>
+                )
+              }),
+            )
           ) : (
             <div className="py-3 text-center text-zinc-300">
               {t("No Content Yet.")}

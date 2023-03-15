@@ -1,13 +1,14 @@
-import { Note } from "~/lib/types"
+import { Note, Profile } from "~/lib/types"
 import { Comment } from "~/components/common/Comment"
 import { Reactions } from "~/components/common/Reactions"
 
 export const PostFooter: React.FC<{
   page?: Note | null
-}> = ({ page }) => {
+  site?: Profile | null
+}> = ({ page, site }) => {
   return (
     <>
-      <Reactions className="mt-14 mb-12" pageId={page?.id} />
+      <Reactions className="mt-14 mb-12" pageId={page?.id} site={site} />
       <Comment page={page} />
     </>
   )
