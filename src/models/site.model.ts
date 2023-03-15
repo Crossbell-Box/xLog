@@ -557,7 +557,7 @@ export async function getTips(
     toCharacterId: input.toCharacterId,
     tokenAddress: address?.data || "0xAfB95CC0BD320648B3E8Df6223d9CDD05EbeDC64",
     includeMetadata: true,
-    limit: 8,
+    limit: 7,
     cursor: input.cursor,
   })
 

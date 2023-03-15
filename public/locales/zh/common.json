@@ -64,5 +64,6 @@
   "Coming soon": "即将推出",
   "What is Mira? Where can I get some?" : "Mira 是什么？我在哪里可以获得？",
   "Tip": "赞赏",
-  "Tip the post: {{name}}": "赞赏文章：{{name}}"
+  "Tip the post: {{name}}": "赞赏文章：{{name}}",
+  "Custom": "自定义"
 }

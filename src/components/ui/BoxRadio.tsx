@@ -23,7 +23,7 @@ export const BoxRadio: React.FC<{
   setValue: Dispatch<SetStateAction<string>>
   items: RadioItem[]
 }> = ({ value, setValue, items }) => {
-  const { t } = useTranslation(["dashboard"])
+  const { t } = useTranslation(["common"])
   const randomId = useMemo(() => nanoid(), [])
   const [isCustom, setIsCustom] = useState(false)
 

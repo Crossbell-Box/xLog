@@ -146,7 +146,7 @@ export const PatronModal: React.FC<{
           <div className="text-zinc-500 text-sm mt-2">
             {tips.data?.pages?.[0]?.list?.length ? (
               <>
-                <ul className="grid grid-cols-9">
+                <ul className="grid grid-cols-5 sm:grid-cols-8">
                   {tips.data.pages[0].list?.map((tip, index) => (
                     <li
                       className="inline-flex flex-col items-center"
@@ -170,9 +170,9 @@ export const PatronModal: React.FC<{
                       </CharacterFloatCard>
                       <UniLink
                         href={`${CSB_SCAN}/tx/${tip.transactionHash}`}
-                        className="inline-flex items-center mt-1 text-center"
+                        className="inline-flex items-center mt-1 text-center w-full"
                       >
-                        <span className="text-xs text-zinc-500">
+                        <span className="text-xs text-zinc-500 truncate w-full">
                           {tip.amount} Mira
                         </span>
                       </UniLink>
