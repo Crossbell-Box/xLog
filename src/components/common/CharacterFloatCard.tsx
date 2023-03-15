@@ -30,7 +30,6 @@ export const CharacterFloatCard: React.FC<{
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useHover(context, { delay: { close: 200, open: 200 } }),
-    useFocus(context),
     useRole(context, { role: "tooltip" }),
     useDismiss(context),
   ])

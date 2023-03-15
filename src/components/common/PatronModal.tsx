@@ -12,6 +12,11 @@ import { useAccountState } from "@crossbell/connect-kit"
 import { toast } from "react-hot-toast"
 import confetti from "canvas-confetti"
 import { Avatar } from "~/components/ui/Avatar"
+import { CharacterFloatCard } from "./CharacterFloatCard"
+import { UniLink } from "../ui/UniLink"
+import { getSiteLink } from "~/lib/helpers"
+import { CSB_SCAN } from "~/lib/env"
+import { BlockchainIcon } from "../icons/BlockchainIcon"
 
 export const PatronModal: React.FC<{
   site: Profile | undefined | null
@@ -20,10 +25,9 @@ export const PatronModal: React.FC<{
 }> = ({ site, open, setOpen }) => {
   const { t } = useTranslation("common")
   const tipCharacter = useTipCharacter()
-  // const tips = useGetTips({
-  //   toCharacterId: site?.metadata?.proof,
-  // })
-  // console.log(tips.data)
+  const tips = useGetTips({
+    toCharacterId: site?.metadata?.proof,
+  })
 
   const radios = [
     {
@@ -125,34 +129,83 @@ export const PatronModal: React.FC<{
             ></span>
           )}
         </div>
-        <div className="text-lg">{t("Current patrons")}</div>
-        <div className="text-zinc-500 text-sm">
-          {t("You are here to be the first patron.")}
-        </div>
-        <div className="text-lg">{t("Select a tier")}</div>
         <div>
-          <Tabs
-            items={[
-              {
-                text: "One-time",
-                active: true,
-              },
-              {
-                text: "Monthly and NFT Rewards",
-                tooltip: "Coming soon",
-              },
-            ]}
-          ></Tabs>
+          <div className="text-lg">{t("Latest patrons")}</div>
+          <div className="text-zinc-500 text-sm mt-2">
+            {tips.data?.list ? (
+              <>
+                <ul className="grid grid-cols-8">
+                  {tips.data.list?.map((tip, index) => (
+                    <li
+                      className="inline-flex flex-col items-center"
+                      key={index}
+                    >
+                      <CharacterFloatCard siteId={tip.character?.handle}>
+                        <UniLink
+                          href={getSiteLink({
+                            subdomain: tip.character?.handle || "",
+                          })}
+                        >
+                          <Avatar
+                            className="relative align-middle border-2 border-white"
+                            images={
+                              tip.character?.metadata?.content?.avatars || []
+                            }
+                            name={tip.character?.metadata?.content?.name}
+                            size={55}
+                          />
+                        </UniLink>
+                      </CharacterFloatCard>
+                      <UniLink
+                        href={`${CSB_SCAN}/tx/${tip.transactionHash}`}
+                        className="inline-flex items-center mt-1 text-center"
+                      >
+                        <span className="text-xs text-zinc-500">
+                          {tip.amount} Mira
+                        </span>
+                      </UniLink>
+                    </li>
+                  ))}
+                  {tips.data.count > 10 && (
+                    <li className="inline-block">
+                      <div className="relative align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
+                        +{tips.data.count - 10}
+                      </div>
+                    </li>
+                  )}
+                </ul>
+              </>
+            ) : (
+              t("You are here to be the first patron.")
+            )}
+          </div>
         </div>
         <div>
-          <BoxRadio items={radios} value={value} setValue={setValue} />
-        </div>
-        <div className="text-zinc-500 text-xs space-y-2">
-          <p>1 Mira ≈ 1 USDC</p>
-          <p className="flex items-center">
-            <QuestionMarkCircleIcon className="w-4 h-4 inline-block mr-1" />
-            What is Mira? Where can I get some?
-          </p>
+          <div className="text-lg">{t("Select a tier")}</div>
+          <div className="-mb-4">
+            <Tabs
+              items={[
+                {
+                  text: "One-time",
+                  active: true,
+                },
+                {
+                  text: "Monthly and NFT Rewards",
+                  tooltip: "Coming soon",
+                },
+              ]}
+            ></Tabs>
+          </div>
+          <div>
+            <BoxRadio items={radios} value={value} setValue={setValue} />
+          </div>
+          <div className="text-zinc-500 text-xs space-y-1 mt-2">
+            <p>1 Mira ≈ 1 USDC</p>
+            <p className="flex items-center">
+              <QuestionMarkCircleIcon className="w-4 h-4 inline-block mr-1" />
+              What is Mira? Where can I get some?
+            </p>
+          </div>
         </div>
         <div>
           <Button

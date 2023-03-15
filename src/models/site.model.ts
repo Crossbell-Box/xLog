@@ -6,10 +6,13 @@ import type Unidata from "unidata.js"
 import type { Profiles as UniProfiles } from "unidata.js"
 import { createClient } from "@urql/core"
 import axios from "axios"
-import { indexer } from "@crossbell/indexer"
-import type { Contract } from "crossbell.js"
+import { Indexer } from "crossbell.js"
 import { CharacterOperatorPermission } from "crossbell.js"
-import { GeneralAccount } from "@crossbell/connect-kit"
+import type { useContract } from "@crossbell/contract"
+
+type Contract = ReturnType<typeof useContract>
+
+const indexer = new Indexer()
 
 const expandSite = (site: Profile) => {
   site.navigation = JSON.parse(
@@ -520,7 +523,7 @@ export async function tipCharacter(
   },
   contract: Contract,
 ) {
-  const decimals = await contract.getMiraTokenDecimals() // TODO
+  const decimals = await contract.getMiraTokenDecimals()
   return await contract?.tipCharacter(
     input.fromCharacterId,
     input.toCharacterId,
@@ -532,9 +535,32 @@ export async function getTips(
   input: { toCharacterId: string | number },
   contract: Contract,
 ) {
-  const address = await contract.getMiraTokenAddress() // TODO
-  return await indexer?.getTips({
+  const address = await contract.getMiraTokenAddress()
+  const tips = await indexer?.getTips({
     toCharacterId: input.toCharacterId,
     tokenAddress: address?.data || "0xAfB95CC0BD320648B3E8Df6223d9CDD05EbeDC64",
+    includeMetadata: true,
+    limit: 8,
   })
+
+  if (tips?.list?.length) {
+    const decimals = await contract.getMiraTokenDecimals()
+    tips.list = tips.list.filter((t) => {
+      return (
+        BigInt(t.amount) >=
+        BigInt(1) * BigInt(10) ** BigInt(decimals?.data || 18)
+      )
+    })
+    tips.list = tips.list.map((t) => {
+      return {
+        ...t,
+        amount: (
+          BigInt(t.amount) /
+          BigInt(10) ** BigInt(decimals?.data || 18)
+        ).toString(),
+      }
+    })
+  }
+
+  return tips
 }
