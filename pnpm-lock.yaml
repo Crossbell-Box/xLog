@@ -24,7 +24,7 @@ specifiers:
   '@iconify-json/fluent': ^1.1.18
   '@iconify-json/mdi': ^1.1.50
   '@iconify-json/mingcute': ^1.1.5
-  '@iconify-json/tabler': 1.1.63
+  '@iconify-json/tabler': 1.1.67
   '@monaco-editor/react': 4.4.6
   '@next/bundle-analyzer': 13.2.3
   '@playwright/test': 1.31.1
@@ -158,7 +158,7 @@ dependencies:
   '@iconify-json/fluent': 1.1.18
   '@iconify-json/mdi': 1.1.50
   '@iconify-json/mingcute': 1.1.5
-  '@iconify-json/tabler': 1.1.63
+  '@iconify-json/tabler': 1.1.67
   '@monaco-editor/react': 4.4.6_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-query-devtools': 4.24.12_636dldj5wfr5vkyyqzs5k363kq
@@ -2822,8 +2822,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: false
 
-  /@iconify-json/tabler/1.1.63:
-    resolution: {integrity: sha512-WvIsUJsil2+U1lPbguzbjG4v5sYqMkHp5P0PDXjwz/3XqS4mlFSicxmtSQcthRdQBbX2hMfXamtvqUYrNc2sCQ==}
+  /@iconify-json/tabler/1.1.67:
+    resolution: {integrity: sha512-lHQLgste5NmoY+7vxOdi6IjuaitZv+QVO2oTvK1nHTFAolstKwf5Z3x6w5bqL4mNcun1K8v34jYXGcL8k1IPgw==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
