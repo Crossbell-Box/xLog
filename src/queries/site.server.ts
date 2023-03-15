@@ -30,11 +30,20 @@ export const prefetchGetSiteSubscriptions = async (
   queryClient: QueryClient,
 ) => {
   const key = ["getSiteSubscriptions", input]
-  await queryClient.prefetchQuery(key, async () => {
-    return cacheGet({
-      key,
-      getValueFun: () => siteModel.getSiteSubscriptions(input),
-    })
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: key,
+    queryFn: async ({ pageParam }) => {
+      return cacheGet({
+        key,
+        getValueFun: () => {
+          return siteModel.getSiteSubscriptions({
+            ...input,
+            cursor: pageParam,
+          })
+        },
+      })
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 
@@ -43,11 +52,20 @@ export const prefetchGetSiteToSubscriptions = async (
   queryClient: QueryClient,
 ) => {
   const key = ["getSiteToSubscriptions", input]
-  await queryClient.prefetchQuery(key, async () => {
-    return cacheGet({
-      key,
-      getValueFun: () => siteModel.getSiteToSubscriptions(input),
-    })
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: key,
+    queryFn: async ({ pageParam }) => {
+      return cacheGet({
+        key,
+        getValueFun: () => {
+          return siteModel.getSiteToSubscriptions({
+            ...input,
+            cursor: pageParam,
+          })
+        },
+      })
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 
