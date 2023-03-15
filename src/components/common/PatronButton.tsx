@@ -1,7 +1,7 @@
 import { Button } from "~/components/ui/Button"
 import { Profile } from "~/lib/types"
 import { useTranslation } from "next-i18next"
-import { HeartIcon } from "@heroicons/react/24/outline"
+import { HeartIcon } from "@heroicons/react/24/solid"
 import { cn } from "~/lib/utils"
 import { Modal } from "~/components/ui/Modal"
 import { useState } from "react"
@@ -27,7 +27,7 @@ export const PatronButton: React.FC<{
         onClick={() => setOpen(true)}
       >
         <HeartIcon className="text-red-400 flex w-5 h-5 -mb-[1px]" />
-        <span className="text-zinc-500 ml-1">Patron</span>
+        <span className="text-zinc-500 ml-1">{t("Patron")}</span>
       </Button>
     </>
   )

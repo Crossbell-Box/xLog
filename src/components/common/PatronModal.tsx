@@ -89,6 +89,7 @@ export const PatronModal: React.FC<{
               window.innerHeight,
           },
         })
+        tipCharacter.reset()
       }
     }
   }, [tipCharacter.isSuccess, t, site?.name])
@@ -96,6 +97,7 @@ export const PatronModal: React.FC<{
   useEffect(() => {
     if (tipCharacter.isError) {
       toast.error(t("Failed to become a patron"))
+      tipCharacter.reset()
     }
   }, [tipCharacter.isError, t])
 
@@ -132,7 +134,7 @@ export const PatronModal: React.FC<{
         <div>
           <div className="text-lg">{t("Latest patrons")}</div>
           <div className="text-zinc-500 text-sm mt-2">
-            {tips.data?.list ? (
+            {tips.data?.list?.length ? (
               <>
                 <ul className="grid grid-cols-8">
                   {tips.data.list?.map((tip, index) => (
@@ -186,12 +188,12 @@ export const PatronModal: React.FC<{
             <Tabs
               items={[
                 {
-                  text: "One-time",
+                  text: t("One-time"),
                   active: true,
                 },
                 {
-                  text: "Monthly and NFT Rewards",
-                  tooltip: "Coming soon",
+                  text: t("Monthly and NFT Rewards"),
+                  tooltip: t("Coming soon") || "",
                 },
               ]}
             ></Tabs>
@@ -203,7 +205,7 @@ export const PatronModal: React.FC<{
             <p>1 Mira ≈ 1 USDC</p>
             <p className="flex items-center">
               <QuestionMarkCircleIcon className="w-4 h-4 inline-block mr-1" />
-              What is Mira? Where can I get some?
+              {t("What is Mira? Where can I get some?")}
             </p>
           </div>
         </div>
