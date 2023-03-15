@@ -153,15 +153,15 @@ a {
   fill: #ffcf55;
 }
 
-.button.is-patron {
+.button.is-tip {
   @apply shadow-none p-0;
   @apply text-gray-500 fill-gray-500;
 }
-.button.is-patron:hover {
+.button.is-tip:hover {
   color: #f87171;
   fill: #f87171;
 }
-.button.is-patron.active {
+.button.is-tip.active {
   color: #f87171;
   fill: #f87171;
 }

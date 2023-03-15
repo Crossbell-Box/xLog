@@ -40,7 +40,7 @@ export const Modal: React.FC<{
           {title && (
             <Dialog.Title className="text-lg border-b h-14 flex items-center px-5 space-x-2 py-4">
               {titleIcon && <span>{titleIcon}</span>}
-              <span>{title}</span>
+              <span className="truncate">{title}</span>
             </Dialog.Title>
           )}
           {children}

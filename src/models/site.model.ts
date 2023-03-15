@@ -520,27 +520,45 @@ export async function tipCharacter(
     fromCharacterId: string | number
     toCharacterId: string | number
     amount: number
+    noteId?: string | number
   },
   contract: Contract,
 ) {
   const decimals = await contract.getMiraTokenDecimals()
-  return await contract?.tipCharacter(
-    input.fromCharacterId,
-    input.toCharacterId,
-    BigInt(input.amount) * BigInt(10) ** BigInt(decimals?.data || 18),
-  )
+  if (input.noteId) {
+    return await contract?.tipCharacterForNote(
+      input.fromCharacterId,
+      input.toCharacterId,
+      input.noteId,
+      BigInt(input.amount) * BigInt(10) ** BigInt(decimals?.data || 18),
+    )
+  } else {
+    return await contract?.tipCharacter(
+      input.fromCharacterId,
+      input.toCharacterId,
+      BigInt(input.amount) * BigInt(10) ** BigInt(decimals?.data || 18),
+    )
+  }
 }
 
 export async function getTips(
-  input: { toCharacterId: string | number },
+  input: {
+    toCharacterId: string | number
+    characterId?: string | number
+    toNoteId?: string | number
+    cursor?: string
+  },
   contract: Contract,
 ) {
   const address = await contract.getMiraTokenAddress()
   const tips = await indexer?.getTips({
+    characterId: input.characterId,
+    toNoteId: input.toNoteId,
     toCharacterId: input.toCharacterId,
     tokenAddress: address?.data || "0xAfB95CC0BD320648B3E8Df6223d9CDD05EbeDC64",
     includeMetadata: true,
     limit: 8,
+    cursor: input.cursor,
   })
 
   if (tips?.list?.length) {

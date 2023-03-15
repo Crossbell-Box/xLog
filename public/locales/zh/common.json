@@ -55,11 +55,14 @@
   "Patron": "赞助",
   "Become a patron of {{name}}" : "成为 {{name}} 的赞助者",
   "Latest patrons": "最近赞助者",
+  "Latest tipper": "最近赞赏者",
   "You are here to be the first patron.": "你将是第一个赞助者。",
+  "You are here to be the first tipper.": "你将是第一个赞赏者。",
   "Select a tier": "选择一个等级",
   "One-time": "一次性",
   "Monthly and NFT Rewards": "每月和 NFT 奖励",
   "Coming soon": "即将推出",
   "What is Mira? Where can I get some?" : "Mira 是什么？我在哪里可以获得？",
-  "Tip": "赞赏"
+  "Tip": "赞赏",
+  "Tip the post: {{name}}": "赞赏文章：{{name}}"
 }

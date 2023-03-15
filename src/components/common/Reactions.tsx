@@ -7,7 +7,7 @@ import {
   useToggleLikePage,
   useGetLikeCounts,
 } from "~/queries/page"
-import { useAccountSites } from "~/queries/site"
+import { useAccountSites, useGetTips } from "~/queries/site"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "../ui/Button"
 import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
@@ -21,20 +21,24 @@ import { cn } from "~/lib/utils"
 import { Tooltip } from "~/components/ui/Tooltip"
 import confetti from "canvas-confetti"
 import { Trans, useTranslation } from "next-i18next"
-import { Profile } from "~/lib/types"
+import { Note, Profile } from "~/lib/types"
+import { HeartIcon } from "@heroicons/react/24/solid"
+import { useAccountState } from "@crossbell/connect-kit"
+import { PatronModal } from "~/components/common/PatronModal"
 
 export const Reactions: React.FC<{
   className?: string
   size?: "sm" | "base"
   pageId?: string
   site?: Profile | null
-}> = ({ className, size, pageId, site }) => {
+  page?: Note | null
+}> = ({ className, size, pageId, site, page }) => {
   const toggleLikePage = useToggleLikePage()
   const mintPage = useMintPage()
   const { t } = useTranslation("common")
 
   // like
-  const userSite = useAccountSites()
+  const account = useAccountState((s) => s.computed.account)
   const [isLikeOpen, setIsLikeOpen] = useState(false)
   const [isLikeListOpen, setIsLikeListOpen] = useState(false)
   const likeRef = useRef<HTMLButtonElement>(null)
@@ -134,6 +138,27 @@ export const Reactions: React.FC<{
     }
   }, [mintPage.isSuccess])
 
+  // tip
+  const [isTipOpen, setIsTipOpen] = useState(false)
+  const tipRef = useRef<HTMLButtonElement>(null)
+
+  const { characterId, noteId } = parsePageId(pageId || "")
+  const tips = useGetTips({
+    toCharacterId: characterId,
+    toNoteId: noteId,
+  })
+  const isTip = useGetTips({
+    toCharacterId: characterId,
+    toNoteId: noteId,
+    characterId: account?.characterId,
+  })
+
+  const tip = () => {
+    if (pageId) {
+      setIsTipOpen(true)
+    }
+  }
+
   return (
     <>
       <div
@@ -151,7 +176,7 @@ export const Reactions: React.FC<{
             }`}
             isAutoWidth={true}
             onClick={like}
-            isLoading={userSite.isLoading || toggleLikePage.isPending}
+            isLoading={toggleLikePage.isPending}
             ref={likeRef}
           >
             {(() => {
@@ -260,6 +285,58 @@ export const Reactions: React.FC<{
             </ul>
           )}
         </div>
+        {size !== "sm" && (
+          <div className="xlog-reactions-tip flex items-center">
+            <Button
+              variant="tip"
+              className={`flex items-center mr-2 ${
+                isTip.isSuccess && isTip.data.pages?.[0].count && "active"
+              }`}
+              isAutoWidth={true}
+              onClick={tip}
+              ref={tipRef}
+            >
+              {(() => {
+                const inner = <HeartIcon className={cn("w-10 h-10")} />
+                return (
+                  <Tooltip label={t("Tip")} placement="top">
+                    {inner}
+                  </Tooltip>
+                )
+              })()}
+              <span className="ml-2">{tips.data?.pages?.[0]?.count || 0}</span>
+            </Button>
+            {
+              <ul
+                className="-space-x-4 cursor-pointer hidden sm:inline-block"
+                onClick={tip}
+              >
+                {tips.data?.pages?.[0]?.list
+                  ?.sort((a, b: any) =>
+                    b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
+                  )
+                  .slice(0, 3)
+                  .map((tip: any, index) => (
+                    <li className="inline-block" key={index}>
+                      <Avatar
+                        className="relative align-middle border-2 border-white"
+                        images={tip.character?.metadata?.content?.avatars || []}
+                        name={tip.character?.metadata?.content?.name}
+                        size={40}
+                      />
+                    </li>
+                  ))}
+                {(tips.data?.pages?.[0]?.count || 0) > 3 && (
+                  <li className="inline-block">
+                    <div className="relative align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
+                      +{tips.data!.pages?.[0]?.count - 3}
+                    </div>
+                  </li>
+                )}
+              </ul>
+            }
+          </div>
+        )}
         <Modal
           open={isLikeOpen}
           setOpen={setIsLikeOpen}
@@ -292,7 +369,7 @@ export const Reactions: React.FC<{
               This post has been minted to NFT by you, view it on{" "}
               <UniLink
                 className="text-accent"
-                href={`${CSB_XCHAR}/${userSite.data?.[0]?.username}/collections`}
+                href={`${CSB_XCHAR}/${account?.character?.handle}/collections`}
               >
                 xChar
               </UniLink>{" "}
@@ -311,6 +388,12 @@ export const Reactions: React.FC<{
             </Button>
           </div>
         </Modal>
+        <PatronModal
+          site={site}
+          open={isTipOpen}
+          setOpen={setIsTipOpen}
+          page={page}
+        />
         <CharacterList
           open={isLikeListOpen}
           setOpen={setIsLikeListOpen}

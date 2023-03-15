@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query"
 import { useContract } from "@crossbell/contract"
 import {
   useAccountState,
@@ -324,17 +329,29 @@ export function useTipCharacter() {
   return mutation
 }
 
-export const useGetTips = (data: { toCharacterId?: string }) => {
+export const useGetTips = (
+  data: Partial<Parameters<typeof siteModel.getTips>[0]>,
+) => {
   const contract = useContract()
-  return useQuery(["getTips", data], async () => {
-    if (!data.toCharacterId) {
-      return null
-    }
-    return siteModel.getTips(
-      {
-        toCharacterId: data.toCharacterId,
-      },
-      contract,
-    )
+  return useInfiniteQuery({
+    queryKey: ["getTips", data],
+    queryFn: async ({ pageParam }) => {
+      if (!data.toCharacterId) {
+        return {
+          count: 0,
+          list: [],
+          cursor: undefined,
+        }
+      }
+      return siteModel.getTips(
+        {
+          ...data,
+          toCharacterId: data.toCharacterId,
+          cursor: pageParam,
+        },
+        contract,
+      )
+    },
+    getNextPageParam: (lastPage) => lastPage.cursor || undefined,
   })
 }

@@ -8,7 +8,12 @@ export const PostFooter: React.FC<{
 }> = ({ page, site }) => {
   return (
     <>
-      <Reactions className="mt-14 mb-12" pageId={page?.id} site={site} />
+      <Reactions
+        className="mt-14 mb-12"
+        pageId={page?.id}
+        site={site}
+        page={page}
+      />
       <Comment page={page} />
     </>
   )

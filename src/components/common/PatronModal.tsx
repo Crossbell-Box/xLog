@@ -1,5 +1,5 @@
 import { Button } from "~/components/ui/Button"
-import { Profile } from "~/lib/types"
+import { Note, Profile } from "~/lib/types"
 import { useTranslation } from "next-i18next"
 import { HeartIcon } from "@heroicons/react/24/solid"
 import { Modal } from "~/components/ui/Modal"
@@ -16,16 +16,19 @@ import { CharacterFloatCard } from "./CharacterFloatCard"
 import { UniLink } from "../ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
 import { CSB_SCAN } from "~/lib/env"
+import { parsePageId } from "~/models/page.model"
 
 export const PatronModal: React.FC<{
   site: Profile | undefined | null
+  page?: Note | null
   open: boolean
   setOpen: (open: boolean) => void
-}> = ({ site, open, setOpen }) => {
+}> = ({ site, page, open, setOpen }) => {
   const { t } = useTranslation("common")
   const tipCharacter = useTipCharacter()
   const tips = useGetTips({
     toCharacterId: site?.metadata?.proof,
+    toNoteId: parsePageId(page?.id || "").noteId,
   })
 
   const radios = [
@@ -66,6 +69,7 @@ export const PatronModal: React.FC<{
         fromCharacterId: currentCharacterId,
         toCharacterId: site?.metadata?.proof,
         amount: parseInt(value),
+        noteId: parsePageId(page?.id || "").noteId,
       })
     }
   }
@@ -100,15 +104,20 @@ export const PatronModal: React.FC<{
     }
   }, [tipCharacter.isError, t])
 
+  const title =
+    (page
+      ? t("Tip the post: {{name}}", {
+          name: page.title,
+        })
+      : t("Become a patron of {{name}}", {
+          name: site?.name,
+        })) || ""
+
   return (
     <Modal
       open={open}
       setOpen={setOpen}
-      title={
-        t("Become a patron of {{name}}", {
-          name: site?.name,
-        }) || ""
-      }
+      title={title}
       titleIcon={<HeartIcon className="text-red-500 flex w-6 h-6 -mb-[1px]" />}
       size="lg"
     >
@@ -131,12 +140,14 @@ export const PatronModal: React.FC<{
           )}
         </div>
         <div>
-          <div className="text-lg">{t("Latest patrons")}</div>
+          <div className="text-lg">
+            {t(page ? "Latest tipper" : "Latest patrons")}
+          </div>
           <div className="text-zinc-500 text-sm mt-2">
-            {tips.data?.list?.length ? (
+            {tips.data?.pages?.[0]?.list?.length ? (
               <>
-                <ul className="grid grid-cols-8">
-                  {tips.data.list?.map((tip, index) => (
+                <ul className="grid grid-cols-9">
+                  {tips.data.pages[0].list?.map((tip, index) => (
                     <li
                       className="inline-flex flex-col items-center"
                       key={index}
@@ -153,7 +164,7 @@ export const PatronModal: React.FC<{
                               tip.character?.metadata?.content?.avatars || []
                             }
                             name={tip.character?.metadata?.content?.name}
-                            size={55}
+                            size={50}
                           />
                         </UniLink>
                       </CharacterFloatCard>
@@ -167,17 +178,21 @@ export const PatronModal: React.FC<{
                       </UniLink>
                     </li>
                   ))}
-                  {tips.data.count > 10 && (
+                  {tips.data.pages?.[0]?.count > 8 && (
                     <li className="inline-block">
-                      <div className="relative align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
-                        +{tips.data.count - 10}
+                      <div className="relative align-middle border-2 border-white w-[55px] h-[55px] rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
+                        +{tips.data.pages?.[0]?.count - 8}
                       </div>
                     </li>
                   )}
                 </ul>
               </>
             ) : (
-              t("You are here to be the first patron.")
+              t(
+                page
+                  ? "You are here to be the first tipper."
+                  : "You are here to be the first patron.",
+              )
             )}
           </div>
         </div>
@@ -219,9 +234,7 @@ export const PatronModal: React.FC<{
             isLoading={tipCharacter.isLoading}
             ref={submitRef}
           >
-            {t("Become a patron of {{name}}", {
-              name: site?.name,
-            })}
+            <span className="truncate">{title}</span>
           </Button>
         </div>
       </div>
