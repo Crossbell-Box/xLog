@@ -66,21 +66,49 @@ export const useGetSubscription = (siteId: string | undefined) => {
 
 export const useGetSiteSubscriptions = (data: { siteId: string }) => {
   const unidata = useUnidata()
-  return useQuery(["getSiteSubscriptions", data], async () => {
-    if (!data.siteId) {
-      return null
-    }
-    return siteModel.getSiteSubscriptions(data, unidata)
+  return useInfiniteQuery({
+    queryKey: ["getSiteSubscriptions", data],
+    queryFn: async ({ pageParam }) => {
+      if (!data.siteId) {
+        return {
+          total: 0,
+          list: [],
+          cursor: undefined,
+        }
+      }
+      return siteModel.getSiteSubscriptions(
+        {
+          ...data,
+          cursor: pageParam,
+        },
+        unidata,
+      )
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 
 export const useGetSiteToSubscriptions = (data: { siteId: string }) => {
   const unidata = useUnidata()
-  return useQuery(["getSiteToSubscriptions", data], async () => {
-    if (!data.siteId) {
-      return null
-    }
-    return siteModel.getSiteToSubscriptions(data, unidata)
+  return useInfiniteQuery({
+    queryKey: ["getSiteToSubscriptions", data],
+    queryFn: async ({ pageParam }) => {
+      if (!data.siteId) {
+        return {
+          total: 0,
+          list: [],
+          cursor: undefined,
+        }
+      }
+      return siteModel.getSiteToSubscriptions(
+        {
+          ...data,
+          cursor: pageParam,
+        },
+        unidata,
+      )
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 

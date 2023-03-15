@@ -49,12 +49,6 @@ export const Reactions: React.FC<{
   })
   const { data: likeCount = 0 } = useGetLikeCounts({ pageId })
 
-  const loadMoreLikes = async () => {
-    if (likesMutation.hasNextPage && !likesMutation.isFetchingNextPage) {
-      await likesMutation.fetchNextPage()
-    }
-  }
-
   const like = () => {
     if (pageId) {
       if (likeStatus.isLiked) {
@@ -95,12 +89,6 @@ export const Reactions: React.FC<{
     includeCharacter: size !== "sm",
   })
   const isMint = useCheckMint(pageId)
-
-  const loadMoreMints = async () => {
-    if (mints.hasNextPage && !mints.isFetchingNextPage) {
-      await mints.fetchNextPage()
-    }
-  }
 
   const mint = () => {
     if (pageId) {
@@ -398,7 +386,7 @@ export const Reactions: React.FC<{
           open={isLikeListOpen}
           setOpen={setIsLikeListOpen}
           title={t("Like List")}
-          loadMore={loadMoreLikes}
+          loadMore={likesMutation.fetchNextPage}
           hasMore={!!likesMutation.hasNextPage}
           list={likesMutation.data?.pages || []}
         ></CharacterList>
@@ -406,7 +394,7 @@ export const Reactions: React.FC<{
           open={isMintListOpen}
           setOpen={setIsMintListOpen}
           title={t("Mint List")}
-          loadMore={loadMoreMints}
+          loadMore={mints.fetchNextPage}
           hasMore={!!mints.hasNextPage}
           list={mints.data?.pages || []}
         ></CharacterList>

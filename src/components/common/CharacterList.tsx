@@ -13,10 +13,10 @@ export const CharacterList: React.FC<{
   open: boolean
   setOpen: (open: boolean) => void
   hasMore: boolean
-  loadMore: () => Promise<void>
-  list: {
+  loadMore: () => any
+  list?: ({
     list: any[]
-  }[]
+  } | null)[]
   title: string
 }> = ({ open, setOpen, hasMore, loadMore, list, title }) => {
   const { t } = useTranslation("common")
@@ -36,7 +36,7 @@ export const CharacterList: React.FC<{
         >
           {list?.length ? (
             list.map((page) =>
-              page.list?.map((sub: any, index) => {
+              page?.list?.map((sub: any, index) => {
                 const character = sub?.character || sub?.fromCharacter
                 return (
                   <div
