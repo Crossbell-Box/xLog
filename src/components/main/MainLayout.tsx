@@ -69,17 +69,17 @@ export function MainLayout({
           <span className="text-zinc-700 ml-2 inline-flex items-center space-x-5 align-middle">
             {GITHUB_LINK && (
               <UniLink className="flex items-center" href={GITHUB_LINK}>
-                <span className="inline-block i-mdi-github text-2xl hover:text-zinc-900"></span>
+                <span className="inline-block i-mingcute:github-fill text-2xl hover:text-accent"></span>
               </UniLink>
             )}
             {DISCORD_LINK && (
               <UniLink className="flex items-center" href={DISCORD_LINK}>
-                <span className="inline-block i-mdi-discord text-2xl hover:text-accent"></span>
+                <span className="inline-block i-mingcute:discord-fill text-2xl hover:text-accent"></span>
               </UniLink>
             )}
             {TWITTER_LINK && (
               <UniLink className="flex items-center" href={TWITTER_LINK}>
-                <span className="inline-block i-mdi-twitter text-2xl hover:text-accent"></span>
+                <span className="inline-block i-mingcute:twitter-fill text-2xl hover:text-accent"></span>
               </UniLink>
             )}
           </span>

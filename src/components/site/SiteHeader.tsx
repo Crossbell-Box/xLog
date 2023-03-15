@@ -8,7 +8,6 @@ import { UniLink } from "../ui/UniLink"
 import { Profile } from "~/lib/types"
 import { ConnectButton } from "../common/ConnectButton"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { Image } from "~/components/ui/Image"
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
@@ -90,7 +89,7 @@ export const SiteHeader: React.FC<{
     },
     {
       text: "View on Crossbell Scan",
-      icon: <BlockchainIcon className="fill-[#c09526]" />,
+      icon: <BlockchainIcon className="fill-[#c09526] w-full h-full" />,
       url: `${CSB_SCAN}/address/${site?.metadata?.owner}`,
     },
     {
@@ -221,9 +220,9 @@ export const SiteHeader: React.FC<{
                         <Button
                           variant="text"
                           aria-label="more"
-                          className="-mx-2"
+                          className="-mx-2 text-zinc-600"
                         >
-                          <EllipsisHorizontalIcon className="w-5 h-5 text-zinc-600" />
+                          <i className="i-mingcute:more-1-line text-2xl" />
                         </Button>
                       }
                       dropdown={

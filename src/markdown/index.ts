@@ -126,7 +126,7 @@ export const renderPageContent = (
               type: "element",
               tagName: "span",
               properties: {
-                className: ["i-akar-icons:link-chain"],
+                className: ["i-mingcute:link-line"],
               },
               children: [],
             },

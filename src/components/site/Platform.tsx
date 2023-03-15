@@ -1,6 +1,5 @@
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
-import { PlanetIcon } from "~/components/icons/PlanetIcon"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { cn } from "~/lib/utils"
 
@@ -100,8 +99,8 @@ export const Platform: React.FC<{
           {syncMap[platform]?.icon ? (
             <Image fill src={syncMap[platform]?.icon} alt={platform} />
           ) : (
-            <span className="rounded-md inline-flex fill-white justify-center items-center bg-zinc-300 w-6 h-6">
-              <PlanetIcon className="w-5 h-5" />
+            <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300 w-6 h-6">
+              <i className="i-mingcute:planet-line text-xl" />
             </span>
           )}
         </span>

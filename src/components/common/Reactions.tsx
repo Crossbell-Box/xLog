@@ -7,7 +7,7 @@ import {
   useToggleLikePage,
   useGetLikeCounts,
 } from "~/queries/page"
-import { useAccountSites, useGetTips } from "~/queries/site"
+import { useGetTips } from "~/queries/site"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "../ui/Button"
 import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
@@ -15,14 +15,13 @@ import { UniLink } from "~/components/ui/UniLink"
 import { Modal } from "~/components/ui/Modal"
 import { Avatar } from "../ui/Avatar"
 import { MintIcon } from "~/components/icons/MintIcon"
-import { getMints, parsePageId } from "~/models/page.model"
+import { parsePageId } from "~/models/page.model"
 import { CharacterList } from "~/components/common/CharacterList"
 import { cn } from "~/lib/utils"
 import { Tooltip } from "~/components/ui/Tooltip"
 import confetti from "canvas-confetti"
 import { Trans, useTranslation } from "next-i18next"
 import { Note, Profile } from "~/lib/types"
-import { HeartIcon } from "@heroicons/react/24/solid"
 import { useAccountState } from "@crossbell/connect-kit"
 import { PatronModal } from "~/components/common/PatronModal"
 
@@ -172,7 +171,7 @@ export const Reactions: React.FC<{
                 <span
                   className={cn(
                     "i-mingcute:thumb-up-2-fill mr-1",
-                    size === "sm" ? "text-base" : "text-[40px]",
+                    size === "sm" ? "text-base" : "text-[38px]",
                   )}
                 ></span>
               )
@@ -285,7 +284,9 @@ export const Reactions: React.FC<{
               ref={tipRef}
             >
               {(() => {
-                const inner = <HeartIcon className={cn("w-10 h-10")} />
+                const inner = (
+                  <i className="i-mingcute:heart-fill text-[40px]" />
+                )
                 return (
                   <Tooltip label={t("Tip")} placement="top">
                     {inner}

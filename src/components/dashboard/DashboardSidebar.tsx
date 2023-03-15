@@ -1,4 +1,3 @@
-import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/20/solid"
 import { useState, useEffect, useMemo } from "react"
 import { setStorage, getStorage } from "~/lib/storage"
 
@@ -29,13 +28,13 @@ export const DashboardSidebar: React.FC<{
       {children(isOpen)}
       <div className="w-[1px] bg-border absolute top-0 right-0 bottom-0"></div>
       <div
-        className="absolute top-5 -right-3 bg-accent rounded-full cursor-pointer"
+        className="absolute top-5 -right-3 bg-accent rounded-full cursor-pointer text-white w-6 h-6"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? (
-          <ChevronLeftIcon className="w-6 h-6 text-white" />
+          <i className="i-mingcute:left-line text-2xl inline-block w-6 h-6" />
         ) : (
-          <ChevronRightIcon className="w-6 h-6 text-white" />
+          <i className="i-mingcute:right-line text-2xl inline-block w-6 h-6" />
         )}
       </div>
     </div>

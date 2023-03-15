@@ -151,7 +151,6 @@ export default function SiteSettingsGeneralPage() {
                   setBannerUploading(false)
                 }}
                 withMimeType={true}
-                hasClose={true}
                 {...(field as any)}
               />
             )}

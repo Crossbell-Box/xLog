@@ -53,7 +53,7 @@ export const CommentItem: React.FC<{
           </CharacterFloatCard>
         </div>
         <div className="flex-1 flex flex-col rounded-lg">
-          <div className="mb-1 text-sm">
+          <div className="mb-1 text-sm flex items-center space-x-1">
             <UniLink
               href={
                 comment?.character?.handle &&
@@ -64,8 +64,8 @@ export const CommentItem: React.FC<{
               className="font-medium text-accent"
             >
               {comment?.character?.metadata?.content?.name}
-            </UniLink>{" "}
-            ·{" "}
+            </UniLink>
+            <span>·</span>
             <time dateTime={date.formatToISO(comment?.createdAt)}>
               {t("ago", {
                 time: date.dayjs
@@ -75,10 +75,13 @@ export const CommentItem: React.FC<{
                   )
                   .humanize(),
               })}
-            </time>{" "}
-            ·{" "}
-            <UniLink href={`${CSB_SCAN}/tx/${comment.transactionHash}`}>
-              <BlockchainIcon className="w-3 h-3 inline-block" />
+            </time>
+            <span>·</span>
+            <UniLink
+              href={`${CSB_SCAN}/tx/${comment.transactionHash}`}
+              className="inline-flex items-center h-full"
+            >
+              <BlockchainIcon className="inline-block" />
             </UniLink>
           </div>
           <PageContent

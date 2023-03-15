@@ -20,7 +20,6 @@ import { useUserRole } from "~/hooks/useUserRole"
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { useTranslation } from "react-i18next"
 import { Logo } from "~/components/common/Logo"
-import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline"
 import { getStorage } from "~/lib/storage"
 import { useGetPagesBySite } from "~/queries/page"
 
@@ -96,45 +95,49 @@ export function DashboardLayout({
     {
       href: `/dashboard/${subdomain}`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-bi-grid",
+      icon: "i-mingcute-grid-line",
       text: "Dashboard",
     },
     {
       href: `/dashboard/${subdomain}/posts`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-bi-layout-text-sidebar",
+      icon: "i-mingcute-news-line",
       text: "Posts",
     },
     {
       href: `/dashboard/${subdomain}/pages`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-bi-window-stack",
+      icon: "i-mingcute-file-line",
       text: "Pages",
-    },
-    {
-      onClick: showNotificationModal,
-      isActive: ({ href, pathname }) => href === pathname,
-      icon: isAllRead ? "i-bi:bell" : "i-bi:bell-fill",
-      text: isAllRead ? "Notifications" : "Unread notifications",
-    },
-    {
-      href: `/dashboard/${subdomain}/events`,
-      isActive: ({ href, pathname }) => href === pathname,
-      icon: isEventsAllRead ? "i-bi-gift" : "i-bi-gift-fill",
-      text: isEventsAllRead ? "Events" : "New Events",
     },
     {
       href: `/dashboard/${subdomain}/import`,
       isActive: ({ pathname }) =>
         pathname.startsWith(`/dashboard/${subdomain}/import`),
-      icon: "i-bi-hdd",
+      icon: "i-mingcute:file-import-line",
       text: "Import",
+    },
+    {
+      onClick: showNotificationModal,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: isAllRead
+        ? "i-mingcute:notification-line"
+        : "i-mingcute:notification-fill",
+      text: isAllRead ? "Notifications" : "Unread notifications",
+    },
+    {
+      href: `/dashboard/${subdomain}/events`,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: isEventsAllRead
+        ? "i-mingcute-flag-4-line"
+        : "i-mingcute-flag-4-fill",
+      text: isEventsAllRead ? "Events" : "New Events",
     },
     {
       href: `/dashboard/${subdomain}/settings/general`,
       isActive: ({ pathname }) =>
         pathname.startsWith(`/dashboard/${subdomain}/settings`),
-      icon: "i-bi-gear",
+      icon: "i-mingcute-settings-3-line",
       text: "Settings",
     },
   ]
@@ -220,7 +223,7 @@ export function DashboardLayout({
                         )}
                         onClick={link.onClick}
                       >
-                        <span className={cn(link.icon, "text-lg")}></span>
+                        <span className={cn(link.icon, "text-xl")}></span>
                         {isOpen && <span>{t(link.text)}</span>}
                       </UniLink>
                     )
@@ -232,7 +235,7 @@ export function DashboardLayout({
                     href={DISCORD_LINK}
                     className="space-x-1 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
                   >
-                    <QuestionMarkCircleIcon className="w-5 h-5" />
+                    <i className="i-mingcute:question-line text-lg" />
                     {isOpen && <span>{t("Need help?")}</span>}
                   </UniLink>
                   <UniLink
@@ -241,7 +244,7 @@ export function DashboardLayout({
                     })}
                     className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center"
                   >
-                    <span className="i-bi:box-arrow-up-right"></span>
+                    <span className="i-mingcute:home-1-line"></span>
                     {isOpen && <span>{t("View Site")}</span>}
                   </UniLink>
                 </div>

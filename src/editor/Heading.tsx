@@ -3,8 +3,8 @@ import { ICommand, prependExecute } from "."
 export const Heading: ICommand = {
   name: "heading",
   label: "Heading",
-  icon: "i-bi:type-h3",
+  icon: "i-mingcute:heading-2-line",
   execute: (view) => {
-    prependExecute({ view, prepend: "### " })
+    prependExecute({ view, prepend: "## " })
   },
 }

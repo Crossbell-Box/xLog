@@ -1,10 +1,7 @@
 import { GetServerSideProps } from "next"
 import { useState } from "react"
-import { DashboardIcon } from "~/components/icons/DashboardIcon"
 import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
-import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { LaughIcon } from "~/components/icons/LaughIcon"
 import { Button } from "~/components/ui/Button"
 import { useAccountState, useConnectedAction } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
@@ -19,12 +16,7 @@ import { useGetSites } from "~/queries/site"
 import showcase from "../../showcase.json"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useAccountSites, useSubscribeToSites } from "~/queries/site"
-import {
-  BoltIcon,
-  FingerPrintIcon,
-  RssIcon,
-  EllipsisHorizontalIcon,
-} from "@heroicons/react/24/outline"
+import { RssIcon } from "@heroicons/react/24/outline"
 import { Tooltip } from "~/components/ui/Tooltip"
 import {
   XCharLogo,
@@ -265,7 +257,7 @@ export default function Home() {
               {features.map((feature) => (
                 <span
                   key={feature.title}
-                  className={`text-feature text-feature-${feature.title.toLocaleLowerCase()} block sm:inline-block sm:mr-1`}
+                  className={`text-feature text-feature-${feature.title.toLocaleLowerCase()} block sm:inline-block sm:mr-1 mb-2`}
                 >
                   {t(feature.title)}
                   {t(".")}
@@ -291,16 +283,16 @@ export default function Home() {
                 blogging community for everyone.
               </Trans>
             </h3>
-            <div className="my-6 sm:my-12">
+            <div className="my-6 sm:my-12 flex items-center justify-center sm:flex-row flex-col">
               <Button
-                className="text-accent h-10 mt-4 block sm:inline-block"
+                className="text-accent h-10 mt-4 flex items-center"
                 onClick={tryNow}
                 size="2xl"
                 variantColor="black"
               >
                 {isConnected ? (
                   <>
-                    <span className="i-bi-grid text-lg mr-2 inline-block"></span>
+                    <span className="i-mingcute-grid-line text-xl mr-2 inline-block"></span>
                     <span>{t("Dashboard")}</span>
                   </>
                 ) : (
@@ -308,7 +300,7 @@ export default function Home() {
                 )}
               </Button>
               <Button
-                className="text-accent h-10 sm:ml-4 mt-4 block sm:inline-block"
+                className="text-accent h-10 sm:ml-4 mt-4 flex"
                 size="2xl"
                 variant="outline"
                 variantColor="gradient"
@@ -335,7 +327,7 @@ export default function Home() {
                 spy={true}
                 smooth={true}
                 duration={500}
-                className="cursor-pointer inline-block i-fluent:ios-arrow-rtl-24-filled text-3xl rotate-90"
+                className="cursor-pointer inline-block i-mingcute:down-line text-3xl"
               ></Link>
             </div>
           </div>
@@ -586,7 +578,7 @@ export default function Home() {
                     </li>
                   ))}
                   <li className="flex items-center justify-center">
-                    <EllipsisHorizontalIcon className="w-12 h-12" />
+                    <i className="i-mingcute:more-1-line text-5xl" />
                   </li>
                 </ul>
               </div>

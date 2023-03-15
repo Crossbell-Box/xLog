@@ -10,7 +10,6 @@ import { useCommentPage } from "~/queries/page"
 import { useRouter } from "next/router"
 import { EmojiPicker } from "./EmojiPicker"
 import { Popover } from "@headlessui/react"
-import { FaceSmileIcon } from "@heroicons/react/24/outline"
 import { useTranslation } from "next-i18next"
 
 export const CommentInput: React.FC<{
@@ -87,8 +86,8 @@ export const CommentInput: React.FC<{
           <Popover className="relative flex justify-center">
             {({ open }: { open: boolean }) => (
               <>
-                <Popover.Button className="group inline-flex items-center rounded-md px-2 text-xl">
-                  <FaceSmileIcon className="w-6 h-6 text-zinc-400 hover:text-zinc-500" />
+                <Popover.Button className="group inline-flex items-center rounded-md px-2 text-xl text-zinc-400 hover:text-zinc-500">
+                  <span className="i-mingcute:emoji-2-line text-2xl"></span>
                 </Popover.Button>
                 <Popover.Panel className="absolute left-0 top-full z-10">
                   <EmojiPicker

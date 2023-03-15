@@ -67,7 +67,7 @@ export const FollowingButton: React.FC<{
       onClick={handleClickSubscribe}
       className={cn(
         className,
-        "align-middle space-x-1 group border-accent border text-sm sm:text-base",
+        "align-middle group border-accent border text-sm sm:text-base",
         {
           "text-accent": subscription.data,
           "opacity-60": subscription.data,
@@ -85,14 +85,22 @@ export const FollowingButton: React.FC<{
       aria-label="follow"
       isAutoWidth
     >
-      <span className="i-bxs:bell"></span>
       {subscription.data ? (
         <>
-          <span className="group-hover:hidden">{t("Following")}</span>
-          <span className="hidden group-hover:block">{t("Unfollow")}</span>
+          <span className="group-hover:hidden inline-flex items-center">
+            <span className="i-mingcute:user-follow-fill inline-block mr-2"></span>{" "}
+            {t("Following")}
+          </span>
+          <span className="hidden group-hover:inline-flex items-center">
+            <span className="i-mingcute:user-remove-fill inline-block mr-2"></span>{" "}
+            {t("Unfollow")}
+          </span>
         </>
       ) : (
-        <span className="">{t("Follow")}</span>
+        <span className="inline-flex items-center">
+          <span className="i-mingcute:user-add-fill inline-block mr-2"></span>{" "}
+          {t("Follow")}
+        </span>
       )}
     </Button>
   )

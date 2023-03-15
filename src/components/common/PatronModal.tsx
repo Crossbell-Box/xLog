@@ -1,11 +1,9 @@
 import { Button } from "~/components/ui/Button"
 import { Note, Profile } from "~/lib/types"
 import { useTranslation } from "next-i18next"
-import { HeartIcon } from "@heroicons/react/24/solid"
 import { Modal } from "~/components/ui/Modal"
 import { useEffect, useRef, useState } from "react"
 import { BoxRadio } from "~/components/ui/BoxRadio"
-import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline"
 import { Tabs } from "../ui/Tabs"
 import { useTipCharacter, useGetTips } from "~/queries/site"
 import { useAccountState } from "@crossbell/connect-kit"
@@ -118,7 +116,11 @@ export const PatronModal: React.FC<{
       open={open}
       setOpen={setOpen}
       title={title}
-      titleIcon={<HeartIcon className="text-red-500 flex w-6 h-6 -mb-[1px]" />}
+      titleIcon={
+        <span className="text-red-500 flex w-6 h-6 -mb-[1px]">
+          <i className="i-mingcute:heart-fill text-2xl -mb-[1px]" />
+        </span>
+      }
       size="lg"
     >
       <div className="px-5 py-4 space-y-4">
@@ -218,7 +220,7 @@ export const PatronModal: React.FC<{
           <div className="text-zinc-500 text-xs space-y-1 mt-2">
             <p>1 Mira ≈ 1 USDC</p>
             <p className="flex items-center">
-              <QuestionMarkCircleIcon className="w-4 h-4 inline-block mr-1" />
+              <i className="i-mingcute:question-line mr-1 text-sm" />
               {t("What is Mira? Where can I get some?")}
             </p>
           </div>

@@ -14,7 +14,6 @@ import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useEffect, useState } from "react"
 import { Avatar } from "~/components/ui/Avatar"
 import { cn } from "~/lib/utils"
-import { ChevronRightIcon } from "@heroicons/react/20/solid"
 import { getSiteLink } from "~/lib/helpers"
 import { getStorage, setStorage } from "~/lib/storage"
 
@@ -78,8 +77,8 @@ export default function EventsPage() {
 
   return (
     <DashboardMain title="Events">
-      <div className="min-w-[270px] flex flex-col xl:flex-row space-y-8 xl:space-y-0">
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-4">
+      <div className="min-w-[270px] max-w-screen-xl flex flex-col xl:flex-row space-y-8 xl:space-y-0">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
           {pages.data?.pages[0]?.list.map((item) => {
             let status
             if (item.metadata?.frontMatter?.EndTime < new Date()) {
@@ -177,7 +176,7 @@ export default function EventsPage() {
                     }
                   >
                     {t("Learn more")}{" "}
-                    <ChevronRightIcon className="w-5 h-5 inline ml-1" />
+                    <i className="i-mingcute:right-line text-xl ml-1" />
                   </UniLink>
                 </div>
               </div>

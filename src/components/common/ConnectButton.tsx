@@ -13,20 +13,12 @@ import {
 import { useAccountSites } from "~/queries/site"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button, type VariantColor, type Variant } from "~/components/ui/Button"
-import { DashboardIcon } from "../icons/DashboardIcon"
 import { UniLink } from "../ui/UniLink"
 import { useEffect, useState } from "react"
 import {
-  Square2StackIcon,
-  ArrowRightOnRectangleIcon,
   BellIcon,
-  CurrencyDollarIcon,
-  UsersIcon,
   FaceFrownIcon,
   FaceSmileIcon,
-  ArrowUpCircleIcon,
-  ArrowPathRoundedSquareIcon,
-  ChevronDownIcon,
 } from "@heroicons/react/24/outline"
 import { BellAlertIcon } from "@heroicons/react/24/solid"
 import { SITE_URL } from "~/lib/env"
@@ -37,6 +29,7 @@ import {
 } from "@crossbell/notification"
 import { Menu } from "~/components/ui/Menu"
 import { useTranslation } from "next-i18next"
+import { cn } from "~/lib/utils"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -114,19 +107,19 @@ export const ConnectButton: React.FC<{
 
   const dropdownLinks: HeaderLinkType[] = [
     {
-      icon: <DashboardIcon />,
+      icon: "i-mingcute:grid-line",
       label: t("Dashboard") || "",
       url: `${SITE_URL}/dashboard`,
     },
     {
-      icon: <Square2StackIcon className="w-4 h-4" />,
+      icon: "i-mingcute:copy-2-line",
       label: t(copyLabelDisplay) || "",
       onClick: copyLabel,
     },
     ...(account?.type === "wallet"
       ? [
           {
-            icon: <UsersIcon className="w-4 h-4" />,
+            icon: "i-mingcute:seal-line",
             label: (
               <>
                 {t("Operator Sign")} (
@@ -147,7 +140,7 @@ export const ConnectButton: React.FC<{
             },
           },
           {
-            icon: <CurrencyDollarIcon className="w-4 h-4" />,
+            icon: "i-mingcute:currency-euro-line",
             label: (
               <span className={InsufficientBalance ? "text-red-400" : ""}>
                 {balance?.formatted.replace(/\.(\d{5})\d*$/, ".$1") ||
@@ -158,20 +151,20 @@ export const ConnectButton: React.FC<{
             onClick: csbDetailModal.show,
           },
           {
-            icon: <ArrowPathRoundedSquareIcon className="w-4 h-4" />,
+            icon: "i-mingcute:repeat-line",
             label: t("Switch Characters") || "",
             onClick: selectCharactersModal.show,
           },
         ]
       : [
           {
-            icon: <ArrowUpCircleIcon className="w-4 h-4" />,
+            icon: "i-mingcute:vip-2-line",
             label: t("Upgrade to Wallet") || "",
             onClick: upgradeAccountModal.show,
           },
         ]),
     {
-      icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
+      icon: "i-mingcute:exit-line",
       label: t("Disconnect") || "",
       onClick: disconnect,
     },
@@ -278,7 +271,7 @@ export const ConnectButton: React.FC<{
                               </span>
                             )}
                           </div>
-                          <ChevronDownIcon className="w-4 h-4 ml-[2px] stroke-2" />
+                          <i className="i-mingcute:down-line text-xl ml-[2px]" />
                         </>
                       )}
                     </button>
@@ -303,7 +296,7 @@ export const ConnectButton: React.FC<{
                             aria-label={link.label}
                           >
                             <span className="mr-2 flex justify-center">
-                              {link.icon}
+                              <i className={cn(link.icon, "text-base")} />
                             </span>
                             {link.label}
                           </UniLink>

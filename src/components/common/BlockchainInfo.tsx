@@ -1,8 +1,6 @@
 import { CSB_IO, CSB_SCAN } from "~/lib/env"
-import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import { Disclosure } from "@headlessui/react"
-import { ChevronUpIcon } from "@heroicons/react/20/solid"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { toIPFS, toGateway } from "~/lib/ipfs-parser"
 import { IPFS_GATEWAY } from "~/lib/env"
@@ -24,9 +22,9 @@ export const BlockchainInfo: React.FC<{
               className="flex w-full justify-between items-center rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-hover transition-colors md:rounded-xl"
               aria-label="toggle chain info"
             >
-              <span>
-                <BlockchainIcon className="w-4 h-4 inline-block align-middle mr-2" />
-                <span className="align-middle">
+              <span className="flex items-center">
+                <BlockchainIcon className="mr-1" />
+                <span>
                   {t("signed and stored on the blockchain", {
                     ns: "site",
                     name: t(

@@ -71,6 +71,7 @@ export const CharacterList: React.FC<{
                         "/tx/" +
                         (sub.metadata?.proof || sub.transactionHash)
                       }
+                      className="flex items-center"
                     >
                       <BlockchainIcon />
                     </UniLink>

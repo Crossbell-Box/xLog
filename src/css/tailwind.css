@@ -158,12 +158,12 @@ a {
   @apply text-gray-500 fill-gray-500;
 }
 .button.is-tip:hover {
-  color: #f87171;
-  fill: #f87171;
+  color: #ef4444;
+  fill: #ef4444;
 }
 .button.is-tip.active {
-  color: #f87171;
-  fill: #f87171;
+  color: #ef4444;
+  fill: #ef4444;
 }
 
 .button.is-crossbell {

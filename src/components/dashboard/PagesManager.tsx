@@ -16,13 +16,11 @@ import {
   useDeletePage,
   useCreateOrUpdatePage,
 } from "~/queries/page"
-import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useQueryClient } from "@tanstack/react-query"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
 import { nanoid } from "nanoid"
-import { renderPageContent } from "~/markdown"
 import { Tooltip } from "../ui/Tooltip"
 import { APP_NAME } from "~/lib/env"
 import { Trans, useTranslation } from "next-i18next"
@@ -132,20 +130,7 @@ export const PagesManager: React.FC<{
     return [
       {
         text: "Edit",
-        icon: (
-          <svg
-            className="w-4 h-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 20h9"></path>
-            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-          </svg>
-        ),
+        icon: <span className="i-mingcute:edit-line inline-block"></span>,
         onClick() {
           router.push(getPageEditLink(page))
         },
@@ -158,7 +143,7 @@ export const PagesManager: React.FC<{
             : isPost
             ? "Page"
             : "Post"),
-        icon: <span className="i-tabler:transform inline-block"></span>,
+        icon: <span className="i-mingcute:transfer-3-line inline-block"></span>,
         onClick() {
           const toastId = toast.loading("Converting...")
           if (isCrossbell) {
@@ -201,22 +186,7 @@ export const PagesManager: React.FC<{
       },
       {
         text: "Delete",
-        icon: (
-          <svg
-            className="w-4 h-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-            <line x1="10" y1="11" x2="10" y2="17"></line>
-            <line x1="14" y1="11" x2="14" y2="17"></line>
-          </svg>
-        ),
+        icon: <span className="i-mingcute:delete-2-line inline-block"></span>,
         onClick() {
           if (!page.metadata) {
             const toastId = toast.loading("Deleting...")
@@ -332,18 +302,7 @@ export const PagesManager: React.FC<{
                 )
               }
             >
-              <svg
-                className="w-4 h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 20h9"></path>
-                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-              </svg>
+              <span className="i-mingcute:add-line inline-block"></span>
               <span>{t(`New ${isPost ? "Post" : "Page"}`)}</span>
             </Button>
             <span className="hidden sm:inline-flex">
@@ -352,7 +311,7 @@ export const PagesManager: React.FC<{
                 placement="bottom"
               >
                 <Button className={cn(`space-x-2`)} onClick={importFile}>
-                  <span className="i-bxs:duplicate inline-block"></span>
+                  <span className="i-mingcute:file-import-line inline-block"></span>
                   <span>{t("Import")}</span>
                 </Button>
               </Tooltip>
@@ -415,7 +374,7 @@ export const PagesManager: React.FC<{
                               e.stopPropagation()
                             }}
                           >
-                            <EllipsisHorizontalIcon className="w-5 h-5" />
+                            <i className="i-mingcute:more-1-line text-2xl" />
                           </button>
                         </Menu.Button>
                         <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64">

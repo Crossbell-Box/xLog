@@ -5,7 +5,6 @@ import { EmptyState } from "../ui/EmptyState"
 import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
 import { Button } from "~/components/ui/Button"
-import { EyeIcon } from "@heroicons/react/24/outline"
 import { useTranslation } from "next-i18next"
 import { useEffect, useState } from "react"
 
@@ -79,7 +78,7 @@ export const SiteHome: React.FC<{
                         </span>
                       )}
                       <span className="xlog-post-views inline-flex items-center">
-                        <EyeIcon className="w-4 h-4 inline-block mr-[2px]" />
+                        <i className="i-mingcute:eye-line mr-[2px]" />
                         <span>{post.views}</span>
                       </span>
                     </div>
