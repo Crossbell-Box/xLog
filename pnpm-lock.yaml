@@ -117,7 +117,7 @@ specifiers:
   tailwindcss: 3.2.7
   tailwindcss-animate: ^1.0.5
   typescript: 4.9.5
-  unidata.js: 0.7.13
+  unidata.js: 0.7.17
   unified: 10.1.2
   unist-builder: 3.0.1
   unist-util-visit: 4.1.2
@@ -210,7 +210,7 @@ dependencies:
   sortablejs: 1.15.0
   tailwind-merge: 1.10.0
   tailwindcss-animate: 1.0.5_tailwindcss@3.2.7
-  unidata.js: 0.7.13
+  unidata.js: 0.7.17
   unified: 10.1.2
   unist-builder: 3.0.1
   unist-util-visit: 4.1.2
@@ -4480,8 +4480,8 @@ packages:
       wonka: 6.1.2
     dev: false
 
-  /@urql/core/3.1.1_graphql@16.6.0:
-    resolution: {integrity: sha512-Mnxtq4I4QeFJsgs7Iytw+HyhiGxISR6qtyk66c9tipozLZ6QVxrCiUPF2HY4BxNIabaxcp+rivadvm8NAnXj4Q==}
+  /@urql/core/3.2.2_graphql@16.6.0:
+    resolution: {integrity: sha512-i046Cz8cZ4xIzGMTyHZrbdgzcFMcKD7+yhCAH5FwWBRjcKrc+RjEOuR9X5AMuBvr8c6IAaE92xAqa4wmlGfWTQ==}
     peerDependencies:
       graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
@@ -5411,8 +5411,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /axios-retry/3.3.1:
-    resolution: {integrity: sha512-RohAUQTDxBSWLFEnoIG/6bvmy8l3TfpkclgStjl5MDCMBDgapAWCmr1r/9harQfWC8bzLC8job6UcL1A1Yc+/Q==}
+  /axios-retry/3.4.0:
+    resolution: {integrity: sha512-VdgaP+gHH4iQYCCNUWF2pcqeciVOdGrBBAYUfTY+wPcO5Ltvp/37MLFNCmJKo7Gj3SHvCSdL8ouI1qLYJN3liA==}
     dependencies:
       '@babel/runtime': 7.21.0
       is-retry-allowed: 2.2.0
@@ -5430,16 +5430,6 @@ packages:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
       follow-redirects: 1.15.2
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /axios/1.2.3:
-    resolution: {integrity: sha512-pdDkMYJeuXLZ6Xj/Q5J3Phpe+jbGdsSzlQaFVkMQzRUL05+6+tetX8TV3p4HrU4kzuO9bt+io/yGQxuyxA/xcw==}
-    dependencies:
-      follow-redirects: 1.15.2
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -6238,25 +6228,24 @@ packages:
       which: 2.0.2
     dev: true
 
-  /crossbell.js/0.16.2:
-    resolution: {integrity: sha512-Rgy1v6EmXy0ou9JVRezMHfUp3L9OHAub0d8jExoN3iJPQtvd0jopy0QNONL0ShvIJxTsiCwM1rg9SAA5sw6gZQ==}
+  /crossbell.js/0.17.2:
+    resolution: {integrity: sha512-Fev8e6KoGrYhnK4lVB0rYF7gV5Ul+MTFWLk07xpkMAnDGGakMegXRXs6QiJDsolLLYhPKgeAP0XBLa/Ecd5C+g==}
     dependencies:
+      '@crossbell/ipfs-fetch': 0.0.15
       async-retry: 1.3.3
-      browser-or-node: 2.1.1
       ethers: 5.7.2
       fetch-undici: 3.0.1
-      is-ipfs: 6.0.2
-      ts-mixer: 6.0.2
+      p-limit: 3.1.0
+      ts-mixer: 6.0.3
       web3-providers-ws: 1.8.2
     transitivePeerDependencies:
       - bufferutil
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: false
 
-  /crossbell.js/0.17.2:
-    resolution: {integrity: sha512-Fev8e6KoGrYhnK4lVB0rYF7gV5Ul+MTFWLk07xpkMAnDGGakMegXRXs6QiJDsolLLYhPKgeAP0XBLa/Ecd5C+g==}
+  /crossbell.js/0.17.4:
+    resolution: {integrity: sha512-EjWdepj48neDr+Zjhgtpxf9ednrdhdhShz7I+aweAAE6hUrliGos/JYPkD/2dMrA0HvKpyZyxJahQ9+LvWFc1Q==}
     dependencies:
       '@crossbell/ipfs-fetch': 0.0.15
       async-retry: 1.3.3
@@ -6584,17 +6573,6 @@ packages:
   /dlv/1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
 
-  /dns-over-http-resolver/1.2.3:
-    resolution: {integrity: sha512-miDiVSI6KSNbi4SVifzO/reD8rMnxgrlnkrlkugOLQpWQTe2qMdHsZp5DmfKjxNE+/T3VAAYLQUZMv9SMr6+AA==}
-    dependencies:
-      debug: 4.3.4
-      native-fetch: 3.0.0
-      receptacle: 1.3.2
-    transitivePeerDependencies:
-      - node-fetch
-      - supports-color
-    dev: false
-
   /doctrine/2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
@@ -6736,10 +6714,6 @@ packages:
     resolution: {integrity: sha512-2bmlRpNKBxT/CRmPOlyISQpNj+qSeYvcym/uT0Jx2bMOlKLtSy1ZmLuVxSEKKyor/N5yhvp/ZiG1oE3DEYMSFA==}
     dev: false
     optional: true
-
-  /err-code/3.0.1:
-    resolution: {integrity: sha512-GiaH0KJUewYok+eeY05IIgjtAe4Yltygk9Wqp1V5yVWLdhf0hYZchRjNIT9bb0mSwRcIusT3cx7PJUf3zEIfUA==}
-    dev: false
 
   /error-ex/1.3.2:
     resolution: {integrity: sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==}
@@ -8310,11 +8284,6 @@ packages:
       - supports-color
     dev: false
 
-  /ip-regex/4.3.0:
-    resolution: {integrity: sha512-B9ZWJxHHOHUhUjCPrMpLD4xEq35bUTClHM1S6CBU5ixQnkZmwipwgc96vAd7AAGM9TGHvJR+Uss+/Ak6UphK+Q==}
-    engines: {node: '>=8'}
-    dev: false
-
   /ip/2.0.0:
     resolution: {integrity: sha512-WKa+XuLG1A1R0UWhl2+1XQSi+fZWMsYKffMZTTYsiZaUD8k2yDAj5atimTUD2TZkyCkNEeYE5NhFZmupOGtjYQ==}
     dev: false
@@ -8446,27 +8415,6 @@ packages:
 
   /is-hexadecimal/2.0.1:
     resolution: {integrity: sha512-DgZQp241c8oO6cA1SbTEWiXeoxV42vlcJxgH+B3hi1AiqqKruZR3ZGF8In3fj4+/y/7rHvlOZLZtgJ/4ttYGZg==}
-    dev: false
-
-  /is-ip/3.1.0:
-    resolution: {integrity: sha512-35vd5necO7IitFPjd/YBeqwWnyDWbuLH9ZXQdMfDA8TEo7pv5X8yfrvVO3xbJbLUlERCMvf6X0hTUamQxCYJ9Q==}
-    engines: {node: '>=8'}
-    dependencies:
-      ip-regex: 4.3.0
-    dev: false
-
-  /is-ipfs/6.0.2:
-    resolution: {integrity: sha512-RinUnsggL4hlLoHlZcvs2+92OE46Uflg/YVU1m5fXhyDBS/zh3bq+i6Aw7IbzJZ9oZXJx26TgxpqCuCr+LH/DA==}
-    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
-    dependencies:
-      iso-url: 1.2.1
-      mafmt: 10.0.0
-      multiaddr: 10.0.1
-      multiformats: 9.9.0
-      uint8arrays: 3.1.1
-    transitivePeerDependencies:
-      - node-fetch
-      - supports-color
     dev: false
 
   /is-lambda/1.0.1:
@@ -8643,11 +8591,6 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
-
-  /iso-url/1.2.1:
-    resolution: {integrity: sha512-9JPDgCN4B7QPkLtYAAOrEuAWvP9rWvR5offAr0/SeF046wIkglqH3VXgYYP6NcsKslH80UIVgmPqNe3j7tG2ng==}
-    engines: {node: '>=12'}
-    dev: false
 
   /isomorphic-ws/4.0.1_ws@7.5.9:
     resolution: {integrity: sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==}
@@ -9165,15 +9108,6 @@ packages:
   /lru-cache/8.0.3:
     resolution: {integrity: sha512-hDYyWLYUrrTuQQlZWe6U56i+t6UU7LnimwV9Tvvw0HadkTnD7VbErepoJVeNEfC4exBIcGwO8M7TQyF6HO5tQA==}
     engines: {node: '>=16.14'}
-    dev: false
-
-  /mafmt/10.0.0:
-    resolution: {integrity: sha512-K1bziJOXcnepfztu+2Xy9FLKVLaFMDuspmiyJIYRxnO0WOxFSV7XKSdMxMrVZxcvg1+YjlTIvSGTImUHU2k4Aw==}
-    dependencies:
-      multiaddr: 10.0.1
-    transitivePeerDependencies:
-      - node-fetch
-      - supports-color
     dev: false
 
   /magic-string/0.25.9:
@@ -9916,21 +9850,6 @@ packages:
   /ms/2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  /multiaddr/10.0.1:
-    resolution: {integrity: sha512-G5upNcGzEGuTHkzxezPrrD6CaIHR9uo+7MwqhNVcXTs33IInon4y7nMiGxl2CY5hG7chvYQUQhz5V52/Qe3cbg==}
-    deprecated: This module is deprecated, please upgrade to @multiformats/multiaddr
-    dependencies:
-      dns-over-http-resolver: 1.2.3
-      err-code: 3.0.1
-      is-ip: 3.1.0
-      multiformats: 9.9.0
-      uint8arrays: 3.1.1
-      varint: 6.0.0
-    transitivePeerDependencies:
-      - node-fetch
-      - supports-color
-    dev: false
-
   /multiformats/9.9.0:
     resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
     dev: false
@@ -9954,12 +9873,6 @@ packages:
 
   /napi-build-utils/1.0.2:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
-    dev: false
-
-  /native-fetch/3.0.0:
-    resolution: {integrity: sha512-G3Z7vx0IFb/FQ4JxvtqGABsOTIqRWvgQz6e+erkB+JJD6LrszQtMozEHI4EkmgZQvnGHrpLVzUWk7t4sJCIkVw==}
-    peerDependencies:
-      node-fetch: '*'
     dev: false
 
   /natural-compare/1.4.0:
@@ -11233,12 +11146,6 @@ packages:
   /real-require/0.1.0:
     resolution: {integrity: sha512-r/H9MzAWtrv8aSVjPCMFpDMl5q66GqtmmRkRjpHTsp4zBAa+snZyiQNlMONiUmEJcsnaw0wCauJ2GWODr/aFkg==}
     engines: {node: '>= 12.13.0'}
-    dev: false
-
-  /receptacle/1.3.2:
-    resolution: {integrity: sha512-HrsFvqZZheusncQRiEE7GatOAETrARKV/lnfYicIm8lbvp/JQOdADOfhjBd2DajvoszEyxSM6RlAAIZgEoeu/A==}
-    dependencies:
-      ms: 2.1.3
     dev: false
 
   /redis-errors/1.2.0:
@@ -12522,10 +12429,6 @@ packages:
       typescript: 4.9.5
     dev: false
 
-  /ts-mixer/6.0.2:
-    resolution: {integrity: sha512-zvHx3VM83m2WYCE8XL99uaM7mFwYSkjR2OZti98fabHrwkjsCvgwChda5xctein3xGOyaQhtTeDq/1H/GNvF3A==}
-    dev: false
-
   /ts-mixer/6.0.3:
     resolution: {integrity: sha512-k43M7uCG1AkTyxgnmI5MPwKoUvS/bRvLvUb7+Pgpdlmok8AoqmUaZxUUw8zKM5B1lqZrt41GjYgnvAi0fppqgQ==}
     dev: false
@@ -12710,14 +12613,14 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /unidata.js/0.7.13:
-    resolution: {integrity: sha512-gw9MyINQw5N/Or1QqvqBiGXIQ0mLeKfIZN1/aYJ/VO+As0Bqpro+FbPKCblgAgyibGEVEghcEGmm1O5mleF8xQ==}
+  /unidata.js/0.7.17:
+    resolution: {integrity: sha512-GCGx3H3z9tpasu1ScPI7I1sCtLuTu9PLmXLq95VXnBHF1Cn6QN0Kvwg9rltUJLXFwsK69S34ag9SLFHlZGcwdA==}
     dependencies:
       '@types/lodash': 4.14.191
-      '@urql/core': 3.1.1_graphql@16.6.0
-      axios: 1.2.3
-      axios-retry: 3.3.1
-      crossbell.js: 0.16.2
+      '@urql/core': 3.2.2_graphql@16.6.0
+      axios: 1.3.4
+      axios-retry: 3.4.0
+      crossbell.js: 0.17.4
       ethers: 5.7.2
       graphql: 16.6.0
       lodash: 4.17.21
@@ -12726,7 +12629,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: false
@@ -13067,10 +12969,6 @@ packages:
       proxy-compare: 2.4.0
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
-    dev: false
-
-  /varint/6.0.0:
-    resolution: {integrity: sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==}
     dev: false
 
   /vfile-location/4.0.1:
