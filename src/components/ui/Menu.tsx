@@ -41,7 +41,12 @@ export const Menu: React.FC<{
 
   return (
     <>
-      <div ref={refs.setReference} {...getReferenceProps()}>
+      <div
+        ref={refs.setReference}
+        {...getReferenceProps({
+          className: "flex items-center",
+        })}
+      >
         {target}
       </div>
       {isMounted && (

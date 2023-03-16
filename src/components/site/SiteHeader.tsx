@@ -46,7 +46,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
       )}
     >
       {link.icon && <span>{link.icon}</span>}
-      <span>{t(link.label)}</span>
+      <span className="whitespace-nowrap">{t(link.label)}</span>
     </UniLink>
   )
 }
@@ -283,7 +283,7 @@ export const SiteHeader: React.FC<{
                 ></div>
               )}
               <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row text-sm sm:text-base">
-                <span className="xlog-site-follow-count block sm:inline-block">
+                <span className="xlog-site-follow-count block sm:inline-block whitespace-nowrap">
                   <FollowingCount siteId={site?.username} />
                 </span>
                 <span className="xlog-site-patron">

@@ -88,18 +88,18 @@ export const FollowingButton: React.FC<{
       {subscription.data ? (
         <>
           <span className="group-hover:hidden inline-flex items-center">
-            <span className="i-mingcute:user-follow-fill inline-block mr-2"></span>{" "}
-            {t("Following")}
+            <span className="i-mingcute:user-follow-fill inline-block sm:mr-2"></span>{" "}
+            <span className="hidden sm:inline">{t("Following")}</span>
           </span>
           <span className="hidden group-hover:inline-flex items-center">
-            <span className="i-mingcute:user-remove-fill inline-block mr-2"></span>{" "}
-            {t("Unfollow")}
+            <span className="i-mingcute:user-remove-fill inline-block sm:mr-2"></span>{" "}
+            <span className="hidden sm:inline">{t("Unfollow")}</span>
           </span>
         </>
       ) : (
         <span className="inline-flex items-center">
-          <span className="i-mingcute:user-add-fill inline-block mr-2"></span>{" "}
-          {t("Follow")}
+          <span className="i-mingcute:user-add-fill inline-block sm:mr-2"></span>{" "}
+          <span className="hidden sm:inline">{t("Follow")}</span>
         </span>
       )}
     </Button>

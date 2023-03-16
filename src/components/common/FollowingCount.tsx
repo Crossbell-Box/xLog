@@ -40,7 +40,7 @@ export const FollowingCount: React.FC<{
       <Button
         variant="text"
         className={
-          "xlog-site-followings align-middle text-zinc-500 ml-3" +
+          "xlog-site-followings align-middle text-zinc-500 sm:ml-3" +
           (disableList ? "" : " cursor-pointer")
         }
         onClick={() => setIsToFollowListOpen(true)}
