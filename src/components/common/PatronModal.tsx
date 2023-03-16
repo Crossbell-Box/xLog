@@ -115,18 +115,20 @@ export const PatronModal: React.FC<{
     <Modal
       open={open}
       setOpen={setOpen}
-      title={title}
-      titleIcon={
-        <span className="text-red-500 flex w-6 h-6 -mb-[1px]">
-          <i className="i-mingcute:heart-fill text-2xl -mb-[1px]" />
+      title={
+        <span className="inline-flex items-center justify-center w-full space-x-1">
+          <span className="text-red-500 flex w-6 h-6 -mb-[1px]">
+            <i className="i-mingcute:heart-fill text-2xl -mb-[1px]" />
+          </span>
+          <span className="truncate">{title}</span>
         </span>
       }
       size="lg"
     >
-      <div className="px-5 py-4 space-y-4">
+      <div className="px-5 py-4 space-y-4 text-center">
         <div className="space-y-1">
-          <span className="flex items-center justify-between">
-            <Avatar images={site?.avatars || []} name={site?.name} size={60} />
+          <span className="flex items-center justify-center">
+            <Avatar images={site?.avatars || []} name={site?.name} size={100} />
           </span>
           <span className="block">
             <span className="font-bold text-lg text-zinc-800">
@@ -142,16 +144,16 @@ export const PatronModal: React.FC<{
           )}
         </div>
         <div>
-          <div className="text-lg">
+          <div className="text-lg font-medium">
             {t(page ? "Latest tipper" : "Latest patrons")}
           </div>
           <div className="text-zinc-500 text-sm mt-2">
             {tips.data?.pages?.[0]?.list?.length ? (
               <>
-                <ul className="grid grid-cols-5 sm:grid-cols-8">
+                <ul className="flex items-center justify-center">
                   {tips.data.pages[0].list?.map((tip, index) => (
                     <li
-                      className="inline-flex flex-col items-center"
+                      className="inline-flex flex-col items-center w-[12.5%]"
                       key={index}
                     >
                       <CharacterFloatCard siteId={tip.character?.handle}>
@@ -180,10 +182,10 @@ export const PatronModal: React.FC<{
                       </UniLink>
                     </li>
                   ))}
-                  {tips.data.pages?.[0]?.count > 8 && (
-                    <li className="inline-block">
-                      <div className="relative align-middle border-2 border-white w-[55px] h-[55px] rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
-                        +{tips.data.pages?.[0]?.count - 8}
+                  {tips.data.pages?.[0]?.count > 7 && (
+                    <li className="inline-flex justify-center w-[12.5%] h-[70px]">
+                      <div className="relative align-middle w-[50px] h-[50px] rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
+                        +{tips.data.pages?.[0]?.count - 7}
                       </div>
                     </li>
                   )}
@@ -199,7 +201,7 @@ export const PatronModal: React.FC<{
           </div>
         </div>
         <div>
-          <div className="text-lg">{t("Select a tier")}</div>
+          <div className="text-lg font-medium">{t("Select a tier")}</div>
           <div className="-mb-4">
             <Tabs
               items={[
@@ -212,6 +214,7 @@ export const PatronModal: React.FC<{
                   tooltip: t("Coming soon") || "",
                 },
               ]}
+              className="justify-center"
             ></Tabs>
           </div>
           <div>
@@ -219,7 +222,7 @@ export const PatronModal: React.FC<{
           </div>
           <div className="text-zinc-500 text-xs space-y-1 mt-2">
             <p>1 Mira ≈ 1 USDC</p>
-            <p className="flex items-center">
+            <p className="flex items-center justify-center">
               <i className="i-mingcute:question-line mr-1 text-sm" />
               {t("What is Mira? Where can I get some?")}
             </p>

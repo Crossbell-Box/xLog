@@ -6,7 +6,7 @@ export const Modal: React.FC<{
   open: boolean
   setOpen: (open: boolean) => void
   children: React.ReactNode
-  title?: string
+  title?: string | React.ReactNode
   titleIcon?: React.ReactNode
   size?: "md" | "lg" | "sm"
 }> = ({ open, setOpen, children, title, titleIcon, size = "md" }) => {
@@ -40,7 +40,7 @@ export const Modal: React.FC<{
           {title && (
             <Dialog.Title className="text-lg border-b h-14 flex items-center px-5 space-x-2 py-4">
               {titleIcon && <span>{titleIcon}</span>}
-              <span className="truncate">{title}</span>
+              <span className="truncate flex items-center w-full">{title}</span>
             </Dialog.Title>
           )}
           {children}

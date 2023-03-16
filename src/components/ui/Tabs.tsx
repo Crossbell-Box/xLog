@@ -13,11 +13,16 @@ export type TabItem = {
   tooltip?: string
 }
 
-export const Tabs: React.FC<{ items: TabItem[] }> = ({ items }) => {
+export const Tabs: React.FC<{ items: TabItem[]; className?: string }> = ({
+  items,
+  className,
+}) => {
   const { t } = useTranslation(["dashboard"])
 
   return (
-    <div className="flex border-b space-x-5 mb-8 overflow-x-auto">
+    <div
+      className={cn(className, "flex border-b space-x-5 mb-8 overflow-x-auto")}
+    >
       {items.map((item) => {
         if (item.hidden) return null
 
