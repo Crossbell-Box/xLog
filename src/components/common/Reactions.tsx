@@ -273,7 +273,7 @@ export const Reactions: React.FC<{
           )}
         </div>
         {size !== "sm" && (
-          <div className="xlog-reactions-tip flex items-center">
+          <div className="xlog-reactions-tip flex items-center opacity-0 pointer-events-none">
             <Button
               variant="tip"
               className={`flex items-center mr-2 ${

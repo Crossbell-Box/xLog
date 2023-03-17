@@ -24,8 +24,12 @@ export const PatronButton: React.FC<{
         className={cn(className, "-mx-2 text-red-400")}
         onClick={() => setOpen(true)}
       >
-        <i className="i-mingcute:heart-fill text-red-400 text-xl -mb-[1px]" />
-        <span className="text-zinc-500 ml-1">{t("Patron")}</span>
+        <span className="inline-flex items-center">
+          <i className="text-red-400 text-xl inline-flex items-center">
+            <i className="i-mingcute:heart-fill inline-block" />
+          </i>
+          <span className="text-zinc-500 ml-1">{t("Patron")}</span>
+        </span>
       </Button>
     </>
   )
