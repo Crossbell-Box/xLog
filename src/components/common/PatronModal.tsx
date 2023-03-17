@@ -31,23 +31,23 @@ export const PatronModal: React.FC<{
 
   const radios = [
     {
-      text: "🍭 1 Mira",
+      text: "🍭 1 MIRA",
       value: "1",
     },
     {
-      text: "☕️ 5 Mira",
+      text: "☕️ 5 MIRA",
       value: "5",
     },
     {
-      text: "🍕 10 Mira",
+      text: "🍕 10 MIRA",
       value: "10",
     },
     {
-      text: "🎁 50 Mira",
+      text: "🎁 50 MIRA",
       value: "50",
     },
     {
-      text: "👑 100 Mira",
+      text: "👑 100 MIRA",
       value: "100",
     },
     {
@@ -179,7 +179,7 @@ export const PatronModal: React.FC<{
                         className="inline-flex items-center mt-1 text-center w-full"
                       >
                         <span className="text-xs text-zinc-500 truncate w-full">
-                          {tip.amount} Mira
+                          {tip.amount} MIRA
                         </span>
                       </UniLink>
                     </li>
@@ -223,11 +223,11 @@ export const PatronModal: React.FC<{
             <BoxRadio items={radios} value={value} setValue={setValue} />
           </div>
           <div className="text-zinc-500 text-xs space-y-1 mt-2">
-            <p>1 Mira ≈ 1 USDC</p>
+            <p>1 MIRA ≈ 1 USDC</p>
             <p className="flex items-center justify-center">
               <i className="i-mingcute:question-line mr-1 text-sm" />
               <UniLink href={MIRA_LINK}>
-                {t("What is Mira? Where can I get some?")}
+                {t("What is MIRA? Where can I get some?")}
               </UniLink>
             </p>
           </div>
