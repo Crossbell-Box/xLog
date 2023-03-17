@@ -286,7 +286,7 @@ export const SiteHeader: React.FC<{
                 <span className="xlog-site-follow-count block sm:inline-block whitespace-nowrap">
                   <FollowingCount siteId={site?.username} />
                 </span>
-                <span className="xlog-site-patron opacity-0 pointer-events-none">
+                <span className="xlog-site-patron">
                   <PatronButton site={site} />
                 </span>
               </div>

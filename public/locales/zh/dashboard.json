@@ -148,5 +148,18 @@
   "Preview your Mirror.xyz entries": "预览你的 Mirror.xyz 条目",
   "Please select .md files, multiple files are supported, and front matter is supported.":
     "请选择 .md 文件，支持多个文件，支持 front matter。",
-  "Achievements": "成就"
+  "Achievements": "成就",
+  "Tokens": "代币",
+  "1 MIRA ≈ 1 USDC, swap easily on cross-chain bridge and Uniswap.": "1 MIRA ≈ 1 USDC，可以在跨链桥和 Uniswap 上轻松兑换。",
+  "In the early stage, xLog will use $MIRA to motivate creators.": "在早期阶段，xLog 将使用 $MIRA 激励创作者。",
+  "You can obtain $MIRA through the following ways:": "你可以通过以下方式获得 $MIRA：",
+  "Creator incentive program." : "创作者激励计划。",
+  "Participate in events.": "参加活动。",
+  "Swap from USDC.": "从 USDC 兑换。",
+  "Swap to USDC": "兑换到 USDC",
+  "Free Claim": "免费领取",
+  "$XLOG is related to xLog DAO, but it's too early now, please stay tuned.": "$XLOG 与 xLog DAO 相关，但现在还为时尚早，敬请期待。",
+  "Stay tuned": "敬请期待",
+  "This is a token used for interaction on the Crossbell blockchain, which can be claimed for free from the faucet, so there's no need to worry about its balance.": "这是一个用于 Crossbell 区块链上交互的代币，可以从水龙头免费领取，所以不用担心它的余额。",
+  "Balance": "余额"
 }

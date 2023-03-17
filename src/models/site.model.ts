@@ -696,3 +696,14 @@ export async function mintAchievement(input: {
 }) {
   return indexer.mintAchievement(input.characterId, input.achievementId)
 }
+
+export async function getMiraBalance(address: string, contract: Contract) {
+  const decimals = await contract.getMiraTokenDecimals()
+  const result = await contract.getMiraBalance(address)
+  result.data = (
+    BigInt(result.data) /
+    BigInt(10) ** BigInt(decimals?.data || 18)
+  ).toString()
+
+  return result
+}

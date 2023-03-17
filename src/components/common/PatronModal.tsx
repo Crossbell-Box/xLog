@@ -13,7 +13,7 @@ import { Avatar } from "~/components/ui/Avatar"
 import { CharacterFloatCard } from "./CharacterFloatCard"
 import { UniLink } from "../ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
-import { CSB_SCAN } from "~/lib/env"
+import { CSB_SCAN, MIRA_LINK } from "~/lib/env"
 import { parsePageId } from "~/models/page.model"
 
 export const PatronModal: React.FC<{
@@ -156,22 +156,24 @@ export const PatronModal: React.FC<{
                       className="inline-flex flex-col items-center w-[12.5%]"
                       key={index}
                     >
-                      <CharacterFloatCard siteId={tip.character?.handle}>
-                        <UniLink
-                          href={getSiteLink({
-                            subdomain: tip.character?.handle || "",
-                          })}
-                        >
-                          <Avatar
-                            className="relative align-middle border-2 border-white"
-                            images={
-                              tip.character?.metadata?.content?.avatars || []
-                            }
-                            name={tip.character?.metadata?.content?.name}
-                            size={50}
-                          />
-                        </UniLink>
-                      </CharacterFloatCard>
+                      <div className="text-left">
+                        <CharacterFloatCard siteId={tip.character?.handle}>
+                          <UniLink
+                            href={getSiteLink({
+                              subdomain: tip.character?.handle || "",
+                            })}
+                          >
+                            <Avatar
+                              className="relative align-middle border-2 border-white"
+                              images={
+                                tip.character?.metadata?.content?.avatars || []
+                              }
+                              name={tip.character?.metadata?.content?.name}
+                              size={50}
+                            />
+                          </UniLink>
+                        </CharacterFloatCard>
+                      </div>
                       <UniLink
                         href={`${CSB_SCAN}/tx/${tip.transactionHash}`}
                         className="inline-flex items-center mt-1 text-center w-full"
@@ -224,7 +226,9 @@ export const PatronModal: React.FC<{
             <p>1 Mira ≈ 1 USDC</p>
             <p className="flex items-center justify-center">
               <i className="i-mingcute:question-line mr-1 text-sm" />
-              {t("What is Mira? Where can I get some?")}
+              <UniLink href={MIRA_LINK}>
+                {t("What is Mira? Where can I get some?")}
+              </UniLink>
             </p>
           </div>
         </div>

@@ -17,3 +17,5 @@ export const CSB_XCHAR =
   process.env.NEXT_PUBLIC_CSB_XCHAR || "https://xchar.app"
 export const IPFS_GATEWAY =
   process.env.NEXT_PUBLIC_IPFS_GATEWAY || "https://ipfs.4everland.xyz/ipfs/"
+export const MIRA_LINK =
+  process.env.NEXT_PUBLIC_MIRA_LINK || "https://mira.crossbell.io"

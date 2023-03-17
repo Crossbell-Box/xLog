@@ -140,6 +140,12 @@ export function DashboardLayout({
       text: "Achievements",
     },
     {
+      href: `/dashboard/${subdomain}/tokens`,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: "i-mingcute-pig-money-line",
+      text: "Tokens",
+    },
+    {
       href: `/dashboard/${subdomain}/settings/general`,
       isActive: ({ pathname }) =>
         pathname.startsWith(`/dashboard/${subdomain}/settings`),

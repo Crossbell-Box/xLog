@@ -7,6 +7,7 @@ export const getServerSideProps = async (ctx: any) => {
       ...(await serverSideTranslations(languageDetector(ctx), [
         "common",
         "dashboard",
+        "index",
       ])),
     },
   }
