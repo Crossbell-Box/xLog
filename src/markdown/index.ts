@@ -98,9 +98,9 @@ export const renderPageContent = (
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
       .use(remarkYoutube)
-      // .use(remarkMath)
+      .use(remarkMath)
       .use(remarkRehype, { allowDangerousHtml: true })
-      // .use(rehypeKatex) // Disabled due to possible $ parsing errors.
+      .use(rehypeKatex) // There may be $ symbol parsing errors
       .use(rehypeStringify)
       .use(rehypeRaw)
       .use(rehypeImage, { env })
