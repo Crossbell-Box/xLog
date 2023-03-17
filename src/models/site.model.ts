@@ -583,13 +583,116 @@ export async function getTips(
   return tips
 }
 
-export const getAchievements = (characterId: number) => {
-  return indexer.getAchievements(characterId)
+export type AchievementSection = {
+  info: {
+    name: string
+    title: string
+  }
+  groups: {
+    info: {
+      name: string
+      title: string
+    }
+    items: {
+      tokenId: number
+      name: string
+      status: "INACTIVE" | "MINTABLE" | "MINTED" | "COMMING"
+      mintedAt: string | null
+      transactionHash: string | null
+      info: {
+        tokenId: number
+        name: string
+        description: string
+        media: string
+        attributes: [
+          {
+            trait_type: string
+            value: string
+          },
+        ]
+      }
+    }[]
+  }[]
 }
 
-export const mintAchievement = async (input: {
+export async function getAchievements(characterId: number) {
+  const crossbellAchievements = (await indexer.getAchievements(characterId))
+    ?.list as AchievementSection[] | undefined
+  const xLogAchievements: AchievementSection[] = [
+    {
+      info: {
+        name: "xlog-journey",
+        title: "xLog Journey",
+      },
+      groups: [
+        {
+          info: {
+            name: "showcase-superstar",
+            title: "Showcase Superstar",
+          },
+          items: [
+            {
+              info: {
+                attributes: [
+                  {
+                    trait_type: "tier",
+                    value: "base",
+                  },
+                ],
+                description: "I am a superstar on xLog!",
+                media:
+                  "ipfs://QmVnTtYC4yQ7D1eGb3Ke9NVDadovSPZeg2q2cYA6j275Um/influencer/influencer:special.png",
+                tokenId: 0,
+                name: "Showcase Superstar",
+              },
+              tokenId: 0,
+              name: "showcase-superstar",
+              status: "COMMING",
+              mintedAt: null,
+              transactionHash: null,
+            },
+          ],
+        },
+        {
+          info: {
+            name: "mirror-xyz-migrator",
+            title: "Mirror.xyz Migrator",
+          },
+          items: [
+            {
+              info: {
+                attributes: [
+                  {
+                    trait_type: "tier",
+                    value: "base",
+                  },
+                ],
+                description: "I migrated from Mirror.xyz to xLog!",
+                media:
+                  "ipfs://bafybeicqfeaco6skylodk3cridjvntdxvbdaqhbtkky7exsxgdrzfp7gae",
+                tokenId: 0,
+                name: "Mirror.xyz Migrator",
+              },
+              tokenId: 0,
+              name: "mirror-xyz-migrator",
+              status: "COMMING",
+              mintedAt: null,
+              transactionHash: null,
+            },
+          ],
+        },
+      ],
+    },
+  ]
+
+  return {
+    list: [...xLogAchievements, ...(crossbellAchievements || [])],
+  }
+}
+
+export async function mintAchievement(input: {
   characterId: number
   achievementId: number
-}) => {
+}) {
   return indexer.mintAchievement(input.characterId, input.achievementId)
 }

@@ -1,4 +1,4 @@
-import type { AchievementSection } from "crossbell.js"
+import type { AchievementSection } from "~/models/site.model"
 import { Image } from "~/components/ui/Image"
 import { AchievementModal } from "~/components/common/AchievementModal"
 import { useEffect, useState } from "react"
@@ -50,10 +50,14 @@ export const AchievementItem: React.FC<{
     ? group.items.filter((item) => item.status === "MINTABLE").pop()
     : null
 
+  const achievementComming = isOwner
+    ? group.items.filter((item) => item.status === "COMMING").pop()
+    : null
+
   const [opened, setOpened] = useState(false)
 
   if (isOwner) {
-    if (!achievement && !achievementMintable) {
+    if (!achievement && !achievementMintable && !achievementComming) {
       return null
     }
   } else {
@@ -73,7 +77,10 @@ export const AchievementItem: React.FC<{
         }}
       >
         <Badge
-          media={(achievement || achievementMintable)!.info.media}
+          media={
+            (achievement || achievementMintable || achievementComming)!.info
+              .media
+          }
           className={`mb-1 ${!achievement && "grayscale"}`}
           size={size}
         />
@@ -110,7 +117,7 @@ export const AchievementItem: React.FC<{
                     )
                     .humanize(),
                 })
-              : "Mintable"}
+              : t(achievementMintable ? "Mintable" : "Comming soon")}
           </span>
         </div>
       </div>

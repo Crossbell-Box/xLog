@@ -1,5 +1,5 @@
 import { Modal, Stepper } from "@mantine/core"
-import type { AchievementSection } from "crossbell.js"
+import type { AchievementSection } from "~/models/site.model"
 import { Image } from "~/components/ui/Image"
 import Tilt from "react-parallax-tilt"
 import { Badge } from "~/components/common/AchievementItem"
@@ -29,8 +29,11 @@ export const AchievementModal: React.FC<{
     ? group.items.filter((item) => item.status === "MINTABLE").pop()
     : null
 
+  const achievementComming = isOwner
+    ? group.items.filter((item) => item.status === "COMMING").pop()
+    : null
+
   const router = useRouter()
-  const handle = router.query.handle as string
   const mintAchievement = useMintAchievement()
 
   const mint = async (tokenId: number) => {
@@ -69,7 +72,10 @@ export const AchievementModal: React.FC<{
       >
         <div
           className="inline-flex flex-col text-center items-center text-white"
-          key={(achievement || achievementMintable)!.info.tokenId}
+          key={
+            (achievement || achievementMintable || achievementComming)!.info
+              .name
+          }
         >
           <Tilt
             className={`inline-block w-80 h-80 relative rounded-full bg-white mb-4 preserve-3d shadow-[inset_#a8a29e_34px_-34px_74px] p-[4%] ${
@@ -86,7 +92,10 @@ export const AchievementModal: React.FC<{
             <Image
               fill
               alt="achievement"
-              src={(achievement || achievementMintable)!.info.media}
+              src={
+                (achievement || achievementMintable || achievementComming)!.info
+                  .media
+              }
               className="relative w-full h-full"
               style={{
                 transform: "translateZ(20px)",
@@ -98,7 +107,10 @@ export const AchievementModal: React.FC<{
               {group.info.title} {achievement && `#${achievement.tokenId}`}
             </span>
             <span className="text-lg text-gray-100 capitalize truncate">
-              {(achievement || achievementMintable)!.info.description}
+              {
+                (achievement || achievementMintable || achievementComming)!.info
+                  .description
+              }
             </span>
             <span className="text-gray-300 leading-snug flex items-center justify-center">
               {achievement ? (
@@ -126,7 +138,7 @@ export const AchievementModal: React.FC<{
                   </span>
                 </>
               ) : (
-                <>Mintable</>
+                t(achievementMintable ? "Mintable" : "Comming soon")
               )}
             </span>
           </div>

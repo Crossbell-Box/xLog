@@ -42,10 +42,10 @@ export default function AchievementsPage() {
 
   return (
     <DashboardMain title="Achievements">
-      <div className="min-w-[270px] max-w-screen-xl flex flex-col xl:flex-row space-y-8 xl:space-y-0">
+      <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-8">
         <>
           {achievement.data?.list?.map((series) => {
-            let length = series.groups.length
+            let length = series.groups?.length
             if (!length) {
               return null
             }
