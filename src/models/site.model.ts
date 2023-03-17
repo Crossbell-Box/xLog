@@ -582,3 +582,14 @@ export async function getTips(
 
   return tips
 }
+
+export const getAchievements = (characterId: number) => {
+  return indexer.getAchievements(characterId)
+}
+
+export const mintAchievement = async (input: {
+  characterId: number
+  achievementId: number
+}) => {
+  return indexer.mintAchievement(input.characterId, input.achievementId)
+}

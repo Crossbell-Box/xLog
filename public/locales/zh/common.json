@@ -30,6 +30,7 @@
   "Cancel Reply": "取消回复",
   "ago": "{{time}}前",
   "joined ago": "{{time}}前加入",
+  "obtained ago": "{{time}}前获得",
   "Like": "点赞",
   "Mint to an NFT": "铸造为 NFT",
   "Like successfull": "点赞成功",

@@ -189,5 +189,5 @@ export default function EventsPage() {
 }
 
 EventsPage.getLayout = (page: ReactElement) => {
-  return <DashboardLayout title="Dashboard">{page}</DashboardLayout>
+  return <DashboardLayout title="Events">{page}</DashboardLayout>
 }

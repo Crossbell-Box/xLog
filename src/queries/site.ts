@@ -383,3 +383,29 @@ export const useGetTips = (
     getNextPageParam: (lastPage) => lastPage.cursor || undefined,
   })
 }
+
+export const useGetAchievements = (characterId: number) => {
+  return useQuery(["getAchievements", characterId], async () => {
+    if (!characterId) {
+      return null
+    }
+    return siteModel.getAchievements(characterId)
+  })
+}
+
+export const useMintAchievement = () => {
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof siteModel.mintAchievement>[0]) => {
+      return siteModel.mintAchievement(input)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getAchievements",
+          variables.characterId,
+        ])
+      },
+    },
+  )
+}

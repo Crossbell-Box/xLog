@@ -134,6 +134,12 @@ export function DashboardLayout({
       text: isEventsAllRead ? "Events" : "New Events",
     },
     {
+      href: `/dashboard/${subdomain}/achievements`,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: "i-mingcute-trophy-line",
+      text: "Achievements",
+    },
+    {
       href: `/dashboard/${subdomain}/settings/general`,
       isActive: ({ pathname }) =>
         pathname.startsWith(`/dashboard/${subdomain}/settings`),
