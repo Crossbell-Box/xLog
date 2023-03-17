@@ -17,6 +17,8 @@ import { Button } from "~/components/ui/Button"
 import { MIRA_LINK } from "~/lib/env"
 import { UniLink } from "~/components/ui/UniLink"
 import { useRouter } from "next/router"
+import { getSiteLink } from "~/lib/helpers"
+import { Tooltip } from "~/components/ui/Tooltip"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -59,7 +61,12 @@ export default function TokensPage() {
           <ul className="ml-2">
             <li>
               1.{" "}
-              <UniLink className="underline" href="">
+              <UniLink
+                className="underline"
+                href={`${getSiteLink({
+                  subdomain: "xlog",
+                })}/creator-incentive-plan`}
+              >
                 {t("Creator incentive program.")}
               </UniLink>
             </li>
@@ -82,11 +89,13 @@ export default function TokensPage() {
         </>
       ),
       buttons: (
-        <>
-          <Button onClick={() => window.open(MIRA_LINK)}>
-            {t("Swap to USDC")}
-          </Button>
-        </>
+        <div className="w-fit">
+          <Tooltip label={t("Tutorial coming soon")}>
+            <Button onClick={() => window.open(MIRA_LINK)}>
+              <>{t("Swap to USDC") || ""}</>
+            </Button>
+          </Tooltip>
+        </div>
       ),
     },
     {
