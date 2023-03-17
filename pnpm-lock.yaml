@@ -44,7 +44,7 @@ specifiers:
   '@uiw/codemirror-extensions-events': 4.19.9
   '@uiw/react-codemirror': 4.19.9
   '@unocss/cli': 0.50.5
-  '@unocss/preset-icons': 0.50.5
+  '@unocss/preset-icons': 0.50.6
   '@urql/core': 3.2.2
   autoprefixer: 10.4.14
   axios: 1.3.4
@@ -242,7 +242,7 @@ devDependencies:
   '@types/ua-parser-js': 0.7.36
   '@types/uuid': 9.0.1
   '@unocss/cli': 0.50.5
-  '@unocss/preset-icons': 0.50.5
+  '@unocss/preset-icons': 0.50.6
   autoprefixer: 10.4.14
   babel-loader: 9.1.2
   cross-spawn: 7.0.3
@@ -4124,6 +4124,10 @@ packages:
     resolution: {integrity: sha512-NWDEHK0mqFCNNL77PYk8Qa1zgl2+p2PtmExakNLCHugLQJxc0jRPjeHO9x8x3MUiqQZPnBNzKxtFx6K7euSi/g==}
     dev: true
 
+  /@unocss/core/0.50.6:
+    resolution: {integrity: sha512-WMIp8xr7YSlID2whqfRGLwagp59e6u4ckPACEpoDOW8sTeSPRZm54hxPhuWXD1SQuqcwHPMtM9nzGD8UOnqQxA==}
+    dev: true
+
   /@unocss/inspector/0.50.5:
     resolution: {integrity: sha512-A/ninfn7LPTyzUS8EPAYLscsISZkiL+CHgynYJh3oeW2djzy+do1XGyWwYxTpttlFb9FWgcAavN7BNo3Gc2Kdg==}
     dependencies:
@@ -4154,6 +4158,16 @@ packages:
     dependencies:
       '@iconify/utils': 2.1.5
       '@unocss/core': 0.50.5
+      ofetch: 1.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@unocss/preset-icons/0.50.6:
+    resolution: {integrity: sha512-ADnvX8JCThEr2DBiDprTh2q4bfvULbCg9hL5DZIuP9/31FvzNqpAI8xo9KpsCPBoQMksg+GVoXhj1CN2IxLhtg==}
+    dependencies:
+      '@iconify/utils': 2.1.5
+      '@unocss/core': 0.50.6
       ofetch: 1.0.1
     transitivePeerDependencies:
       - supports-color

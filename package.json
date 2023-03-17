@@ -129,7 +129,7 @@
     "@types/ua-parser-js": "0.7.36",
     "@types/uuid": "9.0.1",
     "@unocss/cli": "0.50.5",
-    "@unocss/preset-icons": "0.50.5",
+    "@unocss/preset-icons": "0.50.6",
     "autoprefixer": "10.4.14",
     "babel-loader": "^9.1.2",
     "cross-spawn": "7.0.3",
