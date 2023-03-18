@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import { BoxRadio } from "~/components/ui/BoxRadio"
 import { Tabs } from "../ui/Tabs"
 import { useTipCharacter, useGetTips } from "~/queries/site"
-import { useAccountState } from "@crossbell/connect-kit"
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { toast } from "react-hot-toast"
 import confetti from "canvas-confetti"
 import { Avatar } from "~/components/ui/Avatar"
@@ -28,6 +28,7 @@ export const PatronModal: React.FC<{
     toCharacterId: site?.metadata?.proof,
     toNoteId: parsePageId(page?.id || "").noteId,
   })
+  const connectModal = useConnectModal()
 
   const radios = [
     {
@@ -69,6 +70,9 @@ export const PatronModal: React.FC<{
         amount: parseInt(value),
         noteId: parsePageId(page?.id || "").noteId,
       })
+    } else {
+      setOpen(false)
+      connectModal.show()
     }
   }
 

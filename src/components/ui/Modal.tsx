@@ -38,9 +38,15 @@ export const Modal: React.FC<{
           )}
         >
           {title && (
-            <Dialog.Title className="text-lg border-b h-14 flex items-center px-5 space-x-2 py-4">
+            <Dialog.Title className="text-lg border-b h-14 flex items-center px-5 space-x-2 py-4 relative">
               {titleIcon && <span>{titleIcon}</span>}
               <span className="truncate flex items-center w-full">{title}</span>
+              <span
+                className="absolute right-1 w-7 h-7 text-xl cursor-pointer bg-white flex items-center justify-center"
+                onClick={() => setOpen(false)}
+              >
+                <i className="i-mingcute:close-line inline-block" />
+              </span>
             </Dialog.Title>
           )}
           {children}
