@@ -157,16 +157,18 @@ export default function EventsPage() {
                       <span className="font-bold">{t("Prize")}:</span>{" "}
                       {item.metadata?.frontMatter?.Prize}
                     </div>
-                    <div>
-                      <span className="font-bold">{t("Winners")}:</span>
-                      <div className="flex items-center space-x-2 mt-2">
-                        {item.metadata?.frontMatter?.Winners.map(
-                          (winner: string) => (
-                            <SiteAvatar key={winner} siteId={winner} />
-                          ),
-                        )}
+                    {item.metadata?.frontMatter?.Winners?.map && (
+                      <div>
+                        <span className="font-bold">{t("Winners")}:</span>
+                        <div className="flex items-center space-x-2 mt-2">
+                          {item.metadata?.frontMatter?.Winners?.map?.(
+                            (winner: string) => (
+                              <SiteAvatar key={winner} siteId={winner} />
+                            ),
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                   <UniLink
                     className="mt-6 font-bold flex items-center leading-none"
