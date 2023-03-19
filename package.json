@@ -30,7 +30,7 @@
     "@crossbell/util-hooks": "0.0.50",
     "@emoji-mart/data": "1.1.2",
     "@emoji-mart/react": "1.1.1",
-    "@floating-ui/react": "^0.21.1",
+    "@floating-ui/react": "^0.22.0",
     "@headlessui/react": "1.7.13",
     "@heroicons/react": "2.0.16",
     "@iconify-json/mingcute": "^1.1.5",

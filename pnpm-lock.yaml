@@ -14,7 +14,7 @@ specifiers:
   '@crossbell/util-hooks': 0.0.50
   '@emoji-mart/data': 1.1.2
   '@emoji-mart/react': 1.1.1
-  '@floating-ui/react': ^0.21.1
+  '@floating-ui/react': ^0.22.0
   '@headlessui/react': 1.7.13
   '@heroicons/react': 2.0.16
   '@iconify-json/mingcute': ^1.1.5
@@ -143,7 +143,7 @@ dependencies:
   '@crossbell/util-hooks': 0.0.50_biqbaboplfbrettd7655fr4n2y
   '@emoji-mart/data': 1.1.2
   '@emoji-mart/react': 1.1.1_kyrnz3vmphzqyjjk2ivrm6bcsu
-  '@floating-ui/react': 0.21.1_biqbaboplfbrettd7655fr4n2y
+  '@floating-ui/react': 0.22.0_biqbaboplfbrettd7655fr4n2y
   '@headlessui/react': 1.7.13_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.16_react@18.2.0
   '@iconify-json/mingcute': 1.1.5
@@ -2529,8 +2529,8 @@ packages:
       tabbable: 6.1.1
     dev: false
 
-  /@floating-ui/react/0.21.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-ojjsU/rvWEyNDproy1yQW5EDXJnDip8DXpSRh+hogPgZWEp0Y/2UBPxL3yoa53BDYsL+dqJY0osl9r0Jes3eeg==}
+  /@floating-ui/react/0.22.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-8bAm6zWBsGm3n4XU3qSDLr9Fq9eLqYmnLPn1k/snRi78Vlpp0PLOIE56NZdaLwVPPearlPpBIxQFhoJpDj/XLQ==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
