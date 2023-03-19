@@ -127,6 +127,7 @@ export const AchievementItem: React.FC<{
         group={group}
         layoutId={layoutId}
         isOwner={isOwner}
+        characterId={characterId}
       />
     </div>
   )
