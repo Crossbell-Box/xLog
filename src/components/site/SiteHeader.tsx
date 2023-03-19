@@ -167,7 +167,7 @@ export const SiteHeader: React.FC<{
         }}
       >
         {(() => {
-          switch (site?.banners?.[0]?.mime_type.split("/")[0]) {
+          switch (site?.banners?.[0]?.mime_type?.split("/")[0]) {
             case "image":
               return (
                 <Image

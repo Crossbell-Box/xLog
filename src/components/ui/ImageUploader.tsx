@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Image } from "~/components/ui/Image"
+import { XMarkIcon } from "@heroicons/react/20/solid"
 
 const getBase64 = (img: File, callback: (url: string) => void) => {
   const reader = new FileReader()
@@ -18,6 +19,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
     uploadStart,
     uploadEnd,
     withMimeType,
+    hasClose,
     ...inputProps
   }: {
     className?: string
@@ -105,7 +107,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
       )}
       {imageUrl &&
         withMimeType &&
-        (inputProps.value as any)?.mime_type.split("/")[0] === "image" && (
+        (inputProps.value as any)?.mime_type?.split("/")[0] === "image" && (
           <Image
             className="mx-auto object-cover"
             src={toGateway(imageUrl)}
@@ -115,7 +117,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
         )}
       {imageUrl &&
         withMimeType &&
-        (inputProps.value as any)?.mime_type.split("/")[0] === "video" && (
+        (inputProps.value as any)?.mime_type?.split("/")[0] === "video" && (
           <video
             className="max-w-screen-md mx-auto object-cover h-full w-full"
             src={toGateway(imageUrl)}
@@ -134,6 +136,14 @@ export const ImageUploader = forwardRef(function ImageUploader(
         type="file"
         className="absolute top-0 bottom-0 left-0 right-0 opacity-0"
       />
+      {imageUrl && hasClose && (
+        <div
+          onClick={clear}
+          className="w-8 h-8 absolute top-4 right-4 shadow bg-white rounded-full cursor-pointer"
+        >
+          <XMarkIcon />
+        </div>
+      )}
       {loading && (
         <div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center bg-gray-500 opacity-50">
           <div className="loading flex justify-center items-center relative text-white"></div>
