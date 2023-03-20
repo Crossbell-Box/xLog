@@ -85,16 +85,21 @@ export default function TokensPage() {
                 {t("Swap from USDC.")}
               </UniLink>
             </li>
+            <li>4. {t("Received tips and sponsorships from readers.")}</li>
           </ul>
         </>
       ),
       buttons: (
-        <div className="w-fit">
-          <Tooltip label={t("Tutorial coming soon")}>
-            <Button onClick={() => window.open(MIRA_LINK)}>
-              <>{t("Swap to USDC") || ""}</>
-            </Button>
-          </Tooltip>
+        <div className="w-fit space-x-4">
+          <Button onClick={() => window.open(MIRA_LINK)}>
+            <>{t("Swap to USDC") || ""}</>
+          </Button>
+          <UniLink
+            className="underline text-zinc-500"
+            href={`${getSiteLink({ subdomain: "atlas" })}/swap-mira-for-usdc`}
+          >
+            {t("Swap Tutorial")}
+          </UniLink>
         </div>
       ),
     },
