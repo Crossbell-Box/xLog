@@ -515,6 +515,18 @@ export async function getStat({ characterId }: { characterId: string }) {
   }
 }
 
+const getMiraTokenDecimals = async (contract: Contract) => {
+  let decimals
+  try {
+    decimals = await contract.getMiraTokenDecimals()
+  } catch (error) {
+    decimals = {
+      data: 18,
+    }
+  }
+  return decimals
+}
+
 export async function tipCharacter(
   input: {
     fromCharacterId: string | number
@@ -524,7 +536,7 @@ export async function tipCharacter(
   },
   contract: Contract,
 ) {
-  const decimals = await contract.getMiraTokenDecimals()
+  const decimals = await getMiraTokenDecimals(contract)
   if (input.noteId) {
     return await contract?.tipCharacterForNote(
       input.fromCharacterId,
@@ -562,7 +574,7 @@ export async function getTips(
   })
 
   if (tips?.list?.length) {
-    const decimals = await contract.getMiraTokenDecimals()
+    const decimals = await getMiraTokenDecimals(contract)
     tips.list = tips.list.filter((t) => {
       return (
         BigInt(t.amount) >=
@@ -698,7 +710,7 @@ export async function mintAchievement(input: {
 }
 
 export async function getMiraBalance(address: string, contract: Contract) {
-  const decimals = await contract.getMiraTokenDecimals()
+  const decimals = await getMiraTokenDecimals(contract)
   const result = await contract.getMiraBalance(address)
   result.data = (
     BigInt(result.data) /
