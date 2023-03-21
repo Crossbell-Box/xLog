@@ -46,7 +46,9 @@ export default function TokensPage() {
   const tokens = [
     {
       name: "MIRA",
-      balance: miraBalance.data?.data || 0,
+      balance: miraBalance.isLoading
+        ? "Loading..."
+        : miraBalance.data?.data || 0,
       description: (
         <>
           <p>

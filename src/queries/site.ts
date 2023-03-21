@@ -415,7 +415,7 @@ export const useGetMiraBalance = (address?: string) => {
   return useQuery(["getMiraBalance", address], async () => {
     if (!address) {
       return {
-        data: "0",
+        data: "Loading...",
       }
     }
     return siteModel.getMiraBalance(address, contract)

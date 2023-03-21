@@ -152,7 +152,9 @@ export const PatronModal: React.FC<{
             {t(page ? "Latest tipper" : "Latest patrons")}
           </div>
           <div className="text-zinc-500 text-sm mt-2">
-            {tips.data?.pages?.[0]?.list?.length ? (
+            {tips.isLoading ? (
+              "Loading..."
+            ) : tips.data?.pages?.[0]?.list?.length ? (
               <>
                 <ul className="flex items-center justify-center">
                   {tips.data.pages[0].list?.map((tip, index) => (
