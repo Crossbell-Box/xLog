@@ -12,7 +12,7 @@ import {
   useWalletClaimCSBModal,
   useClaimCSBStatus,
 } from "@crossbell/connect-kit"
-import { useGetMiraBalance } from "~/queries/site"
+import { useGetMiraBalance, useGetSite } from "~/queries/site"
 import { Button } from "~/components/ui/Button"
 import { MIRA_LINK } from "~/lib/env"
 import { UniLink } from "~/components/ui/UniLink"
@@ -36,9 +36,9 @@ export default function TokensPage() {
   const router = useRouter()
   const { t } = useTranslation(["dashboard", "index"])
   const subdomain = router.query.subdomain as string
+  const site = useGetSite(subdomain)
 
-  const address = useAccountState((s) => s.wallet?.address)
-  const miraBalance = useGetMiraBalance(address)
+  const miraBalance = useGetMiraBalance(site.data?.metadata?.owner)
   const csbBalance = useAccountBalance()
   const claimCSBStatus = useClaimCSBStatus()
   const claimCSBModal = useWalletClaimCSBModal()
