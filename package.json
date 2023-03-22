@@ -22,12 +22,12 @@
     "@codemirror/language": "6.6.0",
     "@codemirror/state": "6.2.0",
     "@codemirror/view": "6.9.2",
-    "@crossbell/connect-kit": "0.0.53",
-    "@crossbell/contract": "0.0.53",
-    "@crossbell/indexer": "0.0.53",
-    "@crossbell/notification": "0.0.53",
-    "@crossbell/ui": "0.0.53",
-    "@crossbell/util-hooks": "0.0.53",
+    "@crossbell/connect-kit": "0.0.54",
+    "@crossbell/contract": "0.0.54",
+    "@crossbell/indexer": "0.0.54",
+    "@crossbell/notification": "0.0.54",
+    "@crossbell/ui": "0.0.54",
+    "@crossbell/util-hooks": "0.0.54",
     "@emoji-mart/data": "1.1.2",
     "@emoji-mart/react": "1.1.1",
     "@floating-ui/react": "^0.21.1",
@@ -107,7 +107,7 @@
     "unist-util-visit": "4.1.2",
     "use-onclickoutside": "0.4.1",
     "uuid": "9.0.0",
-    "wagmi": "0.12.4"
+    "wagmi": "0.12.5"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "13.2.4",
