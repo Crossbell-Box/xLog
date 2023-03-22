@@ -720,19 +720,30 @@ export async function getMiraBalance(characterId: string, contract: Contract) {
   return result
 }
 
-export async function checkDomainServer(domain: string, handle: string) {
-  const dns = await (
-    await fetch(
-      `https://cloudflare-dns.com/dns-query?name=_xlog-challenge.${domain}&type=TXT`,
-      {
-        headers: {
-          accept: "application/dns-json",
-        },
+export async function fetchTenant(
+  host: string,
+  retries: number,
+): Promise<string> {
+  const res = await fetch(
+    `https://cloudflare-dns.com/dns-query?name=_xlog-challenge.${host}&type=TXT`,
+    {
+      headers: {
+        accept: "application/dns-json",
       },
-    )
-  ).json()
+    },
+  )
+  const txt = await res.json()
+  if (txt.Status === 5 && retries > 0) {
+    console.log("retrying", host, retries - 1)
+    return await fetchTenant(host, retries - 1)
+  } else {
+    return txt?.Answer?.[0]?.data.replace(/^"|"$/g, "")
+  }
+}
 
-  const tenant = dns?.Answer?.[0]?.data.replace(/^"|"$/g, "")
+export async function checkDomainServer(domain: string, handle: string) {
+  const tenant = await fetchTenant(domain, 5)
+
   if (!tenant || tenant !== handle) {
     return false
   } else {

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { OUR_DOMAIN } from "~/lib/env"
 import { cacheGet } from "~/lib/redis.server"
-import { checkDomainServer } from "~/models/site.model"
+import { checkDomainServer, fetchTenant } from "~/models/site.model"
 
 export default async function handler(
   req: NextApiRequest,
@@ -48,16 +48,7 @@ export default async function handler(
             }
           }
         } else {
-          const res = await fetch(
-            `https://cloudflare-dns.com/dns-query?name=_xlog-challenge.${realHost}&type=TXT`,
-            {
-              headers: {
-                accept: "application/dns-json",
-              },
-            },
-          )
-          const txt = await res.json()
-          const tenant = txt?.Answer?.[0]?.data.replace(/^"|"$/g, "")
+          const tenant = await fetchTenant(realHost, 5)
           return {
             subdomain: tenant,
           }
