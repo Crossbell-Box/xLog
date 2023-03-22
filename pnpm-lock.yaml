@@ -23,9 +23,9 @@ specifiers:
   '@next/bundle-analyzer': 13.2.4
   '@playwright/test': 1.31.2
   '@tailwindcss/line-clamp': ^0.4.2
-  '@tanstack/react-query': 4.26.1
-  '@tanstack/react-query-devtools': 4.26.1
-  '@tanstack/react-query-persist-client': 4.26.1
+  '@tanstack/react-query': 4.28.0
+  '@tanstack/react-query-devtools': 4.28.0
+  '@tanstack/react-query-persist-client': 4.28.0
   '@types/canvas-confetti': ^1.6.0
   '@types/chroma-js': ^2.4.0
   '@types/cookie': 0.5.1
@@ -135,10 +135,10 @@ dependencies:
   '@codemirror/language': 6.6.0
   '@codemirror/state': 6.2.0
   '@codemirror/view': 6.9.2
-  '@crossbell/connect-kit': 0.0.54_mdhxdp2fibvijfgm6fcjxwrf7i
+  '@crossbell/connect-kit': 0.0.54_6mvrsheprlfr2kgnv4odkrjmuu
   '@crossbell/contract': 0.0.54_en7jzxaqdgm3lax3bn4bgpc7yi
   '@crossbell/indexer': 0.0.54_en7jzxaqdgm3lax3bn4bgpc7yi
-  '@crossbell/notification': 0.0.54_whdbbczopvicogbxqfxhikvcum
+  '@crossbell/notification': 0.0.54_z45u3t4j6l6tjsppq53ivrclue
   '@crossbell/ui': 0.0.54_bg7os4tgc3jjasagdjqdrtaxo4
   '@crossbell/util-hooks': 0.0.54_biqbaboplfbrettd7655fr4n2y
   '@emoji-mart/data': 1.1.2
@@ -149,9 +149,9 @@ dependencies:
   '@iconify-json/mingcute': 1.1.5
   '@mantine/core': 6.0.2_zula6vjvt3wdocc4mwcxqa6nzi
   '@monaco-editor/react': 4.4.6_biqbaboplfbrettd7655fr4n2y
-  '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
-  '@tanstack/react-query-devtools': 4.26.1_brdhmlf72zuns3lsk66phyptty
-  '@tanstack/react-query-persist-client': 4.26.1_vohxj3xpfxn57cw32hqo6tozmq
+  '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
+  '@tanstack/react-query-devtools': 4.28.0_q4teel2yjbizrm4naiaqcdpjum
+  '@tanstack/react-query-persist-client': 4.28.0_qfusmmwykmcbgdy37sd3cqxiry
   '@uiw/codemirror-extensions-events': 4.19.9_@codemirror+view@6.9.2
   '@uiw/react-codemirror': 4.19.9_iuvt3ze4xzyrsk2ytmsjjsnjpi
   '@urql/core': 3.2.2
@@ -1647,7 +1647,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit/0.0.54_mdhxdp2fibvijfgm6fcjxwrf7i:
+  /@crossbell/connect-kit/0.0.54_6mvrsheprlfr2kgnv4odkrjmuu:
     resolution: {integrity: sha512-5hjn2xx2pJ0S3jLweuvOcRFa87SqR6QVS8rMDV0QYm/Ib4a4iezsXdEFzdRisL+WsJxLxwwwCNCHisn5RLP06w==}
     peerDependencies:
       '@tanstack/react-query': ^4
@@ -1664,7 +1664,7 @@ packages:
       '@mantine/core': 6.0.4_t7jtalnwvyidfaogp2b564lbfq
       '@mantine/hooks': 6.0.4_react@18.2.0
       '@mantine/notifications': 6.0.4_ordvvez6mrxlqyz6sv56zwslmq
-      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
       canvas-confetti: 1.6.0
       check-password-strength: 2.0.7
       classnames: 2.3.2
@@ -1716,7 +1716,7 @@ packages:
       ethers: ^5
       wagmi: ^0.12
     dependencies:
-      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
       crossbell.js: 0.19.4
       dayjs: 1.11.7
       lodash.compact: 3.0.1
@@ -1735,7 +1735,7 @@ packages:
     resolution: {integrity: sha512-AYGDrwiSKqCGNDi0mEPP1k+96loWik+Pd40xH0MzRNM4RtCutPbwm4o+Sj5iWu0tlHoQC2bTs1XcufsLiv+WYw==}
     dev: false
 
-  /@crossbell/notification/0.0.54_whdbbczopvicogbxqfxhikvcum:
+  /@crossbell/notification/0.0.54_z45u3t4j6l6tjsppq53ivrclue:
     resolution: {integrity: sha512-Pro3dSLM1d1pE1Q7GADyoeW9vC3D9mjpCQqvcVd+W8eyq7QRLMIpgdju82Nz0IjaDL7LE0kkhCVKIbzvWLAsrA==}
     peerDependencies:
       '@tanstack/react-query': ^4
@@ -1743,13 +1743,13 @@ packages:
       react: ^18
       wagmi: ^0.12
     dependencies:
-      '@crossbell/connect-kit': 0.0.54_mdhxdp2fibvijfgm6fcjxwrf7i
+      '@crossbell/connect-kit': 0.0.54_6mvrsheprlfr2kgnv4odkrjmuu
       '@crossbell/indexer': 0.0.54_en7jzxaqdgm3lax3bn4bgpc7yi
       '@crossbell/ui': 0.0.54_bg7os4tgc3jjasagdjqdrtaxo4
       '@crossbell/util-hooks': 0.0.54_biqbaboplfbrettd7655fr4n2y
       '@crossbell/util-metadata': 0.0.54
       '@mantine/core': 6.0.4_zula6vjvt3wdocc4mwcxqa6nzi
-      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       dayjs: 1.11.7
       react: 18.2.0
@@ -1778,7 +1778,7 @@ packages:
       '@crossbell/indexer': 0.0.54_en7jzxaqdgm3lax3bn4bgpc7yi
       '@crossbell/util-hooks': 0.0.54_biqbaboplfbrettd7655fr4n2y
       '@crossbell/util-metadata': 0.0.54
-      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       crossbell.js: 0.19.4
       facepaint: 1.2.1
@@ -1808,7 +1808,7 @@ packages:
     peerDependencies:
       react: ^18
     dependencies:
-      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
       crossbell.js: 0.19.4
       react: 18.2.0
     transitivePeerDependencies:
@@ -3722,18 +3722,8 @@ packages:
       remove-accents: 0.4.2
     dev: false
 
-  /@tanstack/query-core/4.26.1:
-    resolution: {integrity: sha512-Zrx2pVQUP4ndnsu6+K/m8zerXSVY8QM+YSbxA1/jbBY21GeCd5oKfYl92oXPK0hPEUtoNuunIdiq0ZMqLos+Zg==}
-    dev: false
-
   /@tanstack/query-core/4.27.0:
     resolution: {integrity: sha512-sm+QncWaPmM73IPwFlmWSKPqjdTXZeFf/7aEmWh00z7yl2FjqophPt0dE1EHW9P1giMC5rMviv7OUbSDmWzXXA==}
-    dev: false
-
-  /@tanstack/query-persist-client-core/4.26.1:
-    resolution: {integrity: sha512-gKO5VQuvNlMMTNSxRtB4tm3zGSx3/U9YluFkdumsHana9YMh3ngc76gUCbQZsnf5DDCwdI673F7A7oSphp/vgA==}
-    dependencies:
-      '@tanstack/query-core': 4.26.1
     dev: false
 
   /@tanstack/query-persist-client-core/4.27.0:
@@ -3748,32 +3738,32 @@ packages:
       '@tanstack/query-persist-client-core': 4.27.0
     dev: false
 
-  /@tanstack/react-query-devtools/4.26.1_brdhmlf72zuns3lsk66phyptty:
-    resolution: {integrity: sha512-ts2mA+fyFYFRi3Cee4xBk8Fx6waSFOM+yCkFqwJfGQRGjjTIMYMZPJv4wkv7vy12IVi1SYhL8au22LRKlXS1Zg==}
+  /@tanstack/react-query-devtools/4.28.0_q4teel2yjbizrm4naiaqcdpjum:
+    resolution: {integrity: sha512-1SnoMw1CWn8FdPEIHvlAzmMBX3heXJo11fyBtt+FzYAHj5yFC8P67Kpgi0HpLkY7SLnd6QK/7qFkpeH4AQbgZg==}
     peerDependencies:
-      '@tanstack/react-query': 4.26.1
+      '@tanstack/react-query': 4.28.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@tanstack/match-sorter-utils': 8.7.6
-      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       superjson: 1.12.2
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
-  /@tanstack/react-query-persist-client/4.26.1_vohxj3xpfxn57cw32hqo6tozmq:
-    resolution: {integrity: sha512-efS2hPz8z+ySCTIy1DJ4uuT7LSi8F0E4bMXwP/aj2dDuMRFn6AV3z7LItInpp0Em3JKhi90GP2vxDyvQTOhO2A==}
+  /@tanstack/react-query-persist-client/4.28.0_qfusmmwykmcbgdy37sd3cqxiry:
+    resolution: {integrity: sha512-xNpi3YdPOQIyYkKhByYDqTlyCeqICWFhV5PWkoVxYfzlRK6HYX4s+9Int407jEvhBz9cGC4OaL7rd6bynCFrYg==}
     peerDependencies:
-      '@tanstack/react-query': 4.26.1
+      '@tanstack/react-query': 4.28.0
     dependencies:
-      '@tanstack/query-persist-client-core': 4.26.1
-      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/query-persist-client-core': 4.27.0
+      '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
     dev: false
 
-  /@tanstack/react-query/4.26.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-i3dnz4TOARGIXrXQ5P7S25Zfi4noii/bxhcwPurh2nrf5EUCcAt/95TB2HSmMweUBx206yIMWUMEQ7ptd6zwDg==}
+  /@tanstack/react-query/4.28.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-8cGBV5300RHlvYdS4ea+G1JcZIt5CIuprXYFnsWggkmGoC0b5JaqG0fIX3qwDL9PTNkKvG76NGThIWbpXivMrQ==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -3784,7 +3774,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@tanstack/query-core': 4.26.1
+      '@tanstack/query-core': 4.27.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -12573,8 +12563,8 @@ packages:
         optional: true
     dependencies:
       '@tanstack/query-sync-storage-persister': 4.27.1
-      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
-      '@tanstack/react-query-persist-client': 4.26.1_vohxj3xpfxn57cw32hqo6tozmq
+      '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query-persist-client': 4.28.0_qfusmmwykmcbgdy37sd3cqxiry
       '@wagmi/core': 0.10.5_qnqxk5ihplizhkldovoadkiopm
       abitype: 0.3.0_typescript@4.9.5
       react: 18.2.0
