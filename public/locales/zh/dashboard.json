@@ -163,5 +163,9 @@
   "Stay tuned": "敬请期待",
   "This is a token used for interaction on the Crossbell blockchain, which can be claimed for free from the faucet, so there's no need to worry about its balance.": "这是一个用于 Crossbell 区块链上交互的代币，可以从水龙头免费领取，所以不用担心它的余额。",
   "Balance": "余额",
-  "Swap Tutorial": "兑换教程"
+  "Swap Tutorial": "兑换教程",
+  "DNS Checking": "DNS 检查中",
+  "DNS check passed.": "DNS 检查通过。",
+  "DNS check failed.": "DNS 检查失败。",
+  "Recheck": "重新检查"
 }

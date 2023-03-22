@@ -206,18 +206,22 @@ export default function SettingsDomainsPage() {
               </table>
               <div className="text-sm">
                 {domainCheckResult.isLoading ? (
-                  <span>Checking...</span>
+                  <span>{t("DNS Checking")}...</span>
                 ) : domainCheckResult.data ? (
-                  <span className="text-green-600">DNS check Passed.</span>
+                  <span className="text-green-600">
+                    {t("DNS check passed.")}
+                  </span>
                 ) : (
                   <span>
-                    <span className="text-red-600">DNS check failed.</span>
+                    <span className="text-red-600">
+                      {t("DNS check failed.")}
+                    </span>
                     <Button
                       className="ml-4 font-media"
                       variant="secondary"
                       onClick={() => toCheckDomain(customDomain)}
                     >
-                      Recheck
+                      {t("Recheck")}
                     </Button>
                   </span>
                 )}
