@@ -6,12 +6,8 @@ export const languageDetector = (ctx: GetServerSidePropsContext) => {
 
   let acceptLang = ctx.req.headers["accept-language"]?.split(",")[0]
 
-  if (acceptLang === "zh-CN") {
-    acceptLang = "zh"
-  } else if (acceptLang === "zh-HK") {
+  if (acceptLang === "zh-HK" || acceptLang === "zh-TW") {
     acceptLang = "zh-TW"
-  } else if (acceptLang === "zh-TW") {
-    // do nothing
   } else {
     acceptLang = acceptLang?.split("-")[0]
   }
