@@ -131,7 +131,7 @@ export const getSite = async (input: string, customUnidata?: Unidata) => {
   return site
 }
 
-export const getSites = async (input: string[]) => {
+export const getSites = async (input: number[]) => {
   const client = createClient({
     url: "https://indexer.crossbell.io/v1/graphql",
   })

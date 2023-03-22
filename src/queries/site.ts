@@ -40,7 +40,7 @@ export const useGetSite = (input?: string) => {
   })
 }
 
-export const useGetSites = (input: string[]) => {
+export const useGetSites = (input: number[]) => {
   return useQuery(["getSites", input], async () => {
     if (!input) {
       return null

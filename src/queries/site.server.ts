@@ -70,7 +70,7 @@ export const prefetchGetSiteToSubscriptions = async (
 }
 
 export const prefetchGetSites = async (
-  input: string[],
+  input: number[],
   queryClient: QueryClient,
 ) => {
   const key = ["getSites", input]
