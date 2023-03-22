@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { OUR_DOMAIN } from "~/lib/env"
 import { cacheGet } from "~/lib/redis.server"
+import { checkDomainServer } from "~/models/site.model"
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,7 +32,10 @@ export default async function handler(
             char?.metadata?.content?.attributes?.find(
               (a: any) => a.trait_type === "xlog_custom_domain",
             )?.value || ""
-          if (customDomain) {
+          if (
+            customDomain &&
+            (await checkDomainServer(customDomain, subdomain))
+          ) {
             return {
               redirect: /^https?:\/\//.test(customDomain)
                 ? customDomain

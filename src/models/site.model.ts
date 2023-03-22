@@ -138,8 +138,8 @@ export const getSites = async (input: string[]) => {
   const result = await client
     .query(
       `
-        query getCharacters($identities: [String!], $limit: Int) {
-          characters( where: { handle: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
+        query getCharacters($identities: [Int!], $limit: Int) {
+          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
             handle
             updatedAt
             characterId
@@ -718,4 +718,32 @@ export async function getMiraBalance(address: string, contract: Contract) {
   ).toString()
 
   return result
+}
+
+export async function checkDomainServer(domain: string, handle: string) {
+  const dns = await (
+    await fetch(
+      `https://cloudflare-dns.com/dns-query?name=_xlog-challenge.${domain}&type=TXT`,
+      {
+        headers: {
+          accept: "application/dns-json",
+        },
+      },
+    )
+  ).json()
+
+  const tenant = dns?.Answer?.[0]?.data.replace(/^"|"$/g, "")
+  if (!tenant || tenant !== handle) {
+    return false
+  } else {
+    return true
+  }
+}
+
+export async function checkDomain(domain: string, handle: string) {
+  const check = await (
+    await fetch(`/api/check-domain?domain=${domain}&handle=${handle}`)
+  ).json()
+
+  return check.data
 }

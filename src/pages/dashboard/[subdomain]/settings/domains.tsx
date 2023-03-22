@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
@@ -17,6 +17,7 @@ import { useTranslation } from "next-i18next"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { checkDomain } from "~/models/site.model"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -63,7 +64,10 @@ export default function SettingsDomainsPage() {
 
   const [customDomain, setCustomDomain] = useState("")
   form.register("custom_domain", {
-    onChange: (e) => setCustomDomain(e.target.value),
+    onChange: (e) => {
+      setCustomDomain(e.target.value)
+      toCheckDomain(e.target.value)
+    },
   })
 
   const customSubdomain = customDomain?.split(".").slice(0, -2).join(".") || ""
@@ -73,7 +77,9 @@ export default function SettingsDomainsPage() {
       if (updateSite.data?.code === 0) {
         toast.success("Saved!")
         router.replace(
-          `/dashboard/${updateSite.variables?.subdomain}/settings/domains`,
+          `/dashboard/${
+            updateSite.variables?.subdomain || updateSite.variables?.site
+          }/settings/domains`,
         )
       } else {
         toast.error("Failed to update site" + ": " + updateSite.data.message)
@@ -83,6 +89,30 @@ export default function SettingsDomainsPage() {
     }
   }, [updateSite.isSuccess])
 
+  const [domainCheckResult, setDomainCheckResult] = useState<{
+    isLoading: boolean
+    data?: boolean
+  }>({
+    isLoading: false,
+    data: true,
+  })
+  const toCheckDomain = useCallback(
+    (custom: string) => {
+      if (custom) {
+        setDomainCheckResult({
+          isLoading: true,
+        })
+        checkDomain(custom, subdomain).then((r) =>
+          setDomainCheckResult({
+            isLoading: false,
+            data: r,
+          }),
+        )
+      }
+    },
+    [subdomain],
+  )
+
   const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
     if (site.isSuccess && site.data && !hasSet) {
@@ -90,8 +120,9 @@ export default function SettingsDomainsPage() {
       form.setValue("subdomain", site.data.username || "")
       form.setValue("custom_domain", site.data.custom_domain || "")
       setCustomDomain(site.data.custom_domain || "")
+      toCheckDomain(site.data.custom_domain || "")
     }
-  }, [form, site.data, site.isSuccess, customDomain, hasSet])
+  }, [form, site.data, site.isSuccess, customDomain, hasSet, toCheckDomain])
 
   return (
     <SettingsLayout title={"Site Settings"} type="site">
@@ -143,14 +174,14 @@ export default function SettingsDomainsPage() {
             {...form.register("custom_domain")}
           />
           {customDomain && (
-            <div className="mt-2 text-xs">
-              <p className="mb-2">
+            <div className="mt-2 text-xs space-y-2">
+              <p>
                 {t(
                   "Set the following record on your DNS provider to active your custom domain",
                 )}
                 :
               </p>
-              <table className="">
+              <table>
                 <tbody>
                   <tr className="border-b">
                     <th className="text-center p-3">Type</th>
@@ -173,11 +204,33 @@ export default function SettingsDomainsPage() {
                   </tr>
                 </tbody>
               </table>
+              <div className="text-sm">
+                {domainCheckResult.isLoading ? (
+                  <span>Checking...</span>
+                ) : domainCheckResult.data ? (
+                  <span className="text-green-600">DNS check Passed.</span>
+                ) : (
+                  <span>
+                    <span className="text-red-600">DNS check failed.</span>
+                    <Button
+                      className="ml-4 font-media"
+                      variant="secondary"
+                      onClick={() => toCheckDomain(customDomain)}
+                    >
+                      Recheck
+                    </Button>
+                  </span>
+                )}
+              </div>
             </div>
           )}
         </div>
         <div className="mt-5">
-          <Button type="submit" isLoading={updateSite.isLoading}>
+          <Button
+            type="submit"
+            isLoading={updateSite.isLoading || domainCheckResult.isLoading}
+            isDisabled={domainCheckResult?.data === false}
+          >
             {t("Save")}
           </Button>
         </div>
