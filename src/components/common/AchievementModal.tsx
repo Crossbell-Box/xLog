@@ -9,6 +9,7 @@ import { useRouter } from "next/router"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { useDate } from "~/hooks/useDate"
 import { useTranslation } from "next-i18next"
+import { cn } from "~/lib/utils"
 
 export const AchievementModal: React.FC<{
   opened: boolean
@@ -16,7 +17,7 @@ export const AchievementModal: React.FC<{
   group: AchievementSection["groups"][number]
   layoutId: string
   isOwner: boolean
-  characterId?: number
+  characterId?: string
 }> = ({ opened, setOpened, group, layoutId, isOwner, characterId }) => {
   const date = useDate()
   const { t } = useTranslation("common")
@@ -33,7 +34,6 @@ export const AchievementModal: React.FC<{
     ? group.items.filter((item) => item.status === "COMMING").pop()
     : null
 
-  const router = useRouter()
   const mintAchievement = useMintAchievement()
 
   const mint = async (tokenId: number) => {
@@ -146,7 +146,7 @@ export const AchievementModal: React.FC<{
         <div className="mt-8 hidden sm:block h-24">
           <Stepper
             active={
-              group.items.filter((item) => item.status === "MINTED").length
+              group.items.findLastIndex((item) => item.status === "MINTED") + 1
             }
             color="var(--theme-color)"
             size="sm"
@@ -176,31 +176,36 @@ export const AchievementModal: React.FC<{
             })}
           >
             {group.items.map((item) => {
+              const icon = (
+                <>
+                  <div
+                    className={cn("text-[0px]", {
+                      grayscale: item.status !== "MINTED",
+                    })}
+                  >
+                    <Badge media={item.info.media} size={42} />
+                  </div>
+                  {item.status === "MINTABLE" && isOwner && (
+                    <Button
+                      className="absolute -bottom-10"
+                      size="sm"
+                      variant="primary"
+                      rounded="full"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        mint(item.info.tokenId)
+                      }}
+                      isLoading={mintAchievement.isLoading}
+                    >
+                      Mint
+                    </Button>
+                  )}
+                </>
+              )
               return (
                 <Stepper.Step
-                  icon={
-                    <>
-                      <div className="grayscale text-[0px]">
-                        <Badge media={item.info.media} size={42} />
-                      </div>
-                      {item.status === "MINTABLE" && isOwner && (
-                        <Button
-                          className="absolute -bottom-10"
-                          size="sm"
-                          variant="primary"
-                          rounded="full"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            mint(item.info.tokenId)
-                          }}
-                          isLoading={mintAchievement.isLoading}
-                        >
-                          Mint
-                        </Button>
-                      )}
-                    </>
-                  }
-                  completedIcon={<Badge media={item.info.media} size={42} />}
+                  icon={icon}
+                  completedIcon={icon}
                   label={
                     item.info.attributes.find(
                       (attr) => attr.trait_type === "tier",

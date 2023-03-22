@@ -384,7 +384,7 @@ export const useGetTips = (
   })
 }
 
-export const useGetAchievements = (characterId: number) => {
+export const useGetAchievements = (characterId?: string) => {
   return useQuery(["getAchievements", characterId], async () => {
     if (!characterId) {
       return null

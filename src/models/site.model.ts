@@ -627,7 +627,7 @@ export type AchievementSection = {
   }[]
 }
 
-export async function getAchievements(characterId: number) {
+export async function getAchievements(characterId: string) {
   const crossbellAchievements = (await indexer.getAchievements(characterId))
     ?.list as AchievementSection[] | undefined
   const xLogAchievements: AchievementSection[] = [
@@ -703,7 +703,7 @@ export async function getAchievements(characterId: number) {
 }
 
 export async function mintAchievement(input: {
-  characterId: number
+  characterId: string
   achievementId: number
 }) {
   return indexer.mintAchievement(input.characterId, input.achievementId)

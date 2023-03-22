@@ -36,7 +36,7 @@ export const AchievementItem: React.FC<{
   group: AchievementSection["groups"][number]
   layoutId: string
   size?: number
-  characterId?: number
+  characterId?: string
   isOwner: boolean
 }> = ({ group, layoutId, size, characterId, isOwner }) => {
   const date = useDate()
@@ -95,6 +95,11 @@ export const AchievementItem: React.FC<{
               position="middle-start"
               color="red"
               className="inline-flex max-w-full justify-center items-center"
+              styles={() => ({
+                indicator: {
+                  "z-index": "1",
+                },
+              })}
             >
               <span className="capitalize text-xs font-medium truncate max-w-full inline-block">
                 {group.info.title}

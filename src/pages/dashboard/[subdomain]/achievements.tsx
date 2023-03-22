@@ -1,14 +1,13 @@
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import type { ReactElement } from "react"
-import { useGetAchievements } from "~/queries/site"
-import { useDate } from "~/hooks/useDate"
-import { useTranslation } from "next-i18next"
+import { useGetAchievements, useGetSite } from "~/queries/site"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { useAccountState } from "@crossbell/connect-kit"
 import { AchievementItem } from "~/components/common/AchievementItem"
+import { useRouter } from "next/router"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -23,13 +22,11 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 )
 
 export default function AchievementsPage() {
-  const date = useDate()
-  const { t } = useTranslation("dashboard")
+  const router = useRouter()
+  const subdomain = router.query.subdomain as string
+  const site = useGetSite(subdomain)
 
-  const currentCharacterId = useAccountState(
-    (s) => s.computed.account?.characterId,
-  )
-  const achievement = useGetAchievements(currentCharacterId || 0)
+  const achievement = useGetAchievements(site.data?.metadata?.proof)
 
   return (
     <DashboardMain title="Achievements">
@@ -52,7 +49,7 @@ export default function AchievementsPage() {
                       key={group.info.name}
                       layoutId="achievements"
                       size={80}
-                      characterId={currentCharacterId}
+                      characterId={site.data?.metadata?.proof}
                       isOwner={true}
                     />
                   ))}
