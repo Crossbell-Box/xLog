@@ -1,0 +1,17 @@
+{
+  "Home": "首頁",
+  "Archives": "封存",
+  "About": "關於",
+  "Tags": "標籤",
+  "load more": "還有{{count}}篇{{name}}，點選載入更多文章",
+  "signed and stored on the blockchain": "此{{name}}已由它的創作者簽名並安全儲存在區塊鏈上。",
+  "Write a comment on the blockchain": "在區塊鏈上留言。",
+  "powered by": "由 <name/> 提供支援",
+  "This address is in local editing preview mode and cannot be viewed by the public. The expected online address is:": "此地址處於本地編輯預覽模式，尚未公開。預期的上線地址是：",
+  "View on xChar": "在 xChar 上檢視",
+  "View on xFeed": "在 xFeed 上檢視",
+  "View on Hoot It": "在 Hoot It 上檢視",
+  "View on Crossbell Scan": "在 Crossbell Scan 上檢視",
+  "Subscribe to JSON Feed": "訂閱 JSON Feed",
+  "Subscribe to RSS": "訂閱 RSS"
+}
