@@ -96,22 +96,21 @@ export default function SettingsDomainsPage() {
     isLoading: false,
     data: true,
   })
-  const toCheckDomain = useCallback(
-    (custom: string) => {
-      if (custom) {
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const toCheckDomain = (custom: string) => {
+    if (custom) {
+      setDomainCheckResult({
+        isLoading: true,
+      })
+      checkDomain(custom, form.getValues().subdomain).then((r) =>
         setDomainCheckResult({
-          isLoading: true,
-        })
-        checkDomain(custom, subdomain).then((r) =>
-          setDomainCheckResult({
-            isLoading: false,
-            data: r,
-          }),
-        )
-      }
-    },
-    [subdomain],
-  )
+          isLoading: false,
+          data: r,
+        }),
+      )
+    }
+  }
 
   const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
@@ -233,7 +232,7 @@ export default function SettingsDomainsPage() {
           <Button
             type="submit"
             isLoading={updateSite.isLoading || domainCheckResult.isLoading}
-            isDisabled={domainCheckResult?.data === false}
+            isDisabled={domainCheckResult?.data === false && !!customDomain}
           >
             {t("Save")}
           </Button>
