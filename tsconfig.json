@@ -17,7 +17,8 @@
     "allowJs": true,
     "skipLibCheck": true,
     "incremental": true,
-    "module": "esnext"
+    "module": "esnext",
+    "typeRoots": ["./types"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

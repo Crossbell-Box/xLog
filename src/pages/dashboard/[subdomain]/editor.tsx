@@ -511,10 +511,12 @@ export default function SubdomainEditor() {
                       date.dayjs,
                     )}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                      const value = date
-                        .inLocalTimezone(e.target.value)
-                        .toISOString()
-                      updateValue("publishedAt", value)
+                      try {
+                        const value = date
+                          .inLocalTimezone(e.target.value)
+                          .toISOString()
+                        updateValue("publishedAt", value)
+                      } catch (error) {}
                     }}
                     help={t(
                       `This ${
