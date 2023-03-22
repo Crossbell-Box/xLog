@@ -35,11 +35,11 @@
   "New Page": "新建頁面",
   "Import": "匯入",
   "Import markdown file with front matter supported": "匯入 Markdown 檔案（支援 Front Matter）",
-  "View Site": "查看網站",
+  "View Site": "檢視網站",
   "hello": {
     "welcome": "<p>👋 嗨，</p><p>歡迎使用 xLog！</p><p>以下是一些有用的連結，幫助你開始使用 xLog：</p>",
     "hidden": "👋 嗨",
-    "community": "<p>加入我們的社群，認識新朋友或共同建設 xLog：</p>"
+    "community": "<p>加入我們的社群，認識新朋友或提供貢獻 xLog：</p>"
   },
   "Edit": "編輯",
   "Convert to Page": "轉換為頁面",
