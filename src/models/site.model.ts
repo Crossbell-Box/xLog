@@ -709,9 +709,9 @@ export async function mintAchievement(input: {
   return indexer.mintAchievement(input.characterId, input.achievementId)
 }
 
-export async function getMiraBalance(address: string, contract: Contract) {
+export async function getMiraBalance(characterId: string, contract: Contract) {
   const decimals = await getMiraTokenDecimals(contract)
-  const result = await contract.getMiraBalance(address)
+  const result = await contract.getMiraBalanceOfCharacter(characterId)
   result.data = (
     BigInt(result.data) /
     BigInt(10) ** BigInt(decimals?.data || 18)

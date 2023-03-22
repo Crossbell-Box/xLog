@@ -410,14 +410,14 @@ export const useMintAchievement = () => {
   )
 }
 
-export const useGetMiraBalance = (address?: string) => {
+export const useGetMiraBalance = (characterId?: string) => {
   const contract = useContract()
-  return useQuery(["getMiraBalance", address], async () => {
-    if (!address) {
+  return useQuery(["getMiraBalance", characterId], async () => {
+    if (!characterId) {
       return {
         data: "Loading...",
       }
     }
-    return siteModel.getMiraBalance(address, contract)
+    return siteModel.getMiraBalance(characterId, contract)
   })
 }

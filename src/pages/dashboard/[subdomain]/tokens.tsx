@@ -38,7 +38,7 @@ export default function TokensPage() {
   const subdomain = router.query.subdomain as string
   const site = useGetSite(subdomain)
 
-  const miraBalance = useGetMiraBalance(site.data?.metadata?.owner)
+  const miraBalance = useGetMiraBalance(site.data?.metadata?.proof)
   const csbBalance = useAccountBalance()
   const claimCSBStatus = useClaimCSBStatus()
   const claimCSBModal = useWalletClaimCSBModal()
