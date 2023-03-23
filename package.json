@@ -25,7 +25,7 @@
     "@crossbell/connect-kit": "0.0.54",
     "@crossbell/contract": "0.0.54",
     "@crossbell/indexer": "0.0.54",
-    "@crossbell/notification": "0.0.54",
+    "@crossbell/notification": "0.0.55",
     "@crossbell/ui": "0.0.54",
     "@crossbell/util-hooks": "0.0.54",
     "@emoji-mart/data": "1.1.2",
