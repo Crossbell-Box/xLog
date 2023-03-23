@@ -11,7 +11,7 @@ specifiers:
   '@crossbell/indexer': 0.0.54
   '@crossbell/notification': 0.0.54
   '@crossbell/ui': 0.0.54
-  '@crossbell/util-hooks': 0.0.54
+  '@crossbell/util-hooks': 0.0.55
   '@emoji-mart/data': 1.1.2
   '@emoji-mart/react': 1.1.1
   '@floating-ui/react': ^0.21.1
@@ -140,7 +140,7 @@ dependencies:
   '@crossbell/indexer': 0.0.54_en7jzxaqdgm3lax3bn4bgpc7yi
   '@crossbell/notification': 0.0.54_whdbbczopvicogbxqfxhikvcum
   '@crossbell/ui': 0.0.54_bg7os4tgc3jjasagdjqdrtaxo4
-  '@crossbell/util-hooks': 0.0.54_biqbaboplfbrettd7655fr4n2y
+  '@crossbell/util-hooks': 0.0.55_biqbaboplfbrettd7655fr4n2y
   '@emoji-mart/data': 1.1.2
   '@emoji-mart/react': 1.1.1_kyrnz3vmphzqyjjk2ivrm6bcsu
   '@floating-ui/react': 0.21.1_biqbaboplfbrettd7655fr4n2y
@@ -1805,6 +1805,22 @@ packages:
 
   /@crossbell/util-hooks/0.0.54_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-/OLd4gvEwrVbtrOsVv/agPiKZZr6cmMMRa2nLE6aT7lkys8PnhlJJoeVaPUERcOYRtUAwRO03fXKbXUNwKV2cQ==}
+    peerDependencies:
+      react: ^18
+    dependencies:
+      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+      crossbell.js: 0.19.4
+      react: 18.2.0
+    transitivePeerDependencies:
+      - bufferutil
+      - react-dom
+      - react-native
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@crossbell/util-hooks/0.0.55_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-VsY7hTbrSQ6GKoP5e1+KPhwiUDZBlv1vmSeVs5dNohpgPM3stpOHqsAcbCRL13sh2s8PPNcM3fyiSZoy/KtfDQ==}
     peerDependencies:
       react: ^18
     dependencies:
