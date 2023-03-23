@@ -42,7 +42,7 @@ export async function cacheGet(options: {
       redisKey = options.key
     }
     const cacheValue = await redis.get(redisKey)
-    if (cacheValue) {
+    if (cacheValue && cacheValue !== "undefined" && cacheValue !== "null") {
       if (!options.noUpdate) {
         setTimeout(() => {
           options.getValueFun().then((value) => {

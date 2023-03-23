@@ -1,59 +1,53 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
+
+import { OpenAI } from "langchain"
+import { loadSummarizationChain } from "langchain/chains"
+import { PromptTemplate } from "langchain/prompts"
+import { AnalyzeDocumentChain } from "langchain/chains"
 
 import { cacheGet } from "~/lib/redis.server"
 import { toGateway } from "~/lib/ipfs-parser"
 
-const returnLimit = 400
-const chunkSize = 4000
-
-const splitter = new RecursiveCharacterTextSplitter({
-  chunkSize,
-  chunkOverlap: 1,
+const model = new OpenAI({
+  openAIApiKey: process.env.OPENAI_API_KEY,
+  modelName: "gpt-3.5-turbo",
+  temperature: 0.3,
+  maxTokens: 400,
 })
+
+const chains = new Map<string, AnalyzeDocumentChain>()
 
 async function segmentedSummary(
   content: string,
   lang: string,
 ): Promise<string> {
-  const segments = await splitter.createDocuments([content])
+  let chain = chains.get(lang)
+  if (!chain) {
+    const prompt = new PromptTemplate({
+      template: `Summarize this in ${lang} language:
+    "{text}"
+    CONCISE SUMMARY:`,
+      inputVariables: ["text"],
+    })
 
-  const results: string[] = await Promise.all(
-    segments.map(async (segment) => {
-      const prompt = `Summarize this in ${lang} language in less than ${returnLimit} characters: ${segment.pageContent}`
+    const combineDocsChain = loadSummarizationChain(model, {
+      prompt,
+      combineMapPrompt: prompt,
+      combinePrompt: prompt,
+    })
 
-      const response = await (
-        await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: "gpt-3.5-turbo-0301",
-            temperature: 0,
-            top_p: 1,
-            frequency_penalty: 1,
-            presence_penalty: 1,
-            messages: [
-              {
-                role: "user",
-                content: prompt,
-              },
-            ],
-          }),
-        })
-      ).json()
+    chain = new AnalyzeDocumentChain({
+      combineDocumentsChain: combineDocsChain,
+    })
 
-      return response.choices?.[0]?.message?.content?.trim()
-    }),
-  )
-
-  if (results.length > 1) {
-    return segmentedSummary(results.join("\n"), lang)
-  } else {
-    return results[0]
+    chains.set(lang, chain)
   }
+
+  const res = await chain.call({
+    input_document: content,
+  })
+
+  return res?.text
 }
 
 export async function getSummary(cid: string, lang: string = "en") {
