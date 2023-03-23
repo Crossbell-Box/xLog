@@ -53,7 +53,11 @@ export async function cacheGet(options: {
       return JSON.parse(cacheValue)
     } else {
       const value = await options.getValueFun()
-      redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+      if (options.noUpdate) {
+        redis.set(redisKey, JSON.stringify(value))
+      } else {
+        redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+      }
       return value
     }
   } else {
