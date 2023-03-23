@@ -364,7 +364,7 @@ export const useGetTips = (
   return useInfiniteQuery({
     queryKey: ["getTips", data],
     queryFn: async ({ pageParam }) => {
-      if (!data.toCharacterId) {
+      if (!data.toCharacterId || data.characterId === "0") {
         return {
           count: 0,
           list: [],

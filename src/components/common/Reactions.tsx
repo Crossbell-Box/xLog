@@ -137,7 +137,7 @@ export const Reactions: React.FC<{
   const isTip = useGetTips({
     toCharacterId: characterId,
     toNoteId: noteId,
-    characterId: account?.characterId,
+    characterId: account?.characterId || "0",
   })
 
   const tip = () => {
