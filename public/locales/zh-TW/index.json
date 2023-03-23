@@ -1,29 +1,29 @@
 {
-    "Write": "寫作",
-    "Own": "擁有",
-    "Earn": "賺取",
-    ".": "。",
-    "Look at others'": "看看其他人的",
-    "description": "<0>xLog</0> 是面向所有人的最棒 <3>區塊鏈</3> <7>開源</7> 博客社群。",
-    "Get my xLog in 5 minutes": "5 分鐘擁有自己的 xLog",
+    "Write": "Write",
+    "Own": "Own",
+    "Earn": "Earn",
+    ".": ".",
+    "Look at others'": "看看別人",
+    "description": "<0>xLog</0>。最佳 <7>開源</7> <3>區塊鏈</3> 部落格社群。",
+    "Get my xLog in 5 minutes": "五分鐘撰寫自我",
     "Explore the xLog way": "探索 xLog 之路",
     "features": {
         "Write": {
-            "subtitle": "當靈感來臨時寫作",
-            "description": "讓創作者們擺脫耗時、不必要的流程，減少寫作過程中的阻礙，讓你和團隊能夠專注於創造。"
+            "subtitle": "靈感來臨，牢牢抓住",
+            "description": "釋放創造力，成為時間管理大師！讓寫作更順暢，專注創造未來。"
         },
         "Own": {
-            "subtitle": "在區塊鏈上擁有自己的內容",
-            "description": "通過在 Crossbell 區塊鏈上發布來擁有自己的內容。xLog 不會存儲任何數據，也無法剝奪或修改你的權利和內容，即使 xLog 想這樣做。<aown>了解 Crossbell 是如何工作的。</aown>",
+            "subtitle": "鏈上內容，安全無憂",
+            "description": "通過 Crossbell 區塊鏈發佈你的內容，完全掌控你的權利與安全。<br> xLog 不存儲任何資料，無法剝奪或修改你的內容和權利，即使 xLog 想這樣做。<aown>了解 Crossbell 是如何工作的。</aown>",
             "extra": {
-                "title": "不要相信，去驗證",
-                "description": "在網路上不輕信任何人是一個好習慣，包括 xLog。因此，我們強烈建議你瀏覽 xLog 上的任何站點，檢查頁面底部的交易歷史，閱讀區塊鏈合約代碼，看看事實是否與 xLog 所聲稱的一致。",
-                "button": "去驗證"
+                "title": "不要輕信，堅持驗證",
+                "description": "不輕信任何人，包括 xLog。建議檢查交易歷史與區塊鏈合約代碼，驗證事實是否符合 xLog 所聲明。",
+                "button": "揭開 xLog 的神秘面紗"
             }
         },
         "Earn": {
-            "subtitle": "賺取代幣和權利",
-            "description": "優秀的內容應該得到獎勵，而區塊鏈為創作者提供了透明公正的獎勵機會。xLog DAO 將進一步促進我們社群的發展。"
+            "subtitle": "賺取虛擬貨幣和權益",
+            "description": "區塊鏈為優秀的內容創作者提供透明公正的獎勵機會，xLog DAO 更進一步促進社群發展。"
         }
     },
     "Features": "特色",
@@ -31,27 +31,27 @@
     "Integration": "整合",
     "Source Code": "原始碼",
     "Visit": "訪問",
-    "Easy to get started": "簡單上手",
-    "Easy to get started text": "xLog 支持<strong>web3 錢包</strong>和<strong>電子郵件</strong>連接，使你能夠快速創建一個定制的博客，具有自定義域名、訂閱、評論、NFT 鑄造、RSS 訂閱和 AI 增強等功能，僅需 5 分鐘即可完成，無需申請或費用。",
-    "Safe": "安全",
-    "Safe text": "所有博客數據，包括配置、文章、訂閱、評論等，都由你自己簽名並安全地存儲在<strong>區塊鏈</strong>上，只有你持有的<strong>私鑰</strong>才能進行控制和訪問。包括 xLog 在內的任何人都無法進行更改。",
-    "Fast": "快速",
-    "Fast text": "區塊鏈並不總意味著低效率。xLog 通過其高效的緩存機制和眾多優化，可以達到最佳性能。站點還支持<strong>PWA</strong>用於本地安裝和使用。",
-    "Customizable": "可定制",
-    "Customizable text": "你可以自由地使用<strong>自己的域名</strong>、自定義網站並按自己的喜好進行<strong>設計</strong>。這是你的網站，沒有任何限制。xLog 鼓勵並將提供豐富的<strong>主題和插件</strong>系統，以幫助你進行自定義。",
-    "Open": "開放",
-    "Open text": "xLog 提供導入和導出工具，以及豐富的<strong>API</strong> 和第三方<strong>整合</strong>。所有代碼都在 GitHub 上<strong>開源</strong>，所有數據都在區塊鏈上<strong>透明</strong>。xLog 沒有任何隱瞞。",
-    "Elegant experience": "優雅的體驗",
-    "Elegant experience text": "xLog 提供雙欄編輯器，具有<strong>實時預覽</strong>功能，提供優秀的寫作體驗，使用標準的<strong>Markdown 語法</strong>，支持<strong>HTML</strong>、<strong>音視頻</strong>和數學表達式。頁面設計優雅，為讀者提供舒適的閱讀體驗。",
+    "Easy to get started": "讓寫作更簡單",
+    "Easy to get started text": "xLog 支持<strong> Web3 錢包</strong> 和 <strong>電子郵件</strong> 連接，讓你輕鬆創建定制化部落格，享有自定義域名、訂閱、留言、NFT 鑄造、RSS 訂閱和 AI 增強等功能。只需 5 分鐘即可完成，無需申請或費用。",
+    "Elegant experience": "優雅永不過時",
+    "Elegant experience text": "雙欄編輯器，<strong>實時預覽</strong>，創作無壓力，使用標準的 <strong> Markdown 語法</strong> ，支持 <strong>HTML</strong> 、 <strong>音視頻</strong> 和 <strong>數學公式</strong>。頁面設計優雅，為讀者提供舒適的閱讀體驗。",
+    "Fast": "一切精彩的背後",
+    "Fast text": "區塊鏈低效？不！高效的緩存機制和多種優化方案，發揮區塊鏈極致性能，同時提供 <strong>PWA</strong> 讓您輕鬆本地安裝和使用，加速實現目標！",
+    "Safe": "資安，我最在行",
+    "Safe text": "所有資料，包括配置、文章、訂閱、留言等，都被安全地存儲在 <strong>區塊鏈</strong> 上。只有您持有的 <strong>私鑰</strong> 才能掌控和訪問這些資料，確保您的隱私得到最大程度的保護。",
+    "Customizable": "創意，自由揮灑",
+    "Customizable text": "您可以自由地使用 <strong>自己的域名</strong> ，在自己喜愛的風格下自定義網站，xLog 提供豐富的主題和插件系統，讓您 <strong>隨心所欲</strong> 地打造屬於自己的個性化網站。展現您的獨特風采！",
+    "Open": "開放，自由自在",
+    "Open text": "xLog 提供導入和導出工具，豐富的 <strong>API</strong> 和 <strong>第三方</strong> 整合，讓您更加自由地管理和使用網站。所有代碼都在 GitHub 上 <strong>開源</strong> ，所有資料都在區塊鏈上 <strong>透明存儲</strong> ，沒有任何隱瞞。",
     "Creator Incentives": "創作者激勵",
-    "Creator Incentives text": "在早期階段，xLog 將以<strong>USDC</strong>提供激勵。我們正在積極構建代幣經濟模型，以確保 xLog 成為發布高質量內容的最佳平台。",
+    "Creator Incentives text": "在早期階段，xLog 將以 <strong>USDC</strong> 提供激勵。我們正積極構建代幣經濟模型，力求讓 xLog 成為發布高質量內容的最佳平台。我們希望為您提供最好的體驗和最大的價值回報，讓您在創作、分享和社交中感到更加自由和快樂。",
     "DAO": "去中心化自治組織",
-    "DAO text": "將建立一個 xLog DAO，在其中創作者使用<strong>代幣</strong>進行投票。",
+    "DAO text": "我們將建立一個 xLog DAO，讓創作者可以使用 <strong>虛擬貨幣</strong> 進行投票。我們相信，這將使我們的社區更加開放、公平和民主化，讓每個人都能發揮自己的影響力和貢獻價值。我們期待與您攜手打造一個更加繁榮和有活力的社區！",
     "Discover these awesome teams and creators on xLog (sorted by update time)": "在 xLog 上發現這些超棒的團隊和創作者們（按更新時間排序）",
     "Follow All!": "追蹤所有！",
     "Already Followed All!": "已追蹤所有！",
     "Show more": "顯示更多",
     "Submit yours": "看看你的👀",
-    "xLog's open design allows it to integrate with many other open protocols and applications without friction.": "xLog 的開放式設計使其能夠與許多其他開放協議和應用程序無縫整合，沒有任何限制。",
-    "Dashboard": "儀表板"
+    "xLog's open design allows it to integrate with many other open protocols and applications without friction.": "我們相信，只有在開放、互聯、共享的基礎上才能有更大的價值和創新。",
+    "Dashboard": "主控臺"
 }
