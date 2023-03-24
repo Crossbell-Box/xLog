@@ -41,7 +41,7 @@ export default async function handler(
       )?.value ||
       getDefaultSlug(note?.metadata?.content?.title, `${characterId}-${noteId}`)
 
-    link += `/${slug}`
+    link += `/${encodeURIComponent(slug)}`
   }
 
   res.redirect(link)
