@@ -98,14 +98,9 @@ function Activities() {
         </div>
         <div className="w-80 pl-10 pt-4 hidden sm:block">
           <div className="text-center">
-            <div className="mb-10 text-zinc-700">
-              <p>
-                {t(
-                  "Discover these awesome teams and creators on xLog (sorted by update time)",
-                )}
-              </p>
+            <div className="mb-10 text-zinc-700 space-y-3">
+              <p className="font-medium">{t("Suggested creators for you")}</p>
               <Button
-                className="mt-5"
                 onClick={followAll}
                 isLoading={
                   showcaseSites.isLoading ||
@@ -120,7 +115,7 @@ function Activities() {
                   : t("Follow All!")}
               </Button>
               <ul
-                className={`pt-5 overflow-y-clip relative text-left space-y-4 ${
+                className={`overflow-y-clip relative text-left space-y-4 ${
                   showcaseMore ? "" : "max-h-[540px]"
                 }`}
               >
