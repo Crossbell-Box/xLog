@@ -77,7 +77,7 @@ export const SiteArchives: React.FC<{
           <EmptyState />
         </div>
       )}
-      {postPages[0].total && (
+      {!!postPages[0].total && (
         <>
           {showTags && tags.size > 0 && (
             <div className="mt-5">
