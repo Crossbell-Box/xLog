@@ -3,7 +3,11 @@ import { ReactElement, useState } from "react"
 import { MainLayout } from "~/components/main/MainLayout"
 import { UniLink } from "~/components/ui/UniLink"
 import { Button } from "~/components/ui/Button"
-import { useConnectedAction } from "@crossbell/connect-kit"
+import {
+  useAccountState,
+  useConnectedAction,
+  useConnectModal,
+} from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 import { getSiteLink } from "~/lib/helpers"
 import { Image } from "~/components/ui/Image"
@@ -58,6 +62,11 @@ function Activities() {
 
   const [showcaseMore, setShowcaseMore] = useState(false)
 
+  const currentCharacterId = useAccountState(
+    (s) => s.computed.account?.characterId,
+  )
+  const connectModal = useConnectModal()
+
   const [feedType, setFeedType] = useState<"latest" | "following">(
     userSite.data?.length ? "following" : "latest",
   )
@@ -69,7 +78,13 @@ function Activities() {
     },
     {
       text: "Following",
-      onClick: () => setFeedType("following"),
+      onClick: () => {
+        if (!currentCharacterId) {
+          connectModal.show()
+        } else {
+          setFeedType("following")
+        }
+      },
       active: feedType === "following",
     },
   ]
