@@ -109,12 +109,12 @@ export default function SubdomainIndex() {
               </li>
               <li>
                 <UniLink href={`/dashboard/${subdomain}/editor?type=post`}>
-                  Create a Post
+                  {t("Create a Post")}
                 </UniLink>
               </li>
               <li>
                 <UniLink href={`/dashboard/${subdomain}/settings/general`}>
-                  Change Site Name or Icon
+                  {t("Change Site Icon or domain")}
                 </UniLink>
               </li>
             </ul>
@@ -132,30 +132,23 @@ export default function SubdomainIndex() {
               }}
             >
               <li>
-                <UniLink href={DISCORD_LINK}>
-                  Join {APP_NAME}
-                  {`'`}s Discord channel
+                <UniLink href="/activities" target="_blank">
+                  {t("Check out the updates of other bloggers")}
                 </UniLink>
               </li>
               <li>
-                <UniLink
-                  href={getSiteLink({
-                    subdomain: "xlog",
-                  })}
-                >
-                  Follow {APP_NAME}
-                  {`'`}s xLog
+                <UniLink href={DISCORD_LINK}>
+                  {t("Join xLog's Discord channel")}
                 </UniLink>
               </li>
               <li>
                 <UniLink href={GITHUB_LINK}>
-                  Participate in the development of xLog
+                  {t("Participate in the development of xLog")}
                 </UniLink>
               </li>
               <li>
                 <UniLink href={TWITTER_LINK}>
-                  Follow {APP_NAME}
-                  {`'`}s Twitter
+                  {t("Follow xLog's Twitter")}
                 </UniLink>
               </li>
             </ul>

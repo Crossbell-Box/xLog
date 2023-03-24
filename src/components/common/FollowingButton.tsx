@@ -10,7 +10,10 @@ import {
 import { useConnectedAction } from "@crossbell/connect-kit"
 import { cn } from "~/lib/utils"
 import { Profile } from "~/lib/types"
-import { useTranslation } from "next-i18next"
+import { Trans, useTranslation } from "next-i18next"
+import { toast } from "react-hot-toast"
+import { UniLink } from "~/components/ui/UniLink"
+import { SITE_URL } from "~/lib/env"
 
 export const FollowingButton: React.FC<{
   site: Profile | undefined | null
@@ -48,6 +51,26 @@ export const FollowingButton: React.FC<{
       subscribeToSite.reset()
     }
   }, [subscribeToSite])
+
+  useEffect(() => {
+    if (subscribeToSite.isSuccess) {
+      subscribeToSite.reset()
+      toast.success(
+        <span>
+          <Trans i18nKey="Successfully followed" ns="common">
+            Hey there! You&apos;re all set to{" "}
+            <UniLink className="underline" href={`${SITE_URL}/activities`}>
+              keep up with your followed blogger&apos;s latest buzz here
+            </UniLink>
+            .
+          </Trans>
+        </span>,
+        {
+          duration: 5000,
+        },
+      )
+    }
+  }, [subscribeToSite, t])
 
   useEffect(() => {
     if (unsubscribeFromSite.isLoading || subscribeToSite.isLoading) {

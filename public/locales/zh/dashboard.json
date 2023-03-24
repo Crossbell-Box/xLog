@@ -169,5 +169,11 @@
   "DNS check failed.": "DNS 检查失败。",
   "Recheck": "重新检查",
   "Latest": "最新",
-  "Following": "关注"
+  "Following": "关注",
+  "Create a Post": "创建文章",
+  "Change Site Icon or domain": "更改站点图标或域名",
+  "Join xLog's Discord channel": "加入 xLog 的 Discord 频道",
+  "Participate in the development of xLog": "参与 xLog 的开发",
+  "Follow xLog's Twitter": "关注 xLog 的 Twitter",
+  "Check out the updates of other bloggers": "查看其他博主的更新"
 }

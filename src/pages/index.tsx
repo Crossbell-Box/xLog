@@ -304,17 +304,7 @@ function Home() {
             variantColor="gradient"
           >
             <span>
-              <Link
-                to={"Showcase"}
-                spy={true}
-                smooth={true}
-                duration={500}
-                onClick={() => {
-                  setShowcaseMore(true)
-                }}
-              >
-                {t("Look at others'")}
-              </Link>
+              <UniLink href="/activities">{t("Look at others'")}</UniLink>
             </span>
           </Button>
         </div>

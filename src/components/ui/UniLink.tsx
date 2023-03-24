@@ -5,7 +5,8 @@ export const UniLink: React.FC<{
   onClick?: () => void
   children: React.ReactNode
   className?: string
-}> = ({ href, onClick, children, className, ...props }) => {
+  target?: string
+}> = ({ href, onClick, children, className, target, ...props }) => {
   if (onClick) {
     return (
       <button className={className} onClick={onClick} {...props}>
@@ -36,7 +37,7 @@ export const UniLink: React.FC<{
   }
 
   return (
-    <Link href={href} className={className}>
+    <Link href={href} className={className} target={target}>
       {children}
     </Link>
   )
