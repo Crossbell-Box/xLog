@@ -198,7 +198,14 @@ export const SiteHeader: React.FC<{
       <div className="px-5 max-w-screen-md mx-auto h-full relative flex items-center flex-col">
         <div className="mb-auto"></div>
         <div className="flex py-12 w-full">
-          <div className="xlog-site-info flex space-x-6 items-center w-full">
+          <div
+            className={cn(
+              "xlog-site-info flex space-x-6 items-center w-full",
+              site?.banners?.[0]?.address
+                ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-xl p-8 z-[1] border"
+                : "",
+            )}
+          >
             {site?.avatars?.[0] && (
               <Avatar
                 className="xlog-site-icon max-w-[80px] max-h-[80px] sm:max-w-none sm:max-h-none"
