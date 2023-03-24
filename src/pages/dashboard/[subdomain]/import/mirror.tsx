@@ -14,7 +14,7 @@ import type { NoteMetadata } from "crossbell.js"
 import { ImportPreview } from "~/components/dashboard/ImportPreview"
 import { usePostNotes } from "~/queries/page"
 import { toast } from "react-hot-toast"
-import { useGetMirrorXyz } from "~/queries/page"
+import { useGetMirrorXyz, useCheckMirror } from "~/queries/page"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -42,6 +42,7 @@ export default function ImportMarkdownPage() {
   const mirrorXyz = useGetMirrorXyz({
     address: site.data?.metadata?.owner,
   })
+  const checkeMirror = useCheckMirror(site.data?.metadata?.proof)
 
   const notes = mirrorXyz?.data?.map((note) => ({
     title: note.title,
@@ -83,34 +84,42 @@ export default function ImportMarkdownPage() {
 
   return (
     <DashboardMain title="Import from Mirror.xyz">
-      <form onSubmit={handleSubmit}>
-        <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-4">
-          <div>
-            <div className="form-label">
-              {t("Preview your Mirror.xyz entries")}
+      {checkeMirror?.data ? (
+        <form onSubmit={handleSubmit}>
+          <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-4">
+            <div>
+              <div className="form-label">
+                {t("Preview your Mirror.xyz entries")}
+              </div>
+              {notes?.length ? (
+                notes?.map((note: NoteMetadata) => (
+                  <ImportPreview key={note.title} note={note} />
+                ))
+              ) : (
+                <div className="text-gray-500">{t("No entries")}</div>
+              )}
             </div>
-            {notes?.length ? (
-              notes?.map((note: NoteMetadata) => (
-                <ImportPreview key={note.title} note={note} />
-              ))
-            ) : (
-              <div className="text-gray-500">{t("No entries")}</div>
-            )}
+            <div>
+              <Button
+                isAutoWidth={true}
+                type="submit"
+                isLoading={
+                  site.isLoading || mirrorXyz.isLoading || postNotes.isLoading
+                }
+                disabled={!notes?.length}
+              >
+                {t("Import")}
+              </Button>
+            </div>
           </div>
-          <div>
-            <Button
-              isAutoWidth={true}
-              type="submit"
-              isLoading={
-                site.isLoading || mirrorXyz.isLoading || postNotes.isLoading
-              }
-              disabled={!notes?.length}
-            >
-              {t("Import")}
-            </Button>
-          </div>
+        </form>
+      ) : (
+        <div className="text-gray-500">
+          {t(
+            "You have already imported them, please enter the post page to create a new post!",
+          )}
         </div>
-      </form>
+      )}
     </DashboardMain>
   )
 }

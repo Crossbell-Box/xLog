@@ -639,3 +639,14 @@ export async function getSummary({
     await fetch(`/api/summary?cid=${cid}&lang=${lang || "en"}`)
   ).text()
 }
+
+export async function checkMirror(characterId: string) {
+  const notes = await indexer.getNotes({
+    characterId,
+    sources: ["xlog"],
+    tags: ["post", "Mirror.xyz"],
+    limit: 0,
+  })
+
+  return notes.count === 0
+}

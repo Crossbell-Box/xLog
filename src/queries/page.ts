@@ -293,3 +293,12 @@ export function useGetMirrorXyz(input: { address: string }) {
     }[]
   })
 }
+
+export function useCheckMirror(characterId?: string) {
+  return useQuery(["checkMirror", characterId], async () => {
+    if (!characterId) {
+      return
+    }
+    return pageModel.checkMirror(characterId)
+  })
+}
