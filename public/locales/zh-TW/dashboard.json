@@ -165,5 +165,7 @@
     "DNS Checking": "DNS 檢查中",
     "DNS check passed.": "DNS 檢查通過。",
     "DNS check failed.": "DNS 檢查失敗。",
-    "Recheck": "重新檢查"
+    "Recheck": "重新檢查",
+    "Latest": "最新動態",
+    "Following": "追蹤中"
 }
