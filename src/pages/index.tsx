@@ -251,7 +251,7 @@ function Home() {
   return (
     <div className="max-w-screen-lg px-5 mx-auto">
       <div className="h-screen w-full flex justify-center flex-col relative text-center">
-        <h2 className="text-7xl sm:text-8xl font-bold mb-5">
+        <h2 className="text-6xl sm:text-8xl font-bold mb-5">
           {features.map((feature) => (
             <span
               key={feature.title}
@@ -262,7 +262,7 @@ function Home() {
             </span>
           ))}
         </h2>
-        <h3 className="mt-5 text-zinc-800 text-2xl sm:text-4xl font-light">
+        <h3 className="mt-3 sm:mt-5 text-zinc-800 text-2xl sm:text-4xl font-light">
           <Trans i18nKey="description" ns="index">
             <strong className="font-medium">xLog</strong> is the best{" "}
             <UniLink
@@ -281,7 +281,7 @@ function Home() {
             blogging community for everyone.
           </Trans>
         </h3>
-        <div className="my-6 sm:my-12 flex items-center justify-center sm:flex-row flex-col">
+        <div className="my-4 sm:my-12 flex items-center justify-center sm:flex-row flex-col">
           <Button
             className="text-accent h-10 mt-4 flex items-center"
             onClick={tryNow}
@@ -318,8 +318,8 @@ function Home() {
             </span>
           </Button>
         </div>
-        <div className="text-center absolute bottom-14 w-full flex items-center justify-center flex-col">
-          <span className="mb-3">{t("Explore the xLog way")}</span>
+        <div className="text-center absolute bottom-4 sm:bottom-14 w-full flex items-center justify-center flex-col">
+          <span className="mb-1 sm:mb-3">{t("Explore the xLog way")}</span>
           <Link
             to="Features"
             spy={true}

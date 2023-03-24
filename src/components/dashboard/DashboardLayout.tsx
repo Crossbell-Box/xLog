@@ -172,77 +172,78 @@ export function DashboardLayout({
           <DashboardSidebar>
             {(isOpen) => (
               <>
-                <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
-                  <div className="inline-block w-9 h-9 mr-3">
-                    <Logo
-                      type="lottie"
-                      width={36}
-                      height={36}
-                      autoplay={false}
+                <div className="flex-1 min-h-0 flex flex-col">
+                  <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
+                    <div className="inline-block w-9 h-9 mr-3">
+                      <Logo
+                        type="lottie"
+                        width={36}
+                        height={36}
+                        autoplay={false}
+                      />
+                    </div>
+                    {isOpen && "xLog"}
+                  </div>
+                  {userSite.data?.[0]?.username &&
+                    subdomain &&
+                    userSite.data[0].username !== subdomain && (
+                      <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
+                        <div className="mb-2">
+                          {isOpen && "You are operating"}
+                        </div>
+                        <Avatar
+                          images={site.data?.avatars || []}
+                          size={isOpen ? 60 : 40}
+                          name={site.data?.name}
+                        />
+                        {isOpen && (
+                          <span className="flex flex-col justify-center">
+                            <span className="block">{site.data?.name}</span>
+                            <span className="block text-sm text-zinc-400">
+                              @{site.data?.username}
+                            </span>
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  <div className="mb-2 px-2 pt-3 pb-2">
+                    <ConnectButton
+                      left={true}
+                      size="base"
+                      hideNotification={true}
+                      hideName={!isOpen}
                     />
                   </div>
-                  {isOpen && "xLog"}
-                </div>
-                {userSite.data?.[0]?.username &&
-                  subdomain &&
-                  userSite.data[0].username !== subdomain && (
-                    <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
-                      <div className="mb-2">
-                        {isOpen && "You are operating"}
-                      </div>
-                      <Avatar
-                        images={site.data?.avatars || []}
-                        size={isOpen ? 60 : 40}
-                        name={site.data?.name}
-                      />
-                      {isOpen && (
-                        <span className="flex flex-col justify-center">
-                          <span className="block">{site.data?.name}</span>
-                          <span className="block text-sm text-zinc-400">
-                            @{site.data?.username}
-                          </span>
-                        </span>
-                      )}
-                    </div>
-                  )}
-                <div className="mb-2 px-2 pt-3 pb-2">
-                  <ConnectButton
-                    left={true}
-                    size="base"
-                    hideNotification={true}
-                    hideName={!isOpen}
-                  />
-                </div>
 
-                <div className="px-3 space-y-[2px] text-zinc-500">
-                  {links.map((link) => {
-                    const active =
-                      link.href &&
-                      link.isActive({
-                        pathname: router.asPath,
-                        href: link.href,
-                      })
-                    return (
-                      <UniLink
-                        href={link.href}
-                        key={link.text}
-                        className={cn(
-                          `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
-                          active
-                            ? `bg-slate-200 font-medium text-accent`
-                            : `hover:bg-slate-200 hover:bg-opacity-50`,
-                          !isOpen && "justify-center",
-                        )}
-                        onClick={link.onClick}
-                      >
-                        <span className={cn(link.icon, "text-xl")}></span>
-                        {isOpen && <span>{t(link.text)}</span>}
-                      </UniLink>
-                    )
-                  })}
+                  <div className="px-3 space-y-[2px] text-zinc-500 flex-1 min-h-0 overflow-y-auto">
+                    {links.map((link) => {
+                      const active =
+                        link.href &&
+                        link.isActive({
+                          pathname: router.asPath,
+                          href: link.href,
+                        })
+                      return (
+                        <UniLink
+                          href={link.href}
+                          key={link.text}
+                          className={cn(
+                            `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
+                            active
+                              ? `bg-slate-200 font-medium text-accent`
+                              : `hover:bg-slate-200 hover:bg-opacity-50`,
+                            !isOpen && "justify-center",
+                          )}
+                          onClick={link.onClick}
+                        >
+                          <span className={cn(link.icon, "text-xl")}></span>
+                          {isOpen && <span>{t(link.text)}</span>}
+                        </UniLink>
+                      )
+                    })}
+                  </div>
                 </div>
-
-                <div className="absolute bottom-5 left-0 right-0 flex items-center px-4 flex-col">
+                <div className="flex items-center px-4 flex-col pb-4">
                   <UniLink
                     href={DISCORD_LINK}
                     className="space-x-1 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
