@@ -33,6 +33,7 @@ export const getNoteSlug = (note: NoteEntity) => {
 }
 
 export const getDefaultSlug = (title: string, id?: string) => {
+  title = title.replace(/[^a-zA-Z0-9\s]/g, "")
   return (
     pinyin(title as string, {
       style: pinyin.STYLE_NORMAL,

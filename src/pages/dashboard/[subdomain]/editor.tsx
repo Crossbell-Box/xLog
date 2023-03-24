@@ -28,7 +28,6 @@ import { setStorage, delStorage } from "~/lib/storage"
 import { nanoid } from "nanoid"
 import { useQueryClient } from "@tanstack/react-query"
 import { PageContent } from "~/components/common/PageContent"
-import pinyin from "pinyin"
 import type { Root } from "hast"
 import type { EditorView } from "@codemirror/view"
 import { Editor } from "~/components/ui/Editor"
@@ -549,7 +548,9 @@ export default function SubdomainEditor() {
                               href={`${getSiteLink({
                                 subdomain,
                                 domain: site.data?.custom_domain,
-                              })}/${values.slug || defaultSlug}`}
+                              })}/${encodeURIComponent(
+                                values.slug || defaultSlug,
+                              )}`}
                               className="hover:underline"
                             >
                               {getSiteLink({
@@ -557,7 +558,7 @@ export default function SubdomainEditor() {
                                 domain: site.data?.custom_domain,
                                 noProtocol: true,
                               })}
-                              /{values.slug || defaultSlug}
+                              /{encodeURIComponent(values.slug || defaultSlug)}
                             </UniLink>
                           </>
                         )}
@@ -616,7 +617,7 @@ export default function SubdomainEditor() {
                 href={`${getSiteLink({
                   subdomain,
                   domain: site.data?.custom_domain,
-                })}/${values.slug || defaultSlug}`}
+                })}/${encodeURIComponent(values.slug || defaultSlug)}`}
               >
                 {t("View the post")}
               </UniLink>
@@ -641,9 +642,9 @@ export default function SubdomainEditor() {
                 href={`https://twitter.com/intent/tweet?url=${getSiteLink({
                   subdomain,
                   domain: site.data?.custom_domain,
-                })}/${
-                  values.slug || defaultSlug
-                }&via=_xLog&text=${encodeURIComponent(
+                })}/${encodeURIComponent(
+                  values.slug || defaultSlug,
+                )}&via=_xLog&text=${encodeURIComponent(
                   `Read my new post - ${page.data?.title}`,
                 )}`}
               >
