@@ -9,20 +9,35 @@ import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { ConnectButton } from "../common/ConnectButton"
 import { getSiteLink } from "~/lib/helpers"
-import { Link } from "react-scroll"
 import { useTranslation } from "next-i18next"
 import { Logo } from "~/components/common/Logo"
+import { useRouter } from "next/router"
+import { cn } from "~/lib/utils"
+
+const tabs = [
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "Activities",
+    link: "/activities",
+  },
+  {
+    name: "Source Code",
+    link: GITHUB_LINK,
+  },
+]
 
 export function MainLayout({
   children,
   title,
-  tabs,
 }: {
   children?: React.ReactNode
   title?: string
-  tabs?: string[]
 }) {
   const { t } = useTranslation("index")
+  const router = useRouter()
 
   return (
     <>
@@ -33,32 +48,30 @@ export function MainLayout({
       />
       <header className="py-5 fixed w-full top-0 bg-white z-10">
         <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
-          <div className="text-2xl font-extrabold flex items-center">
+          <UniLink
+            href="/"
+            className="text-2xl font-extrabold flex items-center"
+          >
             <div className="inline-block w-9 h-9 mr-3">
               <Logo type="lottie" width={36} height={36} autoplay={false} />
             </div>
             xLog
-          </div>
+          </UniLink>
           <div className="space-x-14 text-zinc-500 flex">
             {tabs?.map((tab, index) => (
-              <Link
-                activeClass="text-accent"
-                className="cursor-pointer items-center hidden sm:flex hover:text-accent"
-                to={tab}
-                spy={true}
-                smooth={true}
-                duration={500}
-                key={tab}
+              <UniLink
+                className={cn(
+                  "cursor-pointer items-center hidden sm:flex hover:text-accent text-lg",
+                  {
+                    "text-accent": router.pathname === tab.link,
+                  },
+                )}
+                key={tab.name}
+                href={tab.link}
               >
-                {t(tab)}
-              </Link>
+                {t(tab.name)}
+              </UniLink>
             ))}
-            <UniLink
-              href={GITHUB_LINK}
-              className="items-center hidden sm:flex hover:text-accent"
-            >
-              {t("Source Code")}
-            </UniLink>
             <ConnectButton size="base" variantColor="black" />
           </div>
         </div>

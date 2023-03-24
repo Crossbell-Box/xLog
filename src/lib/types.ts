@@ -1,5 +1,6 @@
 import type { Note as UniNote, Profile as UniProfile } from "unidata.js"
 import { ReactElement } from "react"
+import { NoteEntity } from "crossbell.js"
 
 export type Site = {
   id: string
@@ -86,6 +87,18 @@ export type Note = UniNote & {
   }
   preview?: boolean
   views?: number
+}
+
+export type ExpandedNote = NoteEntity & {
+  metadata: {
+    content: {
+      summary?: string
+      cover?: string
+      frontMatter?: Record<string, any>
+      slug?: string
+      views?: number
+    }
+  }
 }
 
 export type Notes = {
