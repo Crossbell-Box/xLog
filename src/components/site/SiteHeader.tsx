@@ -202,7 +202,7 @@ export const SiteHeader: React.FC<{
             className={cn(
               "xlog-site-info flex space-x-6 items-center w-full",
               site?.banners?.[0]?.address
-                ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-xl p-8 z-[1] border"
+                ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-xl p-4 sm:p-8 z-[1] border"
                 : "",
             )}
           >
