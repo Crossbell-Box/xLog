@@ -50,10 +50,14 @@ export const CharacterCard: React.FC<{
   return (
     <span
       className={cn(
-        "border-gray-100 rounded-lg text-sm block",
+        "border-gray-100 rounded-lg text-sm block cursor-default",
         style === "flat" ? "" : "p-4 bg-white shadow-xl",
         simple ? "space-y-1" : "space-y-2",
       )}
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
     >
       {site ? (
         <>
