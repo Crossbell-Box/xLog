@@ -25,6 +25,13 @@ spec:
         prometheus.io/scrape: "true"
     spec:
       enableServiceLinks: false
+      nodeSelector:
+        rss3.io/usage: csb-others
+      tolerations:
+        - key: "rss3.io/usage"
+          operator: "Equal"
+          value: "csb-others"
+          effect: "NoSchedule"
       containers:
         - image: $IMAGE_TAG_RELEASE
           imagePullPolicy: Always
