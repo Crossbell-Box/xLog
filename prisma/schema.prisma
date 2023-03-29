@@ -12,8 +12,11 @@ datasource db {
 
 model Metadata {
   uri     String
-  aiSummary   String?
-  aiScore     Int?
+  ai_summary_en   String?
+  ai_summary_zh   String?
+  ai_summary_zhtw   String?
+  ai_summary_ja   String?
+  ai_score     Int?
   @@id([uri])
   @@index([uri])
 }

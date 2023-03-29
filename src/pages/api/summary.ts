@@ -5,8 +5,10 @@ import { loadSummarizationChain } from "langchain/chains"
 import { PromptTemplate } from "langchain/prompts"
 import { AnalyzeDocumentChain } from "langchain/chains"
 
-import { cacheGet } from "~/lib/redis.server"
 import { toGateway } from "~/lib/ipfs-parser"
+import prisma from "~/lib/prisma.server"
+import { Metadata } from "@prisma/client"
+import { cacheGet } from "~/lib/redis.server"
 
 const model = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
@@ -17,56 +19,87 @@ const model = new OpenAI({
 
 const chains = new Map<string, AnalyzeDocumentChain>()
 
-async function segmentedSummary(
-  content: string,
-  lang: string,
-): Promise<string> {
-  let chain = chains.get(lang)
-  if (!chain) {
-    const prompt = new PromptTemplate({
-      template: `Summarize this in ${lang} language:
-    "{text}"
-    CONCISE SUMMARY:`,
-      inputVariables: ["text"],
+const getOriginalSummary = async (cid: string, lang: string) => {
+  try {
+    console.log("fetching summary", cid, lang)
+
+    const { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
+
+    let chain = chains.get(lang)
+    if (!chain) {
+      const prompt = new PromptTemplate({
+        template: `Summarize this in ${lang} language:
+      "{text}"
+      CONCISE SUMMARY:`,
+        inputVariables: ["text"],
+      })
+
+      const combineDocsChain = loadSummarizationChain(model, {
+        prompt,
+        combineMapPrompt: prompt,
+        combinePrompt: prompt,
+      })
+
+      chain = new AnalyzeDocumentChain({
+        combineDocumentsChain: combineDocsChain,
+      })
+
+      chains.set(lang, chain)
+    }
+
+    const res = await chain.call({
+      input_document: content,
     })
 
-    const combineDocsChain = loadSummarizationChain(model, {
-      prompt,
-      combineMapPrompt: prompt,
-      combinePrompt: prompt,
-    })
-
-    chain = new AnalyzeDocumentChain({
-      combineDocumentsChain: combineDocsChain,
-    })
-
-    chains.set(lang, chain)
+    return res?.text
+  } catch (error) {
+    console.error(error)
+    return undefined
   }
-
-  const res = await chain.call({
-    input_document: content,
-  })
-
-  return res?.text
 }
 
 export async function getSummary(cid: string, lang: string = "en") {
   const summary = await cacheGet({
     key: ["summary", cid, lang],
     getValueFun: async () => {
-      try {
-        console.log("fetching summary", cid, lang)
+      if (["en", "zh", "zh-TW", "ja"].includes(lang)) {
+        const key = `ai_summary_${lang.replace("-", "").toLowerCase()}`
+        const meta = await prisma.metadata.findFirst({
+          where: {
+            uri: `ipfs://${cid}`,
+          },
+        })
+        if (meta) {
+          if (meta?.[key as keyof Metadata]) {
+            return meta?.[key as keyof Metadata]
+          } else {
+            const summary = await getOriginalSummary(cid, lang)
+            if (summary) {
+              await prisma.metadata.update({
+                where: {
+                  uri: `ipfs://${cid}`,
+                },
+                data: {
+                  [key as keyof Metadata]: summary,
+                },
+              })
 
-        const { content } = await (
-          await fetch(toGateway(`ipfs://${cid}`))
-        ).json()
+              return summary
+            }
+          }
+        } else {
+          const summary = await getOriginalSummary(cid, lang)
+          if (summary) {
+            await prisma.metadata.create({
+              data: {
+                uri: `ipfs://${cid}`,
+                [key as keyof Metadata]: summary,
+              },
+            })
 
-        const result = await segmentedSummary(content, lang)
-
-        return result
-      } catch (error) {
-        console.error(error)
-        return undefined
+            return summary
+          }
+        }
       }
     },
     noUpdate: true,
@@ -86,5 +119,7 @@ export default async function handler(
     return
   }
 
-  res.status(200).send(await getSummary(cid as string, lang as string))
+  res.status(200).json({
+    data: await getSummary(cid as string, lang as string),
+  })
 }

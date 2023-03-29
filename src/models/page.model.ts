@@ -635,9 +635,9 @@ export async function getSummary({
   cid: string
   lang?: string
 }) {
-  return await (
-    await fetch(`/api/summary?cid=${cid}&lang=${lang || "en"}`)
-  ).text()
+  return (
+    await (await fetch(`/api/summary?cid=${cid}&lang=${lang || "en"}`)).json()
+  ).data
 }
 
 export async function checkMirror(characterId: string) {
