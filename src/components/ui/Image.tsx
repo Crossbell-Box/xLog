@@ -1,7 +1,6 @@
 import React from "react"
 import { default as NextImage, ImageProps } from "next/image"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
-import { cn } from "~/lib/utils"
 
 export const Image: React.FC<
   {
@@ -19,6 +18,12 @@ export const Image: React.FC<
   const [autoWidth, setAutoWidth] = React.useState(0)
   const autoSize = !width && !height && !fill
   const noOptimization = className?.includes("no-optimization")
+
+  try {
+    new URL(src)
+  } catch (error) {
+    return null
+  }
 
   return noOptimization ? (
     // eslint-disable-next-line @next/next/no-img-element
