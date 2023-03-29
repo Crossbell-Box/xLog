@@ -1,3 +1,5 @@
+import { PrismaClient } from "@prisma/client"
+
 export {}
 
 declare global {
@@ -7,4 +9,6 @@ declare global {
       thisArg?: any,
     ): number
   }
+
+  var prisma: PrismaClient | undefined
 }

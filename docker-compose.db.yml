@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis-stack
+    restart: always
+    ports:
+      - 6379:6379
+      - 8001:8001
+    volumes:
+      - redis:/var/lib/redis/data
+
+volumes:
+  postgres:
+    name: xlog-db
+  redis:
+    name: xlog-redis
