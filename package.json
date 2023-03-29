@@ -12,6 +12,10 @@
     "start": "node server.js",
     "uno-generate": "unocss \"src/**/*.{ts,tsx}\" -o src/generated/uno.css",
     "prepare": "husky install",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy --preview-feature",
+    "prisma:migrate:status": "prisma migrate status --preview-feature",
+    "prisma:migrate:resolve": "prisma migrate resolve --preview-feature",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
     "docker:db": "docker-compose -f docker-compose.db.yml up -d"
