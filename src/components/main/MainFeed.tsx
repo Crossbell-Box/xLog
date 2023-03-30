@@ -158,9 +158,10 @@ export const MainFeed: React.FC<{
             Loading ...
           </div>
         }
+        className="space-y-10"
       >
         {hasFiltering && (
-          <div className="mb-10 flex items-center text-zinc-500">
+          <div className="flex items-center text-zinc-500">
             <i className="i-mingcute:android-2-line mr-2 text-lg" />
             <span>Enable AI Filtering</span>
             <Switch
@@ -184,8 +185,11 @@ export const MainFeed: React.FC<{
             </Switch>
           </div>
         )}
+        {feed.isRefetching && (
+          <div className="text-center text-zinc-600">Refreshing...</div>
+        )}
         {feed.isLoading ? (
-          <div className="text-center">Loading...</div>
+          <div className="text-center text-zinc-600">Loading...</div>
         ) : !feed.data?.pages[0]?.count ? (
           <EmptyState />
         ) : (
