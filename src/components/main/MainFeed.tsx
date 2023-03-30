@@ -12,6 +12,7 @@ import { ExpandedNote } from "~/lib/types"
 import { useEffect, useState } from "react"
 import { Switch } from "@headlessui/react"
 import { setStorage, getStorage } from "~/lib/storage"
+import { Tooltip } from "~/components/ui/Tooltip"
 
 const Post = ({
   post,
@@ -128,6 +129,8 @@ const Post = ({
 export const MainFeed: React.FC<{
   type?: "latest" | "recommend" | "following"
 }> = ({ type }) => {
+  const { t } = useTranslation(["common", "site"])
+
   const currentCharacterId = useAccountState(
     (s) => s.computed.account?.characterId,
   )
@@ -140,9 +143,14 @@ export const MainFeed: React.FC<{
   const hasFiltering = type === "latest"
 
   const [aiFiltering, setAiFiltering] = useState(false)
+  const [refreshTimeout, setRefreshTimeout] = useState(false)
 
   useEffect(() => {
     setAiFiltering(getStorage("ai_filtering")?.enabled || false)
+
+    setTimeout(() => {
+      setRefreshTimeout(true)
+    }, 5000)
   }, [])
 
   return (
@@ -155,7 +163,7 @@ export const MainFeed: React.FC<{
             className="relative mt-4 w-full text-sm text-center py-4"
             key={"loading"}
           >
-            Loading ...
+            {t("Loading")} ...
           </div>
         }
         className="space-y-10"
@@ -163,7 +171,16 @@ export const MainFeed: React.FC<{
         {hasFiltering && (
           <div className="flex items-center text-zinc-500">
             <i className="i-mingcute:android-2-line mr-2 text-lg" />
-            <span>Enable AI Filtering</span>
+            <span className="mr-1 cursor-default">
+              {t("Enable AI Filtering")}
+            </span>
+            <Tooltip
+              label={t(
+                "Filter out possible low-quality content based on AI ratings.",
+              )}
+            >
+              <i className="i-mingcute:question-line" />
+            </Tooltip>
             <Switch
               checked={aiFiltering}
               onChange={(value) => {
@@ -185,11 +202,11 @@ export const MainFeed: React.FC<{
             </Switch>
           </div>
         )}
-        {feed.isRefetching && (
-          <div className="text-center text-zinc-600">Refreshing...</div>
+        {feed.isRefetching && !refreshTimeout && (
+          <div className="text-center text-zinc-600">{t("Refreshing")}...</div>
         )}
         {feed.isLoading ? (
-          <div className="text-center text-zinc-600">Loading...</div>
+          <div className="text-center text-zinc-600">{t("Loading")}...</div>
         ) : !feed.data?.pages[0]?.count ? (
           <EmptyState />
         ) : (
