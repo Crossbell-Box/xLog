@@ -640,6 +640,10 @@ export async function getSummary({
   ).data
 }
 
+export async function getScore({ cid }: { cid: string }) {
+  return (await (await fetch(`/api/score?cid=${cid}`)).json()).data
+}
+
 export async function checkMirror(characterId: string) {
   const notes = await indexer.getNotes({
     characterId,

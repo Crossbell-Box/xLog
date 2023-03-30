@@ -17,6 +17,7 @@ model Metadata {
   ai_summary_zhtw   String?
   ai_summary_ja   String?
   ai_score     Int?
+  ai_score_reason String?
   @@id([uri])
   @@index([uri])
 }

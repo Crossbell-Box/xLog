@@ -31,4 +31,5 @@ export const toCid = (url: string) => {
     .replaceAll("https://cf-ipfs.com/ipfs/", "")
     .replaceAll("https://ipfs.4everland.xyz/ipfs/", "")
     .replaceAll("https://rss3.mypinata.cloud/ipfs/", "")
+    .replaceAll(IPFS_PREFIX, "")
 }

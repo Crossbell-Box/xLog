@@ -21,40 +21,44 @@ const chains = new Map<string, AnalyzeDocumentChain>()
 
 const getOriginalSummary = async (cid: string, lang: string) => {
   try {
-    console.log("fetching summary", cid, lang)
-
     const { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
 
-    let chain = chains.get(lang)
-    if (!chain) {
-      const prompt = new PromptTemplate({
-        template: `Summarize this in ${lang} language:
-      "{text}"
-      CONCISE SUMMARY:`,
-        inputVariables: ["text"],
+    if (content) {
+      console.time(`fetching summary ${cid}, ${lang}`)
+
+      let chain = chains.get(lang)
+      if (!chain) {
+        const prompt = new PromptTemplate({
+          template: `Summarize this in "${lang}" language:
+        "{text}"
+        CONCISE SUMMARY:`,
+          inputVariables: ["text"],
+        })
+
+        const combineDocsChain = loadSummarizationChain(model, {
+          prompt,
+          combineMapPrompt: prompt,
+          combinePrompt: prompt,
+        })
+
+        chain = new AnalyzeDocumentChain({
+          combineDocumentsChain: combineDocsChain,
+        })
+
+        chains.set(lang, chain)
+      }
+
+      const res = await chain.call({
+        input_document: content,
       })
 
-      const combineDocsChain = loadSummarizationChain(model, {
-        prompt,
-        combineMapPrompt: prompt,
-        combinePrompt: prompt,
-      })
+      console.timeEnd(`fetching summary ${cid}, ${lang}`)
 
-      chain = new AnalyzeDocumentChain({
-        combineDocumentsChain: combineDocsChain,
-      })
-
-      chains.set(lang, chain)
+      return res?.text
     }
-
-    const res = await chain.call({
-      input_document: content,
-    })
-
-    return res?.text
   } catch (error) {
     console.error(error)
-    return undefined
+    console.timeEnd(`fetching summary ${cid}, ${lang}`)
   }
 }
 
