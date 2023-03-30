@@ -37,7 +37,7 @@ const getOriginalScore = async (cid: string) => {
       console.timeEnd(`fetching score ${cid}`)
 
       return {
-        score: parseInt(response.choices?.[0]?.message?.content?.trim()),
+        number: parseInt(response.choices?.[0]?.message?.content?.trim()),
         reason: response.choices?.[0]?.message?.content
           ?.trim()
           .replace(/^\d+([,.\s]*)/, "")
@@ -54,7 +54,7 @@ const getOriginalScore = async (cid: string) => {
 
 export async function getScore(cid: string) {
   const score = await cacheGet({
-    key: ["summary_score222", cid],
+    key: ["summary_score", cid],
     getValueFun: async () => {
       const meta = await prisma.metadata.findFirst({
         where: {
@@ -64,7 +64,7 @@ export async function getScore(cid: string) {
       if (meta) {
         if (meta?.ai_score !== null) {
           return {
-            score: meta.ai_score,
+            number: meta.ai_score,
             reason: meta.ai_score_reason,
           }
         } else {
@@ -75,7 +75,7 @@ export async function getScore(cid: string) {
                 uri: `ipfs://${cid}`,
               },
               data: {
-                ai_score: score.score,
+                ai_score: score.number,
                 ai_score_reason: score.reason,
               },
             })
@@ -89,7 +89,7 @@ export async function getScore(cid: string) {
           await prisma.metadata.create({
             data: {
               uri: `ipfs://${cid}`,
-              ai_score: score.score,
+              ai_score: score.number,
               ai_score_reason: score.reason,
             },
           })

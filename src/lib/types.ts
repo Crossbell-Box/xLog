@@ -97,6 +97,10 @@ export type ExpandedNote = NoteEntity & {
       frontMatter?: Record<string, any>
       slug?: string
       views?: number
+      score?: {
+        number?: number
+        reason?: string
+      }
     }
   }
 }

@@ -256,17 +256,6 @@ export function useGetSummary(input: { cid?: string; lang?: string }) {
   })
 }
 
-export function useGetScore(input: { cid?: string }) {
-  return useQuery(["getScore", input.cid], async () => {
-    if (!input.cid) {
-      return
-    }
-    return pageModel.getScore({
-      cid: input.cid,
-    })
-  })
-}
-
 export function useGetMirrorXyz(input: { address: string }) {
   return useQuery(["getMirror", input.address], async () => {
     if (!input.address) {

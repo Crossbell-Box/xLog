@@ -1,7 +1,12 @@
 import { ExpandedNote } from "~/lib/types"
 import { indexer } from "@crossbell/indexer"
+import { toCid } from "~/lib/ipfs-parser"
 
-const expandPage = async (page: ExpandedNote, useStat?: boolean) => {
+const expandPage = async (
+  page: ExpandedNote,
+  useStat?: boolean,
+  useScore?: boolean,
+) => {
   if (page.metadata?.content) {
     if (page.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
@@ -27,6 +32,19 @@ const expandPage = async (page: ExpandedNote, useStat?: boolean) => {
         )
       ).json()
       page.metadata.content.views = stat.viewDetailCount
+    }
+
+    if (useScore) {
+      try {
+        const score = (
+          await (
+            await fetch(`/api/score?cid=${toCid(page.metadata?.uri || "")}`)
+          ).json()
+        ).data
+        page.metadata.content.score = score
+      } catch (e) {
+        // do nothing
+      }
     }
   }
 
@@ -56,7 +74,7 @@ export async function getFeed({
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return expandPage(page, true)
+          return expandPage(page, false, true)
         }),
       )
 

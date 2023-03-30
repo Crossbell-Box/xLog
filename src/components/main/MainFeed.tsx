@@ -9,9 +9,6 @@ import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useAccountState } from "@crossbell/connect-kit"
 import InfiniteScroll from "react-infinite-scroller"
 import { ExpandedNote } from "~/lib/types"
-import { useGetScore } from "~/queries/page"
-import { toCid } from "~/lib/ipfs-parser"
-import { cn } from "~/lib/utils"
 import { useEffect, useState } from "react"
 import { Switch } from "@headlessui/react"
 import { setStorage, getStorage } from "~/lib/storage"
@@ -26,16 +23,16 @@ const Post = ({
   const router = useRouter()
   const { t } = useTranslation(["common", "site"])
   const date = useDate()
-  const score = useGetScore({
-    cid: toCid(post.metadata.uri || ""),
-  })
+
+  if (
+    post.metadata?.content?.score?.number &&
+    post.metadata.content.score.number <= filtering
+  ) {
+    return null
+  }
 
   return (
-    <div
-      className={cn({
-        hidden: score.data?.score && score.data?.score <= filtering,
-      })}
-    >
+    <div>
       <div className="flex items-center space-x-2">
         <CharacterFloatCard siteId={post.character?.handle}>
           <div className="flex items-center space-x-4 cursor-pointer">
