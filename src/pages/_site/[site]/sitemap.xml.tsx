@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   )
 
   const link = getSiteLink({
+    domain: site.custom_domain,
     subdomain: site.username || "",
   })
   ctx.res.write(`<?xml version="1.0" encoding="UTF-8"?>
