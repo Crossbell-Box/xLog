@@ -35,6 +35,7 @@
     "@crossbell/notification": "0.0.55",
     "@crossbell/ui": "0.0.55",
     "@crossbell/util-hooks": "0.0.55",
+    "@dqbd/tiktoken": "^1.0.2",
     "@emoji-mart/data": "1.1.2",
     "@emoji-mart/react": "1.1.1",
     "@floating-ui/react": "^0.22.2",

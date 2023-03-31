@@ -34,6 +34,9 @@ dependencies:
   '@crossbell/util-hooks':
     specifier: 0.0.55
     version: 0.0.55(react-dom@18.2.0)(react@18.2.0)
+  '@dqbd/tiktoken':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@emoji-mart/data':
     specifier: 1.1.2
     version: 1.1.2
@@ -129,7 +132,7 @@ dependencies:
     version: 3.0.6
   langchain:
     specifier: ^0.0.44
-    version: 0.0.44
+    version: 0.0.44(@dqbd/tiktoken@1.0.2)
   lottie-react:
     specifier: ^2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -2058,6 +2061,10 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+    dev: false
+
+  /@dqbd/tiktoken@1.0.2:
+    resolution: {integrity: sha512-AjGTBRWsMoVmVeN55NLyupyM8TNamOUBl6tj5t/leLDVup3CFGO9tVagNL1jf3GyZLkWZSTmYVbPQ/M2LEcNzw==}
     dev: false
 
   /@emoji-mart/data@1.1.2:
@@ -4067,13 +4074,13 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.37.0
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint@8.37.0:
     resolution: {integrity: sha512-Piet7dG2JBuDIfohBngQ3rCt7MgO9xCO4xIMKxBThCq5PNRB91IjlJ10eJVwfoNtvTErmxLzwBZ7rHZtbOMmFQ==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: true
 
@@ -8757,7 +8764,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: true
 
   /jsonparse@1.3.1:
@@ -8818,7 +8825,7 @@ packages:
     resolution: {integrity: sha512-ymToLHqL02udwVdbkowNpzjFd6UzozMtshPQKVi5k1EjKRqKqBrOnE9QbLEb0/pV76SAiIT13hdL8R6suc+f3g==}
     dev: true
 
-  /langchain@0.0.44:
+  /langchain@0.0.44(@dqbd/tiktoken@1.0.2):
     resolution: {integrity: sha512-Ly+LN9mqkjAj2XPXWamnhkppkppuGEHuMmpQxhxYuYFwNC1nH2ARTxZ6H5w9E6kHgSWnPjXQkYPGoj0HDTm9Yg==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -8870,6 +8877,7 @@ packages:
         optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.4.2
+      '@dqbd/tiktoken': 1.0.2
       '@fortaine/fetch-event-source': 3.0.6
       browser-or-node: 2.1.1
       exponential-backoff: 3.1.1
