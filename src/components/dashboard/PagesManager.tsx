@@ -191,10 +191,13 @@ export const PagesManager: React.FC<{
           if (!page.metadata) {
             const toastId = toast.loading("Deleting...")
             delStorage(`draft-${subdomain}-${page.id}`)
-            queryClient.invalidateQueries(["getPagesBySite", subdomain])
-            queryClient.invalidateQueries(["getPage", page.id])
-            toast.success("Deleted!", {
-              id: toastId,
+            Promise.all([
+              queryClient.refetchQueries(["getPagesBySite", subdomain]),
+              queryClient.refetchQueries(["getPage", page.id]),
+            ]).then(() => {
+              toast.success("Deleted!", {
+                id: toastId,
+              })
             })
           } else {
             setDeleteToastId(toast.loading("Deleting..."))
