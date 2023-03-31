@@ -1,6 +1,9 @@
 import { ExpandedNote } from "~/lib/types"
 import { indexer } from "@crossbell/indexer"
 import { toCid } from "~/lib/ipfs-parser"
+import { createClient } from "@urql/core"
+import axios from "axios"
+import { NoteEntity } from "crossbell.js"
 
 const expandPage = async (
   page: ExpandedNote,
@@ -56,11 +59,13 @@ export async function getFeed({
   cursor,
   limit = 10,
   characterId,
+  noteIds,
 }: {
-  type?: "latest" | "recommend" | "following"
+  type?: "latest" | "recommend" | "following" | "topic"
   cursor?: string
   limit?: number
   characterId?: number
+  noteIds?: string[]
 }) {
   switch (type) {
     case "latest":
@@ -108,7 +113,7 @@ export async function getFeed({
               )
             })
             .map(async (page: any) => {
-              return expandPage(page.note, true)
+              return expandPage(page.note)
             }),
         )
 
@@ -117,6 +122,69 @@ export async function getFeed({
           cursor: result.cursor,
           count: result.count,
         }
+      }
+    case "topic":
+      if (!noteIds) {
+        return {
+          list: [],
+          cursor: "",
+          count: 0,
+        }
+      }
+      const client = createClient({
+        url: "https://indexer.crossbell.io/v1/graphql",
+      })
+
+      const orString = noteIds
+        .map(
+          (note) =>
+            `{ noteId: { equals: ${
+              note.split("-")[1]
+            } }, characterId: { equals: ${note.split("-")[0]}}},`,
+        )
+        .join("\n")
+      const topicResult = await client
+        .query(
+          `
+            query getNotes {
+              notes(
+                where: {
+                  OR: [
+                    ${orString}
+                  ]
+                },
+                orderBy: [{ createdAt: desc }],
+                take: 1000,
+              ) {
+                characterId
+                noteId
+                character {
+                  handle
+                  metadata {
+                    content
+                  }
+                }
+                createdAt
+                metadata {
+                  uri
+                  content
+                }
+              }
+            }`,
+          {},
+        )
+        .toPromise()
+
+      const topicList = await Promise.all(
+        topicResult?.data?.notes.map(async (page: any) => {
+          return expandPage(page)
+        }),
+      )
+
+      return {
+        list: topicList,
+        cursor: "",
+        count: topicList?.length || 0,
       }
   }
 }

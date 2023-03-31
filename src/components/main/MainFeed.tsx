@@ -127,8 +127,9 @@ const Post = ({
 }
 
 export const MainFeed: React.FC<{
-  type?: "latest" | "recommend" | "following"
-}> = ({ type }) => {
+  type?: "latest" | "recommend" | "following" | "topic"
+  noteIds?: string[]
+}> = ({ type, noteIds }) => {
   const { t } = useTranslation(["common", "site"])
 
   const currentCharacterId = useAccountState(
@@ -138,6 +139,7 @@ export const MainFeed: React.FC<{
   const feed = useGetFeed({
     type: type,
     characterId: currentCharacterId,
+    noteIds: noteIds,
   })
 
   const hasFiltering = type === "latest"

@@ -1,11 +1,12 @@
-import { useInfiniteQuery } from "@tanstack/react-query"
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 
 import * as homeModel from "~/models/home.model"
 
 export const useGetFeed = (data?: {
-  type?: "latest" | "recommend" | "following"
+  type?: "latest" | "recommend" | "following" | "topic"
   characterId?: number
   limit?: number
+  noteIds?: string[]
 }) => {
   return useInfiniteQuery({
     queryKey: ["getFeed", data],

@@ -1,16 +1,15 @@
 import { GetServerSideProps } from "next"
 import { ReactElement, useState } from "react"
 import { MainLayout } from "~/components/main/MainLayout"
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { prefetchGetSites } from "~/queries/site.server"
-import showcase from "../../showcase.json"
-import { useAccountSites } from "~/queries/site"
+import showcase from "../../../showcase.json"
+import topics from "../../../topics.json"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { languageDetector } from "~/lib/language-detector"
 import { MainFeed } from "~/components/main/MainFeed"
-import { Tabs } from "~/components/ui/Tabs"
 import { MainSidebar } from "~/components/main/MainSidebar"
+import { useRouter } from "next/router"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -28,42 +27,21 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-function Activities() {
-  const userSite = useAccountSites()
+function Topic() {
+  const router = useRouter()
+  const topic = router.query.topic as string
 
-  const currentCharacterId = useAccountState(
-    (s) => s.computed.account?.characterId,
-  )
-  const connectModal = useConnectModal()
-
-  const [feedType, setFeedType] = useState<"latest" | "following">(
-    userSite.data?.length ? "following" : "latest",
-  )
-  const tabs = [
-    {
-      text: "Latest",
-      onClick: () => setFeedType("latest"),
-      active: feedType === "latest",
-    },
-    {
-      text: "Following",
-      onClick: () => {
-        if (!currentCharacterId) {
-          connectModal.show()
-        } else {
-          setFeedType("following")
-        }
-      },
-      active: feedType === "following",
-    },
-  ]
+  const info = topics.find((t) => t.name === topic)
 
   return (
     <section className="pt-24">
       <div className="max-w-screen-lg px-5 mx-auto flex">
         <div className="flex-1 min-w-[300px]">
-          <Tabs items={tabs} className="border-none text-lg"></Tabs>
-          <MainFeed type={feedType} />
+          <h2 className="text-3xl font-bold">Topic: {topic}</h2>
+          <p className="text-zinc-400 mt-4">{info?.description}</p>
+          <div className="mt-10">
+            <MainFeed type="topic" noteIds={info?.notes} />
+          </div>
         </div>
         <MainSidebar />
       </div>
@@ -71,8 +49,8 @@ function Activities() {
   )
 }
 
-Activities.getLayout = (page: ReactElement) => {
+Topic.getLayout = (page: ReactElement) => {
   return <MainLayout>{page}</MainLayout>
 }
 
-export default Activities
+export default Topic
