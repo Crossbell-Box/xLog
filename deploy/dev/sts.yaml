@@ -26,7 +26,8 @@ spec:
                 name: xlog
           imagePullPolicy: Always
           name: xlog-init
-          command: ["npm", "run", "prisma:migrate:deploy"]
+          command: ["/bin/sh", "-c"]
+          args: ["npm install prisma; npm run prisma:migrate:deploy"]
       containers:
         - image: $IMAGE_TAG_RELEASE
           imagePullPolicy: Always
