@@ -74,7 +74,7 @@ export const CommentInput: React.FC<{
               !account || !userSites.isSuccess || !userSites.data?.length
             }
             multiline
-            maxLength={300}
+            maxLength={600}
             className="mb-2"
             placeholder={
               t("Write a comment on the blockchain", { ns: "site" }) || ""
