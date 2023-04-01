@@ -1,9 +1,9 @@
 #!/bin/sh
 
 ### BEGIN GPTCOMMIT HOOK ###
-if ! command -v prepare-commit-msg &> /dev/null
+if ! command -v gptcommit &> /dev/null
 then
-    echo "prepare-commit-msg not found. Skiped."
+    echo "gptcommit not found. Skiped."
     exit
 fi
 gptcommit prepare-commit-msg --commit-msg-file "$1" --commit-source "$2" --commit-sha "$3"
