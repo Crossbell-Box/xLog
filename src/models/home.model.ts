@@ -2,8 +2,7 @@ import { ExpandedNote } from "~/lib/types"
 import { indexer } from "@crossbell/indexer"
 import { toCid } from "~/lib/ipfs-parser"
 import { createClient } from "@urql/core"
-import axios from "axios"
-import { NoteEntity } from "crossbell.js"
+import { OUR_DOMAIN, SCORE_API_DOMAIN } from "~/lib/env"
 
 const expandPage = async (
   page: ExpandedNote,
@@ -41,7 +40,11 @@ const expandPage = async (
       try {
         const score = (
           await (
-            await fetch(`/api/score?cid=${toCid(page.metadata?.uri || "")}`)
+            await fetch(
+              `${SCORE_API_DOMAIN || OUR_DOMAIN}/api/score?cid=${toCid(
+                page.metadata?.uri || "",
+              )}`,
+            )
           ).json()
         ).data
         page.metadata.content.score = score

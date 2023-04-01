@@ -2,6 +2,7 @@ import { IS_PROD } from "./constants"
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "xLog"
 export const OUR_DOMAIN = process.env.NEXT_PUBLIC_OUR_DOMAIN
+export const SCORE_API_DOMAIN = process.env.NEXT_PUBLIC_SCORE_API_DOMAIN
 export const DOCS_DOMAIN = `docs.${OUR_DOMAIN}`
 export const SITE_URL = `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}`
 export const APP_DESCRIPTION =

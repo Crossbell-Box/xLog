@@ -11,10 +11,17 @@ import { languageDetector } from "~/lib/language-detector"
 import { MainFeed } from "~/components/main/MainFeed"
 import { Tabs } from "~/components/ui/Tabs"
 import { MainSidebar } from "~/components/main/MainSidebar"
+import { prefetchGetFeed } from "~/queries/home.server"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
   await prefetchGetSites(showcase, queryClient)
+  await prefetchGetFeed(
+    {
+      type: "latest",
+    },
+    queryClient,
+  )
 
   return {
     props: {
@@ -23,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         "index",
         "dashboard",
       ])),
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   }
 }

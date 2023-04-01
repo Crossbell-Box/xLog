@@ -26,7 +26,8 @@ const Post = ({
   const date = useDate()
 
   if (
-    post.metadata?.content?.score?.number &&
+    filtering &&
+    post.metadata?.content?.score?.number !== undefined &&
     post.metadata.content.score.number <= filtering
   ) {
     return null
@@ -145,14 +146,9 @@ export const MainFeed: React.FC<{
   const hasFiltering = type === "latest"
 
   const [aiFiltering, setAiFiltering] = useState(false)
-  const [refreshTimeout, setRefreshTimeout] = useState(false)
 
   useEffect(() => {
     setAiFiltering(getStorage("ai_filtering")?.enabled || false)
-
-    setTimeout(() => {
-      setRefreshTimeout(true)
-    }, 5000)
   }, [])
 
   return (
@@ -203,9 +199,6 @@ export const MainFeed: React.FC<{
               />
             </Switch>
           </div>
-        )}
-        {feed.isRefetching && !refreshTimeout && (
-          <div className="text-center text-zinc-600">{t("Refreshing")}...</div>
         )}
         {feed.isLoading ? (
           <div className="text-center text-zinc-600">{t("Loading")}...</div>
