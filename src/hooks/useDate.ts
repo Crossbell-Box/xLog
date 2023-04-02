@@ -32,5 +32,8 @@ export function useDate() {
     inLocalTimezone: (date: string | Date) => {
       return dayjs(date).tz().toDate()
     },
+    inUTCTimezone: (date: string | Date) => {
+      return dayjs(date).utc().toDate()
+    },
   }
 }
