@@ -64,7 +64,7 @@ const Post = ({
           {t("ago", {
             time: date.dayjs
               .duration(
-                date.dayjs(post?.createdAt).tz().diff(date.dayjs(), "minute"),
+                date.dayjs(post?.createdAt).diff(date.dayjs(), "minute"),
                 "minute",
               )
               .humanize(),

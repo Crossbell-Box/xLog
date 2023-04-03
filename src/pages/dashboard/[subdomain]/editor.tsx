@@ -179,7 +179,6 @@ export default function SubdomainEditor() {
         ...(visibility === PageVisibilityEnum.Draft ? {} : { pageId: pageId }),
         isPost: isPost,
         published,
-        publishedAt: getInputDatetimeValue(date.inUTCTimezone(values.publishedAt), date.dayjs.utc),
         externalUrl:
           (values.slug || defaultSlug) &&
           `${getSiteLink({
@@ -226,7 +225,7 @@ export default function SubdomainEditor() {
 
     setValues({
       title: page.data.title || "",
-      publishedAt: getInputDatetimeValue(date.inLocalTimezone(page.data.published_at), date.dayjs),
+      publishedAt: page.data.date_published,
       published: !!page.data.id,
       excerpt: page.data.summary?.content || "",
       slug: page.data.slug || "",
