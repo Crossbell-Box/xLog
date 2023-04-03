@@ -17,23 +17,23 @@ dependencies:
     specifier: 6.9.3
     version: 6.9.3
   '@crossbell/connect-kit':
-    specifier: 0.0.55
-    version: 0.0.55(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
+    specifier: 0.0.58
+    version: 0.0.58(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
   '@crossbell/contract':
-    specifier: 0.0.55
-    version: 0.0.55(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
+    specifier: 0.0.58
+    version: 0.0.58(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
   '@crossbell/indexer':
-    specifier: 0.0.55
-    version: 0.0.55(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
+    specifier: 0.0.58
+    version: 0.0.58(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
   '@crossbell/notification':
-    specifier: 0.0.55
-    version: 0.0.55(@emotion/react@11.10.6)(@mantine/hooks@6.0.4)(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
+    specifier: 0.0.58
+    version: 0.0.58(@emotion/react@11.10.6)(@mantine/hooks@6.0.5)(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
   '@crossbell/ui':
-    specifier: 0.0.55
-    version: 0.0.55(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
+    specifier: 0.0.58
+    version: 0.0.58(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
   '@crossbell/util-hooks':
-    specifier: 0.0.55
-    version: 0.0.55(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.0.58
+    version: 0.0.58(react-dom@18.2.0)(react@18.2.0)
   '@dqbd/tiktoken':
     specifier: ^1.0.2
     version: 1.0.2
@@ -57,7 +57,7 @@ dependencies:
     version: 1.1.5
   '@mantine/core':
     specifier: ^6.0.5
-    version: 6.0.5(@emotion/react@11.10.6)(@mantine/hooks@6.0.4)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
+    version: 6.0.5(@emotion/react@11.10.6)(@mantine/hooks@6.0.5)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
   '@monaco-editor/react':
     specifier: 4.4.6
     version: 4.4.6(monaco-editor@0.36.1)(react-dom@18.2.0)(react@18.2.0)
@@ -462,7 +462,7 @@ packages:
       '@babel/parser': 7.20.7
       '@babel/template': 7.20.7
       '@babel/traverse': 7.20.12
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
       convert-source-map: 1.9.0
       debug: 4.3.4(supports-color@8.1.1)
       gensync: 1.0.0-beta.2
@@ -498,7 +498,7 @@ packages:
     resolution: {integrity: sha512-7wqMOJq8doJMZmP4ApXTzLxSr7+oO2jroJURrVEp6XShrQUObV8Tq/D0NCcoYg2uHqUrjzO0zwBjoYzelxK+sw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
       '@jridgewell/gen-mapping': 0.3.2
       jsesc: 2.5.2
     dev: true
@@ -516,7 +516,7 @@ packages:
     resolution: {integrity: sha512-duORpUiYrEpzKIop6iNbjnwKLAKnJ47csTyRACyEmWj0QdUrm5aqNJGHSSEQSUAvNW0ojX0dOmK9dZduvkfeXA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     dev: true
 
   /@babel/helper-builder-binary-assignment-operator-visitor@7.18.9:
@@ -524,7 +524,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/helper-explode-assignable-expression': 7.18.6
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     dev: true
 
   /@babel/helper-compilation-targets@7.20.7(@babel/core@7.20.12):
@@ -624,7 +624,7 @@ packages:
     resolution: {integrity: sha512-eyAYAsQmB80jNfg4baAtLeWAQHfHFiR483rzFK+BhETlGZaQC9bsfrugfXDCbRHLQbIA7U5NxhhOxN7p/dWIcg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     dev: true
 
   /@babel/helper-function-name@7.19.0:
@@ -632,7 +632,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.20.7
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     dev: true
 
   /@babel/helper-function-name@7.21.0:
@@ -646,20 +646,20 @@ packages:
     resolution: {integrity: sha512-UlJQPkFqFULIcyW5sbzgbkxn2FKRgwWiRexcuaR8RNJRy8+LLveqPjwZV/bwrLZCN0eUHD/x8D0heK1ozuoo6Q==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
 
   /@babel/helper-member-expression-to-functions@7.20.7:
     resolution: {integrity: sha512-9J0CxJLq315fEdi4s7xK5TQaNYjZw+nDVpVqr1axNGKzdrdwYBD5b4uKv3n75aABG0rCCTK8Im8Ww7eYfMrZgw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     dev: true
 
   /@babel/helper-module-imports@7.18.6:
     resolution: {integrity: sha512-0NFvs3VkuSYbFi1x2Vd6tKrywq+z/cLeYC/RJNFrIX/30Bf5aiGYbtvGXolEktzJH8o5E5KJ3tT+nkxuuZFVlA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
 
   /@babel/helper-module-transforms@7.20.11:
     resolution: {integrity: sha512-uRy78kN4psmji1s2QtbtcCSaj/LILFDp0f/ymhpQH5QY3nljUZCaNWz9X1dEj/8MBdBEFECs7yRhKn8i7NjZgg==}
@@ -672,7 +672,7 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       '@babel/template': 7.20.7
       '@babel/traverse': 7.20.12
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -696,7 +696,7 @@ packages:
     resolution: {integrity: sha512-HP59oD9/fEHQkdcbgFCnbmgH5vIQTJbxh2yf+CdM89/glUNnuzr87Q8GIjGEnOktTROemO0Pe0iPAYbqZuOUiA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     dev: true
 
   /@babel/helper-plugin-utils@7.20.2:
@@ -713,7 +713,7 @@ packages:
       '@babel/helper-annotate-as-pure': 7.18.6
       '@babel/helper-environment-visitor': 7.18.9
       '@babel/helper-wrap-function': 7.20.5
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -727,7 +727,7 @@ packages:
       '@babel/helper-optimise-call-expression': 7.18.6
       '@babel/template': 7.20.7
       '@babel/traverse': 7.20.12
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -736,20 +736,20 @@ packages:
     resolution: {integrity: sha512-+0woI/WPq59IrqDYbVGfshjT5Dmk/nnbdpcF8SnMhhXObpTq2KNBdLFRFrkVdbDOyUmHBCxzm5FHV1rACIkIbA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
 
   /@babel/helper-skip-transparent-expression-wrappers@7.20.0:
     resolution: {integrity: sha512-5y1JYeNKfvnT8sZcK9DVRtpTbGiomYIHviSP3OQWmDPU3DeH4a1ZlT/N2lyQ5P8egjcRaT/Y9aNqUxK0WsnIIg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     dev: true
 
   /@babel/helper-split-export-declaration@7.18.6:
     resolution: {integrity: sha512-bde1etTx6ZyTmobl9LLMMQsaizFVZrquTEHOqKeQESMKo4PlObf+8+JA25ZsIpZhT/WEd39+vOdLXAFG/nELpA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
 
   /@babel/helper-string-parser@7.19.4:
     resolution: {integrity: sha512-nHtDoQcuqFmwYNYPz3Rah5ph2p8PFeFCsZk9A/48dPc/rGocJ5J3hAAZ7pb76VWX3fZKu+uEr/FhH5jLx7umrw==}
@@ -770,7 +770,7 @@ packages:
       '@babel/helper-function-name': 7.19.0
       '@babel/template': 7.20.7
       '@babel/traverse': 7.20.12
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -781,7 +781,7 @@ packages:
     dependencies:
       '@babel/template': 7.20.7
       '@babel/traverse': 7.20.12
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -809,7 +809,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
 
   /@babel/parser@7.21.3:
     resolution: {integrity: sha512-lobG0d7aOfQRXh8AyklEAgZGvA4FShxo6xQbUrrT/cNBPUdIDojlokwJsQyCC/eKia7ifqM0yP+2DRZ4WKw2RQ==}
@@ -1617,7 +1617,7 @@ packages:
       '@babel/plugin-transform-unicode-escapes': 7.18.10(@babel/core@7.20.12)
       '@babel/plugin-transform-unicode-regex': 7.18.6(@babel/core@7.20.12)
       '@babel/preset-modules': 0.1.5(@babel/core@7.20.12)
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
       babel-plugin-polyfill-corejs2: 0.3.3(@babel/core@7.20.12)
       babel-plugin-polyfill-corejs3: 0.6.0(@babel/core@7.20.12)
       babel-plugin-polyfill-regenerator: 0.4.1(@babel/core@7.20.12)
@@ -1636,7 +1636,7 @@ packages:
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/plugin-proposal-unicode-property-regex': 7.18.6(@babel/core@7.20.12)
       '@babel/plugin-transform-dotall-regex': 7.18.6(@babel/core@7.20.12)
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
       esutils: 2.0.3
     dev: true
 
@@ -1652,7 +1652,7 @@ packages:
     dependencies:
       '@babel/code-frame': 7.18.6
       '@babel/parser': 7.20.7
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
 
   /@babel/traverse@7.20.12:
     resolution: {integrity: sha512-MsIbFN0u+raeja38qboyF8TIT7K0BFzz/Yd/77ta4MsUsmP2RAnidIlwq7d5HFQrH/OZJecGV6B71C4zAgpoSQ==}
@@ -1665,7 +1665,7 @@ packages:
       '@babel/helper-hoist-variables': 7.18.6
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/parser': 7.20.7
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
       debug: 4.3.4(supports-color@8.1.1)
       globals: 11.12.0
     transitivePeerDependencies:
@@ -1688,14 +1688,6 @@ packages:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-
-  /@babel/types@7.20.7:
-    resolution: {integrity: sha512-69OnhBxSSgK0OzTJai4kyPDiKTIe3j+ctaHdIGVbRahTLAT7L3R9oeXHC2aVSuGYt3cVnoAMDmOCgJ2yaiLMvg==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/helper-string-parser': 7.19.4
-      '@babel/helper-validator-identifier': 7.19.1
-      to-fast-properties: 2.0.0
 
   /@babel/types@7.21.3:
     resolution: {integrity: sha512-sBGdETxC+/M4o/zKC0sl6sjWv62WFR/uzxrJ6uYyMLZOUlPnwzw0tKgVHOXxaAd5l2g8pEDM5RZ495GPQI77kg==}
@@ -1868,23 +1860,23 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit@0.0.55(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.3)(wagmi@0.12.8):
-    resolution: {integrity: sha512-ueWDbX96Z1rjhEc1Mow6i6fheIPW3ehHorKqyLzrLBCFV/18d8kiVwnjaHe3whS1gWn0M15zjRHfy9UWHIok6Q==}
+  /@crossbell/connect-kit@0.0.58(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.3)(wagmi@0.12.8):
+    resolution: {integrity: sha512-dHEhNznkSHInLOSb8g1yN8S5BGYjC/zK7cls2ikbkjctQX4DL6f0hU6O98PLsbiQsF3qw2NCfo+lOgk7JIJAgA==}
     peerDependencies:
       '@tanstack/react-query': ^4
       ethers: ^5
       wagmi: ^0.12
     dependencies:
-      '@crossbell/contract': 0.0.55(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
-      '@crossbell/indexer': 0.0.55(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
-      '@crossbell/ui': 0.0.55(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
-      '@crossbell/util-ethers': 0.0.55
-      '@crossbell/util-hooks': 0.0.55(react-dom@18.2.0)(react@18.2.0)
-      '@crossbell/util-metadata': 0.0.55
+      '@crossbell/contract': 0.0.58(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
+      '@crossbell/indexer': 0.0.58(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
+      '@crossbell/ui': 0.0.58(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
+      '@crossbell/util-ethers': 0.0.58
+      '@crossbell/util-hooks': 0.0.58(react-dom@18.2.0)(react@18.2.0)
+      '@crossbell/util-metadata': 0.0.58
       '@emotion/react': 11.10.6(@types/react@18.0.31)(react@18.2.0)
-      '@mantine/core': 6.0.4(@emotion/react@11.10.6)(@mantine/hooks@6.0.4)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
-      '@mantine/hooks': 6.0.4(react@18.2.0)
-      '@mantine/notifications': 6.0.4(@mantine/core@6.0.4)(@mantine/hooks@6.0.4)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/core': 6.0.5(@emotion/react@11.10.6)(@mantine/hooks@6.0.5)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/hooks': 6.0.5(react@18.2.0)
+      '@mantine/notifications': 6.0.5(@mantine/core@6.0.5)(@mantine/hooks@6.0.5)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': 4.28.0(react-dom@18.2.0)(react@18.2.0)
       canvas-confetti: 1.6.0
       check-password-strength: 2.0.7
@@ -1899,6 +1891,7 @@ packages:
       react: 18.2.0
       react-dropzone: 14.2.3(react@18.2.0)
       react-google-recaptcha: 2.1.0(react@18.2.0)
+      rxjs: 7.8.0
       ts-essentials: 9.3.1(typescript@5.0.3)
       wagmi: 0.12.8(@babel/core@7.21.3)(@types/node@18.15.11)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)
       zustand: 4.3.6(immer@9.0.21)(react@18.2.0)
@@ -1912,15 +1905,15 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/contract@0.0.55(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8):
-    resolution: {integrity: sha512-VIzCkvfcowho3RikhuRH3nxdJfMveAPrk6NqpkTTNeH4GZ8yFqE+mHgFFb0n53r8+I7UU1SgMc8UD79bZXZmIw==}
+  /@crossbell/contract@0.0.58(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8):
+    resolution: {integrity: sha512-JY3VybJFuePvxyeQ3mIYMf3U8ZR7R2UwnDIAllAhF8xhcpMxSsmTYFyJZCOn3Nqq08a1Muuy/DfvQztlkj4+0g==}
     peerDependencies:
       ethers: ^5
       react: ^18
       wagmi: ^0.12
     dependencies:
-      '@crossbell/indexer': 0.0.55(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
-      '@crossbell/util-hooks': 0.0.55(react-dom@18.2.0)(react@18.2.0)
+      '@crossbell/indexer': 0.0.58(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
+      '@crossbell/util-hooks': 0.0.58(react-dom@18.2.0)(react@18.2.0)
       crossbell.js: 0.19.5
       ethers: 5.7.2
       react: 18.2.0
@@ -1933,8 +1926,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/indexer@0.0.55(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8):
-    resolution: {integrity: sha512-O2+KK2Nud9yu+ySnUj41m1GY9KdilXJiyBnGZ5OGSWqBWUnTrYn3CgKLCN7BiNimkzqVDS25zLjPR6ikfg85Uw==}
+  /@crossbell/indexer@0.0.58(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8):
+    resolution: {integrity: sha512-GCgAZz3IcZrZ+6hY3mTaLKK0FObXL2auW/nUBijDoPG/4iTgiEtxTr1oXo7m8QkICTjDZoHGe85HBsYjgCZITg==}
     peerDependencies:
       ethers: ^5
       wagmi: ^0.12
@@ -1959,20 +1952,20 @@ packages:
     resolution: {integrity: sha512-AYGDrwiSKqCGNDi0mEPP1k+96loWik+Pd40xH0MzRNM4RtCutPbwm4o+Sj5iWu0tlHoQC2bTs1XcufsLiv+WYw==}
     dev: false
 
-  /@crossbell/notification@0.0.55(@emotion/react@11.10.6)(@mantine/hooks@6.0.4)(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8):
-    resolution: {integrity: sha512-TKc7ruHbRMx3Q3L09pFqUOuZevzOU/BNO0MoxT8OTmzx15/Gfn00T6VGetviVXBFwS7fwLzzES6hkAMR+KGqdQ==}
+  /@crossbell/notification@0.0.58(@emotion/react@11.10.6)(@mantine/hooks@6.0.5)(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8):
+    resolution: {integrity: sha512-pzsSukcbd8weZizdyHz5ltWBqnQys8x86Rn24kfN6KVCErKu2ETkLPSIPEDX2XdwHKSD5i6KZ5iGlQMS0SgJWQ==}
     peerDependencies:
       '@tanstack/react-query': ^4
       ethers: ^5
       react: ^18
       wagmi: ^0.12
     dependencies:
-      '@crossbell/connect-kit': 0.0.55(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
-      '@crossbell/indexer': 0.0.55(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
-      '@crossbell/ui': 0.0.55(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
-      '@crossbell/util-hooks': 0.0.55(react-dom@18.2.0)(react@18.2.0)
-      '@crossbell/util-metadata': 0.0.55
-      '@mantine/core': 6.0.4(@emotion/react@11.10.6)(@mantine/hooks@6.0.4)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
+      '@crossbell/connect-kit': 0.0.58(@tanstack/react-query@4.28.0)(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
+      '@crossbell/indexer': 0.0.58(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
+      '@crossbell/ui': 0.0.58(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8)
+      '@crossbell/util-hooks': 0.0.58(react-dom@18.2.0)(react@18.2.0)
+      '@crossbell/util-metadata': 0.0.58
+      '@mantine/core': 6.0.5(@emotion/react@11.10.6)(@mantine/hooks@6.0.5)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': 4.28.0(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       dayjs: 1.11.7
@@ -1980,7 +1973,7 @@ packages:
       react: 18.2.0
       react-intersection-observer: 9.4.3(react@18.2.0)
       wagmi: 0.12.8(@babel/core@7.21.3)(@types/node@18.15.11)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)
-      zustand: 4.3.6(immer@9.0.21)(react@18.2.0)
+      zustand: 4.3.7(immer@9.0.21)(react@18.2.0)
     transitivePeerDependencies:
       - '@emotion/react'
       - '@mantine/hooks'
@@ -1994,15 +1987,15 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/ui@0.0.55(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8):
-    resolution: {integrity: sha512-i6jLgXvjQfAU4pJCwpsYrRO4jZOOfI948uka9FvcB2njKC9CEwXrO4YJN7sNCO16P8zxdSgHDlidjIVakouXKw==}
+  /@crossbell/ui@0.0.58(@types/react@18.0.31)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.3)(wagmi@0.12.8):
+    resolution: {integrity: sha512-aStRsLahi2ZYjAvXQ2np6wfr42IDk6L2jZXho5fHjY/U82QQbZZNjpkTzLm8LciJblzedzkFAdKZbtKCvmVjxQ==}
     peerDependencies:
       react: ^18
       react-dom: ^18
     dependencies:
-      '@crossbell/indexer': 0.0.55(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
-      '@crossbell/util-hooks': 0.0.55(react-dom@18.2.0)(react@18.2.0)
-      '@crossbell/util-metadata': 0.0.55
+      '@crossbell/indexer': 0.0.58(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.8)
+      '@crossbell/util-hooks': 0.0.58(react-dom@18.2.0)(react@18.2.0)
+      '@crossbell/util-metadata': 0.0.58
       '@tanstack/react-query': 4.28.0(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       crossbell.js: 0.19.5
@@ -2024,12 +2017,12 @@ packages:
       - wagmi
     dev: false
 
-  /@crossbell/util-ethers@0.0.55:
-    resolution: {integrity: sha512-pgtcoV05CCzqryn3ie+JP6UXlYVCfhUqPuPUoLHVPPQhSQFFIIxRt2N8izo2bGKD7Q/3EpLzXPJlnXvgBHFMYA==}
+  /@crossbell/util-ethers@0.0.58:
+    resolution: {integrity: sha512-ZjzEHak4LnXHKzV4W1vl+52v9m/A0KJ4Mni4V8QSZqjlfJGCzRnXD3+OYThPUh0MHy8v8JW1j/P3b3Soos+Dsw==}
     dev: false
 
-  /@crossbell/util-hooks@0.0.55(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-VsY7hTbrSQ6GKoP5e1+KPhwiUDZBlv1vmSeVs5dNohpgPM3stpOHqsAcbCRL13sh2s8PPNcM3fyiSZoy/KtfDQ==}
+  /@crossbell/util-hooks@0.0.58(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-X2ApwgXzXS4xFyx1DE+xdP7oOYzewSV39c4fq9+FuZinqhJlNhZcD/zvlBjdISbo0J7P6/JzN9WaH00jV6vElw==}
     peerDependencies:
       react: ^18
     dependencies:
@@ -2044,10 +2037,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/util-metadata@0.0.55:
-    resolution: {integrity: sha512-p4bQSpZsjt0viB0pYRu6f+0XECGsHSJohN+rz7l1VHGqso5pG25iqK9Pb39INlW/Q3ICu9px7U6Im/vbuONw+w==}
+  /@crossbell/util-metadata@0.0.58:
+    resolution: {integrity: sha512-CU2KcwANfwAXz/c4s3Bndg5JQfj1FDvQbY3GmbSvWOFUe9wltWwvVnKUPxJ+RdRvHis6/5jjlxJByOXN5DYcgg==}
     dependencies:
-      '@crossbell/util-ethers': 0.0.55
+      '@crossbell/util-ethers': 0.0.58
       '@fastify/deepmerge': 1.3.0
       crossbell.js: 0.19.5
     transitivePeerDependencies:
@@ -2982,28 +2975,7 @@ packages:
       '@lit-labs/ssr-dom-shim': 1.1.0
     dev: false
 
-  /@mantine/core@6.0.4(@emotion/react@11.10.6)(@mantine/hooks@6.0.4)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-qF/zQ+BZSrfvzHB1LHEESSKLqYZaQRTgsWt26gn52fyRXtLER1PU4mIafP2C7+3+7z5guUr1ZE25pCuwx4Bbxg==}
-    peerDependencies:
-      '@mantine/hooks': 6.0.4
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@floating-ui/react': 0.19.2(react-dom@18.2.0)(react@18.2.0)
-      '@mantine/hooks': 6.0.4(react@18.2.0)
-      '@mantine/styles': 6.0.4(@emotion/react@11.10.6)(react-dom@18.2.0)(react@18.2.0)
-      '@mantine/utils': 6.0.4(react@18.2.0)
-      '@radix-ui/react-scroll-area': 1.0.2(react-dom@18.2.0)(react@18.2.0)
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-remove-scroll: 2.5.5(@types/react@18.0.31)(react@18.2.0)
-      react-textarea-autosize: 8.3.4(@types/react@18.0.31)(react@18.2.0)
-    transitivePeerDependencies:
-      - '@emotion/react'
-      - '@types/react'
-    dev: false
-
-  /@mantine/core@6.0.5(@emotion/react@11.10.6)(@mantine/hooks@6.0.4)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0):
+  /@mantine/core@6.0.5(@emotion/react@11.10.6)(@mantine/hooks@6.0.5)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-jmP47Fcdw+UvcX1gDG5dNEhdF0QPeMnFZkB6JNAzaIuXKk8AVDh0rXXki0kWHx88gh/f5bGvOoRnKUb6v7UtDQ==}
     peerDependencies:
       '@mantine/hooks': 6.0.5
@@ -3011,7 +2983,7 @@ packages:
       react-dom: '>=16.8.0'
     dependencies:
       '@floating-ui/react': 0.19.2(react-dom@18.2.0)(react@18.2.0)
-      '@mantine/hooks': 6.0.4(react@18.2.0)
+      '@mantine/hooks': 6.0.5(react@18.2.0)
       '@mantine/styles': 6.0.5(@emotion/react@11.10.6)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/utils': 6.0.5(react@18.2.0)
       '@radix-ui/react-scroll-area': 1.0.2(react-dom@18.2.0)(react@18.2.0)
@@ -3024,42 +2996,28 @@ packages:
       - '@types/react'
     dev: false
 
-  /@mantine/hooks@6.0.4(react@18.2.0):
-    resolution: {integrity: sha512-rG+P18vOJcMQGo/3XAzR3f7rtmzjuccTIc10I9F2J49cRKem4wQZQdYeA8Wnxx95SRmVTQtf2hYXjbUliqgmAA==}
+  /@mantine/hooks@6.0.5(react@18.2.0):
+    resolution: {integrity: sha512-PZMGYK1lwKqpyLal6il2XnE19CRWTPPwjG5r5CbL5lGAVmbucd/XhK1abTuBYzid7usJ4pIxlp/gmdcRLg14TQ==}
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
       react: 18.2.0
     dev: false
 
-  /@mantine/notifications@6.0.4(@mantine/core@6.0.4)(@mantine/hooks@6.0.4)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-tbyudxHXKLeHoU1LkSPz1kvgvi0cRje7UdeRME3EyGwDkX2+MsPwFZchWIhyqluxy7PH4subJ+iOOfwkIcXbow==}
+  /@mantine/notifications@6.0.5(@mantine/core@6.0.5)(@mantine/hooks@6.0.5)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-JNYKQ24gHMOUVR9rg5piJwjT219pTTy36LoEsbOl8mAK17u/QrFtRVnvChIbvje49ALRuLuRtvHDJfdL8vojvg==}
     peerDependencies:
-      '@mantine/core': 6.0.4
-      '@mantine/hooks': 6.0.4
+      '@mantine/core': 6.0.5
+      '@mantine/hooks': 6.0.5
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@mantine/core': 6.0.4(@emotion/react@11.10.6)(@mantine/hooks@6.0.4)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
-      '@mantine/hooks': 6.0.4(react@18.2.0)
-      '@mantine/utils': 6.0.4(react@18.2.0)
+      '@mantine/core': 6.0.5(@emotion/react@11.10.6)(@mantine/hooks@6.0.5)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/hooks': 6.0.5(react@18.2.0)
+      '@mantine/utils': 6.0.5(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-transition-group: 4.4.2(react-dom@18.2.0)(react@18.2.0)
-    dev: false
-
-  /@mantine/styles@6.0.4(@emotion/react@11.10.6)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-DbyshlwoCjn3Yw2iMNzo1fv+3TJcZgwjB86JvxcfjJwz6Br5IzsVlJPcK9kcTbzvcN1kMT07y5aK+3pZv7qBFw==}
-    peerDependencies:
-      '@emotion/react': '>=11.9.0'
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@emotion/react': 11.10.6(@types/react@18.0.31)(react@18.2.0)
-      clsx: 1.1.1
-      csstype: 3.0.9
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@mantine/styles@6.0.5(@emotion/react@11.10.6)(react-dom@18.2.0)(react@18.2.0):
@@ -3074,14 +3032,6 @@ packages:
       csstype: 3.0.9
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /@mantine/utils@6.0.4(react@18.2.0):
-    resolution: {integrity: sha512-oggRX3fC/tsoxEaxJ+3DhFpb4D4YeCg5XvueGsX3AuoHY87bypaI3JyvFbSIV8oLMW6B/heHNu6VPHVSnrim9A==}
-    peerDependencies:
-      react: '>=16.8.0'
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /@mantine/utils@6.0.5(react@18.2.0):
@@ -4661,7 +4611,7 @@ packages:
       ethers: 5.7.2
       eventemitter3: 4.0.7
       typescript: 5.0.3
-      zustand: 4.3.6(immer@9.0.21)(react@18.2.0)
+      zustand: 4.3.7(immer@9.0.21)(react@18.2.0)
     transitivePeerDependencies:
       - '@babel/core'
       - '@react-native-async-storage/async-storage'
@@ -11466,7 +11416,6 @@ packages:
     resolution: {integrity: sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==}
     dependencies:
       tslib: 2.5.0
-    dev: true
 
   /sade@1.8.1:
     resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
@@ -13675,6 +13624,23 @@ packages:
 
   /zustand@4.3.6(immer@9.0.21)(react@18.2.0):
     resolution: {integrity: sha512-6J5zDxjxLE+yukC2XZWf/IyWVKnXT9b9HUv09VJ/bwGCpKNcaTqp7Ws28Xr8jnbvnZcdRaidztAPsXFBIqufiw==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      immer: 9.0.21
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
+  /zustand@4.3.7(immer@9.0.21)(react@18.2.0):
+    resolution: {integrity: sha512-dY8ERwB9Nd21ellgkBZFhudER8KVlelZm8388B5nDAXhO/+FZDhYMuRnqDgu5SYyRgz/iaf8RKnbUs/cHfOGlQ==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       immer: '>=9.0'

@@ -46,6 +46,7 @@ function MyApp({ Component, pageProps }: any) {
         <ConnectKitProvider
           ipfsLinkToHttpLink={toGateway}
           urlComposer={urlComposer}
+          signInStrategy="simple"
         >
           <Hydrate state={pageProps.dehydratedState}>
             {/* <ReactQueryDevtools /> */}
