@@ -127,7 +127,7 @@
     "@types/cookie": "0.5.1",
     "@types/hast": "2.3.4",
     "@types/js-yaml": "4.0.5",
-    "@types/mjml": "4.7.0",
+    "@types/mjml": "4.7.1",
     "@types/node": "18.15.11",
     "@types/prismjs": "1.26.0",
     "@types/react": "18.0.31",

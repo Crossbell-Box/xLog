@@ -307,8 +307,8 @@ devDependencies:
     specifier: 4.0.5
     version: 4.0.5
   '@types/mjml':
-    specifier: 4.7.0
-    version: 4.7.0
+    specifier: 4.7.1
+    version: 4.7.1
   '@types/node':
     specifier: 18.15.11
     version: 18.15.11
@@ -4103,8 +4103,8 @@ packages:
     resolution: {integrity: sha512-k5IRafi93tyZBGF+0BTrcBDvG47OueI+Q7TC4V4UjGQn0AMVvL3Y+S26QF/UHMmMJW5r1hxLyv3StX2/+FatFg==}
     dev: true
 
-  /@types/mjml@4.7.0:
-    resolution: {integrity: sha512-aWWu8Lxq2SexXGs+lBPRUpN3kFf0sDRo3Y4jz7BQ15cQvMfyZOadgFJsNlHmDqI6D2Qjx0PIK+1f9IMXgq9vTA==}
+  /@types/mjml@4.7.1:
+    resolution: {integrity: sha512-if/IM7j3B1ZQucsakrJI4qaU8MWBS1NzQ9PfMY3Bxj4vY1Bp2jMXmVJhAUU2eLvts0a+bFL6Efk182BB/g492Q==}
     dependencies:
       '@types/mjml-core': 4.7.1
     dev: true
