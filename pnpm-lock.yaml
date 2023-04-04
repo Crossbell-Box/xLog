@@ -137,8 +137,8 @@ dependencies:
     specifier: ^2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
   mdast-util-to-string:
-    specifier: 3.1.1
-    version: 3.1.1
+    specifier: 3.2.0
+    version: 3.2.0
   mdast-util-toc:
     specifier: 6.1.1
     version: 6.1.1
@@ -9156,7 +9156,7 @@ packages:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
       decode-named-character-reference: 1.0.2
-      mdast-util-to-string: 3.1.1
+      mdast-util-to-string: 3.2.0
       micromark: 3.1.0
       micromark-util-decode-numeric-character-reference: 1.0.0
       micromark-util-decode-string: 1.0.2
@@ -9267,14 +9267,14 @@ packages:
       '@types/unist': 2.0.6
       longest-streak: 3.1.0
       mdast-util-phrasing: 3.0.0
-      mdast-util-to-string: 3.1.1
+      mdast-util-to-string: 3.2.0
       micromark-util-decode-string: 1.0.2
       unist-util-visit: 4.1.2
       zwitch: 2.0.4
     dev: false
 
-  /mdast-util-to-string@3.1.1:
-    resolution: {integrity: sha512-tGvhT94e+cVnQt8JWE9/b3cUQZWS732TJxXHktvP+BYo62PpYD53Ls/6cC60rW21dW+txxiM4zMdc6abASvZKA==}
+  /mdast-util-to-string@3.2.0:
+    resolution: {integrity: sha512-V4Zn/ncyN1QNSqSBxTrMOLpjr+IKdHl2v3KVLoWmDPscP4r9GcCi71gjgvUV1SFSKh92AjAG4peFuBl2/YgCJg==}
     dependencies:
       '@types/mdast': 3.0.10
     dev: false
@@ -9286,7 +9286,7 @@ packages:
       '@types/mdast': 3.0.10
       extend: 3.0.2
       github-slugger: 2.0.0
-      mdast-util-to-string: 3.1.1
+      mdast-util-to-string: 3.2.0
       unist-util-is: 5.2.0
       unist-util-visit: 4.1.2
     dev: false

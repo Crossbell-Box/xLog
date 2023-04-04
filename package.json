@@ -69,7 +69,7 @@
     "jsonfeed-to-rss": "^3.0.6",
     "langchain": "^0.0.44",
     "lottie-react": "^2.4.0",
-    "mdast-util-to-string": "3.1.1",
+    "mdast-util-to-string": "3.2.0",
     "mdast-util-toc": "6.1.1",
     "nanoid": "4.0.2",
     "next": "13.2.4",
