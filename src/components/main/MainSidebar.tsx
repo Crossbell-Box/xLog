@@ -6,11 +6,11 @@ import { useRefCallback } from "@crossbell/util-hooks"
 import { getSiteLink } from "~/lib/helpers"
 import { Image } from "~/components/ui/Image"
 import { useGetSites } from "~/queries/site"
-import showcase from "../../../showcase.json"
+import showcase from "../../../data/showcase.json"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useAccountSites, useSubscribeToSites } from "~/queries/site"
 import { useTranslation } from "next-i18next"
-import topics from "../../../topics.json"
+import topics from "../../../data/topics.json"
 
 export function MainSidebar() {
   const showcaseSites = useGetSites(showcase)

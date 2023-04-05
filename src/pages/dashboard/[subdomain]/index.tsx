@@ -13,7 +13,7 @@ import { getServerSideProps as getLayoutServerSideProps } from "~/components/das
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { useGetPagesBySite } from "~/queries/page"
-import showcase from "../../../../showcase.json"
+import showcase from "../../../../data/showcase.json"
 import { useGetSites } from "~/queries/site"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 

@@ -87,10 +87,10 @@ const Post = ({
               <span className="xlog-post-tags space-x-1 truncate min-w-0">
                 {post.metadata?.content?.tags
                   ?.filter((tag) => tag !== "post" && tag !== "page")
-                  .map((tag) => (
+                  .map((tag, index) => (
                     <span
                       className="hover:text-zinc-600"
-                      key={tag}
+                      key={tag + index}
                       onClick={(e) => {
                         e.preventDefault()
                         router.push(`/tag/${tag}`)
