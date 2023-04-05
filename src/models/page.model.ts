@@ -458,30 +458,9 @@ export async function getLikes({
     },
   )
   if (includeCharacter) {
-    await Promise.all(
-      res.list?.map(async (item) => {
-        if (
-          !item.fromCharacter?.metadata?.content &&
-          item.fromCharacter?.metadata?.uri
-        ) {
-          try {
-            item.fromCharacter.metadata.content = (
-              await axios.get(toGateway(item.fromCharacter?.metadata?.uri), {
-                ...(typeof window === "undefined" && {
-                  headers: {
-                    "User-Agent":
-                      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-                  },
-                }),
-              })
-            ).data
-          } catch (error) {
-            console.warn(error)
-          }
-        }
-        ;(<any>item).character = item.fromCharacter
-      }),
-    )
+    res.list?.forEach((item) => {
+      ;(<any>item).character = item.fromCharacter
+    })
   }
 
   return res
@@ -532,32 +511,15 @@ export async function getMints({
     pageId.split("-")[1],
     {
       cursor,
+      limit: 5,
     },
   )
 
   if (includeCharacter) {
     await Promise.all(
       data.list.map(async (item: any) => {
-        const owner = item.owner
-        item.character = await indexer.getPrimaryCharacter(owner)
-        if (
-          !item.character?.metadata?.content &&
-          item.character?.metadata?.uri
-        ) {
-          try {
-            item.character.metadata.content = (
-              await axios.get(toGateway(item.character?.metadata?.uri), {
-                ...(typeof window === "undefined" && {
-                  headers: {
-                    "User-Agent":
-                      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-                  },
-                }),
-              })
-            ).data
-          } catch (error) {
-            console.warn(error)
-          }
+        if (!item.character) {
+          item.character = await indexer.getPrimaryCharacter(item.owner)
         }
       }),
     )
@@ -579,40 +541,30 @@ export async function checkMint({
   })
 }
 
-export async function getComments({ pageId }: { pageId: string }) {
+export async function getComments({
+  pageId,
+  cursor,
+}: {
+  pageId: string
+  cursor?: string
+}) {
   const options = {
     toCharacterId: pageId.split("-")[0],
     toNoteId: pageId.split("-")[1],
-    cursor: "",
+    cursor,
     includeCharacter: true,
     includeNestedNotes: true,
     nestedNotesDepth: 3 as 3,
     nestedNotesLimit: 20,
+    limit: 5,
   }
 
-  let pages: ListResponse<
-    NoteEntity & {
-      character?: CharacterEntity | null
-    }
-  > = {
-    count: 0,
+  const res = (await indexer.getNotes(options)) || {
+    total: 0,
     list: [],
-    cursor: "",
   }
 
-  let cursor = ""
-  do {
-    options.cursor = cursor
-    const res = (await indexer.getNotes(options)) || {
-      total: 0,
-      list: [],
-    }
-    pages.count = res.count
-    pages.list = pages.list.concat(res.list)
-    cursor = res.cursor || ""
-  } while (cursor)
-
-  return pages
+  return res
 }
 
 export function parsePageId(pageId: string) {

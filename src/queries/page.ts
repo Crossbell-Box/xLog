@@ -234,13 +234,18 @@ export function useCommentPage() {
 }
 
 export function useGetComments(input: { pageId?: string }) {
-  return useQuery(["getComments", input.pageId], async () => {
-    if (!input.pageId) {
-      return
-    }
-    return pageModel.getComments({
-      pageId: input.pageId,
-    })
+  return useInfiniteQuery({
+    queryKey: ["getComments", input.pageId],
+    queryFn: async ({ pageParam }) => {
+      if (!input.pageId) {
+        return
+      }
+      return pageModel.getComments({
+        pageId: input.pageId,
+        cursor: pageParam,
+      })
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 
