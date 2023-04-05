@@ -24,6 +24,6 @@
   "Safe text": "All blog data, including configs, posts, subscriptions, comments, etc., are signed and securely stored on the <strong>blockchain</strong> with your own hands, with control only accessible through the <strong>private key</strong> held by yourself. No one else, including xLog, can make any changes.",
   "Customizable text": "You're free to use your <strong>own domain</strong>, customize your website, and <strong>design it</strong> in any way you like. This is your website, with no restrictions. xLog encourage and will provide a rich system of <strong>themes and plugins</strong> to help you customize it.",
   "Open text": "xLog offers import and export tools, as well as rich <strong>APIs</strong> and third-party <strong>integrations</strong>. All code is <strong>open source</strong> on GitHub, and all data is <strong>transparent</strong> on the blockchain. xLog has nothing to hide.",
-  "Creator Incentives text": "In the early stages, xLog will provide incentives in <strong>USDC</strong>. We are actively constructing the tokenomics to ensure xLog remain the best place to publish high-quality content.",
+  "Creator Incentives text": "In the early stages, xLog provides <aincentive>incentives</aincentive> in <strong>USDC</strong>. We are actively constructing the tokenomics to ensure xLog remain the best place to publish high-quality content.",
   "DAO text": "An xLog DAO will be in place, where creators vote with <strong>tokens</strong>."
 }

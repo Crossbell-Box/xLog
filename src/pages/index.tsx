@@ -401,6 +401,16 @@ function Home() {
                               .
                             </UniLink>
                           ),
+                          aincentive: (
+                            <UniLink
+                              className="underline"
+                              href={`${getSiteLink({
+                                subdomain: "xlog",
+                              })}/creator-incentive-plan`}
+                            >
+                              .
+                            </UniLink>
+                          ),
                         }}
                         ns="index"
                       />

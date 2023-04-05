@@ -19,10 +19,12 @@ export const Image: React.FC<
   const autoSize = !width && !height && !fill
   const noOptimization = className?.includes("no-optimization")
 
-  try {
-    new URL(src)
-  } catch (error) {
-    return null
+  if (!src.startsWith("/assets/")) {
+    try {
+      new URL(src)
+    } catch (error) {
+      return null
+    }
   }
 
   return noOptimization ? (
