@@ -288,9 +288,6 @@ devDependencies:
   '@playwright/test':
     specifier: 1.32.1
     version: 1.32.1
-  '@tailwindcss/line-clamp':
-    specifier: ^0.4.4
-    version: 0.4.4(tailwindcss@3.3.1)
   '@types/canvas-confetti':
     specifier: ^1.6.0
     version: 1.6.0
@@ -3886,14 +3883,6 @@ packages:
     resolution: {integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==}
     dependencies:
       tslib: 2.5.0
-
-  /@tailwindcss/line-clamp@0.4.4(tailwindcss@3.3.1):
-    resolution: {integrity: sha512-5U6SY5z8N42VtrCrKlsTAA35gy2VSyYtHWCsg1H87NU1SXnEfekTVlrga9fzUDrrHcGi2Lb5KenUWb4lRQT5/g==}
-    peerDependencies:
-      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
-    dependencies:
-      tailwindcss: 3.3.1(postcss@8.4.21)
-    dev: true
 
   /@tanstack/match-sorter-utils@8.7.6:
     resolution: {integrity: sha512-2AMpRiA6QivHOUiBpQAVxjiHAA68Ei23ZUMNaRJrN6omWiSFLoYrxGcT6BXtuzp0Jw4h6HZCmGGIM/gbwebO2A==}

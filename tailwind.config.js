@@ -60,5 +60,5 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [require("@tailwindcss/line-clamp"), require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")],
 }
