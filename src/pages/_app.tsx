@@ -41,7 +41,20 @@ function MyApp({ Component, pageProps }: any) {
     <WagmiConfig client={wagmiClient}>
       <PersistQueryClientProvider
         client={queryClient}
-        persistOptions={{ persister }}
+        persistOptions={{
+          persister,
+          dehydrateOptions: {
+            shouldDehydrateQuery: (query) => {
+              const queryIsReadyForPersistance =
+                query.state.status === "success"
+              if (queryIsReadyForPersistance) {
+                return !((query.state?.data as any)?.pages?.length > 1)
+              } else {
+                return false
+              }
+            },
+          },
+        }}
       >
         <ConnectKitProvider
           ipfsLinkToHttpLink={toGateway}
