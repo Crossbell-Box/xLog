@@ -346,6 +346,15 @@ const usePageMenuItems = ({
   }, [deletePage.isSuccess])
 
   useEffect(() => {
+    if (deletePage.isError) {
+      toast.error(t("Fail to Deleted."), {
+        id: getDeleteToastId(),
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deletePage.isError])
+
+  useEffect(() => {
     if (createOrUpdatePage.isSuccess) {
       toast.success(t("Converted!"), {
         id: getCurrentToastId(),
@@ -447,6 +456,7 @@ const MenuItems: FC<{
   page: Note
 }> = ({ isPost, page }) => {
   const { t } = useTranslation(["dashboard", "site"])
+
   return (
     <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64">
       {usePageMenuItems({ page, isPost }).map((item) => {

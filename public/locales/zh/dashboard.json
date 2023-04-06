@@ -15,6 +15,7 @@
   "Site Duration": "站点运行时间",
   "days": "天",
   "Deleted!" : "已删除！",
+  "Fail to Deleted." : "删除失败",
   "Converted!" : "已转换！",
   "Failed to convert." : "转换失败。",
   "All Posts": "所有文章",
