@@ -57,6 +57,18 @@
   @apply text-zinc-900;
 }
 
+.prose h5 {
+  @apply text-lg font-semibold;
+  @apply my-7;
+  @apply text-zinc-900;
+}
+
+.prose h6 {
+  @apply text-base font-semibold;
+  @apply my-7;
+  @apply text-zinc-900;
+}
+
 .prose p {
   @apply my-3;
 }
