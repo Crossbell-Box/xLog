@@ -115,7 +115,12 @@ export const PostToc: React.FC<{
       }}
       ref={containerRef}
     >
-      <div className="sticky top-14 text-sm leading-loose whitespace-nowrap truncate text-ellipsis">
+      <div
+        className="sticky top-14 text-sm leading-loose whitespace-nowrap text-ellipsis max-h-[calc(100vh-theme('spacing.28'))] truncate"
+        style={{
+          overflowY: "auto",
+        }}
+      >
         {renderItems(data?.map, activeId)}
       </div>
     </div>
