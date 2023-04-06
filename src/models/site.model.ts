@@ -4,8 +4,7 @@ import unidata from "~/queries/unidata.server"
 import { toGateway } from "~/lib/ipfs-parser"
 import type Unidata from "unidata.js"
 import type { Profiles as UniProfiles } from "unidata.js"
-import { createClient } from "@urql/core"
-import axios from "axios"
+import { createClient, cacheExchange, fetchExchange } from "@urql/core"
 import { Indexer } from "crossbell.js"
 import { CharacterOperatorPermission } from "crossbell.js"
 import type { useContract } from "@crossbell/contract"
@@ -134,7 +133,7 @@ export const getSite = async (input: string, customUnidata?: Unidata) => {
 export const getSites = async (input: number[]) => {
   const client = createClient({
     url: "https://indexer.crossbell.io/v1/graphql",
-    exchanges: [],
+    exchanges: [cacheExchange, fetchExchange],
   })
   const result = await client
     .query(
