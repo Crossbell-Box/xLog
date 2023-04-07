@@ -82,7 +82,7 @@ export async function getFeed({
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return expandPage(page, false, true)
+          return await expandPage(page, false, true)
         }),
       )
 
@@ -99,25 +99,18 @@ export async function getFeed({
           count: 0,
         }
       } else {
-        const result = await indexer.getFollowingFeedsOfCharacter(characterId, {
-          // sources: "xlog",
-          // tags: ["post"],
-          limit: limit * 2,
+        const result = await indexer.getNotesOfCharacterFollowing(characterId, {
+          sources: "xlog",
+          tags: ["post"],
+          limit: limit,
           cursor,
-          type: ["POST_NOTE"],
+          includeCharacter: true,
         })
 
         const list = await Promise.all(
-          result.list
-            .filter((page) => {
-              return (
-                page.note?.metadata?.content?.sources?.includes("xlog") &&
-                page.note?.metadata?.content?.tags?.includes("post")
-              )
-            })
-            .map(async (page: any) => {
-              return expandPage(page.note)
-            }),
+          result.list.map(async (page: any) => {
+            return await expandPage(page)
+          }),
         )
 
         return {
@@ -181,7 +174,7 @@ export async function getFeed({
 
       const topicList = await Promise.all(
         topicResult?.data?.notes.map(async (page: any) => {
-          return expandPage(page)
+          return await expandPage(page)
         }),
       )
 
