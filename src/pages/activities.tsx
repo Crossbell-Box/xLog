@@ -36,16 +36,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 function Activities() {
-  const userSite = useAccountSites()
-
   const currentCharacterId = useAccountState(
     (s) => s.computed.account?.characterId,
   )
   const connectModal = useConnectModal()
 
-  const [feedType, setFeedType] = useState<"latest" | "following">(
-    userSite.data?.length ? "following" : "latest",
-  )
+  const [feedType, setFeedType] = useState<"latest" | "following">("latest")
   const tabs = [
     {
       text: "Latest",

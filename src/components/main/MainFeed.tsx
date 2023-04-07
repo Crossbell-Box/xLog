@@ -147,10 +147,10 @@ export const MainFeed: React.FC<{
 
   const hasFiltering = type === "latest"
 
-  const [aiFiltering, setAiFiltering] = useState(false)
+  const [aiFiltering, setAiFiltering] = useState(true)
 
   useEffect(() => {
-    setAiFiltering(getStorage("ai_filtering")?.enabled || false)
+    setAiFiltering(getStorage("ai_filtering")?.enabled || true)
   }, [])
 
   return (
