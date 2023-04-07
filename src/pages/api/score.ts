@@ -8,7 +8,7 @@ const getOriginalScore = async (cid: string) => {
   try {
     const { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
 
-    if (content) {
+    if (content?.length > 200) {
       console.time(`fetching score ${cid}`)
 
       const prompt = `According to rule 1 not too short content, rule 2 good originality and innovation, and rule 3 good fun or logic, give this article a score in the range of 0-100 and explain the reason:
@@ -44,6 +44,11 @@ const getOriginalScore = async (cid: string) => {
           .trim()
           .replace(/^Reason:/, "")
           .trim(),
+      }
+    } else {
+      return {
+        number: 0,
+        reason: "Content too short",
       }
     }
   } catch (error) {
