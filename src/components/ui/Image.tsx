@@ -16,7 +16,6 @@ export const Image: React.FC<
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
   const [autoWidth, setAutoWidth] = React.useState(0)
-  const autoSize = !width && !height && !fill
   const noOptimization = className?.includes("no-optimization")
 
   if (!src.startsWith("/assets/")) {
@@ -26,6 +25,17 @@ export const Image: React.FC<
       return null
     }
   }
+
+  if (!noOptimization) {
+    if (width) {
+      width = +width
+    }
+    if (height) {
+      height = +height
+    }
+  }
+
+  const autoSize = !width && !height && !fill
 
   return noOptimization ? (
     // eslint-disable-next-line @next/next/no-img-element
