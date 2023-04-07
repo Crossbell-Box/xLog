@@ -8,6 +8,7 @@ import { createClient, cacheExchange, fetchExchange } from "@urql/core"
 import { Indexer } from "crossbell.js"
 import { CharacterOperatorPermission } from "crossbell.js"
 import type { useContract } from "@crossbell/contract"
+import dayjs from "dayjs"
 
 type Contract = ReturnType<typeof useContract>
 
@@ -135,21 +136,22 @@ export const getSites = async (input: number[]) => {
     url: "https://indexer.crossbell.io/v1/graphql",
     exchanges: [cacheExchange, fetchExchange],
   })
+  const oneMonthAgo = dayjs().subtract(15, "day").toISOString()
   const result = await client
     .query(
       `
         query getCharacters($identities: [Int!], $limit: Int) {
           characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
             handle
-            updatedAt
             characterId
-            notes {
-              updatedAt
-            }
             metadata {
               uri
               content
             }
+          }
+          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { is: { content: { path: "sources", array_contains: "xlog" } } } }, orderBy: [{ updatedAt: desc }] ) {
+            characterId
+            createdAt
           }
         }`,
       {
@@ -171,18 +173,32 @@ export const getSites = async (input: number[]) => {
       site.metadata?.content?.attributes?.find(
         (a: any) => a.trait_type === "xlog_custom_domain",
       )?.value || ""
-
-    site.updatedAt = [...site.notes, site]
-      .map((i) => i.updatedAt)
-      .sort()
-      .pop()
   })
 
-  result.data?.characters?.sort((a: any, b: any) => {
-    return b.updatedAt > a.updatedAt ? 1 : -1
+  const createdAts: {
+    [key: string]: string
+  } = {}
+  result.data?.notes.forEach((note: any) => {
+    if (!createdAts[note.characterId + ""]) {
+      createdAts[note.characterId + ""] = note.createdAt
+    }
   })
+  const list = Object.keys(createdAts)
+    .map((characterId: string) => {
+      const character = result.data?.characters.find(
+        (c: any) => c.characterId === characterId,
+      )
 
-  return result.data?.characters
+      return {
+        ...character,
+        createdAt: createdAts[characterId],
+      }
+    })
+    .sort((a: any, b: any) => {
+      return b.createdAt > a.createdAt ? 1 : -1
+    })
+
+  return list
 }
 
 export const getSubscription = async (
