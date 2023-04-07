@@ -80,8 +80,8 @@ dependencies:
     specifier: 4.19.11
     version: 4.19.11(@babel/runtime@7.21.0)(@codemirror/autocomplete@6.4.2)(@codemirror/language@6.6.0)(@codemirror/lint@6.2.0)(@codemirror/search@6.3.0)(@codemirror/state@6.2.0)(@codemirror/theme-one-dark@6.1.1)(@codemirror/view@6.9.3)(codemirror@6.0.1)(react-dom@18.2.0)(react@18.2.0)
   '@urql/core':
-    specifier: 4.0.3
-    version: 4.0.3(graphql@16.6.0)
+    specifier: 4.0.4
+    version: 4.0.4(graphql@16.6.0)
   axios:
     specifier: 1.3.5
     version: 1.3.5
@@ -4588,8 +4588,8 @@ packages:
       - rollup
     dev: true
 
-  /@urql/core@4.0.3(graphql@16.6.0):
-    resolution: {integrity: sha512-13figZkXYD8QHTCY/MTWnzbK958I6Owx6sOm1+tZo5aR9HEnOKFVI0hJZZkzW/JIdiGnXW//YyTrp4ce+LWtbg==}
+  /@urql/core@4.0.4(graphql@16.6.0):
+    resolution: {integrity: sha512-r1rB/VMVpCnfnMTTzCAs+HY+UqOHUgpZ+GimLtU4DCTP3C78DK+m4qr36M7KKleggrKgcpcC1TE8eFEVcKzfSQ==}
     dependencies:
       '@0no-co/graphql.web': 1.0.0(graphql@16.6.0)
       wonka: 6.3.1
@@ -12596,7 +12596,7 @@ packages:
     resolution: {integrity: sha512-MPwYVkRdJApMSs+xY9umfJk5e0EVvPCCjYEytduvhrUoH73rHLImNNBdlXiMzvDhUp3CqHKyzLMdmIEwL/LJ/Q==}
     dependencies:
       '@types/lodash': 4.14.192
-      '@urql/core': 4.0.3(graphql@16.6.0)
+      '@urql/core': 4.0.4(graphql@16.6.0)
       axios: 1.3.5
       axios-retry: 3.4.0
       crossbell.js: 0.19.7
