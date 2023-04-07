@@ -72,7 +72,7 @@
     "mdast-util-to-string": "3.2.0",
     "mdast-util-toc": "6.1.1",
     "nanoid": "4.0.2",
-    "next": "13.3.0",
+    "next": "13.2.4",
     "next-i18next": "^13.2.2",
     "nextjs-progressbar": "0.0.16",
     "pinyin": "3.0.0-alpha.5",
