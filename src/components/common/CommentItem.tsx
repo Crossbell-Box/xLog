@@ -13,6 +13,7 @@ import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useTranslation } from "next-i18next"
 import { useDate } from "~/hooks/useDate"
 import { useAccountState } from "@crossbell/connect-kit"
+import { Titles } from "~/components/common/Titles"
 
 export const CommentItem: React.FC<{
   comment: NoteEntity & {
@@ -70,6 +71,7 @@ export const CommentItem: React.FC<{
             >
               {comment?.character?.metadata?.content?.name}
             </UniLink>
+            <Titles characterId={comment.characterId} />
             <span>·</span>
             <time dateTime={date.formatToISO(comment?.createdAt)}>
               {t("ago", {
