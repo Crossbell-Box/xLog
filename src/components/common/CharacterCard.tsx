@@ -7,6 +7,7 @@ import type { Profile } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useDate } from "~/hooks/useDate"
 import { useTranslation } from "next-i18next"
+import { Titles } from "~/components/common/Titles"
 
 export const CharacterCard: React.FC<{
   siteId?: string
@@ -71,11 +72,12 @@ export const CharacterCard: React.FC<{
               />
             )}
           </span>
-          <span className="block">
+          <span className="flex items-center space-x-1">
             <span className="font-bold text-base text-zinc-800">
               {site?.name}
             </span>
-            <span className="ml-1 text-gray-600">@{site?.username}</span>
+            <Titles characterId={+(site.metadata?.proof || "")} />
+            <span className="text-gray-600">@{site?.username}</span>
           </span>
           {site?.description && (
             <span

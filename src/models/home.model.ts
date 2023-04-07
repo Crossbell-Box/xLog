@@ -1,7 +1,7 @@
 import { ExpandedNote } from "~/lib/types"
 import { indexer } from "@crossbell/indexer"
 import { toCid } from "~/lib/ipfs-parser"
-import { createClient } from "@urql/core"
+import { createClient, cacheExchange, fetchExchange } from "@urql/core"
 import { SITE_URL, SCORE_API_DOMAIN } from "~/lib/env"
 
 const expandPage = async (
@@ -136,6 +136,7 @@ export async function getFeed({
       }
       const client = createClient({
         url: "https://indexer.crossbell.io/v1/graphql",
+        exchanges: [cacheExchange, fetchExchange],
       })
 
       const orString = noteIds

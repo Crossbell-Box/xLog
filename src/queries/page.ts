@@ -15,6 +15,7 @@ import {
 } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 import { useContract } from "@crossbell/contract"
+import { NoteEntity } from "crossbell.js"
 
 import * as pageModel from "~/models/page.model"
 
@@ -231,6 +232,25 @@ export function useCommentPage() {
     ...postNoteForNote,
     mutate,
   }
+}
+
+export function useUpdateComment() {
+  const queryClient = useQueryClient()
+  const contract = useContract()
+
+  return useMutation(
+    async (payload: Parameters<typeof pageModel.updateComment>[0]) => {
+      return pageModel.updateComment(payload, contract)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getComments",
+          variables.originalId || variables.pageId,
+        ])
+      },
+    },
+  )
 }
 
 export function useGetComments(input: { pageId?: string }) {

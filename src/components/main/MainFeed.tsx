@@ -13,6 +13,7 @@ import { useEffect, useState } from "react"
 import { Switch } from "@headlessui/react"
 import { setStorage, getStorage } from "~/lib/storage"
 import { Tooltip } from "~/components/ui/Tooltip"
+import { Titles } from "~/components/common/Titles"
 
 const Post = ({
   post,
@@ -56,6 +57,7 @@ const Post = ({
             </span>
           </div>
         </CharacterFloatCard>
+        <Titles characterId={post.characterId} />
         <span className="text-zinc-400">·</span>
         <time
           dateTime={date.formatToISO(post.createdAt)}

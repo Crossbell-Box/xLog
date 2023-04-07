@@ -6,20 +6,25 @@ import { Button } from "~/components/ui/Button"
 import { useForm } from "react-hook-form"
 import { useAccountState } from "@crossbell/connect-kit"
 import { useState, useEffect } from "react"
-import { useCommentPage } from "~/queries/page"
+import { useCommentPage, useUpdateComment } from "~/queries/page"
 import { useRouter } from "next/router"
 import { EmojiPicker } from "./EmojiPicker"
 import { Popover } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
+import { NoteEntity, CharacterEntity } from "crossbell.js"
 
 export const CommentInput: React.FC<{
   pageId?: string
   originalId?: string
   onSubmitted?: () => void
-}> = ({ pageId, originalId, onSubmitted }) => {
+  comment?: NoteEntity & {
+    character?: CharacterEntity | null
+  }
+}> = ({ pageId, originalId, onSubmitted, comment }) => {
   const account = useAccountState((s) => s.computed.account)
   const userSites = useAccountSites()
   const commentPage = useCommentPage()
+  const updateComment = useUpdateComment()
   const router = useRouter()
   const [viewer, setViewer] = useState<Profile | null>(null)
   const { t } = useTranslation(["common", "site"])
@@ -32,27 +37,38 @@ export const CommentInput: React.FC<{
 
   const form = useForm({
     defaultValues: {
-      content: "",
+      content: comment?.metadata?.content?.content || "",
     },
   })
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    if (pageId) {
-      commentPage.mutate({
-        pageId: pageId,
-        content: values.content,
-        externalUrl: window.location.href,
-        originalId: originalId,
-      })
+    if (pageId && values.content) {
+      if (comment) {
+        updateComment.mutate({
+          pageId,
+          content: values.content,
+          externalUrl: window.location.href,
+          originalId,
+          characterId: comment.characterId,
+          noteId: comment.noteId,
+        })
+      } else {
+        commentPage.mutate({
+          pageId,
+          content: values.content,
+          externalUrl: window.location.href,
+          originalId,
+        })
+      }
     }
   })
 
   useEffect(() => {
-    if (commentPage.isSuccess) {
+    if (commentPage.isSuccess || updateComment.isSuccess) {
       form.reset()
       onSubmitted?.()
     }
-  }, [commentPage.isSuccess, form, onSubmitted])
+  }, [commentPage.isSuccess, updateComment.isSuccess, form, onSubmitted])
 
   return (
     <div className="xlog-comment-input flex">
@@ -104,12 +120,18 @@ export const CommentInput: React.FC<{
           </Popover>
           <Button
             type="submit"
-            isLoading={userSites.isLoading || commentPage.isLoading}
+            isLoading={
+              userSites.isLoading ||
+              commentPage.isLoading ||
+              updateComment.isLoading
+            }
           >
             {t(
               account
                 ? userSites.isSuccess && !userSites.data?.length
                   ? "Create Character"
+                  : comment
+                  ? "Confirm Modification"
                   : "Submit"
                 : "Connect",
             )}

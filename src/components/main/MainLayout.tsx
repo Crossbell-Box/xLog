@@ -13,6 +13,7 @@ import { useTranslation } from "next-i18next"
 import { Logo } from "~/components/common/Logo"
 import { useRouter } from "next/router"
 import { cn } from "~/lib/utils"
+import { Image } from "../ui/Image"
 
 const tabs = [
   {
@@ -24,7 +25,13 @@ const tabs = [
     link: "/activities",
   },
   {
-    name: "Source Code",
+    name: (
+      <Image
+        className="no-optimization w-24"
+        alt="github stars"
+        src="https://img.shields.io/github/stars/Crossbell-Box/xLog?color=white&label=Stars&logo=github&style=social"
+      />
+    ),
     link: GITHUB_LINK,
   },
 ]
@@ -66,10 +73,10 @@ export function MainLayout({
                     "text-accent": router.pathname === tab.link,
                   },
                 )}
-                key={tab.name}
+                key={tab.link}
                 href={tab.link}
               >
-                {t(tab.name)}
+                {typeof tab.name === "string" ? t(tab.name) : tab.name}
               </UniLink>
             ))}
             <ConnectButton size="base" variantColor="black" />

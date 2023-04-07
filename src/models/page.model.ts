@@ -567,6 +567,32 @@ export async function getComments({
   return res
 }
 
+export async function updateComment(
+  {
+    pageId,
+    content,
+    externalUrl,
+    originalId,
+    characterId,
+    noteId,
+  }: {
+    pageId: string
+    content: string
+    externalUrl: string
+    originalId?: string
+    characterId: number
+    noteId: number
+  },
+  contract: Contract,
+) {
+  return contract.setNoteMetadata(characterId, noteId, {
+    content,
+    external_urls: [externalUrl],
+    tags: ["comment"],
+    sources: ["xlog"],
+  })
+}
+
 export function parsePageId(pageId: string) {
   const [characterId, noteId] = pageId.split("-").map(Number)
 

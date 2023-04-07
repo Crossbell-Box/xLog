@@ -12,6 +12,8 @@ import { CommentInput } from "~/components/common/CommentInput"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useTranslation } from "next-i18next"
 import { useDate } from "~/hooks/useDate"
+import { useAccountState } from "@crossbell/connect-kit"
+import { Titles } from "~/components/common/Titles"
 
 export const CommentItem: React.FC<{
   comment: NoteEntity & {
@@ -21,8 +23,12 @@ export const CommentItem: React.FC<{
   depth: number
 }> = ({ comment, originalId, depth }) => {
   const [replyOpen, setReplyOpen] = useState(false)
+  const [editOpen, setEditOpen] = useState(false)
+
   const { t } = useTranslation("common")
   const date = useDate()
+
+  const account = useAccountState(({ computed }) => computed.account)
 
   if (!comment.metadata?.content?.content) {
     return null
@@ -65,6 +71,7 @@ export const CommentItem: React.FC<{
             >
               {comment?.character?.metadata?.content?.name}
             </UniLink>
+            <Titles characterId={comment.characterId} />
             <span>·</span>
             <time dateTime={date.formatToISO(comment?.createdAt)}>
               {t("ago", {
@@ -95,7 +102,7 @@ export const CommentItem: React.FC<{
             />
             {depth < 2 && (
               <Button
-                className="text-gray-500 text-[13px] ml-2 mt-[-1px]"
+                className="text-gray-500 text-[13px] ml-1 mt-[-1px]"
                 variant="text"
                 onClick={() => setReplyOpen(!replyOpen)}
               >
@@ -105,6 +112,16 @@ export const CommentItem: React.FC<{
                 </span>
               </Button>
             )}
+            {comment.characterId === account?.characterId && (
+              <Button
+                className="text-gray-500 text-[13px] mt-[-1px]"
+                variant="text"
+                onClick={() => setEditOpen(!editOpen)}
+              >
+                <i className="i-mingcute:edit-line mx-1" />{" "}
+                {t(`${editOpen ? "Cancel " : ""}Edit`)}
+              </Button>
+            )}
           </div>
           {replyOpen && (
             <div className="pt-6">
@@ -112,6 +129,16 @@ export const CommentItem: React.FC<{
                 originalId={originalId}
                 pageId={`${comment.characterId}-${comment.noteId}`}
                 onSubmitted={() => setReplyOpen(false)}
+              />
+            </div>
+          )}
+          {editOpen && (
+            <div className="pt-6">
+              <CommentInput
+                originalId={originalId}
+                pageId={`${comment.characterId}-${comment.noteId}`}
+                onSubmitted={() => setEditOpen(false)}
+                comment={comment}
               />
             </div>
           )}
