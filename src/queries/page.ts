@@ -81,9 +81,7 @@ export const useGetLikes = ({ pageId = "" }: { pageId?: string }) => {
 }
 
 export const useCheckLike = ({ pageId = "" }: { pageId?: string }) => {
-  const { characterId, noteId } = pageModel.parsePageId(pageId)
-
-  return useIsNoteLiked({ toNoteId: noteId, toCharacterId: characterId })
+  return useIsNoteLiked(pageModel.parsePageId(pageId))
 }
 
 export const useGetMints = (input: {
