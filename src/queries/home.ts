@@ -3,10 +3,11 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import * as homeModel from "~/models/home.model"
 
 export const useGetFeed = (data?: {
-  type?: "latest" | "recommend" | "following" | "topic"
+  type?: homeModel.FeedType
   characterId?: number
   limit?: number
   noteIds?: string[]
+  daysInterval?: number
 }) => {
   return useInfiniteQuery({
     queryKey: ["getFeed", data],

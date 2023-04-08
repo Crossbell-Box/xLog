@@ -5,7 +5,7 @@ import * as homeModel from "~/models/home.model"
 
 export const prefetchGetFeed = async (
   data: {
-    type?: "latest" | "recommend" | "following" | "topic"
+    type?: homeModel.FeedType
     characterId?: number
     limit?: number
     noteIds?: string[]

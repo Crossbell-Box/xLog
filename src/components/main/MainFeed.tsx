@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
 import { useTranslation } from "next-i18next"
 import { useGetFeed } from "~/queries/home"
+import type { FeedType } from "~/models/home.model"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useAccountState } from "@crossbell/connect-kit"
 import InfiniteScroll from "react-infinite-scroller"
@@ -14,6 +15,7 @@ import { Switch } from "@headlessui/react"
 import { setStorage, getStorage } from "~/lib/storage"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { Titles } from "~/components/common/Titles"
+import { Tabs } from "~/components/ui/Tabs"
 
 const Post = ({
   post,
@@ -103,6 +105,12 @@ const Post = ({
                   ))}
               </span>
             )}
+            {post.stat?.viewDetailCount && (
+              <span className="xlog-post-views inline-flex items-center">
+                <i className="i-mingcute:eye-line mr-[2px]" />
+                <span>{post.stat?.viewDetailCount}</span>
+              </span>
+            )}
           </div>
           <div
             className="xlog-post-excerpt mt-3 text-zinc-500 line-clamp-2"
@@ -130,7 +138,7 @@ const Post = ({
 }
 
 export const MainFeed: React.FC<{
-  type?: "latest" | "recommend" | "following" | "topic"
+  type?: FeedType
   noteIds?: string[]
 }> = ({ type, noteIds }) => {
   const { t } = useTranslation(["common", "site"])
@@ -139,10 +147,13 @@ export const MainFeed: React.FC<{
     (s) => s.computed.account?.characterId,
   )
 
+  const [hotInterval, setHotInterval] = useState(7)
+
   const feed = useGetFeed({
     type: type,
     characterId: currentCharacterId,
     noteIds: noteIds,
+    daysInterval: hotInterval,
   })
 
   const hasFiltering = type === "latest"
@@ -152,6 +163,29 @@ export const MainFeed: React.FC<{
   useEffect(() => {
     setAiFiltering(getStorage("ai_filtering")?.enabled || true)
   }, [])
+
+  const tabs = [
+    {
+      text: "Today",
+      onClick: () => setHotInterval(1),
+      active: hotInterval === 1,
+    },
+    {
+      text: "This week",
+      onClick: () => setHotInterval(7),
+      active: hotInterval === 7,
+    },
+    {
+      text: "This month",
+      onClick: () => setHotInterval(30),
+      active: hotInterval === 30,
+    },
+    {
+      text: "All time",
+      onClick: () => setHotInterval(0),
+      active: hotInterval === 0,
+    },
+  ]
 
   return (
     <>
@@ -201,6 +235,9 @@ export const MainFeed: React.FC<{
               />
             </Switch>
           </div>
+        )}
+        {type === "hot" && (
+          <Tabs items={tabs} className="border-none text-sm -my-4"></Tabs>
         )}
         {feed.isLoading ? (
           <div className="text-center text-zinc-600">{t("Loading")}...</div>

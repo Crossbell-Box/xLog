@@ -103,6 +103,10 @@ export type ExpandedNote = NoteEntity & {
       }
     }
   }
+  stat?: {
+    viewDetailCount: number
+    hotScore?: number
+  }
 }
 
 export type Notes = {
