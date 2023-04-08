@@ -252,7 +252,7 @@ export const PagesManager: React.FC<{
                 </div>
                 <div className="w-10 flex-shrink-0">
                   <Menu>
-                    {({ open }: { open: boolean }) => (
+                    {({ open, close }) => (
                       <>
                         <Menu.Button as={Fragment}>
                           <button
@@ -268,7 +268,11 @@ export const PagesManager: React.FC<{
                           </button>
                         </Menu.Button>
 
-                        <MenuItems isPost={isPost} page={page} />
+                        <MenuItems
+                          isPost={isPost}
+                          page={page}
+                          onClick={close}
+                        />
                       </>
                     )}
                   </Menu>
@@ -454,7 +458,8 @@ const usePageMenuItems = ({
 const MenuItems: FC<{
   isPost: boolean
   page: Note
-}> = ({ isPost, page }) => {
+  onClick: () => void
+}> = ({ isPost, page, onClick: onClose }) => {
   const { t } = useTranslation(["dashboard", "site"])
 
   return (
@@ -468,6 +473,7 @@ const MenuItems: FC<{
               onClick={(e) => {
                 e.preventDefault()
                 item.onClick()
+                onClose()
               }}
             >
               <span className="inline-flex">{item.icon}</span>
