@@ -42,6 +42,8 @@ import { getServerSideProps as getLayoutServerSideProps } from "~/components/das
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { getDefaultSlug } from "~/lib/helpers"
+import { useMobileLayout } from "~/hooks/useMobileLayout"
+import { OptionsButton } from "~/components/dashboard/OptionsButton"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -162,6 +164,9 @@ export default function SubdomainEditor() {
   )
 
   const createOrUpdatePage = useCreateOrUpdatePage()
+
+  const isMobileLayout = useMobileLayout()
+  const [isRendering, setIsRendering] = useState(false)
 
   const savePage = async (published: boolean) => {
     const check = await checkPageSlug({
@@ -406,8 +411,18 @@ export default function SubdomainEditor() {
           </div>
         ) : (
           <>
-            <header className="flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm">
-              <div className="flex items-center">
+            <header
+              className={`flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm ${
+                isMobileLayout ? "w-screen" : undefined
+              }`}
+            >
+              <div
+                className={`flex items-center ${
+                  isMobileLayout
+                    ? "flex-1 overflow-x-auto scrollbar-hide"
+                    : undefined
+                }`}
+              >
                 <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
                 <UniLink
                   className="ml-7 align-middle hidden xl:block"
@@ -418,44 +433,105 @@ export default function SubdomainEditor() {
                   {t("Tip: xLog Flavored Markdown")}
                 </UniLink>
               </div>
-              <div className="flex items-center space-x-3">
-                <span
-                  className={cn(
-                    `text-sm capitalize`,
-                    visibility === PageVisibilityEnum.Draft
-                      ? `text-zinc-300`
-                      : visibility === PageVisibilityEnum.Modified
-                      ? "text-orange-600"
-                      : "text-green-600",
-                  )}
-                >
-                  {t(visibility as string)}
-                </span>
-                <Button
-                  isAutoWidth
-                  onClick={() => {
-                    window.open(
-                      `/_site/${subdomain}/preview/${draftKey.replace(
-                        `draft-${subdomain}-`,
-                        "",
-                      )}`,
-                    )
-                  }}
-                >
-                  {t("Preview")}
-                </Button>
-                <PublishButton
-                  save={savePage}
-                  published={visibility !== PageVisibilityEnum.Draft}
-                  isSaving={createOrUpdatePage.isLoading}
-                  isDisabled={
-                    visibility !== PageVisibilityEnum.Modified &&
-                    visibility !== PageVisibilityEnum.Draft
-                  }
-                />
-              </div>
+              {isMobileLayout ? (
+                <div className="flex items-center space-x-3 w-auto inline-block pl-5">
+                  {/* <span
+                    className={cn(
+                      `text-sm capitalize`,
+                      visibility === PageVisibilityEnum.Draft
+                        ? `text-zinc-300`
+                        : visibility === PageVisibilityEnum.Modified
+                        ? "text-orange-600"
+                        : "text-green-600",
+                    )}
+                  >
+                    {t(visibility as string)}
+                  </span> */}
+                  {/* <Button
+                    isAutoWidth
+                    onClick={() => {
+                      window.open(
+                        `/_site/${subdomain}/preview/${draftKey.replace(
+                          `draft-${subdomain}-`,
+                          "",
+                        )}`,
+                      )
+                    }}
+                  >
+                    {t("Preview")}
+                  </Button> */}
+                  {/* <PublishButton
+                    save={savePage}
+                    published={visibility !== PageVisibilityEnum.Draft}
+                    isSaving={createOrUpdatePage.isLoading}
+                    isDisabled={
+                      visibility !== PageVisibilityEnum.Modified &&
+                      visibility !== PageVisibilityEnum.Draft
+                    }
+                  /> */}
+                  <OptionsButton
+                    visibility={visibility}
+                    savePage={savePage}
+                    published={visibility !== PageVisibilityEnum.Draft}
+                    isRendering={isRendering}
+                    renderPage={setIsRendering}
+                    previewPage={() => {
+                      window.open(
+                        `/_site/${subdomain}/preview/${draftKey.replace(
+                          `draft-${subdomain}-`,
+                          "",
+                        )}`,
+                      )
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center space-x-3">
+                  <span
+                    className={cn(
+                      `text-sm capitalize`,
+                      visibility === PageVisibilityEnum.Draft
+                        ? `text-zinc-300`
+                        : visibility === PageVisibilityEnum.Modified
+                        ? "text-orange-600"
+                        : "text-green-600",
+                    )}
+                  >
+                    {t(visibility as string)}
+                  </span>
+                  <Button
+                    isAutoWidth
+                    onClick={() => {
+                      window.open(
+                        `/_site/${subdomain}/preview/${draftKey.replace(
+                          `draft-${subdomain}-`,
+                          "",
+                        )}`,
+                      )
+                    }}
+                  >
+                    {t("Preview")}
+                  </Button>
+                  <PublishButton
+                    save={savePage}
+                    published={visibility !== PageVisibilityEnum.Draft}
+                    isSaving={createOrUpdatePage.isLoading}
+                    isDisabled={
+                      visibility !== PageVisibilityEnum.Modified &&
+                      visibility !== PageVisibilityEnum.Draft
+                    }
+                  />
+                </div>
+              )}
             </header>
-            <div className="h-screen pt-14 flex w-full min-w-[840px]">
+            <div
+              className={`h-screen pt-14 flex w-full ${
+                isMobileLayout ? "w-screen" : "min-w-[840px]"
+              }`}
+              style={
+                isMobileLayout ? { height: "calc(100vh - 64px)" } : undefined
+              }
+            >
               <div className="h-full overflow-auto w-full">
                 <div className="h-full mx-auto pt-5 flex flex-col">
                   <div className="px-5 h-12">
@@ -474,30 +550,62 @@ export default function SubdomainEditor() {
                     />
                   </div>
                   <div className="mt-5 flex-1 flex overflow-hidden">
-                    <Editor
-                      value={values.content}
-                      onChange={onChange}
-                      handleDropFile={handleDropFile}
-                      onScroll={onEditorScroll}
-                      // onUpdate={onUpdate}
-                      onCreateEditor={onCreateEditor}
-                      onMouseEnter={() => {
-                        setCurrentScrollArea("editor")
-                      }}
-                    />
-                    <PageContent
-                      className="px-5 w-1/2 overflow-scroll pb-[200px]"
-                      parsedContent={parsedContent}
-                      inputRef={previewRef}
-                      onScroll={onPreviewScroll}
-                      onMouseEnter={() => {
-                        setCurrentScrollArea("preview")
-                      }}
-                    ></PageContent>
+                    {isMobileLayout ? (
+                      !isRendering ? (
+                        <Editor
+                          value={values.content}
+                          onChange={onChange}
+                          handleDropFile={handleDropFile}
+                          onScroll={onEditorScroll}
+                          // onUpdate={onUpdate}
+                          onCreateEditor={onCreateEditor}
+                          onMouseEnter={() => {
+                            setCurrentScrollArea("editor")
+                          }}
+                        />
+                      ) : (
+                        <PageContent
+                          className={`px-5 overflow-scroll pb-[200px] ${
+                            isMobileLayout ? "" : "w-1/2 "
+                          }`}
+                          parsedContent={parsedContent}
+                          inputRef={previewRef}
+                          onScroll={onPreviewScroll}
+                          onMouseEnter={() => {
+                            setCurrentScrollArea("preview")
+                          }}
+                        ></PageContent>
+                      )
+                    ) : (
+                      <>
+                        <Editor
+                          value={values.content}
+                          onChange={onChange}
+                          handleDropFile={handleDropFile}
+                          onScroll={onEditorScroll}
+                          // onUpdate={onUpdate}
+                          onCreateEditor={onCreateEditor}
+                          onMouseEnter={() => {
+                            setCurrentScrollArea("editor")
+                          }}
+                        />
+                        <PageContent
+                          className={`px-5 overflow-scroll pb-[200px] ${
+                            isMobileLayout ? "" : "w-1/2 "
+                          }`}
+                          parsedContent={parsedContent}
+                          inputRef={previewRef}
+                          onScroll={onPreviewScroll}
+                          onMouseEnter={() => {
+                            setCurrentScrollArea("preview")
+                          }}
+                        ></PageContent>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
-              <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+              {/* <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
                 <div>
                   <Input
                     type="datetime-local"
@@ -596,7 +704,7 @@ export default function SubdomainEditor() {
                     help={t("Leave it blank to use auto-generated excerpt")}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </>
         )}

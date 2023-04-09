@@ -108,6 +108,7 @@
     "sharp": "0.32.0",
     "sortablejs": "1.15.0",
     "tailwind-merge": "^1.12.0",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-animate": "^1.0.5",
     "unidata.js": "0.7.18",
     "unified": "10.1.2",

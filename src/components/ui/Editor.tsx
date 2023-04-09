@@ -5,6 +5,7 @@ import { scroll } from "@uiw/codemirror-extensions-events"
 import type { EditorState } from "@codemirror/state"
 import { useState, useEffect, useMemo } from "react"
 import { useTranslation } from "next-i18next"
+import { useMobileLayout } from "~/hooks/useMobileLayout"
 
 export const Editor: React.FC<{
   value: string
@@ -25,6 +26,7 @@ export const Editor: React.FC<{
 }) => {
   const { t } = useTranslation("dashboard")
   const [extensions, setExtensions] = useState<any>([])
+  const isMobileLayout = useMobileLayout()
   useEffect(() => {
     setExtensions([
       markdown(),
@@ -34,6 +36,7 @@ export const Editor: React.FC<{
           fontSize: "1rem",
           overflow: "auto",
           height: "100%",
+          padding: isMobileLayout ? "0 1.25rem" : "unset",
         },
         ".cm-content": {
           paddingBottom: "600px",
@@ -85,7 +88,7 @@ export const Editor: React.FC<{
   return useMemo(
     () => (
       <CodeMirror
-        className="px-5 h-full border-r w-1/2"
+        className={`h-full ${isMobileLayout ? "" : "border-r w-1/2 px-5"}`}
         value={value}
         extensions={extensions}
         onCreateEditor={onCreateEditor}
