@@ -167,5 +167,16 @@
     "DNS check failed.": "DNS 檢查失敗。",
     "Recheck": "重新檢查",
     "Latest": "最新動態",
-    "Following": "追蹤中"
+    "Following": "追蹤中",
+    "Create a Post": "新增文章",
+    "Change Site Icon or domain": "變更網站圖示或域名",
+    "Join xLog's Discord channel": "加入 xLog 的 Discord 頻道",
+    "Participate in the development of xLog": "參與 xLog 的發展",
+    "Follow xLog's Twitter": "追蹤 xLog 的 Twitter",
+    "Check out the updates of other bloggers": "看看其他 Bloger 的更新",
+    "You have already imported them, please enter the post page to create a new post!": "已經匯入完成了哦，請到文章頁面新增新的內容！",
+    "Today": "今天",
+    "This month": "本月",
+    "This week": "本周",
+    "All time": "全部"
 }
