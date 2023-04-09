@@ -21,7 +21,10 @@ export const Tabs: React.FC<{ items: TabItem[]; className?: string }> = ({
 
   return (
     <div
-      className={cn(className, "flex border-b space-x-5 mb-8 overflow-x-auto")}
+      className={cn(
+        className,
+        "flex border-b space-x-5 mb-8 overflow-x-auto scrollbar-hide",
+      )}
     >
       {items.map((item) => {
         if (item.hidden) return null

@@ -13,9 +13,7 @@ export const DashboardTopbar: React.FC<{
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div
-      className={`${`w-screen top-0 h-16`} bg-slate-50 z-20 transition-all flex flex-row fixed px-5 md:px-10 items-center`}
-    >
+    <div className="w-full top-0 h-16 bg-slate-50 z-20 transition-all flex flex-row fixed px-5 md:px-10 items-center">
       <Popover className="relative">
         {({ open, close }) => (
           <div className="h-6">
@@ -23,9 +21,9 @@ export const DashboardTopbar: React.FC<{
               as={Fragment}
               enter="transition ease-out duration-200"
               enterFrom="opacity-0"
-              enterTo="opacity-100"
+              enterTo="opacity-10"
               leave="transition ease-in duration-150"
-              leaveFrom="opacity-100"
+              leaveFrom="opacity-10"
               leaveTo="opacity-0"
             >
               <Popover.Overlay className="fixed inset-0 bg-black opacity-10" />

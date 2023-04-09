@@ -121,6 +121,12 @@ export const OptionsButton: React.FC<{
           )
         }}
       </Menu>
+      <div
+        className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex justify-center items-center"
+        onClick={() => renderPage(!isRendering)}
+      >
+        <i className="i-mingcute:attachment-2-line text-xl inline-block w-6 h-6" />
+      </div>
     </>
   )
 }

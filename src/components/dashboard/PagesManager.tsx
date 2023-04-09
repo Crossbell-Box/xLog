@@ -25,6 +25,7 @@ import { Tooltip } from "../ui/Tooltip"
 import { APP_NAME } from "~/lib/env"
 import { Trans, useTranslation } from "next-i18next"
 import { readFiles } from "~/lib/read-files"
+import { useMobileLayout } from "~/hooks/useMobileLayout"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -46,6 +47,8 @@ export const PagesManager: React.FC<{
   const [deleteToastId, setDeleteToastId] = useState("")
   const { t } = useTranslation(["dashboard", "site"])
   const date = useDate()
+
+  const isMobileLayout = useMobileLayout()
 
   useEffect(() => {
     if (deletePage.isSuccess) {

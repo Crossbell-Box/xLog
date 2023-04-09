@@ -526,11 +526,10 @@ export default function SubdomainEditor() {
             </header>
             <div
               className={`h-screen pt-14 flex w-full ${
-                isMobileLayout ? "w-screen" : "min-w-[840px]"
+                isMobileLayout
+                  ? "w-screen h-[calc(100vh-4rem)]"
+                  : "min-w-[840px]"
               }`}
-              style={
-                isMobileLayout ? { height: "calc(100vh - 64px)" } : undefined
-              }
             >
               <div className="h-full overflow-auto w-full">
                 <div className="h-full mx-auto pt-5 flex flex-col">
@@ -605,7 +604,7 @@ export default function SubdomainEditor() {
                   </div>
                 </div>
               </div>
-              {/* <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+              <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
                 <div>
                   <Input
                     type="datetime-local"
@@ -704,7 +703,7 @@ export default function SubdomainEditor() {
                     help={t("Leave it blank to use auto-generated excerpt")}
                   />
                 </div>
-              </div> */}
+              </div>
             </div>
           </>
         )}
