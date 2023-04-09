@@ -46,7 +46,7 @@ export const DashboardTopbar: React.FC<{
               leaveFrom="opacity-100 transform translate-x-0"
               leaveTo="opacity-0 transform -translate-x-full"
             >
-              <Popover.Panel className="fixed bg-slate-50 h-screen left-0 top-0 z-20 w-sidebar transform sm:px-0 lg:max-w-3xl">
+              <Popover.Panel className="fixed bg-slate-50 h-full left-0 top-0 z-20 w-sidebar transform sm:px-0 lg:max-w-3xl">
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 h-full">
                   {drawerWidget(close)}
                 </div>

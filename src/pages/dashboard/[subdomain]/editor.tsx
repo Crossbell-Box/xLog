@@ -616,10 +616,10 @@ export default function SubdomainEditor() {
               )}
             </header>
             <div
-              className={`h-screen pt-14 flex w-full ${
+              className={`pt-14 flex w-full ${
                 isMobileLayout
                   ? "w-screen h-[calc(100vh-4rem)]"
-                  : "min-w-[840px]"
+                  : "min-w-[840px] h-screen "
               }`}
             >
               <div className="h-full overflow-auto w-full">
