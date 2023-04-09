@@ -88,7 +88,9 @@ export const Editor: React.FC<{
   return useMemo(
     () => (
       <CodeMirror
-        className={`h-full ${isMobileLayout ? "" : "border-r w-1/2 px-5"}`}
+        className={`h-full ${
+          isMobileLayout ? "w-full" : "border-r w-1/2 px-5"
+        }`}
         value={value}
         extensions={extensions}
         onCreateEditor={onCreateEditor}
