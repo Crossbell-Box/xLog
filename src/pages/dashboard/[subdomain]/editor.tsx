@@ -197,6 +197,96 @@ export default function SubdomainEditor() {
 
   const [isCheersOpen, setIsCheersOpen] = useState(false)
 
+  const ExtraProperties = (
+    <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+      <div>
+        <Input
+          type="datetime-local"
+          label={t("Publish at") || ""}
+          isBlock
+          name="publishAt"
+          id="publishAt"
+          value={getInputDatetimeValue(values.publishedAt, date.dayjs)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            try {
+              const value = date.inLocalTimezone(e.target.value).toISOString()
+              updateValue("publishedAt", value)
+            } catch (error) {}
+          }}
+          help={t(
+            `This ${
+              isPost ? "post" : "page"
+            } will be accessible from this time`,
+          )}
+        />
+      </div>
+      <div>
+        <Input
+          name="slug"
+          value={values.slug}
+          placeholder={defaultSlug}
+          label={t(`${isPost ? "Post" : "Page"} slug`) || ""}
+          id="slug"
+          isBlock
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            updateValue("slug", e.target.value)
+          }
+          help={
+            <>
+              {(values.slug || defaultSlug) && (
+                <>
+                  {t(`This ${isPost ? "post" : "page"} will be accessible at`)}{" "}
+                  <UniLink
+                    href={`${getSiteLink({
+                      subdomain,
+                      domain: site.data?.custom_domain,
+                    })}/${encodeURIComponent(values.slug || defaultSlug)}`}
+                    className="hover:underline"
+                  >
+                    {getSiteLink({
+                      subdomain,
+                      domain: site.data?.custom_domain,
+                      noProtocol: true,
+                    })}
+                    /{encodeURIComponent(values.slug || defaultSlug)}
+                  </UniLink>
+                </>
+              )}
+            </>
+          }
+        />
+      </div>
+      <div>
+        <Input
+          name="tags"
+          value={values.tags}
+          label={t("Tags") || ""}
+          id="tags"
+          isBlock
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            updateValue("tags", e.target.value)
+          }
+          help={t("Separate multiple tags with English commas") + ` ","`}
+        />
+      </div>
+      <div>
+        <Input
+          label={t("Excerpt") || ""}
+          isBlock
+          name="excerpt"
+          id="excerpt"
+          value={values.excerpt}
+          multiline
+          rows={5}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+            updateValue("excerpt", e.target.value)
+          }}
+          help={t("Leave it blank to use auto-generated excerpt")}
+        />
+      </div>
+    </div>
+  )
+
   useEffect(() => {
     if (createOrUpdatePage.isSuccess) {
       if (createOrUpdatePage.data?.code === 0) {
@@ -412,7 +502,7 @@ export default function SubdomainEditor() {
         ) : (
           <>
             <header
-              className={`flex justify-between absolute top-0 left-0 right-0 z-10 px-5 h-14 border-b items-center text-sm ${
+              className={`flex justify-between absolute top-0 left-0 right-0 z-25 px-5 h-14 border-b items-center text-sm ${
                 isMobileLayout ? "w-screen" : undefined
               }`}
             >
@@ -475,6 +565,7 @@ export default function SubdomainEditor() {
                     published={visibility !== PageVisibilityEnum.Draft}
                     isRendering={isRendering}
                     renderPage={setIsRendering}
+                    propertiesWidget={ExtraProperties}
                     previewPage={() => {
                       window.open(
                         `/_site/${subdomain}/preview/${draftKey.replace(
@@ -604,106 +695,7 @@ export default function SubdomainEditor() {
                   </div>
                 </div>
               </div>
-              <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
-                <div>
-                  <Input
-                    type="datetime-local"
-                    label={t("Publish at") || ""}
-                    isBlock
-                    name="publishAt"
-                    id="publishAt"
-                    value={getInputDatetimeValue(
-                      values.publishedAt,
-                      date.dayjs,
-                    )}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                      try {
-                        const value = date
-                          .inLocalTimezone(e.target.value)
-                          .toISOString()
-                        updateValue("publishedAt", value)
-                      } catch (error) {}
-                    }}
-                    help={t(
-                      `This ${
-                        isPost ? "post" : "page"
-                      } will be accessible from this time`,
-                    )}
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="slug"
-                    value={values.slug}
-                    placeholder={defaultSlug}
-                    label={t(`${isPost ? "Post" : "Page"} slug`) || ""}
-                    id="slug"
-                    isBlock
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      updateValue("slug", e.target.value)
-                    }
-                    help={
-                      <>
-                        {(values.slug || defaultSlug) && (
-                          <>
-                            {t(
-                              `This ${
-                                isPost ? "post" : "page"
-                              } will be accessible at`,
-                            )}{" "}
-                            <UniLink
-                              href={`${getSiteLink({
-                                subdomain,
-                                domain: site.data?.custom_domain,
-                              })}/${encodeURIComponent(
-                                values.slug || defaultSlug,
-                              )}`}
-                              className="hover:underline"
-                            >
-                              {getSiteLink({
-                                subdomain,
-                                domain: site.data?.custom_domain,
-                                noProtocol: true,
-                              })}
-                              /{encodeURIComponent(values.slug || defaultSlug)}
-                            </UniLink>
-                          </>
-                        )}
-                      </>
-                    }
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="tags"
-                    value={values.tags}
-                    label={t("Tags") || ""}
-                    id="tags"
-                    isBlock
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      updateValue("tags", e.target.value)
-                    }
-                    help={
-                      t("Separate multiple tags with English commas") + ` ","`
-                    }
-                  />
-                </div>
-                <div>
-                  <Input
-                    label={t("Excerpt") || ""}
-                    isBlock
-                    name="excerpt"
-                    id="excerpt"
-                    value={values.excerpt}
-                    multiline
-                    rows={5}
-                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-                      updateValue("excerpt", e.target.value)
-                    }}
-                    help={t("Leave it blank to use auto-generated excerpt")}
-                  />
-                </div>
-              </div>
+              {!isMobileLayout && ExtraProperties}
             </div>
           </>
         )}

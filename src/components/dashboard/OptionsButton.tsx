@@ -1,4 +1,4 @@
-import { Menu, Transition } from "@headlessui/react"
+import { Menu, Popover, Transition } from "@headlessui/react"
 import { Dispatch, Fragment, SetStateAction, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -9,6 +9,7 @@ export const OptionsButton: React.FC<{
   previewPage: () => void
   renderPage: Dispatch<SetStateAction<boolean>>
   savePage: (published: boolean) => any
+  propertiesWidget: React.ReactNode
   isRendering: boolean
   published: boolean
 }> = ({
@@ -18,6 +19,7 @@ export const OptionsButton: React.FC<{
   isRendering,
   renderPage,
   published,
+  propertiesWidget,
 }) => {
   const { t } = useTranslation("dashboard")
 
@@ -121,12 +123,50 @@ export const OptionsButton: React.FC<{
           )
         }}
       </Menu>
-      <div
-        className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex justify-center items-center"
-        onClick={() => renderPage(!isRendering)}
-      >
-        <i className="i-mingcute:attachment-2-line text-xl inline-block w-6 h-6" />
-      </div>
+
+      <Popover className="relative">
+        {({ open, close }) => (
+          <div className="h-6">
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-200"
+              enterFrom="opacity-0"
+              enterTo="opacity-10"
+              leave="transition ease-in duration-150"
+              leaveFrom="opacity-10"
+              leaveTo="opacity-0"
+            >
+              <Popover.Overlay className="fixed inset-0 bg-black opacity-10" />
+            </Transition>
+            <Popover.Button
+              className={`
+                group inline-flex items-center rounded-md  text-base font-medium   hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+              // onClick={() => {
+              //   setIsOpen(true)
+              // }}
+            >
+              <div className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex justify-center items-center">
+                <i className="i-mingcute:attachment-2-line text-xl inline-block w-6 h-6" />
+              </div>
+            </Popover.Button>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-200"
+              enterFrom="opacity-0 transform -translate-x-full"
+              enterTo="opacity-100 transform translate-x-0"
+              leave="transition ease-in duration-150"
+              leaveFrom="opacity-100 transform translate-x-0"
+              leaveTo="opacity-0 transform -translate-x-full"
+            >
+              <Popover.Panel className="fixed bg-slate-50 h-screen left-0 top-0 z-30 transform sm:px-0 lg:max-w-3xl">
+                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 h-full">
+                  {propertiesWidget}
+                </div>
+              </Popover.Panel>
+            </Transition>
+          </div>
+        )}
+      </Popover>
     </>
   )
 }
