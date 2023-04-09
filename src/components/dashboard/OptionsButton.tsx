@@ -127,17 +127,6 @@ export const OptionsButton: React.FC<{
       <Popover className="relative">
         {({ open, close }) => (
           <div className="h-6">
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-200"
-              enterFrom="opacity-0"
-              enterTo="opacity-10"
-              leave="transition ease-in duration-150"
-              leaveFrom="opacity-10"
-              leaveTo="opacity-0"
-            >
-              <Popover.Overlay className="fixed inset-0 bg-black opacity-10" />
-            </Transition>
             <Popover.Button
               className={`
                 group inline-flex items-center rounded-md  text-base font-medium   hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
