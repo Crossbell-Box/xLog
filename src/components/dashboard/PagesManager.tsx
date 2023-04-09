@@ -19,6 +19,7 @@ import { Tooltip } from "../ui/Tooltip"
 import { Trans, useTranslation } from "next-i18next"
 import { readFiles } from "~/lib/read-files"
 import { PagesManagerMenu } from "./PagesManagerMenu"
+import { useMobileLayout } from "~/hooks/useMobileLayout"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -36,6 +37,8 @@ export const PagesManager: React.FC<{
 
   const { t } = useTranslation(["dashboard", "site"])
   const date = useDate()
+
+  const isMobileLayout = useMobileLayout()
 
   const pages = useGetPagesBySite({
     type: isPost ? "post" : "page",
