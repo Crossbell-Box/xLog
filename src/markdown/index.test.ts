@@ -58,22 +58,9 @@ describe("html", () => {
     `,
       true,
     )
-    expect(contentHTML).toMatchInlineSnapshot(`
-      "
-
-
-
-
-
-
-
-
-
-
-
-
-      <div class=\\"table-wrapper\\"><table><thead><tr><th>a</th><th>b</th></tr></thead><tbody><tr><td>c</td><td>d</td></tr></tbody></table></div>"
-    `)
+    expect(contentHTML.trim()).toMatchInlineSnapshot(
+      '"<div class=\\"table-wrapper\\"><table><thead><tr><th>a</th><th>b</th></tr></thead><tbody><tr><td>c</td><td>d</td></tr></tbody></table></div>"',
+    )
   })
 
   test("callout", async () => {
