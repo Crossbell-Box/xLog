@@ -31,6 +31,7 @@ import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import remarkBreaks from "remark-breaks"
+import { remarkMermaid } from "./remark-mermaid"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -98,6 +99,7 @@ export const renderPageContent = (
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
       .use(remarkYoutube)
+      .use(remarkMermaid)
       .use(remarkMath)
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(rehypeKatex) // There may be $ symbol parsing errors
@@ -114,6 +116,7 @@ export const renderPageContent = (
       .use(rehypeWrapCode)
       .use(rehypeInferDescriptionMeta)
       .use(rehypeSlug)
+
       .use(rehypeAutolinkHeadings, {
         properties: {
           className: ["xlog-anchor"],
