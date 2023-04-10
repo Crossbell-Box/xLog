@@ -42,7 +42,7 @@ jobs:
           run_install: false
       - name: Install Dependencies
         run: |
-          pnpm i --no-optional
+          pnpm i
       - name: Test
         run: |
           pnpm run test-unit
