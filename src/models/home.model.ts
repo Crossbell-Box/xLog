@@ -58,7 +58,7 @@ const expandPage = async (
   return page
 }
 
-export type FeedType = "latest" | "following" | "topic" | "hot"
+export type FeedType = "latest" | "following" | "topic" | "hot" | "search"
 
 export async function getFeed({
   type,
@@ -67,6 +67,7 @@ export async function getFeed({
   characterId,
   noteIds,
   daysInterval,
+  keyword,
 }: {
   type?: FeedType
   cursor?: string
@@ -74,7 +75,11 @@ export async function getFeed({
   characterId?: number
   noteIds?: string[]
   daysInterval?: number
+  keyword?: string
 }) {
+  if (type === "search" && !keyword) {
+    type = "latest"
+  }
   switch (type) {
     case "latest": {
       const result = await indexer.getNotes({
@@ -263,6 +268,26 @@ export async function getFeed({
         list: list,
         cursor: "",
         count: list?.length || 0,
+      }
+    }
+    case "search": {
+      const result = await indexer.searchNotes(keyword!, {
+        sources: ["xlog"],
+        tags: ["post"],
+        limit: limit,
+        cursor,
+      })
+
+      const list = await Promise.all(
+        result.list.map(async (page: any) => {
+          return await expandPage(page)
+        }),
+      )
+
+      return {
+        list,
+        cursor: result.cursor,
+        count: result.count,
       }
     }
   }

@@ -140,7 +140,8 @@ const Post = ({
 export const MainFeed: React.FC<{
   type?: FeedType
   noteIds?: string[]
-}> = ({ type, noteIds }) => {
+  keyword?: string
+}> = ({ type, noteIds, keyword }) => {
   const { t } = useTranslation(["common", "site"])
 
   const currentCharacterId = useAccountState(
@@ -154,6 +155,7 @@ export const MainFeed: React.FC<{
     characterId: currentCharacterId,
     noteIds: noteIds,
     daysInterval: hotInterval,
+    keyword: keyword,
   })
 
   const hasFiltering = type === "latest"
