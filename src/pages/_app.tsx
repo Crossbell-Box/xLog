@@ -39,6 +39,7 @@ const persister = createIDBPersister()
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
 
+  useMediaToggle()
   return (
     <WagmiConfig client={wagmiClient}>
       <PersistQueryClientProvider
