@@ -1,7 +1,10 @@
+const twColors = require("./tw-colors")
+const alwaysColor = require("tailwindcss/colors")
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
+    colors: twColors,
     extend: {
       boxShadow: {
         modal: `rgb(0 0 0 / 20%) 0px 0px 1px, rgb(0 0 0 / 20%) 0px 20px 40px`,
@@ -13,6 +16,9 @@ module.exports = {
         border: "var(--border-color)",
         accent: "var(--theme-color)",
         hover: "var(--hover-color)",
+        always: {
+          ...alwaysColor,
+        },
       },
       spacing: {
         sidebar: `240px`,
