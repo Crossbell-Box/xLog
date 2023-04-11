@@ -119,7 +119,7 @@
     "use-onclickoutside": "0.4.1",
     "uuid": "9.0.0",
     "wagmi": "0.12.10",
-    "zustand": "4.3.7"
+    "zustand": "^4.3.7"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "13.3.0",

@@ -40,15 +40,11 @@ ${normalCSS}
 fs.writeFileSync(
   path.resolve(__dirname, "../../src/css/css-var.css"),
   cssString,
-  {
-    encoding: "utf-8",
-  },
+  "utf-8",
 )
 
 fs.writeFileSync(
   path.resolve(__dirname, "../../tw-colors.js"),
   `export default ${JSON.stringify(colorObject, null, 2)}`,
-  {
-    encoding: "utf-8",
-  },
+  "utf-8",
 )

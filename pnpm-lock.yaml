@@ -287,7 +287,7 @@ dependencies:
     specifier: 0.12.10
     version: 0.12.10(@types/node@18.15.11)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
   zustand:
-    specifier: 4.3.7
+    specifier: ^4.3.7
     version: 4.3.7(immer@9.0.21)(react@18.2.0)
 
 devDependencies:
