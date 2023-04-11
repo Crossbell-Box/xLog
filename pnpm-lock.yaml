@@ -74,8 +74,8 @@ dependencies:
     specifier: 4.28.0
     version: 4.28.0(@tanstack/react-query@4.28.0)
   '@uiw/codemirror-extensions-events':
-    specifier: 4.19.11
-    version: 4.19.11(@codemirror/view@6.9.3)
+    specifier: 4.19.16
+    version: 4.19.16(@codemirror/view@6.9.3)
   '@uiw/react-codemirror':
     specifier: 4.19.11
     version: 4.19.11(@babel/runtime@7.21.0)(@codemirror/autocomplete@6.4.2)(@codemirror/language@6.6.0)(@codemirror/lint@6.2.0)(@codemirror/search@6.3.0)(@codemirror/state@6.2.0)(@codemirror/theme-one-dark@6.1.1)(@codemirror/view@6.9.3)(codemirror@6.0.1)(react-dom@18.2.0)(react@18.2.0)
@@ -4331,8 +4331,8 @@ packages:
       '@codemirror/view': 6.9.3
     dev: false
 
-  /@uiw/codemirror-extensions-events@4.19.11(@codemirror/view@6.9.3):
-    resolution: {integrity: sha512-0/mfmpuA/EU7SKVLyQcMEeFi39V9Y+1crAQzRzrueS58MdyTQ9BW42YY5Yy6y0KUa/pca6xHax7lI+t1Jdjdfg==}
+  /@uiw/codemirror-extensions-events@4.19.16(@codemirror/view@6.9.3):
+    resolution: {integrity: sha512-XNoMDj0G/7GCFKOwcP1rMlKHCDKkNKVBr55YaQsznsLfiFo8XtP72/5dM/3xKLa0Mr37Z3BbmVAT/WgnR5s/8A==}
     peerDependencies:
       '@codemirror/view': '>=6.0.0'
     dependencies:
