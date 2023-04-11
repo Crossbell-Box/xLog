@@ -42,22 +42,24 @@ export const CommentInput: React.FC<{
   })
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    if (pageId && values.content) {
+    if (pageId) {
       if (comment) {
-        updateComment.mutate({
-          pageId,
-          content: values.content,
-          externalUrl: window.location.href,
-          originalId,
-          characterId: comment.characterId,
-          noteId: comment.noteId,
-        })
+        if (values.content) {
+          updateComment.mutate({
+            pageId,
+            content: values.content,
+            externalUrl: window.location.href,
+            originalId,
+            characterId: comment.characterId,
+            noteId: comment.noteId,
+          })
+        }
       } else {
         commentPage.mutate({
-          pageId,
+          pageId: pageId,
           content: values.content,
           externalUrl: window.location.href,
-          originalId,
+          originalId: originalId,
         })
       }
     }
