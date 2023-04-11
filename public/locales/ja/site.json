@@ -6,5 +6,5 @@
   "load more": "まだ{{count}}件の{{name}}があります。",
   "signed and stored on the blockchain": "{{name}}は、創作者によって署名され、ブロックチェーンに安全に保存されています。",
   "Write a comment on the blockchain": "ブロックチェーンでコメントする",
-  "powered by": "このサイトは　<name/> によって作動します"
+  "powered by": "<span>このサイトは　</span><name/><span> によって作動します</span>"
 }
