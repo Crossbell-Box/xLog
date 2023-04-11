@@ -337,8 +337,8 @@ devDependencies:
     specifier: 0.50.6
     version: 0.50.6(rollup@2.79.1)
   '@unocss/preset-icons':
-    specifier: 0.50.6
-    version: 0.50.6
+    specifier: 0.51.3
+    version: 0.51.3
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.21)
@@ -4411,6 +4411,10 @@ packages:
     resolution: {integrity: sha512-WMIp8xr7YSlID2whqfRGLwagp59e6u4ckPACEpoDOW8sTeSPRZm54hxPhuWXD1SQuqcwHPMtM9nzGD8UOnqQxA==}
     dev: true
 
+  /@unocss/core@0.51.3:
+    resolution: {integrity: sha512-wKHIjxE1QSFQ4QWy9jTUAhImnueLi1mF+1tWObDF/fdx14FGDkKPMwObJxoSUBvdTvDamIP4n8nxOeTZJx4Mog==}
+    dev: true
+
   /@unocss/inspector@0.50.6:
     resolution: {integrity: sha512-6nX1YtaL67ohn/PfSSBv3npJ8qZcdc7S9X2zE6PUD/xhwtz7Bohx9I/KtmFdjJz5WeeGR7di0uYC6xsAcFLndQ==}
     dependencies:
@@ -4443,6 +4447,16 @@ packages:
     dependencies:
       '@iconify/utils': 2.1.5
       '@unocss/core': 0.50.6
+      ofetch: 1.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@unocss/preset-icons@0.51.3:
+    resolution: {integrity: sha512-Am8+M6otrL0SUDr6RisT3bgrT44avbyjqFuaZyaFo9clFkRFvexGU+SYoBbi8ob+JQJgaR2vAnKAaKlOs57Ntw==}
+    dependencies:
+      '@iconify/utils': 2.1.5
+      '@unocss/core': 0.51.3
       ofetch: 1.0.1
     transitivePeerDependencies:
       - supports-color
