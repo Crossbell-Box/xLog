@@ -241,6 +241,8 @@
   --tw-colors-i-rose-800: 159, 18, 57;
   --tw-colors-i-rose-900: 136, 19, 55;
   --tw-colors-i-rose-950: 76, 5, 25;
+  --tw-colors-i-black: #000;
+  --tw-colors-i-white: #fff;
 }
 
 html.dark {
@@ -486,6 +488,8 @@ html.dark {
   --tw-colors-i-rose-800: 254, 205, 211;
   --tw-colors-i-rose-900: 255, 228, 230;
   --tw-colors-i-rose-950: 255, 241, 242;
+  --tw-colors-i-black: #fff;
+  --tw-colors-i-white: #000;
 }
 
 html.light {
@@ -731,10 +735,12 @@ html.light {
   --tw-colors-i-rose-800: 159, 18, 57;
   --tw-colors-i-rose-900: 136, 19, 55;
   --tw-colors-i-rose-950: 76, 5, 25;
+  --tw-colors-i-black: #000;
+  --tw-colors-i-white: #fff;
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not(.dark):not(.light) {
+  html:not(.light) {
     --tw-colors-i-slate-50: 2, 6, 23;
     --tw-colors-i-slate-100: 15, 23, 42;
     --tw-colors-i-slate-200: 30, 41, 59;
@@ -977,11 +983,13 @@ html.light {
     --tw-colors-i-rose-800: 254, 205, 211;
     --tw-colors-i-rose-900: 255, 228, 230;
     --tw-colors-i-rose-950: 255, 241, 242;
+    --tw-colors-i-black: #fff;
+    --tw-colors-i-white: #000;
   }
 }
 
 @media (prefers-color-scheme: light) {
-  html:not(.dark):not(.light) {
+  html:not(.dark) {
     --tw-colors-i-slate-50: 248, 250, 252;
     --tw-colors-i-slate-100: 241, 245, 249;
     --tw-colors-i-slate-200: 226, 232, 240;
@@ -1224,5 +1232,7 @@ html.light {
     --tw-colors-i-rose-800: 159, 18, 57;
     --tw-colors-i-rose-900: 136, 19, 55;
     --tw-colors-i-rose-950: 76, 5, 25;
+    --tw-colors-i-black: #000;
+    --tw-colors-i-white: #fff;
   }
 }

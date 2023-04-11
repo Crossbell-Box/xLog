@@ -74,10 +74,10 @@ const transformColorObjectOfDarkmode = () => {
     black: "var(--tw-colors-i-black)",
     white: "var(--tw-colors-i-white)",
   })
-  cssVar["--tw-colors-i-black"] = "0, 0, 0"
-  cssVar["--tw-colors-i-white"] = "255, 255, 255"
-  cssVarDark["--tw-colors-i-black"] = "255, 255, 255"
-  cssVarDark["--tw-colors-i-white"] = "0, 0, 0"
+  cssVar["--tw-colors-i-black"] = "#000"
+  cssVar["--tw-colors-i-white"] = "#fff"
+  cssVarDark["--tw-colors-i-black"] = "#fff"
+  cssVarDark["--tw-colors-i-white"] = "#000"
 
   return [nextColorObject, cssVar, cssVarDark]
 }

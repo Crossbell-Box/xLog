@@ -17,7 +17,7 @@
 }
 
 body {
-  @apply break-words;
+  @apply break-words bg-white;
 }
 
 .container {

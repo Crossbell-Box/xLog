@@ -285,4 +285,9 @@ export default {
     900: "rgba(var(--tw-colors-i-rose-900), <alpha-value>)",
     950: "rgba(var(--tw-colors-i-rose-950), <alpha-value>)",
   },
+  inherit: "inherit",
+  current: "currentColor",
+  transparent: "transparent",
+  black: "var(--tw-colors-i-black)",
+  white: "var(--tw-colors-i-white)",
 }

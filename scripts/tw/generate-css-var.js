@@ -25,13 +25,13 @@ ${normalCSS}
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not(.dark):not(.light) {
+  html:not(.light) {
   ${darkCSS}
   }
 }
 
 @media (prefers-color-scheme: light) {
-  html:not(.dark):not(.light) {
+  html:not(.dark) {
   ${normalCSS}
   }
 }
