@@ -7,7 +7,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next -p 2222",
-    "test-unit": "vitest run",
+    "test-unit": "vitest",
     "test-e2e": "playwright test",
     "start": "node server.js",
     "uno-generate": "unocss \"src/**/*.{ts,tsx}\" -o src/generated/uno.css",
@@ -138,6 +138,7 @@
     "@types/uuid": "9.0.1",
     "@unocss/cli": "0.50.6",
     "@unocss/preset-icons": "0.50.6",
+    "@vitejs/plugin-react": "3.1.0",
     "autoprefixer": "10.4.14",
     "babel-loader": "^9.1.2",
     "cross-spawn": "7.0.3",
