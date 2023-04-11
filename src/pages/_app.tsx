@@ -19,6 +19,7 @@ import { APP_NAME, IPFS_GATEWAY } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
+import { AppPropsWithLayout } from "types/next"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
@@ -34,8 +35,8 @@ const queryClient = new QueryClient({
 
 const persister = createIDBPersister()
 
-function MyApp({ Component, pageProps }: any) {
-  const getLayout = Component.getLayout ?? ((page: any) => page)
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page)
 
   return (
     <WagmiConfig client={wagmiClient}>
