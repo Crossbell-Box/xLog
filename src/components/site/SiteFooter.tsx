@@ -34,16 +34,17 @@ export const SiteFooter: React.FC<{
       <footer className="text-zinc-500 border-t">
         <div className="max-w-screen-md mx-auto px-5 py-10 text-xs flex justify-between">
           <div className="font-medium text-base">
-            &copy;{" "}
+            <span>&copy; </span>
             <UniLink href="/" className="hover:text-accent">
-              {site?.name}
-            </UniLink>{" "}
-            ·{" "}
+              <span>{site?.name}</span>
+            </UniLink>
+            <span> · </span>
             <Trans
               i18nKey="powered by"
-              defaults={"Powered by <name/>"}
+              defaults={"<span>Powered by </span><name/>"}
               components={{
                 name: <LogoWithLink />,
+                span: <span />,
               }}
               ns="site"
             />
