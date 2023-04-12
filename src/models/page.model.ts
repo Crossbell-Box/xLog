@@ -2,19 +2,14 @@ import { notFound } from "~/lib/server-side-props"
 import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
 import unidata from "~/queries/unidata.server"
 import { indexer } from "@crossbell/indexer"
-import {
-  NoteEntity,
-  CharacterEntity,
-  ListResponse,
-  NoteMetadata,
-} from "crossbell.js"
+import { NoteMetadata } from "crossbell.js"
 import { getStorage, getKeys } from "~/lib/storage"
 import axios from "axios"
-import { toGateway } from "~/lib/ipfs-parser"
 import type Unidata from "unidata.js"
 import type { Contract } from "crossbell.js"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { GeneralAccount } from "@crossbell/connect-kit"
+import { expandUnidataNote } from "~/lib/expand-unit"
 
 export async function checkPageSlug(
   input: {
@@ -144,48 +139,6 @@ export async function postNotes(
       metadataOrUri: note,
     })),
   )
-}
-
-const expandPage = async (page: Note, useStat?: boolean) => {
-  if (page.body?.content && page.body?.mime_type === "text/markdown") {
-    const { renderPageContent } = await import("~/markdown")
-    const rendered = renderPageContent(page.body.content, true)
-    page.body = {
-      content: page.body.content,
-      mime_type: "text/markdown",
-    }
-    if (!page.summary) {
-      page.summary = {
-        content: rendered.excerpt,
-        mime_type: "text/html",
-      }
-    }
-    page.cover = rendered.cover
-    if (page.metadata) {
-      page.metadata.frontMatter = rendered.frontMatter
-    }
-  }
-  page.slug = encodeURIComponent(
-    page.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
-      page.metadata?.raw?._xlog_slug ||
-      page.metadata?.raw?._crosslog_slug ||
-      "",
-  )
-  delete page.metadata?.raw
-
-  if (useStat) {
-    const stat = await (
-      await fetch(
-        `https://indexer.crossbell.io/v1/stat/notes/${page.id.replace(
-          "-",
-          "/",
-        )}`,
-      )
-    ).json()
-    page.views = stat.viewDetailCount
-  }
-
-  return page
 }
 
 const getLocalPages = (input: { site: string; isPost?: boolean }) => {
@@ -329,7 +282,7 @@ export async function getPagesBySite(
 
     await Promise.all(
       pages?.list.map(async (page) => {
-        await expandPage(page, input.useStat)
+        await expandUnidataNote(page, input.useStat)
 
         if (!input.keepBody) {
           delete page.body
@@ -413,7 +366,7 @@ export async function getPage<TRender extends boolean = false>(
   }
 
   if (page) {
-    await expandPage(page, input.useStat)
+    await expandUnidataNote(page, input.useStat)
   }
 
   return page

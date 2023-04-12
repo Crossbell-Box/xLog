@@ -1,7 +1,6 @@
 import { SiteNavigationItem, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
 import unidata from "~/queries/unidata.server"
-import { toGateway } from "~/lib/ipfs-parser"
 import type Unidata from "unidata.js"
 import type { Profiles as UniProfiles } from "unidata.js"
 import { createClient, cacheExchange, fetchExchange } from "@urql/core"
@@ -9,51 +8,11 @@ import { Indexer } from "crossbell.js"
 import { CharacterOperatorPermission } from "crossbell.js"
 import type { useContract } from "@crossbell/contract"
 import dayjs from "dayjs"
+import { expandUnidataProfile } from "~/lib/expand-unit"
 
 type Contract = ReturnType<typeof useContract>
 
 const indexer = new Indexer()
-
-const expandSite = (site: Profile) => {
-  site.navigation = JSON.parse(
-    site.metadata?.raw?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_navigation",
-    )?.value || "null",
-  ) ||
-    site.metadata?.raw?.["_xlog_navigation"] ||
-    site.metadata?.raw?.["_crosslog_navigation"] || [
-      { id: nanoid(), label: "Archives", url: "/archives" },
-    ]
-  site.css =
-    site.metadata?.raw?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_css",
-    )?.value ||
-    site.metadata?.raw?.["_xlog_css"] ||
-    site.metadata?.raw?.["_crosslog_css"] ||
-    ""
-  site.ga =
-    site.metadata?.raw?.attributes?.find((a: any) => a.trait_type === "xlog_ga")
-      ?.value || ""
-  site.custom_domain =
-    site.metadata?.raw?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_custom_domain",
-    )?.value || ""
-  site.name = site.name || site.username
-  site.description = site.bio
-
-  if (site.avatars) {
-    site.avatars = site.avatars.map((avatar) => toGateway(avatar))
-  }
-  if (site.banners) {
-    site.banners.map((banner) => {
-      banner.address = toGateway(banner.address)
-      return banner
-    })
-  }
-  delete site.metadata?.raw
-
-  return site
-}
 
 export type GetUserSitesParams =
   | {
@@ -95,7 +54,7 @@ export const getUserSites = async (params: GetUserSitesParams) => {
 
   const sites: Profile[] =
     profiles?.list?.map((profile) => {
-      expandSite(profile)
+      expandUnidataProfile(profile)
       return profile
     }) ?? []
 
@@ -125,7 +84,7 @@ export const getSite = async (input: string, customUnidata?: Unidata) => {
 
   const site: Profile = profiles.list[0]
   if (site) {
-    expandSite(site)
+    expandUnidataProfile(site)
   }
 
   return site
