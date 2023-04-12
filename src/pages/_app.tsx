@@ -21,7 +21,6 @@ import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
 import { AppPropsWithLayout } from "types/next"
 import { useMediaToggle } from "~/hooks/useDarkMode"
-import { AppPropsWithLayout } from "types/next"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
