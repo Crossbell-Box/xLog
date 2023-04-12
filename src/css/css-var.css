@@ -241,8 +241,8 @@
   --tw-colors-i-rose-800: 159, 18, 57;
   --tw-colors-i-rose-900: 136, 19, 55;
   --tw-colors-i-rose-950: 76, 5, 25;
-  --tw-colors-i-black: #000;
-  --tw-colors-i-white: #fff;
+  --tw-colors-i-black: 0, 0, 0;
+  --tw-colors-i-white: 255, 255, 255;
 }
 
 html.dark {
@@ -488,8 +488,8 @@ html.dark {
   --tw-colors-i-rose-800: 254, 205, 211;
   --tw-colors-i-rose-900: 255, 228, 230;
   --tw-colors-i-rose-950: 255, 241, 242;
-  --tw-colors-i-black: #fff;
-  --tw-colors-i-white: #000;
+  --tw-colors-i-black: 255, 255, 255;
+  --tw-colors-i-white: 0, 0, 0;
 }
 
 html.light {
@@ -735,8 +735,8 @@ html.light {
   --tw-colors-i-rose-800: 159, 18, 57;
   --tw-colors-i-rose-900: 136, 19, 55;
   --tw-colors-i-rose-950: 76, 5, 25;
-  --tw-colors-i-black: #000;
-  --tw-colors-i-white: #fff;
+  --tw-colors-i-black: 0, 0, 0;
+  --tw-colors-i-white: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -983,8 +983,8 @@ html.light {
     --tw-colors-i-rose-800: 254, 205, 211;
     --tw-colors-i-rose-900: 255, 228, 230;
     --tw-colors-i-rose-950: 255, 241, 242;
-    --tw-colors-i-black: #fff;
-    --tw-colors-i-white: #000;
+    --tw-colors-i-black: 255, 255, 255;
+    --tw-colors-i-white: 0, 0, 0;
   }
 }
 
@@ -1232,7 +1232,7 @@ html.light {
     --tw-colors-i-rose-800: 159, 18, 57;
     --tw-colors-i-rose-900: 136, 19, 55;
     --tw-colors-i-rose-950: 76, 5, 25;
-    --tw-colors-i-black: #000;
-    --tw-colors-i-white: #fff;
+    --tw-colors-i-black: 0, 0, 0;
+    --tw-colors-i-white: 255, 255, 255;
   }
 }

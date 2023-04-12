@@ -288,6 +288,6 @@ export default {
   inherit: "inherit",
   current: "currentColor",
   transparent: "transparent",
-  black: "var(--tw-colors-i-black)",
-  white: "var(--tw-colors-i-white)",
+  black: "rgba(var(--tw-colors-i-black), <alpha-value>)",
+  white: "rgba(var(--tw-colors-i-white), <alpha-value>)",
 }

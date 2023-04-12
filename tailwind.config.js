@@ -1,5 +1,6 @@
 const twColors = require("./tw-colors")
 const alwaysColor = require("tailwindcss/colors")
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.tsx"],
