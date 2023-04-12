@@ -127,9 +127,9 @@ export const SiteSearch: React.FC<{
           {t("load more", {
             ns: "site",
             name: t(
-              "post" + (postPages[0].total - currentLength > 1 ? "s" : ""),
+              "post" + (postPages[0].count - currentLength > 1 ? "s" : ""),
             ),
-            count: postPages[0].total - currentLength,
+            count: postPages[0].count - currentLength,
           })}
         </Button>
       )}
