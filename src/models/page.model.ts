@@ -306,11 +306,12 @@ export async function getSearchPagesBySite(input: {
     characterId: input.characterId,
     tags: ["post"],
     sources: ["xlog"],
+    orderBy: "publishedAt",
   })
 
   const list: ExpandedNote[] = await Promise.all(
     result.list.map(async (page: any) => {
-      return await expandCrossbellNote(page, true)
+      return await expandCrossbellNote(page, true, false, input.keyword)
     }),
   )
 

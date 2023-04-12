@@ -193,6 +193,9 @@ dependencies:
   react-sortablejs:
     specifier: 6.1.4
     version: 6.1.4(@types/sortablejs@1.15.1)(react-dom@18.2.0)(react@18.2.0)(sortablejs@1.15.0)
+  react-string-replace:
+    specifier: ^1.1.0
+    version: 1.1.0
   refractor:
     specifier: 4.8.1
     version: 4.8.1
@@ -10922,6 +10925,11 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       sortablejs: 1.15.0
       tiny-invariant: 1.2.0
+    dev: false
+
+  /react-string-replace@1.1.0:
+    resolution: {integrity: sha512-N6RalSDFGbOHs0IJi1H611WbZsvk3ZT47Jl2JEXFbiS3kTwsdCYij70Keo/tWtLy7sfhDsYm7CwNM/WmjXIaMw==}
+    engines: {node: '>=0.12.0'}
     dev: false
 
   /react-style-singleton@2.2.1(@types/react@18.0.35)(react@18.2.0):
