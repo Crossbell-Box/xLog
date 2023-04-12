@@ -17,3 +17,7 @@ pre {
   @apply inline-block w-4 text-right mr-5 -ml-2 text-zinc-400;
   content: attr(line);
 }
+
+pre.mermaid {
+  @apply bg-transparent flex justify-center;
+}

@@ -9,6 +9,7 @@ declare global {
 
 export const useMermaid = (
   contentRef: React.MutableRefObject<HTMLElement | null>,
+  deps: any,
 ) => {
   useEffect(() => {
     if (contentRef.current) {
@@ -28,5 +29,5 @@ export const useMermaid = (
         }
       })
     }
-  }, [contentRef])
+  }, [contentRef, deps])
 }

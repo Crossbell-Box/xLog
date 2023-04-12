@@ -24,7 +24,6 @@ export const PageContent: React.FC<{
 }) => {
   const $articleRef = useRef<HTMLDivElement>(null)
   useCodeCopy()
-  useMermaid($articleRef)
 
   const inParsedContent = useMemo(() => {
     if (parsedContent) {
@@ -36,6 +35,7 @@ export const PageContent: React.FC<{
       return null
     }
   }, [content, parsedContent])
+  useMermaid($articleRef, inParsedContent?.element)
 
   return (
     <div
