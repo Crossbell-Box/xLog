@@ -20,6 +20,8 @@ import { Menu } from "~/components/ui/Menu"
 import { useTranslation } from "next-i18next"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { PatronButton } from "~/components/common/PatronButton"
+import { Modal } from "~/components/ui/Modal"
+import { SearchInput } from "~/components/common/SearchInput"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -113,7 +115,19 @@ export const SiteHeader: React.FC<{
       url: `/feed/xml`,
       out: true,
     },
+    {
+      text: "Search on this site",
+      icon: (
+        <span className="text-stone-400">
+          <i className="i-mingcute:search-line block text-2xl" />
+        </span>
+      ),
+      onClick: () => setSearchOpen(true),
+      out: true,
+    },
   ]
+
+  const [searchOpen, setSearchOpen] = useState(false)
 
   const avatarRef = useRef<HTMLImageElement>(null)
   const bannerRef = useRef<HTMLImageElement | HTMLVideoElement>(null)
@@ -235,48 +249,55 @@ export const SiteHeader: React.FC<{
                       dropdown={
                         <div className="text-gray-600 bg-white rounded-lg ring-1 ring-zinc-100 shadow-md py-2 text-sm">
                           {moreMenuItems.map((item) => {
-                            return (
-                              <UniLink
-                                key={item.text}
-                                href={item.url}
-                                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-hover"
-                              >
-                                <span className="fill-gray-500 flex w-4 h-4">
-                                  {item.icon}
-                                </span>
-                                <span>{t(item.text)}</span>
-                              </UniLink>
-                            )
+                            if (!item.out) {
+                              return (
+                                <UniLink
+                                  key={item.text}
+                                  href={item.url}
+                                  className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-hover"
+                                >
+                                  <span className="fill-gray-500 flex w-4 h-4">
+                                    {item.icon}
+                                  </span>
+                                  <span>{t(item.text)}</span>
+                                </UniLink>
+                              )
+                            }
                           })}
                         </div>
                       }
                     />
                   </div>
                   <div className="xlog-site-more-out hidden sm:block">
-                    {moreMenuItems.map((item) => {
-                      if (item.out) {
-                        return (
-                          <Tooltip
-                            label={t(item.text)}
-                            key={item.text}
-                            placement="bottom"
-                          >
-                            <Button
-                              variant="text"
-                              aria-label={item.text}
-                              className="-mx-2"
-                              onClick={() => window.open(item.url, "_blank")}
+                    <div className="-mx-2 flex">
+                      {moreMenuItems.map((item) => {
+                        if (item.out) {
+                          return (
+                            <Tooltip
+                              label={t(item.text)}
+                              key={item.text}
+                              placement="bottom"
                             >
-                              <span className="fill-gray-500 flex w-6 h-6">
-                                {item.icon}
-                              </span>
-                            </Button>
-                          </Tooltip>
-                        )
-                      } else {
-                        return null
-                      }
-                    })}
+                              <Button
+                                variant="text"
+                                aria-label={item.text}
+                                onClick={() =>
+                                  item.url
+                                    ? window.open(item.url, "_blank")
+                                    : item.onClick?.()
+                                }
+                              >
+                                <span className="fill-gray-500 flex w-6 h-6">
+                                  {item.icon}
+                                </span>
+                              </Button>
+                            </Tooltip>
+                          )
+                        } else {
+                          return null
+                        }
+                      })}
+                    </div>
                   </div>
                   <div className="xlog-site-follow-button">
                     <FollowingButton site={site} />
@@ -311,6 +332,11 @@ export const SiteHeader: React.FC<{
           </div>
         </div>
       </div>
+      <Modal open={searchOpen} setOpen={setSearchOpen}>
+        <div className="p-3">
+          <SearchInput noBorder={true} onSubmit={() => setSearchOpen(false)} />
+        </div>
+      </Modal>
     </header>
   )
 }

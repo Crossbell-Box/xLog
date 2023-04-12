@@ -1,5 +1,5 @@
 import { notFound } from "~/lib/server-side-props"
-import { PageVisibilityEnum, Notes, Note } from "~/lib/types"
+import { PageVisibilityEnum, Notes, Note, ExpandedNote } from "~/lib/types"
 import unidata from "~/queries/unidata.server"
 import { indexer } from "@crossbell/indexer"
 import { NoteMetadata } from "crossbell.js"
@@ -9,7 +9,7 @@ import type Unidata from "unidata.js"
 import type { Contract } from "crossbell.js"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { GeneralAccount } from "@crossbell/connect-kit"
-import { expandUnidataNote } from "~/lib/expand-unit"
+import { expandUnidataNote, expandCrossbellNote } from "~/lib/expand-unit"
 
 export async function checkPageSlug(
   input: {
@@ -294,6 +294,31 @@ export async function getPagesBySite(
   }
 
   return pages
+}
+
+export async function getSearchPagesBySite(input: {
+  characterId?: string
+  keyword?: string
+  cursor?: string
+}) {
+  const result = await indexer.searchNotes(input.keyword || "", {
+    cursor: input.cursor,
+    characterId: input.characterId,
+    tags: ["post"],
+    sources: ["xlog"],
+  })
+
+  const list: ExpandedNote[] = await Promise.all(
+    result.list.map(async (page: any) => {
+      return await expandCrossbellNote(page, true)
+    }),
+  )
+
+  return {
+    list,
+    cursor: result.cursor,
+    count: result.count,
+  }
 }
 
 export async function getPage<TRender extends boolean = false>(

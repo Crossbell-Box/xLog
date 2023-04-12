@@ -12,6 +12,7 @@ const slugReservedWords = [
   "sw.js",
   "manifest.json",
   "atom.xml",
+  "search",
 ]
 
 export const checkSlugReservedWords = (word: string) => {
