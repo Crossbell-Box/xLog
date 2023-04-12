@@ -1,6 +1,9 @@
-import { PageVisibilityEnum, Notes, Note, Profile } from "~/lib/types"
+import { Note, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
 import { toGateway } from "~/lib/ipfs-parser"
+import { SITE_URL, SCORE_API_DOMAIN } from "~/lib/env"
+import { toCid } from "~/lib/ipfs-parser"
+import { ExpandedNote } from "~/lib/types"
 
 export const expandUnidataNote = async (page: Note, useStat?: boolean) => {
   if (page.body?.content && page.body?.mime_type === "text/markdown") {
@@ -83,4 +86,57 @@ export const expandUnidataProfile = (site: Profile) => {
   delete site.metadata?.raw
 
   return site
+}
+
+export const expandCrossbellNote = async (
+  page: ExpandedNote,
+  useStat?: boolean,
+  useScore?: boolean,
+) => {
+  if (page.metadata?.content) {
+    if (page.metadata?.content?.content) {
+      const { renderPageContent } = await import("~/markdown")
+      const rendered = renderPageContent(page.metadata.content.content, true)
+      if (!page.metadata.content.summary) {
+        page.metadata.content.summary = rendered.excerpt
+      }
+      page.metadata.content.cover = rendered.cover
+      if (page.metadata) {
+        page.metadata.content.frontMatter = rendered.frontMatter
+      }
+    }
+    page.metadata.content.slug = encodeURIComponent(
+      page.metadata.content.attributes?.find(
+        (a) => a.trait_type === "xlog_slug",
+      )?.value || "",
+    )
+
+    if (useStat) {
+      const stat = await (
+        await fetch(
+          `https://indexer.crossbell.io/v1/stat/notes/${page.characterId}/${page.noteId}`,
+        )
+      ).json()
+      page.metadata.content.views = stat.viewDetailCount
+    }
+
+    if (useScore) {
+      try {
+        const score = (
+          await (
+            await fetch(
+              `${SCORE_API_DOMAIN || SITE_URL}/api/score?cid=${toCid(
+                page.metadata?.uri || "",
+              )}`,
+            )
+          ).json()
+        ).data
+        page.metadata.content.score = score
+      } catch (e) {
+        // do nothing
+      }
+    }
+  }
+
+  return page
 }
