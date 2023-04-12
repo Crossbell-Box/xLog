@@ -1,4 +1,4 @@
-:root {
+html {
   --border-color: #eee;
   --font-fans: theme("fontFamily.sans");
   --theme-color: var(--auto-theme-color, theme("colors.orange.500"));
@@ -6,4 +6,20 @@
   --header-height: auto;
   /* Accent color for form controls */
   accent-color: var(--theme-color);
+}
+
+html.dark {
+  --border-color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  html.not(.light) {
+    --border-color: #333;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  html.not(.dark) {
+    --border-color: #eee;
+  }
 }

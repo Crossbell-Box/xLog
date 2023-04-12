@@ -13,6 +13,9 @@ dependencies:
   '@codemirror/state':
     specifier: 6.2.0
     version: 6.2.0
+  '@codemirror/theme-one-dark':
+    specifier: 6.1.1
+    version: 6.1.1
   '@codemirror/view':
     specifier: 6.9.4
     version: 6.9.4
@@ -34,6 +37,9 @@ dependencies:
   '@crossbell/util-hooks':
     specifier: 0.0.64
     version: 0.0.64(react-dom@18.2.0)(react@18.2.0)
+  '@ddietr/codemirror-themes':
+    specifier: 1.4.0
+    version: 1.4.0
   '@dqbd/tiktoken':
     specifier: ^1.0.6
     version: 1.0.6
@@ -280,6 +286,9 @@ dependencies:
   wagmi:
     specifier: 0.12.10
     version: 0.12.10(@babel/core@7.21.4)(@types/node@18.15.11)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
+  zustand:
+    specifier: ^4.3.7
+    version: 4.3.7(immer@9.0.21)(react@18.2.0)
 
 devDependencies:
   '@next/bundle-analyzer':
@@ -1962,6 +1971,15 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+    dev: false
+
+  /@ddietr/codemirror-themes@1.4.0:
+    resolution: {integrity: sha512-FPEHcpK3FusL5cDxZk8rgw89Y2VR1BtUEhClsDE11VwusHONjWTctrPxj1zlRWiP8aujCV0PHUYyTqDErL1C/g==}
+    dependencies:
+      '@codemirror/language': 6.6.0
+      '@codemirror/state': 6.2.0
+      '@codemirror/view': 6.9.4
+      '@lezer/highlight': 1.1.4
     dev: false
 
   /@dqbd/tiktoken@1.0.6:

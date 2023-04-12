@@ -28,7 +28,7 @@
     "@codemirror/lang-markdown": "6.1.0",
     "@codemirror/language": "6.6.0",
     "@codemirror/state": "6.2.0",
-    "@codemirror/view": "6.9.4",
+    "@codemirror/theme-one-dark": "6.1.1",
     "@crossbell/connect-kit": "0.0.64",
     "@crossbell/contract": "0.0.64",
     "@crossbell/indexer": "0.0.64",
@@ -36,6 +36,8 @@
     "@crossbell/ui": "0.0.64",
     "@crossbell/util-hooks": "0.0.64",
     "@dqbd/tiktoken": "^1.0.6",
+    "@ddietr/codemirror-themes": "1.4.0",
+    "@codemirror/view": "6.9.4",
     "@emoji-mart/data": "1.1.2",
     "@emoji-mart/react": "1.1.1",
     "@floating-ui/react": "^0.23.0",
@@ -116,7 +118,8 @@
     "unist-util-visit": "4.1.2",
     "use-onclickoutside": "0.4.1",
     "uuid": "9.0.0",
-    "wagmi": "0.12.10"
+    "wagmi": "0.12.10",
+    "zustand": "^4.3.7"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "13.3.0",

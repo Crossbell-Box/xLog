@@ -8,6 +8,11 @@
     @apply fill-zinc-800;
     font-family: var(--font-fans);
   }
+
+  input,
+  textarea {
+    @apply bg-white;
+  }
 }
 
 *,
@@ -17,7 +22,7 @@
 }
 
 body {
-  @apply break-words;
+  @apply break-words bg-white;
 }
 
 .container {
