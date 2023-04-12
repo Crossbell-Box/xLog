@@ -140,7 +140,8 @@ const Post = ({
 export const MainFeed: React.FC<{
   type?: FeedType
   noteIds?: string[]
-}> = ({ type, noteIds }) => {
+  keyword?: string
+}> = ({ type, noteIds, keyword }) => {
   const { t } = useTranslation(["common", "site"])
 
   const currentCharacterId = useAccountState(
@@ -154,6 +155,7 @@ export const MainFeed: React.FC<{
     characterId: currentCharacterId,
     noteIds: noteIds,
     daysInterval: hotInterval,
+    keyword: keyword,
   })
 
   const hasFiltering = type === "latest"
@@ -244,7 +246,7 @@ export const MainFeed: React.FC<{
         ) : !feed.data?.pages[0]?.count ? (
           <EmptyState />
         ) : (
-          <div className="xlog-posts space-y-8">
+          <div className="xlog-posts space-y-8 overflow-x-hidden">
             {feed.data?.pages.map((posts) =>
               posts?.list.map((post) => {
                 return (

@@ -1,6 +1,6 @@
 import getConfig from "next/config"
 
-const config = getConfig()
+const config = getConfig() || {}
 
 export const REDIS_URL = config.ENV_REDIS_URL || process.env.REDIS_URL
 export const REDIS_EXPIRE =

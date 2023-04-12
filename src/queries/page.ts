@@ -62,6 +62,21 @@ export const useGetPagesBySite = (
   })
 }
 
+export const useGetSearchPagesBySite = (
+  input: Parameters<typeof pageModel.getSearchPagesBySite>[0],
+) => {
+  return useInfiniteQuery({
+    queryKey: ["getSearchPagesBySite", input.characterId, input],
+    queryFn: async ({ pageParam }) => {
+      return pageModel.getSearchPagesBySite({
+        ...input,
+        cursor: pageParam,
+      })
+    },
+    getNextPageParam: (lastPage) => lastPage.cursor || undefined,
+  })
+}
+
 export const useGetPage = (input: Parameters<typeof pageModel.getPage>[0]) => {
   const unidata = useUnidata()
   return useQuery(["getPage", input.page || input.pageId, input], async () => {

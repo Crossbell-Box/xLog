@@ -8,6 +8,7 @@ export const useGetFeed = (data?: {
   limit?: number
   noteIds?: string[]
   daysInterval?: number
+  keyword?: string
 }) => {
   return useInfiniteQuery({
     queryKey: ["getFeed", data],

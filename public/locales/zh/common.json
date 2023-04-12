@@ -75,5 +75,7 @@
   "Successfully followed": "嘿！你已经准备好<2>在这里跟上你关注的博主的最新动态</2>了。",
   "Enable AI Filtering": "启用 AI 过滤",
   "Filter out possible low-quality content based on AI ratings.": "基于 AI 评分过滤可能质量不佳的内容。",
-  "Refreshing": "刷新中"
+  "Refreshing": "刷新中",
+  "Search for your interest": "搜索你感兴趣的内容",
+  "results": "条结果"
 }

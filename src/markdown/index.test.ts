@@ -3,8 +3,9 @@ import { renderPageContent } from "./index"
 
 describe("html", () => {
   test("simple", async () => {
-    const { contentHTML, excerpt } = await renderPageContent(`
-  # Hello
+    const { contentHTML, excerpt } = await renderPageContent(
+      `
+# Hello
   
   This is the **excerpt**
     
@@ -30,30 +31,52 @@ describe("html", () => {
   \`\`\`
   <script>alert('xss')</script>
   \`\`\`
-    `)
+    `,
+      true,
+    )
 
     expect(contentHTML).not.toMatch(/<script>/)
-    expect(excerpt).toEqual(`This is the excerpt`)
+    expect(excerpt).toMatchInlineSnapshot(`
+      "This is the excerpt Hello Blockquote foo
+
+       task list  done
+      my caption
+      Copy
+      function foo() {}
+
+      <script>alert('xss')</script>
+
+      C…"
+    `)
   })
 
   test("wrap table", async () => {
-    const { contentHTML } = await renderPageContent(`
-  |a|b|
+    const { contentHTML } = await renderPageContent(
+      `|a|b|
   |---|---|
   |c|d|  
-    `)
-    expect(contentHTML).toMatch(`<div class="table-wrapper">`)
+    `,
+      true,
+    )
+    expect(contentHTML.trim()).toMatchInlineSnapshot(
+      '"<div class=\\"table-wrapper\\"><table><thead><tr><th>a</th><th>b</th></tr></thead><tbody><tr><td>c</td><td>d</td></tr></tbody></table></div>"',
+    )
   })
 
   test("callout", async () => {
-    const { contentHTML } = await renderPageContent(`
+    const { contentHTML } = await renderPageContent(
+      `
   > TIP:
+  >
   > Some tip!
   
   > WARN:
   >
   > Some warning!
-    `)
+    `,
+      true,
+    )
+
     expect(contentHTML).toMatchInlineSnapshot(`
       "<blockquote class=\\"callout callout-tip\\">
       <p>Some tip!</p>

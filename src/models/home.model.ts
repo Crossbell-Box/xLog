@@ -1,64 +1,10 @@
 import { ExpandedNote } from "~/lib/types"
 import { indexer } from "@crossbell/indexer"
-import { toCid } from "~/lib/ipfs-parser"
 import { createClient, cacheExchange, fetchExchange } from "@urql/core"
-import { SITE_URL, SCORE_API_DOMAIN } from "~/lib/env"
 import dayjs from "dayjs"
+import { expandCrossbellNote } from "~/lib/expand-unit"
 
-const expandPage = async (
-  page: ExpandedNote,
-  useStat?: boolean,
-  useScore?: boolean,
-) => {
-  if (page.metadata?.content) {
-    if (page.metadata?.content?.content) {
-      const { renderPageContent } = await import("~/markdown")
-      const rendered = renderPageContent(page.metadata.content.content, true)
-      if (!page.metadata.content.summary) {
-        page.metadata.content.summary = rendered.excerpt
-      }
-      page.metadata.content.cover = rendered.cover
-      if (page.metadata) {
-        page.metadata.content.frontMatter = rendered.frontMatter
-      }
-    }
-    page.metadata.content.slug = encodeURIComponent(
-      page.metadata.content.attributes?.find(
-        (a) => a.trait_type === "xlog_slug",
-      )?.value || "",
-    )
-
-    if (useStat) {
-      const stat = await (
-        await fetch(
-          `https://indexer.crossbell.io/v1/stat/notes/${page.characterId}/${page.noteId}`,
-        )
-      ).json()
-      page.metadata.content.views = stat.viewDetailCount
-    }
-
-    if (useScore) {
-      try {
-        const score = (
-          await (
-            await fetch(
-              `${SCORE_API_DOMAIN || SITE_URL}/api/score?cid=${toCid(
-                page.metadata?.uri || "",
-              )}`,
-            )
-          ).json()
-        ).data
-        page.metadata.content.score = score
-      } catch (e) {
-        // do nothing
-      }
-    }
-  }
-
-  return page
-}
-
-export type FeedType = "latest" | "following" | "topic" | "hot"
+export type FeedType = "latest" | "following" | "topic" | "hot" | "search"
 
 export async function getFeed({
   type,
@@ -67,6 +13,7 @@ export async function getFeed({
   characterId,
   noteIds,
   daysInterval,
+  keyword,
 }: {
   type?: FeedType
   cursor?: string
@@ -74,7 +21,11 @@ export async function getFeed({
   characterId?: number
   noteIds?: string[]
   daysInterval?: number
+  keyword?: string
 }) {
+  if (type === "search" && !keyword) {
+    type = "latest"
+  }
   switch (type) {
     case "latest": {
       const result = await indexer.getNotes({
@@ -87,7 +38,7 @@ export async function getFeed({
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return await expandPage(page, false, true)
+          return await expandCrossbellNote(page, false, true)
         }),
       )
 
@@ -115,7 +66,7 @@ export async function getFeed({
 
         const list = await Promise.all(
           result.list.map(async (page: any) => {
-            return await expandPage(page)
+            return await expandCrossbellNote(page)
           }),
         )
 
@@ -181,7 +132,7 @@ export async function getFeed({
 
       const list = await Promise.all(
         result?.data?.notes.map(async (page: any) => {
-          return await expandPage(page)
+          return await expandCrossbellNote(page)
         }),
       )
 
@@ -245,7 +196,7 @@ export async function getFeed({
               page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
           }
 
-          return await expandPage(page)
+          return await expandCrossbellNote(page)
         }),
       )
 
@@ -263,6 +214,26 @@ export async function getFeed({
         list: list,
         cursor: "",
         count: list?.length || 0,
+      }
+    }
+    case "search": {
+      const result = await indexer.searchNotes(keyword!, {
+        sources: ["xlog"],
+        tags: ["post"],
+        limit: limit,
+        cursor,
+      })
+
+      const list = await Promise.all(
+        result.list.map(async (page: any) => {
+          return await expandCrossbellNote(page)
+        }),
+      )
+
+      return {
+        list,
+        cursor: result.cursor,
+        count: result.count,
       }
     }
   }

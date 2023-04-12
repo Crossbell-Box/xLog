@@ -11,8 +11,9 @@ import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useAccountSites, useSubscribeToSites } from "~/queries/site"
 import { useTranslation } from "next-i18next"
 import topics from "../../../data/topics.json"
+import { SearchInput } from "~/components/common/SearchInput"
 
-export function MainSidebar() {
+export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
   const showcaseSites = useGetSites(showcase)
   const { t } = useTranslation("index")
 
@@ -36,9 +37,10 @@ export function MainSidebar() {
   const [showcaseMore, setShowcaseMore] = useState(false)
 
   return (
-    <div className="w-80 pl-10 pt-4 hidden sm:block">
+    <div className="w-80 pl-10 hidden sm:block space-y-10">
+      {!hideSearch && <SearchInput />}
       <div className="text-center">
-        <div className="mb-10 text-zinc-700 space-y-3">
+        <div className="text-zinc-700 space-y-3">
           <p className="font-bold text-lg">{t("Hot Topics")}</p>
           <ul className="overflow-y-clip relative text-left space-y-2">
             {topics.map((topic: any) => (
@@ -58,7 +60,7 @@ export function MainSidebar() {
         </div>
       </div>
       <div className="text-center">
-        <div className="mb-10 text-zinc-700 space-y-3">
+        <div className="text-zinc-700 space-y-3">
           <p className="font-bold text-lg">{t("Suggested creators for you")}</p>
           <Button
             onClick={followAll}
