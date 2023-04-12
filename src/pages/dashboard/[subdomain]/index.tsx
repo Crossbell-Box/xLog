@@ -74,7 +74,7 @@ export default function SubdomainIndex() {
   const showcaseSites = useGetSites(showcase)
 
   return (
-    <DashboardMain title="Dashboard">
+    <DashboardMain title="Dashboard" className="max-w-screen-2xl">
       <div className="min-w-[270px] flex flex-col xl:flex-row space-y-8 xl:space-y-0">
         <div className="flex-1 space-y-8">
           <div className="grid gap-4 sm:grid-cols-3 grid-cols-2">
