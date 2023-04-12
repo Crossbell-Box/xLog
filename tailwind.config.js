@@ -16,9 +16,7 @@ module.exports = {
         border: "var(--border-color)",
         accent: "var(--theme-color)",
         hover: "var(--hover-color)",
-        always: {
-          ...alwaysColor,
-        },
+        always: alwaysColor,
       },
       spacing: {
         sidebar: `240px`,
