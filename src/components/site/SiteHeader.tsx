@@ -119,7 +119,7 @@ export const SiteHeader: React.FC<{
       text: "Search on this site",
       icon: (
         <span className="text-stone-400">
-          <i className="i-mingcute:search-line block text-2xl" />
+          <i className="i-mingcute:search-line block" />
         </span>
       ),
       onClick: () => setSearchOpen(true),
@@ -249,20 +249,19 @@ export const SiteHeader: React.FC<{
                       dropdown={
                         <div className="text-gray-600 bg-white rounded-lg ring-1 ring-zinc-100 shadow-md py-2 text-sm">
                           {moreMenuItems.map((item) => {
-                            if (!item.out) {
-                              return (
-                                <UniLink
-                                  key={item.text}
-                                  href={item.url}
-                                  className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-hover"
-                                >
-                                  <span className="fill-gray-500 flex w-4 h-4">
-                                    {item.icon}
-                                  </span>
-                                  <span>{t(item.text)}</span>
-                                </UniLink>
-                              )
-                            }
+                            return (
+                              <UniLink
+                                key={item.text}
+                                href={item.url}
+                                onClick={item.onClick}
+                                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-hover"
+                              >
+                                <span className="fill-gray-500 flex items-center w-4 h-4 text-base leading-none">
+                                  {item.icon}
+                                </span>
+                                <span>{t(item.text)}</span>
+                              </UniLink>
+                            )
                           })}
                         </div>
                       }
@@ -287,7 +286,7 @@ export const SiteHeader: React.FC<{
                                     : item.onClick?.()
                                 }
                               >
-                                <span className="fill-gray-500 flex w-6 h-6">
+                                <span className="fill-gray-500 flex w-6 h-6 text-2xl">
                                   {item.icon}
                                 </span>
                               </Button>

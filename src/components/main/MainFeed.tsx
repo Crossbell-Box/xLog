@@ -246,7 +246,7 @@ export const MainFeed: React.FC<{
         ) : !feed.data?.pages[0]?.count ? (
           <EmptyState />
         ) : (
-          <div className="xlog-posts space-y-8">
+          <div className="xlog-posts space-y-8 overflow-x-hidden">
             {feed.data?.pages.map((posts) =>
               posts?.list.map((post) => {
                 return (
