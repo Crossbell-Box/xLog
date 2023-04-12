@@ -12,7 +12,7 @@ export const DashboardMain: React.FC<{
   const isMobileLayout = useMobileLayout()
 
   return (
-    <div className="flex-1 overflow-scroll">
+    <div className="flex-1">
       <div
         className={cn(
           fullWidth ? "relative" : "min-w-[270px] relative px-5 py-5 md:px-10",
