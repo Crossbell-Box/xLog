@@ -35,6 +35,7 @@ export const Editor: React.FC<{
   const [editor, setCmEditor] = useState<EditorView | null>(null)
   const isDark = useMediaStore((state) => state.isDark)
   useCodeMirrorAutoToggleTheme(editor, isDark)
+
   useEffect(() => {
     setExtensions([
       markdown(),

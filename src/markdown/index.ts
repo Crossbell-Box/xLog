@@ -32,6 +32,7 @@ import rehypeKatex from "rehype-katex"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import remarkBreaks from "remark-breaks"
 import { remarkMermaid } from "./remark-mermaid"
+import { Mermaid } from "~/components/ui/Mermaid"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -150,6 +151,7 @@ export const renderPageContent = (
           img: Image,
           anchor: Element,
           mention: Mention,
+          mermaid: Mermaid,
         } as any,
       })
       .use(() => (tree) => {

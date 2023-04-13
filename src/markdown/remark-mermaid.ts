@@ -7,7 +7,7 @@ export const remarkMermaid: Plugin<Array<void>, Root> = () => (tree, file) => {
     if (node.type === "code" && node.lang === "mermaid") {
       // @ts-ignore
       node.type = "html"
-      node.value = `<pre class="mermaid" data-mermaid='true'>${node.value}</pre>`
+      node.value = `<mermaid>${node.value}</mermaid>`
     }
   })
 }

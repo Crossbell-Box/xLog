@@ -14,6 +14,7 @@ const scheme = {
     "mention",
     "audio",
     "source",
+    "mermaid",
   ],
   attributes: {
     ...defaultSchema.attributes,

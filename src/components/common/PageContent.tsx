@@ -3,7 +3,6 @@ import { useCodeCopy } from "~/hooks/useCodeCopy"
 import { renderPageContent } from "~/markdown"
 import { PostToc } from "~/components/site/PostToc"
 import { MutableRefObject, useMemo, useRef } from "react"
-import { useMermaid } from "~/hooks/useMermaid"
 
 export const PageContent: React.FC<{
   content?: string
@@ -35,7 +34,6 @@ export const PageContent: React.FC<{
       return null
     }
   }, [content, parsedContent])
-  useMermaid($articleRef, inParsedContent?.element)
 
   return (
     <div
