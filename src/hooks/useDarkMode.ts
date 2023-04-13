@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-
 import { create } from "zustand"
+import { getStorage, setStorage, delStorage } from "~/lib/storage"
 
 export const useMediaStore = create<{
   isDark: boolean
@@ -38,7 +38,7 @@ const useDarkMode = (
     const presentedDarkMode = storageKey
       ? isServerSide()
         ? null
-        : localStorage.getItem(storageKey)
+        : getStorage(storageKey)
       : null
 
     if (presentedDarkMode !== null) {
@@ -54,14 +54,14 @@ const useDarkMode = (
 
   useEffect(() => {
     const handler = (e: MediaQueryListEvent) => {
-      const storageValue = localStorage.getItem(storageKey || "darkMode")
+      const storageValue = getStorage(storageKey || "darkMode")
       if (storageValue === null) {
         setDarkMode(e.matches)
       }
     }
 
     const focusHandler = () => {
-      const storageValue = localStorage.getItem(storageKey || "darkMode")
+      const storageValue = getStorage(storageKey || "darkMode")
       if (storageValue === null) {
         setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
       }
@@ -107,7 +107,7 @@ const useDarkMode = (
     toggle: () => {
       setDarkMode((d) => {
         if (storageKey && !isServerSide()) {
-          localStorage.setItem(storageKey, String(!d))
+          setStorage(storageKey, String(!d))
         }
 
         return !d
@@ -140,7 +140,7 @@ export const useMediaToggle = () => {
   useEffect(() => {
     const handler = () => {
       if (window.matchMedia("(prefers-color-scheme: dark)").matches === value) {
-        localStorage.removeItem(darkModeKey)
+        delStorage(darkModeKey)
       }
     }
     window.addEventListener("beforeunload", handler)
