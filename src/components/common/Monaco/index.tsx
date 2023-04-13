@@ -3,8 +3,8 @@ import { useMonacoTheme } from "./use-theme"
 import { useMediaStore } from "~/hooks/useDarkMode"
 
 export function MonacoEditor(props: EditorProps) {
-  useMonacoTheme()
   const isDark = useMediaStore((state) => state.isDark)
+  useMonacoTheme(isDark)
 
   return (
     // define initial theme
