@@ -58,7 +58,7 @@ export const CommentItem: React.FC<{
             </div>
           </CharacterFloatCard>
         </div>
-        <div className="flex-1 flex flex-col rounded-lg">
+        <div className="flex-1 flex flex-col rounded-lg min-w-0">
           <div className="mb-1 text-sm flex items-center space-x-1">
             <UniLink
               href={

@@ -16,7 +16,10 @@ export const Comment: React.FC<{
   const { t } = useTranslation("common")
 
   return (
-    <div className={cn("xlog-comment", "comment", className)} id="comments">
+    <div
+      className={cn("xlog-comment comment overflow-x-hidden", className)}
+      id="comments"
+    >
       <div className="xlog-comment-count border-b pb-2 mb-6">
         <span>
           {comments.isLoading
