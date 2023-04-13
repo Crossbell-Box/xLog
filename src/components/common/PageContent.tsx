@@ -2,7 +2,7 @@ import { cn } from "~/lib/utils"
 import { useCodeCopy } from "~/hooks/useCodeCopy"
 import { renderPageContent } from "~/markdown"
 import { PostToc } from "~/components/site/PostToc"
-import { MutableRefObject, useMemo } from "react"
+import { MutableRefObject, useMemo, useRef } from "react"
 
 export const PageContent: React.FC<{
   content?: string
@@ -21,6 +21,7 @@ export const PageContent: React.FC<{
   onMouseEnter,
   parsedContent,
 }) => {
+  const $articleRef = useRef<HTMLDivElement>(null)
   useCodeCopy()
 
   const inParsedContent = useMemo(() => {
@@ -39,6 +40,7 @@ export const PageContent: React.FC<{
       className={cn("relative", className)}
       onMouseEnter={onMouseEnter}
       onScroll={(e) => onScroll?.((e.target as any)?.scrollTop)}
+      ref={$articleRef}
     >
       <div className="xlog-post-content prose" ref={inputRef}>
         {inParsedContent?.element}
