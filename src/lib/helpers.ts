@@ -17,9 +17,13 @@ export const getSiteLink = ({
     return `https://${domain}`
   }
   if (noProtocol) {
-    return `${subdomain}.${OUR_DOMAIN}`
+    return IS_PROD
+      ? `${subdomain}.${OUR_DOMAIN}`
+      : `${OUR_DOMAIN}/_site/${subdomain}`
   }
-  return `${IS_PROD ? "https" : "http"}://${subdomain}.${OUR_DOMAIN}`
+  return IS_PROD
+    ? `https://${subdomain}.${OUR_DOMAIN}`
+    : `http://${OUR_DOMAIN}/_site/${subdomain}`
 }
 
 export const getNoteSlug = (note: NoteEntity) => {
