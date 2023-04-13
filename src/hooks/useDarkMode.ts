@@ -81,7 +81,7 @@ const useDarkMode = (
   }, [storageKey])
 
   useEffect(() => {
-    if (isServerSide()) {
+    if (isServerSide() || typeof darkMode === "undefined") {
       return
     }
 
