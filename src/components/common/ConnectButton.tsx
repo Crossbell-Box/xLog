@@ -278,7 +278,7 @@ export const ConnectButton: React.FC<{
                   }
                   dropdown={
                     <div
-                      className={`text-gray-600 bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 ${
+                      className={`text-gray-600 bg-white rounded-lg ring-1 ring-border min-w-[140px] shadow-md py-2 ${
                         size === "base" ? "text-base" : "text-sm"
                       } mt-1`}
                     >

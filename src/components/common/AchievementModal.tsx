@@ -103,10 +103,10 @@ export const AchievementModal: React.FC<{
             />
           </Tilt>
           <div className="inline-flex flex-col flex-1 min-w-0 w-full space-y-1">
-            <span className="capitalize text-4xl font-medium truncate">
+            <span className="capitalize text-black text-4xl font-medium truncate">
               {group.info.title} {achievement && `#${achievement.tokenId}`}
             </span>
-            <span className="text-lg text-gray-100 capitalize truncate">
+            <span className="text-lg text-black capitalize truncate">
               {
                 (achievement || achievementMintable || achievementComming)!.info
                   .description

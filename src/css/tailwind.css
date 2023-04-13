@@ -21,6 +21,10 @@
   border-color: var(--border-color);
 }
 
+html.dark {
+  color-scheme: dark;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -384,4 +388,8 @@ textarea.input {
   border-bottom-color: currentColor;
   border-right-color: currentColor;
   @apply animate-spin;
+}
+
+.xlog-lottie-logo path[fill="rgb(0,0,0)"] {
+  @apply fill-current;
 }
