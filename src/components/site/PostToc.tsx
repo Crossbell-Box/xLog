@@ -53,33 +53,36 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
     <ol className={prefix ? "pl-5" : ""}>
       {items?.children?.map((item, index) => (
         <li key={index}>
-          {item.children.map((child: any, i) => (
-            <span key={index + "-" + i}>
-              {child.type === "paragraph" && child.children?.[0]?.url && (
-                <Link
-                  to={decodeURI(child.children[0].url.slice(1))}
-                  spy={true}
-                  smooth={true}
-                  duration={500}
-                  offset={-20}
-                  href={child.children[0].url}
-                  className={
-                    (activeId === child.children[0].url.slice(1)
-                      ? "text-accent"
-                      : "text-zinc-700") +
-                    " truncate inline-block max-w-full align-bottom hover:text-accent"
-                  }
-                >
-                  {`${prefix}${index + 1}. ${
-                    child.children[0].children?.[0]?.value ||
-                    child.children[0].children?.[0]?.children?.[0]?.value
-                  }`}
-                </Link>
-              )}
-              {child.type === "list" &&
-                renderItems(child, activeId, `${index + 1}.`)}
-            </span>
-          ))}
+          {item.children.map((child: any, i) => {
+            const content =
+              child.children[0].children?.[0]?.value ||
+              child.children[0].children?.[0]?.children?.[0]?.value
+            return (
+              <span key={index + "-" + i}>
+                {child.type === "paragraph" && child.children?.[0]?.url && (
+                  <Link
+                    to={decodeURI(child.children[0].url.slice(1))}
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                    offset={-20}
+                    href={child.children[0].url}
+                    title={content}
+                    className={
+                      (activeId === child.children[0].url.slice(1)
+                        ? "text-accent"
+                        : "text-zinc-700") +
+                      " truncate inline-block max-w-full align-bottom hover:text-accent"
+                    }
+                  >
+                    {`${prefix}${index + 1}. ${content}`}
+                  </Link>
+                )}
+                {child.type === "list" &&
+                  renderItems(child, activeId, `${index + 1}.`)}
+              </span>
+            )
+          })}
         </li>
       ))}
     </ol>
