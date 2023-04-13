@@ -5,6 +5,7 @@ import dayjs from "dayjs"
 import { expandCrossbellNote } from "~/lib/expand-unit"
 
 export type FeedType = "latest" | "following" | "topic" | "hot" | "search"
+export type SearchType = "latest" | "hot"
 
 export async function getFeed({
   type,
@@ -13,7 +14,8 @@ export async function getFeed({
   characterId,
   noteIds,
   daysInterval,
-  keyword,
+  searchKeyword,
+  searchType,
 }: {
   type?: FeedType
   cursor?: string
@@ -21,9 +23,10 @@ export async function getFeed({
   characterId?: number
   noteIds?: string[]
   daysInterval?: number
-  keyword?: string
+  searchKeyword?: string
+  searchType?: SearchType
 }) {
-  if (type === "search" && !keyword) {
+  if (type === "search" && !searchKeyword) {
     type = "latest"
   }
   switch (type) {
@@ -217,16 +220,18 @@ export async function getFeed({
       }
     }
     case "search": {
-      const result = await indexer.searchNotes(keyword!, {
+      const result = await indexer.searchNotes(searchKeyword!, {
         sources: ["xlog"],
         tags: ["post"],
         limit: limit,
         cursor,
+        includeCharacterMetadata: true,
+        orderBy: searchType === "hot" ? "viewCount" : "createdAt",
       })
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return await expandCrossbellNote(page)
+          return await expandCrossbellNote(page, false, false, searchKeyword)
         }),
       )
 

@@ -56,6 +56,7 @@ function SiteSearchPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
           fetchNextPage={posts.fetchNextPage}
           hasNextPage={posts.hasNextPage}
           isFetchingNextPage={posts.isFetchingNextPage}
+          keyword={keyword}
         />
       )}
     </>

@@ -92,13 +92,24 @@ export const expandCrossbellNote = async (
   page: ExpandedNote,
   useStat?: boolean,
   useScore?: boolean,
+  keyword?: string,
 ) => {
   if (page.metadata?.content) {
     if (page.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
       const rendered = renderPageContent(page.metadata.content.content, true)
-      if (!page.metadata.content.summary) {
-        page.metadata.content.summary = rendered.excerpt
+      if (keyword) {
+        const position = page.metadata.content.content
+          .toLowerCase()
+          .indexOf(keyword.toLowerCase())
+        page.metadata.content.summary = `...${page.metadata.content.content.slice(
+          position - 10,
+          position + 100,
+        )}`
+      } else {
+        if (!page.metadata.content.summary) {
+          page.metadata.content.summary = rendered.excerpt
+        }
       }
       page.metadata.content.cover = rendered.cover
       if (page.metadata) {

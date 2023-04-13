@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
 import { useTranslation } from "next-i18next"
 import { useGetFeed } from "~/queries/home"
-import type { FeedType } from "~/models/home.model"
+import type { FeedType, SearchType } from "~/models/home.model"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { useAccountState } from "@crossbell/connect-kit"
 import InfiniteScroll from "react-infinite-scroller"
@@ -16,13 +16,16 @@ import { setStorage, getStorage } from "~/lib/storage"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { Titles } from "~/components/common/Titles"
 import { Tabs } from "~/components/ui/Tabs"
+import reactStringReplace from "react-string-replace"
 
 const Post = ({
   post,
   filtering,
+  keyword,
 }: {
   post: ExpandedNote
   filtering: number
+  keyword?: string
 }) => {
   const router = useRouter()
   const { t } = useTranslation(["common", "site"])
@@ -118,7 +121,17 @@ const Post = ({
               wordBreak: "break-word",
             }}
           >
-            {post.metadata?.content?.summary}
+            {keyword
+              ? reactStringReplace(
+                  post.metadata?.content?.summary || "",
+                  keyword,
+                  (match, i) => (
+                    <span key={i} className="bg-yellow-200">
+                      {match}
+                    </span>
+                  ),
+                )
+              : post.metadata?.content?.summary}
             {post.metadata?.content?.summary && "..."}
           </div>
         </div>
@@ -149,13 +162,15 @@ export const MainFeed: React.FC<{
   )
 
   const [hotInterval, setHotInterval] = useState(7)
+  const [searchType, setSearchType] = useState<SearchType>("latest")
 
   const feed = useGetFeed({
     type: type,
     characterId: currentCharacterId,
     noteIds: noteIds,
     daysInterval: hotInterval,
-    keyword: keyword,
+    searchKeyword: keyword,
+    searchType,
   })
 
   const hasFiltering = type === "latest"
@@ -166,7 +181,7 @@ export const MainFeed: React.FC<{
     setAiFiltering(getStorage("ai_filtering")?.enabled || true)
   }, [])
 
-  const tabs = [
+  const hotTabs = [
     {
       text: "Today",
       onClick: () => setHotInterval(1),
@@ -186,6 +201,19 @@ export const MainFeed: React.FC<{
       text: "All time",
       onClick: () => setHotInterval(0),
       active: hotInterval === 0,
+    },
+  ]
+
+  const searchTabs = [
+    {
+      text: "Latest",
+      onClick: () => setSearchType("latest"),
+      active: searchType === "latest",
+    },
+    {
+      text: "Hottest",
+      onClick: () => setSearchType("hot"),
+      active: searchType === "hot",
     },
   ]
 
@@ -239,7 +267,10 @@ export const MainFeed: React.FC<{
           </div>
         )}
         {type === "hot" && (
-          <Tabs items={tabs} className="border-none text-sm -my-4"></Tabs>
+          <Tabs items={hotTabs} className="border-none text-sm -my-4"></Tabs>
+        )}
+        {type === "search" && (
+          <Tabs items={searchTabs} className="border-none text-sm -my-4"></Tabs>
         )}
         {feed.isLoading ? (
           <div className="text-center text-zinc-600">{t("Loading")}...</div>
@@ -254,6 +285,7 @@ export const MainFeed: React.FC<{
                     key={`${post.characterId}-${post.noteId}`}
                     post={post}
                     filtering={aiFiltering ? 60 : 0}
+                    keyword={keyword}
                   />
                 )
               }),

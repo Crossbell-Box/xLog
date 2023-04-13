@@ -22,6 +22,7 @@ import { Tooltip } from "~/components/ui/Tooltip"
 import { PatronButton } from "~/components/common/PatronButton"
 import { Modal } from "~/components/ui/Modal"
 import { SearchInput } from "~/components/common/SearchInput"
+import { useMediaStore } from "~/hooks/useDarkMode"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -132,6 +133,7 @@ export const SiteHeader: React.FC<{
   const avatarRef = useRef<HTMLImageElement>(null)
   const bannerRef = useRef<HTMLImageElement | HTMLVideoElement>(null)
 
+  const isDark = useMediaStore((state) => state.isDark)
   const [averageColor, setAverageColor] = useState<string>()
   const [autoHoverColor, setAutoHoverColor] = useState<string>()
   const [autoThemeColor, setAutoThemeColor] = useState<string>()
@@ -141,8 +143,13 @@ export const SiteHeader: React.FC<{
       fac
         .getColorAsync(bannerRef.current)
         .then((color) => {
-          setAverageColor(chroma(color.hex).hex())
-          setAutoHoverColor(chroma(color.hex).luminance(0.8).hex())
+          if (isDark) {
+            setAverageColor(chroma(color.hex).luminance(0.007).hex())
+            setAutoHoverColor(chroma(color.hex).luminance(0.02).hex())
+          } else {
+            setAverageColor(chroma(color.hex).hex())
+            setAutoHoverColor(chroma(color.hex).luminance(0.8).hex())
+          }
           setAutoThemeColor(chroma(color.hex).saturate(3).luminance(0.3).hex())
         })
         .catch((e) => {
@@ -152,15 +159,20 @@ export const SiteHeader: React.FC<{
       fac
         .getColorAsync(avatarRef.current)
         .then((color) => {
-          setAverageColor(chroma(color.hex).luminance(0.95).hex())
-          setAutoHoverColor(chroma(color.hex).luminance(0.8).hex())
+          if (isDark) {
+            setAverageColor(chroma(color.hex).luminance(0.007).hex())
+            setAutoHoverColor(chroma(color.hex).luminance(0.02).hex())
+          } else {
+            setAverageColor(chroma(color.hex).luminance(0.95).hex())
+            setAutoHoverColor(chroma(color.hex).luminance(0.8).hex())
+          }
           setAutoThemeColor(chroma(color.hex).saturate(3).luminance(0.3).hex())
         })
         .catch((e) => {
           console.warn(e)
         })
     }
-  }, [bannerRef, avatarRef])
+  }, [bannerRef, avatarRef, isDark])
 
   return (
     <header className="xlog-header border-b border-zinc-100 relative">

@@ -635,7 +635,7 @@ export default function SubdomainEditor() {
                         }
                       }}
                       onChange={(e) => updateValue("title", e.target.value)}
-                      className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none"
+                      className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none bg-white"
                       placeholder={t("Title goes here...") || ""}
                     />
                   </div>

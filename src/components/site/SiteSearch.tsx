@@ -7,6 +7,7 @@ import { Image } from "~/components/ui/Image"
 import { Button } from "~/components/ui/Button"
 import { useTranslation } from "next-i18next"
 import { useEffect, useState } from "react"
+import reactStringReplace from "react-string-replace"
 
 export const SiteSearch: React.FC<{
   postPages?: {
@@ -17,7 +18,14 @@ export const SiteSearch: React.FC<{
   fetchNextPage: () => void
   hasNextPage?: boolean
   isFetchingNextPage?: boolean
-}> = ({ postPages, fetchNextPage, hasNextPage, isFetchingNextPage }) => {
+  keyword?: string
+}> = ({
+  postPages,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  keyword,
+}) => {
   const router = useRouter()
   const { t } = useTranslation(["common", "site"])
   const date = useDate()
@@ -96,7 +104,17 @@ export const SiteSearch: React.FC<{
                         wordBreak: "break-word",
                       }}
                     >
-                      {post.metadata.content.summary}
+                      {keyword
+                        ? reactStringReplace(
+                            post.metadata?.content?.summary || "",
+                            keyword,
+                            (match, i) => (
+                              <span key={i} className="bg-yellow-200">
+                                {match}
+                              </span>
+                            ),
+                          )
+                        : post.metadata?.content?.summary}
                       {post.metadata.content.summary && "..."}
                     </div>
                   </div>

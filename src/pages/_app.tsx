@@ -20,6 +20,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
 import { AppPropsWithLayout } from "types/next"
+import { useMediaToggle } from "~/hooks/useDarkMode"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
@@ -38,6 +39,7 @@ const persister = createIDBPersister()
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
 
+  useMediaToggle()
   return (
     <WagmiConfig client={wagmiClient}>
       <PersistQueryClientProvider

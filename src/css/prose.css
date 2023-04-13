@@ -106,7 +106,7 @@
 
 .prose .table-wrapper {
   @apply min-w-full rounded-xl text-sm my-7 whitespace-nowrap overflow-auto;
-  @apply shadow-sm ring-1 ring-zinc-700 ring-opacity-10;
+  @apply border border-border;
 }
 
 .prose table {
