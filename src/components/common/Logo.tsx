@@ -43,6 +43,7 @@ export const Logo: React.FC<{
             width: width || 100,
             height: height || 100,
           }}
+          className="xlog-lottie-logo"
         />
       )
   }
