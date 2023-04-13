@@ -259,7 +259,7 @@ export const SiteHeader: React.FC<{
                         </Button>
                       }
                       dropdown={
-                        <div className="text-gray-600 bg-white rounded-lg ring-1 ring-zinc-100 shadow-md py-2 text-sm">
+                        <div className="text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2 text-sm">
                           {moreMenuItems.map((item) => {
                             return (
                               <UniLink

@@ -166,7 +166,7 @@ export const PagesManagerMenu: FC<{
   }, [])
 
   return (
-    <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64">
+    <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64 ring-1 ring-border">
       {items.map((item) => {
         return (
           <Menu.Item key={item.text}>
