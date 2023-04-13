@@ -20,10 +20,10 @@ const useDefineTheme = (theme: string, json: any) => {
   }, [monaco, theme])
 }
 
-export const useMonacoTheme = () => {
+export const useMonacoTheme = (isDark: boolean) => {
   useDefineTheme("light", Light)
   useDefineTheme("dark", Dark)
-  const isDark = useMediaStore((state) => state.isDark)
+
   const monaco = useMonaco()
 
   useEffect(() => {

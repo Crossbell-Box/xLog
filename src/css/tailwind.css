@@ -21,6 +21,31 @@
   border-color: var(--border-color);
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: theme("colors.white");
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--theme-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hover-color);
+}
+
+::-webkit-scrollbar-corner {
+  background: theme("colors.white");
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--theme-color);
+  border: 3px solid theme("colors.white");
+  border-radius: 5px;
+}
+
 body {
   @apply break-words bg-white;
 }

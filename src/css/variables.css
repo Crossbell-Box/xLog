@@ -6,15 +6,23 @@ html {
   --header-height: auto;
   /* Accent color for form controls */
   accent-color: var(--theme-color);
+
+  /* make app like native app in mobile */
+  -webkit-tap-highlight-color: transparent;
+  /*  for firefox */
+  scrollbar-color: var(--theme-color) transparent;
+  scrollbar-width: thin;
 }
 
 html.dark {
   --border-color: #333;
+  --theme-color: var(--auto-theme-color, theme("colors.orange.600"));
 }
 
 @media (prefers-color-scheme: dark) {
   html.not(.light) {
     --border-color: #333;
+    --theme-color: var(--auto-theme-color, theme("colors.orange.600"));
   }
 }
 
