@@ -79,3 +79,10 @@ code {
 .token.inserted {
   color: green;
 }
+
+@media (prefers-color-scheme:dark) {
+  code, pre {
+    background: none;
+    color: unset;
+  }
+}
