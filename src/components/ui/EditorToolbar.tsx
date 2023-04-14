@@ -25,12 +25,17 @@ export const EditorToolbar: FC<EditorToolbarProps> = ({ view, toolbars }) => {
         <Tooltip key={name} label={t(label)} placement="bottom">
           <button
             key={name}
+            title={name}
             type="button"
             className={
               "w-9 h-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
             }
             onClick={() => {
-              view && execute(view, { container: view.dom })
+              view &&
+                execute({
+                  view,
+                  options: { container: view.dom },
+                })
             }}
           >
             <span className={icon}></span>

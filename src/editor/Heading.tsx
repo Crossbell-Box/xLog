@@ -4,7 +4,7 @@ export const Heading: ICommand = {
   name: "heading",
   label: "Heading",
   icon: "i-mingcute:heading-2-line",
-  execute: (view) => {
+  execute: ({ view }) => {
     prependExecute({ view, prepend: "## " })
   },
 }

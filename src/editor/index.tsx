@@ -19,13 +19,13 @@ export type ICommand = {
   icon: string
   name: string
   label: string
-  execute: (
-    view: EditorView,
+  execute: (_: {
+    view: EditorView
     options?: {
       setPreviewVisible?: Dispatch<SetStateAction<boolean>>
       container?: HTMLElement | null
-    },
-  ) => void
+    }
+  }) => void
 }
 
 export type IPrependExecute = {

@@ -7,7 +7,7 @@ export const Image: ICommand = {
   name: "upload-image",
   label: "Upload Image",
   icon: "i-mingcute:photo-album-line",
-  execute: (view) => {
+  execute: ({ view }) => {
     const input = document.createElement("input")
     input.type = "file"
     input.addEventListener("change", async (e: any) => {

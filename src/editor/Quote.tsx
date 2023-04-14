@@ -4,7 +4,7 @@ export const Quote: ICommand = {
   name: "quote",
   label: "Quote",
   icon: "i-mingcute:quote-left-fill",
-  execute: (view) => {
+  execute: ({ view }) => {
     wrapExecute({ view, prepend: "> ", append: "\n" })
   },
 }
