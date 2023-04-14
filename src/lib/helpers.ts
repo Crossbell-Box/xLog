@@ -3,7 +3,6 @@ import { NoteEntity } from "crossbell.js"
 import { IS_PROD } from "./constants"
 import { OUR_DOMAIN } from "./env"
 import pinyin from "pinyin"
-import { Page } from "./types"
 import { Note } from "unidata.js"
 
 export const getSiteLink = ({
