@@ -5,7 +5,7 @@ export const Bold: ICommand = {
   name: "bold",
   label: "Bold",
   icon: "i-mingcute:bold-line",
-  execute: (view) => {
+  execute: ({ view }) => {
     wrapExecute({ view, prepend: "**", append: "**" })
   },
 }

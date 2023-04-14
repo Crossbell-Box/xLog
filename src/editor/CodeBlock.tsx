@@ -4,7 +4,7 @@ export const CodeBlock: ICommand = {
   name: "codeblock",
   label: "Code Block",
   icon: "i-mingcute:web-line",
-  execute: (view) => {
+  execute: ({ view }) => {
     wrapExecute({ view, prepend: "```\n", append: "\n```" })
   },
 }
