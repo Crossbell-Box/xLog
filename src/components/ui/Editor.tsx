@@ -10,7 +10,7 @@ import {
   codemirrorReconfigureExtension,
   useCodeMirrorAutoToggleTheme,
 } from "~/hooks/useCodemirrorTheme"
-import { useMediaStore } from "~/hooks/useDarkMode"
+import { useIsDark } from "~/hooks/useDarkMode"
 
 export const Editor: React.FC<{
   value: string
@@ -33,7 +33,7 @@ export const Editor: React.FC<{
   const [extensions, setExtensions] = useState<any>([])
   const isMobileLayout = useMobileLayout()
   const [editor, setCmEditor] = useState<EditorView | null>(null)
-  const isDark = useMediaStore((state) => state.isDark)
+  const isDark = useIsDark()
   useCodeMirrorAutoToggleTheme(editor, isDark)
 
   useEffect(() => {

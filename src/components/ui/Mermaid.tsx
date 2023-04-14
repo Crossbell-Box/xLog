@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useMediaStore } from "~/hooks/useDarkMode"
+import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 import { nanoid } from "nanoid"
 
@@ -12,7 +12,7 @@ export const Mermaid: FC<{
   const [svg, setSvg] = useState("")
   const isUnmounted = useIsUnmounted()
 
-  const isDark = useMediaStore((state) => state.isDark)
+  const isDark = useIsDark()
 
   useEffect(() => {
     import("mermaid").then(async (mo) => {

@@ -16,7 +16,8 @@ export const getStorage = (key: string) => {
 }
 
 export const setStorage = (key: string, value: any) => {
-  data[key] = Object.assign({}, data[key], value)
+  data[key] =
+    typeof value !== "object" ? value : Object.assign({}, data[key], value)
   localStorage.setItem(namespace, JSON.stringify(data))
 }
 

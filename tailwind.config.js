@@ -4,6 +4,7 @@ const alwaysColor = require("tailwindcss/colors")
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.tsx"],
+  darkMode: ["class", "html.dark"],
   theme: {
     colors: twColors,
     extend: {
