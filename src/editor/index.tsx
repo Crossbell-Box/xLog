@@ -13,6 +13,7 @@ import { ListUnordered } from "./ListUnordered"
 import { Quote } from "./Quote"
 import { Strikethrough } from "./Strikethrough"
 import { Underline } from "./Underline"
+import { Mention } from "./Mention"
 
 export type ICommand = {
   icon: string
@@ -127,4 +128,5 @@ export const toolbars: ICommand[] = [
   ListOrdered,
   Link,
   Image,
+  Mention,
 ]
