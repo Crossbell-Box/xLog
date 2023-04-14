@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { create } from "zustand"
 import { getStorage, setStorage, delStorage } from "~/lib/storage"
+import { useGetState } from "./useGetState"
 
 interface IMediaStore {
   isDark: boolean
@@ -22,7 +23,7 @@ interface DarkModeConfig {
   element?: HTMLElement | undefined | null // The element to apply the className. Default = `document.body`
   storageKey?: string // Specify the `localStorage` key. Default = "darkMode". set to `undefined` to disable persistent storage.
 }
-
+const darkModeKey = "darkMode"
 const useDarkModeInternal = (
   initialState: boolean | undefined,
   options: DarkModeConfig,
@@ -30,7 +31,7 @@ const useDarkModeInternal = (
   const {
     classNameDark = "dark",
     classNameLight = "light",
-    storageKey,
+    storageKey = darkModeKey,
     element,
   } = options
 
@@ -55,18 +56,20 @@ const useDarkModeInternal = (
   }, [storageKey])
 
   useEffect(() => {
-    const handler = (e: MediaQueryListEvent) => {
-      const storageValue = getStorage(storageKey || "darkMode")
-      if (storageValue === undefined) {
-        setDarkMode(e.matches)
+    const handler = (e: Pick<MediaQueryListEvent, "matches">) => {
+      const storageValue = getStorage(storageKey)
+      const parseStorageValueAsBool = storageValue === "true"
+      setDarkMode(e.matches)
+      // reset dark mode, follow system
+      if (parseStorageValueAsBool === e.matches) {
+        delStorage(storageKey)
       }
     }
 
     const focusHandler = () => {
-      const storageValue = getStorage(storageKey || "darkMode")
-      if (storageValue === undefined) {
-        setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
-      }
+      handler({
+        matches: window.matchMedia("(prefers-color-scheme: dark)").matches,
+      })
     }
 
     window.addEventListener("focus", focusHandler)
@@ -81,6 +84,24 @@ const useDarkModeInternal = (
         .removeEventListener("change", handler)
     }
   }, [storageKey])
+
+  const getDarkMode = useGetState(darkMode)
+  useEffect(() => {
+    const handler = () => {
+      // if set color mode follow system, del storage
+      if (
+        window.matchMedia("(prefers-color-scheme: dark)").matches ===
+        getDarkMode()
+      ) {
+        delStorage(darkModeKey)
+      }
+    }
+    window.addEventListener("beforeunload", handler)
+
+    return () => {
+      window.removeEventListener("beforeunload", handler)
+    }
+  }, [])
 
   useEffect(() => {
     if (isServerSide() || typeof darkMode === "undefined") {
@@ -126,7 +147,7 @@ const mockElement = {
     remove: noop,
   },
 }
-const darkModeKey = "darkMode"
+
 export const useDarkMode = () => {
   const { toggle, value } = useDarkModeInternal(getStorage(darkModeKey), {
     classNameDark: "dark",
@@ -146,19 +167,6 @@ export const useDarkMode = () => {
     onceRef.current = true
     useMediaStore.setState({ toggle })
   }
-
-  useEffect(() => {
-    const handler = () => {
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches === value) {
-        delStorage(darkModeKey)
-      }
-    }
-    window.addEventListener("beforeunload", handler)
-
-    return () => {
-      window.removeEventListener("beforeunload", handler)
-    }
-  }, [value])
 
   return {
     toggle,
