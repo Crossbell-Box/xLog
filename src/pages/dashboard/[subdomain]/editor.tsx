@@ -44,7 +44,6 @@ import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { getDefaultSlug } from "~/lib/helpers"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
-import { useDebounce } from "@crossbell/util-hooks"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
