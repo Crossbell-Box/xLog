@@ -2,11 +2,11 @@ import { APP_NAME, SITE_URL } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import Script from "next/script"
-import Image from "next/image"
 import { Platform } from "~/components/site/Platform"
 import { Trans } from "next-i18next"
 import { Logo } from "~/components/common/Logo"
 import { useEffect, useState } from "react"
+import { DarkModeSwitch } from "../common/DarkModeSwitch"
 
 export const SiteFooter: React.FC<{
   site?: Profile | null
@@ -61,6 +61,7 @@ export const SiteFooter: React.FC<{
               ))}
             </div>
           )}
+          <DarkModeSwitch />
         </div>
       </footer>
       {site?.ga && (

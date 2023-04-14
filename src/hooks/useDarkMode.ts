@@ -14,8 +14,6 @@ const useMediaStore = create<IMediaStore>(() => {
   }
 })
 
-export const useIsDark = () => useMediaStore((state) => state.isDark)
-
 const isServerSide = () => typeof window === "undefined"
 
 interface DarkModeConfig {
@@ -130,7 +128,7 @@ const mockElement = {
 }
 const darkModeKey = "darkMode"
 export const useDarkMode = () => {
-  const { toggle, value } = useDarkModeInternal(undefined, {
+  const { toggle, value } = useDarkModeInternal(getStorage(darkModeKey), {
     classNameDark: "dark",
     classNameLight: "light",
     storageKey: darkModeKey,
@@ -166,4 +164,10 @@ export const useDarkMode = () => {
     toggle,
     value,
   }
+}
+
+export const useIsDark = () => useMediaStore((state) => state.isDark)
+
+export const useDarkModeSwitch = () => {
+  return useMediaStore((state) => state.toggle)
 }

@@ -14,6 +14,7 @@ import { Logo } from "~/components/common/Logo"
 import { useRouter } from "next/router"
 import { cn } from "~/lib/utils"
 import { Image } from "../ui/Image"
+import { DarkModeSwitch } from "../common/DarkModeSwitch"
 
 const tabs = [
   {
@@ -103,16 +104,19 @@ export function MainLayout({
               </UniLink>
             )}
           </span>
-          <span className="align-middle">
-            &copy;{" "}
-            <UniLink
-              href={getSiteLink({
-                subdomain: "xlog",
-              })}
-              className="hover:text-accent"
-            >
-              {APP_NAME}
-            </UniLink>
+          <span className="inline-flex items-center space-x-4">
+            <DarkModeSwitch />
+            <span>
+              &copy;{" "}
+              <UniLink
+                href={getSiteLink({
+                  subdomain: "xlog",
+                })}
+                className="hover:text-accent"
+              >
+                {APP_NAME}
+              </UniLink>
+            </span>
           </span>
         </div>
       </footer>
