@@ -8,7 +8,7 @@ export const EmojiPicker: React.FC<{
   useEffect(() => {
     import("emoji-mart").then(async (EmojiMart) => {
       const response = await fetch(
-        "https://cdn.jsdelivr.net/npm/@emoji-mart/data",
+        "https://fastly.jsdelivr.net/npm/@emoji-mart/data",
       )
       const data = await response.json()
       new EmojiMart.Picker({
