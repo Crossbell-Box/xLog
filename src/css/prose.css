@@ -188,9 +188,3 @@
 .xlog-comment .prose p {
   @apply my-1;
 }
-
-@media (prefers-color-scheme:dark) {
-  .prose pre {
-    border: 1px solid;
-  }
-}

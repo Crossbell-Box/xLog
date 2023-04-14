@@ -2,8 +2,8 @@
 
 pre,
 code {
-  --code-bg: #f7f7f7;
-  --code-fg: #4d4d4c;
+  --code-bg: theme("colors.slate.50");
+  --code-fg: theme("colors.slate.600");
 }
 
 .token.comment,
@@ -78,11 +78,4 @@ code {
 
 .token.inserted {
   color: green;
-}
-
-@media (prefers-color-scheme:dark) {
-  code, pre {
-    background: none;
-    color: unset;
-  }
 }
