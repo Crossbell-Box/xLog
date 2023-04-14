@@ -38,7 +38,7 @@ const useDarkMode = (
     const presentedDarkMode = storageKey
       ? isServerSide()
         ? null
-        : getStorage(storageKey)
+        : getStorage(storageKey) || null
       : null
 
     if (presentedDarkMode !== null) {
