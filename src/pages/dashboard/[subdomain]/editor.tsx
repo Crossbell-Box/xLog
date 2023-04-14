@@ -29,7 +29,7 @@ import { nanoid } from "nanoid"
 import { useQueryClient } from "@tanstack/react-query"
 import { PageContent } from "~/components/common/PageContent"
 import type { Root } from "hast"
-import type { EditorView } from "@codemirror/view"
+import type { EditorView, ViewUpdate } from "@codemirror/view"
 import { Editor } from "~/components/ui/Editor"
 import { renderPageContent } from "~/markdown"
 import { Button } from "~/components/ui/Button"
@@ -44,6 +44,7 @@ import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { getDefaultSlug } from "~/lib/helpers"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
+import { useDebounce } from "@crossbell/util-hooks"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -343,6 +344,7 @@ export default function SubdomainEditor() {
   const [tree, setTree] = useState<Root | null>()
 
   // preview
+
   const parsedContent = useMemo(() => {
     if (values.content) {
       const result = renderPageContent(values.content)
@@ -360,9 +362,24 @@ export default function SubdomainEditor() {
     },
     [setView],
   )
+
+  const isComposing = useRef(false)
+  const bufferedContent = useRef<string>("")
   const onChange = useCallback(
-    (value: string) => {
-      updateValue("content", value)
+    (value: string, viewUpdate?: ViewUpdate) => {
+      if (!view?.composing) {
+        isComposing.current = false
+        updateValue("content", value)
+      } else {
+        if (isComposing.current && viewUpdate) {
+          bufferedContent.current = value
+          return
+        }
+        isComposing.current = true
+        requestAnimationFrame(() => {
+          onChange(bufferedContent.current)
+        })
+      }
     },
     [updateValue],
   )
