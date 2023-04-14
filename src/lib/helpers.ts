@@ -3,6 +3,7 @@ import { NoteEntity } from "crossbell.js"
 import { IS_PROD } from "./constants"
 import { OUR_DOMAIN } from "./env"
 import pinyin from "pinyin"
+import { Note } from "unidata.js"
 
 export const getSiteLink = ({
   domain,
@@ -32,6 +33,9 @@ export const getNoteSlug = (note: NoteEntity) => {
   )?.toLowerCase?.()
 }
 
+export const getNoteSlugFromNote = (page: Note) => {
+  return page.attributes?.find(($) => $.trait_type === "xlog_slug")?.value
+}
 export const getDefaultSlug = (title: string, id?: string) => {
   let generated =
     pinyin(title as string, {

@@ -9,6 +9,8 @@ import { useQueryClient } from "@tanstack/react-query"
 import { APP_NAME } from "~/lib/env"
 import { useTranslation } from "next-i18next"
 import { useGetState } from "~/hooks/useGetState"
+import { getNoteSlugFromNote, getSiteLink } from "~/lib/helpers"
+import { useGetSite } from "~/queries/site"
 
 const usePageEditLink = (page: { id: string }, isPost: boolean) => {
   const router = useRouter()
@@ -19,6 +21,11 @@ const usePageEditLink = (page: { id: string }, isPost: boolean) => {
   }`
 }
 
+interface Item {
+  text: string
+  icon: JSX.Element
+  onClick: () => void
+}
 export const PagesManagerMenu: FC<{
   isPost: boolean
   page: Note
@@ -72,7 +79,9 @@ export const PagesManagerMenu: FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createOrUpdatePage.isSuccess, createOrUpdatePage.isError])
 
-  const items = [
+  const site = useGetSite(subdomain)
+
+  const items: Item[] = [
     {
       text: "Edit",
       icon: <span className="i-mingcute:edit-line inline-block"></span>,
@@ -127,6 +136,32 @@ export const PagesManagerMenu: FC<{
             })
           }
         }
+      },
+    },
+    {
+      text: "Preview",
+      icon: <span className="i-mingcute:eye-line inline-block"></span>,
+      onClick() {
+        const slug = getNoteSlugFromNote(page)
+        if (!slug) return
+        window.open(`/_site/${subdomain}/${slug}`)
+      },
+    },
+    {
+      text: "Share to Twitter",
+      icon: <span className="i-mingcute:twitter-line inline-block"></span>,
+      onClick() {
+        const slug = getNoteSlugFromNote(page)
+        if (!slug) return
+
+        window.open(
+          `https://twitter.com/intent/tweet?url=${getSiteLink({
+            subdomain,
+            domain: site.data?.custom_domain,
+          })}/${encodeURIComponent(slug)}&via=_xLog&text=${encodeURIComponent(
+            `Read my new post - ${page.title}`,
+          )}`,
+        )
       },
     },
     {
