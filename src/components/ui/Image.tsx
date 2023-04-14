@@ -18,6 +18,10 @@ export const Image: React.FC<
   const [autoWidth, setAutoWidth] = React.useState(0)
   const noOptimization = className?.includes("no-optimization")
 
+  if (!src) {
+    return null
+  }
+
   if (!src.startsWith("/assets/")) {
     try {
       new URL(src)
