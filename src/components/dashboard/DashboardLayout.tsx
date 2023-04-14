@@ -349,7 +349,9 @@ export function DashboardLayout({
             </DashboardSidebar>
           )}
 
-          <div className={`${isMobileLayout ? "pt-16 flex-1" : "flex-1"}`}>
+          <div
+            className={`${isMobileLayout ? "pt-16 flex-1" : "flex-1 min-w-0"}`}
+          >
             {children}
           </div>
         </div>
