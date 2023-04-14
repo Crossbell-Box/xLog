@@ -56,10 +56,11 @@ const useDarkModeInternal = (
   }, [storageKey])
 
   useEffect(() => {
-    const handler = (e: Pick<MediaQueryListEvent, "matches">) => {
+    const handler = (e: MediaQueryListEvent) => {
       const storageValue = getStorage(storageKey)
       const parseStorageValueAsBool = storageValue === "true"
       setDarkMode(e.matches)
+
       // reset dark mode, follow system
       if (parseStorageValueAsBool === e.matches) {
         delStorage(storageKey)
@@ -67,9 +68,11 @@ const useDarkModeInternal = (
     }
 
     const focusHandler = () => {
-      handler({
-        matches: window.matchMedia("(prefers-color-scheme: dark)").matches,
-      })
+      const storageValue = getStorage(storageKey)
+      // if back to page and not storage color mode, switch to follow system
+      if (storageValue === undefined) {
+        setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
+      }
     }
 
     window.addEventListener("focus", focusHandler)
