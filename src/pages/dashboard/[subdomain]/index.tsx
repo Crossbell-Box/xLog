@@ -3,7 +3,7 @@ import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { UniLink } from "~/components/ui/UniLink"
 import { Image } from "~/components/ui/Image"
-import { DISCORD_LINK, TWITTER_LINK, GITHUB_LINK, APP_NAME } from "~/lib/env"
+import { DISCORD_LINK, TWITTER_LINK, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import type { ReactElement } from "react"
 import { useGetSite, useGetStat } from "~/queries/site"
@@ -91,7 +91,7 @@ export default function SubdomainIndex() {
           <div className="prose p-6 bg-slate-50 rounded-lg relative">
             <Trans
               i18nKey="hello.welcome"
-              defaults="<p>👋 Hello there,</p><p>Welcome to use xLog!</p><p>Here're some useful links to get started:</p>"
+              defaults="<p>👋 Hello there,</p><p>Welcome to use xLog!</p><p>Here are some useful links to get started:</p>"
               components={{
                 p: <p />,
               }}

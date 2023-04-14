@@ -66,7 +66,7 @@ export const Editor: React.FC<{
               for (let i = 0; i < items.length; i++) {
                 const file = items[i]?.getAsFile()
                 if (file) {
-                  await handleDropFile?.(file)
+                  handleDropFile?.(file)
                 }
               }
             })()
@@ -79,7 +79,7 @@ export const Editor: React.FC<{
             {
               ;(async () => {
                 for (let i = 0; i < items.length; i++) {
-                  await handleDropFile?.(items[i])
+                  handleDropFile?.(items[i])
                 }
               })()
             }

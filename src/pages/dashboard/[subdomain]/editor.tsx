@@ -161,7 +161,7 @@ export default function SubdomainEditor() {
       }
       setValues(newValues)
     },
-    [setValues, values, draftKey, isPost, queryClient, subdomain],
+    [setValues, values, draftKey, isPost, queryClient, subdomain, t],
   )
 
   const createOrUpdatePage = useCreateOrUpdatePage()
@@ -434,30 +434,30 @@ export default function SubdomainEditor() {
         const position = computedPosition()
 
         let selfElement
-        let selfPostion
+        let selfPosition
         let targetElement
         let targetPosition
         if (area === "preview") {
           selfElement = previewRef.current.parentElement
-          selfPostion = position.previewElementList
+          selfPosition = position.previewElementList
           targetElement = view.scrollDOM
           targetPosition = position.editorElementList
         } else {
           selfElement = view.scrollDOM
-          selfPostion = position.editorElementList
+          selfPosition = position.editorElementList
           targetElement = previewRef.current.parentElement
           targetPosition = position.previewElementList
         }
 
         let scrollElementIndex = 0
-        for (let i = 0; i < selfPostion.length; i++) {
-          if (scrollTop < selfPostion[i]) {
+        for (let i = 0; i < selfPosition.length; i++) {
+          if (scrollTop < selfPosition[i]) {
             scrollElementIndex = i - 1
             break
           }
         }
 
-        // scroll to buttom
+        // scroll to bottom
         if (scrollTop >= selfElement.scrollHeight - selfElement.clientHeight) {
           targetElement.scrollTop =
             targetElement.scrollHeight - targetElement.clientHeight
@@ -467,9 +467,9 @@ export default function SubdomainEditor() {
         // scroll to position
         if (scrollElementIndex >= 0) {
           let ratio =
-            (scrollTop - selfPostion[scrollElementIndex]) /
-            (selfPostion[scrollElementIndex + 1] -
-              selfPostion[scrollElementIndex])
+            (scrollTop - selfPosition[scrollElementIndex]) /
+            (selfPosition[scrollElementIndex + 1] -
+              selfPosition[scrollElementIndex])
           targetElement.scrollTop =
             ratio *
               (targetPosition[scrollElementIndex + 1] -
