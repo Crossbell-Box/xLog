@@ -25,6 +25,8 @@ export const Image: ICommand = {
         if (error instanceof Error) {
           toast.error(error.message, { id: toastId })
         }
+      } finally {
+        input.remove()
       }
     })
     input.click()
