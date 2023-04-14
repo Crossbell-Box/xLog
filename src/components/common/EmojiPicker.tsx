@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
-import { useMediaStore } from "~/hooks/useDarkMode"
+import { useIsDark } from "~/hooks/useDarkMode"
 
 export const EmojiPicker: React.FC<{
   onEmojiSelect: (e: any) => void
 }> = ({ onEmojiSelect }) => {
   const ref = useRef<any>()
-  const isDark = useMediaStore((state) => state.isDark)
+  const isDark = useIsDark()
 
   useEffect(() => {
     import("emoji-mart").then(async (EmojiMart) => {
