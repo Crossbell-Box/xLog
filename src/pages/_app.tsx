@@ -15,12 +15,14 @@ import NextNProgress from "nextjs-progressbar"
 import { Network } from "crossbell.js"
 import { appWithTranslation } from "next-i18next"
 
-import { APP_NAME, IPFS_GATEWAY } from "~/lib/env"
+import { APP_NAME, IPFS_GATEWAY, SITE_URL } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
 import { AppPropsWithLayout } from "types/next"
 import { useMediaToggle } from "~/hooks/useDarkMode"
+import { initProxyLocalStorage } from "~/lib/proxy-localstorage"
+import { useEffect, useRef } from "react"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
@@ -38,44 +40,60 @@ const persister = createIDBPersister()
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  useEffect(() => {
+    if (iframeRef.current) {
+      initProxyLocalStorage(iframeRef.current).then(() =>
+        console.log("proxy ready"),
+      )
+    }
+  }, [iframeRef])
 
   useMediaToggle()
   return (
-    <WagmiConfig client={wagmiClient}>
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{
-          persister,
-          dehydrateOptions: {
-            shouldDehydrateQuery: (query) => {
-              const queryIsReadyForPersistance =
-                query.state.status === "success"
-              if (queryIsReadyForPersistance) {
-                return !((query.state?.data as any)?.pages?.length > 1)
-              } else {
-                return false
-              }
+    <>
+      <WagmiConfig client={wagmiClient}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{
+            persister,
+            dehydrateOptions: {
+              shouldDehydrateQuery: (query) => {
+                const queryIsReadyForPersistance =
+                  query.state.status === "success"
+                if (queryIsReadyForPersistance) {
+                  return !((query.state?.data as any)?.pages?.length > 1)
+                } else {
+                  return false
+                }
+              },
             },
-          },
-        }}
-      >
-        <ConnectKitProvider
-          ipfsLinkToHttpLink={toGateway}
-          urlComposer={urlComposer}
-          signInStrategy="simple"
+          }}
         >
-          <Hydrate state={pageProps.dehydratedState}>
-            {/* <ReactQueryDevtools /> */}
-            <NextNProgress
-              options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
-            />
-            {getLayout(<Component {...pageProps} />)}
-            <Toaster />
-            <NotificationModal />
-          </Hydrate>
-        </ConnectKitProvider>
-      </PersistQueryClientProvider>
-    </WagmiConfig>
+          <ConnectKitProvider
+            ipfsLinkToHttpLink={toGateway}
+            urlComposer={urlComposer}
+            signInStrategy="simple"
+          >
+            <Hydrate state={pageProps.dehydratedState}>
+              {/* <ReactQueryDevtools /> */}
+              <NextNProgress
+                options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
+              />
+              {getLayout(<Component {...pageProps} />)}
+              <Toaster />
+              <NotificationModal />
+            </Hydrate>
+          </ConnectKitProvider>
+        </PersistQueryClientProvider>
+      </WagmiConfig>
+      <iframe
+        ref={iframeRef}
+        src={`${SITE_URL}/assets/storage-proxy.html`}
+        className="hidden"
+      ></iframe>
+    </>
   )
 }
 

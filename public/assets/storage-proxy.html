@@ -1,0 +1,29 @@
+<html>
+<head>
+  <title>xLog Storage Proxy</title>
+</head>
+<body>
+  You should not access this page.
+  <script>
+    window.addEventListener('message', function(event) {
+      if (event.origin === window.location.origin || event.origin.replace(/$https?:\/\/.+\./, "") === window.location.hostname && event.data) {
+        const { action, key, value } = event.data;
+
+        switch (action) {
+          case 'setItem':
+            localStorage.setItem(key, value);
+            event.source.postMessage('setItem success', event.origin);
+            break;
+          case 'getItem':
+            const itemValue = localStorage.getItem(key);
+            event.source.postMessage({
+              key: key, 
+              value: itemValue
+            }, event.origin);
+            break;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
