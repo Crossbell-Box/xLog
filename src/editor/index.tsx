@@ -14,8 +14,9 @@ import { Quote } from "./Quote"
 import { Strikethrough } from "./Strikethrough"
 import { Underline } from "./Underline"
 import { Mention } from "./Mention"
+import { Emoji } from "./Emoji"
 
-export type ICommand = {
+export type ICommand<P = any> = {
   icon: string
   name: string
   label: string
@@ -25,7 +26,15 @@ export type ICommand = {
       setPreviewVisible?: Dispatch<SetStateAction<boolean>>
       container?: HTMLElement | null
     }
+    payload?: P
   }) => void
+  // While the `ui` field exists, the ui component will be rendered in a popover first,
+  // then you can call `transferPayload` to transfer the payload to the `execute` function.
+  // You can find a sample usage in `./Emoji.tsx`.
+  ui?: React.FC<{
+    transferPayload: (payload: P) => void
+    view: EditorView
+  }>
 }
 
 export type IPrependExecute = {
@@ -129,4 +138,5 @@ export const toolbars: ICommand[] = [
   Link,
   Image,
   Mention,
+  Emoji,
 ]
