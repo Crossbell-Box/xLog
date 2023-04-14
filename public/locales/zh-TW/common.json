@@ -28,6 +28,9 @@
     "Submit": "提交",
     "Reply": "回覆",
     "Cancel Reply": "取消回覆",
+    "Edit": "編輯",
+    "Cancel Edit": "取消編輯",
+    "Confirm Modification": "確認編輯",
     "ago": "{{time}}前",
     "joined ago": "{{time}}前加入",
     "obtained ago": "{{time}}前獲得",
@@ -72,5 +75,7 @@
     "Successfully followed": "嘿！你已經開始<2>追蹤他們的最新動態</2>囉。",
     "Enable AI Filtering": "AI 過濾",
     "Filter out possible low-quality content based on AI ratings.": "基於 AI 評分過濾可能不佳的內容",
-    "Refreshing": "重新載入中"
+    "Refreshing": "重新載入中",
+    "Search for your interest": "搜你所想",
+    "results": "項結果"
 }
