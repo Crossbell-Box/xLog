@@ -1,6 +1,5 @@
 import { useMonaco } from "@monaco-editor/react"
 import { useEffect } from "react"
-import { useMediaStore } from "~/hooks/useDarkMode"
 import Dark from "./theme/dark.json"
 import Light from "./theme/light.json"
 

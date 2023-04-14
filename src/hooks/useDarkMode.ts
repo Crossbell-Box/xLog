@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { create } from "zustand"
 import { getStorage, setStorage, delStorage } from "~/lib/storage"
 
-export const useMediaStore = create<{
+interface IMediaStore {
   isDark: boolean
-  setDark: (isDark: boolean) => void
-}>((set) => {
+  toggle: () => void
+}
+
+const useMediaStore = create<IMediaStore>(() => {
   return {
     isDark: false,
-    setDark: (isDark: boolean) => set({ isDark }),
+    toggle: () => void 0,
   }
 })
+
+export const useIsDark = () => useMediaStore((state) => state.isDark)
 
 const isServerSide = () => typeof window === "undefined"
 
@@ -21,7 +25,7 @@ interface DarkModeConfig {
   storageKey?: string // Specify the `localStorage` key. Default = "darkMode". Sewt to `null` to disable persistent storage.
 }
 
-const useDarkMode = (
+const useDarkModeInternal = (
   initialState: boolean | undefined,
   options: DarkModeConfig,
 ) => {
@@ -125,8 +129,8 @@ const mockElement = {
   },
 }
 const darkModeKey = "darkMode"
-export const useMediaToggle = () => {
-  const { toggle, value } = useDarkMode(undefined, {
+export const useDarkMode = () => {
+  const { toggle, value } = useDarkModeInternal(undefined, {
     classNameDark: "dark",
     classNameLight: "light",
     storageKey: darkModeKey,
@@ -134,8 +138,16 @@ export const useMediaToggle = () => {
   })
 
   useEffect(() => {
-    useMediaStore.getState().setDark(value ? true : false)
+    useMediaStore.setState({
+      isDark: value,
+    })
   }, [value])
+
+  const onceRef = useRef(false)
+  if (!onceRef.current) {
+    onceRef.current = true
+    useMediaStore.setState({ toggle })
+  }
 
   useEffect(() => {
     const handler = () => {

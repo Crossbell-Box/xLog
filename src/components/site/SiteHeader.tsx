@@ -22,7 +22,7 @@ import { Tooltip } from "~/components/ui/Tooltip"
 import { PatronButton } from "~/components/common/PatronButton"
 import { Modal } from "~/components/ui/Modal"
 import { SearchInput } from "~/components/common/SearchInput"
-import { useMediaStore } from "~/hooks/useDarkMode"
+import { useIsDark } from "~/hooks/useDarkMode"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -133,7 +133,7 @@ export const SiteHeader: React.FC<{
   const avatarRef = useRef<HTMLImageElement>(null)
   const bannerRef = useRef<HTMLImageElement | HTMLVideoElement>(null)
 
-  const isDark = useMediaStore((state) => state.isDark)
+  const isDark = useIsDark()
   const [averageColor, setAverageColor] = useState<string>()
   const [autoHoverColor, setAutoHoverColor] = useState<string>()
   const [autoThemeColor, setAutoThemeColor] = useState<string>()
