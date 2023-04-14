@@ -20,7 +20,7 @@ interface DarkModeConfig {
   classNameDark?: string // A className to set "dark mode". Default = "dark-mode".
   classNameLight?: string // A className to set "light mode". Default = "light-mode".
   element?: HTMLElement | undefined | null // The element to apply the className. Default = `document.body`
-  storageKey?: string // Specify the `localStorage` key. Default = "darkMode". Sewt to `null` to disable persistent storage.
+  storageKey?: string // Specify the `localStorage` key. Default = "darkMode". set to `undefined` to disable persistent storage.
 }
 
 const useDarkModeInternal = (
@@ -39,11 +39,11 @@ const useDarkModeInternal = (
   useEffect(() => {
     const presentedDarkMode = storageKey
       ? isServerSide()
-        ? null
-        : getStorage(storageKey) || null
-      : null
+        ? undefined
+        : getStorage(storageKey)
+      : undefined
 
-    if (presentedDarkMode !== null) {
+    if (presentedDarkMode !== undefined) {
       if (presentedDarkMode === "true") {
         setDarkMode(true)
       } else if (presentedDarkMode === "false") {
@@ -57,14 +57,14 @@ const useDarkModeInternal = (
   useEffect(() => {
     const handler = (e: MediaQueryListEvent) => {
       const storageValue = getStorage(storageKey || "darkMode")
-      if (storageValue === null) {
+      if (storageValue === undefined) {
         setDarkMode(e.matches)
       }
     }
 
     const focusHandler = () => {
       const storageValue = getStorage(storageKey || "darkMode")
-      if (storageValue === null) {
+      if (storageValue === undefined) {
         setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
       }
     }
