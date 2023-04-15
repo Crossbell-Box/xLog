@@ -118,6 +118,9 @@ dependencies:
   fast-deep-equal:
     specifier: 3.1.3
     version: 3.1.3
+  hast-util-to-text:
+    specifier: ^3.1.2
+    version: 3.1.2
   i18next:
     specifier: ^22.4.14
     version: 22.4.14
@@ -223,6 +226,9 @@ dependencies:
   rehype-react:
     specifier: 7.2.0
     version: 7.2.0(@types/react@18.0.35)
+  rehype-rewrite:
+    specifier: ^3.0.6
+    version: 3.0.6
   rehype-sanitize:
     specifier: 5.0.1
     version: 5.0.1
@@ -9059,7 +9065,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: true
 
   /jsonparse@1.3.1:
@@ -9551,7 +9557,7 @@ packages:
     resolution: {integrity: sha512-SobxkQXFAdd4b5WmEakmkVoh18icjQRxGy5OWTCzgsLRm1Fu/KCtwD1HIQSsmq5ZRjVH0Ehwg6/Fn3xIUk+nKw==}
     dependencies:
       escape-string-regexp: 5.0.0
-      unist-util-is: 5.1.1
+      unist-util-is: 5.2.0
       unist-util-visit-parents: 5.1.1
     dev: false
 
@@ -11658,6 +11664,15 @@ packages:
       hast-to-hyperscript: 10.0.3
       hast-util-whitespace: 2.0.1
       unified: 10.1.2
+    dev: false
+
+  /rehype-rewrite@3.0.6:
+    resolution: {integrity: sha512-REDTNCvsKcAazy8IQWzKp66AhSUDSOIKssSCqNqCcT9sN7JCwAAm3mWGTUdUzq80ABuy8d0D6RBwbnewu1aY1g==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      hast-util-select: 5.0.4
+      unified: 10.1.2
+      unist-util-visit: 4.1.2
     dev: false
 
   /rehype-sanitize@5.0.1:

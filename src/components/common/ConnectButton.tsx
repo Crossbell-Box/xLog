@@ -111,7 +111,7 @@ export const ConnectButton: React.FC<{
       icon: "i-mingcute:home-1-line",
       label: t("My xLog") || "",
       url: getSiteLink({
-        subdomain: userSites.data?.[0].username || "",
+        subdomain: userSites.data?.[0]?.username || "",
       }),
     },
     {

@@ -33,6 +33,8 @@ import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import remarkBreaks from "remark-breaks"
 import { remarkMermaid } from "./remark-mermaid"
 import { Mermaid } from "~/components/ui/Mermaid"
+import rehypeRewrite from "rehype-rewrite"
+import { toText } from "hast-util-to-text"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -69,8 +71,6 @@ export const renderPageContent = (
     toc: null,
     tree: null,
   }
-
-  content = content.replace(/(@\w+)/g, "<mention>$1</mention>")
 
   let contentHTML = ""
   let result: any = null
@@ -119,7 +119,34 @@ export const renderPageContent = (
       .use(rehypeWrapCode)
       .use(rehypeInferDescriptionMeta)
       .use(rehypeSlug)
-
+      .use(rehypeRewrite, {
+        selector: "p",
+        rewrite: (node: any) => {
+          if (node.children) {
+            node.children = node.children.flatMap((child: any) => {
+              if (child.type === "text") {
+                const parts = toText(child).split(/(@\w+)/g)
+                return parts.map((part) => {
+                  if (part.startsWith("@")) {
+                    return {
+                      type: "element",
+                      tagName: "mention",
+                      children: [{ type: "text", value: part }],
+                    }
+                  } else {
+                    return {
+                      type: "text",
+                      value: part,
+                    }
+                  }
+                })
+              } else {
+                return child
+              }
+            })
+          }
+        },
+      })
       .use(rehypeAutolinkHeadings, {
         properties: {
           className: ["xlog-anchor"],
