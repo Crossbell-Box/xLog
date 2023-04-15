@@ -42,11 +42,11 @@ export const CharacterFloatCard: React.FC<{
 
   return (
     <>
-      <div className="inline" ref={refs.setReference} {...getReferenceProps()}>
+      <span className="inline" ref={refs.setReference} {...getReferenceProps()}>
         {children}
-      </div>
+      </span>
       {isMounted && (
-        <div
+        <span
           ref={refs.setFloating}
           className={
             "z-10 block w-80" + (open || buttonLoading ? "" : " hidden")
@@ -64,7 +64,7 @@ export const CharacterFloatCard: React.FC<{
             open={open}
             setButtonLoading={setButtonLoading}
           />
-        </div>
+        </span>
       )}
     </>
   )
