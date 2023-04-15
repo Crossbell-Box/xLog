@@ -124,6 +124,7 @@ export default function SubdomainEditor() {
     tags: "",
     content: "",
   })
+  const [initialContent, setInitialContent] = useState("")
   const [defaultSlug, setDefaultSlug] = useState("")
 
   type Values = typeof values
@@ -317,7 +318,7 @@ export default function SubdomainEditor() {
 
   useEffect(() => {
     if (!page.data || !draftKey) return
-
+    setInitialContent(page.data.body?.content || "")
     setValues({
       title: page.data.title || "",
       publishedAt: page.data.date_published,
@@ -362,23 +363,9 @@ export default function SubdomainEditor() {
     [setView],
   )
 
-  const isComposing = useRef(false)
-  const bufferedContent = useRef<string>("")
   const onChange = useCallback(
-    (value: string, viewUpdate?: ViewUpdate) => {
-      if (!view?.composing) {
-        isComposing.current = false
-        updateValue("content", value)
-      } else {
-        if (isComposing.current && viewUpdate) {
-          bufferedContent.current = value
-          return
-        }
-        isComposing.current = true
-        requestAnimationFrame(() => {
-          onChange(bufferedContent.current)
-        })
-      }
+    (value: string) => {
+      updateValue("content", value)
     },
     [updateValue],
   )
@@ -677,7 +664,7 @@ export default function SubdomainEditor() {
                     ) : (
                       <>
                         <Editor
-                          value={values.content}
+                          value={initialContent}
                           onChange={onChange}
                           handleDropFile={handleDropFile}
                           onScroll={onEditorScroll}
