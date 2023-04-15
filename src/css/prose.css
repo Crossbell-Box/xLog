@@ -1,5 +1,5 @@
 .prose {
-  @apply text-zinc-600 leading-loose relative overflow-hidden;
+  @apply text-zinc-600 leading-loose overflow-hidden;
   word-break: break-word;
 }
 
@@ -178,7 +178,7 @@
 }
 
 .xlog-comment .prose {
-  @apply leading-normal text-[15px] overflow-visible;
+  @apply leading-normal text-[15px];
 }
 
 .xlog-comment .prose blockquote {
