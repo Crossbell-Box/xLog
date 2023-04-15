@@ -178,7 +178,7 @@
 }
 
 .xlog-comment .prose {
-  @apply leading-normal text-[15px];
+  @apply leading-normal text-[15px] overflow-visible;
 }
 
 .xlog-comment .prose blockquote {
