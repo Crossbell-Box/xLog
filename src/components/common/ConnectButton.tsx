@@ -30,6 +30,7 @@ import {
 import { Menu } from "~/components/ui/Menu"
 import { useTranslation } from "next-i18next"
 import { cn } from "~/lib/utils"
+import { getSiteLink } from "~/lib/helpers"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -106,6 +107,13 @@ export const ConnectButton: React.FC<{
   }, [balance])
 
   const dropdownLinks: HeaderLinkType[] = [
+    {
+      icon: "i-mingcute:home-1-line",
+      label: t("My xLog") || "",
+      url: getSiteLink({
+        subdomain: userSites.data?.[0].username || "",
+      }),
+    },
     {
       icon: "i-mingcute:grid-line",
       label: t("Dashboard") || "",
