@@ -5,6 +5,6 @@ export const Mention: ICommand = {
   label: "Mention",
   icon: "i-mingcute:at-line",
   execute: ({ view }) => {
-    wrapExecute({ view, prepend: "::mention{#", append: "}" })
+    wrapExecute({ view, prepend: "@", append: "" })
   },
 }

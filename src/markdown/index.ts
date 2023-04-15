@@ -70,6 +70,8 @@ export const renderPageContent = (
     tree: null,
   }
 
+  content = content.replace(/(@\w+)/g, "<mention>$1</mention>")
+
   let contentHTML = ""
   let result: any = null
   try {

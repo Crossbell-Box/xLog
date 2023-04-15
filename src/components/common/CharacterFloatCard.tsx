@@ -42,7 +42,7 @@ export const CharacterFloatCard: React.FC<{
 
   return (
     <>
-      <div ref={refs.setReference} {...getReferenceProps()}>
+      <div className="inline" ref={refs.setReference} {...getReferenceProps()}>
         {children}
       </div>
       {isMounted && (
