@@ -530,17 +530,9 @@ export default function SubdomainEditor() {
                 }`}
               >
                 <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
-                <UniLink
-                  className="ml-7 align-middle hidden xl:block"
-                  href={`${getSiteLink({
-                    subdomain: "xlog",
-                  })}/xfm`}
-                >
-                  {t("Tip: xLog Flavored Markdown")}
-                </UniLink>
               </div>
               {isMobileLayout ? (
-                <div className="flex items-center space-x-3 w-auto inline-block pl-5">
+                <div className="flex items-center space-x-3 w-auto pl-5">
                   {/* <span
                     className={cn(
                       `text-sm capitalize`,

@@ -15,6 +15,7 @@ import { Strikethrough } from "./Strikethrough"
 import { Underline } from "./Underline"
 import { Mention } from "./Mention"
 import { Emoji } from "./Emoji"
+import { Help } from "./Help"
 
 export type ICommand<P = any> = {
   icon: string
@@ -139,4 +140,5 @@ export const toolbars: ICommand[] = [
   Image,
   Mention,
   Emoji,
+  Help,
 ]
