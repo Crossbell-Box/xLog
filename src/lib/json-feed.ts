@@ -1,4 +1,3 @@
-import { GetServerSideProps } from "next"
 import { fetchGetSite } from "~/queries/site.server"
 import { fetchGetPagesBySite } from "~/queries/page.server"
 import { PageVisibilityEnum } from "~/lib/types"

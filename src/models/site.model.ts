@@ -565,7 +565,7 @@ export type AchievementSection = {
     items: {
       tokenId: number
       name: string
-      status: "INACTIVE" | "MINTABLE" | "MINTED" | "COMMING"
+      status: "INACTIVE" | "MINTABLE" | "MINTED" | "COMING"
       mintedAt: string | null
       transactionHash: string | null
       info: {
@@ -616,7 +616,7 @@ export async function getAchievements(characterId: string) {
               },
               tokenId: 0,
               name: "showcase-superstar",
-              status: "COMMING",
+              status: "COMING",
               mintedAt: null,
               transactionHash: null,
             },
@@ -644,7 +644,7 @@ export async function getAchievements(characterId: string) {
               },
               tokenId: 0,
               name: "mirror-xyz-migrator",
-              status: "COMMING",
+              status: "COMING",
               mintedAt: null,
               transactionHash: null,
             },

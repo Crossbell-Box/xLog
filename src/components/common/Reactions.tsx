@@ -119,6 +119,7 @@ export const Reactions: React.FC<{
               window.innerHeight,
           },
           shapes: ["star"],
+          // cspell:disable-next-line
           colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
         })
       }
@@ -329,7 +330,7 @@ export const Reactions: React.FC<{
         <Modal
           open={isLikeOpen}
           setOpen={setIsLikeOpen}
-          title={t("Like successfull") || ""}
+          title={t("Like successfully") || ""}
         >
           <div className="p-5">
             <Trans i18nKey="like stored">
@@ -351,7 +352,7 @@ export const Reactions: React.FC<{
         <Modal
           open={isMintOpen}
           setOpen={setIsMintOpen}
-          title={t("Mint successfull") || ""}
+          title={t("Mint successfully") || ""}
         >
           <div className="p-5">
             <Trans i18nKey="mint stored">

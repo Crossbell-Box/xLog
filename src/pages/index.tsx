@@ -6,7 +6,7 @@ import { Button } from "~/components/ui/Button"
 import { useAccountState, useConnectedAction } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 import { useRouter } from "next/router"
-import { GITHUB_LINK, APP_NAME, CSB_SCAN, OUR_DOMAIN } from "~/lib/env"
+import { GITHUB_LINK, CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { Link, Element } from "react-scroll"
 import { Image } from "~/components/ui/Image"
@@ -363,7 +363,7 @@ function Home() {
                 </p>
               </div>
               <ul className="pt-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
-                {feature.subfeatures.map((item, index) => (
+                {feature.subfeatures.map((item) => (
                   <li
                     className="border rounded-xl overflow-hidden bg-white hover:shadow-md hover:scale-105 transition duration-300 cursor-default"
                     key={item.title}

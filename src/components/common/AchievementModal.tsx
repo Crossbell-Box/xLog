@@ -5,7 +5,6 @@ import Tilt from "react-parallax-tilt"
 import { Badge } from "~/components/common/AchievementItem"
 import { Button } from "~/components/ui/Button"
 import { useMintAchievement } from "~/queries/site"
-import { useRouter } from "next/router"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { useDate } from "~/hooks/useDate"
 import { useTranslation } from "next-i18next"
@@ -30,15 +29,15 @@ export const AchievementModal: React.FC<{
     ? group.items.filter((item) => item.status === "MINTABLE").pop()
     : null
 
-  const achievementComming = isOwner
-    ? group.items.filter((item) => item.status === "COMMING").pop()
+  const achievementComing = isOwner
+    ? group.items.filter((item) => item.status === "COMING").pop()
     : null
 
   const mintAchievement = useMintAchievement()
 
   const mint = async (tokenId: number) => {
     if (characterId) {
-      await mintAchievement.mutate({
+      mintAchievement.mutate({
         characterId,
         achievementId: tokenId,
       })
@@ -73,8 +72,7 @@ export const AchievementModal: React.FC<{
         <div
           className="inline-flex flex-col text-center items-center text-white"
           key={
-            (achievement || achievementMintable || achievementComming)!.info
-              .name
+            (achievement || achievementMintable || achievementComing)!.info.name
           }
         >
           <Tilt
@@ -93,7 +91,7 @@ export const AchievementModal: React.FC<{
               fill
               alt="achievement"
               src={
-                (achievement || achievementMintable || achievementComming)!.info
+                (achievement || achievementMintable || achievementComing)!.info
                   .media
               }
               className="relative w-full h-full"
@@ -108,7 +106,7 @@ export const AchievementModal: React.FC<{
             </span>
             <span className="text-lg text-black capitalize truncate">
               {
-                (achievement || achievementMintable || achievementComming)!.info
+                (achievement || achievementMintable || achievementComing)!.info
                   .description
               }
             </span>
@@ -138,7 +136,7 @@ export const AchievementModal: React.FC<{
                   </span>
                 </>
               ) : (
-                t(achievementMintable ? "Mintable" : "Comming soon")
+                t(achievementMintable ? "Mintable" : "Coming soon")
               )}
             </span>
           </div>

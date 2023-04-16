@@ -8,10 +8,12 @@ dist
 .env.production
 generated/
 test-results/
+tsconfig.tsbuildinfo
 
 # IDE Specific
 .idea
 .vscode
+.vim
 
 public/sw.js
 public/sw.js.map
