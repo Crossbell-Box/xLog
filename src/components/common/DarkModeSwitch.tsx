@@ -6,7 +6,7 @@ export const DarkModeSwitch = () => {
   const isDark = useIsDark()
   return (
     <Switch
-      checked={isDark}
+      checked={isDark || false}
       onChange={toggle}
       className={`${
         isDark ? "bg-accent" : "bg-gray-200"
