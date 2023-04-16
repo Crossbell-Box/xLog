@@ -48,6 +48,7 @@
     "@iconify-json/mingcute": "^1.1.5",
     "@mantine/core": "^6.0.7",
     "@monaco-editor/react": "4.5.0",
+    "@popperjs/core": "^2.11.7",
     "@prisma/client": "^4.12.0",
     "@tanstack/react-query": "4.29.3",
     "@tanstack/react-query-devtools": "4.29.3",
