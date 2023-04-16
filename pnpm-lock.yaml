@@ -131,8 +131,8 @@ dependencies:
     specifier: 9.0.21
     version: 9.0.21
   ioredis:
-    specifier: 5.3.1
-    version: 5.3.1
+    specifier: 5.3.2
+    version: 5.3.2
   js-yaml:
     specifier: 4.1.0
     version: 4.1.0
@@ -8578,8 +8578,8 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
-  /ioredis@5.3.1:
-    resolution: {integrity: sha512-C+IBcMysM6v52pTLItYMeV4Hz7uriGtoJdz7SSBDX6u+zwSYGirLdQh3L7t/OItWITcw3gTFMjJReYUwS4zihg==}
+  /ioredis@5.3.2:
+    resolution: {integrity: sha512-1DKMMzlIHM02eBBVOFQ1+AolGjs6+xEcM4PDL7NqOS6szq7H9jSaEkIUH6/a5Hl241LzW6JLSiAbNvTQjUupUA==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@ioredis/commands': 1.2.0
