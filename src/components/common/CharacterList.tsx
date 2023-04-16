@@ -47,7 +47,7 @@ export const CharacterList: React.FC<{
                       href={getSiteLink({
                         subdomain: character?.handle,
                       })}
-                      className="flex items-center space-x-2 text-sm"
+                      className="flex items-center space-x-2 text-sm min-w-0"
                     >
                       <CharacterFloatCard siteId={character?.handle}>
                         <Avatar

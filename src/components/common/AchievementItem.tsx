@@ -1,7 +1,7 @@
 import type { AchievementSection } from "~/models/site.model"
 import { Image } from "~/components/ui/Image"
 import { AchievementModal } from "~/components/common/AchievementModal"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Indicator } from "@mantine/core"
 import { useDate } from "~/hooks/useDate"
 import { useTranslation } from "next-i18next"
@@ -50,14 +50,14 @@ export const AchievementItem: React.FC<{
     ? group.items.filter((item) => item.status === "MINTABLE").pop()
     : null
 
-  const achievementComming = isOwner
-    ? group.items.filter((item) => item.status === "COMMING").pop()
+  const achievementComing = isOwner
+    ? group.items.filter((item) => item.status === "COMING").pop()
     : null
 
   const [opened, setOpened] = useState(false)
 
   if (isOwner) {
-    if (!achievement && !achievementMintable && !achievementComming) {
+    if (!achievement && !achievementMintable && !achievementComing) {
       return null
     }
   } else {
@@ -78,7 +78,7 @@ export const AchievementItem: React.FC<{
       >
         <Badge
           media={
-            (achievement || achievementMintable || achievementComming)!.info
+            (achievement || achievementMintable || achievementComing)!.info
               .media
           }
           className={`mb-1 ${!achievement && "grayscale"}`}
@@ -122,7 +122,7 @@ export const AchievementItem: React.FC<{
                     )
                     .humanize(),
                 })
-              : t(achievementMintable ? "Mintable" : "Comming soon")}
+              : t(achievementMintable ? "Mintable" : "Coming soon")}
           </span>
         </div>
       </div>

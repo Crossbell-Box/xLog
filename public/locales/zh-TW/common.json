@@ -36,8 +36,8 @@
     "obtained ago": "{{time}}前獲得",
     "Like": "點讚",
     "Mint to an NFT": "珍藏為 NFT",
-    "Like successfull": "點讚成功",
-    "Mint successfull": "珍藏完成～",
+    "Like successfully": "點讚成功",
+    "Mint successfully": "珍藏完成～",
     "like stored": "你的點讚已被安全地儲存在區塊鏈上，可以在 <2>Crossbell Scan</2> 上查看",
     "mint stored": "你已將這篇文章珍藏成 NFT，可以在 <2>xChar</2> 或 <6>Crossbell Scan</6> 上查看",
     "Got it, thanks!": "知道啦，感恩的心～",
@@ -71,11 +71,11 @@
     "Tip the post: {{name}}": "贊助文章：{{name}}",
     "Custom": "自訂",
     "Mintable": "Mintable",
-    "Comming soon": "即將推出",
     "Successfully followed": "嘿！你已經開始<2>追蹤他們的最新動態</2>囉。",
     "Enable AI Filtering": "AI 過濾",
     "Filter out possible low-quality content based on AI ratings.": "基於 AI 評分過濾可能不佳的內容",
     "Refreshing": "重新載入中",
     "Search for your interest": "搜你所想",
-    "results": "項結果"
+    "results": "項結果",
+    "My xLog": "你的 xLog"
 }

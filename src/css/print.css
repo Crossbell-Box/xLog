@@ -1,0 +1,8 @@
+@media print {
+  nav,
+  header,
+  footer,
+  *[data-hide-print] {
+    display: none !important;
+  }
+}
