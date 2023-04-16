@@ -155,6 +155,7 @@ export const Reactions: React.FC<{
           size === "sm" ? "text-sm space-x-3" : "space-x-6 sm:space-x-10",
           className,
         )}
+        data-hide-print
       >
         <div className={cn("xlog-reactions-like flex items-center sm:mb-0")}>
           <Button
