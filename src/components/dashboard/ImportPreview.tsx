@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState } from "react"
-import useOnClickOutside from "use-onclickoutside"
 import type { NoteMetadata } from "crossbell.js"
-import { PageContent } from "../common/PageContent"
+import { useState } from "react"
 import { useDate } from "~/hooks/useDate"
+import { PageContent } from "../common/PageContent"
 
-import { Button, ButtonGroup } from "../ui/Button"
 import { useTranslation } from "next-i18next"
 
 export const ImportPreview: React.FC<{

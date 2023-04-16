@@ -1,22 +1,70 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { default as NextImage, ImageProps } from "next/image"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
+import { useMobileLayout } from "~/hooks/useMobileLayout"
+import { useGetState } from "~/hooks/useGetState"
 
-export const Image: React.FC<
-  {
-    className?: string
-    src?: string
-    width?: number | string
-    height?: number | string
-    "original-src"?: string
-    imageRef?: React.Ref<HTMLImageElement>
-  } & React.HTMLAttributes<HTMLImageElement> &
-    ImageProps
-> = ({ fill, className, alt, src, width, height, imageRef, ...props }) => {
+type TImageProps = {
+  className?: string
+  src?: string
+  width?: number | string
+  height?: number | string
+  "original-src"?: string
+  imageRef?: React.MutableRefObject<HTMLImageElement>
+  zoom?: boolean
+} & React.HTMLAttributes<HTMLImageElement> &
+  ImageProps
+
+export const Image: React.FC<TImageProps> = ({
+  fill,
+  className,
+  alt,
+  src,
+  width,
+  height,
+  imageRef,
+  zoom,
+  ...props
+}) => {
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
   const [autoWidth, setAutoWidth] = React.useState(0)
   const noOptimization = className?.includes("no-optimization")
+  const imageRefInternal = React.useRef<HTMLImageElement>(null)
+
+  const isMobileLayout = useMobileLayout()
+  const getSrc = useGetState(src)
+
+  useEffect(() => {
+    if (!imageRef) return
+    if (!imageRefInternal.current) return
+
+    if (typeof imageRef === "object") {
+      imageRef.current = imageRefInternal.current
+    }
+  }, [imageRef])
+  useEffect(() => {
+    const $image = imageRefInternal.current
+    if (!$image) return
+    if (isMobileLayout) {
+      const clickHandler = () => {
+        window.open(getSrc(), "_blank")
+      }
+      $image.addEventListener("click", clickHandler)
+      return () => {
+        $image.removeEventListener("click", clickHandler)
+      }
+    }
+    if (zoom) {
+      import("medium-zoom").then(({ default: mediumZoom }) => {
+        mediumZoom($image, {
+          margin: 10,
+          background: "rgb(var(--tw-colors-i-white))",
+          scrollOffset: 0,
+        })
+      })
+    }
+  }, [zoom, isMobileLayout])
 
   if (!src) {
     return null
@@ -57,7 +105,7 @@ export const Image: React.FC<
           setAutoWidth(naturalWidth)
         }
       }}
-      ref={imageRef}
+      ref={imageRefInternal}
     />
   ) : (
     <span
@@ -89,9 +137,18 @@ export const Image: React.FC<
               setAutoWidth(naturalWidth)
             }
           }}
-          ref={imageRef}
+          ref={imageRefInternal}
         />
       </span>
+    </span>
+  )
+}
+
+export const ZoomedImage: React.FC<TImageProps> = (props) => {
+  return (
+    <span className="text-center block">
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
+      <Image {...props} zoom />
     </span>
   )
 }
