@@ -1,4 +1,4 @@
-import { APP_NAME, SITE_URL } from "~/lib/env"
+import { SITE_URL } from "~/lib/env"
 import { UniLink } from "../ui/UniLink"
 import { Profile, Note } from "~/lib/types"
 import Script from "next/script"

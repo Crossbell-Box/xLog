@@ -36,6 +36,7 @@ const withPWA = require("next-pwa")({
       },
     },
     {
+      // cspell:ignore Fipfs
       urlPattern: /\/_next\/image\?url=.+%2Fipfs%2F([^/?#]+)$/i,
       handler: "CacheFirst",
       options: {

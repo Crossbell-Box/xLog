@@ -42,7 +42,7 @@ export default function ImportMarkdownPage() {
   const mirrorXyz = useGetMirrorXyz({
     address: site.data?.metadata?.owner,
   })
-  const checkeMirror = useCheckMirror(site.data?.metadata?.proof)
+  const checkMirror = useCheckMirror(site.data?.metadata?.proof)
 
   const notes = mirrorXyz?.data?.map((note) => ({
     title: note.title,
@@ -84,7 +84,7 @@ export default function ImportMarkdownPage() {
 
   return (
     <DashboardMain title="Import from Mirror.xyz">
-      {checkeMirror?.data ? (
+      {checkMirror?.data ? (
         <form onSubmit={handleSubmit}>
           <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-4">
             <div>
