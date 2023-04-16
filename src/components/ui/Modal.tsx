@@ -17,7 +17,7 @@ export const Modal: React.FC<{
       className="relative z-50"
     >
       {/* The backdrop, rendered as a fixed sibling to the panel container */}
-      <div className="fixed inset-0 bg-black/30 z-40" aria-hidden="true" />
+      <div className="fixed inset-0 bg-black/30 z-40" aria-hidden={true} />
 
       {/* Full-screen container to center the panel */}
       <div
