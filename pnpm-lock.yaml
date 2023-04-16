@@ -21,7 +21,7 @@ dependencies:
     version: 6.9.4
   '@crossbell/connect-kit':
     specifier: 0.0.66
-    version: 0.0.66(@tanstack/react-query@4.29.1)(@types/react@18.0.35)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.10)
+    version: 0.0.66(@tanstack/react-query@4.29.3)(@types/react@18.0.35)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.10)
   '@crossbell/contract':
     specifier: 0.0.66
     version: 0.0.66(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.10)
@@ -30,7 +30,7 @@ dependencies:
     version: 0.0.66(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.10)
   '@crossbell/notification':
     specifier: 0.0.66
-    version: 0.0.66(@emotion/react@11.10.6)(@mantine/hooks@6.0.7)(@tanstack/react-query@4.29.1)(@types/react@18.0.35)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.10)
+    version: 0.0.66(@emotion/react@11.10.6)(@mantine/hooks@6.0.7)(@tanstack/react-query@4.29.3)(@types/react@18.0.35)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.10)
   '@crossbell/ui':
     specifier: 0.0.66
     version: 0.0.66(@types/react@18.0.35)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.10)
@@ -71,14 +71,14 @@ dependencies:
     specifier: ^4.12.0
     version: 4.12.0(prisma@4.12.0)
   '@tanstack/react-query':
-    specifier: 4.29.1
-    version: 4.29.1(react-dom@18.2.0)(react@18.2.0)
+    specifier: 4.29.3
+    version: 4.29.3(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query-devtools':
-    specifier: 4.29.1
-    version: 4.29.1(@tanstack/react-query@4.29.1)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 4.29.3
+    version: 4.29.3(@tanstack/react-query@4.29.3)(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query-persist-client':
-    specifier: 4.29.1
-    version: 4.29.1(@tanstack/react-query@4.29.1)
+    specifier: 4.29.3
+    version: 4.29.3(@tanstack/react-query@4.29.3)
   '@uiw/codemirror-extensions-events':
     specifier: 4.19.16
     version: 4.19.16(@codemirror/view@6.9.4)
@@ -1788,7 +1788,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit@0.0.66(@tanstack/react-query@4.29.1)(@types/react@18.0.35)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.10):
+  /@crossbell/connect-kit@0.0.66(@tanstack/react-query@4.29.3)(@types/react@18.0.35)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.10):
     resolution: {integrity: sha512-8yjQNdmHVS4Y3SVBzkvInBUTx++KmPq2hMLpVzdMd7wizpmeKDy9yheR6L5Nkr70ia6MVMHuRP4tcYMyeulQ3A==}
     peerDependencies:
       '@tanstack/react-query': ^4
@@ -1805,7 +1805,7 @@ packages:
       '@mantine/core': 6.0.7(@emotion/react@11.10.6)(@mantine/hooks@6.0.7)(@types/react@18.0.35)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks': 6.0.7(react@18.2.0)
       '@mantine/notifications': 6.0.7(@mantine/core@6.0.7)(@mantine/hooks@6.0.7)(react-dom@18.2.0)(react@18.2.0)
-      '@tanstack/react-query': 4.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
       canvas-confetti: 1.6.0
       check-password-strength: 2.0.7
       classnames: 2.3.2
@@ -1860,7 +1860,7 @@ packages:
       ethers: ^5
       wagmi: ^0.12
     dependencies:
-      '@tanstack/react-query': 4.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
       crossbell.js: 0.19.8
       dayjs: 1.11.7
       ethers: 5.7.2
@@ -1880,7 +1880,7 @@ packages:
     resolution: {integrity: sha512-AYGDrwiSKqCGNDi0mEPP1k+96loWik+Pd40xH0MzRNM4RtCutPbwm4o+Sj5iWu0tlHoQC2bTs1XcufsLiv+WYw==}
     dev: false
 
-  /@crossbell/notification@0.0.66(@emotion/react@11.10.6)(@mantine/hooks@6.0.7)(@tanstack/react-query@4.29.1)(@types/react@18.0.35)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.10):
+  /@crossbell/notification@0.0.66(@emotion/react@11.10.6)(@mantine/hooks@6.0.7)(@tanstack/react-query@4.29.3)(@types/react@18.0.35)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.10):
     resolution: {integrity: sha512-+P4ZPy50VZDh1w9jIid0NTD2lNW0RWTned1XrilqlepYYcIRpCZyAe5c+fYLhMl7zPTPl9bJt/x0YoF1AHH0eg==}
     peerDependencies:
       '@tanstack/react-query': ^4
@@ -1888,13 +1888,13 @@ packages:
       react: ^18
       wagmi: ^0.12
     dependencies:
-      '@crossbell/connect-kit': 0.0.66(@tanstack/react-query@4.29.1)(@types/react@18.0.35)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.10)
+      '@crossbell/connect-kit': 0.0.66(@tanstack/react-query@4.29.3)(@types/react@18.0.35)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.10)
       '@crossbell/indexer': 0.0.66(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.10)
       '@crossbell/ui': 0.0.66(@types/react@18.0.35)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.10)
       '@crossbell/util-hooks': 0.0.66(react-dom@18.2.0)(react@18.2.0)
       '@crossbell/util-metadata': 0.0.66
       '@mantine/core': 6.0.7(@emotion/react@11.10.6)(@mantine/hooks@6.0.7)(@types/react@18.0.35)(react-dom@18.2.0)(react@18.2.0)
-      '@tanstack/react-query': 4.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       dayjs: 1.11.7
       ethers: 5.7.2
@@ -1924,7 +1924,7 @@ packages:
       '@crossbell/indexer': 0.0.66(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.10)
       '@crossbell/util-hooks': 0.0.66(react-dom@18.2.0)(react@18.2.0)
       '@crossbell/util-metadata': 0.0.66
-      '@tanstack/react-query': 4.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       crossbell.js: 0.19.8
       facepaint: 1.2.1
@@ -1954,7 +1954,7 @@ packages:
     peerDependencies:
       react: ^18
     dependencies:
-      '@tanstack/react-query': 4.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
       crossbell.js: 0.19.8
       react: 18.2.0
     transitivePeerDependencies:
@@ -3892,32 +3892,32 @@ packages:
       '@tanstack/query-persist-client-core': 4.29.1
     dev: false
 
-  /@tanstack/react-query-devtools@4.29.1(@tanstack/react-query@4.29.1)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-lbtNGArplXLVmY8eEh8LFqZz61PJI38sASEcuKoSnEK8UgWvLCwY5vjlT8fzk10yQ4jhR3+PHKLDMXA5ifCTXw==}
+  /@tanstack/react-query-devtools@4.29.3(@tanstack/react-query@4.29.3)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Ne/K9+gskn8zM4sbLWl4mq5x0ha0JIg7I078K+t6seorL6oq9Y9E30wlP4y/IVa9hgn8DHB1Q6GoPtA2iu6p2g==}
     peerDependencies:
-      '@tanstack/react-query': 4.29.1
+      '@tanstack/react-query': 4.29.3
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@tanstack/match-sorter-utils': 8.8.4
-      '@tanstack/react-query': 4.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       superjson: 1.12.2
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /@tanstack/react-query-persist-client@4.29.1(@tanstack/react-query@4.29.1):
-    resolution: {integrity: sha512-9B/ELLxO6gQnVNA5V8CVGfQ6f/IH3sY6ccsLvY8QtvGRMqhZrS5zeZs/Kt1bu7shJBhOeUbkHIkPZ+P20XtP4g==}
+  /@tanstack/react-query-persist-client@4.29.3(@tanstack/react-query@4.29.3):
+    resolution: {integrity: sha512-yyQYr1cLxmakVdWOUV9U/7D4fLiIdtlFa18KIwUI1MSSRwvAjjdx6D4GSmsuLXL9eSudNMyvpy5iTAICv2+CoQ==}
     peerDependencies:
-      '@tanstack/react-query': 4.29.1
+      '@tanstack/react-query': 4.29.3
     dependencies:
       '@tanstack/query-persist-client-core': 4.29.1
-      '@tanstack/react-query': 4.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
-  /@tanstack/react-query@4.29.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-/crv1v+OeuGG6EOvaQmyeo9GCKtH4jbmuhZkvk9ulufRiHcTr/A9+YP9GevEAZzUTdzXMwenpTbyxBGvG2xXvw==}
+  /@tanstack/react-query@4.29.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-FPQrMu7PbCgBcVzoRJm7WmQnAFv+LUgZM9KBZ7Vk/+yERH2BDLvQRuAgczQd5Tb1s3HbOktECRDaOkUxdyBAjw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -13560,8 +13560,8 @@ packages:
         optional: true
     dependencies:
       '@tanstack/query-sync-storage-persister': 4.29.1
-      '@tanstack/react-query': 4.29.1(react-dom@18.2.0)(react@18.2.0)
-      '@tanstack/react-query-persist-client': 4.29.1(@tanstack/react-query@4.29.1)
+      '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query-persist-client': 4.29.3(@tanstack/react-query@4.29.3)
       '@wagmi/core': 0.10.9(@babel/core@7.21.4)(@types/node@18.15.11)(ethers@5.7.2)(immer@9.0.21)(react@18.2.0)(typescript@5.0.4)
       abitype: 0.7.1(typescript@5.0.4)
       ethers: 5.7.2
