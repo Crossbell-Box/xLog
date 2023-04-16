@@ -32,7 +32,7 @@ export const SiteFooter: React.FC<{
   return (
     <>
       <footer className="text-zinc-500 border-t">
-        <div className="max-w-screen-md mx-auto px-5 py-10 text-xs flex justify-between">
+        <div className="max-w-screen-md mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5">
           <div className="font-medium text-base">
             <span>&copy; </span>
             <UniLink href="/" className="hover:text-accent">
@@ -50,7 +50,7 @@ export const SiteFooter: React.FC<{
             />
           </div>
           {site?.connected_accounts && (
-            <div className="ml-5 -mr-5">
+            <div className="sm:-mr-5 sm:block inline-block align-middle mr-4">
               {site?.connected_accounts.map((account, index) => (
                 <Platform
                   key={index}
