@@ -86,6 +86,7 @@ module.exports = withBundleAnalyzer(
     productionBrowserSourceMaps: true,
 
     webpack(config) {
+      config.resolve.fallback = { fs: false } // polyfill node-id3
       config.plugins.push(new UnoCSS())
       return config
     },

@@ -1,5 +1,6 @@
 import "~/css/main.css"
 import "~/generated/uno.css"
+import "aplayer/dist/APlayer.min.css"
 
 import { Toaster } from "react-hot-toast"
 import { createClient, WagmiConfig } from "wagmi"

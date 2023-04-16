@@ -9,6 +9,7 @@ import rehypeRaw from "rehype-raw"
 import { refractor } from "refractor"
 import rehypePrismGenerator from "rehype-prism-plus/generator"
 import { rehypeImage } from "./rehype-image"
+import { rehypeAudio } from "./rehype-audio"
 import { rehypeTable } from "./rehype-table"
 import { remarkCallout } from "./remark-callout"
 import { rehypeExternalLink } from "./rehyper-external-link"
@@ -35,6 +36,7 @@ import { remarkMermaid } from "./remark-mermaid"
 import { Mermaid } from "~/components/ui/Mermaid"
 import rehypeRewrite from "rehype-rewrite"
 import { toText } from "hast-util-to-text"
+import { APlayer } from "~/components/ui/APlayer"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -109,6 +111,7 @@ export const renderPageContent = (
       .use(rehypeStringify)
       .use(rehypeRaw)
       .use(rehypeImage, { env })
+      .use(rehypeAudio)
       .use(rehypeSanitize, sanitizeScheme)
       .use(rehypePrism, {
         ignoreMissing: true,
@@ -181,6 +184,7 @@ export const renderPageContent = (
           anchor: Element,
           mention: Mention,
           mermaid: Mermaid,
+          audio: APlayer,
         } as any,
       })
       .use(() => (tree) => {
