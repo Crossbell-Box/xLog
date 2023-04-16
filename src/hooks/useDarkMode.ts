@@ -18,9 +18,9 @@ const useMediaStore = create<IMediaStore>(() => {
 const isServerSide = () => typeof window === "undefined"
 
 interface DarkModeConfig {
-  classNameDark?: string // A className to set "dark mode". Default = "dark-mode".
-  classNameLight?: string // A className to set "light mode". Default = "light-mode".
-  element?: HTMLElement | undefined | null // The element to apply the className. Default = `document.body`
+  classNameDark?: string // A className to set "dark mode". Default = "dark".
+  classNameLight?: string // A className to set "light mode". Default = "light".
+  element?: HTMLElement | undefined | null // The element to apply the className. Default = `document.body`.
   storageKey?: string // Specify the `localStorage` key. Default = "darkMode". set to `undefined` to disable persistent storage.
 }
 const darkModeKey = "darkMode"
@@ -67,21 +67,28 @@ const useDarkModeInternal = (
       }
     }
 
-    const focusHandler = () => {
-      const storageValue = getStorage(storageKey)
-      // if back to page and not storage color mode, switch to follow system
+    const storageHandler = () => {
+      const storageValue = getStorage(storageKey, true)
+      // if not storage color mode, switch to follow system
       if (storageValue === undefined) {
         setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
+      } else {
+        // make multiple pages to switch to dark mode together.
+        if (storageValue === "true") {
+          setDarkMode(true)
+        } else if (storageValue === "false") {
+          setDarkMode(false)
+        }
       }
     }
 
-    window.addEventListener("focus", focusHandler)
+    window.addEventListener("storage", storageHandler)
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", handler)
 
     return () => {
-      window.removeEventListener("focus", focusHandler)
+      window.removeEventListener("storage", storageHandler)
       window
         .matchMedia("(prefers-color-scheme: dark)")
         .removeEventListener("change", handler)
