@@ -40,7 +40,9 @@ export const Titles: React.FC<{
           )}
         >
           <UniLink href={title.link} className="inline-flex">
-            <i className={cn(icons[title.name].icon, "text-[10px]")} />
+            <span className="text-white">
+              <i className={cn(icons[title.name].icon, "text-[10px] block")} />
+            </span>
           </UniLink>
         </Tooltip>
       ))}
