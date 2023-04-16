@@ -75,6 +75,11 @@ export default function SettingsCSSPage() {
               )}
             </p>
             <p>
+              {t(
+                "Using a browser plugin that can modify page styles, such as Stylebot, can help with debugging.",
+              )}
+            </p>
+            <p>
               {t("Support")} <code>ipfs://</code>
             </p>
             <p>

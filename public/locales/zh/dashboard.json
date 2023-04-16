@@ -113,6 +113,7 @@
   "Scope: These styles will be applied to your entire blog, including this dashboard.": "范围：这些样式将应用于你的整个博客，包括这个仪表盘。",
   "Support": "支持",
   "CSS variables: xLog provides some built-in CSS variables": "CSS 变量：xLog 提供了一些内置的 CSS 变量",
+  "Using a browser plugin that can modify page styles, such as Stylebot, can help with debugging.": "使用可以修改页面样式的浏览器插件，例如 Stylebot，可以帮助调试。",
   "Address": "地址",
   "Character": "角色",
   "New operator": "新建授权",
