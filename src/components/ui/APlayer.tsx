@@ -11,7 +11,7 @@ export const APlayer: React.FC<
   const [audio, setAudio] = useState<AudioInfo>()
   useEffect(() => {
     if (!Array.isArray(children) || children.length < 3) {
-      throw new Error("Aplayer params error, exactly 4 parameters required")
+      throw new Error("Aplayer params error, exactly 3 parameters required")
     }
     const [artist, name, cover] = children as Array<string>
     setAudio({ artist, name, cover, url: src })
