@@ -74,6 +74,7 @@
     "lottie-react": "^2.4.0",
     "mdast-util-to-string": "3.2.0",
     "mdast-util-toc": "6.1.1",
+    "medium-zoom": "1.0.8",
     "mermaid": "10.1.0",
     "nanoid": "4.0.2",
     "next": "13.2.4",

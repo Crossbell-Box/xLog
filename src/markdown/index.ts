@@ -16,7 +16,7 @@ import { rehypeWrapCode } from "./rehype-wrap-code"
 import jsYaml from "js-yaml"
 import rehypeReact from "rehype-react"
 import { createElement, ReactElement } from "react"
-import { Image } from "~/components/ui/Image"
+import { ZoomedImage } from "~/components/ui/Image"
 import remarkDirective from "remark-directive"
 import remarkDirectiveRehype from "remark-directive-rehype"
 import { remarkYoutube } from "./remark-youtube"
@@ -177,7 +177,7 @@ export const renderPageContent = (
       .use(html ? () => (tree: any) => {} : rehypeReact, {
         createElement: createElement,
         components: {
-          img: Image,
+          img: ZoomedImage,
           anchor: Element,
           mention: Mention,
           mermaid: Mermaid,
