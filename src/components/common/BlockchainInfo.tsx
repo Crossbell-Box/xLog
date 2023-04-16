@@ -21,6 +21,7 @@ export const BlockchainInfo: React.FC<{
             <Disclosure.Button
               className="flex w-full justify-between items-center rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-hover transition-colors md:rounded-xl"
               aria-label="toggle chain info"
+              data-hide-print
             >
               <span className="flex items-center">
                 <BlockchainIcon className="mr-1" />
