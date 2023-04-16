@@ -44,6 +44,7 @@ import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { getDefaultSlug } from "~/lib/default-slug"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
+import NodeID3 from "node-id3"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -391,19 +392,52 @@ export default function SubdomainEditor() {
     async (file: File) => {
       const toastId = toast.loading("Uploading...")
       try {
-        if (!file.type.startsWith("image/")) {
-          throw new Error("You can only upload images")
+        if (
+          !file.type.startsWith("image/") &&
+          !file.type.startsWith("audio/")
+        ) {
+          throw new Error("You can only upload images or audios")
         }
 
         const { key } = await uploadFile(file)
         toast.success("Uploaded!", {
           id: toastId,
         })
-        view?.dispatch(
-          view.state.replaceSelection(
-            `\n![${file.name.replace(/\.\w+$/, "")}](${key})\n`,
-          ),
-        )
+        if (file.type.startsWith("image/")) {
+          view?.dispatch(
+            view.state.replaceSelection(
+              `\n![${file.name.replace(/\.\w+$/, "")}](${key})\n`,
+            ),
+          )
+        } else if (file.type.startsWith("audio/")) {
+          const fileArrayBuffer = await file.arrayBuffer()
+          const fileBuffer = Buffer.from(fileArrayBuffer)
+          const tags = NodeID3.read(fileBuffer)
+          const name = tags.title ?? file.name
+          const artist = tags.artist
+          const cover = await (async () => {
+            const image = tags.image
+            if (!image || typeof image === "string") return image
+
+            const toastId = toast.loading("Uploading cover...")
+            const { key } = await uploadFile(
+              new Blob([image.imageBuffer], { type: image.type.name }),
+            )
+            toast.success("Uploaded cover!", {
+              id: toastId,
+            })
+            return key
+          })()
+          view?.dispatch(
+            view.state.replaceSelection(
+              `\n<audio src="${key}" name="${name}" ${
+                artist ? `artist="${artist}"` : ""
+              } ${cover ? `cover="${cover}"` : ""}><audio>\n`,
+            ),
+          )
+        } else {
+          throw new Error("Unknown upload file type")
+        }
       } catch (error) {
         if (error instanceof Error) {
           toast.error(error.message, { id: toastId })
