@@ -1,6 +1,5 @@
 import { EditorView } from "@codemirror/view"
-import { cn } from "~/lib/utils"
-import { FC, useState } from "react"
+import { FC, memo, useCallback, useState } from "react"
 import { ICommand } from "~/editor"
 import { Tooltip } from "./Tooltip"
 import { useTranslation } from "next-i18next"
@@ -77,50 +76,56 @@ const ToolbarItemWithPopover: FC<IToolbarItemProps> = ({
   )
 }
 
-export const EditorToolbar: FC<EditorToolbarProps> = ({ view, toolbars }) => {
-  const { t } = useTranslation("dashboard")
-  const renderToolbar =
-    (mode: ToolbarMode) =>
-    // eslint-disable-next-line react/display-name
-    ({ name, icon, label, execute, ui }: ICommand) => {
-      return ui ? (
-        <ToolbarItemWithPopover
-          key={name}
-          name={name}
-          icon={icon}
-          label={label}
-          execute={execute}
-          ui={ui}
-          view={view}
-        />
-      ) : (
-        <Tooltip key={name} label={t(label)} placement="bottom">
-          <button
-            key={name}
-            title={name}
-            type="button"
-            className={
-              "w-9 h-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
-            }
-            onClick={() => {
-              view &&
-                execute({
-                  view,
-                  options: { container: view.dom },
-                })
-            }}
-          >
-            <span className={icon}></span>
-          </button>
-        </Tooltip>
-      )
-    }
+export const EditorToolbar: FC<EditorToolbarProps> = memo(
+  ({ view, toolbars }) => {
+    const { t } = useTranslation("dashboard")
+    const renderToolbar = useCallback(
+      (mode: ToolbarMode) =>
+        // eslint-disable-next-line react/display-name
+        ({ name, icon, label, execute, ui }: ICommand) => {
+          return ui ? (
+            <ToolbarItemWithPopover
+              key={name}
+              name={name}
+              icon={icon}
+              label={label}
+              execute={execute}
+              ui={ui}
+              view={view}
+            />
+          ) : (
+            <Tooltip key={name} label={t(label)} placement="bottom">
+              <button
+                key={name}
+                title={name}
+                type="button"
+                className={
+                  "w-9 h-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
+                }
+                onClick={() => {
+                  view &&
+                    execute({
+                      view,
+                      options: { container: view.dom },
+                    })
+                }}
+              >
+                <span className={icon}></span>
+              </button>
+            </Tooltip>
+          )
+        },
+      [view, t],
+    )
 
-  return (
-    <div className="flex group">
-      <div className="flex-1 flex space-x-1">
-        {toolbars?.map(renderToolbar(ToolbarMode.Normal))}
+    return (
+      <div className="flex group">
+        <div className="flex-1 flex space-x-1">
+          {toolbars?.map(renderToolbar(ToolbarMode.Normal))}
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  },
+)
+
+EditorToolbar.displayName = "EditorToolbar"
