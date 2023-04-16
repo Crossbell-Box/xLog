@@ -10,6 +10,7 @@ import "dayjs/locale/en"
 import "dayjs/locale/zh"
 import "dayjs/locale/zh-tw"
 import "dayjs/locale/ja"
+import { useMemo } from "react"
 
 dayjs.extend(localizedFormat)
 dayjs.extend(utc)
@@ -19,18 +20,23 @@ dayjs.extend(relativeTime)
 
 export function useDate() {
   const { i18n } = useTranslation()
-  dayjs.locale(i18n.resolvedLanguage)
 
-  return {
-    dayjs,
-    formatDate: (date: string | Date, format = "ll", timezone?: string) => {
-      return dayjs(date).tz(timezone).format(format)
-    },
-    formatToISO: (date: string | Date) => {
-      return dayjs(date).toISOString()
-    },
-    inLocalTimezone: (date: string | Date) => {
-      return dayjs(date).tz().toDate()
-    },
-  }
+  const memoizedDateUtils = useMemo(() => {
+    dayjs.locale(i18n.resolvedLanguage)
+
+    return {
+      dayjs,
+      formatDate: (date: string | Date, format = "ll", timezone?: string) => {
+        return dayjs(date).tz(timezone).format(format)
+      },
+      formatToISO: (date: string | Date) => {
+        return dayjs(date).toISOString()
+      },
+      inLocalTimezone: (date: string | Date) => {
+        return dayjs(date).tz().toDate()
+      },
+    }
+  }, [i18n.resolvedLanguage])
+
+  return memoizedDateUtils
 }
