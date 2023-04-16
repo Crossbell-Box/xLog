@@ -404,7 +404,7 @@ export default function SubdomainEditor() {
 
             const toastId = toast.loading("Uploading cover...")
             const { key } = await uploadFile(
-              new Blob([image.imageBuffer.buffer], { type: image.type.name }),
+              new Blob([image.imageBuffer], { type: image.type.name }),
             )
             toast.success("Uploaded cover!", {
               id: toastId,
