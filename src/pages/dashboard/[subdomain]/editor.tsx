@@ -41,7 +41,7 @@ import { useTranslation } from "next-i18next"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { getDefaultSlug } from "~/lib/helpers"
+import { getDefaultSlug } from "~/lib/default-slug"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 

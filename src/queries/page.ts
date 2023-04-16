@@ -15,12 +15,10 @@ import {
 } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 import { useContract } from "@crossbell/contract"
-import { NoteEntity } from "crossbell.js"
 
 import * as pageModel from "~/models/page.model"
 
 import { useUnidata } from "./unidata"
-import { getDefaultSlug } from "~/lib/helpers"
 
 export const useGetPagesBySiteLite = (
   input: Parameters<typeof pageModel.getPagesBySite>[0],
@@ -296,6 +294,8 @@ export function useGetSummary(input: { cid?: string; lang?: string }) {
 
 export function useGetMirrorXyz(input: { address: string }) {
   return useQuery(["getMirror", input.address], async () => {
+    const { getDefaultSlug } = await import("~/lib/default-slug")
+
     if (!input.address) {
       return null
     }

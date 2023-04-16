@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { getSiteLink } from "~/lib/helpers"
-import { getDefaultSlug } from "~/lib/helpers"
+import { getDefaultSlug } from "~/lib/default-slug"
 import { checkDomainServer } from "~/models/site.model"
 
 export default async function handler(

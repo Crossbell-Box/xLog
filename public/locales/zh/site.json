@@ -7,8 +7,8 @@
   "signed and stored on the blockchain": "此{{name}}已经由它的创作者签名并安全地存储在区块链上。",
   "Write a comment on the blockchain": "在区块链上写下你的评论",
   "powered by": "<span>由 </span><name/><span> 提供支持</span>",
-  "This address is in local editing preview mode and cannot be viewed by the public. The expected online address is:":
-    "此地址处于本地编辑预览模式，无法被公众查看。预期的在线地址是：",
+  "This address is in local editing preview mode and cannot be viewed by the public.":
+    "此地址处于本地编辑预览模式，无法被公众查看。",
   "View on xChar": "在 xChar 上查看",
   "View on xFeed": "在 xFeed 上查看",
   "View on Hoot It": "在 Hoot It 上查看",

@@ -1,5 +1,5 @@
 import { renderPageContent } from "~/markdown"
-import { getDefaultSlug, getSiteLink } from "~/lib/helpers"
+import { getDefaultSlug } from "~/lib/default-slug"
 
 const makeArray = (value: any) => {
   if (Array.isArray(value)) {

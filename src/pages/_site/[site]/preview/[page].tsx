@@ -9,7 +9,8 @@ import { getServerSideProps as getLayoutServerSideProps } from "~/components/sit
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { QueryClient } from "@tanstack/react-query"
 import { useUserRole } from "~/hooks/useUserRole"
-import { getDefaultSlug, getSiteLink } from "~/lib/helpers"
+import { getSiteLink } from "~/lib/helpers"
+import { getDefaultSlug } from "~/lib/default-slug"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
