@@ -238,7 +238,7 @@ export const SiteHeader: React.FC<{
                 images={[getUserContentsUrl(site?.avatars?.[0])]}
                 size={120}
                 name={site?.name}
-                imageRef={avatarRef}
+                imageRef={avatarRef as MutableRefObject<HTMLImageElement>}
               />
             )}
             <div className="flex-1 min-w-0 relative">
