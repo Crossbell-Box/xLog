@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { default as NextImage, ImageProps } from "next/image"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
-import { useMobileLayout } from "~/hooks/useMobileLayout"
+import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useGetState } from "~/hooks/useGetState"
 
 type TImageProps = {
@@ -32,7 +32,7 @@ export const Image: React.FC<TImageProps> = ({
   const noOptimization = className?.includes("no-optimization")
   const imageRefInternal = React.useRef<HTMLImageElement>(null)
 
-  const isMobileLayout = useMobileLayout()
+  const isMobileLayout = useIsMobileLayout()
   const getSrc = useGetState(src)
 
   useEffect(() => {

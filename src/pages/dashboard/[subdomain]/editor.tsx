@@ -30,7 +30,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { PageContent } from "~/components/common/PageContent"
 import type { Root } from "hast"
 import type { EditorView } from "@codemirror/view"
-import { Editor } from "~/components/ui/Editor"
+
 import { renderPageContent } from "~/markdown"
 import { Button } from "~/components/ui/Button"
 import { Modal } from "~/components/ui/Modal"
@@ -42,9 +42,10 @@ import { getServerSideProps as getLayoutServerSideProps } from "~/components/das
 import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { getDefaultSlug } from "~/lib/default-slug"
-import { useMobileLayout } from "~/hooks/useMobileLayout"
+import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import NodeID3 from "node-id3"
+import { CodeMirrorEditor } from "~/components/ui/CodeMirror"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -167,7 +168,7 @@ export default function SubdomainEditor() {
 
   const createOrUpdatePage = useCreateOrUpdatePage()
 
-  const isMobileLayout = useMobileLayout()
+  const isMobileLayout = useIsMobileLayout()
   const [isRendering, setIsRendering] = useState(false)
 
   const savePage = async (published: boolean) => {
@@ -682,7 +683,7 @@ export default function SubdomainEditor() {
                   <div className="mt-5 flex-1 flex overflow-hidden">
                     {isMobileLayout ? (
                       !isRendering ? (
-                        <Editor
+                        <CodeMirrorEditor
                           value={values.content}
                           onChange={onChange}
                           handleDropFile={handleDropFile}
@@ -708,7 +709,7 @@ export default function SubdomainEditor() {
                       )
                     ) : (
                       <>
-                        <Editor
+                        <CodeMirrorEditor
                           value={initialContent}
                           onChange={onChange}
                           handleDropFile={handleDropFile}
