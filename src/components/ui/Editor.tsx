@@ -103,7 +103,30 @@ export const Editor: React.FC<{
           isMobileLayout ? "w-full" : "border-r w-1/2 px-5"
         }`}
         value={value}
-        extensions={extensions}
+        extensions={[
+          markdown(),
+          EditorView.theme({
+            ".cm-scroller": {
+              fontFamily: "var(--font-sans)",
+              fontSize: "1rem",
+              overflow: "auto",
+              height: "100%",
+              padding: isMobileLayout ? "0 1.25rem" : "unset",
+            },
+            ".cm-content": {
+              paddingBottom: "600px",
+            },
+            "&.cm-editor.cm-focused": {
+              outline: "none",
+            },
+            "&.cm-editor": {
+              height: "100%",
+              backgroundColor: "transparent",
+            },
+          }),
+
+          ...codemirrorReconfigureExtension,
+        ]}
         onCreateEditor={(view, state) => {
           setCmEditor(view)
           onCreateEditor?.(view, state)
