@@ -684,7 +684,7 @@ export default function SubdomainEditor() {
                     {isMobileLayout ? (
                       !isRendering ? (
                         <CodeMirrorEditor
-                          value={values.content}
+                          value={initialContent}
                           onChange={onChange}
                           handleDropFile={handleDropFile}
                           onScroll={onEditorScroll}
