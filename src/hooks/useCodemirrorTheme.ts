@@ -5,9 +5,8 @@ import { useEffect, useRef } from "react"
 
 import { oneDark } from "@codemirror/theme-one-dark"
 import { githubLight } from "@ddietr/codemirror-themes/theme/github-light"
-import { useMobileLayout } from "./useMobileLayout"
-import { useIsMounted } from "@crossbell/util-hooks"
 import { useIsUnmounted } from "./useLifecycle"
+import { useIsMobileLayout } from "./useMobileLayout"
 
 const extensionMap = {
   theme: new Compartment(),
@@ -38,7 +37,7 @@ export const useCodeMirrorAutoToggleTheme = (
 }
 
 export const useCodeMirrorStyle = (view: EditorView | null) => {
-  const isMobileLayout = useMobileLayout()
+  const isMobileLayout = useIsMobileLayout()
   const isUnmounted = useIsUnmounted()
   const once = useRef(false)
   const getStyle = () => {

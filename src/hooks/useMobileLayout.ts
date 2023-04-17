@@ -26,6 +26,6 @@ export function useMobileLayout() {
   useEffect(() => {
     calc()
   }, [])
-
-  return useLayoutStore((state) => state.isMobile)
 }
+
+export const useIsMobileLayout = () => useLayoutStore((state) => state.isMobile)
