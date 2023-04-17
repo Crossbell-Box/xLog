@@ -21,6 +21,7 @@ import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
 import { AppPropsWithLayout } from "types/next"
 import { useDarkMode } from "~/hooks/useDarkMode"
+import { useMobileLayout } from "~/hooks/useMobileLayout"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
@@ -40,6 +41,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
 
   useDarkMode()
+  useMobileLayout()
+
   return (
     <WagmiConfig client={wagmiClient}>
       <PersistQueryClientProvider

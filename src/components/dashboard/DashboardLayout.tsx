@@ -23,7 +23,7 @@ import { Logo } from "~/components/common/Logo"
 import { getStorage } from "~/lib/storage"
 import { useGetPagesBySite } from "~/queries/page"
 import { DashboardTopbar } from "./DashboardTopbar"
-import { useMobileLayout } from "~/hooks/useMobileLayout"
+import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 
 export function DashboardLayout({
   children,
@@ -47,7 +47,7 @@ export function DashboardLayout({
   const [hasPermission, setHasPermission] = React.useState(false)
   const { t } = useTranslation("dashboard")
 
-  const isMobileLayout = useMobileLayout()
+  const isMobileLayout = useIsMobileLayout()
 
   useEffect(() => {
     if (ssrReady) {
