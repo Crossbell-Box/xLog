@@ -15,7 +15,7 @@
     "Site Duration": "網站運作時間",
     "days": "天",
     "Deleted!": "刪掉了哦！",
-    "Fail to Deleted." : "删除失败",
+    "Fail to Deleted.": "删除失败",
     "Converted!": "轉換成功！",
     "Failed to convert.": "轉換失敗。",
     "All Posts": "所有文章",
@@ -180,5 +180,9 @@
     "Today": "今天",
     "This month": "本月",
     "This week": "本周",
-    "All time": "全部"
+    "All time": "全部",
+    "delete_confirmation_post": "你確認要刪除這篇文章嗎？",
+    "delete_confirmation_page": "你確認要刪除這個頁面嗎？",
+    "Confirm": "確認",
+    "Cancel": "取消"
 }
