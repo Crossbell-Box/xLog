@@ -5,7 +5,6 @@ import { HighlightStyle } from "@codemirror/language"
 import { EditorView, KeyBinding, ViewUpdate } from "@codemirror/view"
 import { tags } from "@lezer/highlight"
 import {
-  FC,
   Suspense,
   forwardRef,
   useEffect,
@@ -59,8 +58,9 @@ const LazyCodeMirrorEditor = forwardRef<
   const isMobileLayout = useIsMobileLayout()
 
   const [cmEditor, setCmEditor] = useState<EditorView | null>(null)
-  useCodeMirrorStyle(cmEditor)
   const isDark = useIsDark()
+
+  useCodeMirrorStyle(cmEditor)
   useCodeMirrorAutoToggleTheme(cmEditor, isDark)
 
   useImperativeHandle(ref, () => cmEditor!)
@@ -117,7 +117,7 @@ const LazyCodeMirrorEditor = forwardRef<
         { scroll },
         { codemirrorReconfigureExtension },
         // @codemirror/language
-        { syntaxHighlighting, indentOnInput, defaultHighlightStyle },
+        { syntaxHighlighting, indentOnInput },
         // @codemirror/commands
         { defaultKeymap, history, historyKeymap, indentWithTab },
         // @codemirror/language-data
