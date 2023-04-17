@@ -394,10 +394,9 @@ export default function SubdomainEditor() {
       try {
         if (
           !file.type.startsWith("image/") &&
-          !file.type.startsWith("audio/") &&
-          !(file.type === "text/plain" && file.name.endsWith(".lrc"))
+          !file.type.startsWith("audio/")
         ) {
-          throw new Error("You can only upload images, audios or .lrc files")
+          throw new Error("You can only upload images and audios")
         }
 
         const { key } = await uploadFile(file)

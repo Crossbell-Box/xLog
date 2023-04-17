@@ -15,9 +15,6 @@ export const APlayer: React.FC<
   if (cover) {
     cover = toGateway(cover)
   }
-  if (lrc) {
-    lrc = toGateway(lrc)
-  }
   if (name) {
     name = name.replace(/^user-content-/, "")
   }
