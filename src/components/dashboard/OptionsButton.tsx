@@ -102,20 +102,22 @@ export const OptionsButton: React.FC<{
                         </button>
                       )}
                     </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          className={`${
-                            active
-                              ? "bg-red-600 text-white"
-                              : "text-red-600 bg-white"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                          onClick={() => savePage(false)}
-                        >
-                          {t("Delete")}
-                        </button>
-                      )}
-                    </Menu.Item>
+                    {published && (
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={`${
+                              active
+                                ? "bg-red-600 text-white"
+                                : "text-red-600 bg-white"
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            onClick={() => savePage(false)}
+                          >
+                            {t("Delete")}
+                          </button>
+                        )}
+                      </Menu.Item>
+                    )}
                   </div>
                 </Menu.Items>
               </Transition>
