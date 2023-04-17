@@ -14,7 +14,7 @@ import { FollowingCount } from "~/components/common/FollowingCount"
 import { RssIcon } from "@heroicons/react/24/solid"
 import { XCharLogo, XFeedLogo } from "@crossbell/ui"
 import { FastAverageColor } from "fast-average-color"
-import { useState, useRef, useEffect, RefObject } from "react"
+import { useState, useRef, useEffect, RefObject, MutableRefObject } from "react"
 import chroma from "chroma-js"
 import { Menu } from "~/components/ui/Menu"
 import { useTranslation } from "next-i18next"
@@ -201,7 +201,7 @@ export const SiteHeader: React.FC<{
                   src={site?.banners?.[0]?.address}
                   alt="banner"
                   fill
-                  imageRef={bannerRef as RefObject<HTMLImageElement>}
+                  imageRef={bannerRef as MutableRefObject<HTMLImageElement>}
                 />
               )
             case "video":

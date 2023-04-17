@@ -43,6 +43,7 @@ export const Image: React.FC<TImageProps> = ({
       imageRef.current = imageRefInternal.current
     }
   }, [imageRef])
+
   useEffect(() => {
     const $image = imageRefInternal.current
     if (!$image) return
