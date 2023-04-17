@@ -4,6 +4,7 @@ import { Annotation } from "@codemirror/state"
 import { HighlightStyle } from "@codemirror/language"
 import { EditorView, KeyBinding, ViewUpdate } from "@codemirror/view"
 import { tags } from "@lezer/highlight"
+import type { Tag } from "@lezer/highlight"
 import {
   Suspense,
   forwardRef,
@@ -236,7 +237,14 @@ const LazyCodeMirrorEditor = forwardRef<
 
 LazyCodeMirrorEditor.displayName = "LazyCodeMirrorEditor"
 
-const monoSpaceTags = [
+const monoSpaceTags: Tag[] = [
+  tags.bracket,
+  tags.angleBracket,
+  tags.squareBracket,
+  tags.paren,
+  tags.brace,
+  tags.float,
+  tags.monospace,
   tags.keyword,
   tags.character,
   tags.propertyName,
@@ -260,6 +268,9 @@ const monoSpaceTags = [
   tags.escape,
   tags.regexp,
   /*@__PURE__*/ tags.special(tags.string),
+  tags.name,
+  tags.deleted,
+  tags.character,
 ]
 const codeMirrorMarkdownSyntax = HighlightStyle.define([
   {
