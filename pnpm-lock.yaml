@@ -64,6 +64,9 @@ dependencies:
   '@iconify-json/mingcute':
     specifier: ^1.1.5
     version: 1.1.5
+  '@lezer/highlight':
+    specifier: '*'
+    version: 1.1.4
   '@mantine/core':
     specifier: ^6.0.7
     version: 6.0.7(@emotion/react@11.10.6)(@mantine/hooks@6.0.7)(@types/react@18.0.35)(react-dom@18.2.0)(react@18.2.0)

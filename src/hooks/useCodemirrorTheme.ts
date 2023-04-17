@@ -59,6 +59,9 @@ export const useCodeMirrorStyle = (view: EditorView | null) => {
         height: "100%",
         backgroundColor: "transparent",
       },
+      ".cm-s-markdown .cm-string": {
+        fontFamily: '"Fira Code", monospace',
+      },
     }
   }
 

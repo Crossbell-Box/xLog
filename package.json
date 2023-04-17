@@ -47,6 +47,7 @@
     "@headlessui/react": "1.7.14",
     "@heroicons/react": "2.0.17",
     "@iconify-json/mingcute": "^1.1.5",
+    "@lezer/highlight": "*",
     "@mantine/core": "^6.0.7",
     "@monaco-editor/react": "4.5.0",
     "@popperjs/core": "^2.11.7",
