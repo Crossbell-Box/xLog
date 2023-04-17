@@ -123,12 +123,12 @@ export const renderPageContent = (
       .use(rehypeInferDescriptionMeta)
       .use(rehypeSlug)
       .use(rehypeRewrite, {
-        selector: "p",
+        selector: "p, li",
         rewrite: (node: any) => {
           if (node.children) {
             node.children = node.children.flatMap((child: any) => {
               if (child.type === "text") {
-                const parts = toText(child).split(/(@\w+)/g)
+                const parts = toText(child).split(/(@[\w-]+)/g)
                 return parts.map((part) => {
                   if (part.startsWith("@")) {
                     return {
