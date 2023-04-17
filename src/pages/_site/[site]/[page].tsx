@@ -52,7 +52,7 @@ function SitePagePage({
   useEffect(() => {
     const [, hash] = asPath.split("#")
     if (hash) {
-      scroller.scrollTo(decodeURI(hash), {
+      scroller.scrollTo(decodeURIComponent(hash), {
         smooth: true,
         offset: -20,
       })
