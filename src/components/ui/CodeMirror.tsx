@@ -23,6 +23,15 @@ import { useGetState } from "~/hooks/useGetState"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 
+const LoadingHolder = () => {
+  const { t } = useTranslation("common")
+  return (
+    <div className="flex-1 h-12 flex items-center justify-center">
+      {t("Loading")}...
+    </div>
+  )
+}
+
 interface XLogCodeMirrorEditorProps {
   value: string
   onChange?: (value: string, viewUpdate: ViewUpdate) => void
@@ -37,9 +46,8 @@ export const CodeMirrorEditor = forwardRef<
   EditorView | null,
   XLogCodeMirrorEditorProps
 >((props, ref) => {
-  const { t } = useTranslation("common")
   return (
-    <Suspense fallback={<div>{t("Loading")}...</div>}>
+    <Suspense fallback={<LoadingHolder />}>
       <LazyCodeMirrorEditor {...props} ref={ref} />
     </Suspense>
   )
@@ -226,11 +234,13 @@ const LazyCodeMirrorEditor = forwardRef<
       <div
         ref={editorElementRef}
         onMouseEnter={onMouseEnter}
-        className={`h-full ${
-          isMobileLayout ? "w-full" : "border-r w-1/2 px-5"
-        }`}
+        className={
+          loading
+            ? ""
+            : `h-full ${isMobileLayout ? "w-full" : "border-r w-1/2 px-5"}`
+        }
       />
-      {loading && <div>{t("Loading")}...</div>}
+      {loading && <LoadingHolder />}
     </>
   )
 })
