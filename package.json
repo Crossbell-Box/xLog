@@ -55,7 +55,6 @@
     "@tanstack/react-query-devtools": "4.29.3",
     "@tanstack/react-query-persist-client": "4.29.3",
     "@uiw/codemirror-extensions-events": "4.19.16",
-    "@uiw/react-codemirror": "4.19.16",
     "@urql/core": "4.0.4",
     "aplayer": "^1.10.1",
     "aplayer-react": "^1.0.5",
