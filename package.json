@@ -38,7 +38,7 @@
     "@crossbell/notification": "0.0.66",
     "@crossbell/ui": "0.0.66",
     "@crossbell/util-hooks": "0.0.66",
-    "@ddietr/codemirror-themes": "1.4.0",
+    "@ddietr/codemirror-themes": "1.4.1",
     "@dqbd/tiktoken": "^1.0.6",
     "@emoji-mart/data": "1.1.2",
     "@emoji-mart/react": "1.1.1",

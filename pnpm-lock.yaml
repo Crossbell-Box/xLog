@@ -38,8 +38,8 @@ dependencies:
     specifier: 0.0.66
     version: 0.0.66(react-dom@18.2.0)(react@18.2.0)
   '@ddietr/codemirror-themes':
-    specifier: 1.4.0
-    version: 1.4.0
+    specifier: 1.4.1
+    version: 1.4.1
   '@dqbd/tiktoken':
     specifier: ^1.0.6
     version: 1.0.6
@@ -2265,8 +2265,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: false
 
-  /@ddietr/codemirror-themes@1.4.0:
-    resolution: {integrity: sha512-FPEHcpK3FusL5cDxZk8rgw89Y2VR1BtUEhClsDE11VwusHONjWTctrPxj1zlRWiP8aujCV0PHUYyTqDErL1C/g==}
+  /@ddietr/codemirror-themes@1.4.1:
+    resolution: {integrity: sha512-2exPoRk/VlJMIceQXLRHE6N+81JszN1mDO+exwakYvwfK4BhpyIYaKzN+uEsph0g1qLI0PdHXBI9Yqg5WxyKAw==}
     dependencies:
       '@codemirror/language': 6.6.0
       '@codemirror/state': 6.2.0
