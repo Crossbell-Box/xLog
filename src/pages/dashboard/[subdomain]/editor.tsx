@@ -30,7 +30,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { PageContent } from "~/components/common/PageContent"
 import type { Root } from "hast"
 import type { EditorView } from "@codemirror/view"
-import { Editor } from "~/components/ui/Editor"
+
 import { renderPageContent } from "~/markdown"
 import { Button } from "~/components/ui/Button"
 import { Modal } from "~/components/ui/Modal"
