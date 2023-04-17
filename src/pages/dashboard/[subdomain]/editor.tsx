@@ -394,9 +394,10 @@ export default function SubdomainEditor() {
       try {
         if (
           !file.type.startsWith("image/") &&
-          !file.type.startsWith("audio/")
+          !file.type.startsWith("audio/") &&
+          !(file.type === "text/plain" && file.name.endsWith(".lrc"))
         ) {
-          throw new Error("You can only upload images or audios")
+          throw new Error("You can only upload images, audios or .lrc files")
         }
 
         const { key } = await uploadFile(file)
@@ -435,6 +436,8 @@ export default function SubdomainEditor() {
               } ${cover ? `cover="${cover}"` : ""}><audio>\n`,
             ),
           )
+        } else if (file.type === "text/plain") {
+          view?.dispatch(view.state.replaceSelection(key))
         } else {
           throw new Error("Unknown upload file type")
         }

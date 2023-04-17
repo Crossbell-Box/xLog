@@ -1,25 +1,39 @@
-import { AudioInfo } from "aplayer-react"
 import { APlayer as AplayerReact } from "aplayer-react"
-import { useEffect, useState } from "react"
+import { toGateway } from "~/lib/ipfs-parser"
 
 export const APlayer: React.FC<
   {
-    children: string[]
-    src: string
-  } & React.HTMLAttributes<HTMLAudioElement>
-> = ({ src, children }) => {
-  const [audio, setAudio] = useState<AudioInfo>()
-  useEffect(() => {
-    if (!Array.isArray(children) || children.length < 3) {
-      throw new Error("Aplayer params error, exactly 3 parameters required")
-    }
-    const [artist, name, cover] = children as Array<string>
-    setAudio({ artist, name, cover, url: src })
-  }, [])
+    name?: string
+    artist?: string
+    cover?: string
+    lrc?: string
+  } & React.AudioHTMLAttributes<HTMLAudioElement>
+> = ({ src, name, artist, cover, lrc, muted, autoPlay, loop }) => {
+  if (!src) return null
 
-  if (!audio) {
-    return null
-  } else {
-    return <AplayerReact audio={audio} />
+  src = toGateway(src)
+  if (cover) {
+    cover = toGateway(cover)
   }
+  if (lrc) {
+    lrc = toGateway(lrc)
+  }
+  if (name) {
+    name = name.replace(/^user-content-/, "")
+  }
+
+  return (
+    <AplayerReact
+      audio={{
+        name: name || "xLog audio",
+        artist: artist || "",
+        cover: cover || "/assets/logo.png",
+        lrc,
+        url: src,
+      }}
+      volume={muted ? 0 : 1}
+      autoPlay={autoPlay}
+      initialLoop={loop ? "one" : "none"}
+    />
+  )
 }

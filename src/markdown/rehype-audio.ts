@@ -1,7 +1,6 @@
 import { Root } from "rehype-raw"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
-import { getUserContentsUrl } from "~/lib/user-contents"
 import { toGateway } from "~/lib/ipfs-parser"
 
 export const rehypeAudio: Plugin<Array<void>, Root> = () => {
@@ -17,40 +16,16 @@ export const rehypeAudio: Plugin<Array<void>, Root> = () => {
         return
       }
 
-      let url = src
-      const ipfsUrl = toGateway(url)
-      node.properties.src = ipfsUrl
-      url = ipfsUrl
-
-      node.properties.src = getUserContentsUrl(url)
+      node.properties.src = toGateway(src)
 
       if (parent) {
-        const coverRaw = node.properties.cover
-        const cover =
-          typeof coverRaw === "string" ? toGateway(coverRaw) : undefined
-
         parent.children[i!] = {
           type: "element",
           tagName: "audio",
           properties: {
-            src: url,
+            ...node.properties,
           },
-          // children array format:
-          // artist - name - cover
-          children: [
-            {
-              type: "text",
-              value: `${node.properties.artist}`,
-            },
-            {
-              type: "text",
-              value: `${node.properties.name}`,
-            },
-            {
-              type: "text",
-              value: cover ?? "",
-            },
-          ],
+          children: [],
         }
       }
     })
