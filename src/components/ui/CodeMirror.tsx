@@ -2,7 +2,7 @@ import type { EditorState } from "@codemirror/state"
 import { Annotation } from "@codemirror/state"
 
 import { HighlightStyle } from "@codemirror/language"
-import type { EditorView, KeyBinding, ViewUpdate } from "@codemirror/view"
+import { EditorView, KeyBinding, ViewUpdate } from "@codemirror/view"
 import { tags } from "@lezer/highlight"
 import {
   FC,
@@ -33,14 +33,18 @@ interface XLogCodeMirrorEditorProps {
   onMouseEnter?: () => void
 }
 
-export const CodeMirrorEditor: FC<XLogCodeMirrorEditorProps> = (props) => {
+export const CodeMirrorEditor = forwardRef<
+  EditorView | null,
+  XLogCodeMirrorEditorProps
+>((props, ref) => {
   const { t } = useTranslation("common")
   return (
     <Suspense fallback={<div>{t("Loading")}...</div>}>
-      <LazyCodeMirrorEditor {...props} />
+      <LazyCodeMirrorEditor {...props} ref={ref} />
     </Suspense>
   )
-}
+})
+CodeMirrorEditor.displayName = "CodeMirrorEditor"
 
 const External = Annotation.define<boolean>()
 
