@@ -46,23 +46,26 @@ export const Image: React.FC<TImageProps> = ({
   useEffect(() => {
     const $image = imageRefInternal.current
     if (!$image) return
-    if (isMobileLayout) {
-      const clickHandler = () => {
-        window.open(getSrc(), "_blank")
-      }
-      $image.addEventListener("click", clickHandler)
-      return () => {
-        $image.removeEventListener("click", clickHandler)
-      }
-    }
     if (zoom) {
-      import("medium-zoom").then(({ default: mediumZoom }) => {
-        mediumZoom($image, {
-          margin: 10,
-          background: "rgb(var(--tw-colors-i-white))",
-          scrollOffset: 0,
-        })
-      })
+      if (isMobileLayout !== undefined) {
+        if (isMobileLayout) {
+          const clickHandler = () => {
+            window.open(getSrc(), "_blank")
+          }
+          $image.addEventListener("click", clickHandler)
+          return () => {
+            $image.removeEventListener("click", clickHandler)
+          }
+        } else {
+          import("medium-zoom").then(({ default: mediumZoom }) => {
+            mediumZoom($image, {
+              margin: 10,
+              background: "rgb(var(--tw-colors-i-white))",
+              scrollOffset: 0,
+            })
+          })
+        }
+      }
     }
   }, [zoom, isMobileLayout])
 

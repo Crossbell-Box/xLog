@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react"
 const mobileWidth = 1024
 
 export function useMobileLayout() {
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState<boolean>()
 
   const onResize = useCallback(() => {
     setIsMobile(window.innerWidth < mobileWidth)
