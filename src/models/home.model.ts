@@ -41,7 +41,9 @@ export async function getFeed({
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return await expandCrossbellNote(page, false, true)
+          const expand = await expandCrossbellNote(page, false, true)
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -69,7 +71,9 @@ export async function getFeed({
 
         const list = await Promise.all(
           result.list.map(async (page: any) => {
-            return await expandCrossbellNote(page)
+            const expand = await expandCrossbellNote(page)
+            delete expand.metadata?.content.content
+            return expand
           }),
         )
 
@@ -135,7 +139,9 @@ export async function getFeed({
 
       const list = await Promise.all(
         result?.data?.notes.map(async (page: any) => {
-          return await expandCrossbellNote(page)
+          const expand = await expandCrossbellNote(page)
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -199,7 +205,9 @@ export async function getFeed({
               page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
           }
 
-          return await expandCrossbellNote(page)
+          const expand = await expandCrossbellNote(page)
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -231,7 +239,14 @@ export async function getFeed({
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return await expandCrossbellNote(page, false, false, searchKeyword)
+          const expand = await expandCrossbellNote(
+            page,
+            false,
+            false,
+            searchKeyword,
+          )
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
