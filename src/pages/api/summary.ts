@@ -21,9 +21,14 @@ const chains = new Map<string, AnalyzeDocumentChain>()
 
 const getOriginalSummary = async (cid: string, lang: string) => {
   try {
-    const { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
+    let { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
 
-    if (content) {
+    if (content?.length > 5000) {
+      content = content.slice(0, 5000)
+    }
+    if (content?.length < 200) {
+      return ""
+    } else if (content) {
       console.time(`fetching summary ${cid}, ${lang}`)
 
       let chain = chains.get(lang)
