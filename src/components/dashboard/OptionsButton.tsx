@@ -3,7 +3,6 @@ import { Dispatch, Fragment, SetStateAction, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import { Modal } from "../ui/Modal"
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 export const OptionsButton: React.FC<{
