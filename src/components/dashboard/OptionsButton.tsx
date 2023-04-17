@@ -3,6 +3,8 @@ import { Dispatch, Fragment, SetStateAction, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
+import { Modal } from "../ui/Modal"
+import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 export const OptionsButton: React.FC<{
   visibility: PageVisibilityEnum | undefined
@@ -12,6 +14,7 @@ export const OptionsButton: React.FC<{
   propertiesWidget: React.ReactNode
   isRendering: boolean
   published: boolean
+  isPost: boolean
 }> = ({
   visibility,
   previewPage,
@@ -20,8 +23,12 @@ export const OptionsButton: React.FC<{
   renderPage,
   published,
   propertiesWidget,
+  isPost,
 }) => {
   const { t } = useTranslation("dashboard")
+
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
+    useState<boolean>(false)
 
   return (
     <>
@@ -111,7 +118,7 @@ export const OptionsButton: React.FC<{
                                 ? "bg-red-600 text-white"
                                 : "text-red-600 bg-white"
                             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                            onClick={() => savePage(false)}
+                            onClick={() => setDeleteConfirmModalOpen(true)}
                           >
                             {t("Delete")}
                           </button>
@@ -121,6 +128,14 @@ export const OptionsButton: React.FC<{
                   </div>
                 </Menu.Items>
               </Transition>
+              <DeleteConfirmationModal
+                open={deleteConfirmModalOpen}
+                setOpen={setDeleteConfirmModalOpen}
+                onConfirm={() => {
+                  savePage(false)
+                }}
+                isPost={isPost}
+              />
             </>
           )
         }}

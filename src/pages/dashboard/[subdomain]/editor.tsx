@@ -625,6 +625,7 @@ export default function SubdomainEditor() {
                     renderPage={setIsRendering}
                     propertiesWidget={extraProperties}
                     previewPage={onPreviewButtonClick}
+                    isPost={isPost}
                   />
                 </div>
               ) : (
