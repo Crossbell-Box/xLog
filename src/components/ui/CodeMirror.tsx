@@ -212,6 +212,7 @@ const LazyCodeMirrorEditor = forwardRef<
         parent: editorElementRef.current,
       })
 
+      getProps().onCreateEditor?.(view, editorState)
       setCmEditor(view)
       setLoading(false)
     })
