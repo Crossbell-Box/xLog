@@ -1,8 +1,10 @@
 import React from "react"
-import { CharacterFloatCard } from "../common/CharacterFloatCard"
-import { UniLink } from "./UniLink"
+
 import { getSiteLink } from "~/lib/helpers"
 import { useGetSite } from "~/queries/site"
+
+import { CharacterFloatCard } from "../common/CharacterFloatCard"
+import { UniLink } from "./UniLink"
 
 export const Mention: React.FC<{
   id: string

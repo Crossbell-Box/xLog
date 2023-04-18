@@ -1,6 +1,8 @@
-import { QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
 import { ReactElement } from "react"
+
+import { QueryClient } from "@tanstack/react-query"
+
 import { SiteLayout } from "~/components/site/SiteLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { SitePage } from "~/components/site/SitePage"

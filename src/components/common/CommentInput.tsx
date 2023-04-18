@@ -1,17 +1,20 @@
-import { Profile } from "~/lib/types"
-import { useAccountSites } from "~/queries/site"
-import { Avatar } from "~/components/ui/Avatar"
-import { Input } from "~/components/ui/Input"
-import { Button } from "~/components/ui/Button"
-import { useForm } from "react-hook-form"
-import { useAccountState } from "@crossbell/connect-kit"
-import { useState, useEffect } from "react"
-import { useCommentPage, useUpdateComment } from "~/queries/page"
-import { useRouter } from "next/router"
-import { EmojiPicker } from "./EmojiPicker"
-import { Popover } from "@headlessui/react"
+import { CharacterEntity, NoteEntity } from "crossbell.js"
 import { useTranslation } from "next-i18next"
-import { NoteEntity, CharacterEntity } from "crossbell.js"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+
+import { useAccountState } from "@crossbell/connect-kit"
+import { Popover } from "@headlessui/react"
+
+import { Avatar } from "~/components/ui/Avatar"
+import { Button } from "~/components/ui/Button"
+import { Input } from "~/components/ui/Input"
+import { Profile } from "~/lib/types"
+import { useCommentPage, useUpdateComment } from "~/queries/page"
+import { useAccountSites } from "~/queries/site"
+
+import { EmojiPicker } from "./EmojiPicker"
 
 export const CommentInput: React.FC<{
   pageId?: string

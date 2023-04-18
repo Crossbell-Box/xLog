@@ -1,13 +1,12 @@
+import { OpenAI } from "langchain"
+import { AnalyzeDocumentChain, loadSummarizationChain } from "langchain/chains"
+import { PromptTemplate } from "langchain/prompts"
 import { NextApiRequest, NextApiResponse } from "next"
 
-import { OpenAI } from "langchain"
-import { loadSummarizationChain } from "langchain/chains"
-import { PromptTemplate } from "langchain/prompts"
-import { AnalyzeDocumentChain } from "langchain/chains"
+import { Metadata } from "@prisma/client"
 
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
-import { Metadata } from "@prisma/client"
 import { cacheGet } from "~/lib/redis.server"
 
 const model = new OpenAI({

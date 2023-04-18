@@ -1,6 +1,7 @@
-import { useForm } from "react-hook-form"
-import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import { useForm } from "react-hook-form"
+
 import { cn } from "~/lib/utils"
 
 export const SearchInput: React.FC<{

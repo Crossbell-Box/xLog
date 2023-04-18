@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next"
-import { Modal } from "../ui/Modal"
+
 import { Button } from "../ui/Button"
+import { Modal } from "../ui/Modal"
 
 export const DeleteConfirmationModal: React.FC<{
   open: boolean

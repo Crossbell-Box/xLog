@@ -1,14 +1,16 @@
 import { GetServerSideProps } from "next"
-import { SiteSearch } from "~/components/site/SiteSearch"
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import type { ReactElement } from "react"
+
+import { QueryClient } from "@tanstack/react-query"
+
+import { SearchInput } from "~/components/common/SearchInput"
 import { SiteLayout } from "~/components/site/SiteLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
-import { QueryClient } from "@tanstack/react-query"
+import { SiteSearch } from "~/components/site/SiteSearch"
 import { useGetSearchPagesBySite } from "~/queries/page"
-import type { ReactElement } from "react"
 import { useGetSite } from "~/queries/site"
-import { useRouter } from "next/router"
-import { SearchInput } from "~/components/common/SearchInput"
-import { useTranslation } from "next-i18next"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()

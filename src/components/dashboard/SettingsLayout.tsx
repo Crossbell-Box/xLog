@@ -1,9 +1,9 @@
+import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import React from "react"
 
 import { type TabItem, Tabs } from "../ui/Tabs"
 import { DashboardMain } from "./DashboardMain"
-import { useTranslation } from "next-i18next"
 
 export const SettingsLayout: React.FC<{
   title: string

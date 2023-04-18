@@ -1,13 +1,14 @@
+import { useTranslation } from "next-i18next"
 import { useEffect, useState } from "react"
-import { Avatar } from "~/components/ui/Avatar"
+
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
-import * as siteModel from "~/models/site.model"
+import { Titles } from "~/components/common/Titles"
+import { Avatar } from "~/components/ui/Avatar"
+import { useDate } from "~/hooks/useDate"
 import type { Profile } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import { useDate } from "~/hooks/useDate"
-import { useTranslation } from "next-i18next"
-import { Titles } from "~/components/common/Titles"
+import * as siteModel from "~/models/site.model"
 
 export const CharacterCard: React.FC<{
   siteId?: string

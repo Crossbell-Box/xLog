@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
+
 import { checkDomainServer } from "~/models/site.model"
 
 export default async function handler(

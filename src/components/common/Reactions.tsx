@@ -1,29 +1,32 @@
-import {
-  useMintPage,
-  useGetLikes,
-  useCheckLike,
-  useGetMints,
-  useCheckMint,
-  useToggleLikePage,
-  useGetLikeCounts,
-} from "~/queries/page"
-import { useGetTips } from "~/queries/site"
-import { useState, useEffect, useRef } from "react"
-import { Button } from "../ui/Button"
-import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
-import { UniLink } from "~/components/ui/UniLink"
-import { Modal } from "~/components/ui/Modal"
-import { Avatar } from "../ui/Avatar"
-import { MintIcon } from "~/components/icons/MintIcon"
-import { parsePageId } from "~/models/page.model"
-import { CharacterList } from "~/components/common/CharacterList"
-import { cn } from "~/lib/utils"
-import { Tooltip } from "~/components/ui/Tooltip"
 import confetti from "canvas-confetti"
 import { Trans, useTranslation } from "next-i18next"
-import { Note, Profile } from "~/lib/types"
+import { useEffect, useRef, useState } from "react"
+
 import { useAccountState } from "@crossbell/connect-kit"
+
+import { CharacterList } from "~/components/common/CharacterList"
 import { PatronModal } from "~/components/common/PatronModal"
+import { MintIcon } from "~/components/icons/MintIcon"
+import { Modal } from "~/components/ui/Modal"
+import { Tooltip } from "~/components/ui/Tooltip"
+import { UniLink } from "~/components/ui/UniLink"
+import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
+import { Note, Profile } from "~/lib/types"
+import { cn } from "~/lib/utils"
+import { parsePageId } from "~/models/page.model"
+import {
+  useCheckLike,
+  useCheckMint,
+  useGetLikeCounts,
+  useGetLikes,
+  useGetMints,
+  useMintPage,
+  useToggleLikePage,
+} from "~/queries/page"
+import { useGetTips } from "~/queries/site"
+
+import { Avatar } from "../ui/Avatar"
+import { Button } from "../ui/Button"
 
 export const Reactions: React.FC<{
   className?: string

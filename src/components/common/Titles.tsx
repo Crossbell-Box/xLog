@@ -1,4 +1,5 @@
 import { cn } from "~/lib/utils"
+
 import data from "../../../data/titles.json"
 import { Tooltip } from "../ui/Tooltip"
 import { UniLink } from "../ui/UniLink"

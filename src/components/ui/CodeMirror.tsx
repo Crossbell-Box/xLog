@@ -1,9 +1,3 @@
-import type { EditorState } from "@codemirror/state"
-import { Annotation } from "@codemirror/state"
-
-import { HighlightStyle } from "@codemirror/language"
-import { EditorView, KeyBinding, ViewUpdate } from "@codemirror/view"
-import { tags } from "@lezer/highlight"
 import {
   Suspense,
   forwardRef,
@@ -13,6 +7,13 @@ import {
   useState,
 } from "react"
 import { useTranslation } from "react-i18next"
+
+import { HighlightStyle } from "@codemirror/language"
+import type { EditorState } from "@codemirror/state"
+import { Annotation } from "@codemirror/state"
+import { EditorView, KeyBinding, ViewUpdate } from "@codemirror/view"
+import { tags } from "@lezer/highlight"
+
 import {
   monospaceFonts,
   useCodeMirrorAutoToggleTheme,

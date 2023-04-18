@@ -1,16 +1,18 @@
-import { SiteLayout } from "~/components/site/SiteLayout"
-import { SitePage } from "~/components/site/SitePage"
-import { useGetPage } from "~/queries/page"
-import type { ReactElement } from "react"
-import { useRouter } from "next/router"
-import { useGetSite } from "~/queries/site"
 import { GetServerSideProps } from "next"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
-import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { useRouter } from "next/router"
+import type { ReactElement } from "react"
+
 import { QueryClient } from "@tanstack/react-query"
+
+import { SiteLayout } from "~/components/site/SiteLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
+import { SitePage } from "~/components/site/SitePage"
 import { useUserRole } from "~/hooks/useUserRole"
-import { getSiteLink } from "~/lib/helpers"
 import { getDefaultSlug } from "~/lib/default-slug"
+import { getSiteLink } from "~/lib/helpers"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { useGetPage } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {

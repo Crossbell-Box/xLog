@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query"
-import { cacheGet } from "~/lib/redis.server"
 
+import { cacheGet } from "~/lib/redis.server"
 import * as homeModel from "~/models/home.model"
 
 export const prefetchGetFeed = async (

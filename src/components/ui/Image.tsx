@@ -1,8 +1,9 @@
+import { ImageProps, default as NextImage } from "next/image"
 import React, { useEffect } from "react"
-import { default as NextImage, ImageProps } from "next/image"
-import { toGateway, toIPFS } from "~/lib/ipfs-parser"
-import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+
 import { useGetState } from "~/hooks/useGetState"
+import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { toGateway, toIPFS } from "~/lib/ipfs-parser"
 
 type TImageProps = {
   className?: string

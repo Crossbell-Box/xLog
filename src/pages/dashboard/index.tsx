@@ -1,11 +1,13 @@
-import { useAccountSites } from "~/queries/site"
-import { useEffect } from "react"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
+
 import {
   useAccountState,
-  useWalletMintNewCharacterModal,
   useConnectModal,
+  useWalletMintNewCharacterModal,
 } from "@crossbell/connect-kit"
+
+import { useAccountSites } from "~/queries/site"
 
 export default function Dashboard() {
   const router = useRouter()

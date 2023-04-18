@@ -1,15 +1,17 @@
-import { FC, useEffect, useState } from "react"
-import { Menu } from "@headlessui/react"
+import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
+import { FC, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import type { Note } from "unidata.js"
-import { useDeletePage, useCreateOrUpdatePage } from "~/queries/page"
-import { delStorage, getStorage, setStorage } from "~/lib/storage"
+
+import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
-import { APP_NAME } from "~/lib/env"
-import { useTranslation } from "next-i18next"
+
 import { useGetState } from "~/hooks/useGetState"
+import { APP_NAME } from "~/lib/env"
 import { getNoteSlugFromNote, getSiteLink } from "~/lib/helpers"
+import { delStorage, getStorage, setStorage } from "~/lib/storage"
+import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 const usePageEditLink = (page: { id: string }, isPost: boolean) => {

@@ -1,13 +1,14 @@
 import { GetServerSideProps } from "next"
+import type { ReactElement } from "react"
+
+import { QueryClient } from "@tanstack/react-query"
+
+import { SiteArchives } from "~/components/site/SiteArchives"
 import { SiteLayout } from "~/components/site/SiteLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { SiteArchives } from "~/components/site/SiteArchives"
-import { Profile, Notes } from "~/lib/types"
-import { QueryClient } from "@tanstack/react-query"
+import { Notes, PageVisibilityEnum, Profile } from "~/lib/types"
 import { useGetPagesBySiteLite } from "~/queries/page"
-import { PageVisibilityEnum } from "~/lib/types"
-import type { ReactElement } from "react"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {

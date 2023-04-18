@@ -1,8 +1,10 @@
-import { ExpandedNote } from "~/lib/types"
-import { indexer } from "@crossbell/indexer"
-import { createClient, cacheExchange, fetchExchange } from "@urql/core"
 import dayjs from "dayjs"
+
+import { indexer } from "@crossbell/indexer"
+import { cacheExchange, createClient, fetchExchange } from "@urql/core"
+
 import { expandCrossbellNote } from "~/lib/expand-unit"
+import { ExpandedNote } from "~/lib/types"
 
 export type FeedType = "latest" | "following" | "topic" | "hot" | "search"
 export type SearchType = "latest" | "hot"

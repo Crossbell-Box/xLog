@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+
 import { clipboardCopy } from "~/lib/copy.client"
 
 export const useCodeCopy = () => {

@@ -1,7 +1,8 @@
-import { EditorSelection } from "@codemirror/state"
-import { ICommand, prependExecute, wrapExecute } from "."
-import { UploadFile } from "~/lib/upload-file"
 import toast from "react-hot-toast"
+
+import { UploadFile } from "~/lib/upload-file"
+
+import { ICommand, wrapExecute } from "."
 
 export const Image: ICommand = {
   name: "upload-image",

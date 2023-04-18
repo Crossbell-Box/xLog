@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
+
 import { IS_PROD } from "~/lib/constants"
-import { DISCORD_LINK, IPFS_GATEWAY } from "~/lib/env"
+import { DISCORD_LINK } from "~/lib/env"
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl

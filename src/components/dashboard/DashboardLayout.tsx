@@ -1,29 +1,30 @@
-import { cn } from "~/lib/utils"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
-import { DISCORD_LINK, APP_NAME } from "~/lib/env"
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+import {
+  useNotifications,
+  useShowNotificationModal,
+} from "@crossbell/notification"
+
+import { ConnectButton } from "~/components/common/ConnectButton"
+import { Logo } from "~/components/common/Logo"
+import { Avatar } from "~/components/ui/Avatar"
+import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { useUserRole } from "~/hooks/useUserRole"
+import { APP_NAME, DISCORD_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { toGateway } from "~/lib/ipfs-parser"
+import { getStorage } from "~/lib/storage"
+import { cn } from "~/lib/utils"
+import { useGetPagesBySite } from "~/queries/page"
+import { useAccountSites, useGetSite } from "~/queries/site"
+
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
 import { DashboardSidebar } from "./DashboardSidebar"
-import { useAccountSites } from "~/queries/site"
-import { ConnectButton } from "~/components/common/ConnectButton"
-import { useGetSite } from "~/queries/site"
-import { toGateway } from "~/lib/ipfs-parser"
-import { Avatar } from "~/components/ui/Avatar"
-import {
-  useShowNotificationModal,
-  useNotifications,
-} from "@crossbell/notification"
-import { useUserRole } from "~/hooks/useUserRole"
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
-import { useTranslation } from "react-i18next"
-import { Logo } from "~/components/common/Logo"
-import { getStorage } from "~/lib/storage"
-import { useGetPagesBySite } from "~/queries/page"
 import { DashboardTopbar } from "./DashboardTopbar"
-import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 
 export function DashboardLayout({
   children,

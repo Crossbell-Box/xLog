@@ -1,7 +1,9 @@
-import React, { useRef } from "react"
 import Lottie, { type LottieRefCurrentProps } from "lottie-react"
-import LogoLottieJSON from "../../../public/assets/logo.json"
+import React, { useRef } from "react"
+
 import { Image } from "~/components/ui/Image"
+
+import LogoLottieJSON from "../../../public/assets/logo.json"
 
 export const Logo: React.FC<{
   type: "svg" | "png" | "lottie"

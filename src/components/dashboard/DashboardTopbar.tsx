@@ -1,9 +1,9 @@
-import { useState, useEffect, useMemo, Fragment } from "react"
-import { setStorage, getStorage } from "~/lib/storage"
+import { Fragment, useState } from "react"
 
-import { Bars3Icon, ChevronDownIcon } from "@heroicons/react/24/outline"
-import { Logo } from "../common/Logo"
 import { Popover, Transition } from "@headlessui/react"
+import { Bars3Icon } from "@heroicons/react/24/outline"
+
+import { Logo } from "../common/Logo"
 
 export const DashboardTopbar: React.FC<{
   children: (open: boolean) => React.ReactNode

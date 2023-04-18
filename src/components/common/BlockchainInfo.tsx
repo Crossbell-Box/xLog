@@ -1,10 +1,11 @@
-import { CSB_IO, CSB_SCAN } from "~/lib/env"
-import { Profile, Note } from "~/lib/types"
-import { Disclosure } from "@headlessui/react"
-import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { toIPFS, toGateway } from "~/lib/ipfs-parser"
-import { IPFS_GATEWAY } from "~/lib/env"
 import { useTranslation } from "next-i18next"
+
+import { Disclosure } from "@headlessui/react"
+
+import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { CSB_IO, CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
+import { toGateway, toIPFS } from "~/lib/ipfs-parser"
+import { Note, Profile } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
 export const BlockchainInfo: React.FC<{

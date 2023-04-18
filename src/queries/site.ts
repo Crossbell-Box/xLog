@@ -1,18 +1,19 @@
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  useInfiniteQuery,
-} from "@tanstack/react-query"
-import { useContract } from "@crossbell/contract"
-import {
   useAccountState,
   useFollowCharacter,
   useFollowCharacters,
   useUnfollowCharacter,
 } from "@crossbell/connect-kit"
+import { useContract } from "@crossbell/contract"
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query"
 
 import * as siteModel from "~/models/site.model"
+
 import { useUnidata } from "./unidata"
 
 export const useAccountSites = () => {

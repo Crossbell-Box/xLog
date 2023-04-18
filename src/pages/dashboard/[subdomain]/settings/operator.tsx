@@ -1,27 +1,29 @@
+import { GetServerSideProps } from "next"
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import type { ReactElement } from "react"
+import toast from "react-hot-toast"
+
+import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
+import { Dialog } from "@headlessui/react"
+
+import { CharacterCard } from "~/components/common/CharacterCard"
+import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { useEffect, useState } from "react"
-import toast from "react-hot-toast"
-import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
-import { useRouter } from "next/router"
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { UniLink } from "~/components/ui/UniLink"
+import { useUserRole } from "~/hooks/useUserRole"
+import { getSiteLink } from "~/lib/helpers"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
 import {
-  useGetSite,
-  useGetOperators,
   useAddOperator,
+  useGetOperators,
+  useGetSite,
   useRemoveOperator,
 } from "~/queries/site"
-import { Dialog } from "@headlessui/react"
-import { CharacterCard } from "~/components/common/CharacterCard"
-import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
-import { UniLink } from "~/components/ui/UniLink"
-import { getSiteLink } from "~/lib/helpers"
-import type { ReactElement } from "react"
-import { useUserRole } from "~/hooks/useUserRole"
-import { useTranslation } from "next-i18next"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
-import { GetServerSideProps } from "next"
-import { serverSidePropsHandler } from "~/lib/server-side-props"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {

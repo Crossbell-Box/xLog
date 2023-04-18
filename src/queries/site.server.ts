@@ -1,6 +1,7 @@
-import * as siteModel from "~/models/site.model"
 import { QueryClient } from "@tanstack/react-query"
+
 import { cacheGet } from "~/lib/redis.server"
+import * as siteModel from "~/models/site.model"
 
 export const prefetchGetSite = async (
   input: string,

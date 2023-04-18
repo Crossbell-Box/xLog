@@ -1,8 +1,11 @@
-import { Menu, Popover, Transition } from "@headlessui/react"
 import { Dispatch, Fragment, SetStateAction, useState } from "react"
 import { useTranslation } from "react-i18next"
+
+import { Menu, Popover, Transition } from "@headlessui/react"
+
 import { PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
+
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 export const OptionsButton: React.FC<{

@@ -1,10 +1,11 @@
-import { cn } from "~/lib/utils"
-import { Note } from "~/lib/types"
-import { useGetComments } from "~/queries/page"
-import { CommentItem } from "~/components/common/CommentItem"
-import { CommentInput } from "~/components/common/CommentInput"
 import { useTranslation } from "next-i18next"
 import InfiniteScroll from "react-infinite-scroller"
+
+import { CommentInput } from "~/components/common/CommentInput"
+import { CommentItem } from "~/components/common/CommentItem"
+import { Note } from "~/lib/types"
+import { cn } from "~/lib/utils"
+import { useGetComments } from "~/queries/page"
 
 export const Comment: React.FC<{
   page?: Note | null

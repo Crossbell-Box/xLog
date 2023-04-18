@@ -23,7 +23,10 @@
     "analyze": "NODE_ENV=production ANALYZE=true BUNDLE_ANALYZE=browser next build"
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --cache --fix",
+      "prettier --ignore-unknown --ignore-path ./.gitignore --write "
+    ]
   },
   "dependencies": {
     "@codemirror/commands": "6.2.2",
@@ -138,6 +141,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "13.3.0",
     "@playwright/test": "1.32.3",
+    "@trivago/prettier-plugin-sort-imports": "4.1.1",
     "@types/canvas-confetti": "^1.6.0",
     "@types/chroma-js": "^2.4.0",
     "@types/cookie": "0.5.1",
@@ -162,13 +166,16 @@
     "cspell": "^6.31.1",
     "esbuild": "0.17.16",
     "esbuild-register": "3.4.2",
-    "eslint": "8.38.0",
+    "eslint": "8.29.0",
     "eslint-config-next": "13.3.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-unused-imports": "2.0.0",
     "husky": "8.0.3",
     "lint-staged": "13.2.1",
     "next-pwa": "^5.6.0",
     "postcss-import": "15.1.0",
     "prettier": "2.8.7",
+    "prettier-package-json": "2.8.0",
     "prisma": "^4.12.0",
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4",

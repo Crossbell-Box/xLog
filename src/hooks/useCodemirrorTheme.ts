@@ -1,14 +1,15 @@
-import type { Extension } from "@codemirror/state"
-import { Compartment } from "@codemirror/state"
-import { EditorView } from "@codemirror/view"
 import { useEffect, useRef } from "react"
 
-export const monospaceFonts = `"OperatorMonoSSmLig Nerd Font","Cascadia Code PL","FantasqueSansMono Nerd Font","operator mono","Fira code Retina","Fira code","Consolas", Monaco, "Hannotate SC", monospace, -apple-system`
-
+import type { Extension } from "@codemirror/state"
+import { Compartment } from "@codemirror/state"
 import { oneDark } from "@codemirror/theme-one-dark"
+import { EditorView } from "@codemirror/view"
 import { githubLight } from "@ddietr/codemirror-themes/theme/github-light"
+
 import { useIsUnmounted } from "./useLifecycle"
 import { useIsMobileLayout } from "./useMobileLayout"
+
+export const monospaceFonts = `"OperatorMonoSSmLig Nerd Font","Cascadia Code PL","FantasqueSansMono Nerd Font","operator mono","Fira code Retina","Fira code","Consolas", Monaco, "Hannotate SC", monospace, -apple-system`
 
 const extensionMap = {
   theme: new Compartment(),

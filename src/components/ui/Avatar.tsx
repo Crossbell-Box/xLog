@@ -1,7 +1,8 @@
-import { cn } from "~/lib/utils"
 import React, { useMemo } from "react"
-import { toGateway } from "~/lib/ipfs-parser"
+
 import { Image } from "~/components/ui/Image"
+import { toGateway } from "~/lib/ipfs-parser"
+import { cn } from "~/lib/utils"
 
 export const Avatar: React.FC<
   {

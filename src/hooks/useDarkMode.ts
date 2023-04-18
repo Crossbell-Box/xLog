@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import { create } from "zustand"
-import { getStorage, setStorage, delStorage } from "~/lib/storage"
+
+import { delStorage, getStorage, setStorage } from "~/lib/storage"
+
 import { useGetState } from "./useGetState"
 
 interface IMediaStore {

@@ -1,27 +1,27 @@
-import "~/css/main.css"
-import "~/generated/uno.css"
 import "aplayer/dist/APlayer.min.css"
-
+import { Network } from "crossbell.js"
+import { appWithTranslation } from "next-i18next"
+import NextNProgress from "nextjs-progressbar"
 import { Toaster } from "react-hot-toast"
-import { createClient, WagmiConfig } from "wagmi"
-import { Hydrate, QueryClient } from "@tanstack/react-query"
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
+import { AppPropsWithLayout } from "types/next"
+import { WagmiConfig, createClient } from "wagmi"
+
 import {
   ConnectKitProvider,
   getDefaultClientConfig,
 } from "@crossbell/connect-kit"
 import { NotificationModal } from "@crossbell/notification"
-import NextNProgress from "nextjs-progressbar"
-import { Network } from "crossbell.js"
-import { appWithTranslation } from "next-i18next"
+import { Hydrate, QueryClient } from "@tanstack/react-query"
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 
+import "~/css/main.css"
+import "~/generated/uno.css"
+import { useDarkMode } from "~/hooks/useDarkMode"
+import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { APP_NAME, IPFS_GATEWAY } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
-import { AppPropsWithLayout } from "types/next"
-import { useDarkMode } from "~/hooks/useDarkMode"
-import { useMobileLayout } from "~/hooks/useMobileLayout"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 

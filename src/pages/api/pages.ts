@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { getPagesBySite } from "~/models/page.model"
+
 import { PageVisibilityEnum } from "~/lib/types"
+import { getPagesBySite } from "~/models/page.model"
 
 export default async function handler(
   req: NextApiRequest,

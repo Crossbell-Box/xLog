@@ -1,17 +1,23 @@
+import { useTranslation } from "next-i18next"
 import { useState } from "react"
-import { UniLink } from "~/components/ui/UniLink"
-import { Button } from "~/components/ui/Button"
+
 import { useConnectedAction } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
-import { getSiteLink } from "~/lib/helpers"
-import { Image } from "~/components/ui/Image"
-import { useGetSites } from "~/queries/site"
-import showcase from "../../../data/showcase.json"
+
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
-import { useAccountSites, useSubscribeToSites } from "~/queries/site"
-import { useTranslation } from "next-i18next"
-import topics from "../../../data/topics.json"
 import { SearchInput } from "~/components/common/SearchInput"
+import { Button } from "~/components/ui/Button"
+import { Image } from "~/components/ui/Image"
+import { UniLink } from "~/components/ui/UniLink"
+import { getSiteLink } from "~/lib/helpers"
+import {
+  useAccountSites,
+  useGetSites,
+  useSubscribeToSites,
+} from "~/queries/site"
+
+import showcase from "../../../data/showcase.json"
+import topics from "../../../data/topics.json"
 
 export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
   const showcaseSites = useGetSites(showcase)
