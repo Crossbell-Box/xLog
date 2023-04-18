@@ -177,6 +177,10 @@
   @apply inline-flex;
 }
 
+.prose .math {
+  @apply max-w-full inline-block overflow-x-scroll;
+}
+
 .xlog-comment .prose {
   @apply leading-normal text-[15px];
 }
