@@ -53,7 +53,7 @@ export default function TokensPage() {
         <>
           <p>
             {t(
-              "1 MIRA ≈ 1 USDC, swap easily on cross-chain bridge and Uniswap.",
+              "$MIRA is a valuable token in the Crossbell world, and can be easily exchanged on the Crosschain Bridge and Uniswap.",
             )}
           </p>
           <p>
