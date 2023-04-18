@@ -1,6 +1,6 @@
-import { Note, Profile } from "~/lib/types"
 import { Comment } from "~/components/common/Comment"
 import { Reactions } from "~/components/common/Reactions"
+import { Note, Profile } from "~/lib/types"
 
 export const PostFooter: React.FC<{
   page?: Note | null

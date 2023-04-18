@@ -1,5 +1,6 @@
-import { useState, useEffect, useMemo } from "react"
-import { setStorage, getStorage } from "~/lib/storage"
+import { useEffect, useState } from "react"
+
+import { getStorage, setStorage } from "~/lib/storage"
 
 export const DashboardSidebar: React.FC<{
   children: (isOpen: boolean) => React.ReactNode

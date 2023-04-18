@@ -1,17 +1,18 @@
 import { useState } from "react"
+
 import {
-  offset,
-  flip,
-  shift,
   autoUpdate,
-  useFloating,
-  useInteractions,
-  useHover,
-  useFocus,
-  useRole,
+  flip,
+  offset,
+  shift,
   useDismiss,
+  useFloating,
+  useHover,
+  useInteractions,
+  useRole,
   useTransitionStyles,
 } from "@floating-ui/react"
+
 import { CharacterCard } from "~/components/common/CharacterCard"
 
 export const CharacterFloatCard: React.FC<{

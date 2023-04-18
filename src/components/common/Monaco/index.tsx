@@ -1,6 +1,8 @@
 import Editor, { EditorProps } from "@monaco-editor/react"
-import { useMonacoTheme } from "./use-theme"
+
 import { useIsDark } from "~/hooks/useDarkMode"
+
+import { useMonacoTheme } from "./use-theme"
 
 export function MonacoEditor(props: EditorProps) {
   const isDark = useIsDark()

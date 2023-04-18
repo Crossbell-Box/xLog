@@ -1,24 +1,23 @@
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { DashboardMain } from "~/components/dashboard/DashboardMain"
-import type { ReactElement } from "react"
-import { useDate } from "~/hooks/useDate"
-import { useTranslation } from "next-i18next"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
-import { serverSidePropsHandler } from "~/lib/server-side-props"
-import {
-  useAccountState,
-  useAccountBalance,
-  useWalletClaimCSBModal,
-  useClaimCSBStatus,
-} from "@crossbell/connect-kit"
-import { useGetMiraBalance, useGetSite } from "~/queries/site"
-import { Button } from "~/components/ui/Button"
-import { MIRA_LINK } from "~/lib/env"
-import { UniLink } from "~/components/ui/UniLink"
+import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
+import type { ReactElement } from "react"
+
+import {
+  useAccountBalance,
+  useClaimCSBStatus,
+  useWalletClaimCSBModal,
+} from "@crossbell/connect-kit"
+
+import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { DashboardMain } from "~/components/dashboard/DashboardMain"
+import { Button } from "~/components/ui/Button"
+import { UniLink } from "~/components/ui/UniLink"
+import { MIRA_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { Tooltip } from "~/components/ui/Tooltip"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { useGetMiraBalance, useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {

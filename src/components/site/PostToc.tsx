@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react"
 import type { Result as TocResult } from "mdast-util-toc"
+import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-scroll"
 
 function getIds(items: TocResult["map"]) {

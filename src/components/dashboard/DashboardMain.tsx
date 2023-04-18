@@ -1,6 +1,7 @@
-import { cn } from "~/lib/utils"
 import { useTranslation } from "next-i18next"
+
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { cn } from "~/lib/utils"
 
 export const DashboardMain: React.FC<{
   children: React.ReactNode

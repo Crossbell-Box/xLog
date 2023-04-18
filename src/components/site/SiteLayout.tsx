@@ -1,6 +1,8 @@
-import { useAccountState } from "@crossbell/connect-kit"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
+
+import { useAccountState } from "@crossbell/connect-kit"
+
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { useUserRole } from "~/hooks/useUserRole"
 import { IS_PROD } from "~/lib/constants"
@@ -10,6 +12,7 @@ import { getUserContentsUrl } from "~/lib/user-contents"
 import { cn } from "~/lib/utils"
 import { useCheckLike, useCheckMint, useGetPage } from "~/queries/page"
 import { useGetSite, useGetSubscription } from "~/queries/site"
+
 import { SEOHead } from "../common/SEOHead"
 import { SiteFooter } from "./SiteFooter"
 import { SiteHeader } from "./SiteHeader"

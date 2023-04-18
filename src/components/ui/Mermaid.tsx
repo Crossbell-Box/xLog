@@ -1,7 +1,8 @@
+import { nanoid } from "nanoid"
 import { FC, useEffect, useState } from "react"
+
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
-import { nanoid } from "nanoid"
 
 export const Mermaid: FC<{
   children: [string]

@@ -1,4 +1,5 @@
 import { APlayer as AplayerReact } from "aplayer-react"
+
 import { toGateway } from "~/lib/ipfs-parser"
 
 export const APlayer: React.FC<

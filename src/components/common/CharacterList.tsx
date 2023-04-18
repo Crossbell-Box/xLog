@@ -1,13 +1,15 @@
-import { Modal } from "~/components/ui/Modal"
+import { useTranslation } from "next-i18next"
 import InfiniteScroll from "react-infinite-scroller"
+
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { Modal } from "~/components/ui/Modal"
+import { CSB_SCAN } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
+
+import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
-import { CSB_SCAN } from "~/lib/env"
-import { Avatar } from "../ui/Avatar"
-import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { getSiteLink } from "~/lib/helpers"
-import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
-import { useTranslation } from "next-i18next"
 
 export const CharacterList: React.FC<{
   open: boolean

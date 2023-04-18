@@ -1,16 +1,17 @@
-import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { UniLink } from "~/components/ui/UniLink"
-import { Note, Profile } from "~/lib/types"
-import { CSB_SCAN, SITE_URL } from "~/lib/env"
-import { useEffect, useState } from "react"
-import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
-import { getSiteLink } from "~/lib/helpers"
-import { Avatar } from "~/components/ui/Avatar"
-import { useUserRole } from "~/hooks/useUserRole"
 import { useTranslation } from "next-i18next"
+import { useEffect, useState } from "react"
+
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { Avatar } from "~/components/ui/Avatar"
+import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
-import { useGetSummary } from "~/queries/page"
+import { useUserRole } from "~/hooks/useUserRole"
+import { CSB_SCAN, SITE_URL } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
 import { toCid } from "~/lib/ipfs-parser"
+import { Note, Profile } from "~/lib/types"
+import { useGetSummary } from "~/queries/page"
 
 export const PostMeta: React.FC<{
   page: Note

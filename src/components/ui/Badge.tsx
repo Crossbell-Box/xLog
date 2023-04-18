@@ -1,5 +1,6 @@
-import { cn } from "~/lib/utils"
 import React from "react"
+
+import { cn } from "~/lib/utils"
 
 export const Badge: React.FC<{
   children: React.ReactNode

@@ -1,6 +1,6 @@
-import { useAccountSites } from "~/queries/site"
-import { useGetSite, useIsOperators } from "~/queries/site"
 import { useAccountState } from "@crossbell/connect-kit"
+
+import { useAccountSites, useGetSite, useIsOperators } from "~/queries/site"
 
 export function useUserRole(subdomain?: string) {
   const site = useGetSite(subdomain)

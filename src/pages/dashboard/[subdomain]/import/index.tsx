@@ -1,14 +1,15 @@
-import { useRouter } from "next/router"
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { DashboardMain } from "~/components/dashboard/DashboardMain"
-import { UniLink } from "~/components/ui/UniLink"
-import type { ReactElement } from "react"
-import { useGetSite, useGetStat } from "~/queries/site"
-import { useTranslation, Trans } from "next-i18next"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
-import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import type { ReactElement } from "react"
+
+import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Image } from "~/components/ui/Image"
+import { UniLink } from "~/components/ui/UniLink"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {

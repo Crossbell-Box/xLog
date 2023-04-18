@@ -1,8 +1,8 @@
 import { NoteEntity } from "crossbell.js"
+import { Note } from "unidata.js"
 
 import { IS_PROD } from "./constants"
 import { OUR_DOMAIN } from "./env"
-import { Note } from "unidata.js"
 
 export const getSiteLink = ({
   domain,

@@ -1,12 +1,14 @@
+import { useTranslation } from "next-i18next"
 import Link from "next/link"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+
+import { Button } from "~/components/ui/Button"
+import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
 import { Notes } from "~/lib/types"
+
 import { EmptyState } from "../ui/EmptyState"
-import { useRouter } from "next/router"
-import { Image } from "~/components/ui/Image"
-import { Button } from "~/components/ui/Button"
-import { useTranslation } from "next-i18next"
-import { useEffect, useState } from "react"
 
 export const SiteHome: React.FC<{
   postPages?: Notes[]

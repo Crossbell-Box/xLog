@@ -1,34 +1,40 @@
 import { GetServerSideProps } from "next"
-import { ReactElement, useState } from "react"
-import { MainLayout } from "~/components/main/MainLayout"
-import { UniLink } from "~/components/ui/UniLink"
-import { Button } from "~/components/ui/Button"
-import { useAccountState, useConnectedAction } from "@crossbell/connect-kit"
-import { useRefCallback } from "@crossbell/util-hooks"
+import { Trans, useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
-import { GITHUB_LINK, CSB_SCAN } from "~/lib/env"
-import { getSiteLink } from "~/lib/helpers"
-import { Link, Element } from "react-scroll"
-import { Image } from "~/components/ui/Image"
-import { dehydrate, QueryClient } from "@tanstack/react-query"
-import { prefetchGetSites } from "~/queries/site.server"
-import { useGetSites } from "~/queries/site"
-import showcase from "../../data/showcase.json"
-import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
-import { useAccountSites, useSubscribeToSites } from "~/queries/site"
-import { RssIcon } from "@heroicons/react/24/outline"
-import { Tooltip } from "~/components/ui/Tooltip"
+import { ReactElement, useState } from "react"
+import { Element, Link } from "react-scroll"
+
+import { useAccountState, useConnectedAction } from "@crossbell/connect-kit"
 import {
+  CrossbellChainLogo,
   XCharLogo,
   XFeedLogo,
-  XSyncLogo,
   XShopLogo,
-  CrossbellChainLogo,
+  XSyncLogo,
 } from "@crossbell/ui"
-import { useTranslation, Trans } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { languageDetector } from "~/lib/language-detector"
+import { useRefCallback } from "@crossbell/util-hooks"
+import { RssIcon } from "@heroicons/react/24/outline"
+import { QueryClient, dehydrate } from "@tanstack/react-query"
+
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { Logo } from "~/components/common/Logo"
+import { MainLayout } from "~/components/main/MainLayout"
+import { Button } from "~/components/ui/Button"
+import { Image } from "~/components/ui/Image"
+import { Tooltip } from "~/components/ui/Tooltip"
+import { UniLink } from "~/components/ui/UniLink"
+import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
+import { languageDetector } from "~/lib/language-detector"
+import {
+  useAccountSites,
+  useGetSites,
+  useSubscribeToSites,
+} from "~/queries/site"
+import { prefetchGetSites } from "~/queries/site.server"
+
+import showcase from "../../data/showcase.json"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()

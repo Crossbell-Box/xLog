@@ -1,4 +1,5 @@
-import { get, set, del } from "idb-keyval"
+import { del, get, set } from "idb-keyval"
+
 import {
   PersistedClient,
   Persister,

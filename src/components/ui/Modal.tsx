@@ -1,6 +1,8 @@
-import { Dialog } from "@headlessui/react"
-import { cn } from "~/lib/utils"
 import React from "react"
+
+import { Dialog } from "@headlessui/react"
+
+import { cn } from "~/lib/utils"
 
 export const Modal: React.FC<{
   open: boolean

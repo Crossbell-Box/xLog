@@ -1,16 +1,18 @@
 import { GetServerSideProps } from "next"
-import { ReactElement, useState } from "react"
-import { MainLayout } from "~/components/main/MainLayout"
-import { dehydrate, QueryClient } from "@tanstack/react-query"
-import { prefetchGetSites } from "~/queries/site.server"
-import showcase from "../../data/showcase.json"
-import topics from "../../data/topics.json"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { languageDetector } from "~/lib/language-detector"
-import { MainFeed } from "~/components/main/MainFeed"
-import { MainSidebar } from "~/components/main/MainSidebar"
 import { useRouter } from "next/router"
+import { ReactElement } from "react"
+
+import { QueryClient, dehydrate } from "@tanstack/react-query"
+
 import { SearchInput } from "~/components/common/SearchInput"
+import { MainFeed } from "~/components/main/MainFeed"
+import { MainLayout } from "~/components/main/MainLayout"
+import { MainSidebar } from "~/components/main/MainSidebar"
+import { languageDetector } from "~/lib/language-detector"
+import { prefetchGetSites } from "~/queries/site.server"
+
+import showcase from "../../data/showcase.json"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()

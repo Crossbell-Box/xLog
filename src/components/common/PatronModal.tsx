@@ -1,20 +1,23 @@
-import { Button } from "~/components/ui/Button"
-import { Note, Profile } from "~/lib/types"
-import { useTranslation } from "next-i18next"
-import { Modal } from "~/components/ui/Modal"
-import { useEffect, useRef, useState } from "react"
-import { BoxRadio } from "~/components/ui/BoxRadio"
-import { Tabs } from "../ui/Tabs"
-import { useTipCharacter, useGetTips } from "~/queries/site"
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
-import { toast } from "react-hot-toast"
 import confetti from "canvas-confetti"
+import { useTranslation } from "next-i18next"
+import { useEffect, useRef, useState } from "react"
+import { toast } from "react-hot-toast"
+
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+
 import { Avatar } from "~/components/ui/Avatar"
-import { CharacterFloatCard } from "./CharacterFloatCard"
-import { UniLink } from "../ui/UniLink"
-import { getSiteLink } from "~/lib/helpers"
+import { BoxRadio } from "~/components/ui/BoxRadio"
+import { Button } from "~/components/ui/Button"
+import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN, MIRA_LINK } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
+import { Note, Profile } from "~/lib/types"
 import { parsePageId } from "~/models/page.model"
+import { useGetTips, useTipCharacter } from "~/queries/site"
+
+import { Tabs } from "../ui/Tabs"
+import { UniLink } from "../ui/UniLink"
+import { CharacterFloatCard } from "./CharacterFloatCard"
 
 export const PatronModal: React.FC<{
   site: Profile | undefined | null

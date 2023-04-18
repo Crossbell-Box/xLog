@@ -1,4 +1,5 @@
 import { defaultSchema } from "rehype-sanitize"
+
 import { allowedBlockquoteAttrs } from "./remark-callout"
 
 const scheme = {

@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
+
 import { OUR_DOMAIN } from "~/lib/env"
 import { cacheGet } from "~/lib/redis.server"
 import { checkDomainServer, fetchTenant } from "~/models/site.model"

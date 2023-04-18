@@ -1,5 +1,6 @@
 import { EmojiPicker } from "~/components/common/EmojiPicker"
-import { ICommand, prependExecute, wrapExecute } from "."
+
+import { ICommand, wrapExecute } from "."
 
 export const Emoji: ICommand<string> = {
   name: "emoji",

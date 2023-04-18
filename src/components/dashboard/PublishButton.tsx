@@ -1,8 +1,8 @@
+import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
 
 import { Button, ButtonGroup } from "../ui/Button"
-import { useTranslation } from "next-i18next"
 
 export const PublishButton: React.FC<{
   save: (published: boolean) => void

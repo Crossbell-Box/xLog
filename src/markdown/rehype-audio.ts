@@ -1,6 +1,7 @@
 import { Root } from "rehype-raw"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
+
 import { toGateway } from "~/lib/ipfs-parser"
 
 export const rehypeAudio: Plugin<Array<void>, Root> = () => {

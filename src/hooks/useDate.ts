@@ -1,15 +1,14 @@
 import dayjs from "dayjs"
-
-import utc from "dayjs/plugin/utc"
-import tz from "dayjs/plugin/timezone"
-import localizedFormat from "dayjs/plugin/localizedFormat"
-import duration from "dayjs/plugin/duration"
-import relativeTime from "dayjs/plugin/relativeTime"
-import { useTranslation } from "next-i18next"
 import "dayjs/locale/en"
+import "dayjs/locale/ja"
 import "dayjs/locale/zh"
 import "dayjs/locale/zh-tw"
-import "dayjs/locale/ja"
+import duration from "dayjs/plugin/duration"
+import localizedFormat from "dayjs/plugin/localizedFormat"
+import relativeTime from "dayjs/plugin/relativeTime"
+import tz from "dayjs/plugin/timezone"
+import utc from "dayjs/plugin/utc"
+import { useTranslation } from "next-i18next"
 import { useMemo } from "react"
 
 dayjs.extend(localizedFormat)

@@ -1,6 +1,6 @@
-import type { Note as UniNote, Profile as UniProfile } from "unidata.js"
-import { ReactElement } from "react"
 import { NoteEntity } from "crossbell.js"
+import { ReactElement } from "react"
+import type { Note as UniNote, Profile as UniProfile } from "unidata.js"
 
 export type Site = {
   id: string

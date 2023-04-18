@@ -1,10 +1,13 @@
-import { EditorView } from "@codemirror/view"
-import { FC, memo, useCallback, useState } from "react"
-import { ICommand } from "~/editor"
-import { Tooltip } from "./Tooltip"
 import { useTranslation } from "next-i18next"
-import { Popover } from "@headlessui/react"
+import { FC, memo, useCallback, useState } from "react"
 import { usePopper } from "react-popper"
+
+import { EditorView } from "@codemirror/view"
+import { Popover } from "@headlessui/react"
+
+import { ICommand } from "~/editor"
+
+import { Tooltip } from "./Tooltip"
 
 export interface EditorToolbarProps {
   view?: EditorView

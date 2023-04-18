@@ -1,8 +1,10 @@
-import { cn } from "~/lib/utils"
-import React from "react"
-import { UniLink } from "./UniLink"
 import { useTranslation } from "next-i18next"
+import React from "react"
+
 import { Tooltip } from "~/components/ui/Tooltip"
+import { cn } from "~/lib/utils"
+
+import { UniLink } from "./UniLink"
 
 export type TabItem = {
   text: string

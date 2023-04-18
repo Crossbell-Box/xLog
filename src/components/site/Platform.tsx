@@ -1,6 +1,6 @@
 import { Image } from "~/components/ui/Image"
-import { UniLink } from "~/components/ui/UniLink"
 import { Tooltip } from "~/components/ui/Tooltip"
+import { UniLink } from "~/components/ui/UniLink"
 import { cn } from "~/lib/utils"
 
 const syncMap: {

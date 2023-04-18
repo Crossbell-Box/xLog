@@ -1,10 +1,11 @@
-import type { Extension } from "@codemirror/state"
-import { Compartment } from "@codemirror/state"
-import { EditorView } from "@codemirror/view"
 import { useEffect, useRef } from "react"
 
+import type { Extension } from "@codemirror/state"
+import { Compartment } from "@codemirror/state"
 import { oneDark } from "@codemirror/theme-one-dark"
+import { EditorView } from "@codemirror/view"
 import { githubLight } from "@ddietr/codemirror-themes/theme/github-light"
+
 import { useIsUnmounted } from "./useLifecycle"
 import { useIsMobileLayout } from "./useMobileLayout"
 

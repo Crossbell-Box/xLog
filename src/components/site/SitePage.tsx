@@ -1,10 +1,12 @@
-import { PageContent } from "../common/PageContent"
-import { PostMeta } from "./PostMeta"
-import { PostFooter } from "./PostFooter"
-import { Note, Profile } from "~/lib/types"
-import Head from "next/head"
-import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "next-i18next"
+import Head from "next/head"
+
+import { getSiteLink } from "~/lib/helpers"
+import { Note, Profile } from "~/lib/types"
+
+import { PageContent } from "../common/PageContent"
+import { PostFooter } from "./PostFooter"
+import { PostMeta } from "./PostMeta"
 
 export const SitePage: React.FC<{
   page?: Note | null
