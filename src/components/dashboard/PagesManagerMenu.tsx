@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query"
 
 import { useGetState } from "~/hooks/useGetState"
 import { APP_NAME } from "~/lib/env"
-import { getNoteSlugFromNote, getSiteLink } from "~/lib/helpers"
+import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
@@ -153,17 +153,14 @@ export const PagesManagerMenu: FC<{
       text: "Share to Twitter",
       icon: <span className="i-mingcute:twitter-line inline-block"></span>,
       onClick() {
-        const slug = getNoteSlugFromNote(page)
-        if (!slug) return
-
-        window.open(
-          `https://twitter.com/intent/tweet?url=${getSiteLink({
-            subdomain,
-            domain: site.data?.custom_domain,
-          })}/${encodeURIComponent(slug)}&via=_xLog&text=${encodeURIComponent(
-            `Read my new post - ${page.title}`,
-          )}`,
-        )
+        if (site.data) {
+          const twitterShareUrl = getTwitterShareUrl({
+            page,
+            site: site.data,
+            t,
+          })
+          window.open(twitterShareUrl)
+        }
       },
     },
     {
