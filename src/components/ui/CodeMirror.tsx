@@ -4,7 +4,6 @@ import { Annotation } from "@codemirror/state"
 import { HighlightStyle } from "@codemirror/language"
 import { EditorView, KeyBinding, ViewUpdate } from "@codemirror/view"
 import { tags } from "@lezer/highlight"
-import type { Tag } from "@lezer/highlight"
 import {
   Suspense,
   forwardRef,
@@ -15,6 +14,7 @@ import {
 } from "react"
 import { useTranslation } from "react-i18next"
 import {
+  monospaceFonts,
   useCodeMirrorAutoToggleTheme,
   useCodeMirrorStyle,
 } from "~/hooks/useCodemirrorTheme"
@@ -247,41 +247,21 @@ const LazyCodeMirrorEditor = forwardRef<
 
 LazyCodeMirrorEditor.displayName = "LazyCodeMirrorEditor"
 
-const monoSpaceTags: Tag[] = [
-  tags.bracket,
-  tags.angleBracket,
-  tags.squareBracket,
-  tags.paren,
-  tags.brace,
-  tags.float,
-  tags.monospace,
-  tags.keyword,
-  tags.character,
-  tags.propertyName,
-  tags.macroName,
-  tags.function(tags.variableName),
-  tags.labelName,
-  tags.definition(tags.name),
-  tags.typeName,
-  tags.annotation,
-  tags.modifier,
-  tags.self,
-  tags.namespace,
-  tags.comment,
-  tags.bool,
-  /*@__PURE__*/ tags.special(tags.variableName),
-  tags.className,
-  tags.number,
-  tags.changed,
-  tags.operator,
-  tags.operatorKeyword,
-  tags.escape,
-  tags.regexp,
-  /*@__PURE__*/ tags.special(tags.string),
-  tags.name,
+const markdownTags = [
+  tags.heading1,
+  tags.heading2,
+  tags.heading3,
+  tags.heading4,
+  tags.heading5,
+  tags.heading6,
+  tags.strong,
+  tags.emphasis,
   tags.deleted,
-  tags.character,
+  tags.content,
+  tags.url,
+  tags.link,
 ]
+
 const codeMirrorMarkdownSyntax = HighlightStyle.define([
   {
     tag: tags.heading1,
@@ -316,8 +296,9 @@ const codeMirrorMarkdownSyntax = HighlightStyle.define([
   { tag: tags.strong, fontWeight: "bold" },
   { tag: tags.emphasis, fontStyle: "italic" },
   { tag: tags.deleted, textDecoration: "line-through" },
-  ...monoSpaceTags.map((tag) => ({
-    tag,
-    fontFamily: `"OperatorMonoSSmLig Nerd Font","Cascadia Code PL","FantasqueSansMono Nerd Font","operator mono","Fira code Retina","Fira code","Consolas", Monaco, "Hannotate SC", monospace, -apple-system`,
-  })),
+  { tag: tags.monospace, fontFamily: monospaceFonts },
+  {
+    tag: markdownTags,
+    fontFamily: "var(--font-fans)",
+  },
 ])

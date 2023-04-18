@@ -3,6 +3,8 @@ import { Compartment } from "@codemirror/state"
 import { EditorView } from "@codemirror/view"
 import { useEffect, useRef } from "react"
 
+export const monospaceFonts = `"OperatorMonoSSmLig Nerd Font","Cascadia Code PL","FantasqueSansMono Nerd Font","operator mono","Fira code Retina","Fira code","Consolas", Monaco, "Hannotate SC", monospace, -apple-system`
+
 import { oneDark } from "@codemirror/theme-one-dark"
 import { githubLight } from "@ddietr/codemirror-themes/theme/github-light"
 import { useIsUnmounted } from "./useLifecycle"
@@ -43,7 +45,7 @@ export const useCodeMirrorStyle = (view: EditorView | null) => {
   const getStyle = () => {
     return {
       ".cm-scroller": {
-        fontFamily: "var(--font-sans)",
+        fontFamily: monospaceFonts,
         fontSize: "1rem",
         overflow: "auto",
         height: "100%",
@@ -58,9 +60,6 @@ export const useCodeMirrorStyle = (view: EditorView | null) => {
       "&.cm-editor": {
         height: "100%",
         backgroundColor: "transparent",
-      },
-      ".cm-s-markdown .cm-string": {
-        fontFamily: '"Fira Code", monospace',
       },
     }
   }
