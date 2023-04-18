@@ -127,6 +127,12 @@ export const CommentInput: React.FC<{
               commentPage.isLoading ||
               updateComment.isLoading
             }
+            isDisabled={
+              !!account &&
+              userSites.isSuccess &&
+              !!userSites.data?.length &&
+              form.watch("content").trim().length === 0
+            }
           >
             {t(
               account
