@@ -1,6 +1,7 @@
 import { cn } from "~/lib/utils"
 import { useDate } from "~/hooks/useDate"
 import { useRouter } from "next/router"
+import { useDebounceEffect } from "ahooks"
 import {
   ChangeEvent,
   useCallback,
@@ -31,7 +32,7 @@ import { PageContent } from "~/components/common/PageContent"
 import type { Root } from "hast"
 import type { EditorView } from "@codemirror/view"
 
-import { renderPageContent } from "~/markdown"
+import { Rendered, renderPageContent } from "~/markdown"
 import { Button } from "~/components/ui/Button"
 import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN } from "~/lib/env"
@@ -364,13 +365,21 @@ export default function SubdomainEditor() {
 
   // preview
 
-  const parsedContent = useMemo(() => {
-    if (values.content) {
-      const result = renderPageContent(values.content)
-      setTree(result.tree)
-      return result
-    }
-  }, [values.content])
+  const [parsedContent, setParsedContent] = useState<Rendered | undefined>()
+
+  useDebounceEffect(
+    () => {
+      if (values.content) {
+        const result = renderPageContent(values.content)
+        setTree(result.tree)
+        setParsedContent(result)
+      }
+    },
+    [values.content],
+    {
+      wait: 500,
+    },
+  )
 
   const previewRef = useRef<HTMLDivElement>(null)
 
