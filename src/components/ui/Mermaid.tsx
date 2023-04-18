@@ -14,7 +14,6 @@ export const Mermaid: FC<{
   const isDark = useIsDark()
 
   useEffect(() => {
-    console.log("init")
     import("mermaid").then(async (mo) => {
       const mermaid = mo.default
       mermaid.initialize({

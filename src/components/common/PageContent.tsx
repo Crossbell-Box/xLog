@@ -39,7 +39,6 @@ export const PageContent: React.FC<{
     const hashChangeHandler = () => {
       const hash = decodeURIComponent(location.hash.slice(1))
       if (hash) {
-        console.log(hash)
         scroller.scrollTo(`user-content-${decodeURIComponent(hash)}`, {
           smooth: true,
           offset: -20,
