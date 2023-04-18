@@ -582,10 +582,8 @@ export default function SubdomainEditor() {
               }`}
             >
               <div
-                className={`flex items-center ${
-                  isMobileLayout
-                    ? "flex-1 overflow-x-auto scrollbar-hide"
-                    : undefined
+                className={`flex items-center overflow-x-auto scrollbar-hide ${
+                  isMobileLayout ? "flex-1" : undefined
                 }`}
               >
                 <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
@@ -638,7 +636,7 @@ export default function SubdomainEditor() {
                   />
                 </div>
               ) : (
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 flex-shrink-0">
                   <span
                     className={cn(
                       `text-sm capitalize`,
