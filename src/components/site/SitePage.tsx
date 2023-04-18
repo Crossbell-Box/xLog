@@ -61,7 +61,9 @@ export const SitePage: React.FC<{
               {page?.title}
             </h2>
           )}
-          {page?.tags?.includes("post") && <PostMeta page={page} site={site} />}
+          {page?.tags?.includes("post") && !page?.preview && (
+            <PostMeta page={page} site={site} />
+          )}
         </div>
         <PageContent
           className="mt-10"
