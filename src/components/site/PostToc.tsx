@@ -62,6 +62,9 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
             children.map((child: any) => {
               content += child.value
             })
+            console.log(
+              katex.renderToString(`${prefix}${index + 1}. ${content}`),
+            )
             return (
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
@@ -81,14 +84,14 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
                         : "text-zinc-700") +
                       " truncate inline-block max-w-full align-bottom hover:text-accent"
                     }
-                  >
-                    {`${prefix}${index + 1}. `}{" "}
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: katex.renderToString(content),
-                      }}
-                    />
-                  </Link>
+                    dangerouslySetInnerHTML={{
+                      __html: katex
+                        .renderToString(`${prefix}${index + 1}. ${content}`, {
+                          output: "html",
+                        })
+                        .replace(/katex/g, ""),
+                    }}
+                  ></Link>
                 )}
                 {child.type === "list" &&
                   renderItems(child, activeId, `${index + 1}.`)}
