@@ -9,6 +9,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { Metadata } from "@prisma/client"
 import { cacheGet } from "~/lib/redis.server"
+import removeMarkdown from "remove-markdown"
 
 const model = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
@@ -54,7 +55,10 @@ const getOriginalSummary = async (cid: string, lang: string) => {
       }
 
       const res = await chain.call({
-        input_document: content,
+        input_document: removeMarkdown(content, {
+          useImgAltText: true,
+          gfm: true,
+        }),
       })
 
       console.timeEnd(`fetching summary ${cid}, ${lang}`)
