@@ -15,6 +15,7 @@ import { Hydrate, QueryClient } from "@tanstack/react-query"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 
 import "~/css/main.css"
+// eslint-disable-next-line import/no-unresolved
 import "~/generated/uno.css"
 import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
