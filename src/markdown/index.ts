@@ -128,21 +128,26 @@ export const renderPageContent = (
           if (node.children) {
             node.children = node.children.flatMap((child: any) => {
               if (child.type === "text") {
-                const parts = toText(child).split(/(@[\w-]+)/g)
-                return parts.map((part) => {
-                  if (part.startsWith("@")) {
-                    return {
-                      type: "element",
-                      tagName: "mention",
-                      children: [{ type: "text", value: part }],
+                const mentionRegex = /(@[\w-]+)/g
+                if (mentionRegex.test(child.value)) {
+                  const parts = child.value.split(mentionRegex)
+                  return parts.map((part: string) => {
+                    if (part.startsWith("@")) {
+                      return {
+                        type: "element",
+                        tagName: "mention",
+                        children: [{ type: "text", value: part }],
+                      }
+                    } else {
+                      return {
+                        type: "text",
+                        value: part,
+                      }
                     }
-                  } else {
-                    return {
-                      type: "text",
-                      value: part,
-                    }
-                  }
-                })
+                  })
+                } else {
+                  return child
+                }
               } else {
                 return child
               }
