@@ -46,7 +46,7 @@ export const SitePage: React.FC<{
         />
       </Head>
       {page?.preview && (
-        <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm">
+        <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
           {t(
             "This address is in local editing preview mode and cannot be viewed by the public.",
           )}
@@ -61,7 +61,9 @@ export const SitePage: React.FC<{
               {page?.title}
             </h2>
           )}
-          {page?.tags?.includes("post") && <PostMeta page={page} site={site} />}
+          {page?.tags?.includes("post") && !page?.preview && (
+            <PostMeta page={page} site={site} />
+          )}
         </div>
         <PageContent
           className="mt-10"

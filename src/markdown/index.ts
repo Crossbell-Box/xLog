@@ -112,6 +112,34 @@ export const renderPageContent = (
       .use(rehypeRaw)
       .use(rehypeImage, { env })
       .use(rehypeAudio)
+      .use(rehypeSlug)
+      .use(rehypeAutolinkHeadings, {
+        properties: {
+          className: ["xlog-anchor"],
+          ariaHidden: true,
+          tabIndex: -1,
+        },
+        content(node) {
+          return [
+            {
+              type: "element",
+              tagName: "span",
+              properties: {
+                className: ["i-mingcute:link-line"],
+              },
+              children: [],
+            },
+            {
+              type: "element",
+              tagName: "anchor",
+              properties: {
+                name: node.properties?.id,
+              },
+              children: [],
+            },
+          ]
+        },
+      })
       .use(rehypeSanitize, sanitizeScheme)
       .use(rehypePrism, {
         ignoreMissing: true,
@@ -121,7 +149,6 @@ export const renderPageContent = (
       .use(rehypeExternalLink)
       .use(rehypeWrapCode)
       .use(rehypeInferDescriptionMeta)
-      .use(rehypeSlug)
       .use(rehypeRewrite, {
         selector: "p, li",
         rewrite: (node: any) => {
@@ -153,33 +180,6 @@ export const renderPageContent = (
               }
             })
           }
-        },
-      })
-      .use(rehypeAutolinkHeadings, {
-        properties: {
-          className: ["xlog-anchor"],
-          ariaHidden: true,
-          tabIndex: -1,
-        },
-        content(node) {
-          return [
-            {
-              type: "element",
-              tagName: "span",
-              properties: {
-                className: ["i-mingcute:link-line"],
-              },
-              children: [],
-            },
-            {
-              type: "element",
-              tagName: "anchor",
-              properties: {
-                name: node.properties?.id,
-              },
-              children: [],
-            },
-          ]
         },
       })
       .use(html ? () => (tree: any) => {} : rehypeReact, {

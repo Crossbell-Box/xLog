@@ -49,7 +49,7 @@ export const Mermaid: FC<{
         setLoading(false)
       })
     }
-  }, [props.children])
+  }, [props.children, isDark])
 
   return loading ? (
     <div className="h-[50px] rounded-lg flex items-center justify-center bg-[#ECECFD] dark:bg-[#1F2020] text-sm">

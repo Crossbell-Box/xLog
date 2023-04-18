@@ -61,7 +61,9 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
                   <Link
-                    to={decodeURI(child.children[0].url.slice(1))}
+                    to={`user-content-${decodeURIComponent(
+                      child.children[0].url.slice(1),
+                    )}`}
                     spy={true}
                     smooth={true}
                     duration={500}
