@@ -286,6 +286,9 @@ dependencies:
   remark-stringify:
     specifier: 10.0.2
     version: 10.0.2
+  remove-markdown:
+    specifier: 0.5.0
+    version: 0.5.0
   sharp:
     specifier: 0.32.0
     version: 0.32.0
@@ -372,6 +375,9 @@ devDependencies:
   '@types/react-scroll':
     specifier: 1.8.6
     version: 1.8.6
+  '@types/remove-markdown':
+    specifier: 0.3.1
+    version: 0.3.1
   '@types/sortablejs':
     specifier: 1.15.1
     version: 1.15.1
@@ -4637,6 +4643,10 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
       csstype: 3.1.2
+
+  /@types/remove-markdown@0.3.1:
+    resolution: {integrity: sha512-JpJNEJEsmmltyL2LdE8KRjJ0L2ad5vgLibqNj85clohT9AyTrfN6jvHxStPshDkmtcL/ShFu0p2tbY7DBS1mqQ==}
+    dev: true
 
   /@types/resolve@1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
@@ -12534,6 +12544,10 @@ packages:
 
   /remove-accents@0.4.2:
     resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
+    dev: false
+
+  /remove-markdown@0.5.0:
+    resolution: {integrity: sha512-x917M80K97K5IN1L8lUvFehsfhR8cYjGQ/yAMRI9E7JIKivtl5Emo5iD13DhMr+VojzMCiYk8V2byNPwT/oapg==}
     dev: false
 
   /repeat-string@1.6.1:
