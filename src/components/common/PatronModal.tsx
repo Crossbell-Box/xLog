@@ -229,7 +229,6 @@ export const PatronModal: React.FC<{
             <BoxRadio items={radios} value={value} setValue={setValue} />
           </div>
           <div className="text-zinc-500 text-xs space-y-1 mt-2">
-            <p>1 MIRA ≈ 1 USDC</p>
             <p className="flex items-center justify-center">
               <i className="i-mingcute:question-line mr-1 text-sm" />
               <UniLink href={MIRA_LINK}>
