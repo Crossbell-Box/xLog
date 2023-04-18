@@ -9,6 +9,7 @@ dist
 generated/
 test-results/
 tsconfig.tsbuildinfo
+.eslintcache
 
 # IDE Specific
 .idea
