@@ -1,3 +1,4 @@
+import katex from "katex"
 import type { Result as TocResult } from "mdast-util-toc"
 import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-scroll"
@@ -54,9 +55,13 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
       {items?.children?.map((item, index) => (
         <li key={index}>
           {item.children.map((child: any, i) => {
-            const content =
-              child.children[0].children?.[0]?.value ||
-              child.children[0].children?.[0]?.children?.[0]?.value
+            const children = child.children[0].children?.[0]?.children
+              ? child.children[0].children?.[0]?.children
+              : child.children[0].children
+            let content = ""
+            children.map((child: any) => {
+              content += child.value
+            })
             return (
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
@@ -77,7 +82,12 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
                       " truncate inline-block max-w-full align-bottom hover:text-accent"
                     }
                   >
-                    {`${prefix}${index + 1}. ${content}`}
+                    {`${prefix}${index + 1}. `}{" "}
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: katex.renderToString(content),
+                      }}
+                    />
                   </Link>
                 )}
                 {child.type === "list" &&
