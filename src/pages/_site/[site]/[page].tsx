@@ -1,8 +1,6 @@
 import { QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
-import { useRouter } from "next/router"
-import { ReactElement, useEffect } from "react"
-import { scroller } from "react-scroll"
+import { ReactElement } from "react"
 import { SiteLayout } from "~/components/site/SiteLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { SitePage } from "~/components/site/SitePage"
@@ -47,17 +45,6 @@ function SitePagePage({
     useStat: true,
   })
   const site = useGetSite(domainOrSubdomain)
-
-  const { asPath } = useRouter()
-  useEffect(() => {
-    const [, hash] = asPath.split("#")
-    if (hash) {
-      scroller.scrollTo(decodeURIComponent(hash), {
-        smooth: true,
-        offset: -20,
-      })
-    }
-  }, [])
 
   return <SitePage page={page.data} site={site.data} />
 }
