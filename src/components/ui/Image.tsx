@@ -51,7 +51,7 @@ export const Image: React.FC<TImageProps> = ({
       if (isMobileLayout !== undefined) {
         if (isMobileLayout) {
           const clickHandler = () => {
-            window.open(getSrc(), "_blank")
+            window.open(toGateway(getSrc()), "_blank")
           }
           $image.addEventListener("click", clickHandler)
           return () => {
