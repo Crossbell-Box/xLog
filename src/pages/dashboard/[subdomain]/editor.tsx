@@ -655,6 +655,15 @@ export default function SubdomainEditor() {
                   </Button>
                   <PublishButton
                     save={savePage}
+                    twitterShareUrl={
+                      page.data && site.data
+                        ? getTwitterShareUrl({
+                            page: page.data,
+                            site: site.data,
+                            t,
+                          })
+                        : ""
+                    }
                     published={visibility !== PageVisibilityEnum.Draft}
                     isSaving={createOrUpdatePage.isLoading}
                     isDisabled={
