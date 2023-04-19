@@ -289,6 +289,9 @@ dependencies:
   remove-markdown:
     specifier: 0.5.0
     version: 0.5.0
+  serialize-javascript:
+    specifier: ^6.0.1
+    version: 6.0.1
   sharp:
     specifier: 0.32.0
     version: 0.32.0
@@ -381,6 +384,9 @@ devDependencies:
   '@types/remove-markdown':
     specifier: 0.3.1
     version: 0.3.1
+  '@types/serialize-javascript':
+    specifier: ^5.0.2
+    version: 5.0.2
   '@types/sortablejs':
     specifier: 1.15.1
     version: 1.15.1
@@ -4669,6 +4675,10 @@ packages:
     dependencies:
       '@types/node': 18.15.11
     dev: false
+
+  /@types/serialize-javascript@5.0.2:
+    resolution: {integrity: sha512-BRLlwZzRoZukGaBtcUxkLsZsQfWZpvog6MZk3PWQO9Q6pXmXFzjU5iGzZ+943evp6tkkbN98N1Z31KT0UG1yRw==}
+    dev: true
 
   /@types/sortablejs@1.15.1:
     resolution: {integrity: sha512-g/JwBNToh6oCTAwNS8UGVmjO7NLDKsejVhvE4x1eWiPTC3uCuNsa/TD4ssvX3du+MLiM+SHPNDuijp8y76JzLQ==}
@@ -12865,7 +12875,6 @@ packages:
     resolution: {integrity: sha512-owoXEFjWRllis8/M1Q+Cw5k8ZH40e3zhp/ovX+Xr/vi1qj6QesbyXXViFbpNvWvPNAD62SutwEXavefrLJWj7w==}
     dependencies:
       randombytes: 2.1.0
-    dev: true
 
   /set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
