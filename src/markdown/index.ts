@@ -108,7 +108,6 @@ export const renderPageContent = (
       .use(remarkMermaid)
       .use(remarkMath)
       .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeKatex) // There may be $ symbol parsing errors
       .use(rehypeStringify)
       .use(rehypeRaw)
       .use(rehypeImage, { env })
@@ -142,6 +141,7 @@ export const renderPageContent = (
         },
       })
       .use(rehypeSanitize, sanitizeScheme)
+      .use(rehypeKatex) // There may be $ symbol parsing errors
       .use(rehypePrism, {
         ignoreMissing: true,
         showLineNumbers: true,
