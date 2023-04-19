@@ -1,3 +1,4 @@
+import DOMPurify from "isomorphic-dompurify"
 import katex from "katex"
 import type { Result as TocResult } from "mdast-util-toc"
 import React, { useEffect, useRef, useState } from "react"
@@ -58,13 +59,19 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
             const children = child.children[0].children?.[0]?.children
               ? child.children[0].children?.[0]?.children
               : child.children[0].children
-            let content = ""
+            let content = "",
+              isInlineMath = false
             children.map((child: any) => {
+              if (child.type === "inlineMath") {
+                isInlineMath = true
+              }
               content += child.value
             })
-            console.log(
-              katex.renderToString(`${prefix}${index + 1}. ${content}`),
-            )
+            const pureContent = katex
+              .renderToString(`${prefix}${index + 1}. ${content}`, {
+                output: "html",
+              })
+              .replace(/katex/g, "")
             return (
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
@@ -84,14 +91,26 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
                         : "text-zinc-700") +
                       " truncate inline-block max-w-full align-bottom hover:text-accent"
                     }
-                    dangerouslySetInnerHTML={{
-                      __html: katex
-                        .renderToString(`${prefix}${index + 1}. ${content}`, {
-                          output: "html",
-                        })
-                        .replace(/katex/g, ""),
-                    }}
-                  ></Link>
+                  >
+                    {isInlineMath ? (
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(
+                            katex
+                              .renderToString(
+                                `${prefix}${index + 1}. ${content}`,
+                                {
+                                  output: "html",
+                                },
+                              )
+                              .replace(/katex/g, ""),
+                          ),
+                        }}
+                      />
+                    ) : (
+                      `${prefix}${index + 1}. ${content}`
+                    )}
+                  </Link>
                 )}
                 {child.type === "list" &&
                   renderItems(child, activeId, `${index + 1}.`)}
