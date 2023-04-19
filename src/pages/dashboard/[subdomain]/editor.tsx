@@ -7,6 +7,8 @@ import { useRouter } from "next/router"
 import NodeID3 from "node-id3"
 import {
   ChangeEvent,
+  FC,
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -15,6 +17,8 @@ import {
 } from "react"
 import type { ReactElement } from "react"
 import toast from "react-hot-toast"
+import { create } from "zustand"
+import { shallow } from "zustand/shallow"
 
 import type { EditorView } from "@codemirror/view"
 import { useQueryClient } from "@tanstack/react-query"
@@ -33,7 +37,9 @@ import { Modal } from "~/components/ui/Modal"
 import { UniLink } from "~/components/ui/UniLink"
 import { toolbars } from "~/editor"
 import { useDate } from "~/hooks/useDate"
+import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { useSyncOnce } from "~/hooks/useSyncOnce"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { showConfetti } from "~/lib/confetti"
 import { getDefaultSlug } from "~/lib/default-slug"
@@ -43,7 +49,7 @@ import { getPageVisibility } from "~/lib/page-helpers"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { delStorage, setStorage } from "~/lib/storage"
 import { PageVisibilityEnum } from "~/lib/types"
-import { cn } from "~/lib/utils"
+import { cn, pick } from "~/lib/utils"
 import { Rendered, renderPageContent } from "~/markdown"
 import { checkPageSlug } from "~/models/page.model"
 import { useCreateOrUpdatePage, useGetPage } from "~/queries/page"
@@ -65,6 +71,27 @@ const getInputDatetimeValue = (date: Date | string, dayjs: any) => {
   const str = dayjs(date).format()
   return str.substring(0, ((str.indexOf("T") | 0) + 6) | 0)
 }
+
+const initialEditorState = {
+  title: "",
+  publishedAt: new Date().toISOString(),
+  published: false,
+  excerpt: "",
+  slug: "",
+  tags: "",
+  content: "",
+}
+
+const useEditorState = create<
+  typeof initialEditorState & {
+    setValues: (values: Partial<typeof initialEditorState>) => void
+  }
+>((set) => ({
+  ...initialEditorState,
+  setValues: (values: any) => set(values),
+}))
+
+type Values = typeof initialEditorState
 
 export default function SubdomainEditor() {
   const router = useRouter()
@@ -119,25 +146,27 @@ export default function SubdomainEditor() {
 
   const uploadFile = useUploadFile()
 
-  const [values, setValues] = useState({
-    title: "",
-    publishedAt: new Date().toISOString(),
-    published: false,
-    excerpt: "",
-    slug: "",
-    tags: "",
-    content: "",
+  // reset editor state when page changes
+  useSyncOnce(() => {
+    useEditorState.setState(initialEditorState)
   })
+
+  const values = useEditorState()
+
   const [initialContent, setInitialContent] = useState("")
   const [defaultSlug, setDefaultSlug] = useState("")
 
-  type Values = typeof values
+  const getValues = useGetState(values)
+  const getDraftKey = useGetState(draftKey)
 
   const updateValue = useCallback(
     <K extends keyof Values>(key: K, value: Values[K]) => {
       if (visibility === PageVisibilityEnum.Published) {
         setVisibility(PageVisibilityEnum.Modified)
       }
+
+      const values = getValues()
+      const draftKey = getDraftKey()
       if (key === "title") {
         setDefaultSlug(
           getDefaultSlug(
@@ -163,9 +192,9 @@ export default function SubdomainEditor() {
         })
         queryClient.invalidateQueries(["getPagesBySite", subdomain])
       }
-      setValues(newValues)
+      useEditorState.setState(newValues)
     },
-    [setValues, values, draftKey, isPost, queryClient, subdomain, t],
+    [isPost, queryClient, subdomain],
   )
 
   const createOrUpdatePage = useCreateOrUpdatePage()
@@ -340,7 +369,7 @@ export default function SubdomainEditor() {
   useEffect(() => {
     if (!page.data || !draftKey) return
     setInitialContent(page.data.body?.content || "")
-    setValues({
+    useEditorState.setState({
       title: page.data.title || "",
       publishedAt: page.data.date_published,
       published: !!page.data.id,
@@ -754,7 +783,14 @@ export default function SubdomainEditor() {
                   </div>
                 </div>
               </div>
-              {!isMobileLayout && extraProperties}
+              {!isMobileLayout && (
+                <EditorExtraProperties
+                  defaultSlug={defaultSlug}
+                  updateValue={updateValue}
+                  isPost={isPost}
+                  subdomain={subdomain}
+                />
+              )}
             </div>
           </>
         )}
@@ -825,3 +861,111 @@ export default function SubdomainEditor() {
 SubdomainEditor.getLayout = (page: ReactElement) => {
   return <DashboardLayout title="Editor">{page}</DashboardLayout>
 }
+
+const EditorExtraProperties: FC<{
+  updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
+  isPost: boolean
+
+  subdomain: string
+  defaultSlug: string
+}> = memo(({ isPost, updateValue, subdomain, defaultSlug }) => {
+  const values = useEditorState(
+    (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
+    shallow,
+  )
+  const date = useDate()
+  const { t } = useTranslation("dashboard")
+  const site = useGetSite(subdomain)
+
+  return (
+    <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+      <div>
+        <Input
+          type="datetime-local"
+          label={t("Publish at") || ""}
+          isBlock
+          name="publishAt"
+          id="publishAt"
+          value={getInputDatetimeValue(values.publishedAt, date.dayjs)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            try {
+              const value = date.inLocalTimezone(e.target.value).toISOString()
+              updateValue("publishedAt", value)
+            } catch (error) {}
+          }}
+          help={t(
+            `This ${
+              isPost ? "post" : "page"
+            } will be accessible from this time`,
+          )}
+        />
+      </div>
+      <div>
+        <Input
+          name="slug"
+          value={values.slug}
+          placeholder={defaultSlug}
+          label={t(`${isPost ? "Post" : "Page"} slug`) || ""}
+          id="slug"
+          isBlock
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            updateValue("slug", e.target.value)
+          }
+          help={
+            <>
+              {(values.slug || defaultSlug) && (
+                <>
+                  {t(`This ${isPost ? "post" : "page"} will be accessible at`)}{" "}
+                  <UniLink
+                    href={`${getSiteLink({
+                      subdomain,
+                      domain: site.data?.custom_domain,
+                    })}/${encodeURIComponent(values.slug || defaultSlug)}`}
+                    className="hover:underline"
+                  >
+                    {getSiteLink({
+                      subdomain,
+                      domain: site.data?.custom_domain,
+                      noProtocol: true,
+                    })}
+                    /{encodeURIComponent(values.slug || defaultSlug)}
+                  </UniLink>
+                </>
+              )}
+            </>
+          }
+        />
+      </div>
+      <div>
+        <Input
+          name="tags"
+          value={values.tags}
+          label={t("Tags") || ""}
+          id="tags"
+          isBlock
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            updateValue("tags", e.target.value)
+          }
+          help={t("Separate multiple tags with English commas") + ` ","`}
+        />
+      </div>
+      <div>
+        <Input
+          label={t("Excerpt") || ""}
+          isBlock
+          name="excerpt"
+          id="excerpt"
+          value={values.excerpt}
+          multiline
+          rows={5}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+            updateValue("excerpt", e.target.value)
+          }}
+          help={t("Leave it blank to use auto-generated excerpt")}
+        />
+      </div>
+    </div>
+  )
+})
+
+EditorExtraProperties.displayName = "EditorExtraProperties"
