@@ -2,6 +2,8 @@ import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import React from "react"
 
+import { useXSettingsModal } from "@crossbell/connect-kit"
+
 import { type TabItem, Tabs } from "../ui/Tabs"
 import { DashboardMain } from "./DashboardMain"
 
@@ -12,6 +14,7 @@ export const SettingsLayout: React.FC<{
 }> = ({ title, children, type }) => {
   const router = useRouter()
   const { t } = useTranslation("dashboard")
+  const xSettingsModal = useXSettingsModal()
 
   const subdomain = router.query.subdomain as string
   const tabItems: TabItem[] = (
@@ -31,6 +34,10 @@ export const SettingsLayout: React.FC<{
           {
             text: "Operators",
             href: `/dashboard/${subdomain}/settings/operator`,
+          },
+          {
+            text: "xSettings",
+            onClick: () => xSettingsModal.show(),
           },
           {
             text: "Export data",

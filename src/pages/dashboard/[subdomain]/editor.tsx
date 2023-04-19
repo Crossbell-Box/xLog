@@ -38,7 +38,7 @@ import { useUploadFile } from "~/hooks/useUploadFile"
 import { showConfetti } from "~/lib/confetti"
 import { getDefaultSlug } from "~/lib/default-slug"
 import { CSB_SCAN } from "~/lib/env"
-import { getSiteLink } from "~/lib/helpers"
+import { getSiteLink, getTwitterShareUrl } from "~/lib/helpers"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { delStorage, setStorage } from "~/lib/storage"
@@ -655,6 +655,15 @@ export default function SubdomainEditor() {
                   </Button>
                   <PublishButton
                     save={savePage}
+                    twitterShareUrl={
+                      page.data && site.data
+                        ? getTwitterShareUrl({
+                            page: page.data,
+                            site: site.data,
+                            t,
+                          })
+                        : ""
+                    }
                     published={visibility !== PageVisibilityEnum.Draft}
                     isSaving={createOrUpdatePage.isLoading}
                     isDisabled={
@@ -788,14 +797,15 @@ export default function SubdomainEditor() {
             <li>
               <UniLink
                 className="text-accent"
-                href={`https://twitter.com/intent/tweet?url=${getSiteLink({
-                  subdomain,
-                  domain: site.data?.custom_domain,
-                })}/${encodeURIComponent(
-                  values.slug || defaultSlug,
-                )}&via=_xLog&text=${encodeURIComponent(
-                  `Read my new post - ${page.data?.title}`,
-                )}`}
+                href={
+                  page.data && site.data
+                    ? getTwitterShareUrl({
+                        page: page.data,
+                        site: site.data,
+                        t,
+                      })
+                    : ""
+                }
               >
                 {t("Share to Twitter")}
               </UniLink>

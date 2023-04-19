@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid"
 import { FC, useEffect, useState } from "react"
+import xss from "xss"
 
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
@@ -57,7 +58,7 @@ export const Mermaid: FC<{
       Mermaid Loading...
     </div>
   ) : svg ? (
-    <div dangerouslySetInnerHTML={{ __html: svg }} />
+    <div dangerouslySetInnerHTML={{ __html: xss(svg) }} />
   ) : (
     <div className="h-[50px] rounded-lg flex items-center justify-center bg-red-100 text-sm">
       {error || "Error"}
