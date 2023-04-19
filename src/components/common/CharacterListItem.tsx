@@ -1,28 +1,21 @@
-import React, { useEffect, useState } from "react"
+import React, { memo } from "react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { Profile } from "~/lib/types"
-import * as siteModel from "~/models/site.model"
+import { useGetSite } from "~/queries/site"
 
 import { Avatar } from "../ui/Avatar"
 import { UniLink } from "../ui/UniLink"
 import { FollowingButton } from "./FollowingButton"
 
-export const CharacterListItem: React.FC<{
+const CharacterListItem: React.FC<{
   character: any
   sub: any
 }> = ({ character, sub }) => {
-  const [site, setSite] = useState<Profile>()
-  const siteId = character?.handle
+  const site = useGetSite(character?.handle)
 
-  useEffect(() => {
-    if (siteId) {
-      siteModel.getSite(siteId).then((site) => setSite(site))
-    }
-  }, [siteId])
   return (
     <div className="py-3 flex items-center justify-between space-x-2 text-sm">
       <div className="flex flex-1 overflow-hidden space-x-2">
@@ -52,7 +45,9 @@ export const CharacterListItem: React.FC<{
           <BlockchainIcon />
         </UniLink>
       </div>
-      <FollowingButton site={site} size="sm" />
+      <FollowingButton site={site.data} size="sm" />
     </div>
   )
 }
+
+export default memo(CharacterListItem)

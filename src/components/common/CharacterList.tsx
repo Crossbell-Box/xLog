@@ -5,7 +5,7 @@ import InfiniteScroll from "react-infinite-scroller"
 import { Modal } from "~/components/ui/Modal"
 
 import { Button } from "../ui/Button"
-import { CharacterListItem } from "./CharacterListItem"
+import CharacterListItem from "./CharacterListItem"
 
 export const CharacterList: React.FC<{
   open: boolean
