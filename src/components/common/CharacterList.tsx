@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next"
+import React, { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
@@ -6,10 +7,13 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { Profile } from "~/lib/types"
+import * as siteModel from "~/models/site.model"
 
 import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
+import { FollowingButton } from "./FollowingButton"
 
 export const CharacterList: React.FC<{
   open: boolean
@@ -24,7 +28,7 @@ export const CharacterList: React.FC<{
   const { t } = useTranslation("common")
 
   return (
-    <Modal open={open} setOpen={setOpen} title={title}>
+    <Modal open={open} setOpen={setOpen} title={title} ZIndex={20}>
       <div className="px-5 overflow-auto flex-1">
         <InfiniteScroll
           loadMore={loadMore}
@@ -42,41 +46,44 @@ export const CharacterList: React.FC<{
                 const character = sub?.character || sub?.fromCharacter
                 return (
                   <div
-                    className="py-3 flex items-center space-x-2 text-sm"
+                    className="py-3 flex items-center justify-between space-x-2 text-sm"
                     key={index}
                   >
-                    <UniLink
-                      href={getSiteLink({
-                        subdomain: character?.handle,
-                      })}
-                      className="flex items-center space-x-2 text-sm min-w-0"
-                    >
-                      <CharacterFloatCard siteId={character?.handle}>
-                        <Avatar
-                          className="align-middle border-2 border-white"
-                          images={character?.metadata?.content?.avatars || []}
-                          name={
-                            character?.metadata?.content?.name ||
-                            character?.handle
-                          }
-                          size={40}
-                        />
-                      </CharacterFloatCard>
-                      <span>{character?.metadata?.content?.name}</span>
-                      <span className="text-zinc-400 truncate max-w-xs">
-                        @{character?.handle}
-                      </span>
-                    </UniLink>
-                    <UniLink
-                      href={
-                        CSB_SCAN +
-                        "/tx/" +
-                        (sub.metadata?.proof || sub.transactionHash)
-                      }
-                      className="flex items-center"
-                    >
-                      <BlockchainIcon />
-                    </UniLink>
+                    <div className="flex flex-1 overflow-hidden space-x-2">
+                      <UniLink
+                        href={getSiteLink({
+                          subdomain: character?.handle,
+                        })}
+                        className="flex items-center space-x-2 text-sm min-w-0"
+                      >
+                        <CharacterFloatCard siteId={character?.handle}>
+                          <Avatar
+                            className="align-middle border-2 border-white"
+                            images={character?.metadata?.content?.avatars || []}
+                            name={
+                              character?.metadata?.content?.name ||
+                              character?.handle
+                            }
+                            size={40}
+                          />
+                        </CharacterFloatCard>
+                        <span>{character?.metadata?.content?.name}</span>
+                        <span className="text-zinc-400 truncate">
+                          @{character?.handle}
+                        </span>
+                      </UniLink>
+                      <UniLink
+                        href={
+                          CSB_SCAN +
+                          "/tx/" +
+                          (sub.metadata?.proof || sub.transactionHash)
+                        }
+                        className="flex items-center"
+                      >
+                        <BlockchainIcon />
+                      </UniLink>
+                    </div>
+                    <FollowingButtonItem siteId={character.handle} />
                   </div>
                 )
               }),
@@ -95,4 +102,15 @@ export const CharacterList: React.FC<{
       </div>
     </Modal>
   )
+}
+
+const FollowingButtonItem: React.FC<{ siteId?: string }> = ({ siteId }) => {
+  const [site, setSite] = useState<Profile>()
+
+  useEffect(() => {
+    if (siteId) {
+      siteModel.getSite(siteId).then((site) => setSite(site))
+    }
+  }, [siteId])
+  return <FollowingButton site={site} size="sm" />
 }
