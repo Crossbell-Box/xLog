@@ -67,13 +67,6 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
               }
               content += child.value
             })
-            const pureContent = DOMPurify.sanitize(
-              katex
-                .renderToString(`${prefix}${index + 1}. ${content}`, {
-                  output: "html",
-                })
-                .replace(/katex/g, ""),
-            )
             return (
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
@@ -97,7 +90,16 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
                     {isInlineMath ? (
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: pureContent,
+                          __html: DOMPurify.sanitize(
+                            katex
+                              .renderToString(
+                                `${prefix}${index + 1}. ${content}`,
+                                {
+                                  output: "html",
+                                },
+                              )
+                              .replace(/katex/g, ""),
+                          ),
                         }}
                       />
                     ) : (
