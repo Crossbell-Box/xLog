@@ -138,7 +138,6 @@
     "use-onclickoutside": "0.4.1",
     "uuid": "9.0.0",
     "wagmi": "0.12.10",
-    "xss": "1.0.14",
     "zustand": "^4.3.7"
   },
   "devDependencies": {

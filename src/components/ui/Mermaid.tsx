@@ -1,9 +1,10 @@
 import { nanoid } from "nanoid"
 import { FC, useEffect, useState } from "react"
-import xss from "xss"
 
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
+
+import { Image } from "./Image"
 
 export const Mermaid: FC<{
   children: [string]
@@ -11,6 +12,8 @@ export const Mermaid: FC<{
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [svg, setSvg] = useState("")
+  const [width, setWidth] = useState<number>()
+  const [height, setHeight] = useState<number>()
   const isUnmounted = useIsUnmounted()
 
   const isDark = useIsDark()
@@ -40,12 +43,20 @@ export const Mermaid: FC<{
             setError(error.message)
           }
           setSvg("")
+          setWidth(undefined)
+          setHeight(undefined)
         }
 
         if (isUnmounted()) return
 
         if (result) {
           setSvg(result.svg)
+
+          const match = result.svg.match(/viewBox="[^"]*\s([\d.]+)\s([\d.]+)"/)
+          if (match?.[1] && match?.[2]) {
+            setWidth(parseInt(match?.[1]))
+            setHeight(parseInt(match?.[2]))
+          }
           setError("")
         }
         setLoading(false)
@@ -58,7 +69,14 @@ export const Mermaid: FC<{
       Mermaid Loading...
     </div>
   ) : svg ? (
-    <div dangerouslySetInnerHTML={{ __html: xss(svg) }} />
+    <div>
+      <Image
+        alt="mermaid"
+        src={"data:image/svg+xml;base64," + Buffer.from(svg).toString("base64")}
+        width={width}
+        height={height}
+      />
+    </div>
   ) : (
     <div className="h-[50px] rounded-lg flex items-center justify-center bg-red-100 text-sm">
       {error || "Error"}
