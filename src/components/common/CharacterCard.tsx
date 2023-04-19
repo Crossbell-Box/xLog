@@ -1,6 +1,5 @@
 import { useTranslation } from "next-i18next"
 import { useEffect, useState } from "react"
-import xss from "xss"
 
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
@@ -82,10 +81,9 @@ export const CharacterCard: React.FC<{
             <span className="text-gray-600">@{site?.username}</span>
           </span>
           {site?.description && (
-            <span
-              className="block text-gray-600"
-              dangerouslySetInnerHTML={{ __html: xss(site?.description || "") }}
-            ></span>
+            <span className="text-gray-600 line-clamp-4">
+              {site?.description}
+            </span>
           )}
           {!simple && (
             <span className="block">
