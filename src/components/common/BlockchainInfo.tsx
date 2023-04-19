@@ -3,16 +3,24 @@ import { useTranslation } from "next-i18next"
 import { Disclosure } from "@headlessui/react"
 
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { CSB_IO, CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
-import { toGateway, toIPFS } from "~/lib/ipfs-parser"
+import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
+import { toCid, toGateway, toIPFS } from "~/lib/ipfs-parser"
 import { Note, Profile } from "~/lib/types"
 import { cn } from "~/lib/utils"
+import { useGetGreenfieldId } from "~/queries/site"
 
 export const BlockchainInfo: React.FC<{
   site?: Profile | null
   page?: Note | null
 }> = ({ site, page }) => {
   const { t } = useTranslation(["common", "site"])
+
+  const ipfs = page
+    ? page.related_urls?.filter((url) => url.startsWith(IPFS_GATEWAY))?.[0]
+    : site?.metadata?.uri
+  const greenfieldId = useGetGreenfieldId(toCid(ipfs))
+
+  const type = page ? (page?.tags?.includes("post") ? "post" : "page") : "blog"
 
   return (
     <div className="text-sm">
@@ -29,13 +37,7 @@ export const BlockchainInfo: React.FC<{
                 <span>
                   {t("signed and stored on the blockchain", {
                     ns: "site",
-                    name: t(
-                      page
-                        ? page.tags?.includes("post")
-                          ? "post"
-                          : "page"
-                        : "blog",
-                    ),
+                    name: t(type),
                   })}
                 </span>
               </span>
@@ -46,24 +48,8 @@ export const BlockchainInfo: React.FC<{
                 )}
               ></span>
             </Disclosure.Button>
-            <Disclosure.Panel className="px-5 py-2 text-sm text-gray-500 w-full overflow-hidden">
+            <Disclosure.Panel className="px-5 py-2 text-[13px] text-gray-500 w-full overflow-hidden">
               <ul className="space-y-2">
-                {page && (
-                  <li>
-                    <div className="font-medium">Note ID</div>
-                    <div>
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-block mr-4 break-all"
-                        href={`${CSB_IO}/notes/${page?.id}`}
-                        key={page?.id}
-                      >
-                        {page?.id}
-                      </a>
-                    </div>
-                  </li>
-                )}
                 <li>
                   <div className="font-medium">{t("Owner")}</div>
                   <div>
@@ -125,35 +111,36 @@ export const BlockchainInfo: React.FC<{
                 <li>
                   <div className="font-medium">{t("IPFS Address")}</div>
                   <div>
-                    {page
-                      ? page.related_urls
-                          ?.filter((url) => url.startsWith(IPFS_GATEWAY))
-                          .map((url) => {
-                            return (
-                              <a
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-block mr-4 break-all"
-                                href={url}
-                                key={url}
-                              >
-                                {toIPFS(url)}
-                              </a>
-                            )
-                          })
-                      : site?.metadata?.uri && (
-                          <a
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-block mr-4 break-all"
-                            href={toGateway(site?.metadata?.uri)}
-                            key={site?.metadata?.uri}
-                          >
-                            {site?.metadata?.uri}
-                          </a>
-                        )}
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-block mr-4 break-all"
+                      href={toGateway(ipfs)}
+                    >
+                      {toIPFS(ipfs)}
+                    </a>
                   </div>
                 </li>
+                {greenfieldId.data?.greenfieldId && (
+                  <li>
+                    <div className="font-medium">{t("Greenfield Address")}</div>
+                    <div>
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-block mr-4 break-all"
+                        href={
+                          "https://greenfieldscan.com/" +
+                          (greenfieldId.data?.transactionHash
+                            ? `txn/${greenfieldId.data?.transactionHash}`
+                            : "")
+                        }
+                      >
+                        {greenfieldId.data?.greenfieldId}
+                      </a>
+                    </div>
+                  </li>
+                )}
               </ul>
             </Disclosure.Panel>
           </>
