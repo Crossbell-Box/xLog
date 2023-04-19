@@ -1,8 +1,8 @@
-import DOMPurify from "isomorphic-dompurify"
 import katex from "katex"
 import type { Result as TocResult } from "mdast-util-toc"
 import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-scroll"
+import xss from "xss"
 
 function getIds(items: TocResult["map"]) {
   return (
@@ -90,15 +90,19 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
                     {isInlineMath ? (
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(
-                            katex
-                              .renderToString(
-                                `${prefix}${index + 1}. ${content}`,
-                                {
-                                  output: "html",
-                                },
-                              )
-                              .replace(/katex/g, ""),
+                          __html: xss(
+                            katex.renderToString(
+                              `${prefix}${index + 1}. ${content}`,
+                              {
+                                output: "html",
+                              },
+                            ),
+                            {
+                              whiteList: {
+                                span: ["class", "style"],
+                              },
+                              css: false,
+                            },
                           ),
                         }}
                       />

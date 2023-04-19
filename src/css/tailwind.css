@@ -397,3 +397,7 @@ textarea.input {
 .katex-html {
   @apply overflow-x-auto;
 }
+
+.katex {
+  all: unset!important;
+}
