@@ -108,7 +108,6 @@ export const renderPageContent = (
       .use(remarkMermaid)
       .use(remarkMath)
       .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeKatex) // There may be $ symbol parsing errors
       .use(rehypeStringify)
       .use(rehypeRaw)
       .use(rehypeImage, { env })
@@ -142,10 +141,6 @@ export const renderPageContent = (
         },
       })
       .use(rehypeSanitize, sanitizeScheme)
-      .use(rehypePrism, {
-        ignoreMissing: true,
-        showLineNumbers: true,
-      })
       .use(rehypeTable)
       .use(rehypeExternalLink)
       .use(rehypeWrapCode)
@@ -183,6 +178,11 @@ export const renderPageContent = (
           }
         },
       })
+      .use(rehypePrism, {
+        ignoreMissing: true,
+        showLineNumbers: true,
+      })
+      .use(rehypeKatex) // There may be $ symbol parsing errors
       .use(html ? () => (tree: any) => {} : rehypeReact, {
         createElement: createElement,
         components: {
