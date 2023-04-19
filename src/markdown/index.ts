@@ -141,7 +141,6 @@ export const renderPageContent = (
         },
       })
       .use(rehypeSanitize, sanitizeScheme)
-      .use(rehypeKatex) // There may be $ symbol parsing errors
       .use(rehypePrism, {
         ignoreMissing: true,
         showLineNumbers: true,
@@ -183,6 +182,7 @@ export const renderPageContent = (
           }
         },
       })
+      .use(rehypeKatex) // There may be $ symbol parsing errors
       .use(html ? () => (tree: any) => {} : rehypeReact, {
         createElement: createElement,
         components: {
