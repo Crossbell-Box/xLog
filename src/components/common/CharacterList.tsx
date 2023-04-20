@@ -20,7 +20,7 @@ export const CharacterList: React.FC<{
   const { t } = useTranslation("common")
 
   return (
-    <Modal open={open} setOpen={setOpen} title={title} ZIndex={20}>
+    <Modal open={open} setOpen={setOpen} title={title} zIndex={20}>
       <div className="px-5 overflow-auto flex-1">
         <InfiniteScroll
           loadMore={loadMore}

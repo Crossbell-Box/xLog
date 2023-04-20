@@ -12,13 +12,13 @@ export const Modal: React.FC<{
   title?: string | React.ReactNode
   titleIcon?: React.ReactNode
   size?: "md" | "lg" | "sm"
-  ZIndex?: number
-}> = ({ open, setOpen, children, title, titleIcon, size = "md", ZIndex }) => {
+  zIndex?: number
+}> = ({ open, setOpen, children, title, titleIcon, size = "md", zIndex }) => {
   return (
     <Dialog
       open={open}
       onClose={() => setOpen(false)}
-      className={clsx("relative", ZIndex ? `z-${ZIndex}` : "z-50")}
+      className={clsx("relative", zIndex ? `z-${zIndex}` : "z-50")}
     >
       {/* The backdrop, rendered as a fixed sibling to the panel container */}
       <div className="fixed inset-0 bg-black/30 z-40" aria-hidden={true} />
