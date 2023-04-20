@@ -27,7 +27,7 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
     version: "https://jsonfeed.org/version/1",
     title: site.name,
     description: site.description,
-    icon: link + site.avatars?.[0],
+    icon: site.avatars?.[0],
     home_page_url: link,
     feed_url: `${link}${path}`,
     items: pages.list?.map((page: any) => ({
