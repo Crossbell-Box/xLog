@@ -79,6 +79,7 @@ export type Note = UniNote & {
   slug?: string
   character?: Profile
   cover?: string
+  audio?: string
   body?: {
     content?: string
     address?: string
