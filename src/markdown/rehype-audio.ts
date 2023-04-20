@@ -29,8 +29,9 @@ export const rehypeAudio: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
         first = false
       }
 
-      if (parent) {
-        parent.children[i!] = {
+      if (parent && parent.type === "element" && i !== null) {
+        parent.tagName = "div"
+        parent.children[i] = {
           type: "element",
           tagName: "audio",
           properties: {
