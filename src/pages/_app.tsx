@@ -67,6 +67,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           ipfsLinkToHttpLink={toGateway}
           urlComposer={urlComposer}
           signInStrategy="simple"
+          ignoreWalletDisconnectEvent={true}
         >
           <Hydrate state={pageProps.dehydratedState}>
             {/* <ReactQueryDevtools /> */}
