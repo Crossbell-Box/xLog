@@ -4,7 +4,6 @@ import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useGetSite } from "~/queries/site"
 
 import { Avatar } from "../ui/Avatar"
 import { UniLink } from "../ui/UniLink"
@@ -14,8 +13,6 @@ const CharacterListItem: React.FC<{
   character: any
   sub: any
 }> = ({ character, sub }) => {
-  const site = useGetSite(character?.handle)
-
   return (
     <div className="py-3 flex items-center justify-between space-x-2 text-sm">
       <div className="flex flex-1 overflow-hidden space-x-2">
@@ -45,7 +42,17 @@ const CharacterListItem: React.FC<{
           <BlockchainIcon />
         </UniLink>
       </div>
-      <FollowingButton site={site.data} size="sm" />
+      <FollowingButton
+        site={
+          {
+            username: character?.handle,
+            metadata: {
+              proof: character?.characterId,
+            },
+          } as any
+        }
+        size="sm"
+      />
     </div>
   )
 }
