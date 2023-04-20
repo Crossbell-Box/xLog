@@ -1,4 +1,4 @@
-@import url("https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css");
+@import url("https://fastly.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css");
 
 @import "./variables.css";
 @import "./tailwind.css";
