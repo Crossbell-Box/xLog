@@ -184,7 +184,6 @@ export const renderPageContent = (
         ignoreMissing: true,
         showLineNumbers: true,
       })
-      // It will cause unexpected parsing to the `$` symbol, but there is currently no solution.
       // Move it to the end as it generates a lot of DOM and requires extensive traversal.
       .use(rehypeKatex)
       .use(html ? () => (tree: any) => {} : rehypeReact, {
