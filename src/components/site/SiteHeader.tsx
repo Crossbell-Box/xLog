@@ -3,7 +3,6 @@ import { FastAverageColor } from "fast-average-color"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import { MutableRefObject, RefObject, useEffect, useRef, useState } from "react"
-import xss from "xss"
 
 import { XCharLogo, XFeedLogo } from "@crossbell/ui"
 import { RssIcon } from "@heroicons/react/24/solid"
@@ -319,13 +318,10 @@ export const SiteHeader: React.FC<{
                   </div>
                 </div>
               </div>
-              {site?.bio && (
-                <div
-                  className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base"
-                  dangerouslySetInnerHTML={{
-                    __html: xss(site?.description || ""),
-                  }}
-                ></div>
+              {site?.description && (
+                <div className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base line-clamp-4">
+                  {site?.description}
+                </div>
               )}
               <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row text-sm sm:text-base">
                 <span className="xlog-site-follow-count block sm:inline-block whitespace-nowrap">

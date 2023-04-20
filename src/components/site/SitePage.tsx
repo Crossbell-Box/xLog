@@ -1,5 +1,6 @@
 import { useTranslation } from "next-i18next"
 import Head from "next/head"
+import serialize from "serialize-javascript"
 
 import { getSiteLink } from "~/lib/helpers"
 import { Note, Profile } from "~/lib/types"
@@ -17,7 +18,7 @@ export const SitePage: React.FC<{
 
   function addPageJsonLd() {
     return {
-      __html: JSON.stringify({
+      __html: serialize({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         headline: page?.title,

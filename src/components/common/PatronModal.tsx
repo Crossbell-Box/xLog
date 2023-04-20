@@ -2,7 +2,6 @@ import confetti from "canvas-confetti"
 import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "react-hot-toast"
-import xss from "xss"
 
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 
@@ -145,10 +144,9 @@ export const PatronModal: React.FC<{
             <span className="ml-1 text-gray-600">@{site?.username}</span>
           </span>
           {site?.description && (
-            <span
-              className="block text-gray-600 text-sm"
-              dangerouslySetInnerHTML={{ __html: xss(site?.description || "") }}
-            ></span>
+            <span className="text-gray-600 text-sm line-clamp-4">
+              {site?.description}
+            </span>
           )}
         </div>
         <div>

@@ -46,7 +46,11 @@ const Post = ({
     <div>
       <div className="flex items-center space-x-2">
         <CharacterFloatCard siteId={post.character?.handle}>
-          <div className="flex items-center space-x-4 cursor-pointer">
+          <Link
+            target="_blank"
+            href={`/api/redirection?characterId=${post.characterId}`}
+            className="flex items-center space-x-4 cursor-pointer"
+          >
             <span className="w-10 h-10 inline-block">
               <Image
                 className="rounded-full"
@@ -63,7 +67,7 @@ const Post = ({
               {post.character?.metadata?.content?.name ||
                 post.character?.handle}
             </span>
-          </div>
+          </Link>
         </CharacterFloatCard>
         <Titles characterId={post.characterId} />
         <span className="text-zinc-400">·</span>

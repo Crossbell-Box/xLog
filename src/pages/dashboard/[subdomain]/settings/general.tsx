@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 import type { ReactElement } from "react"
 import { Controller, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import xss from "xss"
 
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
@@ -64,7 +63,7 @@ export default function SiteSettingsGeneralPage() {
       banner: values.banner,
       site: subdomain,
       name: values.name,
-      description: xss(values.description),
+      description: values.description,
       ga: values.ga,
     })
   })
