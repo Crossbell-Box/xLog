@@ -422,3 +422,12 @@ export const useGetMiraBalance = (characterId?: string) => {
     return siteModel.getMiraBalance(characterId, contract)
   })
 }
+
+export const useGetGreenfieldId = (cid?: string) => {
+  return useQuery(["getGreenfieldId", cid], async () => {
+    if (!cid) {
+      return null
+    }
+    return siteModel.getGreenfieldId(cid)
+  })
+}

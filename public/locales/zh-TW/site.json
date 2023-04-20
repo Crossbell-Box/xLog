@@ -4,7 +4,7 @@
   "About": "關於",
   "Tags": "標籤",
   "load more": "還有{{count}}篇{{name}}，點選載入更多文章",
-  "signed and stored on the blockchain": "此{{name}}已由它的創作者簽名並安全儲存在區塊鏈上。",
+  "signed and stored on the blockchain": "區塊鏈加密技術和智能合約確保{{name}}數據所有權僅屬於創作者。",
   "Write a comment on the blockchain": "在區塊鏈上留言。",
   "powered by": "<span>由 </span><name/><span> 提供支援</span>",
   "This address is in local editing preview mode and cannot be viewed by the public.": "此地址處於本地編輯預覽模式，尚未公開。",

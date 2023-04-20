@@ -716,3 +716,11 @@ export async function checkDomain(domain: string, handle: string) {
 
   return check.data
 }
+
+export async function getGreenfieldId(cid: string) {
+  const result = await (
+    await fetch(`https://ipfs-relay.crossbell.io/map/ipfs2gnfd/${cid}`)
+  ).json()
+
+  return result
+}

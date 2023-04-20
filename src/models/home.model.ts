@@ -6,6 +6,8 @@ import { cacheExchange, createClient, fetchExchange } from "@urql/core"
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { ExpandedNote } from "~/lib/types"
 
+import filter from "../../data/filter.json"
+
 export type FeedType = "latest" | "following" | "topic" | "hot" | "search"
 export type SearchType = "latest" | "hot"
 
@@ -33,13 +35,17 @@ export async function getFeed({
   }
   switch (type) {
     case "latest": {
-      const result = await indexer.getNotes({
+      let result = await indexer.getNotes({
         sources: "xlog",
         tags: ["post"],
         limit,
         cursor,
         includeCharacter: true,
       })
+
+      result.list = result.list.filter(
+        (note) => !filter.latest.includes(note.characterId),
+      )
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {

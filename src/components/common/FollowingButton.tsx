@@ -2,8 +2,6 @@ import { Trans, useTranslation } from "next-i18next"
 import { useEffect } from "react"
 import { toast } from "react-hot-toast"
 
-import { useConnectedAction } from "@crossbell/connect-kit"
-
 import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
 import { UniLink } from "~/components/ui/UniLink"
@@ -30,7 +28,7 @@ export const FollowingButton: React.FC<{
   const characterId = site?.metadata?.proof ? Number(site.metadata.proof) : null
   const { t } = useTranslation("common")
 
-  const handleClickSubscribe = useConnectedAction(() => {
+  const handleClickSubscribe = () => {
     if (characterId) {
       if (subscription.data) {
         unsubscribeFromSite.mutate({
@@ -44,7 +42,7 @@ export const FollowingButton: React.FC<{
         } as any)
       }
     }
-  })
+  }
 
   const subscription = useGetSubscription(site?.username)
 
