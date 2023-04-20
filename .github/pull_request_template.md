@@ -8,3 +8,7 @@ copilot:poem
 
 ### HOW
 copilot:walkthrough
+
+### CLAIM REWARDS
+<!-- author to complete -->
+For first-time contributors, please leave your xLog address and Discord ID below to claim your rewards.

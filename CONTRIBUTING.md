@@ -26,6 +26,10 @@ Follow the steps below to run it locally for the first time.
 
 The database is only needed for the first run, afterwards you just need to start the server `pnpm dev`
 
+## Claiming rewards
+
+We will provide some small gifts to contributors as a token of appreciation, currently including the [Honorary Badge](https://xlog.xlog.app/week14-2023#honorary-badges-for-outstanding-contributors) in xLog and special permissions on Discord. In the future, there will be additional rewards such as NFT achievements. Therefore, please do not forget to leave your xLog address and Discord ID when submitting a PR.
+
 ## Last words
 
 Don't get daunted if it is hard in the beginning. We have a great community with only encouraging words. So if you get stuck, ask for help and hints in the Discord server. If you want to show off something good, show it off there.
