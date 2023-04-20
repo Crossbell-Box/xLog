@@ -103,7 +103,10 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
       )}
       {site.data && <SiteHeader site={site.data} />}
       <div
-        className={`xlog-post-id-${page.data?.id} max-w-screen-md mx-auto px-5 pt-12 relative`}
+        className={cn(
+          `xlog-post-id-${page.data?.id} max-w-screen-md mx-auto px-5 pt-12 relative`,
+          page.data?.tags?.map((tag) => `xlog-post-tag-${tag}`),
+        )}
       >
         {children}
       </div>
