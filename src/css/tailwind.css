@@ -393,3 +393,8 @@ textarea.input {
 .xlog-lottie-logo path[fill="rgb(0,0,0)"] {
   @apply fill-current;
 }
+
+.xlog-post-toc .katex {
+  font: unset;
+  line-height: unset;
+}

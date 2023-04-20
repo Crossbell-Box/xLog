@@ -1,3 +1,5 @@
+import DOMPurify from "isomorphic-dompurify"
+import katex from "katex"
 import type { Result as TocResult } from "mdast-util-toc"
 import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-scroll"
@@ -54,9 +56,17 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
       {items?.children?.map((item, index) => (
         <li key={index}>
           {item.children.map((child: any, i) => {
-            const content =
-              child.children[0].children?.[0]?.value ||
-              child.children[0].children?.[0]?.children?.[0]?.value
+            const children =
+              child.children[0].children?.[0]?.children ||
+              child.children[0].children
+            let content = "",
+              isInlineMath = false
+            children.map((child: any) => {
+              if (child.type === "inlineMath") {
+                isInlineMath = true
+              }
+              content += child.value
+            })
             return (
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
@@ -77,7 +87,22 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
                       " truncate inline-block max-w-full align-bottom hover:text-accent"
                     }
                   >
-                    {`${prefix}${index + 1}. ${content}`}
+                    {isInlineMath ? (
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(
+                            katex.renderToString(
+                              `${prefix}${index + 1}. ${content}`,
+                              {
+                                output: "html",
+                              },
+                            ),
+                          ),
+                        }}
+                      />
+                    ) : (
+                      `${prefix}${index + 1}. ${content}`
+                    )}
                   </Link>
                 )}
                 {child.type === "list" &&
