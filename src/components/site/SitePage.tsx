@@ -4,6 +4,7 @@ import serialize from "serialize-javascript"
 
 import { getSiteLink } from "~/lib/helpers"
 import { Note, Profile } from "~/lib/types"
+import { cn } from "~/lib/utils"
 
 import { PageContent } from "../common/PageContent"
 import { PostFooter } from "./PostFooter"
@@ -55,7 +56,7 @@ export const SitePage: React.FC<{
           )}
         </div>
       )}
-      <article>
+      <article className={cn(page?.tags?.map((tag) => `xlog-post-${tag}`))}>
         <div>
           {page?.tags?.includes("post") ? (
             <h2 className="xlog-post-title text-4xl font-bold">{page.title}</h2>
