@@ -106,7 +106,9 @@ export const renderPageContent = (
       .use(remarkDirectiveRehype)
       .use(remarkYoutube)
       .use(remarkMermaid)
-      .use(remarkMath)
+      .use(remarkMath, {
+        singleDollarTextMath: false,
+      })
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(rehypeStringify)
       .use(rehypeRaw)
