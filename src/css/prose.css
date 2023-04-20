@@ -178,15 +178,7 @@
 }
 
 .prose .math {
-  @apply max-w-full inline-block overflow-x-scroll overflow-y-hidden;
-}
-
-.prose .katex {
-  @apply overflow-x-auto;
-}
-
-.prose .katex-html {
-  @apply py-2;
+  @apply max-w-full inline-block overflow-auto align-bottom scrollbar-hide;
 }
 
 .xlog-comment .prose {

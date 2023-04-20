@@ -393,7 +393,3 @@ textarea.input {
 .xlog-lottie-logo path[fill="rgb(0,0,0)"] {
   @apply fill-current;
 }
-
-.katex-html {
-  @apply overflow-x-auto;
-}
