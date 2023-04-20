@@ -106,9 +106,10 @@ export const renderPageContent = (
       .use(remarkDirectiveRehype)
       .use(remarkYoutube)
       .use(remarkMermaid)
-      .use(remarkMath)
+      .use(remarkMath, {
+        singleDollarTextMath: false,
+      })
       .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeKatex) // There may be $ symbol parsing errors
       .use(rehypeStringify)
       .use(rehypeRaw)
       .use(rehypeImage, { env })
@@ -142,10 +143,6 @@ export const renderPageContent = (
         },
       })
       .use(rehypeSanitize, sanitizeScheme)
-      .use(rehypePrism, {
-        ignoreMissing: true,
-        showLineNumbers: true,
-      })
       .use(rehypeTable)
       .use(rehypeExternalLink)
       .use(rehypeWrapCode)
@@ -183,6 +180,13 @@ export const renderPageContent = (
           }
         },
       })
+      .use(rehypePrism, {
+        ignoreMissing: true,
+        showLineNumbers: true,
+      })
+      // It will cause unexpected parsing to the `$` symbol, but there is currently no solution.
+      // Move it to the end as it generates a lot of DOM and requires extensive traversal.
+      .use(rehypeKatex)
       .use(html ? () => (tree: any) => {} : rehypeReact, {
         createElement: createElement,
         components: {

@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import { ReactElement, useState } from "react"
 import { Element, Link } from "react-scroll"
 
-import { useAccountState, useConnectedAction } from "@crossbell/connect-kit"
+import { useAccountState } from "@crossbell/connect-kit"
 import {
   CrossbellChainLogo,
   XCharLogo,
@@ -57,9 +57,9 @@ function Home() {
   const showcaseSites = useGetSites(showcase)
   const { t } = useTranslation("index")
 
-  const tryNow = useConnectedAction(() => {
+  const tryNow = () => {
     router.push("/dashboard")
-  })
+  }
 
   const features: {
     title: string
@@ -248,9 +248,9 @@ function Home() {
     } as any)
   })
 
-  const followAll = useConnectedAction(() => {
+  const followAll = () => {
     doSubscribeToSites()
-  })
+  }
 
   const [showcaseMore, setShowcaseMore] = useState(false)
 
