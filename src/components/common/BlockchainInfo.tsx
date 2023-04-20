@@ -123,7 +123,9 @@ export const BlockchainInfo: React.FC<{
                 </li>
                 {greenfieldId.data?.greenfieldId && (
                   <li>
-                    <div className="font-medium">{t("Greenfield Address")}</div>
+                    <div className="font-medium">
+                      {t("BNB Greenfield Address")}
+                    </div>
                     <div>
                       <a
                         target="_blank"
