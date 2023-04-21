@@ -177,8 +177,8 @@ export async function getFeed({
                 notes(
                   where: {
                     ${time ? `createdAt: { gt: "${time}" },` : ``}
-                    stat: { is: { viewDetailCount: { gt: 0 } } },
-                    metadata: { is: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } } }
+                    stat: { viewDetailCount: { gt: 0 } },
+                    metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
                   },
                   orderBy: { stat: { viewDetailCount: desc } },
                   take: 50,
