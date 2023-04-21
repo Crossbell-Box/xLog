@@ -24,6 +24,7 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
+import { Style } from "~/components/common/Style"
 import { APlayer } from "~/components/ui/APlayer"
 import { ZoomedImage } from "~/components/ui/Image"
 import { Mention } from "~/components/ui/Mention"
@@ -197,6 +198,7 @@ export const renderPageContent = (
           mention: Mention,
           mermaid: Mermaid,
           audio: APlayer,
+          style: Style,
         } as any,
       })
       .use(() => (tree) => {
