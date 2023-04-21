@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+overrides:
+  vitest>vite: ^4.3.1
+  rehype-katex>katex: ^0.16.6
+
 dependencies:
   '@codemirror/commands':
     specifier: 6.2.3
@@ -9846,13 +9850,6 @@ packages:
       object.assign: 4.1.4
     dev: true
 
-  /katex@0.15.6:
-    resolution: {integrity: sha512-UpzJy4yrnqnhXvRPhjEuLA4lcPn6eRngixW7Q3TJErjg3Aw2PuLFBzTkdUb89UtumxjhHTqL3a5GDGETMSwgJA==}
-    hasBin: true
-    dependencies:
-      commander: 8.3.0
-    dev: false
-
   /katex@0.16.6:
     resolution: {integrity: sha512-XVB7X8jEogjJ+OY+a9JdE+VOk9i7znela0HP6WaDbpB4sUh8ghrG0Ccluu2MA2tcJbFAViBC9aVXus2UvkEr8A==}
     hasBin: true
@@ -12375,7 +12372,7 @@ packages:
       '@types/hast': 2.3.4
       '@types/katex': 0.11.1
       hast-util-to-text: 3.1.2
-      katex: 0.15.6
+      katex: 0.16.6
       rehype-parse: 8.0.4
       unified: 10.1.2
       unist-util-remove-position: 4.0.2
@@ -14170,7 +14167,7 @@ packages:
       mlly: 1.2.0
       pathe: 1.1.0
       picocolors: 1.0.0
-      vite: 4.3.0(@types/node@18.15.12)
+      vite: 4.3.1(@types/node@18.15.12)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -14179,39 +14176,6 @@ packages:
       - sugarss
       - supports-color
       - terser
-    dev: true
-
-  /vite@4.3.0(@types/node@18.15.12):
-    resolution: {integrity: sha512-JTGFgDh3dVxeGBpuQX04Up+JZmuG6wu9414Ei36vQzaEruY/M4K0AgwtuB2b4HaBgB7R8l+LHxjB0jcgz4d2qQ==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': '>= 14'
-      less: '*'
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      '@types/node': 18.15.12
-      esbuild: 0.17.17
-      postcss: 8.4.23
-      rollup: 3.20.6
-    optionalDependencies:
-      fsevents: 2.3.2
     dev: true
 
   /vite@4.3.1(@types/node@18.15.12):
@@ -14301,7 +14265,7 @@ packages:
       strip-literal: 1.0.1
       tinybench: 2.4.0
       tinypool: 0.4.0
-      vite: 4.3.0(@types/node@18.15.12)
+      vite: 4.3.1(@types/node@18.15.12)
       vite-node: 0.30.1(@types/node@18.15.12)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:

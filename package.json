@@ -191,5 +191,9 @@
   },
   "engines": {
     "node": ">=15"
+  },
+  "resolutions": {
+    "vitest>vite": "^4.3.1",
+    "rehype-katex>katex": "^0.16.6"
   }
 }
