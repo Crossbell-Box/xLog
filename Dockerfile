@@ -1,5 +1,5 @@
 ##### BASE
-FROM node:18-bullseye-slim as base
+FROM node:20-bullseye-slim as base
 
 RUN apt-get update || : && apt-get install python3 build-essential git -y
 
