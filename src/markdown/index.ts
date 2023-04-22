@@ -2,6 +2,7 @@ import type { Root } from "hast"
 import jsYaml from "js-yaml"
 import { Result as TocResult, toc } from "mdast-util-toc"
 import { ReactElement, createElement } from "react"
+import { toast } from "react-hot-toast"
 import { Element } from "react-scroll"
 import { refractor } from "refractor"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
@@ -207,8 +208,10 @@ export const renderPageContent = (
       .processSync(content)
 
     contentHTML = result.toString()
-  } catch (error) {
-    console.error(error)
+  } catch (e) {
+    const error = e as Error
+    toast.error(error.message)
+    console.error(e)
   }
   return {
     contentHTML,
