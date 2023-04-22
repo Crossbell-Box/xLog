@@ -4,7 +4,7 @@ import { FC, memo, useEffect, useState } from "react"
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 
-import { Image } from "./Image"
+import { ZoomedImage } from "./Image"
 
 export const Mermaid: FC<{
   children: [string]
@@ -73,7 +73,7 @@ export const Mermaid: FC<{
       </div>
     ) : svg ? (
       <div>
-        <Image
+        <ZoomedImage
           alt="mermaid"
           src={
             "data:image/svg+xml;base64," + Buffer.from(svg).toString("base64")
