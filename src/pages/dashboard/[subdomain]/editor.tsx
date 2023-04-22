@@ -370,11 +370,9 @@ export default function SubdomainEditor() {
 
   useDebounceEffect(
     () => {
-      if (values.content) {
-        const result = renderPageContent(values.content)
-        setTree(result.tree)
-        setParsedContent(result)
-      }
+      const result = renderPageContent(values.content)
+      setTree(result.tree)
+      setParsedContent(result)
     },
     [values.content],
     {
@@ -471,6 +469,7 @@ export default function SubdomainEditor() {
           previewChildNodes?.[index] &&
           (child as any).tagName !== "style"
         ) {
+          if (child.position.start.line > view.state.doc.lines) return
           const line = view.state?.doc.line(child.position.start.line)
           const block = view.lineBlockAt(line.from)
           if (block) {
