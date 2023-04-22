@@ -40,6 +40,7 @@ export const Mermaid: FC<{
           try {
             result = await mermaid.render(`mermaid-${id}`, props.children[0])
           } catch (error) {
+            document.getElementById(`dmermaid-${id}`)?.remove()
             if (error instanceof Error) {
               setError(error.message)
             }
