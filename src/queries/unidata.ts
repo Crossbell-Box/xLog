@@ -12,6 +12,7 @@ export const useUnidata = () => {
       unidata = new Unidata({
         ethereumProvider: provider,
         ipfsGateway: IPFS_GATEWAY,
+        ipfsRelay: "https://ipfs-relay.crossbell.io/json?gnfd=t",
       })
     })
   } else {

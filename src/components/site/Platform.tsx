@@ -74,6 +74,11 @@ const syncMap: {
     icon: "/assets/social/discord.svg",
     url: "https://discord.gg/{username}",
   },
+  xiaoyuzhou: {
+    name: "xiaoyuzhou FM",
+    icon: "/assets/social/xiaoyuzhou.png",
+    url: "https://www.xiaoyuzhoufm.com/podcast/{username}",
+  },
 }
 
 export const Platform: React.FC<{

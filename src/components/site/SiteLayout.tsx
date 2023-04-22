@@ -4,10 +4,10 @@ import React, { useEffect } from "react"
 import { useAccountState } from "@crossbell/connect-kit"
 
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
+import { Style } from "~/components/common/Style"
 import { useUserRole } from "~/hooks/useUserRole"
 import { IS_PROD } from "~/lib/constants"
 import { OUR_DOMAIN, SITE_URL } from "~/lib/env"
-import { toGateway } from "~/lib/ipfs-parser"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { cn } from "~/lib/utils"
 import { useCheckLike, useCheckMint, useGetPage } from "~/queries/page"
@@ -91,19 +91,13 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         icon={getUserContentsUrl(site.data?.avatars?.[0])}
         site={domainOrSubdomain}
       />
-      {site?.data?.css && (
-        <link
-          type="text/css"
-          rel="stylesheet"
-          href={
-            "data:text/css;base64," +
-            Buffer.from(toGateway(site.data.css)).toString("base64")
-          }
-        />
-      )}
+      <Style content={site.data?.css} />
       {site.data && <SiteHeader site={site.data} />}
       <div
-        className={`xlog-post-id-${page.data?.id} max-w-screen-md mx-auto px-5 pt-12 relative`}
+        className={cn(
+          `xlog-post-id-${page.data?.id} max-w-screen-md mx-auto px-5 pt-12 relative`,
+          page.data?.tags?.map((tag) => `xlog-post-tag-${tag}`),
+        )}
       >
         {children}
       </div>

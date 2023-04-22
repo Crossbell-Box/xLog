@@ -24,6 +24,7 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
+import { Style } from "~/components/common/Style"
 import { APlayer } from "~/components/ui/APlayer"
 import { ZoomedImage } from "~/components/ui/Image"
 import { Mention } from "~/components/ui/Mention"
@@ -44,6 +45,7 @@ export type MarkdownEnv = {
   frontMatter: Record<string, any>
   __internal: Record<string, any>
   cover: string
+  audio: string
   toc: TocResult | null
   tree: Root | null
 }
@@ -54,6 +56,7 @@ export type Rendered = {
   excerpt: string
   frontMatter: Record<string, any>
   cover: string
+  audio: string
   toc: TocResult | null
   tree: Root | null
 }
@@ -71,6 +74,7 @@ export const renderPageContent = (
     __internal: {},
     frontMatter: {},
     cover: "",
+    audio: "",
     toc: null,
     tree: null,
   }
@@ -106,13 +110,14 @@ export const renderPageContent = (
       .use(remarkDirectiveRehype)
       .use(remarkYoutube)
       .use(remarkMermaid)
-      .use(remarkMath)
+      .use(remarkMath, {
+        singleDollarTextMath: false,
+      })
       .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeKatex) // There may be $ symbol parsing errors
       .use(rehypeStringify)
       .use(rehypeRaw)
       .use(rehypeImage, { env })
-      .use(rehypeAudio)
+      .use(rehypeAudio, { env })
       .use(rehypeSlug)
       .use(rehypeAutolinkHeadings, {
         properties: {
@@ -142,10 +147,6 @@ export const renderPageContent = (
         },
       })
       .use(rehypeSanitize, sanitizeScheme)
-      .use(rehypePrism, {
-        ignoreMissing: true,
-        showLineNumbers: true,
-      })
       .use(rehypeTable)
       .use(rehypeExternalLink)
       .use(rehypeWrapCode)
@@ -183,6 +184,12 @@ export const renderPageContent = (
           }
         },
       })
+      .use(rehypePrism, {
+        ignoreMissing: true,
+        showLineNumbers: true,
+      })
+      // Move it to the end as it generates a lot of DOM and requires extensive traversal.
+      .use(rehypeKatex)
       .use(html ? () => (tree: any) => {} : rehypeReact, {
         createElement: createElement,
         components: {
@@ -191,6 +198,7 @@ export const renderPageContent = (
           mention: Mention,
           mermaid: Mermaid,
           audio: APlayer,
+          style: Style,
         } as any,
       })
       .use(() => (tree) => {
@@ -208,6 +216,7 @@ export const renderPageContent = (
     excerpt: result?.data.meta.description,
     frontMatter: env.frontMatter,
     cover: env.cover,
+    audio: env.audio,
     toc: env.toc,
     tree: env.tree,
   }

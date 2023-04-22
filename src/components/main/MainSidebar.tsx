@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { useState } from "react"
 
-import { useConnectedAction } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
@@ -36,9 +35,9 @@ export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
     } as any)
   })
 
-  const followAll = useConnectedAction(() => {
+  const followAll = () => {
     doSubscribeToSites()
-  })
+  }
 
   const [showcaseMore, setShowcaseMore] = useState(false)
 

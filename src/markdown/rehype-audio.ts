@@ -4,8 +4,13 @@ import { visit } from "unist-util-visit"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
-export const rehypeAudio: Plugin<Array<void>, Root> = () => {
+import { MarkdownEnv } from "."
+
+export const rehypeAudio: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
+  env,
+}) => {
   return (tree) => {
+    let first = true
     visit(tree, { tagName: "audio" }, (node, i, parent) => {
       if (!node.properties) {
         return
@@ -19,8 +24,23 @@ export const rehypeAudio: Plugin<Array<void>, Root> = () => {
 
       node.properties.src = toGateway(src)
 
-      if (parent) {
-        parent.children[i!] = {
+      if (first) {
+        if (
+          !env.cover &&
+          node.properties.cover &&
+          typeof node.properties.cover === "string"
+        ) {
+          const coverIpfsUrl = toGateway(node.properties.cover)
+          node.properties.cover = coverIpfsUrl
+          env.cover = coverIpfsUrl
+        }
+        env.audio = node.properties.src
+        first = false
+      }
+
+      if (parent && parent.type === "element" && i !== null) {
+        parent.tagName = "div"
+        parent.children[i] = {
           type: "element",
           tagName: "audio",
           properties: {

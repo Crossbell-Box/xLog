@@ -19,6 +19,7 @@ export const expandUnidataNote = async (page: Note, useStat?: boolean) => {
       }
     }
     page.cover = rendered.cover
+    page.audio = rendered.audio
     if (page.metadata) {
       page.metadata.frontMatter = rendered.frontMatter
     }

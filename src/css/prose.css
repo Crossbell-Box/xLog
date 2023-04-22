@@ -178,7 +178,7 @@
 }
 
 .prose .math {
-  @apply max-w-full inline-block overflow-x-scroll;
+  @apply max-w-full inline-block overflow-auto align-bottom scrollbar-hide;
 }
 
 .xlog-comment .prose {

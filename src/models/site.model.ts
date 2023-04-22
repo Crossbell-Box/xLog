@@ -109,7 +109,7 @@ export const getSites = async (input: number[]) => {
               content
             }
           }
-          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { is: { content: { path: "sources", array_contains: "xlog" } } } }, orderBy: [{ updatedAt: desc }] ) {
+          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
             characterId
             createdAt
           }
@@ -715,4 +715,12 @@ export async function checkDomain(domain: string, handle: string) {
   ).json()
 
   return check.data
+}
+
+export async function getGreenfieldId(cid: string) {
+  const result = await (
+    await fetch(`https://ipfs-relay.crossbell.io/map/ipfs2gnfd/${cid}`)
+  ).json()
+
+  return result
 }
