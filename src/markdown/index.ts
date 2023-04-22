@@ -210,7 +210,7 @@ export const renderPageContent = (
     contentHTML = result.toString()
   } catch (e) {
     const error = e as Error
-    toast.error(error.message)
+    toast.error(error?.message)
     console.error(e)
   }
   return {
