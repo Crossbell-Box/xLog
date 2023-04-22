@@ -95,7 +95,6 @@ type Values = typeof initialEditorState
 export default function SubdomainEditor() {
   const router = useRouter()
   const queryClient = useQueryClient()
-  const date = useDate()
   const { t } = useTranslation("dashboard")
 
   let pageId = router.query.id as string | undefined
