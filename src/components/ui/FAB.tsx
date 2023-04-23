@@ -3,10 +3,6 @@ import React, { FC, PropsWithChildren, useEffect, useState } from "react"
 import { useGetState } from "~/hooks/useGetState"
 import { cn } from "~/lib/utils"
 
-export interface FABContainerContext {
-  isOverFirstScreen: boolean
-}
-
 export interface FABConfig {
   id: string
   icon: JSX.Element
@@ -25,7 +21,11 @@ class FABStatic {
 
   add(fabConfig: FABConfig) {
     if (!this.setState) return
+
+    const id = fabConfig.id
+
     this.setState((state) => {
+      if (state.find((config) => config.id === id)) return state
       return [...state, fabConfig]
     })
 
@@ -43,8 +43,12 @@ class FABStatic {
 }
 
 const fab = new FABStatic()
-// TODO
-export const useFAB = () => {}
+
+export const useFAB = (fabConfig: FABConfig) => {
+  useEffect(() => {
+    return fab.add(fabConfig)
+  }, [])
+}
 
 export const FABBase: FC<
   PropsWithChildren<
