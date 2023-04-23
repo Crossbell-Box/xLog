@@ -10,25 +10,9 @@ function BxBxsArrowToTop(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-// export const BackToTopFABIndicator: React.FC<{ show: boolean }> = (props) => {
-//   useEffect(() => {
-//     const handler = () => {
-//       const scrollTop = document.documentElement.scrollTop
-//       useFabContextState.setState({
-//         isOverFirstScreen: scrollTop > document.documentElement.clientHeight,
-//       })
-//     }
-
-//     document.documentElement.addEventListener("scroll", handler)
-//     return () => {
-//       document.documentElement.removeEventListener("scroll", handler)
-//     }
-//   }, [])
-
-//   return null
-// }
 const isShouldShow = () =>
   document.documentElement.scrollTop > document.documentElement.clientHeight
+
 export const BackToTopFAB: React.FC<{}> = () => {
   const [shouldShow, setShouldShow] = useState(isShouldShow())
   useEffect(() => {
