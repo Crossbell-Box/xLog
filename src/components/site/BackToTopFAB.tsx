@@ -1,5 +1,7 @@
 import { SVGProps, useEffect, useState } from "react"
 
+import { throttle } from "~/lib/utils"
+
 import { FABBase } from "../ui/FAB"
 
 function BxBxsArrowToTop(props: SVGProps<SVGSVGElement>) {
@@ -16,9 +18,9 @@ const isShouldShow = () =>
 export const BackToTopFAB: React.FC<{}> = () => {
   const [shouldShow, setShouldShow] = useState(isShouldShow())
   useEffect(() => {
-    const handler = () => {
+    const handler = throttle(() => {
       setShouldShow(isShouldShow())
-    }
+    }, 16)
 
     document.addEventListener("scroll", handler)
     return () => {

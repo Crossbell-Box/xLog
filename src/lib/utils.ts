@@ -25,3 +25,17 @@ export function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
 }
 
 export const isServerSide = () => typeof window === "undefined"
+
+export const throttle = (func: Function, limit: number) => {
+  let inThrottle: boolean
+  return function () {
+    const args = arguments
+    // @ts-ignore
+    const context = this
+    if (!inThrottle) {
+      func.apply(context, args)
+      inThrottle = true
+      setTimeout(() => (inThrottle = false), limit)
+    }
+  }
+}

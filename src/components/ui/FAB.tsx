@@ -106,7 +106,7 @@ export const FABBase: FC<
 export const FABContainer: FC<{
   children: JSX.Element | JSX.Element[]
 }> = (props) => {
-  const [fabConfig, setFabConfig] = useState([] as FABConfig[])
+  const [fabConfig, setFabConfig] = useState<FABConfig[]>([])
   useEffect(() => {
     fab.register(setFabConfig)
     return () => {
