@@ -319,7 +319,7 @@ export const SiteHeader: React.FC<{
                 </div>
               </div>
               {site?.description && (
-                <div className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base line-clamp-4">
+                <div className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base line-clamp-4 whitespace-pre-wrap">
                   {site?.description}
                 </div>
               )}
