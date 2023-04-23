@@ -1,4 +1,4 @@
-import { SVGProps } from "react"
+import { SVGProps, useEffect, useState } from "react"
 
 import { FABBase } from "../ui/FAB"
 
@@ -10,13 +10,48 @@ function BxBxsArrowToTop(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-export const BackToTopFAB: React.FC<{ show: boolean }> = (props) => {
+// export const BackToTopFABIndicator: React.FC<{ show: boolean }> = (props) => {
+//   useEffect(() => {
+//     const handler = () => {
+//       const scrollTop = document.documentElement.scrollTop
+//       useFabContextState.setState({
+//         isOverFirstScreen: scrollTop > document.documentElement.clientHeight,
+//       })
+//     }
+
+//     document.documentElement.addEventListener("scroll", handler)
+//     return () => {
+//       document.documentElement.removeEventListener("scroll", handler)
+//     }
+//   }, [])
+
+//   return null
+// }
+const isShouldShow = () =>
+  document.documentElement.scrollTop > document.documentElement.clientHeight
+export const BackToTopFAB: React.FC<{}> = () => {
+  const [shouldShow, setShouldShow] = useState(isShouldShow())
+  useEffect(() => {
+    const handler = () => {
+      setShouldShow(isShouldShow())
+    }
+
+    document.addEventListener("scroll", handler)
+    return () => {
+      document.removeEventListener("scroll", handler)
+    }
+  }, [])
+
   return (
     <FABBase
+      id="to-top"
+      show={shouldShow}
       onClick={() => {
-        window.scrollTo({ top: 0, behavior: "smooth" })
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        })
       }}
-      aria-label="Back to top"
     >
       <BxBxsArrowToTop />
     </FABBase>

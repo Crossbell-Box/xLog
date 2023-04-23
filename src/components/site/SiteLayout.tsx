@@ -111,11 +111,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
       <SiteFooter site={site.data} page={page.data} />
 
       <FABContainer>
-        {({ isOverFirstScreen }) => (
-          <>
-            <BackToTopFAB show={isOverFirstScreen} />
-          </>
-        )}
+        <BackToTopFAB />
       </FABContainer>
     </div>
   )

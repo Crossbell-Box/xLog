@@ -23,3 +23,5 @@ export function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
     return acc
   }, {} as Pick<T, K>)
 }
+
+export const isServerSide = () => typeof window === "undefined"

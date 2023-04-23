@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { create } from "zustand"
 
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
+import { isServerSide } from "~/lib/utils"
 
 import { useGetState } from "./useGetState"
 
@@ -16,8 +17,6 @@ const useMediaStore = create<IMediaStore>(() => {
     toggle: () => void 0,
   }
 })
-
-const isServerSide = () => typeof window === "undefined"
 
 interface DarkModeConfig {
   classNameDark?: string // A className to set "dark mode". Default = "dark".
