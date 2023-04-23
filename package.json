@@ -173,7 +173,7 @@
     "babel-loader": "^9.1.2",
     "cross-spawn": "7.0.3",
     "cspell": "^6.31.1",
-    "esbuild": "0.17.17",
+    "esbuild": "0.17.18",
     "esbuild-register": "3.4.2",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.0",
