@@ -14,6 +14,7 @@ import { Image } from "~/components/ui/Image"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
+import { IS_VERCEL_PREVIEW } from "~/lib/env"
 import { getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
 import type { FeedType, SearchType } from "~/models/home.model"
@@ -42,19 +43,17 @@ const Post = ({
     return null
   }
 
-  console.log(
-    process.env.NEXT_PUBLIC_VERCEL_ENV,
-    "NEXT_PUBLIC_VERCEL_ENV",
-    process.env.VERCEL_ENV,
-  )
-
   return (
     <div>
       <div className="flex items-center space-x-2">
         <CharacterFloatCard siteId={post.character?.handle}>
           <Link
             target="_blank"
-            href={`/api/redirection?characterId=${post.characterId}`}
+            href={
+              IS_VERCEL_PREVIEW
+                ? `/_site/${post.characterId}`
+                : `/api/redirection?characterId=${post.characterId}`
+            }
             className="flex items-center space-x-4 cursor-pointer"
           >
             <span className="w-10 h-10 inline-block">
@@ -93,7 +92,11 @@ const Post = ({
       </div>
       <Link
         target="_blank"
-        href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
+        href={
+          IS_VERCEL_PREVIEW
+            ? `/_site/${post.characterId}/${post.noteId}`
+            : `/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`
+        }
         className="xlog-post sm:hover:bg-hover bg-white transition-all p-4 ml-10 sm:rounded-xl flex flex-col sm:flex-row items-center"
       >
         <div className="flex-1 flex justify-center flex-col w-full min-w-0">
