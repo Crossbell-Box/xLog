@@ -75,6 +75,7 @@ const rehypePrism = rehypePrismGenerator(refractor)
 export const renderPageContent = (
   content: string,
   html?: boolean,
+  simple?: boolean,
 ): Rendered => {
   const env: MarkdownEnv = {
     excerpt: "",
@@ -162,7 +163,7 @@ export const renderPageContent = (
           ]
         },
       })
-      .use(rehypeSanitize, sanitizeScheme)
+      .use(rehypeSanitize, simple ? undefined : sanitizeScheme)
       .use(rehypeTable)
       .use(rehypeExternalLink)
       .use(rehypeWrapCode)

@@ -95,6 +95,7 @@ export const CommentItem: React.FC<{
           </div>
           <PageContent
             content={comment.metadata?.content?.content}
+            isComment={true}
           ></PageContent>
           <div className="mt-1 flex items-center">
             <Reactions

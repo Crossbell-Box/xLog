@@ -14,6 +14,7 @@ export const PageContent: React.FC<{
   onScroll?: (scrollTop: number) => void
   onMouseEnter?: () => void
   parsedContent?: ReturnType<typeof renderPageContent>
+  isComment?: boolean
 }> = ({
   className,
   content,
@@ -22,6 +23,7 @@ export const PageContent: React.FC<{
   onScroll,
   onMouseEnter,
   parsedContent,
+  isComment,
 }) => {
   useCodeCopy()
 
@@ -29,12 +31,12 @@ export const PageContent: React.FC<{
     if (parsedContent) {
       return parsedContent
     } else if (content) {
-      const result = renderPageContent(content)
+      const result = renderPageContent(content, false, isComment)
       return result
     } else {
       return null
     }
-  }, [content, parsedContent])
+  }, [content, isComment, parsedContent])
 
   useEffect(() => {
     const hashChangeHandler = () => {
