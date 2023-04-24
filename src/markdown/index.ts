@@ -32,6 +32,11 @@ import { Mention } from "~/components/ui/Mention"
 import { Mermaid } from "~/components/ui/Mermaid"
 
 import { rehypeAudio } from "./rehype-audio"
+import {
+  allowedCustomWrappers,
+  defaultRules,
+  rehypeCustomWrapper,
+} from "./rehype-custom-wrapper"
 import { rehypeImage } from "./rehype-image"
 import { rehypeTable } from "./rehype-table"
 import { rehypeWrapCode } from "./rehype-wrap-code"
@@ -84,7 +89,7 @@ export const renderPageContent = (
   let contentHTML = ""
   let result: any = null
   try {
-    result = unified()
+    let pipeline = unified()
       .use(remarkParse)
       .use(remarkBreaks)
       .use(remarkFrontmatter, ["yaml"])
@@ -117,8 +122,16 @@ export const renderPageContent = (
       })
       .use(remarkPangu)
       .use(remarkRehype, { allowDangerousHtml: true })
+
+    if (!html) {
+      pipeline.use(rehypeCustomWrapper, {
+        rules: defaultRules,
+      })
+    }
+
+    pipeline
       .use(rehypeStringify)
-      .use(rehypeRaw)
+      .use(rehypeRaw, { passThrough: allowedCustomWrappers })
       .use(rehypeImage, { env })
       .use(rehypeAudio, { env })
       .use(rehypeSlug)
@@ -193,7 +206,9 @@ export const renderPageContent = (
       })
       // Move it to the end as it generates a lot of DOM and requires extensive traversal.
       .use(rehypeKatex)
-      .use(html ? () => (tree: any) => {} : rehypeReact, {
+
+    if (!html) {
+      pipeline.use(rehypeReact, {
         createElement: createElement,
         components: {
           img: ZoomedImage,
@@ -204,6 +219,9 @@ export const renderPageContent = (
           style: Style,
         } as any,
       })
+    }
+
+    result = pipeline
       .use(() => (tree) => {
         env.tree = tree
       })

@@ -1,4 +1,5 @@
 import { APlayer as AplayerReact } from "aplayer-react"
+import { memo } from "react"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
@@ -9,7 +10,16 @@ export const APlayer: React.FC<
     cover?: string
     lrc?: string
   } & React.AudioHTMLAttributes<HTMLAudioElement>
-> = ({ src, name, artist, cover, lrc, muted, autoPlay, loop }) => {
+> = memo(function APlayer({
+  src,
+  name,
+  artist,
+  cover,
+  lrc,
+  muted,
+  autoPlay,
+  loop,
+}) {
   if (!src) return null
 
   src = toGateway(src)
@@ -34,4 +44,4 @@ export const APlayer: React.FC<
       initialLoop={loop ? "one" : "none"}
     />
   )
-}
+})
