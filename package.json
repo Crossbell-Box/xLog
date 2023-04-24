@@ -153,6 +153,7 @@
     "@types/hast": "2.3.4",
     "@types/js-yaml": "4.0.5",
     "@types/katex": "^0.16.0",
+    "@types/mdast": "^3.0.11",
     "@types/mjml": "4.7.1",
     "@types/node": "18.15.12",
     "@types/pangu": "^4.0.0",

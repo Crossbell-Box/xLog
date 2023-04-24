@@ -1,5 +1,5 @@
 import { useDebounceEffect } from "ahooks"
-import type { Root } from "hast"
+import type { Root } from "mdast"
 import { nanoid } from "nanoid"
 import { GetServerSideProps } from "next"
 import { useTranslation } from "next-i18next"

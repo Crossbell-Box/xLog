@@ -1,5 +1,5 @@
-import type { Root } from "hast"
 import jsYaml from "js-yaml"
+import type { Root } from "mdast"
 import { Result as TocResult, toc } from "mdast-util-toc"
 import { ReactElement, createElement } from "react"
 import { toast } from "react-hot-toast"

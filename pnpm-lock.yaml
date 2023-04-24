@@ -373,6 +373,9 @@ devDependencies:
   '@types/katex':
     specifier: ^0.16.0
     version: 0.16.0
+  '@types/mdast':
+    specifier: ^3.0.11
+    version: 3.0.11
   '@types/mjml':
     specifier: 4.7.1
     version: 4.7.1
@@ -4602,7 +4605,6 @@ packages:
     resolution: {integrity: sha512-Y/uImid8aAwrEA24/1tcRZwpxX3pIFTSilcNDKSPn+Y2iDywSEachzRuvgAYYLR3wpGXAsMbv5lvKLDZLeYPAw==}
     dependencies:
       '@types/unist': 2.0.6
-    dev: false
 
   /@types/minimatch@5.1.2:
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
