@@ -14,6 +14,8 @@ import { useCheckLike, useCheckMint, useGetPage } from "~/queries/page"
 import { useGetSite, useGetSubscription } from "~/queries/site"
 
 import { SEOHead } from "../common/SEOHead"
+import { FABContainer } from "../ui/FAB"
+import { BackToTopFAB } from "./BackToTopFAB"
 import { SiteFooter } from "./SiteFooter"
 import { SiteHeader } from "./SiteHeader"
 
@@ -107,6 +109,10 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
         </div>
       )}
       <SiteFooter site={site.data} page={page.data} />
+
+      <FABContainer>
+        <BackToTopFAB />
+      </FABContainer>
     </div>
   )
 }
