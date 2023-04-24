@@ -21,4 +21,5 @@ export const IPFS_GATEWAY =
 export const MIRA_LINK =
   process.env.NEXT_PUBLIC_MIRA_LINK || "https://mira.crossbell.io"
 export const IS_VERCEL_PREVIEW =
-  process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ||
+  process.env.VERCEL_ENV === "preview"
