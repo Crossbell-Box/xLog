@@ -8,6 +8,8 @@ on:
   push:
     branches:
       - main # change this if your default branch is named differently
+      - master
+      - dev
   workflow_dispatch:
 
 defaults:
