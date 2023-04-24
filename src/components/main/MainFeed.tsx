@@ -42,6 +42,12 @@ const Post = ({
     return null
   }
 
+  console.log(
+    process.env.NEXT_PUBLIC_VERCEL_ENV,
+    "NEXT_PUBLIC_VERCEL_ENV",
+    process.env.VERCEL_ENV,
+  )
+
   return (
     <div>
       <div className="flex items-center space-x-2">
