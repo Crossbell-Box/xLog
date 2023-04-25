@@ -19,6 +19,10 @@ function getIds(items: TocResult["map"]) {
   )
 }
 
+function getElement(id: string) {
+  return document.querySelector(`a[href="#${id}"]`)
+}
+
 function useActiveId(itemIds: string[]) {
   const [activeId, setActiveId] = useState(`test`)
   useEffect(() => {
@@ -26,21 +30,21 @@ function useActiveId(itemIds: string[]) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
+            setActiveId(entry.target.getAttribute("href") || "test")
           }
         })
       },
       { rootMargin: `0% 0% -80% 0%` },
     )
     itemIds.forEach((id) => {
-      const element = document.getElementById(id)
+      const element = getElement(id)
       if (element) {
         observer.observe(element)
       }
     })
     return () => {
       itemIds.forEach((id) => {
-        const element = document.getElementById(id)
+        const element = getElement(id)
         if (element) {
           observer.unobserve(element)
         }
@@ -81,7 +85,7 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
                     href={child.children[0].url}
                     title={content}
                     className={
-                      (activeId === child.children[0].url.slice(1)
+                      (activeId === child.children[0].url
                         ? "text-accent"
                         : "text-zinc-700") +
                       " truncate inline-block max-w-full align-bottom hover:text-accent"
