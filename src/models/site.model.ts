@@ -179,6 +179,40 @@ export const getShowcase = async () => {
   return list
 }
 
+export const getSubscriptionsFromList = async (
+  list: number[],
+  fromCharacterId: number,
+) => {
+  const client = createClient({
+    url: "https://indexer.crossbell.io/v1/graphql",
+    exchanges: [cacheExchange, fetchExchange],
+  })
+
+  const response = await client
+    .query(
+      `
+    query getFollows($list: [Int!], $fromCharacterId: Int!) {
+      links(
+        where: {
+          linkType: { equals: "follow" },
+          fromCharacterId: { equals: $fromCharacterId },
+          toCharacterId: { in: $list }
+        },
+      ) {
+        toCharacterId
+      }
+    }
+  `,
+      {
+        list,
+        fromCharacterId,
+      },
+    )
+    .toPromise()
+
+  return response.data?.links.map((link: any) => link.toCharacterId)
+}
+
 export const getSubscription = async (
   siteId: string,
   handle: string,

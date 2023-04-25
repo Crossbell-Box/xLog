@@ -13,11 +13,11 @@ import {
   XShopLogo,
   XSyncLogo,
 } from "@crossbell/ui"
-import { useRefCallback } from "@crossbell/util-hooks"
 import { RssIcon } from "@heroicons/react/24/outline"
 import { QueryClient, dehydrate } from "@tanstack/react-query"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { FollowAllButton } from "~/components/common/FollowAllButton"
 import { Logo } from "~/components/common/Logo"
 import { MainLayout } from "~/components/main/MainLayout"
 import { Button } from "~/components/ui/Button"
@@ -27,11 +27,7 @@ import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { languageDetector } from "~/lib/language-detector"
-import {
-  useAccountSites,
-  useGetShowcase,
-  useSubscribeToSites,
-} from "~/queries/site"
+import { useGetShowcase } from "~/queries/site"
 import { prefetchGetSites } from "~/queries/site.server"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -232,23 +228,6 @@ function Home() {
       text: "Coming soon",
     },
   ]
-
-  const userSite = useAccountSites()
-  const subscribeToSites = useSubscribeToSites()
-
-  const doSubscribeToSites = useRefCallback(() => {
-    subscribeToSites.mutate({
-      characterIds: showcaseSites.data
-        ?.map((s: { characterId?: string }) => s.characterId)
-        .filter(Boolean)
-        .map(Number),
-      siteIds: showcaseSites.data?.map((s: { handle: string }) => s.handle),
-    } as any)
-  })
-
-  const followAll = () => {
-    doSubscribeToSites()
-  }
 
   const [showcaseMore, setShowcaseMore] = useState(false)
 
@@ -460,22 +439,17 @@ function Home() {
                 "Discover these awesome teams and creators on xLog (sorted by update time)",
               )}
             </p>
-            <Button
-              size="xl"
+            <FollowAllButton
               className="mt-5"
-              onClick={followAll}
-              isLoading={
-                showcaseSites.isLoading ||
-                userSite.isLoading ||
-                subscribeToSites.isLoading
-              }
-              isDisabled={subscribeToSites.isSuccess}
-            >
-              🥳{" "}
-              {subscribeToSites.isSuccess
-                ? t("Already Followed All!")
-                : t("Follow All!")}
-            </Button>
+              size="xl"
+              characterIds={showcaseSites.data
+                ?.map((s: { characterId?: string }) => s.characterId)
+                .filter(Boolean)
+                .map(Number)}
+              siteIds={showcaseSites.data?.map(
+                (s: { handle: string }) => s.handle,
+              )}
+            />
             <ul
               className={`pt-10 grid grid-cols-2 md:grid-cols-3 gap-10 overflow-y-hidden relative text-left ${
                 showcaseMore ? "" : "max-h-[540px]"

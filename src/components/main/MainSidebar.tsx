@@ -1,42 +1,19 @@
 import { useTranslation } from "next-i18next"
 import { useState } from "react"
 
-import { useRefCallback } from "@crossbell/util-hooks"
-
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { SearchInput } from "~/components/common/SearchInput"
-import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
-import {
-  useAccountSites,
-  useGetShowcase,
-  useSubscribeToSites,
-} from "~/queries/site"
+import { useGetShowcase } from "~/queries/site"
 
 import topics from "../../../data/topics.json"
+import { FollowAllButton } from "../common/FollowAllButton"
 
 export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
   const showcaseSites = useGetShowcase()
   const { t } = useTranslation("index")
-
-  const userSite = useAccountSites()
-  const subscribeToSites = useSubscribeToSites()
-
-  const doSubscribeToSites = useRefCallback(() => {
-    subscribeToSites.mutate({
-      characterIds: showcaseSites.data
-        ?.map((s: { characterId?: string }) => s.characterId)
-        .filter(Boolean)
-        .map(Number),
-      siteIds: showcaseSites.data?.map((s: { handle: string }) => s.handle),
-    } as any)
-  })
-
-  const followAll = () => {
-    doSubscribeToSites()
-  }
 
   const [showcaseMore, setShowcaseMore] = useState(false)
 
@@ -66,20 +43,15 @@ export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
       <div className="text-center">
         <div className="text-zinc-700 space-y-3">
           <p className="font-bold text-lg">{t("Suggested creators for you")}</p>
-          <Button
-            onClick={followAll}
-            isLoading={
-              showcaseSites.isLoading ||
-              userSite.isLoading ||
-              subscribeToSites.isLoading
-            }
-            isDisabled={subscribeToSites.isSuccess}
-          >
-            🥳{" "}
-            {subscribeToSites.isSuccess
-              ? t("Already Followed All!")
-              : t("Follow All!")}
-          </Button>
+          <FollowAllButton
+            characterIds={showcaseSites.data
+              ?.map((s: { characterId?: string }) => s.characterId)
+              .filter(Boolean)
+              .map(Number)}
+            siteIds={showcaseSites.data?.map(
+              (s: { handle: string }) => s.handle,
+            )}
+          />
           <ul
             className={`overflow-y-clip relative text-left space-y-4 ${
               showcaseMore ? "" : "max-h-[540px]"
