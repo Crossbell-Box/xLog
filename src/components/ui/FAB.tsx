@@ -90,7 +90,7 @@ export const FABBase: FC<
   return (
     <button
       className={cn(
-        "bg-white inline-flex w-8 h-8 mt-2 items-center justify-center rounded-md border border-accent opacity-50 hover:opacity-100 focus:opacity-100 focus:outline-none transition-all duration-300",
+        "bg-white inline-flex w-8 h-8 mt-2 items-center justify-center rounded-md border border-accent text-accent opacity-50 hover:opacity-100 focus:opacity-100 focus:outline-none transition-all duration-300",
         (!show || appearTransition) && "translate-x-[60px]",
         !mounted && "hidden",
         className,
