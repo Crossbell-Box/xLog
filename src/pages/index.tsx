@@ -29,16 +29,14 @@ import { getSiteLink } from "~/lib/helpers"
 import { languageDetector } from "~/lib/language-detector"
 import {
   useAccountSites,
-  useGetSites,
+  useGetShowcase,
   useSubscribeToSites,
 } from "~/queries/site"
 import { prefetchGetSites } from "~/queries/site.server"
 
-import showcase from "../../data/showcase.json"
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
-  await prefetchGetSites(showcase, queryClient)
+  await prefetchGetSites(queryClient)
 
   return {
     props: {
@@ -54,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 function Home() {
   const isConnected = useAccountState((s) => !!s.computed.account)
   const router = useRouter()
-  const showcaseSites = useGetSites(showcase)
+  const showcaseSites = useGetShowcase()
   const { t } = useTranslation("index")
 
   const tryNow = () => {

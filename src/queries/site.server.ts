@@ -70,15 +70,12 @@ export const prefetchGetSiteToSubscriptions = async (
   })
 }
 
-export const prefetchGetSites = async (
-  input: number[],
-  queryClient: QueryClient,
-) => {
-  const key = ["getSites", input]
+export const prefetchGetSites = async (queryClient: QueryClient) => {
+  const key = ["getShowcase"]
   await queryClient.fetchQuery(key, async () => {
     return cacheGet({
       key,
-      getValueFun: () => siteModel.getSites(input),
+      getValueFun: () => siteModel.getShowcase(),
     })
   })
 }

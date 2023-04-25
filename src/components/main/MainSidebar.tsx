@@ -11,15 +11,14 @@ import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
 import {
   useAccountSites,
-  useGetSites,
+  useGetShowcase,
   useSubscribeToSites,
 } from "~/queries/site"
 
-import showcase from "../../../data/showcase.json"
 import topics from "../../../data/topics.json"
 
 export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
-  const showcaseSites = useGetSites(showcase)
+  const showcaseSites = useGetShowcase()
   const { t } = useTranslation("index")
 
   const userSite = useAccountSites()

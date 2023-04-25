@@ -91,17 +91,34 @@ export const getSite = async (input: string, customUnidata?: Unidata) => {
   return site
 }
 
-export const getSites = async (input: number[]) => {
+export const getShowcase = async () => {
   const client = createClient({
     url: "https://indexer.crossbell.io/v1/graphql",
     exchanges: [cacheExchange, fetchExchange],
   })
-  const oneMonthAgo = dayjs().subtract(15, "day").toISOString()
+  const oneMonthAgo = dayjs().subtract(10, "day").toISOString()
+
+  const listResponse = await client
+    .query(
+      `
+    query getCharacters {
+      characters( where: { notes: { some: { stat: { viewDetailCount: { gte: 100 } }, metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } } } } } ) {
+        characterId
+      }
+    }
+  `,
+      {},
+    )
+    .toPromise()
+  const characterList = listResponse.data?.characters.map((c: any) =>
+    parseInt(c.characterId),
+  )
+
   const result = await client
     .query(
       `
-        query getCharacters($identities: [Int!], $limit: Int) {
-          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
+        query getCharacters($identities: [Int!]) {
+          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }] ) {
             handle
             characterId
             metadata {
@@ -115,7 +132,7 @@ export const getSites = async (input: number[]) => {
           }
         }`,
       {
-        identities: input,
+        identities: characterList,
       },
     )
     .toPromise()
@@ -157,6 +174,7 @@ export const getSites = async (input: number[]) => {
     .sort((a: any, b: any) => {
       return b.createdAt > a.createdAt ? 1 : -1
     })
+    .slice(0, 100)
 
   return list
 }
