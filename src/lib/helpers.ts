@@ -3,7 +3,7 @@ import { NoteEntity } from "crossbell.js"
 import { Note, Profile } from "~/lib/types"
 
 import { IS_PROD } from "./constants"
-import { IS_VERCEL_PREVIEW, OUR_DOMAIN } from "./env"
+import { IS_DEV, IS_VERCEL_PREVIEW, OUR_DOMAIN } from "./env"
 
 export const getSiteLink = ({
   domain,
@@ -14,7 +14,7 @@ export const getSiteLink = ({
   subdomain: string
   noProtocol?: boolean
 }) => {
-  if (IS_VERCEL_PREVIEW) return `/_site/${subdomain}`
+  if (IS_VERCEL_PREVIEW || IS_DEV) return `/_site/${subdomain}`
 
   if (domain) {
     return `https://${domain}`
@@ -24,6 +24,19 @@ export const getSiteLink = ({
   }
 
   return `${IS_PROD ? "https" : "http"}://${subdomain}.${OUR_DOMAIN}`
+}
+
+export const getSlugUrl = (slug: string) => {
+  if (IS_VERCEL_PREVIEW || IS_DEV) {
+    const pathArr = new URL(location.href).pathname.split("/").filter(($) => $)
+    const indicatorIndex = pathArr.findIndex(($) => $ === "_site")
+    if (-~indicatorIndex) {
+      const handle = pathArr[indicatorIndex + 1]
+      return `/_site/${handle}/${slug}`
+    }
+  }
+
+  return `/${slug}`
 }
 
 export const getNoteSlug = (note: NoteEntity) => {

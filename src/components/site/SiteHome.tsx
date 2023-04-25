@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
+import { getSlugUrl } from "~/lib/helpers"
 import { Notes } from "~/lib/types"
 
 import { EmptyState } from "../ui/EmptyState"
@@ -41,7 +42,7 @@ export const SiteHome: React.FC<{
               return (
                 <Link
                   key={post.id}
-                  href={`/${post.slug || post.id}`}
+                  href={getSlugUrl(`/${post.slug || post.id}`)}
                   className="xlog-post sm:hover:bg-hover bg-white transition-all px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
                 >
                   <div className="flex-1 flex justify-center flex-col w-full min-w-0">
