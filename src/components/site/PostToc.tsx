@@ -1,8 +1,12 @@
+import { toHtml } from "hast-util-to-html"
 import DOMPurify from "isomorphic-dompurify"
 import katex from "katex"
+import { toHast } from "mdast-util-to-hast"
 import type { Result as TocResult } from "mdast-util-toc"
 import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-scroll"
+
+const inlineElements = ["delete", "strong", "emphasis", "inlineCode"]
 
 function getIds(items: TocResult["map"]) {
   return (
@@ -68,12 +72,17 @@ function renderItems(
               child.children[0].children?.[0]?.children ||
               child.children[0].children
             let content = "",
-              isInlineMath = false
+              isInlineMath = false,
+              isInlineElement = false
             children.map((child: any) => {
               if (child.type === "inlineMath") {
                 isInlineMath = true
+              } else if (inlineElements.includes(child.type)) {
+                isInlineElement = true
+                content += toHtml(toHast(child) || [])
+              } else {
+                content += child.value
               }
-              content += child.value
             })
             return (
               <span key={index + "-" + i}>
@@ -95,16 +104,18 @@ function renderItems(
                       " truncate inline-block max-w-full align-bottom hover:text-accent"
                     }
                   >
-                    {isInlineMath ? (
+                    {isInlineMath || isInlineElement ? (
                       <span
                         dangerouslySetInnerHTML={{
                           __html: DOMPurify.sanitize(
-                            katex.renderToString(
-                              `${prefix}${index + 1}. ${content}`,
-                              {
-                                output: "html",
-                              },
-                            ),
+                            isInlineMath
+                              ? katex.renderToString(
+                                  `${prefix}${index + 1}. ${content}`,
+                                  {
+                                    output: "html",
+                                  },
+                                )
+                              : `${prefix}${index + 1}. ${content}`,
                           ),
                         }}
                       />
