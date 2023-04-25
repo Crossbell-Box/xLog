@@ -24,13 +24,13 @@ function getElement(id: string) {
 }
 
 function useActiveId(itemIds: string[]) {
-  const [activeId, setActiveId] = useState(`test`)
+  const [activeId, setActiveId] = useState<string | null>()
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveId(entry.target.getAttribute("href") || "test")
+            setActiveId(entry.target.getAttribute("href"))
           }
         })
       },
@@ -54,7 +54,11 @@ function useActiveId(itemIds: string[]) {
   return activeId
 }
 
-function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
+function renderItems(
+  items: TocResult["map"],
+  activeId?: string | null,
+  prefix = "",
+) {
   return (
     <ol className={prefix ? "pl-5" : ""}>
       {items?.children?.map((item, index) => (
