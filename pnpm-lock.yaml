@@ -27,23 +27,23 @@ dependencies:
     specifier: 6.9.5
     version: 6.9.5
   '@crossbell/connect-kit':
-    specifier: 0.0.68
-    version: 0.0.68(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
+    specifier: 0.0.70
+    version: 0.0.70(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
   '@crossbell/contract':
-    specifier: 0.0.68
-    version: 0.0.68(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
+    specifier: 0.0.70
+    version: 0.0.70(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
   '@crossbell/indexer':
-    specifier: 0.0.68
-    version: 0.0.68(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
+    specifier: 0.0.70
+    version: 0.0.70(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
   '@crossbell/notification':
-    specifier: 0.0.68
-    version: 0.0.68(@emotion/react@11.10.6)(@mantine/hooks@6.0.8)(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
+    specifier: 0.0.70
+    version: 0.0.70(@emotion/react@11.10.6)(@mantine/hooks@6.0.8)(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
   '@crossbell/ui':
-    specifier: 0.0.68
-    version: 0.0.68(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
+    specifier: 0.0.70
+    version: 0.0.70(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
   '@crossbell/util-hooks':
-    specifier: 0.0.68
-    version: 0.0.68(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.0.70
+    version: 0.0.70(react-dom@18.2.0)(react@18.2.0)
   '@ddietr/codemirror-themes':
     specifier: 1.4.1
     version: 1.4.1
@@ -2021,19 +2021,19 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit@0.0.68(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.12):
-    resolution: {integrity: sha512-uGB7W2p43JibJuzQpwRRelOx5VZ/u7GpJSzvrthgobsxu14kvrN/Kgci+wfpyNUcpJIgsRCUqFgZN3Z2EzTWlg==}
+  /@crossbell/connect-kit@0.0.70(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.12):
+    resolution: {integrity: sha512-VceWvKgY8zmKd7jUsZddBPEwnOAdsa2bEJxaN6O+K84Gl92Ub5LDU+4DFuT/dNtwntbyAvyWi7kGuUZmeWYB5A==}
     peerDependencies:
       '@tanstack/react-query': ^4
       ethers: ^5
       wagmi: ^0.12
     dependencies:
-      '@crossbell/contract': 0.0.68(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
-      '@crossbell/indexer': 0.0.68(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
-      '@crossbell/ui': 0.0.68(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
-      '@crossbell/util-ethers': 0.0.68
-      '@crossbell/util-hooks': 0.0.68(react-dom@18.2.0)(react@18.2.0)
-      '@crossbell/util-metadata': 0.0.68
+      '@crossbell/contract': 0.0.70(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
+      '@crossbell/indexer': 0.0.70(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
+      '@crossbell/ui': 0.0.70(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
+      '@crossbell/util-ethers': 0.0.70
+      '@crossbell/util-hooks': 0.0.70(react-dom@18.2.0)(react@18.2.0)
+      '@crossbell/util-metadata': 0.0.70
       '@emotion/react': 11.10.6(@types/react@18.0.37)(react@18.2.0)
       '@mantine/core': 6.0.8(@emotion/react@11.10.6)(@mantine/hooks@6.0.8)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks': 6.0.8(react@18.2.0)
@@ -2043,19 +2043,18 @@ packages:
       check-password-strength: 2.0.7
       classnames: 2.3.2
       crossbell.js: 0.19.8
-      detect-browser: 5.3.0
       embla-carousel-react: 7.1.0(react@18.2.0)
       ethers: 5.7.2
-      immer: 9.0.21
+      immer: 10.0.1
       lodash.debounce: 4.0.8
-      qrcode: 1.5.1
+      qrcode: 1.5.3
       react: 18.2.0
       react-dropzone: 14.2.3(react@18.2.0)
       react-google-recaptcha: 2.1.0(react@18.2.0)
       rxjs: 7.8.0
       ts-essentials: 9.3.1(typescript@5.0.4)
       wagmi: 0.12.12(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
-      zustand: 4.3.7(immer@9.0.21)(react@18.2.0)
+      zustand: 4.3.7(immer@10.0.1)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -2066,15 +2065,15 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/contract@0.0.68(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12):
-    resolution: {integrity: sha512-fR68XkK2c0rDFHBQW2onFPyXfFxhVl5og4+7DpNqxKCFr8aSUOUx7lmWtGGo/2dTXq9wo65KR5K8olCdGVKiBA==}
+  /@crossbell/contract@0.0.70(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12):
+    resolution: {integrity: sha512-CLvlOb6E3VdcSZpwxXF+3npnUrDV4yX83zu6VnyXazTNPULiSNNuO4aLVBFjqJqHXXXPOlTweAdnFAIW2DB/6g==}
     peerDependencies:
       ethers: ^5
       react: ^18
       wagmi: ^0.12
     dependencies:
-      '@crossbell/indexer': 0.0.68(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
-      '@crossbell/util-hooks': 0.0.68(react-dom@18.2.0)(react@18.2.0)
+      '@crossbell/indexer': 0.0.70(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
+      '@crossbell/util-hooks': 0.0.70(react-dom@18.2.0)(react@18.2.0)
       crossbell.js: 0.19.8
       ethers: 5.7.2
       react: 18.2.0
@@ -2087,8 +2086,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/indexer@0.0.68(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12):
-    resolution: {integrity: sha512-VLcGy4tcQqHjuIOMUiWLtWlSUAQug2AeOXoUOA1FF192YaPWf5Bt+LktGeGzYqHcRrzppS3JCBuBxZ04JjFYeQ==}
+  /@crossbell/indexer@0.0.70(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12):
+    resolution: {integrity: sha512-DHitBcRV5RjC8LSw1nNj/bWiRaeCQP1/yini12F3R+AOVM7A0lMJnl1WYScr/4rDDXDnf4/YIgAqzMJrZa4IZg==}
     peerDependencies:
       ethers: ^5
       wagmi: ^0.12
@@ -2098,7 +2097,7 @@ packages:
       dayjs: 1.11.7
       ethers: 5.7.2
       lodash.compact: 3.0.1
-      lru-cache: 8.0.4
+      lru-cache: 9.1.1
       wagmi: 0.12.12(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
     transitivePeerDependencies:
       - bufferutil
@@ -2113,19 +2112,19 @@ packages:
     resolution: {integrity: sha512-AYGDrwiSKqCGNDi0mEPP1k+96loWik+Pd40xH0MzRNM4RtCutPbwm4o+Sj5iWu0tlHoQC2bTs1XcufsLiv+WYw==}
     dev: false
 
-  /@crossbell/notification@0.0.68(@emotion/react@11.10.6)(@mantine/hooks@6.0.8)(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12):
-    resolution: {integrity: sha512-oz8Bmk6ZGDlKKz3n1XhUwDRa/6yR2MRci7V2N6WtmkC4p/A94gGbIO/+W3fCTQ2mZ9fnstXwKXnvnf7kVZlbbw==}
+  /@crossbell/notification@0.0.70(@emotion/react@11.10.6)(@mantine/hooks@6.0.8)(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12):
+    resolution: {integrity: sha512-jpWmG9dZgFlUjswHTbaqPrUlawJhWa99qbOqHjM1v108B02upEpw8iSy4lV2Es6fsqs55bRZuo6SkJpO/VlDhw==}
     peerDependencies:
       '@tanstack/react-query': ^4
       ethers: ^5
       react: ^18
       wagmi: ^0.12
     dependencies:
-      '@crossbell/connect-kit': 0.0.68(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
-      '@crossbell/indexer': 0.0.68(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
-      '@crossbell/ui': 0.0.68(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
-      '@crossbell/util-hooks': 0.0.68(react-dom@18.2.0)(react@18.2.0)
-      '@crossbell/util-metadata': 0.0.68
+      '@crossbell/connect-kit': 0.0.70(@tanstack/react-query@4.29.3)(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
+      '@crossbell/indexer': 0.0.70(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
+      '@crossbell/ui': 0.0.70(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
+      '@crossbell/util-hooks': 0.0.70(react-dom@18.2.0)(react@18.2.0)
+      '@crossbell/util-metadata': 0.0.70
       '@mantine/core': 6.0.8(@emotion/react@11.10.6)(@mantine/hooks@6.0.8)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
@@ -2148,15 +2147,15 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/ui@0.0.68(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12):
-    resolution: {integrity: sha512-0d9Pc4OAjoeSjyLJkgrqxSyK1lMDUnr6C6a+/ltamqGylZrUerzvo7AyAgauxW1fVY3q2kYzu7DffLeYXTmn3g==}
+  /@crossbell/ui@0.0.70(@types/react@18.0.37)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12):
+    resolution: {integrity: sha512-vSCsP8lx4A2JuMmh4pzzaaQLEHEDBatgCwYbA6LOa0vqDMxxy5w5/In7HNmszAcgFjk/XeizhcEF21e0hgOIxQ==}
     peerDependencies:
       react: ^18
       react-dom: ^18
     dependencies:
-      '@crossbell/indexer': 0.0.68(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
-      '@crossbell/util-hooks': 0.0.68(react-dom@18.2.0)(react@18.2.0)
-      '@crossbell/util-metadata': 0.0.68
+      '@crossbell/indexer': 0.0.70(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
+      '@crossbell/util-hooks': 0.0.70(react-dom@18.2.0)(react@18.2.0)
+      '@crossbell/util-metadata': 0.0.70
       '@tanstack/react-query': 4.29.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       crossbell.js: 0.19.8
@@ -2178,12 +2177,12 @@ packages:
       - wagmi
     dev: false
 
-  /@crossbell/util-ethers@0.0.68:
-    resolution: {integrity: sha512-hwBwKkzQ/puT0UkzF0b7PQrP9TcsU/V9B9XN1lUS4s5mf5SG2L3/KY5Vu3Fz9cZcA6pGyc2t/sthDyHV3GW83Q==}
+  /@crossbell/util-ethers@0.0.70:
+    resolution: {integrity: sha512-Tmjkvfpk3Q0J7RfXc1MtVdd9rF7IjD5YkSpZVfzTzuLx4ugDW2+4lCTM6Jqmfnpe5HIgi+AiVQCq1sQ/K9jY0g==}
     dev: false
 
-  /@crossbell/util-hooks@0.0.68(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-oc2WPsuBjLFdI06iHpSBQZDHk2uixAHCftvIV5YUer4bM1fyVHQZnvu/mbfqFj031vqrQfAd41hjYzs1cdj2BA==}
+  /@crossbell/util-hooks@0.0.70(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-rTuiugtEzd7Ouh78S9cL8oZknpRh+hz9nXV2Vw//sO2Shq1GkW7XwnwtssP9ZRP5GzSRFbHjhIOSBfTI1PA+Ow==}
     peerDependencies:
       react: ^18
     dependencies:
@@ -2198,10 +2197,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/util-metadata@0.0.68:
-    resolution: {integrity: sha512-Ig5bd0f0XCycCSv0eV1FW5a+0BKmxhzsp+RKBwhdy/8ePXKKx0xkI30nTc4i9pgWSFgnIy6V5VUdrUlW6dAQLQ==}
+  /@crossbell/util-metadata@0.0.70:
+    resolution: {integrity: sha512-mL906G7RZKBfVNbeGvvGN246egtdBJb9Lc1mruM3BV5ZQVEZG9RToFzMFgvRodlMk+S/VB/2dtDTl8CpRD/QTw==}
     dependencies:
-      '@crossbell/util-ethers': 0.0.68
+      '@crossbell/util-ethers': 0.0.70
       '@fastify/deepmerge': 1.3.0
       crossbell.js: 0.19.8
     transitivePeerDependencies:
@@ -5373,7 +5372,7 @@ packages:
       '@walletconnect/legacy-utils': 2.0.0
       copy-to-clipboard: 3.3.3
       preact: 10.13.2
-      qrcode: 1.5.1
+      qrcode: 1.5.3
     dev: false
 
   /@walletconnect/legacy-provider@2.0.0:
@@ -9300,6 +9299,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immer@10.0.1:
+    resolution: {integrity: sha512-zg++jJLsKKTwXGeSYIw0HgChSYQGtu0UDTnbKx5aGLYgte4CwTmH9eJDYyQ6FheyUtBe+lQW9FrGxya1G+Dtmg==}
+    dev: false
+
   /immer@9.0.21:
     resolution: {integrity: sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA==}
     dev: false
@@ -10315,9 +10318,9 @@ packages:
     dependencies:
       yallist: 4.0.0
 
-  /lru-cache@8.0.4:
-    resolution: {integrity: sha512-E9FF6+Oc/uFLqZCuZwRKUzgFt5Raih6LfxknOSAVTjNkrCZkBf7DQCwJxZQgd9l4eHjIJDGR+E+1QKD1RhThPw==}
-    engines: {node: '>=16.14'}
+  /lru-cache@9.1.1:
+    resolution: {integrity: sha512-65/Jky17UwSb0BuB9V+MyDpsOtXKmYwzhyl+cOa9XUiI4uV2Ouy/2voFP3+al0BjZbJgMBD8FojMpAf+Z+qn4A==}
+    engines: {node: 14 || >=16.14}
     dev: false
 
   /magic-string@0.25.9:
@@ -11988,6 +11991,17 @@ packages:
 
   /qrcode@1.5.1:
     resolution: {integrity: sha512-nS8NJ1Z3md8uTjKtP+SGGhfqmTCs5flU/xR623oI0JX+Wepz9R8UrRVCTBTJm3qGw3rH6jJ6MUHjkDx15cxSSg==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dependencies:
+      dijkstrajs: 1.0.3
+      encode-utf8: 1.0.3
+      pngjs: 5.0.0
+      yargs: 15.4.1
+    dev: false
+
+  /qrcode@1.5.3:
+    resolution: {integrity: sha512-puyri6ApkEHYiVl4CFzo1tDkAZ+ATcnbJrJ6RiBM1Fhctdn/ix9MTE3hRph33omisEbC/2fcfemsseiKgBPKZg==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dependencies:
@@ -14631,8 +14645,8 @@ packages:
       is-weakset: 2.0.2
     dev: true
 
-  /which-module@2.0.0:
-    resolution: {integrity: sha512-B+enWhmw6cjfVC7kS8Pj9pCrKSc5txArRyaYGe088shv/FGWH+0Rjx/xPgtsWfsUtS27FkP697E4DDhgrgoc0Q==}
+  /which-module@2.0.1:
+    resolution: {integrity: sha512-iBdZ57RDvnOR9AGBhML2vFZf7h8vmBjhoaZqODJBFWHVtKkDmKuHai3cx5PgVMrX5YDNp27AofYbAwctSS+vhQ==}
     dev: false
 
   /which-typed-array@1.1.9:
@@ -14978,7 +14992,7 @@ packages:
       require-main-filename: 2.0.0
       set-blocking: 2.0.0
       string-width: 4.2.3
-      which-module: 2.0.0
+      which-module: 2.0.1
       y18n: 4.0.3
       yargs-parser: 18.1.3
     dev: false
@@ -14994,6 +15008,23 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+    dev: false
+
+  /zustand@4.3.7(immer@10.0.1)(react@18.2.0):
+    resolution: {integrity: sha512-dY8ERwB9Nd21ellgkBZFhudER8KVlelZm8388B5nDAXhO/+FZDhYMuRnqDgu5SYyRgz/iaf8RKnbUs/cHfOGlQ==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      immer: 10.0.1
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
   /zustand@4.3.7(immer@9.0.21)(react@18.2.0):
