@@ -3,7 +3,7 @@ import { NoteEntity } from "crossbell.js"
 import { Note, Profile } from "~/lib/types"
 
 import { IS_PROD } from "./constants"
-import { OUR_DOMAIN } from "./env"
+import { IS_VERCEL_PREVIEW, OUR_DOMAIN } from "./env"
 
 export const getSiteLink = ({
   domain,
@@ -14,12 +14,15 @@ export const getSiteLink = ({
   subdomain: string
   noProtocol?: boolean
 }) => {
+  if (IS_VERCEL_PREVIEW) return `/_site/${subdomain}`
+
   if (domain) {
     return `https://${domain}`
   }
   if (noProtocol) {
     return `${subdomain}.${OUR_DOMAIN}`
   }
+
   return `${IS_PROD ? "https" : "http"}://${subdomain}.${OUR_DOMAIN}`
 }
 
