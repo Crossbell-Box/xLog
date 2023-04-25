@@ -61,6 +61,15 @@ export const Reactions: React.FC<{
     }
   }
 
+  const unlike = () => {
+    if (pageId) {
+      setIsLikeOpen(false)
+      if (likeStatus.isLiked) {
+        toggleLikePage.mutate({ ...parsePageId(pageId), action: "unlink" })
+      } // else do nothing
+    }
+  }
+
   useEffect(() => {
     if (toggleLikePage.isSuccess) {
       if (likeRef.current?.getBoundingClientRect()) {
@@ -347,9 +356,12 @@ export const Reactions: React.FC<{
               </UniLink>
             </Trans>
           </div>
-          <div className="h-16 border-t flex items-center px-5">
+          <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 mb-6">
             <Button isBlock onClick={() => setIsLikeOpen(false)}>
               {t("Got it, thanks!")}
+            </Button>
+            <Button variant="secondary" isBlock onClick={() => unlike()}>
+              {t("Revert")}
             </Button>
           </div>
         </Modal>
