@@ -51,6 +51,8 @@ export const Reactions: React.FC<{
   })
   const { data: likeCount = 0 } = useGetLikeCounts({ pageId })
 
+  const [isUnlikeOpen, setIsUnlikeOpen] = useState(false)
+
   const like = () => {
     if (pageId) {
       if (likeStatus.isLiked) {
@@ -63,7 +65,7 @@ export const Reactions: React.FC<{
 
   const unlike = () => {
     if (pageId) {
-      setIsLikeOpen(false)
+      setIsUnlikeOpen(false)
       if (likeStatus.isLiked) {
         toggleLikePage.mutate({ ...parsePageId(pageId), action: "unlink" })
       } // else do nothing
@@ -360,8 +362,34 @@ export const Reactions: React.FC<{
             <Button isBlock onClick={() => setIsLikeOpen(false)}>
               {t("Got it, thanks!")}
             </Button>
-            <Button variant="secondary" isBlock onClick={() => unlike()}>
+            <Button
+              variant="secondary"
+              isBlock
+              onClick={() => {
+                setIsUnlikeOpen(true)
+                setIsLikeOpen(false)
+              }}
+            >
               {t("Revert")}
+            </Button>
+          </div>
+        </Modal>
+        <Modal
+          open={isUnlikeOpen}
+          setOpen={setIsUnlikeOpen}
+          title={t("Confirm to revert")}
+        >
+          <div className="p-5">
+            <Trans i18nKey="like revert">
+              Are you sure to revert this like?
+            </Trans>
+          </div>
+          <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
+            <Button isBlock onClick={() => setIsUnlikeOpen(false)}>
+              {t("Cancel")}
+            </Button>
+            <Button variant="secondary" isBlock onClick={() => unlike()}>
+              {t("I'm 100% sure")}
             </Button>
           </div>
         </Modal>
