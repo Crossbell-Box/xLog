@@ -356,7 +356,7 @@ export const Reactions: React.FC<{
               </UniLink>
             </Trans>
           </div>
-          <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 mb-6">
+          <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
             <Button isBlock onClick={() => setIsLikeOpen(false)}>
               {t("Got it, thanks!")}
             </Button>
