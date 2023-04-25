@@ -159,7 +159,7 @@ export default function SubdomainEditor() {
 
   const updateValue = useCallback(
     <K extends keyof Values>(key: K, value: Values[K]) => {
-      if (visibility === PageVisibilityEnum.Published) {
+      if (!visibility || visibility === PageVisibilityEnum.Published) {
         setVisibility(PageVisibilityEnum.Modified)
       }
 
