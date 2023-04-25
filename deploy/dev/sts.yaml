@@ -48,10 +48,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /api/healthcheck
               port: 3000
             initialDelaySeconds: 40
-            periodSeconds: 10
+            periodSeconds: 20
           livenessProbe:
             tcpSocket:
               port: 3000

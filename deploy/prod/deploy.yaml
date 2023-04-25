@@ -64,10 +64,11 @@ spec:
             - name: xlog-image
               mountPath: /app/.next/cache/images
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /api/healthcheck
               port: 3000
             initialDelaySeconds: 40
-            periodSeconds: 10
+            periodSeconds: 20
           livenessProbe:
             tcpSocket:
               port: 3000
