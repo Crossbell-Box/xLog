@@ -72,7 +72,7 @@ export const Reactions: React.FC<{
 
   useEffect(() => {
     if (toggleLikePage.isSuccess) {
-      if (likeRef.current?.getBoundingClientRect()) {
+      if (likeRef.current?.getBoundingClientRect() && likeStatus.isLiked) {
         confetti({
           particleCount: 150,
           spread: 70,
