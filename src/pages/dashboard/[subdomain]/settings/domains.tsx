@@ -18,7 +18,7 @@ import { useUserRole } from "~/hooks/useUserRole"
 import { OUR_DOMAIN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { checkDomain } from "~/models/site.model"
+import { checkDomain, getSite } from "~/models/site.model"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
@@ -114,6 +114,47 @@ export default function SettingsDomainsPage() {
     }
   }
 
+  const [subdomainCheckResult, setSubdomainCheckResult] = useState<{
+    isLoading: boolean
+    data?: boolean
+  }>({
+    isLoading: false,
+    data: true,
+  })
+  const toCheckSubdomain = (subdomain: string) => {
+    if (subdomain) {
+      setSubdomainCheckResult({
+        isLoading: true,
+      })
+      const subdomainRegex = /^[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?$/i
+      if (!subdomainRegex.test(subdomain)) {
+        setSubdomainCheckResult({
+          isLoading: false,
+          data: false,
+        })
+      } else {
+        getSite(subdomain).then((r) =>
+          setSubdomainCheckResult({
+            isLoading: false,
+            data: !r,
+          }),
+        )
+      }
+    }
+  }
+
+  const [subdomainChanged, setSubdomainChanged] = useState(false)
+  form.register("subdomain", {
+    onChange: (e) => {
+      if (e.target.value !== site.data?.username) {
+        toCheckSubdomain(e.target.value)
+        setSubdomainChanged(true)
+      } else {
+        setSubdomainChanged(false)
+      }
+    },
+  })
+
   const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
     if (site.isSuccess && site.data && !hasSet) {
@@ -137,6 +178,27 @@ export default function SettingsDomainsPage() {
             {...form.register("subdomain")}
             disabled={isEmailAccount || userRole?.data === "operator"}
           />
+          {subdomainChanged && (
+            <div className="text-sm mt-2">
+              {subdomainCheckResult.isLoading ? (
+                <span>{t("Subdomain Checking")}...</span>
+              ) : (
+                <span
+                  className={
+                    subdomainCheckResult.data
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }
+                >
+                  {t(
+                    subdomainCheckResult.data
+                      ? "Subdomain Available."
+                      : "Subdomain Unavailable.",
+                  )}
+                </span>
+              )}
+            </div>
+          )}
           {isEmailAccount && (
             <div className="text-sm text-orange-400 mt-1">
               Email users cannot change subdomain/handle.{" "}
