@@ -96,8 +96,8 @@ dependencies:
     specifier: 4.19.16
     version: 4.19.16(@codemirror/view@6.9.6)
   '@urql/core':
-    specifier: 4.0.6
-    version: 4.0.6(graphql@16.6.0)
+    specifier: 4.0.7
+    version: 4.0.7(graphql@16.6.0)
   ahooks:
     specifier: ^3.7.6
     version: 3.7.6(react@18.2.0)
@@ -490,8 +490,8 @@ devDependencies:
 
 packages:
 
-  /@0no-co/graphql.web@1.0.0(graphql@16.6.0):
-    resolution: {integrity: sha512-JBq2pWyDchE1vVjj/+c4dzZ8stbpew4RrzpZ3vYdn1WJFGHfYg6YIX1fDdMKtSXJJM9FUlsoDOxemr9WMM2p+A==}
+  /@0no-co/graphql.web@1.0.1(graphql@16.6.0):
+    resolution: {integrity: sha512-6Yaxyv6rOwRkLIvFaL0NrLDgfNqC/Ng9QOPmTmlqW4mORXMEKmh5NYGkIvvt5Yw8fZesnMAqkj8cIqTj8f40cQ==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
     peerDependenciesMeta:
@@ -5005,11 +5005,11 @@ packages:
       - rollup
     dev: true
 
-  /@urql/core@4.0.6(graphql@16.6.0):
-    resolution: {integrity: sha512-RxlX5nxWZsvS1lPCvOdgdYbIVVfih/DrjPzGZ0ThP1GuVycaxw5t0O7XEXXYHICeXNKj95HJBxW0o/37zg+z6Q==}
+  /@urql/core@4.0.7(graphql@16.6.0):
+    resolution: {integrity: sha512-UtZ9oSbSFODXzFydgLCXpAQz26KGT1d6uEfcylKphiRWNXSWZi8k7vhJXNceNm/Dn0MiZ+kaaJHKcnGY1jvHRQ==}
     dependencies:
-      '@0no-co/graphql.web': 1.0.0(graphql@16.6.0)
-      wonka: 6.3.1
+      '@0no-co/graphql.web': 1.0.1(graphql@16.6.0)
+      wonka: 6.3.2
     transitivePeerDependencies:
       - graphql
     dev: false
@@ -13859,7 +13859,7 @@ packages:
     resolution: {integrity: sha512-k5x/thLREIoju2SrMATPDENNfuDqEk/hR9ohTdvJMTaTfDZqvw7O5Ri5PgdEN41o0UL+5WRYIdH3M3zy3k5R9Q==}
     dependencies:
       '@types/lodash': 4.14.194
-      '@urql/core': 4.0.6(graphql@16.6.0)
+      '@urql/core': 4.0.7(graphql@16.6.0)
       axios: 1.3.6
       axios-retry: 3.4.0
       crossbell.js: 0.19.8
@@ -14657,8 +14657,8 @@ packages:
     dev: false
     optional: true
 
-  /wonka@6.3.1:
-    resolution: {integrity: sha512-nJyGPcjuBiaLFn8QAlrHd+QjV9AlPO7snOWAhgx6aX0nQLMV6Wi0nqfrkmsXIH0efngbDOroOz2QyLnZMF16Hw==}
+  /wonka@6.3.2:
+    resolution: {integrity: sha512-2xXbQ1LnwNS7egVm1HPhW2FyKrekolzhpM3mCwXdQr55gO+tAiY76rhb32OL9kKsW8taj++iP7C6hxlVzbnvrw==}
     dev: false
 
   /word-wrap@1.2.3:
