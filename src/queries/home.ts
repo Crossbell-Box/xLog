@@ -20,5 +20,6 @@ export const useGetFeed = (data?: {
       })
     },
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
+    refetchOnWindowFocus: false,
   })
 }
