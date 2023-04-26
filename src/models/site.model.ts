@@ -412,6 +412,9 @@ export async function getCommentsBySite(input: {
     limit: 7,
     includeCharacter: true,
     cursor: input.cursor,
+    includeNestedNotes: true,
+    nestedNotesDepth: 3 as 3,
+    nestedNotesLimit: 20,
   })
 
   notes.list = notes.list.filter((item) =>

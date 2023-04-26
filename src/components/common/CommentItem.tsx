@@ -7,7 +7,7 @@ import { useAccountState } from "@crossbell/connect-kit"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { CommentInput } from "~/components/common/CommentInput"
 import { PageContent } from "~/components/common/PageContent"
-import { Reactions } from "~/components/common/Reactions"
+import { ReactionLike } from "~/components/common/ReactionLike"
 import { Titles } from "~/components/common/Titles"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Avatar } from "~/components/ui/Avatar"
@@ -102,11 +102,15 @@ export const CommentItem: React.FC<{
             isComment={true}
           ></PageContent>
           <div className="mt-1 flex items-center">
-            <Reactions
-              className="inline-flex"
-              size="sm"
-              pageId={`${comment.characterId}-${comment.noteId}`}
-            />
+            <div
+              className="xlog-reactions fill-gray-400 text-gray-500 sm:items-center inline-flex text-sm space-x-3"
+              data-hide-print
+            >
+              <ReactionLike
+                size="sm"
+                pageId={`${comment.characterId}-${comment.noteId}`}
+              />
+            </div>
             {depth < 2 && (
               <Button
                 className="text-gray-500 text-[13px] ml-1 mt-[-1px]"
