@@ -3,7 +3,6 @@ lockfileVersion: '6.0'
 overrides:
   vitest>vite: ^4.3.1
   rehype-katex>katex: ^0.16.6
-  pinyin>nodejieba: ^2.6.0
 
 dependencies:
   '@codemirror/commands':
@@ -11203,8 +11202,8 @@ packages:
   /node-releases@2.0.10:
     resolution: {integrity: sha512-5GFldHPXVG/YZmFzJvKK2zDSzPKhEp0+ZR5SVaoSag9fsL5YgHbUHDfnG5494ISANDcK4KwPXAx2xqVEydmd7w==}
 
-  /nodejieba@2.6.0:
-    resolution: {integrity: sha512-cyEOLRGLjDuxbTuv6nuMAK3NpML4ft9i7st98TFHvXtg+m3RFhIuf4INBHGp3VhUaqPsCTfAkhHB/ZNTFiwJjg==}
+  /nodejieba@2.5.2:
+    resolution: {integrity: sha512-ByskJvaBrQ2eV+5M0OeD80S5NKoGaHc9zi3Z/PTKl/95eac2YF8RmWduq9AknLpkQLrLAIcqurrtC6BzjpKwwg==}
     engines: {node: '>= 10.20.0'}
     requiresBuild: true
     dependencies:
@@ -11711,7 +11710,7 @@ packages:
       commander: 1.1.1
     optionalDependencies:
       '@node-rs/jieba': 1.6.2
-      nodejieba: 2.6.0
+      nodejieba: 2.5.2
       segmentit: 2.0.3
     transitivePeerDependencies:
       - encoding

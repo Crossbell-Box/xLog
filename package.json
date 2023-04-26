@@ -197,8 +197,7 @@
   },
   "resolutions": {
     "vitest>vite": "^4.3.1",
-    "rehype-katex>katex": "^0.16.6",
-    "pinyin>nodejieba": "^2.6.0"
+    "rehype-katex>katex": "^0.16.6"
   },
   "nextBundleAnalysis": {
     "budget": 358400,
