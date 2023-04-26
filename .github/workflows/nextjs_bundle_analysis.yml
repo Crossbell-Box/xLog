@@ -1,6 +1,3 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
 name: "Next.js Bundle Analysis"
 
 on:
@@ -77,43 +74,24 @@ jobs:
           branch: ${{ github.event.pull_request.base.ref }}
           path: .next/analyze/base
 
-      # And here's the second place - this runs after we have both the current and
-      # base branch bundle stats, and will compare them to determine what changed.
-      # There are two configurable arguments that come from package.json:
-      #
-      # - budget: optional, set a budget (bytes) against which size changes are measured
-      #           it's set to 350kb here by default, as informed by the following piece:
-      #           https://infrequently.org/2021/03/the-performance-inequality-gap/
-      #
-      # - red-status-percentage: sets the percent size increase where you get a red
-      #                          status indicator, defaults to 20%
-      #
-      # Either of these arguments can be changed or removed by editing the `nextBundleAnalysis`
-      # entry in your package.json file.
       - name: Compare with base branch bundle
         if: success() && github.event.number
         run: ls -laR .next/analyze/base && npx -p nextjs-bundle-analysis compare
 
-      - name: Get Comment Body
-        id: get-comment-body
+      - name: Upload analysis
         if: success() && github.event.number
-        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
-        run: |
-          echo "body<<EOF" >> $GITHUB_OUTPUT
-          echo "$(cat .next/analyze/__bundle_analysis_comment.txt)" >> $GITHUB_OUTPUT
-          echo EOF >> $GITHUB_OUTPUT
-
-      - name: Find Comment
-        uses: peter-evans/find-comment@v2
-        if: success() && github.event.number
-        id: fc
+        uses: actions/upload-artifact@v2
         with:
-          issue-number: ${{ github.event.number }}
-          body-includes: "<!-- __NEXTJS_BUNDLE -->"
+          name: analysis_comment
+          path: .next/analyze/__bundle_analysis_comment.txt
 
-      - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
+      - name: Save PR number
+        if: ${{ always() }}
+        run: echo ${{ github.event.number }} > ./pr-id.txt
+
+      - name: Upload PR number
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
         with:
-          message: ${{ steps.get-comment-body.outputs.body }}
-          comment_tag: execution
-
+          name: pr
+          path: ./pr-id.txt
