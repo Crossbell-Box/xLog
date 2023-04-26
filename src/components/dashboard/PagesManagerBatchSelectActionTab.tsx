@@ -65,42 +65,53 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
         )
 
         // Convert all // TODO: use multicall to optimize
-        await Promise.all(
-          selectedPages.map((page) => {
-            // Check again to ensure it's not
-            const isNotxLogContent = !page.applications?.includes("xlog")
+        try {
+          await Promise.all(
+            selectedPages.map((page) => {
+              // Check again to ensure it's not
+              const isNotxLogContent = !page.applications?.includes("xlog")
 
-            const targetNoteBase = {
-              published: true,
-              pageId: page.id,
-              siteId: subdomain,
-              tags: page.tags
-                ?.filter((tag) => tag !== "post" && tag !== "page")
-                ?.join(", "),
-              applications: page.applications,
-            }
-
-            if (isNotxLogContent) {
-              createOrUpdatePage.mutate({
-                ...targetNoteBase,
-                isPost: isPost, // Convert to xLog content
-              })
-            } else {
-              if (!page.metadata) {
-                // Is draft
-                const data = getStorage(`draft-${subdomain}-${page.id}`)
-                data.isPost = !isPost
-                setStorage(`draft-${subdomain}-${page.id}`, data)
-              } else {
-                // IsNote
-                createOrUpdatePage.mutate({
-                  ...targetNoteBase,
-                  isPost: !isPost, // Change type
-                })
+              const targetNoteBase = {
+                published: true,
+                pageId: page.id,
+                siteId: subdomain,
+                tags: page.tags
+                  ?.filter((tag) => tag !== "post" && tag !== "page")
+                  ?.join(", "),
+                applications: page.applications,
               }
-            }
-          }),
-        )
+
+              if (isNotxLogContent) {
+                return createOrUpdatePage.mutateAsync({
+                  ...targetNoteBase,
+                  isPost: isPost, // Convert to xLog content
+                })
+              } else {
+                if (!page.metadata) {
+                  // Is draft
+                  const data = getStorage(`draft-${subdomain}-${page.id}`)
+                  data.isPost = !isPost
+                  setStorage(`draft-${subdomain}-${page.id}`, data)
+                } else {
+                  // IsNote
+                  return createOrUpdatePage.mutateAsync({
+                    ...targetNoteBase,
+                    isPost: !isPost, // Change type
+                  })
+                }
+              }
+            }),
+          )
+
+          toast.success(t("Converted!"), {
+            id: toastId,
+          })
+        } catch (e) {
+          // Some failed
+          toast.error(t("Failed to convert."), {
+            id: toastId,
+          })
+        }
 
         // Invalidate site data refresh
         await Promise.all([
@@ -109,10 +120,6 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
             queryClient.invalidateQueries(["getPage", page.id]),
           ),
         ])
-
-        toast.success(t("Convert process started!"), {
-          id: toastId,
-        })
 
         // Unselect all
         setBatchSelected([])
@@ -135,20 +142,31 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
         )
 
         // Delete all // TODO: use multicall to optimize
-        await Promise.all(
-          selectedPages.map((page) => {
-            if (!page.metadata) {
-              // Is draft
-              delStorage(`draft-${subdomain}-${page.id}`)
-            } else {
-              // Is Note
-              deletePage.mutate({
-                site: subdomain,
-                id: page.id,
-              })
-            }
-          }),
-        )
+        try {
+          await Promise.all(
+            selectedPages.map((page) => {
+              if (!page.metadata) {
+                // Is draft
+                delStorage(`draft-${subdomain}-${page.id}`)
+              } else {
+                // Is Note
+                return deletePage.mutateAsync({
+                  site: subdomain,
+                  id: page.id,
+                })
+              }
+            }),
+          )
+
+          toast.success(t("Deleted!"), {
+            id: toastId,
+          })
+        } catch (e) {
+          toast.error(t("Fail to Deleted."), {
+            // It should be "Failed to delete.", but the translation key is that so :shrug:
+            id: toastId,
+          })
+        }
 
         // Refresh site data
         await Promise.all([
@@ -157,10 +175,6 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
             queryClient.refetchQueries(["getPage", page.id]),
           ),
         ])
-
-        toast.success(t("Deleted process started!"), {
-          id: toastId,
-        })
 
         // Unselect all
         setBatchSelected([])
