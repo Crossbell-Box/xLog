@@ -11,7 +11,7 @@ import { type TabItem, Tabs } from "~/components/ui/Tabs"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
 
-const PagesManagerSelectHeader: React.FC<{
+export const PagesManagerBatchSelectActionTab: React.FC<{
   isPost: boolean
   pages: UseInfiniteQueryResult<Notes, unknown>
   batchSelected: string[]
@@ -171,4 +171,4 @@ const PagesManagerSelectHeader: React.FC<{
   return <Tabs items={tabItems} />
 }
 
-export default PagesManagerSelectHeader
+export default PagesManagerBatchSelectActionTab

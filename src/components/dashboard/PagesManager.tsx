@@ -7,7 +7,6 @@ import { Fragment, useMemo, useState } from "react"
 import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
-import PagesManagerSelectHeader from "~/components/dashboard/PagesManagerSelectHeader"
 import { useDate } from "~/hooks/useDate"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
@@ -22,6 +21,7 @@ import { TabItem, Tabs } from "../ui/Tabs"
 import { Tooltip } from "../ui/Tooltip"
 import { UniLink } from "../ui/UniLink"
 import { DashboardMain } from "./DashboardMain"
+import { PagesManagerBatchSelectActionTab } from "./PagesManagerBatchSelectActionTab"
 import { PagesManagerMenu } from "./PagesManagerMenu"
 
 export const PagesManager: React.FC<{
@@ -214,7 +214,7 @@ export const PagesManager: React.FC<{
       </header>
 
       {batchSelected.length > 0 ? (
-        <PagesManagerSelectHeader
+        <PagesManagerBatchSelectActionTab
           isPost={isPost}
           pages={pages}
           batchSelected={batchSelected}
