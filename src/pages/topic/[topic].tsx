@@ -11,12 +11,11 @@ import { MainSidebar } from "~/components/main/MainSidebar"
 import { languageDetector } from "~/lib/language-detector"
 import { prefetchGetSites } from "~/queries/site.server"
 
-import showcase from "../../../data/showcase.json"
 import topics from "../../../data/topics.json"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
-  await prefetchGetSites(showcase, queryClient)
+  await prefetchGetSites(queryClient)
 
   return {
     props: {

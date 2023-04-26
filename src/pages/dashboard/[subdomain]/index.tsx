@@ -14,9 +14,7 @@ import { DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { useGetPagesBySite } from "~/queries/page"
-import { useGetSite, useGetSites, useGetStat } from "~/queries/site"
-
-import showcase from "../../../../data/showcase.json"
+import { useGetShowcase, useGetSite, useGetStat } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -72,7 +70,7 @@ export default function SubdomainIndex() {
     take: 4,
   })
 
-  const showcaseSites = useGetSites(showcase)
+  const showcaseSites = useGetShowcase()
 
   return (
     <DashboardMain title="Dashboard" className="max-w-screen-2xl">

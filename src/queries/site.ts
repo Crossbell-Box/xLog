@@ -41,12 +41,9 @@ export const useGetSite = (input?: string) => {
   })
 }
 
-export const useGetSites = (input: number[]) => {
-  return useQuery(["getSites", input], async () => {
-    if (!input) {
-      return null
-    }
-    return siteModel.getSites(input)
+export const useGetShowcase = () => {
+  return useQuery(["getShowcase"], async () => {
+    return siteModel.getShowcase()
   })
 }
 
