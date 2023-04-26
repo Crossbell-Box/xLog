@@ -136,9 +136,7 @@ export default function SubdomainEditor() {
 
   useEffect(() => {
     if (page.isSuccess) {
-      setVisibility(
-        page.data ? getPageVisibility(page.data) : PageVisibilityEnum.Draft,
-      )
+      setVisibility(getPageVisibility(page.data || {}))
     }
   }, [page.isSuccess, page.data])
 
@@ -159,7 +157,7 @@ export default function SubdomainEditor() {
 
   const updateValue = useCallback(
     <K extends keyof Values>(key: K, value: Values[K]) => {
-      if (!visibility || visibility === PageVisibilityEnum.Published) {
+      if (visibility !== PageVisibilityEnum.Draft) {
         setVisibility(PageVisibilityEnum.Modified)
       }
 
@@ -192,7 +190,7 @@ export default function SubdomainEditor() {
       }
       useEditorState.setState(newValues)
     },
-    [isPost, queryClient, subdomain],
+    [isPost, queryClient, subdomain, visibility],
   )
 
   const createOrUpdatePage = useCreateOrUpdatePage()
