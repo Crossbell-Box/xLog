@@ -28,8 +28,9 @@ export const CharacterList: React.FC<{
       {list?.length ? (
         <Virtuoso
           overscan={10}
-          style={{ height: Infinity }}
-          className="h-screen"
+          style={{ height: flattenList.length * 64 }}
+          fixedItemHeight={64}
+          className="max-h-screen"
           endReached={() => hasMore && loadMore()}
           components={{
             Footer: hasMore ? Loader : undefined,
