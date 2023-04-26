@@ -195,6 +195,6 @@
   "Comments": "评论",
   "You can subscribe to comments through an RSS reader to receive timely reminders.": "你可以通过 RSS 阅读器订阅评论，以便及时收到提醒。",
   "Subscription address:": "订阅地址：",
-  "comment on your {{type}} {{toTitle}}" : "评论了你的{{type}}「{{toTitle}}」",
+  "comment on your" : "评论了你的{{type}}「<tolink>{{toTitle}}</tolink>」",
   "{{newCount}} new comments" : "{{newCount}} 条新评论"
 }

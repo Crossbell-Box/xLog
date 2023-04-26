@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next"
-import { useTranslation } from "next-i18next"
+import { Trans, useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import type { ReactElement } from "react"
 import { Virtuoso } from "react-virtuoso"
@@ -52,7 +52,7 @@ export default function CommentsPage() {
           </p>
           <p>
             {t("Subscription address:")}{" "}
-            <UniLink className="underline" href={feedUrl}>
+            <UniLink className="text-accent" href={feedUrl} target="_blank">
               {feedUrl}
             </UniLink>
           </p>
@@ -95,12 +95,27 @@ export default function CommentsPage() {
                     <div key={comment.transactionHash} className="mt-6">
                       <div>
                         {name}{" "}
-                        {t("comment on your {{type}} {{toTitle}}", {
-                          type: t(type || "", {
-                            ns: "common",
-                          }),
-                          toTitle: toTitle,
-                        })}
+                        <Trans
+                          i18nKey="comment on your"
+                          values={{
+                            type: t(type || "", {
+                              ns: "common",
+                            }),
+                            toTitle,
+                          }}
+                          defaults="commented on your {{type}} <tolink>{{toTitle}}</tolink>"
+                          components={{
+                            tolink: (
+                              <UniLink
+                                href={`/api/redirection?characterId=${comment.characterId}&noteId=${comment.noteId}`}
+                                target="_blank"
+                              >
+                                .
+                              </UniLink>
+                            ),
+                          }}
+                          ns="dashboard"
+                        />
                         :
                       </div>
                       <CommentItem
