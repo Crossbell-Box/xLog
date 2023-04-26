@@ -111,20 +111,17 @@ jobs:
           issue-number: ${{ github.event.number }}
           body-includes: "<!-- __NEXTJS_BUNDLE -->"
 
-      - name: Create Comment
-        uses: peter-evans/create-or-update-comment@v3
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
         if: success() && github.event.number && steps.fc.outputs.comment-id == 0
         with:
-          issue-number: ${{ github.event.number }}
-          body: ${{ steps.get-comment-body.outputs.body }}
-          token: ${{ secrets.GH_TOKEN }}
+          message: ${{ steps.get-comment-body.outputs.body }}
 
-      - name: Update Comment
-        uses: peter-evans/create-or-update-comment@v3
+      - name: Comment PR with execution number  
+        uses: thollander/actions-comment-pull-request@v2  
         if: success() && github.event.number && steps.fc.outputs.comment-id != 0
         with:
-          issue-number: ${{ github.event.number }}
-          body: ${{ steps.get-comment-body.outputs.body }}
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          edit-mode: replace
-          token: ${{ secrets.GH_TOKEN }}
+          message: |
+            _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
+            ${{ steps.get-comment-body.outputs.body }}
+          comment_tag: execution
