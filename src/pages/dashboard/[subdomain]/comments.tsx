@@ -63,7 +63,9 @@ export default function CommentsPage() {
               className="xlog-comment-list"
               useWindowScroll
               data={comments.data?.pages}
-              endReached={() => comments.fetchNextPage()}
+              endReached={() =>
+                comments.hasNextPage && comments.fetchNextPage()
+              }
               components={{
                 Footer: comments.isLoading ? Loader : undefined,
               }}

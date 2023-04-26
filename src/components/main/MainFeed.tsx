@@ -278,7 +278,7 @@ export const MainFeed: React.FC<{
           <div className="xlog-posts !-mt-0">
             <Virtuoso
               overscan={5}
-              endReached={() => feed.fetchNextPage()}
+              endReached={() => feed.hasNextPage && feed.fetchNextPage()}
               useWindowScroll
               data={feed.data?.pages}
               itemContent={(_, posts) =>

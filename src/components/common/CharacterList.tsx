@@ -30,7 +30,7 @@ export const CharacterList: React.FC<{
           overscan={10}
           style={{ height: Infinity }}
           className="h-screen"
-          endReached={() => loadMore()}
+          endReached={() => hasMore && loadMore()}
           components={{
             Footer: hasMore ? Loader : undefined,
           }}

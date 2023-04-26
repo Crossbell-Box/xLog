@@ -43,7 +43,7 @@ export const Comment: React.FC<{
         className="xlog-comment-list"
         useWindowScroll
         data={comments.data?.pages}
-        endReached={() => comments.fetchNextPage()}
+        endReached={() => comments.hasNextPage && comments.fetchNextPage()}
         components={{
           Footer: comments.isLoading ? Loader : undefined,
         }}
