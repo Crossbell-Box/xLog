@@ -1,9 +1,9 @@
 import { useTranslation } from "next-i18next"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import InfiniteScroll from "react-infinite-scroller"
+import { memo, useEffect, useState } from "react"
 import reactStringReplace from "react-string-replace"
+import { Virtuoso } from "react-virtuoso"
 
 import { useAccountState } from "@crossbell/connect-kit"
 import { Switch } from "@headlessui/react"
@@ -43,7 +43,7 @@ const Post = ({
   }
 
   return (
-    <div>
+    <div className="mt-8">
       <div className="flex items-center space-x-2">
         <CharacterFloatCard siteId={post.character?.handle}>
           <Link
@@ -157,6 +157,8 @@ const Post = ({
   )
 }
 
+const MemoedPost = memo(Post)
+
 export const MainFeed: React.FC<{
   type?: FeedType
   noteIds?: string[]
@@ -226,19 +228,7 @@ export const MainFeed: React.FC<{
 
   return (
     <>
-      <InfiniteScroll
-        loadMore={feed.fetchNextPage as any}
-        hasMore={feed.hasNextPage}
-        loader={
-          <div
-            className="relative mt-4 w-full text-sm text-center py-4"
-            key={"loading"}
-          >
-            {t("Loading")} ...
-          </div>
-        }
-        className="space-y-10"
-      >
+      <div className="space-y-10">
         {hasFiltering && (
           <div className="flex items-center text-zinc-500">
             <i className="i-mingcute:android-2-line mr-2 text-lg" />
@@ -279,27 +269,48 @@ export const MainFeed: React.FC<{
         {type === "search" && (
           <Tabs items={searchTabs} className="border-none text-sm -my-4"></Tabs>
         )}
+
         {feed.isLoading ? (
           <div className="text-center text-zinc-600">{t("Loading")}...</div>
         ) : !feed.data?.pages[0]?.count ? (
           <EmptyState />
         ) : (
-          <div className="xlog-posts space-y-8 overflow-x-hidden">
-            {feed.data?.pages.map((posts) =>
-              posts?.list.map((post) => {
-                return (
-                  <Post
-                    key={`${post.characterId}-${post.noteId}`}
-                    post={post}
-                    filtering={aiFiltering ? 60 : 0}
-                    keyword={keyword}
-                  />
-                )
-              }),
-            )}
+          <div className="xlog-posts !-mt-0">
+            <Virtuoso
+              overscan={5}
+              endReached={() => feed.fetchNextPage()}
+              useWindowScroll
+              data={feed.data?.pages}
+              itemContent={(_, posts) =>
+                posts?.list.map((post) => {
+                  return (
+                    <MemoedPost
+                      key={`${post.characterId}-${post.noteId}`}
+                      post={post}
+                      filtering={aiFiltering ? 60 : 0}
+                      keyword={keyword}
+                    />
+                  )
+                })
+              }
+            ></Virtuoso>
+
+            {feed.isFetching && feed.hasNextPage && <Loader />}
           </div>
         )}
-      </InfiniteScroll>
+      </div>
     </>
+  )
+}
+
+const Loader = () => {
+  const { t } = useTranslation("common")
+  return (
+    <div
+      className="relative w-full text-sm text-center py-4 mt-12"
+      key={"loading"}
+    >
+      {t("Loading")} ...
+    </div>
   )
 }

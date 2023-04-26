@@ -9,12 +9,13 @@ import { Avatar } from "../ui/Avatar"
 import { UniLink } from "../ui/UniLink"
 import { FollowingButton } from "./FollowingButton"
 
+const noopArr = [] as any[]
 const CharacterListItem: React.FC<{
   character: any
   sub: any
 }> = ({ character, sub }) => {
   return (
-    <div className="py-3 flex items-center justify-between space-x-2 text-sm">
+    <div className="py-3 flex items-center justify-between space-x-2 text-sm px-5">
       <div className="flex flex-1 overflow-hidden space-x-2">
         <UniLink
           href={getSiteLink({
@@ -25,7 +26,7 @@ const CharacterListItem: React.FC<{
           <CharacterFloatCard siteId={character?.handle}>
             <Avatar
               className="align-middle border-2 border-white"
-              images={character?.metadata?.content?.avatars || []}
+              images={character?.metadata?.content?.avatars || noopArr}
               name={character?.metadata?.content?.name || character?.handle}
               size={40}
             />
