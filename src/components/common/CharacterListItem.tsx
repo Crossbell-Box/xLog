@@ -9,6 +9,7 @@ import { Avatar } from "../ui/Avatar"
 import { UniLink } from "../ui/UniLink"
 import { FollowingButton } from "./FollowingButton"
 
+const noopArr = [] as any[]
 const CharacterListItem: React.FC<{
   character: any
   sub: any
@@ -25,7 +26,7 @@ const CharacterListItem: React.FC<{
           <CharacterFloatCard siteId={character?.handle}>
             <Avatar
               className="align-middle border-2 border-white"
-              images={character?.metadata?.content?.avatars || []}
+              images={character?.metadata?.content?.avatars || noopArr}
               name={character?.metadata?.content?.name || character?.handle}
               size={40}
             />
