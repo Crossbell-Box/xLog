@@ -8,15 +8,17 @@ import type { UseInfiniteQueryResult } from "@tanstack/react-query"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { type TabItem, Tabs } from "~/components/ui/Tabs"
+import { APP_NAME } from "~/lib/env"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
 
 export const PagesManagerBatchSelectActionTab: React.FC<{
   isPost: boolean
+  isNotxLogContent: boolean
   pages: UseInfiniteQueryResult<Notes, unknown>
   batchSelected: string[]
   setBatchSelected: (selected: string[]) => void
-}> = ({ isPost, pages, batchSelected, setBatchSelected }) => {
+}> = ({ isPost, isNotxLogContent, pages, batchSelected, setBatchSelected }) => {
   const { t } = useTranslation(["dashboard", "site"])
 
   const router = useRouter()
@@ -49,7 +51,13 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
       },
     },
     {
-      text: "Convert",
+      text:
+        "Convert to " +
+        (isNotxLogContent
+          ? `${APP_NAME} ${isPost ? "Post" : "Page"}`
+          : isPost
+          ? "Page"
+          : "Post"),
       onClick: async () => {
         // Start message
         const toastId = toast.loading("Converting...")
