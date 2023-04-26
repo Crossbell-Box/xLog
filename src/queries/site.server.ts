@@ -79,3 +79,22 @@ export const prefetchGetSites = async (queryClient: QueryClient) => {
     })
   })
 }
+
+export const fetchGetComments = async (
+  data: Parameters<typeof siteModel.getCommentsBySite>[0],
+  queryClient: QueryClient,
+) => {
+  const key = ["getComments", data]
+  if (!data.characterId) {
+    return null
+  }
+  return await queryClient.fetchQuery(key, async () => {
+    return cacheGet({
+      key,
+      getValueFun: () =>
+        siteModel.getCommentsBySite({
+          characterId: data.characterId,
+        }),
+    }) as Promise<ReturnType<typeof siteModel.getCommentsBySite>>
+  })
+}

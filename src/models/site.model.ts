@@ -403,6 +403,24 @@ export async function subscribeToSites(
   }
 }
 
+export async function getCommentsBySite(input: {
+  characterId: string
+  cursor?: string
+}) {
+  const notes = await indexer.getNotes({
+    toCharacterId: input.characterId,
+    limit: 7,
+    includeCharacter: true,
+    cursor: input.cursor,
+  })
+
+  notes.list = notes.list.filter((item) =>
+    item.toNote?.metadata?.content?.sources?.includes("xlog"),
+  )
+
+  return notes
+}
+
 const xLogOperatorPermissions: CharacterOperatorPermission[] = [
   CharacterOperatorPermission.SET_NOTE_URI,
   CharacterOperatorPermission.DELETE_NOTE,

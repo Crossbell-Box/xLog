@@ -191,5 +191,10 @@
   "delete_confirmation_page": "你确定要删除这个页面吗？",
   "Confirm": "确认",
   "Cancel": "取消",
-  "Published a new post on my blockchain blog: {{title}}. Check it out now!": "在我的区块链博客发布了一篇新文章《{{title}}》，快来看看吧！"
+  "Published a new post on my blockchain blog: {{title}}. Check it out now!": "在我的区块链博客发布了一篇新文章《{{title}}》，快来看看吧！",
+  "Comments": "评论",
+  "You can subscribe to comments through an RSS reader to receive timely reminders.": "你可以通过 RSS 阅读器订阅评论，以便及时收到提醒。",
+  "Subscription address:": "订阅地址：",
+  "comment on your {{type}} {{toTitle}}" : "评论了你的{{type}}「{{toTitle}}」",
+  "{{newCount}} new comments" : "{{newCount}} 条新评论"
 }

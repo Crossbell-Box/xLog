@@ -40,7 +40,7 @@ export const Comment: React.FC<{
       <CommentInput pageId={page?.id} />
 
       <Virtuoso
-        className="xlog-comment-list mt-6"
+        className="xlog-comment-list"
         useWindowScroll
         data={comments.data?.pages}
         endReached={() => comments.fetchNextPage()}
@@ -50,7 +50,7 @@ export const Comment: React.FC<{
         itemContent={(_, p) =>
           p?.list?.map((comment, idx) => (
             <CommentItem
-              className={idx === 0 ? "" : "mt-6"}
+              className="mt-6"
               originalId={page?.id}
               comment={comment}
               key={comment.transactionHash}
