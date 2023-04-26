@@ -14,7 +14,7 @@ const CharacterListItem: React.FC<{
   sub: any
 }> = ({ character, sub }) => {
   return (
-    <div className="py-3 flex items-center justify-between space-x-2 text-sm">
+    <div className="py-3 flex items-center justify-between space-x-2 text-sm px-5">
       <div className="flex flex-1 overflow-hidden space-x-2">
         <UniLink
           href={getSiteLink({

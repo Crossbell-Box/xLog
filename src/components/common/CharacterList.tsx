@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import React from "react"
-import InfiniteScroll from "react-infinite-scroller"
+import { Virtuoso } from "react-virtuoso"
 
 import { Modal } from "~/components/ui/Modal"
 
@@ -18,45 +18,52 @@ export const CharacterList: React.FC<{
   title: string
 }> = ({ open, setOpen, hasMore, loadMore, list, title }) => {
   const { t } = useTranslation("common")
+  const flattenList = list?.reduce(
+    (acc, cur) => acc.concat(cur?.list || []),
+    [] as any[],
+  ) as any[]
 
   return (
     <Modal open={open} setOpen={setOpen} title={title} zIndex={20}>
-      <div className="px-5 overflow-auto flex-1">
-        <InfiniteScroll
-          loadMore={loadMore}
-          hasMore={hasMore}
-          loader={
-            <div className="text-sm py-3 text-center" key={0}>
-              {t("Loading")} ...
-            </div>
-          }
-          useWindow={false}
-        >
-          {list?.length ? (
-            list.map((page) =>
-              page?.list?.map((sub: any, index) => {
-                const character = sub?.character || sub?.fromCharacter
-                return (
-                  <CharacterListItem
-                    key={index}
-                    sub={sub}
-                    character={character}
-                  />
-                )
-              }),
+      {list?.length ? (
+        <Virtuoso
+          overscan={10}
+          style={{ height: Infinity }}
+          className="h-screen"
+          endReached={() => loadMore()}
+          components={{
+            Footer: hasMore ? Loader : undefined,
+          }}
+          data={flattenList}
+          itemContent={(index, sub) => {
+            const character = sub?.character || sub?.fromCharacter
+            return (
+              <CharacterListItem key={index} sub={sub} character={character} />
             )
-          ) : (
-            <div className="py-3 text-center text-zinc-300">
-              {t("No Content Yet.")}
-            </div>
-          )}
-        </InfiniteScroll>
-      </div>
+          }}
+        ></Virtuoso>
+      ) : (
+        <div className="px-5 overflow-auto flex-1">
+          <div className="py-3 text-center text-zinc-300">
+            {t("No Content Yet.")}
+          </div>
+        </div>
+      )}
+
       <div className="h-16 border-t flex items-center px-5 py-4">
         <Button isBlock onClick={() => setOpen(false)}>
           {t("Close")}
         </Button>
       </div>
     </Modal>
+  )
+}
+
+const Loader = () => {
+  const { t } = useTranslation("common")
+  return (
+    <div className="text-sm py-3 text-center" key={0}>
+      {t("Loading")} ...
+    </div>
   )
 }
