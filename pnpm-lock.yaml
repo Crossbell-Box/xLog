@@ -221,9 +221,6 @@ dependencies:
   react-i18next:
     specifier: ^12.2.2
     version: 12.2.2(i18next@22.4.15)(react-dom@18.2.0)(react@18.2.0)
-  react-infinite-scroller:
-    specifier: 1.2.6
-    version: 1.2.6(react@18.2.0)
   react-parallax-tilt:
     specifier: ^1.7.131
     version: 1.7.131(react-dom@18.2.0)(react@18.2.0)
@@ -12132,15 +12129,6 @@ packages:
       i18next: 22.4.15
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /react-infinite-scroller@1.2.6(react@18.2.0):
-    resolution: {integrity: sha512-mGdMyOD00YArJ1S1F3TVU9y4fGSfVVl6p5gh/Vt4u99CJOptfVu/q5V/Wlle72TMgYlBwIhbxK5wF0C/R33PXQ==}
-    peerDependencies:
-      react: ^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
     dev: false
 
   /react-intersection-observer@9.4.3(react@18.2.0):
