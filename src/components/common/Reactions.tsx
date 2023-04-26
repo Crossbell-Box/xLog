@@ -381,9 +381,7 @@ export const Reactions: React.FC<{
         >
           <div className="p-5">
             <Trans i18nKey="like revert">
-              Do you really want to revert this like action? <br />
-              Please note that this is also an on-chain operation, your reversal
-              will have a transaction too.
+              Do you really want to revert this like action?
             </Trans>
           </div>
           <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
@@ -391,7 +389,7 @@ export const Reactions: React.FC<{
               {t("Cancel")}
             </Button>
             <Button variant="secondary" isBlock onClick={() => unlike()}>
-              {t("I'm 100% sure")}
+              {t("Confirm")}
             </Button>
           </div>
         </Modal>
