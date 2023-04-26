@@ -51,6 +51,8 @@ export const Reactions: React.FC<{
   })
   const { data: likeCount = 0 } = useGetLikeCounts({ pageId })
 
+  const [isUnlikeOpen, setIsUnlikeOpen] = useState(false)
+
   const like = () => {
     if (pageId) {
       if (likeStatus.isLiked) {
@@ -61,9 +63,18 @@ export const Reactions: React.FC<{
     }
   }
 
+  const unlike = () => {
+    if (pageId) {
+      setIsUnlikeOpen(false)
+      if (likeStatus.isLiked) {
+        toggleLikePage.mutate({ ...parsePageId(pageId), action: "unlink" })
+      } // else do nothing
+    }
+  }
+
   useEffect(() => {
     if (toggleLikePage.isSuccess) {
-      if (likeRef.current?.getBoundingClientRect()) {
+      if (likeRef.current?.getBoundingClientRect() && likeStatus.isLiked) {
         confetti({
           particleCount: 150,
           spread: 70,
@@ -347,9 +358,38 @@ export const Reactions: React.FC<{
               </UniLink>
             </Trans>
           </div>
-          <div className="h-16 border-t flex items-center px-5">
+          <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
             <Button isBlock onClick={() => setIsLikeOpen(false)}>
               {t("Got it, thanks!")}
+            </Button>
+            <Button
+              variant="secondary"
+              isBlock
+              onClick={() => {
+                setIsUnlikeOpen(true)
+                setIsLikeOpen(false)
+              }}
+            >
+              {t("Revert")}
+            </Button>
+          </div>
+        </Modal>
+        <Modal
+          open={isUnlikeOpen}
+          setOpen={setIsUnlikeOpen}
+          title={t("Confirm to revert")}
+        >
+          <div className="p-5">
+            <Trans i18nKey="like revert">
+              Do you really want to revert this like action?
+            </Trans>
+          </div>
+          <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
+            <Button isBlock onClick={() => setIsUnlikeOpen(false)}>
+              {t("Cancel")}
+            </Button>
+            <Button variant="secondary" isBlock onClick={() => unlike()}>
+              {t("Confirm")}
             </Button>
           </div>
         </Modal>
