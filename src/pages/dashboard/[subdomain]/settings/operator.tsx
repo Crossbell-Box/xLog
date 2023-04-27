@@ -5,7 +5,10 @@ import { useEffect, useState } from "react"
 import type { ReactElement } from "react"
 import toast from "react-hot-toast"
 
-import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
+import {
+  useAccountState,
+  useUpgradeEmailAccountModal,
+} from "@crossbell/connect-kit"
 import { Dialog } from "@headlessui/react"
 
 import { CharacterCard } from "~/components/common/CharacterCard"
@@ -88,7 +91,7 @@ export default function SettingsOperatorPage() {
   const isEmailAccount = useAccountState(
     (s) => s.computed.account?.type === "email",
   )
-  const upgradeAccountModal = useUpgradeAccountModal()
+  const upgradeAccountModal = useUpgradeEmailAccountModal()
   const userRole = useUserRole(subdomain)
   const { t } = useTranslation("dashboard")
 
