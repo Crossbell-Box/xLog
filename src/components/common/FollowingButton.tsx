@@ -1,19 +1,19 @@
+import { Trans, useTranslation } from "next-i18next"
+import { useEffect } from "react"
+import { toast } from "react-hot-toast"
+
 import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
-import { useEffect } from "react"
+import { UniLink } from "~/components/ui/UniLink"
+import { SITE_URL } from "~/lib/env"
+import { Profile } from "~/lib/types"
+import { cn } from "~/lib/utils"
 import {
+  useAccountSites,
   useGetSubscription,
   useSubscribeToSite,
   useUnsubscribeFromSite,
-  useAccountSites,
 } from "~/queries/site"
-import { useConnectedAction } from "@crossbell/connect-kit"
-import { cn } from "~/lib/utils"
-import { Profile } from "~/lib/types"
-import { Trans, useTranslation } from "next-i18next"
-import { toast } from "react-hot-toast"
-import { UniLink } from "~/components/ui/UniLink"
-import { SITE_URL } from "~/lib/env"
 
 export const FollowingButton: React.FC<{
   site: Profile | undefined | null
@@ -28,7 +28,7 @@ export const FollowingButton: React.FC<{
   const characterId = site?.metadata?.proof ? Number(site.metadata.proof) : null
   const { t } = useTranslation("common")
 
-  const handleClickSubscribe = useConnectedAction(() => {
+  const handleClickSubscribe = () => {
     if (characterId) {
       if (subscription.data) {
         unsubscribeFromSite.mutate({
@@ -42,7 +42,7 @@ export const FollowingButton: React.FC<{
         } as any)
       }
     }
-  })
+  }
 
   const subscription = useGetSubscription(site?.username)
 

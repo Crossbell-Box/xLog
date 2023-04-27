@@ -4,8 +4,8 @@ metadata:
   name: xlog
   namespace: crossbell
 spec:
-  maxReplicas: 8
-  minReplicas: 5
+  maxReplicas: 11
+  minReplicas: 8
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment

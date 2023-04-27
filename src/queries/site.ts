@@ -1,18 +1,19 @@
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  useInfiniteQuery,
-} from "@tanstack/react-query"
-import { useContract } from "@crossbell/contract"
-import {
   useAccountState,
   useFollowCharacter,
   useFollowCharacters,
   useUnfollowCharacter,
 } from "@crossbell/connect-kit"
+import { useContract } from "@crossbell/contract"
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query"
 
 import * as siteModel from "~/models/site.model"
+
 import { useUnidata } from "./unidata"
 
 export const useAccountSites = () => {
@@ -40,12 +41,9 @@ export const useGetSite = (input?: string) => {
   })
 }
 
-export const useGetSites = (input: number[]) => {
-  return useQuery(["getSites", input], async () => {
-    if (!input) {
-      return null
-    }
-    return siteModel.getSites(input)
+export const useGetShowcase = () => {
+  return useQuery(["getShowcase"], async () => {
+    return siteModel.getShowcase()
   })
 }
 
@@ -228,6 +226,28 @@ export function useUnsubscribeFromSite() {
         ]),
       ])
     },
+  })
+}
+
+export const useGetCommentsBySite = (
+  data: Partial<Parameters<typeof siteModel.getCommentsBySite>[0]>,
+) => {
+  return useInfiniteQuery({
+    queryKey: ["getCommentsBySite", data],
+    queryFn: async ({ pageParam }) => {
+      if (!data.characterId) {
+        return {
+          count: 0,
+          list: [],
+          cursor: undefined,
+        }
+      }
+      return siteModel.getCommentsBySite({
+        characterId: data.characterId,
+        cursor: pageParam,
+      })
+    },
+    getNextPageParam: (lastPage) => lastPage.cursor || undefined,
   })
 }
 
@@ -419,5 +439,14 @@ export const useGetMiraBalance = (characterId?: string) => {
       }
     }
     return siteModel.getMiraBalance(characterId, contract)
+  })
+}
+
+export const useGetGreenfieldId = (cid?: string) => {
+  return useQuery(["getGreenfieldId", cid], async () => {
+    if (!cid) {
+      return null
+    }
+    return siteModel.getGreenfieldId(cid)
   })
 }

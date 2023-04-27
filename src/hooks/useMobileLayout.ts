@@ -1,24 +1,31 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect } from "react"
+import { create } from "zustand"
 
 const mobileWidth = 1024
 
+const useLayoutStore = create<{
+  isMobile: boolean | undefined
+}>(() => ({
+  isMobile: undefined,
+}))
+
 export function useMobileLayout() {
-  const [isMobile, setIsMobile] = useState(false)
-
-  const onResize = useCallback(() => {
-    setIsMobile(window.innerWidth < mobileWidth)
+  const calc = useCallback(() => {
+    useLayoutStore.setState({
+      isMobile: window.innerWidth < mobileWidth,
+    })
   }, [])
 
   useEffect(() => {
-    window.addEventListener("resize", onResize)
+    window.addEventListener("resize", calc)
     return () => {
-      window.removeEventListener("resize", onResize)
+      window.removeEventListener("resize", calc)
     }
-  }, [onResize])
+  }, [calc])
 
   useEffect(() => {
-    setIsMobile(window.innerWidth < mobileWidth)
+    calc()
   }, [])
-
-  return isMobile
 }
+
+export const useIsMobileLayout = () => useLayoutStore((state) => state.isMobile)

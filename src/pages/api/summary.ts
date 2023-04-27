@@ -1,14 +1,14 @@
+import { OpenAI } from "langchain"
+import { AnalyzeDocumentChain, loadSummarizationChain } from "langchain/chains"
+import { PromptTemplate } from "langchain/prompts"
 import { NextApiRequest, NextApiResponse } from "next"
 
-import { OpenAI } from "langchain"
-import { loadSummarizationChain } from "langchain/chains"
-import { PromptTemplate } from "langchain/prompts"
-import { AnalyzeDocumentChain } from "langchain/chains"
+import { Metadata } from "@prisma/client"
 
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
-import { Metadata } from "@prisma/client"
 import { cacheGet } from "~/lib/redis.server"
+import removeMarkdown from "remove-markdown"
 
 const model = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
@@ -21,9 +21,14 @@ const chains = new Map<string, AnalyzeDocumentChain>()
 
 const getOriginalSummary = async (cid: string, lang: string) => {
   try {
-    const { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
+    let { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
 
-    if (content) {
+    if (content?.length > 5000) {
+      content = content.slice(0, 5000)
+    }
+    if (content?.length < 200) {
+      return ""
+    } else if (content) {
       console.time(`fetching summary ${cid}, ${lang}`)
 
       let chain = chains.get(lang)
@@ -49,7 +54,10 @@ const getOriginalSummary = async (cid: string, lang: string) => {
       }
 
       const res = await chain.call({
-        input_document: content,
+        input_document: removeMarkdown(content, {
+          useImgAltText: true,
+          gfm: true,
+        }),
       })
 
       console.timeEnd(`fetching summary ${cid}, ${lang}`)

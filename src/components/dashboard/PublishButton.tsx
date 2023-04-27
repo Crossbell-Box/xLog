@@ -1,15 +1,16 @@
+import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
 
 import { Button, ButtonGroup } from "../ui/Button"
-import { useTranslation } from "next-i18next"
 
 export const PublishButton: React.FC<{
   save: (published: boolean) => void
   published: boolean
   isSaving: boolean
   isDisabled: boolean
-}> = ({ save, published, isSaving, isDisabled }) => {
+  twitterShareUrl?: string
+}> = ({ save, published, isSaving, isDisabled, twitterShareUrl }) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -58,12 +59,22 @@ export const PublishButton: React.FC<{
         <div className="absolute right-0 min-w-[200px] pt-2" ref={dropdownRef}>
           <div className="bg-white py-2 rounded-lg shadow-modal">
             {published && (
-              <button
-                className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
-                onClick={() => save(false)}
-              >
-                {t("Delete")}
-              </button>
+              <div>
+                <button
+                  className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
+                  onClick={() => window.open(twitterShareUrl)}
+                >
+                  <i className="i-mingcute:twitter-line mr-1"></i>
+                  {t("Share to Twitter")}
+                </button>
+                <button
+                  className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
+                  onClick={() => save(false)}
+                >
+                  <i className="i-mingcute:delete-2-line mr-1"></i>
+                  {t("Delete")}
+                </button>
+              </div>
             )}
           </div>
         </div>

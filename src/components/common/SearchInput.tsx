@@ -1,6 +1,7 @@
-import { useForm } from "react-hook-form"
-import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import { useForm } from "react-hook-form"
+
 import { cn } from "~/lib/utils"
 
 export const SearchInput: React.FC<{
@@ -26,7 +27,7 @@ export const SearchInput: React.FC<{
     <div className="xlog-comment-input flex">
       <form className="w-full relative" onSubmit={handleSubmit}>
         <div
-          className="absolute left-0 top-1/2 -translate-y-1/2 text-2xl text-zinc-500 h-11 w-14 flex items-center justify-center cursor-pointer"
+          className="absolute left-0 top-1/2 -translate-y-1/2 text-2xl text-zinc-500 h-11 ml-4 flex items-center justify-center cursor-pointer"
           onClick={handleSubmit}
         >
           <i className="i-mingcute:search-line block" />

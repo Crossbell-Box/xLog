@@ -1,9 +1,10 @@
+import { useTranslation } from "next-i18next"
+import { useState } from "react"
+
+import { PatronModal } from "~/components/common/PatronModal"
 import { Button } from "~/components/ui/Button"
 import { Profile } from "~/lib/types"
-import { useTranslation } from "next-i18next"
 import { cn } from "~/lib/utils"
-import { useState } from "react"
-import { PatronModal } from "~/components/common/PatronModal"
 
 export const PatronButton: React.FC<{
   site: Profile | undefined | null

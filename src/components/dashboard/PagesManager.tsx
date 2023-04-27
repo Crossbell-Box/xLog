@@ -1,25 +1,28 @@
-import { Fragment, useMemo } from "react"
-import { getPageVisibility } from "~/lib/page-helpers"
-import { useDate } from "~/hooks/useDate"
-import { TabItem, Tabs } from "../ui/Tabs"
-import { Menu } from "@headlessui/react"
-import { cn } from "~/lib/utils"
-import { PageVisibilityEnum } from "~/lib/types"
-import { DashboardMain } from "./DashboardMain"
-import { useRouter } from "next/router"
-import Link from "next/link"
-import { EmptyState } from "../ui/EmptyState"
-import { useGetPagesBySite } from "~/queries/page"
-import { setStorage } from "~/lib/storage"
-import { useQueryClient } from "@tanstack/react-query"
-import { Button } from "../ui/Button"
-import { UniLink } from "../ui/UniLink"
 import { nanoid } from "nanoid"
-import { Tooltip } from "../ui/Tooltip"
 import { Trans, useTranslation } from "next-i18next"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { Fragment, useMemo, useState } from "react"
+
+import { Menu } from "@headlessui/react"
+import { useQueryClient } from "@tanstack/react-query"
+
+import { useDate } from "~/hooks/useDate"
+import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
+import { setStorage } from "~/lib/storage"
+import { PageVisibilityEnum } from "~/lib/types"
+import { cn } from "~/lib/utils"
+import { useGetPagesBySite } from "~/queries/page"
+
+import { Button } from "../ui/Button"
+import { EmptyState } from "../ui/EmptyState"
+import { TabItem, Tabs } from "../ui/Tabs"
+import { Tooltip } from "../ui/Tooltip"
+import { UniLink } from "../ui/UniLink"
+import { DashboardMain } from "./DashboardMain"
+import { PagesManagerBatchSelectActionTab } from "./PagesManagerBatchSelectActionTab"
 import { PagesManagerMenu } from "./PagesManagerMenu"
-import { useMobileLayout } from "~/hooks/useMobileLayout"
 
 export const PagesManager: React.FC<{
   isPost: boolean
@@ -38,14 +41,15 @@ export const PagesManager: React.FC<{
   const { t } = useTranslation(["dashboard", "site"])
   const date = useDate()
 
-  const isMobileLayout = useMobileLayout()
-
   const pages = useGetPagesBySite({
     type: isPost ? "post" : "page",
     site: subdomain!,
     take: 100,
     visibility,
   })
+
+  // Batch selections
+  const [batchSelected, setBatchSelected] = useState<string[]>([])
 
   const tabItems: TabItem[] = [
     {
@@ -208,7 +212,21 @@ export const PagesManager: React.FC<{
           {description}
         </div>
       </header>
-      <Tabs items={tabItems} />
+
+      {batchSelected.length > 0 ? (
+        <PagesManagerBatchSelectActionTab
+          isPost={isPost}
+          isNotxLogContent={
+            !!tabItems.find((item) => item.text === "Others on Crossbell") // Not sure if there are better ways
+              ?.active
+          }
+          pages={pages}
+          batchSelected={batchSelected}
+          setBatchSelected={setBatchSelected}
+        />
+      ) : (
+        <Tabs items={tabItems} />
+      )}
 
       <div className="-mt-3">
         {!pages.data?.pages?.[0].total && (
@@ -222,8 +240,41 @@ export const PagesManager: React.FC<{
               <Link
                 key={page.id}
                 href={getPageEditLink(page)}
-                className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex justify-between"
+                className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex"
               >
+                <div className="w-10 flex-shrink-0 flex self-center">
+                  <button
+                    className={cn(
+                      `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
+                      batchSelected.includes(page.id)
+                        ? "bg-gray-200"
+                        : `hover:bg-gray-200`,
+                    )}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      // Toggle selection
+                      if (batchSelected.includes(page.id)) {
+                        // Deselect
+                        setBatchSelected(
+                          batchSelected.filter((pageId) => pageId !== page.id),
+                        )
+                      } else {
+                        // Do select
+                        setBatchSelected([...batchSelected, page.id])
+                      }
+                    }}
+                  >
+                    <i
+                      className={`${
+                        batchSelected.includes(page.id)
+                          ? "i-mingcute-check-line"
+                          : isPost
+                          ? "i-mingcute-news-line"
+                          : "i-mingcute-file-line"
+                      } text-2xl`}
+                    />
+                  </button>
+                </div>
                 <div className="min-w-0">
                   {page.title ? (
                     <div className="flex items-center">
@@ -246,7 +297,7 @@ export const PagesManager: React.FC<{
                     </span>
                   </div>
                 </div>
-                <div className="w-10 flex-shrink-0">
+                <div className="w-10 flex-shrink-0 flex self-center ml-auto">
                   <Menu>
                     {({ open, close }) => (
                       <>

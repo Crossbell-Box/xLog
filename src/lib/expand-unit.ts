@@ -1,9 +1,8 @@
-import { Note, Profile } from "~/lib/types"
 import { nanoid } from "nanoid"
-import { toGateway } from "~/lib/ipfs-parser"
-import { SITE_URL, SCORE_API_DOMAIN } from "~/lib/env"
-import { toCid } from "~/lib/ipfs-parser"
-import { ExpandedNote } from "~/lib/types"
+
+import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
+import { toCid, toGateway } from "~/lib/ipfs-parser"
+import { ExpandedNote, Note, Profile } from "~/lib/types"
 
 export const expandUnidataNote = async (page: Note, useStat?: boolean) => {
   if (page.body?.content && page.body?.mime_type === "text/markdown") {
@@ -20,6 +19,7 @@ export const expandUnidataNote = async (page: Note, useStat?: boolean) => {
       }
     }
     page.cover = rendered.cover
+    page.audio = rendered.audio
     if (page.metadata) {
       page.metadata.frontMatter = rendered.frontMatter
     }

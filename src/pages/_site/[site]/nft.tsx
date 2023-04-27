@@ -1,14 +1,16 @@
 import { GetServerSideProps } from "next"
-import { SiteLayout } from "~/components/site/SiteLayout"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
-import { QueryClient } from "@tanstack/react-query"
-import { useGetSite, useGetNFTs } from "~/queries/site"
+import { useTranslation } from "next-i18next"
+import Script from "next/script"
 import { ReactElement, useEffect, useState } from "react"
 import type { Asset } from "unidata.js"
-import Script from "next/script"
-import { UniMedia } from "~/components/ui/UniMedia"
+
+import { QueryClient } from "@tanstack/react-query"
+
+import { SiteLayout } from "~/components/site/SiteLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { UniLink } from "~/components/ui/UniLink"
-import { useTranslation } from "next-i18next"
+import { UniMedia } from "~/components/ui/UniMedia"
+import { useGetNFTs, useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()

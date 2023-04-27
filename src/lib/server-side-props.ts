@@ -1,8 +1,4 @@
-import {
-  GetServerSidePropsContext,
-  GetServerSideProps,
-  GetServerSidePropsResult,
-} from "next"
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next"
 
 class Redirect extends Error {
   constructor(public url: string) {

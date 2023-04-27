@@ -1,5 +1,4 @@
-import { EditorSelection } from "@codemirror/state"
-import { ICommand, prependExecute, wrapExecute } from "."
+import { ICommand, wrapExecute } from "."
 
 export const Link: ICommand = {
   name: "link",

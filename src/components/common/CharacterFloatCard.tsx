@@ -1,17 +1,18 @@
 import { useState } from "react"
+
 import {
-  offset,
-  flip,
-  shift,
   autoUpdate,
-  useFloating,
-  useInteractions,
-  useHover,
-  useFocus,
-  useRole,
+  flip,
+  offset,
+  shift,
   useDismiss,
+  useFloating,
+  useHover,
+  useInteractions,
+  useRole,
   useTransitionStyles,
 } from "@floating-ui/react"
+
 import { CharacterCard } from "~/components/common/CharacterCard"
 
 export const CharacterFloatCard: React.FC<{
@@ -42,7 +43,11 @@ export const CharacterFloatCard: React.FC<{
 
   return (
     <>
-      <span className="inline" ref={refs.setReference} {...getReferenceProps()}>
+      <span
+        className="inline-block"
+        ref={refs.setReference}
+        {...getReferenceProps()}
+      >
         {children}
       </span>
       {isMounted && (

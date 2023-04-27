@@ -1,46 +1,58 @@
-import { unified } from "unified"
-import remarkParse from "remark-parse"
-import remarkRehype from "remark-rehype"
-import remarkFrontmatter from "remark-frontmatter"
-import rehypeStringify from "rehype-stringify"
-import remarkGfm from "remark-gfm"
-import rehypeSanitize from "rehype-sanitize"
-import rehypeRaw from "rehype-raw"
-import { refractor } from "refractor"
-import rehypePrismGenerator from "rehype-prism-plus/generator"
-import { rehypeImage } from "./rehype-image"
-import { rehypeTable } from "./rehype-table"
-import { remarkCallout } from "./remark-callout"
-import { rehypeExternalLink } from "./rehyper-external-link"
-import { rehypeWrapCode } from "./rehype-wrap-code"
 import jsYaml from "js-yaml"
+import type { Root } from "mdast"
+import { Result as TocResult, toc } from "mdast-util-toc"
+import { ReactElement, createElement } from "react"
+import { toast } from "react-hot-toast"
+import { Element } from "react-scroll"
+import { refractor } from "refractor"
+import rehypeAutolinkHeadings from "rehype-autolink-headings"
+import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
+import rehypeKatex from "rehype-katex"
+import rehypePrismGenerator from "rehype-prism-plus/generator"
+import rehypeRaw from "rehype-raw"
 import rehypeReact from "rehype-react"
-import { createElement, ReactElement } from "react"
-import { Image } from "~/components/ui/Image"
+import rehypeRewrite from "rehype-rewrite"
+import rehypeSanitize from "rehype-sanitize"
+import rehypeSlug from "rehype-slug"
+import rehypeStringify from "rehype-stringify"
+import remarkBreaks from "remark-breaks"
 import remarkDirective from "remark-directive"
 import remarkDirectiveRehype from "remark-directive-rehype"
+import remarkFrontmatter from "remark-frontmatter"
+import remarkGfm from "remark-gfm"
+import remarkMath from "remark-math"
+import remarkParse from "remark-parse"
+import remarkRehype from "remark-rehype"
+import { unified } from "unified"
+
+import { Style } from "~/components/common/Style"
+import { APlayer } from "~/components/ui/APlayer"
+import { ZoomedImage } from "~/components/ui/Image"
+import { Mention } from "~/components/ui/Mention"
+import { Mermaid } from "~/components/ui/Mermaid"
+
+import { rehypeAudio } from "./rehype-audio"
+import {
+  allowedCustomWrappers,
+  defaultRules,
+  rehypeCustomWrapper,
+} from "./rehype-custom-wrapper"
+import { rehypeImage } from "./rehype-image"
+import { rehypeTable } from "./rehype-table"
+import { rehypeWrapCode } from "./rehype-wrap-code"
+import { rehypeExternalLink } from "./rehyper-external-link"
+import { remarkCallout } from "./remark-callout"
+import { remarkMermaid } from "./remark-mermaid"
+import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
-import rehypeSlug from "rehype-slug"
-import rehypeAutolinkHeadings from "rehype-autolink-headings"
-import { toc, Result as TocResult } from "mdast-util-toc"
-import { Element } from "react-scroll"
-import type { Root } from "hast"
-import { Mention } from "~/components/ui/Mention"
-import remarkMath from "remark-math"
-import rehypeKatex from "rehype-katex"
-import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
-import remarkBreaks from "remark-breaks"
-import { remarkMermaid } from "./remark-mermaid"
-import { Mermaid } from "~/components/ui/Mermaid"
-import rehypeRewrite from "rehype-rewrite"
-import { toText } from "hast-util-to-text"
 
 export type MarkdownEnv = {
   excerpt: string
   frontMatter: Record<string, any>
   __internal: Record<string, any>
   cover: string
+  audio: string
   toc: TocResult | null
   tree: Root | null
 }
@@ -51,6 +63,7 @@ export type Rendered = {
   excerpt: string
   frontMatter: Record<string, any>
   cover: string
+  audio: string
   toc: TocResult | null
   tree: Root | null
 }
@@ -62,12 +75,14 @@ const rehypePrism = rehypePrismGenerator(refractor)
 export const renderPageContent = (
   content: string,
   html?: boolean,
+  simple?: boolean,
 ): Rendered => {
   const env: MarkdownEnv = {
     excerpt: "",
     __internal: {},
     frontMatter: {},
     cover: "",
+    audio: "",
     toc: null,
     tree: null,
   }
@@ -75,7 +90,7 @@ export const renderPageContent = (
   let contentHTML = ""
   let result: any = null
   try {
-    result = unified()
+    let pipeline = unified()
       .use(remarkParse)
       .use(remarkBreaks)
       .use(remarkFrontmatter, ["yaml"])
@@ -103,50 +118,24 @@ export const renderPageContent = (
       .use(remarkDirectiveRehype)
       .use(remarkYoutube)
       .use(remarkMermaid)
-      .use(remarkMath)
+      .use(remarkMath, {
+        singleDollarTextMath: false,
+      })
+      .use(remarkPangu)
       .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeKatex) // There may be $ symbol parsing errors
+
+    if (!html) {
+      pipeline.use(rehypeCustomWrapper, {
+        rules: defaultRules,
+      })
+    }
+
+    pipeline
       .use(rehypeStringify)
-      .use(rehypeRaw)
+      .use(rehypeRaw, { passThrough: allowedCustomWrappers })
       .use(rehypeImage, { env })
-      .use(rehypeSanitize, sanitizeScheme)
-      .use(rehypePrism, {
-        ignoreMissing: true,
-        showLineNumbers: true,
-      })
-      .use(rehypeTable)
-      .use(rehypeExternalLink)
-      .use(rehypeWrapCode)
-      .use(rehypeInferDescriptionMeta)
+      .use(rehypeAudio, { env })
       .use(rehypeSlug)
-      .use(rehypeRewrite, {
-        selector: "p",
-        rewrite: (node: any) => {
-          if (node.children) {
-            node.children = node.children.flatMap((child: any) => {
-              if (child.type === "text") {
-                const parts = toText(child).split(/(@\w+)/g)
-                return parts.map((part) => {
-                  if (part.startsWith("@")) {
-                    return {
-                      type: "element",
-                      tagName: "mention",
-                      children: [{ type: "text", value: part }],
-                    }
-                  } else {
-                    return {
-                      type: "text",
-                      value: part,
-                    }
-                  }
-                })
-              } else {
-                return child
-              }
-            })
-          }
-        },
-      })
       .use(rehypeAutolinkHeadings, {
         properties: {
           className: ["xlog-anchor"],
@@ -174,23 +163,76 @@ export const renderPageContent = (
           ]
         },
       })
-      .use(html ? () => (tree: any) => {} : rehypeReact, {
+      .use(rehypeSanitize, simple ? undefined : sanitizeScheme)
+      .use(rehypeTable)
+      .use(rehypeExternalLink)
+      .use(rehypeWrapCode)
+      .use(rehypeInferDescriptionMeta)
+      .use(rehypeRewrite, {
+        selector: "p, li",
+        rewrite: (node: any) => {
+          if (node.children) {
+            node.children = node.children.flatMap((child: any) => {
+              if (child.type === "text") {
+                const mentionRegex = /(@[\w-]+)/g
+                if (mentionRegex.test(child.value)) {
+                  const parts = child.value.split(mentionRegex)
+                  return parts.map((part: string) => {
+                    if (part.startsWith("@")) {
+                      return {
+                        type: "element",
+                        tagName: "mention",
+                        children: [{ type: "text", value: part }],
+                      }
+                    } else {
+                      return {
+                        type: "text",
+                        value: part,
+                      }
+                    }
+                  })
+                } else {
+                  return child
+                }
+              } else {
+                return child
+              }
+            })
+          }
+        },
+      })
+      .use(rehypePrism, {
+        ignoreMissing: true,
+        showLineNumbers: true,
+      })
+      // Move it to the end as it generates a lot of DOM and requires extensive traversal.
+      .use(rehypeKatex)
+
+    if (!html) {
+      pipeline.use(rehypeReact, {
         createElement: createElement,
         components: {
-          img: Image,
+          img: ZoomedImage,
           anchor: Element,
           mention: Mention,
           mermaid: Mermaid,
+          audio: APlayer,
+          style: Style,
         } as any,
       })
+    }
+
+    result = pipeline
       .use(() => (tree) => {
         env.tree = tree
       })
       .processSync(content)
 
     contentHTML = result.toString()
-  } catch (error) {
-    console.error(error)
+  } catch (e) {
+    const error = e as Error
+    toast.error(error?.message)
+    console.error(e)
   }
   return {
     contentHTML,
@@ -198,6 +240,7 @@ export const renderPageContent = (
     excerpt: result?.data.meta.description,
     frontMatter: env.frontMatter,
     cover: env.cover,
+    audio: env.audio,
     toc: env.toc,
     tree: env.tree,
   }

@@ -1,14 +1,15 @@
-import { SiteNavigationItem, Profile } from "~/lib/types"
+import { CharacterOperatorPermission, Indexer } from "crossbell.js"
+import dayjs from "dayjs"
 import { nanoid } from "nanoid"
-import unidata from "~/queries/unidata.server"
 import type Unidata from "unidata.js"
 import type { Profiles as UniProfiles } from "unidata.js"
-import { createClient, cacheExchange, fetchExchange } from "@urql/core"
-import { Indexer } from "crossbell.js"
-import { CharacterOperatorPermission } from "crossbell.js"
+
 import type { useContract } from "@crossbell/contract"
-import dayjs from "dayjs"
+import { cacheExchange, createClient, fetchExchange } from "@urql/core"
+
 import { expandUnidataProfile } from "~/lib/expand-unit"
+import { Profile, SiteNavigationItem } from "~/lib/types"
+import unidata from "~/queries/unidata.server"
 
 type Contract = ReturnType<typeof useContract>
 
@@ -90,17 +91,34 @@ export const getSite = async (input: string, customUnidata?: Unidata) => {
   return site
 }
 
-export const getSites = async (input: number[]) => {
+export const getShowcase = async () => {
   const client = createClient({
     url: "https://indexer.crossbell.io/v1/graphql",
     exchanges: [cacheExchange, fetchExchange],
   })
-  const oneMonthAgo = dayjs().subtract(15, "day").toISOString()
+  const oneMonthAgo = dayjs().subtract(10, "day").toISOString()
+
+  const listResponse = await client
+    .query(
+      `
+    query getCharacters {
+      characters( where: { notes: { some: { stat: { viewDetailCount: { gte: 100 } }, metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } } } } } ) {
+        characterId
+      }
+    }
+  `,
+      {},
+    )
+    .toPromise()
+  const characterList = listResponse.data?.characters.map((c: any) =>
+    parseInt(c.characterId),
+  )
+
   const result = await client
     .query(
       `
-        query getCharacters($identities: [Int!], $limit: Int) {
-          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
+        query getCharacters($identities: [Int!]) {
+          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }] ) {
             handle
             characterId
             metadata {
@@ -108,13 +126,13 @@ export const getSites = async (input: number[]) => {
               content
             }
           }
-          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { is: { content: { path: "sources", array_contains: "xlog" } } } }, orderBy: [{ updatedAt: desc }] ) {
+          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
             characterId
             createdAt
           }
         }`,
       {
-        identities: input,
+        identities: characterList,
       },
     )
     .toPromise()
@@ -156,8 +174,43 @@ export const getSites = async (input: number[]) => {
     .sort((a: any, b: any) => {
       return b.createdAt > a.createdAt ? 1 : -1
     })
+    .slice(0, 100)
 
   return list
+}
+
+export const getSubscriptionsFromList = async (
+  list: number[],
+  fromCharacterId: number,
+) => {
+  const client = createClient({
+    url: "https://indexer.crossbell.io/v1/graphql",
+    exchanges: [cacheExchange, fetchExchange],
+  })
+
+  const response = await client
+    .query(
+      `
+    query getFollows($list: [Int!], $fromCharacterId: Int!) {
+      links(
+        where: {
+          linkType: { equals: "follow" },
+          fromCharacterId: { equals: $fromCharacterId },
+          toCharacterId: { in: $list }
+        },
+      ) {
+        toCharacterId
+      }
+    }
+  `,
+      {
+        list,
+        fromCharacterId,
+      },
+    )
+    .toPromise()
+
+  return response.data?.links.map((link: any) => link.toCharacterId)
 }
 
 export const getSubscription = async (
@@ -348,6 +401,27 @@ export async function subscribeToSites(
       "follow",
     )
   }
+}
+
+export async function getCommentsBySite(input: {
+  characterId: string
+  cursor?: string
+}) {
+  const notes = await indexer.getNotes({
+    toCharacterId: input.characterId,
+    limit: 7,
+    includeCharacter: true,
+    cursor: input.cursor,
+    includeNestedNotes: true,
+    nestedNotesDepth: 3 as 3,
+    nestedNotesLimit: 20,
+  })
+
+  notes.list = notes.list.filter((item) =>
+    item.toNote?.metadata?.content?.sources?.includes("xlog"),
+  )
+
+  return notes
 }
 
 const xLogOperatorPermissions: CharacterOperatorPermission[] = [
@@ -565,7 +639,7 @@ export type AchievementSection = {
     items: {
       tokenId: number
       name: string
-      status: "INACTIVE" | "MINTABLE" | "MINTED" | "COMMING"
+      status: "INACTIVE" | "MINTABLE" | "MINTED" | "COMING"
       mintedAt: string | null
       transactionHash: string | null
       info: {
@@ -616,7 +690,7 @@ export async function getAchievements(characterId: string) {
               },
               tokenId: 0,
               name: "showcase-superstar",
-              status: "COMMING",
+              status: "COMING",
               mintedAt: null,
               transactionHash: null,
             },
@@ -644,7 +718,7 @@ export async function getAchievements(characterId: string) {
               },
               tokenId: 0,
               name: "mirror-xyz-migrator",
-              status: "COMMING",
+              status: "COMING",
               mintedAt: null,
               transactionHash: null,
             },
@@ -714,4 +788,12 @@ export async function checkDomain(domain: string, handle: string) {
   ).json()
 
   return check.data
+}
+
+export async function getGreenfieldId(cid: string) {
+  const result = await (
+    await fetch(`https://ipfs-relay.crossbell.io/map/ipfs2gnfd/${cid}`)
+  ).json()
+
+  return result
 }

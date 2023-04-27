@@ -13,7 +13,7 @@
   "Site Duration": "サイトの運営期間",
   "days": "日",
   "Deleted!": "削除されました！",
-  "Fail to Deleted." : "削除できませんでした。",
+  "Fail to Deleted.": "削除できませんでした。",
   "Converted!": "変換されました！",
   "Failed to convert.": "変換に失敗しました。",
   "All Posts": "すべての記事",
@@ -41,6 +41,8 @@
   },
   "Convert to Page": "ページに変換",
   "Convert to Post": "記事に変換",
+  "Select All": "すべて選択",
+  "Deselect All": "選択解除",
   "Delete": "削除",
   "Heading": "見出し",
   "Bold": "太字",
@@ -115,5 +117,7 @@
   "Operator Character Check": "オペレーターキャラクターチェック",
   "Warning": "警告",
   "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site.": "シャドー認証では、ダッシュボードへのアクセス、設定の変更（xLog サブドメインを除く）、サイトのコンテンツの公開・修正・削除が可能です。",
-  "Add": "新規"
+  "Add": "新規",
+  "delete_confirmation_post": "この記事を削除してもよろしいですか？",
+  "delete_confirmation_page": "このページを削除してもよろしいですか？"
 }

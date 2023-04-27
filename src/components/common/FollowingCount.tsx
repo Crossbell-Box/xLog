@@ -1,11 +1,12 @@
+import { useTranslation } from "next-i18next"
 import { useState } from "react"
+
 import { CharacterList } from "~/components/common/CharacterList"
+import { Button } from "~/components/ui/Button"
 import {
   useGetSiteSubscriptions,
   useGetSiteToSubscriptions,
 } from "~/queries/site"
-import { useTranslation } from "next-i18next"
-import { Button } from "~/components/ui/Button"
 
 export const FollowingCount: React.FC<{
   siteId?: string

@@ -1,8 +1,12 @@
-import { ExpandedNote } from "~/lib/types"
-import { indexer } from "@crossbell/indexer"
-import { createClient, cacheExchange, fetchExchange } from "@urql/core"
 import dayjs from "dayjs"
+
+import { indexer } from "@crossbell/indexer"
+import { cacheExchange, createClient, fetchExchange } from "@urql/core"
+
 import { expandCrossbellNote } from "~/lib/expand-unit"
+import { ExpandedNote } from "~/lib/types"
+
+import filter from "../../data/filter.json"
 
 export type FeedType = "latest" | "following" | "topic" | "hot" | "search"
 export type SearchType = "latest" | "hot"
@@ -31,7 +35,7 @@ export async function getFeed({
   }
   switch (type) {
     case "latest": {
-      const result = await indexer.getNotes({
+      let result = await indexer.getNotes({
         sources: "xlog",
         tags: ["post"],
         limit,
@@ -39,9 +43,15 @@ export async function getFeed({
         includeCharacter: true,
       })
 
+      result.list = result.list.filter(
+        (note) => !filter.latest.includes(note.characterId),
+      )
+
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return await expandCrossbellNote(page, false, true)
+          const expand = await expandCrossbellNote(page, false, true)
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -69,7 +79,9 @@ export async function getFeed({
 
         const list = await Promise.all(
           result.list.map(async (page: any) => {
-            return await expandCrossbellNote(page)
+            const expand = await expandCrossbellNote(page)
+            delete expand.metadata?.content.content
+            return expand
           }),
         )
 
@@ -135,7 +147,9 @@ export async function getFeed({
 
       const list = await Promise.all(
         result?.data?.notes.map(async (page: any) => {
-          return await expandCrossbellNote(page)
+          const expand = await expandCrossbellNote(page)
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -163,8 +177,8 @@ export async function getFeed({
                 notes(
                   where: {
                     ${time ? `createdAt: { gt: "${time}" },` : ``}
-                    stat: { is: { viewDetailCount: { gt: 0 } } },
-                    metadata: { is: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } } }
+                    stat: { viewDetailCount: { gt: 0 } },
+                    metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
                   },
                   orderBy: { stat: { viewDetailCount: desc } },
                   take: 50,
@@ -199,7 +213,9 @@ export async function getFeed({
               page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
           }
 
-          return await expandCrossbellNote(page)
+          const expand = await expandCrossbellNote(page)
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -231,7 +247,14 @@ export async function getFeed({
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return await expandCrossbellNote(page, false, false, searchKeyword)
+          const expand = await expandCrossbellNote(
+            page,
+            false,
+            false,
+            searchKeyword,
+          )
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 

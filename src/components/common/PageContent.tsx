@@ -1,8 +1,10 @@
-import { cn } from "~/lib/utils"
-import { useCodeCopy } from "~/hooks/useCodeCopy"
-import { renderPageContent } from "~/markdown"
+import { MutableRefObject, useEffect, useMemo } from "react"
+import { scroller } from "react-scroll"
+
 import { PostToc } from "~/components/site/PostToc"
-import { MutableRefObject, useMemo } from "react"
+import { useCodeCopy } from "~/hooks/useCodeCopy"
+import { cn } from "~/lib/utils"
+import { renderPageContent } from "~/markdown"
 
 export const PageContent: React.FC<{
   content?: string
@@ -12,6 +14,7 @@ export const PageContent: React.FC<{
   onScroll?: (scrollTop: number) => void
   onMouseEnter?: () => void
   parsedContent?: ReturnType<typeof renderPageContent>
+  isComment?: boolean
 }> = ({
   className,
   content,
@@ -20,6 +23,7 @@ export const PageContent: React.FC<{
   onScroll,
   onMouseEnter,
   parsedContent,
+  isComment,
 }) => {
   useCodeCopy()
 
@@ -27,12 +31,30 @@ export const PageContent: React.FC<{
     if (parsedContent) {
       return parsedContent
     } else if (content) {
-      const result = renderPageContent(content)
+      const result = renderPageContent(content, false, isComment)
       return result
     } else {
       return null
     }
-  }, [content, parsedContent])
+  }, [content, isComment, parsedContent])
+
+  useEffect(() => {
+    const hashChangeHandler = () => {
+      const hash = decodeURIComponent(location.hash.slice(1))
+      if (hash) {
+        scroller.scrollTo(`user-content-${decodeURIComponent(hash)}`, {
+          smooth: true,
+          offset: -20,
+          duration: 500,
+        })
+      }
+    }
+
+    window.addEventListener("hashchange", hashChangeHandler)
+    return () => {
+      window.removeEventListener("hashchange", hashChangeHandler)
+    }
+  }, [])
 
   return (
     <div

@@ -1,7 +1,8 @@
-import { DehydratedState } from "@tanstack/react-query"
 import { NextPage } from "next"
 import { AppProps } from "next/app"
 import { ReactElement, ReactNode } from "react"
+
+import { DehydratedState } from "@tanstack/react-query"
 
 export type AppPropsWithLayout = AppProps<{
   dehydratedState: DehydratedState

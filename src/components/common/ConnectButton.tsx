@@ -1,36 +1,39 @@
+import { useTranslation } from "next-i18next"
+import { useEffect, useState } from "react"
+
 import {
-  useConnectModal,
-  useAccountState,
-  useDisconnectModal,
   GeneralAccount,
+  useAccountBalance,
+  useAccountState,
+  useConnectModal,
   useCsbDetailModal,
+  useDisconnectModal,
   useIsOpSignEnabled,
   useOpSignSettingsModal,
-  useUpgradeAccountModal,
   useSelectCharactersModal,
-  useAccountBalance,
+  useUpgradeAccountModal,
 } from "@crossbell/connect-kit"
-import { useAccountSites } from "~/queries/site"
-import { Avatar } from "~/components/ui/Avatar"
-import { Button, type VariantColor, type Variant } from "~/components/ui/Button"
-import { UniLink } from "../ui/UniLink"
-import { useEffect, useState } from "react"
+import {
+  useNotifications,
+  useShowNotificationModal,
+} from "@crossbell/notification"
+import { useRefCallback } from "@crossbell/util-hooks"
 import {
   BellIcon,
   FaceFrownIcon,
   FaceSmileIcon,
 } from "@heroicons/react/24/outline"
 import { BellAlertIcon } from "@heroicons/react/24/solid"
-import { SITE_URL } from "~/lib/env"
-import { useRefCallback } from "@crossbell/util-hooks"
-import {
-  useShowNotificationModal,
-  useNotifications,
-} from "@crossbell/notification"
+
+import { Avatar } from "~/components/ui/Avatar"
+import { Button, type Variant, type VariantColor } from "~/components/ui/Button"
 import { Menu } from "~/components/ui/Menu"
-import { useTranslation } from "next-i18next"
-import { cn } from "~/lib/utils"
+import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { cn } from "~/lib/utils"
+import { useAccountSites } from "~/queries/site"
+
+import { UniLink } from "../ui/UniLink"
 
 type HeaderLinkType = {
   icon?: React.ReactNode

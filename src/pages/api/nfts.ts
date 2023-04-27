@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { getNFTs } from "~/models/site.model"
-import { getRedis, cacheGet } from "~/lib/redis.server"
 import { Asset } from "unidata.js"
+
 import { IPFS_GATEWAY } from "~/lib/env"
+import { cacheGet, getRedis } from "~/lib/redis.server"
+import { getNFTs } from "~/models/site.model"
 
 export default async function handler(
   req: NextApiRequest,

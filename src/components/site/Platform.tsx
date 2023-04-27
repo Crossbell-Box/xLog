@@ -1,6 +1,6 @@
 import { Image } from "~/components/ui/Image"
-import { UniLink } from "~/components/ui/UniLink"
 import { Tooltip } from "~/components/ui/Tooltip"
+import { UniLink } from "~/components/ui/UniLink"
 import { cn } from "~/lib/utils"
 
 const syncMap: {
@@ -73,6 +73,11 @@ const syncMap: {
     name: "Discord Server",
     icon: "/assets/social/discord.svg",
     url: "https://discord.gg/{username}",
+  },
+  xiaoyuzhou: {
+    name: "xiaoyuzhou FM",
+    icon: "/assets/social/xiaoyuzhou.png",
+    url: "https://www.xiaoyuzhoufm.com/podcast/{username}",
   },
 }
 

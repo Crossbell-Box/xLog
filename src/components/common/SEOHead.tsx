@@ -1,4 +1,5 @@
 import Head from "next/head"
+
 import { SITE_URL } from "~/lib/env"
 
 export const SEOHead: React.FC<{

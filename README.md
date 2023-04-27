@@ -21,6 +21,8 @@ xLog is a growing community and is always accepting new contributors. There's a 
 
 Detailed information about how to contribute can be found in the [contribution guide](https://github.com/Crossbell-Box/xLog/blob/dev/CONTRIBUTING.md)
 
+We will provide some small gifts to contributors as a token of appreciation, currently including the [Honorary Badge](https://xlog.xlog.app/week14-2023#honorary-badges-for-outstanding-contributors) in xLog and special permissions on Discord. In the future, there will be additional rewards such as NFT achievements. Therefore, please do not forget to leave your xLog address and Discord ID when submitting a PR.
+
 ## Related projects
 
 - [proselog](https://github.com/proselog/proselog): xLog is developed based on proselog.

@@ -1,5 +1,7 @@
-import React, { useEffect, useState, useRef } from "react"
+import DOMPurify from "isomorphic-dompurify"
+import katex from "katex"
 import type { Result as TocResult } from "mdast-util-toc"
+import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-scroll"
 
 function getIds(items: TocResult["map"]) {
@@ -17,28 +19,32 @@ function getIds(items: TocResult["map"]) {
   )
 }
 
+function getElement(id: string) {
+  return document.querySelector(`a[href="#${id}"]`)
+}
+
 function useActiveId(itemIds: string[]) {
-  const [activeId, setActiveId] = useState(`test`)
+  const [activeId, setActiveId] = useState<string | null>()
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
+            setActiveId(entry.target.getAttribute("href"))
           }
         })
       },
       { rootMargin: `0% 0% -80% 0%` },
     )
     itemIds.forEach((id) => {
-      const element = document.getElementById(id)
+      const element = getElement(id)
       if (element) {
         observer.observe(element)
       }
     })
     return () => {
       itemIds.forEach((id) => {
-        const element = document.getElementById(id)
+        const element = getElement(id)
         if (element) {
           observer.unobserve(element)
         }
@@ -48,20 +54,34 @@ function useActiveId(itemIds: string[]) {
   return activeId
 }
 
-function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
+function renderItems(
+  items: TocResult["map"],
+  activeId?: string | null,
+  prefix = "",
+) {
   return (
     <ol className={prefix ? "pl-5" : ""}>
       {items?.children?.map((item, index) => (
         <li key={index}>
           {item.children.map((child: any, i) => {
-            const content =
-              child.children[0].children?.[0]?.value ||
-              child.children[0].children?.[0]?.children?.[0]?.value
+            const children =
+              child.children[0].children?.[0]?.children ||
+              child.children[0].children
+            let content = "",
+              isInlineMath = false
+            children.map((child: any) => {
+              if (child.type === "inlineMath") {
+                isInlineMath = true
+              }
+              content += child.value
+            })
             return (
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
                   <Link
-                    to={decodeURI(child.children[0].url.slice(1))}
+                    to={`user-content-${decodeURIComponent(
+                      child.children[0].url.slice(1),
+                    )}`}
                     spy={true}
                     smooth={true}
                     duration={500}
@@ -69,13 +89,28 @@ function renderItems(items: TocResult["map"], activeId: string, prefix = "") {
                     href={child.children[0].url}
                     title={content}
                     className={
-                      (activeId === child.children[0].url.slice(1)
+                      (activeId === child.children[0].url
                         ? "text-accent"
                         : "text-zinc-700") +
                       " truncate inline-block max-w-full align-bottom hover:text-accent"
                     }
                   >
-                    {`${prefix}${index + 1}. ${content}`}
+                    {isInlineMath ? (
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(
+                            katex.renderToString(
+                              `${prefix}${index + 1}. ${content}`,
+                              {
+                                output: "html",
+                              },
+                            ),
+                          ),
+                        }}
+                      />
+                    ) : (
+                      `${prefix}${index + 1}. ${content}`
+                    )}
                   </Link>
                 )}
                 {child.type === "list" &&

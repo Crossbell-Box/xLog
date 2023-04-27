@@ -1,6 +1,8 @@
 import { GetServerSideProps } from "next"
-import { fetchGetSite } from "~/queries/site.server"
+
 import { QueryClient } from "@tanstack/react-query"
+
+import { fetchGetSite } from "~/queries/site.server"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   ctx.res.setHeader("Content-Type", "application/json")

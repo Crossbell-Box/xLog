@@ -1,5 +1,6 @@
 import Unidata from "unidata.js"
 import { useAccount } from "wagmi"
+
 import { IPFS_GATEWAY } from "../lib/env"
 
 let unidata: Unidata
@@ -11,6 +12,7 @@ export const useUnidata = () => {
       unidata = new Unidata({
         ethereumProvider: provider,
         ipfsGateway: IPFS_GATEWAY,
+        ipfsRelay: "https://ipfs-relay.crossbell.io/json?gnfd=t",
       })
     })
   } else {

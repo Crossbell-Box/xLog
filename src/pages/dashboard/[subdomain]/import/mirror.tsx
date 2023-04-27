@@ -1,20 +1,20 @@
-import { useRouter } from "next/router"
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { DashboardMain } from "~/components/dashboard/DashboardMain"
-import { ReactElement, useEffect, useState } from "react"
-import { useGetSite } from "~/queries/site"
-import { useTranslation } from "next-i18next"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import type { NoteMetadata } from "crossbell.js"
 import { GetServerSideProps } from "next"
-import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import { ReactElement, useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
+
+import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { DashboardMain } from "~/components/dashboard/DashboardMain"
+import { ImportPreview } from "~/components/dashboard/ImportPreview"
 import { Button } from "~/components/ui/Button"
 import { getSiteLink } from "~/lib/helpers"
-import type { NoteMetadata } from "crossbell.js"
-import { ImportPreview } from "~/components/dashboard/ImportPreview"
-import { usePostNotes } from "~/queries/page"
-import { toast } from "react-hot-toast"
-import { useGetMirrorXyz, useCheckMirror } from "~/queries/page"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { useCheckMirror, useGetMirrorXyz, usePostNotes } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -42,7 +42,7 @@ export default function ImportMarkdownPage() {
   const mirrorXyz = useGetMirrorXyz({
     address: site.data?.metadata?.owner,
   })
-  const checkeMirror = useCheckMirror(site.data?.metadata?.proof)
+  const checkMirror = useCheckMirror(site.data?.metadata?.proof)
 
   const notes = mirrorXyz?.data?.map((note) => ({
     title: note.title,
@@ -84,7 +84,7 @@ export default function ImportMarkdownPage() {
 
   return (
     <DashboardMain title="Import from Mirror.xyz">
-      {checkeMirror?.data ? (
+      {checkMirror?.data ? (
         <form onSubmit={handleSubmit}>
           <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-4">
             <div>

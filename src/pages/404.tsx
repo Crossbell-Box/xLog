@@ -1,7 +1,8 @@
+import { useState } from "react"
+
+import { SiteLayout } from "~/components/site/SiteLayout"
 import { SitePage } from "~/components/site/SitePage"
 import { SITE_URL } from "~/lib/env"
-import { SiteLayout } from "~/components/site/SiteLayout"
-import { useState } from "react"
 
 export default function Custom404() {
   const [siteId, setSiteId] = useState("")

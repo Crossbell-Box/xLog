@@ -1,6 +1,9 @@
-import { Dialog } from "@headlessui/react"
-import { cn } from "~/lib/utils"
+import clsx from "clsx"
 import React from "react"
+
+import { Dialog } from "@headlessui/react"
+
+import { cn } from "~/lib/utils"
 
 export const Modal: React.FC<{
   open: boolean
@@ -9,15 +12,16 @@ export const Modal: React.FC<{
   title?: string | React.ReactNode
   titleIcon?: React.ReactNode
   size?: "md" | "lg" | "sm"
-}> = ({ open, setOpen, children, title, titleIcon, size = "md" }) => {
+  zIndex?: number
+}> = ({ open, setOpen, children, title, titleIcon, size = "md", zIndex }) => {
   return (
     <Dialog
       open={open}
       onClose={() => setOpen(false)}
-      className="relative z-50"
+      className={clsx("relative", zIndex ? `z-${zIndex}` : "z-50")}
     >
       {/* The backdrop, rendered as a fixed sibling to the panel container */}
-      <div className="fixed inset-0 bg-black/30 z-40" aria-hidden="true" />
+      <div className="fixed inset-0 bg-black/30 z-40" aria-hidden={true} />
 
       {/* Full-screen container to center the panel */}
       <div

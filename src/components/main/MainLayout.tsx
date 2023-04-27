@@ -1,20 +1,22 @@
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+
+import { Logo } from "~/components/common/Logo"
 import {
   APP_DESCRIPTION,
   APP_NAME,
-  GITHUB_LINK,
   DISCORD_LINK,
+  GITHUB_LINK,
   TWITTER_LINK,
 } from "~/lib/env"
-import { SEOHead } from "../common/SEOHead"
-import { UniLink } from "../ui/UniLink"
-import { ConnectButton } from "../common/ConnectButton"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "next-i18next"
-import { Logo } from "~/components/common/Logo"
-import { useRouter } from "next/router"
 import { cn } from "~/lib/utils"
-import { Image } from "../ui/Image"
+
+import { ConnectButton } from "../common/ConnectButton"
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
+import { SEOHead } from "../common/SEOHead"
+import { Image } from "../ui/Image"
+import { UniLink } from "../ui/UniLink"
 
 const tabs = [
   {

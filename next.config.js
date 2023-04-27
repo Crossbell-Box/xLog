@@ -36,6 +36,7 @@ const withPWA = require("next-pwa")({
       },
     },
     {
+      // cspell:ignore Fipfs
       urlPattern: /\/_next\/image\?url=.+%2Fipfs%2F([^/?#]+)$/i,
       handler: "CacheFirst",
       options: {
@@ -86,6 +87,7 @@ module.exports = withBundleAnalyzer(
     productionBrowserSourceMaps: true,
 
     webpack(config) {
+      config.resolve.fallback = { fs: false } // polyfill node-id3
       config.plugins.push(new UnoCSS())
       return config
     },

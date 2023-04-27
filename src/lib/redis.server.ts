@@ -1,5 +1,6 @@
 import Redis from "ioredis"
-import { REDIS_URL, REDIS_EXPIRE, REDIS_REFRESH } from "~/lib/env.server"
+
+import { REDIS_EXPIRE, REDIS_REFRESH, REDIS_URL } from "~/lib/env.server"
 
 if (!REDIS_URL) {
   console.error("REDIS_URL not set")

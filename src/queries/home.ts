@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
+import { useInfiniteQuery } from "@tanstack/react-query"
 
 import * as homeModel from "~/models/home.model"
 
@@ -20,5 +20,6 @@ export const useGetFeed = (data?: {
       })
     },
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
+    refetchOnWindowFocus: false,
   })
 }

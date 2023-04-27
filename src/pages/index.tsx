@@ -1,38 +1,38 @@
 import { GetServerSideProps } from "next"
-import { ReactElement, useState } from "react"
-import { MainLayout } from "~/components/main/MainLayout"
-import { UniLink } from "~/components/ui/UniLink"
-import { Button } from "~/components/ui/Button"
-import { useAccountState, useConnectedAction } from "@crossbell/connect-kit"
-import { useRefCallback } from "@crossbell/util-hooks"
+import { Trans, useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
-import { GITHUB_LINK, APP_NAME, CSB_SCAN, OUR_DOMAIN } from "~/lib/env"
-import { getSiteLink } from "~/lib/helpers"
-import { Link, Element } from "react-scroll"
-import { Image } from "~/components/ui/Image"
-import { dehydrate, QueryClient } from "@tanstack/react-query"
-import { prefetchGetSites } from "~/queries/site.server"
-import { useGetSites } from "~/queries/site"
-import showcase from "../../data/showcase.json"
-import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
-import { useAccountSites, useSubscribeToSites } from "~/queries/site"
-import { RssIcon } from "@heroicons/react/24/outline"
-import { Tooltip } from "~/components/ui/Tooltip"
+import { ReactElement, useState } from "react"
+import { Element, Link } from "react-scroll"
+
+import { useAccountState } from "@crossbell/connect-kit"
 import {
+  CrossbellChainLogo,
   XCharLogo,
   XFeedLogo,
-  XSyncLogo,
   XShopLogo,
-  CrossbellChainLogo,
+  XSyncLogo,
 } from "@crossbell/ui"
-import { useTranslation, Trans } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { languageDetector } from "~/lib/language-detector"
+import { RssIcon } from "@heroicons/react/24/outline"
+import { QueryClient, dehydrate } from "@tanstack/react-query"
+
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { FollowAllButton } from "~/components/common/FollowAllButton"
 import { Logo } from "~/components/common/Logo"
+import { MainLayout } from "~/components/main/MainLayout"
+import { Button } from "~/components/ui/Button"
+import { Image } from "~/components/ui/Image"
+import { Tooltip } from "~/components/ui/Tooltip"
+import { UniLink } from "~/components/ui/UniLink"
+import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
+import { languageDetector } from "~/lib/language-detector"
+import { useGetShowcase } from "~/queries/site"
+import { prefetchGetSites } from "~/queries/site.server"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
-  await prefetchGetSites(showcase, queryClient)
+  await prefetchGetSites(queryClient)
 
   return {
     props: {
@@ -48,12 +48,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 function Home() {
   const isConnected = useAccountState((s) => !!s.computed.account)
   const router = useRouter()
-  const showcaseSites = useGetSites(showcase)
+  const showcaseSites = useGetShowcase()
   const { t } = useTranslation("index")
 
-  const tryNow = useConnectedAction(() => {
+  const tryNow = () => {
     router.push("/dashboard")
-  })
+  }
 
   const features: {
     title: string
@@ -229,23 +229,6 @@ function Home() {
     },
   ]
 
-  const userSite = useAccountSites()
-  const subscribeToSites = useSubscribeToSites()
-
-  const doSubscribeToSites = useRefCallback(() => {
-    subscribeToSites.mutate({
-      characterIds: showcaseSites.data
-        ?.map((s: { characterId?: string }) => s.characterId)
-        .filter(Boolean)
-        .map(Number),
-      siteIds: showcaseSites.data?.map((s: { handle: string }) => s.handle),
-    } as any)
-  })
-
-  const followAll = useConnectedAction(() => {
-    doSubscribeToSites()
-  })
-
   const [showcaseMore, setShowcaseMore] = useState(false)
 
   return (
@@ -363,7 +346,7 @@ function Home() {
                 </p>
               </div>
               <ul className="pt-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
-                {feature.subfeatures.map((item, index) => (
+                {feature.subfeatures.map((item) => (
                   <li
                     className="border rounded-xl overflow-hidden bg-white hover:shadow-md hover:scale-105 transition duration-300 cursor-default"
                     key={item.title}
@@ -456,22 +439,17 @@ function Home() {
                 "Discover these awesome teams and creators on xLog (sorted by update time)",
               )}
             </p>
-            <Button
-              size="xl"
+            <FollowAllButton
               className="mt-5"
-              onClick={followAll}
-              isLoading={
-                showcaseSites.isLoading ||
-                userSite.isLoading ||
-                subscribeToSites.isLoading
-              }
-              isDisabled={subscribeToSites.isSuccess}
-            >
-              🥳{" "}
-              {subscribeToSites.isSuccess
-                ? t("Already Followed All!")
-                : t("Follow All!")}
-            </Button>
+              size="xl"
+              characterIds={showcaseSites.data
+                ?.map((s: { characterId?: string }) => s.characterId)
+                .filter(Boolean)
+                .map(Number)}
+              siteIds={showcaseSites.data?.map(
+                (s: { handle: string }) => s.handle,
+              )}
+            />
             <ul
               className={`pt-10 grid grid-cols-2 md:grid-cols-3 gap-10 overflow-y-hidden relative text-left ${
                 showcaseMore ? "" : "max-h-[540px]"

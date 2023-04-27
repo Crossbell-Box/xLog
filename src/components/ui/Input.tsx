@@ -1,5 +1,7 @@
-import { cn } from "~/lib/utils"
 import { forwardRef } from "react"
+
+import { cn } from "~/lib/utils"
+
 import { FieldLabel } from "./FieldLabel"
 
 type InputProps<TMultiline extends boolean> = {
@@ -13,7 +15,7 @@ type InputProps<TMultiline extends boolean> = {
 } & React.ComponentPropsWithRef<TMultiline extends true ? "textarea" : "input">
 
 export const Input = forwardRef(function Input<
-  TMutliline extends boolean = false,
+  TMultiline extends boolean = false,
 >(
   {
     label,
@@ -25,8 +27,8 @@ export const Input = forwardRef(function Input<
     help,
     multiline,
     ...inputProps
-  }: InputProps<TMutliline>,
-  ref: TMutliline extends true
+  }: InputProps<TMultiline>,
+  ref: TMultiline extends true
     ? React.ForwardedRef<HTMLTextAreaElement>
     : React.ForwardedRef<HTMLInputElement>,
 ) {

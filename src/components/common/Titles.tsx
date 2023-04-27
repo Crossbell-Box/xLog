@@ -1,4 +1,5 @@
 import { cn } from "~/lib/utils"
+
 import data from "../../../data/titles.json"
 import { Tooltip } from "../ui/Tooltip"
 import { UniLink } from "../ui/UniLink"
@@ -40,7 +41,9 @@ export const Titles: React.FC<{
           )}
         >
           <UniLink href={title.link} className="inline-flex">
-            <i className={cn(icons[title.name].icon, "text-[10px]")} />
+            <span className="text-white">
+              <i className={cn(icons[title.name].icon, "text-[10px] block")} />
+            </span>
           </UniLink>
         </Tooltip>
       ))}

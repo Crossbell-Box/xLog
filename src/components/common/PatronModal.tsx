@@ -1,20 +1,23 @@
-import { Button } from "~/components/ui/Button"
-import { Note, Profile } from "~/lib/types"
-import { useTranslation } from "next-i18next"
-import { Modal } from "~/components/ui/Modal"
-import { useEffect, useRef, useState } from "react"
-import { BoxRadio } from "~/components/ui/BoxRadio"
-import { Tabs } from "../ui/Tabs"
-import { useTipCharacter, useGetTips } from "~/queries/site"
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
-import { toast } from "react-hot-toast"
 import confetti from "canvas-confetti"
+import { useTranslation } from "next-i18next"
+import { useEffect, useRef, useState } from "react"
+import { toast } from "react-hot-toast"
+
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+
 import { Avatar } from "~/components/ui/Avatar"
-import { CharacterFloatCard } from "./CharacterFloatCard"
-import { UniLink } from "../ui/UniLink"
-import { getSiteLink } from "~/lib/helpers"
+import { BoxRadio } from "~/components/ui/BoxRadio"
+import { Button } from "~/components/ui/Button"
+import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN, MIRA_LINK } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
+import { Note, Profile } from "~/lib/types"
 import { parsePageId } from "~/models/page.model"
+import { useGetTips, useTipCharacter } from "~/queries/site"
+
+import { Tabs } from "../ui/Tabs"
+import { UniLink } from "../ui/UniLink"
+import { CharacterFloatCard } from "./CharacterFloatCard"
 
 export const PatronModal: React.FC<{
   site: Profile | undefined | null
@@ -141,10 +144,9 @@ export const PatronModal: React.FC<{
             <span className="ml-1 text-gray-600">@{site?.username}</span>
           </span>
           {site?.description && (
-            <span
-              className="block text-gray-600 text-sm"
-              dangerouslySetInnerHTML={{ __html: site?.description || "" }}
-            ></span>
+            <span className="text-gray-600 text-sm line-clamp-4">
+              {site?.description}
+            </span>
           )}
         </div>
         <div>
@@ -229,7 +231,6 @@ export const PatronModal: React.FC<{
             <BoxRadio items={radios} value={value} setValue={setValue} />
           </div>
           <div className="text-zinc-500 text-xs space-y-1 mt-2">
-            <p>1 MIRA ≈ 1 USDC</p>
             <p className="flex items-center justify-center">
               <i className="i-mingcute:question-line mr-1 text-sm" />
               <UniLink href={MIRA_LINK}>
