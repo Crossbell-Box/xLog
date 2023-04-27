@@ -73,7 +73,11 @@ function renderItems(
               if (child.type === "inlineMath") {
                 isInlineMath = true
               }
-              content += child.value
+              if (child.type === "strong" || child.type === "emphasis") {
+                content += child.children[0].value
+              } else {
+                content += child.value
+              }
             })
             return (
               <span key={index + "-" + i}>
