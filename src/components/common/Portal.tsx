@@ -44,6 +44,5 @@ export const Portal = (
 
   if (!client) return null
 
-  console.log(props.to || to || document.body, "to")
   return createPortal(props.children, props.to || to || document.body)
 }

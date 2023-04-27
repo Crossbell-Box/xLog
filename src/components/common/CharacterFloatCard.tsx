@@ -58,7 +58,7 @@ export const CharacterFloatCard: React.FC<{
           <span
             ref={refs.setFloating}
             className={
-              "z-[100] block w-80" + (open || buttonLoading ? "" : " hidden")
+              "z-10 block w-80" + (open || buttonLoading ? "" : " hidden")
             }
             style={{
               position: strategy,
