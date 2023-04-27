@@ -1,5 +1,5 @@
 // Encrypt & decrypt core for xLog private posts
-// Credit to https://github.com/D0n9X1n/hexo-blog-encrypt with MIT license
+// Credit to https://github.com/D0n9X1n/hexo-blog-encrypt under MIT license
 
 /***********************************************
  *                                             *
@@ -10,30 +10,30 @@ const textToArray = (s: string) => {
   let n = 0
   const bufferArray = []
 
-  for (let j = 0; j < s.length; ) {
-    const c = s.codePointAt(j)
+  for (let i = 0; i < s.length; ) {
+    const c = s.codePointAt(i)
     if (!c) {
       // Something is wrong
       break
     }
     if (c < 128) {
       bufferArray[n++] = c
-      j++
+      i++
     } else if (c > 127 && c < 2048) {
       bufferArray[n++] = (c >> 6) | 192
       bufferArray[n++] = (c & 63) | 128
-      j++
+      i++
     } else if (c > 2047 && c < 65536) {
       bufferArray[n++] = (c >> 12) | 224
       bufferArray[n++] = ((c >> 6) & 63) | 128
       bufferArray[n++] = (c & 63) | 128
-      j++
+      i++
     } else {
       bufferArray[n++] = (c >> 18) | 240
       bufferArray[n++] = ((c >> 12) & 63) | 128
       bufferArray[n++] = ((c >> 6) & 63) | 128
       bufferArray[n++] = (c & 63) | 128
-      j += 2
+      i += 2
     }
   }
   return new Uint8Array(bufferArray)
