@@ -79,6 +79,7 @@ const initialEditorState = {
   slug: "",
   tags: "",
   content: "",
+  password: "", // Empty means disable password encryption
 }
 
 const useEditorState = create<
@@ -732,7 +733,8 @@ const EditorExtraProperties: FC<{
   defaultSlug: string
 }> = memo(({ isPost, updateValue, subdomain, defaultSlug }) => {
   const values = useEditorState(
-    (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
+    (state) =>
+      pick(state, ["publishedAt", "slug", "excerpt", "tags", "password"]),
     shallow,
   )
   const date = useDate()
@@ -824,6 +826,19 @@ const EditorExtraProperties: FC<{
             updateValue("excerpt", e.target.value)
           }}
           help={t("Leave it blank to use auto-generated excerpt")}
+        />
+      </div>
+      <div>
+        <Input
+          label={t("Encrypt Password") || ""}
+          isBlock
+          name="password"
+          id="password"
+          value={values.password}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            updateValue("password", e.target.value)
+          }}
+          help={t("Enable encryption for this")}
         />
       </div>
     </div>
