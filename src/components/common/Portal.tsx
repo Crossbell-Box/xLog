@@ -19,7 +19,7 @@ const RootPortalContext = createContext<{
 })
 export const PortalProvider = (
   props: PropsWithChildren<{
-    to: HTMLElement
+    to?: HTMLElement
   }>,
 ) => (
   <RootPortalContext.Provider

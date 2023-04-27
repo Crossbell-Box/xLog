@@ -21,7 +21,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
-        className={clsx("relative", zIndex ? `z-${zIndex}` : "z-50")}
+        className={clsx("relative", zIndex ? `z-${zIndex}` : "z-10")}
       >
         {/* The backdrop, rendered as a fixed sibling to the panel container */}
         <div className="fixed inset-0 bg-black/30 z-40" aria-hidden={true} />

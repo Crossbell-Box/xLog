@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next"
-import React, { useRef } from "react"
+import React, { useCallback, useState } from "react"
 import { Virtuoso } from "react-virtuoso"
 
 import { Modal } from "~/components/ui/Modal"
@@ -24,7 +24,13 @@ export const CharacterList: React.FC<{
     [] as any[],
   ) as any[]
 
-  const $modalEl = useRef<HTMLDivElement>(null)
+  const [modal, setModal] = useState<HTMLDivElement>()
+
+  const modalEl = useCallback((node: HTMLDivElement) => {
+    if (node !== null) {
+      setModal(node)
+    }
+  }, [])
 
   return (
     <Modal
@@ -32,10 +38,10 @@ export const CharacterList: React.FC<{
       setOpen={setOpen}
       title={title}
       zIndex={20}
-      ref={$modalEl}
+      ref={modalEl}
     >
       {list?.length ? (
-        <PortalProvider to={$modalEl.current!}>
+        <PortalProvider to={modal}>
           <Virtuoso
             overscan={10}
             style={{ height: flattenList.length * 64 }}
