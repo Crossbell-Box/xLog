@@ -29,6 +29,7 @@ export const CharacterFloatCard: React.FC<{
     onOpenChange: setOpen,
     middleware: [offset(5), flip(), shift({ padding: 8 })],
     whileElementsMounted: autoUpdate,
+    strategy: "fixed",
   })
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
@@ -57,7 +58,7 @@ export const CharacterFloatCard: React.FC<{
           <span
             ref={refs.setFloating}
             className={
-              "z-10 block w-80" + (open || buttonLoading ? "" : " hidden")
+              "z-[100] block w-80" + (open || buttonLoading ? "" : " hidden")
             }
             style={{
               position: strategy,

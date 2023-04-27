@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export const useClient = () => {
+export const useIsClient = () => {
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
