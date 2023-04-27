@@ -229,6 +229,28 @@ export function useUnsubscribeFromSite() {
   })
 }
 
+export const useGetCommentsBySite = (
+  data: Partial<Parameters<typeof siteModel.getCommentsBySite>[0]>,
+) => {
+  return useInfiniteQuery({
+    queryKey: ["getCommentsBySite", data],
+    queryFn: async ({ pageParam }) => {
+      if (!data.characterId) {
+        return {
+          count: 0,
+          list: [],
+          cursor: undefined,
+        }
+      }
+      return siteModel.getCommentsBySite({
+        characterId: data.characterId,
+        cursor: pageParam,
+      })
+    },
+    getNextPageParam: (lastPage) => lastPage.cursor || undefined,
+  })
+}
+
 export const useGetOperators = (
   data: Parameters<typeof siteModel.getOperators>[0],
 ) => {

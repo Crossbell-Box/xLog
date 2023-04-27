@@ -4,14 +4,16 @@ import { IS_PROD } from "~/lib/constants"
 import { DISCORD_LINK } from "~/lib/env"
 
 // HTTPWhiteListPaths: White list of path for plain http request, no HTTPS redirect
-const HTTPWhitelistPaths = [
-  "/api/healthcheck",
-]
+const HTTPWhitelistPaths = ["/api/healthcheck"]
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  if (IS_PROD && req.headers.get("x-forwarded-proto") !== "https" && !HTTPWhitelistPaths.includes(req.nextUrl.pathname)) {
+  if (
+    IS_PROD &&
+    req.headers.get("x-forwarded-proto") !== "https" &&
+    !HTTPWhitelistPaths.includes(req.nextUrl.pathname)
+  ) {
     let cfHttps = false
     try {
       if (

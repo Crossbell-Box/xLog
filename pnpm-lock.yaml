@@ -221,9 +221,6 @@ dependencies:
   react-i18next:
     specifier: ^12.2.2
     version: 12.2.2(i18next@22.4.15)(react-dom@18.2.0)(react@18.2.0)
-  react-infinite-scroller:
-    specifier: 1.2.6
-    version: 1.2.6(react@18.2.0)
   react-parallax-tilt:
     specifier: ^1.7.131
     version: 1.7.131(react-dom@18.2.0)(react@18.2.0)
@@ -239,6 +236,9 @@ dependencies:
   react-string-replace:
     specifier: ^1.1.0
     version: 1.1.0
+  react-virtuoso:
+    specifier: 4.3.1
+    version: 4.3.1(react-dom@18.2.0)(react@18.2.0)
   refractor:
     specifier: 4.8.1
     version: 4.8.1
@@ -12131,15 +12131,6 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-infinite-scroller@1.2.6(react@18.2.0):
-    resolution: {integrity: sha512-mGdMyOD00YArJ1S1F3TVU9y4fGSfVVl6p5gh/Vt4u99CJOptfVu/q5V/Wlle72TMgYlBwIhbxK5wF0C/R33PXQ==}
-    peerDependencies:
-      react: ^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-    dev: false
-
   /react-intersection-observer@9.4.3(react@18.2.0):
     resolution: {integrity: sha512-WNRqMQvKpupr6MzecAQI0Pj0+JQong307knLP4g/nBex7kYfIaZsPpXaIhKHR+oV8z+goUbH9e10j6lGRnTzlQ==}
     peerDependencies:
@@ -12307,6 +12298,17 @@ packages:
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-virtuoso@4.3.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-2+V0bvA1fASO+etlBG6YB0uj+StizxP3ecDJXgGW/r2z9AH067ehpJy2TSRiEIGQtDTmJAcmZnZzYVnk7AUmbw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16 || >=17 || >= 18'
+      react-dom: '>=16 || >=17 || >= 18'
+    dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false

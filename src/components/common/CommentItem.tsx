@@ -7,7 +7,7 @@ import { useAccountState } from "@crossbell/connect-kit"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { CommentInput } from "~/components/common/CommentInput"
 import { PageContent } from "~/components/common/PageContent"
-import { Reactions } from "~/components/common/Reactions"
+import { ReactionLike } from "~/components/common/ReactionLike"
 import { Titles } from "~/components/common/Titles"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Avatar } from "~/components/ui/Avatar"
@@ -16,6 +16,7 @@ import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { cn } from "~/lib/utils"
 
 export const CommentItem: React.FC<{
   comment: NoteEntity & {
@@ -23,7 +24,8 @@ export const CommentItem: React.FC<{
   }
   originalId?: string
   depth: number
-}> = ({ comment, originalId, depth }) => {
+  className?: string
+}> = ({ comment, originalId, depth, className }) => {
   const [replyOpen, setReplyOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
 
@@ -37,7 +39,9 @@ export const CommentItem: React.FC<{
   }
 
   return (
-    <div className={depth > 0 ? "" : "border-b border-dashed pb-6"}>
+    <div
+      className={cn(depth > 0 ? "" : "border-b border-dashed pb-6", className)}
+    >
       <div className="flex group">
         <div>
           <CharacterFloatCard siteId={comment?.character?.handle}>
@@ -98,11 +102,15 @@ export const CommentItem: React.FC<{
             isComment={true}
           ></PageContent>
           <div className="mt-1 flex items-center">
-            <Reactions
-              className="inline-flex"
-              size="sm"
-              pageId={`${comment.characterId}-${comment.noteId}`}
-            />
+            <div
+              className="xlog-reactions fill-gray-400 text-gray-500 sm:items-center inline-flex text-sm space-x-3"
+              data-hide-print
+            >
+              <ReactionLike
+                size="sm"
+                pageId={`${comment.characterId}-${comment.noteId}`}
+              />
+            </div>
             {depth < 2 && (
               <Button
                 className="text-gray-500 text-[13px] ml-1 mt-[-1px]"

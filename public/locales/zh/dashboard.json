@@ -45,6 +45,8 @@
   "Edit": "编辑",
   "Convert to Page": "转换为页面",
   "Convert to Post": "转换为文章",
+  "Select All": "全部选择",
+  "Deselect All": "取消选择",
   "Delete": "删除",
   "Heading": "标题",
   "Bold": "粗体",
@@ -191,5 +193,10 @@
   "delete_confirmation_page": "你确定要删除这个页面吗？",
   "Confirm": "确认",
   "Cancel": "取消",
-  "Published a new post on my blockchain blog: {{title}}. Check it out now!": "在我的区块链博客发布了一篇新文章《{{title}}》，快来看看吧！"
+  "Published a new post on my blockchain blog: {{title}}. Check it out now!": "在我的区块链博客发布了一篇新文章《{{title}}》，快来看看吧！",
+  "Comments": "评论",
+  "You can subscribe to comments through an RSS reader to receive timely reminders.": "你可以通过 RSS 阅读器订阅评论，以便及时收到提醒。",
+  "Subscription address:": "订阅地址：",
+  "comment on your" : "评论了你的{{type}}「<tolink>{{toTitle}}</tolink>」",
+  "{{newCount}} new comments" : "{{newCount}} 条新评论"
 }

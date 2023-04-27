@@ -116,11 +116,10 @@ export function DashboardLayout({
       text: "Pages",
     },
     {
-      href: `/dashboard/${subdomain}/import`,
-      isActive: ({ pathname }) =>
-        pathname.startsWith(`/dashboard/${subdomain}/import`),
-      icon: "i-mingcute:file-import-line",
-      text: "Import",
+      href: `/dashboard/${subdomain}/comments`,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: "i-mingcute-comment-line",
+      text: "Comments",
     },
     {
       onClick: showNotificationModal,
@@ -129,6 +128,13 @@ export function DashboardLayout({
         ? "i-mingcute:notification-line"
         : "i-mingcute:notification-fill",
       text: isAllRead ? "Notifications" : "Unread notifications",
+    },
+    {
+      href: `/dashboard/${subdomain}/import`,
+      isActive: ({ pathname }) =>
+        pathname.startsWith(`/dashboard/${subdomain}/import`),
+      icon: "i-mingcute:file-import-line",
+      text: "Import",
     },
     {
       href: `/dashboard/${subdomain}/events`,
