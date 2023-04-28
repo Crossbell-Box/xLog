@@ -10,11 +10,17 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
-import { DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
+import { CSB_SCAN, DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { cn } from "~/lib/utils"
 import { useGetPagesBySite } from "~/queries/page"
-import { useGetShowcase, useGetSite, useGetStat } from "~/queries/site"
+import {
+  useGetShowcase,
+  useGetSite,
+  useGetStat,
+  useGetTips,
+} from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -38,29 +44,58 @@ export default function SubdomainIndex() {
   })
   const date = useDate()
   const { t } = useTranslation("dashboard")
+  const tips = useGetTips({
+    toCharacterId: characterId,
+    limit: 1000,
+  })
+
   const statMap = [
     {
-      name: "Total Posts",
+      icon: "i-mingcute:news-line",
+      name: "Published posts",
       value: stat.data?.notesCount,
+      url: `/dashboard/${subdomain}/posts`,
     },
     {
-      name: "Total Comments",
+      icon: "i-mingcute:comment-line",
+      name: "Received comments",
       value: stat.data?.commentsCount,
+      url: `/dashboard/${subdomain}/comments`,
     },
     {
-      name: "Total Followers",
+      icon: "i-mingcute:heart-line",
+      name: "Received tips",
+      value: `${
+        tips.data?.pages?.[0]?.list
+          ?.map((i) => +i.amount)
+          .reduce((acr, cur) => acr + cur, 0) ?? 0
+      } MIRA`,
+      url: `/dashboard/${subdomain}/tokens`,
+    },
+    {
+      icon: "i-mingcute:user-follow-line",
+      name: "Followers",
       value: stat.data?.subscriptionCount,
+      url: getSiteLink({
+        subdomain,
+      }),
     },
     {
-      name: "Total Views",
+      icon: "i-mingcute:eye-line",
+      name: "Viewed",
       value: stat.data?.viewsCount,
+      url: getSiteLink({
+        subdomain,
+      }),
     },
     {
+      icon: "i-mingcute:history-line",
       name: "Site Duration",
       value:
         date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day") +
         " " +
         t("days"),
+      url: `${CSB_SCAN}/tx/${stat.data?.createTx}`,
     },
   ]
 
@@ -78,13 +113,22 @@ export default function SubdomainIndex() {
         <div className="flex-1 space-y-8">
           <div className="grid gap-4 sm:grid-cols-3 grid-cols-2">
             {statMap.map((item) => (
-              <div
+              <UniLink
+                href={item.url}
                 key={item.name}
                 className="bg-slate-100 rounded-lg flex justify-center flex-col py-4 px-6"
               >
-                <span>{t(item.name)}</span>
+                <span>
+                  <i
+                    className={cn(
+                      item.icon,
+                      "inline-block mr-1 text-lg align-middle",
+                    )}
+                  />
+                  <span className="align-middle">{t(item.name)}</span>
+                </span>
                 <span className="font-bold text-2xl">{item.value}</span>
-              </div>
+              </UniLink>
             ))}
           </div>
           <div className="prose p-6 bg-slate-50 rounded-lg relative">

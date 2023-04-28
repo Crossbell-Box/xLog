@@ -55,7 +55,7 @@ export const FollowingCount: React.FC<{
         <CharacterList
           open={isFollowListOpen}
           setOpen={setIsFollowListOpen}
-          title="Follow List"
+          title={t("Followers")}
           loadMore={subscriptions.fetchNextPage}
           hasMore={!!subscriptions.hasNextPage}
           list={subscriptions.data?.pages}
@@ -65,7 +65,7 @@ export const FollowingCount: React.FC<{
         <CharacterList
           open={isToFollowListOpen}
           setOpen={setIsToFollowListOpen}
-          title="Follow List"
+          title={t("Followings")}
           loadMore={toSubscriptions.fetchNextPage}
           hasMore={!!toSubscriptions.hasNextPage}
           list={toSubscriptions.data?.pages}

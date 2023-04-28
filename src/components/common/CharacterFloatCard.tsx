@@ -15,6 +15,8 @@ import {
 
 import { CharacterCard } from "~/components/common/CharacterCard"
 
+import { Portal } from "./Portal"
+
 export const CharacterFloatCard: React.FC<{
   siteId?: string
   children: JSX.Element
@@ -27,6 +29,7 @@ export const CharacterFloatCard: React.FC<{
     onOpenChange: setOpen,
     middleware: [offset(5), flip(), shift({ padding: 8 })],
     whileElementsMounted: autoUpdate,
+    strategy: "fixed",
   })
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
@@ -51,25 +54,27 @@ export const CharacterFloatCard: React.FC<{
         {children}
       </span>
       {isMounted && (
-        <span
-          ref={refs.setFloating}
-          className={
-            "z-10 block w-80" + (open || buttonLoading ? "" : " hidden")
-          }
-          style={{
-            position: strategy,
-            top: y ?? "0",
-            left: x ?? "0",
-            ...styles,
-          }}
-          {...getFloatingProps()}
-        >
-          <CharacterCard
-            siteId={siteId}
-            open={open}
-            setButtonLoading={setButtonLoading}
-          />
-        </span>
+        <Portal>
+          <span
+            ref={refs.setFloating}
+            className={
+              "z-10 block w-80" + (open || buttonLoading ? "" : " hidden")
+            }
+            style={{
+              position: strategy,
+              top: y ?? "0",
+              left: x ?? "0",
+              ...styles,
+            }}
+            {...getFloatingProps()}
+          >
+            <CharacterCard
+              siteId={siteId}
+              open={open}
+              setButtonLoading={setButtonLoading}
+            />
+          </span>
+        </Portal>
       )}
     </>
   )

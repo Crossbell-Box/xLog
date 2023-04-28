@@ -539,6 +539,7 @@ export async function getStat({ characterId }: { characterId: string }) {
     return {
       viewsCount: stat.viewNoteCount,
       createdAt: site?.createdAt,
+      createTx: site?.transactionHash,
       subscriptionCount: subscriptions?.count,
       commentsCount: comments?.count,
       notesCount: notes?.count,
@@ -590,6 +591,7 @@ export async function getTips(
     characterId?: string | number
     toNoteId?: string | number
     cursor?: string
+    limit?: number
   },
   contract: Contract,
 ) {
@@ -600,7 +602,7 @@ export async function getTips(
     toCharacterId: input.toCharacterId,
     tokenAddress: address?.data || "0xAfB95CC0BD320648B3E8Df6223d9CDD05EbeDC64",
     includeMetadata: true,
-    limit: 7,
+    limit: input.limit || 7,
     cursor: input.cursor,
   })
 

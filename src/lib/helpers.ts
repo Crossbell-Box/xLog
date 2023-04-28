@@ -38,7 +38,7 @@ export const getSlugUrl = (slug: string) => {
     }
   }
 
-  return `/${slug}`
+  return slug
 }
 
 export const getNoteSlug = (note: NoteEntity) => {

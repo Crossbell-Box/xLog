@@ -1,8 +1,18 @@
+import { toHtml } from "hast-util-to-html"
 import DOMPurify from "isomorphic-dompurify"
 import katex from "katex"
+import type { List } from "mdast"
+import { toHast } from "mdast-util-to-hast"
 import type { Result as TocResult } from "mdast-util-toc"
 import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-scroll"
+
+const inlineElements = ["delete", "strong", "emphasis", "inlineCode"]
+
+function getLinkNode(node: any): List["children"] {
+  if (node.type === "link") return node.children
+  else return getLinkNode(node.children[0])
+}
 
 function getIds(items: TocResult["map"]) {
   return (
@@ -64,17 +74,20 @@ function renderItems(
       {items?.children?.map((item, index) => (
         <li key={index}>
           {item.children.map((child: any, i) => {
-            const children =
-              child.children[0].children?.[0]?.children ||
-              child.children[0].children
-            let content = "",
-              isInlineMath = false
-            children.map((child: any) => {
+            const children = getLinkNode(child) || []
+            let content = ""
+
+            children.forEach((child: any) => {
               if (child.type === "inlineMath") {
-                isInlineMath = true
+                content += katex.renderToString(child.value, { output: "html" })
+              } else if (inlineElements.includes(child.type)) {
+                content += toHtml(toHast(child) || [])
+              } else {
+                content += child.value
               }
-              content += child.value
             })
+            content = `${prefix}${index + 1}. ${DOMPurify.sanitize(content)}`
+
             return (
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
@@ -95,22 +108,11 @@ function renderItems(
                       " truncate inline-block max-w-full align-bottom hover:text-accent"
                     }
                   >
-                    {isInlineMath ? (
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(
-                            katex.renderToString(
-                              `${prefix}${index + 1}. ${content}`,
-                              {
-                                output: "html",
-                              },
-                            ),
-                          ),
-                        }}
-                      />
-                    ) : (
-                      `${prefix}${index + 1}. ${content}`
-                    )}
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: content,
+                      }}
+                    />
                   </Link>
                 )}
                 {child.type === "list" &&

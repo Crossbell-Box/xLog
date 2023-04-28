@@ -10,7 +10,10 @@ import {
   ConnectKitProvider,
   getDefaultClientConfig,
 } from "@crossbell/connect-kit"
-import { NotificationModal } from "@crossbell/notification"
+import {
+  NotificationModal,
+  NotificationModalColorScheme,
+} from "@crossbell/notification"
 import { Hydrate, QueryClient } from "@tanstack/react-query"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 
@@ -37,6 +40,13 @@ const queryClient = new QueryClient({
 })
 
 const persister = createIDBPersister()
+
+const colorScheme: NotificationModalColorScheme = {
+  text: `rgb(var(--tw-colors-i-zinc-800))`,
+  textSecondary: `rgb(var(--tw-colors-i-gray-600))`,
+  background: `rgb(var(--tw-colors-i-white))`,
+  border: `var(--border-color)`,
+}
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
@@ -76,7 +86,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             />
             {getLayout(<Component {...pageProps} />)}
             <Toaster />
-            <NotificationModal />
+            <NotificationModal colorScheme={colorScheme} />
           </Hydrate>
         </ConnectKitProvider>
       </PersistQueryClientProvider>

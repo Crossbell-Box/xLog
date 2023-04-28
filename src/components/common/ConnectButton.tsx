@@ -11,7 +11,7 @@ import {
   useIsOpSignEnabled,
   useOpSignSettingsModal,
   useSelectCharactersModal,
-  useUpgradeAccountModal,
+  useUpgradeEmailAccountModal,
 } from "@crossbell/connect-kit"
 import {
   useNotifications,
@@ -85,7 +85,7 @@ export const ConnectButton: React.FC<{
   const [copyLabelDisplay, copyLabel] = useCopyLabel(account)
   const csbDetailModal = useCsbDetailModal()
   const opSignSettingsModal = useOpSignSettingsModal()
-  const upgradeAccountModal = useUpgradeAccountModal()
+  const upgradeAccountModal = useUpgradeEmailAccountModal()
   const selectCharactersModal = useSelectCharactersModal()
 
   const userSites = useAccountSites()
