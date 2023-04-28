@@ -563,6 +563,7 @@ export default function SubdomainEditor() {
                       visibility !== PageVisibilityEnum.Modified &&
                       visibility !== PageVisibilityEnum.Draft
                     }
+                    isPost={isPost}
                   />
                 </div>
               )}

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
 
 import { Button, ButtonGroup } from "../ui/Button"
+import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 export const PublishButton: React.FC<{
   save: (published: boolean) => void
@@ -10,7 +11,8 @@ export const PublishButton: React.FC<{
   isSaving: boolean
   isDisabled: boolean
   twitterShareUrl?: string
-}> = ({ save, published, isSaving, isDisabled, twitterShareUrl }) => {
+  isPost: boolean
+}> = ({ save, published, isSaving, isDisabled, twitterShareUrl, isPost }) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -26,6 +28,9 @@ export const PublishButton: React.FC<{
       setShowDropdown(false)
     }
   }, [isSaving])
+
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
+    useState<boolean>(false)
 
   return (
     <div className="relative">
@@ -69,7 +74,7 @@ export const PublishButton: React.FC<{
                 </button>
                 <button
                   className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
-                  onClick={() => save(false)}
+                  onClick={() => setDeleteConfirmModalOpen(true)}
                 >
                   <i className="i-mingcute:delete-2-line mr-1"></i>
                   {t("Delete")}
@@ -79,6 +84,14 @@ export const PublishButton: React.FC<{
           </div>
         </div>
       )}
+      <DeleteConfirmationModal
+        open={deleteConfirmModalOpen}
+        setOpen={setDeleteConfirmModalOpen}
+        onConfirm={() => {
+          save(false)
+        }}
+        isPost={isPost}
+      />
     </div>
   )
 }

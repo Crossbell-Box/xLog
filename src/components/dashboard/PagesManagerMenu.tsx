@@ -14,6 +14,8 @@ import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
+import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
+
 const usePageEditLink = (page: { id: string }, isPost: boolean) => {
   const router = useRouter()
   const subdomain = router.query.subdomain as string
@@ -167,24 +169,7 @@ export const PagesManagerMenu: FC<{
       text: "Delete",
       icon: <span className="i-mingcute:delete-2-line inline-block"></span>,
       onClick() {
-        if (!page.metadata) {
-          const toastId = toast.loading("Deleting...")
-          delStorage(`draft-${subdomain}-${page.id}`)
-          Promise.all([
-            queryClient.refetchQueries(["getPagesBySite", subdomain]),
-            queryClient.refetchQueries(["getPage", page.id]),
-          ]).then(() => {
-            toast.success("Deleted!", {
-              id: toastId,
-            })
-          })
-        } else {
-          setDeleteToastId(toast.loading("Deleting..."))
-          deletePage.mutate({
-            site: subdomain,
-            id: page.id,
-          })
-        }
+        setDeleteConfirmModalOpen(true)
       },
     },
   ]
@@ -199,26 +184,57 @@ export const PagesManagerMenu: FC<{
     }
   }, [])
 
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
+    useState<boolean>(false)
+  const onDelete = () => {
+    if (!page.metadata) {
+      const toastId = toast.loading("Deleting...")
+      delStorage(`draft-${subdomain}-${page.id}`)
+      Promise.all([
+        queryClient.refetchQueries(["getPagesBySite", subdomain]),
+        queryClient.refetchQueries(["getPage", page.id]),
+      ]).then(() => {
+        toast.success("Deleted!", {
+          id: toastId,
+        })
+      })
+    } else {
+      setDeleteToastId(toast.loading("Deleting..."))
+      deletePage.mutate({
+        site: subdomain,
+        id: page.id,
+      })
+    }
+  }
+
   return (
-    <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64 ring-1 ring-border">
-      {items.map((item) => {
-        return (
-          <Menu.Item key={item.text}>
-            <button
-              type="button"
-              className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
-              onClick={(e) => {
-                e.preventDefault()
-                item.onClick()
-                onClose()
-              }}
-            >
-              <span className="inline-flex">{item.icon}</span>
-              <span>{t(item.text)}</span>
-            </button>
-          </Menu.Item>
-        )
-      })}
-    </Menu.Items>
+    <>
+      <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64 ring-1 ring-border">
+        {items.map((item) => {
+          return (
+            <Menu.Item key={item.text}>
+              <button
+                type="button"
+                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
+                onClick={(e) => {
+                  e.preventDefault()
+                  item.onClick()
+                  onClose()
+                }}
+              >
+                <span className="inline-flex">{item.icon}</span>
+                <span>{t(item.text)}</span>
+              </button>
+            </Menu.Item>
+          )
+        })}
+      </Menu.Items>
+      <DeleteConfirmationModal
+        open={deleteConfirmModalOpen}
+        setOpen={setDeleteConfirmModalOpen}
+        onConfirm={onDelete}
+        isPost={isPost}
+      />
+    </>
   )
 }
