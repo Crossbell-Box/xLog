@@ -64,7 +64,6 @@ export const DashboardTopbar: React.FC<{
       </div>
       <div className="flex-1"></div>
       {userWidget}
-      <div className="w-[1px] bg-border absolute top-0 right-0 bottom-0"></div>
     </div>
   )
 }
