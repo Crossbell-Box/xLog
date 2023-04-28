@@ -539,6 +539,7 @@ export async function getStat({ characterId }: { characterId: string }) {
     return {
       viewsCount: stat.viewNoteCount,
       createdAt: site?.createdAt,
+      createTx: site?.transactionHash,
       subscriptionCount: subscriptions?.count,
       commentsCount: comments?.count,
       notesCount: notes?.count,

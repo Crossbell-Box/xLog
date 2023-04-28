@@ -10,7 +10,7 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
-import { DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
+import { CSB_SCAN, DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { cn } from "~/lib/utils"
@@ -52,23 +52,41 @@ export default function SubdomainIndex() {
   const statMap = [
     {
       icon: "i-mingcute:news-line",
-      name: "Total Posts",
+      name: "Published posts",
       value: stat.data?.notesCount,
+      url: `/dashboard/${subdomain}/posts`,
     },
     {
       icon: "i-mingcute:comment-line",
-      name: "Total Comments",
+      name: "Received comments",
       value: stat.data?.commentsCount,
+      url: `/dashboard/${subdomain}/comments`,
+    },
+    {
+      icon: "i-mingcute:heart-line",
+      name: "Received tips",
+      value: `${
+        tips.data?.pages?.[0]?.list
+          ?.map((i) => +i.amount)
+          .reduce((acr, cur) => acr + cur) || 0
+      } MIRA`,
+      url: `/dashboard/${subdomain}/tokens`,
     },
     {
       icon: "i-mingcute:user-follow-line",
-      name: "Total Followers",
+      name: "Followers",
       value: stat.data?.subscriptionCount,
+      url: getSiteLink({
+        subdomain,
+      }),
     },
     {
       icon: "i-mingcute:eye-line",
-      name: "Total Views",
+      name: "Viewed",
       value: stat.data?.viewsCount,
+      url: getSiteLink({
+        subdomain,
+      }),
     },
     {
       icon: "i-mingcute:history-line",
@@ -77,14 +95,7 @@ export default function SubdomainIndex() {
         date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day") +
         " " +
         t("days"),
-    },
-    {
-      icon: "i-mingcute:heart-line",
-      name: "Total Tip",
-      value:
-        tips.data?.pages?.[0]?.list
-          ?.map((i) => +i.amount)
-          .reduce((acr, cur) => acr + cur) || 0,
+      url: `${CSB_SCAN}/tx/${stat.data?.createTx}`,
     },
   ]
 
@@ -102,7 +113,8 @@ export default function SubdomainIndex() {
         <div className="flex-1 space-y-8">
           <div className="grid gap-4 sm:grid-cols-3 grid-cols-2">
             {statMap.map((item) => (
-              <div
+              <UniLink
+                href={item.url}
                 key={item.name}
                 className="bg-slate-100 rounded-lg flex justify-center flex-col py-4 px-6"
               >
@@ -116,7 +128,7 @@ export default function SubdomainIndex() {
                   <span className="align-middle">{t(item.name)}</span>
                 </span>
                 <span className="font-bold text-2xl">{item.value}</span>
-              </div>
+              </UniLink>
             ))}
           </div>
           <div className="prose p-6 bg-slate-50 rounded-lg relative">
