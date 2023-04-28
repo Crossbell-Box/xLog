@@ -1,9 +1,18 @@
 import { useTranslation } from "next-i18next"
 import Head from "next/head"
+import { useCallback, useEffect, useState } from "react"
+import toast from "react-hot-toast"
 import serialize from "serialize-javascript"
 
+import EncryptPasswordPrompt from "~/components/common/EncryptPasswordPrompt"
 import { getSiteLink } from "~/lib/helpers"
 import { Note, Profile } from "~/lib/types"
+import {
+  Decrypt,
+  XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
+  XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
+  XLOG_ENCRYPT_ATTRIBUTE_IsEnabled,
+} from "~/lib/web-crypto"
 
 import { PageContent } from "../common/PageContent"
 import { PostFooter } from "./PostFooter"
@@ -15,6 +24,8 @@ export const SitePage: React.FC<{
 }> = ({ page, site }) => {
   // const author = useGetUserSites(page?.authors?.[0])
   const { t } = useTranslation("site")
+
+  const { t: tCommon } = useTranslation("common")
 
   function addPageJsonLd() {
     return {
@@ -39,6 +50,78 @@ export const SitePage: React.FC<{
       }),
     }
   }
+
+  const [isPageEncrypted, setIsPageEncrypted] = useState(false)
+  const [content, setContent] = useState<string | undefined>("")
+
+  useEffect(() => {
+    // Check if page has been encrypted
+    if (page?.attributes) {
+      if (
+        page.attributes.find(
+          (attribute) =>
+            attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_IsEnabled,
+        )?.value === true
+      ) {
+        // Is encrypted
+        setIsPageEncrypted(true)
+      } else {
+        // Not encrypted
+        setContent(page?.body?.content)
+        setIsPageEncrypted(false)
+      }
+    }
+  }, [page])
+
+  const tryUnlock = useCallback(
+    async (password: string) => {
+      if (!page?.attributes || page.attributes.length === 0) {
+        toast.error(tCommon("Failed to detect note encrypt status."))
+        return
+      }
+
+      // Get encrypted content & hmac signature
+      const encryptedData = String(
+        page.attributes.find(
+          (attribute) =>
+            attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
+        )?.value,
+      )
+      const hmacSignature = String(
+        page.attributes.find(
+          (attribute) =>
+            attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
+        )?.value,
+      )
+
+      if (!encryptedData) {
+        toast.error(tCommon("Failed to get note encrypted data"))
+        return
+      }
+
+      // Try to decrypt
+      try {
+        const decryptResult = await Decrypt(
+          password,
+          encryptedData,
+          hmacSignature,
+        )
+
+        if (!decryptResult.verified) {
+          toast.error(tCommon("Decrypted successfully but signature mismatch."))
+        } else {
+          toast.success(tCommon("Decrypted successfully!"))
+        }
+
+        // Update page content
+        setContent(decryptResult.originalData)
+        setIsPageEncrypted(false)
+      } catch (e) {
+        toast.error(tCommon("Invalid password"))
+      }
+    },
+    [page],
+  )
 
   return (
     <>
@@ -68,11 +151,15 @@ export const SitePage: React.FC<{
             <PostMeta page={page} site={site} />
           )}
         </div>
-        <PageContent
-          className="mt-10"
-          content={page?.body?.content}
-          toc={true}
-        ></PageContent>
+
+        {/*Check if is encrypted*/}
+        {isPageEncrypted ? (
+          <div className="border border-dashed rounded-xl mt-4">
+            <EncryptPasswordPrompt tryUnlock={tryUnlock} />
+          </div>
+        ) : (
+          <PageContent className="mt-10" content={content} toc={true} />
+        )}
       </article>
       {page?.metadata && <PostFooter page={page} site={site} />}
     </>
