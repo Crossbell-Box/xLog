@@ -17,7 +17,6 @@ import {
   EncryptAlgorithmVersion,
   XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
   XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
-  XLOG_ENCRYPT_ATTRIBUTE_IsEnabled,
   XLOG_ENCRYPT_ATTRIBUTE_Version,
 } from "~/lib/web-crypto"
 import unidata from "~/queries/unidata.server"
@@ -136,10 +135,6 @@ export async function createOrUpdatePage(
         noteMeta.attributes = []
       }
       noteMeta.attributes.push(
-        {
-          trait_type: XLOG_ENCRYPT_ATTRIBUTE_IsEnabled,
-          value: true,
-        },
         {
           trait_type: XLOG_ENCRYPT_ATTRIBUTE_Version,
           value: EncryptAlgorithmVersion,

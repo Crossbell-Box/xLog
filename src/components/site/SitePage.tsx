@@ -11,7 +11,7 @@ import {
   Decrypt,
   XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
   XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
-  XLOG_ENCRYPT_ATTRIBUTE_IsEnabled,
+  XLOG_ENCRYPT_ATTRIBUTE_Version,
 } from "~/lib/web-crypto"
 
 import { PageContent } from "../common/PageContent"
@@ -57,12 +57,10 @@ export const SitePage: React.FC<{
   useEffect(() => {
     // Check if page has been encrypted
     if (page?.attributes) {
-      if (
-        page.attributes.find(
-          (attribute) =>
-            attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_IsEnabled,
-        )?.value === true
-      ) {
+      const encryptAlgoVersion = page.attributes.find(
+        (attribute) => attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_Version,
+      )?.value
+      if (encryptAlgoVersion) {
         // Is encrypted
         setIsPageEncrypted(true)
       } else {
