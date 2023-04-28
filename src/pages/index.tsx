@@ -27,12 +27,12 @@ import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { languageDetector } from "~/lib/language-detector"
-import { useGetShowcase } from "~/queries/site"
-import { prefetchGetSites } from "~/queries/site.server"
+import { useGetShowcase } from "~/queries/home"
+import { prefetchGetShowcase } from "~/queries/home.server"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
-  await prefetchGetSites(queryClient)
+  await prefetchGetShowcase(queryClient)
 
   return {
     props: {

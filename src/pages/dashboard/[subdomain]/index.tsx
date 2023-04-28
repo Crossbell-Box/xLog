@@ -14,13 +14,9 @@ import { CSB_SCAN, DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { cn } from "~/lib/utils"
+import { useGetShowcase } from "~/queries/home"
 import { useGetPagesBySite } from "~/queries/page"
-import {
-  useGetShowcase,
-  useGetSite,
-  useGetStat,
-  useGetTips,
-} from "~/queries/site"
+import { useGetSite, useGetStat, useGetTips } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {

@@ -28,3 +28,13 @@ export const prefetchGetFeed = async (
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
+
+export const prefetchGetShowcase = async (queryClient: QueryClient) => {
+  const key = ["getShowcase"]
+  await queryClient.fetchQuery(key, async () => {
+    return cacheGet({
+      key,
+      getValueFun: () => homeModel.getShowcase(),
+    })
+  })
+}
