@@ -47,16 +47,14 @@ export const PublishButton: React.FC<{
         {published && (
           <Button
             isAutoWidth
-            style={{ padding: "0 5px" }}
+            style={{ padding: "0 8px" }}
             onClick={() => {
               setShowDropdown(!showDropdown)
             }}
             ref={triggerRef}
             isDisabled={isSaving}
           >
-            <svg className="w-7 h-7" viewBox="0 0 24 24">
-              <path fill="currentColor" d="m7 10l5 5l5-5z"></path>
-            </svg>
+            <i className="i-mingcute:down-line" />
           </Button>
         )}
       </ButtonGroup>
