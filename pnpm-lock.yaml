@@ -120,8 +120,8 @@ dependencies:
     specifier: 1.2.1
     version: 1.2.1
   crossbell.js:
-    specifier: 0.19.8
-    version: 0.19.8
+    specifier: 0.19.9
+    version: 0.19.9
   dayjs:
     specifier: 1.11.7
     version: 1.11.7
@@ -327,8 +327,8 @@ dependencies:
     specifier: ^1.0.5
     version: 1.0.5(tailwindcss@3.3.1)
   unidata.js:
-    specifier: 0.7.19
-    version: 0.7.19
+    specifier: 0.7.20
+    version: 0.7.20
   unified:
     specifier: 10.1.2
     version: 10.1.2
@@ -429,13 +429,13 @@ devDependencies:
     version: 0.51.8
   '@vitejs/plugin-react':
     specifier: 4.0.0
-    version: 4.0.0(vite@4.3.1)
+    version: 4.0.0(vite@4.3.3)
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.23)
   babel-loader:
     specifier: ^9.1.2
-    version: 9.1.2(@babel/core@7.21.4)(webpack@5.80.0)
+    version: 9.1.2(@babel/core@7.21.4)(webpack@5.81.0)
   cross-spawn:
     specifier: 7.0.3
     version: 7.0.3
@@ -468,7 +468,7 @@ devDependencies:
     version: 13.2.1
   next-pwa:
     specifier: ^5.6.0
-    version: 5.6.0(@babel/core@7.21.4)(esbuild@0.17.18)(next@13.2.4)(webpack@5.80.0)
+    version: 5.6.0(@babel/core@7.21.4)(esbuild@0.17.18)(next@13.2.4)(webpack@5.81.0)
   postcss-import:
     specifier: 15.1.0
     version: 15.1.0(postcss@8.4.23)
@@ -489,7 +489,7 @@ devDependencies:
     version: 5.0.4
   unocss:
     specifier: 0.51.8
-    version: 0.51.8(postcss@8.4.23)(rollup@2.79.1)(vite@4.3.1)
+    version: 0.51.8(postcss@8.4.23)(rollup@2.79.1)(vite@4.3.3)
   vitest:
     specifier: 0.30.1
     version: 0.30.1
@@ -2049,7 +2049,7 @@ packages:
       canvas-confetti: 1.6.0
       check-password-strength: 2.0.7
       classnames: 2.3.2
-      crossbell.js: 0.19.8
+      crossbell.js: 0.19.9
       embla-carousel-react: 7.1.0(react@18.2.0)
       ethers: 5.7.2
       immer: 10.0.1
@@ -2080,7 +2080,7 @@ packages:
     dependencies:
       '@crossbell/indexer': 0.0.74(@crossbell/contract@0.0.74)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)
       '@crossbell/util-hooks': 0.0.74(react-dom@18.2.0)(react@18.2.0)
-      crossbell.js: 0.19.8
+      crossbell.js: 0.19.9
       ethers: 5.7.2
       react: 18.2.0
     transitivePeerDependencies:
@@ -2099,7 +2099,7 @@ packages:
     dependencies:
       '@crossbell/contract': 0.0.74(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': 4.29.5(react-dom@18.2.0)(react@18.2.0)
-      crossbell.js: 0.19.8
+      crossbell.js: 0.19.9
       dayjs: 1.11.7
       ethers: 5.7.2
       lodash.compact: 3.0.1
@@ -2113,8 +2113,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/ipfs-fetch@0.0.15:
-    resolution: {integrity: sha512-AYGDrwiSKqCGNDi0mEPP1k+96loWik+Pd40xH0MzRNM4RtCutPbwm4o+Sj5iWu0tlHoQC2bTs1XcufsLiv+WYw==}
+  /@crossbell/ipfs-fetch@0.0.19:
+    resolution: {integrity: sha512-0Yf9+MMTSD+JJkFbNaK/s+kl3CXhr4oq2yj3K0dvheB+e8uykcpM7yomxHie/sr0ushw3G7Ppf5NXYkfH0eiSw==}
     dev: false
 
   /@crossbell/notification@0.0.74(@crossbell/contract@0.0.74)(@tanstack/react-query@4.29.5)(@types/react@18.0.38)(ethers@5.7.2)(immer@9.0.21)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12):
@@ -2163,7 +2163,7 @@ packages:
       '@crossbell/util-metadata': 0.0.74
       '@tanstack/react-query': 4.29.5(react-dom@18.2.0)(react@18.2.0)
       check-password-strength: 2.0.7
-      crossbell.js: 0.19.8
+      crossbell.js: 0.19.9
       ethers: 5.7.2
       immer: 10.0.1
       lodash.debounce: 4.0.8
@@ -2191,7 +2191,7 @@ packages:
       '@crossbell/util-metadata': 0.0.74
       '@tanstack/react-query': 4.29.5(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
-      crossbell.js: 0.19.8
+      crossbell.js: 0.19.9
       facepaint: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2220,7 +2220,7 @@ packages:
       react: ^18
     dependencies:
       '@tanstack/react-query': 4.29.5(react-dom@18.2.0)(react@18.2.0)
-      crossbell.js: 0.19.8
+      crossbell.js: 0.19.9
       react: 18.2.0
     transitivePeerDependencies:
       - bufferutil
@@ -2235,7 +2235,7 @@ packages:
     dependencies:
       '@crossbell/util-ethers': 0.0.74
       '@fastify/deepmerge': 1.3.0
-      crossbell.js: 0.19.8
+      crossbell.js: 0.19.9
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -4849,12 +4849,12 @@ packages:
       '@codemirror/view': 6.9.6
     dev: false
 
-  /@unocss/astro@0.51.8(rollup@2.79.1)(vite@4.3.1):
+  /@unocss/astro@0.51.8(rollup@2.79.1)(vite@4.3.3):
     resolution: {integrity: sha512-1cY22psmzeW6f29Os7nXhrIgbjR2QI2qPU+PDEMprWiaVHlIc86WUKNzPIcuKskAQMMhWVCIN/XlCNzxZzXJqw==}
     dependencies:
       '@unocss/core': 0.51.8
       '@unocss/reset': 0.51.8
-      '@unocss/vite': 0.51.8(rollup@2.79.1)(vite@4.3.1)
+      '@unocss/vite': 0.51.8(rollup@2.79.1)(vite@4.3.3)
     transitivePeerDependencies:
       - rollup
       - vite
@@ -5018,7 +5018,7 @@ packages:
       '@unocss/core': 0.51.8
     dev: true
 
-  /@unocss/vite@0.51.8(rollup@2.79.1)(vite@4.3.1):
+  /@unocss/vite@0.51.8(rollup@2.79.1)(vite@4.3.3):
     resolution: {integrity: sha512-0mVCgh2Bci2oey6VXGAJBI3x/p5whJiY32BpJaugCmLlZPc6rnWQ8o/FaOTed2EznWAGA8zRRF2l3fEVCURh9g==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0
@@ -5033,7 +5033,7 @@ packages:
       chokidar: 3.5.3
       fast-glob: 3.2.12
       magic-string: 0.30.0
-      vite: 4.3.1(@types/node@18.16.0)
+      vite: 4.3.3(@types/node@18.16.0)
     transitivePeerDependencies:
       - rollup
     dev: true
@@ -5047,7 +5047,7 @@ packages:
       - graphql
     dev: false
 
-  /@vitejs/plugin-react@4.0.0(vite@4.3.1):
+  /@vitejs/plugin-react@4.0.0(vite@4.3.3):
     resolution: {integrity: sha512-HX0XzMjL3hhOYm+0s95pb0Z7F8O81G7joUHgfDd/9J/ZZf5k4xX6QAMFkKsHFxaHlf6X7GD7+XuaZ66ULiJuhQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -5057,7 +5057,7 @@ packages:
       '@babel/plugin-transform-react-jsx-self': 7.21.0(@babel/core@7.21.4)
       '@babel/plugin-transform-react-jsx-source': 7.19.6(@babel/core@7.21.4)
       react-refresh: 0.14.0
-      vite: 4.3.1(@types/node@18.16.0)
+      vite: 4.3.3(@types/node@18.16.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6132,7 +6132,7 @@ packages:
       deep-equal: 2.2.0
     dev: true
 
-  /babel-loader@8.3.0(@babel/core@7.21.4)(webpack@5.80.0):
+  /babel-loader@8.3.0(@babel/core@7.21.4)(webpack@5.81.0):
     resolution: {integrity: sha512-H8SvsMF+m9t15HNLMipppzkC+Y2Yq+v3SonZyU70RBL/h1gxPkH08Ot8pEE9Z4Kd+czyWJClmFS8qzIP9OZ04Q==}
     engines: {node: '>= 8.9'}
     peerDependencies:
@@ -6144,10 +6144,10 @@ packages:
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.80.0(esbuild@0.17.18)
+      webpack: 5.81.0(esbuild@0.17.18)
     dev: true
 
-  /babel-loader@9.1.2(@babel/core@7.21.4)(webpack@5.80.0):
+  /babel-loader@9.1.2(@babel/core@7.21.4)(webpack@5.81.0):
     resolution: {integrity: sha512-mN14niXW43tddohGl8HPu5yfQq70iUThvFL/4QzESA7GcZoC0eVOhvWdQ8+3UlSjaDE9MVtsW9mxDY07W7VpVA==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
@@ -6157,7 +6157,7 @@ packages:
       '@babel/core': 7.21.4
       find-cache-dir: 3.3.2
       schema-utils: 4.0.1
-      webpack: 5.80.0(esbuild@0.17.18)
+      webpack: 5.81.0(esbuild@0.17.18)
     dev: true
 
   /babel-plugin-macros@2.8.0:
@@ -6584,14 +6584,14 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /clean-webpack-plugin@4.0.0(webpack@5.80.0):
+  /clean-webpack-plugin@4.0.0(webpack@5.81.0):
     resolution: {integrity: sha512-WuWE1nyTNAyW5T7oNyys2EN0cfP2fdRxhxnIQWiAp0bMabPdHhoGxM8A6YL2GhqwgrPnnaemVE7nv5XJ2Fhh2w==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       webpack: '>=4.0.0 <6.0.0'
     dependencies:
       del: 4.1.1
-      webpack: 5.80.0(esbuild@0.17.18)
+      webpack: 5.81.0(esbuild@0.17.18)
     dev: true
 
   /clear-module@4.1.2:
@@ -6917,10 +6917,10 @@ packages:
       which: 2.0.2
     dev: true
 
-  /crossbell.js@0.19.8:
-    resolution: {integrity: sha512-4x52UGfiTIs65JjHku0k+R4JrlB6JVRGDqgMW43DqDVQlJz2F8BVvxG7n3kKb5hZbXXQCMh41CMWc7bfiTn+3g==}
+  /crossbell.js@0.19.9:
+    resolution: {integrity: sha512-/wwgL55ENG2tnxcZq7GFskrxB9JBpdEj3mfV1HiKBK3d9P/+z25v4p2AJidUYglw1kVwuVQaRpnqjOzxxdLy7A==}
     dependencies:
-      '@crossbell/ipfs-fetch': 0.0.15
+      '@crossbell/ipfs-fetch': 0.0.19
       '@ethersproject/abi': 5.7.0
       '@ethersproject/providers': 5.7.2
       async-retry: 1.3.3
@@ -11089,17 +11089,17 @@ packages:
       react-i18next: 12.2.2(i18next@22.4.15)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
-  /next-pwa@5.6.0(@babel/core@7.21.4)(esbuild@0.17.18)(next@13.2.4)(webpack@5.80.0):
+  /next-pwa@5.6.0(@babel/core@7.21.4)(esbuild@0.17.18)(next@13.2.4)(webpack@5.81.0):
     resolution: {integrity: sha512-XV8g8C6B7UmViXU8askMEYhWwQ4qc/XqJGnexbLV68hzKaGHZDMtHsm2TNxFcbR7+ypVuth/wwpiIlMwpRJJ5A==}
     peerDependencies:
       next: '>=9.0.0'
     dependencies:
-      babel-loader: 8.3.0(@babel/core@7.21.4)(webpack@5.80.0)
-      clean-webpack-plugin: 4.0.0(webpack@5.80.0)
+      babel-loader: 8.3.0(@babel/core@7.21.4)(webpack@5.81.0)
+      clean-webpack-plugin: 4.0.0(webpack@5.81.0)
       globby: 11.1.0
       next: 13.2.4(@babel/core@7.21.4)(react-dom@18.2.0)(react@18.2.0)
-      terser-webpack-plugin: 5.3.7(esbuild@0.17.18)(webpack@5.80.0)
-      workbox-webpack-plugin: 6.5.4(webpack@5.80.0)
+      terser-webpack-plugin: 5.3.7(esbuild@0.17.18)(webpack@5.81.0)
+      workbox-webpack-plugin: 6.5.4(webpack@5.81.0)
       workbox-window: 6.5.4
     transitivePeerDependencies:
       - '@babel/core'
@@ -12790,6 +12790,14 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /rollup@3.21.0:
+    resolution: {integrity: sha512-ANPhVcyeHvYdQMUyCbczy33nbLzI7RzrBje4uvNiTDJGIMtlKoOStmympwr9OtS1LZxiDmE2wvxHyVhoLtf1KQ==}
+    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
   /rpc-websockets@7.5.1:
     resolution: {integrity: sha512-kGFkeTsmd37pHPMaHIgN1LVKXMi0JD782v4Ds9ZKtLlwdTKjn+CxM9A9/gLT2LaOuEcEFGL98h1QWQtlOIdW0w==}
     dependencies:
@@ -13556,7 +13564,7 @@ packages:
       unique-string: 2.0.0
     dev: true
 
-  /terser-webpack-plugin@5.3.7(esbuild@0.17.18)(webpack@5.80.0):
+  /terser-webpack-plugin@5.3.7(esbuild@0.17.18)(webpack@5.81.0):
     resolution: {integrity: sha512-AfKwIktyP7Cu50xNjXF/6Qb5lBNzYaWpU6YfoX3uZicTx0zTy0stDDCsvjDapKsSDvOeWo5MEq4TmdBy2cNoHw==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
@@ -13578,7 +13586,7 @@ packages:
       schema-utils: 3.1.2
       serialize-javascript: 6.0.1
       terser: 5.17.1
-      webpack: 5.80.0(esbuild@0.17.18)
+      webpack: 5.81.0(esbuild@0.17.18)
     dev: true
 
   /terser@5.17.1:
@@ -13890,14 +13898,14 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /unidata.js@0.7.19:
-    resolution: {integrity: sha512-k5x/thLREIoju2SrMATPDENNfuDqEk/hR9ohTdvJMTaTfDZqvw7O5Ri5PgdEN41o0UL+5WRYIdH3M3zy3k5R9Q==}
+  /unidata.js@0.7.20:
+    resolution: {integrity: sha512-OIHHQG17dOpk4d5pw3mdrOdHPyzZ5u2RddTjHTpQReF8TTZEheRZ2ERLtnhNnENL0rMrfIDqP9VXdPejB7/FfQ==}
     dependencies:
       '@types/lodash': 4.14.194
       '@urql/core': 4.0.6(graphql@16.6.0)
       axios: 1.3.6
       axios-retry: 3.4.0
-      crossbell.js: 0.19.8
+      crossbell.js: 0.19.9
       ethers: 5.7.2
       graphql: 16.6.0
       lodash: 4.17.21
@@ -14026,7 +14034,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unocss@0.51.8(postcss@8.4.23)(rollup@2.79.1)(vite@4.3.1):
+  /unocss@0.51.8(postcss@8.4.23)(rollup@2.79.1)(vite@4.3.3):
     resolution: {integrity: sha512-uty78ilhQ/HxvjIDLRZ0J6Kb6fSfTKv0afyP7iWQmqoG/qTBR33ambnuTmi2Dt5GzCxAY6tyCaWjK/FZ7mfEYg==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -14035,7 +14043,7 @@ packages:
       '@unocss/webpack':
         optional: true
     dependencies:
-      '@unocss/astro': 0.51.8(rollup@2.79.1)(vite@4.3.1)
+      '@unocss/astro': 0.51.8(rollup@2.79.1)(vite@4.3.3)
       '@unocss/cli': 0.51.8(rollup@2.79.1)
       '@unocss/core': 0.51.8
       '@unocss/extractor-arbitrary-variants': 0.51.8
@@ -14054,7 +14062,7 @@ packages:
       '@unocss/transformer-compile-class': 0.51.8
       '@unocss/transformer-directives': 0.51.8
       '@unocss/transformer-variant-group': 0.51.8
-      '@unocss/vite': 0.51.8(rollup@2.79.1)(vite@4.3.1)
+      '@unocss/vite': 0.51.8(rollup@2.79.1)(vite@4.3.3)
     transitivePeerDependencies:
       - postcss
       - rollup
@@ -14313,6 +14321,39 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /vite@4.3.3(@types/node@18.16.0):
+    resolution: {integrity: sha512-MwFlLBO4udZXd+VBcezo3u8mC77YQk+ik+fbc0GZWGgzfbPP+8Kf0fldhARqvSYmtIWoAJ5BXPClUbMTlqFxrA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 18.16.0
+      esbuild: 0.17.18
+      postcss: 8.4.23
+      rollup: 3.21.0
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
   /vitest@0.30.1:
     resolution: {integrity: sha512-y35WTrSTlTxfMLttgQk4rHcaDkbHQwDP++SNwPb+7H8yb13Q3cu2EixrtHzF27iZ8v0XCciSsLg00RkPAzB/aA==}
     engines: {node: '>=v14.18.0'}
@@ -14541,8 +14582,8 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: true
 
-  /webpack@5.80.0(esbuild@0.17.18):
-    resolution: {integrity: sha512-OIMiq37XK1rWO8mH9ssfFKZsXg4n6klTEDL7S8/HqbAOBBaiy8ABvXvz0dDCXeEF9gqwxSvVk611zFPjS8hJxA==}
+  /webpack@5.81.0(esbuild@0.17.18):
+    resolution: {integrity: sha512-AAjaJ9S4hYCVODKLQTgG5p5e11hiMawBwV2v8MYLE0C/6UAGLuAF4n1qa9GOwdxnicaP+5k6M5HrLmD4+gIB8Q==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     peerDependencies:
@@ -14572,7 +14613,7 @@ packages:
       neo-async: 2.6.2
       schema-utils: 3.1.2
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.7(esbuild@0.17.18)(webpack@5.80.0)
+      terser-webpack-plugin: 5.3.7(esbuild@0.17.18)(webpack@5.81.0)
       watchpack: 2.4.0
       webpack-sources: 3.2.3
     transitivePeerDependencies:
@@ -14839,7 +14880,7 @@ packages:
     resolution: {integrity: sha512-vo2RQo7DILVRoH5LjGqw3nphavEjK4Qk+FenXeUsknKn14eCNedHOXWbmnvP4ipKhlE35pvJ4yl4YYf6YsJArA==}
     dev: true
 
-  /workbox-webpack-plugin@6.5.4(webpack@5.80.0):
+  /workbox-webpack-plugin@6.5.4(webpack@5.81.0):
     resolution: {integrity: sha512-LmWm/zoaahe0EGmMTrSLUi+BjyR3cdGEfU3fS6PN1zKFYbqAKuQ+Oy/27e4VSXsyIwAw8+QDfk1XHNGtZu9nQg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
@@ -14848,7 +14889,7 @@ packages:
       fast-json-stable-stringify: 2.1.0
       pretty-bytes: 5.6.0
       upath: 1.2.0
-      webpack: 5.80.0(esbuild@0.17.18)
+      webpack: 5.81.0(esbuild@0.17.18)
       webpack-sources: 1.4.3
       workbox-build: 6.5.4
     transitivePeerDependencies:
