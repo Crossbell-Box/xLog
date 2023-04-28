@@ -270,7 +270,7 @@ export default function SubdomainEditor() {
           ?.filter((tag) => tag !== "post" && tag !== "page")
           ?.join(", ") || "",
       content: page.data.body?.content || "",
-      password: page.data.body?.password || "",
+      password: page.data.password || "",
     })
     setDefaultSlug(
       getDefaultSlug(

@@ -85,10 +85,10 @@ export type Note = UniNote & {
     address?: string
     mime_type?: string
     element?: ReactElement
-    password?: string
   }
   preview?: boolean
   views?: number
+  password?: string
 }
 
 export type ExpandedNote = NoteEntity & {

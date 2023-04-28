@@ -226,6 +226,7 @@ const getLocalPages = (input: { site: string; isPost?: boolean }) => {
           ],
         }),
         preview: true,
+        password: page.values?.password,
       })
     }
   })
@@ -379,6 +380,7 @@ export async function getPage<TRender extends boolean = false>(
     pageId?: string
     site?: string
     useStat?: boolean
+    password?: string
   },
   customUnidata?: Unidata,
 ) {
