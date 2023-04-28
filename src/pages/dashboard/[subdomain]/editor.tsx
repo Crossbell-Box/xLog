@@ -270,6 +270,7 @@ export default function SubdomainEditor() {
           ?.filter((tag) => tag !== "post" && tag !== "page")
           ?.join(", ") || "",
       content: page.data.body?.content || "",
+      password: page.data.body?.password || "",
     })
     setDefaultSlug(
       getDefaultSlug(
@@ -834,11 +835,12 @@ const EditorExtraProperties: FC<{
           isBlock
           name="password"
           id="password"
+          placeholder={t("Not enabled") || "Not enabled"}
           value={values.password}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             updateValue("password", e.target.value)
           }}
-          help={t("Enable encryption for this")}
+          help={t("Enable encryption if set")}
         />
       </div>
     </div>

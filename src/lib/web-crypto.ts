@@ -1,6 +1,9 @@
 // Encrypt & decrypt core for xLog private posts
 // Credit to https://github.com/D0n9X1n/hexo-blog-encrypt under MIT license
 
+// Algorithm identify version
+export const EncryptAlgorithmVersion = 1
+
 /***********************************************
  *                                             *
  *               Helper Function               *
@@ -250,3 +253,14 @@ export const Decrypt = async (
     originalData: decryptDecoded, // Remove verify prefix
   }
 }
+
+/***********************************************
+ *                                             *
+ *         Attribute related constants         *
+ *                                             *
+ ***********************************************/
+
+export const XLOG_ENCRYPT_ATTRIBUTE_IsEnabled = "xlog_encrypt_isEnabled"
+export const XLOG_ENCRYPT_ATTRIBUTE_Version = "xlog_encrypt_version" // Would be helpful if we'd like to update our algorithm later
+export const XLOG_ENCRYPT_ATTRIBUTE_EncryptedData = "xlog_encrypt_encryptedData"
+export const XLOG_ENCRYPT_ATTRIBUTE_HmacSignature = "xlog_encrypt_hmacSignature"

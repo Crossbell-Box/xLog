@@ -10,7 +10,15 @@ import { expandCrossbellNote, expandUnidataNote } from "~/lib/expand-unit"
 import { notFound } from "~/lib/server-side-props"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
-import { ExpandedNote, Note, Notes, PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, type Note, Notes, PageVisibilityEnum } from "~/lib/types"
+import {
+  Encrypt,
+  EncryptAlgorithmVersion,
+  XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
+  XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
+  XLOG_ENCRYPT_ATTRIBUTE_IsEnabled,
+  XLOG_ENCRYPT_ATTRIBUTE_Version,
+} from "~/lib/web-crypto"
 import unidata from "~/queries/unidata.server"
 
 export async function checkPageSlug(
@@ -55,6 +63,9 @@ export async function createOrUpdatePage(
     isPost?: boolean
     externalUrl?: string
     applications?: string[]
+
+    /** Only for encrypted contents */
+    password?: string
   },
   customUnidata?: Unidata,
   newbieToken?: string,
@@ -75,6 +86,81 @@ export async function createOrUpdatePage(
       },
     )
   }
+
+  // Prepare basic info
+  const noteMeta: Partial<
+    Omit<Note, "date_created" | "date_updated" | "source" | "metadata">
+  > = {
+    ...(input.externalUrl && { related_urls: [input.externalUrl] }),
+    ...(input.pageId && { id: input.pageId }),
+    ...(input.title && { title: input.title }),
+    ...(input.publishedAt && {
+      date_published: input.publishedAt,
+    }),
+    ...(input.excerpt && {
+      summary: {
+        content: input.excerpt,
+        mime_type: "text/markdown",
+      },
+    }),
+    tags: [
+      input.isPost ? "post" : "page",
+      ...(input.tags
+        ?.split(",")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag) || []),
+    ],
+    applications: [
+      "xlog",
+      ...(input.applications?.filter((app) => app !== "xlog") || []),
+    ],
+    ...(input.slug && {
+      attributes: [
+        {
+          trait_type: "xlog_slug",
+          value: input.slug,
+        },
+      ],
+    }),
+  }
+
+  if (input.content) {
+    // Have contents
+    if (input.password) {
+      // Activate xLog encryption
+      const encryptResult = await Encrypt(input.password, input.content)
+
+      // Prepare attributes to save encrypted content
+      if (!noteMeta.attributes) {
+        noteMeta.attributes = []
+      }
+      noteMeta.attributes.push(
+        {
+          trait_type: XLOG_ENCRYPT_ATTRIBUTE_IsEnabled,
+          value: true,
+        },
+        {
+          trait_type: XLOG_ENCRYPT_ATTRIBUTE_Version,
+          value: EncryptAlgorithmVersion,
+        },
+        {
+          trait_type: XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
+          value: encryptResult.encryptedData,
+        },
+        {
+          trait_type: XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
+          value: encryptResult.hmacSignature,
+        },
+      )
+    } else {
+      // Just raw content
+      noteMeta.body = {
+        content: input.content,
+        mime_type: "text/markdown",
+      }
+    }
+  }
+
   return await (customUnidata || unidata).notes.set(
     {
       source: "Crossbell Note",
@@ -82,45 +168,7 @@ export async function createOrUpdatePage(
       platform: "Crossbell",
       action: input.pageId ? "update" : "add",
     },
-    {
-      ...(input.externalUrl && { related_urls: [input.externalUrl] }),
-      ...(input.pageId && { id: input.pageId }),
-      ...(input.title && { title: input.title }),
-      ...(input.content && {
-        body: {
-          content: input.content,
-          mime_type: "text/markdown",
-        },
-      }),
-      ...(input.publishedAt && {
-        date_published: input.publishedAt,
-      }),
-      ...(input.excerpt && {
-        summary: {
-          content: input.excerpt,
-          mime_type: "text/markdown",
-        },
-      }),
-      tags: [
-        input.isPost ? "post" : "page",
-        ...(input.tags
-          ?.split(",")
-          .map((tag) => tag.trim())
-          .filter((tag) => tag) || []),
-      ],
-      applications: [
-        "xlog",
-        ...(input.applications?.filter((app) => app !== "xlog") || []),
-      ],
-      ...(input.slug && {
-        attributes: [
-          {
-            trait_type: "xlog_slug",
-            value: input.slug,
-          },
-        ],
-      }),
-    },
+    noteMeta,
     {
       newbieToken,
     },
