@@ -68,7 +68,7 @@ export default function SubdomainIndex() {
       value: `${
         tips.data?.pages?.[0]?.list
           ?.map((i) => +i.amount)
-          .reduce((acr, cur) => acr + cur) || 0
+          .reduce((acr, cur) => acr + cur, 0) ?? 0
       } MIRA`,
       url: `/dashboard/${subdomain}/tokens`,
     },
