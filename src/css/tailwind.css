@@ -91,6 +91,7 @@ a {
   @apply font-medium;
   @apply transition;
   @apply active:scale-95;
+  @apply focus-visible:ring focus-visible:ring-accent focus-visible:ring-opacity-50 focus-within:ring-offset-1;
 }
 
 .button.is-auto-width {
