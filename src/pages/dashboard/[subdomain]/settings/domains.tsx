@@ -6,7 +6,10 @@ import type { ReactElement } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 
-import { useAccountState, useUpgradeAccountModal } from "@crossbell/connect-kit"
+import {
+  useAccountState,
+  useUpgradeEmailAccountModal,
+} from "@crossbell/connect-kit"
 
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
@@ -45,7 +48,7 @@ export default function SettingsDomainsPage() {
   const isEmailAccount = useAccountState(
     (s) => s.computed.account?.type === "email",
   )
-  const upgradeAccountModal = useUpgradeAccountModal()
+  const upgradeAccountModal = useUpgradeEmailAccountModal()
 
   const form = useForm({
     defaultValues: {
