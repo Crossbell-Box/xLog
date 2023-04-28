@@ -44,12 +44,9 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
     <UniLink
       href={link.url}
       onClick={link.onClick}
-      className={cn(
-        `xlog-site-navigation-item h-10 flex items-center space-x-1 transition-colors relative after:content-[''] hover:after:w-full hover:after:left-0 after:transition-[width,left] after:h-[2px] after:block after:absolute after:bottom-0`,
-        active
-          ? `text-accent after:w-full after:left-0 after:bg-accent`
-          : `hover:text-gray-700 after:w-0 after:left-1/2 after:bg-gray-700`,
-      )}
+      className={cn("xlog-site-navigation-item", {
+        "xlog-site-navigation-item-active": active,
+      })}
     >
       {link.icon && <span>{link.icon}</span>}
       <span className="whitespace-nowrap">{t(link.label)}</span>
@@ -335,7 +332,7 @@ export const SiteHeader: React.FC<{
           </div>
         </div>
         <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
-          <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto text-sm sm:text-base">
+          <div className="xlog-site-navigation flex items-center gap-1 mx-[-.5rem] min-w-0 text-sm sm:text-base">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}
