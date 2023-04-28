@@ -207,8 +207,10 @@ export default function SubdomainEditor() {
     if (check) {
       toast.error(check)
     } else {
+      const uniqueTags = Array.from(new Set(values.tags.split(","))).join(",")
       createOrUpdatePage.mutate({
         ...values,
+        tags: uniqueTags,
         slug: values.slug || defaultSlug,
         siteId: subdomain,
         ...(visibility === PageVisibilityEnum.Draft ? {} : { pageId: pageId }),
