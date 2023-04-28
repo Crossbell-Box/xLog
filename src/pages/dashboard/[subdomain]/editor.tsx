@@ -580,7 +580,7 @@ export default function SubdomainEditor() {
                       name="title"
                       value={values.title}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter") {
+                        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
                           view?.focus()
                         }
                       }}
