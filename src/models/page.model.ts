@@ -10,7 +10,8 @@ import { expandCrossbellNote, expandUnidataNote } from "~/lib/expand-unit"
 import { notFound } from "~/lib/server-side-props"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
-import { ExpandedNote, type Note, Notes, PageVisibilityEnum } from "~/lib/types"
+import { PageVisibilityEnum } from "~/lib/types"
+import type { ExpandedNote, Note, Notes } from "~/lib/types"
 import {
   Encrypt,
   EncryptAlgorithmVersion,
