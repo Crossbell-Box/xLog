@@ -1,70 +1,33 @@
 // Encrypt & decrypt core for xLog private posts
 // Credit to https://github.com/D0n9X1n/hexo-blog-encrypt under MIT license
 
-// Algorithm identify version
+/***********************************************
+ *                                             *
+ *         Algorithm identify version          *
+ *                                             *
+ ***********************************************/
+
 export const EncryptAlgorithmVersion = 1
 
 /***********************************************
  *                                             *
- *               Helper Function               *
+ *         Attribute related constants         *
  *                                             *
  ***********************************************/
-const textToArray = (s: string) => {
-  let n = 0
-  const bufferArray = []
 
-  for (let i = 0; i < s.length; ) {
-    const c = s.codePointAt(i)
-    if (!c) {
-      // Something is wrong
-      break
-    }
-    if (c < 128) {
-      bufferArray[n++] = c
-      i++
-    } else if (c > 127 && c < 2048) {
-      bufferArray[n++] = (c >> 6) | 192
-      bufferArray[n++] = (c & 63) | 128
-      i++
-    } else if (c > 2047 && c < 65536) {
-      bufferArray[n++] = (c >> 12) | 224
-      bufferArray[n++] = ((c >> 6) & 63) | 128
-      bufferArray[n++] = (c & 63) | 128
-      i++
-    } else {
-      bufferArray[n++] = (c >> 18) | 240
-      bufferArray[n++] = ((c >> 12) & 63) | 128
-      bufferArray[n++] = ((c >> 6) & 63) | 128
-      bufferArray[n++] = (c & 63) | 128
-      i += 2
-    }
-  }
-  return new Uint8Array(bufferArray)
-}
+export const XLOG_ENCRYPT_ATTRIBUTE_IsEnabled = "xlog_encrypt_isEnabled"
+export const XLOG_ENCRYPT_ATTRIBUTE_Version = "xlog_encrypt_version" // Would be helpful if we'd like to update our algorithm later
+export const XLOG_ENCRYPT_ATTRIBUTE_EncryptedData = "xlog_encrypt_encryptedData"
+export const XLOG_ENCRYPT_ATTRIBUTE_HmacSignature = "xlog_encrypt_hmacSignature"
 
-const hexToArray = (s: string) =>
-  new Uint8Array(s.match(/[\da-f]{2}/gi)?.map((h) => parseInt(h, 16)) || [])
+/***********************************************
+ *                                             *
+ *               Global Helpers                *
+ *                                             *
+ ***********************************************/
 
-const arrayBufferToHex = (arrayBuffer: ArrayBuffer | any) => {
-  // Should be ArrayBuffer, but js could be anything
-  if (
-    typeof arrayBuffer !== "object" ||
-    arrayBuffer === null ||
-    typeof arrayBuffer.byteLength !== "number"
-  ) {
-    throw new TypeError("Expected input to be an ArrayBuffer")
-  }
-
-  const view = new Uint8Array(arrayBuffer)
-  let result = ""
-
-  for (let i = 0; i < view.length; i++) {
-    const value = view[i].toString(16)
-    result += value.length === 1 ? "0" + value : value
-  }
-
-  return result
-}
+const encoder = new TextEncoder()
+const decoder = new TextDecoder()
 
 /***********************************************
  *                                             *
@@ -72,8 +35,26 @@ const arrayBufferToHex = (arrayBuffer: ArrayBuffer | any) => {
  *                                             *
  ***********************************************/
 
-const keySalt = textToArray("Welcome to xLog 🎉")
-const ivSalt = textToArray("Enjoy your new experience 🥰")
+const keySalt = encoder.encode("Welcome to xLog 🎉")
+const ivSalt = encoder.encode("Enjoy your new experience 🥰")
+
+/***********************************************
+ *                                             *
+ *               Helper Function               *
+ *                                             *
+ ***********************************************/
+
+const base64ToUint8Array = (base64: string) =>
+  new Uint8Array(
+    window
+      .atob(base64)
+      .split("")
+      .map((c) => c.charCodeAt(0)),
+  )
+const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) =>
+  window.btoa(
+    String.fromCharCode.apply(null, Array.from(new Uint8Array(arrayBuffer))),
+  )
 
 /***********************************************
  *                                             *
@@ -82,7 +63,6 @@ const ivSalt = textToArray("Enjoy your new experience 🥰")
  ***********************************************/
 
 const getKeyMaterial = (password: string) => {
-  let encoder = new TextEncoder()
   return crypto.subtle.importKey(
     "raw",
     encoder.encode(password),
@@ -158,8 +138,6 @@ export const Encrypt = async (
   password: string,
   originalData: string,
 ): Promise<EncryptResult> => {
-  const encoder = new TextEncoder()
-
   const km = await getKeyMaterial(password)
 
   const originalEncoded = encoder.encode(originalData)
@@ -185,8 +163,8 @@ export const Encrypt = async (
   )
 
   return {
-    encryptedData: arrayBufferToHex(encryptResult),
-    hmacSignature: arrayBufferToHex(hmacSignature),
+    encryptedData: arrayBufferToBase64(encryptResult),
+    hmacSignature: arrayBufferToBase64(hmacSignature),
   }
 }
 
@@ -195,9 +173,14 @@ const verifyContent = async (
   content: ArrayBuffer,
   hmacSignature: string,
 ) => {
-  const hmacSignatureEncoded = hexToArray(hmacSignature)
+  let hmacSignatureEncoded
+  try {
+    hmacSignatureEncoded = base64ToUint8Array(hmacSignature)
+  } catch (e) {
+    throw new Error("Invalid HMAC signature, decode failed")
+  }
 
-  const result = await crypto.subtle.verify(
+  return await crypto.subtle.verify(
     {
       name: "HMAC",
       hash: "SHA-256",
@@ -206,10 +189,6 @@ const verifyContent = async (
     hmacSignatureEncoded,
     content,
   )
-  if (!result) {
-    console.warn(`Got signature `, hmacSignature, ` but proved wrong.`)
-  }
-  return result
 }
 
 export interface DecryptResult {
@@ -221,10 +200,14 @@ export const Decrypt = async (
   encryptedData: string,
   hmacSignature: string,
 ): Promise<DecryptResult> => {
-  const decoder = new TextDecoder()
-
   const km = await getKeyMaterial(password)
-  const encryptedDataEncoded = hexToArray(encryptedData)
+
+  let encryptedDataEncoded
+  try {
+    encryptedDataEncoded = base64ToUint8Array(encryptedData)
+  } catch (e) {
+    throw new Error("Invalid encrypted data, decode failed")
+  }
 
   let decryptResult: ArrayBuffer
   try {
@@ -238,29 +221,24 @@ export const Decrypt = async (
     )
   } catch (e) {
     // Password is wrong
-    console.error(e)
     throw new Error("Failed to decrypt with wrong password")
   }
 
   const decryptDecoded = decoder.decode(decryptResult)
-
-  return {
-    verified: await verifyContent(
+  let verified = false
+  try {
+    verified = await verifyContent(
       await getHmacKey(km),
       decryptResult,
       hmacSignature,
-    ),
+    )
+  } catch (e) {
+    // Failed to verify HMAC signature
+    throw new Error("Failed to verify HMAC signature")
+  }
+
+  return {
+    verified,
     originalData: decryptDecoded, // Remove verify prefix
   }
 }
-
-/***********************************************
- *                                             *
- *         Attribute related constants         *
- *                                             *
- ***********************************************/
-
-export const XLOG_ENCRYPT_ATTRIBUTE_IsEnabled = "xlog_encrypt_isEnabled"
-export const XLOG_ENCRYPT_ATTRIBUTE_Version = "xlog_encrypt_version" // Would be helpful if we'd like to update our algorithm later
-export const XLOG_ENCRYPT_ATTRIBUTE_EncryptedData = "xlog_encrypt_encryptedData"
-export const XLOG_ENCRYPT_ATTRIBUTE_HmacSignature = "xlog_encrypt_hmacSignature"
