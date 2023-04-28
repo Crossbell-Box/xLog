@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { create } from "zustand"
 
+import { noop } from "~/lib/noop"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { isServerSide } from "~/lib/utils"
 
@@ -149,8 +150,6 @@ const useDarkModeInternal = (
     },
   }
 }
-
-const noop = () => {}
 
 const mockElement = {
   classList: {

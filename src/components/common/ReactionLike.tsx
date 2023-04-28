@@ -1,6 +1,6 @@
 import confetti from "canvas-confetti"
 import { Trans, useTranslation } from "next-i18next"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 import { CharacterList } from "~/components/common/CharacterList"
 import { Modal } from "~/components/ui/Modal"
@@ -16,7 +16,7 @@ import {
   useToggleLikePage,
 } from "~/queries/page"
 
-import { Avatar } from "../ui/Avatar"
+import { AvatarStack } from "../ui/AvatarStack"
 import { Button } from "../ui/Button"
 
 export const ReactionLike: React.FC<{
@@ -77,6 +77,19 @@ export const ReactionLike: React.FC<{
     }
   }, [toggleLikePage.isSuccess])
 
+  const avatars = useMemo(
+    () =>
+      likes
+        ?.sort((a, b) =>
+          b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
+        )
+        .slice(0, 3)
+        .map(($) => ({
+          images: $.character?.metadata?.content?.avatars,
+          name: $.character?.metadata?.content?.name,
+        })),
+    [likes],
+  )
   return (
     <>
       <div className={cn("xlog-reactions-like flex items-center sm:mb-0")}>
@@ -108,33 +121,11 @@ export const ReactionLike: React.FC<{
           <span>{likeCount}</span>
         </Button>
         {size !== "sm" && (
-          <ul
-            className="-space-x-4 cursor-pointer hidden sm:inline-block"
+          <AvatarStack
+            avatars={avatars}
+            count={likeCount}
             onClick={() => setIsLikeListOpen(true)}
-          >
-            {likes
-              ?.sort((a, b) =>
-                b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
-              )
-              .slice(0, 3)
-              ?.map((like, index) => (
-                <li className="inline-block" key={index}>
-                  <Avatar
-                    className="relative align-middle border-2 border-white"
-                    images={like.character?.metadata?.content?.avatars || []}
-                    name={like.character?.metadata?.content?.name}
-                    size={40}
-                  />
-                </li>
-              ))}
-            {likeCount > 3 && (
-              <li className="inline-block">
-                <div className="relative align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
-                  +{likeCount - 3}
-                </div>
-              </li>
-            )}
-          </ul>
+          />
         )}
       </div>
       <Modal
