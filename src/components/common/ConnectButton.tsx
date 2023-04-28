@@ -239,7 +239,7 @@ export const ConnectButton: React.FC<{
                   placement="bottom-end"
                   target={
                     <button
-                      className="flex items-center w-full hover:bg-hover transition-colors py-1 px-2 rounded-lg ml-1"
+                      className="flex items-center w-full hover:bg-hover transition-colors py-1 px-2 rounded-lg ml-1 focus-visible:outline focus-visible:outline-accent focus-visible:outline-offset-1"
                       type="button"
                       aria-label="connector"
                     >
