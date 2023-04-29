@@ -550,8 +550,7 @@ export default function SubdomainEditor() {
         }
 
         // Save page password
-        updateValue("password", password)
-        values.password = password // /!\ WARNING: Not a good usage, but for instant data update (or the password input will not initialize properly)
+        updateValue("password", password) // TODO: Make this work
         // Set page content
         setInitialContent(decryptResult.originalData)
         updateValue("content", decryptResult.originalData)
