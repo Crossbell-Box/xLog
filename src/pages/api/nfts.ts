@@ -59,7 +59,7 @@ export default async function handler(
         return nft
       }),
     )
-    redis.set(redisKey, JSON.stringify(result), "EX", 60 * 60 * 24)
+    redis?.set(redisKey, JSON.stringify(result), "EX", 60 * 60 * 24)
     res.status(200).json({
       list: [],
     })
