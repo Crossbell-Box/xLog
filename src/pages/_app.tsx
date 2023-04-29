@@ -1,4 +1,4 @@
-import "aplayer/dist/APlayer.min.css"
+import "aplayer-react/dist/index.css"
 import { Network } from "crossbell.js"
 import { appWithTranslation } from "next-i18next"
 import NextNProgress from "nextjs-progressbar"
