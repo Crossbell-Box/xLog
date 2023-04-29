@@ -1,0 +1,34 @@
+import { GetServerSideProps } from "next"
+
+import { SITE_URL } from "~/lib/env"
+import { parsePost, setHeader } from "~/lib/json-feed"
+import { ExpandedNote } from "~/lib/types"
+import { getFeed } from "~/models/home.model"
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  setHeader(ctx)
+
+  const feed = await getFeed({
+    type: "latest",
+  })
+
+  const data = {
+    version: "https://jsonfeed.org/version/1.1",
+    title: "xLog Latest",
+    icon: "https://ipfs.4everland.xyz/ipfs/bafkreigxdnr5lvtjxqin5upquomrti2s77hlgtjy5zaeu43uhpny75rbga",
+    home_page_url: `${SITE_URL}/activities`,
+    feed_url: `${SITE_URL}/feed/latest`,
+    items: feed?.list?.map((post: ExpandedNote) => parsePost(post)),
+  }
+
+  ctx.res.write(JSON.stringify(data))
+  ctx.res.end()
+
+  return {
+    props: {},
+  }
+}
+
+const LatestFeed: React.FC = () => null
+
+export default LatestFeed

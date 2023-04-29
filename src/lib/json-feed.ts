@@ -1,10 +1,14 @@
+import type { GetServerSidePropsContext } from "next"
+
 import { QueryClient } from "@tanstack/react-query"
 
 import { getSiteLink } from "~/lib/helpers"
-import { PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { renderPageContent } from "~/markdown"
 import { fetchGetPagesBySite } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
+
+import { SITE_URL } from "./env"
 
 export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
   const queryClient = new QueryClient()
@@ -67,4 +71,32 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
       }),
     })),
   }
+}
+
+export const parsePost = (post: ExpandedNote) => {
+  return {
+    id: `${post.characterId}-${post.noteId}`,
+    title: post.metadata?.content?.title,
+    summary: post.metadata?.content?.summary,
+    url: `${SITE_URL}/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`,
+    image: post.metadata?.content?.cover,
+    date_published: post.createdAt,
+    date_modified: post.updatedAt,
+    tags: post.metadata?.content?.tags,
+    author: {
+      name: post.character?.metadata?.content?.name || post.character?.handle,
+      url: `${SITE_URL}/api/redirection?characterId=${post.characterId}`,
+      twitter: post.character?.metadata?.content?.connected_accounts
+        ?.find((account) => account?.endsWith?.("@twitter"))
+        ?.match(/csb:\/\/account:([^@]+)@twitter/)?.[1],
+      handle: post.character?.handle,
+    },
+  }
+}
+
+export const setHeader = (ctx: GetServerSidePropsContext) => {
+  ctx.res.setHeader("Content-Type", "application/feed+json; charset=utf-8")
+  ctx.res.setHeader("Access-Control-Allow-Methods", "GET")
+  ctx.res.setHeader("Access-Control-Allow-Origin", "*")
+  ctx.res.setHeader("Cache-Control", "public, max-age=1800")
 }

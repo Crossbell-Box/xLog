@@ -30,7 +30,7 @@ export const SEOHead: React.FC<{
         </>
       )}
       <link rel="icon" href={icon || `${SITE_URL}/assets/logo.svg`}></link>
-      {site && (
+      {site ? (
         <>
           <link
             rel="alternate"
@@ -46,11 +46,44 @@ export const SEOHead: React.FC<{
           ></link>
           <link
             rel="alternate"
-            href="/feed"
-            title={`Notifications on ${siteName}`}
+            href="/feed/comments"
+            title={`Comments on ${siteName}`}
             type="application/feed+json"
           ></link>
           <link rel="manifest" href="/manifest.json" />
+        </>
+      ) : (
+        <>
+          <link
+            rel="alternate"
+            href="/latest"
+            title="xLog Latest"
+            type="application/feed+json"
+          ></link>
+          <link
+            rel="alternate"
+            href="/feed/hottest/0"
+            title="xLog Hot"
+            type="application/feed+json"
+          ></link>
+          <link
+            rel="alternate"
+            href="/feed/hottest/1"
+            title="xLog Daily Hot"
+            type="application/feed+json"
+          ></link>
+          <link
+            rel="alternate"
+            href="/feed/hottest/7"
+            title="xLog Weekly Hot"
+            type="application/feed+json"
+          ></link>
+          <link
+            rel="alternate"
+            href="/feed/hottest/30"
+            title="xLog Monthly Hottest"
+            type="application/feed+json"
+          ></link>
         </>
       )}
     </Head>
