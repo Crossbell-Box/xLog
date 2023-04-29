@@ -105,7 +105,7 @@ export const ReactionLike: React.FC<{
             const inner = (
               <span
                 className={cn(
-                  "i-mingcute:thumb-up-2-fill mr-1",
+                  "icon-[mingcute--thumb-up-2-fill] mr-1",
                   size === "sm" ? "text-base" : "text-[38px]",
                 )}
               ></span>

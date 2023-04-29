@@ -54,7 +54,7 @@ export const PublishButton: React.FC<{
             ref={triggerRef}
             isDisabled={isSaving}
           >
-            <i className="i-mingcute:down-line" />
+            <i className="icon-[mingcute--down-line]" />
           </Button>
         )}
       </ButtonGroup>
@@ -67,14 +67,14 @@ export const PublishButton: React.FC<{
                   className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
                   onClick={() => window.open(twitterShareUrl)}
                 >
-                  <i className="i-mingcute:twitter-line mr-1"></i>
+                  <i className="icon-[mingcute--twitter-line] mr-1"></i>
                   {t("Share to Twitter")}
                 </button>
                 <button
                   className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
                   onClick={() => setDeleteConfirmModalOpen(true)}
                 >
-                  <i className="i-mingcute:delete-2-line mr-1"></i>
+                  <i className="icon-[mingcute--delete-2-line] mr-1"></i>
                   {t("Delete")}
                 </button>
               </div>

@@ -273,7 +273,7 @@ function Home() {
           >
             {isConnected ? (
               <>
-                <span className="i-mingcute-grid-line text-xl mr-2 inline-block"></span>
+                <span className="icon-[mingcute--grid-line] text-xl mr-2 inline-block"></span>
                 <span>{t("Dashboard")}</span>
               </>
             ) : (
@@ -298,7 +298,7 @@ function Home() {
             spy={true}
             smooth={true}
             duration={500}
-            className="cursor-pointer inline-block i-mingcute:down-line text-3xl"
+            className="cursor-pointer inline-block icon-[mingcute--down-line] text-3xl"
           ></Link>
         </div>
       </div>
@@ -544,7 +544,7 @@ function Home() {
                 </li>
               ))}
               <li className="flex items-center justify-center">
-                <i className="i-mingcute:more-1-line text-5xl" />
+                <i className="icon-[mingcute--more-1-line] text-5xl" />
               </li>
             </ul>
           </div>

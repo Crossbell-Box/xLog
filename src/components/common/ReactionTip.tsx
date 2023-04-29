@@ -63,7 +63,9 @@ export const ReactionTip: React.FC<{
           ref={tipRef}
         >
           {(() => {
-            const inner = <i className="i-mingcute:heart-fill text-[40px]" />
+            const inner = (
+              <i className="icon-[mingcute--heart-fill] text-[40px]" />
+            )
             return (
               <Tooltip label={t("Tip")} placement="top">
                 {inner}

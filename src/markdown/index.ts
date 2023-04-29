@@ -152,7 +152,7 @@ export const renderPageContent = (
               type: "element",
               tagName: "span",
               properties: {
-                className: ["i-mingcute:link-line"],
+                className: ["icon-[mingcute--link-line]"],
               },
               children: [],
             },

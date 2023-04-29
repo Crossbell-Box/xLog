@@ -7,7 +7,7 @@ import { ICommand, wrapExecute } from "."
 export const Image: ICommand = {
   name: "upload-image",
   label: "Upload Image",
-  icon: "i-mingcute:photo-album-line",
+  icon: "icon-[mingcute--photo-album-line]",
   execute: ({ view }) => {
     const input = document.createElement("input")
     input.type = "file"

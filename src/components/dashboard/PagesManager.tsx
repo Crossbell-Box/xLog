@@ -192,7 +192,7 @@ export const PagesManager: React.FC<{
                 )
               }
             >
-              <span className="i-mingcute:add-line inline-block"></span>
+              <span className="icon-[mingcute--add-line] inline-block"></span>
               <span>{t(`New ${isPost ? "Post" : "Page"}`)}</span>
             </Button>
             <span className="hidden sm:inline-flex">
@@ -201,7 +201,7 @@ export const PagesManager: React.FC<{
                 placement="bottom"
               >
                 <Button className={cn(`space-x-2`)} onClick={importFile}>
-                  <span className="i-mingcute:file-import-line inline-block"></span>
+                  <span className="icon-[mingcute--file-import-line] inline-block"></span>
                   <span>{t("Import")}</span>
                 </Button>
               </Tooltip>
@@ -267,10 +267,10 @@ export const PagesManager: React.FC<{
                     <i
                       className={`${
                         batchSelected.includes(page.id)
-                          ? "i-mingcute-check-line"
+                          ? "icon-[mingcute--check-line]"
                           : isPost
-                          ? "i-mingcute-news-line"
-                          : "i-mingcute-file-line"
+                          ? "icon-[mingcute--news-line]"
+                          : "icon-[mingcute--file-line]"
                       } text-2xl`}
                     />
                   </button>
@@ -311,7 +311,7 @@ export const PagesManager: React.FC<{
                               e.stopPropagation()
                             }}
                           >
-                            <i className="i-mingcute:more-1-line text-2xl" />
+                            <i className="icon-[mingcute--more-1-line] text-2xl" />
                           </button>
                         </Menu.Button>
 

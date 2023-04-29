@@ -47,19 +47,19 @@ export default function SubdomainIndex() {
 
   const statMap = [
     {
-      icon: "i-mingcute:news-line",
+      icon: "icon-[mingcute--news-line]",
       name: "Published posts",
       value: stat.data?.notesCount,
       url: `/dashboard/${subdomain}/posts`,
     },
     {
-      icon: "i-mingcute:comment-line",
+      icon: "icon-[mingcute--comment-line]",
       name: "Received comments",
       value: stat.data?.commentsCount,
       url: `/dashboard/${subdomain}/comments`,
     },
     {
-      icon: "i-mingcute:heart-line",
+      icon: "icon-[mingcute--heart-line]",
       name: "Received tips",
       value: `${
         tips.data?.pages?.[0]?.list
@@ -69,7 +69,7 @@ export default function SubdomainIndex() {
       url: `/dashboard/${subdomain}/tokens`,
     },
     {
-      icon: "i-mingcute:user-follow-line",
+      icon: "icon-[mingcute--user-follow-line]",
       name: "Followers",
       value: stat.data?.subscriptionCount,
       url: getSiteLink({
@@ -77,7 +77,7 @@ export default function SubdomainIndex() {
       }),
     },
     {
-      icon: "i-mingcute:eye-line",
+      icon: "icon-[mingcute--eye-line]",
       name: "Viewed",
       value: stat.data?.viewsCount,
       url: getSiteLink({
@@ -85,7 +85,7 @@ export default function SubdomainIndex() {
       }),
     },
     {
-      icon: "i-mingcute:history-line",
+      icon: "icon-[mingcute--history-line]",
       name: "Site Duration",
       value:
         date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day") +

@@ -43,7 +43,7 @@ export const BlockchainInfo: React.FC<{
               </span>
               <span
                 className={cn(
-                  "i-mingcute:up-line text-lg text-gray-500 transform transition-transform",
+                  "icon-[mingcute--up-line] text-lg text-gray-500 transform transition-transform",
                   open ? "" : "rotate-180",
                 )}
               ></span>

@@ -179,7 +179,7 @@ export default function EventsPage() {
                     }
                   >
                     {t("Learn more")}{" "}
-                    <i className="i-mingcute:right-line text-xl ml-1" />
+                    <i className="icon-[mingcute--right-line] text-xl ml-1" />
                   </UniLink>
                 </div>
               </div>

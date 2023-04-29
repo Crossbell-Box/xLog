@@ -28,7 +28,7 @@ export const rehypeWrapCode: Plugin<Array<void>, Root> = () => {
                 u("element", {
                   tagName: "span",
                   properties: {
-                    className: "i-mingcute:copy-2-line",
+                    className: "icon-[mingcute--copy-2-line]",
                   },
                   children: [],
                 }),

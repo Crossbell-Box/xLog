@@ -31,7 +31,7 @@ export const BackToTopFAB: React.FC<{}> = () => {
         })
       }}
     >
-      <i className="i-mingcute:arow-to-up-line"></i>
+      <i className="icon-[mingcute--arow-to-up-line]"></i>
     </FABBase>
   )
 }

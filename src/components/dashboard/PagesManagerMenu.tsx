@@ -88,7 +88,7 @@ export const PagesManagerMenu: FC<{
   const items: Item[] = [
     {
       text: "Edit",
-      icon: <span className="i-mingcute:edit-line inline-block"></span>,
+      icon: <span className="icon-[mingcute--edit-line] inline-block"></span>,
       onClick() {
         router.push(editLink)
       },
@@ -101,7 +101,9 @@ export const PagesManagerMenu: FC<{
           : isPost
           ? "Page"
           : "Post"),
-      icon: <span className="i-mingcute:transfer-3-line inline-block"></span>,
+      icon: (
+        <span className="icon-[mingcute--transfer-3-line] inline-block"></span>
+      ),
       onClick() {
         const toastId = toast.loading("Converting...")
         if (isCrossbell) {
@@ -144,7 +146,7 @@ export const PagesManagerMenu: FC<{
     },
     {
       text: "Preview",
-      icon: <span className="i-mingcute:eye-line inline-block"></span>,
+      icon: <span className="icon-[mingcute--eye-line] inline-block"></span>,
       onClick() {
         const slug = getNoteSlugFromNote(page)
         if (!slug) return
@@ -153,7 +155,9 @@ export const PagesManagerMenu: FC<{
     },
     {
       text: "Share to Twitter",
-      icon: <span className="i-mingcute:twitter-line inline-block"></span>,
+      icon: (
+        <span className="icon-[mingcute--twitter-line] inline-block"></span>
+      ),
       onClick() {
         if (site.data) {
           const twitterShareUrl = getTwitterShareUrl({
@@ -167,7 +171,9 @@ export const PagesManagerMenu: FC<{
     },
     {
       text: "Delete",
-      icon: <span className="i-mingcute:delete-2-line inline-block"></span>,
+      icon: (
+        <span className="icon-[mingcute--delete-2-line] inline-block"></span>
+      ),
       onClick() {
         setDeleteConfirmModalOpen(true)
       },
