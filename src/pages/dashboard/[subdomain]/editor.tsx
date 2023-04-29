@@ -495,12 +495,17 @@ export default function SubdomainEditor() {
       )}`,
     )
   }, [draftKey, subdomain])
+
+  const [isAdvancedOptionsOpen, setIsAdvancedOptionsOpen] =
+    useState<boolean>(false)
+
   const extraProperties = (
     <EditorExtraProperties
       defaultSlug={defaultSlug}
       updateValue={updateValue}
       isPost={isPost}
       subdomain={subdomain}
+      openAdvancedOptions={() => setIsAdvancedOptionsOpen(true)}
     />
   )
 
@@ -766,12 +771,18 @@ export default function SubdomainEditor() {
                   updateValue={updateValue}
                   isPost={isPost}
                   subdomain={subdomain}
+                  openAdvancedOptions={() => setIsAdvancedOptionsOpen(true)}
                 />
               )}
             </div>
           </>
         )}
       </DashboardMain>
+      <EditorAdvancedOptions
+        updateValue={updateValue}
+        isAdvancedOptionsOpen={isAdvancedOptionsOpen}
+        setIsAdvancedOptionsOpen={setIsAdvancedOptionsOpen}
+      />
       <Modal
         open={isCheersOpen}
         setOpen={setIsCheersOpen}
@@ -845,121 +856,141 @@ const EditorExtraProperties: FC<{
 
   subdomain: string
   defaultSlug: string
-}> = memo(({ isPost, updateValue, subdomain, defaultSlug }) => {
-  const values = useEditorState(
-    (state) =>
-      pick(state, ["publishedAt", "slug", "excerpt", "tags", "password"]),
-    shallow,
-  )
-  const date = useDate()
-  const { t } = useTranslation("dashboard")
-  const site = useGetSite(subdomain)
 
-  const [isAdvancedOptionsOpen, setIsAdvancedOptionsOpen] =
-    useState<boolean>(false)
+  openAdvancedOptions: () => void
+}> = memo(
+  ({ isPost, updateValue, subdomain, defaultSlug, openAdvancedOptions }) => {
+    const values = useEditorState(
+      (state) =>
+        pick(state, ["publishedAt", "slug", "excerpt", "tags", "password"]),
+      shallow,
+    )
+    const date = useDate()
+    const { t } = useTranslation("dashboard")
+    const site = useGetSite(subdomain)
 
-  return (
-    <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
-      <div>
-        <Input
-          type="datetime-local"
-          label={t("Publish at") || ""}
-          isBlock
-          name="publishAt"
-          id="publishAt"
-          value={getInputDatetimeValue(values.publishedAt, date.dayjs)}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            try {
-              const value = date.inLocalTimezone(e.target.value).toISOString()
-              updateValue("publishedAt", value)
-            } catch (error) {}
-          }}
-          help={t(
-            `This ${
-              isPost ? "post" : "page"
-            } will be accessible from this time`,
-          )}
-        />
+    return (
+      <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+        <div>
+          <Input
+            type="datetime-local"
+            label={t("Publish at") || ""}
+            isBlock
+            name="publishAt"
+            id="publishAt"
+            value={getInputDatetimeValue(values.publishedAt, date.dayjs)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              try {
+                const value = date.inLocalTimezone(e.target.value).toISOString()
+                updateValue("publishedAt", value)
+              } catch (error) {}
+            }}
+            help={t(
+              `This ${
+                isPost ? "post" : "page"
+              } will be accessible from this time`,
+            )}
+          />
+        </div>
+        <div>
+          <Input
+            name="slug"
+            value={values.slug}
+            placeholder={defaultSlug}
+            label={t(`${isPost ? "Post" : "Page"} slug`) || ""}
+            id="slug"
+            isBlock
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              updateValue("slug", e.target.value)
+            }
+            help={
+              <>
+                {(values.slug || defaultSlug) && (
+                  <>
+                    {t(
+                      `This ${isPost ? "post" : "page"} will be accessible at`,
+                    )}{" "}
+                    <UniLink
+                      href={`${getSiteLink({
+                        subdomain,
+                        domain: site.data?.custom_domain,
+                      })}/${encodeURIComponent(values.slug || defaultSlug)}`}
+                      className="hover:underline"
+                    >
+                      {getSiteLink({
+                        subdomain,
+                        domain: site.data?.custom_domain,
+                        noProtocol: true,
+                      })}
+                      /{encodeURIComponent(values.slug || defaultSlug)}
+                    </UniLink>
+                  </>
+                )}
+              </>
+            }
+          />
+        </div>
+        <div>
+          <Input
+            name="tags"
+            value={values.tags}
+            label={t("Tags") || ""}
+            id="tags"
+            isBlock
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              updateValue("tags", e.target.value)
+            }
+            help={t("Separate multiple tags with English commas") + ` ","`}
+          />
+        </div>
+        <div>
+          <Input
+            label={t("Excerpt") || ""}
+            isBlock
+            name="excerpt"
+            id="excerpt"
+            value={values.excerpt}
+            multiline
+            rows={5}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+              updateValue("excerpt", e.target.value)
+            }}
+            help={t("Leave it blank to use auto-generated excerpt")}
+          />
+        </div>
+        <div>
+          <Button
+            variant="secondary"
+            className="border"
+            type="button"
+            isBlock
+            onClick={openAdvancedOptions}
+          >
+            <span className="inline-flex items-center">
+              <i className="icon-[mingcute--settings-4-fill] inline-block mr-2" />
+              <span>{t("Advanced Settings")}</span>
+            </span>
+          </Button>
+        </div>
       </div>
-      <div>
-        <Input
-          name="slug"
-          value={values.slug}
-          placeholder={defaultSlug}
-          label={t(`${isPost ? "Post" : "Page"} slug`) || ""}
-          id="slug"
-          isBlock
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            updateValue("slug", e.target.value)
-          }
-          help={
-            <>
-              {(values.slug || defaultSlug) && (
-                <>
-                  {t(`This ${isPost ? "post" : "page"} will be accessible at`)}{" "}
-                  <UniLink
-                    href={`${getSiteLink({
-                      subdomain,
-                      domain: site.data?.custom_domain,
-                    })}/${encodeURIComponent(values.slug || defaultSlug)}`}
-                    className="hover:underline"
-                  >
-                    {getSiteLink({
-                      subdomain,
-                      domain: site.data?.custom_domain,
-                      noProtocol: true,
-                    })}
-                    /{encodeURIComponent(values.slug || defaultSlug)}
-                  </UniLink>
-                </>
-              )}
-            </>
-          }
-        />
-      </div>
-      <div>
-        <Input
-          name="tags"
-          value={values.tags}
-          label={t("Tags") || ""}
-          id="tags"
-          isBlock
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            updateValue("tags", e.target.value)
-          }
-          help={t("Separate multiple tags with English commas") + ` ","`}
-        />
-      </div>
-      <div>
-        <Input
-          label={t("Excerpt") || ""}
-          isBlock
-          name="excerpt"
-          id="excerpt"
-          value={values.excerpt}
-          multiline
-          rows={5}
-          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-            updateValue("excerpt", e.target.value)
-          }}
-          help={t("Leave it blank to use auto-generated excerpt")}
-        />
-      </div>
-      <div>
-        <Button
-          variant="secondary"
-          className="border"
-          type="button"
-          isBlock
-          onClick={() => setIsAdvancedOptionsOpen(true)}
-        >
-          <span className="inline-flex items-center">
-            <i className="icon-[mingcute--settings-4-fill] inline-block mr-2" />
-            <span>{t("Advanced Settings")}</span>
-          </span>
-        </Button>
-      </div>
+    )
+  },
+)
 
+EditorExtraProperties.displayName = "EditorExtraProperties"
+
+const EditorAdvancedOptions: FC<{
+  updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
+
+  isAdvancedOptionsOpen: boolean
+  setIsAdvancedOptionsOpen: (state: boolean) => void
+}> = memo(
+  ({ updateValue, isAdvancedOptionsOpen, setIsAdvancedOptionsOpen }) => {
+    const values = useEditorState((state) => pick(state, ["password"]), shallow)
+
+    const { t } = useTranslation("dashboard")
+
+    return (
       <Modal
         open={isAdvancedOptionsOpen}
         setOpen={setIsAdvancedOptionsOpen}
@@ -982,8 +1013,8 @@ const EditorExtraProperties: FC<{
           </div>
         </div>
       </Modal>
-    </div>
-  )
-})
+    )
+  },
+)
 
-EditorExtraProperties.displayName = "EditorExtraProperties"
+EditorAdvancedOptions.displayName = "EditorAdvancedOptions"
