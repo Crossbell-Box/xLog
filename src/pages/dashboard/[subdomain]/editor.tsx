@@ -595,7 +595,7 @@ export default function SubdomainEditor() {
     }
 
     setIsLoadingEncrypt(false)
-  }, [page.data, tryUnlock])
+  }, [page.data])
 
   return (
     <>
