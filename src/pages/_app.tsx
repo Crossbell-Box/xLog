@@ -19,7 +19,6 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 
 import "~/css/main.css"
 // eslint-disable-next-line import/no-unresolved
-import "~/generated/uno.css"
 import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { APP_NAME, IPFS_GATEWAY } from "~/lib/env"
