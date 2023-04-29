@@ -9,7 +9,6 @@
     "dev": "next -p 2222",
     "test-e2e": "playwright test",
     "start": "node server.js",
-    "uno-generate": "unocss \"src/**/*.{ts,tsx}\" -o src/generated/uno.css",
     "prepare": "husky install",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy --preview-feature",
@@ -145,6 +144,7 @@
     "zustand": "^4.3.7"
   },
   "devDependencies": {
+    "@iconify/tailwind": "^0.1.2",
     "@next/bundle-analyzer": "13.3.1",
     "@playwright/test": "1.33.0",
     "@trivago/prettier-plugin-sort-imports": "4.1.1",
@@ -168,8 +168,6 @@
     "@types/sortablejs": "1.15.1",
     "@types/ua-parser-js": "0.7.36",
     "@types/uuid": "9.0.1",
-    "@unocss/cli": "0.51.8",
-    "@unocss/preset-icons": "0.51.8",
     "autoprefixer": "10.4.14",
     "babel-loader": "^9.1.2",
     "cross-spawn": "7.0.3",
@@ -188,8 +186,7 @@
     "prettier-package-json": "2.8.0",
     "prisma": "^4.13.0",
     "tailwindcss": "3.3.2",
-    "typescript": "5.0.4",
-    "unocss": "0.51.8"
+    "typescript": "5.0.4"
   },
   "engines": {
     "node": ">=15"
