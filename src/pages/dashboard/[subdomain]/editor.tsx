@@ -208,8 +208,10 @@ export default function SubdomainEditor() {
     if (check) {
       toast.error(check)
     } else {
+      const uniqueTags = Array.from(new Set(values.tags.split(","))).join(",")
       createOrUpdatePage.mutate({
         ...values,
+        tags: uniqueTags,
         slug: values.slug || defaultSlug,
         siteId: subdomain,
         ...(visibility === PageVisibilityEnum.Draft ? {} : { pageId: pageId }),
@@ -563,6 +565,7 @@ export default function SubdomainEditor() {
                       visibility !== PageVisibilityEnum.Modified &&
                       visibility !== PageVisibilityEnum.Draft
                     }
+                    isPost={isPost}
                   />
                 </div>
               )}
@@ -582,7 +585,7 @@ export default function SubdomainEditor() {
                       name="title"
                       value={values.title}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter") {
+                        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
                           view?.focus()
                         }
                       }}

@@ -129,7 +129,7 @@ export const CommentItem: React.FC<{
                 variant="text"
                 onClick={() => setEditOpen(!editOpen)}
               >
-                <i className="i-mingcute:edit-line mx-1" />{" "}
+                <i className="icon-[mingcute--edit-line] mx-1" />{" "}
                 {t(`${editOpen ? "Cancel " : ""}Edit`)}
               </Button>
             )}

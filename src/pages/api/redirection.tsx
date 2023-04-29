@@ -1,8 +1,8 @@
 import { NoteEntity } from "crossbell.js"
 import { NextApiRequest, NextApiResponse } from "next"
 
+import { IS_VERCEL_PREVIEW } from "~/lib/constants"
 import { getDefaultSlug } from "~/lib/default-slug"
-import { IS_VERCEL_PREVIEW } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { checkDomainServer } from "~/models/site.model"
 

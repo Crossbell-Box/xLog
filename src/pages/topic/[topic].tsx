@@ -9,13 +9,13 @@ import { MainFeed } from "~/components/main/MainFeed"
 import { MainLayout } from "~/components/main/MainLayout"
 import { MainSidebar } from "~/components/main/MainSidebar"
 import { languageDetector } from "~/lib/language-detector"
-import { prefetchGetSites } from "~/queries/site.server"
+import { prefetchGetShowcase } from "~/queries/home.server"
 
 import topics from "../../../data/topics.json"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
-  await prefetchGetSites(queryClient)
+  await prefetchGetShowcase(queryClient)
 
   return {
     props: {

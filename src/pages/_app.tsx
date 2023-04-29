@@ -1,4 +1,4 @@
-import "aplayer/dist/APlayer.min.css"
+import "aplayer-react/dist/index.css"
 import { Network } from "crossbell.js"
 import { appWithTranslation } from "next-i18next"
 import NextNProgress from "nextjs-progressbar"
@@ -19,7 +19,6 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 
 import "~/css/main.css"
 // eslint-disable-next-line import/no-unresolved
-import "~/generated/uno.css"
 import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { APP_NAME, IPFS_GATEWAY } from "~/lib/env"

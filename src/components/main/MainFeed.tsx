@@ -117,7 +117,7 @@ const Post = ({
             )}
             {post.stat?.viewDetailCount && (
               <span className="xlog-post-views inline-flex items-center">
-                <i className="i-mingcute:eye-line mr-[2px]" />
+                <i className="icon-[mingcute--eye-line] mr-[2px]" />
                 <span>{post.stat?.viewDetailCount}</span>
               </span>
             )}
@@ -231,7 +231,7 @@ export const MainFeed: React.FC<{
       <div className="space-y-10">
         {hasFiltering && (
           <div className="flex items-center text-zinc-500">
-            <i className="i-mingcute:android-2-line mr-2 text-lg" />
+            <i className="icon-[mingcute--android-2-line] mr-2 text-lg" />
             <span className="mr-1 cursor-default">
               {t("Enable AI Filtering")}
             </span>
@@ -240,7 +240,7 @@ export const MainFeed: React.FC<{
                 "Filter out possible low-quality content based on AI ratings.",
               )}
             >
-              <i className="i-mingcute:question-line" />
+              <i className="icon-[mingcute--question-line]" />
             </Tooltip>
             <Switch
               checked={aiFiltering}

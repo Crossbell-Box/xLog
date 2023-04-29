@@ -111,26 +111,26 @@ export const ConnectButton: React.FC<{
 
   const dropdownLinks: HeaderLinkType[] = [
     {
-      icon: "i-mingcute:home-1-line",
+      icon: "icon-[mingcute--home-1-line]",
       label: t("My xLog") || "",
       url: getSiteLink({
         subdomain: userSites.data?.[0]?.username || "",
       }),
     },
     {
-      icon: "i-mingcute:grid-line",
+      icon: "icon-[mingcute--grid-line]",
       label: t("Dashboard") || "",
       url: `${SITE_URL}/dashboard`,
     },
     {
-      icon: "i-mingcute:copy-2-line",
+      icon: "icon-[mingcute--copy-2-line]",
       label: t(copyLabelDisplay) || "",
       onClick: copyLabel,
     },
     ...(account?.type === "wallet"
       ? [
           {
-            icon: "i-mingcute:seal-line",
+            icon: "icon-[mingcute--seal-line]",
             label: (
               <>
                 {t("Operator Sign")} (
@@ -151,7 +151,7 @@ export const ConnectButton: React.FC<{
             },
           },
           {
-            icon: "i-mingcute:currency-euro-line",
+            icon: "icon-[mingcute--currency-euro-line]",
             label: (
               <span className={InsufficientBalance ? "text-red-400" : ""}>
                 {balance?.formatted.replace(/\.(\d{5})\d*$/, ".$1") ||
@@ -162,20 +162,20 @@ export const ConnectButton: React.FC<{
             onClick: csbDetailModal.show,
           },
           {
-            icon: "i-mingcute:repeat-line",
+            icon: "icon-[mingcute--repeat-line]",
             label: t("Switch Characters") || "",
             onClick: selectCharactersModal.show,
           },
         ]
       : [
           {
-            icon: "i-mingcute:vip-2-line",
+            icon: "icon-[mingcute--vip-2-line]",
             label: t("Upgrade to Wallet") || "",
             onClick: upgradeAccountModal.show,
           },
         ]),
     {
-      icon: "i-mingcute:exit-line",
+      icon: "icon-[mingcute--exit-line]",
       label: t("Disconnect") || "",
       onClick: disconnect,
     },
@@ -282,7 +282,7 @@ export const ConnectButton: React.FC<{
                               </span>
                             )}
                           </div>
-                          <i className="i-mingcute:down-line text-xl ml-[2px]" />
+                          <i className="icon-[mingcute--down-line] text-xl ml-[2px]" />
                         </>
                       )}
                     </button>

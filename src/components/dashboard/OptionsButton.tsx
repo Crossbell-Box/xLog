@@ -39,9 +39,9 @@ export const OptionsButton: React.FC<{
         onClick={() => renderPage(!isRendering)}
       >
         {isRendering ? (
-          <i className="i-mingcute:eye-close-line text-xl inline-block w-6 h-6" />
+          <i className="icon-[mingcute--eye-close-line] text-xl inline-block w-6 h-6" />
         ) : (
-          <i className="i-mingcute:eye2-line text-xl inline-block w-6 h-6" />
+          <i className="icon-[mingcute--eye-2-line] text-xl inline-block w-6 h-6" />
         )}
       </div>
       <Menu as="div" className="relative inline-block text-left h-6">
@@ -51,9 +51,9 @@ export const OptionsButton: React.FC<{
               <Menu.Button>
                 <div className="bg-accent rounded-full cursor-pointer text-white w-6 h-6">
                   {open ? (
-                    <i className="i-mingcute:up-line text-2xl inline-block w-6 h-6" />
+                    <i className="icon-[mingcute--up-line] text-2xl inline-block w-6 h-6" />
                   ) : (
-                    <i className="i-mingcute:down-line text-2xl inline-block w-6 h-6" />
+                    <i className="icon-[mingcute--down-line] text-2xl inline-block w-6 h-6" />
                   )}
                 </div>
               </Menu.Button>
@@ -154,7 +154,7 @@ export const OptionsButton: React.FC<{
               // }}
             >
               <div className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex justify-center items-center">
-                <i className="i-mingcute:attachment-2-line text-xl inline-block w-6 h-6" />
+                <i className="icon-[mingcute--attachment-2-line] text-xl inline-block w-6 h-6" />
               </div>
             </Popover.Button>
             <Transition
