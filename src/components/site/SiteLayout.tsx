@@ -6,6 +6,7 @@ import { useAccountState } from "@crossbell/connect-kit"
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { Style } from "~/components/common/Style"
 import { useUserRole } from "~/hooks/useUserRole"
+import { useDarkMode } from "~/hooks/useDarkMode"
 import { IS_PROD } from "~/lib/constants"
 import { OUR_DOMAIN, SITE_URL } from "~/lib/env"
 import { getUserContentsUrl } from "~/lib/user-contents"
@@ -54,7 +55,8 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   const subscription = useGetSubscription(domainOrSubdomain)
   const [{ isLiked }] = useCheckLike({ pageId: page.data?.id })
   const isMint = useCheckMint(page.data?.id)
-
+  useDarkMode()
+  
   useEffect(() => {
     if (site.data) {
       if (

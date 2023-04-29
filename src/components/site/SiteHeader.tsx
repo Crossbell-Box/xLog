@@ -16,7 +16,6 @@ import { Image } from "~/components/ui/Image"
 import { Menu } from "~/components/ui/Menu"
 import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
-import { useDarkMode } from "~/hooks/useDarkMode"
 import { useIsDark } from "~/hooks/useDarkMode"
 import { CSB_IO, CSB_SCAN, CSB_XCHAR } from "~/lib/env"
 import { Profile } from "~/lib/types"
@@ -137,7 +136,6 @@ export const SiteHeader: React.FC<{
   const avatarRef = useRef<HTMLImageElement>(null)
   const bannerRef = useRef<HTMLImageElement | HTMLVideoElement>(null)
 
-  useDarkMode()
   const isDark = useIsDark()
   const [averageColor, setAverageColor] = useState<string>()
   const [autoHoverColor, setAutoHoverColor] = useState<string>()
