@@ -550,10 +550,10 @@ export default function SubdomainEditor() {
         }
 
         // Save page password
-        values.password = password // /!\ WARNING: Not a good usage, but for instant data update (or the password input will not initialize properly)
         updateValue("password", password)
+        values.password = password // /!\ WARNING: Not a good usage, but for instant data update (or the password input will not initialize properly)
         // Set page content
-        setInitialContent(decryptResult.originalData) // /!\ Same warning as above.
+        setInitialContent(decryptResult.originalData)
         updateValue("content", decryptResult.originalData)
         // Mark as decrypted
         setIsEncrypted(false)
@@ -596,7 +596,7 @@ export default function SubdomainEditor() {
     }
 
     setIsLoadingEncrypt(false)
-  }, [page.data, tryUnlock, values.content, values.password])
+  }, [page.data, tryUnlock])
 
   return (
     <>
