@@ -189,5 +189,6 @@
     "Cancel": "取消",
     "Password": "密碼",
     "Not enabled": "不啟用",
-    "Enable encryption if set": "如果設置此項，則啟用加密"
+    "Enable encryption if set": "如果設置此項，則啟用加密",
+    "Advanced Settings": "高級設置"
 }

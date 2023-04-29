@@ -202,5 +202,6 @@
   "{{newCount}} new comments" : "{{newCount}} 条新评论",
   "Password": "密码",
   "Not enabled": "不启用",
-  "Enable encryption if set": "如果设置此项，则启用加密"
+  "Enable encryption if set": "如果设置此项，则启用加密",
+  "Advanced Settings": "高级设置"
 }

@@ -856,6 +856,9 @@ const EditorExtraProperties: FC<{
   const { t } = useTranslation("dashboard")
   const site = useGetSite(subdomain)
 
+  const [isAdvancedOptionsOpen, setIsAdvancedOptionsOpen] =
+    useState<boolean>(false)
+
   return (
     <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
       <div>
@@ -944,19 +947,51 @@ const EditorExtraProperties: FC<{
         />
       </div>
       <div>
-        <Input
-          label={t("Password") || ""}
+        <Button
+          variant="secondary"
+          className="border"
+          type="button"
           isBlock
-          name="password"
-          id="password"
-          placeholder={t("Not enabled") || "Not enabled"}
-          value={values.password}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            updateValue("password", e.target.value)
-          }}
-          help={t("Enable encryption if set")}
-        />
+          onClick={() => setIsAdvancedOptionsOpen(true)}
+        >
+          <span className="inline-flex items-center">
+            <i className="icon-[mingcute--settings-4-fill] inline-block mr-2" />
+            <span>{t("Advanced Settings")}</span>
+          </span>
+        </Button>
       </div>
+
+      <Modal
+        open={isAdvancedOptionsOpen}
+        setOpen={setIsAdvancedOptionsOpen}
+        title={t("Advanced Settings")}
+      >
+        <div className="p-5 space-y-3">
+          <div>
+            <Input
+              label={t("Password") || ""}
+              isBlock
+              name="password"
+              id="password"
+              placeholder={t("Not enabled") || "Not enabled"}
+              value={values.password}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                updateValue("password", e.target.value)
+              }}
+              help={t("Enable encryption if set")}
+            />
+          </div>
+
+          <Button
+            variant="primary"
+            type="button"
+            isBlock
+            onClick={() => setIsAdvancedOptionsOpen(false)}
+          >
+            {t("Confirm")}
+          </Button>
+        </div>
+      </Modal>
     </div>
   )
 })

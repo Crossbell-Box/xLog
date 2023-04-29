@@ -122,5 +122,6 @@
   "delete_confirmation_page": "このページを削除してもよろしいですか？",
   "Password": "パスワード",
   "Not enabled": "有効になっていません",
-  "Enable encryption if set": "設定されている場合、暗号化が有効になる"
+  "Enable encryption if set": "設定されている場合、暗号化が有効になる",
+  "Advanced Settings": "詳細設定"
 }
