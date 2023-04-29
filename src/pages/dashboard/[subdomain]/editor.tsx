@@ -980,15 +980,6 @@ const EditorExtraProperties: FC<{
               help={t("Enable encryption if set")}
             />
           </div>
-
-          <Button
-            variant="primary"
-            type="button"
-            isBlock
-            onClick={() => setIsAdvancedOptionsOpen(false)}
-          >
-            {t("Confirm")}
-          </Button>
         </div>
       </Modal>
     </div>
