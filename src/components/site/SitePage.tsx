@@ -24,7 +24,6 @@ export const SitePage: React.FC<{
 }> = ({ page, site }) => {
   // const author = useGetUserSites(page?.authors?.[0])
   const { t } = useTranslation("site")
-
   const { t: tCommon } = useTranslation("common")
 
   function addPageJsonLd() {
@@ -118,7 +117,7 @@ export const SitePage: React.FC<{
         toast.error(tCommon("Invalid password"))
       }
     },
-    [page],
+    [page, tCommon],
   )
 
   return (

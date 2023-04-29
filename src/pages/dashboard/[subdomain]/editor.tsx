@@ -22,6 +22,7 @@ import { shallow } from "zustand/shallow"
 import type { EditorView } from "@codemirror/view"
 import { useQueryClient } from "@tanstack/react-query"
 
+import EncryptPasswordPrompt from "~/components/common/EncryptPasswordPrompt"
 import { PageContent } from "~/components/common/PageContent"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
@@ -49,6 +50,12 @@ import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { delStorage, setStorage } from "~/lib/storage"
 import { PageVisibilityEnum } from "~/lib/types"
 import { cn, pick } from "~/lib/utils"
+import {
+  Decrypt,
+  XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
+  XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
+  XLOG_ENCRYPT_ATTRIBUTE_Version,
+} from "~/lib/web-crypto"
 import { Rendered, renderPageContent } from "~/markdown"
 import { checkPageSlug } from "~/models/page.model"
 import { useCreateOrUpdatePage, useGetPage } from "~/queries/page"
@@ -497,12 +504,116 @@ export default function SubdomainEditor() {
     />
   )
 
+  // Encrypt related
+  const [isLoadingEncrypt, setIsLoadingEncrypt] = useState<boolean>(true)
+  const [isEncrypted, setIsEncrypted] = useState<boolean>(false)
+  const { t: tCommon } = useTranslation("common")
+
+  const tryUnlock = useCallback(
+    async (password: string) => {
+      if (!page.data?.attributes || page.data.attributes.length === 0) {
+        toast.error(tCommon("Failed to detect note encrypt status."))
+        return
+      }
+
+      // Get encrypted content & hmac signature
+      const encryptedData = String(
+        page.data.attributes.find(
+          (attribute) =>
+            attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
+        )?.value,
+      )
+      const hmacSignature = String(
+        page.data.attributes.find(
+          (attribute) =>
+            attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
+        )?.value,
+      )
+
+      if (!encryptedData) {
+        toast.error(tCommon("Failed to get note encrypted data"))
+        return
+      }
+
+      // Try to decrypt
+      try {
+        const decryptResult = await Decrypt(
+          password,
+          encryptedData,
+          hmacSignature,
+        )
+
+        if (!decryptResult.verified) {
+          toast.error(tCommon("Decrypted successfully but signature mismatch."))
+        } else {
+          toast.success(tCommon("Decrypted successfully!"))
+        }
+
+        // Save page password
+        values.password = password // /!\ WARNING: Not a good usage, but for instant data update (or the password input will not initialize properly)
+        updateValue("password", password)
+        // Set page content
+        setInitialContent(decryptResult.originalData) // /!\ Same warning as above.
+        updateValue("content", decryptResult.originalData)
+        // Mark as decrypted
+        setIsEncrypted(false)
+      } catch (e) {
+        toast.error(tCommon("Invalid password"))
+      }
+    },
+    [page.data, tCommon, updateValue],
+  )
+
+  useEffect(() => {
+    if (page.data) {
+      // Start detecting encrypt state
+      setIsLoadingEncrypt(true)
+
+      const encryptAlgoVersion = page.data.attributes?.find(
+        (attribute) => attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_Version,
+      )?.value
+      if (encryptAlgoVersion) {
+        // Encryption enabled
+
+        // Check if has local saved content
+        if (!values.content) {
+          // No saved content, so it's from remote
+
+          // Set as locked
+          setIsEncrypted(true)
+
+          // Check if has local saved password, try to unlock automatically
+          if (values.password) {
+            tryUnlock(values.password)
+          }
+        } else {
+          // Is editing, no need to lock
+          setIsEncrypted(false)
+        }
+      } else {
+        setIsEncrypted(false)
+      }
+    }
+
+    setIsLoadingEncrypt(false)
+  }, [page.data, tryUnlock, values.content, values.password])
+
   return (
     <>
       <DashboardMain fullWidth>
-        {page.isLoading ? (
+        {page.isLoading || isLoadingEncrypt ? (
           <div className="flex justify-center items-center min-h-[300px]">
             {t("Loading")}...
+          </div>
+        ) : isEncrypted ? (
+          <div
+            className={`flex justify-center items-center w-full ${
+              isMobileLayout
+                ? "w-screen h-[calc(100vh-4rem)]"
+                : "min-w-[840px] h-screen "
+            }`}
+          >
+            <EncryptPasswordPrompt tryUnlock={tryUnlock} />
           </div>
         ) : (
           <>
