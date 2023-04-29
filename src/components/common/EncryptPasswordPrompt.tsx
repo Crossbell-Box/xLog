@@ -19,10 +19,10 @@ const EncryptPasswordPrompt = ({ tryUnlock }: EncryptPasswordPromptProps) => {
   }
 
   return (
-    <div className="px-6 py-8 sm:py-16">
+    <div className="px-6 py-8 sm:py-16 w-full max-w-md m-auto">
       {/*Password Check Form*/}
       <form
-        className="max-w-sm flex flex-col gap-6 sm:gap-12 justify-center m-auto"
+        className="max-w-sm flex flex-col gap-6 sm:gap-12 justify-center w-full"
         onSubmit={submitForm}
       >
         {/*Notice Icon*/}
@@ -33,7 +33,7 @@ const EncryptPasswordPrompt = ({ tryUnlock }: EncryptPasswordPromptProps) => {
         </div>
 
         {/*Password Input*/}
-        <div>
+        <div className="w-full">
           <Input
             placeholder={t("Password") || ""}
             isBlock
