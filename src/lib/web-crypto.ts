@@ -1,4 +1,4 @@
-// Encrypt & decrypt core for xLog private posts
+// Encrypt & decrypt core for xLog private contents
 // Credit to https://github.com/D0n9X1n/hexo-blog-encrypt under MIT license
 
 /***********************************************

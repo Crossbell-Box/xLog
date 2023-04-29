@@ -40,8 +40,9 @@ const EncryptPasswordPrompt = ({ tryUnlock }: EncryptPasswordPromptProps) => {
             name="password"
             id="password"
             help={t(
-              "This post has been encrypted, please enter password here to continue reading.",
+              "This content has been encrypted, please enter password here to continue reading.",
             )}
+            required
           />
         </div>
 
