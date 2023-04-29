@@ -59,7 +59,6 @@
     "@uiw/codemirror-extensions-events": "4.19.16",
     "@urql/core": "4.0.7",
     "ahooks": "^3.7.6",
-    "aplayer": "^1.10.1",
     "aplayer-react": "^1.1.0",
     "axios": "1.4.0",
     "canvas-confetti": "^1.6.0",
