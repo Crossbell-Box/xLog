@@ -21,7 +21,7 @@ export default async function handler(
 
   let cache
   try {
-    cache = await redis.get(redisKey)
+    cache = await redis?.get(redisKey)
   } catch (error) {}
   if (cache) {
     res.status(200).json(JSON.parse(cache))

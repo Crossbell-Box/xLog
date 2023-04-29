@@ -6,7 +6,7 @@ if (!REDIS_URL) {
   console.error("REDIS_URL not set")
 }
 
-let redisPromise: Promise<Redis> = new Promise((resolve, reject) => {
+let redisPromise: Promise<Redis | null> = new Promise((resolve, reject) => {
   if (REDIS_URL) {
     let redis = new Redis(REDIS_URL)
 
@@ -25,7 +25,7 @@ let redisPromise: Promise<Redis> = new Promise((resolve, reject) => {
       reject()
     })
   } else {
-    reject()
+    resolve(null)
   }
 })
 
