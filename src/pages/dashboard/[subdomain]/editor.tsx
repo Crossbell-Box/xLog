@@ -945,7 +945,7 @@ const EditorExtraProperties: FC<{
       </div>
       <div>
         <Input
-          label={t("Encrypt Password") || ""}
+          label={t("Password") || ""}
           isBlock
           name="password"
           id="password"

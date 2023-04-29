@@ -186,5 +186,8 @@
     "delete_confirmation_post": "你確認要刪除這篇文章嗎？",
     "delete_confirmation_page": "你確認要刪除這個頁面嗎？",
     "Confirm": "確認",
-    "Cancel": "取消"
+    "Cancel": "取消",
+    "Password": "密碼",
+    "Not enabled": "不啟用",
+    "Enable encryption if set": "如果設置此項，則啟用加密"
 }

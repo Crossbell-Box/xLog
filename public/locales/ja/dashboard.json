@@ -119,5 +119,8 @@
   "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site.": "シャドー認証では、ダッシュボードへのアクセス、設定の変更（xLog サブドメインを除く）、サイトのコンテンツの公開・修正・削除が可能です。",
   "Add": "新規",
   "delete_confirmation_post": "この記事を削除してもよろしいですか？",
-  "delete_confirmation_page": "このページを削除してもよろしいですか？"
+  "delete_confirmation_page": "このページを削除してもよろしいですか？",
+  "Password": "パスワード",
+  "Not enabled": "有効になっていません",
+  "Enable encryption if set": "設定されている場合、暗号化が有効になる"
 }

@@ -40,7 +40,7 @@ const EncryptPasswordPrompt = ({ tryUnlock }: EncryptPasswordPromptProps) => {
             name="password"
             id="password"
             help={t(
-              "This content has been encrypted, please enter password here to continue reading.",
+              "This content has been encrypted, please enter password here to continue.",
             )}
             required
           />
@@ -51,7 +51,7 @@ const EncryptPasswordPrompt = ({ tryUnlock }: EncryptPasswordPromptProps) => {
           <Button variant="primary" type="submit">
             <span className="inline-flex items-center">
               <i className="icon-[mingcute--unlock-fill] inline-block mr-2" />
-              <span>{t("Unlock")}</span>
+              <span>{t("Decrypt")}</span>
             </span>
           </Button>
         </div>

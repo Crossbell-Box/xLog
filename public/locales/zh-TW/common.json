@@ -83,5 +83,8 @@
     "Refreshing": "重新載入中",
     "Search for your interest": "搜你所想",
     "results": "項結果",
-    "My xLog": "你的 xLog"
+    "My xLog": "你的 xLog",
+    "Password": "密碼",
+    "Decrypt": "解密",
+    "This content has been encrypted, please enter password here to continue.": "這些內容被加密了，請輸入密碼來繼續。"
 }
