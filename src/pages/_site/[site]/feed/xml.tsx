@@ -1,6 +1,7 @@
-import { GetServerSideProps } from "next"
 // @ts-ignore
 import jsonfeedToRSS from "jsonfeed-to-rss"
+import { GetServerSideProps } from "next"
+
 import { getJsonFeed } from "~/lib/json-feed"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

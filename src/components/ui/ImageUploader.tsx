@@ -1,10 +1,11 @@
-import { cn } from "~/lib/utils"
-import React, { ChangeEvent, forwardRef, useEffect } from "react"
-import { useState } from "react"
+import React, { ChangeEvent, forwardRef, useEffect, useState } from "react"
+
+import { XMarkIcon } from "@heroicons/react/20/solid"
+
+import { Image } from "~/components/ui/Image"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { toGateway } from "~/lib/ipfs-parser"
-import { Image } from "~/components/ui/Image"
-import { XMarkIcon } from "@heroicons/react/20/solid"
+import { cn } from "~/lib/utils"
 
 const getBase64 = (img: File, callback: (url: string) => void) => {
   const reader = new FileReader()

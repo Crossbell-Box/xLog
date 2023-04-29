@@ -1,12 +1,15 @@
-import Link from "next/link"
-import { useDate } from "~/hooks/useDate"
-import { Notes } from "~/lib/types"
-import { EmptyState } from "../ui/EmptyState"
-import { useRouter } from "next/router"
-import { Image } from "~/components/ui/Image"
-import { Button } from "~/components/ui/Button"
 import { useTranslation } from "next-i18next"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+
+import { Button } from "~/components/ui/Button"
+import { Image } from "~/components/ui/Image"
+import { useDate } from "~/hooks/useDate"
+import { getSlugUrl } from "~/lib/helpers"
+import { Notes } from "~/lib/types"
+
+import { EmptyState } from "../ui/EmptyState"
 
 export const SiteHome: React.FC<{
   postPages?: Notes[]
@@ -39,8 +42,9 @@ export const SiteHome: React.FC<{
               return (
                 <Link
                   key={post.id}
-                  href={`/${post.slug || post.id}`}
+                  href={getSlugUrl(`/${post.slug || post.id}`)}
                   className="xlog-post sm:hover:bg-hover bg-white transition-all px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
+                  suppressHydrationWarning
                 >
                   <div className="flex-1 flex justify-center flex-col w-full min-w-0">
                     <h3 className="xlog-post-title text-2xl font-bold text-zinc-700">
@@ -78,7 +82,7 @@ export const SiteHome: React.FC<{
                         </span>
                       )}
                       <span className="xlog-post-views inline-flex items-center">
-                        <i className="i-mingcute:eye-line mr-[2px]" />
+                        <i className="icon-[mingcute--eye-line] mr-[2px]" />
                         <span>{post.views}</span>
                       </span>
                     </div>

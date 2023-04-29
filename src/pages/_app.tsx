@@ -1,25 +1,30 @@
-import "~/css/main.css"
-import "~/generated/uno.css"
-
+import "aplayer-react/dist/index.css"
+import { Network } from "crossbell.js"
+import { appWithTranslation } from "next-i18next"
+import NextNProgress from "nextjs-progressbar"
 import { Toaster } from "react-hot-toast"
-import { createClient, WagmiConfig } from "wagmi"
-import { Hydrate, QueryClient } from "@tanstack/react-query"
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
+import { AppPropsWithLayout } from "types/next"
+import { WagmiConfig, createClient } from "wagmi"
+
 import {
   ConnectKitProvider,
   getDefaultClientConfig,
 } from "@crossbell/connect-kit"
-import { NotificationModal } from "@crossbell/notification"
-import NextNProgress from "nextjs-progressbar"
-import { Network } from "crossbell.js"
-import { appWithTranslation } from "next-i18next"
+import {
+  NotificationModal,
+  NotificationModalColorScheme,
+} from "@crossbell/notification"
+import { Hydrate, QueryClient } from "@tanstack/react-query"
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 
+import "~/css/main.css"
+// eslint-disable-next-line import/no-unresolved
+import { useDarkMode } from "~/hooks/useDarkMode"
+import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { APP_NAME, IPFS_GATEWAY } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
-import { AppPropsWithLayout } from "types/next"
-import { useDarkMode } from "~/hooks/useDarkMode"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
@@ -35,10 +40,19 @@ const queryClient = new QueryClient({
 
 const persister = createIDBPersister()
 
+const colorScheme: NotificationModalColorScheme = {
+  text: `rgb(var(--tw-colors-i-zinc-800))`,
+  textSecondary: `rgb(var(--tw-colors-i-gray-600))`,
+  background: `rgb(var(--tw-colors-i-white))`,
+  border: `var(--border-color)`,
+}
+
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
 
   useDarkMode()
+  useMobileLayout()
+
   return (
     <WagmiConfig client={wagmiClient}>
       <PersistQueryClientProvider
@@ -62,6 +76,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           ipfsLinkToHttpLink={toGateway}
           urlComposer={urlComposer}
           signInStrategy="simple"
+          ignoreWalletDisconnectEvent={true}
         >
           <Hydrate state={pageProps.dehydratedState}>
             {/* <ReactQueryDevtools /> */}
@@ -70,7 +85,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             />
             {getLayout(<Component {...pageProps} />)}
             <Toaster />
-            <NotificationModal />
+            <NotificationModal colorScheme={colorScheme} />
           </Hydrate>
         </ConnectKitProvider>
       </PersistQueryClientProvider>

@@ -1,15 +1,18 @@
+import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
 
 import { Button, ButtonGroup } from "../ui/Button"
-import { useTranslation } from "next-i18next"
+import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 export const PublishButton: React.FC<{
   save: (published: boolean) => void
   published: boolean
   isSaving: boolean
   isDisabled: boolean
-}> = ({ save, published, isSaving, isDisabled }) => {
+  twitterShareUrl?: string
+  isPost: boolean
+}> = ({ save, published, isSaving, isDisabled, twitterShareUrl, isPost }) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -26,6 +29,9 @@ export const PublishButton: React.FC<{
     }
   }, [isSaving])
 
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
+    useState<boolean>(false)
+
   return (
     <div className="relative">
       <ButtonGroup>
@@ -41,16 +47,14 @@ export const PublishButton: React.FC<{
         {published && (
           <Button
             isAutoWidth
-            style={{ padding: "0 5px" }}
+            style={{ padding: "0 8px" }}
             onClick={() => {
               setShowDropdown(!showDropdown)
             }}
             ref={triggerRef}
             isDisabled={isSaving}
           >
-            <svg className="w-7 h-7" viewBox="0 0 24 24">
-              <path fill="currentColor" d="m7 10l5 5l5-5z"></path>
-            </svg>
+            <i className="icon-[mingcute--down-line]" />
           </Button>
         )}
       </ButtonGroup>
@@ -58,16 +62,34 @@ export const PublishButton: React.FC<{
         <div className="absolute right-0 min-w-[200px] pt-2" ref={dropdownRef}>
           <div className="bg-white py-2 rounded-lg shadow-modal">
             {published && (
-              <button
-                className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
-                onClick={() => save(false)}
-              >
-                {t("Delete")}
-              </button>
+              <div>
+                <button
+                  className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
+                  onClick={() => window.open(twitterShareUrl)}
+                >
+                  <i className="icon-[mingcute--twitter-line] mr-1"></i>
+                  {t("Share to Twitter")}
+                </button>
+                <button
+                  className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
+                  onClick={() => setDeleteConfirmModalOpen(true)}
+                >
+                  <i className="icon-[mingcute--delete-2-line] mr-1"></i>
+                  {t("Delete")}
+                </button>
+              </div>
             )}
           </div>
         </div>
       )}
+      <DeleteConfirmationModal
+        open={deleteConfirmModalOpen}
+        setOpen={setDeleteConfirmModalOpen}
+        onConfirm={() => {
+          save(false)
+        }}
+        isPost={isPost}
+      />
     </div>
   )
 }

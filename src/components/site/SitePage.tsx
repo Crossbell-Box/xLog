@@ -1,10 +1,13 @@
-import { PageContent } from "../common/PageContent"
-import { PostMeta } from "./PostMeta"
-import { PostFooter } from "./PostFooter"
-import { Note, Profile } from "~/lib/types"
-import Head from "next/head"
-import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "next-i18next"
+import Head from "next/head"
+import serialize from "serialize-javascript"
+
+import { getSiteLink } from "~/lib/helpers"
+import { Note, Profile } from "~/lib/types"
+
+import { PageContent } from "../common/PageContent"
+import { PostFooter } from "./PostFooter"
+import { PostMeta } from "./PostMeta"
 
 export const SitePage: React.FC<{
   page?: Note | null
@@ -15,7 +18,7 @@ export const SitePage: React.FC<{
 
   function addPageJsonLd() {
     return {
-      __html: JSON.stringify({
+      __html: serialize({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         headline: page?.title,
@@ -46,7 +49,7 @@ export const SitePage: React.FC<{
         />
       </Head>
       {page?.preview && (
-        <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm">
+        <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
           {t(
             "This address is in local editing preview mode and cannot be viewed by the public.",
           )}
@@ -61,7 +64,9 @@ export const SitePage: React.FC<{
               {page?.title}
             </h2>
           )}
-          {page?.tags?.includes("post") && <PostMeta page={page} site={site} />}
+          {page?.tags?.includes("post") && !page?.preview && (
+            <PostMeta page={page} site={site} />
+          )}
         </div>
         <PageContent
           className="mt-10"

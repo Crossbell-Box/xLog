@@ -1,13 +1,15 @@
-import Link from "next/link"
-import { useDate } from "~/hooks/useDate"
-import { ExpandedNote, Notes } from "~/lib/types"
-import { EmptyState } from "../ui/EmptyState"
-import { useRouter } from "next/router"
-import { Image } from "~/components/ui/Image"
-import { Button } from "~/components/ui/Button"
 import { useTranslation } from "next-i18next"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import reactStringReplace from "react-string-replace"
+
+import { Button } from "~/components/ui/Button"
+import { Image } from "~/components/ui/Image"
+import { useDate } from "~/hooks/useDate"
+import { ExpandedNote } from "~/lib/types"
+
+import { EmptyState } from "../ui/EmptyState"
 
 export const SiteSearch: React.FC<{
   postPages?: {
@@ -94,7 +96,7 @@ export const SiteSearch: React.FC<{
                         </span>
                       )}
                       <span className="xlog-post-views inline-flex items-center">
-                        <i className="i-mingcute:eye-line mr-[2px]" />
+                        <i className="icon-[mingcute--eye-line] mr-[2px]" />
                         <span>{post.metadata.content.views}</span>
                       </span>
                     </div>

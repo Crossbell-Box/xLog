@@ -1,21 +1,22 @@
-import { useRouter } from "next/router"
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { DashboardMain } from "~/components/dashboard/DashboardMain"
-import { UniLink } from "~/components/ui/UniLink"
-import { Image } from "~/components/ui/Image"
-import { DISCORD_LINK, TWITTER_LINK, GITHUB_LINK } from "~/lib/env"
-import { getSiteLink } from "~/lib/helpers"
-import type { ReactElement } from "react"
-import { useGetSite, useGetStat } from "~/queries/site"
-import { useDate } from "~/hooks/useDate"
-import { useTranslation, Trans } from "next-i18next"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
-import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { useGetPagesBySite } from "~/queries/page"
-import showcase from "../../../../data/showcase.json"
-import { useGetSites } from "~/queries/site"
+import { Trans, useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import type { ReactElement } from "react"
+
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { DashboardMain } from "~/components/dashboard/DashboardMain"
+import { Image } from "~/components/ui/Image"
+import { UniLink } from "~/components/ui/UniLink"
+import { useDate } from "~/hooks/useDate"
+import { CSB_SCAN, DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { cn } from "~/lib/utils"
+import { useGetShowcase } from "~/queries/home"
+import { useGetPagesBySite } from "~/queries/page"
+import { useGetSite, useGetStat, useGetTips } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -39,29 +40,58 @@ export default function SubdomainIndex() {
   })
   const date = useDate()
   const { t } = useTranslation("dashboard")
+  const tips = useGetTips({
+    toCharacterId: characterId,
+    limit: 1000,
+  })
+
   const statMap = [
     {
-      name: "Total Posts",
+      icon: "icon-[mingcute--news-line]",
+      name: "Published posts",
       value: stat.data?.notesCount,
+      url: `/dashboard/${subdomain}/posts`,
     },
     {
-      name: "Total Comments",
+      icon: "icon-[mingcute--comment-line]",
+      name: "Received comments",
       value: stat.data?.commentsCount,
+      url: `/dashboard/${subdomain}/comments`,
     },
     {
-      name: "Total Followers",
+      icon: "icon-[mingcute--heart-line]",
+      name: "Received tips",
+      value: `${
+        tips.data?.pages?.[0]?.list
+          ?.map((i) => +i.amount)
+          .reduce((acr, cur) => acr + cur, 0) ?? 0
+      } MIRA`,
+      url: `/dashboard/${subdomain}/tokens`,
+    },
+    {
+      icon: "icon-[mingcute--user-follow-line]",
+      name: "Followers",
       value: stat.data?.subscriptionCount,
+      url: getSiteLink({
+        subdomain,
+      }),
     },
     {
-      name: "Total Views",
+      icon: "icon-[mingcute--eye-line]",
+      name: "Viewed",
       value: stat.data?.viewsCount,
+      url: getSiteLink({
+        subdomain,
+      }),
     },
     {
+      icon: "icon-[mingcute--history-line]",
       name: "Site Duration",
       value:
         date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day") +
         " " +
         t("days"),
+      url: `${CSB_SCAN}/tx/${stat.data?.createTx}`,
     },
   ]
 
@@ -71,7 +101,7 @@ export default function SubdomainIndex() {
     take: 4,
   })
 
-  const showcaseSites = useGetSites(showcase)
+  const showcaseSites = useGetShowcase()
 
   return (
     <DashboardMain title="Dashboard" className="max-w-screen-2xl">
@@ -79,13 +109,22 @@ export default function SubdomainIndex() {
         <div className="flex-1 space-y-8">
           <div className="grid gap-4 sm:grid-cols-3 grid-cols-2">
             {statMap.map((item) => (
-              <div
+              <UniLink
+                href={item.url}
                 key={item.name}
                 className="bg-slate-100 rounded-lg flex justify-center flex-col py-4 px-6"
               >
-                <span>{t(item.name)}</span>
+                <span>
+                  <i
+                    className={cn(
+                      item.icon,
+                      "inline-block mr-1 text-lg align-middle",
+                    )}
+                  />
+                  <span className="align-middle">{t(item.name)}</span>
+                </span>
                 <span className="font-bold text-2xl">{item.value}</span>
-              </div>
+              </UniLink>
             ))}
           </div>
           <div className="prose p-6 bg-slate-50 rounded-lg relative">
@@ -196,7 +235,7 @@ export default function SubdomainIndex() {
             <h4 className="text-xl font-bold mb-4 leading-none">
               {t("Meet New Friends")}
             </h4>
-            <ul className="pt-2 grid grid-cols-3 gap-6 relative">
+            <ul className="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative">
               {showcaseSites.data?.slice(0, 6)?.map((site: any) => (
                 <li className="inline-flex align-middle" key={site.handle}>
                   <UniLink

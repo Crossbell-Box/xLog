@@ -1,13 +1,14 @@
+import { useTranslation } from "next-i18next"
 import { useEffect, useState } from "react"
-import { Avatar } from "~/components/ui/Avatar"
+
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
-import * as siteModel from "~/models/site.model"
+import { Titles } from "~/components/common/Titles"
+import { Avatar } from "~/components/ui/Avatar"
+import { useDate } from "~/hooks/useDate"
 import type { Profile } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import { useDate } from "~/hooks/useDate"
-import { useTranslation } from "next-i18next"
-import { Titles } from "~/components/common/Titles"
+import * as siteModel from "~/models/site.model"
 
 export const CharacterCard: React.FC<{
   siteId?: string
@@ -80,10 +81,9 @@ export const CharacterCard: React.FC<{
             <span className="text-gray-600">@{site?.username}</span>
           </span>
           {site?.description && (
-            <span
-              className="block text-gray-600"
-              dangerouslySetInnerHTML={{ __html: site?.description || "" }}
-            ></span>
+            <span className="text-gray-600 line-clamp-4">
+              {site?.description}
+            </span>
           )}
           {!simple && (
             <span className="block">

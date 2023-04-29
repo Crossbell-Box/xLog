@@ -20,5 +20,12 @@ export const useGetFeed = (data?: {
       })
     },
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
+    refetchOnWindowFocus: false,
+  })
+}
+
+export const useGetShowcase = () => {
+  return useQuery(["getShowcase"], async () => {
+    return homeModel.getShowcase()
   })
 }

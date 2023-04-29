@@ -1,20 +1,21 @@
+import equal from "fast-deep-equal"
+import { nanoid } from "nanoid"
+import { GetServerSideProps } from "next"
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
+import type { ReactElement } from "react"
+import toast from "react-hot-toast"
+import { ReactSortable } from "react-sortablejs"
+
+import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
-import toast from "react-hot-toast"
-import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
-import { useRouter } from "next/router"
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { SiteNavigationItem } from "~/lib/types"
-import { nanoid } from "nanoid"
-import { ReactSortable } from "react-sortablejs"
-import equal from "fast-deep-equal"
-import { useGetSite, useUpdateSite } from "~/queries/site"
-import type { ReactElement } from "react"
-import { useTranslation } from "next-i18next"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
-import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { SiteNavigationItem } from "~/lib/types"
+import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -45,12 +46,7 @@ const SortableNavigationItem: React.FC<{
           type="button"
           className="drag-handle cursor-grab -mt-1 text-zinc-400 rounded-lg h-8 w-6 flex items-center justify-center hover:text-zinc-800 hover:bg-zinc-200"
         >
-          <svg className="w-5 h-8" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M9 20q-.825 0-1.412-.587Q7 18.825 7 18q0-.825.588-1.413Q8.175 16 9 16t1.413.587Q11 17.175 11 18q0 .825-.587 1.413Q9.825 20 9 20Zm0-6q-.825 0-1.412-.588Q7 12.825 7 12t.588-1.413Q8.175 10 9 10t1.413.587Q11 11.175 11 12q0 .825-.587 1.412Q9.825 14 9 14Zm0-6q-.825 0-1.412-.588Q7 6.825 7 6t.588-1.412Q8.175 4 9 4t1.413.588Q11 5.175 11 6t-.587 1.412Q9.825 8 9 8Zm6 0q-.825 0-1.412-.588Q13 6.825 13 6t.588-1.412Q14.175 4 15 4t1.413.588Q17 5.175 17 6t-.587 1.412Q15.825 8 15 8Zm0 6q-.825 0-1.412-.588Q13 12.825 13 12t.588-1.413Q14.175 10 15 10t1.413.587Q17 11.175 17 12q0 .825-.587 1.412Q15.825 14 15 14Zm0 6q-.825 0-1.412-.587Q13 18.825 13 18q0-.825.588-1.413Q14.175 16 15 16t1.413.587Q17 17.175 17 18q0 .825-.587 1.413Q15.825 20 15 20Z"
-            ></path>
-          </svg>
+          <i className="icon-[mingcute--dot-grid-fill]" />
         </button>
       </div>
       <Input

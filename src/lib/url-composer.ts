@@ -1,7 +1,7 @@
 import { ConnectKitProviderProps } from "@crossbell/connect-kit"
 
-import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 import { CSB_IO } from "~/lib/env"
+import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 
 export const urlComposer: ConnectKitProviderProps["urlComposer"] = {
   characterUrl: ({ handle }) => getSiteLink({ subdomain: handle }),

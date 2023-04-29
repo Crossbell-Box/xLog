@@ -1,13 +1,13 @@
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { DashboardMain } from "~/components/dashboard/DashboardMain"
-import type { ReactElement } from "react"
-import { useGetAchievements, useGetSite } from "~/queries/site"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
-import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { useAccountState } from "@crossbell/connect-kit"
-import { AchievementItem } from "~/components/common/AchievementItem"
 import { useRouter } from "next/router"
+import type { ReactElement } from "react"
+
+import { AchievementItem } from "~/components/common/AchievementItem"
+import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { DashboardMain } from "~/components/dashboard/DashboardMain"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
+import { useGetAchievements, useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {

@@ -1,12 +1,13 @@
-import { EditorSelection } from "@codemirror/state"
-import { ICommand, prependExecute, wrapExecute } from "."
-import { UploadFile } from "~/lib/upload-file"
 import toast from "react-hot-toast"
+
+import { UploadFile } from "~/lib/upload-file"
+
+import { ICommand, wrapExecute } from "."
 
 export const Image: ICommand = {
   name: "upload-image",
   label: "Upload Image",
-  icon: "i-mingcute:photo-album-line",
+  icon: "icon-[mingcute--photo-album-line]",
   execute: ({ view }) => {
     const input = document.createElement("input")
     input.type = "file"

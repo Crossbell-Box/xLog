@@ -1,6 +1,7 @@
-import * as siteModel from "~/models/site.model"
 import { QueryClient } from "@tanstack/react-query"
+
 import { cacheGet } from "~/lib/redis.server"
+import * as siteModel from "~/models/site.model"
 
 export const prefetchGetSite = async (
   input: string,
@@ -69,15 +70,21 @@ export const prefetchGetSiteToSubscriptions = async (
   })
 }
 
-export const prefetchGetSites = async (
-  input: number[],
+export const fetchGetComments = async (
+  data: Parameters<typeof siteModel.getCommentsBySite>[0],
   queryClient: QueryClient,
 ) => {
-  const key = ["getSites", input]
-  await queryClient.fetchQuery(key, async () => {
+  const key = ["getComments", data]
+  if (!data.characterId) {
+    return null
+  }
+  return await queryClient.fetchQuery(key, async () => {
     return cacheGet({
       key,
-      getValueFun: () => siteModel.getSites(input),
-    })
+      getValueFun: () =>
+        siteModel.getCommentsBySite({
+          characterId: data.characterId,
+        }),
+    }) as Promise<ReturnType<typeof siteModel.getCommentsBySite>>
   })
 }

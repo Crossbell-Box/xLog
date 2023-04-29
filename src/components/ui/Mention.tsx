@@ -1,40 +1,50 @@
-import React from "react"
-import { CharacterFloatCard } from "../common/CharacterFloatCard"
-import { UniLink } from "./UniLink"
+import React, { memo } from "react"
+
 import { getSiteLink } from "~/lib/helpers"
 import { useGetSite } from "~/queries/site"
 
-export const Mention: React.FC<{
-  id: string
-  children?: any
-}> = ({ id, children }) => {
-  let siteId
+import { CharacterFloatCard } from "../common/CharacterFloatCard"
+import { UniLink } from "./UniLink"
+
+const getSiteId = ({ id, children }: { id: string; children?: any }) => {
   if (
     children?.[0] &&
     typeof children[0] === "string" &&
     children[0].startsWith("@")
   ) {
-    siteId = children[0].replace(/^@/, "")
+    return children[0].replace(/^@/, "")
   } else if (id) {
-    siteId = id.replace(/^user-content-/, "")
-  }
-
-  const site = useGetSite(siteId)
-
-  if (siteId && site.data) {
-    return (
-      <CharacterFloatCard siteId={siteId}>
-        <UniLink
-          href={getSiteLink({
-            subdomain: siteId,
-          })}
-          className="inline-block"
-        >
-          @{siteId}
-        </UniLink>
-      </CharacterFloatCard>
-    )
-  } else {
-    return <>{children}</>
+    return id.replace(/^user-content-/, "")
   }
 }
+
+export const Mention: React.FC<{
+  id: string
+  children?: any
+}> = memo(
+  function Mention({ id, children }) {
+    let siteId = getSiteId({ id, children })
+
+    const site = useGetSite(siteId)
+
+    if (siteId && site.data) {
+      return (
+        <CharacterFloatCard siteId={siteId}>
+          <UniLink
+            href={getSiteLink({
+              subdomain: siteId,
+            })}
+            className="inline-block"
+          >
+            @{siteId}
+          </UniLink>
+        </CharacterFloatCard>
+      )
+    } else {
+      return <>{children}</>
+    }
+  },
+  (prevProps, nextProps) => {
+    return getSiteId(prevProps) === getSiteId(nextProps)
+  },
+)

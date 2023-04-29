@@ -1,6 +1,6 @@
 import { Image } from "~/components/ui/Image"
-import { UniLink } from "~/components/ui/UniLink"
 import { Tooltip } from "~/components/ui/Tooltip"
+import { UniLink } from "~/components/ui/UniLink"
 import { cn } from "~/lib/utils"
 
 const syncMap: {
@@ -74,6 +74,11 @@ const syncMap: {
     icon: "/assets/social/discord.svg",
     url: "https://discord.gg/{username}",
   },
+  xiaoyuzhou: {
+    name: "xiaoyuzhou FM",
+    icon: "/assets/social/xiaoyuzhou.png",
+    url: "https://www.xiaoyuzhoufm.com/podcast/{username}",
+  },
 }
 
 export const Platform: React.FC<{
@@ -100,7 +105,7 @@ export const Platform: React.FC<{
             <Image fill src={syncMap[platform]?.icon} alt={platform} />
           ) : (
             <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300 w-6 h-6">
-              <i className="i-mingcute:planet-line text-xl" />
+              <i className="icon-[mingcute--planet-line] text-xl" />
             </span>
           )}
         </span>

@@ -1,20 +1,22 @@
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+
+import { Logo } from "~/components/common/Logo"
 import {
   APP_DESCRIPTION,
   APP_NAME,
-  GITHUB_LINK,
   DISCORD_LINK,
+  GITHUB_LINK,
   TWITTER_LINK,
 } from "~/lib/env"
-import { SEOHead } from "../common/SEOHead"
-import { UniLink } from "../ui/UniLink"
-import { ConnectButton } from "../common/ConnectButton"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "next-i18next"
-import { Logo } from "~/components/common/Logo"
-import { useRouter } from "next/router"
 import { cn } from "~/lib/utils"
-import { Image } from "../ui/Image"
+
+import { ConnectButton } from "../common/ConnectButton"
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
+import { SEOHead } from "../common/SEOHead"
+import { Image } from "../ui/Image"
+import { UniLink } from "../ui/UniLink"
 
 const tabs = [
   {
@@ -90,17 +92,17 @@ export function MainLayout({
           <span className="text-zinc-700 ml-2 inline-flex items-center space-x-5 align-middle">
             {GITHUB_LINK && (
               <UniLink className="flex items-center" href={GITHUB_LINK}>
-                <span className="inline-block i-mingcute:github-fill text-2xl hover:text-accent"></span>
+                <span className="inline-block icon-[mingcute--github-fill] text-2xl hover:text-accent"></span>
               </UniLink>
             )}
             {DISCORD_LINK && (
               <UniLink className="flex items-center" href={DISCORD_LINK}>
-                <span className="inline-block i-mingcute:discord-fill text-2xl hover:text-accent"></span>
+                <span className="inline-block icon-[mingcute--discord-fill] text-2xl hover:text-accent"></span>
               </UniLink>
             )}
             {TWITTER_LINK && (
               <UniLink className="flex items-center" href={TWITTER_LINK}>
-                <span className="inline-block i-mingcute:twitter-fill text-2xl hover:text-accent"></span>
+                <span className="inline-block icon-[mingcute--twitter-fill] text-2xl hover:text-accent"></span>
               </UniLink>
             )}
           </span>

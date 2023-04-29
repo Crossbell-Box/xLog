@@ -1,21 +1,21 @@
 import { GetServerSideProps } from "next"
-import { ReactElement, useState } from "react"
-import { MainLayout } from "~/components/main/MainLayout"
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
-import { dehydrate, QueryClient } from "@tanstack/react-query"
-import { prefetchGetSites } from "~/queries/site.server"
-import showcase from "../../data/showcase.json"
-import type { FeedType } from "~/models/home.model"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { languageDetector } from "~/lib/language-detector"
+import { ReactElement, useState } from "react"
+
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+import { QueryClient, dehydrate } from "@tanstack/react-query"
+
 import { MainFeed } from "~/components/main/MainFeed"
-import { Tabs } from "~/components/ui/Tabs"
+import { MainLayout } from "~/components/main/MainLayout"
 import { MainSidebar } from "~/components/main/MainSidebar"
-import { prefetchGetFeed } from "~/queries/home.server"
+import { Tabs } from "~/components/ui/Tabs"
+import { languageDetector } from "~/lib/language-detector"
+import type { FeedType } from "~/models/home.model"
+import { prefetchGetFeed, prefetchGetShowcase } from "~/queries/home.server"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
-  await prefetchGetSites(showcase, queryClient)
+  await prefetchGetShowcase(queryClient)
   await prefetchGetFeed(
     {
       type: "latest",

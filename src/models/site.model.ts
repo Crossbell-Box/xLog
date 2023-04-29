@@ -1,14 +1,14 @@
-import { SiteNavigationItem, Profile } from "~/lib/types"
+import { CharacterOperatorPermission, Indexer } from "crossbell.js"
 import { nanoid } from "nanoid"
-import unidata from "~/queries/unidata.server"
 import type Unidata from "unidata.js"
 import type { Profiles as UniProfiles } from "unidata.js"
-import { createClient, cacheExchange, fetchExchange } from "@urql/core"
-import { Indexer } from "crossbell.js"
-import { CharacterOperatorPermission } from "crossbell.js"
+
 import type { useContract } from "@crossbell/contract"
-import dayjs from "dayjs"
+import { cacheExchange, createClient, fetchExchange } from "@urql/core"
+
 import { expandUnidataProfile } from "~/lib/expand-unit"
+import { Profile, SiteNavigationItem } from "~/lib/types"
+import unidata from "~/queries/unidata.server"
 
 type Contract = ReturnType<typeof useContract>
 
@@ -90,74 +90,38 @@ export const getSite = async (input: string, customUnidata?: Unidata) => {
   return site
 }
 
-export const getSites = async (input: number[]) => {
+export const getSubscriptionsFromList = async (
+  list: number[],
+  fromCharacterId: number,
+) => {
   const client = createClient({
     url: "https://indexer.crossbell.io/v1/graphql",
     exchanges: [cacheExchange, fetchExchange],
   })
-  const oneMonthAgo = dayjs().subtract(15, "day").toISOString()
-  const result = await client
+
+  const response = await client
     .query(
       `
-        query getCharacters($identities: [Int!], $limit: Int) {
-          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
-            handle
-            characterId
-            metadata {
-              uri
-              content
-            }
-          }
-          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { is: { content: { path: "sources", array_contains: "xlog" } } } }, orderBy: [{ updatedAt: desc }] ) {
-            characterId
-            createdAt
-          }
-        }`,
+    query getFollows($list: [Int!], $fromCharacterId: Int!) {
+      links(
+        where: {
+          linkType: { equals: "follow" },
+          fromCharacterId: { equals: $fromCharacterId },
+          toCharacterId: { in: $list }
+        },
+      ) {
+        toCharacterId
+      }
+    }
+  `,
       {
-        identities: input,
+        list,
+        fromCharacterId,
       },
     )
     .toPromise()
 
-  result.data?.characters?.forEach((site: any) => {
-    if (site.metadata.content) {
-      site.metadata.content.name = site.metadata?.content?.name || site.handle
-    } else {
-      site.metadata.content = {
-        name: site.handle,
-      }
-    }
-
-    site.custom_domain =
-      site.metadata?.content?.attributes?.find(
-        (a: any) => a.trait_type === "xlog_custom_domain",
-      )?.value || ""
-  })
-
-  const createdAts: {
-    [key: string]: string
-  } = {}
-  result.data?.notes.forEach((note: any) => {
-    if (!createdAts[note.characterId + ""]) {
-      createdAts[note.characterId + ""] = note.createdAt
-    }
-  })
-  const list = Object.keys(createdAts)
-    .map((characterId: string) => {
-      const character = result.data?.characters.find(
-        (c: any) => c.characterId === characterId,
-      )
-
-      return {
-        ...character,
-        createdAt: createdAts[characterId],
-      }
-    })
-    .sort((a: any, b: any) => {
-      return b.createdAt > a.createdAt ? 1 : -1
-    })
-
-  return list
+  return response.data?.links.map((link: any) => link.toCharacterId)
 }
 
 export const getSubscription = async (
@@ -350,6 +314,27 @@ export async function subscribeToSites(
   }
 }
 
+export async function getCommentsBySite(input: {
+  characterId: string
+  cursor?: string
+}) {
+  const notes = await indexer.getNotes({
+    toCharacterId: input.characterId,
+    limit: 7,
+    includeCharacter: true,
+    cursor: input.cursor,
+    includeNestedNotes: true,
+    nestedNotesDepth: 3 as 3,
+    nestedNotesLimit: 20,
+  })
+
+  notes.list = notes.list.filter((item) =>
+    item.toNote?.metadata?.content?.sources?.includes("xlog"),
+  )
+
+  return notes
+}
+
 const xLogOperatorPermissions: CharacterOperatorPermission[] = [
   CharacterOperatorPermission.SET_NOTE_URI,
   CharacterOperatorPermission.DELETE_NOTE,
@@ -465,6 +450,7 @@ export async function getStat({ characterId }: { characterId: string }) {
     return {
       viewsCount: stat.viewNoteCount,
       createdAt: site?.createdAt,
+      createTx: site?.transactionHash,
       subscriptionCount: subscriptions?.count,
       commentsCount: comments?.count,
       notesCount: notes?.count,
@@ -516,6 +502,7 @@ export async function getTips(
     characterId?: string | number
     toNoteId?: string | number
     cursor?: string
+    limit?: number
   },
   contract: Contract,
 ) {
@@ -526,7 +513,7 @@ export async function getTips(
     toCharacterId: input.toCharacterId,
     tokenAddress: address?.data || "0xAfB95CC0BD320648B3E8Df6223d9CDD05EbeDC64",
     includeMetadata: true,
-    limit: 7,
+    limit: input.limit || 7,
     cursor: input.cursor,
   })
 
@@ -714,4 +701,12 @@ export async function checkDomain(domain: string, handle: string) {
   ).json()
 
   return check.data
+}
+
+export async function getGreenfieldId(cid: string) {
+  const result = await (
+    await fetch(`https://ipfs-relay.crossbell.io/map/ipfs2gnfd/${cid}`)
+  ).json()
+
+  return result
 }

@@ -1,18 +1,18 @@
+import { GetServerSideProps } from "next"
+import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import type { ReactElement } from "react"
 import toast from "react-hot-toast"
+
+import { MonacoEditor } from "~/components/common/Monaco"
 import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
-import { useGetSite, useUpdateSite } from "~/queries/site"
-
 import { FieldLabel } from "~/components/ui/FieldLabel"
-import type { ReactElement } from "react"
-import { useTranslation } from "next-i18next"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
-import { GetServerSideProps } from "next"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { MonacoEditor } from "~/components/common/Monaco"
+import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -72,6 +72,11 @@ export default function SettingsCSSPage() {
             <p>
               {t(
                 "Scope: These styles will be applied to your entire blog, including this dashboard.",
+              )}
+            </p>
+            <p>
+              {t(
+                "Using a browser plugin that can modify page styles, such as Stylebot, can help with debugging.",
               )}
             </p>
             <p>

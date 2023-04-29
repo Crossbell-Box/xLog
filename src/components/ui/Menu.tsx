@@ -1,16 +1,17 @@
 import { useState } from "react"
+
 import {
-  offset,
-  flip,
-  shift,
+  Placement,
   autoUpdate,
+  flip,
+  offset,
+  shift,
+  useClick,
+  useDismiss,
   useFloating,
   useInteractions,
-  useClick,
   useRole,
-  useDismiss,
   useTransitionStyles,
-  Placement,
 } from "@floating-ui/react"
 
 export const Menu: React.FC<{

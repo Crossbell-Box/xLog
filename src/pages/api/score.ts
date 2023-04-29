@@ -6,7 +6,11 @@ import { cacheGet } from "~/lib/redis.server"
 
 const getOriginalScore = async (cid: string) => {
   try {
-    const { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
+    let { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
+
+    if (content?.length > 5000) {
+      content = content.slice(0, 5000)
+    }
 
     if (content?.length > 200) {
       console.time(`fetching score ${cid}`)

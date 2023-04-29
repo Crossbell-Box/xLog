@@ -1,36 +1,39 @@
+import { useTranslation } from "next-i18next"
+import { useEffect, useState } from "react"
+
 import {
-  useConnectModal,
-  useAccountState,
-  useDisconnectModal,
   GeneralAccount,
+  useAccountBalance,
+  useAccountState,
+  useConnectModal,
   useCsbDetailModal,
+  useDisconnectModal,
   useIsOpSignEnabled,
   useOpSignSettingsModal,
-  useUpgradeAccountModal,
   useSelectCharactersModal,
-  useAccountBalance,
+  useUpgradeEmailAccountModal,
 } from "@crossbell/connect-kit"
-import { useAccountSites } from "~/queries/site"
-import { Avatar } from "~/components/ui/Avatar"
-import { Button, type VariantColor, type Variant } from "~/components/ui/Button"
-import { UniLink } from "../ui/UniLink"
-import { useEffect, useState } from "react"
+import {
+  useNotifications,
+  useShowNotificationModal,
+} from "@crossbell/notification"
+import { useRefCallback } from "@crossbell/util-hooks"
 import {
   BellIcon,
   FaceFrownIcon,
   FaceSmileIcon,
 } from "@heroicons/react/24/outline"
 import { BellAlertIcon } from "@heroicons/react/24/solid"
-import { SITE_URL } from "~/lib/env"
-import { useRefCallback } from "@crossbell/util-hooks"
-import {
-  useShowNotificationModal,
-  useNotifications,
-} from "@crossbell/notification"
+
+import { Avatar } from "~/components/ui/Avatar"
+import { Button, type Variant, type VariantColor } from "~/components/ui/Button"
 import { Menu } from "~/components/ui/Menu"
-import { useTranslation } from "next-i18next"
-import { cn } from "~/lib/utils"
+import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { cn } from "~/lib/utils"
+import { useAccountSites } from "~/queries/site"
+
+import { UniLink } from "../ui/UniLink"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -82,7 +85,7 @@ export const ConnectButton: React.FC<{
   const [copyLabelDisplay, copyLabel] = useCopyLabel(account)
   const csbDetailModal = useCsbDetailModal()
   const opSignSettingsModal = useOpSignSettingsModal()
-  const upgradeAccountModal = useUpgradeAccountModal()
+  const upgradeAccountModal = useUpgradeEmailAccountModal()
   const selectCharactersModal = useSelectCharactersModal()
 
   const userSites = useAccountSites()
@@ -108,26 +111,26 @@ export const ConnectButton: React.FC<{
 
   const dropdownLinks: HeaderLinkType[] = [
     {
-      icon: "i-mingcute:home-1-line",
+      icon: "icon-[mingcute--home-1-line]",
       label: t("My xLog") || "",
       url: getSiteLink({
         subdomain: userSites.data?.[0]?.username || "",
       }),
     },
     {
-      icon: "i-mingcute:grid-line",
+      icon: "icon-[mingcute--grid-line]",
       label: t("Dashboard") || "",
       url: `${SITE_URL}/dashboard`,
     },
     {
-      icon: "i-mingcute:copy-2-line",
+      icon: "icon-[mingcute--copy-2-line]",
       label: t(copyLabelDisplay) || "",
       onClick: copyLabel,
     },
     ...(account?.type === "wallet"
       ? [
           {
-            icon: "i-mingcute:seal-line",
+            icon: "icon-[mingcute--seal-line]",
             label: (
               <>
                 {t("Operator Sign")} (
@@ -148,7 +151,7 @@ export const ConnectButton: React.FC<{
             },
           },
           {
-            icon: "i-mingcute:currency-euro-line",
+            icon: "icon-[mingcute--currency-euro-line]",
             label: (
               <span className={InsufficientBalance ? "text-red-400" : ""}>
                 {balance?.formatted.replace(/\.(\d{5})\d*$/, ".$1") ||
@@ -159,20 +162,20 @@ export const ConnectButton: React.FC<{
             onClick: csbDetailModal.show,
           },
           {
-            icon: "i-mingcute:repeat-line",
+            icon: "icon-[mingcute--repeat-line]",
             label: t("Switch Characters") || "",
             onClick: selectCharactersModal.show,
           },
         ]
       : [
           {
-            icon: "i-mingcute:vip-2-line",
+            icon: "icon-[mingcute--vip-2-line]",
             label: t("Upgrade to Wallet") || "",
             onClick: upgradeAccountModal.show,
           },
         ]),
     {
-      icon: "i-mingcute:exit-line",
+      icon: "icon-[mingcute--exit-line]",
       label: t("Disconnect") || "",
       onClick: disconnect,
     },
@@ -279,7 +282,7 @@ export const ConnectButton: React.FC<{
                               </span>
                             )}
                           </div>
-                          <i className="i-mingcute:down-line text-xl ml-[2px]" />
+                          <i className="icon-[mingcute--down-line] text-xl ml-[2px]" />
                         </>
                       )}
                     </button>

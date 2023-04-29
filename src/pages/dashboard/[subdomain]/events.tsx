@@ -1,21 +1,22 @@
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { DashboardMain } from "~/components/dashboard/DashboardMain"
-import { UniLink } from "~/components/ui/UniLink"
-import { Image } from "~/components/ui/Image"
-import type { ReactElement } from "react"
-import { useGetSite } from "~/queries/site"
-import { useDate } from "~/hooks/useDate"
-import { useTranslation } from "next-i18next"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { GetServerSideProps } from "next"
-import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { useGetPagesBySite } from "~/queries/page"
-import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { useTranslation } from "next-i18next"
+import type { ReactElement } from "react"
 import { useEffect, useState } from "react"
+
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
+import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
+import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Avatar } from "~/components/ui/Avatar"
-import { cn } from "~/lib/utils"
+import { Image } from "~/components/ui/Image"
+import { UniLink } from "~/components/ui/UniLink"
+import { useDate } from "~/hooks/useDate"
 import { getSiteLink } from "~/lib/helpers"
+import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { getStorage, setStorage } from "~/lib/storage"
+import { cn } from "~/lib/utils"
+import { useGetPagesBySite } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -178,7 +179,7 @@ export default function EventsPage() {
                     }
                   >
                     {t("Learn more")}{" "}
-                    <i className="i-mingcute:right-line text-xl ml-1" />
+                    <i className="icon-[mingcute--right-line] text-xl ml-1" />
                   </UniLink>
                 </div>
               </div>

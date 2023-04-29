@@ -1,6 +1,7 @@
-import React, { useState } from "react"
-import { Image } from "~/components/ui/Image"
 import axios from "axios"
+import React, { useState } from "react"
+
+import { Image } from "~/components/ui/Image"
 import { IPFS_GATEWAY } from "~/lib/env"
 
 export const UniMedia: React.FC<{

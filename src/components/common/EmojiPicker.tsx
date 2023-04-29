@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
+
 import { useIsDark } from "~/hooks/useDarkMode"
 
 export const EmojiPicker: React.FC<{

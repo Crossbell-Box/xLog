@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import { create } from "zustand"
-import { getStorage, setStorage, delStorage } from "~/lib/storage"
+
+import { noop } from "~/lib/noop"
+import { delStorage, getStorage, setStorage } from "~/lib/storage"
+import { isServerSide } from "~/lib/utils"
+
 import { useGetState } from "./useGetState"
 
 interface IMediaStore {
@@ -14,8 +18,6 @@ const useMediaStore = create<IMediaStore>(() => {
     toggle: () => void 0,
   }
 })
-
-const isServerSide = () => typeof window === "undefined"
 
 interface DarkModeConfig {
   classNameDark?: string // A className to set "dark mode". Default = "dark".
@@ -148,8 +150,6 @@ const useDarkModeInternal = (
     },
   }
 }
-
-const noop = () => {}
 
 const mockElement = {
   classList: {

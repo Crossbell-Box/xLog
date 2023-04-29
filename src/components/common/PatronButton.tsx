@@ -1,9 +1,10 @@
+import { useTranslation } from "next-i18next"
+import { useState } from "react"
+
+import { PatronModal } from "~/components/common/PatronModal"
 import { Button } from "~/components/ui/Button"
 import { Profile } from "~/lib/types"
-import { useTranslation } from "next-i18next"
 import { cn } from "~/lib/utils"
-import { useState } from "react"
-import { PatronModal } from "~/components/common/PatronModal"
 
 export const PatronButton: React.FC<{
   site: Profile | undefined | null
@@ -26,7 +27,7 @@ export const PatronButton: React.FC<{
       >
         <span className="inline-flex items-center">
           <i className="text-red-400 text-xl inline-flex items-center">
-            <i className="i-mingcute:heart-fill inline-block" />
+            <i className="icon-[mingcute--heart-fill] inline-block" />
           </i>
           <span className="text-zinc-500 ml-1">{t("Patron")}</span>
         </span>

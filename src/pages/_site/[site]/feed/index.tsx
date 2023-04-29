@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next"
+
 import { getJsonFeed } from "~/lib/json-feed"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

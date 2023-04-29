@@ -394,6 +394,7 @@ textarea.input {
   @apply fill-current;
 }
 
-.katex-html {
-  @apply overflow-x-auto;
+.xlog-post-toc .katex {
+  font: unset;
+  line-height: unset;
 }

@@ -1,28 +1,31 @@
-import { cn } from "~/lib/utils"
+import chroma from "chroma-js"
+import { FastAverageColor } from "fast-average-color"
+import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import { CSB_SCAN, CSB_IO, CSB_XCHAR } from "~/lib/env"
+import { MutableRefObject, RefObject, useEffect, useRef, useState } from "react"
+
+import { XCharLogo, XFeedLogo } from "@crossbell/ui"
+import { RssIcon } from "@heroicons/react/24/solid"
+
+import { FollowingButton } from "~/components/common/FollowingButton"
+import { FollowingCount } from "~/components/common/FollowingCount"
+import { PatronButton } from "~/components/common/PatronButton"
+import { SearchInput } from "~/components/common/SearchInput"
+import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { Image } from "~/components/ui/Image"
+import { Menu } from "~/components/ui/Menu"
+import { Modal } from "~/components/ui/Modal"
+import { Tooltip } from "~/components/ui/Tooltip"
+import { useIsDark } from "~/hooks/useDarkMode"
+import { CSB_IO, CSB_SCAN, CSB_XCHAR } from "~/lib/env"
+import { Profile } from "~/lib/types"
 import { getUserContentsUrl } from "~/lib/user-contents"
+import { cn } from "~/lib/utils"
+
+import { ConnectButton } from "../common/ConnectButton"
 import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
 import { UniLink } from "../ui/UniLink"
-import { Profile } from "~/lib/types"
-import { ConnectButton } from "../common/ConnectButton"
-import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { Image } from "~/components/ui/Image"
-import { FollowingButton } from "~/components/common/FollowingButton"
-import { FollowingCount } from "~/components/common/FollowingCount"
-import { RssIcon } from "@heroicons/react/24/solid"
-import { XCharLogo, XFeedLogo } from "@crossbell/ui"
-import { FastAverageColor } from "fast-average-color"
-import { useState, useRef, useEffect, RefObject } from "react"
-import chroma from "chroma-js"
-import { Menu } from "~/components/ui/Menu"
-import { useTranslation } from "next-i18next"
-import { Tooltip } from "~/components/ui/Tooltip"
-import { PatronButton } from "~/components/common/PatronButton"
-import { Modal } from "~/components/ui/Modal"
-import { SearchInput } from "~/components/common/SearchInput"
-import { useIsDark } from "~/hooks/useDarkMode"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -120,7 +123,7 @@ export const SiteHeader: React.FC<{
       text: "Search on this site",
       icon: (
         <span className="text-stone-400">
-          <i className="i-mingcute:search-line block" />
+          <i className="icon-[mingcute--search-line] block" />
         </span>
       ),
       onClick: () => setSearchOpen(true),
@@ -201,7 +204,7 @@ export const SiteHeader: React.FC<{
                   src={site?.banners?.[0]?.address}
                   alt="banner"
                   fill
-                  imageRef={bannerRef as RefObject<HTMLImageElement>}
+                  imageRef={bannerRef as MutableRefObject<HTMLImageElement>}
                 />
               )
             case "video":
@@ -238,7 +241,7 @@ export const SiteHeader: React.FC<{
                 images={[getUserContentsUrl(site?.avatars?.[0])]}
                 size={120}
                 name={site?.name}
-                imageRef={avatarRef}
+                imageRef={avatarRef as MutableRefObject<HTMLImageElement>}
               />
             )}
             <div className="flex-1 min-w-0 relative">
@@ -255,7 +258,7 @@ export const SiteHeader: React.FC<{
                           aria-label="more"
                           className="-mx-2 text-zinc-600"
                         >
-                          <i className="i-mingcute:more-1-line text-2xl" />
+                          <i className="icon-[mingcute--more-1-line] text-2xl" />
                         </Button>
                       }
                       dropdown={
@@ -315,11 +318,10 @@ export const SiteHeader: React.FC<{
                   </div>
                 </div>
               </div>
-              {site?.bio && (
-                <div
-                  className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base"
-                  dangerouslySetInnerHTML={{ __html: site?.description || "" }}
-                ></div>
+              {site?.description && (
+                <div className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base line-clamp-4 whitespace-pre-wrap">
+                  {site?.description}
+                </div>
               )}
               <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row text-sm sm:text-base">
                 <span className="xlog-site-follow-count block sm:inline-block whitespace-nowrap">

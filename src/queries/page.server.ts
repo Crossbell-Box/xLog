@@ -1,6 +1,7 @@
-import * as pageModel from "~/models/page.model"
 import { QueryClient } from "@tanstack/react-query"
+
 import { cacheGet } from "~/lib/redis.server"
+import * as pageModel from "~/models/page.model"
 import { getIdBySlug } from "~/pages/api/slug2id"
 import { getSummary } from "~/pages/api/summary"
 

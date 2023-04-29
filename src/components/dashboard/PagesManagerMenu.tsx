@@ -1,16 +1,20 @@
-import { FC, useEffect, useState } from "react"
-import { Menu } from "@headlessui/react"
+import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
+import { FC, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import type { Note } from "unidata.js"
-import { useDeletePage, useCreateOrUpdatePage } from "~/queries/page"
-import { delStorage, getStorage, setStorage } from "~/lib/storage"
+
+import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
-import { APP_NAME } from "~/lib/env"
-import { useTranslation } from "next-i18next"
+
 import { useGetState } from "~/hooks/useGetState"
-import { getNoteSlugFromNote, getSiteLink } from "~/lib/helpers"
+import { APP_NAME } from "~/lib/env"
+import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
+import { delStorage, getStorage, setStorage } from "~/lib/storage"
+import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
+
+import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 const usePageEditLink = (page: { id: string }, isPost: boolean) => {
   const router = useRouter()
@@ -84,7 +88,7 @@ export const PagesManagerMenu: FC<{
   const items: Item[] = [
     {
       text: "Edit",
-      icon: <span className="i-mingcute:edit-line inline-block"></span>,
+      icon: <span className="icon-[mingcute--edit-line] inline-block"></span>,
       onClick() {
         router.push(editLink)
       },
@@ -97,7 +101,9 @@ export const PagesManagerMenu: FC<{
           : isPost
           ? "Page"
           : "Post"),
-      icon: <span className="i-mingcute:transfer-3-line inline-block"></span>,
+      icon: (
+        <span className="icon-[mingcute--transfer-3-line] inline-block"></span>
+      ),
       onClick() {
         const toastId = toast.loading("Converting...")
         if (isCrossbell) {
@@ -140,7 +146,7 @@ export const PagesManagerMenu: FC<{
     },
     {
       text: "Preview",
-      icon: <span className="i-mingcute:eye-line inline-block"></span>,
+      icon: <span className="icon-[mingcute--eye-line] inline-block"></span>,
       onClick() {
         const slug = getNoteSlugFromNote(page)
         if (!slug) return
@@ -149,43 +155,27 @@ export const PagesManagerMenu: FC<{
     },
     {
       text: "Share to Twitter",
-      icon: <span className="i-mingcute:twitter-line inline-block"></span>,
+      icon: (
+        <span className="icon-[mingcute--twitter-line] inline-block"></span>
+      ),
       onClick() {
-        const slug = getNoteSlugFromNote(page)
-        if (!slug) return
-
-        window.open(
-          `https://twitter.com/intent/tweet?url=${getSiteLink({
-            subdomain,
-            domain: site.data?.custom_domain,
-          })}/${encodeURIComponent(slug)}&via=_xLog&text=${encodeURIComponent(
-            `Read my new post - ${page.title}`,
-          )}`,
-        )
+        if (site.data) {
+          const twitterShareUrl = getTwitterShareUrl({
+            page,
+            site: site.data,
+            t,
+          })
+          window.open(twitterShareUrl)
+        }
       },
     },
     {
       text: "Delete",
-      icon: <span className="i-mingcute:delete-2-line inline-block"></span>,
+      icon: (
+        <span className="icon-[mingcute--delete-2-line] inline-block"></span>
+      ),
       onClick() {
-        if (!page.metadata) {
-          const toastId = toast.loading("Deleting...")
-          delStorage(`draft-${subdomain}-${page.id}`)
-          Promise.all([
-            queryClient.refetchQueries(["getPagesBySite", subdomain]),
-            queryClient.refetchQueries(["getPage", page.id]),
-          ]).then(() => {
-            toast.success("Deleted!", {
-              id: toastId,
-            })
-          })
-        } else {
-          setDeleteToastId(toast.loading("Deleting..."))
-          deletePage.mutate({
-            site: subdomain,
-            id: page.id,
-          })
-        }
+        setDeleteConfirmModalOpen(true)
       },
     },
   ]
@@ -200,26 +190,57 @@ export const PagesManagerMenu: FC<{
     }
   }, [])
 
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
+    useState<boolean>(false)
+  const onDelete = () => {
+    if (!page.metadata) {
+      const toastId = toast.loading("Deleting...")
+      delStorage(`draft-${subdomain}-${page.id}`)
+      Promise.all([
+        queryClient.refetchQueries(["getPagesBySite", subdomain]),
+        queryClient.refetchQueries(["getPage", page.id]),
+      ]).then(() => {
+        toast.success("Deleted!", {
+          id: toastId,
+        })
+      })
+    } else {
+      setDeleteToastId(toast.loading("Deleting..."))
+      deletePage.mutate({
+        site: subdomain,
+        id: page.id,
+      })
+    }
+  }
+
   return (
-    <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64 ring-1 ring-border">
-      {items.map((item) => {
-        return (
-          <Menu.Item key={item.text}>
-            <button
-              type="button"
-              className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
-              onClick={(e) => {
-                e.preventDefault()
-                item.onClick()
-                onClose()
-              }}
-            >
-              <span className="inline-flex">{item.icon}</span>
-              <span>{t(item.text)}</span>
-            </button>
-          </Menu.Item>
-        )
-      })}
-    </Menu.Items>
+    <>
+      <Menu.Items className="text-sm absolute z-20 right-0 bg-white shadow-modal rounded-lg overflow-hidden py-2 w-64 ring-1 ring-border">
+        {items.map((item) => {
+          return (
+            <Menu.Item key={item.text}>
+              <button
+                type="button"
+                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
+                onClick={(e) => {
+                  e.preventDefault()
+                  item.onClick()
+                  onClose()
+                }}
+              >
+                <span className="inline-flex">{item.icon}</span>
+                <span>{t(item.text)}</span>
+              </button>
+            </Menu.Item>
+          )
+        })}
+      </Menu.Items>
+      <DeleteConfirmationModal
+        open={deleteConfirmModalOpen}
+        setOpen={setDeleteConfirmModalOpen}
+        onConfirm={onDelete}
+        isPost={isPost}
+      />
+    </>
   )
 }

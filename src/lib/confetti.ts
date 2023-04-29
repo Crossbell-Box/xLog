@@ -1,7 +1,9 @@
 import confetti from "canvas-confetti"
 
+import { isServerSide } from "./utils"
+
 export function showConfetti() {
-  if (typeof window !== "undefined") {
+  if (!isServerSide()) {
     const end = Date.now() + 100
     const config: confetti.Options = {
       particleCount: 25,

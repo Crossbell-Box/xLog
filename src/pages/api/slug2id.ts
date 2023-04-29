@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-import { cacheGet, cacheDelete } from "~/lib/redis.server"
 import { getNoteSlug } from "~/lib/helpers"
+import { cacheDelete, cacheGet } from "~/lib/redis.server"
 
 export async function getIdBySlug(slug: string, handle: string) {
   slug = (slug as string)?.toLowerCase?.()

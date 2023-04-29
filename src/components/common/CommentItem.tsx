@@ -1,19 +1,22 @@
-import { Avatar } from "~/components/ui/Avatar"
-import { UniLink } from "~/components/ui/UniLink"
+import { CharacterEntity, NoteEntity } from "crossbell.js"
+import { useTranslation } from "next-i18next"
+import { useState } from "react"
+
+import { useAccountState } from "@crossbell/connect-kit"
+
+import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { CommentInput } from "~/components/common/CommentInput"
+import { PageContent } from "~/components/common/PageContent"
+import { ReactionLike } from "~/components/common/ReactionLike"
+import { Titles } from "~/components/common/Titles"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
+import { Avatar } from "~/components/ui/Avatar"
+import { Button } from "~/components/ui/Button"
+import { UniLink } from "~/components/ui/UniLink"
+import { useDate } from "~/hooks/useDate"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { PageContent } from "~/components/common/PageContent"
-import { NoteEntity, CharacterEntity } from "crossbell.js"
-import { Button } from "~/components/ui/Button"
-import { Reactions } from "~/components/common/Reactions"
-import { useState } from "react"
-import { CommentInput } from "~/components/common/CommentInput"
-import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
-import { useTranslation } from "next-i18next"
-import { useDate } from "~/hooks/useDate"
-import { useAccountState } from "@crossbell/connect-kit"
-import { Titles } from "~/components/common/Titles"
+import { cn } from "~/lib/utils"
 
 export const CommentItem: React.FC<{
   comment: NoteEntity & {
@@ -21,7 +24,8 @@ export const CommentItem: React.FC<{
   }
   originalId?: string
   depth: number
-}> = ({ comment, originalId, depth }) => {
+  className?: string
+}> = ({ comment, originalId, depth, className }) => {
   const [replyOpen, setReplyOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
 
@@ -35,7 +39,9 @@ export const CommentItem: React.FC<{
   }
 
   return (
-    <div className={depth > 0 ? "" : "border-b border-dashed pb-6"}>
+    <div
+      className={cn(depth > 0 ? "" : "border-b border-dashed pb-6", className)}
+    >
       <div className="flex group">
         <div>
           <CharacterFloatCard siteId={comment?.character?.handle}>
@@ -93,13 +99,18 @@ export const CommentItem: React.FC<{
           </div>
           <PageContent
             content={comment.metadata?.content?.content}
+            isComment={true}
           ></PageContent>
           <div className="mt-1 flex items-center">
-            <Reactions
-              className="inline-flex"
-              size="sm"
-              pageId={`${comment.characterId}-${comment.noteId}`}
-            />
+            <div
+              className="xlog-reactions fill-gray-400 text-gray-500 sm:items-center inline-flex text-sm space-x-3"
+              data-hide-print
+            >
+              <ReactionLike
+                size="sm"
+                pageId={`${comment.characterId}-${comment.noteId}`}
+              />
+            </div>
             {depth < 2 && (
               <Button
                 className="text-gray-500 text-[13px] ml-1 mt-[-1px]"
@@ -118,7 +129,7 @@ export const CommentItem: React.FC<{
                 variant="text"
                 onClick={() => setEditOpen(!editOpen)}
               >
-                <i className="i-mingcute:edit-line mx-1" />{" "}
+                <i className="icon-[mingcute--edit-line] mx-1" />{" "}
                 {t(`${editOpen ? "Cancel " : ""}Edit`)}
               </Button>
             )}

@@ -1,5 +1,5 @@
-import { Plugin } from "unified"
 import { Root } from "remark-gfm"
+import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
 const CALLOUT_RE = /^(TIP|WARN|SUCCESS|DANGER):(\n|$)/

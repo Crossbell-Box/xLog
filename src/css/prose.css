@@ -1,5 +1,5 @@
 .prose {
-  @apply text-zinc-600 leading-loose overflow-hidden;
+  @apply text-zinc-600 leading-loose;
   word-break: break-word;
 }
 
@@ -175,6 +175,10 @@
 
 .prose .code-wrapper:hover .copy-button {
   @apply inline-flex;
+}
+
+.prose .math {
+  @apply max-w-full inline-block overflow-auto align-bottom scrollbar-hide;
 }
 
 .xlog-comment .prose {

@@ -1,5 +1,5 @@
-import { Plugin } from "unified"
 import { Root } from "remark-gfm"
+import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
 export const remarkMermaid: Plugin<Array<void>, Root> = () => (tree, file) => {

@@ -1,6 +1,7 @@
-import { cn } from "~/lib/utils"
 import { useTranslation } from "next-i18next"
-import { useMobileLayout } from "~/hooks/useMobileLayout"
+
+import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { cn } from "~/lib/utils"
 
 export const DashboardMain: React.FC<{
   children: React.ReactNode
@@ -9,7 +10,7 @@ export const DashboardMain: React.FC<{
   className?: string
 }> = ({ children, fullWidth, title, className }) => {
   const { t } = useTranslation("dashboard")
-  const isMobileLayout = useMobileLayout()
+  const isMobileLayout = useIsMobileLayout()
 
   return (
     <div className="flex-1">

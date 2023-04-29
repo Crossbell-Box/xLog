@@ -1,10 +1,11 @@
-import { cn } from "~/lib/utils"
-import { Note } from "~/lib/types"
-import { useGetComments } from "~/queries/page"
-import { CommentItem } from "~/components/common/CommentItem"
-import { CommentInput } from "~/components/common/CommentInput"
 import { useTranslation } from "next-i18next"
-import InfiniteScroll from "react-infinite-scroller"
+import { Virtuoso } from "react-virtuoso"
+
+import { CommentInput } from "~/components/common/CommentInput"
+import { CommentItem } from "~/components/common/CommentItem"
+import { Note } from "~/lib/types"
+import { cn } from "~/lib/utils"
+import { useGetComments } from "~/queries/page"
 
 export const Comment: React.FC<{
   page?: Note | null
@@ -37,36 +38,44 @@ export const Comment: React.FC<{
         </span>
       </div>
       <CommentInput pageId={page?.id} />
-      <InfiniteScroll
-        className="xlog-comment-list space-y-6 pt-6"
-        loadMore={comments.fetchNextPage as any}
-        hasMore={comments.hasNextPage}
-        loader={
-          <div
-            className="relative mt-4 w-full text-sm text-center py-4"
-            key={"loading"}
-          >
-            {t("Loading")}...
-          </div>
+
+      <Virtuoso
+        className="xlog-comment-list"
+        useWindowScroll
+        data={comments.data?.pages}
+        endReached={() => comments.hasNextPage && comments.fetchNextPage()}
+        components={{
+          Footer: comments.isLoading ? Loader : undefined,
+        }}
+        itemContent={(_, p) =>
+          p?.list?.map((comment, idx) => (
+            <CommentItem
+              className="mt-6"
+              originalId={page?.id}
+              comment={comment}
+              key={comment.transactionHash}
+              depth={0}
+            />
+          ))
         }
-      >
-        {comments.isLoading ? (
-          <div className="relative mt-4 w-full text-sm text-center py-4">
-            {t("Loading")}...
-          </div>
-        ) : (
-          comments.data?.pages?.map((p) =>
-            p?.list?.map((comment) => (
-              <CommentItem
-                originalId={page?.id}
-                comment={comment}
-                key={comment.transactionHash}
-                depth={0}
-              />
-            )),
-          )
-        )}
-      </InfiniteScroll>
+      ></Virtuoso>
+      {comments.isLoading && (
+        <div className="relative mt-4 w-full text-sm text-center py-4">
+          {t("Loading")}...
+        </div>
+      )}
+    </div>
+  )
+}
+
+const Loader = () => {
+  const { t } = useTranslation("common")
+  return (
+    <div
+      className="relative mt-4 w-full text-sm text-center py-4"
+      key={"loading"}
+    >
+      {t("Loading")}...
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query"
-import { cacheGet } from "~/lib/redis.server"
 
+import { cacheGet } from "~/lib/redis.server"
 import * as homeModel from "~/models/home.model"
 
 export const prefetchGetFeed = async (
@@ -26,5 +26,15 @@ export const prefetchGetFeed = async (
       })
     },
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
+  })
+}
+
+export const prefetchGetShowcase = async (queryClient: QueryClient) => {
+  const key = ["getShowcase"]
+  await queryClient.fetchQuery(key, async () => {
+    return cacheGet({
+      key,
+      getValueFun: () => homeModel.getShowcase(),
+    })
   })
 }

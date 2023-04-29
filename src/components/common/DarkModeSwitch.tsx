@@ -1,4 +1,5 @@
 import { Switch } from "@headlessui/react"
+
 import { useDarkModeSwitch, useIsDark } from "~/hooks/useDarkMode"
 
 export const DarkModeSwitch = () => {
@@ -20,9 +21,9 @@ export const DarkModeSwitch = () => {
       />
 
       {isDark ? (
-        <i className="i-mingcute:moon-line translate-x-2 scale-75" />
+        <i className="icon-[mingcute--moon-line] translate-x-2 scale-75" />
       ) : (
-        <i className="i-mingcute:sun-line scale-75 -translate-x-3" />
+        <i className="icon-[mingcute--sun-line] scale-75 -translate-x-3" />
       )}
     </Switch>
   )

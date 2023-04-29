@@ -3,7 +3,7 @@ FROM node:18-bullseye-slim as base
 
 RUN apt-get update || : && apt-get install python3 build-essential git -y
 
-RUN npm i -g pnpm
+RUN npm i -g pnpm pm2
 
 ##### DEPS
 FROM base as deps
@@ -45,6 +45,6 @@ COPY --from=build /app/.next/standalone /app
 COPY --from=build /app/public /app/public
 COPY --from=build /app/.next/static /app/.next/static
 COPY --from=build /app/prisma /app/prisma
+COPY --from=build /app/ecosystem.config.js /app/ecosystem.config.js
 
-CMD ["pnpm", "start"]
-
+CMD ["pm2-runtime", "start", "-i", "2", "ecosystem.config.js"]

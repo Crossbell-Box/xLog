@@ -5,7 +5,7 @@ export const UploadFile = async (blob: Blob) => {
   formData.append("file", blob)
 
   const res = await axios.post(
-    "https://ipfs-relay.crossbell.io/upload",
+    "https://ipfs-relay.crossbell.io/upload?gnfd=t",
     formData,
     {
       headers: {

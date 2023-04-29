@@ -1,4 +1,5 @@
 import { cn } from "~/lib/utils"
+
 import data from "../../../data/titles.json"
 import { Tooltip } from "../ui/Tooltip"
 import { UniLink } from "../ui/UniLink"
@@ -11,7 +12,7 @@ const icons: {
 } = {
   "xLog contributor": {
     bg: "bg-zinc-700 text-white",
-    icon: "i-mingcute:terminal-line",
+    icon: "icon-[mingcute--terminal-line]",
   },
 }
 

@@ -8,7 +8,7 @@ pre {
 }
 
 :not(pre) > code {
-  @apply inline-flex items-center font-mono break-all leading-snug px-1;
+  @apply inline font-mono break-all leading-snug p-1;
   background-color: var(--code-bg);
   color: var(--code-fg);
 }

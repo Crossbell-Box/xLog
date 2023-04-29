@@ -1,15 +1,17 @@
-import { notFound } from "~/lib/server-side-props"
-import { PageVisibilityEnum, Notes, Note, ExpandedNote } from "~/lib/types"
-import unidata from "~/queries/unidata.server"
-import { indexer } from "@crossbell/indexer"
-import { NoteMetadata } from "crossbell.js"
-import { getStorage, getKeys } from "~/lib/storage"
 import axios from "axios"
-import type Unidata from "unidata.js"
+import { NoteMetadata } from "crossbell.js"
 import type { Contract } from "crossbell.js"
-import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
+import type Unidata from "unidata.js"
+
 import { GeneralAccount } from "@crossbell/connect-kit"
-import { expandUnidataNote, expandCrossbellNote } from "~/lib/expand-unit"
+import { indexer } from "@crossbell/indexer"
+
+import { expandCrossbellNote, expandUnidataNote } from "~/lib/expand-unit"
+import { notFound } from "~/lib/server-side-props"
+import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
+import { getKeys, getStorage } from "~/lib/storage"
+import { ExpandedNote, Note, Notes, PageVisibilityEnum } from "~/lib/types"
+import unidata from "~/queries/unidata.server"
 
 export async function checkPageSlug(
   input: {
@@ -438,7 +440,7 @@ export async function getLikes({
   )
   if (includeCharacter) {
     res.list?.forEach((item) => {
-      ;(<any>item).character = item.fromCharacter
+      ;(item as any).character = item.fromCharacter
     })
   }
 

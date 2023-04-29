@@ -1,11 +1,12 @@
+import { useTranslation } from "next-i18next"
 import { useState } from "react"
+
 import { CharacterList } from "~/components/common/CharacterList"
+import { Button } from "~/components/ui/Button"
 import {
   useGetSiteSubscriptions,
   useGetSiteToSubscriptions,
 } from "~/queries/site"
-import { useTranslation } from "next-i18next"
-import { Button } from "~/components/ui/Button"
 
 export const FollowingCount: React.FC<{
   siteId?: string
@@ -54,7 +55,7 @@ export const FollowingCount: React.FC<{
         <CharacterList
           open={isFollowListOpen}
           setOpen={setIsFollowListOpen}
-          title="Follow List"
+          title={t("Followers")}
           loadMore={subscriptions.fetchNextPage}
           hasMore={!!subscriptions.hasNextPage}
           list={subscriptions.data?.pages}
@@ -64,7 +65,7 @@ export const FollowingCount: React.FC<{
         <CharacterList
           open={isToFollowListOpen}
           setOpen={setIsToFollowListOpen}
-          title="Follow List"
+          title={t("Followings")}
           loadMore={toSubscriptions.fetchNextPage}
           hasMore={!!toSubscriptions.hasNextPage}
           list={toSubscriptions.data?.pages}

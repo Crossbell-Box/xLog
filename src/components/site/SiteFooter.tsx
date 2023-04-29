@@ -1,12 +1,14 @@
-import { SITE_URL } from "~/lib/env"
-import { UniLink } from "../ui/UniLink"
-import { Profile, Note } from "~/lib/types"
-import Script from "next/script"
-import { Platform } from "~/components/site/Platform"
 import { Trans } from "next-i18next"
-import { Logo } from "~/components/common/Logo"
+import Script from "next/script"
 import { useEffect, useState } from "react"
+
+import { Logo } from "~/components/common/Logo"
+import { Platform } from "~/components/site/Platform"
+import { SITE_URL } from "~/lib/env"
+import { Note, Profile } from "~/lib/types"
+
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
+import { UniLink } from "../ui/UniLink"
 
 export const SiteFooter: React.FC<{
   site?: Profile | null

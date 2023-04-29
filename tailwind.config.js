@@ -1,5 +1,6 @@
 const twColors = require("./tw-colors")
 const alwaysColor = require("tailwindcss/colors")
+const { addDynamicIconSelectors } = require("@iconify/tailwind")
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -66,5 +67,9 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwind-scrollbar-hide"),
+    addDynamicIconSelectors(),
+  ],
 }

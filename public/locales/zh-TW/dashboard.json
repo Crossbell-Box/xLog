@@ -15,7 +15,7 @@
     "Site Duration": "網站運作時間",
     "days": "天",
     "Deleted!": "刪掉了哦！",
-    "Fail to Deleted." : "删除失败",
+    "Fail to Deleted.": "删除失败",
     "Converted!": "轉換成功！",
     "Failed to convert.": "轉換失敗。",
     "All Posts": "所有文章",
@@ -45,6 +45,8 @@
     "Edit": "編輯 ",
     "Convert to Page": "轉換為頁面",
     "Convert to Post": "轉換為文章",
+    "Select All": "全部選擇",
+    "Deselect All": "取消選擇",
     "Delete": "刪除",
     "Heading": "標題",
     "Bold": "粗體",
@@ -149,7 +151,7 @@
     "Please select .md files, multiple files are supported, and front matter is supported.": "請選擇 .md 檔案，支援多個檔案，並支援 front matter。",
     "Achievements": "成就",
     "Tokens": "虛擬貨幣",
-    "1 MIRA ≈ 1 USDC, swap easily on cross-chain bridge and Uniswap.": "1 MIRA ≈ 1 USDC，可在跨鏈橋和 Uniswap 上輕鬆兌換。",
+    "$MIRA is a valuable token in the Crossbell world, and can be easily exchanged on the Crosschain Bridge and Uniswap.": "$MIRA 是 Crossbell 世界中的一種有珍貴的代幣，可在跨鏈橋和 Uniswap 上輕鬆兌換。",
     "In the early stage, xLog will use $MIRA to motivate creators.": "在早期階段，xLog 將使用 $MIRA 激勵創作者。",
     "You can obtain $MIRA through the following ways:": "你可以透過以下方式獲得 $MIRA：",
     "Creator incentive program.": "創作者激勵計畫。",
@@ -180,5 +182,9 @@
     "Today": "今天",
     "This month": "本月",
     "This week": "本周",
-    "All time": "全部"
+    "All time": "全部",
+    "delete_confirmation_post": "你確認要刪除這篇文章嗎？",
+    "delete_confirmation_page": "你確認要刪除這個頁面嗎？",
+    "Confirm": "確認",
+    "Cancel": "取消"
 }

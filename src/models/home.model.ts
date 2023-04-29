@@ -1,8 +1,12 @@
-import { ExpandedNote } from "~/lib/types"
-import { indexer } from "@crossbell/indexer"
-import { createClient, cacheExchange, fetchExchange } from "@urql/core"
 import dayjs from "dayjs"
+
+import { indexer } from "@crossbell/indexer"
+import { cacheExchange, createClient, fetchExchange } from "@urql/core"
+
 import { expandCrossbellNote } from "~/lib/expand-unit"
+import { ExpandedNote } from "~/lib/types"
+
+import filter from "../../data/filter.json"
 
 export type FeedType = "latest" | "following" | "topic" | "hot" | "search"
 export type SearchType = "latest" | "hot"
@@ -31,7 +35,7 @@ export async function getFeed({
   }
   switch (type) {
     case "latest": {
-      const result = await indexer.getNotes({
+      let result = await indexer.getNotes({
         sources: "xlog",
         tags: ["post"],
         limit,
@@ -39,9 +43,15 @@ export async function getFeed({
         includeCharacter: true,
       })
 
+      result.list = result.list.filter(
+        (note) => !filter.latest.includes(note.characterId),
+      )
+
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return await expandCrossbellNote(page, false, true)
+          const expand = await expandCrossbellNote(page, false, true)
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -69,7 +79,9 @@ export async function getFeed({
 
         const list = await Promise.all(
           result.list.map(async (page: any) => {
-            return await expandCrossbellNote(page)
+            const expand = await expandCrossbellNote(page)
+            delete expand.metadata?.content.content
+            return expand
           }),
         )
 
@@ -135,7 +147,9 @@ export async function getFeed({
 
       const list = await Promise.all(
         result?.data?.notes.map(async (page: any) => {
-          return await expandCrossbellNote(page)
+          const expand = await expandCrossbellNote(page)
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -163,8 +177,8 @@ export async function getFeed({
                 notes(
                   where: {
                     ${time ? `createdAt: { gt: "${time}" },` : ``}
-                    stat: { is: { viewDetailCount: { gt: 0 } } },
-                    metadata: { is: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } } }
+                    stat: { viewDetailCount: { gt: 0 } },
+                    metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
                   },
                   orderBy: { stat: { viewDetailCount: desc } },
                   take: 50,
@@ -199,7 +213,9 @@ export async function getFeed({
               page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
           }
 
-          return await expandCrossbellNote(page)
+          const expand = await expandCrossbellNote(page)
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -231,7 +247,14 @@ export async function getFeed({
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          return await expandCrossbellNote(page, false, false, searchKeyword)
+          const expand = await expandCrossbellNote(
+            page,
+            false,
+            false,
+            searchKeyword,
+          )
+          delete expand.metadata?.content.content
+          return expand
         }),
       )
 
@@ -242,4 +265,108 @@ export async function getFeed({
       }
     }
   }
+}
+
+export const getShowcase = async () => {
+  const client = createClient({
+    url: "https://indexer.crossbell.io/v1/graphql",
+    exchanges: [cacheExchange, fetchExchange],
+  })
+  const oneMonthAgo = dayjs().subtract(10, "day").toISOString()
+
+  const listResponse = await client
+    .query(
+      `
+        query getCharacters($filter: [Int!]) {
+          characters(
+            where: {
+              characterId: {
+                notIn: $filter
+              }
+              notes: {
+                some: {
+                  stat: { viewDetailCount: { gte: 100 } }
+                  metadata: {
+                    content: { path: "sources", array_contains: "xlog" }
+                    AND: { content: { path: "tags", array_contains: "post" } }
+                  }
+                }
+              }
+            }
+          ) {
+            characterId
+          }
+        }`,
+      {
+        filter: filter.latest,
+      },
+    )
+    .toPromise()
+  const characterList = listResponse.data?.characters.map((c: any) =>
+    parseInt(c.characterId),
+  )
+
+  const result = await client
+    .query(
+      `
+        query getCharacters($identities: [Int!]) {
+          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }] ) {
+            handle
+            characterId
+            metadata {
+              uri
+              content
+            }
+          }
+          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
+            characterId
+            createdAt
+          }
+        }`,
+      {
+        identities: characterList,
+      },
+    )
+    .toPromise()
+
+  result.data?.characters?.forEach((site: any) => {
+    if (site.metadata.content) {
+      site.metadata.content.name = site.metadata?.content?.name || site.handle
+    } else {
+      site.metadata.content = {
+        name: site.handle,
+      }
+    }
+
+    site.custom_domain =
+      site.metadata?.content?.attributes?.find(
+        (a: any) => a.trait_type === "xlog_custom_domain",
+      )?.value || ""
+  })
+
+  const createdAts: {
+    [key: string]: string
+  } = {}
+  result.data?.notes.forEach((note: any) => {
+    if (!createdAts[note.characterId + ""]) {
+      createdAts[note.characterId + ""] = note.createdAt
+    }
+  })
+  const list = Object.keys(createdAts)
+    .map((characterId: string) => {
+      const character = result.data?.characters.find(
+        (c: any) => c.characterId === characterId,
+      )
+
+      return {
+        ...character,
+        createdAt: createdAts[characterId],
+      }
+    })
+    .sort((a: any, b: any) => {
+      return b.createdAt > a.createdAt ? 1 : -1
+    })
+    .slice(0, 100)
+
+  return list
 }
