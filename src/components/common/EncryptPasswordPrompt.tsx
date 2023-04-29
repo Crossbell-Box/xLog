@@ -28,7 +28,7 @@ const EncryptPasswordPrompt = ({ tryUnlock }: EncryptPasswordPromptProps) => {
         {/*Notice Icon*/}
         <div className="text-center">
           <span className="rounded-full text-white bg-[var(--theme-color)] p-2 sm:p-4 inline-flex">
-            <i className="i-mingcute:lock-fill inline-block text-xl sm:text-2xl" />
+            <i className="icon-[mingcute--lock-fill] inline-block text-xl sm:text-2xl" />
           </span>
         </div>
 
@@ -50,7 +50,7 @@ const EncryptPasswordPrompt = ({ tryUnlock }: EncryptPasswordPromptProps) => {
         <div className="text-center">
           <Button variant="primary" type="submit">
             <span className="inline-flex items-center">
-              <i className="i-mingcute:unlock-fill inline-block mr-2" />
+              <i className="icon-[mingcute--unlock-fill] inline-block mr-2" />
               <span>{t("Unlock")}</span>
             </span>
           </Button>
