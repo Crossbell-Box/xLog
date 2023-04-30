@@ -64,19 +64,16 @@ export const getSubscriptionsFromList = async (
   return response.data?.links.map((link: any) => link.toCharacterId)
 }
 
-export const getSubscription = async (
-  siteId: string,
-  handle: string,
-  customUnidata?: Unidata,
-) => {
-  const links = await (customUnidata || unidata).links.get({
-    source: "Crossbell Link",
-    identity: handle,
-    platform: "Crossbell",
-    filter: { to: siteId },
+export const getSubscription = async (input: {
+  toCharacterId: number
+  characterId: number
+}) => {
+  const result = await indexer.getLinks(input.characterId, {
+    linkType: "follow",
+    toCharacterId: input.toCharacterId,
   })
 
-  return !!links?.list?.length
+  return !!result?.list?.length
 }
 
 export const getSiteSubscriptions = async (

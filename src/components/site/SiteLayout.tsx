@@ -51,7 +51,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
 
   const isConnected = useAccountState((s) => !!s.computed.account)
   const userRole = useUserRole(domainOrSubdomain)
-  const subscription = useGetSubscription(domainOrSubdomain)
+  const subscription = useGetSubscription(site.data?.characterId)
   const [{ isLiked }] = useCheckLike({ pageId: page.data?.id })
   const isMint = useCheckMint(page.data?.id)
 

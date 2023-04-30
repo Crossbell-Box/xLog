@@ -25,19 +25,22 @@ export const useGetSite = (input?: string) => {
   })
 }
 
-export const useGetSubscription = (siteId: string | undefined) => {
+export const useGetSubscription = (toCharacterId?: number) => {
   const account = useAccountState((s) => s.computed.account)
-  const handle =
-    account?.type === "email" ? account.character?.handle : account?.handle
-  const unidata = useUnidata()
 
-  return useQuery(["getSubscription", siteId, handle], async () => {
-    if (!handle || !siteId) {
-      return false
-    }
+  return useQuery(
+    ["getSubscription", toCharacterId, account?.characterId],
+    async () => {
+      if (!account?.characterId || !toCharacterId) {
+        return false
+      }
 
-    return siteModel.getSubscription(siteId, handle, unidata)
-  })
+      return siteModel.getSubscription({
+        characterId: account?.characterId,
+        toCharacterId: toCharacterId,
+      })
+    },
+  )
 }
 
 export const useGetSiteSubscriptions = (data: { siteId: string }) => {

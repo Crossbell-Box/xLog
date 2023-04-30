@@ -41,7 +41,7 @@ export const FollowingButton: React.FC<{
     }
   }
 
-  const subscription = useGetSubscription(site?.handle)
+  const subscription = useGetSubscription(site?.characterId)
 
   useEffect(() => {
     if (subscribeToSite.isError) {
