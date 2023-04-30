@@ -13,7 +13,6 @@ export const SitePage: React.FC<{
   page?: Note | null
   site?: Profile | null
 }> = ({ page, site }) => {
-  // const author = useGetUserSites(page?.authors?.[0])
   const { t } = useTranslation("site")
 
   function addPageJsonLd() {

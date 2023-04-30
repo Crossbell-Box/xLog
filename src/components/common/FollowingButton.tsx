@@ -9,7 +9,6 @@ import { SITE_URL } from "~/lib/env"
 import { Profile } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import {
-  useAccountSites,
   useGetSubscription,
   useSubscribeToSite,
   useUnsubscribeFromSite,
@@ -24,7 +23,6 @@ export const FollowingButton: React.FC<{
 }> = ({ site, variant, className, size, loadingStatusChange }) => {
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
-  const userSite = useAccountSites()
   const characterId = site?.metadata?.proof ? Number(site.metadata.proof) : null
   const { t } = useTranslation("common")
 
@@ -99,8 +97,7 @@ export const FollowingButton: React.FC<{
       isLoading={
         subscription.data
           ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading
-          : userSite.isLoading ||
-            unsubscribeFromSite.isLoading ||
+          : unsubscribeFromSite.isLoading ||
             subscribeToSite.isLoading ||
             subscription.isLoading
       }

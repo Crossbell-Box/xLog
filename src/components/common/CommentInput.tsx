@@ -1,7 +1,6 @@
 import { CharacterEntity, NoteEntity } from "crossbell.js"
 import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 
 import { useAccountState } from "@crossbell/connect-kit"
@@ -10,9 +9,7 @@ import { Popover } from "@headlessui/react"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { Profile } from "~/lib/types"
 import { useCommentPage, useUpdateComment } from "~/queries/page"
-import { useAccountSites } from "~/queries/site"
 
 import { EmojiPicker } from "./EmojiPicker"
 
@@ -25,18 +22,9 @@ export const CommentInput: React.FC<{
   }
 }> = ({ pageId, originalId, onSubmitted, comment }) => {
   const account = useAccountState((s) => s.computed.account)
-  const userSites = useAccountSites()
   const commentPage = useCommentPage()
   const updateComment = useUpdateComment()
-  const router = useRouter()
-  const [viewer, setViewer] = useState<Profile | null>(null)
   const { t } = useTranslation(["common", "site"])
-
-  useEffect(() => {
-    if (userSites.isSuccess && userSites.data?.length) {
-      setViewer(userSites.data[0])
-    }
-  }, [userSites, router])
 
   const form = useForm({
     defaultValues: {
@@ -79,8 +67,8 @@ export const CommentInput: React.FC<{
     <div className="xlog-comment-input flex">
       <Avatar
         className="align-middle mr-3"
-        images={viewer?.avatars || []}
-        name={viewer?.name}
+        images={account?.character?.metadata?.content?.avatars || []}
+        name={account?.character?.metadata?.content?.name}
         size={45}
       />
       <form className="w-full" onSubmit={handleSubmit}>
@@ -88,12 +76,8 @@ export const CommentInput: React.FC<{
           <Input
             id="content"
             isBlock
-            required={
-              !!account && userSites.isSuccess && !!userSites.data?.length
-            }
-            disabled={
-              !account || !userSites.isSuccess || !userSites.data?.length
-            }
+            required={!!account?.character}
+            disabled={!account?.character}
             multiline
             maxLength={600}
             className="mb-2"
@@ -125,21 +109,14 @@ export const CommentInput: React.FC<{
           </Popover>
           <Button
             type="submit"
-            isLoading={
-              userSites.isLoading ||
-              commentPage.isLoading ||
-              updateComment.isLoading
-            }
+            isLoading={commentPage.isLoading || updateComment.isLoading}
             isDisabled={
-              !!account &&
-              userSites.isSuccess &&
-              !!userSites.data?.length &&
-              form.watch("content").trim().length === 0
+              !!account?.character && form.watch("content").trim().length === 0
             }
           >
             {t(
               account
-                ? userSites.isSuccess && !userSites.data?.length
+                ? !account.character
                   ? "Create Character"
                   : comment
                   ? "Confirm Modification"

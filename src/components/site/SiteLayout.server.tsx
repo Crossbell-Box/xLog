@@ -59,10 +59,6 @@ export const getServerSideProps = async (
           if (!page || new Date(page!.date_published) > new Date()) {
             reject(notFound())
           }
-
-          // if (page?.authors[0]) {
-          //   await prefetchGetUserSites(page?.authors[0], queryClient)
-          // }
         } catch (error) {
           reject(error)
         }

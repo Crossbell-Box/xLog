@@ -16,21 +16,6 @@ import * as siteModel from "~/models/site.model"
 
 import { useUnidata } from "./unidata"
 
-export const useAccountSites = () => {
-  const unidata = useUnidata()
-  const account = useAccountState((s) => s.computed.account)
-  const handle =
-    account?.type === "email" ? account.character?.handle : account?.handle
-
-  return useQuery(["getUserSites", handle], async () => {
-    if (!account || !handle) {
-      return []
-    }
-
-    return siteModel.getAccountSites({ handle, unidata })
-  })
-}
-
 export const useGetSite = (input?: string) => {
   const unidata = useUnidata()
   return useQuery(["getSite", input], async () => {
@@ -114,7 +99,6 @@ export function useUpdateSite() {
     },
     {
       onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getUserSites"])
         queryClient.invalidateQueries(["getSite"])
       },
     },
@@ -124,23 +108,15 @@ export function useUpdateSite() {
 
 export function useCreateSite() {
   const unidata = useUnidata()
-  const queryClient = useQueryClient()
   const account = useAccountState((s) => s.computed.account)
   const address = account?.type === "email" ? account.email : account?.address
 
-  return useMutation(
-    async (payload: { name: string; subdomain: string }) => {
-      if (address) {
-        // FIXME: - Support email users
-        return siteModel.createSite(address, payload, unidata)
-      }
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["getUserSites", address])
-      },
-    },
-  )
+  return useMutation(async (payload: { name: string; subdomain: string }) => {
+    if (address) {
+      // FIXME: - Support email users
+      return siteModel.createSite(address, payload, unidata)
+    }
+  })
 }
 
 export function useSubscribeToSite() {

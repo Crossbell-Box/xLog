@@ -1,11 +1,10 @@
 import { useAccountState } from "@crossbell/connect-kit"
 
-import { useAccountSites, useGetSite, useIsOperators } from "~/queries/site"
+import { useGetSite, useIsOperators } from "~/queries/site"
 
 export function useUserRole(subdomain?: string) {
   const site = useGetSite(subdomain)
 
-  const userSite = useAccountSites()
   const [ssrReady, account] = useAccountState(({ ssrReady, computed }) => [
     ssrReady,
     computed.account,
@@ -25,15 +24,14 @@ export function useUserRole(subdomain?: string) {
       }
     } else {
       if (account?.address) {
-        if (userSite.data?.find((site) => site.username === subdomain)) {
+        if (account.character?.handle === subdomain) {
           role = "owner"
         } else if (isOperator.data) {
           role = "operator"
         }
 
         return {
-          isSuccess:
-            site.isSuccess && userSite.isSuccess && isOperator.isSuccess,
+          isSuccess: site.isSuccess && ssrReady,
           data: role,
         }
       } else {

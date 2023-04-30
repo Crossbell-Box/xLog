@@ -1,7 +1,6 @@
 import { CharacterOperatorPermission, Indexer } from "crossbell.js"
 import { nanoid } from "nanoid"
 import type Unidata from "unidata.js"
-import type { Profiles as UniProfiles } from "unidata.js"
 
 import type { useContract } from "@crossbell/contract"
 import { cacheExchange, createClient, fetchExchange } from "@urql/core"
@@ -14,72 +13,32 @@ type Contract = ReturnType<typeof useContract>
 
 const indexer = new Indexer()
 
-export type GetUserSitesParams =
-  | {
-      address: string
-      unidata?: Unidata
-    }
-  | {
-      handle: string
-      unidata?: Unidata
-    }
-
-export const getUserSites = async (params: GetUserSitesParams) => {
-  let profiles: UniProfiles | null = null
-
-  try {
-    const source = "Crossbell Profile"
-    const filter = { primary: true }
-
-    if ("address" in params) {
-      profiles = await (params.unidata || unidata).profiles.get({
-        source,
-        filter,
-        identity: params.address,
-        platform: "Ethereum",
-      })
-    }
-
-    if ("handle" in params) {
-      profiles = await (params.unidata || unidata).profiles.get({
-        source,
-        filter,
-        identity: params.handle,
-        platform: "Crossbell",
-      })
-    }
-  } catch (error) {
-    return null
-  }
-
-  const sites: Profile[] =
-    profiles?.list?.map((profile) => {
-      expandUnidataProfile(profile)
-      return profile
-    }) ?? []
-
-  return sites.length > 0 ? sites : null
-}
-
-export type GetAccountSitesParams = {
-  handle: string
-  unidata?: Unidata
-}
-
-export const getAccountSites = (
-  params: GetAccountSitesParams,
-): Promise<Profile[] | null> => {
-  return getUserSites({
-    handle: params.handle,
-    unidata: params.unidata,
-  })
-}
-
 export const getSite = async (input: string, customUnidata?: Unidata) => {
   const profiles = await (customUnidata || unidata).profiles.get({
     source: "Crossbell Profile",
     identity: input,
     platform: "Crossbell",
+  })
+
+  const site: Profile = profiles.list[0]
+  if (site) {
+    expandUnidataProfile(site)
+  }
+
+  return site
+}
+
+export const getSiteByAddress = async (
+  input: string,
+  customUnidata?: Unidata,
+) => {
+  const profiles = await (customUnidata || unidata).profiles.get({
+    source: "Crossbell Profile",
+    identity: input,
+    platform: "Ethereum",
+    filter: {
+      primary: true,
+    },
   })
 
   const site: Profile = profiles.list[0]
