@@ -38,7 +38,7 @@ export const prefetchGetSiteSubscriptions = async (
         key,
         getValueFun: () => {
           return siteModel.getSiteSubscriptions({
-            ...input,
+            characterId: input.characterId,
             cursor: pageParam,
           })
         },

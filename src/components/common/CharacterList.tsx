@@ -55,7 +55,7 @@ export const CharacterList: React.FC<{
             data={flattenList}
             itemContent={(index, sub) => {
               const character: ExpandedCharacter =
-                sub?.character || sub?.fromCharacter
+                sub?.character || sub?.fromCharacter || sub?.toCharacter
               return (
                 <CharacterListItem
                   key={index}

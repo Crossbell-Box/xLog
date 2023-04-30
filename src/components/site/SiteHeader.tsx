@@ -332,7 +332,7 @@ export const SiteHeader: React.FC<{
               )}
               <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row text-sm sm:text-base">
                 <span className="xlog-site-follow-count block sm:inline-block whitespace-nowrap">
-                  <FollowingCount siteId={site?.handle} />
+                  <FollowingCount characterId={site?.characterId} />
                 </span>
                 <span className="xlog-site-patron">
                   <PatronButton site={site} />

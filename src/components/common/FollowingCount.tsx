@@ -9,18 +9,18 @@ import {
 } from "~/queries/site"
 
 export const FollowingCount: React.FC<{
-  siteId?: string
+  characterId?: number
   disableList?: boolean
-}> = ({ siteId, disableList }) => {
+}> = ({ characterId, disableList }) => {
   let [isFollowListOpen, setIsFollowListOpen] = useState(false)
   let [isToFollowListOpen, setIsToFollowListOpen] = useState(false)
   const { t } = useTranslation("common")
 
   const subscriptions = useGetSiteSubscriptions({
-    siteId: siteId || "",
+    characterId,
   })
   const toSubscriptions = useGetSiteToSubscriptions({
-    siteId: siteId || "",
+    characterId,
   })
 
   return (
@@ -34,7 +34,7 @@ export const FollowingCount: React.FC<{
         onClick={() => setIsFollowListOpen(true)}
       >
         <span className="font-medium text-zinc-700 pr-[2px]">
-          {subscriptions.data?.pages?.[0]?.total || 0}
+          {subscriptions.data?.pages?.[0]?.count || 0}
         </span>{" "}
         {t("Followers")}
       </Button>
@@ -47,7 +47,7 @@ export const FollowingCount: React.FC<{
         onClick={() => setIsToFollowListOpen(true)}
       >
         <span className="font-medium text-zinc-700 pr-[2px]">
-          {toSubscriptions.data?.pages?.[0]?.total || 0}
+          {toSubscriptions.data?.pages?.[0]?.count || 0}
         </span>{" "}
         {t("Followings")}
       </Button>

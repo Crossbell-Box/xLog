@@ -43,49 +43,41 @@ export const useGetSubscription = (toCharacterId?: number) => {
   )
 }
 
-export const useGetSiteSubscriptions = (data: { siteId: string }) => {
-  const unidata = useUnidata()
+export const useGetSiteSubscriptions = (data: { characterId?: number }) => {
   return useInfiniteQuery({
     queryKey: ["getSiteSubscriptions", data],
     queryFn: async ({ pageParam }) => {
-      if (!data.siteId) {
+      if (!data.characterId) {
         return {
-          total: 0,
+          count: 0,
           list: [],
           cursor: undefined,
         }
       }
-      return siteModel.getSiteSubscriptions(
-        {
-          ...data,
-          cursor: pageParam,
-        },
-        unidata,
-      )
+      return siteModel.getSiteSubscriptions({
+        characterId: data.characterId,
+        cursor: pageParam,
+      })
     },
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 
-export const useGetSiteToSubscriptions = (data: { siteId: string }) => {
-  const unidata = useUnidata()
+export const useGetSiteToSubscriptions = (data: { characterId?: number }) => {
   return useInfiniteQuery({
     queryKey: ["getSiteToSubscriptions", data],
     queryFn: async ({ pageParam }) => {
-      if (!data.siteId) {
+      if (!data.characterId) {
         return {
-          total: 0,
+          count: 0,
           list: [],
           cursor: undefined,
         }
       }
-      return siteModel.getSiteToSubscriptions(
-        {
-          ...data,
-          cursor: pageParam,
-        },
-        unidata,
-      )
+      return siteModel.getSiteToSubscriptions({
+        characterId: data.characterId,
+        cursor: pageParam,
+      })
     },
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
@@ -131,13 +123,13 @@ export function useSubscribeToSite() {
         queryClient.invalidateQueries([
           "getSiteSubscriptions",
           {
-            siteId: variables.siteId,
+            characterId: variables.characterId,
           },
         ]),
 
         queryClient.invalidateQueries([
           "getSubscription",
-          variables.siteId,
+          variables.characterId,
           account?.type === "email"
             ? account?.character?.handle
             : account?.handle,
@@ -156,18 +148,18 @@ export function useSubscribeToSites() {
   return useFollowCharacters({
     onSuccess: (_, variables: any) =>
       Promise.all(
-        variables.siteIds.flatMap((siteId: string) => {
+        variables.siteIds.flatMap((characterId: number) => {
           return [
             queryClient.invalidateQueries([
               "getSiteSubscriptions",
               {
-                siteId,
+                characterId,
               },
             ]),
 
             queryClient.invalidateQueries([
               "getSubscription",
-              siteId,
+              characterId,
               currentCharacterId,
             ]),
           ]
@@ -186,12 +178,12 @@ export function useUnsubscribeFromSite() {
         queryClient.invalidateQueries([
           "getSiteSubscriptions",
           {
-            siteId: variables.siteId,
+            siteId: variables.characterId,
           },
         ]),
         queryClient.invalidateQueries([
           "getSubscription",
-          variables.siteId,
+          variables.characterId,
           account?.type === "email"
             ? account?.character?.handle
             : account?.handle,

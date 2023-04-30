@@ -76,49 +76,26 @@ export const getSubscription = async (input: {
   return !!result?.list?.length
 }
 
-export const getSiteSubscriptions = async (
-  data: {
-    siteId: string
-    cursor?: string
-    limit?: number
-  },
-  customUnidata?: Unidata,
-) => {
-  const links = await (customUnidata || unidata).links.get({
-    source: "Crossbell Link",
-    identity: data.siteId,
-    platform: "Crossbell",
-    reversed: true,
+export const getSiteSubscriptions = async (data: {
+  characterId: number
+  cursor?: string
+  limit?: number
+}) => {
+  return indexer.getBacklinksOfCharacter(data.characterId, {
+    linkType: "follow",
     cursor: data.cursor,
     limit: data.limit,
   })
-
-  links?.list.map(async (item: any) => {
-    item.character = item.metadata.from_raw
-  }) || []
-
-  return links
 }
 
-export const getSiteToSubscriptions = async (
-  data: {
-    siteId: string
-    cursor?: string
-  },
-  customUnidata?: Unidata,
-) => {
-  const links = await (customUnidata || unidata).links.get({
-    source: "Crossbell Link",
-    identity: data.siteId,
-    platform: "Crossbell",
+export const getSiteToSubscriptions = async (data: {
+  characterId: number
+  cursor?: string
+}) => {
+  return indexer.getLinks(data.characterId, {
+    linkType: "follow",
     cursor: data.cursor,
   })
-
-  links?.list.map(async (item: any) => {
-    item.character = item.metadata.to_raw
-  }) || []
-
-  return links
 }
 
 export async function updateSite(

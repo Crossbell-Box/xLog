@@ -89,7 +89,10 @@ export const CharacterCard: React.FC<{
           )}
           {!simple && (
             <span className="block">
-              <FollowingCount siteId={site.handle} disableList={true} />
+              <FollowingCount
+                characterId={site.characterId}
+                disableList={true}
+              />
             </span>
           )}
           {!simple && site?.createdAt && (
