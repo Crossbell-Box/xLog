@@ -117,14 +117,14 @@ export const ConnectButton: React.FC<{
           icon: "icon-[mingcute--home-1-line]",
           label: t("My xLog") || "",
           url: getSiteLink({
-            subdomain: userSites.data?.[0]?.username || "",
+            subdomain: userSites.data?.[0]?.username,
           }),
         }
       : {
           icon: "icon-[mingcute--home-1-line]",
           label: t("My xLog") || "",
           url: getSiteLink({
-            subdomain: userSites.data?.[0]?.username || "",
+            subdomain: "",
           }),
           onClick: () => walletMintNewCharacterModal.show(),
         },
