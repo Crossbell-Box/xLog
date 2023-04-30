@@ -116,7 +116,7 @@ export const SiteHeader: React.FC<{
     {
       text: "Subscribe to RSS",
       icon: <RssIcon className="w-full h-full text-[#ee832f]" />,
-      url: `/feed/xml`,
+      url: `/feed?format=xml`,
       out: true,
     },
     {

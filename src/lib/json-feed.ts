@@ -73,10 +73,18 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
   }
 }
 
-export const parsePost = (post: ExpandedNote) => {
+export const parsePost = (post: ExpandedNote, withTwitter?: boolean) => {
+  let twitter
+  if (withTwitter) {
+    twitter = post.character?.metadata?.content?.connected_accounts
+      ?.find((account) => account?.endsWith?.("@twitter"))
+      ?.match(/csb:\/\/account:([^@]+)@twitter/)?.[1]
+  }
   return {
     id: `${post.characterId}-${post.noteId}`,
-    title: post.metadata?.content?.title,
+    title: `${post.metadata?.content?.title}${
+      withTwitter && twitter ? ` by @${twitter}` : ""
+    }`,
     summary: post.metadata?.content?.summary,
     url: `${SITE_URL}/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`,
     image: post.metadata?.content?.cover,
@@ -86,16 +94,18 @@ export const parsePost = (post: ExpandedNote) => {
     author: {
       name: post.character?.metadata?.content?.name || post.character?.handle,
       url: `${SITE_URL}/api/redirection?characterId=${post.characterId}`,
-      twitter: post.character?.metadata?.content?.connected_accounts
-        ?.find((account) => account?.endsWith?.("@twitter"))
-        ?.match(/csb:\/\/account:([^@]+)@twitter/)?.[1],
       handle: post.character?.handle,
     },
   }
 }
 
-export const setHeader = (ctx: GetServerSidePropsContext) => {
-  ctx.res.setHeader("Content-Type", "application/feed+json; charset=utf-8")
+export const setHeader = (ctx: GetServerSidePropsContext, isXml?: boolean) => {
+  ctx.res.setHeader(
+    "Content-Type",
+    ctx.query.format === "xml" || isXml
+      ? "application/xml; charset=utf-8"
+      : "application/feed+json; charset=utf-8",
+  )
   ctx.res.setHeader("Access-Control-Allow-Methods", "GET")
   ctx.res.setHeader("Access-Control-Allow-Origin", "*")
   ctx.res.setHeader("Cache-Control", "public, max-age=1800")

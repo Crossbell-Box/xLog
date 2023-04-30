@@ -1,3 +1,5 @@
+// @ts-ignore
+import jsonfeedToRSS from "jsonfeed-to-rss"
 import { GetServerSideProps } from "next"
 
 import { SITE_URL } from "~/lib/env"
@@ -13,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   })
 
   const data = {
-    version: "https://jsonfeed.org/version/1.1",
+    version: "https://jsonfeed.org/version/1",
     title: "xLog Latest",
     icon: "https://ipfs.4everland.xyz/ipfs/bafkreigxdnr5lvtjxqin5upquomrti2s77hlgtjy5zaeu43uhpny75rbga",
     home_page_url: `${SITE_URL}/activities`,
@@ -21,7 +23,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     items: feed?.list?.map((post: ExpandedNote) => parsePost(post)),
   }
 
-  ctx.res.write(JSON.stringify(data))
+  ctx.res.write(
+    ctx.query.format === "xml" ? jsonfeedToRSS(data) : JSON.stringify(data),
+  )
   ctx.res.end()
 
   return {

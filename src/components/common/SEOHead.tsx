@@ -34,21 +34,27 @@ export const SEOHead: React.FC<{
         <>
           <link
             rel="alternate"
-            href="/feed/xml"
-            title={siteName}
-            type="application/rss+xml"
-          ></link>
-          <link
-            rel="alternate"
             href="/feed"
             title={siteName}
             type="application/feed+json"
           ></link>
           <link
             rel="alternate"
+            href="/feed?format=xml"
+            title={siteName}
+            type="application/rss+xml"
+          ></link>
+          <link
+            rel="alternate"
             href="/feed/comments"
             title={`Comments on ${siteName}`}
             type="application/feed+json"
+          ></link>
+          <link
+            rel="alternate"
+            href="/feed/comments?format=xml"
+            title={`Comments on ${siteName}`}
+            type="application/rss+xml"
           ></link>
           <link rel="manifest" href="/manifest.json" />
         </>
@@ -62,9 +68,21 @@ export const SEOHead: React.FC<{
           ></link>
           <link
             rel="alternate"
+            href="/latest?format=xml"
+            title="xLog Latest"
+            type="application/rss+xml"
+          ></link>
+          <link
+            rel="alternate"
             href="/feed/hottest/0"
             title="xLog Hot"
             type="application/feed+json"
+          ></link>
+          <link
+            rel="alternate"
+            href="/feed/hottest/0?format=xml"
+            title="xLog Hot"
+            type="application/rss+xml"
           ></link>
           <link
             rel="alternate"
@@ -74,15 +92,33 @@ export const SEOHead: React.FC<{
           ></link>
           <link
             rel="alternate"
+            href="/feed/hottest/1?format=xml"
+            title="xLog Daily Hot"
+            type="application/rss+xml"
+          ></link>
+          <link
+            rel="alternate"
             href="/feed/hottest/7"
             title="xLog Weekly Hot"
             type="application/feed+json"
           ></link>
           <link
             rel="alternate"
+            href="/feed/hottest/7?format=xml"
+            title="xLog Weekly Hot"
+            type="application/rss+xml"
+          ></link>
+          <link
+            rel="alternate"
             href="/feed/hottest/30"
-            title="xLog Monthly Hottest"
+            title="xLog Monthly Hot"
             type="application/feed+json"
+          ></link>
+          <link
+            rel="alternate"
+            href="/feed/hottest/30?format=xml"
+            title="xLog Monthly Hot"
+            type="application/rss+xml"
           ></link>
         </>
       )}
