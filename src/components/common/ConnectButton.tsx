@@ -126,13 +126,7 @@ export const ConnectButton: React.FC<{
           url: getSiteLink({
             subdomain: userSites.data?.[0]?.username || "",
           }),
-          onClick: () => {
-            if (!userSites.data?.[0]?.username) {
-              walletMintNewCharacterModal.show()
-            } else {
-              return null
-            }
-          },
+          onClick: () => walletMintNewCharacterModal.show(),
         },
     {
       icon: "icon-[mingcute--grid-line]",
