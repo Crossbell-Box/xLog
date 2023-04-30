@@ -4,12 +4,12 @@ import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { noopArr } from "~/lib/noop"
 
 import { Avatar } from "../ui/Avatar"
 import { UniLink } from "../ui/UniLink"
 import { FollowingButton } from "./FollowingButton"
 
-const noopArr = [] as any[]
 const CharacterListItem: React.FC<{
   character: any
   sub: any

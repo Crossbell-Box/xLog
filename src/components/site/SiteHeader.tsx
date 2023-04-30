@@ -130,7 +130,7 @@ export const SiteHeader: React.FC<{
       text: "Search on this site",
       icon: (
         <span className="text-stone-400">
-          <i className="i-mingcute:search-line block" />
+          <i className="icon-[mingcute--search-line] block" />
         </span>
       ),
       onClick: () => setSearchOpen(true),
@@ -352,7 +352,7 @@ function MoreActions({ children }: React.PropsWithChildren<{}>) {
           aria-label="more"
           className="-mx-2 text-zinc-600"
         >
-          <i className="i-mingcute:more-1-line text-2xl" />
+          <i className="icon-[mingcute--more-1-line] text-2xl" />
         </Button>
       </Menu.Button>
       <Menu.Items className="absolute left-0 top-[100%] z-10 w-max outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2 text-sm">

@@ -1,5 +1,4 @@
 import { CharacterOperatorPermission, Indexer } from "crossbell.js"
-import dayjs from "dayjs"
 import { nanoid } from "nanoid"
 import type Unidata from "unidata.js"
 import type { Profiles as UniProfiles } from "unidata.js"
@@ -89,94 +88,6 @@ export const getSite = async (input: string, customUnidata?: Unidata) => {
   }
 
   return site
-}
-
-export const getShowcase = async () => {
-  const client = createClient({
-    url: "https://indexer.crossbell.io/v1/graphql",
-    exchanges: [cacheExchange, fetchExchange],
-  })
-  const oneMonthAgo = dayjs().subtract(10, "day").toISOString()
-
-  const listResponse = await client
-    .query(
-      `
-    query getCharacters {
-      characters( where: { notes: { some: { stat: { viewDetailCount: { gte: 100 } }, metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } } } } } ) {
-        characterId
-      }
-    }
-  `,
-      {},
-    )
-    .toPromise()
-  const characterList = listResponse.data?.characters.map((c: any) =>
-    parseInt(c.characterId),
-  )
-
-  const result = await client
-    .query(
-      `
-        query getCharacters($identities: [Int!]) {
-          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }] ) {
-            handle
-            characterId
-            metadata {
-              uri
-              content
-            }
-          }
-          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
-            characterId
-            createdAt
-          }
-        }`,
-      {
-        identities: characterList,
-      },
-    )
-    .toPromise()
-
-  result.data?.characters?.forEach((site: any) => {
-    if (site.metadata.content) {
-      site.metadata.content.name = site.metadata?.content?.name || site.handle
-    } else {
-      site.metadata.content = {
-        name: site.handle,
-      }
-    }
-
-    site.custom_domain =
-      site.metadata?.content?.attributes?.find(
-        (a: any) => a.trait_type === "xlog_custom_domain",
-      )?.value || ""
-  })
-
-  const createdAts: {
-    [key: string]: string
-  } = {}
-  result.data?.notes.forEach((note: any) => {
-    if (!createdAts[note.characterId + ""]) {
-      createdAts[note.characterId + ""] = note.createdAt
-    }
-  })
-  const list = Object.keys(createdAts)
-    .map((characterId: string) => {
-      const character = result.data?.characters.find(
-        (c: any) => c.characterId === characterId,
-      )
-
-      return {
-        ...character,
-        createdAt: createdAts[characterId],
-      }
-    })
-    .sort((a: any, b: any) => {
-      return b.createdAt > a.createdAt ? 1 : -1
-    })
-    .slice(0, 100)
-
-  return list
 }
 
 export const getSubscriptionsFromList = async (

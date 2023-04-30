@@ -70,16 +70,6 @@ export const prefetchGetSiteToSubscriptions = async (
   })
 }
 
-export const prefetchGetSites = async (queryClient: QueryClient) => {
-  const key = ["getShowcase"]
-  await queryClient.fetchQuery(key, async () => {
-    return cacheGet({
-      key,
-      getValueFun: () => siteModel.getShowcase(),
-    })
-  })
-}
-
 export const fetchGetComments = async (
   data: Parameters<typeof siteModel.getCommentsBySite>[0],
   queryClient: QueryClient,

@@ -6,7 +6,7 @@ import { SearchInput } from "~/components/common/SearchInput"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
-import { useGetShowcase } from "~/queries/site"
+import { useGetShowcase } from "~/queries/home"
 
 import topics from "../../../data/topics.json"
 import { FollowAllButton } from "../common/FollowAllButton"

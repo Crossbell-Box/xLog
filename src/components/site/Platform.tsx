@@ -105,7 +105,7 @@ export const Platform: React.FC<{
             <Image fill src={syncMap[platform]?.icon} alt={platform} />
           ) : (
             <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300 w-6 h-6">
-              <i className="i-mingcute:planet-line text-xl" />
+              <i className="icon-[mingcute--planet-line] text-xl" />
             </span>
           )}
         </span>

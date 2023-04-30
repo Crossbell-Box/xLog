@@ -21,7 +21,7 @@ export default async function handler(
 
   let cache
   try {
-    cache = await redis.get(redisKey)
+    cache = await redis?.get(redisKey)
   } catch (error) {}
   if (cache) {
     res.status(200).json(JSON.parse(cache))
@@ -59,7 +59,7 @@ export default async function handler(
         return nft
       }),
     )
-    redis.set(redisKey, JSON.stringify(result), "EX", 60 * 60 * 24)
+    redis?.set(redisKey, JSON.stringify(result), "EX", 60 * 60 * 24)
     res.status(200).json({
       list: [],
     })

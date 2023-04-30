@@ -125,7 +125,7 @@ export const PatronModal: React.FC<{
       title={
         <span className="inline-flex items-center justify-center w-full space-x-1">
           <span className="text-red-500 flex w-6 h-6 -mb-[1px]">
-            <i className="i-mingcute:heart-fill text-2xl -mb-[1px]" />
+            <i className="icon-[mingcute--heart-fill] text-2xl -mb-[1px]" />
           </span>
           <span className="truncate">{title}</span>
         </span>
@@ -232,7 +232,7 @@ export const PatronModal: React.FC<{
           </div>
           <div className="text-zinc-500 text-xs space-y-1 mt-2">
             <p className="flex items-center justify-center">
-              <i className="i-mingcute:question-line mr-1 text-sm" />
+              <i className="icon-[mingcute--question-line] mr-1 text-sm" />
               <UniLink href={MIRA_LINK}>
                 {t("What is MIRA? Where can I get some?")}
               </UniLink>

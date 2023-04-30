@@ -100,67 +100,67 @@ export function DashboardLayout({
     {
       href: `/dashboard/${subdomain}`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-mingcute-grid-line",
+      icon: "icon-[mingcute--grid-line]",
       text: "Dashboard",
     },
     {
       href: `/dashboard/${subdomain}/posts`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-mingcute-news-line",
+      icon: "icon-[mingcute--news-line]",
       text: "Posts",
     },
     {
       href: `/dashboard/${subdomain}/pages`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-mingcute-file-line",
+      icon: "icon-[mingcute--file-line]",
       text: "Pages",
     },
     {
       href: `/dashboard/${subdomain}/comments`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-mingcute-comment-line",
+      icon: "icon-[mingcute--comment-line]",
       text: "Comments",
     },
     {
       onClick: showNotificationModal,
       isActive: ({ href, pathname }) => href === pathname,
       icon: isAllRead
-        ? "i-mingcute:notification-line"
-        : "i-mingcute:notification-fill",
+        ? "icon-[mingcute--notification-line]"
+        : "icon-[mingcute--notification-fill]",
       text: isAllRead ? "Notifications" : "Unread notifications",
     },
     {
       href: `/dashboard/${subdomain}/import`,
       isActive: ({ pathname }) =>
         pathname.startsWith(`/dashboard/${subdomain}/import`),
-      icon: "i-mingcute:file-import-line",
+      icon: "icon-[mingcute--file-import-line]",
       text: "Import",
     },
     {
       href: `/dashboard/${subdomain}/events`,
       isActive: ({ href, pathname }) => href === pathname,
       icon: isEventsAllRead
-        ? "i-mingcute-flag-4-line"
-        : "i-mingcute-flag-4-fill",
+        ? "icon-[mingcute--flag-4-line]"
+        : "icon-[mingcute--flag-4-fill]",
       text: isEventsAllRead ? "Events" : "New Events",
     },
     {
       href: `/dashboard/${subdomain}/achievements`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-mingcute-trophy-line",
+      icon: "icon-[mingcute--trophy-line]",
       text: "Achievements",
     },
     {
       href: `/dashboard/${subdomain}/tokens`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "i-mingcute-pig-money-line",
+      icon: "icon-[mingcute--pig-money-line]",
       text: "Tokens",
     },
     {
       href: `/dashboard/${subdomain}/settings/general`,
       isActive: ({ pathname }) =>
         pathname.startsWith(`/dashboard/${subdomain}/settings`),
-      icon: "i-mingcute-settings-3-line",
+      icon: "icon-[mingcute--settings-3-line]",
       text: "Settings",
     },
   ]
@@ -239,7 +239,7 @@ export function DashboardLayout({
                         href={DISCORD_LINK}
                         className="space-x-1 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
                       >
-                        <i className="i-mingcute:question-line text-lg" />
+                        <i className="icon-[mingcute--question-line] text-lg" />
                         {<span>{t("Need help?")}</span>}
                       </UniLink>
                       <UniLink
@@ -248,7 +248,7 @@ export function DashboardLayout({
                         })}
                         className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center"
                       >
-                        <span className="i-mingcute:home-1-line"></span>
+                        <span className="icon-[mingcute--home-1-line]"></span>
                         {<span>{t("View Site")}</span>}
                       </UniLink>
                     </div>
@@ -338,7 +338,7 @@ export function DashboardLayout({
                       href={DISCORD_LINK}
                       className="space-x-1 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
                     >
-                      <i className="i-mingcute:question-line text-lg" />
+                      <i className="icon-[mingcute--question-line] text-lg" />
                       {isOpen && <span>{t("Need help?")}</span>}
                     </UniLink>
                     <UniLink
@@ -347,7 +347,7 @@ export function DashboardLayout({
                       })}
                       className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center"
                     >
-                      <span className="i-mingcute:home-1-line"></span>
+                      <span className="icon-[mingcute--home-1-line]"></span>
                       {isOpen && <span>{t("View Site")}</span>}
                     </UniLink>
                   </div>

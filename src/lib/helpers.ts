@@ -2,8 +2,8 @@ import { NoteEntity } from "crossbell.js"
 
 import { Note, Profile } from "~/lib/types"
 
-import { IS_PROD } from "./constants"
-import { IS_VERCEL_PREVIEW, OUR_DOMAIN } from "./env"
+import { IS_PROD, IS_VERCEL_PREVIEW } from "./constants"
+import { OUR_DOMAIN } from "./env"
 import { isServerSide } from "./utils"
 
 export const getSiteLink = ({

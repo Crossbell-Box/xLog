@@ -6,23 +6,27 @@ if (!REDIS_URL) {
   console.error("REDIS_URL not set")
 }
 
-let redisPromise: Promise<Redis> = new Promise((resolve, reject) => {
-  let redis = new Redis(REDIS_URL)
+let redisPromise: Promise<Redis | null> = new Promise((resolve, reject) => {
+  if (REDIS_URL) {
+    let redis = new Redis(REDIS_URL)
 
-  redis.on("ready", () => {
-    console.log("Redis connected.")
-    resolve(redis)
-  })
+    redis.on("ready", () => {
+      console.log("Redis connected.")
+      resolve(redis)
+    })
 
-  redis.on("error", (error: any) => {
-    console.error("Redis error: ", error)
-    reject(error)
-  })
+    redis.on("error", (error: any) => {
+      console.error("Redis error: ", error)
+      reject(error)
+    })
 
-  redis.on("end", () => {
-    console.error("Redis end.")
-    reject()
-  })
+    redis.on("end", () => {
+      console.error("Redis end.")
+      reject()
+    })
+  } else {
+    resolve(null)
+  }
 })
 
 export const getRedis = () => redisPromise

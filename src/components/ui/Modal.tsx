@@ -55,7 +55,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                   className="absolute right-1 w-7 h-7 text-xl cursor-pointer bg-white flex items-center justify-center"
                   onClick={() => setOpen(false)}
                 >
-                  <i className="i-mingcute:close-line inline-block" />
+                  <i className="icon-[mingcute--close-line] inline-block" />
                 </span>
               </Dialog.Title>
             )}

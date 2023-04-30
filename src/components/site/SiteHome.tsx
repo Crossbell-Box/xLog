@@ -82,7 +82,7 @@ export const SiteHome: React.FC<{
                         </span>
                       )}
                       <span className="xlog-post-views inline-flex items-center">
-                        <i className="i-mingcute:eye-line mr-[2px]" />
+                        <i className="icon-[mingcute--eye-line] mr-[2px]" />
                         <span>{post.views}</span>
                       </span>
                     </div>

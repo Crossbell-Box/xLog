@@ -5,6 +5,8 @@ import { ReactElement, createElement } from "react"
 import { toast } from "react-hot-toast"
 import { Element } from "react-scroll"
 import { refractor } from "refractor"
+import jsx from "refractor/lang/jsx"
+import tsx from "refractor/lang/tsx"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import rehypeKatex from "rehype-katex"
@@ -69,6 +71,8 @@ export type Rendered = {
 }
 
 refractor.alias("html", ["svelte", "vue"])
+refractor.register(tsx)
+refractor.register(jsx)
 
 const rehypePrism = rehypePrismGenerator(refractor)
 
@@ -148,7 +152,7 @@ export const renderPageContent = (
               type: "element",
               tagName: "span",
               properties: {
-                className: ["i-mingcute:link-line"],
+                className: ["icon-[mingcute--link-line]"],
               },
               children: [],
             },

@@ -12,7 +12,7 @@ const icons: {
 } = {
   "xLog contributor": {
     bg: "bg-zinc-700 text-white",
-    icon: "i-mingcute:terminal-line",
+    icon: "icon-[mingcute--terminal-line]",
   },
 }
 

@@ -11,12 +11,11 @@ import { MainSidebar } from "~/components/main/MainSidebar"
 import { Tabs } from "~/components/ui/Tabs"
 import { languageDetector } from "~/lib/language-detector"
 import type { FeedType } from "~/models/home.model"
-import { prefetchGetFeed } from "~/queries/home.server"
-import { prefetchGetSites } from "~/queries/site.server"
+import { prefetchGetFeed, prefetchGetShowcase } from "~/queries/home.server"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
-  await prefetchGetSites(queryClient)
+  await prefetchGetShowcase(queryClient)
   await prefetchGetFeed(
     {
       type: "latest",

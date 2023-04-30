@@ -28,7 +28,7 @@ export const BlockchainInfo: React.FC<{
         {({ open }: { open: boolean }) => (
           <>
             <Disclosure.Button
-              className="flex w-full justify-between items-center rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-hover transition-colors md:rounded-xl"
+              className="flex w-full justify-between items-center rounded-lg px-4 py-2 text-left text-gray-900 hover:bg-hover transition-colors md:rounded-xl focus-visible:ring focus-visible:ring-accent focus-visible:ring-opacity-50"
               aria-label="toggle chain info"
               data-hide-print
             >
@@ -43,7 +43,7 @@ export const BlockchainInfo: React.FC<{
               </span>
               <span
                 className={cn(
-                  "i-mingcute:up-line text-lg text-gray-500 transform transition-transform",
+                  "icon-[mingcute--up-line] text-lg text-gray-500 transform transition-transform",
                   open ? "" : "rotate-180",
                 )}
               ></span>
@@ -53,17 +53,14 @@ export const BlockchainInfo: React.FC<{
                 <li>
                   <div className="font-medium">{t("Owner")}</div>
                   <div>
-                    <a
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-block mr-4 break-all"
+                    <BlockchainInfoLink
                       href={`${CSB_SCAN}/address/${
                         page?.metadata?.owner || site?.metadata?.owner
                       }`}
                       key={page?.metadata?.owner || site?.metadata?.owner}
                     >
                       {page?.metadata?.owner || site?.metadata?.owner}
-                    </a>
+                    </BlockchainInfoLink>
                   </div>
                 </li>
                 <li>
@@ -74,35 +71,26 @@ export const BlockchainInfo: React.FC<{
                           ?.filter((url) => url.startsWith(CSB_SCAN + "/tx/"))
                           .map((url, index) => {
                             return (
-                              <a
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-block mr-4 break-all"
-                                href={url}
-                                key={url}
-                              >
+                              <BlockchainInfoLink href={url} key={url}>
                                 {t(index === 0 ? "Creation" : "Last Update")}{" "}
                                 {url
                                   .replace(CSB_SCAN + "/tx/", "")
                                   .slice(0, 10)}
                                 ...
                                 {url.replace(CSB_SCAN + "/tx/", "").slice(-10)}
-                              </a>
+                              </BlockchainInfoLink>
                             )
                           })
                       : site?.metadata?.transactions.map(
                           (hash: string, index: number) => {
                             return (
-                              <a
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-block mr-4 break-all"
+                              <BlockchainInfoLink
                                 href={`${CSB_SCAN}/tx/${hash}`}
                                 key={hash}
                               >
                                 {t(index === 0 ? "Creation" : "Last Update")}{" "}
                                 {hash.slice(0, 10)}...{hash.slice(-10)}
-                              </a>
+                              </BlockchainInfoLink>
                             )
                           },
                         )}
@@ -111,14 +99,9 @@ export const BlockchainInfo: React.FC<{
                 <li>
                   <div className="font-medium">{t("IPFS Address")}</div>
                   <div>
-                    <a
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-block mr-4 break-all"
-                      href={toGateway(ipfs)}
-                    >
+                    <BlockchainInfoLink href={toGateway(ipfs)}>
                       {toIPFS(ipfs)}
-                    </a>
+                    </BlockchainInfoLink>
                   </div>
                 </li>
                 {greenfieldId.data?.greenfieldId && (
@@ -127,10 +110,7 @@ export const BlockchainInfo: React.FC<{
                       {t("BNB Greenfield Address")}
                     </div>
                     <div>
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-block mr-4 break-all"
+                      <BlockchainInfoLink
                         href={
                           "https://greenfieldscan.com/" +
                           (greenfieldId.data?.transactionHash
@@ -139,7 +119,7 @@ export const BlockchainInfo: React.FC<{
                         }
                       >
                         {greenfieldId.data?.greenfieldId}
-                      </a>
+                      </BlockchainInfoLink>
                     </div>
                   </li>
                 )}
@@ -149,5 +129,22 @@ export const BlockchainInfo: React.FC<{
         )}
       </Disclosure>
     </div>
+  )
+}
+
+function BlockchainInfoLink({
+  className,
+  ...props
+}: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+  return (
+    <a
+      target="_blank"
+      rel="noreferrer"
+      className={cn(
+        "inline-block mr-4 break-all focus-visible:ring focus-visible:ring-accent",
+        className,
+      )}
+      {...props}
+    />
   )
 }

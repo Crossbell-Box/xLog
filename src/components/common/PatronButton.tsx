@@ -27,7 +27,7 @@ export const PatronButton: React.FC<{
       >
         <span className="inline-flex items-center">
           <i className="text-red-400 text-xl inline-flex items-center">
-            <i className="i-mingcute:heart-fill inline-block" />
+            <i className="icon-[mingcute--heart-fill] inline-block" />
           </i>
           <span className="text-zinc-500 ml-1">{t("Patron")}</span>
         </span>

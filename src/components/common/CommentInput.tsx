@@ -108,7 +108,7 @@ export const CommentInput: React.FC<{
             {({ open }: { open: boolean }) => (
               <>
                 <Popover.Button className="group inline-flex items-center rounded-md px-2 text-xl text-zinc-400 hover:text-zinc-500">
-                  <span className="i-mingcute:emoji-2-line text-2xl"></span>
+                  <span className="icon-[mingcute--emoji-2-line] text-2xl"></span>
                 </Popover.Button>
                 <Popover.Panel className="absolute left-0 top-full z-10">
                   <EmojiPicker

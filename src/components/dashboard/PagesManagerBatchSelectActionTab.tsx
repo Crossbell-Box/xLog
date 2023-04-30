@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useState } from "react"
 import toast from "react-hot-toast"
 import type { Note, Notes } from "unidata.js"
 
@@ -11,6 +11,8 @@ import { type TabItem, Tabs } from "~/components/ui/Tabs"
 import { APP_NAME } from "~/lib/env"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
+
+import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 export const PagesManagerBatchSelectActionTab: React.FC<{
   isPost: boolean
@@ -136,61 +138,77 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
     {
       text: "Delete",
       onClick: async () => {
-        // Start message
-        const toastId = toast.loading("Deleting...")
-
-        // Find all selected
-        const selectedPages: Note[] = []
-        pages.data?.pages.map((page) =>
-          page.list?.map((page) => {
-            if (batchSelected.includes(page.id)) {
-              selectedPages.push(page)
-            }
-          }),
-        )
-
-        // Delete all // TODO: use multicall to optimize
-        try {
-          await Promise.all(
-            selectedPages.map((page) => {
-              if (!page.metadata) {
-                // Is draft
-                delStorage(`draft-${subdomain}-${page.id}`)
-              } else {
-                // Is Note
-                return deletePage.mutateAsync({
-                  site: subdomain,
-                  id: page.id,
-                })
-              }
-            }),
-          )
-
-          toast.success(t("Deleted!"), {
-            id: toastId,
-          })
-        } catch (e) {
-          toast.error(t("Fail to Deleted."), {
-            // It should be "Failed to delete.", but the translation key is that so :shrug:
-            id: toastId,
-          })
-        }
-
-        // Refresh site data
-        await Promise.all([
-          queryClient.refetchQueries(["getPagesBySite", subdomain]),
-          ...selectedPages.map((page) =>
-            queryClient.refetchQueries(["getPage", page.id]),
-          ),
-        ])
-
-        // Unselect all
-        setBatchSelected([])
+        setDeleteConfirmModalOpen(true)
       },
     },
   ]
 
-  return <Tabs items={tabItems} />
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
+    useState<boolean>(false)
+  const onDelete = async () => {
+    // Start message
+    const toastId = toast.loading("Deleting...")
+
+    // Find all selected
+    const selectedPages: Note[] = []
+    pages.data?.pages.map((page) =>
+      page.list?.map((page) => {
+        if (batchSelected.includes(page.id)) {
+          selectedPages.push(page)
+        }
+      }),
+    )
+
+    // Delete all // TODO: use multicall to optimize
+    try {
+      await Promise.all(
+        selectedPages.map((page) => {
+          if (!page.metadata) {
+            // Is draft
+            delStorage(`draft-${subdomain}-${page.id}`)
+          } else {
+            // Is Note
+            return deletePage.mutateAsync({
+              site: subdomain,
+              id: page.id,
+            })
+          }
+        }),
+      )
+
+      toast.success(t("Deleted!"), {
+        id: toastId,
+      })
+    } catch (e) {
+      toast.error(t("Fail to Deleted."), {
+        // It should be "Failed to delete.", but the translation key is that so :shrug:
+        id: toastId,
+      })
+    }
+
+    // Refresh site data
+    await Promise.all([
+      queryClient.refetchQueries(["getPagesBySite", subdomain]),
+      ...selectedPages.map((page) =>
+        queryClient.refetchQueries(["getPage", page.id]),
+      ),
+    ])
+
+    // Unselect all
+    setBatchSelected([])
+  }
+
+  return (
+    <>
+      <Tabs items={tabItems} />
+      <DeleteConfirmationModal
+        open={deleteConfirmModalOpen}
+        setOpen={setDeleteConfirmModalOpen}
+        onConfirm={onDelete}
+        isPost={isPost}
+      />
+    </>
+  )
 }
 
 export default PagesManagerBatchSelectActionTab

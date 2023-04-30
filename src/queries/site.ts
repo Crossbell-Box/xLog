@@ -41,12 +41,6 @@ export const useGetSite = (input?: string) => {
   })
 }
 
-export const useGetShowcase = () => {
-  return useQuery(["getShowcase"], async () => {
-    return siteModel.getShowcase()
-  })
-}
-
 export const useGetSubscription = (siteId: string | undefined) => {
   const account = useAccountState((s) => s.computed.account)
   const handle =

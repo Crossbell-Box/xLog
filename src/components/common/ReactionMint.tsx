@@ -1,6 +1,6 @@
 import confetti from "canvas-confetti"
 import { Trans, useTranslation } from "next-i18next"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
 
@@ -10,11 +10,12 @@ import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
+import { noopArr } from "~/lib/noop"
 import { cn } from "~/lib/utils"
 import { parsePageId } from "~/models/page.model"
 import { useCheckMint, useGetMints, useMintPage } from "~/queries/page"
 
-import { Avatar } from "../ui/Avatar"
+import { AvatarStack } from "../ui/AvatarStack"
 import { Button } from "../ui/Button"
 
 export const ReactionMint: React.FC<{
@@ -73,6 +74,20 @@ export const ReactionMint: React.FC<{
     }
   }, [mintPage.isSuccess])
 
+  const avatars = useMemo(
+    () =>
+      mints.data?.pages?.[0]?.list
+        ?.sort((a, b: any) =>
+          b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
+        )
+        .slice(0, 3)
+        .map((mint: any) => ({
+          images: mint.character?.metadata?.content?.avatars,
+          name: mint.character?.metadata?.content?.name,
+        })) || noopArr,
+    [mints],
+  )
+
   return (
     <>
       <div className="xlog-reactions-mint flex items-center">
@@ -101,33 +116,11 @@ export const ReactionMint: React.FC<{
           <span className="ml-2">{mints.data?.pages?.[0]?.count || 0}</span>
         </Button>
         {size !== "sm" && (
-          <ul
-            className="-space-x-4 cursor-pointer hidden sm:inline-block"
+          <AvatarStack
+            avatars={avatars}
             onClick={() => setIsMintListOpen(true)}
-          >
-            {mints.data?.pages?.[0]?.list
-              ?.sort((a, b: any) =>
-                b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
-              )
-              .slice(0, 3)
-              .map((mint: any, index) => (
-                <li className="inline-block" key={index}>
-                  <Avatar
-                    className="relative align-middle border-2 border-white"
-                    images={mint.character?.metadata?.content?.avatars || []}
-                    name={mint.character?.metadata?.content?.name}
-                    size={40}
-                  />
-                </li>
-              ))}
-            {(mints.data?.pages?.[0]?.count || 0) > 3 && (
-              <li className="inline-block">
-                <div className="relative align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
-                  +{mints.data!.pages?.[0]?.count - 3}
-                </div>
-              </li>
-            )}
-          </ul>
+            count={mints.data?.pages?.[0]?.count || 0}
+          />
         )}
       </div>
       <Modal
