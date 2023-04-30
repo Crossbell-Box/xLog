@@ -12,6 +12,7 @@ import {
   useOpSignSettingsModal,
   useSelectCharactersModal,
   useUpgradeEmailAccountModal,
+  useWalletMintNewCharacterModal,
 } from "@crossbell/connect-kit"
 import {
   useNotifications,
@@ -87,6 +88,7 @@ export const ConnectButton: React.FC<{
   const opSignSettingsModal = useOpSignSettingsModal()
   const upgradeAccountModal = useUpgradeEmailAccountModal()
   const selectCharactersModal = useSelectCharactersModal()
+  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   const userSites = useAccountSites()
 
@@ -110,13 +112,28 @@ export const ConnectButton: React.FC<{
   }, [balance])
 
   const dropdownLinks: HeaderLinkType[] = [
-    {
-      icon: "icon-[mingcute--home-1-line]",
-      label: t("My xLog") || "",
-      url: getSiteLink({
-        subdomain: userSites.data?.[0]?.username || "",
-      }),
-    },
+    userSites.data?.[0]?.username
+      ? {
+          icon: "icon-[mingcute--home-1-line]",
+          label: t("My xLog") || "",
+          url: getSiteLink({
+            subdomain: userSites.data?.[0]?.username || "",
+          }),
+        }
+      : {
+          icon: "icon-[mingcute--home-1-line]",
+          label: t("My xLog") || "",
+          url: getSiteLink({
+            subdomain: userSites.data?.[0]?.username || "",
+          }),
+          onClick: () => {
+            if (!userSites.data?.[0]?.username) {
+              walletMintNewCharacterModal.show()
+            } else {
+              return null
+            }
+          },
+        },
     {
       icon: "icon-[mingcute--grid-line]",
       label: t("Dashboard") || "",
