@@ -178,7 +178,7 @@ export const SiteHeader: React.FC<{
   }, [bannerRef, avatarRef, isDark])
 
   return (
-    <header className="xlog-header border-b border-zinc-100 relative">
+    <header className="xlog-header border-b border-zinc-100 relative max-w-[100vw] overflow-hidden">
       {averageColor && (
         <style jsx global>{`
           :root {
@@ -334,7 +334,15 @@ export const SiteHeader: React.FC<{
             </div>
           </div>
         </div>
-        <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
+        <div className="xlog-site-navigation__root text-gray-500 flex items-center justify-between w-full mt-auto relative">
+          <div
+            className="xlog-site-navigation__mask before:inset-0 before:bg-[var(--auto-theme-color)] before:opacity-30 before:absolute before:left-[-100vw] before:right-[-100vw]"
+            style={
+              {
+                "--auto-theme-color": autoThemeColor,
+              } as any
+            }
+          />
           <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto text-sm sm:text-base">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />
