@@ -100,19 +100,6 @@ export function useUpdateSite() {
   return mutation
 }
 
-export function useCreateSite() {
-  const unidata = useUnidata()
-  const account = useAccountState((s) => s.computed.account)
-  const address = account?.type === "email" ? account.email : account?.address
-
-  return useMutation(async (payload: { name: string; subdomain: string }) => {
-    if (address) {
-      // FIXME: - Support email users
-      return siteModel.createSite(address, payload, unidata)
-    }
-  })
-}
-
 export function useSubscribeToSite() {
   const queryClient = useQueryClient()
   const account = useAccountState((s) => s.computed.account)

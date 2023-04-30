@@ -1,5 +1,4 @@
 import { CharacterOperatorPermission, Indexer } from "crossbell.js"
-import { nanoid } from "nanoid"
 import type Unidata from "unidata.js"
 
 import type { useContract } from "@crossbell/contract"
@@ -176,35 +175,6 @@ export async function updateSite(
     },
     {
       newbieToken,
-    },
-  )
-}
-
-export async function createSite(
-  address: string,
-  payload: { name: string; subdomain: string },
-  customUnidata?: Unidata,
-) {
-  return await (customUnidata || unidata).profiles.set(
-    {
-      source: "Crossbell Profile",
-      identity: address,
-      platform: "Ethereum",
-      action: "add",
-    },
-    {
-      username: payload.subdomain,
-      name: payload.name,
-      tags: [
-        "navigation:" +
-          JSON.stringify([
-            {
-              id: nanoid(),
-              label: "Archives",
-              url: "/archives",
-            },
-          ]),
-      ],
     },
   )
 }
