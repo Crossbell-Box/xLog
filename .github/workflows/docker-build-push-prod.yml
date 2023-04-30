@@ -49,6 +49,10 @@ jobs:
             "NEXT_PUBLIC_GITHUB_LINK=${{ vars.NEXT_PUBLIC_GITHUB_LINK }}"
             "NEXT_PUBLIC_OUR_DOMAIN=${{ vars.NEXT_PUBLIC_OUR_DOMAIN }}"
             "NEXT_PUBLIC_TWITTER_LINK=${{ vars.NEXT_PUBLIC_TWITTER_LINK }}"
+            "SENTRY_ORG=${{ secrets.SENTRY_ORG }}"
+            "SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}"
+            "NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}"
+            "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}"
 
   deploy-prod:
     runs-on: ubuntu-latest
