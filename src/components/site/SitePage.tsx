@@ -3,7 +3,7 @@ import Head from "next/head"
 import serialize from "serialize-javascript"
 
 import { getSiteLink } from "~/lib/helpers"
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, Note } from "~/lib/types"
 
 import { PageContent } from "../common/PageContent"
 import { PostFooter } from "./PostFooter"
@@ -11,7 +11,7 @@ import { PostMeta } from "./PostMeta"
 
 export const SitePage: React.FC<{
   page?: Note | null
-  site?: Profile | null
+  site?: ExpandedCharacter
 }> = ({ page, site }) => {
   const { t } = useTranslation("site")
 
@@ -29,9 +29,9 @@ export const SitePage: React.FC<{
         author: [
           {
             "@type": "Person",
-            name: site?.name,
+            name: site?.metadata?.content?.name,
             url: getSiteLink({
-              subdomain: site?.username || "",
+              subdomain: site?.handle || "",
             }),
           },
         ],

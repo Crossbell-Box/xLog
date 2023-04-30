@@ -24,26 +24,26 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
     queryClient,
   )
 
-  const hasAudio = pages.list?.find((page: any) => page.audio)
+  const hasAudio = pages.list?.find((page) => page.audio)
 
   const link = getSiteLink({
-    subdomain: site.username || "",
+    subdomain: site?.handle || "",
   })
   return {
     version: "https://jsonfeed.org/version/1",
-    title: site.name,
-    description: site.description,
-    icon: site.avatars?.[0],
+    title: site?.metadata?.content?.name,
+    description: site?.metadata?.content?.bio,
+    icon: site?.metadata?.content?.avatars?.[0],
     home_page_url: link,
     feed_url: `${link}${path}`,
     ...(hasAudio && {
       _itunes: {
-        image: site.avatars?.[0],
-        author: site.name,
-        summary: site.description,
+        image: site?.metadata?.content?.avatars?.[0],
+        author: site?.metadata?.content?.name,
+        summary: site?.metadata?.content?.bio,
       },
     }),
-    items: pages.list?.map((page: any) => ({
+    items: pages.list?.map((page) => ({
       id: page.id,
       title: page.title,
       content_html:
@@ -55,7 +55,7 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
       date_published: page.date_published,
       date_modified: page.date_updated,
       tags: page.tags,
-      author: site.name,
+      author: site?.metadata?.content?.name,
       ...(page.audio && {
         _itunes: {
           image: page.cover,

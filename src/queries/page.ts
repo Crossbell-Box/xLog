@@ -292,7 +292,7 @@ export function useGetSummary(input: { cid?: string; lang?: string }) {
   })
 }
 
-export function useGetMirrorXyz(input: { address: string }) {
+export function useGetMirrorXyz(input: { address?: string }) {
   return useQuery(["getMirror", input.address], async () => {
     const { getDefaultSlug } = await import("~/lib/default-slug")
 
@@ -332,7 +332,7 @@ export function useGetMirrorXyz(input: { address: string }) {
   })
 }
 
-export function useCheckMirror(characterId?: string) {
+export function useCheckMirror(characterId?: number) {
   return useQuery(["checkMirror", characterId], async () => {
     if (!characterId) {
       return

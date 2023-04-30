@@ -17,20 +17,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const site = await fetchGetSite(domainOrSubdomain, queryClient)
   const comments = await fetchGetComments(
     {
-      characterId: site?.metadata?.proof,
+      characterId: site?.characterId,
     },
     queryClient,
   )
 
   const link = getSiteLink({
-    subdomain: site.username || "",
+    subdomain: site?.handle || "",
   })
 
   const data = {
     version: "https://jsonfeed.org/version/1",
-    title: "Comments on " + site.name,
-    description: site.description,
-    icon: site.avatars?.[0],
+    title: "Comments on " + site?.metadata?.content?.name,
+    description: site?.metadata?.content?.bio,
+    icon: site?.metadata?.content?.avatars?.[0],
     home_page_url: link,
     feed_url: `${link}/feed/notifications`,
     items: comments?.list?.map((comment) => {

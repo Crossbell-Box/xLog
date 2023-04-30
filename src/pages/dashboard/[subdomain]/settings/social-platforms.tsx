@@ -99,7 +99,7 @@ export default function SiteSettingsNavigationPage() {
 
   const itemsModified = useMemo(() => {
     if (!site.isSuccess) return false
-    return !equal(items, site.data?.connected_accounts)
+    return !equal(items, site.data?.metadata?.content?.connected_accounts)
   }, [items, site.data, site.isSuccess])
 
   const updateItem: UpdateItem = (id, newItem) => {
@@ -122,10 +122,12 @@ export default function SiteSettingsNavigationPage() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    updateSite.mutate({
-      site: site.data?.username!,
-      connected_accounts: items.map(({ id, ...item }) => item),
-    })
+    if (site.data?.handle) {
+      updateSite.mutate({
+        site: site.data?.handle,
+        connected_accounts: items.map(({ id, ...item }) => item),
+      })
+    }
   }
 
   useEffect(() => {
@@ -146,19 +148,31 @@ export default function SiteSettingsNavigationPage() {
 
   const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
-    if (site.data?.connected_accounts && !hasSet) {
+    if (site.data?.metadata?.content?.connected_accounts && !hasSet) {
       setHasSet(true)
       setItems(
-        site.data?.connected_accounts.map((item) => ({
-          id: nanoid(),
-          ...item,
-        })),
+        site.data?.metadata?.content?.connected_accounts.map((item) => {
+          const match = item.match(/:\/\/account:(.*)@(.*)/)
+          if (match) {
+            return {
+              id: nanoid(),
+              identity: match[1],
+              platform: match[2],
+            }
+          } else {
+            return {
+              id: nanoid(),
+              identity: item,
+              platform: "",
+            }
+          }
+        }),
       )
     }
-  }, [site.data?.connected_accounts, hasSet])
+  }, [site.data?.metadata?.content?.connected_accounts, hasSet])
 
   return (
-    <SettingsLayout title="Site Settings" type="site">
+    <SettingsLayout title="Site Settings">
       <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
         <p className="text-zinc-800 text-sm font-bold">{t("Tips")}:</p>
         <p>

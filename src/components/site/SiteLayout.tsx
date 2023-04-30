@@ -59,7 +59,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
     if (site.data) {
       if (
         window.location.host.split(".").slice(-2).join(".") !== OUR_DOMAIN &&
-        window.location.host !== site.data?.custom_domain &&
+        window.location.host !== site.data?.metadata?.content?.custom_domain &&
         IS_PROD
       ) {
         window.location.href = SITE_URL
@@ -84,16 +84,19 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
     >
       <SEOHead
         title={title || tag || page.data?.title || ""}
-        siteName={site.data?.name || ""}
+        siteName={site.data?.metadata?.content?.name || ""}
         description={
           page.data?.summary?.content ??
-          site.data?.description?.replace(/<[^>]*>/g, "")
+          site.data?.metadata?.content?.bio?.replace(/<[^>]*>/g, "")
         }
-        image={page.data?.cover || getUserContentsUrl(site.data?.avatars?.[0])}
-        icon={getUserContentsUrl(site.data?.avatars?.[0])}
+        image={
+          page.data?.cover ||
+          getUserContentsUrl(site.data?.metadata?.content?.avatars?.[0])
+        }
+        icon={getUserContentsUrl(site.data?.metadata?.content?.avatars?.[0])}
         site={domainOrSubdomain}
       />
-      <Style content={site.data?.css} />
+      <Style content={site.data?.metadata?.content?.css} />
       {site.data && <SiteHeader site={site.data} />}
       <div
         className={cn(
@@ -108,7 +111,7 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
           <BlockchainInfo site={site.data} page={page.data} />
         </div>
       )}
-      <SiteFooter site={site.data} page={page.data} />
+      <SiteFooter site={site.data || undefined} page={page.data} />
 
       <FABContainer>
         <BackToTopFAB />

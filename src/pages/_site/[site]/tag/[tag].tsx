@@ -7,7 +7,7 @@ import { SiteArchives } from "~/components/site/SiteArchives"
 import { SiteLayout } from "~/components/site/SiteLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { Notes, PageVisibilityEnum, Profile } from "~/lib/types"
+import { PageVisibilityEnum } from "~/lib/types"
 import { useGetPagesBySiteLite } from "~/queries/page"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
@@ -38,8 +38,6 @@ function SiteTagPage({
   domainOrSubdomain,
   tag,
 }: {
-  site: Profile
-  posts: Notes
   domainOrSubdomain: string
   tag: string
 }) {

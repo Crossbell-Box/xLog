@@ -34,7 +34,7 @@ export default function SubdomainIndex() {
   const router = useRouter()
   const subdomain = router.query.subdomain as string
   const site = useGetSite(subdomain)
-  const characterId = site.data?.metadata?.proof
+  const characterId = site.data?.characterId
   const stat = useGetStat({
     characterId,
   })
@@ -236,7 +236,7 @@ export default function SubdomainIndex() {
               {t("Meet New Friends")}
             </h4>
             <ul className="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative">
-              {showcaseSites.data?.slice(0, 6)?.map((site: any) => (
+              {showcaseSites.data?.slice(0, 6)?.map((site) => (
                 <li className="inline-flex align-middle" key={site.handle}>
                   <UniLink
                     href={getSiteLink({

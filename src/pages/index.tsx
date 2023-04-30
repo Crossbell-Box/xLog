@@ -463,7 +463,7 @@ function Home() {
               >
                 {t("Show more")}
               </div>
-              {showcaseSites.data?.map((site: any) => (
+              {showcaseSites.data?.map((site) => (
                 <li className="inline-flex align-middle" key={site.handle}>
                   <UniLink
                     href={getSiteLink({

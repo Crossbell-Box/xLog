@@ -9,7 +9,6 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -25,9 +24,6 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
 
 export default function ImportPage() {
   const router = useRouter()
-  const subdomain = router.query.subdomain as string
-  const site = useGetSite(subdomain)
-  const characterId = site.data?.metadata?.proof
   const { t } = useTranslation("dashboard")
 
   const options = [

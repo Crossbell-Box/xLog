@@ -2,11 +2,11 @@ import { Comment } from "~/components/common/Comment"
 import { ReactionLike } from "~/components/common/ReactionLike"
 import { ReactionMint } from "~/components/common/ReactionMint"
 import { ReactionTip } from "~/components/common/ReactionTip"
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, Note } from "~/lib/types"
 
 export const PostFooter: React.FC<{
   page?: Note | null
-  site?: Profile | null
+  site?: ExpandedCharacter
 }> = ({ page, site }) => {
   return (
     <>

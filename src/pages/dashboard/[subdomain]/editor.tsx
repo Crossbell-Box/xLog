@@ -220,7 +220,7 @@ export default function SubdomainEditor() {
           (values.slug || defaultSlug) &&
           `${getSiteLink({
             subdomain,
-            domain: site.data?.custom_domain,
+            domain: site.data?.metadata?.content?.custom_domain,
           })}/${encodeURIComponent(values.slug || defaultSlug)}`,
         applications: page.data?.applications,
       })
@@ -245,7 +245,7 @@ export default function SubdomainEditor() {
 
         if (createOrUpdatePage.data.data) {
           router.replace(
-            `/dashboard/${subdomain}/editor?id=${site.data?.metadata?.proof}-${createOrUpdatePage.data.data}&type=${router.query.type}`,
+            `/dashboard/${subdomain}/editor?id=${site.data?.characterId}-${createOrUpdatePage.data.data}&type=${router.query.type}`,
           )
         }
 
@@ -675,7 +675,7 @@ export default function SubdomainEditor() {
                 className="text-accent"
                 href={`${getSiteLink({
                   subdomain,
-                  domain: site.data?.custom_domain,
+                  domain: site.data?.metadata?.content?.custom_domain,
                 })}/${encodeURIComponent(values.slug || defaultSlug)}`}
               >
                 {t("View the post")}
@@ -784,13 +784,13 @@ const EditorExtraProperties: FC<{
                   <UniLink
                     href={`${getSiteLink({
                       subdomain,
-                      domain: site.data?.custom_domain,
+                      domain: site.data?.metadata?.content?.custom_domain,
                     })}/${encodeURIComponent(values.slug || defaultSlug)}`}
                     className="hover:underline"
                   >
                     {getSiteLink({
                       subdomain,
-                      domain: site.data?.custom_domain,
+                      domain: site.data?.metadata?.content?.custom_domain,
                       noProtocol: true,
                     })}
                     /{encodeURIComponent(values.slug || defaultSlug)}

@@ -11,7 +11,7 @@ import { Button } from "~/components/ui/Button"
 import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN, MIRA_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, Note } from "~/lib/types"
 import { parsePageId } from "~/models/page.model"
 import { useGetTips, useTipCharacter } from "~/queries/site"
 
@@ -20,7 +20,7 @@ import { UniLink } from "../ui/UniLink"
 import { CharacterFloatCard } from "./CharacterFloatCard"
 
 export const PatronModal: React.FC<{
-  site: Profile | undefined | null
+  site?: ExpandedCharacter
   page?: Note | null
   open: boolean
   setOpen: (open: boolean) => void
@@ -28,7 +28,7 @@ export const PatronModal: React.FC<{
   const { t } = useTranslation("common")
   const tipCharacter = useTipCharacter()
   const tips = useGetTips({
-    toCharacterId: site?.metadata?.proof,
+    toCharacterId: site?.characterId,
     toNoteId: parsePageId(page?.id || "").noteId,
   })
   const connectModal = useConnectModal()
@@ -66,10 +66,10 @@ export const PatronModal: React.FC<{
   )
 
   const submit = () => {
-    if (currentCharacterId && site?.metadata?.proof && parseInt(value)) {
+    if (currentCharacterId && site?.characterId && parseInt(value)) {
       tipCharacter.mutate({
         fromCharacterId: currentCharacterId,
-        toCharacterId: site?.metadata?.proof,
+        toCharacterId: site?.characterId,
         amount: parseInt(value),
         noteId: parsePageId(page?.id || "").noteId,
       })
@@ -100,7 +100,7 @@ export const PatronModal: React.FC<{
         tipCharacter.reset()
       }
     }
-  }, [tipCharacter.isSuccess, t, site?.name])
+  }, [tipCharacter.isSuccess, t])
 
   useEffect(() => {
     if (tipCharacter.isError) {
@@ -115,7 +115,7 @@ export const PatronModal: React.FC<{
           name: page.title,
         })
       : t("Become a patron of {{name}}", {
-          name: site?.name,
+          name: site?.metadata?.content?.name,
         })) || ""
 
   return (
@@ -135,17 +135,21 @@ export const PatronModal: React.FC<{
       <div className="px-5 py-4 space-y-4 text-center">
         <div className="space-y-1">
           <span className="flex items-center justify-center">
-            <Avatar images={site?.avatars || []} name={site?.name} size={100} />
+            <Avatar
+              images={site?.metadata?.content?.avatars || []}
+              name={site?.metadata?.content?.name}
+              size={100}
+            />
           </span>
           <span className="block">
             <span className="font-bold text-lg text-zinc-800">
-              {site?.name}
+              {site?.metadata?.content?.name}
             </span>
-            <span className="ml-1 text-gray-600">@{site?.username}</span>
+            <span className="ml-1 text-gray-600">@{site?.handle}</span>
           </span>
-          {site?.description && (
+          {site?.metadata?.content?.bio && (
             <span className="text-gray-600 text-sm line-clamp-4">
-              {site?.description}
+              {site?.metadata?.content?.bio}
             </span>
           )}
         </div>

@@ -11,7 +11,7 @@ export function useUserRole(subdomain?: string) {
   ])
 
   const isOperator = useIsOperators({
-    characterId: +(site.data?.metadata?.proof || 0),
+    characterId: site.data?.characterId,
     operator: account?.address,
   })
 

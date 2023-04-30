@@ -5,19 +5,20 @@ import { Disclosure } from "@headlessui/react"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
 import { toCid, toGateway, toIPFS } from "~/lib/ipfs-parser"
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, Note } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetGreenfieldId } from "~/queries/site"
 
 export const BlockchainInfo: React.FC<{
-  site?: Profile | null
+  site?: ExpandedCharacter
   page?: Note | null
 }> = ({ site, page }) => {
   const { t } = useTranslation(["common", "site"])
 
-  const ipfs = page
-    ? page.related_urls?.filter((url) => url.startsWith(IPFS_GATEWAY))?.[0]
-    : site?.metadata?.uri
+  const ipfs =
+    (page
+      ? page.related_urls?.filter((url) => url.startsWith(IPFS_GATEWAY))?.[0]
+      : site?.metadata?.uri) || ""
   const greenfieldId = useGetGreenfieldId(toCid(ipfs))
 
   const type = page ? (page?.tags?.includes("post") ? "post" : "page") : "blog"
@@ -55,45 +56,49 @@ export const BlockchainInfo: React.FC<{
                   <div>
                     <BlockchainInfoLink
                       href={`${CSB_SCAN}/address/${
-                        page?.metadata?.owner || site?.metadata?.owner
+                        page?.metadata?.owner || site?.owner
                       }`}
-                      key={page?.metadata?.owner || site?.metadata?.owner}
+                      key={page?.metadata?.owner || site?.owner}
                     >
-                      {page?.metadata?.owner || site?.metadata?.owner}
+                      {page?.metadata?.owner || site?.owner}
                     </BlockchainInfoLink>
                   </div>
                 </li>
                 <li>
                   <div className="font-medium">{t("Transaction Hash")}</div>
                   <div>
-                    {page
-                      ? page?.related_urls
-                          ?.filter((url) => url.startsWith(CSB_SCAN + "/tx/"))
-                          .map((url, index) => {
-                            return (
-                              <BlockchainInfoLink href={url} key={url}>
-                                {t(index === 0 ? "Creation" : "Last Update")}{" "}
-                                {url
-                                  .replace(CSB_SCAN + "/tx/", "")
-                                  .slice(0, 10)}
-                                ...
-                                {url.replace(CSB_SCAN + "/tx/", "").slice(-10)}
-                              </BlockchainInfoLink>
-                            )
-                          })
-                      : site?.metadata?.transactions.map(
-                          (hash: string, index: number) => {
-                            return (
-                              <BlockchainInfoLink
-                                href={`${CSB_SCAN}/tx/${hash}`}
-                                key={hash}
-                              >
-                                {t(index === 0 ? "Creation" : "Last Update")}{" "}
-                                {hash.slice(0, 10)}...{hash.slice(-10)}
-                              </BlockchainInfoLink>
-                            )
-                          },
-                        )}
+                    {page ? (
+                      page?.related_urls
+                        ?.filter((url) => url.startsWith(CSB_SCAN + "/tx/"))
+                        .map((url, index) => {
+                          return (
+                            <BlockchainInfoLink href={url} key={url}>
+                              {t(index === 0 ? "Creation" : "Last Update")}{" "}
+                              {url.replace(CSB_SCAN + "/tx/", "").slice(0, 10)}
+                              ...
+                              {url.replace(CSB_SCAN + "/tx/", "").slice(-10)}
+                            </BlockchainInfoLink>
+                          )
+                        })
+                    ) : (
+                      <>
+                        <BlockchainInfoLink
+                          href={`${CSB_SCAN}/tx/${site?.transactionHash}`}
+                          key={site?.transactionHash}
+                        >
+                          {t("Creation")} {site?.transactionHash.slice(0, 10)}
+                          ...{site?.transactionHash.slice(-10)}
+                        </BlockchainInfoLink>
+                        <BlockchainInfoLink
+                          href={`${CSB_SCAN}/tx/${site?.updatedTransactionHash}`}
+                          key={site?.updatedTransactionHash}
+                        >
+                          {t("Last Update")}{" "}
+                          {site?.updatedTransactionHash.slice(0, 10)}...
+                          {site?.updatedTransactionHash.slice(-10)}
+                        </BlockchainInfoLink>
+                      </>
+                    )}
                   </div>
                 </li>
                 <li>

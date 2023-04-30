@@ -6,7 +6,7 @@ import { FollowingCount } from "~/components/common/FollowingCount"
 import { Titles } from "~/components/common/Titles"
 import { Avatar } from "~/components/ui/Avatar"
 import { useDate } from "~/hooks/useDate"
-import type { Profile } from "~/lib/types"
+import type { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import * as siteModel from "~/models/site.model"
 
@@ -28,7 +28,7 @@ export const CharacterCard: React.FC<{
   style,
 }) => {
   const [firstOpen, setFirstOpen] = useState("")
-  const [site, setSite] = useState<Profile>()
+  const [site, setSite] = useState<ExpandedCharacter>()
   const date = useDate()
   const { t } = useTranslation("common")
 
@@ -39,7 +39,7 @@ export const CharacterCard: React.FC<{
         if (siteId) {
           siteModel.getSite(siteId).then((site) => setSite(site))
         } else if (address) {
-          siteModel.getSiteByAddress(address).then((sites) => setSite(sites))
+          siteModel.getSiteByAddress(address).then((site) => setSite(site))
         }
       } else {
         setSite(undefined)
@@ -62,7 +62,11 @@ export const CharacterCard: React.FC<{
       {site ? (
         <>
           <span className="flex items-center justify-between">
-            <Avatar images={site?.avatars || []} name={site?.name} size={45} />
+            <Avatar
+              images={site?.metadata?.content?.avatars || []}
+              name={site?.metadata?.content?.name}
+              size={45}
+            />
             {!hideFollowButton && (
               <FollowingButton
                 site={site}
@@ -73,30 +77,28 @@ export const CharacterCard: React.FC<{
           </span>
           <span className="flex items-center space-x-1">
             <span className="font-bold text-base text-zinc-800">
-              {site?.name}
+              {site?.metadata?.content?.name}
             </span>
-            <Titles characterId={+(site.metadata?.proof || "")} />
-            <span className="text-gray-600">@{site?.username}</span>
+            <Titles characterId={+(site?.characterId || "")} />
+            <span className="text-gray-600">@{site?.handle}</span>
           </span>
-          {site?.description && (
+          {site?.metadata?.content?.bio && (
             <span className="text-gray-600 line-clamp-4">
-              {site?.description}
+              {site?.metadata?.content?.bio}
             </span>
           )}
           {!simple && (
             <span className="block">
-              <FollowingCount siteId={site.username} disableList={true} />
+              <FollowingCount siteId={site.handle} disableList={true} />
             </span>
           )}
-          {!simple && site?.date_created && (
+          {!simple && site?.createdAt && (
             <span className="block text-gray-500">
-              <time dateTime={date.formatToISO(site.date_created)}>
+              <time dateTime={date.formatToISO(site.createdAt)}>
                 {t("joined ago", {
                   time: date.dayjs
                     .duration(
-                      date
-                        .dayjs(site.date_created)
-                        .diff(date.dayjs(), "minute"),
+                      date.dayjs(site.createdAt).diff(date.dayjs(), "minute"),
                       "minute",
                     )
                     .humanize(),

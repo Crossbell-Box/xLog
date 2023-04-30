@@ -77,11 +77,11 @@ export const ReactionMint: React.FC<{
   const avatars = useMemo(
     () =>
       mints.data?.pages?.[0]?.list
-        ?.sort((a, b: any) =>
+        ?.sort((a, b) =>
           b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
         )
         .slice(0, 3)
-        .map((mint: any) => ({
+        .map((mint) => ({
           images: mint.character?.metadata?.content?.avatars,
           name: mint.character?.metadata?.content?.name,
         })) || noopArr,

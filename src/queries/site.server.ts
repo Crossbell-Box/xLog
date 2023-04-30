@@ -22,7 +22,7 @@ export const fetchGetSite = async (input: string, queryClient: QueryClient) => {
     return cacheGet({
       key,
       getValueFun: () => siteModel.getSite(input),
-    })
+    }) as Promise<ReturnType<typeof siteModel.getSite>>
   })
 }
 

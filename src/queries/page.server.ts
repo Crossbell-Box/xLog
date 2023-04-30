@@ -25,7 +25,7 @@ export const fetchGetPage = async (
     return cacheGet({
       key,
       getValueFun: () => pageModel.getPage(input),
-    })
+    }) as Promise<ReturnType<typeof pageModel.getPage>>
   })
 }
 
@@ -59,7 +59,7 @@ export const fetchGetPagesBySite = async (
     return cacheGet({
       key,
       getValueFun: () => pageModel.getPagesBySite(input),
-    })
+    }) as Promise<ReturnType<typeof pageModel.getPagesBySite>>
   })
 }
 

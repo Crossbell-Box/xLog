@@ -1,23 +1,19 @@
 import { useTranslation } from "next-i18next"
 import { useEffect, useState } from "react"
 
-import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
 import { useUserRole } from "~/hooks/useUserRole"
 import { CSB_SCAN, SITE_URL } from "~/lib/env"
-import { getSiteLink } from "~/lib/helpers"
 import { toCid } from "~/lib/ipfs-parser"
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, Note } from "~/lib/types"
 import { useGetSummary } from "~/queries/page"
 
 export const PostMeta: React.FC<{
   page: Note
-  site?: Profile | null
-  author?: Profile | null
-}> = ({ page, site, author }) => {
+  site?: ExpandedCharacter
+}> = ({ page, site }) => {
   const { t } = useTranslation("common")
   const date = useDate()
   const [isMounted, setIsMounted] = useState(false)
@@ -32,7 +28,7 @@ export const PostMeta: React.FC<{
   }, [])
 
   const [showEdit, setShowEdit] = useState(false)
-  const userRole = useUserRole(site?.username)
+  const userRole = useUserRole(site?.handle)
   useEffect(() => {
     if (userRole.isSuccess && userRole.data) {
       setShowEdit(true)
@@ -73,28 +69,6 @@ export const PostMeta: React.FC<{
           <i className="icon-[mingcute--eye-line] mr-[2px]" />
           <span>{page.views}</span>
         </span>
-        {author?.username && site?.username !== author?.username && (
-          <>
-            <span className="inline-flex items-center">
-              <CharacterFloatCard siteId={author?.username}>
-                <UniLink
-                  href={getSiteLink({
-                    subdomain: author?.username,
-                  })}
-                  className="cursor-pointer hover:text-zinc-600 inline-flex items-center"
-                >
-                  <Avatar
-                    className="mr-1"
-                    images={author?.avatars || []}
-                    size={19}
-                    name={author?.name}
-                  />
-                  <span>{author?.name}</span>
-                </UniLink>
-              </CharacterFloatCard>
-            </span>
-          </>
-        )}
         <UniLink
           className="xlog-post-blockchain inline-flex items-center"
           href={
@@ -108,7 +82,7 @@ export const PostMeta: React.FC<{
         {showEdit && (
           <UniLink
             className="xlog-post-editor inline-flex items-center"
-            href={`${SITE_URL}/dashboard/${site?.username}/editor?id=${
+            href={`${SITE_URL}/dashboard/${site?.handle}/editor?id=${
               page.id
             }&type=${page.tags?.includes("post") ? "post" : "page"}`}
           >

@@ -6,7 +6,7 @@ import { useAccountState } from "@crossbell/connect-kit"
 import { PatronModal } from "~/components/common/PatronModal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { noopArr } from "~/lib/noop"
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, Note } from "~/lib/types"
 import { parsePageId } from "~/models/page.model"
 import { useGetTips } from "~/queries/site"
 
@@ -15,7 +15,7 @@ import { Button } from "../ui/Button"
 
 export const ReactionTip: React.FC<{
   pageId?: string
-  site?: Profile | null
+  site?: ExpandedCharacter
   page?: Note | null
 }> = ({ pageId, site, page }) => {
   const { t } = useTranslation("common")
@@ -45,11 +45,11 @@ export const ReactionTip: React.FC<{
   const avatars = useMemo(
     () =>
       tips.data?.pages?.[0]?.list
-        ?.sort((a, b: any) =>
+        ?.sort((a, b) =>
           b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
         )
         .slice(0, 3)
-        .map((mint: any) => ({
+        .map((mint) => ({
           images: mint.character?.metadata?.content?.avatars,
           name: mint.character?.metadata?.content?.name,
         })) || noopArr,

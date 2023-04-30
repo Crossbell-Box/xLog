@@ -6,7 +6,7 @@ import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
 import { UniLink } from "~/components/ui/UniLink"
 import { SITE_URL } from "~/lib/env"
-import { Profile } from "~/lib/types"
+import { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import {
   useGetSubscription,
@@ -15,7 +15,7 @@ import {
 } from "~/queries/site"
 
 export const FollowingButton: React.FC<{
-  site: Profile | undefined | null
+  site?: ExpandedCharacter
   variant?: Variant
   className?: string
   size?: "sm" | "xl"
@@ -23,26 +23,25 @@ export const FollowingButton: React.FC<{
 }> = ({ site, variant, className, size, loadingStatusChange }) => {
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
-  const characterId = site?.metadata?.proof ? Number(site.metadata.proof) : null
   const { t } = useTranslation("common")
 
   const handleClickSubscribe = () => {
-    if (characterId) {
+    if (site?.characterId) {
       if (subscription.data) {
         unsubscribeFromSite.mutate({
-          characterId,
-          siteId: site?.username,
+          characterId: site?.characterId,
+          siteId: site?.handle,
         } as any)
       } else {
         subscribeToSite.mutate({
-          characterId,
-          siteId: site?.username,
+          characterId: site?.characterId,
+          siteId: site?.handle,
         } as any)
       }
     }
   }
 
-  const subscription = useGetSubscription(site?.username)
+  const subscription = useGetSubscription(site?.handle)
 
   useEffect(() => {
     if (subscribeToSite.isError) {

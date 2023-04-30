@@ -17,12 +17,11 @@ import * as siteModel from "~/models/site.model"
 import { useUnidata } from "./unidata"
 
 export const useGetSite = (input?: string) => {
-  const unidata = useUnidata()
   return useQuery(["getSite", input], async () => {
     if (!input) {
       return null
     }
-    return siteModel.getSite(input, unidata)
+    return siteModel.getSite(input)
   })
 }
 
@@ -297,7 +296,7 @@ export function useRemoveOperator() {
   )
 }
 
-export const useGetNFTs = (address: string) => {
+export const useGetNFTs = (address?: string) => {
   return useQuery(["getNFTs", address], async () => {
     if (!address) {
       return null
@@ -374,7 +373,7 @@ export const useGetTips = (
   })
 }
 
-export const useGetAchievements = (characterId?: string) => {
+export const useGetAchievements = (characterId?: number) => {
   return useQuery(["getAchievements", characterId], async () => {
     if (!characterId) {
       return null
@@ -400,7 +399,7 @@ export const useMintAchievement = () => {
   )
 }
 
-export const useGetMiraBalance = (characterId?: string) => {
+export const useGetMiraBalance = (characterId?: number) => {
   const contract = useContract()
   return useQuery(["getMiraBalance", characterId], async () => {
     if (!characterId) {

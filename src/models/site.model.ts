@@ -5,7 +5,7 @@ import type Unidata from "unidata.js"
 import type { useContract } from "@crossbell/contract"
 import { cacheExchange, createClient, fetchExchange } from "@urql/core"
 
-import { expandUnidataProfile } from "~/lib/expand-unit"
+import { expandCrossbellCharacter } from "~/lib/expand-unit"
 import { Profile, SiteNavigationItem } from "~/lib/types"
 import unidata from "~/queries/unidata.server"
 
@@ -13,40 +13,21 @@ type Contract = ReturnType<typeof useContract>
 
 const indexer = new Indexer()
 
-export const getSite = async (input: string, customUnidata?: Unidata) => {
-  const profiles = await (customUnidata || unidata).profiles.get({
-    source: "Crossbell Profile",
-    identity: input,
-    platform: "Crossbell",
-  })
-
-  const site: Profile = profiles.list[0]
-  if (site) {
-    expandUnidataProfile(site)
+export const getSite = async (input: string) => {
+  const result = await indexer.getCharacterByHandle(input)
+  if (result) {
+    return expandCrossbellCharacter(result)
   }
-
-  return site
 }
 
-export const getSiteByAddress = async (
-  input: string,
-  customUnidata?: Unidata,
-) => {
-  const profiles = await (customUnidata || unidata).profiles.get({
-    source: "Crossbell Profile",
-    identity: input,
-    platform: "Ethereum",
-    filter: {
-      primary: true,
-    },
+export const getSiteByAddress = async (input: string) => {
+  const result = await indexer.getCharacters(input, {
+    primary: true,
   })
 
-  const site: Profile = profiles.list[0]
-  if (site) {
-    expandUnidataProfile(site)
+  if (result?.list?.[0]) {
+    return expandCrossbellCharacter(result.list[0])
   }
-
-  return site
 }
 
 export const getSubscriptionsFromList = async (
@@ -274,7 +255,7 @@ export async function subscribeToSites(
 }
 
 export async function getCommentsBySite(input: {
-  characterId: string
+  characterId?: number
   cursor?: string
 }) {
   const notes = await indexer.getNotes({
@@ -303,7 +284,7 @@ const xLogOperatorPermissions: CharacterOperatorPermission[] = [
 
 export async function addOperator(
   input: {
-    characterId: number
+    characterId?: number
     operator: string
   },
   contract?: Contract,
@@ -383,7 +364,7 @@ export async function getNFTs(address: string, customUnidata?: Unidata) {
   return assets
 }
 
-export async function getStat({ characterId }: { characterId: string }) {
+export async function getStat({ characterId }: { characterId: number }) {
   if (characterId) {
     const [stat, site, subscriptions, comments, notes] = await Promise.all([
       (
@@ -530,7 +511,7 @@ export type AchievementSection = {
   }[]
 }
 
-export async function getAchievements(characterId: string) {
+export async function getAchievements(characterId: number) {
   const crossbellAchievements = (await indexer.getAchievements(characterId))
     ?.list as AchievementSection[] | undefined
   const xLogAchievements: AchievementSection[] = [
@@ -606,13 +587,13 @@ export async function getAchievements(characterId: string) {
 }
 
 export async function mintAchievement(input: {
-  characterId: string
+  characterId: number
   achievementId: number
 }) {
   return indexer.mintAchievement(input.characterId, input.achievementId)
 }
 
-export async function getMiraBalance(characterId: string, contract: Contract) {
+export async function getMiraBalance(characterId: number, contract: Contract) {
   const decimals = await getMiraTokenDecimals(contract)
   const result = await contract.getMiraBalanceOfCharacter(characterId)
   result.data = (

@@ -5,13 +5,13 @@ import { useEffect, useState } from "react"
 import { Logo } from "~/components/common/Logo"
 import { Platform } from "~/components/site/Platform"
 import { SITE_URL } from "~/lib/env"
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, Note } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
 import { UniLink } from "../ui/UniLink"
 
 export const SiteFooter: React.FC<{
-  site?: Profile | null
+  site?: ExpandedCharacter
   page?: Note | null
 }> = ({ site, page }) => {
   const [logoType, setLogoType] = useState<"svg" | "png" | "lottie">("svg")
@@ -38,7 +38,7 @@ export const SiteFooter: React.FC<{
           <div className="font-medium text-base">
             <span>&copy; </span>
             <UniLink href="/" className="hover:text-accent">
-              <span>{site?.name}</span>
+              <span>{site?.metadata?.content?.name}</span>
             </UniLink>
             <span> · </span>
             <Trans
@@ -51,25 +51,32 @@ export const SiteFooter: React.FC<{
               ns="site"
             />
           </div>
-          {site?.connected_accounts && (
+          {site?.metadata?.content?.connected_accounts && (
             <div className="sm:-mr-5 sm:block inline-block align-middle mr-4">
-              {site?.connected_accounts.map((account, index) => (
-                <Platform
-                  key={index}
-                  platform={account.platform}
-                  username={account.identity}
-                  className="mr-2 sm:mr-5"
-                ></Platform>
-              ))}
+              {site?.metadata?.content?.connected_accounts.map(
+                (account, index) => {
+                  const match = account.match(/:\/\/account:(.*)@(.*)/)
+                  if (match) {
+                    return (
+                      <Platform
+                        key={account}
+                        platform={match[2]}
+                        username={match[1]}
+                        className="mr-2 sm:mr-5"
+                      ></Platform>
+                    )
+                  }
+                },
+              )}
             </div>
           )}
           <DarkModeSwitch />
         </div>
       </footer>
-      {site?.ga && (
+      {site?.metadata?.content?.ga && (
         <div className="xlog-google-analytics">
           <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=G-${site.ga}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=G-${site.metadata?.content?.ga}`}
             strategy="afterInteractive"
           />
           <Script id="google-analytics" strategy="afterInteractive">
@@ -78,7 +85,7 @@ export const SiteFooter: React.FC<{
             function gtag(){window.dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            gtag('config', 'G-${site.ga}');
+            gtag('config', 'G-${site.metadata?.content?.ga}');
           `}
           </Script>
         </div>

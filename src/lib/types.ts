@@ -1,4 +1,4 @@
-import { NoteEntity } from "crossbell.js"
+import { CharacterEntity, NoteEntity } from "crossbell.js"
 import { ReactElement } from "react"
 import type { Note as UniNote, Profile as UniProfile } from "unidata.js"
 
@@ -124,7 +124,13 @@ export type Profile = UniProfile & {
   description?: string
 }
 
-export type Profiles = {
-  total: number
-  list: Note[]
+export type ExpandedCharacter = CharacterEntity & {
+  metadata: {
+    content: {
+      navigation?: SiteNavigationItem[]
+      css?: string
+      ga?: string
+      custom_domain?: string
+    }
+  }
 }

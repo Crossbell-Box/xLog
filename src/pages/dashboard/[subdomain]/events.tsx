@@ -41,8 +41,8 @@ function SiteAvatar({ siteId }: { siteId: string }) {
           })}
         >
           <Avatar
-            images={site.data?.avatars || []}
-            name={site.data?.name || ""}
+            images={site.data?.metadata?.content?.avatars || []}
+            name={site.data?.metadata?.content?.name || ""}
             size={40}
           />
         </UniLink>

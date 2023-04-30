@@ -1,8 +1,9 @@
+import { CharacterEntity } from "crossbell.js"
 import { nanoid } from "nanoid"
 
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
-import { ExpandedNote, Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote, Note } from "~/lib/types"
 
 export const expandUnidataNote = async (page: Note, useStat?: boolean) => {
   if (page.body?.content && page.body?.mime_type === "text/markdown") {
@@ -45,47 +46,6 @@ export const expandUnidataNote = async (page: Note, useStat?: boolean) => {
   }
 
   return page
-}
-
-export const expandUnidataProfile = (site: Profile) => {
-  site.navigation = JSON.parse(
-    site.metadata?.raw?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_navigation",
-    )?.value || "null",
-  ) ||
-    site.metadata?.raw?.["_xlog_navigation"] ||
-    site.metadata?.raw?.["_crosslog_navigation"] || [
-      { id: nanoid(), label: "Archives", url: "/archives" },
-    ]
-  site.css =
-    site.metadata?.raw?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_css",
-    )?.value ||
-    site.metadata?.raw?.["_xlog_css"] ||
-    site.metadata?.raw?.["_crosslog_css"] ||
-    ""
-  site.ga =
-    site.metadata?.raw?.attributes?.find((a: any) => a.trait_type === "xlog_ga")
-      ?.value || ""
-  site.custom_domain =
-    site.metadata?.raw?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_custom_domain",
-    )?.value || ""
-  site.name = site.name || site.username
-  site.description = site.bio
-
-  if (site.avatars) {
-    site.avatars = site.avatars.map((avatar) => toGateway(avatar))
-  }
-  if (site.banners) {
-    site.banners.map((banner) => {
-      banner.address = toGateway(banner.address)
-      return banner
-    })
-  }
-  delete site.metadata?.raw
-
-  return site
 }
 
 export const expandCrossbellNote = async (
@@ -150,4 +110,50 @@ export const expandCrossbellNote = async (
   }
 
   return page
+}
+
+export const expandCrossbellCharacter = (site: CharacterEntity) => {
+  const expandedCharacter: ExpandedCharacter = Object.assign(
+    {
+      metadata: {
+        content: {},
+      },
+    },
+    site,
+  )
+
+  expandedCharacter.metadata.content.navigation = JSON.parse(
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_navigation",
+    )?.value as string) || "null",
+  ) || [{ id: nanoid(), label: "Archives", url: "/archives" }]
+  expandedCharacter.metadata.content.css =
+    expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_css",
+    )?.value as string
+  expandedCharacter.metadata.content.ga =
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_ga",
+    )?.value as string) || ""
+  expandedCharacter.metadata.content.custom_domain =
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_custom_domain",
+    )?.value as string) || ""
+  expandedCharacter.metadata.content.name =
+    expandedCharacter.metadata.content.name || expandedCharacter.handle
+
+  if (expandedCharacter.metadata.content.avatars) {
+    expandedCharacter.metadata.content.avatars =
+      expandedCharacter.metadata.content.avatars.map((avatar) =>
+        toGateway(avatar),
+      )
+  }
+  if (expandedCharacter.metadata.content.banners) {
+    expandedCharacter.metadata.content.banners.map((banner) => {
+      banner.address = toGateway(banner.address)
+      return banner
+    })
+  }
+
+  return expandedCharacter
 }

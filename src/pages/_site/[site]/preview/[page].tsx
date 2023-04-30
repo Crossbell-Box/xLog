@@ -70,7 +70,7 @@ function SitePagePage() {
             }
           : null
       }
-      site={site.data}
+      site={site.data || undefined}
     />
   )
 }

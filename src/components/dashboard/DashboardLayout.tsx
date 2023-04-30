@@ -168,13 +168,15 @@ export function DashboardLayout({
     hasPermission ? (
       <>
         <SEOHead title={t(title) || ""} siteName={APP_NAME} />
-        {site?.data?.css && (
+        {site?.data?.metadata?.content?.css && (
           <link
             type="text/css"
             rel="stylesheet"
             href={
               "data:text/css;base64," +
-              Buffer.from(toGateway(site.data.css)).toString("base64")
+              Buffer.from(toGateway(site.data.metadata?.content?.css)).toString(
+                "base64",
+              )
             }
           />
         )}
@@ -281,15 +283,17 @@ export function DashboardLayout({
                             {isOpen && "You are operating"}
                           </div>
                           <Avatar
-                            images={site.data?.avatars || []}
+                            images={site.data?.metadata?.content?.avatars || []}
                             size={isOpen ? 60 : 40}
-                            name={site.data?.name}
+                            name={site.data?.metadata?.content?.name}
                           />
                           {isOpen && (
                             <span className="flex flex-col justify-center">
-                              <span className="block">{site.data?.name}</span>
+                              <span className="block">
+                                {site.data?.metadata?.content?.name}
+                              </span>
                               <span className="block text-sm text-zinc-400">
-                                @{site.data?.username}
+                                @{site.data?.handle}
                               </span>
                             </span>
                           )}

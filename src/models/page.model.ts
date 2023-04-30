@@ -1,6 +1,11 @@
 import axios from "axios"
 import { NoteMetadata } from "crossbell.js"
-import type { Contract } from "crossbell.js"
+import type {
+  CharacterEntity,
+  Contract,
+  ListResponse,
+  MintedNoteEntity,
+} from "crossbell.js"
 import type Unidata from "unidata.js"
 
 import { GeneralAccount } from "@crossbell/connect-kit"
@@ -130,7 +135,7 @@ export async function createOrUpdatePage(
 export async function postNotes(
   input: {
     siteId: string
-    characterId: string
+    characterId: number
     notes: NoteMetadata[]
   },
   contract?: Contract,
@@ -299,7 +304,7 @@ export async function getPagesBySite(
 }
 
 export async function getSearchPagesBySite(input: {
-  characterId?: string
+  characterId?: number
   keyword?: string
   cursor?: string
 }) {
@@ -506,7 +511,11 @@ export async function getMints({
     )
   }
 
-  return data
+  return data as ListResponse<
+    MintedNoteEntity & {
+      character: CharacterEntity
+    }
+  >
 }
 
 export async function checkMint({
@@ -599,7 +608,7 @@ export async function getSummary({
   ).data
 }
 
-export async function checkMirror(characterId: string) {
+export async function checkMirror(characterId: number) {
   const notes = await indexer.getNotes({
     characterId,
     sources: ["xlog"],
