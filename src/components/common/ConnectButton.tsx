@@ -109,7 +109,7 @@ export const ConnectButton: React.FC<{
   }, [balance])
 
   const dropdownLinks: HeaderLinkType[] = [
-    userSites.data?.[0]?.username
+    account?.character
       ? {
           icon: "icon-[mingcute--home-1-line]",
           label: t("My xLog") || "",
