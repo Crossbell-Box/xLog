@@ -9,6 +9,7 @@ import { getServerSideProps as getLayoutServerSideProps } from "~/components/sit
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { PageVisibilityEnum } from "~/lib/types"
 import { useGetPagesBySiteLite } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   async (ctx) => {
@@ -18,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
       ctx,
       queryClient,
       {
-        take: 100,
+        limit: 100,
       },
     )
 
@@ -36,16 +37,17 @@ function SiteArchivesPage({
 }: {
   domainOrSubdomain: string
 }) {
+  const site = useGetSite(domainOrSubdomain)
   const posts = useGetPagesBySiteLite({
-    site: domainOrSubdomain,
-    take: 100,
+    characterId: site.data?.characterId,
+    limit: 100,
     type: "post",
     visibility: PageVisibilityEnum.Published,
   })
 
   return (
     <SiteArchives
-      postPages={posts.data?.pages}
+      posts={posts.data}
       fetchNextPage={posts.fetchNextPage}
       hasNextPage={posts.hasNextPage}
       isFetchingNextPage={posts.isFetchingNextPage}

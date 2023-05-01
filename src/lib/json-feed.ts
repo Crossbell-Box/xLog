@@ -16,7 +16,7 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
   const site = await fetchGetSite(domainOrSubdomain, queryClient)
   const pages = await fetchGetPagesBySite(
     {
-      site: domainOrSubdomain,
+      characterId: site?.characterId,
       type: "post",
       visibility: PageVisibilityEnum.Published,
       keepBody: true,
@@ -24,7 +24,7 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
     queryClient,
   )
 
-  const hasAudio = pages.list?.find((page) => page.audio)
+  const hasAudio = pages.list?.find((page) => page.metadata?.content?.audio)
 
   const link = getSiteLink({
     subdomain: site?.handle || "",
@@ -44,28 +44,28 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
       },
     }),
     items: pages.list?.map((page) => ({
-      id: page.id,
-      title: page.title,
+      id: page.characterId + "-" + page.noteId,
+      title: page.metadata?.content?.title,
       content_html:
-        page.body?.content &&
-        renderPageContent(page.body?.content, true).contentHTML,
-      summary: page.summary?.content,
-      url: `${link}/${page.slug || page.id}`,
-      image: page.cover,
-      date_published: page.date_published,
-      date_modified: page.date_updated,
-      tags: page.tags,
+        page.metadata?.content?.content &&
+        renderPageContent(page.metadata?.content?.content, true).contentHTML,
+      summary: page.metadata?.content?.summary,
+      url: `/api/redirection?characterId=${page.characterId}&noteId=${page.noteId}`,
+      image: page.metadata?.content?.cover,
+      date_published: page.metadata?.content?.date_published,
+      date_modified: page.updatedAt,
+      tags: page.metadata?.content?.tags,
       author: site?.metadata?.content?.name,
-      ...(page.audio && {
+      ...(page.metadata?.content?.audio && {
         _itunes: {
-          image: page.cover,
-          summary: page.summary?.content,
+          image: page.metadata?.content?.cover,
+          summary: page.metadata?.content?.summary,
         },
         attachments: [
           {
-            url: page.audio,
+            url: page.metadata?.content?.audio,
             mime_type: "audio/mpeg",
-            title: page.title,
+            title: page.metadata?.content?.title,
           },
         ],
       }),

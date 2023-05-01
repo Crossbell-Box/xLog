@@ -5,15 +5,14 @@ import { useEffect, useState } from "react"
 import { Logo } from "~/components/common/Logo"
 import { Platform } from "~/components/site/Platform"
 import { SITE_URL } from "~/lib/env"
-import { ExpandedCharacter, Note } from "~/lib/types"
+import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
 import { UniLink } from "../ui/UniLink"
 
 export const SiteFooter: React.FC<{
   site?: ExpandedCharacter
-  page?: Note | null
-}> = ({ site, page }) => {
+}> = ({ site }) => {
   const [logoType, setLogoType] = useState<"svg" | "png" | "lottie">("svg")
 
   useEffect(() => {

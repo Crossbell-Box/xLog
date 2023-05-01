@@ -12,7 +12,6 @@ import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
 import { noopArr } from "~/lib/noop"
 import { cn } from "~/lib/utils"
-import { parsePageId } from "~/models/page.model"
 import { useCheckMint, useGetMints, useMintPage } from "~/queries/page"
 
 import { AvatarStack } from "../ui/AvatarStack"
@@ -20,8 +19,9 @@ import { Button } from "../ui/Button"
 
 export const ReactionMint: React.FC<{
   size?: "sm" | "base"
-  pageId?: string
-}> = ({ size, pageId }) => {
+  noteId?: number
+  characterId?: number
+}> = ({ size, noteId, characterId }) => {
   const mintPage = useMintPage()
   const { t } = useTranslation("common")
 
@@ -32,17 +32,24 @@ export const ReactionMint: React.FC<{
   const mintRef = useRef<HTMLButtonElement>(null)
 
   const mints = useGetMints({
-    pageId: pageId,
+    characterId,
+    noteId,
     includeCharacter: size !== "sm",
   })
-  const isMint = useCheckMint(pageId)
+  const isMint = useCheckMint({
+    characterId,
+    noteId,
+  })
 
   const mint = () => {
-    if (pageId) {
+    if (characterId && noteId) {
       if (isMint.data?.count) {
         setIsMintOpen(true)
       } else {
-        mintPage.mutate(parsePageId(pageId))
+        mintPage.mutate({
+          characterId,
+          noteId,
+        })
       }
     }
   }

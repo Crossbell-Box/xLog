@@ -3,25 +3,26 @@ import { useTranslation } from "next-i18next"
 import { Disclosure } from "@headlessui/react"
 
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
-import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
+import { CSB_SCAN } from "~/lib/env"
 import { toCid, toGateway, toIPFS } from "~/lib/ipfs-parser"
-import { ExpandedCharacter, Note } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetGreenfieldId } from "~/queries/site"
 
 export const BlockchainInfo: React.FC<{
   site?: ExpandedCharacter
-  page?: Note | null
+  page?: ExpandedNote
 }> = ({ site, page }) => {
   const { t } = useTranslation(["common", "site"])
 
-  const ipfs =
-    (page
-      ? page.related_urls?.filter((url) => url.startsWith(IPFS_GATEWAY))?.[0]
-      : site?.metadata?.uri) || ""
+  const ipfs = (page ? page.metadata?.uri : site?.metadata?.uri) || ""
   const greenfieldId = useGetGreenfieldId(toCid(ipfs))
 
-  const type = page ? (page?.tags?.includes("post") ? "post" : "page") : "blog"
+  const type = page
+    ? page?.metadata?.content?.tags?.includes("post")
+      ? "post"
+      : "page"
+    : "blog"
 
   return (
     <div className="text-sm">
@@ -55,12 +56,10 @@ export const BlockchainInfo: React.FC<{
                   <div className="font-medium">{t("Owner")}</div>
                   <div>
                     <BlockchainInfoLink
-                      href={`${CSB_SCAN}/address/${
-                        page?.metadata?.owner || site?.owner
-                      }`}
-                      key={page?.metadata?.owner || site?.owner}
+                      href={`${CSB_SCAN}/address/${page?.owner || site?.owner}`}
+                      key={page?.owner || site?.owner}
                     >
-                      {page?.metadata?.owner || site?.owner}
+                      {page?.owner || site?.owner}
                     </BlockchainInfoLink>
                   </div>
                 </li>
@@ -68,18 +67,23 @@ export const BlockchainInfo: React.FC<{
                   <div className="font-medium">{t("Transaction Hash")}</div>
                   <div>
                     {page ? (
-                      page?.related_urls
-                        ?.filter((url) => url.startsWith(CSB_SCAN + "/tx/"))
-                        .map((url, index) => {
-                          return (
-                            <BlockchainInfoLink href={url} key={url}>
-                              {t(index === 0 ? "Creation" : "Last Update")}{" "}
-                              {url.replace(CSB_SCAN + "/tx/", "").slice(0, 10)}
-                              ...
-                              {url.replace(CSB_SCAN + "/tx/", "").slice(-10)}
-                            </BlockchainInfoLink>
-                          )
-                        })
+                      <>
+                        <BlockchainInfoLink
+                          href={`${CSB_SCAN}/tx/${page?.transactionHash}`}
+                          key={page?.transactionHash}
+                        >
+                          {t("Creation")} {page?.transactionHash.slice(0, 10)}
+                          ...{page?.transactionHash.slice(-10)}
+                        </BlockchainInfoLink>
+                        <BlockchainInfoLink
+                          href={`${CSB_SCAN}/tx/${page?.updatedTransactionHash}`}
+                          key={page?.updatedTransactionHash}
+                        >
+                          {t("Last Update")}{" "}
+                          {page?.updatedTransactionHash.slice(0, 10)}...
+                          {page?.updatedTransactionHash.slice(-10)}
+                        </BlockchainInfoLink>
+                      </>
                     ) : (
                       <>
                         <BlockchainInfoLink

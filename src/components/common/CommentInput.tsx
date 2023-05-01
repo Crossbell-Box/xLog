@@ -14,13 +14,22 @@ import { useCommentPage, useUpdateComment } from "~/queries/page"
 import { EmojiPicker } from "./EmojiPicker"
 
 export const CommentInput: React.FC<{
-  pageId?: string
-  originalId?: string
+  characterId?: number
+  noteId?: number
+  originalCharacterId?: number
+  originalNoteId?: number
   onSubmitted?: () => void
   comment?: NoteEntity & {
     character?: CharacterEntity | null
   }
-}> = ({ pageId, originalId, onSubmitted, comment }) => {
+}> = ({
+  characterId,
+  noteId,
+  originalCharacterId,
+  originalNoteId,
+  onSubmitted,
+  comment,
+}) => {
   const account = useAccountState((s) => s.computed.account)
   const commentPage = useCommentPage()
   const updateComment = useUpdateComment()
@@ -33,24 +42,26 @@ export const CommentInput: React.FC<{
   })
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    if (pageId) {
+    if (characterId && noteId) {
       if (comment) {
         if (values.content) {
           updateComment.mutate({
-            pageId,
             content: values.content,
             externalUrl: window.location.href,
-            originalId,
             characterId: comment.characterId,
             noteId: comment.noteId,
+            originalCharacterId,
+            originalNoteId,
           })
         }
       } else {
         commentPage.mutate({
-          pageId: pageId,
+          characterId,
+          noteId,
           content: values.content,
           externalUrl: window.location.href,
-          originalId: originalId,
+          originalCharacterId,
+          originalNoteId,
         })
       }
     }

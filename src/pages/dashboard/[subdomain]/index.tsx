@@ -97,8 +97,8 @@ export default function SubdomainIndex() {
 
   const pages = useGetPagesBySite({
     type: "post",
-    site: "xlog",
-    take: 4,
+    characterId: 32022,
+    limit: 4,
   })
 
   const showcaseSites = useGetShowcase()
@@ -210,22 +210,24 @@ export default function SubdomainIndex() {
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
               {pages.data?.pages[0]?.list.map((item) => (
                 <UniLink
-                  href={`${getSiteLink({ subdomain: "xlog" })}/${item.slug}`}
-                  key={item.id}
+                  href={`${getSiteLink({ subdomain: "xlog" })}/${
+                    item.metadata?.content?.slug
+                  }`}
+                  key={item.transactionHash}
                   className="bg-slate-100 rounded-lg flex flex-col py-4 px-6"
                 >
-                  {item.cover && (
+                  {item.metadata?.content?.cover && (
                     <div className="w-full h-24">
                       <Image
                         className="object-cover rounded"
                         alt="cover"
                         fill={true}
-                        src={item.cover}
+                        src={item.metadata?.content?.cover}
                       ></Image>
                     </div>
                   )}
                   <span className="font-bold text-sm text-zinc-800 leading-tight mt-4">
-                    {item.title}
+                    {item.metadata?.content?.title}
                   </span>
                 </UniLink>
               ))}

@@ -32,7 +32,7 @@ let redisPromise: Promise<Redis | null> = new Promise((resolve, reject) => {
 export const getRedis = () => redisPromise
 
 export async function cacheGet(options: {
-  key: string | (Record<string, any> | string | undefined)[]
+  key: string | (Record<string, any> | string | undefined | number)[]
   getValueFun: () => Promise<any>
   noUpdate?: boolean
 }) {
@@ -59,7 +59,7 @@ export async function cacheGet(options: {
     } else {
       const value = await options.getValueFun()
       if (options.noUpdate) {
-        redis.set(redisKey, JSON.stringify(value))
+        await redis.set(redisKey, JSON.stringify(value))
       } else {
         redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
       }

@@ -8,7 +8,6 @@ import { SiteLayout } from "~/components/site/SiteLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { SitePage } from "~/components/site/SitePage"
 import { useUserRole } from "~/hooks/useUserRole"
-import { getDefaultSlug } from "~/lib/default-slug"
 import { getSiteLink } from "~/lib/helpers"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { useGetPage } from "~/queries/page"
@@ -42,34 +41,25 @@ function SitePagePage() {
   const pageSlug = router.query.page as string
   const userRole = useUserRole(domainOrSubdomain)
 
-  const page = useGetPage({
-    site: domainOrSubdomain,
-    pageId: pageSlug,
-  })
-
   const site = useGetSite(domainOrSubdomain)
+
+  const page = useGetPage({
+    characterId: site.data?.characterId,
+    slug: pageSlug,
+  })
 
   if (userRole.isSuccess && !userRole.data && page.isSuccess) {
     router.push(
-      `${getSiteLink({
+      getSiteLink({
         subdomain: domainOrSubdomain,
-      })}/${
-        page.data?.slug ||
-        getDefaultSlug(page.data?.title || "", page.data?.id || "")
-      }`,
+      }),
     )
   }
 
   return (
     <SitePage
-      page={
-        page.data
-          ? {
-              ...page.data,
-              preview: true,
-            }
-          : null
-      }
+      preview={true}
+      page={page.data || undefined}
       site={site.data || undefined}
     />
   )

@@ -39,21 +39,27 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
   const pageSlug = router.query.page as string
   const tag = router.query.tag as string
 
+  const site = useGetSite(domainOrSubdomain)
+
   const page = useGetPage({
-    site: domainOrSubdomain,
-    page: pageSlug,
+    characterId: site.data?.characterId,
+    slug: pageSlug,
     ...(useStat && {
       useStat: true,
     }),
   })
 
-  const site = useGetSite(domainOrSubdomain)
-
   const isConnected = useAccountState((s) => !!s.computed.account)
   const userRole = useUserRole(domainOrSubdomain)
   const subscription = useGetSubscription(site.data?.characterId)
-  const [{ isLiked }] = useCheckLike({ pageId: page.data?.id })
-  const isMint = useCheckMint(page.data?.id)
+  const [{ isLiked }] = useCheckLike({
+    characterId: page.data?.characterId,
+    noteId: page.data?.noteId,
+  })
+  const isMint = useCheckMint({
+    characterId: page.data?.characterId,
+    noteId: page.data?.noteId,
+  })
 
   useEffect(() => {
     if (site.data) {
@@ -83,14 +89,14 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
       )}
     >
       <SEOHead
-        title={title || tag || page.data?.title || ""}
+        title={title || tag || page.data?.metadata?.content?.title || ""}
         siteName={site.data?.metadata?.content?.name || ""}
         description={
-          page.data?.summary?.content ??
+          page.data?.metadata?.content?.summary ??
           site.data?.metadata?.content?.bio?.replace(/<[^>]*>/g, "")
         }
         image={
-          page.data?.cover ||
+          page.data?.metadata?.content?.cover ||
           getUserContentsUrl(site.data?.metadata?.content?.avatars?.[0])
         }
         icon={getUserContentsUrl(site.data?.metadata?.content?.avatars?.[0])}
@@ -100,18 +106,20 @@ export const SiteLayout: React.FC<SiteLayoutProps> = ({
       {site.data && <SiteHeader site={site.data} />}
       <div
         className={cn(
-          `xlog-post-id-${page.data?.id} max-w-screen-md mx-auto px-5 pt-12 relative`,
-          page.data?.tags?.map((tag) => `xlog-post-tag-${tag}`),
+          `xlog-post-id-${page.data?.characterId}-${page.data?.noteId} max-w-screen-md mx-auto px-5 pt-12 relative`,
+          page.data?.metadata?.content?.tags?.map(
+            (tag) => `xlog-post-tag-${tag}`,
+          ),
         )}
       >
         {children}
       </div>
       {site.data && (
         <div className="max-w-screen-md mx-auto pt-12 pb-10">
-          <BlockchainInfo site={site.data} page={page.data} />
+          <BlockchainInfo site={site.data} page={page.data || undefined} />
         </div>
       )}
-      <SiteFooter site={site.data || undefined} page={page.data} />
+      <SiteFooter site={site.data || undefined} />
 
       <FABContainer>
         <BackToTopFAB />

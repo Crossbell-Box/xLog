@@ -26,7 +26,6 @@ export enum PageVisibilityEnum {
   Published = "published",
   Scheduled = "scheduled",
   Draft = "draft",
-  Crossbell = "crossbell",
   Modified = "published and local modified",
 }
 
@@ -91,6 +90,7 @@ export type Note = UniNote & {
 }
 
 export type ExpandedNote = NoteEntity & {
+  draftKey?: string
   metadata: {
     content: {
       summary?: string
@@ -98,6 +98,7 @@ export type ExpandedNote = NoteEntity & {
       frontMatter?: Record<string, any>
       slug?: string
       views?: number
+      audio?: string
       score?: {
         number?: number
         reason?: string
@@ -108,6 +109,7 @@ export type ExpandedNote = NoteEntity & {
     viewDetailCount: number
     hotScore?: number
   }
+  local?: boolean
 }
 
 export type Notes = {

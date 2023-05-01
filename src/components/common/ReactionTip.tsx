@@ -6,18 +6,18 @@ import { useAccountState } from "@crossbell/connect-kit"
 import { PatronModal } from "~/components/common/PatronModal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { noopArr } from "~/lib/noop"
-import { ExpandedCharacter, Note } from "~/lib/types"
-import { parsePageId } from "~/models/page.model"
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { useGetTips } from "~/queries/site"
 
 import { AvatarStack } from "../ui/AvatarStack"
 import { Button } from "../ui/Button"
 
 export const ReactionTip: React.FC<{
-  pageId?: string
+  characterId?: number
+  noteId?: number
   site?: ExpandedCharacter
-  page?: Note | null
-}> = ({ pageId, site, page }) => {
+  page?: ExpandedNote
+}> = ({ characterId, noteId, site, page }) => {
   const { t } = useTranslation("common")
 
   const account = useAccountState((s) => s.computed.account)
@@ -25,7 +25,6 @@ export const ReactionTip: React.FC<{
   const [isTipOpen, setIsTipOpen] = useState(false)
   const tipRef = useRef<HTMLButtonElement>(null)
 
-  const { characterId, noteId } = parsePageId(pageId || "")
   const tips = useGetTips({
     toCharacterId: characterId,
     toNoteId: noteId,
@@ -37,7 +36,7 @@ export const ReactionTip: React.FC<{
   })
 
   const tip = () => {
-    if (pageId) {
+    if (characterId && noteId) {
       setIsTipOpen(true)
     }
   }

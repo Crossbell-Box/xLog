@@ -18,10 +18,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const site = await fetchGetSite(domainOrSubdomain, queryClient)
   const pages = await fetchGetPagesBySite(
     {
-      site: domainOrSubdomain,
+      characterId: site?.characterId,
       type: "post",
       visibility: PageVisibilityEnum.Published,
-      take: 1000,
+      limit: 1000,
     },
     queryClient,
   )

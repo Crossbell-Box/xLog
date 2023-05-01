@@ -3,16 +3,17 @@ import Head from "next/head"
 import serialize from "serialize-javascript"
 
 import { getSiteLink } from "~/lib/helpers"
-import { ExpandedCharacter, Note } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { PageContent } from "../common/PageContent"
 import { PostFooter } from "./PostFooter"
 import { PostMeta } from "./PostMeta"
 
 export const SitePage: React.FC<{
-  page?: Note | null
+  page?: ExpandedNote
   site?: ExpandedCharacter
-}> = ({ page, site }) => {
+  preview?: boolean
+}> = ({ page, site, preview }) => {
   const { t } = useTranslation("site")
 
   function addPageJsonLd() {
@@ -20,12 +21,12 @@ export const SitePage: React.FC<{
       __html: serialize({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        headline: page?.title,
-        ...(page?.cover && {
-          image: [page?.cover],
+        headline: page?.metadata?.content?.title,
+        ...(page?.metadata?.content?.cover && {
+          image: [page?.metadata?.content?.cover],
         }),
-        datePublished: page?.date_published,
-        dateModified: page?.date_updated,
+        datePublished: page?.metadata?.content?.date_published,
+        dateModified: page?.updatedAt,
         author: [
           {
             "@type": "Person",
@@ -47,7 +48,7 @@ export const SitePage: React.FC<{
           dangerouslySetInnerHTML={addPageJsonLd()}
         />
       </Head>
-      {page?.preview && (
+      {preview && (
         <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
           {t(
             "This address is in local editing preview mode and cannot be viewed by the public.",
@@ -56,20 +57,22 @@ export const SitePage: React.FC<{
       )}
       <article>
         <div>
-          {page?.tags?.includes("post") ? (
-            <h2 className="xlog-post-title text-4xl font-bold">{page.title}</h2>
+          {page?.metadata?.content?.tags?.includes("post") ? (
+            <h2 className="xlog-post-title text-4xl font-bold">
+              {page.metadata?.content?.title}
+            </h2>
           ) : (
             <h2 className="xlog-post-title text-xl font-bold page-title">
-              {page?.title}
+              {page?.metadata?.content?.title}
             </h2>
           )}
-          {page?.tags?.includes("post") && !page?.preview && (
+          {page?.metadata?.content?.tags?.includes("post") && !preview && (
             <PostMeta page={page} site={site} />
           )}
         </div>
         <PageContent
           className="mt-10"
-          content={page?.body?.content}
+          content={page?.metadata?.content?.content}
           toc={true}
         ></PageContent>
       </article>

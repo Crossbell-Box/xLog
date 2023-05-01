@@ -16,7 +16,7 @@ export const getServerSideProps = async (
   ctx: any,
   queryClient: QueryClient,
   options?: {
-    take?: number
+    limit?: number
     useStat?: boolean
     skipPages?: boolean
     preview?: boolean
@@ -48,8 +48,8 @@ export const getServerSideProps = async (
           try {
             const page = await fetchGetPage(
               {
-                site: domainOrSubdomain,
-                page: pageSlug,
+                characterId: site.characterId,
+                slug: pageSlug,
                 ...(options?.useStat && {
                   useStat: true,
                 }),
@@ -57,7 +57,11 @@ export const getServerSideProps = async (
               queryClient,
             )
 
-            if (!page || new Date(page!.date_published) > new Date()) {
+            if (
+              !page ||
+              new Date(page!.metadata?.content?.date_published || "") >
+                new Date()
+            ) {
               reject(notFound())
             }
           } catch (error) {
@@ -67,8 +71,8 @@ export const getServerSideProps = async (
           if (!options?.skipPages) {
             await prefetchGetPagesBySite(
               {
-                site: domainOrSubdomain,
-                ...(options?.take && { take: options.take }),
+                characterId: site.characterId,
+                ...(options?.limit && { limit: options.limit }),
                 type: "post",
                 visibility: PageVisibilityEnum.Published,
                 ...(tag && { tags: [tag] }),

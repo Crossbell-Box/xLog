@@ -9,19 +9,18 @@ export const fetchGetPage = async (
   input: Parameters<typeof pageModel.getPage>[0],
   queryClient: QueryClient,
 ) => {
-  const key = ["getPage", input.page, input]
+  const key = ["getPage", input.characterId, input]
   return await queryClient.fetchQuery(key, async () => {
-    if (!input.pageId) {
-      if (!input.page || !input.site) {
-        return null
-      }
-      const slug2Id = await getIdBySlug(input.page, input.site)
+    if (!input.characterId || !input.slug) {
+      return null
+    }
+    if (!input.noteId) {
+      const slug2Id = await getIdBySlug(input.slug, input.characterId)
       if (!slug2Id?.noteId) {
         return null
       }
-      input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
+      input.noteId = slug2Id.noteId
     }
-    delete input.page
     return cacheGet({
       key,
       getValueFun: () => pageModel.getPage(input),
@@ -33,7 +32,7 @@ export const prefetchGetPagesBySite = async (
   input: Parameters<typeof pageModel.getPagesBySite>[0],
   queryClient: QueryClient,
 ) => {
-  const key = ["getPagesBySite", input.site, input]
+  const key = ["getPagesBySite", input.characterId, input]
   await queryClient.prefetchInfiniteQuery({
     queryKey: key,
     queryFn: async ({ pageParam }) => {
@@ -54,7 +53,7 @@ export const fetchGetPagesBySite = async (
   input: Parameters<typeof pageModel.getPagesBySite>[0],
   queryClient: QueryClient,
 ) => {
-  const key = ["getPagesBySite", input.site, input]
+  const key = ["getPagesBySite", input.characterId, input]
   return await queryClient.fetchQuery(key, async () => {
     return cacheGet({
       key,

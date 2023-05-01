@@ -11,8 +11,7 @@ import { Button } from "~/components/ui/Button"
 import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN, MIRA_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { ExpandedCharacter, Note } from "~/lib/types"
-import { parsePageId } from "~/models/page.model"
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { useGetTips, useTipCharacter } from "~/queries/site"
 
 import { Tabs } from "../ui/Tabs"
@@ -21,16 +20,22 @@ import { CharacterFloatCard } from "./CharacterFloatCard"
 
 export const PatronModal: React.FC<{
   site?: ExpandedCharacter
-  page?: Note | null
+  page?: ExpandedNote
   open: boolean
   setOpen: (open: boolean) => void
 }> = ({ site, page, open, setOpen }) => {
   const { t } = useTranslation("common")
   const tipCharacter = useTipCharacter()
-  const tips = useGetTips({
-    toCharacterId: site?.characterId,
-    toNoteId: parsePageId(page?.id || "").noteId,
-  })
+  const tips = useGetTips(
+    page
+      ? {
+          toCharacterId: page?.characterId,
+          toNoteId: page?.noteId,
+        }
+      : {
+          toCharacterId: site?.characterId,
+        },
+  )
   const connectModal = useConnectModal()
 
   const radios = [
@@ -71,7 +76,7 @@ export const PatronModal: React.FC<{
         fromCharacterId: currentCharacterId,
         toCharacterId: site?.characterId,
         amount: parseInt(value),
-        noteId: parsePageId(page?.id || "").noteId,
+        noteId: page?.noteId,
       })
     } else {
       setOpen(false)
@@ -112,7 +117,7 @@ export const PatronModal: React.FC<{
   const title =
     (page
       ? t("Tip the post: {{name}}", {
-          name: page.title,
+          name: page.metadata?.content?.title,
         })
       : t("Become a patron of {{name}}", {
           name: site?.metadata?.content?.name,

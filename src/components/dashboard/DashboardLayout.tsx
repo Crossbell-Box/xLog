@@ -71,15 +71,15 @@ export function DashboardLayout({
 
   const pages = useGetPagesBySite({
     type: "post",
-    site: "xlog-events",
-    take: 1,
+    characterId: 50153,
+    limit: 1,
   })
   const [isEventsAllRead, setIsEventsAllRead] = React.useState(true)
   const latestEventRead = getStorage("latestEventRead")?.value || 0
   useEffect(() => {
     if (pages.isSuccess) {
       if (
-        new Date(pages.data.pages[0].list?.[0].date_created) >
+        new Date(pages.data.pages[0].list?.[0].createdAt) >
         new Date(latestEventRead)
       ) {
         setIsEventsAllRead(false)

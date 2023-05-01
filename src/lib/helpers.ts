@@ -1,6 +1,6 @@
 import { NoteEntity } from "crossbell.js"
 
-import { ExpandedCharacter, Note } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { IS_PROD, IS_VERCEL_PREVIEW } from "./constants"
 import { OUR_DOMAIN } from "./env"
@@ -51,8 +51,10 @@ export const getNoteSlug = (note: NoteEntity) => {
   )?.toLowerCase?.()
 }
 
-export const getNoteSlugFromNote = (page: Note) => {
-  return page.attributes?.find(($) => $.trait_type === "xlog_slug")?.value
+export const getNoteSlugFromNote = (page: ExpandedNote) => {
+  return page.metadata?.content?.attributes?.find(
+    ($) => $.trait_type === "xlog_slug",
+  )?.value
 }
 
 export const getTwitterShareUrl = ({
@@ -60,7 +62,7 @@ export const getTwitterShareUrl = ({
   site,
   t,
 }: {
-  page: Note
+  page: ExpandedNote
   site: ExpandedCharacter
   t: (key: string, options?: any) => string
 }) => {
@@ -77,7 +79,7 @@ export const getTwitterShareUrl = ({
     t(
       `Published a new post on my blockchain blog: {{title}}. Check it out now!`,
       {
-        title: page.title,
+        title: page.metadata?.content?.title,
       },
     ),
   )}`
