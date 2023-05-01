@@ -6,7 +6,7 @@ import type { InfiniteData } from "@tanstack/react-query"
 
 import { Button } from "~/components/ui/Button"
 import { useDate } from "~/hooks/useDate"
-import { ExpandedNote, Note } from "~/lib/types"
+import { ExpandedNote } from "~/lib/types"
 
 import { EmptyState } from "../ui/EmptyState"
 import { UniLink } from "../ui/UniLink"
@@ -33,7 +33,7 @@ export const SiteArchives: React.FC<{
   const date = useDate()
   const { t } = useTranslation(["common", "site"])
 
-  const groupedByYear = useMemo<Map<string, Note[]>>(() => {
+  const groupedByYear = useMemo<Map<string, ExpandedNote[]>>(() => {
     const map = new Map()
 
     if (posts?.pages?.length) {
@@ -118,14 +118,18 @@ export const SiteArchives: React.FC<{
                   {posts.map((post) => {
                     return (
                       <Link
-                        key={post.id}
-                        href={`/${post.slug || post.id}`}
+                        key={post.transactionHash}
+                        href={`/${post.metadata?.content?.slug}`}
                         className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-hover"
                       >
-                        <span className="text-zinc-700">{post.title}</span>
+                        <span className="text-zinc-700">
+                          {post.metadata?.content?.title}
+                        </span>
                         <span className="text-zinc-400 mr-3 whitespace-nowrap">
                           {t("intlDateTime", {
-                            val: new Date(post.date_published),
+                            val: new Date(
+                              post.metadata?.content?.date_published || "",
+                            ),
                             formatParams: {
                               val: {
                                 month: "short",

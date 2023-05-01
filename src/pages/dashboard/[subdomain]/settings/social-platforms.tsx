@@ -16,7 +16,6 @@ import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
-import { Profile } from "~/lib/types"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
@@ -31,7 +30,11 @@ export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
   },
 )
 
-type Item = Required<Profile>["connected_accounts"][number] & {
+type Item = {
+  identity: string
+  platform: string
+  url?: string | undefined
+} & {
   id: string
 }
 

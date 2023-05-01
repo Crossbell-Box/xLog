@@ -5,7 +5,7 @@ import type { useContract } from "@crossbell/contract"
 import { cacheExchange, createClient, fetchExchange } from "@urql/core"
 
 import { expandCrossbellCharacter } from "~/lib/expand-unit"
-import { Profile, SiteNavigationItem } from "~/lib/types"
+import { SiteNavigationItem } from "~/lib/types"
 
 type Contract = ReturnType<typeof useContract>
 
@@ -111,7 +111,11 @@ export async function updateSite(
       address: string
       mime_type: string
     }
-    connected_accounts?: Profile["connected_accounts"]
+    connected_accounts?: {
+      identity: string
+      platform: string
+      url?: string | undefined
+    }[]
   },
   customUnidata?: Unidata,
   newbieToken?: string,
@@ -178,25 +182,6 @@ export async function updateSite(
       newbieToken,
     },
   )
-}
-
-export async function subscribeToSites(
-  input: {
-    user: Profile
-    sites: {
-      characterId: string
-    }[]
-  },
-  contract?: Contract,
-) {
-  if (input.user.metadata?.proof) {
-    return contract?.linkCharactersInBatch(
-      input.user.metadata.proof,
-      input.sites.map((s) => s.characterId).filter((c) => c) as any,
-      [],
-      "follow",
-    )
-  }
 }
 
 export async function getCommentsBySite(input: {
