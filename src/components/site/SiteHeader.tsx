@@ -336,7 +336,7 @@ export const SiteHeader: React.FC<{
         </div>
         <div className="xlog-site-navigation__root text-gray-500 flex items-center justify-between w-full mt-auto relative">
           {!!autoThemeColor && (
-            <div className="xlog-site-navigation__mask before:inset-0 before:bg-gray-100 before:opacity-30 before:absolute before:left-[-100vw] before:right-[-100vw]" />
+            <div className="xlog-site-navigation__mask before:inset-0 before:bg-gray-800 before:backdrop-blur-md before:opacity-30 before:absolute before:left-[-100vw] before:right-[-100vw]" />
           )}
           <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto text-sm sm:text-base">
             {leftLinks.map((link, i) => {
