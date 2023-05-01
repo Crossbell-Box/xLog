@@ -22,10 +22,11 @@ export const CommentItem: React.FC<{
   comment: NoteEntity & {
     character?: CharacterEntity | null
   }
-  originalId?: string
+  originalCharacterId?: number
+  originalNoteId?: number
   depth: number
   className?: string
-}> = ({ comment, originalId, depth, className }) => {
+}> = ({ comment, originalCharacterId, originalNoteId, depth, className }) => {
   const [replyOpen, setReplyOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
 
@@ -108,7 +109,8 @@ export const CommentItem: React.FC<{
             >
               <ReactionLike
                 size="sm"
-                pageId={`${comment.characterId}-${comment.noteId}`}
+                characterId={comment.characterId}
+                noteId={comment.noteId}
               />
             </div>
             {depth < 2 && (
@@ -137,8 +139,10 @@ export const CommentItem: React.FC<{
           {replyOpen && (
             <div className="pt-6">
               <CommentInput
-                originalId={originalId}
-                pageId={`${comment.characterId}-${comment.noteId}`}
+                originalCharacterId={originalCharacterId}
+                originalNoteId={originalNoteId}
+                characterId={comment.characterId}
+                noteId={comment.noteId}
                 onSubmitted={() => setReplyOpen(false)}
               />
             </div>
@@ -146,8 +150,10 @@ export const CommentItem: React.FC<{
           {editOpen && (
             <div className="pt-6">
               <CommentInput
-                originalId={originalId}
-                pageId={`${comment.characterId}-${comment.noteId}`}
+                originalCharacterId={originalCharacterId}
+                originalNoteId={originalNoteId}
+                characterId={comment.characterId}
+                noteId={comment.noteId}
                 onSubmitted={() => setEditOpen(false)}
                 comment={comment}
               />
@@ -164,7 +170,8 @@ export const CommentItem: React.FC<{
               },
             ) => (
               <CommentItem
-                originalId={originalId}
+                originalCharacterId={originalCharacterId}
+                originalNoteId={originalNoteId}
                 comment={subcomment}
                 key={subcomment.transactionHash}
                 depth={depth + 1}

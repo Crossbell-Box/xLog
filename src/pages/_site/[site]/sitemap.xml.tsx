@@ -18,17 +18,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const site = await fetchGetSite(domainOrSubdomain, queryClient)
   const pages = await fetchGetPagesBySite(
     {
-      site: domainOrSubdomain,
+      characterId: site?.characterId,
       type: "post",
       visibility: PageVisibilityEnum.Published,
-      take: 1000,
+      limit: 1000,
     },
     queryClient,
   )
 
   const link = getSiteLink({
-    domain: site.custom_domain,
-    subdomain: site.username || "",
+    domain: site?.metadata?.content?.custom_domain,
+    subdomain: site?.handle || "",
   })
   ctx.res.write(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

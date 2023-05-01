@@ -3,11 +3,11 @@ import { useState } from "react"
 
 import { PatronModal } from "~/components/common/PatronModal"
 import { Button } from "~/components/ui/Button"
-import { Profile } from "~/lib/types"
+import { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
 export const PatronButton: React.FC<{
-  site: Profile | undefined | null
+  site?: ExpandedCharacter
   className?: string
   size?: "sm" | "xl"
   loadingStatusChange?: (status: boolean) => void

@@ -2,14 +2,14 @@ import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
-import type { Note, Notes } from "unidata.js"
 
-import type { UseInfiniteQueryResult } from "@tanstack/react-query"
+import type { InfiniteData } from "@tanstack/react-query"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { type TabItem, Tabs } from "~/components/ui/Tabs"
 import { APP_NAME } from "~/lib/env"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
+import { ExpandedNote } from "~/lib/types"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
@@ -17,8 +17,10 @@ import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 export const PagesManagerBatchSelectActionTab: React.FC<{
   isPost: boolean
   isNotxLogContent: boolean
-  pages: UseInfiniteQueryResult<Notes, unknown>
-  batchSelected: string[]
+  pages?: InfiniteData<{
+    list: ExpandedNote[]
+  }>
+  batchSelected: (string | number)[]
   setBatchSelected: (selected: string[]) => void
 }> = ({ isPost, isNotxLogContent, pages, batchSelected, setBatchSelected }) => {
   const { t } = useTranslation(["dashboard", "site"])
@@ -38,9 +40,9 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
       onClick: () => {
         // Get all page IDs
         const allIDs: string[] = []
-        pages.data?.pages.map((page) =>
+        pages?.pages.map((page) =>
           page.list?.map((page) => {
-            allIDs.push(page.id)
+            allIDs.push(page.metadata?.content?.slug || "")
           }),
         )
         setBatchSelected(allIDs)
@@ -65,10 +67,10 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
         const toastId = toast.loading("Converting...")
 
         // Find all selected
-        const selectedPages: Note[] = []
-        pages.data?.pages.map((page) =>
+        const selectedPages: ExpandedNote[] = []
+        pages?.pages.map((page) =>
           page.list?.map((page) => {
-            if (batchSelected.includes(page.id)) {
+            if (batchSelected.includes(page.metadata?.content?.slug || "")) {
               selectedPages.push(page)
             }
           }),
@@ -79,34 +81,38 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
           await Promise.all(
             selectedPages.map((page) => {
               // Check again to ensure it's not
-              const isNotxLogContent = !page.applications?.includes("xlog")
+              const isNotxLogContent =
+                !page.metadata?.content?.sources?.includes("xlog")
 
               const targetNoteBase = {
                 published: true,
-                pageId: page.id,
+                pageId: `${page.characterId}-${page.noteId}`,
                 siteId: subdomain,
-                tags: page.tags
+                tags: page.metadata?.content?.tags
                   ?.filter((tag) => tag !== "post" && tag !== "page")
                   ?.join(", "),
-                applications: page.applications,
+                applications: page.metadata?.content?.sources,
               }
 
               if (isNotxLogContent) {
                 return createOrUpdatePage.mutateAsync({
                   ...targetNoteBase,
                   isPost: isPost, // Convert to xLog content
+                  characterId: page.characterId,
                 })
               } else {
-                if (!page.metadata) {
+                if (!page.noteId) {
                   // Is draft
-                  const data = getStorage(`draft-${subdomain}-${page.id}`)
+                  const key = `draft-${page?.characterId}-${page.draftKey}`
+                  const data = getStorage(key)
                   data.isPost = !isPost
-                  setStorage(`draft-${subdomain}-${page.id}`, data)
+                  setStorage(key, data)
                 } else {
                   // IsNote
                   return createOrUpdatePage.mutateAsync({
                     ...targetNoteBase,
                     isPost: !isPost, // Change type
+                    characterId: page.characterId,
                   })
                 }
               }
@@ -125,9 +131,12 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
 
         // Invalidate site data refresh
         await Promise.all([
-          queryClient.invalidateQueries(["getPagesBySite", subdomain]),
+          queryClient.invalidateQueries([
+            "getPagesBySite",
+            selectedPages[0]?.characterId,
+          ]),
           ...selectedPages.map((page) =>
-            queryClient.invalidateQueries(["getPage", page.id]),
+            queryClient.invalidateQueries(["getPage", page?.characterId]),
           ),
         ])
 
@@ -150,10 +159,10 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
     const toastId = toast.loading("Deleting...")
 
     // Find all selected
-    const selectedPages: Note[] = []
-    pages.data?.pages.map((page) =>
+    const selectedPages: ExpandedNote[] = []
+    pages?.pages.map((page) =>
       page.list?.map((page) => {
-        if (batchSelected.includes(page.id)) {
+        if (batchSelected.includes(page.noteId || page.draftKey || 0)) {
           selectedPages.push(page)
         }
       }),
@@ -163,14 +172,15 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
     try {
       await Promise.all(
         selectedPages.map((page) => {
-          if (!page.metadata) {
+          if (!page.noteId) {
             // Is draft
-            delStorage(`draft-${subdomain}-${page.id}`)
+            delStorage(`draft-${page?.characterId}-${page.draftKey}`)
           } else {
             // Is Note
             return deletePage.mutateAsync({
               site: subdomain,
-              id: page.id,
+              id: `${page.characterId}-${page.noteId}`,
+              characterId: page.characterId,
             })
           }
         }),
@@ -188,9 +198,12 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
 
     // Refresh site data
     await Promise.all([
-      queryClient.refetchQueries(["getPagesBySite", subdomain]),
+      queryClient.refetchQueries([
+        "getPagesBySite",
+        selectedPages[0]?.characterId,
+      ]),
       ...selectedPages.map((page) =>
-        queryClient.refetchQueries(["getPage", page.id]),
+        queryClient.refetchQueries(["getPage", page.characterId]),
       ),
     ])
 

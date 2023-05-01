@@ -2,9 +2,11 @@ import { useTranslation } from "next-i18next"
 import Link from "next/link"
 import { useMemo } from "react"
 
+import type { InfiniteData } from "@tanstack/react-query"
+
 import { Button } from "~/components/ui/Button"
 import { useDate } from "~/hooks/useDate"
-import { Note, Notes } from "~/lib/types"
+import { ExpandedNote } from "~/lib/types"
 
 import { EmptyState } from "../ui/EmptyState"
 import { UniLink } from "../ui/UniLink"
@@ -12,14 +14,17 @@ import { UniLink } from "../ui/UniLink"
 export const SiteArchives: React.FC<{
   title?: string
   showTags?: boolean
-  postPages?: Notes[]
+  posts?: InfiniteData<{
+    list: ExpandedNote[]
+    count: number
+  }>
   fetchNextPage: () => void
   hasNextPage?: boolean
   isFetchingNextPage?: boolean
 }> = ({
   title,
   showTags,
-  postPages,
+  posts,
   fetchNextPage,
   hasNextPage,
   isFetchingNextPage,
@@ -28,13 +33,16 @@ export const SiteArchives: React.FC<{
   const date = useDate()
   const { t } = useTranslation(["common", "site"])
 
-  const groupedByYear = useMemo<Map<string, Note[]>>(() => {
+  const groupedByYear = useMemo<Map<string, ExpandedNote[]>>(() => {
     const map = new Map()
 
-    if (postPages?.length) {
-      for (const posts of postPages) {
-        for (const post of posts.list) {
-          const year = date.formatDate(post.date_published, "YYYY")
+    if (posts?.pages?.length) {
+      for (const page of posts.pages) {
+        for (const post of page.list) {
+          const year = date.formatDate(
+            post.metadata?.content?.date_published || "",
+            "YYYY",
+          )
           const items = map.get(year) || []
           items.push(post)
           map.set(year, items)
@@ -43,15 +51,15 @@ export const SiteArchives: React.FC<{
     }
 
     return map
-  }, [postPages, date])
+  }, [posts?.pages, date])
 
   const tags = useMemo<Map<string, number>>(() => {
     const result = new Map()
 
-    if (postPages?.length) {
-      for (const posts of postPages) {
-        for (const post of posts.list) {
-          post.tags?.forEach((tag) => {
+    if (posts?.pages?.length) {
+      for (const page of posts.pages) {
+        for (const post of page.list) {
+          post.metadata?.content?.tags?.forEach((tag) => {
             if (tag !== "post" && tag !== "page") {
               if (result.has(tag)) {
                 result.set(tag, result.get(tag) + 1)
@@ -65,21 +73,21 @@ export const SiteArchives: React.FC<{
     }
 
     return result
-  }, [postPages])
+  }, [posts?.pages])
 
-  if (!postPages?.length) return null
+  if (!posts?.pages?.length) return null
 
   return (
     <>
       <h2 className="text-xl font-bold page-title">
         {title || t("Archives", { ns: "site" })}
       </h2>
-      {!postPages[0].total && (
+      {!posts?.pages[0].count && (
         <div className="mt-5">
           <EmptyState />
         </div>
       )}
-      {!!postPages[0].total && (
+      {!!posts?.pages[0].count && (
         <>
           {showTags && tags.size > 0 && (
             <div className="mt-5">
@@ -100,7 +108,6 @@ export const SiteArchives: React.FC<{
           )}
           <div className="mt-5 space-y-5">
             {[...groupedByYear.keys()].map((year) => {
-              currentLength++
               const posts = groupedByYear.get(year)!
               return (
                 <div key={year}>
@@ -108,16 +115,21 @@ export const SiteArchives: React.FC<{
                     {year}
                   </h3>
                   {posts.map((post) => {
+                    currentLength++
                     return (
                       <Link
-                        key={post.id}
-                        href={`/${post.slug || post.id}`}
+                        key={post.transactionHash}
+                        href={`/${post.metadata?.content?.slug}`}
                         className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-hover"
                       >
-                        <span className="text-zinc-700">{post.title}</span>
+                        <span className="text-zinc-700">
+                          {post.metadata?.content?.title}
+                        </span>
                         <span className="text-zinc-400 mr-3 whitespace-nowrap">
                           {t("intlDateTime", {
-                            val: new Date(post.date_published),
+                            val: new Date(
+                              post.metadata?.content?.date_published || "",
+                            ),
                             formatParams: {
                               val: {
                                 month: "short",
@@ -140,8 +152,8 @@ export const SiteArchives: React.FC<{
                 isLoading={isFetchingNextPage}
                 aria-label="load more"
               >
-                There are {postPages[0].total - currentLength} more post
-                {postPages[0].total - currentLength > 1 ? "s" : ""}, click to
+                There are {posts?.pages[0].count - currentLength} more post
+                {posts?.pages[0].count - currentLength > 1 ? "s" : ""}, click to
                 load more
               </Button>
             )}

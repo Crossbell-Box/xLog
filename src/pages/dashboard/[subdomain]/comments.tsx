@@ -33,7 +33,7 @@ export default function CommentsPage() {
   const site = useGetSite(subdomain)
 
   const comments = useGetCommentsBySite({
-    characterId: site.data?.metadata?.proof,
+    characterId: site.data?.characterId,
   })
 
   const feedUrl =

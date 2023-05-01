@@ -58,13 +58,13 @@ export default function SettingsCSSPage() {
   const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
     if (site.isSuccess && site.data && !css && !hasSet) {
-      setCss(site.data.css || "")
+      setCss(site.data.metadata?.content?.css || "")
       setHasSet(true)
     }
   }, [site.data, site.isSuccess, css, hasSet])
 
   return (
-    <SettingsLayout title={"Site Settings"} type="site">
+    <SettingsLayout title={"Site Settings"}>
       <form onSubmit={handleSubmit}>
         <div className="">
           <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">

@@ -2,11 +2,11 @@ import { Comment } from "~/components/common/Comment"
 import { ReactionLike } from "~/components/common/ReactionLike"
 import { ReactionMint } from "~/components/common/ReactionMint"
 import { ReactionTip } from "~/components/common/ReactionTip"
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 export const PostFooter: React.FC<{
-  page?: Note | null
-  site?: Profile | null
+  page?: ExpandedNote
+  site?: ExpandedCharacter
 }> = ({ page, site }) => {
   return (
     <>
@@ -14,9 +14,14 @@ export const PostFooter: React.FC<{
         className="xlog-reactions flex fill-gray-400 text-gray-500 sm:items-center space-x-6 sm:space-x-10 mt-14 mb-12"
         data-hide-print
       >
-        <ReactionLike pageId={page?.id} />
-        <ReactionMint pageId={page?.id} />
-        <ReactionTip pageId={page?.id} site={site} page={page} />
+        <ReactionLike characterId={page?.characterId} noteId={page?.noteId} />
+        <ReactionMint characterId={page?.characterId} noteId={page?.noteId} />
+        <ReactionTip
+          characterId={page?.characterId}
+          noteId={page?.noteId}
+          site={site}
+          page={page}
+        />
       </div>
       <Comment page={page} />
     </>

@@ -1,93 +1,31 @@
 import { CharacterOperatorPermission, Indexer } from "crossbell.js"
-import { nanoid } from "nanoid"
 import type Unidata from "unidata.js"
-import type { Profiles as UniProfiles } from "unidata.js"
 
 import type { useContract } from "@crossbell/contract"
 import { cacheExchange, createClient, fetchExchange } from "@urql/core"
 
-import { expandUnidataProfile } from "~/lib/expand-unit"
-import { Profile, SiteNavigationItem } from "~/lib/types"
-import unidata from "~/queries/unidata.server"
+import { expandCrossbellCharacter } from "~/lib/expand-unit"
+import { SiteNavigationItem } from "~/lib/types"
 
 type Contract = ReturnType<typeof useContract>
 
 const indexer = new Indexer()
 
-export type GetUserSitesParams =
-  | {
-      address: string
-      unidata?: Unidata
-    }
-  | {
-      handle: string
-      unidata?: Unidata
-    }
-
-export const getUserSites = async (params: GetUserSitesParams) => {
-  let profiles: UniProfiles | null = null
-
-  try {
-    const source = "Crossbell Profile"
-    const filter = { primary: true }
-
-    if ("address" in params) {
-      profiles = await (params.unidata || unidata).profiles.get({
-        source,
-        filter,
-        identity: params.address,
-        platform: "Ethereum",
-      })
-    }
-
-    if ("handle" in params) {
-      profiles = await (params.unidata || unidata).profiles.get({
-        source,
-        filter,
-        identity: params.handle,
-        platform: "Crossbell",
-      })
-    }
-  } catch (error) {
-    return null
+export const getSite = async (input: string) => {
+  const result = await indexer.getCharacterByHandle(input)
+  if (result) {
+    return expandCrossbellCharacter(result)
   }
-
-  const sites: Profile[] =
-    profiles?.list?.map((profile) => {
-      expandUnidataProfile(profile)
-      return profile
-    }) ?? []
-
-  return sites.length > 0 ? sites : null
 }
 
-export type GetAccountSitesParams = {
-  handle: string
-  unidata?: Unidata
-}
-
-export const getAccountSites = (
-  params: GetAccountSitesParams,
-): Promise<Profile[] | null> => {
-  return getUserSites({
-    handle: params.handle,
-    unidata: params.unidata,
-  })
-}
-
-export const getSite = async (input: string, customUnidata?: Unidata) => {
-  const profiles = await (customUnidata || unidata).profiles.get({
-    source: "Crossbell Profile",
-    identity: input,
-    platform: "Crossbell",
+export const getSiteByAddress = async (input: string) => {
+  const result = await indexer.getCharacters(input, {
+    primary: true,
   })
 
-  const site: Profile = profiles.list[0]
-  if (site) {
-    expandUnidataProfile(site)
+  if (result?.list?.[0]) {
+    return expandCrossbellCharacter(result.list[0])
   }
-
-  return site
 }
 
 export const getSubscriptionsFromList = async (
@@ -124,64 +62,38 @@ export const getSubscriptionsFromList = async (
   return response.data?.links.map((link: any) => link.toCharacterId)
 }
 
-export const getSubscription = async (
-  siteId: string,
-  handle: string,
-  customUnidata?: Unidata,
-) => {
-  const links = await (customUnidata || unidata).links.get({
-    source: "Crossbell Link",
-    identity: handle,
-    platform: "Crossbell",
-    filter: { to: siteId },
+export const getSubscription = async (input: {
+  toCharacterId: number
+  characterId: number
+}) => {
+  const result = await indexer.getLinks(input.characterId, {
+    linkType: "follow",
+    toCharacterId: input.toCharacterId,
   })
 
-  return !!links?.list?.length
+  return !!result?.list?.length
 }
 
-export const getSiteSubscriptions = async (
-  data: {
-    siteId: string
-    cursor?: string
-    limit?: number
-  },
-  customUnidata?: Unidata,
-) => {
-  const links = await (customUnidata || unidata).links.get({
-    source: "Crossbell Link",
-    identity: data.siteId,
-    platform: "Crossbell",
-    reversed: true,
+export const getSiteSubscriptions = async (data: {
+  characterId: number
+  cursor?: string
+  limit?: number
+}) => {
+  return indexer.getBacklinksOfCharacter(data.characterId, {
+    linkType: "follow",
     cursor: data.cursor,
     limit: data.limit,
   })
-
-  links?.list.map(async (item: any) => {
-    item.character = item.metadata.from_raw
-  }) || []
-
-  return links
 }
 
-export const getSiteToSubscriptions = async (
-  data: {
-    siteId: string
-    cursor?: string
-  },
-  customUnidata?: Unidata,
-) => {
-  const links = await (customUnidata || unidata).links.get({
-    source: "Crossbell Link",
-    identity: data.siteId,
-    platform: "Crossbell",
+export const getSiteToSubscriptions = async (data: {
+  characterId: number
+  cursor?: string
+}) => {
+  return indexer.getLinks(data.characterId, {
+    linkType: "follow",
     cursor: data.cursor,
   })
-
-  links?.list.map(async (item: any) => {
-    item.character = item.metadata.to_raw
-  }) || []
-
-  return links
 }
 
 export async function updateSite(
@@ -199,11 +111,17 @@ export async function updateSite(
       address: string
       mime_type: string
     }
-    connected_accounts?: Profile["connected_accounts"]
+    connected_accounts?: {
+      identity: string
+      platform: string
+      url?: string | undefined
+    }[]
   },
   customUnidata?: Unidata,
   newbieToken?: string,
 ) {
+  const { default: unidata } = await import("~/queries/unidata.server")
+
   return await (customUnidata || unidata).profiles.set(
     {
       source: "Crossbell Profile",
@@ -266,56 +184,8 @@ export async function updateSite(
   )
 }
 
-export async function createSite(
-  address: string,
-  payload: { name: string; subdomain: string },
-  customUnidata?: Unidata,
-) {
-  return await (customUnidata || unidata).profiles.set(
-    {
-      source: "Crossbell Profile",
-      identity: address,
-      platform: "Ethereum",
-      action: "add",
-    },
-    {
-      username: payload.subdomain,
-      name: payload.name,
-      tags: [
-        "navigation:" +
-          JSON.stringify([
-            {
-              id: nanoid(),
-              label: "Archives",
-              url: "/archives",
-            },
-          ]),
-      ],
-    },
-  )
-}
-
-export async function subscribeToSites(
-  input: {
-    user: Profile
-    sites: {
-      characterId: string
-    }[]
-  },
-  contract?: Contract,
-) {
-  if (input.user.metadata?.proof) {
-    return contract?.linkCharactersInBatch(
-      input.user.metadata.proof,
-      input.sites.map((s) => s.characterId).filter((c) => c) as any,
-      [],
-      "follow",
-    )
-  }
-}
-
 export async function getCommentsBySite(input: {
-  characterId: string
+  characterId?: number
   cursor?: string
 }) {
   const notes = await indexer.getNotes({
@@ -344,7 +214,7 @@ const xLogOperatorPermissions: CharacterOperatorPermission[] = [
 
 export async function addOperator(
   input: {
-    characterId: number
+    characterId?: number
     operator: string
   },
   contract?: Contract,
@@ -416,15 +286,17 @@ export async function removeOperator(
   }
 }
 
-export async function getNFTs(address: string, customUnidata?: Unidata) {
-  const assets = await (customUnidata || unidata).assets.get({
+export async function getNFTs(address: string) {
+  const { default: unidata } = await import("~/queries/unidata.server")
+
+  const assets = await unidata.assets.get({
     source: "Ethereum NFT",
     identity: address,
   })
   return assets
 }
 
-export async function getStat({ characterId }: { characterId: string }) {
+export async function getStat({ characterId }: { characterId: number }) {
   if (characterId) {
     const [stat, site, subscriptions, comments, notes] = await Promise.all([
       (
@@ -571,7 +443,7 @@ export type AchievementSection = {
   }[]
 }
 
-export async function getAchievements(characterId: string) {
+export async function getAchievements(characterId: number) {
   const crossbellAchievements = (await indexer.getAchievements(characterId))
     ?.list as AchievementSection[] | undefined
   const xLogAchievements: AchievementSection[] = [
@@ -647,13 +519,13 @@ export async function getAchievements(characterId: string) {
 }
 
 export async function mintAchievement(input: {
-  characterId: string
+  characterId: number
   achievementId: number
 }) {
   return indexer.mintAchievement(input.characterId, input.achievementId)
 }
 
-export async function getMiraBalance(characterId: string, contract: Contract) {
+export async function getMiraBalance(characterId: number, contract: Contract) {
   const decimals = await getMiraTokenDecimals(contract)
   const result = await contract.getMiraBalanceOfCharacter(characterId)
   result.data = (
