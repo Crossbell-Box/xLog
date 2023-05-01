@@ -108,7 +108,6 @@ export const SiteArchives: React.FC<{
           )}
           <div className="mt-5 space-y-5">
             {[...groupedByYear.keys()].map((year) => {
-              currentLength++
               const posts = groupedByYear.get(year)!
               return (
                 <div key={year}>
@@ -116,6 +115,7 @@ export const SiteArchives: React.FC<{
                     {year}
                   </h3>
                   {posts.map((post) => {
+                    currentLength++
                     return (
                       <Link
                         key={post.transactionHash}

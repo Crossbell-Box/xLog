@@ -226,7 +226,7 @@ export async function getPagesBySite(input: {
 
   const notes = await indexer.getNotes({
     characterId: input.characterId,
-    limit: input.limit,
+    limit: input.limit || 10,
     cursor: input.cursor,
     orderBy: "publishedAt",
     tags: [...(input.tags || []), input.type],
