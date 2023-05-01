@@ -351,7 +351,7 @@ export async function getPage<TRender extends boolean = false>(
           slug: input.page,
         }).toString()}`,
       )
-      const slug2Id = (await response.json()).data
+      const slug2Id = await response.json()
       if (!slug2Id?.noteId) {
         return null
       }
