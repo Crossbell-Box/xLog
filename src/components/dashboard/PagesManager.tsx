@@ -217,10 +217,7 @@ export const PagesManager: React.FC<{
       {batchSelected.length > 0 ? (
         <PagesManagerBatchSelectActionTab
           isPost={isPost}
-          isNotxLogContent={
-            !!tabItems.find((item) => item.text === "Others on Crossbell") // Not sure if there are better ways
-              ?.active
-          }
+          isNotxLogContent={false}
           pages={pages.data}
           batchSelected={batchSelected}
           setBatchSelected={setBatchSelected}
