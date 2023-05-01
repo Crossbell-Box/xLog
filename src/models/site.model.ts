@@ -6,7 +6,6 @@ import { cacheExchange, createClient, fetchExchange } from "@urql/core"
 
 import { expandCrossbellCharacter } from "~/lib/expand-unit"
 import { Profile, SiteNavigationItem } from "~/lib/types"
-import unidata from "~/queries/unidata.server"
 
 type Contract = ReturnType<typeof useContract>
 
@@ -117,6 +116,8 @@ export async function updateSite(
   customUnidata?: Unidata,
   newbieToken?: string,
 ) {
+  const { default: unidata } = await import("~/queries/unidata.server")
+
   return await (customUnidata || unidata).profiles.set(
     {
       source: "Crossbell Profile",
@@ -300,8 +301,10 @@ export async function removeOperator(
   }
 }
 
-export async function getNFTs(address: string, customUnidata?: Unidata) {
-  const assets = await (customUnidata || unidata).assets.get({
+export async function getNFTs(address: string) {
+  const { default: unidata } = await import("~/queries/unidata.server")
+
+  const assets = await unidata.assets.get({
     source: "Ethereum NFT",
     identity: address,
   })
