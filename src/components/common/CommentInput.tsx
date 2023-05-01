@@ -1,7 +1,7 @@
 import { CharacterEntity, NoteEntity } from "crossbell.js"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 
 import { useAccountState } from "@crossbell/connect-kit"
@@ -43,6 +43,12 @@ export const CommentInput: React.FC<{
       content: comment?.metadata?.content?.content || "",
     },
   })
+
+  const isLogin = useMemo(
+    () => !!account && userSites.isSuccess && !!userSites.data?.length,
+    [account, userSites],
+  )
+  const inputContent = form.watch("content").trim()
 
   const handleSubmit = form.handleSubmit(async (values) => {
     if (pageId) {
@@ -88,9 +94,7 @@ export const CommentInput: React.FC<{
           <Input
             id="content"
             isBlock
-            required={
-              !!account && userSites.isSuccess && !!userSites.data?.length
-            }
+            required={isLogin}
             disabled={
               !account || !userSites.isSuccess || !userSites.data?.length
             }
@@ -131,10 +135,10 @@ export const CommentInput: React.FC<{
               updateComment.isLoading
             }
             isDisabled={
-              !!account &&
-              userSites.isSuccess &&
-              !!userSites.data?.length &&
-              form.watch("content").trim().length === 0
+              isLogin
+                ? !!!inputContent ||
+                  inputContent === comment?.metadata?.content?.content
+                : false
             }
           >
             {t(
