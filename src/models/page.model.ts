@@ -1,4 +1,3 @@
-import axios from "axios"
 import { NoteMetadata } from "crossbell.js"
 import type {
   CharacterEntity,
@@ -350,14 +349,14 @@ export async function getPage<TRender extends boolean = false>(
   if (!mustLocal) {
     // on-chain page
     if (!input.pageId) {
-      const slug2Id = (
-        await axios.get("/api/slug2id", {
-          params: {
-            handle: input.site,
-            slug: input.page,
-          },
-        })
-      ).data
+      if (!input.site || !input.page) return null
+      const response = await fetch(
+        `/api/slug2id?${new URLSearchParams({
+          handle: input.site,
+          slug: input.page,
+        }).toString()}`,
+      )
+      const slug2Id = await response.json()
       if (!slug2Id?.noteId) {
         return null
       }

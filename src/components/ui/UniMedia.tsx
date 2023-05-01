@@ -1,4 +1,3 @@
-import axios from "axios"
 import React, { useState } from "react"
 
 import { Image } from "~/components/ui/Image"
@@ -16,11 +15,13 @@ export const UniMedia: React.FC<{
     const src = e.target.getAttribute("original-src")
     if (src && !errorHandled) {
       try {
-        const result = await axios({
-          url: src.replace(IPFS_GATEWAY, "https://gateway.ipfs.io/ipfs/"),
-          method: "HEAD",
-        })
-        setType(result.headers["content-type"])
+        const response = await fetch(
+          src.replace(IPFS_GATEWAY, "https://gateway.ipfs.io/ipfs/"),
+          {
+            method: "HEAD",
+          },
+        )
+        setType(response.headers.get("content-type") ?? "")
         setErrorHandled(true)
       } catch (error) {}
     }

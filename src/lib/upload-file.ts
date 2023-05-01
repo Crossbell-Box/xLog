@@ -1,19 +1,12 @@
-import axios from "axios"
-
 export const UploadFile = async (blob: Blob) => {
   const formData = new FormData()
   formData.append("file", blob)
 
-  const res = await axios.post(
+  const response = await fetch(
     "https://ipfs-relay.crossbell.io/upload?gnfd=t",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    },
+    { method: "POST", body: formData },
   )
   return {
-    key: res.data.url,
+    key: (await response.json()).url,
   }
 }
