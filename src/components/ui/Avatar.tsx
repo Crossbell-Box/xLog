@@ -65,7 +65,7 @@ export const Avatar: React.FC<
       }}
     >
       <Image
-        className="overflow-hidden object-cover"
+        className="h-full overflow-hidden object-cover"
         src={image}
         width={size}
         height={size}
