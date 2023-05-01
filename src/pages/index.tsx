@@ -141,7 +141,7 @@ function Home() {
       url:
         getSiteLink({
           subdomain: "xlog",
-        }) + "/feed/xml",
+        }) + "/feed?format=xml",
     },
     {
       name: "JSON Feed",

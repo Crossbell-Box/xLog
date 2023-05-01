@@ -44,9 +44,15 @@ export const ReactionTip: React.FC<{
 
   const avatars = useMemo(
     () =>
-      tips.data?.pages?.[0]?.list?.sort((a, b: any) =>
-        b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
-      ) || noopArr,
+      tips.data?.pages?.[0]?.list
+        ?.sort((a, b: any) =>
+          b.character?.metadata?.content?.avatars?.[0] ? 1 : -1,
+        )
+        .slice(0, 3)
+        .map((mint: any) => ({
+          images: mint.character?.metadata?.content?.avatars,
+          name: mint.character?.metadata?.content?.name,
+        })) || noopArr,
     [tips.data?.pages],
   )
 

@@ -1,15 +1,18 @@
+// @ts-ignore
+import jsonfeedToRSS from "jsonfeed-to-rss"
 import { GetServerSideProps } from "next"
 
-import { getJsonFeed } from "~/lib/json-feed"
+import { getJsonFeed, setHeader } from "~/lib/json-feed"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  ctx.res.setHeader("Content-Type", "application/feed+json; charset=utf-8")
-  ctx.res.setHeader("Access-Control-Allow-Methods", "GET")
-  ctx.res.setHeader("Access-Control-Allow-Origin", "*")
-  ctx.res.setHeader("Cache-Control", "public, max-age=1800")
+  setHeader(ctx)
   const domainOrSubdomain = ctx.params!.site as string
 
-  ctx.res.write(JSON.stringify(await getJsonFeed(domainOrSubdomain, "/feed")))
+  const data = await getJsonFeed(domainOrSubdomain, "/feed")
+
+  ctx.res.write(
+    ctx.query.format === "xml" ? jsonfeedToRSS(data) : JSON.stringify(data),
+  )
   ctx.res.end()
 
   return {
