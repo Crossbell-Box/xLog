@@ -123,9 +123,6 @@ export const ConnectButton: React.FC<{
       : {
           icon: "icon-[mingcute--home-1-line]",
           label: t("My xLog") || "",
-          url: getSiteLink({
-            subdomain: "",
-          }),
           onClick: () => walletMintNewCharacterModal.show(),
         },
     {
