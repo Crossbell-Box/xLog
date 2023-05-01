@@ -45,6 +45,7 @@ export default function SiteSettingsGeneralPage() {
       name: "",
       description: "",
       ga: "",
+      ua: "",
     } as {
       icon: string
       banner?: {
@@ -54,6 +55,7 @@ export default function SiteSettingsGeneralPage() {
       name: string
       description: string
       ga: string
+      ua: string
     },
   })
 
@@ -65,6 +67,7 @@ export default function SiteSettingsGeneralPage() {
       name: values.name,
       description: values.description,
       ga: values.ga,
+      ua: values.ua,
     })
   })
 
@@ -105,6 +108,8 @@ export default function SiteSettingsGeneralPage() {
         form.setValue("description", site.data.metadata?.content?.bio || "")
       !form.getValues("ga") &&
         form.setValue("ga", site.data.metadata?.content?.ga || "")
+      !form.getValues("ua") &&
+        form.setValue("ua", site.data.metadata?.content?.ua || "")
     }
   }, [site.data, form])
 
@@ -206,6 +211,28 @@ export default function SiteSettingsGeneralPage() {
                     here
                   </UniLink>{" "}
                   to find your Measurement ID.
+                </Trans>
+              </p>
+            }
+          />
+        </div>
+        <div className="mt-5">
+          <Input
+            id="ua"
+            {...form.register("ua")}
+            label="Umami Cloud Analytics"
+            help={
+              <p>
+                <Trans i18nKey="Integrate Umami Cloud Analytics" ns="dashboard">
+                  Integrate Umami Cloud Analytics into your site. You can follow the
+                  instructions{" "}
+                  <UniLink
+                    className="underline"
+                    href="https://umami.is/docs/collect-data"
+                  >
+                    here
+                  </UniLink>{" "}
+                  to find your Website ID.
                 </Trans>
               </p>
             }
