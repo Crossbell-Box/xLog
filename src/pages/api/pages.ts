@@ -10,10 +10,10 @@ export default async function handler(
   const query = req.query
 
   const result = await getPagesBySite({
-    site: query.site as string,
+    characterId: +(query.characterId || 0) as number,
     type: query.type as "post" | "page",
     visibility: query.visibility as PageVisibilityEnum,
-    take: query.take ? parseInt(query.take as string) : undefined,
+    limit: query.take ? parseInt(query.take as string) : undefined,
     cursor: query.cursor as string,
     useStat: true,
     ...(query.tags && {

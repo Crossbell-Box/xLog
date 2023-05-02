@@ -40,9 +40,9 @@ export default function ImportMarkdownPage() {
   })
   const postNotes = usePostNotes()
   const mirrorXyz = useGetMirrorXyz({
-    address: site.data?.metadata?.owner,
+    address: site.data?.owner,
   })
-  const checkMirror = useCheckMirror(site.data?.metadata?.proof)
+  const checkMirror = useCheckMirror(site.data?.characterId)
 
   const notes = mirrorXyz?.data?.map((note) => ({
     title: note.title,
@@ -59,17 +59,17 @@ export default function ImportMarkdownPage() {
     external_urls: [
       `${getSiteLink({
         subdomain,
-        domain: site.data?.custom_domain,
+        domain: site.data?.metadata?.content?.custom_domain,
       })}/${encodeURIComponent(note.slug)}`,
       ...note.external_urls,
     ],
   }))
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    if (notes?.length && site.data?.username && site.data.metadata?.proof) {
+    if (notes?.length && site.data?.handle && site.data.characterId) {
       postNotes.mutate({
-        siteId: site.data.username,
-        characterId: site.data.metadata.proof,
+        siteId: site.data.handle,
+        characterId: site.data.characterId,
         notes: notes,
       })
     }

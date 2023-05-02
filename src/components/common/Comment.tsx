@@ -3,16 +3,17 @@ import { Virtuoso } from "react-virtuoso"
 
 import { CommentInput } from "~/components/common/CommentInput"
 import { CommentItem } from "~/components/common/CommentItem"
-import { Note } from "~/lib/types"
+import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetComments } from "~/queries/page"
 
 export const Comment: React.FC<{
-  page?: Note | null
+  page?: ExpandedNote
   className?: string
 }> = ({ page, className }) => {
   const comments = useGetComments({
-    pageId: page?.id,
+    characterId: page?.characterId,
+    noteId: page?.noteId,
   })
   const { t } = useTranslation("common")
 
@@ -37,7 +38,7 @@ export const Comment: React.FC<{
           )}
         </span>
       </div>
-      <CommentInput pageId={page?.id} />
+      <CommentInput characterId={page?.characterId} noteId={page?.noteId} />
 
       <Virtuoso
         className="xlog-comment-list"
@@ -51,7 +52,8 @@ export const Comment: React.FC<{
           p?.list?.map((comment, idx) => (
             <CommentItem
               className="mt-6"
-              originalId={page?.id}
+              originalCharacterId={page?.characterId}
+              originalNoteId={page?.noteId}
               comment={comment}
               key={comment.transactionHash}
               depth={0}

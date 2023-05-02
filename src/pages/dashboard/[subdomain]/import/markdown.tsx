@@ -46,10 +46,10 @@ export default function ImportMarkdownPage() {
   const [notes, setNotes] = useState<NoteMetadata[]>()
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    if (notes?.length && site.data?.username && site.data.metadata?.proof) {
+    if (notes?.length && site.data?.handle && site.data.characterId) {
       postNotes.mutate({
-        siteId: site.data.username,
-        characterId: site.data.metadata.proof,
+        siteId: site.data.handle,
+        characterId: site.data.characterId,
         notes,
       })
     }
@@ -74,7 +74,7 @@ export default function ImportMarkdownPage() {
           external_urls: [
             `${getSiteLink({
               subdomain,
-              domain: site.data?.custom_domain,
+              domain: site.data?.metadata?.content?.custom_domain,
             })}/${encodeURIComponent(file.slug)}`,
           ],
         }

@@ -11,9 +11,10 @@ import { useDate } from "~/hooks/useDate"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
-import { PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetPagesBySite } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 import { Button } from "../ui/Button"
 import { EmptyState } from "../ui/EmptyState"
@@ -29,6 +30,7 @@ export const PagesManager: React.FC<{
 }> = ({ isPost }) => {
   const router = useRouter()
   const subdomain = router.query.subdomain as string
+  const site = useGetSite(subdomain)
 
   const visibility = useMemo<PageVisibilityEnum>(
     () =>
@@ -43,13 +45,13 @@ export const PagesManager: React.FC<{
 
   const pages = useGetPagesBySite({
     type: isPost ? "post" : "page",
-    site: subdomain!,
-    take: 100,
+    characterId: site.data?.characterId,
+    limit: 100,
     visibility,
   })
 
   // Batch selections
-  const [batchSelected, setBatchSelected] = useState<string[]>([])
+  const [batchSelected, setBatchSelected] = useState<(string | number)[]>([])
 
   const tabItems: TabItem[] = [
     {
@@ -67,10 +69,6 @@ export const PagesManager: React.FC<{
     {
       value: PageVisibilityEnum.Scheduled,
       text: "Scheduled",
-    },
-    {
-      value: PageVisibilityEnum.Crossbell,
-      text: "Others on Crossbell",
     },
   ].map((item) => ({
     text: item.text,
@@ -90,10 +88,10 @@ export const PagesManager: React.FC<{
     active: item.value === visibility,
   }))
 
-  const getPageEditLink = (page: { id: string }) => {
-    return `/dashboard/${subdomain}/editor?id=${page.id}&type=${
-      isPost ? "post" : "page"
-    }`
+  const getPageEditLink = (page: ExpandedNote) => {
+    return `/dashboard/${subdomain}/editor?id=${
+      page.noteId || page.draftKey
+    }&type=${isPost ? "post" : "page"}`
   }
 
   const queryClient = useQueryClient()
@@ -106,7 +104,7 @@ export const PagesManager: React.FC<{
       const file = (await readFiles(e.target?.files))?.[0]
       if (file) {
         const id = nanoid()
-        const key = `draft-${subdomain}-local-${id}`
+        const key = `draft-${site.data?.characterId}-local-${id}`
         setStorage(key, {
           date: +new Date(),
           values: {
@@ -119,7 +117,10 @@ export const PagesManager: React.FC<{
           },
           isPost: isPost,
         })
-        queryClient.invalidateQueries(["getPagesBySite", subdomain])
+        queryClient.invalidateQueries([
+          "getPagesBySite",
+          site.data?.characterId,
+        ])
         router.push(
           `/dashboard/${subdomain}/editor?id=local-${id}&type=${
             isPost ? "post" : "page"
@@ -216,11 +217,8 @@ export const PagesManager: React.FC<{
       {batchSelected.length > 0 ? (
         <PagesManagerBatchSelectActionTab
           isPost={isPost}
-          isNotxLogContent={
-            !!tabItems.find((item) => item.text === "Others on Crossbell") // Not sure if there are better ways
-              ?.active
-          }
-          pages={pages}
+          isNotxLogContent={false}
+          pages={pages.data}
           batchSelected={batchSelected}
           setBatchSelected={setBatchSelected}
         />
@@ -229,7 +227,7 @@ export const PagesManager: React.FC<{
       )}
 
       <div className="-mt-3">
-        {!pages.data?.pages?.[0].total && (
+        {!pages.data?.pages?.[0].count && (
           <EmptyState resource={isPost ? "posts" : "pages"} />
         )}
 
@@ -238,7 +236,7 @@ export const PagesManager: React.FC<{
             currentLength++
             return (
               <Link
-                key={page.id}
+                key={page.transactionHash}
                 href={getPageEditLink(page)}
                 className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex"
               >
@@ -246,27 +244,39 @@ export const PagesManager: React.FC<{
                   <button
                     className={cn(
                       `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
-                      batchSelected.includes(page.id)
+                      batchSelected.includes(page.noteId || page.draftKey || 0)
                         ? "bg-gray-200"
                         : `hover:bg-gray-200`,
                     )}
                     onClick={(e) => {
                       e.preventDefault()
                       // Toggle selection
-                      if (batchSelected.includes(page.id)) {
+                      if (
+                        batchSelected.includes(
+                          page.noteId || page.draftKey || 0,
+                        )
+                      ) {
                         // Deselect
                         setBatchSelected(
-                          batchSelected.filter((pageId) => pageId !== page.id),
+                          batchSelected.filter(
+                            (pageId) =>
+                              pageId !== page.noteId || page.draftKey || 0,
+                          ),
                         )
                       } else {
                         // Do select
-                        setBatchSelected([...batchSelected, page.id])
+                        setBatchSelected([
+                          ...batchSelected,
+                          page.noteId || page.draftKey || 0,
+                        ])
                       }
                     }}
                   >
                     <i
                       className={`${
-                        batchSelected.includes(page.id)
+                        batchSelected.includes(
+                          page.noteId || page.draftKey || 0,
+                        )
                           ? "icon-[mingcute--check-line]"
                           : isPost
                           ? "icon-[mingcute--news-line]"
@@ -276,13 +286,13 @@ export const PagesManager: React.FC<{
                   </button>
                 </div>
                 <div className="min-w-0">
-                  {page.title ? (
+                  {page.metadata?.content?.title ? (
                     <div className="flex items-center">
-                      <span>{page.title}</span>
+                      <span>{page.metadata?.content?.title}</span>
                     </div>
                   ) : (
                     <div className="text-zinc-500 text-xs mt-1 truncate">
-                      <span>{page.summary?.content}</span>
+                      <span>{page.metadata?.content?.summary}</span>
                     </div>
                   )}
                   <div className="text-zinc-400 text-xs mt-1">
@@ -292,8 +302,10 @@ export const PagesManager: React.FC<{
                     <span className="mx-2">·</span>
                     <span>
                       {getPageVisibility(page) === PageVisibilityEnum.Draft
-                        ? date.formatDate(page.date_updated)
-                        : date.formatDate(page.date_published)}
+                        ? date.formatDate(page.updatedAt)
+                        : date.formatDate(
+                            page.metadata?.content?.date_published || "",
+                          )}
                     </span>
                   </div>
                 </div>
@@ -341,11 +353,11 @@ export const PagesManager: React.FC<{
                 isPost
                   ? "post"
                   : "page" +
-                      ((pages.data?.pages?.[0].total || 0) - currentLength > 1
+                      ((pages.data?.pages?.[0].count || 0) - currentLength > 1
                         ? "s"
                         : ""),
               ),
-              count: (pages.data?.pages?.[0].total || 0) - currentLength,
+              count: (pages.data?.pages?.[0].count || 0) - currentLength,
               ns: "site",
             })}
           </Button>

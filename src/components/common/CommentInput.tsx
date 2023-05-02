@@ -1,7 +1,6 @@
 import { CharacterEntity, NoteEntity } from "crossbell.js"
 import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 
 import { useAccountState } from "@crossbell/connect-kit"
@@ -10,33 +9,31 @@ import { Popover } from "@headlessui/react"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { Profile } from "~/lib/types"
 import { useCommentPage, useUpdateComment } from "~/queries/page"
-import { useAccountSites } from "~/queries/site"
 
 import { EmojiPicker } from "./EmojiPicker"
 
 export const CommentInput: React.FC<{
-  pageId?: string
-  originalId?: string
+  characterId?: number
+  noteId?: number
+  originalCharacterId?: number
+  originalNoteId?: number
   onSubmitted?: () => void
   comment?: NoteEntity & {
     character?: CharacterEntity | null
   }
-}> = ({ pageId, originalId, onSubmitted, comment }) => {
+}> = ({
+  characterId,
+  noteId,
+  originalCharacterId,
+  originalNoteId,
+  onSubmitted,
+  comment,
+}) => {
   const account = useAccountState((s) => s.computed.account)
-  const userSites = useAccountSites()
   const commentPage = useCommentPage()
   const updateComment = useUpdateComment()
-  const router = useRouter()
-  const [viewer, setViewer] = useState<Profile | null>(null)
   const { t } = useTranslation(["common", "site"])
-
-  useEffect(() => {
-    if (userSites.isSuccess && userSites.data?.length) {
-      setViewer(userSites.data[0])
-    }
-  }, [userSites, router])
 
   const form = useForm({
     defaultValues: {
@@ -44,31 +41,29 @@ export const CommentInput: React.FC<{
     },
   })
 
-  const isLogin = useMemo(
-    () => !!account && userSites.isSuccess && !!userSites.data?.length,
-    [account, userSites],
-  )
   const inputContent = form.watch("content").trim()
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    if (pageId) {
+    if (characterId && noteId) {
       if (comment) {
         if (values.content) {
           updateComment.mutate({
-            pageId,
             content: values.content,
             externalUrl: window.location.href,
-            originalId,
             characterId: comment.characterId,
             noteId: comment.noteId,
+            originalCharacterId,
+            originalNoteId,
           })
         }
       } else {
         commentPage.mutate({
-          pageId: pageId,
+          characterId,
+          noteId,
           content: values.content,
           externalUrl: window.location.href,
-          originalId: originalId,
+          originalCharacterId,
+          originalNoteId,
         })
       }
     }
@@ -85,8 +80,8 @@ export const CommentInput: React.FC<{
     <div className="xlog-comment-input flex">
       <Avatar
         className="align-middle mr-3"
-        images={viewer?.avatars || []}
-        name={viewer?.name}
+        images={account?.character?.metadata?.content?.avatars || []}
+        name={account?.character?.metadata?.content?.name}
         size={45}
       />
       <form className="w-full" onSubmit={handleSubmit}>
@@ -94,10 +89,8 @@ export const CommentInput: React.FC<{
           <Input
             id="content"
             isBlock
-            required={isLogin}
-            disabled={
-              !account || !userSites.isSuccess || !userSites.data?.length
-            }
+            required={!!account?.character}
+            disabled={!account?.character}
             multiline
             maxLength={600}
             className="mb-2"
@@ -129,13 +122,9 @@ export const CommentInput: React.FC<{
           </Popover>
           <Button
             type="submit"
-            isLoading={
-              userSites.isLoading ||
-              commentPage.isLoading ||
-              updateComment.isLoading
-            }
+            isLoading={commentPage.isLoading || updateComment.isLoading}
             isDisabled={
-              isLogin
+              !!account?.character
                 ? !!!inputContent ||
                   inputContent === comment?.metadata?.content?.content
                 : false
@@ -143,7 +132,7 @@ export const CommentInput: React.FC<{
           >
             {t(
               account
-                ? userSites.isSuccess && !userSites.data?.length
+                ? !account.character
                   ? "Create Character"
                   : comment
                   ? "Confirm Modification"

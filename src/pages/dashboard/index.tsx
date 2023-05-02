@@ -7,15 +7,12 @@ import {
   useWalletMintNewCharacterModal,
 } from "@crossbell/connect-kit"
 
-import { useAccountSites } from "~/queries/site"
-
 export default function Dashboard() {
   const router = useRouter()
-  const userSites = useAccountSites()
   const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
-  const [ssrReady, isConnected] = useAccountState(({ ssrReady, computed }) => [
+  const [ssrReady, account] = useAccountState(({ ssrReady, computed }) => [
     ssrReady,
-    !!computed.account,
+    computed.account,
   ])
   const connectModal = useConnectModal()
 
@@ -25,7 +22,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (ssrReady) {
       // Wait till SSR is ready
-      if (!isConnected) {
+      if (!account) {
         // Wallet not connected
         if (!isConnectModalShown.current) {
           // Not shown
@@ -35,11 +32,11 @@ export default function Dashboard() {
           // Shown, but closed by user
           router.push("/") // Go back home
         }
-      } else if (userSites.isSuccess) {
+      } else {
         // Wallet is connected, wait till site is ready
         // Reset connect wallet status to prevent unexpected redirect
         isConnectModalShown.current = false
-        if (!userSites.data?.length) {
+        if (!account.character) {
           // No character found, prompt to mint one
           if (!isMintCharacterModalShown.current) {
             // Not shown
@@ -51,18 +48,11 @@ export default function Dashboard() {
           }
         } else {
           // Already have characters, redirect to primary
-          router.push(`/dashboard/${userSites.data[0].username}`)
+          router.push(`/dashboard/${account.character.handle}`)
         }
       }
     }
-  }, [
-    ssrReady,
-    userSites,
-    router,
-    walletMintNewCharacterModal,
-    isConnected,
-    connectModal,
-  ])
+  }, [ssrReady, router, walletMintNewCharacterModal, account, connectModal])
 
   return (
     <div className="flex items-center justify-center w-full h-60">

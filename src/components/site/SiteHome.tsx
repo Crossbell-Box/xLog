@@ -3,20 +3,25 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
+import type { InfiniteData } from "@tanstack/react-query"
+
 import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
 import { getSlugUrl } from "~/lib/helpers"
-import { Notes } from "~/lib/types"
+import { ExpandedNote } from "~/lib/types"
 
 import { EmptyState } from "../ui/EmptyState"
 
 export const SiteHome: React.FC<{
-  postPages?: Notes[]
+  posts?: InfiniteData<{
+    list: ExpandedNote[]
+    count: number
+  }>
   fetchNextPage: () => void
   hasNextPage?: boolean
   isFetchingNextPage?: boolean
-}> = ({ postPages, fetchNextPage, hasNextPage, isFetchingNextPage }) => {
+}> = ({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }) => {
   const router = useRouter()
   const { t } = useTranslation(["common", "site"])
   const date = useDate()
@@ -27,45 +32,47 @@ export const SiteHome: React.FC<{
     setIsMounted(true)
   }, [])
 
-  if (!postPages?.length) return null
+  if (!posts?.pages?.length) return null
 
   let currentLength = 0
 
   return (
     <>
-      {!postPages[0].total && <EmptyState />}
-      {!!postPages[0].total && (
+      {!posts.pages[0].count && <EmptyState />}
+      {!!posts.pages[0].count && (
         <div className="xlog-posts space-y-8">
-          {postPages.map((posts) =>
+          {posts.pages.map((posts) =>
             posts.list.map((post) => {
               currentLength++
               return (
                 <Link
-                  key={post.id}
-                  href={getSlugUrl(`/${post.slug || post.id}`)}
+                  key={post.transactionHash}
+                  href={getSlugUrl(`/${post.metadata?.content?.slug}`)}
                   className="xlog-post sm:hover:bg-hover bg-white transition-all px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
                   suppressHydrationWarning
                 >
                   <div className="flex-1 flex justify-center flex-col w-full min-w-0">
                     <h3 className="xlog-post-title text-2xl font-bold text-zinc-700">
-                      {post.title}
+                      {post.metadata?.content?.title}
                     </h3>
                     <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
                       <time
-                        dateTime={date.formatToISO(post.date_published)}
+                        dateTime={date.formatToISO(
+                          post.metadata?.content?.date_published || "",
+                        )}
                         className="xlog-post-date whitespace-nowrap"
                       >
                         {date.formatDate(
-                          post.date_published,
+                          post.metadata?.content?.date_published || "",
                           undefined,
                           isMounted ? undefined : "America/Los_Angeles",
                         )}
                       </time>
-                      {!!post.tags?.filter(
+                      {!!post.metadata?.content?.tags?.filter(
                         (tag) => tag !== "post" && tag !== "page",
                       ).length && (
                         <span className="xlog-post-tags space-x-1 truncate min-w-0">
-                          {post.tags
+                          {post.metadata?.content?.tags
                             ?.filter((tag) => tag !== "post" && tag !== "page")
                             .map((tag) => (
                               <span
@@ -83,7 +90,7 @@ export const SiteHome: React.FC<{
                       )}
                       <span className="xlog-post-views inline-flex items-center">
                         <i className="icon-[mingcute--eye-line] mr-[2px]" />
-                        <span>{post.views}</span>
+                        <span>{post.metadata?.content?.views}</span>
                       </span>
                     </div>
                     <div
@@ -92,17 +99,17 @@ export const SiteHome: React.FC<{
                         wordBreak: "break-word",
                       }}
                     >
-                      {post.summary?.content}
-                      {post.summary?.content && "..."}
+                      {post.metadata?.content?.summary}
+                      {post.metadata?.content?.summary && "..."}
                     </div>
                   </div>
-                  {post.cover && (
+                  {post.metadata?.content?.cover && (
                     <div className="xlog-post-cover flex items-center relative w-full sm:w-24 h-40 sm:h-24 mt-2 sm:ml-4 sm:mt-0">
                       <Image
                         className="object-cover rounded"
                         alt="cover"
                         fill={true}
-                        src={post.cover}
+                        src={post.metadata?.content?.cover}
                       ></Image>
                     </div>
                   )}
@@ -123,9 +130,9 @@ export const SiteHome: React.FC<{
           {t("load more", {
             ns: "site",
             name: t(
-              "post" + (postPages[0].total - currentLength > 1 ? "s" : ""),
+              "post" + (posts?.pages[0].count - currentLength > 1 ? "s" : ""),
             ),
-            count: postPages[0].total - currentLength,
+            count: posts?.pages[0].count - currentLength,
           })}
         </Button>
       )}
