@@ -211,7 +211,7 @@ export default function SiteSettingsNavigationPage() {
         </p>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="bg-zinc-50 rounded-lg overflow-hidden">
+        <div className="bg-zinc-50 rounded-lg overflow-auto">
           {items.length === 0 && (
             <div className="text-center text-zinc-500 p-5">
               No navigation items yet

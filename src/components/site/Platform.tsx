@@ -79,6 +79,11 @@ const syncMap: {
     icon: "/assets/social/xiaoyuzhou.png",
     url: "https://www.xiaoyuzhoufm.com/podcast/{username}",
   },
+  steam: {
+    name: "Steam",
+    icon: "/assets/social/steam.svg",
+    url: "https://steamcommunity.com/id/{username}",
+  },
 }
 
 export const Platform: React.FC<{
