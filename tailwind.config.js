@@ -5,6 +5,7 @@ const { addDynamicIconSelectors } = require("@iconify/tailwind")
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.tsx"],
+  safelist: ["icon-[mingcute--link-line]", "icon-[mingcute--copy-2-line]"],
   darkMode: ["class", "html.dark"],
   theme: {
     colors: twColors,
