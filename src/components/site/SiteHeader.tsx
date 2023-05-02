@@ -2,17 +2,9 @@ import chroma from "chroma-js"
 import { FastAverageColor } from "fast-average-color"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import {
-  Fragment,
-  MutableRefObject,
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react"
+import { MutableRefObject, RefObject, useEffect, useRef, useState } from "react"
 
 import { XCharLogo, XFeedLogo } from "@crossbell/ui"
-import { Menu } from "@headlessui/react"
 import { RssIcon } from "@heroicons/react/24/solid"
 
 import { FollowingButton } from "~/components/common/FollowingButton"
@@ -32,7 +24,8 @@ import { cn } from "~/lib/utils"
 import { ConnectButton } from "../common/ConnectButton"
 import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
-import { UniLink, UniLinkProps } from "../ui/UniLink"
+import { Menu } from "../ui/Menu"
+import { UniLink } from "../ui/UniLink"
 
 type HeaderLinkType = {
   icon?: React.ReactNode
@@ -266,9 +259,16 @@ export const SiteHeader: React.FC<{
                       {moreMenuItems.map((item) => (
                         <MoreActions.Item
                           key={item.text}
-                          href={item.url}
                           icon={item.icon}
-                          onClick={item.onClick}
+                          {...(item.onClick
+                            ? {
+                                type: "button",
+                                onClick: item.onClick,
+                              }
+                            : {
+                                type: "link",
+                                href: item.url,
+                              })}
                         >
                           {t(item.text)}
                         </MoreActions.Item>
@@ -349,8 +349,8 @@ export const SiteHeader: React.FC<{
 
 function MoreActions({ children }: React.PropsWithChildren<{}>) {
   return (
-    <Menu>
-      <Menu.Button as={Fragment}>
+    <Menu
+      target={
         <Button
           variant="text"
           aria-label="more"
@@ -358,59 +358,10 @@ function MoreActions({ children }: React.PropsWithChildren<{}>) {
         >
           <i className="icon-[mingcute--more-1-line] text-2xl" />
         </Button>
-      </Menu.Button>
-      <Menu.Items className="absolute left-0 top-[100%] z-10 w-max outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2 text-sm">
-        {children}
-      </Menu.Items>
-    </Menu>
+      }
+      dropdown={<div className="text-sm">{children}</div>}
+    />
   )
 }
 
-type MoreActionsItemProps = {
-  icon?: React.ReactNode
-} & UniLinkProps
-
-MoreActions.Item = function MoreActionsItem({
-  icon,
-  children,
-  ...props
-}: React.PropsWithChildren<MoreActionsItemProps>) {
-  const childElement = (
-    <>
-      <span className="fill-gray-500 flex items-center w-4 h-4 text-base leading-none">
-        {icon}
-      </span>
-      <span>{children}</span>
-    </>
-  )
-
-  return (
-    <Menu.Item>
-      {({ active }) => {
-        const className = cn("h-10 flex w-full space-x-2 items-center px-3", {
-          "bg-hover": active,
-        })
-
-        // Can't use <UniLink> here because headlessui Menu.Item assigns `onClick` to its child
-        if (props.onClick) {
-          return (
-            <button className={className} {...props}>
-              {childElement}
-            </button>
-          )
-        }
-
-        return (
-          <a
-            className={className}
-            target="_blank"
-            rel="nofollow noreferrer"
-            {...props}
-          >
-            {childElement}
-          </a>
-        )
-      }}
-    </Menu.Item>
-  )
-}
+MoreActions.Item = Menu.Item

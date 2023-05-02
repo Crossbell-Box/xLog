@@ -1,70 +1,114 @@
-import { useState } from "react"
+import Link from "next/link"
+import { Fragment } from "react"
 
-import {
-  Placement,
-  autoUpdate,
-  flip,
-  offset,
-  shift,
-  useClick,
-  useDismiss,
-  useFloating,
-  useInteractions,
-  useRole,
-  useTransitionStyles,
-} from "@floating-ui/react"
+import { Menu as HeadlessUiMenu } from "@headlessui/react"
 
-export const Menu: React.FC<{
+import { cn } from "~/lib/utils"
+
+export function Menu({
+  target,
+  dropdown,
+  placement = "bottom-start",
+}: React.PropsWithChildren<{
   target: JSX.Element
-  dropdown: JSX.Element
-  placement?: Placement
-}> = ({ target, dropdown, placement }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  dropdown: React.ReactNode
+  placement?: "bottom-start" | "bottom-end"
+}>) {
+  return (
+    <HeadlessUiMenu>
+      <HeadlessUiMenu.Button as={Fragment}>{target}</HeadlessUiMenu.Button>
+      <HeadlessUiMenu.Items
+        className={cn(
+          "absolute z-10 mt-1 w-max outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2",
+          {
+            "bottom-start": "top-[100%] left-0",
+            "bottom-end": "top-[100%] right-0",
+          }[placement],
+        )}
+      >
+        {dropdown}
+      </HeadlessUiMenu.Items>
+    </HeadlessUiMenu>
+  )
+}
 
-  const { x, y, strategy, refs, context } = useFloating({
-    placement: placement || "bottom-start",
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [offset(5), flip(), shift({ padding: 8 })],
-    whileElementsMounted: autoUpdate,
-  })
+type MenuItemProps = {
+  icon?: React.ReactNode
+  className?: string
+} & (
+  | {
+      type: "link"
+      href: string
+    }
+  | {
+      type: "button"
+      onClick: React.MouseEventHandler
+    }
+)
 
-  const click = useClick(context)
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    click,
-    useRole(context, { role: "tooltip" }),
-    useDismiss(context),
-  ])
-
-  const { isMounted, styles } = useTransitionStyles(context, {
-    duration: 100,
-  })
+Menu.Item = function MenuItem({
+  icon,
+  children,
+  className: classNameProp,
+  ...props
+}: React.PropsWithChildren<MenuItemProps>) {
+  const childElement = (
+    <>
+      <span
+        className="mr-2 fill-gray-500 flex items-center w-4 h-4 text-base leading-none"
+        aria-hidden
+      >
+        {icon}
+      </span>
+      {children}
+    </>
+  )
 
   return (
-    <>
-      <div
-        ref={refs.setReference}
-        {...getReferenceProps({
-          className: "flex items-center",
-        })}
-      >
-        {target}
-      </div>
-      {isMounted && (
-        <div
-          ref={refs.setFloating}
-          className="z-10 w-max"
-          style={{
-            position: strategy,
-            top: y ?? "0",
-            left: x ?? "0",
-            ...styles,
-          }}
-          {...getFloatingProps()}
-        >
-          {dropdown}
-        </div>
-      )}
-    </>
+    <HeadlessUiMenu.Item>
+      {({ active }) => {
+        const className = cn(
+          "w-full h-10 px-3 flex items-center flex-nowrap",
+          {
+            "bg-hover": active,
+          },
+          classNameProp,
+        )
+
+        // Can't use <UniLink> here because headlessui Menu.Item assigns `onClick` to its child
+        if (props.type === "button") {
+          return (
+            <button className={className} {...props}>
+              {childElement}
+            </button>
+          )
+        }
+        if (typeof props.href === "undefined") {
+          return <span className={className}>{childElement}</span>
+        }
+
+        const isExternal =
+          /^https?:\/\//.test(props.href) || props.href.startsWith("/feed")
+
+        if (isExternal) {
+          return (
+            <a
+              className={className}
+              target="_blank"
+              rel="nofollow noreferrer"
+              {...props}
+            >
+              {childElement}
+            </a>
+          )
+        }
+
+        return (
+          <Link className={className} {...props}>
+            {childElement}
+          </Link>
+        )
+      }}
+    </HeadlessUiMenu.Item>
   )
 }

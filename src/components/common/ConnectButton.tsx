@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import {
   GeneralAccount,
@@ -33,14 +33,17 @@ import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { cn } from "~/lib/utils"
 
-import { UniLink } from "../ui/UniLink"
-
 type HeaderLinkType = {
   icon?: React.ReactNode
   label: string | JSX.Element
-  url?: string
-  onClick?: () => void
-}
+} & (
+  | {
+      href: string
+    }
+  | {
+      onClick: React.MouseEventHandler
+    }
+)
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -113,7 +116,7 @@ export const ConnectButton: React.FC<{
       ? {
           icon: "icon-[mingcute--home-1-line]",
           label: t("My xLog") || "",
-          url: getSiteLink({
+          href: getSiteLink({
             subdomain: account?.character?.handle || "",
           }),
         }
@@ -125,12 +128,15 @@ export const ConnectButton: React.FC<{
     {
       icon: "icon-[mingcute--grid-line]",
       label: t("Dashboard") || "",
-      url: `${SITE_URL}/dashboard`,
+      href: `${SITE_URL}/dashboard`,
     },
     {
       icon: "icon-[mingcute--copy-2-line]",
       label: t(copyLabelDisplay) || "",
-      onClick: copyLabel,
+      onClick: (e) => {
+        e.preventDefault()
+        copyLabel()
+      },
     },
     ...(account?.type === "wallet"
       ? [
@@ -292,28 +298,30 @@ export const ConnectButton: React.FC<{
               }
               dropdown={
                 <div
-                  className={`text-gray-600 bg-white rounded-lg ring-1 ring-border min-w-[140px] shadow-md py-2 ${
+                  className={`min-w-[140px] ${
                     size === "base" ? "text-base" : "text-sm"
-                  } mt-1`}
+                  }`}
                 >
-                  {dropdownLinks.map((link, i) => {
-                    return (
-                      <UniLink
-                        key={i}
-                        href={link.url}
-                        onClick={link.onClick}
-                        className={`${
-                          size === "base" ? "pl-5 pr-6 h-11" : "pl-4 pr-5 h-9"
-                        } flex items-center w-full whitespace-nowrap hover:bg-hover`}
-                        aria-label={link.label}
-                      >
-                        <span className="mr-2 flex justify-center">
-                          <i className={cn(link.icon, "text-base")} />
-                        </span>
-                        {link.label}
-                      </UniLink>
-                    )
-                  })}
+                  {dropdownLinks.map((link, i) => (
+                    <Menu.Item
+                      key={i}
+                      icon={<i className={cn(link.icon, "text-base")} />}
+                      className={`${
+                        size === "base" ? "pl-5 pr-6 h-11" : "pl-4 pr-5 h-9"
+                      } whitespace-nowrap`}
+                      {...("href" in link
+                        ? {
+                            type: "link",
+                            href: link.href,
+                          }
+                        : {
+                            type: "button",
+                            onClick: link.onClick,
+                          })}
+                    >
+                      {link.label}
+                    </Menu.Item>
+                  ))}
                 </div>
               }
             />
