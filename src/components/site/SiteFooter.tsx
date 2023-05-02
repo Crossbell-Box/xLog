@@ -92,11 +92,12 @@ export const SiteFooter: React.FC<{
       {site?.metadata?.content?.ua && (
         <div className="xlog-umami-analytics">
           <Script
-            id="umami-analytics" strategy="afterInteractive"
-            async src="https://analytics.umami.is/script.js"
+            id="umami-analytics"
+            strategy="afterInteractive"
+            async
+            src="https://analytics.umami.is/script.js"
             data-website-id={`${site.metadata?.content?.ua}`}
-          >
-          </Script>
+          ></Script>
         </div>
       )}
     </>
