@@ -12,6 +12,7 @@ import {
   useOpSignSettingsModal,
   useSelectCharactersModal,
   useUpgradeEmailAccountModal,
+  useWalletMintNewCharacterModal,
 } from "@crossbell/connect-kit"
 import {
   useNotifications,
@@ -31,7 +32,6 @@ import { Menu } from "~/components/ui/Menu"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { cn } from "~/lib/utils"
-import { useAccountSites } from "~/queries/site"
 
 import { UniLink } from "../ui/UniLink"
 
@@ -87,8 +87,7 @@ export const ConnectButton: React.FC<{
   const opSignSettingsModal = useOpSignSettingsModal()
   const upgradeAccountModal = useUpgradeEmailAccountModal()
   const selectCharactersModal = useSelectCharactersModal()
-
-  const userSites = useAccountSites()
+  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
@@ -110,13 +109,19 @@ export const ConnectButton: React.FC<{
   }, [balance])
 
   const dropdownLinks: HeaderLinkType[] = [
-    {
-      icon: "icon-[mingcute--home-1-line]",
-      label: t("My xLog") || "",
-      url: getSiteLink({
-        subdomain: userSites.data?.[0]?.username || "",
-      }),
-    },
+    account?.character
+      ? {
+          icon: "icon-[mingcute--home-1-line]",
+          label: t("My xLog") || "",
+          url: getSiteLink({
+            subdomain: account?.character?.handle || "",
+          }),
+        }
+      : {
+          icon: "icon-[mingcute--home-1-line]",
+          label: t("My xLog") || "",
+          onClick: () => walletMintNewCharacterModal.show(),
+        },
     {
       icon: "icon-[mingcute--grid-line]",
       label: t("Dashboard") || "",
@@ -211,115 +216,107 @@ export const ConnectButton: React.FC<{
             className="relative flex items-center -mr-2"
             style={{ height: avatarSize + "px" }}
           >
-            {userSites.isSuccess ? (
+            {!hideNotification && (
               <>
-                {!hideNotification && (
-                  <>
-                    {isAllRead ? (
-                      <BellIcon
-                        className={`${
-                          size === "base" ? "w-6 h-6" : "w-5 h-5"
-                        } text-zinc-500 cursor-pointer sm:hover:animate-buzz-out`}
-                        onClick={showNotificationModal}
-                      />
-                    ) : (
-                      <BellAlertIcon
-                        className={`${
-                          size === "base" ? "w-6 h-6" : "w-5 h-5"
-                        } text-accent cursor-pointer sm:hover:animate-buzz-out`}
-                        onClick={showNotificationModal}
-                      />
-                    )}
-                    <div className="h-full w-[2px] py-1 ml-3">
-                      <div className="w-full h-full bg-zinc-200 rounded-full"></div>
-                    </div>
-                  </>
+                {isAllRead ? (
+                  <BellIcon
+                    className={`${
+                      size === "base" ? "w-6 h-6" : "w-5 h-5"
+                    } text-zinc-500 cursor-pointer sm:hover:animate-buzz-out`}
+                    onClick={showNotificationModal}
+                  />
+                ) : (
+                  <BellAlertIcon
+                    className={`${
+                      size === "base" ? "w-6 h-6" : "w-5 h-5"
+                    } text-accent cursor-pointer sm:hover:animate-buzz-out`}
+                    onClick={showNotificationModal}
+                  />
                 )}
-                <Menu
-                  placement="bottom-end"
-                  target={
-                    <button
-                      className="flex items-center w-full hover:bg-hover transition-colors py-1 px-2 rounded-lg ml-1 focus-visible:outline focus-visible:outline-accent focus-visible:outline-offset-1"
-                      type="button"
-                      aria-label="connector"
-                    >
-                      <Avatar
-                        className="align-middle"
-                        images={userSites.data?.[0]?.avatars || []}
-                        name={userSites.data?.[0]?.name}
-                        size={avatarSize}
-                      />
-                      {!hideName && (
-                        <>
-                          <div
-                            className={`flex-1 flex-col min-w-0 ml-2 max-w-[100px] ${
-                              mobileSimplification ? "hidden sm:flex" : "flex"
+                <div className="h-full w-[2px] py-1 ml-3">
+                  <div className="w-full h-full bg-zinc-200 rounded-full"></div>
+                </div>
+              </>
+            )}
+            <Menu
+              placement="bottom-end"
+              target={
+                <button
+                  className="flex items-center w-full hover:bg-hover transition-colors py-1 px-2 rounded-lg ml-1 focus-visible:outline focus-visible:outline-accent focus-visible:outline-offset-1"
+                  type="button"
+                  aria-label="connector"
+                >
+                  <Avatar
+                    className="align-middle"
+                    images={account.character?.metadata?.content?.avatars || []}
+                    name={account.character?.metadata?.content?.name}
+                    size={avatarSize}
+                  />
+                  {!hideName && (
+                    <>
+                      <div
+                        className={`flex-1 flex-col min-w-0 ml-2 max-w-[100px] ${
+                          mobileSimplification ? "hidden sm:flex" : "flex"
+                        }`}
+                      >
+                        <span
+                          className={`text-left leading-none font-medium truncate ${
+                            InsufficientBalance
+                              ? "text-red-600"
+                              : "text-gray-600"
+                          } ${size === "base" ? "text-base" : "text-sm"}`}
+                          style={{ marginBottom: "0.15rem" }}
+                        >
+                          {account.character?.metadata?.content?.name ||
+                            getAccountDisplayName(account)}
+                        </span>
+                        {account.character?.handle && (
+                          <span
+                            className={`text-left leading-none ${
+                              sizeDecrease === "sm" ? "text-sm" : "text-xs"
+                            } truncate ${
+                              InsufficientBalance
+                                ? "text-red-400"
+                                : "text-gray-400"
                             }`}
                           >
-                            <span
-                              className={`text-left leading-none font-medium truncate ${
-                                InsufficientBalance
-                                  ? "text-red-600"
-                                  : "text-gray-600"
-                              } ${size === "base" ? "text-base" : "text-sm"}`}
-                              style={{ marginBottom: "0.15rem" }}
-                            >
-                              {userSites.data?.[0]?.name ||
-                                getAccountDisplayName(account)}
-                            </span>
-                            {userSites.data?.[0]?.username && (
-                              <span
-                                className={`text-left leading-none ${
-                                  sizeDecrease === "sm" ? "text-sm" : "text-xs"
-                                } truncate ${
-                                  InsufficientBalance
-                                    ? "text-red-400"
-                                    : "text-gray-400"
-                                }`}
-                              >
-                                {"@" + userSites.data?.[0]?.username ||
-                                  getAccountDisplayName(account)}
-                              </span>
-                            )}
-                          </div>
-                          <i className="icon-[mingcute--down-line] text-xl ml-[2px]" />
-                        </>
-                      )}
-                    </button>
-                  }
-                  dropdown={
-                    <div
-                      className={`text-gray-600 bg-white rounded-lg ring-1 ring-border min-w-[140px] shadow-md py-2 ${
-                        size === "base" ? "text-base" : "text-sm"
-                      } mt-1`}
-                    >
-                      {dropdownLinks.map((link, i) => {
-                        return (
-                          <UniLink
-                            key={i}
-                            href={link.url}
-                            onClick={link.onClick}
-                            className={`${
-                              size === "base"
-                                ? "pl-5 pr-6 h-11"
-                                : "pl-4 pr-5 h-9"
-                            } flex items-center w-full whitespace-nowrap hover:bg-hover`}
-                            aria-label={link.label}
-                          >
-                            <span className="mr-2 flex justify-center">
-                              <i className={cn(link.icon, "text-base")} />
-                            </span>
-                            {link.label}
-                          </UniLink>
-                        )
-                      })}
-                    </div>
-                  }
-                />
-              </>
-            ) : (
-              ""
-            )}
+                            {"@" + account.character?.handle ||
+                              getAccountDisplayName(account)}
+                          </span>
+                        )}
+                      </div>
+                      <i className="icon-[mingcute--down-line] text-xl ml-[2px]" />
+                    </>
+                  )}
+                </button>
+              }
+              dropdown={
+                <div
+                  className={`text-gray-600 bg-white rounded-lg ring-1 ring-border min-w-[140px] shadow-md py-2 ${
+                    size === "base" ? "text-base" : "text-sm"
+                  } mt-1`}
+                >
+                  {dropdownLinks.map((link, i) => {
+                    return (
+                      <UniLink
+                        key={i}
+                        href={link.url}
+                        onClick={link.onClick}
+                        className={`${
+                          size === "base" ? "pl-5 pr-6 h-11" : "pl-4 pr-5 h-9"
+                        } flex items-center w-full whitespace-nowrap hover:bg-hover`}
+                        aria-label={link.label}
+                      >
+                        <span className="mr-2 flex justify-center">
+                          <i className={cn(link.icon, "text-base")} />
+                        </span>
+                        {link.label}
+                      </UniLink>
+                    )
+                  })}
+                </div>
+              }
+            />
           </div>
         )
       })()}

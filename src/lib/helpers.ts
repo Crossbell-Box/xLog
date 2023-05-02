@@ -1,6 +1,6 @@
 import { NoteEntity } from "crossbell.js"
 
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { IS_PROD, IS_VERCEL_PREVIEW } from "./constants"
 import { OUR_DOMAIN } from "./env"
@@ -51,8 +51,10 @@ export const getNoteSlug = (note: NoteEntity) => {
   )?.toLowerCase?.()
 }
 
-export const getNoteSlugFromNote = (page: Note) => {
-  return page.attributes?.find(($) => $.trait_type === "xlog_slug")?.value
+export const getNoteSlugFromNote = (page: ExpandedNote) => {
+  return page.metadata?.content?.attributes?.find(
+    ($) => $.trait_type === "xlog_slug",
+  )?.value
 }
 
 export const getTwitterShareUrl = ({
@@ -60,8 +62,8 @@ export const getTwitterShareUrl = ({
   site,
   t,
 }: {
-  page: Note
-  site: Profile
+  page: ExpandedNote
+  site: ExpandedCharacter
   t: (key: string, options?: any) => string
 }) => {
   const slug = getNoteSlugFromNote(page)
@@ -71,13 +73,13 @@ export const getTwitterShareUrl = ({
   }
 
   return `https://twitter.com/intent/tweet?url=${getSiteLink({
-    subdomain: site.username!,
-    domain: site.custom_domain,
+    subdomain: site.handle!,
+    domain: site.metadata?.content?.custom_domain,
   })}/${encodeURIComponent(slug)}&via=_xLog&text=${encodeURIComponent(
     t(
       `Published a new post on my blockchain blog: {{title}}. Check it out now!`,
       {
-        title: page.title,
+        title: page.metadata?.content?.title,
       },
     ),
   )}`

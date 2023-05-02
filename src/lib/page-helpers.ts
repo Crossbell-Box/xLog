@@ -1,20 +1,14 @@
 import dayjs from "dayjs"
 
-import { PageVisibilityEnum } from "./types"
+import { ExpandedNote, PageVisibilityEnum } from "./types"
 
-export const getPageVisibility = ({
-  date_published,
-  metadata,
-  preview,
-}: {
-  date_published?: string
-  metadata?: Object
-  preview?: boolean
-}) => {
-  if (!metadata) {
+export const getPageVisibility = (note?: ExpandedNote) => {
+  if (!note?.noteId) {
     return PageVisibilityEnum.Draft
-  } else if (dayjs(date_published).isBefore(new Date())) {
-    if (preview) {
+  } else if (
+    dayjs(note.metadata?.content?.date_published).isBefore(new Date())
+  ) {
+    if (note.local) {
       return PageVisibilityEnum.Modified
     } else {
       return PageVisibilityEnum.Published

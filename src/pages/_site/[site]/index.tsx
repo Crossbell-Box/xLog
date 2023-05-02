@@ -8,6 +8,7 @@ import { SiteLayout } from "~/components/site/SiteLayout"
 import { getServerSideProps as getLayoutServerSideProps } from "~/components/site/SiteLayout.server"
 import { PageVisibilityEnum } from "~/lib/types"
 import { useGetPagesBySiteLite } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -29,8 +30,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 function SiteIndexPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
+  const site = useGetSite(domainOrSubdomain)
   const posts = useGetPagesBySiteLite({
-    site: domainOrSubdomain,
+    characterId: site.data?.characterId,
     type: "post",
     visibility: PageVisibilityEnum.Published,
     useStat: true,
@@ -38,7 +40,7 @@ function SiteIndexPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
 
   return (
     <SiteHome
-      postPages={posts.data?.pages}
+      posts={posts.data}
       fetchNextPage={posts.fetchNextPage}
       hasNextPage={posts.hasNextPage}
       isFetchingNextPage={posts.isFetchingNextPage}

@@ -141,7 +141,7 @@ function Home() {
       url:
         getSiteLink({
           subdomain: "xlog",
-        }) + "/feed/xml",
+        }) + "/feed?format=xml",
     },
     {
       name: "JSON Feed",
@@ -204,11 +204,6 @@ function Home() {
         <Image alt="Hoot It" src="/assets/hoot.svg" className="rounded" fill />
       ),
       url: "https://hoot.it/search/xLog",
-    },
-    {
-      name: "Unidata",
-      icon: <Image src="/assets/unidata.png" alt="Unidata" />,
-      url: "https://unidata.app/",
     },
     {
       name: "Raycast",
@@ -463,7 +458,7 @@ function Home() {
               >
                 {t("Show more")}
               </div>
-              {showcaseSites.data?.map((site: any) => (
+              {showcaseSites.data?.map((site) => (
                 <li className="inline-flex align-middle" key={site.handle}>
                   <UniLink
                     href={getSiteLink({

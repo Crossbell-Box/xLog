@@ -41,14 +41,16 @@ function SitePagePage({
   domainOrSubdomain: string
   pageSlug: string
 }) {
+  const site = useGetSite(domainOrSubdomain)
   const page = useGetPage({
-    site: domainOrSubdomain,
-    page: pageSlug,
+    characterId: site.data?.characterId,
+    slug: pageSlug,
     useStat: true,
   })
-  const site = useGetSite(domainOrSubdomain)
 
-  return <SitePage page={page.data} site={site.data} />
+  return (
+    <SitePage page={page.data || undefined} site={site.data || undefined} />
+  )
 }
 
 SitePagePage.getLayout = (page: ReactElement) => {

@@ -61,7 +61,8 @@ export default function SettingsDomainsPage() {
     updateSite.mutate({
       site: subdomain,
       ...(subdomain !== values.subdomain && { subdomain: values.subdomain }),
-      ...(site.data?.custom_domain !== values.custom_domain && {
+      ...(site.data?.metadata?.content?.custom_domain !==
+        values.custom_domain && {
         custom_domain: values.custom_domain,
       }),
     })
@@ -149,7 +150,7 @@ export default function SettingsDomainsPage() {
   const [subdomainChanged, setSubdomainChanged] = useState(false)
   form.register("subdomain", {
     onChange: (e) => {
-      if (e.target.value !== site.data?.username) {
+      if (e.target.value !== site.data?.handle) {
         toCheckSubdomain(e.target.value)
         setSubdomainChanged(true)
       } else {
@@ -162,15 +163,18 @@ export default function SettingsDomainsPage() {
   useEffect(() => {
     if (site.isSuccess && site.data && !hasSet) {
       setHasSet(true)
-      form.setValue("subdomain", site.data.username || "")
-      form.setValue("custom_domain", site.data.custom_domain || "")
-      setCustomDomain(site.data.custom_domain || "")
-      toCheckDomain(site.data.custom_domain || "")
+      form.setValue("subdomain", site.data.handle || "")
+      form.setValue(
+        "custom_domain",
+        site.data.metadata?.content?.custom_domain || "",
+      )
+      setCustomDomain(site.data.metadata?.content?.custom_domain || "")
+      toCheckDomain(site.data.metadata?.content?.custom_domain || "")
     }
   }, [form, site.data, site.isSuccess, customDomain, hasSet, toCheckDomain])
 
   return (
-    <SettingsLayout title={"Site Settings"} type="site">
+    <SettingsLayout title={"Site Settings"}>
       <form onSubmit={handleSubmit}>
         <div>
           <Input

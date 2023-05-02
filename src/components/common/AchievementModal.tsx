@@ -18,7 +18,7 @@ export const AchievementModal: React.FC<{
   group: AchievementSection["groups"][number]
   layoutId: string
   isOwner: boolean
-  characterId?: string
+  characterId?: number
 }> = ({ opened, setOpened, group, layoutId, isOwner, characterId }) => {
   const date = useDate()
   const { t } = useTranslation("common")

@@ -3,6 +3,7 @@ import React, { useCallback, useState } from "react"
 import { Virtuoso } from "react-virtuoso"
 
 import { Modal } from "~/components/ui/Modal"
+import { ExpandedCharacter } from "~/lib/types"
 
 import { Button } from "../ui/Button"
 import CharacterListItem from "./CharacterListItem"
@@ -53,7 +54,8 @@ export const CharacterList: React.FC<{
             }}
             data={flattenList}
             itemContent={(index, sub) => {
-              const character = sub?.character || sub?.fromCharacter
+              const character: ExpandedCharacter =
+                sub?.character || sub?.fromCharacter || sub?.toCharacter
               return (
                 <CharacterListItem
                   key={index}

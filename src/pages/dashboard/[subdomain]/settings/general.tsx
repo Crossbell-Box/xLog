@@ -83,21 +83,28 @@ export default function SiteSettingsGeneralPage() {
   useEffect(() => {
     if (site.data) {
       !form.getValues("icon") &&
-        form.setValue("icon", toIPFS(site.data?.avatars?.[0] || ""))
+        form.setValue(
+          "icon",
+          toIPFS(site.data?.metadata?.content?.avatars?.[0] || ""),
+        )
       !form.getValues("banner") &&
         form.setValue(
           "banner",
-          site.data?.banners?.[0]
+          site.data?.metadata?.content?.banners?.[0]
             ? {
-                address: toIPFS(site.data?.banners?.[0].address || ""),
-                mime_type: site.data?.banners?.[0].mime_type,
+                address: toIPFS(
+                  site.data?.metadata?.content?.banners?.[0].address || "",
+                ),
+                mime_type: site.data?.metadata?.content?.banners?.[0].mime_type,
               }
             : undefined,
         )
-      !form.getValues("name") && form.setValue("name", site.data.name || "")
+      !form.getValues("name") &&
+        form.setValue("name", site.data.metadata?.content?.name || "")
       !form.getValues("description") &&
-        form.setValue("description", site.data.bio || "")
-      !form.getValues("ga") && form.setValue("ga", site.data.ga || "")
+        form.setValue("description", site.data.metadata?.content?.bio || "")
+      !form.getValues("ga") &&
+        form.setValue("ga", site.data.metadata?.content?.ga || "")
     }
   }, [site.data, form])
 
@@ -105,7 +112,7 @@ export default function SiteSettingsGeneralPage() {
   const [bannerUploading, setBannerUploading] = useState(false)
 
   return (
-    <SettingsLayout title="Site Settings" type="site">
+    <SettingsLayout title="Site Settings">
       <form onSubmit={handleSubmit}>
         <div className="mt-5">
           <label htmlFor="icon" className="form-label">

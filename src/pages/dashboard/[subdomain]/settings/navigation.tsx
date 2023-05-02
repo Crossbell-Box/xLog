@@ -92,7 +92,7 @@ export default function SiteSettingsNavigationPage() {
 
   const itemsModified = useMemo(() => {
     if (!site.isSuccess) return false
-    return !equal(items, site.data?.navigation)
+    return !equal(items, site.data?.metadata?.content?.navigation)
   }, [items, site.data, site.isSuccess])
 
   const updateItem: UpdateItem = (id, newItem) => {
@@ -112,10 +112,12 @@ export default function SiteSettingsNavigationPage() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    updateSite.mutate({
-      site: site.data?.username!,
-      navigation: items,
-    })
+    if (site.data?.handle) {
+      updateSite.mutate({
+        site: site.data?.handle,
+        navigation: items,
+      })
+    }
   }
 
   useEffect(() => {
@@ -136,14 +138,14 @@ export default function SiteSettingsNavigationPage() {
 
   const [hasSet, setHasSet] = useState(false)
   useEffect(() => {
-    if (site.data?.navigation && !hasSet) {
+    if (site.data?.metadata?.content?.navigation && !hasSet) {
       setHasSet(true)
-      setItems(site.data?.navigation)
+      setItems(site.data?.metadata?.content?.navigation)
     }
-  }, [site.data?.navigation, hasSet])
+  }, [site.data?.metadata?.content?.navigation, hasSet])
 
   return (
-    <SettingsLayout title="Site Settings" type="site">
+    <SettingsLayout title="Site Settings">
       <div className="p-5 text-zinc-500 bg-zinc-50 mb-5 rounded-lg text-xs space-y-2">
         <p className="text-zinc-800 text-sm font-bold">{t("Tips")}:</p>
         <p>

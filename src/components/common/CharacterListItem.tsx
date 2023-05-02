@@ -5,13 +5,14 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { noopArr } from "~/lib/noop"
+import { ExpandedCharacter } from "~/lib/types"
 
 import { Avatar } from "../ui/Avatar"
 import { UniLink } from "../ui/UniLink"
 import { FollowingButton } from "./FollowingButton"
 
 const CharacterListItem: React.FC<{
-  character: any
+  character: ExpandedCharacter
   sub: any
 }> = ({ character, sub }) => {
   return (
@@ -43,17 +44,7 @@ const CharacterListItem: React.FC<{
           <BlockchainIcon />
         </UniLink>
       </div>
-      <FollowingButton
-        site={
-          {
-            username: character?.handle,
-            metadata: {
-              proof: character?.characterId,
-            },
-          } as any
-        }
-        size="sm"
-      />
+      <FollowingButton site={character} size="sm" />
     </div>
   )
 }

@@ -2,7 +2,6 @@ import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import { FC, useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import type { Note } from "unidata.js"
 
 import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
@@ -11,16 +10,17 @@ import { useGetState } from "~/hooks/useGetState"
 import { APP_NAME } from "~/lib/env"
 import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
+import { ExpandedNote } from "~/lib/types"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
-const usePageEditLink = (page: { id: string }, isPost: boolean) => {
+const usePageEditLink = (page: ExpandedNote, isPost: boolean) => {
   const router = useRouter()
   const subdomain = router.query.subdomain as string
 
-  return `/dashboard/${subdomain}/editor?id=${page.id}&type=${
+  return `/dashboard/${subdomain}/editor?id=${page.noteId}&type=${
     isPost ? "post" : "page"
   }`
 }
@@ -32,12 +32,12 @@ interface Item {
 }
 export const PagesManagerMenu: FC<{
   isPost: boolean
-  page: Note
+  page: ExpandedNote
   onClick: () => void
 }> = ({ isPost, page, onClick: onClose }) => {
   const { t } = useTranslation(["dashboard", "site"])
 
-  const isCrossbell = !page.applications?.includes("xlog")
+  const isCrossbell = !page.metadata?.content?.sources?.includes("xlog")
   const router = useRouter()
   const createOrUpdatePage = useCreateOrUpdatePage()
 
@@ -110,21 +110,27 @@ export const PagesManagerMenu: FC<{
           setConvertToastId(toastId)
           createOrUpdatePage.mutate({
             published: true,
-            pageId: page.id,
+            pageId: `${page.characterId}-${page.noteId}`,
             siteId: subdomain,
-            tags: page.tags
+            tags: page.metadata?.content?.tags
               ?.filter((tag) => tag !== "post" && tag !== "page")
               ?.join(", "),
             isPost: isPost,
-            applications: page.applications,
+            applications: page.metadata?.content?.sources,
+            characterId: page.characterId,
           })
         } else {
-          if (!page.metadata) {
-            const data = getStorage(`draft-${subdomain}-${page.id}`)
+          if (!page.noteId) {
+            const data = getStorage(
+              `draft-${site.data?.characterId}-${page.draftKey}`,
+            )
             data.isPost = !isPost
-            setStorage(`draft-${subdomain}-${page.id}`, data)
-            queryClient.invalidateQueries(["getPagesBySite", subdomain])
-            queryClient.invalidateQueries(["getPage", page.id])
+            setStorage(`draft-${site.data?.characterId}-${page.draftKey}`, data)
+            queryClient.invalidateQueries([
+              "getPagesBySite",
+              site.data?.characterId,
+            ])
+            queryClient.invalidateQueries(["getPage", page.characterId])
             toast.success("Converted!", {
               id: toastId,
             })
@@ -132,13 +138,14 @@ export const PagesManagerMenu: FC<{
             setConvertToastId(toastId)
             createOrUpdatePage.mutate({
               published: true,
-              pageId: page.id,
+              pageId: `${page.characterId}-${page.noteId}`,
               siteId: subdomain,
-              tags: page.tags
+              tags: page.metadata?.content?.tags
                 ?.filter((tag) => tag !== "post" && tag !== "page")
                 ?.join(", "),
               isPost: !isPost,
-              applications: page.applications,
+              applications: page.metadata?.content?.sources,
+              characterId: page.characterId,
             })
           }
         }
@@ -193,12 +200,12 @@ export const PagesManagerMenu: FC<{
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
     useState<boolean>(false)
   const onDelete = () => {
-    if (!page.metadata) {
+    if (!page.noteId) {
       const toastId = toast.loading("Deleting...")
-      delStorage(`draft-${subdomain}-${page.id}`)
+      delStorage(`draft-${site.data?.characterId}-${page.draftKey}`)
       Promise.all([
-        queryClient.refetchQueries(["getPagesBySite", subdomain]),
-        queryClient.refetchQueries(["getPage", page.id]),
+        queryClient.refetchQueries(["getPagesBySite", site.data?.characterId]),
+        queryClient.refetchQueries(["getPage", page.characterId]),
       ]).then(() => {
         toast.success("Deleted!", {
           id: toastId,
@@ -208,7 +215,8 @@ export const PagesManagerMenu: FC<{
       setDeleteToastId(toast.loading("Deleting..."))
       deletePage.mutate({
         site: subdomain,
-        id: page.id,
+        id: `${page.characterId}-${page.noteId}`,
+        characterId: page.characterId,
       })
     }
   }

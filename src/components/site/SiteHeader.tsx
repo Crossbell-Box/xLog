@@ -25,7 +25,7 @@ import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useIsDark } from "~/hooks/useDarkMode"
 import { CSB_IO, CSB_SCAN, CSB_XCHAR } from "~/lib/env"
-import { Profile } from "~/lib/types"
+import { ExpandedCharacter } from "~/lib/types"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { cn } from "~/lib/utils"
 
@@ -51,12 +51,9 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
     <UniLink
       href={link.url}
       onClick={link.onClick}
-      className={cn(
-        `xlog-site-navigation-item h-10 flex items-center space-x-1 transition-colors relative after:content-[''] hover:after:w-full hover:after:left-0 after:transition-[width,left] after:h-[2px] after:block after:absolute after:bottom-0`,
-        active
-          ? `text-accent after:w-full after:left-0 after:bg-accent`
-          : `hover:text-gray-700 after:w-0 after:left-1/2 after:bg-gray-700`,
-      )}
+      className={cn("xlog-site-navigation-item", {
+        "xlog-site-navigation-item-active": active,
+      })}
     >
       {link.icon && <span>{link.icon}</span>}
       <span className="whitespace-nowrap">{t(link.label)}</span>
@@ -65,25 +62,28 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
 }
 
 export const SiteHeader: React.FC<{
-  site?: Profile | undefined | null
+  site?: ExpandedCharacter
 }> = ({ site }) => {
   const { t } = useTranslation("site")
-  const leftLinks: HeaderLinkType[] = site?.navigation?.find(
+  const leftLinks: HeaderLinkType[] = site?.metadata?.content?.navigation?.find(
     (nav) => nav.url === "/",
   )
-    ? site.navigation
-    : [{ label: "Home", url: "/" }, ...(site?.navigation || [])]
+    ? site.metadata?.content?.navigation
+    : [
+        { label: "Home", url: "/" },
+        ...(site?.metadata?.content?.navigation || []),
+      ]
 
   const moreMenuItems = [
     {
       text: "View on xChar",
       icon: <XCharLogo className="w-full h-full" />,
-      url: `${CSB_XCHAR}/${site?.username}`,
+      url: `${CSB_XCHAR}/${site?.handle}`,
     },
     {
       text: "View on xFeed",
       icon: <XFeedLogo className="w-full h-full" />,
-      url: `${CSB_IO}/@${site?.username}`,
+      url: `${CSB_IO}/@${site?.handle}`,
     },
     {
       text: "View on Hoot It",
@@ -98,12 +98,12 @@ export const SiteHeader: React.FC<{
           />
         </div>
       ),
-      url: `https://hoot.it/search/${site?.username}.csb/activities`,
+      url: `https://hoot.it/search/${site?.handle}.csb/activities`,
     },
     {
       text: "View on Crossbell Scan",
       icon: <BlockchainIcon className="fill-[#c09526] w-full h-full" />,
-      url: `${CSB_SCAN}/address/${site?.metadata?.owner}`,
+      url: `${CSB_SCAN}/address/${site?.owner}`,
     },
     {
       text: "Subscribe to JSON Feed",
@@ -123,7 +123,7 @@ export const SiteHeader: React.FC<{
     {
       text: "Subscribe to RSS",
       icon: <RssIcon className="w-full h-full text-[#ee832f]" />,
-      url: `/feed/xml`,
+      url: `/feed?format=xml`,
       out: true,
     },
     {
@@ -203,12 +203,14 @@ export const SiteHeader: React.FC<{
         }}
       >
         {(() => {
-          switch (site?.banners?.[0]?.mime_type?.split("/")[0]) {
+          switch (
+            site?.metadata?.content?.banners?.[0]?.mime_type?.split("/")[0]
+          ) {
             case "image":
               return (
                 <Image
                   className="max-w-screen-md mx-auto object-cover"
-                  src={site?.banners?.[0]?.address}
+                  src={site?.metadata?.content?.banners?.[0]?.address}
                   alt="banner"
                   fill
                   imageRef={bannerRef as MutableRefObject<HTMLImageElement>}
@@ -218,7 +220,7 @@ export const SiteHeader: React.FC<{
               return (
                 <video
                   className="max-w-screen-md mx-auto object-cover h-full w-full"
-                  src={site?.banners?.[0]?.address}
+                  src={site?.metadata?.content?.banners?.[0]?.address}
                   autoPlay
                   muted
                   playsInline
@@ -237,24 +239,26 @@ export const SiteHeader: React.FC<{
           <div
             className={cn(
               "xlog-site-info flex space-x-6 items-center w-full",
-              site?.banners?.[0]?.address
+              site?.metadata?.content?.banners?.[0]?.address
                 ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-xl p-4 sm:p-8 z-[1] border"
                 : "",
             )}
           >
-            {site?.avatars?.[0] && (
+            {site?.metadata?.content?.avatars?.[0] && (
               <Avatar
                 className="xlog-site-icon max-w-[80px] max-h-[80px] sm:max-w-none sm:max-h-none"
-                images={[getUserContentsUrl(site?.avatars?.[0])]}
+                images={[
+                  getUserContentsUrl(site?.metadata?.content?.avatars?.[0]),
+                ]}
                 size={120}
-                name={site?.name}
+                name={site?.metadata?.content?.name}
                 imageRef={avatarRef as MutableRefObject<HTMLImageElement>}
               />
             )}
             <div className="flex-1 min-w-0 relative">
               <div className="flex items-center justify-between">
                 <div className="xlog-site-name text-2xl sm:text-3xl font-bold text-zinc-900 leading-snug break-words min-w-0">
-                  {site?.name}
+                  {site?.metadata?.content?.name}
                 </div>
                 <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 right-0">
                   <div className="xlog-site-more-menu relative inline-block align-middle">
@@ -307,14 +311,14 @@ export const SiteHeader: React.FC<{
                   </div>
                 </div>
               </div>
-              {site?.description && (
+              {site?.metadata?.content?.bio && (
                 <div className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base line-clamp-4 whitespace-pre-wrap">
-                  {site?.description}
+                  {site?.metadata?.content?.bio}
                 </div>
               )}
               <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row text-sm sm:text-base">
                 <span className="xlog-site-follow-count block sm:inline-block whitespace-nowrap">
-                  <FollowingCount siteId={site?.username} />
+                  <FollowingCount characterId={site?.characterId} />
                 </span>
                 <span className="xlog-site-patron">
                   <PatronButton site={site} />
@@ -324,7 +328,7 @@ export const SiteHeader: React.FC<{
           </div>
         </div>
         <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
-          <div className="xlog-site-navigation flex items-center space-x-5 min-w-0 overflow-x-auto text-sm sm:text-base">
+          <div className="xlog-site-navigation flex items-center gap-1 mx-[-.5rem] min-w-0 text-sm sm:text-base">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}
