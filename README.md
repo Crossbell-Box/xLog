@@ -19,6 +19,8 @@ xLog is a blogging platform that runs on the Crossbell blockchain. It is open so
 
 xLog is a growing community and is always accepting new contributors. There's a lot of different ways to help out and we're always looking for extra hands!
 
+Here is what we are currently planning or working on: https://github.com/orgs/Crossbell-Box/projects/1/views/1
+
 Detailed information about how to contribute can be found in the [contribution guide](https://github.com/Crossbell-Box/xLog/blob/dev/CONTRIBUTING.md)
 
 We will provide some small gifts to contributors as a token of appreciation, currently including the [Honorary Badge](https://xlog.xlog.app/week14-2023#honorary-badges-for-outstanding-contributors) in xLog and special permissions on Discord. In the future, there will be additional rewards such as NFT achievements. Therefore, please do not forget to leave your xLog address and Discord ID when submitting a PR.
