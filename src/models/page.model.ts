@@ -20,6 +20,7 @@ import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 export async function checkPageSlug(input: {
   slug: string
   characterId?: number
+  noteId?: number
 }) {
   if (!input.characterId) {
     return "Character not found"
@@ -33,7 +34,7 @@ export async function checkPageSlug(input: {
         slug: input.slug,
         characterId: input.characterId,
       })
-      if (page) {
+      if (page && page.noteId !== input.noteId) {
         return `Slug "${input.slug}" has already been used`
       }
     } catch (error) {}
