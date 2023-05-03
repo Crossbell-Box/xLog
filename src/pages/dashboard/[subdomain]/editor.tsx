@@ -871,8 +871,7 @@ const EditorExtraProperties: FC<{
 }> = memo(
   ({ isPost, updateValue, subdomain, defaultSlug, openAdvancedOptions }) => {
     const values = useEditorState(
-      (state) =>
-        pick(state, ["publishedAt", "slug", "excerpt", "tags", "password"]),
+      (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
       shallow,
     )
     const date = useDate()
