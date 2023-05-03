@@ -194,6 +194,7 @@ const getLocalPages = (input: { characterId: number; isPost?: boolean }) => {
                 .map((tag: string) => tag.trim())
                 .filter((tag: string) => tag) || []),
             ],
+            slug: page.values?.slug,
             sources: ["xlog"],
           },
         },
