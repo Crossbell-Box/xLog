@@ -89,6 +89,9 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
     },
     site,
   )
+  if (!expandedCharacter.metadata.content) {
+    expandedCharacter.metadata.content = {}
+  }
 
   expandedCharacter.metadata.content.navigation = JSON.parse(
     (expandedCharacter.metadata?.content?.attributes?.find(
