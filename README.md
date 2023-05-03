@@ -29,3 +29,5 @@ We will provide some small gifts to contributors as a token of appreciation, cur
 - [Crossbell](https://github.com/Crossbell-Box): The blockchain and its supporting facilities on which xLog operates.
 - [Mix Space](https://github.com/mx-space): Another excellent blogging platform integrated with xLog.
 - [xLog mobile](https://github.com/Crossbell-Box/xLog-mobile): The mobile app for xLog.
+- [xLog custom css debugger](https://github.com/birdgg/xLog-custom-css-debugger): A convenient chrome extension for debugging custom CSS in Xlog.
+- [xLog card](https://github.com/Alex-Programer/xlog-card): Card component for displaying xLog information.

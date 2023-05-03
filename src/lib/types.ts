@@ -101,6 +101,7 @@ export type ExpandedCharacter = CharacterEntity & {
       navigation?: SiteNavigationItem[]
       css?: string
       ga?: string
+      ua?: string
       custom_domain?: string
     }
   }
