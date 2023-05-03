@@ -35,7 +35,8 @@ export const rehypeImage: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
 
       if (isExternLink(url)) {
         if (!url.startsWith("https:") && IS_PROD) {
-          throw new Error(`External image url must start with https`)
+          console.error(`External image url must start with https: ${url}`)
+          url.replace(/^http:/, "https:")
         }
         return
       }
