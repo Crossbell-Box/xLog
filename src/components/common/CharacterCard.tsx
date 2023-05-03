@@ -1,14 +1,12 @@
 import { useTranslation } from "next-i18next"
-import { useEffect, useState } from "react"
 
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import { Titles } from "~/components/common/Titles"
 import { Avatar } from "~/components/ui/Avatar"
 import { useDate } from "~/hooks/useDate"
-import type { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import * as siteModel from "~/models/site.model"
+import { useGetSite, useGetSiteByAddress } from "~/queries/site"
 
 export const CharacterCard: React.FC<{
   siteId?: string
@@ -27,25 +25,30 @@ export const CharacterCard: React.FC<{
   simple,
   style,
 }) => {
-  const [firstOpen, setFirstOpen] = useState("")
-  const [site, setSite] = useState<ExpandedCharacter>()
+  // const [firstOpen, setFirstOpen] = useState("")
+  // const [site, setSite] = useState<ExpandedCharacter>()
   const date = useDate()
   const { t } = useTranslation("common")
 
-  useEffect(() => {
-    if (open && (firstOpen !== (siteId || address) || !site)) {
-      if (siteId || address) {
-        setFirstOpen(siteId || address || "")
-        if (siteId) {
-          siteModel.getSite(siteId).then((site) => setSite(site))
-        } else if (address) {
-          siteModel.getSiteByAddress(address).then((site) => setSite(site))
-        }
-      } else {
-        setSite(undefined)
-      }
-    }
-  }, [open, firstOpen, siteId, address, site])
+  const { data: siteData } = useGetSite(siteId)
+  const { data: addressData } = useGetSiteByAddress(address)
+
+  const site = siteData ? siteData : addressData
+
+  // useEffect(() => {
+  //   if (open && (firstOpen !== (siteId || address) || !site)) {
+  //     if (siteId || address) {
+  //       setFirstOpen(siteId || address || "")
+  //       if (siteId) {
+  //         siteModel.getSite(siteId).then((site) => setSite(site))
+  //       } else if (address) {
+  //         siteModel.getSiteByAddress(address).then((site) => setSite(site))
+  //       }
+  //     } else {
+  //       setSite(undefined)
+  //     }
+  //   }
+  // }, [open, firstOpen, siteId, address, site])
 
   return (
     <span

@@ -401,3 +401,12 @@ export const useGetGreenfieldId = (cid?: string) => {
     return siteModel.getGreenfieldId(cid)
   })
 }
+
+export const useGetSiteByAddress = (address?: string) => {
+  return useQuery(["useGetSiteByAddress", address], async () => {
+    if (!address) {
+      return null
+    }
+    return siteModel.getSiteByAddress(address)
+  })
+}
