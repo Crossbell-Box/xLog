@@ -124,10 +124,9 @@ export const CommentInput: React.FC<{
             type="submit"
             isLoading={commentPage.isLoading || updateComment.isLoading}
             isDisabled={
-              !!account?.character
-                ? !!!inputContent ||
-                  inputContent === comment?.metadata?.content?.content
-                : false
+              !!account?.character &&
+              (!inputContent ||
+                inputContent === comment?.metadata?.content?.content)
             }
           >
             {t(
