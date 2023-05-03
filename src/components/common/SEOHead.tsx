@@ -62,13 +62,13 @@ export const SEOHead: React.FC<{
         <>
           <link
             rel="alternate"
-            href="/latest"
+            href="/feed/latest"
             title="xLog Latest"
             type="application/feed+json"
           ></link>
           <link
             rel="alternate"
-            href="/latest?format=xml"
+            href="/feed/latest?format=xml"
             title="xLog Latest"
             type="application/rss+xml"
           ></link>
