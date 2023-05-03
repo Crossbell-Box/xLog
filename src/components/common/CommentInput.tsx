@@ -41,6 +41,8 @@ export const CommentInput: React.FC<{
     },
   })
 
+  const inputContent = form.watch("content").trim()
+
   const handleSubmit = form.handleSubmit(async (values) => {
     if (characterId && noteId) {
       if (comment) {
@@ -122,7 +124,9 @@ export const CommentInput: React.FC<{
             type="submit"
             isLoading={commentPage.isLoading || updateComment.isLoading}
             isDisabled={
-              !!account?.character && form.watch("content").trim().length === 0
+              !!account?.character &&
+              (!inputContent ||
+                inputContent === comment?.metadata?.content?.content)
             }
           >
             {t(
