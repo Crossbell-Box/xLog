@@ -25,30 +25,13 @@ export const CharacterCard: React.FC<{
   simple,
   style,
 }) => {
-  // const [firstOpen, setFirstOpen] = useState("")
-  // const [site, setSite] = useState<ExpandedCharacter>()
   const date = useDate()
   const { t } = useTranslation("common")
 
-  const { data: siteData } = useGetSite(siteId)
-  const { data: addressData } = useGetSiteByAddress(address)
+  const { data: dataBySite } = useGetSite(siteId)
+  const { data: dataByAddress } = useGetSiteByAddress(address)
 
-  const site = siteData ? siteData : addressData
-
-  // useEffect(() => {
-  //   if (open && (firstOpen !== (siteId || address) || !site)) {
-  //     if (siteId || address) {
-  //       setFirstOpen(siteId || address || "")
-  //       if (siteId) {
-  //         siteModel.getSite(siteId).then((site) => setSite(site))
-  //       } else if (address) {
-  //         siteModel.getSiteByAddress(address).then((site) => setSite(site))
-  //       }
-  //     } else {
-  //       setSite(undefined)
-  //     }
-  //   }
-  // }, [open, firstOpen, siteId, address, site])
+  const site = dataBySite ? dataBySite : dataByAddress
 
   return (
     <span
