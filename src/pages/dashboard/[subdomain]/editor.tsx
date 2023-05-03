@@ -109,42 +109,46 @@ export default function SubdomainEditor() {
   const subdomain = router.query.subdomain as string
   const isPost = router.query.type === "post"
 
+  const site = useGetSite(subdomain)
+
   const [draftKey, setDraftKey] = useState<string>("")
   useEffect(() => {
     if (subdomain) {
       let key
       if (!pageId) {
         const randomId = nanoid()
-        key = `draft-${subdomain}-local-${randomId}`
+        key = `draft-${site.data?.characterId}-local-${randomId}`
         setDraftKey(key)
-        queryClient.invalidateQueries(["getPagesBySite", subdomain])
+        queryClient.invalidateQueries([
+          "getPagesBySite",
+          site.data?.characterId,
+        ])
         router.replace(
           `/dashboard/${subdomain}/editor?id=local-${randomId}&type=${router.query.type}`,
         )
       } else {
-        key = `draft-${subdomain}-${pageId}`
+        key = `draft-${site.data?.characterId}-${pageId}`
       }
       setDraftKey(key)
       setDefaultSlug(
         key
-          .replace(`draft-${subdomain}-local-`, "")
-          .replace(`draft-${subdomain}-`, ""),
+          .replace(`draft-${site.data?.characterId}-local-`, "")
+          .replace(`draft-${site.data?.characterId}-`, ""),
       )
     }
-  }, [subdomain, pageId, queryClient, router])
-
-  const site = useGetSite(subdomain)
+  }, [subdomain, pageId, queryClient, router, site.data?.characterId])
 
   const page = useGetPage({
-    site: subdomain!,
-    pageId: pageId || draftKey.replace(`draft-${subdomain}-`, ""),
+    characterId: site.data?.characterId,
+    noteId: pageId && /\d+/.test(pageId) ? +pageId : undefined,
+    slug: pageId || draftKey.replace(`draft-${site.data?.characterId}-`, ""),
   })
 
   const [visibility, setVisibility] = useState<PageVisibilityEnum>()
 
   useEffect(() => {
     if (page.isSuccess) {
-      setVisibility(getPageVisibility(page.data || {}))
+      setVisibility(getPageVisibility(page.data || undefined))
     }
   }, [page.isSuccess, page.data])
 
@@ -175,7 +179,7 @@ export default function SubdomainEditor() {
         setDefaultSlug(
           getDefaultSlug(
             value as string,
-            draftKey.replace(`draft-${subdomain}-`, ""),
+            draftKey.replace(`draft-${site.data?.characterId}-`, ""),
           ),
         )
       }
@@ -194,7 +198,10 @@ export default function SubdomainEditor() {
           values: newValues,
           isPost: isPost,
         })
-        queryClient.invalidateQueries(["getPagesBySite", subdomain])
+        queryClient.invalidateQueries([
+          "getPagesBySite",
+          site.data?.characterId,
+        ])
       }
       useEditorState.setState(newValues)
     },
@@ -209,8 +216,7 @@ export default function SubdomainEditor() {
   const savePage = async (published: boolean) => {
     const check = await checkPageSlug({
       slug: values.slug || defaultSlug,
-      site: subdomain,
-      pageId: pageId,
+      characterId: site.data?.characterId,
     })
     if (check) {
       toast.error(check)
@@ -228,9 +234,10 @@ export default function SubdomainEditor() {
           (values.slug || defaultSlug) &&
           `${getSiteLink({
             subdomain,
-            domain: site.data?.custom_domain,
+            domain: site.data?.metadata?.content?.custom_domain,
           })}/${encodeURIComponent(values.slug || defaultSlug)}`,
-        applications: page.data?.applications,
+        applications: page.data?.metadata?.content?.sources,
+        characterId: site.data?.characterId,
       })
     }
   }
@@ -242,10 +249,13 @@ export default function SubdomainEditor() {
       if (createOrUpdatePage.data?.code === 0) {
         if (draftKey) {
           delStorage(draftKey)
-          queryClient.invalidateQueries(["getPagesBySite", subdomain])
+          queryClient.invalidateQueries([
+            "getPagesBySite",
+            site.data?.characterId,
+          ])
           queryClient.invalidateQueries([
             "getPage",
-            draftKey.replace(`draft-${subdomain}-`, ""),
+            draftKey.replace(`draft-${site.data?.characterId}-`, ""),
           ])
         } else {
           queryClient.invalidateQueries(["getPage", pageId])
@@ -253,7 +263,7 @@ export default function SubdomainEditor() {
 
         if (createOrUpdatePage.data.data) {
           router.replace(
-            `/dashboard/${subdomain}/editor?id=${site.data?.metadata?.proof}-${createOrUpdatePage.data.data}&type=${router.query.type}`,
+            `/dashboard/${subdomain}/editor?id=${site.data?.characterId}-${createOrUpdatePage.data.data}&type=${router.query.type}`,
           )
         }
 
@@ -267,27 +277,27 @@ export default function SubdomainEditor() {
 
   useEffect(() => {
     if (!page.data || !draftKey) return
-    setInitialContent(page.data.body?.content || "")
+    setInitialContent(page.data.metadata?.content?.content || "")
     useEditorState.setState({
-      title: page.data.title || "",
-      publishedAt: page.data.date_published,
-      published: !!page.data.id,
-      excerpt: page.data.summary?.content || "",
-      slug: page.data.slug || "",
+      title: page.data.metadata?.content?.title || "",
+      publishedAt: page.data.metadata?.content?.date_published,
+      published: !!page.data.noteId,
+      excerpt: page.data.metadata?.content?.summary || "",
+      slug: page.data.metadata?.content?.slug || "",
       tags:
-        page.data.tags
+        page.data.metadata?.content?.tags
           ?.filter((tag) => tag !== "post" && tag !== "page")
           ?.join(", ") || "",
-      content: page.data.body?.content || "",
+      content: page.data.metadata?.content?.content || "",
       password: page.data.password || "",
     })
     setDefaultSlug(
       getDefaultSlug(
-        page.data.title || "",
-        draftKey.replace(`draft-${subdomain}-`, ""),
+        page.data.metadata?.content?.title || "",
+        draftKey.replace(`draft-${site.data?.characterId}-`, ""),
       ),
     )
-  }, [page.data, subdomain, draftKey])
+  }, [page.data, subdomain, draftKey, site.data?.characterId])
 
   const [currentScrollArea, setCurrentScrollArea] = useState<string>("")
   const [view, setView] = useState<EditorView>()
@@ -490,11 +500,11 @@ export default function SubdomainEditor() {
   const onPreviewButtonClick = useCallback(() => {
     window.open(
       `/_site/${subdomain}/preview/${draftKey.replace(
-        `draft-${subdomain}-`,
+        `draft-${site.data?.characterId}-`,
         "",
       )}`,
     )
-  }, [draftKey, subdomain])
+  }, [draftKey, subdomain, site.data?.characterId])
 
   const [isAdvancedOptionsOpen, setIsAdvancedOptionsOpen] =
     useState<boolean>(false)
@@ -516,20 +526,23 @@ export default function SubdomainEditor() {
 
   const tryUnlock = useCallback(
     async (password: string) => {
-      if (!page.data?.attributes || page.data.attributes.length === 0) {
+      if (
+        !page.data?.metadata.content?.attributes ||
+        page.data.metadata.content.attributes.length === 0
+      ) {
         toast.error(tCommon("Failed to detect note encrypt status."))
         return
       }
 
       // Get encrypted content & hmac signature
       const encryptedData = String(
-        page.data.attributes.find(
+        page.data.metadata.content.attributes.find(
           (attribute) =>
             attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
         )?.value,
       )
       const hmacSignature = String(
-        page.data.attributes.find(
+        page.data.metadata.content.attributes.find(
           (attribute) =>
             attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
         )?.value,
@@ -573,7 +586,7 @@ export default function SubdomainEditor() {
       // Start detecting encrypt state
       setIsLoadingEncrypt(true)
 
-      const encryptAlgoVersion = page.data.attributes?.find(
+      const encryptAlgoVersion = page.data.metadata.content.attributes?.find(
         (attribute) => attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_Version,
       )?.value
       if (encryptAlgoVersion) {
@@ -798,7 +811,7 @@ export default function SubdomainEditor() {
                 className="text-accent"
                 href={`${getSiteLink({
                   subdomain,
-                  domain: site.data?.custom_domain,
+                  domain: site.data?.metadata?.content?.custom_domain,
                 })}/${encodeURIComponent(values.slug || defaultSlug)}`}
               >
                 {t("View the post")}
@@ -807,13 +820,10 @@ export default function SubdomainEditor() {
             <li>
               <UniLink
                 className="text-accent"
-                href={
-                  page.data?.metadata?.transactions &&
-                  `${CSB_SCAN}/tx/${
-                    page.data?.metadata?.transactions[1] ||
-                    page.data?.metadata?.transactions[0]
-                  }`
-                }
+                href={`${CSB_SCAN}/tx/${
+                  page.data?.updatedTransactionHash ||
+                  page.data?.transactionHash
+                }`}
               >
                 {t("View the transaction")}
               </UniLink>
@@ -913,13 +923,13 @@ const EditorExtraProperties: FC<{
                     <UniLink
                       href={`${getSiteLink({
                         subdomain,
-                        domain: site.data?.custom_domain,
+                        domain: site.data?.metadata?.content?.custom_domain,
                       })}/${encodeURIComponent(values.slug || defaultSlug)}`}
                       className="hover:underline"
                     >
                       {getSiteLink({
                         subdomain,
-                        domain: site.data?.custom_domain,
+                        domain: site.data?.metadata?.content?.custom_domain,
                         noProtocol: true,
                       })}
                       /{encodeURIComponent(values.slug || defaultSlug)}

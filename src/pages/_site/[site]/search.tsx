@@ -38,7 +38,7 @@ function SiteSearchPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
   const { t } = useTranslation(["common"])
 
   const posts = useGetSearchPagesBySite({
-    characterId: site.data?.metadata?.proof,
+    characterId: site.data?.characterId,
     keyword,
   })
 

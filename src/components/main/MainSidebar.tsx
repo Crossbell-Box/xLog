@@ -65,7 +65,7 @@ export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
             >
               {t("Show more")}
             </div>
-            {showcaseSites.data?.map((site: any) => (
+            {showcaseSites.data?.map((site) => (
               <li className="flex align-middle" key={site.handle}>
                 <UniLink
                   href={getSiteLink({
@@ -78,7 +78,7 @@ export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
                       <Image
                         className="rounded-full"
                         src={
-                          site.metadata.content?.avatars?.[0] ||
+                          site?.metadata?.content?.avatars?.[0] ||
                           "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
                         }
                         alt={site.handle}
@@ -89,9 +89,9 @@ export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
                   </CharacterFloatCard>
                   <span className="ml-3 min-w-0 flex-1 justify-center inline-flex flex-col">
                     <span className="truncate w-full inline-block font-medium">
-                      {site.metadata.content?.name}
+                      {site?.metadata?.content?.name}
                     </span>
-                    {site.metadata.content?.bio && (
+                    {site?.metadata?.content?.bio && (
                       <span className="text-gray-500 text-xs truncate w-full inline-block mt-1">
                         {site.metadata.content?.bio}
                       </span>

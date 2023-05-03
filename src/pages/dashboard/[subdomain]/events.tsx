@@ -41,8 +41,8 @@ function SiteAvatar({ siteId }: { siteId: string }) {
           })}
         >
           <Avatar
-            images={site.data?.avatars || []}
-            name={site.data?.name || ""}
+            images={site.data?.metadata?.content?.avatars || []}
+            name={site.data?.metadata?.content?.name || ""}
             size={40}
           />
         </UniLink>
@@ -56,8 +56,8 @@ export default function EventsPage() {
   const { t } = useTranslation("dashboard")
   const pages = useGetPagesBySite({
     type: "post",
-    site: "xlog-events",
-    take: 100,
+    characterId: 50153,
+    limit: 100,
   })
 
   const [latestEventRead, setLatestEventRead] = useState<Date>()
@@ -73,7 +73,7 @@ export default function EventsPage() {
   }, [])
 
   pages.data?.pages[0]?.list.forEach((item) => {
-    item.metadata?.frontMatter?.Winners
+    item.metadata?.content?.frontMatter?.Winners
   })
 
   return (
@@ -82,19 +82,18 @@ export default function EventsPage() {
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
           {pages.data?.pages[0]?.list.map((item) => {
             let status
-            if (item.metadata?.frontMatter?.EndTime < new Date()) {
+            if (item.metadata?.content?.frontMatter?.EndTime < new Date()) {
               status = "Ended"
-            } else if (item.metadata?.frontMatter?.StartTime > new Date()) {
+            } else if (
+              item.metadata?.content?.frontMatter?.StartTime > new Date()
+            ) {
               status = "Upcoming"
             } else {
               status = "Ongoing"
             }
 
             let isUnread = false
-            if (
-              latestEventRead &&
-              new Date(item.date_created) > latestEventRead
-            ) {
+            if (latestEventRead && new Date(item.createdAt) > latestEventRead) {
               isUnread = true
             }
             return (
@@ -102,7 +101,7 @@ export default function EventsPage() {
                 className={cn("bg-slate-100 rounded-lg relative", {
                   "opacity-70": status === "Ended",
                 })}
-                key={item.id}
+                key={item.transactionHash}
               >
                 {isUnread && (
                   <div>
@@ -125,44 +124,44 @@ export default function EventsPage() {
                         {t(status)}
                       </span>
                     </div>
-                    {item.cover && (
+                    {item.metadata?.content?.cover && (
                       <div className="w-full h-24 mb-4">
                         <Image
                           className="object-cover rounded"
                           alt="cover"
                           fill={true}
-                          src={item.cover}
+                          src={item.metadata?.content?.cover}
                         ></Image>
                       </div>
                     )}
                     <div className="font-bold text-xl text-zinc-800 leading-tight">
-                      {item.title}
+                      {item.metadata?.content?.title}
                     </div>
                   </div>
                   <div className="mt-4 space-y-4 text-sm">
                     <div>
                       <span className="font-bold">{t("Date")}:</span>{" "}
                       {date.formatDate(
-                        item.metadata?.frontMatter?.StartTime,
+                        item.metadata?.content?.frontMatter?.StartTime,
                         "lll",
                         isMounted ? undefined : "America/Los_Angeles",
                       )}{" "}
                       -{" "}
                       {date.formatDate(
-                        item.metadata?.frontMatter?.EndTime,
+                        item.metadata?.content?.frontMatter?.EndTime,
                         "lll",
                         isMounted ? undefined : "America/Los_Angeles",
                       )}
                     </div>
                     <div>
                       <span className="font-bold">{t("Prize")}:</span>{" "}
-                      {item.metadata?.frontMatter?.Prize}
+                      {item.metadata?.content?.frontMatter?.Prize}
                     </div>
-                    {item.metadata?.frontMatter?.Winners?.map && (
+                    {item.metadata?.content?.frontMatter?.Winners?.map && (
                       <div>
                         <span className="font-bold">{t("Winners")}:</span>
                         <div className="flex items-center space-x-2 mt-2">
-                          {item.metadata?.frontMatter?.Winners?.map?.(
+                          {item.metadata?.content?.frontMatter?.Winners?.map?.(
                             (winner: string) => (
                               <SiteAvatar key={winner} siteId={winner} />
                             ),
@@ -174,8 +173,8 @@ export default function EventsPage() {
                   <UniLink
                     className="mt-6 font-bold flex items-center leading-none"
                     href={
-                      item.metadata?.frontMatter?.ExtraLink ||
-                      item.related_urls?.[0]
+                      item.metadata?.content?.frontMatter?.ExtraLink ||
+                      `/api/redirection?characterId=${item.characterId}&noteId=${item.noteId}`
                     }
                   >
                     {t("Learn more")}{" "}

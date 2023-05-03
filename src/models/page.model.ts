@@ -1,16 +1,22 @@
 import { NoteMetadata } from "crossbell.js"
-import type { Contract } from "crossbell.js"
+import type {
+  CharacterEntity,
+  Contract,
+  ListResponse,
+  MintedNoteEntity,
+  NoteEntity,
+} from "crossbell.js"
 import type Unidata from "unidata.js"
 
 import { GeneralAccount } from "@crossbell/connect-kit"
 import { indexer } from "@crossbell/indexer"
 
-import { expandCrossbellNote, expandUnidataNote } from "~/lib/expand-unit"
+import { expandCrossbellNote } from "~/lib/expand-unit"
 import { notFound } from "~/lib/server-side-props"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
 import { PageVisibilityEnum } from "~/lib/types"
-import type { ExpandedNote, Note, Notes } from "~/lib/types"
+import type { ExpandedNote } from "~/lib/types"
 import {
   Encrypt,
   EncryptAlgorithmVersion,
@@ -18,29 +24,24 @@ import {
   XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
   XLOG_ENCRYPT_ATTRIBUTE_Version,
 } from "~/lib/web-crypto"
-import unidata from "~/queries/unidata.server"
 
-export async function checkPageSlug(
-  input: {
-    slug: string
-    site: string
-    pageId?: string
-  },
-  customUnidata?: Unidata,
-) {
+export async function checkPageSlug(input: {
+  slug: string
+  characterId?: number
+}) {
+  if (!input.characterId) {
+    return "Character not found"
+  }
   const reserved = checkSlugReservedWords(input.slug)
   if (reserved) {
     return reserved
   } else {
     try {
-      const page = await getPage(
-        {
-          page: input.slug,
-          site: input.site,
-        },
-        customUnidata,
-      )
-      if (page && page.id !== input.pageId) {
+      const page = await getPage({
+        slug: input.slug,
+        characterId: input.characterId,
+      })
+      if (page) {
         return `Slug "${input.slug}" has already been used`
       }
     } catch (error) {}
@@ -69,6 +70,8 @@ export async function createOrUpdatePage(
   customUnidata?: Unidata,
   newbieToken?: string,
 ) {
+  const { default: unidata } = await import("~/queries/unidata.server")
+
   if (!input.published) {
     return await (customUnidata || unidata).notes.set(
       {
@@ -87,9 +90,7 @@ export async function createOrUpdatePage(
   }
 
   // Prepare basic info
-  const noteMeta: Partial<
-    Omit<Note, "date_created" | "date_updated" | "source" | "metadata">
-  > = {
+  const noteMeta: any = {
     ...(input.externalUrl && { related_urls: [input.externalUrl] }),
     ...(input.pageId && { id: input.pageId }),
     ...(input.title && { title: input.title }),
@@ -173,7 +174,7 @@ export async function createOrUpdatePage(
 export async function postNotes(
   input: {
     siteId: string
-    characterId: string
+    characterId: number
     notes: NoteMetadata[]
   },
   contract?: Contract,
@@ -186,164 +187,173 @@ export async function postNotes(
   )
 }
 
-const getLocalPages = (input: { site: string; isPost?: boolean }) => {
-  const pages: Note[] = []
-  getKeys(`draft-${input.site}-`).forEach((key) => {
+const getLocalPages = (input: { characterId: number; isPost?: boolean }) => {
+  const pages: ExpandedNote[] = []
+  getKeys(`draft-${input.characterId}-`).forEach((key) => {
     const page = getStorage(key)
     if (input.isPost === undefined || page.isPost === input.isPost) {
-      pages.push({
-        id: key.replace(`draft-${input.site}-`, ""),
-        title: page.values?.title,
-        body: {
-          content: page.values?.content,
-          mime_type: "text/markdown",
+      const note: ExpandedNote = {
+        characterId: input.characterId,
+        noteId: 0,
+        draftKey: key.replace(`draft-${input.characterId}-`, ""),
+        linkItemType: null,
+        linkKey: "",
+        toCharacterId: null,
+        toAddress: null,
+        toNoteId: null,
+        toHeadCharacterId: null,
+        toHeadNoteId: null,
+        toContractAddress: null,
+        toTokenId: null,
+        toLinklistId: null,
+        toUri: null,
+        deleted: false,
+        locked: false,
+        contractAddress: null,
+        uri: null,
+        operator: "",
+        owner: "",
+        createdAt: new Date(page.date).toISOString(),
+        updatedAt: new Date(page.date).toISOString(),
+        deletedAt: null,
+        transactionHash: "",
+        blockNumber: 0,
+        logIndex: 0,
+        updatedTransactionHash: "",
+        updatedBlockNumber: 0,
+        updatedLogIndex: 0,
+        metadata: {
+          content: {
+            title: page.values?.title,
+            content: page.values?.content,
+            date_published: page.values?.publishedAt,
+            summary: page.values?.excerpt,
+            tags: [
+              page.isPost ? "post" : "page",
+              ...(page.values?.tags
+                ?.split(",")
+                .map((tag: string) => tag.trim())
+                .filter((tag: string) => tag) || []),
+            ],
+            sources: ["xlog"],
+          },
         },
-        date_updated: new Date(page.date).toISOString(),
-        date_published: page.values?.publishedAt,
-        summary: {
-          content: page.values?.excerpt,
-          mime_type: "text/markdown",
-        },
-        tags: [
-          page.isPost ? "post" : "page",
-          ...(page.values?.tags
-            ?.split(",")
-            .map((tag: string) => tag.trim())
-            .filter((tag: string) => tag) || []),
-        ],
-        applications: ["xlog"],
-        ...(page.values?.slug && {
-          attributes: [
-            {
-              trait_type: "xlog_slug",
-              value: page.values?.slug,
-            },
-          ],
-        }),
-        preview: true,
+        local: true,
         password: page.values?.password,
-      })
+      }
+      pages.push(note)
     }
   })
   return pages
 }
 
-export async function getPagesBySite(
-  input: {
-    site?: string
-    type: "post" | "page"
-    visibility?: PageVisibilityEnum | null
-    take?: number | null
-    cursor?: string | null
-    tags?: string[]
-    useStat?: boolean
-    keepBody?: boolean
-  },
-  customUnidata?: Unidata,
-) {
-  if (!input.site) {
+export async function getPagesBySite(input: {
+  characterId?: number
+  type: "post" | "page"
+  visibility?: PageVisibilityEnum
+  limit?: number
+  cursor?: string
+  tags?: string[]
+  useStat?: boolean
+  keepBody?: boolean
+}) {
+  if (!input.characterId) {
     return {
-      total: 0,
+      count: 0,
       list: [],
+      cursor: null,
     }
   }
 
   const visibility = input.visibility || PageVisibilityEnum.All
-  const crossbell = visibility === PageVisibilityEnum.Crossbell
 
-  const options = {
-    source: "Crossbell Note",
-    identity: input.site,
-    platform: "Crossbell",
-    limit: input.take || 10,
-    order_by: "date_published" as "date_published",
-    filter: {
-      tags: [...(input.tags || []), ...(crossbell ? [] : [input.type])],
-      applications: [...(crossbell ? [] : ["xlog"])],
-    },
-    ...(input.cursor && { cursor: input.cursor }),
-  }
+  const notes = await indexer.getNotes({
+    characterId: input.characterId,
+    limit: input.limit || 10,
+    cursor: input.cursor,
+    orderBy: "publishedAt",
+    tags: [...(input.tags || []), input.type],
+    sources: "xlog",
+  })
 
-  let pages: Notes = {
-    total: 0,
-    list: [],
-  }
-
-  pages = (await (customUnidata || unidata).notes.get(options)) || {
-    total: 0,
-    list: [],
-  }
-
-  if (!crossbell) {
-    const local = getLocalPages({
-      site: input.site,
-      isPost: input.type === "post",
-    })
-    local.forEach((localPage) => {
-      const index = pages.list.findIndex((page) => page.id === localPage.id)
-      if (
-        index >= 0 &&
-        new Date(localPage.date_updated) >
-          new Date(pages.list[index].date_updated)
-      ) {
-        localPage.metadata = pages.list[index].metadata
-        pages.list[index] = localPage
-      } else {
-        pages.list.push(localPage)
-        pages.total++
+  const list = await Promise.all(
+    notes?.list.map(async (note) => {
+      const expanded = await expandCrossbellNote(note, input.useStat)
+      if (!input.keepBody) {
+        delete expanded.metadata?.content?.content
       }
-    })
-    pages.list = pages.list.sort(
-      (a, b) => +new Date(b.date_published) - +new Date(a.date_published),
-    )
-  }
+      return expanded
+    }),
+  )
 
-  if (pages?.list) {
-    switch (visibility) {
-      case PageVisibilityEnum.Published:
-        pages.list = pages.list.filter(
-          (page) =>
-            +new Date(page.date_published) <= +new Date() && page.metadata,
-        )
-        break
-      case PageVisibilityEnum.Draft:
-        pages.list = pages.list.filter((page) => !page.metadata)
-        break
-      case PageVisibilityEnum.Scheduled:
-        pages.list = pages.list.filter(
-          (page) => +new Date(page.date_published) > +new Date(),
-        )
-        break
-      case PageVisibilityEnum.Crossbell:
-        pages.list = pages.list.filter(
-          (page) => !page.applications?.includes("xlog"),
-        )
-        break
+  const expandedNotes: {
+    list: ExpandedNote[]
+    count: number
+    cursor: string | null
+  } = Object.assign(notes, {
+    list,
+  })
+
+  const local = getLocalPages({
+    characterId: input.characterId,
+    isPost: input.type === "post",
+  })
+
+  local.forEach((localPage) => {
+    const index = expandedNotes.list.findIndex(
+      (page) => localPage.draftKey === page.noteId + "",
+    )
+    if (
+      index !== -1 &&
+      new Date(localPage.updatedAt) >
+        new Date(expandedNotes.list[index].updatedAt)
+    ) {
+      expandedNotes.list[index] = {
+        ...expandedNotes.list[index],
+        metadata: {
+          content: localPage.metadata?.content,
+        },
+        local: true,
+      }
+    } else {
+      expandedNotes.list.push(localPage)
+      expandedNotes.count++
     }
-    const allLength = pages.list.length
-    pages.list = pages.list.filter(
-      (page) => page.date_published !== new Date("9999-01-01").toISOString(),
-    )
-    pages.total = pages.total - (allLength - pages.list.length)
+  })
 
-    await Promise.all(
-      pages?.list.map(async (page) => {
-        await expandUnidataNote(page, input.useStat)
-
-        if (!input.keepBody) {
-          delete page.body
-        }
-
-        return page
-      }),
-    )
+  switch (visibility) {
+    case PageVisibilityEnum.Published:
+      expandedNotes.list = expandedNotes.list.filter(
+        (page) =>
+          (!page.metadata?.content?.date_published ||
+            +new Date(page.metadata?.content?.date_published) <= +new Date()) &&
+          page.noteId,
+      )
+      break
+    case PageVisibilityEnum.Draft:
+      expandedNotes.list = expandedNotes.list.filter((page) => !page.noteId)
+      break
+    case PageVisibilityEnum.Scheduled:
+      expandedNotes.list = expandedNotes.list.filter(
+        (page) =>
+          page.metadata?.content?.date_published &&
+          +new Date(page.metadata?.content?.date_published) > +new Date(),
+      )
+      break
   }
 
-  return pages
+  expandedNotes.list = expandedNotes.list.sort((a, b) =>
+    a.metadata?.content?.date_published && b.metadata?.content?.date_published
+      ? +new Date(b.metadata?.content?.date_published) -
+        +new Date(a.metadata?.content?.date_published)
+      : 0,
+  )
+
+  return expandedNotes
 }
 
 export async function getSearchPagesBySite(input: {
-  characterId?: string
+  characterId?: number
   keyword?: string
   cursor?: string
 }) {
@@ -368,81 +378,67 @@ export async function getSearchPagesBySite(input: {
   }
 }
 
-export async function getPage<TRender extends boolean = false>(
-  input: {
-    /** page slug or id,  `site` is needed when `page` is a slug  */
-    page?: string
-    pageId?: string
-    site?: string
-    useStat?: boolean
-    password?: string
-  },
-  customUnidata?: Unidata,
-) {
-  if (!input.site || !(input.page || input.pageId)) {
-    return null
-  }
+export async function getPage<TRender extends boolean = false>(input: {
+  slug?: string
+  characterId: number
+  useStat?: boolean
+  noteId?: number
+  password?: string
+}) {
+  const mustLocal = input.slug?.startsWith("local-")
 
-  const mustLocal = input.pageId?.startsWith("local-")
-
-  let page: Note | null = null
+  let page: NoteEntity | null = null
 
   if (!mustLocal) {
-    // on-chain page
-    if (!input.pageId) {
-      if (!input.site || !input.page) return null
+    if (!input.noteId) {
       const response = await fetch(
         `/api/slug2id?${new URLSearchParams({
-          handle: input.site,
-          slug: input.page,
+          characterId: input.characterId + "",
+          slug: input.slug!,
         }).toString()}`,
       )
-      const slug2Id = await response.json()
-      if (!slug2Id?.noteId) {
-        return null
-      }
-      input.pageId = `${slug2Id.characterId}-${slug2Id.noteId}`
+      input.noteId = (await response.json())?.noteId
     }
-
-    const pages = await (customUnidata || unidata).notes.get({
-      source: "Crossbell Note",
-      identity: input.site,
-      platform: "Crossbell",
-      filter: {
-        id: input.pageId,
-      },
-    })
-    page = pages?.list[0] || null
+    if (input.noteId) {
+      page = await indexer.getNote(input.characterId, input.noteId)
+    }
   }
 
   // local page
   const local = getLocalPages({
-    site: input.site,
+    characterId: input.characterId,
   })
   const localPage = local.find(
-    (page) => page.id === input.page || page.id === input.pageId,
+    (page) =>
+      page.draftKey === input.noteId + "" || page.draftKey === input.slug,
   )
 
+  let expandedNote: ExpandedNote | undefined
+  if (page) {
+    expandedNote = await expandCrossbellNote(page, input.useStat)
+  }
+
   if (localPage) {
-    if (page) {
-      if (new Date(localPage.date_updated) > new Date(page.date_updated)) {
-        localPage.metadata = page.metadata
-        page = localPage
+    if (expandedNote) {
+      if (new Date(localPage.updatedAt) > new Date(expandedNote.updatedAt)) {
+        expandedNote = {
+          ...expandedNote,
+          metadata: {
+            content: localPage.metadata?.content,
+          },
+          local: true,
+        }
       }
     } else {
-      page = localPage
+      expandedNote = localPage
     }
   }
 
-  if (!page && !mustLocal) {
-    throw notFound(`page ${input.page} not found`)
+  if (!expandedNote && !mustLocal) {
+    throw notFound(`page ${input.slug} not found`)
   }
 
-  if (page) {
-    await expandUnidataNote(page, input.useStat)
-  }
-
-  return page
+  return expandedNote
 }
 
 export async function deletePage(
@@ -450,6 +446,8 @@ export async function deletePage(
   customUnidata?: Unidata,
   newbieToken?: string,
 ) {
+  const { default: unidata } = await import("~/queries/unidata.server")
+
   return await (customUnidata || unidata).notes.set(
     {
       source: "Crossbell Note",
@@ -467,22 +465,20 @@ export async function deletePage(
 }
 
 export async function getLikes({
-  pageId,
+  characterId,
+  noteId,
   cursor,
   includeCharacter,
 }: {
-  pageId: string
+  characterId: number
+  noteId: number
   cursor?: string
   includeCharacter?: boolean
 }) {
-  const res = await indexer.getBacklinksOfNote(
-    pageId.split("-")[0],
-    pageId.split("-")[1],
-    {
-      linkType: "like",
-      cursor,
-    },
-  )
+  const res = await indexer.getBacklinksOfNote(characterId, noteId, {
+    linkType: "like",
+    cursor,
+  })
   if (includeCharacter) {
     res.list?.forEach((item) => {
       ;(item as any).character = item.fromCharacter
@@ -494,18 +490,20 @@ export async function getLikes({
 
 export async function checkLike({
   account,
-  pageId,
+  characterId,
+  noteId,
 }: {
   account: GeneralAccount
-  pageId: string
+  characterId: number
+  noteId: number
 }) {
   if (!account.characterId) {
     throw notFound(`character not found`)
   } else {
     return indexer.getLinks(account.characterId, {
       linkType: "like",
-      toCharacterId: pageId.split("-")[0],
-      toNoteId: pageId.split("-")[1],
+      toCharacterId: characterId,
+      toNoteId: noteId,
     })
   }
 }
@@ -513,33 +511,33 @@ export async function checkLike({
 export async function mintPage(
   {
     address,
-    pageId,
+    characterId,
+    noteId,
   }: {
     address: string
-    pageId: string
+    characterId: number
+    noteId: number
   },
   contract?: Contract,
 ) {
-  return contract?.mintNote(pageId.split("-")[0], pageId.split("-")[1], address)
+  return contract?.mintNote(characterId, noteId, address)
 }
 
 export async function getMints({
-  pageId,
+  characterId,
+  noteId,
   cursor,
   includeCharacter,
 }: {
-  pageId: string
+  characterId: number
+  noteId: number
   cursor?: string
   includeCharacter?: boolean
 }) {
-  const data = await indexer.getMintedNotesOfNote(
-    pageId.split("-")[0],
-    pageId.split("-")[1],
-    {
-      cursor,
-      limit: 5,
-    },
-  )
+  const data = await indexer.getMintedNotesOfNote(characterId, noteId, {
+    cursor,
+    limit: 5,
+  })
 
   if (includeCharacter) {
     await Promise.all(
@@ -551,32 +549,40 @@ export async function getMints({
     )
   }
 
-  return data
+  return data as ListResponse<
+    MintedNoteEntity & {
+      character: CharacterEntity
+    }
+  >
 }
 
 export async function checkMint({
   address,
-  pageId,
+  noteCharacterId,
+  noteId,
 }: {
   address: string
-  pageId: string
+  noteCharacterId: number
+  noteId: number
 }) {
   return indexer.getMintedNotesOfAddress(address, {
-    noteCharacterId: pageId.split("-")[0],
-    noteId: pageId.split("-")[1],
+    noteCharacterId: noteCharacterId,
+    noteId: noteId,
   })
 }
 
 export async function getComments({
-  pageId,
+  characterId,
+  noteId,
   cursor,
 }: {
-  pageId: string
+  characterId: number
+  noteId: number
   cursor?: string
 }) {
   const options = {
-    toCharacterId: pageId.split("-")[0],
-    toNoteId: pageId.split("-")[1],
+    toCharacterId: characterId,
+    toNoteId: noteId,
     cursor,
     includeCharacter: true,
     includeNestedNotes: true,
@@ -595,17 +601,13 @@ export async function getComments({
 
 export async function updateComment(
   {
-    pageId,
     content,
     externalUrl,
-    originalId,
     characterId,
     noteId,
   }: {
-    pageId: string
     content: string
     externalUrl: string
-    originalId?: string
     characterId: number
     noteId: number
   },
@@ -617,19 +619,6 @@ export async function updateComment(
     tags: ["comment"],
     sources: ["xlog"],
   })
-}
-
-export function parsePageId(pageId: string) {
-  const [characterId, noteId] = pageId.split("-").map(Number)
-
-  return { characterId, noteId }
-}
-
-export function toPageId({
-  characterId,
-  noteId,
-}: ReturnType<typeof parsePageId>) {
-  return `${characterId}-${noteId}`
 }
 
 export async function getSummary({
@@ -644,10 +633,10 @@ export async function getSummary({
   ).data
 }
 
-export async function checkMirror(characterId: string) {
+export async function checkMirror(characterId: number) {
   const notes = await indexer.getNotes({
     characterId,
-    sources: ["xlog"],
+    sources: "xlog",
     tags: ["post", "Mirror.xyz"],
     limit: 0,
   })

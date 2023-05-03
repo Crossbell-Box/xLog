@@ -86,7 +86,7 @@ export default function SettingsOperatorPage() {
   const removeOperator = useRemoveOperator()
   const site = useGetSite(subdomain)
   const operators = useGetOperators({
-    characterId: +(site.data?.metadata?.proof || 0),
+    characterId: site.data?.characterId,
   })
   const isEmailAccount = useAccountState(
     (s) => s.computed.account?.type === "email",
@@ -121,14 +121,14 @@ export default function SettingsOperatorPage() {
 
   const removeItem: RemoveItem = (operator) => {
     removeOperator.mutate({
-      characterId: +(site.data?.metadata?.proof || 0),
+      characterId: site.data?.characterId,
       operator: operator,
     })
   }
   const addItem = () => {
     if (address) {
       addOperator.mutate({
-        characterId: +(site.data?.metadata?.proof || 0),
+        characterId: site.data?.characterId,
         operator: address,
       })
     }
@@ -142,7 +142,7 @@ export default function SettingsOperatorPage() {
   const [address, setAddress] = useState("")
 
   return (
-    <SettingsLayout title="Site Settings" type="site">
+    <SettingsLayout title="Site Settings">
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}

@@ -1,123 +1,51 @@
+import { CharacterEntity, NoteEntity } from "crossbell.js"
 import { nanoid } from "nanoid"
 
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
-import { ExpandedNote, Note, Profile } from "~/lib/types"
-
-export const expandUnidataNote = async (page: Note, useStat?: boolean) => {
-  if (page.body?.content && page.body?.mime_type === "text/markdown") {
-    const { renderPageContent } = await import("~/markdown")
-    const rendered = renderPageContent(page.body.content, true)
-    page.body = {
-      content: page.body.content,
-      mime_type: "text/markdown",
-    }
-    if (!page.summary) {
-      page.summary = {
-        content: rendered.excerpt,
-        mime_type: "text/html",
-      }
-    }
-    page.cover = rendered.cover
-    page.audio = rendered.audio
-    if (page.metadata) {
-      page.metadata.frontMatter = rendered.frontMatter
-    }
-  }
-  page.slug = encodeURIComponent(
-    page.attributes?.find((a) => a.trait_type === "xlog_slug")?.value ||
-      page.metadata?.raw?._xlog_slug ||
-      page.metadata?.raw?._crosslog_slug ||
-      "",
-  )
-  delete page.metadata?.raw
-
-  if (useStat) {
-    const stat = await (
-      await fetch(
-        `https://indexer.crossbell.io/v1/stat/notes/${page.id.replace(
-          "-",
-          "/",
-        )}`,
-      )
-    ).json()
-    page.views = stat.viewDetailCount
-  }
-
-  return page
-}
-
-export const expandUnidataProfile = (site: Profile) => {
-  site.navigation = JSON.parse(
-    site.metadata?.raw?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_navigation",
-    )?.value || "null",
-  ) ||
-    site.metadata?.raw?.["_xlog_navigation"] ||
-    site.metadata?.raw?.["_crosslog_navigation"] || [
-      { id: nanoid(), label: "Archives", url: "/archives" },
-    ]
-  site.css =
-    site.metadata?.raw?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_css",
-    )?.value ||
-    site.metadata?.raw?.["_xlog_css"] ||
-    site.metadata?.raw?.["_crosslog_css"] ||
-    ""
-  site.ga =
-    site.metadata?.raw?.attributes?.find((a: any) => a.trait_type === "xlog_ga")
-      ?.value || ""
-  site.custom_domain =
-    site.metadata?.raw?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_custom_domain",
-    )?.value || ""
-  site.name = site.name || site.username
-  site.description = site.bio
-
-  if (site.avatars) {
-    site.avatars = site.avatars.map((avatar) => toGateway(avatar))
-  }
-  if (site.banners) {
-    site.banners.map((banner) => {
-      banner.address = toGateway(banner.address)
-      return banner
-    })
-  }
-  delete site.metadata?.raw
-
-  return site
-}
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 export const expandCrossbellNote = async (
-  page: ExpandedNote,
+  note: NoteEntity,
   useStat?: boolean,
   useScore?: boolean,
   keyword?: string,
 ) => {
-  if (page.metadata?.content) {
-    if (page.metadata?.content?.content) {
+  const expandedNote: ExpandedNote = Object.assign(
+    {
+      metadata: {
+        content: {},
+      },
+    },
+    note,
+  )
+
+  if (expandedNote.metadata?.content) {
+    if (expandedNote.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
-      const rendered = renderPageContent(page.metadata.content.content, true)
+      const rendered = renderPageContent(
+        expandedNote.metadata.content.content,
+        true,
+      )
       if (keyword) {
-        const position = page.metadata.content.content
+        const position = expandedNote.metadata.content.content
           .toLowerCase()
           .indexOf(keyword.toLowerCase())
-        page.metadata.content.summary = `...${page.metadata.content.content.slice(
+        expandedNote.metadata.content.summary = `...${expandedNote.metadata.content.content.slice(
           position - 10,
           position + 100,
         )}`
       } else {
-        if (!page.metadata.content.summary) {
-          page.metadata.content.summary = rendered.excerpt
+        if (!expandedNote.metadata.content.summary) {
+          expandedNote.metadata.content.summary = rendered.excerpt
         }
       }
-      page.metadata.content.cover = rendered.cover
-      if (page.metadata) {
-        page.metadata.content.frontMatter = rendered.frontMatter
-      }
+      expandedNote.metadata.content.cover = rendered.cover
+      expandedNote.metadata.content.audio = rendered.audio
+      expandedNote.metadata.content.frontMatter = rendered.frontMatter
     }
-    page.metadata.content.slug = encodeURIComponent(
-      page.metadata.content.attributes?.find(
+    expandedNote.metadata.content.slug = encodeURIComponent(
+      expandedNote.metadata.content.attributes?.find(
         (a) => a.trait_type === "xlog_slug",
       )?.value || "",
     )
@@ -125,10 +53,10 @@ export const expandCrossbellNote = async (
     if (useStat) {
       const stat = await (
         await fetch(
-          `https://indexer.crossbell.io/v1/stat/notes/${page.characterId}/${page.noteId}`,
+          `https://indexer.crossbell.io/v1/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,
         )
       ).json()
-      page.metadata.content.views = stat.viewDetailCount
+      expandedNote.metadata.content.views = stat.viewDetailCount
     }
 
     if (useScore) {
@@ -137,17 +65,67 @@ export const expandCrossbellNote = async (
           await (
             await fetch(
               `${SCORE_API_DOMAIN || SITE_URL}/api/score?cid=${toCid(
-                page.metadata?.uri || "",
+                expandedNote.metadata?.uri || "",
               )}`,
             )
           ).json()
         ).data
-        page.metadata.content.score = score
+        expandedNote.metadata.content.score = score
       } catch (e) {
         // do nothing
       }
     }
   }
 
-  return page
+  return expandedNote
+}
+
+export const expandCrossbellCharacter = (site: CharacterEntity) => {
+  const expandedCharacter: ExpandedCharacter = Object.assign(
+    {
+      metadata: {
+        content: {},
+      },
+    },
+    site,
+  )
+
+  expandedCharacter.metadata.content.navigation = JSON.parse(
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_navigation",
+    )?.value as string) || "null",
+  ) || [{ id: nanoid(), label: "Archives", url: "/archives" }]
+  expandedCharacter.metadata.content.css =
+    expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_css",
+    )?.value as string
+  expandedCharacter.metadata.content.ga =
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_ga",
+    )?.value as string) || ""
+  expandedCharacter.metadata.content.ua =
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_ua",
+    )?.value as string) || ""
+  expandedCharacter.metadata.content.custom_domain =
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_custom_domain",
+    )?.value as string) || ""
+  expandedCharacter.metadata.content.name =
+    expandedCharacter.metadata.content.name || expandedCharacter.handle
+
+  if (expandedCharacter.metadata.content.avatars) {
+    expandedCharacter.metadata.content.avatars =
+      expandedCharacter.metadata.content.avatars.map((avatar) =>
+        toGateway(avatar),
+      )
+  }
+  if (expandedCharacter.metadata.content.banners) {
+    expandedCharacter.metadata.content.banners.map((banner) => {
+      banner.address = toGateway(banner.address)
+      return banner
+    })
+  }
+
+  return expandedCharacter
 }

@@ -10,42 +10,37 @@ import { DashboardMain } from "./DashboardMain"
 export const SettingsLayout: React.FC<{
   title: string
   children: React.ReactNode
-  type: "site" | "account"
-}> = ({ title, children, type }) => {
+}> = ({ title, children }) => {
   const router = useRouter()
   const { t } = useTranslation("dashboard")
   const xSettingsModal = useXSettingsModal()
 
   const subdomain = router.query.subdomain as string
-  const tabItems: TabItem[] = (
-    type === "site"
-      ? [
-          { text: "General", href: `/dashboard/${subdomain}/settings/general` },
-          {
-            text: "Social Platforms",
-            href: `/dashboard/${subdomain}/settings/social-platforms`,
-          },
-          {
-            text: "Navigation",
-            href: `/dashboard/${subdomain}/settings/navigation`,
-          },
-          { text: "Domains", href: `/dashboard/${subdomain}/settings/domains` },
-          { text: "Custom CSS", href: `/dashboard/${subdomain}/settings/css` },
-          {
-            text: "Operators",
-            href: `/dashboard/${subdomain}/settings/operator`,
-          },
-          {
-            text: "xSettings",
-            onClick: () => xSettingsModal.show(),
-          },
-          {
-            text: "Export data",
-            href: `https://export.crossbell.io/?handle=${subdomain}`,
-          },
-        ]
-      : [{ text: "Profile", href: `/dashboard/${subdomain}/account/profile` }]
-  ).map((item) => ({ ...item, active: router.asPath === item.href }))
+  const tabItems: TabItem[] = [
+    { text: "General", href: `/dashboard/${subdomain}/settings/general` },
+    {
+      text: "Social Platforms",
+      href: `/dashboard/${subdomain}/settings/social-platforms`,
+    },
+    {
+      text: "Navigation",
+      href: `/dashboard/${subdomain}/settings/navigation`,
+    },
+    { text: "Domains", href: `/dashboard/${subdomain}/settings/domains` },
+    { text: "Custom CSS", href: `/dashboard/${subdomain}/settings/css` },
+    {
+      text: "Operators",
+      href: `/dashboard/${subdomain}/settings/operator`,
+    },
+    {
+      text: "xSettings",
+      onClick: () => xSettingsModal.show(),
+    },
+    {
+      text: "Export data",
+      href: `https://export.crossbell.io/?handle=${subdomain}`,
+    },
+  ].map((item) => ({ ...item, active: router.asPath === item.href }))
 
   return (
     <DashboardMain>

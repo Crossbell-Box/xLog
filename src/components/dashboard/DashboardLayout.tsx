@@ -19,7 +19,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 import { getStorage } from "~/lib/storage"
 import { cn } from "~/lib/utils"
 import { useGetPagesBySite } from "~/queries/page"
-import { useAccountSites, useGetSite } from "~/queries/site"
+import { useGetSite } from "~/queries/site"
 
 import { SEOHead } from "../common/SEOHead"
 import { UniLink } from "../ui/UniLink"
@@ -36,12 +36,11 @@ export function DashboardLayout({
   const router = useRouter()
   const subdomain = router.query.subdomain as string
   const site = useGetSite(subdomain)
-  const userSite = useAccountSites()
 
   const userRole = useUserRole(subdomain)
-  const [ssrReady, isConnected] = useAccountState(({ ssrReady, computed }) => [
+  const [ssrReady, account] = useAccountState(({ ssrReady, computed }) => [
     ssrReady,
-    !!computed.account,
+    computed.account,
   ])
   const connectModal = useConnectModal()
   const [ready, setReady] = React.useState(false)
@@ -52,7 +51,7 @@ export function DashboardLayout({
 
   useEffect(() => {
     if (ssrReady) {
-      if (!isConnected) {
+      if (!account) {
         setReady(false)
         setHasPermission(false)
         connectModal.show()
@@ -65,22 +64,22 @@ export function DashboardLayout({
         }
       }
     }
-  }, [ssrReady, userRole.isSuccess, userRole.data, isConnected, connectModal])
+  }, [ssrReady, userRole.isSuccess, userRole.data, account, connectModal])
 
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
 
   const pages = useGetPagesBySite({
     type: "post",
-    site: "xlog-events",
-    take: 1,
+    characterId: 50153,
+    limit: 1,
   })
   const [isEventsAllRead, setIsEventsAllRead] = React.useState(true)
   const latestEventRead = getStorage("latestEventRead")?.value || 0
   useEffect(() => {
     if (pages.isSuccess) {
       if (
-        new Date(pages.data.pages[0].list?.[0].date_created) >
+        new Date(pages.data.pages[0].list?.[0].createdAt) >
         new Date(latestEventRead)
       ) {
         setIsEventsAllRead(false)
@@ -169,13 +168,15 @@ export function DashboardLayout({
     hasPermission ? (
       <>
         <SEOHead title={t(title) || ""} siteName={APP_NAME} />
-        {site?.data?.css && (
+        {site?.data?.metadata?.content?.css && (
           <link
             type="text/css"
             rel="stylesheet"
             href={
               "data:text/css;base64," +
-              Buffer.from(toGateway(site.data.css)).toString("base64")
+              Buffer.from(toGateway(site.data.metadata?.content?.css)).toString(
+                "base64",
+              )
             }
           />
         )}
@@ -274,23 +275,25 @@ export function DashboardLayout({
                       </div>
                       {isOpen && "xLog"}
                     </div>
-                    {userSite.data?.[0]?.username &&
+                    {account?.character?.handle &&
                       subdomain &&
-                      userSite.data[0].username !== subdomain && (
+                      account?.character?.handle !== subdomain && (
                         <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
                           <div className="mb-2">
                             {isOpen && "You are operating"}
                           </div>
                           <Avatar
-                            images={site.data?.avatars || []}
+                            images={site.data?.metadata?.content?.avatars || []}
                             size={isOpen ? 60 : 40}
-                            name={site.data?.name}
+                            name={site.data?.metadata?.content?.name}
                           />
                           {isOpen && (
                             <span className="flex flex-col justify-center">
-                              <span className="block">{site.data?.name}</span>
+                              <span className="block">
+                                {site.data?.metadata?.content?.name}
+                              </span>
                               <span className="block text-sm text-zinc-400">
-                                @{site.data?.username}
+                                @{site.data?.handle}
                               </span>
                             </span>
                           )}

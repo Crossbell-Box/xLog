@@ -16,89 +16,68 @@ import * as siteModel from "~/models/site.model"
 
 import { useUnidata } from "./unidata"
 
-export const useAccountSites = () => {
-  const unidata = useUnidata()
-  const account = useAccountState((s) => s.computed.account)
-  const handle =
-    account?.type === "email" ? account.character?.handle : account?.handle
-
-  return useQuery(["getUserSites", handle], async () => {
-    if (!account || !handle) {
-      return []
-    }
-
-    return siteModel.getAccountSites({ handle, unidata })
-  })
-}
-
 export const useGetSite = (input?: string) => {
-  const unidata = useUnidata()
   return useQuery(["getSite", input], async () => {
     if (!input) {
       return null
     }
-    return siteModel.getSite(input, unidata)
+    return siteModel.getSite(input)
   })
 }
 
-export const useGetSubscription = (siteId: string | undefined) => {
+export const useGetSubscription = (toCharacterId?: number) => {
   const account = useAccountState((s) => s.computed.account)
-  const handle =
-    account?.type === "email" ? account.character?.handle : account?.handle
-  const unidata = useUnidata()
 
-  return useQuery(["getSubscription", siteId, handle], async () => {
-    if (!handle || !siteId) {
-      return false
-    }
+  return useQuery(
+    ["getSubscription", toCharacterId, account?.characterId],
+    async () => {
+      if (!account?.characterId || !toCharacterId) {
+        return false
+      }
 
-    return siteModel.getSubscription(siteId, handle, unidata)
-  })
+      return siteModel.getSubscription({
+        characterId: account?.characterId,
+        toCharacterId: toCharacterId,
+      })
+    },
+  )
 }
 
-export const useGetSiteSubscriptions = (data: { siteId: string }) => {
-  const unidata = useUnidata()
+export const useGetSiteSubscriptions = (data: { characterId?: number }) => {
   return useInfiniteQuery({
     queryKey: ["getSiteSubscriptions", data],
     queryFn: async ({ pageParam }) => {
-      if (!data.siteId) {
+      if (!data.characterId) {
         return {
-          total: 0,
+          count: 0,
           list: [],
           cursor: undefined,
         }
       }
-      return siteModel.getSiteSubscriptions(
-        {
-          ...data,
-          cursor: pageParam,
-        },
-        unidata,
-      )
+      return siteModel.getSiteSubscriptions({
+        characterId: data.characterId,
+        cursor: pageParam,
+      })
     },
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 
-export const useGetSiteToSubscriptions = (data: { siteId: string }) => {
-  const unidata = useUnidata()
+export const useGetSiteToSubscriptions = (data: { characterId?: number }) => {
   return useInfiniteQuery({
     queryKey: ["getSiteToSubscriptions", data],
     queryFn: async ({ pageParam }) => {
-      if (!data.siteId) {
+      if (!data.characterId) {
         return {
-          total: 0,
+          count: 0,
           list: [],
           cursor: undefined,
         }
       }
-      return siteModel.getSiteToSubscriptions(
-        {
-          ...data,
-          cursor: pageParam,
-        },
-        unidata,
-      )
+      return siteModel.getSiteToSubscriptions({
+        characterId: data.characterId,
+        cursor: pageParam,
+      })
     },
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
@@ -114,33 +93,11 @@ export function useUpdateSite() {
     },
     {
       onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getUserSites"])
         queryClient.invalidateQueries(["getSite"])
       },
     },
   )
   return mutation
-}
-
-export function useCreateSite() {
-  const unidata = useUnidata()
-  const queryClient = useQueryClient()
-  const account = useAccountState((s) => s.computed.account)
-  const address = account?.type === "email" ? account.email : account?.address
-
-  return useMutation(
-    async (payload: { name: string; subdomain: string }) => {
-      if (address) {
-        // FIXME: - Support email users
-        return siteModel.createSite(address, payload, unidata)
-      }
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["getUserSites", address])
-      },
-    },
-  )
 }
 
 export function useSubscribeToSite() {
@@ -153,13 +110,13 @@ export function useSubscribeToSite() {
         queryClient.invalidateQueries([
           "getSiteSubscriptions",
           {
-            siteId: variables.siteId,
+            characterId: variables.characterId,
           },
         ]),
 
         queryClient.invalidateQueries([
           "getSubscription",
-          variables.siteId,
+          variables.characterId,
           account?.type === "email"
             ? account?.character?.handle
             : account?.handle,
@@ -178,18 +135,18 @@ export function useSubscribeToSites() {
   return useFollowCharacters({
     onSuccess: (_, variables: any) =>
       Promise.all(
-        variables.siteIds.flatMap((siteId: string) => {
+        variables.siteIds.flatMap((characterId: number) => {
           return [
             queryClient.invalidateQueries([
               "getSiteSubscriptions",
               {
-                siteId,
+                characterId,
               },
             ]),
 
             queryClient.invalidateQueries([
               "getSubscription",
-              siteId,
+              characterId,
               currentCharacterId,
             ]),
           ]
@@ -208,12 +165,12 @@ export function useUnsubscribeFromSite() {
         queryClient.invalidateQueries([
           "getSiteSubscriptions",
           {
-            siteId: variables.siteId,
+            siteId: variables.characterId,
           },
         ]),
         queryClient.invalidateQueries([
           "getSubscription",
-          variables.siteId,
+          variables.characterId,
           account?.type === "email"
             ? account?.character?.handle
             : account?.handle,
@@ -321,7 +278,7 @@ export function useRemoveOperator() {
   )
 }
 
-export const useGetNFTs = (address: string) => {
+export const useGetNFTs = (address?: string) => {
   return useQuery(["getNFTs", address], async () => {
     if (!address) {
       return null
@@ -398,7 +355,7 @@ export const useGetTips = (
   })
 }
 
-export const useGetAchievements = (characterId?: string) => {
+export const useGetAchievements = (characterId?: number) => {
   return useQuery(["getAchievements", characterId], async () => {
     if (!characterId) {
       return null
@@ -424,7 +381,7 @@ export const useMintAchievement = () => {
   )
 }
 
-export const useGetMiraBalance = (characterId?: string) => {
+export const useGetMiraBalance = (characterId?: number) => {
   const contract = useContract()
   return useQuery(["getMiraBalance", characterId], async () => {
     if (!characterId) {

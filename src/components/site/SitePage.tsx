@@ -6,7 +6,7 @@ import serialize from "serialize-javascript"
 
 import EncryptPasswordPrompt from "~/components/common/EncryptPasswordPrompt"
 import { getSiteLink } from "~/lib/helpers"
-import { Note, Profile } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import {
   Decrypt,
   XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
@@ -19,10 +19,10 @@ import { PostFooter } from "./PostFooter"
 import { PostMeta } from "./PostMeta"
 
 export const SitePage: React.FC<{
-  page?: Note | null
-  site?: Profile | null
-}> = ({ page, site }) => {
-  // const author = useGetUserSites(page?.authors?.[0])
+  page?: ExpandedNote
+  site?: ExpandedCharacter
+  preview?: boolean
+}> = ({ page, site, preview }) => {
   const { t } = useTranslation("site")
   const { t: tCommon } = useTranslation("common")
 
@@ -31,18 +31,18 @@ export const SitePage: React.FC<{
       __html: serialize({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        headline: page?.title,
-        ...(page?.cover && {
-          image: [page?.cover],
+        headline: page?.metadata?.content?.title,
+        ...(page?.metadata?.content?.cover && {
+          image: [page?.metadata?.content?.cover],
         }),
-        datePublished: page?.date_published,
-        dateModified: page?.date_updated,
+        datePublished: page?.metadata?.content?.date_published,
+        dateModified: page?.updatedAt,
         author: [
           {
             "@type": "Person",
-            name: site?.name,
+            name: site?.metadata?.content?.name,
             url: getSiteLink({
-              subdomain: site?.username || "",
+              subdomain: site?.handle || "",
             }),
           },
         ],
@@ -55,8 +55,8 @@ export const SitePage: React.FC<{
 
   useEffect(() => {
     // Check if page has been encrypted
-    if (page?.attributes) {
-      const encryptAlgoVersion = page.attributes.find(
+    if (page?.metadata.content.attributes) {
+      const encryptAlgoVersion = page.metadata.content.attributes.find(
         (attribute) => attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_Version,
       )?.value
       if (encryptAlgoVersion) {
@@ -64,7 +64,7 @@ export const SitePage: React.FC<{
         setIsPageEncrypted(true)
       } else {
         // Not encrypted
-        setContent(page?.body?.content)
+        setContent(page?.metadata.content.content)
         setIsPageEncrypted(false)
       }
     }
@@ -72,20 +72,23 @@ export const SitePage: React.FC<{
 
   const tryUnlock = useCallback(
     async (password: string) => {
-      if (!page?.attributes || page.attributes.length === 0) {
+      if (
+        !page?.metadata.content.attributes ||
+        page.metadata.content.attributes.length === 0
+      ) {
         toast.error(tCommon("Failed to detect note encrypt status."))
         return
       }
 
       // Get encrypted content & hmac signature
       const encryptedData = String(
-        page.attributes.find(
+        page.metadata.content.attributes.find(
           (attribute) =>
             attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_EncryptedData,
         )?.value,
       )
       const hmacSignature = String(
-        page.attributes.find(
+        page.metadata.content.attributes.find(
           (attribute) =>
             attribute.trait_type === XLOG_ENCRYPT_ATTRIBUTE_HmacSignature,
         )?.value,
@@ -128,7 +131,7 @@ export const SitePage: React.FC<{
           dangerouslySetInnerHTML={addPageJsonLd()}
         />
       </Head>
-      {page?.preview && (
+      {preview && (
         <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
           {t(
             "This address is in local editing preview mode and cannot be viewed by the public.",
@@ -137,14 +140,16 @@ export const SitePage: React.FC<{
       )}
       <article>
         <div>
-          {page?.tags?.includes("post") ? (
-            <h2 className="xlog-post-title text-4xl font-bold">{page.title}</h2>
+          {page?.metadata?.content?.tags?.includes("post") ? (
+            <h2 className="xlog-post-title text-4xl font-bold">
+              {page.metadata?.content?.title}
+            </h2>
           ) : (
             <h2 className="xlog-post-title text-xl font-bold page-title">
-              {page?.title}
+              {page?.metadata?.content?.title}
             </h2>
           )}
-          {page?.tags?.includes("post") && !page?.preview && (
+          {page?.metadata?.content?.tags?.includes("post") && !preview && (
             <PostMeta page={page} site={site} />
           )}
         </div>

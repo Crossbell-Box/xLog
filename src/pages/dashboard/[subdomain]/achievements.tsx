@@ -26,7 +26,7 @@ export default function AchievementsPage() {
   const subdomain = router.query.subdomain as string
   const site = useGetSite(subdomain)
 
-  const achievement = useGetAchievements(site.data?.metadata?.proof)
+  const achievement = useGetAchievements(site.data?.characterId)
 
   return (
     <DashboardMain title="Achievements">
@@ -49,7 +49,7 @@ export default function AchievementsPage() {
                       key={group.info.name}
                       layoutId="achievements"
                       size={80}
-                      characterId={site.data?.metadata?.proof}
+                      characterId={site.data?.characterId}
                       isOwner={true}
                     />
                   ))}

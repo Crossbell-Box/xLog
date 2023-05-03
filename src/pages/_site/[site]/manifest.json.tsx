@@ -13,12 +13,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   ctx.res.write(
     JSON.stringify({
-      name: site.name,
-      short_name: site.name,
-      description: site.description,
+      name: site?.metadata?.content?.name,
+      short_name: site?.metadata?.content?.name,
+      description: site?.metadata?.content?.bio,
       icons: [
         {
-          src: site.avatars?.[0] || "assets/logo.png",
+          src: site?.metadata?.content?.avatars?.[0] || "assets/logo.png",
           type: "image/png",
           sizes: "any",
         },

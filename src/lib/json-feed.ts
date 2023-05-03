@@ -16,7 +16,7 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
   const site = await fetchGetSite(domainOrSubdomain, queryClient)
   const pages = await fetchGetPagesBySite(
     {
-      site: domainOrSubdomain,
+      characterId: site?.characterId,
       type: "post",
       visibility: PageVisibilityEnum.Published,
       keepBody: true,
@@ -24,48 +24,48 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
     queryClient,
   )
 
-  const hasAudio = pages.list?.find((page: any) => page.audio)
+  const hasAudio = pages.list?.find((page) => page.metadata?.content?.audio)
 
   const link = getSiteLink({
-    subdomain: site.username || "",
+    subdomain: site?.handle || "",
   })
   return {
     version: "https://jsonfeed.org/version/1",
-    title: site.name,
-    description: site.description,
-    icon: site.avatars?.[0],
+    title: site?.metadata?.content?.name,
+    description: site?.metadata?.content?.bio,
+    icon: site?.metadata?.content?.avatars?.[0],
     home_page_url: link,
     feed_url: `${link}${path}`,
     ...(hasAudio && {
       _itunes: {
-        image: site.avatars?.[0],
-        author: site.name,
-        summary: site.description,
+        image: site?.metadata?.content?.avatars?.[0],
+        author: site?.metadata?.content?.name,
+        summary: site?.metadata?.content?.bio,
       },
     }),
-    items: pages.list?.map((page: any) => ({
-      id: page.id,
-      title: page.title,
+    items: pages.list?.map((page) => ({
+      id: page.characterId + "-" + page.noteId,
+      title: page.metadata?.content?.title,
       content_html:
-        page.body?.content &&
-        renderPageContent(page.body?.content, true).contentHTML,
-      summary: page.summary?.content,
-      url: `${link}/${page.slug || page.id}`,
-      image: page.cover,
-      date_published: page.date_published,
-      date_modified: page.date_updated,
-      tags: page.tags,
-      author: site.name,
-      ...(page.audio && {
+        page.metadata?.content?.content &&
+        renderPageContent(page.metadata?.content?.content, true).contentHTML,
+      summary: page.metadata?.content?.summary,
+      url: `/api/redirection?characterId=${page.characterId}&noteId=${page.noteId}`,
+      image: page.metadata?.content?.cover,
+      date_published: page.metadata?.content?.date_published,
+      date_modified: page.updatedAt,
+      tags: page.metadata?.content?.tags,
+      author: site?.metadata?.content?.name,
+      ...(page.metadata?.content?.audio && {
         _itunes: {
-          image: page.cover,
-          summary: page.summary?.content,
+          image: page.metadata?.content?.cover,
+          summary: page.metadata?.content?.summary,
         },
         attachments: [
           {
-            url: page.audio,
+            url: page.metadata?.content?.audio,
             mime_type: "audio/mpeg",
-            title: page.title,
+            title: page.metadata?.content?.title,
           },
         ],
       }),

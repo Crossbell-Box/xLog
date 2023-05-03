@@ -45,6 +45,7 @@ export default function SiteSettingsGeneralPage() {
       name: "",
       description: "",
       ga: "",
+      ua: "",
     } as {
       icon: string
       banner?: {
@@ -54,6 +55,7 @@ export default function SiteSettingsGeneralPage() {
       name: string
       description: string
       ga: string
+      ua: string
     },
   })
 
@@ -65,6 +67,7 @@ export default function SiteSettingsGeneralPage() {
       name: values.name,
       description: values.description,
       ga: values.ga,
+      ua: values.ua,
     })
   })
 
@@ -83,21 +86,30 @@ export default function SiteSettingsGeneralPage() {
   useEffect(() => {
     if (site.data) {
       !form.getValues("icon") &&
-        form.setValue("icon", toIPFS(site.data?.avatars?.[0] || ""))
+        form.setValue(
+          "icon",
+          toIPFS(site.data?.metadata?.content?.avatars?.[0] || ""),
+        )
       !form.getValues("banner") &&
         form.setValue(
           "banner",
-          site.data?.banners?.[0]
+          site.data?.metadata?.content?.banners?.[0]
             ? {
-                address: toIPFS(site.data?.banners?.[0].address || ""),
-                mime_type: site.data?.banners?.[0].mime_type,
+                address: toIPFS(
+                  site.data?.metadata?.content?.banners?.[0].address || "",
+                ),
+                mime_type: site.data?.metadata?.content?.banners?.[0].mime_type,
               }
             : undefined,
         )
-      !form.getValues("name") && form.setValue("name", site.data.name || "")
+      !form.getValues("name") &&
+        form.setValue("name", site.data.metadata?.content?.name || "")
       !form.getValues("description") &&
-        form.setValue("description", site.data.bio || "")
-      !form.getValues("ga") && form.setValue("ga", site.data.ga || "")
+        form.setValue("description", site.data.metadata?.content?.bio || "")
+      !form.getValues("ga") &&
+        form.setValue("ga", site.data.metadata?.content?.ga || "")
+      !form.getValues("ua") &&
+        form.setValue("ua", site.data.metadata?.content?.ua || "")
     }
   }, [site.data, form])
 
@@ -105,7 +117,7 @@ export default function SiteSettingsGeneralPage() {
   const [bannerUploading, setBannerUploading] = useState(false)
 
   return (
-    <SettingsLayout title="Site Settings" type="site">
+    <SettingsLayout title="Site Settings">
       <form onSubmit={handleSubmit}>
         <div className="mt-5">
           <label htmlFor="icon" className="form-label">
@@ -199,6 +211,28 @@ export default function SiteSettingsGeneralPage() {
                     here
                   </UniLink>{" "}
                   to find your Measurement ID.
+                </Trans>
+              </p>
+            }
+          />
+        </div>
+        <div className="mt-5">
+          <Input
+            id="ua"
+            {...form.register("ua")}
+            label="Umami Cloud Analytics"
+            help={
+              <p>
+                <Trans i18nKey="Integrate Umami Cloud Analytics" ns="dashboard">
+                  Integrate Umami Cloud Analytics into your site. You can follow
+                  the instructions{" "}
+                  <UniLink
+                    className="underline"
+                    href="https://umami.is/docs/collect-data"
+                  >
+                    here
+                  </UniLink>{" "}
+                  to find your Website ID.
                 </Trans>
               </p>
             }

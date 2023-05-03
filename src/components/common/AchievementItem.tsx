@@ -38,7 +38,7 @@ export const AchievementItem: React.FC<{
   group: AchievementSection["groups"][number]
   layoutId: string
   size?: number
-  characterId?: string
+  characterId?: number
   isOwner: boolean
 }> = ({ group, layoutId, size, characterId, isOwner }) => {
   const date = useDate()

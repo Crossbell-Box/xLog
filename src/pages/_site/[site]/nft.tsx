@@ -35,7 +35,7 @@ function SiteNFTPage({ domainOrSubdomain }: { domainOrSubdomain: string }) {
   const site = useGetSite(domainOrSubdomain)
   const { t } = useTranslation(["common", "site"])
 
-  const nftsOrigin = useGetNFTs(site.data?.metadata?.owner)
+  const nftsOrigin = useGetNFTs(site.data?.owner)
 
   const [nfts, setNfts] = useState<Asset[]>([])
   useEffect(() => {

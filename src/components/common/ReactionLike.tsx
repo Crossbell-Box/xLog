@@ -8,7 +8,6 @@ import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN } from "~/lib/env"
 import { cn } from "~/lib/utils"
-import { parsePageId } from "~/models/page.model"
 import {
   useCheckLike,
   useGetLikeCounts,
@@ -21,8 +20,9 @@ import { Button } from "../ui/Button"
 
 export const ReactionLike: React.FC<{
   size?: "sm" | "base"
-  pageId?: string
-}> = ({ size, pageId }) => {
+  characterId?: number
+  noteId?: number
+}> = ({ size, characterId, noteId }) => {
   const toggleLikePage = useToggleLikePage()
   const { t } = useTranslation("common")
 
@@ -30,29 +30,44 @@ export const ReactionLike: React.FC<{
   const [isLikeListOpen, setIsLikeListOpen] = useState(false)
   const likeRef = useRef<HTMLButtonElement>(null)
 
-  const [likes, likesMutation] = useGetLikes({ pageId })
-  const [likeStatus] = useCheckLike({
-    pageId,
+  const [likes, likesMutation] = useGetLikes({
+    characterId,
+    noteId,
   })
-  const { data: likeCount = 0 } = useGetLikeCounts({ pageId })
+  const [likeStatus] = useCheckLike({
+    characterId,
+    noteId,
+  })
+  const { data: likeCount = 0 } = useGetLikeCounts({
+    characterId,
+    noteId,
+  })
 
   const [isUnlikeOpen, setIsUnlikeOpen] = useState(false)
 
   const like = () => {
-    if (pageId) {
+    if (characterId && noteId) {
       if (likeStatus.isLiked) {
         setIsLikeOpen(true)
       } else {
-        toggleLikePage.mutate({ ...parsePageId(pageId), action: "link" })
+        toggleLikePage.mutate({
+          characterId,
+          noteId,
+          action: "link",
+        })
       }
     }
   }
 
   const unlike = () => {
-    if (pageId) {
+    if (characterId && noteId) {
       setIsUnlikeOpen(false)
       if (likeStatus.isLiked) {
-        toggleLikePage.mutate({ ...parsePageId(pageId), action: "unlink" })
+        toggleLikePage.mutate({
+          noteId,
+          characterId,
+          action: "unlink",
+        })
       } // else do nothing
     }
   }

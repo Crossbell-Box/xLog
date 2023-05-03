@@ -28,7 +28,6 @@
   "Scheduled": "定时发布",
   "scheduled": "定时发布",
   "published and local modified": "已发布并本地修改",
-  "Others on Crossbell": "Crossbell上的其他内容",
   "link post-vs-page": "https://wordpress.com/zh-cn/support/post-vs-page/",
   "posts description": "文章是按时间倒序在你的网站上列出的条目。可以将它们看作是更新，以提供新内容给读者。<2>文章与页面</2>。",
   "pages description": "页面是静态的，不受日期影响。它们更像是你网站上的永久元素，比如“关于我们”、“联系我们”等。<2>文章与页面</2>。",
@@ -92,6 +91,7 @@
   "Name": "名称",
   "Description": "描述",
   "Integrate Google Analytics": "将 Google Analytics 集成到你的站点中。你可以按照<2>这里</2>的说明查找你的 Measurement ID。",
+  "Integrate Umami Cloud Analytics": "将 Umami Cloud Analytics 集成到你的站点中。你可以按照<2>这里</2>的说明查找你的 Website ID。",
   "Save": "保存",
   "Tips": "提示",
   "social tips": {

@@ -25,7 +25,6 @@
   "Scheduled": "予約済み",
   "scheduled": "予約済み",
   "published and local modified": "公開済みで、ローカルでの編集あり",
-  "Others on Crossbell": "Crossbell に関するその他の情報",
   "link post-vs-page": "https://wordpress.com/ja/support/post-vs-page/",
   "posts description": "記事は、時間順に表示されます。読者に新しいコンテンツを提供し続けることで、ブログのフォローワが増えるでしょう。<2>記事</2>",
   "pages description": "ページは日付に影響を受けることがありません。「私たちについて」「お問い合わせ」などのようにページを活用しましょう。<2>ページ</2>",
@@ -86,6 +85,7 @@
   "Name": "名前",
   "Description": "説明",
   "Integrate Google Analytics": "Google Analytics と紐付けします。Measurement ID の検索方法については、<2>こちらの文章</2>をご覧ください。",
+  "Integrate Umami Cloud Analytics": "Umami Cloud Analytics と紐付けします。Website ID の検索方法については、<2>こちらの文章</2>をご覧ください。",
   "Save": "保存",
   "Tips": "ヒント",
   "social tips": {
