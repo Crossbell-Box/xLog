@@ -385,7 +385,6 @@ export async function getPage<TRender extends boolean = false>(input: {
   characterId: number
   useStat?: boolean
   noteId?: number
-  password?: string
 }) {
   const mustLocal = input.slug?.startsWith("local-")
 
@@ -429,6 +428,7 @@ export async function getPage<TRender extends boolean = false>(input: {
             content: localPage.metadata?.content,
           },
           local: true,
+          password: localPage.password,
         }
       }
     } else {

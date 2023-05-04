@@ -570,11 +570,14 @@ export default function SubdomainEditor() {
           toast.success(tCommon("Decrypted successfully!"))
         }
 
-        // Save page password
-        updateValue("password", password) // TODO: Make this work
         // Set page content
         setInitialContent(decryptResult.originalData)
-        updateValue("content", decryptResult.originalData)
+        // Set editor state
+        useEditorState.setState({
+          content: decryptResult.originalData,
+          password: password,
+        })
+
         // Mark as decrypted
         setIsEncrypted(false)
       } catch (e) {
