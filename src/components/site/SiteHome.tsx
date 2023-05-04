@@ -79,7 +79,7 @@ export const SiteHome: React.FC<{
                                 className="hover:text-zinc-600"
                                 key={tag}
                                 onClick={(e) => {
-                                  e.preventDefault()
+                                  e.stopPropagation()
                                   router.push(`/tag/${tag}`)
                                 }}
                               >
