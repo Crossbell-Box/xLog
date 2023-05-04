@@ -519,6 +519,7 @@ export default function SubdomainEditor() {
       updateValue={updateValue}
       isPost={isPost}
       subdomain={subdomain}
+      userTags={userTags}
     />
   )
 

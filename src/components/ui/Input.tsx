@@ -39,17 +39,18 @@ export const Input = forwardRef(function Input<
   const hasPrefix = !!prefix
 
   const inputComponentProps = useMemo(
-    () => ({
-      ...inputProps,
-      ref,
-      className: cn(
-        "input",
-        hasAddon && `has-addon`,
-        hasPrefix && `has-prefix`,
-        isBlock && `is-block`,
-        className,
-      ),
-    }),
+    () =>
+      ({
+        ...inputProps,
+        ref,
+        className: cn(
+          "input",
+          hasAddon && `has-addon`,
+          hasPrefix && `has-prefix`,
+          isBlock && `is-block`,
+          className,
+        ),
+      } as any),
     [className, hasAddon, hasPrefix, inputProps, isBlock, ref],
   )
 

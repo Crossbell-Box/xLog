@@ -10,7 +10,7 @@ import {
 
 import { useEditorState } from "~/hooks/useEdtiorState"
 
-interface Props {
+interface Props extends HTMLInputElement {
   userTags: string[]
 }
 
