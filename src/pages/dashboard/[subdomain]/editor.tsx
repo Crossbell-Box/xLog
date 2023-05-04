@@ -513,6 +513,7 @@ export default function SubdomainEditor() {
       )}`,
     )
   }, [draftKey, subdomain, site.data?.characterId])
+
   const extraProperties = (
     <EditorExtraProperties
       defaultSlug={defaultSlug}
@@ -527,14 +528,10 @@ export default function SubdomainEditor() {
     if (draftKey) {
       delStorage(draftKey)
       queryClient.invalidateQueries(["getPagesBySite", site.data?.characterId])
-      queryClient.invalidateQueries([
-        "getPage",
-        draftKey.replace(`draft-${site.data?.characterId}-`, ""),
-      ])
-    } else {
-      queryClient.invalidateQueries(["getPage", pageId])
+      page.remove()
+      page.refetch()
     }
-  }, [draftKey])
+  }, [draftKey, site.data?.characterId])
 
   return (
     <>
