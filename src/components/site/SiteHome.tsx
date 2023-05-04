@@ -84,6 +84,7 @@ export const SiteHome: React.FC<{
                                 key={tag}
                                 onClick={(e) => {
                                   e.stopPropagation()
+                                  e.preventDefault()
                                   router.push(`/tag/${tag}`)
                                 }}
                               >
