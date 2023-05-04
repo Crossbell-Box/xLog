@@ -84,6 +84,16 @@ const syncMap: {
     icon: "/assets/social/steam.svg",
     url: "https://steamcommunity.com/id/{username}",
   },
+  gitlab: {
+    name: "Gitlab",
+    icon: "/assets/social/gitlab.svg",
+    url: "https://gitlab.com/{username}",
+  },
+  keybase: {
+    name: "Keybase",
+    icon: "/assets/social/keybase.png",
+    url: "https://keybase.io/{username}",
+  },
 }
 
 export const Platform: React.FC<{
