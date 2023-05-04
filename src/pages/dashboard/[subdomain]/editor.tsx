@@ -142,6 +142,7 @@ export default function SubdomainEditor() {
     characterId: site.data?.characterId,
     noteId: pageId && /\d+/.test(pageId) ? +pageId : undefined,
     slug: pageId || draftKey.replace(`draft-${site.data?.characterId}-`, ""),
+    handle: subdomain,
   })
 
   const [visibility, setVisibility] = useState<PageVisibilityEnum>()

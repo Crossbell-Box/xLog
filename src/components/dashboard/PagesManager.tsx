@@ -48,6 +48,7 @@ export const PagesManager: React.FC<{
     characterId: site.data?.characterId,
     limit: 100,
     visibility,
+    handle: subdomain,
   })
 
   // Batch selections
