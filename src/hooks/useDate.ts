@@ -29,7 +29,7 @@ export function useDate() {
         return dayjs(date).tz(timezone).format(format)
       },
       formatToISO: (date: string | Date) => {
-        return dayjs(date).toISOString()
+        return dayjs(date || undefined).toISOString()
       },
       inLocalTimezone: (date: string | Date) => {
         return dayjs(date).tz().toDate()

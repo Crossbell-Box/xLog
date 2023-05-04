@@ -217,6 +217,7 @@ export default function SubdomainEditor() {
     const check = await checkPageSlug({
       slug: values.slug || defaultSlug,
       characterId: site.data?.characterId,
+      noteId: page?.data?.noteId,
     })
     if (check) {
       toast.error(check)
@@ -227,7 +228,9 @@ export default function SubdomainEditor() {
         tags: uniqueTags,
         slug: values.slug || defaultSlug,
         siteId: subdomain,
-        ...(visibility === PageVisibilityEnum.Draft ? {} : { pageId: pageId }),
+        ...(visibility === PageVisibilityEnum.Draft
+          ? {}
+          : { pageId: `${page?.data?.characterId}-${page?.data?.noteId}` }),
         isPost: isPost,
         published,
         externalUrl:

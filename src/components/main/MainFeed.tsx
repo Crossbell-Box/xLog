@@ -39,7 +39,7 @@ const Post = ({
     post.metadata?.content?.score?.number !== undefined &&
     post.metadata.content.score.number <= filtering
   ) {
-    return null
+    return <div></div>
   }
 
   return (
