@@ -508,12 +508,18 @@ export default function SubdomainEditor() {
     />
   )
 
-  const discardChanges = () => {
-    const draftKey = getDraftKey()
-    delStorage(draftKey)
-    // Return back to last page
-    router.back()
-  }
+  const discardChanges = useCallback(() => {
+    if (draftKey) {
+      delStorage(draftKey)
+      queryClient.invalidateQueries(["getPagesBySite", site.data?.characterId])
+      queryClient.invalidateQueries([
+        "getPage",
+        draftKey.replace(`draft-${site.data?.characterId}-`, ""),
+      ])
+    } else {
+      queryClient.invalidateQueries(["getPage", pageId])
+    }
+  }, [draftKey])
 
   return (
     <>
