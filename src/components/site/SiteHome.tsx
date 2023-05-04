@@ -46,6 +46,7 @@ export const SiteHome: React.FC<{
               currentLength++
               return (
                 <Link
+                  role="article"
                   key={post.transactionHash}
                   href={getSlugUrl(`/${post.metadata?.content?.slug}`)}
                   className="xlog-post focus-visible:outline focus-visible:outline-accent sm:hover:bg-hover bg-white transition-colors px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
@@ -71,7 +72,10 @@ export const SiteHome: React.FC<{
                       {!!post.metadata?.content?.tags?.filter(
                         (tag) => tag !== "post" && tag !== "page",
                       ).length && (
-                        <span className="xlog-post-tags space-x-1 truncate min-w-0">
+                        <span
+                          aria-label="tags for this post"
+                          className="xlog-post-tags space-x-1 truncate min-w-0"
+                        >
                           {post.metadata?.content?.tags
                             ?.filter((tag) => tag !== "post" && tag !== "page")
                             .map((tag) => (
@@ -79,6 +83,7 @@ export const SiteHome: React.FC<{
                                 className="hover:text-zinc-600"
                                 key={tag}
                                 onClick={(e) => {
+                                  e.stopPropagation()
                                   e.preventDefault()
                                   router.push(`/tag/${tag}`)
                                 }}
@@ -88,7 +93,10 @@ export const SiteHome: React.FC<{
                             ))}
                         </span>
                       )}
-                      <span className="xlog-post-views inline-flex items-center">
+                      <span
+                        aria-label="views for this post"
+                        className="xlog-post-views inline-flex items-center"
+                      >
                         <i className="icon-[mingcute--eye-line] mr-[2px]" />
                         <span>{post.metadata?.content?.views}</span>
                       </span>
