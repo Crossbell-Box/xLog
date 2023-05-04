@@ -1,28 +1,19 @@
 import { create } from "zustand"
 
-export interface Values {
-  title: string
-  publishedAt: string
-  published: boolean
-  excerpt: string
-  slug: string
-  tags: string[]
-  content: string
-}
-
 export const initialEditorState = {
   title: "",
   publishedAt: new Date().toISOString(),
   published: false,
   excerpt: "",
   slug: "",
-  tags: [],
+  tags: "",
   content: "",
 }
+export type Values = typeof initialEditorState
 
 export const useEditorState = create<
-  Values & {
-    setValues: (values: Partial<Values>) => void
+  typeof initialEditorState & {
+    setValues: (values: Partial<typeof initialEditorState>) => void
   }
 >((set) => ({
   ...initialEditorState,

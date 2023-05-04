@@ -228,7 +228,7 @@ export default function SubdomainEditor() {
     if (check) {
       toast.error(check)
     } else {
-      const uniqueTags = Array.from(new Set(values.tags)).join(",")
+      const uniqueTags = Array.from(new Set(values.tags.split(","))).join(",")
       createOrUpdatePage.mutate({
         ...values,
         tags: uniqueTags,
@@ -294,9 +294,9 @@ export default function SubdomainEditor() {
       excerpt: page.data.metadata?.content?.summary || "",
       slug: page.data.metadata?.content?.slug || "",
       tags:
-        page.data.metadata?.content?.tags?.filter(
-          (tag) => tag !== "post" && tag !== "page",
-        ) || [],
+        page.data.metadata?.content?.tags
+          ?.filter((tag) => tag !== "post" && tag !== "page")
+          ?.join(", ") || "",
       content: page.data.metadata?.content?.content || "",
     })
     setDefaultSlug(

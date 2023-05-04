@@ -1,4 +1,5 @@
 import { Fragment, useCallback, useState } from "react"
+import { toast } from "react-hot-toast"
 import { shallow } from "zustand/shallow"
 
 import { Combobox, Transition } from "@headlessui/react"
@@ -18,9 +19,9 @@ export function TagInput({ userTags = [], className, id, name }: Props) {
   const [selected, setSelected] = useState("")
   const [query, setQuery] = useState("")
 
-  const { tags, setValues } = useEditorState(
+  const { editorTags, setValues } = useEditorState(
     (state) => ({
-      tags: state.tags,
+      editorTags: state.tags === "" ? [] : state.tags?.split(","),
       setValues: state.setValues,
     }),
     shallow,
@@ -28,16 +29,22 @@ export function TagInput({ userTags = [], className, id, name }: Props) {
 
   const onComboboxChange = useCallback(
     (value: string) => {
-      setValues({ tags: [...tags, value] })
+      if (editorTags.includes(value)) {
+        toast.error("Duplicate tags")
+        return
+      }
+      setValues({ tags: [...editorTags, value].join(",") })
     },
-    [setValues, tags],
+    [setValues, editorTags],
   )
 
   const onDel = useCallback(
     (value: string) => {
-      setValues({ tags: tags.filter((tag) => tag !== value) })
+      setValues({
+        tags: editorTags.filter((tag) => tag !== value).join(","),
+      })
     },
-    [setValues, tags],
+    [setValues, editorTags],
   )
 
   const filteredTags =
@@ -53,7 +60,7 @@ export function TagInput({ userTags = [], className, id, name }: Props) {
   return (
     <div className="w-full">
       <div className="flex flex-wrap gap-2 mb-2">
-        {tags.map((tag) => (
+        {editorTags.map((tag) => (
           <div
             className="text-xs flex items-center font-bold leading-sm px-1 py-1 rounded-md"
             style={{
