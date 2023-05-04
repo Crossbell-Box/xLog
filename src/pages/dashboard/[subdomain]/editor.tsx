@@ -11,12 +11,12 @@ import {
   memo,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react"
 import type { ReactElement } from "react"
 import toast from "react-hot-toast"
-import { create } from "zustand"
 import { shallow } from "zustand/shallow"
 
 import type { EditorView } from "@codemirror/view"
@@ -33,9 +33,15 @@ import { CodeMirrorEditor } from "~/components/ui/CodeMirror"
 import { EditorToolbar } from "~/components/ui/EditorToolbar"
 import { Input } from "~/components/ui/Input"
 import { Modal } from "~/components/ui/Modal"
+import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
 import { toolbars } from "~/editor"
 import { useDate } from "~/hooks/useDate"
+import {
+  Values,
+  initialEditorState,
+  useEditorState,
+} from "~/hooks/useEdtiorState"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useSyncOnce } from "~/hooks/useSyncOnce"
@@ -51,7 +57,11 @@ import { PageVisibilityEnum } from "~/lib/types"
 import { cn, pick } from "~/lib/utils"
 import { Rendered, renderPageContent } from "~/markdown"
 import { checkPageSlug } from "~/models/page.model"
-import { useCreateOrUpdatePage, useGetPage } from "~/queries/page"
+import {
+  useCreateOrUpdatePage,
+  useGetPage,
+  useGetPagesBySiteLite,
+} from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
@@ -70,27 +80,6 @@ const getInputDatetimeValue = (date: Date | string, dayjs: any) => {
   const str = dayjs(date).format()
   return str.substring(0, ((str.indexOf("T") | 0) + 6) | 0)
 }
-
-const initialEditorState = {
-  title: "",
-  publishedAt: new Date().toISOString(),
-  published: false,
-  excerpt: "",
-  slug: "",
-  tags: "",
-  content: "",
-}
-
-const useEditorState = create<
-  typeof initialEditorState & {
-    setValues: (values: Partial<typeof initialEditorState>) => void
-  }
->((set) => ({
-  ...initialEditorState,
-  setValues: (values: any) => set(values),
-}))
-
-type Values = typeof initialEditorState
 
 export default function SubdomainEditor() {
   const router = useRouter()
@@ -136,6 +125,30 @@ export default function SubdomainEditor() {
     slug: pageId || draftKey.replace(`draft-${site.data?.characterId}-`, ""),
     handle: subdomain,
   })
+
+  const { data: posts = { pages: [] } } = useGetPagesBySiteLite({
+    characterId: site.data?.characterId,
+    limit: 100,
+    type: "post",
+    visibility: PageVisibilityEnum.Published,
+  })
+
+  const userTags = useMemo(() => {
+    const result = new Set<string>()
+
+    if (posts?.pages?.length) {
+      for (const page of posts.pages) {
+        for (const post of page.list) {
+          post.metadata?.content?.tags?.forEach((tag) => {
+            if (tag !== "post" && tag !== "page") {
+              result.add(tag)
+            }
+          })
+        }
+      }
+    }
+    return Array.from(result)
+  }, [posts.pages])
 
   const [visibility, setVisibility] = useState<PageVisibilityEnum>()
 
@@ -506,6 +519,7 @@ export default function SubdomainEditor() {
       updateValue={updateValue}
       isPost={isPost}
       subdomain={subdomain}
+      userTags={userTags}
     />
   )
 
@@ -667,6 +681,7 @@ export default function SubdomainEditor() {
                   defaultSlug={defaultSlug}
                   updateValue={updateValue}
                   isPost={isPost}
+                  userTags={userTags}
                   subdomain={subdomain}
                 />
               )}
@@ -744,7 +759,8 @@ const EditorExtraProperties: FC<{
 
   subdomain: string
   defaultSlug: string
-}> = memo(({ isPost, updateValue, subdomain, defaultSlug }) => {
+  userTags: string[]
+}> = memo(({ isPost, updateValue, subdomain, defaultSlug, userTags }) => {
   const values = useEditorState(
     (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
     shallow,
@@ -819,10 +835,13 @@ const EditorExtraProperties: FC<{
           label={t("Tags") || ""}
           id="tags"
           isBlock
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            updateValue("tags", e.target.value)
-          }
-          help={t("Separate multiple tags with English commas") + ` ","`}
+          renderInput={(props) => (
+            <TagInput
+              {...props}
+              userTags={userTags}
+              onTagChange={(value: string) => updateValue("tags", value)}
+            />
+          )}
         />
       </div>
       <div>
