@@ -13,8 +13,10 @@ type InputProps<TMultiline extends boolean> = {
   error?: string
   help?: React.ReactNode
   multiline?: TMultiline
-  renderInput?: (props: any) => ReactElement
+  renderInput?: (props: Omit<InputProps<false>, "renderInput">) => ReactElement
 } & React.ComponentPropsWithRef<TMultiline extends true ? "textarea" : "input">
+
+export type CustomInputProps = Omit<InputProps<false>, "renderInput">
 
 export const Input = forwardRef(function Input<
   TMultiline extends boolean = false,

@@ -835,8 +835,13 @@ const EditorExtraProperties: FC<{
           label={t("Tags") || ""}
           id="tags"
           isBlock
-          help={t("Separate multiple tags with English commas") + ` ","`}
-          renderInput={(props) => <TagInput {...props} userTags={userTags} />}
+          renderInput={(props) => (
+            <TagInput
+              {...props}
+              userTags={userTags}
+              onTagChange={(value: string) => updateValue("tags", value)}
+            />
+          )}
         />
       </div>
       <div>

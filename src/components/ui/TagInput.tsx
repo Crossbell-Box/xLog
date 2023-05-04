@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useState } from "react"
+import { Fragment, useState } from "react"
 import { toast } from "react-hot-toast"
 import { shallow } from "zustand/shallow"
 
@@ -8,11 +8,19 @@ import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/20/solid"
 import { useEditorState } from "~/hooks/useEdtiorState"
 import { cn } from "~/lib/utils"
 
-interface Props extends HTMLInputElement {
+import { CustomInputProps } from "./Input"
+
+type Props = CustomInputProps & {
   userTags: string[]
+  onTagChange: (tags: string) => void
 }
 
-export function TagInput({ userTags = [], className, id, name }: Props) {
+export function TagInput({
+  userTags = [],
+  value,
+  onTagChange,
+  ...restProps
+}: Props) {
   const [selected, setSelected] = useState("")
   const [query, setQuery] = useState("")
 
@@ -24,25 +32,29 @@ export function TagInput({ userTags = [], className, id, name }: Props) {
     shallow,
   )
 
-  const onComboboxChange = useCallback(
-    (value: string) => {
+  const onChange = (type: "add" | "delete", value: string) => {
+    let tags = ""
+    if (type === "add") {
       if (editorTags.includes(value)) {
-        toast.error("Duplicate tags")
+        toast.error("Duplicate tag")
         return
       }
-      setValues({ tags: [...editorTags, value].join(",") })
-    },
-    [setValues, editorTags],
-  )
+      tags = [...editorTags, value].join(",")
+    } else {
+      tags = editorTags.filter((tag) => tag !== value).join(",")
+    }
 
-  const onDel = useCallback(
-    (value: string) => {
-      setValues({
-        tags: editorTags.filter((tag) => tag !== value).join(","),
-      })
-    },
-    [setValues, editorTags],
-  )
+    setValues({ tags })
+    onTagChange(tags)
+  }
+
+  const onComboboxChange = (value: string) => {
+    onChange("add", value)
+  }
+
+  const onDel = (value: string) => {
+    onChange("delete", value)
+  }
 
   const filteredTags =
     query === ""
@@ -71,11 +83,9 @@ export function TagInput({ userTags = [], className, id, name }: Props) {
         <div className="relative mt-1">
           <div className="relative flex w-full cursor-default overflow-hidden rounded-lg bg-white text-left sm:text-sm">
             <Combobox.Input
+              {...restProps}
               onChange={(event) => setQuery(event.target.value)}
               autoComplete="off"
-              className={className}
-              id={id}
-              name={name}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
