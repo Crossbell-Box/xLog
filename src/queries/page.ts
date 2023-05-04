@@ -83,6 +83,7 @@ export const useGetPage = (
       slug: input.slug,
       noteId: input.noteId,
       useStat: input.useStat,
+      handle: input.handle,
     })
   })
 }

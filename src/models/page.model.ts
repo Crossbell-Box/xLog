@@ -146,63 +146,71 @@ export async function postNotes(
   )
 }
 
-const getLocalPages = (input: { characterId: number; isPost?: boolean }) => {
+const getLocalPages = (input: {
+  characterId: number
+  isPost?: boolean
+  handle?: string
+}) => {
   const pages: ExpandedNote[] = []
-  getKeys(`draft-${input.characterId}-`).forEach((key) => {
-    const page = getStorage(key)
-    if (input.isPost === undefined || page.isPost === input.isPost) {
-      const note: ExpandedNote = {
-        characterId: input.characterId,
-        noteId: 0,
-        draftKey: key.replace(`draft-${input.characterId}-`, ""),
-        linkItemType: null,
-        linkKey: "",
-        toCharacterId: null,
-        toAddress: null,
-        toNoteId: null,
-        toHeadCharacterId: null,
-        toHeadNoteId: null,
-        toContractAddress: null,
-        toTokenId: null,
-        toLinklistId: null,
-        toUri: null,
-        deleted: false,
-        locked: false,
-        contractAddress: null,
-        uri: null,
-        operator: "",
-        owner: "",
-        createdAt: new Date(page.date).toISOString(),
-        updatedAt: new Date(page.date).toISOString(),
-        deletedAt: null,
-        transactionHash: "",
-        blockNumber: 0,
-        logIndex: 0,
-        updatedTransactionHash: "",
-        updatedBlockNumber: 0,
-        updatedLogIndex: 0,
-        metadata: {
-          content: {
-            title: page.values?.title,
-            content: page.values?.content,
-            date_published: page.values?.publishedAt,
-            summary: page.values?.excerpt,
-            tags: [
-              page.isPost ? "post" : "page",
-              ...(page.values?.tags
-                ?.split(",")
-                .map((tag: string) => tag.trim())
-                .filter((tag: string) => tag) || []),
-            ],
-            slug: page.values?.slug,
-            sources: ["xlog"],
+  getKeys([`draft-${input.characterId}-`, `draft-${input.handle}-`]).forEach(
+    (key) => {
+      const page = getStorage(key)
+      if (input.isPost === undefined || page.isPost === input.isPost) {
+        const note: ExpandedNote = {
+          characterId: input.characterId,
+          noteId: 0,
+          draftKey: key
+            .replace(`draft-${input.characterId}-`, "")
+            .replace(`draft-${input.handle}-`, ""), // In order to be compatible with old drafts
+          linkItemType: null,
+          linkKey: "",
+          toCharacterId: null,
+          toAddress: null,
+          toNoteId: null,
+          toHeadCharacterId: null,
+          toHeadNoteId: null,
+          toContractAddress: null,
+          toTokenId: null,
+          toLinklistId: null,
+          toUri: null,
+          deleted: false,
+          locked: false,
+          contractAddress: null,
+          uri: null,
+          operator: "",
+          owner: "",
+          createdAt: new Date(page.date).toISOString(),
+          updatedAt: new Date(page.date).toISOString(),
+          deletedAt: null,
+          transactionHash: "",
+          blockNumber: 0,
+          logIndex: 0,
+          updatedTransactionHash: "",
+          updatedBlockNumber: 0,
+          updatedLogIndex: 0,
+          metadata: {
+            content: {
+              title: page.values?.title,
+              content: page.values?.content,
+              date_published: page.values?.publishedAt,
+              summary: page.values?.excerpt,
+              tags: [
+                page.isPost ? "post" : "page",
+                ...(page.values?.tags
+                  ?.split(",")
+                  .map((tag: string) => tag.trim())
+                  .filter((tag: string) => tag) || []),
+              ],
+              slug: page.values?.slug,
+              sources: ["xlog"],
+            },
           },
-        },
-        local: true,
+          local: true,
+        }
+        pages.push(note)
       }
-      pages.push(note)
-    }
-  })
+    },
+  )
   return pages
 }
 
@@ -215,6 +223,7 @@ export async function getPagesBySite(input: {
   tags?: string[]
   useStat?: boolean
   keepBody?: boolean
+  handle?: string // In order to be compatible with old drafts
 }) {
   if (!input.characterId) {
     return {
@@ -256,6 +265,7 @@ export async function getPagesBySite(input: {
   const local = getLocalPages({
     characterId: input.characterId,
     isPost: input.type === "post",
+    handle: input.handle,
   })
 
   local.forEach((localPage) => {
@@ -342,6 +352,7 @@ export async function getPage<TRender extends boolean = false>(input: {
   characterId: number
   useStat?: boolean
   noteId?: number
+  handle?: string // In order to be compatible with old drafts
 }) {
   const mustLocal = input.slug?.startsWith("local-")
 
@@ -365,6 +376,7 @@ export async function getPage<TRender extends boolean = false>(input: {
   // local page
   const local = getLocalPages({
     characterId: input.characterId,
+    handle: input.handle,
   })
   const localPage = local.find(
     (page) =>

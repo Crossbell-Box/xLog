@@ -46,6 +46,7 @@ function SitePagePage() {
   const page = useGetPage({
     characterId: site.data?.characterId,
     slug: pageSlug,
+    handle: domainOrSubdomain,
   })
 
   if (userRole.isSuccess && !userRole.data && page.isSuccess) {

@@ -7,8 +7,14 @@ try {
   data = JSON.parse(localStorage.getItem(namespace) || "{}")
 } catch (error) {}
 
-export const getKeys = (key: string) => {
-  return Object.keys(data).filter((k) => k.startsWith(key))
+export const getKeys = (key: string | string[]) => {
+  return Object.keys(data).filter((k) => {
+    if (typeof key === "string") {
+      return k.startsWith(key)
+    } else {
+      return key.some((item) => k.startsWith(item))
+    }
+  })
 }
 
 export const getStorage = (key: string, noCache?: boolean) => {
