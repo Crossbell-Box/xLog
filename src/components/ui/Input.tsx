@@ -1,4 +1,5 @@
-import { forwardRef } from "react"
+import { forwardRef, useCallback, useMemo } from "react"
+import type { ReactElement } from "react"
 
 import { cn } from "~/lib/utils"
 
@@ -12,6 +13,7 @@ type InputProps<TMultiline extends boolean> = {
   error?: string
   help?: React.ReactNode
   multiline?: TMultiline
+  renderInput?: (props: any) => ReactElement
 } & React.ComponentPropsWithRef<TMultiline extends true ? "textarea" : "input">
 
 export const Input = forwardRef(function Input<
@@ -26,6 +28,7 @@ export const Input = forwardRef(function Input<
     error,
     help,
     multiline,
+    renderInput,
     ...inputProps
   }: InputProps<TMultiline>,
   ref: TMultiline extends true
@@ -34,7 +37,31 @@ export const Input = forwardRef(function Input<
 ) {
   const hasAddon = !!addon
   const hasPrefix = !!prefix
-  const Component = (multiline ? "textarea" : "input") as any
+
+  const inputComponentProps = useMemo(
+    () => ({
+      ...inputProps,
+      ref,
+      className: cn(
+        "input",
+        hasAddon && `has-addon`,
+        hasPrefix && `has-prefix`,
+        isBlock && `is-block`,
+        className,
+      ),
+    }),
+    [className, hasAddon, hasPrefix, inputProps, isBlock, ref],
+  )
+
+  const renderInputComponent = useCallback(() => {
+    if (renderInput) {
+      return renderInput(inputComponentProps)
+    } else if (multiline) {
+      return <textarea {...inputComponentProps} />
+    } else {
+      return <input {...inputComponentProps} />
+    }
+  }, [inputComponentProps, multiline, renderInput])
 
   return (
     <div>
@@ -45,17 +72,7 @@ export const Input = forwardRef(function Input<
             {prefix}
           </span>
         )}
-        <Component
-          {...inputProps}
-          ref={ref as any}
-          className={cn(
-            "input",
-            hasAddon && `has-addon`,
-            hasPrefix && `has-prefix`,
-            isBlock && `is-block`,
-            className,
-          )}
-        />
+        {renderInputComponent()}
         {addon && (
           <span className="flex items-center px-3 text-gray-600 bg-gray-50 h-10 border border-l-0 rounded-r-lg relative -z-10">
             {addon}

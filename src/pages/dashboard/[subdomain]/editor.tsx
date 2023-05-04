@@ -11,6 +11,7 @@ import {
   memo,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react"
@@ -33,6 +34,7 @@ import { CodeMirrorEditor } from "~/components/ui/CodeMirror"
 import { EditorToolbar } from "~/components/ui/EditorToolbar"
 import { Input } from "~/components/ui/Input"
 import { Modal } from "~/components/ui/Modal"
+import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
 import { toolbars } from "~/editor"
 import { useDate } from "~/hooks/useDate"
@@ -51,7 +53,11 @@ import { PageVisibilityEnum } from "~/lib/types"
 import { cn, pick } from "~/lib/utils"
 import { Rendered, renderPageContent } from "~/markdown"
 import { checkPageSlug } from "~/models/page.model"
-import { useCreateOrUpdatePage, useGetPage } from "~/queries/page"
+import {
+  useCreateOrUpdatePage,
+  useGetPage,
+  useGetPagesBySiteLite,
+} from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
@@ -136,6 +142,32 @@ export default function SubdomainEditor() {
     slug: pageId || draftKey.replace(`draft-${site.data?.characterId}-`, ""),
     handle: subdomain,
   })
+
+  const posts = useGetPagesBySiteLite({
+    site: subdomain!,
+    take: 100,
+    type: isPost ? "post" : "page",
+    visibility: PageVisibilityEnum.All,
+    keepBody: false,
+  })
+  const postPages = posts.data?.pages
+
+  const userTags = useMemo(() => {
+    const result = new Set<string>()
+
+    if (postPages?.length) {
+      for (const posts of postPages) {
+        for (const post of posts.list) {
+          post.tags?.forEach((tag) => {
+            if (tag !== "post" && tag !== "page") {
+              result.add(tag)
+            }
+          })
+        }
+      }
+    }
+    return Array.from(result)
+  }, [postPages])
 
   const [visibility, setVisibility] = useState<PageVisibilityEnum>()
 
@@ -667,6 +699,7 @@ export default function SubdomainEditor() {
                   defaultSlug={defaultSlug}
                   updateValue={updateValue}
                   isPost={isPost}
+                  userTags={userTags}
                   subdomain={subdomain}
                 />
               )}
@@ -744,7 +777,8 @@ const EditorExtraProperties: FC<{
 
   subdomain: string
   defaultSlug: string
-}> = memo(({ isPost, updateValue, subdomain, defaultSlug }) => {
+  userTags: string[]
+}> = memo(({ isPost, updateValue, subdomain, defaultSlug, userTags }) => {
   const values = useEditorState(
     (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
     shallow,
@@ -823,6 +857,7 @@ const EditorExtraProperties: FC<{
             updateValue("tags", e.target.value)
           }
           help={t("Separate multiple tags with English commas") + ` ","`}
+          renderInput={(props) => <TagInput {...props} userTags={userTags} />}
         />
       </div>
       <div>
