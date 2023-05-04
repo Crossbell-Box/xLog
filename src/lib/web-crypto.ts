@@ -238,6 +238,6 @@ export const Decrypt = async (
 
   return {
     verified,
-    originalData: decryptDecoded, // Remove verify prefix
+    originalData: decryptDecoded,
   }
 }
