@@ -17,7 +17,6 @@ import {
 } from "react"
 import type { ReactElement } from "react"
 import toast from "react-hot-toast"
-import { create } from "zustand"
 import { shallow } from "zustand/shallow"
 
 import type { EditorView } from "@codemirror/view"
@@ -38,6 +37,11 @@ import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
 import { toolbars } from "~/editor"
 import { useDate } from "~/hooks/useDate"
+import {
+  Values,
+  initialEditorState,
+  useEditorState,
+} from "~/hooks/useEdtiorState"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useSyncOnce } from "~/hooks/useSyncOnce"
@@ -76,27 +80,6 @@ const getInputDatetimeValue = (date: Date | string, dayjs: any) => {
   const str = dayjs(date).format()
   return str.substring(0, ((str.indexOf("T") | 0) + 6) | 0)
 }
-
-const initialEditorState = {
-  title: "",
-  publishedAt: new Date().toISOString(),
-  published: false,
-  excerpt: "",
-  slug: "",
-  tags: "",
-  content: "",
-}
-
-const useEditorState = create<
-  typeof initialEditorState & {
-    setValues: (values: Partial<typeof initialEditorState>) => void
-  }
->((set) => ({
-  ...initialEditorState,
-  setValues: (values: any) => set(values),
-}))
-
-type Values = typeof initialEditorState
 
 export default function SubdomainEditor() {
   const router = useRouter()
@@ -143,22 +126,20 @@ export default function SubdomainEditor() {
     handle: subdomain,
   })
 
-  const posts = useGetPagesBySiteLite({
-    site: subdomain!,
-    take: 100,
-    type: isPost ? "post" : "page",
-    visibility: PageVisibilityEnum.All,
-    keepBody: false,
+  const { data: posts = { pages: [] } } = useGetPagesBySiteLite({
+    characterId: site.data?.characterId,
+    limit: 100,
+    type: "post",
+    visibility: PageVisibilityEnum.Published,
   })
-  const postPages = posts.data?.pages
 
   const userTags = useMemo(() => {
     const result = new Set<string>()
 
-    if (postPages?.length) {
-      for (const posts of postPages) {
-        for (const post of posts.list) {
-          post.tags?.forEach((tag) => {
+    if (posts?.pages?.length) {
+      for (const page of posts.pages) {
+        for (const post of page.list) {
+          post.metadata?.content?.tags?.forEach((tag) => {
             if (tag !== "post" && tag !== "page") {
               result.add(tag)
             }
@@ -167,7 +148,7 @@ export default function SubdomainEditor() {
       }
     }
     return Array.from(result)
-  }, [postPages])
+  }, [posts.pages])
 
   const [visibility, setVisibility] = useState<PageVisibilityEnum>()
 
@@ -247,7 +228,7 @@ export default function SubdomainEditor() {
     if (check) {
       toast.error(check)
     } else {
-      const uniqueTags = Array.from(new Set(values.tags.split(","))).join(",")
+      const uniqueTags = Array.from(new Set(values.tags)).join(",")
       createOrUpdatePage.mutate({
         ...values,
         tags: uniqueTags,
@@ -313,9 +294,9 @@ export default function SubdomainEditor() {
       excerpt: page.data.metadata?.content?.summary || "",
       slug: page.data.metadata?.content?.slug || "",
       tags:
-        page.data.metadata?.content?.tags
-          ?.filter((tag) => tag !== "post" && tag !== "page")
-          ?.join(", ") || "",
+        page.data.metadata?.content?.tags?.filter(
+          (tag) => tag !== "post" && tag !== "page",
+        ) || [],
       content: page.data.metadata?.content?.content || "",
     })
     setDefaultSlug(
@@ -853,9 +834,6 @@ const EditorExtraProperties: FC<{
           label={t("Tags") || ""}
           id="tags"
           isBlock
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            updateValue("tags", e.target.value)
-          }
           help={t("Separate multiple tags with English commas") + ` ","`}
           renderInput={(props) => <TagInput {...props} userTags={userTags} />}
         />

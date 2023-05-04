@@ -1,4 +1,5 @@
 import { Fragment, useCallback, useState } from "react"
+import { shallow } from "zustand/shallow"
 
 import { Combobox, Transition } from "@headlessui/react"
 import {
@@ -7,28 +8,42 @@ import {
   XMarkIcon,
 } from "@heroicons/react/20/solid"
 
+import { useEditorState } from "~/hooks/useEdtiorState"
+
 interface Props {
   userTags: string[]
 }
 
-export function TagInput({ className, userTags }: Props) {
+export function TagInput({ userTags = [], className, id, name }: Props) {
   const [selected, setSelected] = useState("")
   const [query, setQuery] = useState("")
 
-  const [tags, setTags] = useState<string[]>([])
+  const { tags, setValues } = useEditorState(
+    (state) => ({
+      tags: state.tags,
+      setValues: state.setValues,
+    }),
+    shallow,
+  )
 
-  const onComboboxChange = useCallback((value: string) => {
-    setTags((tags) => tags.concat([value]))
-  }, [])
+  const onComboboxChange = useCallback(
+    (value: string) => {
+      setValues({ tags: [...tags, value] })
+    },
+    [setValues, tags],
+  )
 
-  const onDel = useCallback((value: string) => {
-    setTags((tags) => tags.filter((tag) => tag !== value))
-  }, [])
+  const onDel = useCallback(
+    (value: string) => {
+      setValues({ tags: tags.filter((tag) => tag !== value) })
+    },
+    [setValues, tags],
+  )
 
   const filteredTags =
     query === ""
-      ? tags
-      : tags.filter((tag) =>
+      ? userTags
+      : userTags.filter((tag) =>
           tag
             .toLowerCase()
             .replace(/\s+/g, "")
@@ -52,12 +67,15 @@ export function TagInput({ className, userTags }: Props) {
           </div>
         ))}
       </div>
-      <Combobox value={selected} onChange={onChange}>
+      <Combobox value={selected} onChange={onComboboxChange}>
         <div className="relative mt-1">
           <div className="relative flex w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               onChange={(event) => setQuery(event.target.value)}
+              autoComplete="off"
               className={className}
+              id={id}
+              name={name}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
@@ -75,8 +93,8 @@ export function TagInput({ className, userTags }: Props) {
           >
             <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {filteredTags.length === 0 && query !== "" ? (
-                <Combobox.Option value={{ id: null, name: query }}>
-                  Create {query}
+                <Combobox.Option value={query}>
+                  Create new tag: {query}
                 </Combobox.Option>
               ) : (
                 filteredTags.map((tag) => (
