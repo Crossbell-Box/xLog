@@ -13,7 +13,6 @@ import { PatronButton } from "~/components/common/PatronButton"
 import { SearchInput } from "~/components/common/SearchInput"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Image } from "~/components/ui/Image"
-import { Menu } from "~/components/ui/Menu"
 import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useIsDark } from "~/hooks/useDarkMode"
@@ -25,6 +24,7 @@ import { cn } from "~/lib/utils"
 import { ConnectButton } from "../common/ConnectButton"
 import { Avatar } from "../ui/Avatar"
 import { Button } from "../ui/Button"
+import { Menu } from "../ui/Menu"
 import { UniLink } from "../ui/UniLink"
 
 type HeaderLinkType = {
@@ -255,36 +255,25 @@ export const SiteHeader: React.FC<{
                 </div>
                 <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 right-0">
                   <div className="xlog-site-more-menu relative inline-block align-middle">
-                    <Menu
-                      target={
-                        <Button
-                          variant="text"
-                          aria-label="more"
-                          className="-mx-2 text-zinc-600"
+                    <MoreActions>
+                      {moreMenuItems.map((item) => (
+                        <MoreActions.Item
+                          key={item.text}
+                          icon={item.icon}
+                          {...(item.onClick
+                            ? {
+                                type: "button",
+                                onClick: item.onClick,
+                              }
+                            : {
+                                type: "link",
+                                href: item.url,
+                              })}
                         >
-                          <i className="icon-[mingcute--more-1-line] text-2xl" />
-                        </Button>
-                      }
-                      dropdown={
-                        <div className="text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2 text-sm">
-                          {moreMenuItems.map((item) => {
-                            return (
-                              <UniLink
-                                key={item.text}
-                                href={item.url}
-                                onClick={item.onClick}
-                                className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-hover"
-                              >
-                                <span className="fill-gray-500 flex items-center w-4 h-4 text-base leading-none">
-                                  {item.icon}
-                                </span>
-                                <span>{t(item.text)}</span>
-                              </UniLink>
-                            )
-                          })}
-                        </div>
-                      }
-                    />
+                          {t(item.text)}
+                        </MoreActions.Item>
+                      ))}
+                    </MoreActions>
                   </div>
                   <div className="xlog-site-more-out hidden sm:block">
                     <div className="-mx-2 flex">
@@ -357,3 +346,22 @@ export const SiteHeader: React.FC<{
     </header>
   )
 }
+
+function MoreActions({ children }: React.PropsWithChildren<{}>) {
+  return (
+    <Menu
+      target={
+        <Button
+          variant="text"
+          aria-label="more"
+          className="-mx-2 text-zinc-600"
+        >
+          <i className="icon-[mingcute--more-1-line] text-2xl" />
+        </Button>
+      }
+      dropdown={<div className="text-sm">{children}</div>}
+    />
+  )
+}
+
+MoreActions.Item = Menu.Item
