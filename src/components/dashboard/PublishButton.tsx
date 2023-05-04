@@ -12,7 +12,18 @@ export const PublishButton: React.FC<{
   isDisabled: boolean
   twitterShareUrl?: string
   isPost: boolean
-}> = ({ save, published, isSaving, isDisabled, twitterShareUrl, isPost }) => {
+  isModified: boolean
+  discardChanges: () => void
+}> = ({
+  save,
+  discardChanges,
+  published,
+  isSaving,
+  isDisabled,
+  isModified,
+  twitterShareUrl,
+  isPost,
+}) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -70,6 +81,15 @@ export const PublishButton: React.FC<{
                   <i className="icon-[mingcute--twitter-line] mr-1"></i>
                   {t("Share to Twitter")}
                 </button>
+                {isModified && (
+                  <button
+                    className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
+                    onClick={discardChanges}
+                  >
+                    <i className="icon-[mingcute--delete-back-line] mr-1"></i>
+                    {t("Discard Changes")}
+                  </button>
+                )}
                 <button
                   className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
                   onClick={() => setDeleteConfirmModalOpen(true)}

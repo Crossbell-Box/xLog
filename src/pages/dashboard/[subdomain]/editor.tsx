@@ -508,6 +508,13 @@ export default function SubdomainEditor() {
     />
   )
 
+  const discardChanges = () => {
+    const draftKey = getDraftKey()
+    delStorage(draftKey)
+    // Return back to last page
+    router.back()
+  }
+
   return (
     <>
       <DashboardMain fullWidth>
@@ -540,6 +547,8 @@ export default function SubdomainEditor() {
                     propertiesWidget={extraProperties}
                     previewPage={onPreviewButtonClick}
                     isPost={isPost}
+                    isModified={visibility === PageVisibilityEnum.Modified}
+                    discardChanges={discardChanges}
                   />
                 </div>
               ) : (
@@ -577,6 +586,8 @@ export default function SubdomainEditor() {
                       visibility !== PageVisibilityEnum.Draft
                     }
                     isPost={isPost}
+                    isModified={visibility === PageVisibilityEnum.Modified}
+                    discardChanges={discardChanges}
                   />
                 </div>
               )}
