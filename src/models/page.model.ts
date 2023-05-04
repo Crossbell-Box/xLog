@@ -380,7 +380,10 @@ export async function getPage<TRender extends boolean = false>(input: {
     characterId: input.characterId,
     handle: input.handle,
   })
-  const localPages = local.filter((page) => page.draftKey === input.noteId + "")
+  const localPages = local.filter(
+    (page) =>
+      page.draftKey === input.noteId + "" || page.draftKey === input.slug,
+  )
   const localPage =
     localPages.length &&
     localPages.reduce((prev, current) => {
