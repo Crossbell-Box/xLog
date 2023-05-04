@@ -17,6 +17,8 @@ export const OptionsButton: React.FC<{
   isRendering: boolean
   published: boolean
   isPost: boolean
+  isModified: boolean
+  discardChanges: () => void
 }> = ({
   visibility,
   previewPage,
@@ -26,6 +28,8 @@ export const OptionsButton: React.FC<{
   published,
   propertiesWidget,
   isPost,
+  isModified,
+  discardChanges,
 }) => {
   const { t } = useTranslation("dashboard")
 
@@ -111,6 +115,20 @@ export const OptionsButton: React.FC<{
                         </button>
                       )}
                     </Menu.Item>
+                    {isModified && (
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={`${
+                              active ? "bg-accent text-white" : "text-gray-900"
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            onClick={discardChanges}
+                          >
+                            {t("Discard Changes")}
+                          </button>
+                        )}
+                      </Menu.Item>
+                    )}
                     {published && (
                       <Menu.Item>
                         {({ active }) => (

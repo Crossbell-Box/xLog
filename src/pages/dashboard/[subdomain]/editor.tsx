@@ -523,6 +523,19 @@ export default function SubdomainEditor() {
     />
   )
 
+  const discardChanges = useCallback(() => {
+    if (draftKey) {
+      delStorage(draftKey)
+      queryClient.invalidateQueries(["getPagesBySite", site.data?.characterId])
+      queryClient.invalidateQueries([
+        "getPage",
+        draftKey.replace(`draft-${site.data?.characterId}-`, ""),
+      ])
+    } else {
+      queryClient.invalidateQueries(["getPage", pageId])
+    }
+  }, [draftKey])
+
   return (
     <>
       <DashboardMain fullWidth>
@@ -555,6 +568,8 @@ export default function SubdomainEditor() {
                     propertiesWidget={extraProperties}
                     previewPage={onPreviewButtonClick}
                     isPost={isPost}
+                    isModified={visibility === PageVisibilityEnum.Modified}
+                    discardChanges={discardChanges}
                   />
                 </div>
               ) : (
@@ -592,6 +607,8 @@ export default function SubdomainEditor() {
                       visibility !== PageVisibilityEnum.Draft
                     }
                     isPost={isPost}
+                    isModified={visibility === PageVisibilityEnum.Modified}
+                    discardChanges={discardChanges}
                   />
                 </div>
               )}
