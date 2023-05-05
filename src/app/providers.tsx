@@ -1,8 +1,7 @@
 import "aplayer-react/dist/index.css"
-import { appWithTranslation } from "next-i18next"
 import NextNProgress from "nextjs-progressbar"
+import { useState } from "react"
 import { Toaster } from "react-hot-toast"
-import { AppPropsWithLayout } from "types/next"
 import { WagmiConfig, createClient } from "wagmi"
 
 import {
@@ -13,10 +12,9 @@ import {
   NotificationModal,
   NotificationModalColorScheme,
 } from "@crossbell/notification"
-import { Hydrate, QueryClient } from "@tanstack/react-query"
+import { QueryClient } from "@tanstack/react-query"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 
-import "~/css/main.css"
 // eslint-disable-next-line import/no-unresolved
 import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
@@ -27,14 +25,6 @@ import { urlComposer } from "~/lib/url-composer"
 
 const wagmiClient = createClient(getDefaultClientConfig({ appName: APP_NAME }))
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
-    },
-  },
-})
-
 const persister = createIDBPersister()
 
 const colorScheme: NotificationModalColorScheme = {
@@ -44,11 +34,20 @@ const colorScheme: NotificationModalColorScheme = {
   border: `var(--border-color)`,
 }
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page)
-
+export default function Providers({ children }: { children: React.ReactNode }) {
   useDarkMode()
   useMobileLayout()
+
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+          },
+        },
+      }),
+  )
 
   return (
     <WagmiConfig client={wagmiClient}>
@@ -75,31 +74,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           signInStrategy="simple"
           ignoreWalletDisconnectEvent={true}
         >
-          <Hydrate state={pageProps.dehydratedState}>
-            {/* <ReactQueryDevtools /> */}
-            <NextNProgress
-              options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
-            />
-            {getLayout(<Component {...pageProps} />)}
-            <Toaster />
-            <NotificationModal colorScheme={colorScheme} />
-          </Hydrate>
+          <NextNProgress
+            options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
+          />
+          {children}
+          <Toaster />
+          <NotificationModal colorScheme={colorScheme} />
         </ConnectKitProvider>
       </PersistQueryClientProvider>
     </WagmiConfig>
   )
 }
-
-// Only uncomment this method if you have blocking data requirements for
-// every single page in your application. This disables the ability to
-// perform automatic static optimization, causing every page in your app to
-// be server-side rendered.
-//
-// MyApp.getInitialProps = async (appContext) => {
-//   // calls page's `getInitialProps` and fills `appProps.pageProps`
-//   const appProps = await App.getInitialProps(appContext);
-//
-//   return { ...appProps }
-// }
-
-export default appWithTranslation(MyApp)
