@@ -401,3 +401,29 @@ export const useGetGreenfieldId = (cid?: string) => {
     return siteModel.getGreenfieldId(cid)
   })
 }
+
+export const useGetCharacterCard = ({
+  siteId,
+  address,
+  enabled,
+}: {
+  siteId?: string
+  address?: string
+  enabled: boolean
+}) => {
+  return useQuery(
+    ["useGetCharacterCard", { siteId, address }],
+    async () => {
+      if (siteId) {
+        return siteModel.getSite(siteId)
+      } else if (address) {
+        return siteModel.getSiteByAddress(address)
+      } else {
+        return null
+      }
+    },
+    {
+      enabled,
+    },
+  )
+}
