@@ -1,12 +1,21 @@
 import Link from "next/link"
 
-export const UniLink: React.FC<{
+export type UniLinkProps = {
   href?: string
   onClick?: () => void
   children: React.ReactNode
   className?: string
   target?: string
-}> = ({ href, onClick, children, className, target, ...props }) => {
+}
+
+export const UniLink: React.FC<UniLinkProps> = ({
+  href,
+  onClick,
+  children,
+  className,
+  target,
+  ...props
+}) => {
   if (onClick) {
     return (
       <button className={className} onClick={onClick} {...props}>

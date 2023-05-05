@@ -74,7 +74,9 @@
     "zustand",
     "keymap",
     "autoscaler",
-    "keyval"
+    "keyval",
+    "gitlab",
+    "keybase"
   ],
   "ignoreRegExpList": ["/@servie/", "/[A-Za-z0-9]{46,59}/"],
   "ignoreWords": [

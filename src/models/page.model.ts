@@ -203,7 +203,7 @@ const getLocalPages = (input: {
           noteId: 0,
           draftKey: key
             .replace(`draft-${input.characterId}-`, "")
-            .replace(`draft-${input.handle}-`, ""), // In order to be compatible with old drafts
+            .replace(`draft-${input.handle}-${input.characterId}-`, ""), // In order to be compatible with old drafts
           linkItemType: null,
           linkKey: "",
           toCharacterId: null,
@@ -313,19 +313,21 @@ export async function getPagesBySite(input: {
 
   local.forEach((localPage) => {
     const index = expandedNotes.list.findIndex(
-      (page) => localPage.draftKey === page.noteId + "",
+      (page) => localPage.draftKey === (page.noteId || page.draftKey) + "",
     )
-    if (
-      index !== -1 &&
-      new Date(localPage.updatedAt) >
+    if (index !== -1) {
+      if (
+        new Date(localPage.updatedAt) >
         new Date(expandedNotes.list[index].updatedAt)
-    ) {
-      expandedNotes.list[index] = {
-        ...expandedNotes.list[index],
-        metadata: {
-          content: localPage.metadata?.content,
-        },
-        local: true,
+      ) {
+        expandedNotes.list[index] = {
+          ...expandedNotes.list[index],
+          metadata: {
+            content: localPage.metadata?.content,
+          },
+          local: true,
+          draftKey: localPage.draftKey,
+        }
       }
     } else {
       expandedNotes.list.push(localPage)
@@ -421,10 +423,15 @@ export async function getPage<TRender extends boolean = false>(input: {
     characterId: input.characterId,
     handle: input.handle,
   })
-  const localPage = local.find(
+  const localPages = local.filter(
     (page) =>
       page.draftKey === input.noteId + "" || page.draftKey === input.slug,
   )
+  const localPage =
+    localPages.length &&
+    localPages.reduce((prev, current) => {
+      return prev.updatedAt > current.updatedAt ? prev : current
+    })
 
   let expandedNote: ExpandedNote | undefined
   if (page) {
