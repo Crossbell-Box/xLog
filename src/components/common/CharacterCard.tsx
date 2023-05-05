@@ -6,7 +6,7 @@ import { Titles } from "~/components/common/Titles"
 import { Avatar } from "~/components/ui/Avatar"
 import { useDate } from "~/hooks/useDate"
 import { cn } from "~/lib/utils"
-import { useGetSite, useGetSiteByAddress } from "~/queries/site"
+import { useGetCharacterCard } from "~/queries/site"
 
 export const CharacterCard: React.FC<{
   siteId?: string
@@ -28,10 +28,11 @@ export const CharacterCard: React.FC<{
   const date = useDate()
   const { t } = useTranslation("common")
 
-  const { data: dataBySite } = useGetSite(siteId)
-  const { data: dataByAddress } = useGetSiteByAddress(address)
-
-  const site = dataBySite ? dataBySite : dataByAddress
+  const { data: site } = useGetCharacterCard({
+    siteId,
+    address,
+    enabled: open || false,
+  })
 
   return (
     <span
