@@ -171,7 +171,6 @@ export const renderPageContent = (
       .use(rehypeRewrite, {
         selector: "p, li",
         rewrite: (node: any) => {
-          console.log(node)
           if (node.children) {
             node.children = node.children.flatMap((child: any) => {
               if (child.type === "text") {

@@ -93,7 +93,11 @@ module.exports = withBundleAnalyzer(
       dangerouslyAllowSVG: true,
       contentSecurityPolicy:
         "default-src 'self'; script-src 'none'; sandbox; style-src 'unsafe-inline';",
-      remotePatterns: [{ hostname: "**" }],
+      remotePatterns: [
+        { hostname: "**" },
+        { protocol: "https", hostname: "pbs.twimg.com" },
+        { protocol: "https", hostname: "abs.twimg.com" },
+      ],
     },
 
     async generateBuildId() {
