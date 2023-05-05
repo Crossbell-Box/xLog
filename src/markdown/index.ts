@@ -32,6 +32,7 @@ import { APlayer } from "~/components/ui/APlayer"
 import { ZoomedImage } from "~/components/ui/Image"
 import { Mention } from "~/components/ui/Mention"
 import { Mermaid } from "~/components/ui/Mermaid"
+import { Tweet } from "~/components/ui/Tweet"
 
 import { rehypeAudio } from "./rehype-audio"
 import {
@@ -41,6 +42,7 @@ import {
 } from "./rehype-custom-wrapper"
 import { rehypeImage } from "./rehype-image"
 import { rehypeTable } from "./rehype-table"
+import { rehypeTweet } from "./rehype-tweet"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
 import { remarkCallout } from "./remark-callout"
@@ -165,9 +167,11 @@ export const renderPageContent = (
       .use(rehypeExternalLink)
       .use(rehypeWrapCode)
       .use(rehypeInferDescriptionMeta)
+      .use(rehypeTweet)
       .use(rehypeRewrite, {
         selector: "p, li",
         rewrite: (node: any) => {
+          console.log(node)
           if (node.children) {
             node.children = node.children.flatMap((child: any) => {
               if (child.type === "text") {
@@ -213,6 +217,7 @@ export const renderPageContent = (
           mention: Mention,
           mermaid: Mermaid,
           audio: APlayer,
+          tweet: Tweet,
           style: Style,
         } as any,
       })
