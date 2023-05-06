@@ -1,3 +1,5 @@
+import { Hydrate, dehydrate } from "@tanstack/react-query"
+
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { DarkModeSwitch } from "~/components/common/DarkModeSwitch"
 import { Logo } from "~/components/common/Logo"
@@ -5,17 +7,20 @@ import HomeTabs from "~/components/home/HomeTabs"
 import { UniLink } from "~/components/ui/UniLink"
 import { APP_NAME, DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n"
+import getQueryClient from "~/lib/query-client"
+import { prefetchGetShowcase } from "~/queries/home.server"
 
 export default async function HomeLayout({
   children,
 }: {
   children?: React.ReactNode
 }) {
-  const { t } = await useTranslation("index")
+  const queryClient = getQueryClient()
+  await prefetchGetShowcase(queryClient)
+  const dehydratedState = dehydrate(queryClient)
 
   return (
-    <>
+    <Hydrate state={dehydratedState}>
       <header className="py-5 fixed w-full top-0 bg-white z-10">
         <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
           <UniLink
@@ -69,6 +74,6 @@ export default async function HomeLayout({
           </span>
         </div>
       </footer>
-    </>
+    </Hydrate>
   )
 }

@@ -3,11 +3,10 @@ import { Hydrate, dehydrate } from "@tanstack/react-query"
 import { HomeFeed } from "~/components/home/HomeFeed"
 import { HomeSidebar } from "~/components/home/HomeSidebar"
 import getQueryClient from "~/lib/query-client"
-import { prefetchGetFeed, prefetchGetShowcase } from "~/queries/home.server"
+import { prefetchGetFeed } from "~/queries/home.server"
 
 async function Activities() {
   const queryClient = getQueryClient()
-  await prefetchGetShowcase(queryClient)
   await prefetchGetFeed(
     {
       type: "latest",
