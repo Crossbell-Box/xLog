@@ -1,3 +1,5 @@
+"use client"
+
 import "aplayer-react/dist/index.css"
 import NextNProgress from "nextjs-progressbar"
 import { useState } from "react"

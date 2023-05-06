@@ -1,14 +1,26 @@
 import { dir } from "i18next"
+import { Metadata } from "next"
 import { headers } from "next/headers"
-import { useRouter } from "next/router"
 
 import "~/css/main.css"
+import { APP_DESCRIPTION, APP_NAME, SITE_URL } from "~/lib/env"
+import { fallbackLng } from "~/lib/i18n/settings"
 
-import { languages } from "./i18n/settings"
 import Providers from "./providers"
 
-export async function generateStaticParams() {
-  return languages.map((lng) => ({ lng }))
+// default site meta
+export const metadata: Metadata = {
+  title: APP_NAME,
+  description: APP_DESCRIPTION,
+  icons: `${SITE_URL}/assets/logo.svg`, // default site icon
+  openGraph: {
+    siteName: APP_NAME,
+    description: "", // modify by pages
+  },
+  twitter: {
+    title: undefined,
+    description: undefined,
+  },
 }
 
 export default function RootLayout({
@@ -16,21 +28,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  let lng = "en"
-  const router = useRouter()
-  const queryLang = router.query.lang as string
-  if (!queryLang) {
-    let acceptLang = headers().get("accept-language")?.split(",")[0]
-    if (acceptLang === "zh-HK" || acceptLang === "zh-TW") {
-      acceptLang = "zh-TW"
-    } else {
-      acceptLang = acceptLang?.split("-")[0]
-    }
-    if (acceptLang) {
-      lng = acceptLang
-    }
+  let lng = fallbackLng
+
+  let acceptLang = headers().get("accept-language")?.split(",")[0]
+  if (acceptLang === "zh-HK" || acceptLang === "zh-TW") {
+    acceptLang = "zh-TW"
   } else {
-    lng = queryLang
+    acceptLang = acceptLang?.split("-")[0]
+  }
+  if (acceptLang) {
+    lng = acceptLang
   }
 
   return (

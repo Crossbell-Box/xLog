@@ -1,3 +1,5 @@
+"use client"
+
 import { Trans, useTranslation } from "next-i18next"
 import { useRouter } from "next/navigation"
 import { Element, Link } from "react-scroll"
@@ -17,17 +19,12 @@ import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
-import { APP_DESCRIPTION, APP_NAME, CSB_SCAN, GITHUB_LINK } from "~/lib/env"
+import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useGetShowcase } from "~/queries/home"
 
-import EntranceButton from "./EntranceButton"
 import ShowcaseList from "./ShowcaseList"
-
-export const metadata = {
-  title: APP_NAME,
-  description: APP_DESCRIPTION,
-}
+import EntranceButton from "./components/EntranceButton"
 
 function Home() {
   const router = useRouter()
@@ -255,6 +252,7 @@ function Home() {
         </div>
         <div className="text-center absolute bottom-4 sm:bottom-14 w-full flex items-center justify-center flex-col">
           <span className="mb-1 sm:mb-3">{t("Explore the xLog way")}</span>
+          {/* @ts-expect-error: TODO fix or replace this lib */}
           <Link
             to="Features"
             spy={true}
@@ -265,6 +263,7 @@ function Home() {
         </div>
       </div>
       <div>
+        {/* @ts-expect-error: TODO fix or replace this lib */}
         <Element name="Features">
           {features.map((feature, index) => (
             <div className="text-center mt-28" key={feature.title}>
@@ -391,6 +390,7 @@ function Home() {
             </div>
           ))}
         </Element>
+        {/* @ts-expect-error: TODO fix or replace this lib */}
         <Element name="Showcase" className="text-center">
           <div className="pt-32 text-5xl sm:text-6xl font-bold">
             {t("Showcase")}
@@ -415,6 +415,7 @@ function Home() {
             <ShowcaseList sites={showcaseSites.data} />
           </div>
         </Element>
+        {/* @ts-expect-error: TODO fix or replace this lib */}
         <Element name="Integration" className="text-center">
           <div className="pt-32 text-5xl sm:text-6xl font-bold">
             {t("Integration")}
