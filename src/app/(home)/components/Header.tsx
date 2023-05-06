@@ -2,7 +2,6 @@ import { ConnectButton } from "~/components/common/ConnectButton"
 import { Logo } from "~/components/common/Logo"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
-import { useAcceptLang } from "~/hooks/useAcceptLang"
 import { GITHUB_LINK } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n"
 import { cn } from "~/lib/utils"
@@ -29,8 +28,7 @@ const tabs = [
 ]
 
 export async function Header() {
-  const lang = useAcceptLang()
-  const { t } = await useTranslation(lang, "index")
+  const { t } = await useTranslation("index")
   // const pathname = usePathname()
   // TODO how to set active state for Link in RSC,
   // make <UniLink> be client component and add activeClass props or some way else

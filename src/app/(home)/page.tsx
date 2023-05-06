@@ -1,22 +1,19 @@
 import Link from "next/link"
 import { memo } from "react"
-import { Trans } from "react-i18next/TransWithoutContext"
 
 import { Logo } from "~/components/common/Logo"
 import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
-import { useAcceptLang } from "~/hooks/useAcceptLang"
 import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n"
+import { Trans, useTranslation } from "~/lib/i18n"
 
 import { default as OriginEntranceButton } from "./components/EntranceButton"
 import { Integration } from "./components/Integrations"
 import { ShowCase } from "./components/Showcase"
 
 async function Home() {
-  const lang = useAcceptLang()
-  const { t, i18n } = await useTranslation(lang, "index")
+  const { t, i18n } = await useTranslation("index")
 
   const EntranceButton = memo(function Button() {
     return (
