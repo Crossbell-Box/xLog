@@ -22,6 +22,7 @@ import { APP_NAME } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
+import { LangProvider } from "~/providers/LangProvider"
 
 const wagmiClient = createClient(getDefaultClientConfig({ appName: APP_NAME }))
 
@@ -34,7 +35,13 @@ const colorScheme: NotificationModalColorScheme = {
   border: `var(--border-color)`,
 }
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({
+  children,
+  lang,
+}: {
+  children: React.ReactNode
+  lang: string
+}) {
   useDarkMode()
   useMobileLayout()
 
@@ -77,7 +84,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           <NextNProgress
             options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
           />
-          {children}
+          <LangProvider lang={lang}>{children}</LangProvider>
           <NotificationModal colorScheme={colorScheme} />
         </ConnectKitProvider>
       </PersistQueryClientProvider>

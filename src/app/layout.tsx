@@ -29,12 +29,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const lng = useAcceptLang()
+  const lang = useAcceptLang()
 
   return (
-    <html lang={lng} dir={dir(lng)}>
+    <html lang={lang} dir={dir(lang)}>
       <body>
-        <Providers>{children}</Providers>
+        <Providers lang={lang}>{children}</Providers>
         <Toaster />
       </body>
     </html>
