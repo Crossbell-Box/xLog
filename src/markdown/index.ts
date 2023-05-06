@@ -30,6 +30,7 @@ import { unified } from "unified"
 
 import { Style } from "~/components/common/Style"
 import { APlayer } from "~/components/ui/APlayer"
+import DPlayer from "~/components/ui/DPlayer"
 import { ZoomedImage } from "~/components/ui/Image"
 import { Mention } from "~/components/ui/Mention"
 import { Mermaid } from "~/components/ui/Mermaid"
@@ -42,6 +43,7 @@ import {
 } from "./rehype-custom-wrapper"
 import { rehypeImage } from "./rehype-image"
 import { rehypeTable } from "./rehype-table"
+import { rehypeVideo } from "./rehype-video"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
 import { remarkCallout } from "./remark-callout"
@@ -141,6 +143,7 @@ export const renderPageContent = (
       .use(rehypeRaw, { passThrough: allowedCustomWrappers })
       .use(rehypeImage, { env })
       .use(rehypeAudio, { env })
+      .use(rehypeVideo, { env })
       .use(rehypeSlug)
       .use(rehypeAutolinkHeadings, {
         properties: {
@@ -223,6 +226,7 @@ export const renderPageContent = (
           mention: Mention,
           mermaid: Mermaid,
           audio: APlayer,
+          video: DPlayer,
           style: Style,
         } as any,
       })
