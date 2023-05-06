@@ -1,4 +1,5 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
 import { useState } from "react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
@@ -6,12 +7,13 @@ import { SearchInput } from "~/components/common/SearchInput"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { useGetShowcase } from "~/queries/home"
 
 import topics from "../../../data/topics.json"
 import { FollowAllButton } from "../common/FollowAllButton"
 
-export function MainSidebar({ hideSearch }: { hideSearch?: boolean }) {
+export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
   const showcaseSites = useGetShowcase()
   const { t } = useTranslation("index")
 

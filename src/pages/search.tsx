@@ -6,9 +6,9 @@ import { ReactElement } from "react"
 import { QueryClient, dehydrate } from "@tanstack/react-query"
 
 import { SearchInput } from "~/components/common/SearchInput"
-import { MainFeed } from "~/components/main/MainFeed"
+import { MainFeed } from "~/components/home/HomeFeed"
+import { MainSidebar } from "~/components/home/HomeSidebar"
 import { MainLayout } from "~/components/main/MainLayout"
-import { MainSidebar } from "~/components/main/MainSidebar"
 import { languageDetector } from "~/lib/language-detector"
 import { prefetchGetShowcase } from "~/queries/home.server"
 

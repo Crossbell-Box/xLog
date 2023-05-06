@@ -1,11 +1,12 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { memo, useEffect, useState } from "react"
 import reactStringReplace from "react-string-replace"
 import { Virtuoso } from "react-virtuoso"
 
-import { useAccountState } from "@crossbell/connect-kit"
+import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { Switch } from "@headlessui/react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
@@ -14,6 +15,7 @@ import { Image } from "~/components/ui/Image"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
+import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
 import type { FeedType, SearchType } from "~/models/home.model"
@@ -31,7 +33,7 @@ const Post = ({
   keyword?: string
 }) => {
   const router = useRouter()
-  const { t } = useTranslation(["common", "site"])
+  const { t } = useTranslation("common")
   const date = useDate()
 
   if (
@@ -159,12 +161,13 @@ const Post = ({
 
 const MemoedPost = memo(Post)
 
-export const MainFeed: React.FC<{
-  type?: FeedType
+export const HomeFeed: React.FC<{
   noteIds?: string[]
   keyword?: string
-}> = ({ type, noteIds, keyword }) => {
-  const { t } = useTranslation(["common", "site"])
+}> = ({ noteIds, keyword }) => {
+  const { t } = useTranslation("common")
+
+  const [feedType, setFeedType] = useState<FeedType>("latest")
 
   const currentCharacterId = useAccountState(
     (s) => s.computed.account?.characterId,
@@ -174,7 +177,7 @@ export const MainFeed: React.FC<{
   const [searchType, setSearchType] = useState<SearchType>("latest")
 
   const feed = useGetFeed({
-    type: type,
+    type: feedType,
     characterId: currentCharacterId,
     noteIds: noteIds,
     daysInterval: hotInterval,
@@ -182,7 +185,7 @@ export const MainFeed: React.FC<{
     searchType,
   })
 
-  const hasFiltering = type === "latest"
+  const hasFiltering = feedType === "latest"
 
   const [aiFiltering, setAiFiltering] = useState(true)
 
@@ -226,8 +229,35 @@ export const MainFeed: React.FC<{
     },
   ]
 
+  const connectModal = useConnectModal()
+
+  const tabs = [
+    {
+      text: "Latest",
+      onClick: () => setFeedType("latest"),
+      active: feedType === "latest",
+    },
+    {
+      text: "Hottest",
+      onClick: () => setFeedType("hot"),
+      active: feedType === "hot",
+    },
+    {
+      text: "Following",
+      onClick: () => {
+        if (!currentCharacterId) {
+          connectModal.show()
+        } else {
+          setFeedType("following")
+        }
+      },
+      active: feedType === "following",
+    },
+  ]
+
   return (
     <>
+      <Tabs items={tabs} className="border-none text-lg"></Tabs>
       <div className="space-y-10">
         {hasFiltering && (
           <div className="flex items-center text-zinc-500">
@@ -263,10 +293,10 @@ export const MainFeed: React.FC<{
             </Switch>
           </div>
         )}
-        {type === "hot" && (
+        {feedType === "hot" && (
           <Tabs items={hotTabs} className="border-none text-sm -my-4"></Tabs>
         )}
-        {type === "search" && (
+        {feedType === "search" && (
           <Tabs items={searchTabs} className="border-none text-sm -my-4"></Tabs>
         )}
 
