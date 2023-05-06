@@ -1,11 +1,9 @@
 // @ts-check
 const pkg = require("./package.json")
-const spawn = require("cross-spawn")
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 })
 const execSync = require("child_process").execSync
-const { i18n } = require("./next-i18next.config")
 
 const cache = require("next-pwa/cache")
 const withPWA = require("next-pwa")({
