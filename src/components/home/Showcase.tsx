@@ -7,11 +7,13 @@ import { FollowAllButton } from "~/components/common/FollowAllButton"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { useGetShowcase } from "~/queries/home"
 
 export function ShowCase() {
   const showcaseSites = useGetShowcase()
   const [showcaseMore, setShowcaseMore] = useState(false)
+  const { t } = useTranslation("index")
 
   return (
     <>
@@ -35,8 +37,7 @@ export function ShowCase() {
           }`}
           onClick={() => setShowcaseMore(true)}
         >
-          {/* {t("Show more")} */}
-          Show more
+          {t("Show more")}
         </div>
         {showcaseSites.data?.map((site) => (
           <li className="inline-flex align-middle" key={site.handle}>

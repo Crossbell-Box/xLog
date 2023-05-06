@@ -3,12 +3,13 @@
 import i18next from "i18next"
 import LanguageDetector from "i18next-browser-languagedetector"
 import resourcesToBackend from "i18next-resources-to-backend"
+import { useEffect, useState } from "react"
 import {
   initReactI18next,
   useTranslation as useTranslationOrg,
 } from "react-i18next"
 
-import { getOptions } from "./settings"
+import { fallbackLng, getOptions } from "./settings"
 
 i18next
   .use(initReactI18next)
@@ -28,5 +29,16 @@ i18next
   })
 
 export function useTranslation(ns: string) {
-  return useTranslationOrg(ns)
+  const [value, setValue] = useState({
+    t: i18next.getFixedT(fallbackLng, ns),
+  })
+
+  const { t } = useTranslationOrg(ns)
+  useEffect(() => {
+    setValue({
+      t,
+    })
+  }, [t])
+
+  return value
 }

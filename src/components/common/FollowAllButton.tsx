@@ -1,12 +1,12 @@
 "use client"
 
-import { useTranslation } from "next-i18next"
 import { useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
 
 import { Button } from "~/components/ui/Button"
+import { useTranslation } from "~/lib/i18n/client"
 import { getSubscriptionsFromList } from "~/models/site.model"
 import { useSubscribeToSites } from "~/queries/site"
 
