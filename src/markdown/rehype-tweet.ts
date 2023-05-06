@@ -3,8 +3,9 @@ import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
 export const rehypeTweet: Plugin<Array<void>, Root> = () => (tree) => {
-  visit(tree, { tagName: "a" }, (node) => {
-    // https://twitter.com/_xLog/status/1653881175033651201
+  visit(tree, { tagName: "a" }, (node, i, parent) => {
+    // only render tweet in paragraph
+    if (!parent || !("tagName" in parent) || parent.tagName !== "p") return
     const tweetRegex =
       /^https?:\/\/(?:www\.)?twitter\.com\/\w+\/status\/(\d+)(?:\?.*)?(?:#.*)?$/
     const href = node.properties?.href
