@@ -52,6 +52,7 @@ const Post = ({
             target="_blank"
             href={`/api/redirection?characterId=${post.characterId}`}
             className="flex items-center space-x-4 cursor-pointer"
+            prefetch={false}
           >
             <span className="w-10 h-10 inline-block">
               <Image
@@ -91,6 +92,7 @@ const Post = ({
         target="_blank"
         href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
         className="xlog-post sm:hover:bg-hover bg-white transition-all p-4 ml-10 sm:rounded-xl flex flex-col sm:flex-row items-center"
+        prefetch={false}
       >
         <div className="flex-1 flex justify-center flex-col w-full min-w-0">
           <h3 className="xlog-post-title text-2xl font-bold text-zinc-700">
