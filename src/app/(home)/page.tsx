@@ -1,39 +1,21 @@
-"use client"
+import Link from "next/link"
+import { Trans } from "react-i18next/TransWithoutContext"
 
-import { Trans, useTranslation } from "next-i18next"
-import { useRouter } from "next/navigation"
-import { Element, Link } from "react-scroll"
-
-import {
-  CrossbellChainLogo,
-  XCharLogo,
-  XFeedLogo,
-  XShopLogo,
-  XSyncLogo,
-} from "@crossbell/ui"
-import { RssIcon } from "@heroicons/react/24/outline"
-
-import { FollowAllButton } from "~/components/common/FollowAllButton"
 import { Logo } from "~/components/common/Logo"
 import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
-import { Tooltip } from "~/components/ui/Tooltip"
-import { UniLink } from "~/components/ui/UniLink"
+import { useAcceptLang } from "~/hooks/useAcceptLang"
 import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useGetShowcase } from "~/queries/home"
+import { useTranslation } from "~/lib/i18n"
 
-import ShowcaseList from "./ShowcaseList"
 import EntranceButton from "./components/EntranceButton"
+import { Integration } from "./components/Integrations"
+import { ShowCase } from "./components/Showcase"
 
-function Home() {
-  const router = useRouter()
-  const showcaseSites = useGetShowcase()
-  const { t } = useTranslation("index")
-
-  const tryNow = () => {
-    router.push("/dashboard")
-  }
+async function Home() {
+  const lang = useAcceptLang()
+  const { t, i18n } = await useTranslation(lang, "index")
 
   const features: {
     title: string
@@ -114,96 +96,6 @@ function Home() {
     },
   ]
 
-  const integrations = [
-    {
-      name: "RSS",
-      icon: <RssIcon className="w-full h-full text-orange-500" />,
-      url:
-        getSiteLink({
-          subdomain: "xlog",
-        }) + "/feed?format=xml",
-    },
-    {
-      name: "JSON Feed",
-      icon: <Image src="/assets/json-feed.png" alt="JSON Feed" />,
-      url:
-        getSiteLink({
-          subdomain: "xlog",
-        }) + "/feed",
-    },
-    {
-      name: "xChar",
-      icon: <XCharLogo className="w-full h-full" />,
-      url: "https://xchar.app/",
-    },
-    {
-      name: "xFeed",
-      icon: <XFeedLogo className="w-full h-full" />,
-      url: "https://crossbell.io/feed",
-    },
-    {
-      name: "xSync",
-      icon: <XSyncLogo className="w-full h-full" />,
-      url: "https://xsync.app/",
-    },
-    {
-      name: "xShop",
-      icon: <XShopLogo className="w-full h-full" />,
-      text: "Coming soon",
-    },
-    {
-      name: "Crossbell Scan",
-      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
-      url: "https://scan.crossbell.io/",
-    },
-    {
-      name: "Crossbell Faucet",
-      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
-      url: "https://faucet.crossbell.io/",
-    },
-    {
-      name: "Crossbell Export",
-      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
-      url: "https://export.crossbell.io/",
-    },
-    {
-      name: "Crossbell SDK",
-      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
-      url: "https://crossbell-box.github.io/crossbell.js/",
-    },
-    {
-      name: "RSS3",
-      icon: (
-        <Image alt="RSS3" src="/assets/rss3.svg" className="rounded" fill />
-      ),
-      url: "https://rss3.io/",
-    },
-    {
-      name: "Hoot It",
-      icon: (
-        <Image alt="Hoot It" src="/assets/hoot.svg" className="rounded" fill />
-      ),
-      url: "https://hoot.it/search/xLog",
-    },
-    {
-      name: "Raycast",
-      icon: <Image src="/assets/raycast.png" alt="Raycast" />,
-      url: "https://www.raycast.com/Songkeys/crossbell",
-    },
-    {
-      name: "Obsidian",
-      icon: (
-        <Image
-          src="/assets/obsidian.svg"
-          alt="Obsidian"
-          className="rounded"
-          fill
-        />
-      ),
-      text: "Coming soon",
-    },
-  ]
-
   return (
     <div className="max-w-screen-lg px-5 mx-auto">
       <div className="h-screen w-full flex justify-center flex-col relative text-center">
@@ -219,21 +111,25 @@ function Home() {
           ))}
         </h2>
         <h3 className="mt-3 sm:mt-5 text-zinc-800 text-2xl sm:text-4xl font-light">
-          <Trans i18nKey="description" ns="index">
+          <Trans i18n={i18n} i18nKey="description" ns="index">
             <strong className="font-medium">xLog</strong> is the best{" "}
-            <UniLink
+            <a
+              target="_blank"
+              rel="nofollow noreferrer"
               className="underline decoration-2 text-yellow-400 font-medium"
               href={CSB_SCAN}
             >
               on-chain
-            </UniLink>{" "}
+            </a>{" "}
             and{" "}
-            <UniLink
+            <a
+              target="_blank"
+              rel="nofollow noreferrer"
               className="underline decoration-2 text-green-400 font-medium"
               href={GITHUB_LINK}
             >
               open-source
-            </UniLink>{" "}
+            </a>{" "}
             blogging community for everyone.
           </Trans>
         </h3>
@@ -246,25 +142,20 @@ function Home() {
             variantColor="gradient"
           >
             <span>
-              <UniLink href="/activities">{t("Look at others'")}</UniLink>
+              <Link href="/activities">{t("Look at others'")}</Link>
             </span>
           </Button>
         </div>
         <div className="text-center absolute bottom-4 sm:bottom-14 w-full flex items-center justify-center flex-col">
           <span className="mb-1 sm:mb-3">{t("Explore the xLog way")}</span>
-          {/* @ts-expect-error: TODO fix or replace this lib */}
-          <Link
-            to="Features"
-            spy={true}
-            smooth={true}
-            duration={500}
+          <a
+            href="#features"
             className="cursor-pointer inline-block icon-[mingcute--down-line] text-3xl"
-          ></Link>
+          ></a>
         </div>
       </div>
       <div>
-        {/* @ts-expect-error: TODO fix or replace this lib */}
-        <Element name="Features">
+        <div id="features">
           {features.map((feature, index) => (
             <div className="text-center mt-28" key={feature.title}>
               <div className="">
@@ -291,15 +182,18 @@ function Home() {
                 </h4>
                 <p className="mt-6 text-zinc-500">
                   <Trans
+                    i18n={i18n}
                     i18nKey={`features.${feature.title}.description`}
                     components={{
                       aown: (
-                        <UniLink
+                        <a
+                          target="_blank"
+                          rel="nofollow noreferrer"
                           className="underline"
                           href="https://github.com/Crossbell-Box/Crossbell-Contracts/wiki"
                         >
                           .
-                        </UniLink>
+                        </a>
                       ),
                     }}
                     ns="index"
@@ -332,28 +226,33 @@ function Home() {
                     </p>
                     <p className="text-base font-light mt-3 mb-4 leading-normal px-5 text-left">
                       <Trans
+                        i18n={i18n}
                         i18nKey={`${item.title} text`}
                         components={{
                           strong: <strong className="font-bold" />,
                           axfm: (
-                            <UniLink
+                            <a
+                              target="_blank"
+                              rel="nofollow noreferrer"
                               className="underline"
                               href={`${getSiteLink({
                                 subdomain: "xlog",
                               })}/xfm`}
                             >
                               .
-                            </UniLink>
+                            </a>
                           ),
                           aincentive: (
-                            <UniLink
+                            <a
+                              target="_blank"
+                              rel="nofollow noreferrer"
                               className="underline"
                               href={`${getSiteLink({
                                 subdomain: "xlog",
                               })}/creator-incentive-plan`}
                             >
                               .
-                            </UniLink>
+                            </a>
                           ),
                         }}
                         ns="index"
@@ -373,25 +272,20 @@ function Home() {
                     </span>
                   </div>
                   <div>{t(`features.${feature.title}.extra.description`)}</div>
-                  <Button
-                    variantColor="black"
-                    onClick={() =>
-                      window.open(
-                        getSiteLink({
-                          subdomain: "xlog",
-                        }),
-                      )
-                    }
+                  <a
+                    target="_blank"
+                    href={getSiteLink({ subdomain: "xlog" })}
+                    role="button"
+                    className="button is-black rounded-lg"
                   >
                     {t(`features.${feature.title}.extra.button`)}
-                  </Button>
+                  </a>
                 </div>
               )}
             </div>
           ))}
-        </Element>
-        {/* @ts-expect-error: TODO fix or replace this lib */}
-        <Element name="Showcase" className="text-center">
+        </div>
+        <div id="showcase" className="text-center">
           <div className="pt-32 text-5xl sm:text-6xl font-bold">
             {t("Showcase")}
           </div>
@@ -401,22 +295,10 @@ function Home() {
                 "Discover these awesome teams and creators on xLog (sorted by update time)",
               )}
             </p>
-            <FollowAllButton
-              className="mt-5"
-              size="xl"
-              characterIds={showcaseSites.data
-                ?.map((s: { characterId?: string }) => s.characterId)
-                .filter(Boolean)
-                .map(Number)}
-              siteIds={showcaseSites.data?.map(
-                (s: { handle: string }) => s.handle,
-              )}
-            />
-            <ShowcaseList sites={showcaseSites.data} />
+            <ShowCase />
           </div>
-        </Element>
-        {/* @ts-expect-error: TODO fix or replace this lib */}
-        <Element name="Integration" className="text-center">
+        </div>
+        <div id="integration" className="text-center">
           <div className="pt-32 text-5xl sm:text-6xl font-bold">
             {t("Integration")}
           </div>
@@ -427,62 +309,18 @@ function Home() {
               )}
             </p>
             <ul className="mt-14 grid grid-cols-3 sm:grid-cols-5 gap-y-14 gap-x-2">
-              {integrations.map((item, index) => (
-                <li
-                  className="hover:scale-105 transition-transform duration-300"
-                  key={index}
-                >
-                  {item.url ? (
-                    <UniLink
-                      href={item.url}
-                      className="w-full flex items-center flex-col justify-center"
-                    >
-                      <div className="w-12 h-12 rounded-md overflow-hidden">
-                        {item.icon}
-                      </div>
-                      <div className="font-medium sm:text-lg mt-2 text-center">
-                        {item.name}
-                      </div>
-                    </UniLink>
-                  ) : (
-                    <Tooltip label={item.text!}>
-                      <div className="w-full h-full flex items-center flex-col justify-center">
-                        <div className="w-12 h-12 rounded-md overflow-hidden">
-                          {item.icon}
-                        </div>
-                        <div className="font-medium sm:text-lg mt-2 text-center">
-                          {item.name}
-                        </div>
-                      </div>
-                    </Tooltip>
-                  )}
-                </li>
-              ))}
+              <Integration />
               <li className="flex items-center justify-center">
                 <i className="icon-[mingcute--more-1-line] text-5xl" />
               </li>
             </ul>
           </div>
-        </Element>
+        </div>
       </div>
       <div className="my-20 text-center">
         <div className="w-[100px] h-[100px] mx-auto mb-10">
           <Logo type="lottie" width={100} height={100} loop={true} />
         </div>
-        {/* {isConnected ? (
-          <UniLink
-            href="/dashboard"
-            className="text-accent inline-flex items-center space-x-2"
-          >
-            <Button size="2xl" variantColor="black">
-              {t("Get my xLog in 5 minutes")}
-            </Button>
-          </UniLink>
-        ) : (
-          <Button onClick={tryNow} size="2xl" variantColor="black">
-            {t("Get my xLog in 5 minutes")}
-          </Button>
-        )} */}
         <EntranceButton />
       </div>
     </div>
