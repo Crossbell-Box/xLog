@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${pages.list?.map(
   (page: any) => `  <url>
-    <loc>${link}/${page.slug || page.id}</loc>
+    <loc>${link}/${page.metadata.content.slug}</loc>
     <lastmod>${dayjs(page.date_updated).format("YYYY-MM-DD")}</lastmod>
   </url>`,
 ).join(`
