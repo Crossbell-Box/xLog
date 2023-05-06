@@ -259,7 +259,7 @@ export const HomeFeed: React.FC<{
 
   return (
     <>
-      <Tabs items={tabs} className="border-none text-lg"></Tabs>
+      {!type && <Tabs items={tabs} className="border-none text-lg"></Tabs>}
       <div className="space-y-10">
         {hasFiltering && (
           <div className="flex items-center text-zinc-500">
