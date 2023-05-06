@@ -14,17 +14,17 @@ export const DPlayer: FC<{
 
   return (
     <>
-      {sources.map((source) => {
+      {sources.map((source, idx) => {
         const { src: _src, ...props } = source.props as DPlayerProps
 
         if (!_src) {
-          return null
+          return <div key={idx} />
         }
 
         const src = toGateway(_src)
 
         return (
-          <div className="my-8" key={src}>
+          <div className="my-8" key={idx}>
             <RcDPlayer src={src} {...props} />
           </div>
         )
