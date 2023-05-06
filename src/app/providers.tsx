@@ -1,9 +1,7 @@
 "use client"
 
-import "aplayer-react/dist/index.css"
 import NextNProgress from "nextjs-progressbar"
 import { useState } from "react"
-import { Toaster } from "react-hot-toast"
 import { WagmiConfig, createClient } from "wagmi"
 
 import {
@@ -80,7 +78,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
           />
           {children}
-          <Toaster />
           <NotificationModal colorScheme={colorScheme} />
         </ConnectKitProvider>
       </PersistQueryClientProvider>

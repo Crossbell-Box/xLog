@@ -1,5 +1,7 @@
+import "aplayer-react/dist/index.css"
 import { dir } from "i18next"
 import { Metadata } from "next"
+import { Toaster } from "react-hot-toast"
 
 import "~/css/main.css"
 import { useAcceptLang } from "~/hooks/useAcceptLang"
@@ -33,6 +35,7 @@ export default function RootLayout({
     <html lang={lng} dir={dir(lng)}>
       <body>
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   )
