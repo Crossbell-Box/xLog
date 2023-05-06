@@ -98,6 +98,7 @@ const syncMap: {
     name: "Mastodon.World",
     icon: "/assets/social/mastodon.ico",
     url: "https://mastodon.world/@{username}",
+  },
 },
 
 export const Platform: React.FC<{
