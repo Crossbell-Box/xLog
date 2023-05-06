@@ -1,6 +1,5 @@
 "use client"
 
-import { useTranslation } from "next-i18next"
 import React, { useEffect, useState } from "react"
 
 import {
@@ -33,6 +32,7 @@ import { Button, type Variant, type VariantColor } from "~/components/ui/Button"
 import { Menu } from "~/components/ui/Menu"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 type HeaderLinkType = {
