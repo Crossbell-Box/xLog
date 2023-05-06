@@ -12,6 +12,7 @@ export default async function HomeLayout({
 }) {
   return (
     <>
+      {/* @ts-expect-error RSC */}
       <Header />
       {children}
       <footer className="mt-10 font-medium border-t">

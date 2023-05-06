@@ -1,13 +1,10 @@
-"use client"
-
-import { usePathname } from "next/navigation"
-import { useTranslation } from "react-i18next"
-
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { Logo } from "~/components/common/Logo"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
+import { useAcceptLang } from "~/hooks/useAcceptLang"
 import { GITHUB_LINK } from "~/lib/env"
+import { useTranslation } from "~/lib/i18n"
 import { cn } from "~/lib/utils"
 
 const tabs = [
@@ -31,9 +28,13 @@ const tabs = [
   },
 ]
 
-export function Header() {
-  const { t } = useTranslation("index")
-  const pathname = usePathname()
+export async function Header() {
+  const lang = useAcceptLang()
+  const { t } = await useTranslation(lang, "index")
+  // const pathname = usePathname()
+  // TODO how to set active state for Link in RSC,
+  // make <UniLink> be client component and add activeClass props or some way else
+  const pathname = "/"
   return (
     <header className="py-5 fixed w-full top-0 bg-white z-10">
       <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
