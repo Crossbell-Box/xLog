@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { memo, useEffect, useState } from "react"
 import reactStringReplace from "react-string-replace"
 import { Virtuoso } from "react-virtuoso"
@@ -164,10 +164,12 @@ const MemoedPost = memo(Post)
 export const HomeFeed: React.FC<{
   noteIds?: string[]
   keyword?: string
-}> = ({ noteIds, keyword }) => {
+  type?: FeedType
+}> = ({ noteIds, keyword, type }) => {
   const { t } = useTranslation("common")
+  const searchParams = useSearchParams()
 
-  const [feedType, setFeedType] = useState<FeedType>("latest")
+  const [feedType, setFeedType] = useState<FeedType>(type || "latest")
 
   const currentCharacterId = useAccountState(
     (s) => s.computed.account?.characterId,
@@ -181,7 +183,7 @@ export const HomeFeed: React.FC<{
     characterId: currentCharacterId,
     noteIds: noteIds,
     daysInterval: hotInterval,
-    searchKeyword: keyword,
+    searchKeyword: searchParams?.get("q") || undefined,
     searchType,
   })
 
@@ -318,7 +320,7 @@ export const HomeFeed: React.FC<{
                       key={`${post.characterId}-${post.noteId}`}
                       post={post}
                       filtering={aiFiltering ? 60 : 0}
-                      keyword={keyword}
+                      keyword={searchParams?.get("q") || undefined}
                     />
                   )
                 })
