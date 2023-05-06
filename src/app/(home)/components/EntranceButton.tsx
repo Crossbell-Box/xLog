@@ -1,12 +1,18 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import React from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
 
 import { Button } from "~/components/ui/Button"
 
-export default function EntranceButton() {
+interface Props {
+  connectedContent: React.ReactNode
+  unconnectedContent: React.ReactNode
+}
+
+export default function EntranceButton(props: Props) {
   const router = useRouter()
   const isConnected = useAccountState((s) => !!s.computed.account)
 
@@ -17,16 +23,7 @@ export default function EntranceButton() {
       size="2xl"
       variantColor="black"
     >
-      {isConnected ? (
-        <>
-          <span className="icon-[mingcute--grid-line] text-xl mr-2 inline-block"></span>
-          {/* <span>{t("Dashboard")}</span> */}
-          Dashboard
-        </>
-      ) : (
-        // t("Get my xLog in 5 minutes")
-        <>Get my xLog in 5 minutes</>
-      )}
+      {isConnected ? props.connectedContent : props.unconnectedContent}
     </Button>
   )
 }
