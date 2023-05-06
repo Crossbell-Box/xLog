@@ -4,6 +4,9 @@ import { memo } from "react"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { Logo } from "~/components/common/Logo"
+import { ShowCase } from "~/components/home//Showcase"
+import { default as OriginEntranceButton } from "~/components/home/EntranceButton"
+import { Integration } from "~/components/home/Integrations"
 import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
 import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
@@ -11,10 +14,6 @@ import { getSiteLink } from "~/lib/helpers"
 import { Trans, useTranslation } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
 import { prefetchGetShowcase } from "~/queries/home.server"
-
-import { default as OriginEntranceButton } from "./components/EntranceButton"
-import { Integration } from "./components/Integrations"
-import { ShowCase } from "./components/Showcase"
 
 async function Home() {
   const { t, i18n } = await useTranslation("index")
