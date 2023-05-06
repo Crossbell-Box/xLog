@@ -1,4 +1,6 @@
-import { useRouter } from "next/router"
+"use client"
+
+import { useParams, usePathname, useRouter } from "next/navigation"
 import React, { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -34,7 +36,9 @@ export function DashboardLayout({
   title: string
 }) {
   const router = useRouter()
-  const subdomain = router.query.subdomain as string
+  const params = useParams()
+  const pathname = usePathname()
+  const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
 
   const userRole = useUserRole(subdomain)
@@ -212,7 +216,7 @@ export function DashboardLayout({
                         const active =
                           link.href &&
                           link.isActive({
-                            pathname: router.asPath,
+                            pathname: pathname!,
                             href: link.href,
                           })
                         return (
@@ -313,7 +317,7 @@ export function DashboardLayout({
                         const active =
                           link.href &&
                           link.isActive({
-                            pathname: router.asPath,
+                            pathname: pathname!,
                             href: link.href,
                           })
                         return (

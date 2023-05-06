@@ -63,6 +63,7 @@ module.exports = withBundleAnalyzer(
     },
     experimental: {
       scrollRestoration: true,
+      appDir: true,
     },
     output: "standalone",
     productionBrowserSourceMaps: true,

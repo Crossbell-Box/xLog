@@ -224,8 +224,8 @@ export default function SiteSettingsGeneralPage() {
             help={
               <p>
                 <Trans i18nKey="Integrate Umami Cloud Analytics" ns="dashboard">
-                  Integrate Umami Cloud Analytics into your site. You can follow the
-                  instructions{" "}
+                  Integrate Umami Cloud Analytics into your site. You can follow
+                  the instructions{" "}
                   <UniLink
                     className="underline"
                     href="https://umami.is/docs/collect-data"
