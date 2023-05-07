@@ -1,7 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next"
-
 import { getNoteSlug } from "~/lib/helpers"
 import { cacheDelete, cacheGet } from "~/lib/redis.server"
+import { NextServerResponse, getQuery } from "~/lib/server-helper"
 
 export async function getIdBySlug(slug: string, characterId: string | number) {
   slug = (slug as string)?.toLowerCase?.()
@@ -54,16 +53,15 @@ export async function getIdBySlug(slug: string, characterId: string | number) {
   return result
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  let { characterId, slug } = req.query
-
+// GET /api/slug2id?characterId=52055&slug=note-144
+export async function GET(req: Request): Promise<Response> {
+  let { characterId, slug } = getQuery(req)
+  const res = new NextServerResponse()
   if (!slug || !characterId) {
-    res.status(400).send("Bad Request")
-    return
+    return res.status(400).send("Bad Request")
   }
 
-  res.status(200).send(await getIdBySlug(slug as string, characterId as string))
+  return res
+    .status(200)
+    .send(await getIdBySlug(slug as string, characterId as string))
 }

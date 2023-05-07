@@ -1,14 +1,14 @@
 import { OpenAI } from "langchain"
 import { AnalyzeDocumentChain, loadSummarizationChain } from "langchain/chains"
 import { PromptTemplate } from "langchain/prompts"
-import { NextApiRequest, NextApiResponse } from "next"
+import removeMarkdown from "remove-markdown"
 
 import { Metadata } from "@prisma/client"
 
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
-import removeMarkdown from "remove-markdown"
+import { NextServerResponse, getQuery } from "~/lib/server-helper"
 
 const model = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
@@ -120,18 +120,15 @@ export async function getSummary(cid: string, lang: string = "en") {
   return summary
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  let { cid, lang } = req.query
+export async function GET(req: Request): Promise<Response> {
+  let { cid, lang } = getQuery(req)
+  const res = new NextServerResponse()
 
   if (!cid) {
-    res.status(400).send("Bad Request")
-    return
+    return res.status(400).send("Bad Request")
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     data: await getSummary(cid as string, lang as string),
   })
 }

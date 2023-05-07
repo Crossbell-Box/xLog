@@ -1,14 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next"
-
 import { OUR_DOMAIN } from "~/lib/env"
 import { cacheGet } from "~/lib/redis.server"
+import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { checkDomainServer, fetchTenant } from "~/models/site.model"
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  let { host } = req.query
+export async function GET(req: Request) {
+  let { host } = getQuery(req)
 
   let realHost: string
   if (Array.isArray(host)) {
@@ -57,6 +53,6 @@ export default async function handler(
       },
     })
   }
-
-  res.status(200).json(result)
+  const res = new NextServerResponse()
+  return res.status(200).json(result)
 }

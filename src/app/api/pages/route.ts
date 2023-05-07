@@ -1,13 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next"
-
+import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { PageVisibilityEnum } from "~/lib/types"
 import { getPagesBySite } from "~/models/page.model"
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  const query = req.query
+export async function GET(req: Request) {
+  const query = getQuery(req)
 
   const result = await getPagesBySite({
     characterId: +(query.characterId || 0) as number,
@@ -23,5 +19,6 @@ export default async function handler(
     }),
   })
 
-  res.status(200).json(result)
+  const res = new NextServerResponse()
+  return res.status(200).json(result)
 }

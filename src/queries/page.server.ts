@@ -1,9 +1,9 @@
 import { QueryClient } from "@tanstack/react-query"
 
+import { getIdBySlug } from "~/app/api/slug2id/route"
+import { getSummary } from "~/app/api/summary/route"
 import { cacheGet } from "~/lib/redis.server"
 import * as pageModel from "~/models/page.model"
-import { getIdBySlug } from "~/pages/api/slug2id"
-import { getSummary } from "~/pages/api/summary"
 
 export const fetchGetPage = async (
   input: Parameters<typeof pageModel.getPage>[0],

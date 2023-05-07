@@ -62,6 +62,7 @@ module.exports = withBundleAnalyzer(
     experimental: {
       scrollRestoration: true,
       appDir: true,
+      serverComponentsExternalPackages: ["nodejieba", "rehype-react", "pinyin"],
     },
     output: "standalone",
     productionBrowserSourceMaps: true,

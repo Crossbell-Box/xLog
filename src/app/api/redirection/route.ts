@@ -1,9 +1,10 @@
 import { NoteEntity } from "crossbell.js"
-import { NextApiRequest, NextApiResponse } from "next"
+import { redirect } from "next/navigation"
 
 import { IS_VERCEL_PREVIEW } from "~/lib/constants"
 import { getDefaultSlug } from "~/lib/default-slug"
 import { getSiteLink } from "~/lib/helpers"
+import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { checkDomainServer } from "~/models/site.model"
 
 async function getOriginalNote(
@@ -30,15 +31,12 @@ async function getOriginalNote(
   }
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  let { characterId, noteId } = req.query
+export async function GET(req: Request): Promise<Response> {
+  let { characterId, noteId } = getQuery(req)
 
+  const res = new NextServerResponse()
   if (!characterId || typeof characterId !== "string") {
-    res.status(400).json({ error: "Missing characterId" })
-    return
+    return res.status(400).json({ error: "Missing characterId" })
   }
 
   let character
@@ -84,6 +82,8 @@ export default async function handler(
   if (IS_VERCEL_PREVIEW) {
     const path = new URL(link).pathname
 
-    res.redirect(`/_site/${character.handle}${path}`)
-  } else res.redirect(link)
+    redirect(`/_site/${character.handle}${path}`)
+  } else {
+    redirect(link)
+  }
 }

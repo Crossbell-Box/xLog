@@ -1,19 +1,15 @@
-import { NextApiRequest, NextApiResponse } from "next"
 import { Asset } from "unidata.js"
 
 import { IPFS_GATEWAY } from "~/lib/env"
 import { cacheGet, getRedis } from "~/lib/redis.server"
+import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { getNFTs } from "~/models/site.model"
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  const query = req.query
-
+export async function GET(req: Request): Promise<Response> {
+  const query = getQuery(req)
+  const res = new NextServerResponse()
   if (!query.address) {
-    res.status(400).end()
-    return
+    return res.status(400).end()
   }
 
   const redis = await getRedis()
@@ -24,7 +20,7 @@ export default async function handler(
     cache = await redis?.get(redisKey)
   } catch (error) {}
   if (cache) {
-    res.status(200).json(JSON.parse(cache))
+    return res.status(200).json(JSON.parse(cache))
   } else {
     const result = await getNFTs(query.address as string)
     await Promise.all(
@@ -60,7 +56,7 @@ export default async function handler(
       }),
     )
     redis?.set(redisKey, JSON.stringify(result), "EX", 60 * 60 * 24)
-    res.status(200).json({
+    return res.status(200).json({
       list: [],
     })
   }

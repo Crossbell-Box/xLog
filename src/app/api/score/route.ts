@@ -1,8 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next"
-
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
+import { NextServerResponse, getQuery } from "~/lib/server-helper"
 
 const getOriginalScore = async (cid: string) => {
   try {
@@ -61,7 +60,7 @@ const getOriginalScore = async (cid: string) => {
   }
 }
 
-export async function getScore(cid: string) {
+async function getScore(cid: string) {
   const score = await cacheGet({
     key: ["summary_score", cid],
     getValueFun: async () => {
@@ -113,18 +112,16 @@ export async function getScore(cid: string) {
   return score
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  let { cid } = req.query
+export async function GET(req: Request): Promise<Response> {
+  let { cid } = getQuery(req)
+
+  const res = new NextServerResponse()
 
   if (!cid) {
-    res.status(400).send("Bad Request")
-    return
+    return res.status(400).send("Bad Request")
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     data: await getScore(cid as string),
   })
 }
