@@ -190,9 +190,9 @@ dependencies:
   next-i18next:
     specifier: ^13.2.2
     version: 13.2.2(i18next@22.4.15)(next@13.4.1)(react-i18next@12.2.2)(react@18.2.0)
-  nextjs-progressbar:
-    specifier: 0.0.16
-    version: 0.0.16(next@13.4.1)(react@18.2.0)
+  nextjs-toploader:
+    specifier: ^1.3.2
+    version: 1.3.2(next@13.4.1)(react-dom@18.2.0)(react@18.2.0)
   node-id3:
     specifier: ^0.2.6
     version: 0.2.6
@@ -10935,17 +10935,19 @@ packages:
       - '@babel/core'
       - babel-plugin-macros
 
-  /nextjs-progressbar@0.0.16(next@13.4.1)(react@18.2.0):
-    resolution: {integrity: sha512-GV0fD38EMD3vSDCmkq+tObmoup6QA91a6a9MxGuhJZuRk/9TNsrHGnIQQQ/sggkMkXuT4fBgF6jRjFwScDT3zA==}
+  /nextjs-toploader@1.3.2(next@13.4.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-vvFObZvjMC/KNhqFG+pUgLW5/TNpz74wo9Vn/pweg7+tfwK+PCIxArTjpmD60jmUUHPmYgXy1w5qUuw8x3tSow==}
     peerDependencies:
       next: '>= 6.0.0'
       react: '>= 16.0.0'
+      react-dom: '>= 16.0.0'
     dependencies:
       '@types/nprogress': 0.2.0
       next: 13.4.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
       nprogress: 0.2.0
       prop-types: 15.8.1
       react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /node-abi@3.40.0:

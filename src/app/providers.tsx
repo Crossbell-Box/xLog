@@ -1,6 +1,6 @@
 "use client"
 
-import NextNProgress from "nextjs-progressbar"
+import NextTopLoader from "nextjs-toploader"
 import { useState } from "react"
 import { WagmiConfig, createClient } from "wagmi"
 
@@ -81,9 +81,7 @@ export default function Providers({
           signInStrategy="simple"
           ignoreWalletDisconnectEvent={true}
         >
-          <NextNProgress
-            options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
-          />
+          <NextTopLoader easing="linear" speed={500} />
           <LangProvider lang={lang}>{children}</LangProvider>
           <NotificationModal colorScheme={colorScheme} />
         </ConnectKitProvider>
