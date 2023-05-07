@@ -12,14 +12,13 @@ import {
 
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { Logo } from "~/components/common/Logo"
-import { SEOHead } from "~/components/common/SEOHead"
 import { DashboardSidebar } from "~/components/dashboard/DashboardSidebar"
 import { DashboardTopbar } from "~/components/dashboard/DashboardTopbar"
 import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useUserRole } from "~/hooks/useUserRole"
-import { APP_NAME, DISCORD_LINK } from "~/lib/env"
+import { DISCORD_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { toGateway } from "~/lib/ipfs-parser"
 import { getStorage } from "~/lib/storage"
@@ -169,7 +168,8 @@ export default function DashboardLayout({
   return ready ? (
     hasPermission ? (
       <>
-        <SEOHead title={t(title) || ""} siteName={APP_NAME} />
+        {/* TODO */}
+        {/* <SEOHead title={t(title) || ""} siteName={APP_NAME} /> */}
         {site?.data?.metadata?.content?.css && (
           <link
             type="text/css"
