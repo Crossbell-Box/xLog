@@ -1,7 +1,6 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import type { ReactElement } from "react"
 
 import {
   useAccountBalance,
@@ -9,7 +8,6 @@ import {
   useWalletClaimCSBModal,
 } from "@crossbell/connect-kit"
 
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Button } from "~/components/ui/Button"
 import { UniLink } from "~/components/ui/UniLink"
@@ -148,8 +146,4 @@ export default function TokensPage() {
       </div>
     </DashboardMain>
   )
-}
-
-TokensPage.getLayout = (page: ReactElement) => {
-  return <DashboardLayout title="Tokens">{page}</DashboardLayout>
 }

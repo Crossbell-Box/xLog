@@ -3,8 +3,6 @@ import { useRouter } from "next/router"
 import type { ReactElement } from "react"
 
 import { AchievementItem } from "~/components/common/AchievementItem"
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { useGetAchievements, useGetSite } from "~/queries/site"
