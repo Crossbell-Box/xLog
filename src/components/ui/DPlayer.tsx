@@ -4,7 +4,7 @@ import { ReactElement } from "rehype-react/lib"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
-export const DPlayer: FC<{
+const DPlayer: FC<{
   children: ReactElement[]
 }> = memo(function DPlayer({ children }) {
   const sources = children.filter(

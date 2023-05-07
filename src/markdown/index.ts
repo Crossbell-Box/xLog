@@ -1,6 +1,7 @@
 import jsYaml from "js-yaml"
 import type { Root } from "mdast"
 import { Result as TocResult, toc } from "mdast-util-toc"
+import dynamic from "next/dynamic"
 import { ReactElement, createElement } from "react"
 import { toast } from "react-hot-toast"
 import { Element } from "react-scroll"
@@ -30,7 +31,6 @@ import { unified } from "unified"
 
 import { Style } from "~/components/common/Style"
 import { APlayer } from "~/components/ui/APlayer"
-import DPlayer from "~/components/ui/DPlayer"
 import { ZoomedImage } from "~/components/ui/Image"
 import { Mention } from "~/components/ui/Mention"
 import { Mermaid } from "~/components/ui/Mermaid"
@@ -51,6 +51,10 @@ import { remarkMermaid } from "./remark-mermaid"
 import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
+
+const DPlayer = dynamic(() => import("~/components/ui/DPlayer"), {
+  ssr: false,
+})
 
 export type MarkdownEnv = {
   excerpt: string
