@@ -1,8 +1,8 @@
-import { useTranslation } from "next-i18next"
 import { useState } from "react"
 
 import { PatronModal } from "~/components/common/PatronModal"
 import { Button } from "~/components/ui/Button"
+import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 

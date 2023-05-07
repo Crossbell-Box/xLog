@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next"
 import { useParams } from "next/navigation"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
@@ -8,6 +7,7 @@ import { useQueryClient } from "@tanstack/react-query"
 
 import { type TabItem, Tabs } from "~/components/ui/Tabs"
 import { APP_NAME } from "~/lib/env"
+import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
@@ -23,7 +23,7 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
   batchSelected: (string | number)[]
   setBatchSelected: (selected: string[]) => void
 }> = ({ isPost, isNotxLogContent, pages, batchSelected, setBatchSelected }) => {
-  const { t } = useTranslation(["dashboard", "site"])
+  const { t } = useTranslation("dashboard")
 
   const params = useParams()
   const subdomain = params?.subdomain as string

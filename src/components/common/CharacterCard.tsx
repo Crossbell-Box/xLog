@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next"
 import { useEffect, useState } from "react"
 
 import { FollowingButton } from "~/components/common/FollowingButton"
@@ -6,6 +5,7 @@ import { FollowingCount } from "~/components/common/FollowingCount"
 import { Titles } from "~/components/common/Titles"
 import { Avatar } from "~/components/ui/Avatar"
 import { useDate } from "~/hooks/useDate"
+import { useTranslation } from "~/lib/i18n/client"
 import type { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import * as siteModel from "~/models/site.model"

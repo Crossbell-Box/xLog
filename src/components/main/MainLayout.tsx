@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next"
 import { useRouter } from "next/navigation"
 
 import { Logo } from "~/components/common/Logo"
@@ -10,6 +9,7 @@ import {
   TWITTER_LINK,
 } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 import { ConnectButton } from "../common/ConnectButton"

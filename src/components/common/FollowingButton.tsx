@@ -1,4 +1,3 @@
-import { Trans, useTranslation } from "next-i18next"
 import { useEffect } from "react"
 import { toast } from "react-hot-toast"
 
@@ -6,6 +5,7 @@ import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
 import { UniLink } from "~/components/ui/UniLink"
 import { SITE_URL } from "~/lib/env"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import {

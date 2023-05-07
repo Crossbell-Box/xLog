@@ -1,5 +1,4 @@
 import { nanoid } from "nanoid"
-import { Trans, useTranslation } from "next-i18next"
 import Link from "next/link"
 import {
   useParams,
@@ -13,6 +12,7 @@ import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { useDate } from "~/hooks/useDate"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
@@ -48,7 +48,8 @@ export const PagesManager: React.FC<{
     [searchParams],
   )
 
-  const { t } = useTranslation(["dashboard", "site"])
+  const { t } = useTranslation("dashboard")
+  const { t: siteT } = useTranslation("site")
   const date = useDate()
 
   const pages = useGetPagesBySite({
@@ -355,7 +356,7 @@ export const PagesManager: React.FC<{
             onClick={pages.fetchNextPage as () => void}
             isLoading={pages.isFetchingNextPage}
           >
-            {t("load more", {
+            {siteT("load more", {
               name: t(
                 isPost
                   ? "post"
@@ -365,7 +366,6 @@ export const PagesManager: React.FC<{
                         : ""),
               ),
               count: (pages.data?.pages?.[0].count || 0) - currentLength,
-              ns: "site",
             })}
           </Button>
         )}

@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next"
 import { useParams, useRouter } from "next/navigation"
 import { FC, useEffect, useState } from "react"
 import toast from "react-hot-toast"
@@ -9,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useGetState } from "~/hooks/useGetState"
 import { APP_NAME } from "~/lib/env"
 import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
@@ -35,7 +35,7 @@ export const PagesManagerMenu: FC<{
   page: ExpandedNote
   onClick: () => void
 }> = ({ isPost, page, onClick: onClose }) => {
-  const { t } = useTranslation(["dashboard", "site"])
+  const { t } = useTranslation("dashboard")
 
   const isCrossbell = !page.metadata?.content?.sources?.includes("xlog")
   const router = useRouter()

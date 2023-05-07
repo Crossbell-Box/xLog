@@ -1,8 +1,9 @@
-import { useTranslation } from "next-i18next"
 import { useParams, usePathname } from "next/navigation"
 import React from "react"
 
 import { useXSettingsModal } from "@crossbell/connect-kit"
+
+import { useTranslation } from "~/lib/i18n/client"
 
 import { type TabItem, Tabs } from "../ui/Tabs"
 import { DashboardMain } from "./DashboardMain"
