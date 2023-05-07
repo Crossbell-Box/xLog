@@ -25,7 +25,7 @@ export default async function SiteLayout({
   children?: React.ReactNode
   params: {
     site: string
-    page?: string
+    slug?: string
     tag?: string
   }
 }) {
@@ -49,12 +49,12 @@ export default async function SiteLayout({
         queryClient,
       ),
       new Promise<ExpandedNote | null>(async (resolve, reject) => {
-        if (params.page) {
+        if (params.slug) {
           try {
             const page = await fetchGetPage(
               {
                 characterId: site.characterId,
-                slug: params.page,
+                slug: params.slug,
                 useStat: true,
               },
               queryClient,
@@ -102,18 +102,19 @@ export default async function SiteLayout({
   return (
     <Hydrate state={dehydratedState}>
       <div
-        className={cn()
-        // TODO
-        // {
-        //   "xlog-user": true,
-        //   "xlog-user-login": isConnected,
-        //   "xlog-user-site-owner": userRole?.data === "owner",
-        //   "xlog-user-site-operator": userRole?.data === "operator",
-        //   "xlog-user-site-follower": subscription?.data,
-        //   "xlog-user-post-liker": isLiked,
-        //   "xlog-user-post-minter": isMint?.data?.count,
-        // },
-        // `xlog-page-${type}`,
+        className={
+          cn()
+          // TODO
+          // {
+          //   "xlog-user": true,
+          //   "xlog-user-login": isConnected,
+          //   "xlog-user-site-owner": userRole?.data === "owner",
+          //   "xlog-user-site-operator": userRole?.data === "operator",
+          //   "xlog-user-site-follower": subscription?.data,
+          //   "xlog-user-post-liker": isLiked,
+          //   "xlog-user-post-minter": isMint?.data?.count,
+          // },
+          // `xlog-page-${type}`,
         }
       >
         {/* <SEOHead
