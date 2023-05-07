@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import { useMemo } from "react"
 
 import { Button } from "~/components/ui/Button"
@@ -13,22 +14,23 @@ import { useGetSite } from "~/queries/site"
 import { EmptyState } from "../ui/EmptyState"
 import { UniLink } from "../ui/UniLink"
 
-export const SiteArchives: React.FC<{
-  title?: string
-  showTags?: boolean
-  handle: string
-}> = ({ title, showTags, handle }) => {
+export const SiteArchives: React.FC = () => {
   let currentLength = 0
   const date = useDate()
   const { t } = useTranslation("site")
   const { t: commonT } = useTranslation("common")
+  const params = useParams()
+  if (params?.tag) {
+    params.tag = decodeURIComponent(params.tag as string)
+  }
 
-  const site = useGetSite(handle)
+  const site = useGetSite(params?.site as string)
   const posts = useGetPagesBySiteLite({
     characterId: site.data?.characterId,
     limit: 100,
     type: "post",
     visibility: PageVisibilityEnum.Published,
+    ...(params?.tag && { tags: [params.tag as string] }),
   })
 
   const groupedByYear = useMemo<Map<string, ExpandedNote[]>>(() => {
@@ -77,7 +79,9 @@ export const SiteArchives: React.FC<{
 
   return (
     <>
-      <h2 className="text-xl font-bold page-title">{title || t("Archives")}</h2>
+      <h2 className="text-xl font-bold page-title">
+        {params?.tag || t("Archives")}
+      </h2>
       {!posts.data?.pages[0].count && (
         <div className="mt-5">
           <EmptyState />
@@ -85,7 +89,7 @@ export const SiteArchives: React.FC<{
       )}
       {!!posts.data?.pages[0].count && (
         <>
-          {showTags && tags.size > 0 && (
+          {!params?.tag && tags.size > 0 && (
             <div className="mt-5">
               <h3 className="text-lg font-bold mb-1 text-zinc-700">
                 {t("Tags")}

@@ -6,13 +6,15 @@ import { PageVisibilityEnum } from "~/lib/types"
 import { prefetchGetPagesBySite } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
-export default async function SiteArchivesPage({
+export default async function SiteTagPage({
   params,
 }: {
   params: {
     site: string
+    tag: string
   }
 }) {
+  params.tag = decodeURIComponent(params.tag)
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
@@ -22,6 +24,7 @@ export default async function SiteArchivesPage({
       type: "post",
       visibility: PageVisibilityEnum.Published,
       limit: 100,
+      tags: [params.tag],
     },
     queryClient,
   )
