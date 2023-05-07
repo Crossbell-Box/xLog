@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { FC, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
@@ -17,8 +17,8 @@ import { useGetSite } from "~/queries/site"
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 const usePageEditLink = (page: ExpandedNote, isPost: boolean) => {
-  const router = useRouter()
-  const subdomain = router.query.subdomain as string
+  const params = useParams()
+  const subdomain = params?.subdomain as string
 
   return `/dashboard/${subdomain}/editor?id=${page.noteId}&type=${
     isPost ? "post" : "page"
@@ -39,10 +39,11 @@ export const PagesManagerMenu: FC<{
 
   const isCrossbell = !page.metadata?.content?.sources?.includes("xlog")
   const router = useRouter()
+  const params = useParams()
+  const subdomain = params?.subdomain as string
   const createOrUpdatePage = useCreateOrUpdatePage()
 
   const editLink = usePageEditLink(page, isPost)
-  const subdomain = router.query.subdomain as string
   const queryClient = useQueryClient()
   const deletePage = useDeletePage()
 

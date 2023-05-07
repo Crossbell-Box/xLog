@@ -1,7 +1,12 @@
 import { nanoid } from "nanoid"
 import { Trans, useTranslation } from "next-i18next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation"
 import { Fragment, useMemo, useState } from "react"
 
 import { Menu } from "@headlessui/react"
@@ -28,16 +33,19 @@ import { PagesManagerMenu } from "./PagesManagerMenu"
 export const PagesManager: React.FC<{
   isPost: boolean
 }> = ({ isPost }) => {
-  const router = useRouter()
-  const subdomain = router.query.subdomain as string
+  const params = useParams()
+  const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
 
   const visibility = useMemo<PageVisibilityEnum>(
     () =>
-      router.query.visibility
-        ? (router.query.visibility as PageVisibilityEnum)
+      searchParams?.get("visibility")
+        ? (searchParams?.get("visibility") as PageVisibilityEnum)
         : PageVisibilityEnum.All,
-    [router.query.visibility],
+    [searchParams],
   )
 
   const { t } = useTranslation(["dashboard", "site"])
@@ -75,16 +83,14 @@ export const PagesManager: React.FC<{
     text: item.text,
     onClick: () => {
       const newQuery: Record<string, any> = {
-        ...router.query,
+        ...searchParams,
         visibility: item.value,
       }
       if (item.value === PageVisibilityEnum.All) {
         delete newQuery["visibility"]
       }
       const search = new URLSearchParams(newQuery).toString()
-      router.push({
-        search,
-      })
+      router.push(pathname + "?" + search)
     },
     active: item.value === visibility,
   }))

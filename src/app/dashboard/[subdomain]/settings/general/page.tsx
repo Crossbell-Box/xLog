@@ -1,38 +1,22 @@
-import { GetServerSideProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+"use client"
+
+import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import type { ReactElement } from "react"
 import { Controller, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 
-import { DashboardLayout } from "~/components/dashboard/DashboardLayout"
-import { getServerSideProps as getLayoutServerSideProps } from "~/components/dashboard/DashboardLayout.server"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { toIPFS } from "~/lib/ipfs-parser"
-import { serverSidePropsHandler } from "~/lib/server-side-props"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
-export const getServerSideProps: GetServerSideProps = serverSidePropsHandler(
-  async (ctx) => {
-    const { props: layoutProps } = await getLayoutServerSideProps(ctx)
-
-    return {
-      props: {
-        ...layoutProps,
-      },
-    }
-  },
-)
-
 export default function SiteSettingsGeneralPage() {
-  const router = useRouter()
-
-  const subdomain = router.query.subdomain as string
+  const params = useParams()
+  const subdomain = params?.subdomain as string
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
@@ -224,8 +208,8 @@ export default function SiteSettingsGeneralPage() {
             help={
               <p>
                 <Trans i18nKey="Integrate Umami Cloud Analytics" ns="dashboard">
-                  Integrate Umami Cloud Analytics into your site. You can follow the
-                  instructions{" "}
+                  Integrate Umami Cloud Analytics into your site. You can follow
+                  the instructions{" "}
                   <UniLink
                     className="underline"
                     href="https://umami.is/docs/collect-data"
@@ -258,8 +242,4 @@ export default function SiteSettingsGeneralPage() {
     </div> */}
     </SettingsLayout>
   )
-}
-
-SiteSettingsGeneralPage.getLayout = (page: ReactElement) => {
-  return <DashboardLayout title="Site Settings">{page}</DashboardLayout>
 }

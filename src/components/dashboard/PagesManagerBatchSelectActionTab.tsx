@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+import { useParams } from "next/navigation"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
 
@@ -25,8 +25,8 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
 }> = ({ isPost, isNotxLogContent, pages, batchSelected, setBatchSelected }) => {
   const { t } = useTranslation(["dashboard", "site"])
 
-  const router = useRouter()
-  const subdomain = router.query.subdomain as string
+  const params = useParams()
+  const subdomain = params?.subdomain as string
 
   const queryClient = useQueryClient()
 

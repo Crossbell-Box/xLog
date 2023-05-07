@@ -1,4 +1,6 @@
-import { useParams } from "next/navigation"
+"use client"
+
+import { useParams, usePathname } from "next/navigation"
 import React, { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -10,7 +12,11 @@ import {
 
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { Logo } from "~/components/common/Logo"
+import { SEOHead } from "~/components/common/SEOHead"
+import { DashboardSidebar } from "~/components/dashboard/DashboardSidebar"
+import { DashboardTopbar } from "~/components/dashboard/DashboardTopbar"
 import { Avatar } from "~/components/ui/Avatar"
+import { UniLink } from "~/components/ui/UniLink"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useUserRole } from "~/hooks/useUserRole"
 import { APP_NAME, DISCORD_LINK } from "~/lib/env"
@@ -21,12 +27,7 @@ import { cn } from "~/lib/utils"
 import { useGetPagesBySite } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
-import { SEOHead } from "../common/SEOHead"
-import { UniLink } from "../ui/UniLink"
-import { DashboardSidebar } from "./DashboardSidebar"
-import { DashboardTopbar } from "./DashboardTopbar"
-
-export function DashboardLayout({
+export default function DashboardLayout({
   children,
   title,
 }: {
@@ -48,6 +49,7 @@ export function DashboardLayout({
   const { t } = useTranslation("dashboard")
 
   const isMobileLayout = useIsMobileLayout()
+  const pathname = usePathname()
 
   useEffect(() => {
     if (ssrReady) {
@@ -92,7 +94,7 @@ export function DashboardLayout({
   const links: {
     href?: string
     onClick?: () => void
-    isActive: (ctx: { href: string; pathname: string }) => boolean
+    isActive: (ctx: { href: string; pathname: string | null }) => boolean
     icon: React.ReactNode
     text: string
   }[] = [
@@ -131,7 +133,7 @@ export function DashboardLayout({
     {
       href: `/dashboard/${subdomain}/import`,
       isActive: ({ pathname }) =>
-        pathname.startsWith(`/dashboard/${subdomain}/import`),
+        !!pathname?.startsWith(`/dashboard/${subdomain}/import`),
       icon: "icon-[mingcute--file-import-line]",
       text: "Import",
     },
@@ -158,7 +160,7 @@ export function DashboardLayout({
     {
       href: `/dashboard/${subdomain}/settings/general`,
       isActive: ({ pathname }) =>
-        pathname.startsWith(`/dashboard/${subdomain}/settings`),
+        !!pathname?.startsWith(`/dashboard/${subdomain}/settings`),
       icon: "icon-[mingcute--settings-3-line]",
       text: "Settings",
     },
@@ -212,7 +214,7 @@ export function DashboardLayout({
                         const active =
                           link.href &&
                           link.isActive({
-                            pathname: router.asPath,
+                            pathname: pathname,
                             href: link.href,
                           })
                         return (
@@ -313,7 +315,7 @@ export function DashboardLayout({
                         const active =
                           link.href &&
                           link.isActive({
-                            pathname: router.asPath,
+                            pathname: pathname,
                             href: link.href,
                           })
                         return (
