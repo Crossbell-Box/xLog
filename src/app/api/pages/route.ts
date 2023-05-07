@@ -9,7 +9,7 @@ export async function GET(req: Request) {
     characterId: +(query.characterId || 0) as number,
     type: query.type as "post" | "page",
     visibility: query.visibility as PageVisibilityEnum,
-    limit: query.take ? parseInt(query.take as string) : undefined,
+    limit: query.limit ? parseInt(query.limit as string) : undefined,
     cursor: query.cursor as string,
     useStat: true,
     ...(query.tags && {
