@@ -3,6 +3,7 @@ import { cacheGet } from "~/lib/redis.server"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { checkDomainServer, fetchTenant } from "~/models/site.model"
 
+// /api/host2handle?host=blog.innei.ren
 export async function GET(req: Request) {
   let { host } = getQuery(req)
 

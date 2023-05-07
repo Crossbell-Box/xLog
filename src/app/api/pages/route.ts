@@ -18,7 +18,6 @@ export async function GET(req: Request) {
         : [query.tags as string],
     }),
   })
-
   const res = new NextServerResponse()
   return res.status(200).json(result)
 }

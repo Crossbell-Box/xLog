@@ -3,12 +3,12 @@ import { NextResponse } from "next/server"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { checkDomainServer } from "~/models/site.model"
 
-export async function GET(req: Request) {
+// /api/check-domain?handle=innei-4525&domain=blog.innei.ren
+export async function GET(req: Request): Promise<Response> {
   const { handle, domain } = getQuery(req)
 
   if (!handle || !domain) {
-    NextResponse.json({ error: "Missing characterId or domain" })
-    return
+    return NextResponse.json({ error: "Missing characterId or domain" })
   }
   const res = new NextServerResponse()
 
