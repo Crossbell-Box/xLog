@@ -16,7 +16,7 @@ export default async function SiteArchivesPage({
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
-  prefetchGetPagesBySite(
+  await prefetchGetPagesBySite(
     {
       characterId: site?.characterId,
       type: "post",
