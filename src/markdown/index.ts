@@ -155,14 +155,15 @@ export const renderPageContent = (
               },
               children: [],
             },
-            {
-              type: "element",
-              tagName: "anchor",
-              properties: {
-                name: node.properties?.id,
-              },
-              children: [],
-            },
+            // {
+            //   type: "element",
+            //   tagName: "anchor",
+            //   properties: {
+            //     name: node.properties?.id,
+            //   },
+            //   children: [],
+            // },
+            // TODO
           ]
         },
       })

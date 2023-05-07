@@ -6,6 +6,7 @@ import {
   initReactI18next,
   useTranslation as useTranslationOrg,
 } from "react-i18next"
+import { Trans as TransW } from "react-i18next/TransWithoutContext"
 
 import { useLang } from "~/hooks/useLang"
 
@@ -30,3 +31,5 @@ export function useTranslation(ns: string = defaultNS) {
   }
   return useTranslationOrg(ns)
 }
+
+export const Trans = TransW

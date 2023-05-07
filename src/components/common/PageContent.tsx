@@ -1,3 +1,5 @@
+"use client"
+
 import { MutableRefObject, useEffect, useMemo } from "react"
 import { scroller } from "react-scroll"
 

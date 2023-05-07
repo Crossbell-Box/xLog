@@ -1,8 +1,10 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
 import { Virtuoso } from "react-virtuoso"
 
 import { CommentInput } from "~/components/common/CommentInput"
 import { CommentItem } from "~/components/common/CommentItem"
+import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetComments } from "~/queries/page"

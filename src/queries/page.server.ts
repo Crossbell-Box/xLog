@@ -6,7 +6,7 @@ import { cacheGet } from "~/lib/redis.server"
 import * as pageModel from "~/models/page.model"
 
 export const fetchGetPage = async (
-  input: Parameters<typeof pageModel.getPage>[0],
+  input: Partial<Parameters<typeof pageModel.getPage>[0]>,
   queryClient: QueryClient,
 ) => {
   const key = ["getPage", input.characterId, input]
@@ -23,7 +23,14 @@ export const fetchGetPage = async (
     }
     return cacheGet({
       key,
-      getValueFun: () => pageModel.getPage(input),
+      getValueFun: () =>
+        pageModel.getPage({
+          slug: input.slug,
+          characterId: input.characterId!,
+          useStat: input.useStat,
+          noteId: input.noteId,
+          handle: input.handle,
+        }),
     }) as Promise<ReturnType<typeof pageModel.getPage>>
   })
 }

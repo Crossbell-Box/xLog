@@ -1,5 +1,6 @@
+"use client"
+
 import { CharacterEntity, NoteEntity } from "crossbell.js"
-import { useTranslation } from "next-i18next"
 import { useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
@@ -16,6 +17,7 @@ import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 export const CommentItem: React.FC<{
