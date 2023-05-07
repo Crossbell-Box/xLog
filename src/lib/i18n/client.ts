@@ -9,7 +9,7 @@ import {
 
 import { useLang } from "~/hooks/useLang"
 
-import { getOptions } from "./settings"
+import { defaultNS, getOptions } from "./settings"
 
 i18next
   .use(initReactI18next)
@@ -23,7 +23,7 @@ i18next
     ...getOptions(),
   })
 
-export function useTranslation(ns: string) {
+export function useTranslation(ns: string = defaultNS) {
   const { lang } = useLang()
   if (i18next.resolvedLanguage !== lang) {
     i18next.changeLanguage(lang)

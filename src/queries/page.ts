@@ -371,45 +371,46 @@ export function useGetSummary(input: { cid?: string; lang?: string }) {
   })
 }
 
-export function useGetMirrorXyz(input: { address?: string }) {
-  return useQuery(["getMirror", input.address], async () => {
-    const { getDefaultSlug } = await import("~/lib/default-slug")
+// TODO
+// export function useGetMirrorXyz(input: { address?: string }) {
+//   return useQuery(["getMirror", input.address], async () => {
+//     const { getDefaultSlug } = await import("~/lib/default-slug")
 
-    if (!input.address) {
-      return null
-    }
-    const response = await (
-      await fetch(
-        "/api/import/mirror.xyz?" +
-          new URLSearchParams({
-            ...input,
-          } as any),
-      )
-    ).json()
+//     if (!input.address) {
+//       return null
+//     }
+//     const response = await (
+//       await fetch(
+//         "/api/import/mirror.xyz?" +
+//           new URLSearchParams({
+//             ...input,
+//           } as any),
+//       )
+//     ).json()
 
-    return response?.data?.projectFeed?.posts?.map((post: any) => {
-      return {
-        title: post.title,
-        date_published: new Date(
-          post.publishedAtTimestamp * 1000,
-        ).toISOString(),
-        slug: getDefaultSlug(post.title, post.digest),
-        tags: ["Mirror.xyz"],
-        content: post.body,
-        external_urls: [`https://mirror.xyz/${input.address}/${post.digest}`],
-      }
-    }) as {
-      title: string
-      type: string
-      size: number
-      date_published: string
-      slug: string
-      tags: string[]
-      content: string
-      external_urls: string[]
-    }[]
-  })
-}
+//     return response?.data?.projectFeed?.posts?.map((post: any) => {
+//       return {
+//         title: post.title,
+//         date_published: new Date(
+//           post.publishedAtTimestamp * 1000,
+//         ).toISOString(),
+//         slug: getDefaultSlug(post.title, post.digest),
+//         tags: ["Mirror.xyz"],
+//         content: post.body,
+//         external_urls: [`https://mirror.xyz/${input.address}/${post.digest}`],
+//       }
+//     }) as {
+//       title: string
+//       type: string
+//       size: number
+//       date_published: string
+//       slug: string
+//       tags: string[]
+//       content: string
+//       external_urls: string[]
+//     }[]
+//   })
+// }
 
 export function useCheckMirror(characterId?: number) {
   return useQuery(["checkMirror", characterId], async () => {

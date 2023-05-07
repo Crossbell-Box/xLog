@@ -10,7 +10,7 @@ import tz from "dayjs/plugin/timezone"
 import utc from "dayjs/plugin/utc"
 import { useMemo } from "react"
 
-import { useTranslation } from "~/lib/i18n/client"
+import { useTranslation } from "~/lib/i18n"
 
 dayjs.extend(localizedFormat)
 dayjs.extend(utc)
@@ -18,8 +18,8 @@ dayjs.extend(tz)
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
-export function useDate() {
-  const { i18n } = useTranslation()
+export async function useDate() {
+  const { i18n } = await useTranslation()
 
   const memoizedDateUtils = useMemo(() => {
     dayjs.locale(i18n.resolvedLanguage)

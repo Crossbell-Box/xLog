@@ -1,29 +1,30 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
-import type { InfiniteData } from "@tanstack/react-query"
-
 import { Button } from "~/components/ui/Button"
+import { EmptyState } from "~/components/ui/EmptyState"
 import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
 import { getSlugUrl } from "~/lib/helpers"
-import { ExpandedNote } from "~/lib/types"
+import { useTranslation } from "~/lib/i18n/client"
+import { PageVisibilityEnum } from "~/lib/types"
+import { useGetPagesBySiteLite } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
-import { EmptyState } from "../ui/EmptyState"
-
-export const SiteHome: React.FC<{
-  posts?: InfiniteData<{
-    list: ExpandedNote[]
-    count: number
-  }>
-  fetchNextPage: () => void
-  hasNextPage?: boolean
-  isFetchingNextPage?: boolean
-}> = ({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }) => {
+export default function SiteHome({ handle }: { handle: string }) {
   const router = useRouter()
-  const { t } = useTranslation(["common", "site"])
+  const site = useGetSite(handle)
+  const posts = useGetPagesBySiteLite({
+    characterId: site.data?.characterId,
+    type: "post",
+    visibility: PageVisibilityEnum.Published,
+    useStat: true,
+  })
+
+  const { t } = useTranslation("site")
   const date = useDate()
 
   const [isMounted, setIsMounted] = useState(false)
@@ -32,16 +33,16 @@ export const SiteHome: React.FC<{
     setIsMounted(true)
   }, [])
 
-  if (!posts?.pages?.length) return null
+  if (!posts.data?.pages?.length) return null
 
   let currentLength = 0
 
   return (
     <>
-      {!posts.pages[0].count && <EmptyState />}
-      {!!posts.pages[0].count && (
+      {!posts.data.pages[0].count && <EmptyState />}
+      {!!posts.data.pages[0].count && (
         <div className="xlog-posts space-y-8">
-          {posts.pages.map((posts) =>
+          {posts.data.pages.map((posts) =>
             posts.list.map((post) => {
               currentLength++
               return (
@@ -127,20 +128,21 @@ export const SiteHome: React.FC<{
           )}
         </div>
       )}
-      {hasNextPage && (
+      {posts.hasNextPage && (
         <Button
           className="mt-8 w-full bg-zinc-50 text-sm"
           variant="text"
-          onClick={fetchNextPage}
-          isLoading={isFetchingNextPage}
+          onClick={() => posts.fetchNextPage()}
+          isLoading={posts.isFetchingNextPage}
           aria-label="load more"
         >
           {t("load more", {
             ns: "site",
             name: t(
-              "post" + (posts?.pages[0].count - currentLength > 1 ? "s" : ""),
+              "post" +
+                (posts.data?.pages[0].count - currentLength > 1 ? "s" : ""),
             ),
-            count: posts?.pages[0].count - currentLength,
+            count: posts.data?.pages[0].count - currentLength,
           })}
         </Button>
       )}

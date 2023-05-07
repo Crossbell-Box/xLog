@@ -5,7 +5,7 @@ import { initReactI18next } from "react-i18next/initReactI18next"
 
 import { useAcceptLang } from "~/hooks/useAcceptLang"
 
-import { getOptions } from "./settings"
+import { defaultNS, getOptions } from "./settings"
 
 const initI18next = async (lng: string, ns: string) => {
   const i18nInstance = createInstance()
@@ -21,7 +21,7 @@ const initI18next = async (lng: string, ns: string) => {
   return i18nInstance
 }
 
-export async function useTranslation(ns: string) {
+export async function useTranslation(ns: string = defaultNS) {
   const lang = useAcceptLang()
   const i18nextInstance = await initI18next(lang, ns)
   return {

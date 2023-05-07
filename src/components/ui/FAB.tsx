@@ -1,3 +1,5 @@
+"use client"
+
 import React, { FC, PropsWithChildren, useEffect, useState } from "react"
 
 import { useGetState } from "~/hooks/useGetState"

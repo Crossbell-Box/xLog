@@ -1,7 +1,8 @@
+"use client"
+
 import chroma from "chroma-js"
 import { FastAverageColor } from "fast-average-color"
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
 import { MutableRefObject, RefObject, useEffect, useRef, useState } from "react"
 
 import { XCharLogo, XFeedLogo } from "@crossbell/ui"
@@ -17,6 +18,7 @@ import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useIsDark } from "~/hooks/useDarkMode"
 import { CSB_IO, CSB_SCAN, CSB_XCHAR } from "~/lib/env"
+import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
 import { getUserContentsUrl } from "~/lib/user-contents"
 import { cn } from "~/lib/utils"
@@ -37,9 +39,9 @@ type HeaderLinkType = {
 const fac = new FastAverageColor()
 
 const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
-  const router = useRouter()
+  const pathname = usePathname()
   const { t } = useTranslation("site")
-  const active = router.asPath === link.url
+  const active = pathname === link.url // TODO
   return (
     <UniLink
       href={link.url}
