@@ -41,6 +41,7 @@ const fac = new FastAverageColor()
 const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
   const pathname = usePathname()
   const { t } = useTranslation("site")
+
   const active = pathname === link.url // TODO
   return (
     <UniLink

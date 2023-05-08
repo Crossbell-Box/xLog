@@ -1,11 +1,10 @@
 "use client"
 
 import { MutableRefObject, useEffect, useMemo } from "react"
-import { scroller } from "react-scroll"
 
 import { PostToc } from "~/components/site/PostToc"
 import { useCodeCopy } from "~/hooks/useCodeCopy"
-import { cn } from "~/lib/utils"
+import { calculateElementTop, cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
 export const PageContent: React.FC<{
@@ -44,10 +43,14 @@ export const PageContent: React.FC<{
     const hashChangeHandler = () => {
       const hash = decodeURIComponent(location.hash.slice(1))
       if (hash) {
-        scroller.scrollTo(`user-content-${decodeURIComponent(hash)}`, {
-          smooth: true,
-          offset: -20,
-          duration: 500,
+        const targetElement = document.querySelector(
+          `#user-content-${decodeURIComponent(hash)}`,
+        ) as HTMLElement
+        if (!targetElement) return
+
+        window.scrollTo({
+          top: calculateElementTop(targetElement) - 20,
+          behavior: "smooth",
         })
       }
     }
