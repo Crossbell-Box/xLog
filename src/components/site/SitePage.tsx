@@ -1,5 +1,4 @@
 import { TFunction } from "i18next"
-import Head from "next/head"
 import serialize from "serialize-javascript"
 
 import { PageContent } from "~/components/common/PageContent"
@@ -45,12 +44,10 @@ export function SitePage({
 
   return (
     <>
-      <Head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addPageJsonLd()}
-        />
-      </Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={addPageJsonLd()}
+      />
       {preview && (
         <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
           {t(
