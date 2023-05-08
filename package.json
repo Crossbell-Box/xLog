@@ -154,7 +154,7 @@
     "@types/katex": "^0.16.0",
     "@types/mdast": "^3.0.11",
     "@types/mjml": "4.7.1",
-    "@types/node": "18.16.2",
+    "@types/node": "18.16.6",
     "@types/pangu": "^4.0.0",
     "@types/prismjs": "1.26.0",
     "@types/react": "18.2.0",
