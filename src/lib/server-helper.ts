@@ -1,3 +1,6 @@
+// @ts-ignore
+import jsonfeedToRSS from "jsonfeed-to-rss"
+
 export const getQuery = (req: Request) => {
   const url = new URL(req.url)
   const searchParams = url.searchParams
@@ -22,9 +25,12 @@ export class NextServerResponse {
   json(data: any) {
     const nextData = JSON.stringify(data)
 
-    const contentType = "application/json"
-
-    return new Response(nextData, { headers: { contentType } })
+    return new Response(nextData, {
+      status: this.#status,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
   }
 
   send(data: any) {
@@ -41,5 +47,29 @@ export class NextServerResponse {
 
   end() {
     return new Response("", { status: this.#status })
+  }
+
+  rss(data: any, format = "json") {
+    if (format === "xml") {
+      return new Response(jsonfeedToRSS(data), {
+        status: this.#status,
+        headers: {
+          "Content-Type": "application/xml; charset=utf-8",
+          "Access-Control-Allow-Methods": "GET",
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "public, max-age=1800",
+        },
+      })
+    } else {
+      return new Response(JSON.stringify(data), {
+        status: this.#status,
+        headers: {
+          "Content-Type": "application/feed+json; charset=utf-8",
+          "Access-Control-Allow-Methods": "GET",
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "public, max-age=1800",
+        },
+      })
+    }
   }
 }
