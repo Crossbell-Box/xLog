@@ -60,6 +60,7 @@
     "@urql/core": "4.0.7",
     "ahooks": "^3.7.7",
     "aplayer-react": "^1.1.0",
+    "canvas": "^2.11.2",
     "canvas-confetti": "^1.6.0",
     "chroma-js": "^2.4.2",
     "clsx": "1.2.1",

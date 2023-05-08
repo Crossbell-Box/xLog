@@ -62,7 +62,7 @@ module.exports = withBundleAnalyzer(
     experimental: {
       scrollRestoration: true,
       appDir: true,
-      serverComponentsExternalPackages: ["nodejieba", "rehype-react", "pinyin"],
+      serverComponentsExternalPackages: ["rehype-react"],
     },
     output: "standalone",
     productionBrowserSourceMaps: true,
@@ -80,6 +80,10 @@ module.exports = withBundleAnalyzer(
       config.resolve.alias["cross-fetch"] = require.resolve(
         "next/dist/build/polyfills/fetch/index.js",
       )
+
+      // https://github.com/kkomelin/isomorphic-dompurify/issues/54
+      // Fix isomorphic-dompurify in app router
+      config.externals = [...config.externals, "canvas", "jsdom"]
 
       return config
     },
