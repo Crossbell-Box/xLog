@@ -1,3 +1,4 @@
+import { getDefaultSlug } from "~/lib/default-slug"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
 
 export async function GET(req: Request) {
@@ -16,6 +17,23 @@ export async function GET(req: Request) {
       method: "POST",
     })
   ).json()
+
+  if (result.data?.projectFeed?.posts?.length) {
+    result.data.projectFeed.posts = result.data.projectFeed.posts.map(
+      (post: any) => {
+        return {
+          title: post.title,
+          date_published: new Date(
+            post.publishedAtTimestamp * 1000,
+          ).toISOString(),
+          slug: getDefaultSlug(post.title, post.digest),
+          tags: ["Mirror.xyz"],
+          content: post.body,
+          external_urls: [`https://mirror.xyz/${address}/${post.digest}`],
+        }
+      },
+    )
+  }
 
   return new NextServerResponse().status(200).json(result)
 }
