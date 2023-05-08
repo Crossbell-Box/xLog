@@ -43,6 +43,10 @@ export const PageContent: React.FC<{
     const hashChangeHandler = () => {
       const hash = decodeURIComponent(location.hash.slice(1))
       if (hash) {
+        if (history.state?.preventScrollToToc) {
+          history.state.preventScrollToToc = false
+          return
+        }
         const targetElement = document.querySelector(
           `#user-content-${decodeURIComponent(hash)}`,
         ) as HTMLElement
