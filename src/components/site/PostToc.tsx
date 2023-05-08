@@ -4,8 +4,7 @@ import katex from "katex"
 import type { List } from "mdast"
 import { toHast } from "mdast-util-to-hast"
 import type { Result as TocResult } from "mdast-util-toc"
-import React, { useEffect, useRef, useState } from "react"
-import { Link } from "react-scroll"
+import React, { createElement, useEffect, useRef, useState } from "react"
 
 const inlineElements = ["delete", "strong", "emphasis", "inlineCode"]
 
@@ -40,6 +39,13 @@ function useActiveId(itemIds: string[]) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            const state = history.state
+
+            history.replaceState(
+              { ...state, preventScrollToToc: true },
+              "",
+              entry.target.getAttribute("href"),
+            )
             setActiveId(entry.target.getAttribute("href"))
           }
         })
@@ -63,12 +69,13 @@ function useActiveId(itemIds: string[]) {
   }, [itemIds])
   return activeId
 }
-
-function renderItems(
-  items: TocResult["map"],
-  activeId?: string | null,
-  prefix = "",
-) {
+interface ItemsProps {
+  items: TocResult["map"]
+  activeId?: string | null
+  prefix?: string
+}
+function Items(props: ItemsProps) {
+  const { items, activeId, prefix = "" } = props
   return (
     <ol className={prefix ? "pl-5" : ""}>
       {items?.children?.map((item, index) => (
@@ -91,14 +98,7 @@ function renderItems(
             return (
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
-                  <Link
-                    to={`user-content-${decodeURIComponent(
-                      child.children[0].url.slice(1),
-                    )}`}
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-20}
+                  <a
                     href={child.children[0].url}
                     title={content}
                     className={
@@ -113,10 +113,14 @@ function renderItems(
                         __html: content,
                       }}
                     />
-                  </Link>
+                  </a>
                 )}
                 {child.type === "list" &&
-                  renderItems(child, activeId, `${index + 1}.`)}
+                  createElement(Items, {
+                    items: child,
+                    activeId,
+                    prefix: `${index + 1}.`,
+                  })}
               </span>
             )
           })}
@@ -161,7 +165,7 @@ export const PostToc: React.FC<{
           overflowY: "auto",
         }}
       >
-        {renderItems(data?.map, activeId)}
+        <Items items={data?.map} activeId={activeId} />
       </div>
     </div>
   )
