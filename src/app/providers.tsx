@@ -1,6 +1,5 @@
 "use client"
 
-import NextTopLoader from "nextjs-toploader"
 import { useState } from "react"
 import { WagmiConfig, createClient } from "wagmi"
 
@@ -18,6 +17,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 // eslint-disable-next-line import/no-unresolved
 import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
+import { useNProgress } from "~/hooks/useNProgress"
 import { APP_NAME } from "~/lib/env"
 import { toGateway } from "~/lib/ipfs-parser"
 import { createIDBPersister } from "~/lib/persister.client"
@@ -44,6 +44,7 @@ export default function Providers({
 }) {
   useDarkMode()
   useMobileLayout()
+  useNProgress()
 
   const [queryClient] = useState(
     () =>
@@ -81,7 +82,6 @@ export default function Providers({
           signInStrategy="simple"
           ignoreWalletDisconnectEvent={true}
         >
-          <NextTopLoader easing="linear" speed={500} />
           <LangProvider lang={lang}>{children}</LangProvider>
           <NotificationModal colorScheme={colorScheme} />
         </ConnectKitProvider>
