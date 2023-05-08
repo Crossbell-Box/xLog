@@ -371,17 +371,92 @@ textarea.input {
   background-color: var(--banner-bg-color);
 }
 
-#nprogress .bar {
-  @apply bg-accent !important;
+/* Fancy blur effect */
+#qprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  opacity: 1;
+
+  -webkit-transform: rotate(3deg) translate(0px, -4px);
+  -ms-transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px);
 }
 
-#nprogress .peg {
-  @apply shadow-none !important;
+.qprogress-custom-parent {
+  overflow: hidden;
+  position: relative;
 }
 
-#nprogress .spinner-icon {
-  @apply border-t-accent !important;
-  @apply border-l-accent !important;
+.qprogress-custom-parent #qprogress .bar {
+  position: absolute;
+}
+
+/* Colorful effect */
+#qprogress .colorful-bar {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#1890ff),
+    color-stop(#13c2c2),
+    color-stop(#52c41a),
+    color-stop(#fa8c16),
+    color-stop(#fa541c),
+    color-stop(#f5222d),
+    to(#1890ff)
+  );
+  background: -webkit-linear-gradient(
+    left,
+    #1890ff,
+    #13c2c2,
+    #52c41a,
+    #fa8c16,
+    #fa541c,
+    #f5222d,
+    #1890ff
+  );
+  background: linear-gradient(
+    to right,
+    #1890ff,
+    #13c2c2,
+    #52c41a,
+    #fa8c16,
+    #fa541c,
+    #f5222d,
+    #1890ff
+  );
+
+  -webkit-animation: 2s linear infinite ins;
+  animation: 2s linear infinite ins;
+
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+
+  -webkit-transform-origin: left;
+  transform-origin: left;
+
+  background-size: 500%;
+}
+
+@-webkit-keyframes ins {
+  0% {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 125% 0;
+  }
+}
+
+@keyframes ins {
+  0% {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 125% 0;
+  }
 }
 
 .loading:before {
