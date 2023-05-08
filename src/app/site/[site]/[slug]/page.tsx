@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation"
+
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { SitePage } from "~/components/site/SitePage"
@@ -26,6 +28,13 @@ export default async function SitePagePage({
     },
     queryClient,
   )
+
+  if (
+    !page ||
+    new Date(page!.metadata?.content?.date_published || "") > new Date()
+  ) {
+    notFound()
+  }
 
   const dehydratedState = dehydrate(queryClient)
 

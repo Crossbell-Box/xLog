@@ -9,9 +9,7 @@ import { SiteFooter } from "~/components/site/SiteFooter"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { FABContainer } from "~/components/ui/FAB"
 import getQueryClient from "~/lib/query-client"
-import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import { fetchGetPage } from "~/queries/page.server"
 import {
   fetchGetSite,
   prefetchGetSiteSubscriptions,
@@ -35,7 +33,7 @@ export default async function SiteLayout({
 
   let page
   if (site?.characterId) {
-    const result = await Promise.all([
+    await Promise.all([
       prefetchGetSiteSubscriptions(
         {
           characterId: site.characterId,
@@ -48,51 +46,7 @@ export default async function SiteLayout({
         },
         queryClient,
       ),
-      new Promise<ExpandedNote | null>(async (resolve, reject) => {
-        if (params.slug) {
-          try {
-            const page = await fetchGetPage(
-              {
-                characterId: site.characterId,
-                slug: params.slug,
-                useStat: true,
-              },
-              queryClient,
-            )
-
-            if (
-              !page ||
-              new Date(page!.metadata?.content?.date_published || "") >
-                new Date()
-            ) {
-              reject(notFound())
-            } else {
-              resolve(page)
-            }
-          } catch (error) {
-            reject(error)
-          }
-        } else {
-          // if (!options?.skipPages) {
-          //   await prefetchGetPagesBySite(
-          //     {
-          //       characterId: site.characterId,
-          //       ...(options?.limit && { limit: options.limit }),
-          //       type: "post",
-          //       visibility: PageVisibilityEnum.Published,
-          //       ...(params.tag && { tags: [params.tag] }),
-          //       ...(options?.useStat && {
-          //         useStat: true,
-          //       }),
-          //     },
-          //     queryClient,
-          //   )
-          // }
-          resolve(null)
-        }
-      }),
     ])
-    page = result[2]
   } else {
     notFound()
   }
@@ -136,8 +90,8 @@ export default async function SiteLayout({
         <div
           className={cn(
             "max-w-screen-md mx-auto px-5 pt-12 relative",
-            page && `xlog-post-id-${page.characterId}-${page.noteId}`,
-            page?.metadata?.content?.tags?.map((tag) => `xlog-post-tag-${tag}`),
+            // page && `xlog-post-id-${page.characterId}-${page.noteId}`,
+            // page?.metadata?.content?.tags?.map((tag) => `xlog-post-tag-${tag}`),
           )}
         >
           {children}
