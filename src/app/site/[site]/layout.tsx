@@ -1,3 +1,4 @@
+import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { Hydrate, dehydrate } from "@tanstack/react-query"
@@ -8,6 +9,7 @@ import { BackToTopFAB } from "~/components/site/BackToTopFAB"
 import { SiteFooter } from "~/components/site/SiteFooter"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { FABContainer } from "~/components/ui/FAB"
+import { SITE_URL } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
 import { cn } from "~/lib/utils"
 import {
@@ -15,6 +17,60 @@ import {
   prefetchGetSiteSubscriptions,
   prefetchGetSiteToSubscriptions,
 } from "~/queries/site.server"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: {
+    site: string
+  }
+}): Promise<Metadata> {
+  const queryClient = getQueryClient()
+
+  const site = await fetchGetSite(params.site, queryClient)
+
+  const title = site?.metadata?.content?.name || site?.handle
+  const description = site?.metadata?.content?.bio
+  const images =
+    site?.metadata?.content?.avatars || `${SITE_URL}/assets/logo.svg`
+  const twitterCreator =
+    "@" +
+    site?.metadata?.content?.connected_accounts
+      ?.find((account) => account?.endsWith?.("@twitter"))
+      ?.match(/csb:\/\/account:([^@]+)@twitter/)?.[1]
+
+  return {
+    title,
+    description,
+    themeColor: "#ffffff", // TODO
+    alternates: {
+      types: {
+        "application/rss+xml": [
+          { url: "/feed?format=xml", title },
+          { url: "/feed/comments?format=xml", title: `Comments on ${title}` },
+        ],
+        "application/feed+json": [
+          { url: "/feed", title },
+          { url: "/feed/comments", title: `Comments on ${title}` },
+        ],
+      },
+    },
+    icons: images,
+    openGraph: {
+      siteName: title,
+      description,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images,
+      site: "@_xLog",
+      creator: twitterCreator,
+    },
+  }
+}
 
 export default async function SiteLayout({
   children,
@@ -71,22 +127,8 @@ export default async function SiteLayout({
           // `xlog-page-${type}`,
         }
       >
-        {/* <SEOHead
-          title={title || tag || page.data?.metadata?.content?.title || ""}
-          siteName={site.data?.metadata?.content?.name || ""}
-          description={
-            page.data?.metadata?.content?.summary ??
-            site.data?.metadata?.content?.bio?.replace(/<[^>]*>/g, "")
-          }
-          image={
-            page.data?.metadata?.content?.cover ||
-            getUserContentsUrl(site.data?.metadata?.content?.avatars?.[0])
-          }
-          icon={getUserContentsUrl(site.data?.metadata?.content?.avatars?.[0])}
-          site={domainOrSubdomain}
-        /> */}
         <Style content={site?.metadata?.content?.css} />
-        {site && <SiteHeader site={site} />}
+        {site && <SiteHeader handle={params.site} />}
         <div
           className={cn(
             "max-w-screen-md mx-auto px-5 pt-12 relative",

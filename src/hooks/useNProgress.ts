@@ -16,7 +16,6 @@ export const useNProgress = () => {
 
     disposers.push(
       events.onStart(() => {
-        console.log("start")
         instance.current.start()
       }),
     )

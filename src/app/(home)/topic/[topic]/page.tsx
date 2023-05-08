@@ -1,7 +1,22 @@
+import { Metadata } from "next"
+
 import { HomeFeed } from "~/components/home/HomeFeed"
 import { HomeSidebar } from "~/components/home/HomeSidebar"
+import { APP_NAME } from "~/lib/env"
 
 import topics from "../../../../../data/topics.json"
+
+export function generateMetadata({
+  params,
+}: {
+  params: {
+    topic: string
+  }
+}): Metadata {
+  return {
+    title: `Topic: ${params.topic} - ${APP_NAME}`,
+  }
+}
 
 function Topic({
   params,

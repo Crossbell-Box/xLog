@@ -25,7 +25,7 @@ export const Avatar: React.FC<
 
   const image = useMemo(() => {
     for (const image of images) {
-      if (image) return toGateway(image)
+      if (image) return toGateway((image as any)?.url || image)
     }
   }, [images])
 

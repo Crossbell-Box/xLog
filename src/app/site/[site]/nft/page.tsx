@@ -1,3 +1,4 @@
+import { Metadata } from "next"
 import Script from "next/script"
 import type { Asset } from "unidata.js"
 
@@ -6,6 +7,24 @@ import { UniMedia } from "~/components/ui/UniMedia"
 import { useTranslation } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
 import { fetchGetSite, getNFTs } from "~/queries/site.server"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: {
+    site: string
+  }
+}): Promise<Metadata> {
+  const queryClient = getQueryClient()
+
+  const site = await fetchGetSite(params.site, queryClient)
+
+  const title = `NFT - ${site?.metadata?.content?.name || site?.handle}`
+
+  return {
+    title,
+  }
+}
 
 export default async function SiteNFTPage({
   params,
