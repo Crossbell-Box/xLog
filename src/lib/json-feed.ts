@@ -27,6 +27,7 @@ export const getJsonFeed = async (domainOrSubdomain: string, path: string) => {
   const hasAudio = pages.list?.find((page) => page.metadata?.content?.audio)
 
   const link = getSiteLink({
+    domain: site?.metadata?.content?.custom_domain,
     subdomain: site?.handle || "",
   })
   return {
