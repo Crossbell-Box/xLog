@@ -1,5 +1,5 @@
-import { OpenAI } from "langchain"
 import { AnalyzeDocumentChain, loadSummarizationChain } from "langchain/chains"
+import { OpenAI } from "langchain/llms/openai"
 import { PromptTemplate } from "langchain/prompts"
 import removeMarkdown from "remove-markdown"
 
