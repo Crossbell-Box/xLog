@@ -37,7 +37,7 @@
     "@crossbell/connect-kit": "0.0.79",
     "@crossbell/contract": "0.0.79",
     "@crossbell/indexer": "0.0.79",
-    "@crossbell/notification": "0.0.79",
+    "@crossbell/notification": "0.0.82",
     "@crossbell/ui": "0.0.79",
     "@crossbell/util-hooks": "0.0.79",
     "@ddietr/codemirror-themes": "1.4.1",
