@@ -33,7 +33,7 @@ dependencies:
     version: 0.0.82(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)
   '@crossbell/notification':
     specifier: 0.0.82
-    version: 0.0.82(@tanstack/react-query@4.29.5)(@types/react@18.2.6)(ethers@5.7.2)(immer@10.0.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.13)
+    version: 0.0.82(@tanstack/react-query@4.29.5)(@types/react@18.2.6)(ethers@5.7.2)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.13)
   '@crossbell/ui':
     specifier: 0.0.82
     version: 0.0.82(@types/react@18.2.6)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
@@ -146,8 +146,8 @@ dependencies:
     specifier: 6.2.1
     version: 6.2.1
   immer:
-    specifier: 10.0.1
-    version: 10.0.1
+    specifier: 10.0.2
+    version: 10.0.2
   ioredis:
     specifier: 5.3.2
     version: 5.3.2
@@ -339,10 +339,10 @@ dependencies:
     version: 9.0.0
   wagmi:
     specifier: 0.12.13
-    version: 0.12.13(ethers@5.7.2)(immer@10.0.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
+    version: 0.12.13(ethers@5.7.2)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
   zustand:
     specifier: ^4.3.8
-    version: 4.3.8(immer@10.0.1)(react@18.2.0)
+    version: 4.3.8(immer@10.0.2)(react@18.2.0)
 
 devDependencies:
   '@iconify/tailwind':
@@ -2151,7 +2151,7 @@ packages:
       crossbell.js: 0.19.9
       embla-carousel-react: 7.1.0(react@18.2.0)
       ethers: 5.7.2
-      immer: 10.0.1
+      immer: 10.0.2
       lodash.debounce: 4.0.8
       qrcode: 1.5.3
       react: 18.2.0
@@ -2159,8 +2159,8 @@ packages:
       react-google-recaptcha: 2.1.0(react@18.2.0)
       rxjs: 7.8.1
       ts-essentials: 9.3.2(typescript@5.0.4)
-      wagmi: 0.12.13(ethers@5.7.2)(immer@10.0.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
-      zustand: 4.3.8(immer@10.0.1)(react@18.2.0)
+      wagmi: 0.12.13(ethers@5.7.2)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
+      zustand: 4.3.8(immer@10.0.2)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -2214,7 +2214,7 @@ packages:
     resolution: {integrity: sha512-0Yf9+MMTSD+JJkFbNaK/s+kl3CXhr4oq2yj3K0dvheB+e8uykcpM7yomxHie/sr0ushw3G7Ppf5NXYkfH0eiSw==}
     dev: false
 
-  /@crossbell/notification@0.0.82(@tanstack/react-query@4.29.5)(@types/react@18.2.6)(ethers@5.7.2)(immer@10.0.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.13):
+  /@crossbell/notification@0.0.82(@tanstack/react-query@4.29.5)(@types/react@18.2.6)(ethers@5.7.2)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.13):
     resolution: {integrity: sha512-RROhe87Li/PprE9Wn8v1T6yeSxJGpDGCZ4dezHKjpaLM1cFxKXS4StCwOyF0Y5KB+AG/yrWRW9C4PQLj6Xr1Yw==}
     peerDependencies:
       '@tanstack/react-query': ^4
@@ -2233,8 +2233,8 @@ packages:
       ethers: 5.7.2
       react: 18.2.0
       react-intersection-observer: 9.4.3(react@18.2.0)
-      wagmi: 0.12.13(ethers@5.7.2)(immer@10.0.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
-      zustand: 4.3.8(immer@10.0.1)(react@18.2.0)
+      wagmi: 0.12.13(ethers@5.7.2)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
+      zustand: 4.3.8(immer@10.0.2)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -2261,12 +2261,12 @@ packages:
       check-password-strength: 2.0.7
       crossbell.js: 0.19.9
       ethers: 5.7.2
-      immer: 10.0.1
+      immer: 10.0.2
       lodash.debounce: 4.0.8
       react: 18.2.0
       rxjs: 7.8.1
       ts-essentials: 9.3.2(typescript@5.0.4)
-      zustand: 4.3.8(immer@10.0.1)(react@18.2.0)
+      zustand: 4.3.8(immer@10.0.2)(react@18.2.0)
     transitivePeerDependencies:
       - bufferutil
       - react-dom
@@ -4763,7 +4763,7 @@ packages:
       '@ledgerhq/connect-kit-loader': 1.0.2
       '@safe-global/safe-apps-provider': 0.15.2
       '@safe-global/safe-apps-sdk': 7.11.0
-      '@wagmi/core': 0.10.11(ethers@5.7.2)(immer@10.0.1)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
+      '@wagmi/core': 0.10.11(ethers@5.7.2)(immer@10.0.2)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
       '@walletconnect/ethereum-provider': 2.7.2(@web3modal/standalone@2.3.7)
       '@walletconnect/legacy-provider': 2.0.0
       '@web3modal/standalone': 2.3.7(react@18.2.0)
@@ -4783,7 +4783,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@0.10.11(ethers@5.7.2)(immer@10.0.1)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4):
+  /@wagmi/core@0.10.11(ethers@5.7.2)(immer@10.0.2)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4):
     resolution: {integrity: sha512-WOmG2RG65U6i+p09/aFztFSLPCeC+CYnkPh+OXrxQ8Q3m829983sH7xUTRbFAl561lRevUHmB+XS/na+Oj2bYQ==}
     peerDependencies:
       ethers: '>=5.5.1 <6'
@@ -4798,7 +4798,7 @@ packages:
       ethers: 5.7.2
       eventemitter3: 4.0.7
       typescript: 5.0.4
-      zustand: 4.3.8(immer@10.0.1)(react@18.2.0)
+      zustand: 4.3.8(immer@10.0.2)(react@18.2.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - bufferutil
@@ -8821,8 +8821,8 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
-  /immer@10.0.1:
-    resolution: {integrity: sha512-zg++jJLsKKTwXGeSYIw0HgChSYQGtu0UDTnbKx5aGLYgte4CwTmH9eJDYyQ6FheyUtBe+lQW9FrGxya1G+Dtmg==}
+  /immer@10.0.2:
+    resolution: {integrity: sha512-Rx3CqeqQ19sxUtYV9CU911Vhy8/721wRFnJv3REVGWUmoAcIwzifTsdmJte/MV+0/XpM35LZdQMBGkRIoLPwQA==}
     dev: false
 
   /import-fresh@3.3.0:
@@ -13513,7 +13513,7 @@ packages:
       xml-name-validator: 4.0.0
     dev: false
 
-  /wagmi@0.12.13(ethers@5.7.2)(immer@10.0.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4):
+  /wagmi@0.12.13(ethers@5.7.2)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4):
     resolution: {integrity: sha512-1J+F68MztodPUo2OIFImiC3OoZD4gdryxTidfwQz9LJawXdBNmAOFvq0LQClrrqgFk0Gd3EoLo/MKGiEn2RsMg==}
     peerDependencies:
       ethers: '>=5.5.1 <6'
@@ -13526,7 +13526,7 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.29.5
       '@tanstack/react-query': 4.29.5(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.29.5(@tanstack/react-query@4.29.5)
-      '@wagmi/core': 0.10.11(ethers@5.7.2)(immer@10.0.1)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
+      '@wagmi/core': 0.10.11(ethers@5.7.2)(immer@10.0.2)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
       abitype: 0.3.0(typescript@5.0.4)(zod@3.21.4)
       ethers: 5.7.2
       react: 18.2.0
@@ -14116,7 +14116,7 @@ packages:
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
 
-  /zustand@4.3.8(immer@10.0.1)(react@18.2.0):
+  /zustand@4.3.8(immer@10.0.2)(react@18.2.0):
     resolution: {integrity: sha512-4h28KCkHg5ii/wcFFJ5Fp+k1J3gJoasaIbppdgZFO4BPJnsNxL0mQXBSFgOgAdCdBj35aDTPvdAJReTMntFPGg==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -14128,7 +14128,7 @@ packages:
       react:
         optional: true
     dependencies:
-      immer: 10.0.1
+      immer: 10.0.2
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
