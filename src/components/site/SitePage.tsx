@@ -3,7 +3,7 @@ import serialize from "serialize-javascript"
 
 import { PageContent } from "~/components/common/PageContent"
 import { PostFooter } from "~/components/site/PostFooter"
-import { PostMeta } from "~/components/site/PostMeta"
+import PostMeta from "~/components/site/PostMeta"
 import { getSiteLink } from "~/lib/helpers"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
@@ -67,6 +67,7 @@ export function SitePage({
             </h2>
           )}
           {page?.metadata?.content?.tags?.includes("post") && !preview && (
+            /* @ts-expect-error Async Server Component */
             <PostMeta page={page} site={site} />
           )}
         </div>
