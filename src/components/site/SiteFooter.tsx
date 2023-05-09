@@ -51,7 +51,7 @@ export const SiteFooter: React.FC<{
                     | string
                     | { uri: string }
                     | { identity: string; platform: string }
-                    | any,
+                    | any, // Otherwise type check will alarm
                   index,
                 ) => {
                   let match: RegExpMatchArray | null = null

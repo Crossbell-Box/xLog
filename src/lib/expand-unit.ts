@@ -138,6 +138,7 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
               ...banner,
               address: toGateway(banner.address),
             }
+            break
         }
         return expandedBanner
       },
