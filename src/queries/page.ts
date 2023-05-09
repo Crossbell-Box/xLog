@@ -359,18 +359,6 @@ export function useGetComments(
   })
 }
 
-export function useGetSummary(input: { cid?: string; lang?: string }) {
-  return useQuery(["getSummary", input.cid, input.lang], async () => {
-    if (!input.cid || !input.lang) {
-      return
-    }
-    return pageModel.getSummary({
-      cid: input.cid,
-      lang: input.lang,
-    })
-  })
-}
-
 export function useGetMirrorXyz(input: { address?: string }) {
   return useQuery(["getMirror", input.address], async () => {
     if (!input.address) {
