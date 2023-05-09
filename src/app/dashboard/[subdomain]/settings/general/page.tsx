@@ -77,7 +77,7 @@ export default function SiteSettingsGeneralPage() {
       !form.getValues("banner") &&
         form.setValue(
           "banner",
-          site.data?.metadata?.content?.banners?.[0]
+          site.data?.metadata?.content?.banners?.[0]?.address
             ? {
                 address: toIPFS(
                   site.data?.metadata?.content?.banners?.[0].address || "",
