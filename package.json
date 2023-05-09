@@ -18,7 +18,8 @@
     "prisma:studio": "prisma studio",
     "docker:db": "docker-compose -f docker-compose.db.yml up -d",
     "spell-check": "cspell lint . --no-progress",
-    "analyze": "NODE_ENV=production ANALYZE=true BUNDLE_ANALYZE=browser next build"
+    "analyze": "NODE_ENV=production ANALYZE=true BUNDLE_ANALYZE=browser next build",
+    "postinstall": "prisma generate"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
