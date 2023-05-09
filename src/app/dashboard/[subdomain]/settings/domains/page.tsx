@@ -68,11 +68,16 @@ export default function SettingsDomainsPage() {
     if (updateSite.isSuccess) {
       if (updateSite.data?.code === 0) {
         toast.success("Saved!")
-        router.replace(
-          `/dashboard/${
-            updateSite.variables?.subdomain || updateSite.variables?.site
-          }/settings/domains`,
-        )
+        useAccountState
+          .getState()
+          .refresh()
+          .then(() => {
+            router.replace(
+              `/dashboard/${
+                updateSite.variables?.subdomain || updateSite.variables?.site
+              }/settings/domains`,
+            )
+          })
       } else {
         toast.error("Failed to update site" + ": " + updateSite.data.message)
       }
