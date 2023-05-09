@@ -70,7 +70,7 @@ const getOriginalSummary = async (cid: string, lang: string) => {
   }
 }
 
-export async function getSummary(cid: string, lang: string = "en") {
+async function getSummary(cid: string, lang: string = "en") {
   const summary = await cacheGet({
     key: ["summary", cid, lang],
     getValueFun: async () => {

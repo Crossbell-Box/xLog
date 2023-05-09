@@ -1,6 +1,5 @@
 import { QueryClient } from "@tanstack/react-query"
 
-import { getSummary } from "~/app/api/summary/route"
 import { getNoteSlug } from "~/lib/helpers"
 import { cacheDelete, cacheGet } from "~/lib/redis.server"
 import * as pageModel from "~/models/page.model"
@@ -117,18 +116,5 @@ export const fetchGetPagesBySite = async (
       key,
       getValueFun: () => pageModel.getPagesBySite(input),
     }) as Promise<ReturnType<typeof pageModel.getPagesBySite>>
-  })
-}
-
-export const prefetchGetSummary = async (
-  input: { cid?: string; lang?: string },
-  queryClient: QueryClient,
-) => {
-  const key = ["getSummary", input.cid, input.lang]
-  await queryClient.fetchQuery(key, async () => {
-    if (!input.cid || !input.lang) {
-      return
-    }
-    return getSummary(input.cid, input.lang)
   })
 }
