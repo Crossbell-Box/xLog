@@ -1,5 +1,6 @@
 {
   "intlDateTime": "{{val, datetime}}",
   "ago": "{{time}} ago",
-  "joined ago": "Joined {{time}} ago"
+  "joined ago": "Joined {{time}} ago",
+  "signed and stored on the blockchain": "Ownership of this {{name}} data is guaranteed by blockchain and smart contracts to the creator alone."
 }

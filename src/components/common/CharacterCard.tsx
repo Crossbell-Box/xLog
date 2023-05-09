@@ -1,10 +1,9 @@
-import { useTranslation } from "next-i18next"
-
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import { Titles } from "~/components/common/Titles"
 import { Avatar } from "~/components/ui/Avatar"
 import { useDate } from "~/hooks/useDate"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import { useGetCharacterCard } from "~/queries/site"
 

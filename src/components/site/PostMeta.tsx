@@ -1,4 +1,6 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
+// TODO
 import { useEffect, useState } from "react"
 
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
@@ -6,6 +8,7 @@ import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
 import { useUserRole } from "~/hooks/useUserRole"
 import { CSB_SCAN, SITE_URL } from "~/lib/env"
+import { useTranslation } from "~/lib/i18n/client"
 import { toCid } from "~/lib/ipfs-parser"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { useGetSummary } from "~/queries/page"

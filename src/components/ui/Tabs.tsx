@@ -1,7 +1,7 @@
-import { useTranslation } from "next-i18next"
 import React from "react"
 
 import { Tooltip } from "~/components/ui/Tooltip"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 import { UniLink } from "./UniLink"
@@ -19,7 +19,7 @@ export const Tabs: React.FC<{ items: TabItem[]; className?: string }> = ({
   items,
   className,
 }) => {
-  const { t } = useTranslation(["dashboard"])
+  const { t } = useTranslation("dashboard")
 
   return (
     <div

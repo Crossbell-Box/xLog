@@ -1,3 +1,5 @@
+"use client"
+
 import {
   useAccountState,
   useIsNoteLiked,
@@ -371,8 +373,6 @@ export function useGetSummary(input: { cid?: string; lang?: string }) {
 
 export function useGetMirrorXyz(input: { address?: string }) {
   return useQuery(["getMirror", input.address], async () => {
-    const { getDefaultSlug } = await import("~/lib/default-slug")
-
     if (!input.address) {
       return null
     }
@@ -385,18 +385,7 @@ export function useGetMirrorXyz(input: { address?: string }) {
       )
     ).json()
 
-    return response?.data?.projectFeed?.posts?.map((post: any) => {
-      return {
-        title: post.title,
-        date_published: new Date(
-          post.publishedAtTimestamp * 1000,
-        ).toISOString(),
-        slug: getDefaultSlug(post.title, post.digest),
-        tags: ["Mirror.xyz"],
-        content: post.body,
-        external_urls: [`https://mirror.xyz/${input.address}/${post.digest}`],
-      }
-    }) as {
+    return response?.data as {
       title: string
       type: string
       size: number

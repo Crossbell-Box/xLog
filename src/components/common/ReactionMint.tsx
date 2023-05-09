@@ -1,5 +1,6 @@
+"use client"
+
 import confetti from "canvas-confetti"
-import { Trans, useTranslation } from "next-i18next"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
@@ -10,6 +11,7 @@ import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { noopArr } from "~/lib/noop"
 import { cn } from "~/lib/utils"
 import { useCheckMint, useGetMints, useMintPage } from "~/queries/page"
@@ -23,7 +25,7 @@ export const ReactionMint: React.FC<{
   characterId?: number
 }> = ({ size, noteId, characterId }) => {
   const mintPage = useMintPage()
-  const { t } = useTranslation("common")
+  const { t, i18n } = useTranslation("common")
 
   const account = useAccountState((s) => s.computed.account)
 
@@ -136,7 +138,7 @@ export const ReactionMint: React.FC<{
         title={t("Mint successfully") || ""}
       >
         <div className="p-5">
-          <Trans i18nKey="mint stored">
+          <Trans i18nKey="mint stored" i18n={i18n}>
             This post has been minted to NFT by you, view it on{" "}
             <UniLink
               className="text-accent"

@@ -1,3 +1,5 @@
+"use client"
+
 import { nanoid } from "nanoid"
 import { FC, memo, useEffect, useState } from "react"
 

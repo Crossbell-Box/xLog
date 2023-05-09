@@ -1,12 +1,62 @@
 import { QueryClient } from "@tanstack/react-query"
 
-import { cacheGet } from "~/lib/redis.server"
+import { getNoteSlug } from "~/lib/helpers"
+import { cacheDelete, cacheGet } from "~/lib/redis.server"
 import * as pageModel from "~/models/page.model"
-import { getIdBySlug } from "~/pages/api/slug2id"
-import { getSummary } from "~/pages/api/summary"
+
+export async function getIdBySlug(slug: string, characterId: string | number) {
+  slug = (slug as string)?.toLowerCase?.()
+
+  const result = (await cacheGet({
+    key: ["slug2id", characterId, slug],
+    getValueFun: async () => {
+      let note
+      let cursor = ""
+
+      do {
+        const response = await (
+          await fetch(
+            `https://indexer.crossbell.io/v1/notes?characterId=${characterId}&sources=xlog&cursor=${cursor}&limit=100`,
+          )
+        ).json()
+        cursor = response.cursor
+        note = response?.list?.find(
+          (item: any) =>
+            slug === getNoteSlug(item) ||
+            slug === `${characterId}-${item.noteId}`,
+        )
+      } while (!note && cursor)
+
+      return {
+        noteId: note?.noteId,
+      }
+    },
+    noUpdate: true,
+  })) as {
+    noteId: number
+  }
+
+  // revalidate
+  if (result) {
+    const noteIdMatch = slug.match(`^${characterId}-(\\d+)$`)
+    if (!noteIdMatch?.[1]) {
+      fetch(
+        `https://indexer.crossbell.io/v1/characters/${characterId}/notes/${result.noteId}`,
+      )
+        .then((res) => res.json())
+        .then((note) => {
+          if ((note && getNoteSlug(note) !== slug) || note.deleted) {
+            cacheDelete(["slug2id", characterId + "", slug])
+          }
+        })
+    }
+  }
+
+  return result
+}
 
 export const fetchGetPage = async (
-  input: Parameters<typeof pageModel.getPage>[0],
+  input: Partial<Parameters<typeof pageModel.getPage>[0]>,
   queryClient: QueryClient,
 ) => {
   const key = ["getPage", input.characterId, input]
@@ -23,7 +73,14 @@ export const fetchGetPage = async (
     }
     return cacheGet({
       key,
-      getValueFun: () => pageModel.getPage(input),
+      getValueFun: () =>
+        pageModel.getPage({
+          slug: input.slug,
+          characterId: input.characterId!,
+          useStat: input.useStat,
+          noteId: input.noteId,
+          handle: input.handle,
+        }),
     }) as Promise<ReturnType<typeof pageModel.getPage>>
   })
 }
@@ -59,18 +116,5 @@ export const fetchGetPagesBySite = async (
       key,
       getValueFun: () => pageModel.getPagesBySite(input),
     }) as Promise<ReturnType<typeof pageModel.getPagesBySite>>
-  })
-}
-
-export const prefetchGetSummary = async (
-  input: { cid?: string; lang?: string },
-  queryClient: QueryClient,
-) => {
-  const key = ["getSummary", input.cid, input.lang]
-  await queryClient.fetchQuery(key, async () => {
-    if (!input.cid || !input.lang) {
-      return
-    }
-    return getSummary(input.cid, input.lang)
   })
 }

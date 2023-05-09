@@ -1,21 +1,23 @@
-import { useTranslation } from "next-i18next"
-import Head from "next/head"
+import { TFunction } from "i18next"
 import serialize from "serialize-javascript"
 
+import { PageContent } from "~/components/common/PageContent"
+import { PostFooter } from "~/components/site/PostFooter"
+import { PostMeta } from "~/components/site/PostMeta"
 import { getSiteLink } from "~/lib/helpers"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
-import { PageContent } from "../common/PageContent"
-import { PostFooter } from "./PostFooter"
-import { PostMeta } from "./PostMeta"
-
-export const SitePage: React.FC<{
+export function SitePage({
+  page,
+  site,
+  preview,
+  t,
+}: {
   page?: ExpandedNote
   site?: ExpandedCharacter
   preview?: boolean
-}> = ({ page, site, preview }) => {
-  const { t } = useTranslation("site")
-
+  t: TFunction
+}) {
   function addPageJsonLd() {
     return {
       __html: serialize({
@@ -42,12 +44,10 @@ export const SitePage: React.FC<{
 
   return (
     <>
-      <Head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addPageJsonLd()}
-        />
-      </Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={addPageJsonLd()}
+      />
       {preview && (
         <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
           {t(

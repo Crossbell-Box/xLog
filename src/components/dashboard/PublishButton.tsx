@@ -1,6 +1,7 @@
-import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
+
+import { useTranslation } from "~/lib/i18n/client"
 
 import { Button, ButtonGroup } from "../ui/Button"
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"

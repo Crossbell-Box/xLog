@@ -1,5 +1,6 @@
+"use client"
+
 import confetti from "canvas-confetti"
-import { Trans, useTranslation } from "next-i18next"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { CharacterList } from "~/components/common/CharacterList"
@@ -7,6 +8,7 @@ import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN } from "~/lib/env"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import {
   useCheckLike,
@@ -24,7 +26,7 @@ export const ReactionLike: React.FC<{
   noteId?: number
 }> = ({ size, characterId, noteId }) => {
   const toggleLikePage = useToggleLikePage()
-  const { t } = useTranslation("common")
+  const { t, i18n } = useTranslation("common")
 
   const [isLikeOpen, setIsLikeOpen] = useState(false)
   const [isLikeListOpen, setIsLikeListOpen] = useState(false)
@@ -149,7 +151,7 @@ export const ReactionLike: React.FC<{
         title={t("Like successfully") || ""}
       >
         <div className="p-5">
-          <Trans i18nKey="like stored">
+          <Trans i18nKey="like stored" i18n={i18n}>
             Your like has been stored on the blockchain, view it on{" "}
             <UniLink
               className="text-accent"
@@ -181,7 +183,7 @@ export const ReactionLike: React.FC<{
         title={t("Confirm to revert")}
       >
         <div className="p-5">
-          <Trans i18nKey="like revert">
+          <Trans i18nKey="like revert" i18n={i18n}>
             Do you really want to revert this like action?
           </Trans>
         </div>

@@ -3,7 +3,6 @@ import type { Root } from "mdast"
 import { Result as TocResult, toc } from "mdast-util-toc"
 import { ReactElement, createElement } from "react"
 import { toast } from "react-hot-toast"
-import { Element } from "react-scroll"
 import { refractor } from "refractor"
 import jsx from "refractor/lang/jsx"
 import solidity from "refractor/lang/solidity"
@@ -158,14 +157,6 @@ export const renderPageContent = (
               },
               children: [],
             },
-            {
-              type: "element",
-              tagName: "anchor",
-              properties: {
-                name: node.properties?.id,
-              },
-              children: [],
-            },
           ]
         },
       })
@@ -219,7 +210,6 @@ export const renderPageContent = (
         createElement: createElement,
         components: {
           img: ZoomedImage,
-          anchor: Element,
           mention: Mention,
           mermaid: Mermaid,
           audio: APlayer,
