@@ -1,6 +1,6 @@
 "use client"
 
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
@@ -29,6 +29,7 @@ export default function SettingsDomainsPage() {
   const site = useGetSite(subdomain)
   const userRole = useUserRole(subdomain)
   const { t } = useTranslation("dashboard")
+  const router = useRouter()
 
   const isEmailAccount = useAccountState(
     (s) => s.computed.account?.type === "email",
