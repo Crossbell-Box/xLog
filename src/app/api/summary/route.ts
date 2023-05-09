@@ -46,7 +46,7 @@ const getOriginalSummary = async (cid: string, lang: string) => {
         })
 
         const combineDocsChain = loadSummarizationChain(model, {
-          prompt,
+          type: "map_reduce",
           combineMapPrompt: prompt,
           combinePrompt: prompt,
         })

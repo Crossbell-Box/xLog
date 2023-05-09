@@ -41,7 +41,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
   const pathname = usePathname()
   const { t } = useTranslation("site")
 
-  const active = pathname === link.url // TODO
+  const active = pathname === link.url
   return (
     <UniLink
       href={link.url}
