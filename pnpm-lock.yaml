@@ -38,8 +38,8 @@ dependencies:
     specifier: 0.0.79
     version: 0.0.79(@types/react@18.2.0)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
   '@crossbell/util-hooks':
-    specifier: 0.0.79
-    version: 0.0.79(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.0.82
+    version: 0.0.82(react-dom@18.2.0)(react@18.2.0)
   '@ddietr/codemirror-themes':
     specifier: 1.4.1
     version: 1.4.1
@@ -2282,6 +2282,22 @@ packages:
 
   /@crossbell/util-hooks@0.0.79(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-nusdeaNWy0JhYKVLobQxypFlUzzMmDMncyfTGMaaPLm2kRrJUs36gFoipo+8dEx8EB62DRb6n1f0iBChlK2kOg==}
+    peerDependencies:
+      react: ^18
+    dependencies:
+      '@tanstack/react-query': 4.29.5(react-dom@18.2.0)(react@18.2.0)
+      crossbell.js: 0.19.9
+      react: 18.2.0
+    transitivePeerDependencies:
+      - bufferutil
+      - react-dom
+      - react-native
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@crossbell/util-hooks@0.0.82(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-JF8yBWpt6YkeC2nUaLMg703Er0ub6qubvghklj3Bk+WGVokWvZwTfWn06kExE6drWmWWFXHbq1bUh85Ewt4xQg==}
     peerDependencies:
       react: ^18
     dependencies:
