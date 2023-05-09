@@ -91,7 +91,7 @@ export const PostMeta: React.FC<{
               page.metadata?.content?.tags?.includes("post") ? "post" : "page"
             }`}
           >
-            <i className="icon-[mingcute--edit-line] mx-1" /> Edit
+            <i className="icon-[mingcute--edit-line] mx-1" /> {t("Edit")}
           </UniLink>
         )}
       </div>
