@@ -1,5 +1,4 @@
 import { nanoid } from "nanoid"
-import { useTranslation } from "next-i18next"
 import React, {
   ChangeEvent,
   Dispatch,
@@ -10,6 +9,7 @@ import React, {
 } from "react"
 
 import { Input } from "~/components/ui/Input"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 export type RadioItem = {
@@ -23,7 +23,7 @@ export const BoxRadio: React.FC<{
   setValue: Dispatch<SetStateAction<string>>
   items: RadioItem[]
 }> = ({ value, setValue, items }) => {
-  const { t } = useTranslation(["common"])
+  const { t } = useTranslation("common")
   const randomId = useMemo(() => nanoid(), [])
   const [isCustom, setIsCustom] = useState(false)
 

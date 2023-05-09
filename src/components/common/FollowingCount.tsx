@@ -1,8 +1,8 @@
-import { useTranslation } from "next-i18next"
 import { useState } from "react"
 
 import { CharacterList } from "~/components/common/CharacterList"
 import { Button } from "~/components/ui/Button"
+import { useTranslation } from "~/lib/i18n/client"
 import {
   useGetSiteSubscriptions,
   useGetSiteToSubscriptions,

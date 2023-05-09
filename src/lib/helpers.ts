@@ -1,4 +1,4 @@
-import { NoteEntity } from "crossbell.js"
+import type { NoteEntity } from "crossbell.js"
 
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
@@ -15,7 +15,7 @@ export const getSiteLink = ({
   subdomain: string
   noProtocol?: boolean
 }) => {
-  if (IS_VERCEL_PREVIEW) return `/_site/${subdomain}`
+  if (IS_VERCEL_PREVIEW) return `/site/${subdomain}`
 
   if (domain) {
     return `https://${domain}`
@@ -30,11 +30,11 @@ export const getSiteLink = ({
 export const getSlugUrl = (slug: string) => {
   if (!isServerSide() && IS_VERCEL_PREVIEW) {
     const pathArr = new URL(location.href).pathname.split("/").filter(($) => $)
-    const indicatorIndex = pathArr.findIndex(($) => $ === "_site")
+    const indicatorIndex = pathArr.findIndex(($) => $ === "site")
     if (-~indicatorIndex) {
       const handle = pathArr[indicatorIndex + 1]
 
-      return `/_site/${handle}${slug}`
+      return `/site/${handle}${slug}`
     }
   }
 

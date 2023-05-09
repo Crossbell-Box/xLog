@@ -1,0 +1,61 @@
+{
+  "Write": "写作",
+  "Own": "拥有",
+  "Earn": "赚取",
+  ".": "。",
+  "Look at others'": "看看其他人的",
+  "description": "<0>xLog</0> 是面向所有人的最棒 <3>链上</3> <7>开源</7> 博客社区。",
+  "Get my xLog in 5 minutes": "5 分钟拥有自己的 xLog",
+  "Explore the xLog way": "探索 xLog 之路",
+  "features": {
+    "Write": {
+      "subtitle": "当灵感来临时写作",
+      "description": "让创作者们摆脱耗时、不必要的流程，减少写作过程中的阻碍，让你和团队能够专注于创造。"
+    },
+    "Own": {
+      "subtitle": "在区块链上拥有自己的内容",
+      "description": "通过在 Crossbell 区块链上发布来拥有自己的内容。 xLog 不会存储任何数据，也无法剥夺或修改你的权利和内容，即使 xLog 想这样做。 <aown>了解 Crossbell 是如何工作的。</aown>",
+      "extra": {
+        "title": "不要相信，去验证",
+        "description": "在互联网上不轻信任何人是一个好习惯，包括 xLog。因此，我们强烈建议你浏览 xLog 上的任何站点，检查页面底部的交易历史，阅读区块链合约代码，看看实情是否与 xLog 所声称的一致。",
+        "button": "去验证"
+      }
+    },
+    "Earn": {
+      "subtitle": "赚取代币和权利",
+      "description": "优秀的内容应该得到奖励，而区块链为创作者提供了透明公正的奖励机会。xLog DAO 将进一步促进我们社区的发展。"
+    }
+  },
+  "Features": "特色",
+  "Showcase": "展示柜",
+  "Integration": "集成",
+  "Home": "首页",
+  "Activities": "动态",
+  "Source Code": "源码",
+  "Visit": "访问",
+  "Easy to get started": "简单上手",
+  "Easy to get started text": "xLog 支持 <strong>web3 钱包</strong>和<strong>电子邮件</strong>连接，使你能够快速创建一个定制的博客，具有自定义域名、订阅、评论、NFT 铸造、RSS 订阅和 AI 增强等功能，仅需 5 分钟即可完成，无需申请或费用。",
+  "Safe": "安全",
+  "Safe text": "所有博客数据，包括配置、文章、订阅、评论等，都由你自己签名并安全地存储在<strong>区块链</strong>上，只有你持有的<strong>私钥</strong>才能进行控制和访问。包括 xLog 在内的任何人都无法进行更改。",
+  "Fast": "快速",
+  "Fast text": "区块链并不总意味着低效率。xLog通过其高效的缓存机制和众多优化，可以达到最佳性能。站点还支持<strong>PWA</strong>用于本地安装和使用。",
+  "Customizable": "可定制",
+  "Customizable text": "你可以自由地使用<strong>自己的域名</strong>、自定义网站并按自己的喜好进行<strong>设计</strong>。这是你的网站，没有任何限制。xLog 鼓励并将提供丰富的<strong>主题和插件</strong>系统，以帮助你进行自定义。",
+  "Open": "开放",
+  "Open text": "xLog提供导入和导出工具，以及丰富的 <strong>API</strong> 和第三方<strong>集成</strong>。所有代码都在 GitHub 上<strong>开源</strong>，所有数据都在区块链上<strong>透明</strong>。xLog 没有任何隐瞒。",
+  "Elegant experience": "优雅的体验",
+  "Elegant experience text": "xLog 提供双栏编辑器，具有<strong>实时预览</strong>功能，提供优秀的写作体验，使用标准的 <strong>Markdown 语法</strong>，支持 <strong>HTML</strong>、<strong>音视频</strong>和数学表达式。页面设计优雅，为读者提供舒适的阅读体验。",
+  "Creator Incentives": "创作者激励",
+  "Creator Incentives text": "在早期阶段，xLog以<strong>MIRA</strong>提供<aincentive>激励</aincentive>。我们正在积极构建代币经济模型，以确保xLog成为发布高质量内容的最佳平台。",
+  "DAO": "去中心化自治组织",
+  "DAO text": "将建立一个xLog DAO，在其中创作者使用<strong>代币</strong>进行投票。",
+  "Discover these awesome teams and creators on xLog (sorted by update time)": "在 xLog 上发现这些超棒的团队和创作者们（按更新时间排序）",
+  "Follow All!": "关注所有！",
+  "Already Followed All!" : "已经关注所有！",
+  "Show more": "显示更多",
+  "Submit yours": "提交你的",
+  "xLog's open design allows it to integrate with many other open protocols and applications without friction.": "xLog 的开放式设计使其能够与许多其他开放协议和应用程序无缝集成，没有任何限制。",
+  "Dashboard": "仪表盘",
+  "Suggested creators for you": "为你推荐的创作者",
+  "Hot Topics": "热门话题"
+}

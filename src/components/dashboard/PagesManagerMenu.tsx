@@ -1,5 +1,4 @@
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { FC, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
@@ -9,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useGetState } from "~/hooks/useGetState"
 import { APP_NAME } from "~/lib/env"
 import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
 import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
@@ -17,8 +17,8 @@ import { useGetSite } from "~/queries/site"
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 const usePageEditLink = (page: ExpandedNote, isPost: boolean) => {
-  const router = useRouter()
-  const subdomain = router.query.subdomain as string
+  const params = useParams()
+  const subdomain = params?.subdomain as string
 
   return `/dashboard/${subdomain}/editor?id=${page.noteId}&type=${
     isPost ? "post" : "page"
@@ -35,14 +35,15 @@ export const PagesManagerMenu: FC<{
   page: ExpandedNote
   onClick: () => void
 }> = ({ isPost, page, onClick: onClose }) => {
-  const { t } = useTranslation(["dashboard", "site"])
+  const { t } = useTranslation("dashboard")
 
   const isCrossbell = !page.metadata?.content?.sources?.includes("xlog")
   const router = useRouter()
+  const params = useParams()
+  const subdomain = params?.subdomain as string
   const createOrUpdatePage = useCreateOrUpdatePage()
 
   const editLink = usePageEditLink(page, isPost)
-  const subdomain = router.query.subdomain as string
   const queryClient = useQueryClient()
   const deletePage = useDeletePage()
 
@@ -157,7 +158,7 @@ export const PagesManagerMenu: FC<{
       onClick() {
         const slug = getNoteSlugFromNote(page)
         if (!slug) return
-        window.open(`/_site/${subdomain}/${slug}`)
+        window.open(`/site/${subdomain}/${slug}`)
       },
     },
     {
