@@ -5,6 +5,7 @@ import { ReactElement, createElement } from "react"
 import { toast } from "react-hot-toast"
 import { refractor } from "refractor"
 import jsx from "refractor/lang/jsx"
+import solidity from "refractor/lang/solidity"
 import tsx from "refractor/lang/tsx"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
@@ -72,6 +73,7 @@ export type Rendered = {
 refractor.alias("html", ["svelte", "vue"])
 refractor.register(tsx)
 refractor.register(jsx)
+refractor.register(solidity)
 
 const rehypePrism = rehypePrismGenerator(refractor)
 
