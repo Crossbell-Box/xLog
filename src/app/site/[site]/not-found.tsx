@@ -21,7 +21,6 @@ export default async function NotFound() {
           },
         } as any
       }
-      t={t}
     />
   )
 }
