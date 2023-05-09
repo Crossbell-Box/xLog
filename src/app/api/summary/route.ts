@@ -10,16 +10,21 @@ import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
 
-const model = new OpenAI({
-  openAIApiKey: process.env.OPENAI_API_KEY,
-  modelName: "gpt-3.5-turbo",
-  temperature: 0.3,
-  maxTokens: 400,
-})
+let model: OpenAI | undefined
+
+if (process.env.OPENAI_API_KEY) {
+  model = new OpenAI({
+    openAIApiKey: process.env.OPENAI_API_KEY,
+    modelName: "gpt-3.5-turbo",
+    temperature: 0.3,
+    maxTokens: 400,
+  })
+}
 
 const chains = new Map<string, AnalyzeDocumentChain>()
 
 const getOriginalSummary = async (cid: string, lang: string) => {
+  if (!model) return
   try {
     let { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
 
