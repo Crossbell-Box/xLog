@@ -505,7 +505,7 @@ export default function SubdomainEditor() {
 
   const onPreviewButtonClick = useCallback(() => {
     window.open(
-      `/_site/${subdomain}/preview/${draftKey.replace(
+      `/site/${subdomain}/preview/${draftKey.replace(
         `draft-${site.data?.characterId}-`,
         "",
       )}`,

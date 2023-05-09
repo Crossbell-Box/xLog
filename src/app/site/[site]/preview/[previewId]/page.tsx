@@ -17,6 +17,10 @@ export default function SitePreviewPage({
 
   const page = useGetPage({
     characterId: site.data?.characterId,
+    noteId:
+      params.previewId && /\d+/.test(params.previewId)
+        ? +params.previewId
+        : undefined,
     slug: params.previewId,
     useStat: true,
   })

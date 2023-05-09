@@ -82,7 +82,7 @@ export async function GET(req: Request): Promise<Response> {
   if (IS_VERCEL_PREVIEW) {
     const path = new URL(link).pathname
 
-    redirect(`/_site/${character.handle}${path}`)
+    redirect(`/site/${character.handle}${path}`)
   } else {
     redirect(link)
   }

@@ -158,7 +158,7 @@ export const PagesManagerMenu: FC<{
       onClick() {
         const slug = getNoteSlugFromNote(page)
         if (!slug) return
-        window.open(`/_site/${subdomain}/${slug}`)
+        window.open(`/site/${subdomain}/${slug}`)
       },
     },
     {
