@@ -29,8 +29,8 @@ dependencies:
     specifier: 0.0.79
     version: 0.0.79(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)
   '@crossbell/indexer':
-    specifier: 0.0.79
-    version: 0.0.79(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.0.82
+    version: 0.0.82(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)
   '@crossbell/notification':
     specifier: 0.0.79
     version: 0.0.79(@tanstack/react-query@4.29.5)(@types/react@18.2.0)(ethers@5.7.2)(immer@10.0.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(wagmi@0.12.12)
@@ -2163,6 +2163,26 @@ packages:
 
   /@crossbell/indexer@0.0.79(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-zaqeOrck4MCJGV1KxD5MFAcyKhw88bYu582mNg6GXj1jdly0Lo1KMNtWOIHZzex+Ua55JhRXCDo28p7GqhhgDA==}
+    peerDependencies:
+      ethers: ^5
+    dependencies:
+      '@tanstack/react-query': 4.29.5(react-dom@18.2.0)(react@18.2.0)
+      crossbell.js: 0.19.9
+      dayjs: 1.11.7
+      ethers: 5.7.2
+      lodash.compact: 3.0.1
+      lru-cache: 9.1.1
+    transitivePeerDependencies:
+      - bufferutil
+      - react
+      - react-dom
+      - react-native
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@crossbell/indexer@0.0.82(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-0YjeRX6PVwrDsneV0k4gQxe5BmgHgo2lygsYvY4COEcygOKgUJwnJA3YENbCS6vSifNZgBy2Ha2lP9XavX46mQ==}
     peerDependencies:
       ethers: ^5
     dependencies:
