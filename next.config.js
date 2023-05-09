@@ -66,7 +66,6 @@ module.exports = withBundleAnalyzer(
     },
     output: "standalone",
     productionBrowserSourceMaps: true,
-    transpilePackages: ["react-tweet"],
 
     webpack(config) {
       config.resolve.fallback = { fs: false } // polyfill node-id3
