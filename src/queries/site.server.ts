@@ -19,14 +19,27 @@ export const prefetchGetSite = async (
   })
 }
 
-export const fetchGetSite = async (input: string, queryClient: QueryClient) => {
+export const fetchGetSite = async (
+  input: string,
+  queryClient: QueryClient,
+): Promise<ReturnType<typeof siteModel.getSite>> => {
   const key = ["getSite", input]
-  return await queryClient.fetchQuery(key, async () => {
-    return cacheGet({
-      key,
-      getValueFun: () => siteModel.getSite(input),
-    }) as Promise<ReturnType<typeof siteModel.getSite>>
-  })
+
+  // https://github.com/vercel/next.js/blob/8d228780e72706ef4bd5b6327ede2c0340181353/packages/next/src/lib/metadata/resolvers/resolve-opengraph.ts#L49-L51
+  // Next.js will mutate objects in place. The fetch result will be cached by Next.js as well.
+  // Consequently, when we pass site into `generateMetadata`, `site.metadata.content.avatars` will be replaced with `URL` by Next.js.
+  // To resolve this issue, we return a new object every time `fetchGetSite` is used.
+  // Remove this temporary solution once https://github.com/vercel/next.js/issues/49501 has been resolved.
+  return JSON.parse(
+    JSON.stringify(
+      await queryClient.fetchQuery(key, async () => {
+        return cacheGet({
+          key,
+          getValueFun: () => siteModel.getSite(input),
+        })
+      }),
+    ),
+  )
 }
 
 export const prefetchGetSiteSubscriptions = async (

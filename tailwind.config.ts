@@ -1,14 +1,18 @@
-const twColors = require("./tw-colors")
-const alwaysColor = require("tailwindcss/colors")
-const { addDynamicIconSelectors } = require("@iconify/tailwind")
+import { Config } from "tailwindcss"
+import {
+  createVariableColors,
+  variableColorsPlugin,
+} from "tailwindcss-variable-colors"
+import { default as alwaysColor } from "tailwindcss/colors"
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import { addDynamicIconSelectors } from "@iconify/tailwind"
+
+const config: Config = {
   content: ["./src/**/*.tsx"],
   safelist: ["icon-[mingcute--link-line]", "icon-[mingcute--copy-2-line]"],
   darkMode: ["class", "html.dark"],
   theme: {
-    colors: twColors,
+    colors: createVariableColors(alwaysColor),
     extend: {
       boxShadow: {
         modal: `rgb(0 0 0 / 20%) 0px 0px 1px, rgb(0 0 0 / 20%) 0px 20px 40px`,
@@ -20,7 +24,7 @@ module.exports = {
         border: "var(--border-color)",
         accent: "var(--theme-color)",
         hover: "var(--hover-color)",
-        always: alwaysColor,
+        always: alwaysColor as any,
       },
       spacing: {
         sidebar: `240px`,
@@ -72,5 +76,8 @@ module.exports = {
     require("tailwindcss-animate"),
     require("tailwind-scrollbar-hide"),
     addDynamicIconSelectors(),
+    variableColorsPlugin(alwaysColor),
   ],
 }
+
+export default config
