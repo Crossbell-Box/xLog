@@ -1,6 +1,6 @@
 "use client"
 
-import { SitePage } from "~/components/site/SitePage"
+import { PageContent } from "~/components/common/PageContent"
 import { useTranslation } from "~/lib/i18n/client"
 import { useGetPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
@@ -28,10 +28,30 @@ export default function SitePreviewPage({
   const { t } = useTranslation("site")
 
   return (
-    <SitePage
-      page={page.data || undefined}
-      site={site.data || undefined}
-      t={t}
-    />
+    <>
+      <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
+        {t(
+          "This address is in local editing preview mode and cannot be viewed by the public.",
+        )}
+      </div>
+      <article>
+        <div>
+          {page.data?.metadata?.content?.tags?.includes("post") ? (
+            <h2 className="xlog-post-title text-4xl font-bold">
+              {page.data.metadata?.content?.title}
+            </h2>
+          ) : (
+            <h2 className="xlog-post-title text-xl font-bold page-title">
+              {page.data?.metadata?.content?.title}
+            </h2>
+          )}
+        </div>
+        <PageContent
+          className="mt-10"
+          content={page.data?.metadata?.content?.content}
+          toc={true}
+        ></PageContent>
+      </article>
+    </>
   )
 }

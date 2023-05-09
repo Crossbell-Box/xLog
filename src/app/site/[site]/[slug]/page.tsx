@@ -97,7 +97,7 @@ export default async function SitePagePage({
 
   return (
     <Hydrate state={dehydratedState}>
-      <SitePage page={page || undefined} site={site || undefined} t={t} />
+      <SitePage page={page || undefined} site={site || undefined} />
     </Hydrate>
   )
 }

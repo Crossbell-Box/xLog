@@ -1,4 +1,3 @@
-import { TFunction } from "i18next"
 import serialize from "serialize-javascript"
 
 import { PageContent } from "~/components/common/PageContent"
@@ -10,13 +9,9 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 export function SitePage({
   page,
   site,
-  preview,
-  t,
 }: {
   page?: ExpandedNote
   site?: ExpandedCharacter
-  preview?: boolean
-  t: TFunction
 }) {
   function addPageJsonLd() {
     return {
@@ -48,13 +43,6 @@ export function SitePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={addPageJsonLd()}
       />
-      {preview && (
-        <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
-          {t(
-            "This address is in local editing preview mode and cannot be viewed by the public.",
-          )}
-        </div>
-      )}
       <article>
         <div>
           {page?.metadata?.content?.tags?.includes("post") ? (
@@ -66,7 +54,7 @@ export function SitePage({
               {page?.metadata?.content?.title}
             </h2>
           )}
-          {page?.metadata?.content?.tags?.includes("post") && !preview && (
+          {page?.metadata?.content?.tags?.includes("post") && (
             /* @ts-expect-error Async Server Component */
             <PostMeta page={page} site={site} />
           )}
