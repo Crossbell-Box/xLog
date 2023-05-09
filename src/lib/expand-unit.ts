@@ -124,8 +124,8 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
       )
   }
   if (expandedCharacter.metadata.content.banners) {
-    expandedCharacter.metadata.content.banners.map(
-      (banner: { address: string; mime_type: string } | string) => {
+    expandedCharacter.metadata.content.banners
+      .map((banner: { address: string; mime_type: string } | string) => {
         let expandedBanner
         switch (typeof banner) {
           case "string":
@@ -134,15 +134,17 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
             }
             break
           case "object":
-            expandedBanner = {
-              ...banner,
-              address: toGateway(banner.address),
+            if (banner.address) {
+              expandedBanner = {
+                ...banner,
+                address: toGateway(banner.address),
+              }
             }
             break
         }
         return expandedBanner
-      },
-    )
+      })
+      .filter(Boolean)
   }
 
   return expandedCharacter
