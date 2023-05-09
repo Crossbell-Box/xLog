@@ -7,8 +7,13 @@ export type ToGatewayConfig = {
   forceFallback?: boolean
 }
 
-export const toGateway = (url: string) => {
-  const ipfsUrl = toIPFS(url)
+export const toGateway = (url: string | URL) => {
+  let ipfsUrl
+  if (typeof url === "string") {
+    ipfsUrl = toIPFS(url)
+  } else {
+    ipfsUrl = toIPFS(url.toString())
+  }
 
   return ipfsUrl?.replaceAll(IPFS_PREFIX, IPFS_GATEWAY)
 }
