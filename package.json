@@ -47,7 +47,7 @@
     "@emoji-mart/react": "1.1.1",
     "@floating-ui/react": "^0.24.0",
     "@headlessui/react": "1.7.14",
-    "@heroicons/react": "2.0.17",
+    "@heroicons/react": "2.0.18",
     "@iconify-json/mingcute": "^1.1.6",
     "@lezer/highlight": "^1.1.4",
     "@mantine/core": "^6.0.10",
