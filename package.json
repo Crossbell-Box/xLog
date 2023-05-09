@@ -38,7 +38,7 @@
     "@crossbell/contract": "0.0.79",
     "@crossbell/indexer": "0.0.79",
     "@crossbell/notification": "0.0.79",
-    "@crossbell/ui": "0.0.79",
+    "@crossbell/ui": "0.0.82",
     "@crossbell/util-hooks": "0.0.79",
     "@ddietr/codemirror-themes": "1.4.1",
     "@dqbd/tiktoken": "^1.0.7",
