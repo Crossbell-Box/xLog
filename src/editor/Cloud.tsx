@@ -1,26 +1,33 @@
 import toast from "react-hot-toast"
 
-import { IPFS_PREFIX } from "~/lib/ipfs-parser"
 import { UploadFile } from "~/lib/upload-file"
 
 import { ICommand } from "."
 
 const uploadResources = async (text: string) => {
-  const markdownImageRegex = /!\[(.*)\]\((.+)\)/
-  const match = text.match(markdownImageRegex)
-  if (match) {
-    const altText = match[1]
-    const url = match[2]
-
-    if (url.startsWith(IPFS_PREFIX)) {
-      return text
-    }
-
-    const blob = await fetch(url, {
-      mode: "no-cors",
-    }).then((response) => response.blob())
-    const key = (await UploadFile(blob)).key
-    return `![${altText}](${key})`
+  const markdownHttpImagesRegex = /!\[(.*?)\]\((https:\/\/.*?)\)/g
+  const markdownHttpImageRegex = /!\[(.*?)\]\((https:\/\/.*?)\)/
+  const markdownHttpImages = text.match(markdownHttpImagesRegex)
+  if (markdownHttpImages) {
+    const markdownReplacementsArray = await Promise.all(
+      markdownHttpImages.map(async (markdownHttpImage) => {
+        const match = markdownHttpImage.match(markdownHttpImageRegex)!
+        const altText = match[1]
+        const url = match[2]
+        const blob = await fetch(url, {
+          mode: "no-cors",
+        }).then((response) => response.blob())
+        const key = (await UploadFile(blob)).key
+        return {
+          originalMarkdown: markdownHttpImage,
+          newMarkdown: `![${altText}](${key})`,
+        }
+      }),
+    )
+    return markdownReplacementsArray.reduce(
+      (prev, cur) => prev.replace(cur.originalMarkdown, cur.newMarkdown),
+      text,
+    )
   } else {
     return text
   }
