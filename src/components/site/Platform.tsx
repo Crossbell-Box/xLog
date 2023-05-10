@@ -104,6 +104,11 @@ const syncMap: {
     icon: "/assets/social/facebook.svg",
     url: "https://facebook.com/{username}",
   },
+  whatsapp: {
+    name: "Whatsapp",
+    icon: "/assets/social/whatsapp.svg",
+    url: "https://wa.me/{username}",
+  },
 }
 
 export const Platform: React.FC<{
