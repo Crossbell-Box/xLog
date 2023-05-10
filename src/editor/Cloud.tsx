@@ -5,27 +5,38 @@ import { UploadFile } from "~/lib/upload-file"
 import { ICommand } from "."
 
 const uploadResources = async (text: string) => {
-  const markdownHttpImagesRegex = /!\[(.*?)\]\((https:\/\/.*?)\)/g
-  const markdownHttpImageRegex = /!\[(.*?)\]\((https:\/\/.*?)\)/
+  const markdownHttpImagesRegex = /\!\[([^\]]*)\]\((?=(https:\/\/))([^)]+)\)/g
+  const markdownHttpImageRegex = /\!\[([^\]]*)\]\((?=(https:\/\/))([^)]+)\)/
   const markdownHttpImages = text.match(markdownHttpImagesRegex)
   if (markdownHttpImages) {
     const markdownReplacementsArray = await Promise.all(
       markdownHttpImages.map(async (markdownHttpImage) => {
         const match = markdownHttpImage.match(markdownHttpImageRegex)!
         const altText = match[1]
-        const url = match[2]
-        const blob = await fetch(url, {
-          mode: "no-cors",
-        }).then((response) => response.blob())
-        const key = (await UploadFile(blob)).key
-        return {
-          originalMarkdown: markdownHttpImage,
-          newMarkdown: `![${altText}](${key})`,
+        const url = match[3]
+        const toastId = toast.loading(`Uploading ${altText || url}`)
+        try {
+          const blob = await fetch(url).then((response) => response.blob())
+          const key = (await UploadFile(blob)).key
+          toast.success(`Uploaded ${altText || url}!`, {
+            id: toastId,
+          })
+          return {
+            originalMarkdown: markdownHttpImage,
+            newMarkdown: `![${altText}](${key})`,
+          }
+        } catch (error) {
+          toast.error(`Failed upload ${altText || url}, ${error.message}`, {
+            id: toastId,
+          })
+          console.error(error)
+          return undefined
         }
       }),
     )
     return markdownReplacementsArray.reduce(
-      (prev, cur) => prev.replace(cur.originalMarkdown, cur.newMarkdown),
+      (prev, cur) =>
+        cur ? prev.replace(cur.originalMarkdown, cur.newMarkdown) : prev,
       text,
     )
   } else {
@@ -38,7 +49,6 @@ export const Cloud: ICommand = {
   label: "Upload All Images to IPFS",
   icon: "icon-[mingcute--upload-3-line]",
   execute: async ({ view }) => {
-    const toastId = toast.loading("Uploading...")
     const docJson = view.state.doc.toJSON()
     const newDocJson = await Promise.all(
       docJson.map((line: string) => uploadResources(line)),
@@ -51,9 +61,6 @@ export const Cloud: ICommand = {
           insert: newDocJson.join("\n"),
         },
       ],
-    })
-    toast.success("Uploaded!", {
-      id: toastId,
     })
   },
 }
