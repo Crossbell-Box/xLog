@@ -26,8 +26,13 @@ html.dark {
   }
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light ) {
   html.not(.dark) {
     --border-color: #eee;
   }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
 }
