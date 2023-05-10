@@ -29,9 +29,9 @@ const wagmiClient = createClient(getDefaultClientConfig({ appName: APP_NAME }))
 const persister = createIDBPersister()
 
 const colorScheme: NotificationModalColorScheme = {
-  text: `rgb(var(--tw-colors-i-zinc-800))`,
-  textSecondary: `rgb(var(--tw-colors-i-gray-600))`,
-  background: `rgb(var(--tw-colors-i-white))`,
+  text: `rgb(var(--tw-color-zinc-800))`,
+  textSecondary: `rgb(var(--tw-color-gray-600))`,
+  background: `rgb(var(--tw-color-white))`,
   border: `var(--border-color)`,
 }
 

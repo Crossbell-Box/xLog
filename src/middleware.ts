@@ -78,15 +78,27 @@ export default async function middleware(req: NextRequest) {
     )
   }
 
+  // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
+  const requestHeaders = new Headers(req.headers)
+  requestHeaders.set("x-pathname", req.nextUrl.pathname)
+
   if (tenant?.subdomain) {
     const url = req.nextUrl.clone()
     url.pathname = `/site/${tenant?.subdomain}${url.pathname}`
-    return NextResponse.rewrite(url)
+    return NextResponse.rewrite(url, {
+      request: {
+        headers: requestHeaders,
+      },
+    })
   }
 
   if (DISCORD_LINK && pathname === "/discord") {
     return NextResponse.redirect(DISCORD_LINK)
   }
 
-  return NextResponse.next()
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
 }
