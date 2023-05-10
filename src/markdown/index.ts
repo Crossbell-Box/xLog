@@ -4,7 +4,6 @@ import { Result as TocResult, toc } from "mdast-util-toc"
 import dynamic from "next/dynamic"
 import { ReactElement, createElement } from "react"
 import { toast } from "react-hot-toast"
-import { Element } from "react-scroll"
 import { refractor } from "refractor"
 import jsx from "refractor/lang/jsx"
 import solidity from "refractor/lang/solidity"
@@ -34,6 +33,7 @@ import { APlayer } from "~/components/ui/APlayer"
 import { ZoomedImage } from "~/components/ui/Image"
 import { Mention } from "~/components/ui/Mention"
 import { Mermaid } from "~/components/ui/Mermaid"
+import { Tweet } from "~/components/ui/Tweet"
 
 import { rehypeAudio } from "./rehype-audio"
 import {
@@ -43,6 +43,7 @@ import {
 } from "./rehype-custom-wrapper"
 import { rehypeImage } from "./rehype-image"
 import { rehypeTable } from "./rehype-table"
+import { rehypeTweet } from "./rehype-tweet"
 import { rehypeVideo } from "./rehype-video"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
@@ -165,14 +166,6 @@ export const renderPageContent = (
               },
               children: [],
             },
-            {
-              type: "element",
-              tagName: "anchor",
-              properties: {
-                name: node.properties?.id,
-              },
-              children: [],
-            },
           ]
         },
       })
@@ -181,6 +174,7 @@ export const renderPageContent = (
       .use(rehypeExternalLink)
       .use(rehypeWrapCode)
       .use(rehypeInferDescriptionMeta)
+      .use(rehypeTweet)
       .use(rehypeRewrite, {
         selector: "p, li",
         rewrite: (node: any) => {
@@ -226,11 +220,11 @@ export const renderPageContent = (
         createElement: createElement,
         components: {
           img: ZoomedImage,
-          anchor: Element,
           mention: Mention,
           mermaid: Mermaid,
           audio: APlayer,
           video: DPlayer,
+          tweet: Tweet,
           style: Style,
         } as any,
       })

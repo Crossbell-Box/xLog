@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next"
 import { FC, memo, useCallback, useState } from "react"
 import { usePopper } from "react-popper"
 
@@ -6,6 +5,7 @@ import { EditorView } from "@codemirror/view"
 import { Popover } from "@headlessui/react"
 
 import { ICommand } from "~/editor"
+import { useTranslation } from "~/lib/i18n/client"
 
 import { Tooltip } from "./Tooltip"
 

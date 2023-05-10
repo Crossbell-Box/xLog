@@ -1,13 +1,18 @@
 import { nanoid } from "nanoid"
-import { Trans, useTranslation } from "next-i18next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation"
 import { Fragment, useMemo, useState } from "react"
 
 import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { useDate } from "~/hooks/useDate"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
@@ -28,19 +33,23 @@ import { PagesManagerMenu } from "./PagesManagerMenu"
 export const PagesManager: React.FC<{
   isPost: boolean
 }> = ({ isPost }) => {
-  const router = useRouter()
-  const subdomain = router.query.subdomain as string
+  const params = useParams()
+  const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
 
   const visibility = useMemo<PageVisibilityEnum>(
     () =>
-      router.query.visibility
-        ? (router.query.visibility as PageVisibilityEnum)
+      searchParams?.get("visibility")
+        ? (searchParams?.get("visibility") as PageVisibilityEnum)
         : PageVisibilityEnum.All,
-    [router.query.visibility],
+    [searchParams],
   )
 
-  const { t } = useTranslation(["dashboard", "site"])
+  const { t } = useTranslation("dashboard")
+  const { t: siteT } = useTranslation("site")
   const date = useDate()
 
   const pages = useGetPagesBySite({
@@ -75,16 +84,14 @@ export const PagesManager: React.FC<{
     text: item.text,
     onClick: () => {
       const newQuery: Record<string, any> = {
-        ...router.query,
+        ...searchParams,
         visibility: item.value,
       }
       if (item.value === PageVisibilityEnum.All) {
         delete newQuery["visibility"]
       }
       const search = new URLSearchParams(newQuery).toString()
-      router.push({
-        search,
-      })
+      router.push(pathname + "?" + search)
     },
     active: item.value === visibility,
   }))
@@ -349,7 +356,7 @@ export const PagesManager: React.FC<{
             onClick={pages.fetchNextPage as () => void}
             isLoading={pages.isFetchingNextPage}
           >
-            {t("load more", {
+            {siteT("load more", {
               name: t(
                 isPost
                   ? "post"
@@ -359,7 +366,6 @@ export const PagesManager: React.FC<{
                         : ""),
               ),
               count: (pages.data?.pages?.[0].count || 0) - currentLength,
-              ns: "site",
             })}
           </Button>
         )}

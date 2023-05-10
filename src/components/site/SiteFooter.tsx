@@ -1,10 +1,9 @@
-import { Trans } from "next-i18next"
 import Script from "next/script"
-import { useEffect, useState } from "react"
 
 import { Logo } from "~/components/common/Logo"
 import { Platform } from "~/components/site/Platform"
 import { SITE_URL } from "~/lib/env"
+import { Trans } from "~/lib/i18n"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
@@ -13,19 +12,13 @@ import { UniLink } from "../ui/UniLink"
 export const SiteFooter: React.FC<{
   site?: ExpandedCharacter
 }> = ({ site }) => {
-  const [logoType, setLogoType] = useState<"svg" | "png" | "lottie">("svg")
-
-  useEffect(() => {
-    setLogoType("lottie")
-  }, [])
-
   const LogoWithLink = () => {
     return (
       <UniLink
         href={SITE_URL}
         className="inline-flex items-center align-text-top mx-1"
       >
-        <Logo type={logoType} width={20} height={20} autoplay={false} />
+        <Logo type="lottie" width={20} height={20} autoplay={false} />
       </UniLink>
     )
   }
@@ -53,8 +46,27 @@ export const SiteFooter: React.FC<{
           {site?.metadata?.content?.connected_accounts && (
             <div className="sm:-mr-5 sm:block inline-block align-middle mr-4">
               {site?.metadata?.content?.connected_accounts.map(
-                (account, index) => {
-                  const match = account.match(/:\/\/account:(.*)@(.*)/)
+                (
+                  account:
+                    | string
+                    | { uri: string }
+                    | { identity: string; platform: string }
+                    | any, // Otherwise type check will alarm
+                  index,
+                ) => {
+                  let match: RegExpMatchArray | null = null
+                  switch (typeof account) {
+                    case "string":
+                      match = account.match(/:\/\/account:(.*)@(.*)/)
+                      break
+                    case "object":
+                      if (account.uri) {
+                        match = account.uri.match(/:\/\/account:(.*)@(.*)/)
+                      } else if (account.identity && account.platform) {
+                        match = ["", account.identity, account.platform]
+                      }
+                      break
+                  }
                   if (match) {
                     return (
                       <Platform

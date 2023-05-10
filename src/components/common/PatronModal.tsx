@@ -1,5 +1,4 @@
 import confetti from "canvas-confetti"
-import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "react-hot-toast"
 
@@ -11,6 +10,7 @@ import { Button } from "~/components/ui/Button"
 import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN, MIRA_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { useGetTips, useTipCharacter } from "~/queries/site"
 

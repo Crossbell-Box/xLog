@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react"
 import type Unidata from "unidata.js"
 import { useAccount } from "wagmi"

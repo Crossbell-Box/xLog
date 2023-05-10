@@ -1,11 +1,12 @@
-import pinyin from "pinyin"
+import { pinyin } from "pinyin-pro"
 
 export const getDefaultSlug = (title: string, id?: string) => {
   let generated =
-    pinyin(title as string, {
-      style: pinyin.STYLE_NORMAL,
-      compact: true,
-    })?.[0]
+    pinyin(title, {
+      toneType: "none",
+      type: "array",
+      nonZh: "consecutive",
+    })
       ?.map((word) => word.trim())
       ?.filter((word) => word)
       ?.join("-")

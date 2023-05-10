@@ -53,7 +53,9 @@ export default async function middleware(req: NextRequest) {
     pathname.startsWith("/locales/") ||
     pathname.match(/^\/(workbox|worker|fallback)-\w+\.js(\.map)?$/) ||
     pathname === "/sw.js" ||
-    pathname === "/sw.js.map"
+    pathname === "/sw.js.map" ||
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml"
   ) {
     return NextResponse.next()
   }
@@ -78,7 +80,7 @@ export default async function middleware(req: NextRequest) {
 
   if (tenant?.subdomain) {
     const url = req.nextUrl.clone()
-    url.pathname = `/_site/${tenant?.subdomain}${url.pathname}`
+    url.pathname = `/site/${tenant?.subdomain}${url.pathname}`
     return NextResponse.rewrite(url)
   }
 
