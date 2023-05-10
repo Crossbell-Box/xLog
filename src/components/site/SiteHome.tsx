@@ -4,9 +4,9 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
+import PostCover from "~/components/site/PostCover"
 import { Button } from "~/components/ui/Button"
 import { EmptyState } from "~/components/ui/EmptyState"
-import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
 import { getSlugUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
@@ -112,16 +112,7 @@ export default function SiteHome({ handle }: { handle: string }) {
                       {post.metadata?.content?.summary && "..."}
                     </div>
                   </div>
-                  {post.metadata?.content?.cover && (
-                    <div className="xlog-post-cover flex items-center relative w-full sm:w-24 h-40 sm:h-24 mt-2 sm:ml-4 sm:mt-0">
-                      <Image
-                        className="object-cover rounded"
-                        alt="cover"
-                        fill={true}
-                        src={post.metadata?.content?.cover}
-                      ></Image>
-                    </div>
-                  )}
+                  <PostCover cover={post.metadata?.content?.cover} />
                 </Link>
               )
             }),

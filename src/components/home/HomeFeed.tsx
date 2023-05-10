@@ -11,6 +11,7 @@ import { Switch } from "@headlessui/react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { Titles } from "~/components/common/Titles"
+import PostCover from "~/components/site/PostCover"
 import { Image } from "~/components/ui/Image"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
@@ -146,16 +147,7 @@ const Post = ({
             {post.metadata?.content?.summary && "..."}
           </div>
         </div>
-        {post.metadata?.content.cover && (
-          <div className="xlog-post-cover flex items-center relative w-full sm:w-24 h-40 sm:h-24 mt-2 sm:ml-4 sm:mt-0">
-            <Image
-              className="object-cover rounded"
-              alt="cover"
-              fill={true}
-              src={post.metadata?.content.cover}
-            ></Image>
-          </div>
-        )}
+        <PostCover cover={post.metadata?.content.cover} />
       </Link>
     </div>
   )
