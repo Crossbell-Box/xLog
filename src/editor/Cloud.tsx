@@ -1,6 +1,6 @@
 import toast from "react-hot-toast"
 
-import { toGateway } from "~/lib/ipfs-parser"
+import { IPFS_PREFIX } from "~/lib/ipfs-parser"
 import { UploadFile } from "~/lib/upload-file"
 
 import { ICommand } from "."
@@ -11,13 +11,16 @@ const uploadResources = async (text: string) => {
   if (match) {
     const altText = match[1]
     const url = match[2]
-    console.log({ url })
+
+    if (url.startsWith(IPFS_PREFIX)) {
+      return text
+    }
+
     const blob = await fetch(url, {
       mode: "no-cors",
     }).then((response) => response.blob())
     const key = (await UploadFile(blob)).key
-    const newUrl = toGateway(key)
-    return `![${altText}](${newUrl})`
+    return `![${altText}](${key})`
   } else {
     return text
   }
