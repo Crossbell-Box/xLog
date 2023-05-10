@@ -235,7 +235,8 @@ export const PagesManager: React.FC<{
       )}
 
       <div className="-mt-3">
-        {!pages.data?.pages?.[0].count && (
+        {pages.isLoading && <p className="py-3 px-3">{t("Loading")}...</p>}
+        {!pages.isLoading && !pages.data?.pages?.[0].count && (
           <EmptyState resource={isPost ? "posts" : "pages"} />
         )}
 
