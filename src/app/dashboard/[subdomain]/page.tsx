@@ -24,7 +24,7 @@ export default function SubdomainIndex() {
     characterId,
   })
   const date = useDate()
-  const { t } = useTranslation("dashboard")
+  const { t, i18n } = useTranslation("dashboard")
   const tips = useGetTips({
     toCharacterId: characterId,
     limit: 1000,
@@ -114,6 +114,7 @@ export default function SubdomainIndex() {
           </div>
           <div className="prose p-6 bg-slate-50 rounded-lg relative">
             <Trans
+              i18n={i18n}
               i18nKey="hello.welcome"
               defaults="<p>👋 Hello there,</p><p>Welcome to use xLog!</p><p>Here are some useful links to get started:</p>"
               components={{
@@ -143,6 +144,7 @@ export default function SubdomainIndex() {
               </li>
             </ul>
             <Trans
+              i18n={i18n}
               i18nKey="hello.community"
               defaults="<p>Join the community to meet friends or build xLog together:</p>"
               components={{

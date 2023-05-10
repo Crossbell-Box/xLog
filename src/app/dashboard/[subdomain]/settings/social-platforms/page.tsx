@@ -80,7 +80,7 @@ export default function SiteSettingsNavigationPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
-  const { t } = useTranslation("dashboard")
+  const { t, i18n } = useTranslation("dashboard")
 
   const [items, setItems] = useState<Item[]>([])
 
@@ -167,7 +167,7 @@ export default function SiteSettingsNavigationPage() {
         </p>
         <p>
           <span className="text-zinc-800">
-            <Trans ns="dashboard" i18nKey="social tips.p2">
+            <Trans i18n={i18n} ns="dashboard" i18nKey="social tips.p2">
               We support{" "}
               <UniLink
                 href="https://github.com/Crossbell-Box/xLog/blob/dev/src/components/site/Platform.tsx#L7"
@@ -183,7 +183,7 @@ export default function SiteSettingsNavigationPage() {
         </p>
         <p>
           <span className="text-zinc-800">
-            <Trans ns="dashboard" i18nKey="social tips.p3">
+            <Trans i18n={i18n} ns="dashboard" i18nKey="social tips.p3">
               You can also connect to Twitter, Telegram Channel, Medium,
               Substack and more and automatically sync content on{" "}
               <UniLink href="https://xsync.app/" className="underline">

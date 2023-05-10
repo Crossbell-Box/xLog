@@ -23,7 +23,7 @@ export const FollowingButton: React.FC<{
 }> = ({ site, variant, className, size, loadingStatusChange }) => {
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
-  const { t } = useTranslation("common")
+  const { t, i18n } = useTranslation("common")
 
   const handleClickSubscribe = () => {
     if (site?.characterId) {
@@ -54,7 +54,7 @@ export const FollowingButton: React.FC<{
       subscribeToSite.reset()
       toast.success(
         <span>
-          <Trans i18nKey="Successfully followed" ns="common">
+          <Trans i18n={i18n} i18nKey="Successfully followed" ns="common">
             Hey there! You&apos;re all set to{" "}
             <UniLink className="underline" href={`${SITE_URL}/activities`}>
               keep up with your followed blogger&apos;s latest buzz here

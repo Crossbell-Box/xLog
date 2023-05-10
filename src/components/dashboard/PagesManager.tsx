@@ -48,7 +48,7 @@ export const PagesManager: React.FC<{
     [searchParams],
   )
 
-  const { t } = useTranslation("dashboard")
+  const { t, i18n } = useTranslation("dashboard")
   const { t: siteT } = useTranslation("site")
   const date = useDate()
 
@@ -143,7 +143,7 @@ export const PagesManager: React.FC<{
   const description = isPost ? (
     <>
       <p>
-        <Trans i18nKey="posts description" ns="dashboard">
+        <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
           Posts are entries listed in reverse chronological order on your site.
           Think of them as articles or updates that you share to offer up new
           content to your readers.{" "}
@@ -156,7 +156,7 @@ export const PagesManager: React.FC<{
   ) : (
     <>
       <p>
-        <Trans i18nKey="pages description" ns="dashboard">
+        <Trans i18n={i18n} i18nKey="pages description" ns="dashboard">
           Pages are static and are not affected by date. Think of them as more
           permanent fixtures of your site — an About page, and a Contact page
           are great examples of this.{" "}
@@ -169,7 +169,7 @@ export const PagesManager: React.FC<{
         </Trans>
       </p>
       <p>
-        <Trans i18nKey="pages add" ns="dashboard">
+        <Trans i18n={i18n} i18nKey="pages add" ns="dashboard">
           After you create a page, you can{" "}
           <UniLink
             className="underline"
