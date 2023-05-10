@@ -53,8 +53,27 @@ export const SiteFooter: React.FC<{
           {site?.metadata?.content?.connected_accounts && (
             <div className="sm:-mr-5 sm:block inline-block align-middle mr-4">
               {site?.metadata?.content?.connected_accounts.map(
-                (account, index) => {
-                  const match = account.match(/:\/\/account:(.*)@(.*)/)
+                (
+                  account:
+                    | string
+                    | { uri: string }
+                    | { identity: string; platform: string }
+                    | any, // Otherwise type check will alarm
+                  index,
+                ) => {
+                  let match: RegExpMatchArray | null = null
+                  switch (typeof account) {
+                    case "string":
+                      match = account.match(/:\/\/account:(.*)@(.*)/)
+                      break
+                    case "object":
+                      if (account.uri) {
+                        match = account.uri.match(/:\/\/account:(.*)@(.*)/)
+                      } else if (account.identity && account.platform) {
+                        match = ["", account.identity, account.platform]
+                      }
+                      break
+                  }
                   if (match) {
                     return (
                       <Platform
