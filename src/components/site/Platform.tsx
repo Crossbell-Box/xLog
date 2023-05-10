@@ -99,6 +99,11 @@ const syncMap: {
     icon: "/assets/social/youtube.svg",
     url: "https://youtube.com/@{username}",
   },
+  facebook: {
+    name: "Facebook",
+    icon: "/assets/social/facebook.svg",
+    url: "https://facebook.com/{username}",
+  },
 }
 
 export const Platform: React.FC<{
