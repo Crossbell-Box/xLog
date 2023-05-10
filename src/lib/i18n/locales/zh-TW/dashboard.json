@@ -92,6 +92,7 @@
     "Description": "自我介紹",
     "Integrate Google Analytics": "將 Google Analytics 整合至你的網站中。請按照<2>這裡</2>的說明查找你的 Measurement ID。",
     "Integrate Umami Cloud Analytics": "將 Umami Cloud Analytics 整合至你的網站中。請按照<2>這裡</2>的說明查找你的 Website ID。",
+    "Integrate Umami Cloud Analytics (set url)": "留空以使用<2>官方服務</2>。",
     "Save": "儲存",
     "Tips": "提示",
     "social tips": {
