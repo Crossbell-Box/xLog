@@ -54,6 +54,7 @@ export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
               (s: { handle: string }) => s.handle,
             )}
           />
+          {showcaseSites.isLoading && <p>{t("Loading")}...</p>}
           <ul
             className={`overflow-y-clip relative text-left space-y-4 ${
               showcaseMore ? "" : "max-h-[540px]"
