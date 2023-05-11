@@ -40,6 +40,7 @@ export default function SiteSettingsGeneralPage() {
       description: string
       ga: string
       ua: string
+      ma: string
     },
   })
 
@@ -52,6 +53,7 @@ export default function SiteSettingsGeneralPage() {
       description: values.description,
       ga: values.ga,
       ua: values.ua,
+      ma: values.ma,
     })
   })
 
@@ -94,6 +96,8 @@ export default function SiteSettingsGeneralPage() {
         form.setValue("ga", site.data.metadata?.content?.ga || "")
       !form.getValues("ua") &&
         form.setValue("ua", site.data.metadata?.content?.ua || "")
+      !form.getValues("ma") &&
+        form.setValue("ma", site.data.metadata?.content?.ua || "")
     }
   }, [site.data, form])
 
@@ -221,6 +225,32 @@ export default function SiteSettingsGeneralPage() {
                   <UniLink
                     className="underline"
                     href="https://umami.is/docs/collect-data"
+                  >
+                    here
+                  </UniLink>{" "}
+                  to find your Website ID.
+                </Trans>
+              </p>
+            }
+          />
+        </div>
+        <div className="mt-5">
+          <Input
+            id="ma"
+            {...form.register("ma")}
+            label="Microsoft Clarity Analytics"
+            help={
+              <p>
+                <Trans
+                  i18n={i18n}
+                  i18nKey="Integrate Microsoft Clarity Analytics"
+                  ns="dashboard"
+                >
+                  Integrate Microsoft Clarity Analytics into your site. You can follow
+                  the instructions{" "}
+                  <UniLink
+                    className="underline"
+                    href="https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup"
                   >
                     here
                   </UniLink>{" "}

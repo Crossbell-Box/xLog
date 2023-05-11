@@ -118,6 +118,19 @@ export default async function SiteFooter({
           ></Script>
         </div>
       )}
+      {site?.metadata?.content?.ma && (
+      <div className="xlog-microsoft-analytics">
+        <Script id="microsoft-analytics" strategy="afterInteractive">
+          {`
+          (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "${site.metadata?.content?.ma}");
+          `}
+    </Script>
+  </div>
+)}
     </>
   )
 }
