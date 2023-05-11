@@ -21,7 +21,16 @@ export default async function middleware(req: NextRequest) {
       ) {
         cfHttps = true
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
+    console.log(
+      "cfHttps",
+      cfHttps,
+      req.url,
+      req.headers.get("host"),
+      req.headers.get("cf-visitor"),
+    )
     if (!cfHttps) {
       // return NextResponse.redirect(
       //   `https://${req.headers.get("host")}${req.nextUrl.pathname}${
@@ -73,9 +82,9 @@ export default async function middleware(req: NextRequest) {
   } catch (error) {}
 
   if (tenant?.redirect && IS_PROD && !pathname.startsWith("/feed")) {
-    // return NextResponse.redirect(
-    //   `${tenant.redirect}${req.nextUrl.pathname}${req.nextUrl.search}`,
-    // )
+    return NextResponse.redirect(
+      `${tenant.redirect}${req.nextUrl.pathname}${req.nextUrl.search}`,
+    )
   }
 
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
