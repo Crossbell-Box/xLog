@@ -1,10 +1,17 @@
 import Link from "next/link"
-import { Fragment } from "react"
+import React, { Fragment } from "react"
 
+import { autoUpdate, shift, useFloating } from "@floating-ui/react"
 import { Menu as HeadlessUiMenu } from "@headlessui/react"
 
 import { cn } from "~/lib/utils"
 
+/**
+ * A dropdown menu that is opened by clicking on the target element.
+ *
+ * Use Headless UI for **accessible** interactions,
+ * and Floating UI for positioning.
+ */
 export function Menu({
   target,
   dropdown,
@@ -14,17 +21,26 @@ export function Menu({
   dropdown: React.ReactNode
   placement?: "bottom-start" | "bottom-end"
 }>) {
+  const { refs, floatingStyles } = useFloating({
+    placement,
+    middleware: [
+      // Prevent overflowing viewport
+      shift({ padding: 20 }),
+    ],
+    whileElementsMounted: autoUpdate,
+  })
+
   return (
     <HeadlessUiMenu>
-      <HeadlessUiMenu.Button as={Fragment}>{target}</HeadlessUiMenu.Button>
+      <HeadlessUiMenu.Button as={Fragment}>
+        {React.cloneElement(target, { ref: refs.setReference })}
+      </HeadlessUiMenu.Button>
       <HeadlessUiMenu.Items
+        ref={refs.setFloating}
         className={cn(
-          "fixed z-10 mt-1 w-full outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2 md:absolute md:w-max",
-          {
-            "bottom-start": "top-[100%] left-0",
-            "bottom-end": "top-[100%] right-0",
-          }[placement],
+          "absolute z-10 mt-1 w-max outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2",
         )}
+        style={floatingStyles}
       >
         {dropdown}
       </HeadlessUiMenu.Items>
