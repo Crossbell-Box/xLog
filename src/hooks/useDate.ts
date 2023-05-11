@@ -8,8 +8,9 @@ import localizedFormat from "dayjs/plugin/localizedFormat"
 import relativeTime from "dayjs/plugin/relativeTime"
 import tz from "dayjs/plugin/timezone"
 import utc from "dayjs/plugin/utc"
-import { useTranslation } from "next-i18next"
 import { useMemo } from "react"
+
+import { useTranslation } from "~/lib/i18n/client"
 
 dayjs.extend(localizedFormat)
 dayjs.extend(utc)

@@ -1,3 +1,5 @@
+"use client"
+
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 
 import * as homeModel from "~/models/home.model"

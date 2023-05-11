@@ -1,5 +1,4 @@
 import { CharacterEntity, NoteEntity } from "crossbell.js"
-import { useTranslation } from "next-i18next"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 
@@ -9,6 +8,7 @@ import { Popover } from "@headlessui/react"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
+import { useTranslation } from "~/lib/i18n/client"
 import { useCommentPage, useUpdateComment } from "~/queries/page"
 
 import { EmojiPicker } from "./EmojiPicker"
@@ -33,7 +33,7 @@ export const CommentInput: React.FC<{
   const account = useAccountState((s) => s.computed.account)
   const commentPage = useCommentPage()
   const updateComment = useUpdateComment()
-  const { t } = useTranslation(["common", "site"])
+  const { t } = useTranslation("site")
 
   const form = useForm({
     defaultValues: {
@@ -94,9 +94,7 @@ export const CommentInput: React.FC<{
             multiline
             maxLength={600}
             className="mb-2"
-            placeholder={
-              t("Write a comment on the blockchain", { ns: "site" }) || ""
-            }
+            placeholder={t("Write a comment on the blockchain") || ""}
             {...form.register("content", {})}
           />
         </div>

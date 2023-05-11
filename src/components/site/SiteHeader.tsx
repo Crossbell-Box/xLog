@@ -1,7 +1,8 @@
+"use client"
+
 import chroma from "chroma-js"
 import { FastAverageColor } from "fast-average-color"
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
 import { MutableRefObject, RefObject, useEffect, useRef, useState } from "react"
 
 import { XCharLogo, XFeedLogo } from "@crossbell/ui"
@@ -17,9 +18,9 @@ import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useIsDark } from "~/hooks/useDarkMode"
 import { CSB_IO, CSB_SCAN, CSB_XCHAR } from "~/lib/env"
-import { ExpandedCharacter } from "~/lib/types"
-import { getUserContentsUrl } from "~/lib/user-contents"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
+import { useGetSite } from "~/queries/site"
 
 import { ConnectButton } from "../common/ConnectButton"
 import { Avatar } from "../ui/Avatar"
@@ -37,9 +38,10 @@ type HeaderLinkType = {
 const fac = new FastAverageColor()
 
 const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
-  const router = useRouter()
+  const pathname = usePathname()
   const { t } = useTranslation("site")
-  const active = router.asPath === link.url
+
+  const active = pathname === link.url
   return (
     <UniLink
       href={link.url}
@@ -55,28 +57,28 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
 }
 
 export const SiteHeader: React.FC<{
-  site?: ExpandedCharacter
-}> = ({ site }) => {
+  handle: string
+}> = ({ handle }) => {
+  const site = useGetSite(handle)
   const { t } = useTranslation("site")
-  const leftLinks: HeaderLinkType[] = site?.metadata?.content?.navigation?.find(
-    (nav) => nav.url === "/",
-  )
-    ? site.metadata?.content?.navigation
-    : [
-        { label: "Home", url: "/" },
-        ...(site?.metadata?.content?.navigation || []),
-      ]
+  const leftLinks: HeaderLinkType[] =
+    site.data?.metadata?.content?.navigation?.find((nav) => nav.url === "/")
+      ? site.data.metadata?.content?.navigation
+      : [
+          { label: "Home", url: "/" },
+          ...(site.data?.metadata?.content?.navigation || []),
+        ]
 
   const moreMenuItems = [
     {
       text: "View on xChar",
       icon: <XCharLogo className="w-full h-full" />,
-      url: `${CSB_XCHAR}/${site?.handle}`,
+      url: `${CSB_XCHAR}/${site.data?.handle}`,
     },
     {
       text: "View on xFeed",
       icon: <XFeedLogo className="w-full h-full" />,
-      url: `${CSB_IO}/@${site?.handle}`,
+      url: `${CSB_IO}/@${site.data?.handle}`,
     },
     {
       text: "View on Hoot It",
@@ -91,12 +93,12 @@ export const SiteHeader: React.FC<{
           />
         </div>
       ),
-      url: `https://hoot.it/search/${site?.handle}.csb/activities`,
+      url: `https://hoot.it/search/${site.data?.handle}.csb/activities`,
     },
     {
       text: "View on Crossbell Scan",
       icon: <BlockchainIcon className="fill-[#c09526] w-full h-full" />,
-      url: `${CSB_SCAN}/address/${site?.owner}`,
+      url: `${CSB_SCAN}/address/${site.data?.owner}`,
     },
     {
       text: "Subscribe to JSON Feed",
@@ -197,13 +199,13 @@ export const SiteHeader: React.FC<{
       >
         {(() => {
           switch (
-            site?.metadata?.content?.banners?.[0]?.mime_type?.split("/")[0]
+            site.data?.metadata?.content?.banners?.[0]?.mime_type?.split("/")[0]
           ) {
             case "image":
               return (
                 <Image
                   className="max-w-screen-md mx-auto object-cover"
-                  src={site?.metadata?.content?.banners?.[0]?.address}
+                  src={site.data?.metadata?.content?.banners?.[0]?.address}
                   alt="banner"
                   fill
                   imageRef={bannerRef as MutableRefObject<HTMLImageElement>}
@@ -213,7 +215,7 @@ export const SiteHeader: React.FC<{
               return (
                 <video
                   className="max-w-screen-md mx-auto object-cover h-full w-full"
-                  src={site?.metadata?.content?.banners?.[0]?.address}
+                  src={site.data?.metadata?.content?.banners?.[0]?.address}
                   autoPlay
                   muted
                   playsInline
@@ -232,26 +234,24 @@ export const SiteHeader: React.FC<{
           <div
             className={cn(
               "xlog-site-info flex space-x-6 items-center w-full",
-              site?.metadata?.content?.banners?.[0]?.address
+              site.data?.metadata?.content?.banners?.[0]?.address
                 ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-xl p-4 sm:p-8 z-[1] border"
                 : "",
             )}
           >
-            {site?.metadata?.content?.avatars?.[0] && (
+            {site.data?.metadata?.content?.avatars?.[0] && (
               <Avatar
                 className="xlog-site-icon max-w-[80px] max-h-[80px] sm:max-w-none sm:max-h-none"
-                images={[
-                  getUserContentsUrl(site?.metadata?.content?.avatars?.[0]),
-                ]}
+                images={site.data?.metadata?.content?.avatars}
                 size={120}
-                name={site?.metadata?.content?.name}
+                name={site.data?.metadata?.content?.name}
                 imageRef={avatarRef as MutableRefObject<HTMLImageElement>}
               />
             )}
             <div className="flex-1 min-w-0 relative">
               <div className="flex items-center justify-between">
                 <div className="xlog-site-name text-2xl sm:text-3xl font-bold text-zinc-900 leading-snug break-words min-w-0">
-                  {site?.metadata?.content?.name}
+                  {site.data?.metadata?.content?.name}
                 </div>
                 <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 right-0">
                   <div className="xlog-site-more-menu relative inline-block align-middle">
@@ -307,21 +307,21 @@ export const SiteHeader: React.FC<{
                     </div>
                   </div>
                   <div className="xlog-site-follow-button">
-                    <FollowingButton site={site} />
+                    <FollowingButton site={site.data || undefined} />
                   </div>
                 </div>
               </div>
-              {site?.metadata?.content?.bio && (
+              {site.data?.metadata?.content?.bio && (
                 <div className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base line-clamp-4 whitespace-pre-wrap">
-                  {site?.metadata?.content?.bio}
+                  {site.data?.metadata?.content?.bio}
                 </div>
               )}
               <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row text-sm sm:text-base">
                 <span className="xlog-site-follow-count block sm:inline-block whitespace-nowrap">
-                  <FollowingCount characterId={site?.characterId} />
+                  <FollowingCount characterId={site.data?.characterId} />
                 </span>
                 <span className="xlog-site-patron">
-                  <PatronButton site={site} />
+                  <PatronButton site={site.data || undefined} />
                 </span>
               </div>
             </div>

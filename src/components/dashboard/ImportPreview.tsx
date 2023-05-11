@@ -1,8 +1,8 @@
 import type { NoteMetadata } from "crossbell.js"
-import { useTranslation } from "next-i18next"
 import { useState } from "react"
 
 import { useDate } from "~/hooks/useDate"
+import { useTranslation } from "~/lib/i18n/client"
 
 import { PageContent } from "../common/PageContent"
 

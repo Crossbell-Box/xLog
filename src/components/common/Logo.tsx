@@ -1,3 +1,5 @@
+"use client"
+
 import Lottie, { type LottieRefCurrentProps } from "lottie-react"
 import React, { useRef } from "react"
 

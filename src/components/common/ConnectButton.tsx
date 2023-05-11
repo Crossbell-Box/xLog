@@ -1,4 +1,5 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
 import React, { useEffect, useState } from "react"
 
 import {
@@ -31,6 +32,7 @@ import { Button, type Variant, type VariantColor } from "~/components/ui/Button"
 import { Menu } from "~/components/ui/Menu"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 type HeaderLinkType = {
@@ -227,7 +229,7 @@ export const ConnectButton: React.FC<{
                 {isAllRead ? (
                   <BellIcon
                     className={`${
-                      size === "base" ? "w-6 h-6" : "w-5 h-5"
+                      size === "base" ? "w-7 h-7" : "w-6 h-6"
                     } text-zinc-500 cursor-pointer sm:hover:animate-buzz-out`}
                     onClick={showNotificationModal}
                   />

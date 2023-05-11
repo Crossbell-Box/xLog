@@ -598,18 +598,6 @@ export async function updateComment(
   })
 }
 
-export async function getSummary({
-  cid,
-  lang,
-}: {
-  cid: string
-  lang?: string
-}) {
-  return (
-    await (await fetch(`/api/summary?cid=${cid}&lang=${lang || "en"}`)).json()
-  ).data
-}
-
 export async function checkMirror(characterId: number) {
   const notes = await indexer.getNotes({
     characterId,

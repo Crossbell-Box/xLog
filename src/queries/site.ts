@@ -1,3 +1,5 @@
+"use client"
+
 import {
   useAccountState,
   useFollowCharacter,
@@ -117,9 +119,7 @@ export function useSubscribeToSite() {
         queryClient.invalidateQueries([
           "getSubscription",
           variables.characterId,
-          account?.type === "email"
-            ? account?.character?.handle
-            : account?.handle,
+          account?.characterId,
         ]),
       ])
     },
@@ -171,9 +171,7 @@ export function useUnsubscribeFromSite() {
         queryClient.invalidateQueries([
           "getSubscription",
           variables.characterId,
-          account?.type === "email"
-            ? account?.character?.handle
-            : account?.handle,
+          account?.characterId,
         ]),
       ])
     },
@@ -276,22 +274,6 @@ export function useRemoveOperator() {
       },
     },
   )
-}
-
-export const useGetNFTs = (address?: string) => {
-  return useQuery(["getNFTs", address], async () => {
-    if (!address) {
-      return null
-    }
-    return await (
-      await fetch(
-        "/api/nfts?" +
-          new URLSearchParams({
-            address,
-          } as any),
-      )
-    ).json()
-  })
 }
 
 export const useGetStat = (
@@ -400,4 +382,30 @@ export const useGetGreenfieldId = (cid?: string) => {
     }
     return siteModel.getGreenfieldId(cid)
   })
+}
+
+export const useGetCharacterCard = ({
+  siteId,
+  address,
+  enabled,
+}: {
+  siteId?: string
+  address?: string
+  enabled: boolean
+}) => {
+  return useQuery(
+    ["useGetCharacterCard", { siteId, address }],
+    async () => {
+      if (siteId) {
+        return siteModel.getSite(siteId)
+      } else if (address) {
+        return siteModel.getSiteByAddress(address)
+      } else {
+        return null
+      }
+    },
+    {
+      enabled,
+    },
+  )
 }

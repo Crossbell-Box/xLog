@@ -1,8 +1,8 @@
-import { useTranslation } from "next-i18next"
 import React, { useCallback, useState } from "react"
 import { Virtuoso } from "react-virtuoso"
 
 import { Modal } from "~/components/ui/Modal"
+import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { Button } from "../ui/Button"

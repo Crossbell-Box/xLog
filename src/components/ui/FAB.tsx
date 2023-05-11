@@ -1,3 +1,5 @@
+"use client"
+
 import React, { FC, PropsWithChildren, useEffect, useState } from "react"
 
 import { useGetState } from "~/hooks/useGetState"
@@ -96,6 +98,7 @@ export const FABBase: FC<
         className,
       )}
       onTransitionEnd={handleTransitionEnd}
+      aria-label="back to top"
       {...rest}
     >
       {children}

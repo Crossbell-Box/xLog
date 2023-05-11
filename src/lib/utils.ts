@@ -39,3 +39,12 @@ export const throttle = (func: Function, limit: number) => {
     }
   }
 }
+
+export const calculateElementTop = (el: HTMLElement) => {
+  let top = 0
+  while (el) {
+    top += el.offsetTop
+    el = el.offsetParent as HTMLElement
+  }
+  return top
+}

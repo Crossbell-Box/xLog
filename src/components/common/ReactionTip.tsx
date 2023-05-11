@@ -1,10 +1,12 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
 import { useMemo, useRef, useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
 
 import { PatronModal } from "~/components/common/PatronModal"
 import { Tooltip } from "~/components/ui/Tooltip"
+import { useTranslation } from "~/lib/i18n/client"
 import { noopArr } from "~/lib/noop"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { useGetTips } from "~/queries/site"

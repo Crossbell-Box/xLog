@@ -1,13 +1,18 @@
 import { nanoid } from "nanoid"
-import { Trans, useTranslation } from "next-i18next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation"
 import { Fragment, useMemo, useState } from "react"
 
 import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { useDate } from "~/hooks/useDate"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
@@ -28,19 +33,23 @@ import { PagesManagerMenu } from "./PagesManagerMenu"
 export const PagesManager: React.FC<{
   isPost: boolean
 }> = ({ isPost }) => {
-  const router = useRouter()
-  const subdomain = router.query.subdomain as string
+  const params = useParams()
+  const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
 
   const visibility = useMemo<PageVisibilityEnum>(
     () =>
-      router.query.visibility
-        ? (router.query.visibility as PageVisibilityEnum)
+      searchParams?.get("visibility")
+        ? (searchParams?.get("visibility") as PageVisibilityEnum)
         : PageVisibilityEnum.All,
-    [router.query.visibility],
+    [searchParams],
   )
 
-  const { t } = useTranslation(["dashboard", "site"])
+  const { t, i18n } = useTranslation("dashboard")
+  const { t: siteT } = useTranslation("site")
   const date = useDate()
 
   const pages = useGetPagesBySite({
@@ -75,16 +84,14 @@ export const PagesManager: React.FC<{
     text: item.text,
     onClick: () => {
       const newQuery: Record<string, any> = {
-        ...router.query,
+        ...searchParams,
         visibility: item.value,
       }
       if (item.value === PageVisibilityEnum.All) {
         delete newQuery["visibility"]
       }
       const search = new URLSearchParams(newQuery).toString()
-      router.push({
-        search,
-      })
+      router.push(pathname + "?" + search)
     },
     active: item.value === visibility,
   }))
@@ -136,7 +143,7 @@ export const PagesManager: React.FC<{
   const description = isPost ? (
     <>
       <p>
-        <Trans i18nKey="posts description" ns="dashboard">
+        <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
           Posts are entries listed in reverse chronological order on your site.
           Think of them as articles or updates that you share to offer up new
           content to your readers.{" "}
@@ -149,7 +156,7 @@ export const PagesManager: React.FC<{
   ) : (
     <>
       <p>
-        <Trans i18nKey="pages description" ns="dashboard">
+        <Trans i18n={i18n} i18nKey="pages description" ns="dashboard">
           Pages are static and are not affected by date. Think of them as more
           permanent fixtures of your site — an About page, and a Contact page
           are great examples of this.{" "}
@@ -162,7 +169,7 @@ export const PagesManager: React.FC<{
         </Trans>
       </p>
       <p>
-        <Trans i18nKey="pages add" ns="dashboard">
+        <Trans i18n={i18n} i18nKey="pages add" ns="dashboard">
           After you create a page, you can{" "}
           <UniLink
             className="underline"
@@ -228,7 +235,8 @@ export const PagesManager: React.FC<{
       )}
 
       <div className="-mt-3">
-        {!pages.data?.pages?.[0].count && (
+        {pages.isLoading && <p className="py-3 px-3">{t("Loading")}...</p>}
+        {!pages.isLoading && !pages.data?.pages?.[0].count && (
           <EmptyState resource={isPost ? "posts" : "pages"} />
         )}
 
@@ -349,7 +357,7 @@ export const PagesManager: React.FC<{
             onClick={pages.fetchNextPage as () => void}
             isLoading={pages.isFetchingNextPage}
           >
-            {t("load more", {
+            {siteT("load more", {
               name: t(
                 isPost
                   ? "post"
@@ -359,7 +367,6 @@ export const PagesManager: React.FC<{
                         : ""),
               ),
               count: (pages.data?.pages?.[0].count || 0) - currentLength,
-              ns: "site",
             })}
           </Button>
         )}

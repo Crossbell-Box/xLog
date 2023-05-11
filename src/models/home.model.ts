@@ -330,7 +330,7 @@ export const getShowcase = async () => {
     .toPromise()
 
   result.data?.characters?.forEach((site: any) => {
-    if (site.metadata.content) {
+    if (site.metadata?.content) {
       site.metadata.content.name = site.metadata?.content?.name || site.handle
     } else {
       site.metadata.content = {

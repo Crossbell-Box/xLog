@@ -1,36 +1,32 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import reactStringReplace from "react-string-replace"
 
+import PostCover from "~/components/site/PostCover"
 import { Button } from "~/components/ui/Button"
-import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
-import { ExpandedNote } from "~/lib/types"
+import { useTranslation } from "~/lib/i18n/client"
+import { useGetSearchPagesBySite } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 import { EmptyState } from "../ui/EmptyState"
 
-export const SiteSearch: React.FC<{
-  postPages?: {
-    list: ExpandedNote[]
-    count: number
-    cursor: string | null
-  }[]
-  fetchNextPage: () => void
-  hasNextPage?: boolean
-  isFetchingNextPage?: boolean
-  keyword?: string
-}> = ({
-  postPages,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  keyword,
-}) => {
+export const SiteSearch: React.FC = () => {
   const router = useRouter()
-  const { t } = useTranslation(["common", "site"])
+  const { t } = useTranslation("site")
   const date = useDate()
+
+  const searchParams = useSearchParams()
+  const params = useParams()
+  const site = useGetSite(params?.site as string)
+  const keyword = searchParams?.get("q") || undefined
+  const posts = useGetSearchPagesBySite({
+    characterId: site.data?.characterId,
+    keyword,
+  })
 
   const [isMounted, setIsMounted] = useState(false)
 
@@ -38,16 +34,18 @@ export const SiteSearch: React.FC<{
     setIsMounted(true)
   }, [])
 
-  if (!postPages?.length) return null
-
   let currentLength = 0
 
   return (
     <>
-      {!postPages[0].count && <EmptyState />}
-      {!!postPages[0].count && (
+      <h2 className="mb-8 mt-5 text-zinc-500">
+        {posts.data?.pages?.[0].count || "0"} {t("results")}
+      </h2>
+      {posts.isLoading && <>{t("Loading")}...</>}
+      {!posts.data?.pages?.[0].count && <EmptyState />}
+      {!!posts.data?.pages?.[0].count && (
         <div className="xlog-posts space-y-8">
-          {postPages.map((posts) =>
+          {posts.data?.pages.map((posts) =>
             posts.list.map((post) => {
               currentLength++
               return (
@@ -120,36 +118,27 @@ export const SiteSearch: React.FC<{
                       {post.metadata.content.summary && "..."}
                     </div>
                   </div>
-                  {post.metadata.content.cover && (
-                    <div className="xlog-post-cover flex items-center relative w-full sm:w-24 h-40 sm:h-24 mt-2 sm:ml-4 sm:mt-0">
-                      <Image
-                        className="object-cover rounded"
-                        alt="cover"
-                        fill={true}
-                        src={post.metadata.content.cover}
-                      ></Image>
-                    </div>
-                  )}
+                  <PostCover cover={post.metadata?.content.cover} />
                 </Link>
               )
             }),
           )}
         </div>
       )}
-      {hasNextPage && (
+      {posts.hasNextPage && posts.data?.pages[0].count && (
         <Button
           className="mt-8 w-full bg-zinc-50 text-sm"
           variant="text"
-          onClick={fetchNextPage}
-          isLoading={isFetchingNextPage}
+          onClick={() => posts.fetchNextPage()}
+          isLoading={posts.isFetchingNextPage}
           aria-label="load more"
         >
           {t("load more", {
-            ns: "site",
             name: t(
-              "post" + (postPages[0].count - currentLength > 1 ? "s" : ""),
+              "post" +
+                (posts.data?.pages[0].count - currentLength > 1 ? "s" : ""),
             ),
-            count: postPages[0].count - currentLength,
+            count: posts.data?.pages[0].count - currentLength,
           })}
         </Button>
       )}
