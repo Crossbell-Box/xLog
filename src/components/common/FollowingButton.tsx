@@ -81,6 +81,12 @@ export const FollowingButton: React.FC<{
     loadingStatusChange,
   ])
 
+  const isLoading = subscription.data
+    ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading
+    : unsubscribeFromSite.isLoading ||
+      subscribeToSite.isLoading ||
+      subscription.isLoading
+
   return (
     <Button
       variant={subscription.data ? "text" : variant}
@@ -93,13 +99,7 @@ export const FollowingButton: React.FC<{
           "opacity-60": subscription.data,
         },
       )}
-      isLoading={
-        subscription.data
-          ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading
-          : unsubscribeFromSite.isLoading ||
-            subscribeToSite.isLoading ||
-            subscription.isLoading
-      }
+      isLoading={isLoading}
       size={size}
       aria-label="follow"
       isAutoWidth
@@ -117,7 +117,9 @@ export const FollowingButton: React.FC<{
         </>
       ) : (
         <span className="inline-flex items-center">
-          <span className="icon-[mingcute--user-add-fill] inline-block sm:mr-2"></span>{" "}
+          {!isLoading && (
+            <span className="icon-[mingcute--user-add-fill] inline-block sm:mr-2"></span>
+          )}{" "}
           <span className="hidden sm:inline">{t("Follow")}</span>
         </span>
       )}

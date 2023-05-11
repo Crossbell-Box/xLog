@@ -52,6 +52,7 @@ export default function SiteHome({ handle }: { handle: string }) {
                   href={getSlugUrl(`/${post.metadata?.content?.slug}`)}
                   className="xlog-post focus-visible:outline focus-visible:outline-accent sm:hover:bg-hover bg-white transition-colors px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
                   suppressHydrationWarning
+                  aria-label={post.metadata?.content?.title}
                 >
                   <div className="flex-1 flex justify-center flex-col w-full min-w-0">
                     <h3 className="xlog-post-title text-2xl font-bold text-zinc-700">

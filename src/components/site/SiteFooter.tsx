@@ -17,6 +17,7 @@ export default async function SiteFooter({
   const LogoWithLink = () => {
     return (
       <UniLink
+        aria-label="xLog"
         href={SITE_URL}
         className="inline-flex items-center align-text-top mx-1"
       >

@@ -10,8 +10,8 @@ export default function PostMeta({ cover }: { cover?: string }) {
           className="object-cover rounded"
           alt="cover"
           src={cover}
-          width={96}
-          height={96}
+          width={192}
+          height={192}
         ></Image>
       </div>
       <div className="xlog-post-cover flex sm:hidden items-center relative w-full h-40 mt-2 sm:ml-4 sm:mt-0">
