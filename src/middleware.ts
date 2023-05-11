@@ -23,12 +23,12 @@ export default async function middleware(req: NextRequest) {
       }
     } catch (error) {}
     if (!cfHttps) {
-      return NextResponse.redirect(
-        `https://${req.headers.get("host")}${req.nextUrl.pathname}${
-          req.nextUrl.search
-        }`,
-        301,
-      )
+      // return NextResponse.redirect(
+      //   `https://${req.headers.get("host")}${req.nextUrl.pathname}${
+      //     req.nextUrl.search
+      //   }`,
+      //   301,
+      // )
     }
   }
 
