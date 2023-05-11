@@ -24,13 +24,6 @@ export default async function middleware(req: NextRequest) {
     } catch (error) {
       console.error(error)
     }
-    console.log(
-      "cfHttps",
-      cfHttps,
-      req.url,
-      req.headers.get("host"),
-      req.headers.get("cf-visitor"),
-    )
     if (!cfHttps) {
       // return NextResponse.redirect(
       //   `https://${req.headers.get("host")}${req.nextUrl.pathname}${
