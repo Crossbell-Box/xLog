@@ -14,7 +14,7 @@ export type SearchType = "latest" | "hot"
 export async function getFeed({
   type,
   cursor,
-  limit = 10,
+  limit = 30,
   characterId,
   noteIds,
   daysInterval,
