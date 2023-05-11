@@ -145,6 +145,7 @@
     "zustand": "^4.3.8"
   },
   "devDependencies": {
+    "@ducanh2912/next-pwa": "^8.4.1",
     "@iconify/tailwind": "^0.1.2",
     "@next/bundle-analyzer": "13.4.1",
     "@playwright/test": "1.33.0",
@@ -180,7 +181,6 @@
     "eslint-plugin-unused-imports": "2.0.0",
     "husky": "8.0.3",
     "lint-staged": "13.2.2",
-    "next-pwa": "^5.6.0",
     "postcss-import": "15.1.0",
     "postcss-prune-var": "1.0.5",
     "prettier": "2.8.8",
