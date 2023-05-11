@@ -42,7 +42,7 @@ const Post = ({
     post.metadata?.content?.score?.number !== undefined &&
     post.metadata.content.score.number <= filtering
   ) {
-    return <div></div>
+    return <div className="h-[1px]"></div>
   }
 
   return (
@@ -307,8 +307,9 @@ export const HomeFeed: React.FC<{
               endReached={() => feed.hasNextPage && feed.fetchNextPage()}
               useWindowScroll
               data={feed.data?.pages}
-              itemContent={(_, posts) =>
-                posts?.list.map((post) => {
+              itemContent={(_, posts) => {
+                if (!posts?.list.length) return <div className="h-[1px]"></div>
+                return posts?.list.map((post) => {
                   return (
                     <MemoedPost
                       key={`${post.characterId}-${post.noteId}`}
@@ -318,7 +319,7 @@ export const HomeFeed: React.FC<{
                     />
                   )
                 })
-              }
+              }}
             ></Virtuoso>
 
             {feed.isFetching && feed.hasNextPage && <Loader />}
