@@ -1,7 +1,11 @@
 import { Metadata } from "next"
+import { notFound } from "next/navigation"
+
+import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { SitePage } from "~/components/site/SitePage"
 import { SITE_URL } from "~/lib/env"
+import { useTranslation } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
 import { fetchGetPage } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
@@ -68,10 +72,33 @@ export default async function SitePagePage({
     slug: string
   }
 }) {
+  const queryClient = getQueryClient()
+
+  const site = await fetchGetSite(params.site, queryClient)
+
+  const page = await fetchGetPage(
+    {
+      characterId: site?.characterId,
+      slug: params.slug,
+      useStat: true,
+    },
+    queryClient,
+  )
+
+  if (
+    !page ||
+    new Date(page!.metadata?.content?.date_published || "") > new Date()
+  ) {
+    notFound()
+  }
+
+  const dehydratedState = dehydrate(queryClient)
+
+  const { t } = await useTranslation("site")
+
   return (
-    <>
-      {/* @ts-expect-error Async Server Component */}
-      <SitePage params={params} />
-    </>
+    <Hydrate state={dehydratedState}>
+      <SitePage page={page || undefined} site={site || undefined} />
+    </Hydrate>
   )
 }
