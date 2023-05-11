@@ -236,7 +236,7 @@ export const ConnectButton: React.FC<{
                 ) : (
                   <BellAlertIcon
                     className={`${
-                      size === "base" ? "w-6 h-6" : "w-5 h-5"
+                      size === "base" ? "w-7 h-7" : "w-6 h-6"
                     } text-accent cursor-pointer sm:hover:animate-buzz-out`}
                     onClick={showNotificationModal}
                   />
