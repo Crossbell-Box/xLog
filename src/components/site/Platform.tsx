@@ -94,6 +94,21 @@ const syncMap: {
     icon: "/assets/social/keybase.png",
     url: "https://keybase.io/{username}",
   },
+  youtube: {
+    name: "Youtube",
+    icon: "/assets/social/youtube.svg",
+    url: "https://youtube.com/@{username}",
+  },
+  facebook: {
+    name: "Facebook",
+    icon: "/assets/social/facebook.svg",
+    url: "https://facebook.com/{username}",
+  },
+  whatsapp: {
+    name: "Whatsapp",
+    icon: "/assets/social/whatsapp.svg",
+    url: "https://wa.me/{username}",
+  },
 }
 
 export const Platform: React.FC<{
