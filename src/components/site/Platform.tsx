@@ -132,7 +132,12 @@ export const Platform: React.FC<{
       >
         <span className="w-6 h-6 inline-block overflow-hidden">
           {syncMap[platform]?.icon ? (
-            <Image fill src={syncMap[platform]?.icon} alt={platform} />
+            <Image
+              width={24}
+              height={24}
+              src={syncMap[platform]?.icon}
+              alt={platform}
+            />
           ) : (
             <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300 w-6 h-6">
               <i className="icon-[mingcute--planet-line] text-xl" />

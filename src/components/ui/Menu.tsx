@@ -19,7 +19,7 @@ export function Menu({
       <HeadlessUiMenu.Button as={Fragment}>{target}</HeadlessUiMenu.Button>
       <HeadlessUiMenu.Items
         className={cn(
-          "absolute z-10 mt-1 w-max outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2",
+          "fixed z-10 mt-1 w-full outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2 md:absolute md:w-max",
           {
             "bottom-start": "top-[100%] left-0",
             "bottom-end": "top-[100%] right-0",

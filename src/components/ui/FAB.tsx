@@ -98,6 +98,7 @@ export const FABBase: FC<
         className,
       )}
       onTransitionEnd={handleTransitionEnd}
+      aria-label="back to top"
       {...rest}
     >
       {children}

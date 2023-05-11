@@ -7,7 +7,7 @@ import { Hydrate, dehydrate } from "@tanstack/react-query"
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { Style } from "~/components/common/Style"
 import { BackToTopFAB } from "~/components/site/BackToTopFAB"
-import { SiteFooter } from "~/components/site/SiteFooter"
+import SiteFooter from "~/components/site/SiteFooter"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { FABContainer } from "~/components/ui/FAB"
 import { SITE_URL } from "~/lib/env"
@@ -154,13 +154,15 @@ export default async function SiteLayout({
 
   return (
     <Hydrate state={dehydratedState}>
-      <div className={`xlog-user xlog-page-${type} xlog-deprecated-class`}>
+      <div
+        className={`xlog-page xlog-page-${type} xlog-user xlog-deprecated-class`}
+      >
         <Style content={site?.metadata?.content?.css} />
         {site && <SiteHeader handle={params.site} />}
         <div
           className={cn(
-            page && `xlog-post-id-${page.characterId}-${page.noteId}`,
-            "xlog-deprecated-class max-w-screen-md mx-auto px-5 pt-12 relative",
+            `xlog-post-id-${page?.characterId}-${page?.noteId}`,
+            "xlog-deprecated-class xlog-post-area max-w-screen-md mx-auto px-5 pt-12 relative",
           )}
         >
           {children}
@@ -170,8 +172,8 @@ export default async function SiteLayout({
             <BlockchainInfo site={site} page={page || undefined} />
           </div>
         )}
+        {/* @ts-expect-error Async Server Component */}
         <SiteFooter site={site || undefined} />
-
         <FABContainer>
           <BackToTopFAB />
         </FABContainer>
