@@ -73,9 +73,9 @@ export default async function middleware(req: NextRequest) {
   } catch (error) {}
 
   if (tenant?.redirect && IS_PROD && !pathname.startsWith("/feed")) {
-    return NextResponse.redirect(
-      `${tenant.redirect}${req.nextUrl.pathname}${req.nextUrl.search}`,
-    )
+    // return NextResponse.redirect(
+    //   `${tenant.redirect}${req.nextUrl.pathname}${req.nextUrl.search}`,
+    // )
   }
 
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
