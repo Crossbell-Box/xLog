@@ -38,6 +38,7 @@ export async function generateMetadata({
   const siteImages =
     site?.metadata?.content?.avatars || `${SITE_URL}/assets/logo.svg`
   const images = page?.metadata?.content?.cover || siteImages
+  const useLargeOGImage = !!page?.metadata?.content?.cover
   const twitterCreator =
     "@" +
     site?.metadata?.content?.connected_accounts
@@ -53,7 +54,7 @@ export async function generateMetadata({
       images,
     },
     twitter: {
-      card: "summary_large_image",
+      card: useLargeOGImage ? "summary_large_image" : "summary",
       title,
       description,
       images,
