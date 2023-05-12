@@ -615,77 +615,49 @@ export default function SubdomainEditor() {
                   : "min-w-[840px] h-screen "
               }`}
             >
-              <div className="h-full overflow-auto w-full">
-                <div className="h-full mx-auto pt-5 flex flex-col">
-                  <div className="px-5 h-12">
-                    <input
-                      type="text"
-                      name="title"
-                      value={values.title}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                          view?.focus()
-                        }
-                      }}
-                      onChange={(e) => updateValue("title", e.target.value)}
-                      className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none bg-white"
-                      placeholder={t("Title goes here...") || ""}
-                    />
-                  </div>
-                  <div className="mt-5 flex-1 flex overflow-hidden">
-                    {isMobileLayout ? (
-                      !isRendering ? (
-                        <CodeMirrorEditor
-                          value={initialContent}
-                          onChange={onChange}
-                          handleDropFile={handleDropFile}
-                          onScroll={onEditorScroll}
-                          // onUpdate={onUpdate}
-                          onCreateEditor={onCreateEditor}
-                          onMouseEnter={() => {
-                            setCurrentScrollArea("editor")
-                          }}
-                        />
-                      ) : (
-                        <PageContent
-                          className={`px-5 overflow-scroll pb-[200px] ${
-                            isMobileLayout ? "" : "w-1/2 "
-                          }`}
-                          parsedContent={parsedContent}
-                          inputRef={previewRef}
-                          onScroll={onPreviewScroll}
-                          onMouseEnter={() => {
-                            setCurrentScrollArea("preview")
-                          }}
-                        ></PageContent>
-                      )
-                    ) : (
-                      <>
-                        <CodeMirrorEditor
-                          value={initialContent}
-                          onChange={onChange}
-                          handleDropFile={handleDropFile}
-                          onScroll={onEditorScroll}
-                          // onUpdate={onUpdate}
-                          onCreateEditor={onCreateEditor}
-                          onMouseEnter={() => {
-                            setCurrentScrollArea("editor")
-                          }}
-                        />
-                        <PageContent
-                          className={`px-5 overflow-scroll pb-[200px] ${
-                            isMobileLayout ? "" : "w-1/2 "
-                          }`}
-                          parsedContent={parsedContent}
-                          inputRef={previewRef}
-                          onScroll={onPreviewScroll}
-                          onMouseEnter={() => {
-                            setCurrentScrollArea("preview")
-                          }}
-                        ></PageContent>
-                      </>
+              <div className="h-full  overflow-auto w-full mx-auto pt-5 flex flex-col">
+                <div className="px-5 h-12">
+                  <input
+                    type="text"
+                    name="title"
+                    value={values.title}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                        view?.focus()
+                      }
+                    }}
+                    onChange={(e) => updateValue("title", e.target.value)}
+                    className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none bg-white"
+                    placeholder={t("Title goes here...") || ""}
+                  />
+                </div>
+                <div className="mt-5 flex-1 flex relative overflow-hidden">
+                  <CodeMirrorEditor
+                    value={initialContent}
+                    onChange={onChange}
+                    handleDropFile={handleDropFile}
+                    onScroll={onEditorScroll}
+                    // onUpdate={onUpdate}
+                    onCreateEditor={onCreateEditor}
+                    onMouseEnter={() => {
+                      setCurrentScrollArea("editor")
+                    }}
+                  />
+                  <PageContent
+                    className={cn(
+                      "bg-white",
+                      "absolute left-0 right-0 z-10 md:relative",
+                      `px-5 overflow-scroll pb-[200px] `,
+                      isRendering && "hidden",
+                      "md:block w-full md:w-1/2 h-full",
                     )}
-                  </div>
+                    parsedContent={parsedContent}
+                    inputRef={previewRef}
+                    onScroll={onPreviewScroll}
+                    onMouseEnter={() => {
+                      setCurrentScrollArea("preview")
+                    }}
+                  />
                 </div>
               </div>
               {!isMobileLayout && (
