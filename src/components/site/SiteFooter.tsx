@@ -50,7 +50,7 @@ export default async function SiteFooter({
             />
           </div>
           {site?.metadata?.content?.connected_accounts && (
-            <div className="sm:-mr-5 sm:block inline-block align-middle mr-4">
+            <div className="xlog-social-platforms sm:-mr-5 sm:block inline-block align-middle mr-4">
               {site?.metadata?.content?.connected_accounts.map(
                 (
                   account:
