@@ -1,6 +1,7 @@
 import jsYaml from "js-yaml"
 import type { Root } from "mdast"
 import { Result as TocResult, toc } from "mdast-util-toc"
+import dynamic from "next/dynamic"
 import { ReactElement, createElement } from "react"
 import { toast } from "react-hot-toast"
 import { refractor } from "refractor"
@@ -20,19 +21,13 @@ import rehypeStringify from "rehype-stringify"
 import remarkBreaks from "remark-breaks"
 import remarkDirective from "remark-directive"
 import remarkDirectiveRehype from "remark-directive-rehype"
+import emoji from "remark-emoji"
 import remarkFrontmatter from "remark-frontmatter"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
-
-import { Style } from "~/components/common/Style"
-import { APlayer } from "~/components/ui/APlayer"
-import { ZoomedImage } from "~/components/ui/Image"
-import { Mention } from "~/components/ui/Mention"
-import { Mermaid } from "~/components/ui/Mermaid"
-import { Tweet } from "~/components/ui/Tweet"
 
 import { rehypeAudio } from "./rehype-audio"
 import {
@@ -43,6 +38,7 @@ import {
 import { rehypeImage } from "./rehype-image"
 import { rehypeTable } from "./rehype-table"
 import { rehypeTweet } from "./rehype-tweet"
+import { rehypeVideo } from "./rehype-video"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
 import { remarkCallout } from "./remark-callout"
@@ -50,6 +46,16 @@ import { remarkMermaid } from "./remark-mermaid"
 import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
+
+const ZoomedImage = dynamic(() => import("~/components/ui/Image"))
+const Style = dynamic(() => import("~/components/common/Style"))
+const Mention = dynamic(() => import("~/components/ui/Mention"))
+const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
+const Tweet = dynamic(() => import("~/components/ui/Tweet"))
+const APlayer = dynamic(() => import("~/components/ui/APlayer"))
+const DPlayer = dynamic(() => import("~/components/ui/DPlayer"), {
+  ssr: false,
+})
 
 export type MarkdownEnv = {
   excerpt: string
@@ -130,6 +136,7 @@ export const renderPageContent = (
       })
       .use(remarkPangu)
       .use(remarkRehype, { allowDangerousHtml: true })
+      .use(emoji)
 
     if (!html) {
       pipeline.use(rehypeCustomWrapper, {
@@ -142,6 +149,7 @@ export const renderPageContent = (
       .use(rehypeRaw, { passThrough: allowedCustomWrappers })
       .use(rehypeImage, { env })
       .use(rehypeAudio, { env })
+      .use(rehypeVideo, { env })
       .use(rehypeSlug)
       .use(rehypeAutolinkHeadings, {
         properties: {
@@ -216,6 +224,7 @@ export const renderPageContent = (
           mention: Mention,
           mermaid: Mermaid,
           audio: APlayer,
+          video: DPlayer,
           tweet: Tweet,
           style: Style,
         } as any,
@@ -223,7 +232,7 @@ export const renderPageContent = (
     }
 
     result = pipeline
-      .use(() => (tree) => {
+      .use(() => (tree: Root) => {
         env.tree = tree
       })
       .processSync(content)

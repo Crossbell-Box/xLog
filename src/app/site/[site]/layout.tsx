@@ -5,7 +5,7 @@ import { notFound } from "next/navigation"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
-import { Style } from "~/components/common/Style"
+import Style from "~/components/common/Style"
 import { BackToTopFAB } from "~/components/site/BackToTopFAB"
 import SiteFooter from "~/components/site/SiteFooter"
 import { SiteHeader } from "~/components/site/SiteHeader"
@@ -159,16 +159,16 @@ export default async function SiteLayout({
       >
         <Style content={site?.metadata?.content?.css} />
         {site && <SiteHeader handle={params.site} />}
-        <div
+        <main
           className={cn(
             `xlog-post-id-${page?.characterId}-${page?.noteId}`,
             "xlog-deprecated-class xlog-post-area max-w-screen-md mx-auto px-5 pt-12 relative",
           )}
         >
           {children}
-        </div>
+        </main>
         {site && (
-          <div className="max-w-screen-md mx-auto pt-12 pb-10">
+          <div className="xlog-blockchain-info max-w-screen-md mx-auto pt-12 pb-10">
             <BlockchainInfo site={site} page={page || undefined} />
           </div>
         )}

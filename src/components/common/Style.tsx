@@ -1,6 +1,6 @@
 import { toGateway } from "~/lib/ipfs-parser"
 
-export const Style: React.FC<{
+const Style: React.FC<{
   content?: string
   children?: React.ReactNode[]
 }> = ({ content, children }) => {
@@ -22,3 +22,5 @@ export const Style: React.FC<{
     />
   )
 }
+
+export default Style

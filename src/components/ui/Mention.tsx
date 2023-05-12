@@ -18,7 +18,7 @@ const getSiteId = ({ id, children }: { id: string; children?: any }) => {
   }
 }
 
-export const Mention: React.FC<{
+const Mention: React.FC<{
   id: string
   children?: any
 }> = memo(
@@ -48,3 +48,5 @@ export const Mention: React.FC<{
     return getSiteId(prevProps) === getSiteId(nextProps)
   },
 )
+
+export default Mention

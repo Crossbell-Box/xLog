@@ -6,9 +6,9 @@ import { FC, memo, useEffect, useState } from "react"
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 
-import { ZoomedImage } from "./Image"
+import ZoomedImage from "./Image"
 
-export const Mermaid: FC<{
+const Mermaid: FC<{
   children: [string]
 }> = memo(
   function Mermaid(props) {
@@ -95,3 +95,5 @@ export const Mermaid: FC<{
     return prevProps.children?.[0] === nextProps.children?.[0]
   },
 )
+
+export default Mermaid

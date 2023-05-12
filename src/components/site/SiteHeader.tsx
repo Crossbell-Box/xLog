@@ -333,7 +333,7 @@ export const SiteHeader: React.FC<{
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}
           </div>
-          <div className="pl-1">
+          <div className="xlog-site-connect pl-1">
             <ConnectButton variant="text" mobileSimplification={true} />
           </div>
         </div>
