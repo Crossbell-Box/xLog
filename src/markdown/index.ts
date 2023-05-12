@@ -25,6 +25,7 @@ import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
+import emoji from "remark-emoji"
 import { unified } from "unified"
 
 import { Style } from "~/components/common/Style"
@@ -130,6 +131,7 @@ export const renderPageContent = (
       })
       .use(remarkPangu)
       .use(remarkRehype, { allowDangerousHtml: true })
+      .use(emoji)
 
     if (!html) {
       pipeline.use(rehypeCustomWrapper, {
