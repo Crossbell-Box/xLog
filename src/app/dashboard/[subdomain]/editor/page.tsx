@@ -25,7 +25,6 @@ import { PageContent } from "~/components/common/PageContent"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import { PublishButton } from "~/components/dashboard/PublishButton"
-import { SplittingEditorSwitch } from "~/components/dashboard/SplittingEditorSwitch"
 import { Button } from "~/components/ui/Button"
 import { CodeMirrorEditor } from "~/components/ui/CodeMirror"
 import { EditorToolbar } from "~/components/ui/EditorToolbar"
@@ -607,10 +606,6 @@ export default function SubdomainEditor() {
                     isModified={visibility === PageVisibilityEnum.Modified}
                     discardChanges={discardChanges}
                   />
-                  <SplittingEditorSwitch
-                    state={previewVisible}
-                    onChange={() => setPreviewVisible(!previewVisible)}
-                  />
                 </div>
               )}
             </header>
@@ -667,6 +662,25 @@ export default function SubdomainEditor() {
                         }}
                       />
                     ))}
+
+                  {!isMobileLayout && (
+                    <div
+                      className={cn(
+                        previewVisible
+                          ? "left-1/2 -translate-x-1/2"
+                          : "right-0 translate-x-1/2",
+                        "absolute top-1/2 z-10",
+                        "bg-accent rounded-full cursor-pointer text-white w-6 h-6",
+                      )}
+                      onClick={() => setPreviewVisible(!previewVisible)}
+                    >
+                      {previewVisible ? (
+                        <i className="icon-[mingcute--right-line] text-2xl inline-block w-6 h-6" />
+                      ) : (
+                        <i className="icon-[mingcute--left-line] text-2xl inline-block w-6 h-6" />
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
               {!isMobileLayout && (
