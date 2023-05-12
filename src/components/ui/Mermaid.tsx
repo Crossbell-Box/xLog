@@ -6,7 +6,7 @@ import { FC, memo, useEffect, useState } from "react"
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 
-import ZoomedImage from "./Image"
+import { ZoomedImage } from "./Image"
 
 const Mermaid: FC<{
   children: [string]
