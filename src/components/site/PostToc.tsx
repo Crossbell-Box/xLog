@@ -39,13 +39,13 @@ function useActiveId(itemIds: string[]) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const state = history.state
+            // const state = history.state
 
-            history.replaceState(
-              { ...state, preventScrollToToc: true },
-              "",
-              entry.target.getAttribute("href"),
-            )
+            // history.replaceState(
+            //   { ...state, preventScrollToToc: true },
+            //   "",
+            //   entry.target.getAttribute("href"),
+            // )
             setActiveId(entry.target.getAttribute("href"))
           }
         })

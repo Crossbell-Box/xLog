@@ -3,18 +3,21 @@ import Script from "next/script"
 import { Logo } from "~/components/common/Logo"
 import { Platform } from "~/components/site/Platform"
 import { SITE_URL } from "~/lib/env"
-import { Trans } from "~/lib/i18n"
+import { Trans, useTranslation } from "~/lib/i18n"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
 import { UniLink } from "../ui/UniLink"
 
-export const SiteFooter: React.FC<{
+export default async function SiteFooter({
+  site,
+}: {
   site?: ExpandedCharacter
-}> = ({ site }) => {
+}) {
   const LogoWithLink = () => {
     return (
       <UniLink
+        aria-label="xLog"
         href={SITE_URL}
         className="inline-flex items-center align-text-top mx-1"
       >
@@ -22,6 +25,8 @@ export const SiteFooter: React.FC<{
       </UniLink>
     )
   }
+
+  const { i18n } = await useTranslation("site")
 
   return (
     <>
@@ -34,6 +39,7 @@ export const SiteFooter: React.FC<{
             </UniLink>
             <span> · </span>
             <Trans
+              i18n={i18n}
               i18nKey="powered by"
               defaults={"<span>Powered by </span><name/>"}
               components={{

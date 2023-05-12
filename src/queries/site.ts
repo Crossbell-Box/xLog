@@ -119,9 +119,7 @@ export function useSubscribeToSite() {
         queryClient.invalidateQueries([
           "getSubscription",
           variables.characterId,
-          account?.type === "email"
-            ? account?.character?.handle
-            : account?.handle,
+          account?.characterId,
         ]),
       ])
     },
@@ -173,9 +171,7 @@ export function useUnsubscribeFromSite() {
         queryClient.invalidateQueries([
           "getSubscription",
           variables.characterId,
-          account?.type === "email"
-            ? account?.character?.handle
-            : account?.handle,
+          account?.characterId,
         ]),
       ])
     },

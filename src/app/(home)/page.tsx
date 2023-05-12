@@ -152,17 +152,17 @@ async function Home() {
             variant="outline"
             variantColor="gradient"
           >
-            <span>
-              <Link href="/activities">{t("Look at others'")}</Link>
-            </span>
+            <Link className="h-full flex items-center" href="/activities">
+              {t("Look at others'")}
+            </Link>
           </Button>
         </div>
         <div className="text-center absolute bottom-4 sm:bottom-14 w-full flex items-center justify-center flex-col">
           <span className="mb-1 sm:mb-3">{t("Explore the xLog way")}</span>
-          <a
+          <Link
             href="#features"
             className="cursor-pointer inline-block icon-[mingcute--down-line] text-3xl"
-          ></a>
+          ></Link>
         </div>
       </div>
       <div>

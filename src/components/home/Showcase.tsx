@@ -26,6 +26,7 @@ export function ShowCase() {
           .map(Number)}
         siteIds={showcaseSites.data?.map((s: { handle: string }) => s.handle)}
       />
+      {showcaseSites.isLoading && <p className="mt-10">{t("Loading")}...</p>}
       <ul
         className={`pt-10 grid grid-cols-2 md:grid-cols-3 gap-10 overflow-y-hidden relative text-left ${
           showcaseMore ? "" : "max-h-[540px]"

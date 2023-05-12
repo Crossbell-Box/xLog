@@ -124,27 +124,29 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
       )
   }
   if (expandedCharacter.metadata.content.banners) {
-    expandedCharacter.metadata.content.banners
-      .map((banner: { address: string; mime_type: string } | string) => {
-        let expandedBanner
-        switch (typeof banner) {
-          case "string":
-            expandedBanner = {
-              address: toGateway(banner),
-            }
-            break
-          case "object":
-            if (banner.address) {
+    expandedCharacter.metadata.content.banners =
+      expandedCharacter.metadata.content.banners
+        .map((banner: { address: string; mime_type: string } | string) => {
+          let expandedBanner
+          switch (typeof banner) {
+            case "string":
               expandedBanner = {
-                ...banner,
-                address: toGateway(banner.address),
+                address: toGateway(banner),
+                mime_type: "image/jpeg",
               }
-            }
-            break
-        }
-        return expandedBanner
-      })
-      .filter(Boolean)
+              break
+            case "object":
+              if (banner.address) {
+                expandedBanner = {
+                  ...banner,
+                  address: toGateway(banner.address),
+                }
+              }
+              break
+          }
+          return expandedBanner
+        })
+        .filter(Boolean) as { address: string; mime_type: string }[]
   }
 
   return expandedCharacter

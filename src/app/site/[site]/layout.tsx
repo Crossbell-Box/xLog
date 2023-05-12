@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 
 import { Hydrate, dehydrate } from "@tanstack/react-query"
@@ -6,12 +7,14 @@ import { Hydrate, dehydrate } from "@tanstack/react-query"
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { Style } from "~/components/common/Style"
 import { BackToTopFAB } from "~/components/site/BackToTopFAB"
-import { SiteFooter } from "~/components/site/SiteFooter"
+import SiteFooter from "~/components/site/SiteFooter"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { FABContainer } from "~/components/ui/FAB"
 import { SITE_URL } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
+import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
+import { fetchGetPage } from "~/queries/page.server"
 import {
   fetchGetSite,
   prefetchGetSiteSubscriptions,
@@ -87,7 +90,32 @@ export default async function SiteLayout({
 
   const site = await fetchGetSite(params.site, queryClient)
 
-  let page
+  // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
+  // Issue: The type will not be updated when the page is redirected.
+  const pathname = headers().get("x-pathname")
+  let type: string
+  switch (pathname) {
+    case "/":
+      type = "index"
+      break
+    case "/nft":
+      type = "nft"
+      break
+    case "/archive":
+      type = "archive"
+      break
+    case "/search":
+      type = "search"
+      break
+    default:
+      if (pathname?.startsWith("/tag/")) {
+        type = "tag"
+      } else {
+        type = "post"
+      }
+  }
+
+  let page: ExpandedNote | undefined | null
   if (site?.characterId) {
     await Promise.all([
       prefetchGetSiteSubscriptions(
@@ -102,6 +130,21 @@ export default async function SiteLayout({
         },
         queryClient,
       ),
+      new Promise<void>(async (resolve) => {
+        if (type === "post") {
+          page = await fetchGetPage(
+            {
+              characterId: site.characterId,
+              slug: pathname?.slice(1),
+              useStat: true,
+            },
+            queryClient,
+          )
+          resolve()
+        } else {
+          resolve()
+        }
+      }),
     ])
   } else {
     notFound()
@@ -112,28 +155,14 @@ export default async function SiteLayout({
   return (
     <Hydrate state={dehydratedState}>
       <div
-        className={
-          cn()
-          // TODO
-          // {
-          //   "xlog-user": true,
-          //   "xlog-user-login": isConnected,
-          //   "xlog-user-site-owner": userRole?.data === "owner",
-          //   "xlog-user-site-operator": userRole?.data === "operator",
-          //   "xlog-user-site-follower": subscription?.data,
-          //   "xlog-user-post-liker": isLiked,
-          //   "xlog-user-post-minter": isMint?.data?.count,
-          // },
-          // `xlog-page-${type}`,
-        }
+        className={`xlog-page xlog-page-${type} xlog-user xlog-deprecated-class`}
       >
         <Style content={site?.metadata?.content?.css} />
         {site && <SiteHeader handle={params.site} />}
         <div
           className={cn(
-            "max-w-screen-md mx-auto px-5 pt-12 relative",
-            // page && `xlog-post-id-${page.characterId}-${page.noteId}`,
-            // page?.metadata?.content?.tags?.map((tag) => `xlog-post-tag-${tag}`),
+            `xlog-post-id-${page?.characterId}-${page?.noteId}`,
+            "xlog-deprecated-class xlog-post-area max-w-screen-md mx-auto px-5 pt-12 relative",
           )}
         >
           {children}
@@ -143,8 +172,8 @@ export default async function SiteLayout({
             <BlockchainInfo site={site} page={page || undefined} />
           </div>
         )}
+        {/* @ts-expect-error Async Server Component */}
         <SiteFooter site={site || undefined} />
-
         <FABContainer>
           <BackToTopFAB />
         </FABContainer>

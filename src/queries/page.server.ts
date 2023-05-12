@@ -202,22 +202,24 @@ export async function getSummary({
   cid: string
   lang?: string
 }) {
-  const key = `ai_summary_${lang.replace("-", "").toLowerCase()}`
-
   const summary = (await cacheGet({
     key: ["summary", cid, lang],
+    allowEmpty: true,
+    noUpdate: true,
     getValueFun: async () => {
       if (["en", "zh", "zh-TW", "ja"].includes(lang)) {
-        const meta = await prisma.metadata.findFirst({
-          where: {
-            uri: `ipfs://${cid}`,
-          },
-        })
-        if (meta) {
-          if (meta?.[key as keyof Metadata]) {
-            return meta?.[key as keyof Metadata]
-          } else {
-            lock.acquire(cid, async () => {
+        let result
+        await lock.acquire(cid, async () => {
+          const meta = await prisma.metadata.findFirst({
+            where: {
+              uri: `ipfs://${cid}`,
+            },
+          })
+          const key = `ai_summary_${lang.replace("-", "").toLowerCase()}`
+          if (meta) {
+            if (meta?.[key as keyof Metadata]) {
+              result = meta?.[key as keyof Metadata]
+            } else {
               const summary = await getOriginalSummary(cid, lang)
               if (summary) {
                 await prisma.metadata.update({
@@ -228,12 +230,10 @@ export async function getSummary({
                     [key as keyof Metadata]: summary,
                   },
                 })
+                result = summary
               }
-            })
-            return
-          }
-        } else {
-          lock.acquire(cid, async () => {
+            }
+          } else {
             const summary = await getOriginalSummary(cid, lang)
             if (summary) {
               await prisma.metadata.create({
@@ -242,13 +242,13 @@ export async function getSummary({
                   [key as keyof Metadata]: summary,
                 },
               })
+              result = summary
             }
-          })
-          return
-        }
+          }
+        })
+        return result
       }
     },
-    noUpdate: true,
   })) as string | undefined
 
   return summary

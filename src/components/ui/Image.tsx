@@ -64,7 +64,7 @@ export const Image: React.FC<TImageProps> = ({
           import("medium-zoom").then(({ default: mediumZoom }) => {
             mediumZoom($image, {
               margin: 10,
-              background: "rgb(var(--tw-colors-i-white))",
+              background: "rgb(var(--tw-color-white))",
               scrollOffset: 0,
             })
           })
