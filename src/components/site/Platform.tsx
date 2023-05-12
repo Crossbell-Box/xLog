@@ -109,6 +109,21 @@ const syncMap: {
     icon: "/assets/social/whatsapp.svg",
     url: "https://wa.me/{username}",
   },
+  mastodon: {
+    name: "Mastodon",
+    icon: "/assets/social/mastodon.svg",
+    url: "https://{instance}/@{username}",
+  },
+  misskey: {
+    name: "Misskey",
+    icon: "/assets/social/misskey.png",
+    url: "https://{instance}/@{username}",
+  },
+  pleroma: {
+    name: "Pleroma",
+    icon: "/assets/social/pleroma.svg",
+    url: "https://{instance}/users/{username}",
+  },
 }
 
 export const Platform: React.FC<{
@@ -117,6 +132,20 @@ export const Platform: React.FC<{
   className?: string
 }> = ({ platform, username, className }) => {
   platform = platform.toLowerCase()
+  let link = syncMap[platform]?.url
+
+  switch (platform) {
+    case "mastodon":
+    case "misskey":
+    case "pleroma":
+      const [uname, instance] = username?.split("@")
+      link = link?.replace("{instance}", instance).replace("{username}", uname)
+      break
+    default:
+      link = link?.replace("{username}", username)
+      break
+  }
+
   return (
     <UniLink
       className={cn(
@@ -124,7 +153,7 @@ export const Platform: React.FC<{
         className,
       )}
       key={platform}
-      href={syncMap[platform]?.url?.replace("{username}", username)}
+      href={link}
     >
       <Tooltip
         label={`${syncMap[platform]?.name || platform}: ${username}`}
