@@ -159,16 +159,16 @@ export default async function SiteLayout({
       >
         <Style content={site?.metadata?.content?.css} />
         {site && <SiteHeader handle={params.site} />}
-        <div
+        <main
           className={cn(
             `xlog-post-id-${page?.characterId}-${page?.noteId}`,
             "xlog-deprecated-class xlog-post-area max-w-screen-md mx-auto px-5 pt-12 relative",
           )}
         >
           {children}
-        </div>
+        </main>
         {site && (
-          <div className="max-w-screen-md mx-auto pt-12 pb-10">
+          <div className="xlog-blockchain-info max-w-screen-md mx-auto pt-12 pb-10">
             <BlockchainInfo site={site} page={page || undefined} />
           </div>
         )}
