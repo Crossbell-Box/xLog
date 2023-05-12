@@ -5,7 +5,7 @@ import { notFound } from "next/navigation"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
-import { Style } from "~/components/common/Style"
+import Style from "~/components/common/Style"
 import { BackToTopFAB } from "~/components/site/BackToTopFAB"
 import SiteFooter from "~/components/site/SiteFooter"
 import { SiteHeader } from "~/components/site/SiteHeader"

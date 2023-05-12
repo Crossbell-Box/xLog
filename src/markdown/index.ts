@@ -29,13 +29,6 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
-import { Style } from "~/components/common/Style"
-import { APlayer } from "~/components/ui/APlayer"
-import { ZoomedImage } from "~/components/ui/Image"
-import { Mention } from "~/components/ui/Mention"
-import { Mermaid } from "~/components/ui/Mermaid"
-import { Tweet } from "~/components/ui/Tweet"
-
 import { rehypeAudio } from "./rehype-audio"
 import {
   allowedCustomWrappers,
@@ -54,6 +47,12 @@ import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 
+const ZoomedImage = dynamic(() => import("~/components/ui/Image"))
+const Style = dynamic(() => import("~/components/common/Style"))
+const Mention = dynamic(() => import("~/components/ui/Mention"))
+const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
+const Tweet = dynamic(() => import("~/components/ui/Tweet"))
+const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"), {
   ssr: false,
 })
