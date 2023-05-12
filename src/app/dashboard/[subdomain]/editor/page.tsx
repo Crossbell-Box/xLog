@@ -1,7 +1,6 @@
 "use client"
 
 import { useDebounceEffect } from "ahooks"
-import filesize from "file-size"
 import type { Root } from "mdast"
 import { nanoid } from "nanoid"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
@@ -356,9 +355,9 @@ export default function SubdomainEditor() {
           throw new Error("You can only upload images, audios and videos")
         }
 
-        const uploadFilesize = filesize(file.size).to("MB")
+        const uploadFilesizeInMB = file.size / 1024 / 1024
 
-        if (Number(uploadFilesize) > MAXIMUM_FILE_SIZE) {
+        if (uploadFilesizeInMB > MAXIMUM_FILE_SIZE) {
           toast.error(
             `File Size is too big. It should be less than ${MAXIMUM_FILE_SIZE} MB`,
             {

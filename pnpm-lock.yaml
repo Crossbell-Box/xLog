@@ -133,9 +133,6 @@ dependencies:
   fast-deep-equal:
     specifier: 3.1.3
     version: 3.1.3
-  file-size:
-    specifier: ^1.0.0
-    version: 1.0.0
   hast-util-to-html:
     specifier: ^8.0.4
     version: 8.0.4
@@ -384,9 +381,6 @@ devDependencies:
   '@types/cookie':
     specifier: 0.5.1
     version: 0.5.1
-  '@types/file-size':
-    specifier: ^1.0.1
-    version: 1.0.1
   '@types/hast':
     specifier: 2.3.4
     version: 2.3.4
@@ -4587,10 +4581,6 @@ packages:
     resolution: {integrity: sha512-R1g/VyKFFI2HLC1QGAeTtCBWCo6n75l41OnsVYNbmKG+kempOESaodf6BeJyUM3Q0rKa/NQcTHbB2+66lNnxLw==}
     dev: false
 
-  /@types/file-size@1.0.1:
-    resolution: {integrity: sha512-jFSF8iZRWGD6trgBC6IfuTSDsEv8IHN5bW7cTO6FxPiS8FKP3kno68fI9FA7m7vV+XpplgV72wROkzigNmWcsg==}
-    dev: true
-
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
@@ -8126,10 +8116,6 @@ packages:
     engines: {node: '>= 12'}
     dependencies:
       tslib: 2.5.0
-    dev: false
-
-  /file-size@1.0.0:
-    resolution: {integrity: sha512-tLIdonWTpABkU6Axg2yGChYdrOsy4V8xcm0IcyAP8fSsu6jiXLm5pgs083e4sq5fzNRZuAYolUbZyYmPvCKfwQ==}
     dev: false
 
   /file-uri-to-path@1.0.0:
