@@ -113,9 +113,12 @@ export default async function SiteFooter({
             id="umami-analytics"
             strategy="afterInteractive"
             async
-            src={`https://${
-              site.metadata?.content?.uh || "analytics.umami.is"
-            }/script.js`}
+            src={`https://analytics.umami.is`}
+            data-host-url={
+              site.metadata?.content?.uh
+                ? `https://${site.metadata?.content?.uh}`
+                : null
+            }
             data-website-id={`${site.metadata?.content?.ua}`}
           ></Script>
         </div>

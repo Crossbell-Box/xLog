@@ -214,7 +214,6 @@ export default function SiteSettingsGeneralPage() {
             id="uh"
             {...form.register("uh")}
             prefix="https://"
-            addon="/script.js"
             placeholder="analytics.umami.is"
             label="Umami Cloud Analytics"
             help={
