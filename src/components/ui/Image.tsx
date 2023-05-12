@@ -151,7 +151,7 @@ export const Image: React.FC<TImageProps> = ({
   )
 }
 
-const ZoomedImage: React.FC<TImageProps> = (props) => {
+export const ZoomedImage: React.FC<TImageProps> = (props) => {
   return (
     <span className="text-center block">
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
@@ -159,5 +159,3 @@ const ZoomedImage: React.FC<TImageProps> = (props) => {
     </span>
   )
 }
-
-export default ZoomedImage

@@ -29,6 +29,8 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
+import { ZoomedImage } from "~/components/ui/Image"
+
 import { rehypeAudio } from "./rehype-audio"
 import {
   allowedCustomWrappers,
@@ -47,7 +49,6 @@ import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 
-const ZoomedImage = dynamic(() => import("~/components/ui/Image"))
 const Style = dynamic(() => import("~/components/common/Style"))
 const Mention = dynamic(() => import("~/components/ui/Mention"))
 const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
