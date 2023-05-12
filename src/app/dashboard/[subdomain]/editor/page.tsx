@@ -1,6 +1,7 @@
 "use client"
 
 import { useDebounceEffect } from "ahooks"
+import filesize from "file-size"
 import type { Root } from "mdast"
 import { nanoid } from "nanoid"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
@@ -44,6 +45,7 @@ import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useSyncOnce } from "~/hooks/useSyncOnce"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { showConfetti } from "~/lib/confetti"
+import { MAXIMUM_FILE_SIZE } from "~/lib/constants"
 import { getDefaultSlug } from "~/lib/default-slug"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink, getTwitterShareUrl } from "~/lib/helpers"
@@ -348,9 +350,22 @@ export default function SubdomainEditor() {
       try {
         if (
           !file.type.startsWith("image/") &&
-          !file.type.startsWith("audio/")
+          !file.type.startsWith("audio/") &&
+          !file.type.startsWith("video/")
         ) {
-          throw new Error("You can only upload images and audios")
+          throw new Error("You can only upload images, audios and videos")
+        }
+
+        const uploadFilesize = filesize(file.size).to("MB")
+
+        if (Number(uploadFilesize) > MAXIMUM_FILE_SIZE) {
+          toast.error(
+            `File Size is too big. It should be less than ${MAXIMUM_FILE_SIZE} MB`,
+            {
+              id: toastId,
+            },
+          )
+          return
         }
 
         const { key } = await uploadFile(file)
@@ -387,6 +402,12 @@ export default function SubdomainEditor() {
               `\n<audio src="${key}" name="${name}" ${
                 artist ? `artist="${artist}"` : ""
               } ${cover ? `cover="${cover}"` : ""}><audio>\n`,
+            ),
+          )
+        } else if (file.type.startsWith("video/")) {
+          view?.dispatch(
+            view.state.replaceSelection(
+              `\n<video>\n\t<source src=\"${key}\" type=\"${file.type}\" />\n</video>\n`,
             ),
           )
         } else if (file.type === "text/plain") {
