@@ -26,9 +26,11 @@ const uploadResources = async (text: string) => {
             newMarkdown: `![${altText}](${key})`,
           }
         } catch (error) {
-          toast.error(`Failed upload ${altText || url}, ${error.message}`, {
-            id: toastId,
-          })
+          if (error instanceof Error) {
+            toast.error(`Failed upload ${altText || url}, ${error.message}`, {
+              id: toastId,
+            })
+          }
           console.error(error)
           return undefined
         }
