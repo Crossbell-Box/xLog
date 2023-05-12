@@ -24,7 +24,7 @@ interface DarkModeConfig {
   classNameLight?: string // A className to set "light mode". Default = "light".
   element?: HTMLElement | undefined | null // The element to apply the className. Default = `document.body`.
   storageKey?: string // Specify the `localStorage` key. Default = "darkMode". set to `undefined` to disable persistent storage.
-  transition?: any // Specify the `animate` when switching the mode. Only Chromium >= 113.
+  transition?: any // Specify the `animate` when switching the mode. Only Chromium >= 111 etc.
 }
 
 const darkModeKey = "darkMode"
@@ -140,9 +140,9 @@ const useDarkModeInternal = (
         {
           duration: 400,
           easing: "ease-in-out",
-          pseudoElement: !darkMode
-            ? "::view-transition-new(root)"
-            : "::view-transition-old(root)",
+          pseudoElement: darkMode
+            ? "::view-transition-old(root)"
+            : "::view-transition-new(root)",
         },
       )
     }) ?? setDarkModeClass()
@@ -182,8 +182,10 @@ export const useDarkMode = () => {
     classNameLight: "light",
     storageKey: darkModeKey,
     element: (globalThis.document && document.documentElement) || mockElement,
-    // @ts-ignore
-    transition: isViewTransition() ? document.startViewTransition() : undefined,
+    transition:
+      !isServerSide() && isViewTransition() // @ts-ignore
+        ? document.startViewTransition()
+        : undefined,
   })
 
   useEffect(() => {
