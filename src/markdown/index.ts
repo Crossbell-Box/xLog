@@ -21,12 +21,12 @@ import rehypeStringify from "rehype-stringify"
 import remarkBreaks from "remark-breaks"
 import remarkDirective from "remark-directive"
 import remarkDirectiveRehype from "remark-directive-rehype"
+import emoji from "remark-emoji"
 import remarkFrontmatter from "remark-frontmatter"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
-import emoji from "remark-emoji"
 import { unified } from "unified"
 
 import { Style } from "~/components/common/Style"
@@ -233,7 +233,7 @@ export const renderPageContent = (
     }
 
     result = pipeline
-      .use(() => (tree) => {
+      .use(() => (tree: Root) => {
         env.tree = tree
       })
       .processSync(content)
