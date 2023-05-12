@@ -23,6 +23,7 @@ import { useIsDark } from "~/hooks/useDarkMode"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { cn } from "~/lib/utils"
 
 const LoadingHolder = () => {
   const { t } = useTranslation("common")
@@ -41,6 +42,7 @@ interface XLogCodeMirrorEditorProps {
   onUpdate?: (update: ViewUpdate) => void
   onCreateEditor?: (view: EditorView, state: EditorState) => void
   onMouseEnter?: () => void
+  className?: string
 }
 
 export const CodeMirrorEditor = forwardRef<
@@ -238,7 +240,11 @@ const LazyCodeMirrorEditor = forwardRef<
         className={
           loading
             ? ""
-            : `h-full ${isMobileLayout ? "w-full" : "border-r w-1/2 px-5"}`
+            : cn(
+                props.className,
+                "h-full",
+                isMobileLayout ? "w-full" : "border-r w-1/2 px-5",
+              )
         }
       />
       {loading && <LoadingHolder />}

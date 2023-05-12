@@ -25,6 +25,7 @@ import { PageContent } from "~/components/common/PageContent"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import { PublishButton } from "~/components/dashboard/PublishButton"
+import { SplittingEditorSwitch } from "~/components/dashboard/SplittingEditorSwitch"
 import { Button } from "~/components/ui/Button"
 import { CodeMirrorEditor } from "~/components/ui/CodeMirror"
 import { EditorToolbar } from "~/components/ui/EditorToolbar"
@@ -214,6 +215,7 @@ export default function SubdomainEditor() {
 
   const isMobileLayout = useIsMobileLayout()
   const [isRendering, setIsRendering] = useState(false)
+  const [previewVisible, setPreviewVisible] = useState(true)
 
   const savePage = async (published: boolean) => {
     const check = await checkPageSlug({
@@ -605,6 +607,10 @@ export default function SubdomainEditor() {
                     isModified={visibility === PageVisibilityEnum.Modified}
                     discardChanges={discardChanges}
                   />
+                  <SplittingEditorSwitch
+                    state={previewVisible}
+                    onChange={() => setPreviewVisible(!previewVisible)}
+                  />
                 </div>
               )}
             </header>
@@ -615,7 +621,7 @@ export default function SubdomainEditor() {
                   : "min-w-[840px] h-screen "
               }`}
             >
-              <div className="h-full  overflow-auto w-full mx-auto pt-5 flex flex-col">
+              <div className="h-full overflow-auto w-full mx-auto pt-5 flex flex-col">
                 <div className="px-5 h-12">
                   <input
                     type="text"
@@ -633,6 +639,7 @@ export default function SubdomainEditor() {
                 </div>
                 <div className="mt-5 flex-1 flex relative overflow-hidden">
                   <CodeMirrorEditor
+                    className={!previewVisible ? "!w-full" : ""}
                     value={initialContent}
                     onChange={onChange}
                     handleDropFile={handleDropFile}
@@ -643,21 +650,23 @@ export default function SubdomainEditor() {
                       setCurrentScrollArea("editor")
                     }}
                   />
-                  <PageContent
-                    className={cn(
-                      "bg-white",
-                      "absolute left-0 right-0 z-10 md:relative",
-                      `px-5 overflow-scroll pb-[200px] `,
-                      isRendering && "hidden",
-                      "md:block w-full md:w-1/2 h-full",
-                    )}
-                    parsedContent={parsedContent}
-                    inputRef={previewRef}
-                    onScroll={onPreviewScroll}
-                    onMouseEnter={() => {
-                      setCurrentScrollArea("preview")
-                    }}
-                  />
+                  {(isMobileLayout && isRendering) ||
+                    (previewVisible && (
+                      <PageContent
+                        className={cn(
+                          "absolute left-0 right-0 z-10 md:relative",
+                          `bg-white px-5 overflow-scroll pb-[200px] `,
+                          isRendering && "hidden",
+                          "md:block w-full md:w-1/2 h-full",
+                        )}
+                        parsedContent={parsedContent}
+                        inputRef={previewRef}
+                        onScroll={onPreviewScroll}
+                        onMouseEnter={() => {
+                          setCurrentScrollArea("preview")
+                        }}
+                      />
+                    ))}
                 </div>
               </div>
               {!isMobileLayout && (
