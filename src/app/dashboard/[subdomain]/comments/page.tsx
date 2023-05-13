@@ -1,6 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation"
+import { useEffect } from "react"
 import { Virtuoso } from "react-virtuoso"
 
 import { CommentItem } from "~/components/common/CommentItem"
@@ -8,6 +9,7 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
 import { Trans, useTranslation } from "~/lib/i18n/client"
+import { last } from "~/lib/utils"
 import { useGetCommentsBySite, useGetSite } from "~/queries/site"
 
 export default function CommentsPage() {
@@ -20,6 +22,19 @@ export default function CommentsPage() {
   const comments = useGetCommentsBySite({
     characterId: site.data?.characterId,
   })
+
+  // fetch next page when we get a empty list
+  useEffect(() => {
+    if (
+      comments.data?.pages &&
+      last(comments.data.pages)?.list.length === 0 &&
+      comments.hasNextPage
+    ) {
+      comments.fetchNextPage()
+    }
+  }, [comments.data, comments.hasNextPage])
+
+  const data = comments.data?.pages.filter((page) => page.list.length > 0)
 
   const feedUrl =
     getSiteLink({
@@ -47,7 +62,7 @@ export default function CommentsPage() {
             <Virtuoso
               className="xlog-comment-list"
               useWindowScroll
-              data={comments.data?.pages}
+              data={data}
               endReached={() =>
                 comments.hasNextPage && comments.fetchNextPage()
               }
