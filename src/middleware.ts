@@ -83,6 +83,7 @@ export default async function middleware(req: NextRequest) {
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   const requestHeaders = new Headers(req.headers)
   requestHeaders.set("x-pathname", req.nextUrl.pathname)
+  requestHeaders.set("x-search", req.nextUrl.search)
 
   if (tenant?.subdomain) {
     const url = req.nextUrl.clone()

@@ -12,6 +12,7 @@ import { SiteHeader } from "~/components/site/SiteHeader"
 import { FABContainer } from "~/components/ui/FAB"
 import { SITE_URL } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
+import { isOnlyContent } from "~/lib/search-parser"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { fetchGetPage } from "~/queries/page.server"
@@ -93,6 +94,8 @@ export default async function SiteLayout({
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   // Issue: The type will not be updated when the page is redirected.
   const pathname = headers().get("x-pathname")
+  const onlyContent = isOnlyContent()
+
   let type: string
   switch (pathname) {
     case "/":
@@ -158,7 +161,7 @@ export default async function SiteLayout({
         className={`xlog-page xlog-page-${type} xlog-user xlog-deprecated-class`}
       >
         <Style content={site?.metadata?.content?.css} />
-        {site && <SiteHeader handle={params.site} />}
+        {site && !onlyContent && <SiteHeader handle={params.site} />}
         <main
           className={cn(
             `xlog-post-id-${page?.characterId}-${page?.noteId}`,
@@ -167,13 +170,13 @@ export default async function SiteLayout({
         >
           {children}
         </main>
-        {site && (
+        {site && !onlyContent && (
           <div className="xlog-blockchain-info max-w-screen-md mx-auto pt-12 pb-10">
             <BlockchainInfo site={site} page={page || undefined} />
           </div>
         )}
         {/* @ts-expect-error Async Server Component */}
-        <SiteFooter site={site || undefined} />
+        {!onlyContent && <SiteFooter site={site || undefined} />}
         <FABContainer>
           <BackToTopFAB />
         </FABContainer>
