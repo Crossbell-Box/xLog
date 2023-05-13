@@ -186,7 +186,7 @@ export const HomeFeed: React.FC<{
   const [aiFiltering, setAiFiltering] = useState(true)
 
   useEffect(() => {
-    setAiFiltering(getStorage("ai_filtering")?.enabled || true)
+    setAiFiltering(getStorage("ai_filtering")?.enabled ?? true)
   }, [])
 
   const hotTabs = [
