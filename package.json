@@ -98,6 +98,7 @@
     "pinyin-pro": "^3.14.0",
     "prismjs": "1.29.0",
     "qier-progress": "1.0.4",
+    "querystring": "^0.2.1",
     "rc-dplayer": "^0.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
