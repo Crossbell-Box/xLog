@@ -4,6 +4,7 @@ import { EditorSelection } from "@codemirror/state"
 import { EditorView } from "@codemirror/view"
 
 import { Bold } from "./Bold"
+import { Cloud } from "./Cloud"
 import { Code } from "./Code"
 import { CodeBlock } from "./CodeBlock"
 import { Emoji } from "./Emoji"
@@ -142,5 +143,6 @@ export const toolbars: ICommand[] = [
   Image,
   Mention,
   Emoji,
+  Cloud,
   Help,
 ]

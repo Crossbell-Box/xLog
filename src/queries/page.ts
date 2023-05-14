@@ -373,7 +373,7 @@ export function useGetMirrorXyz(input: { address?: string }) {
       )
     ).json()
 
-    return response?.data as {
+    return response?.data?.projectFeed?.posts as {
       title: string
       type: string
       size: number

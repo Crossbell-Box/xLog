@@ -5,49 +5,50 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 })
 const execSync = require("child_process").execSync
 
-const cache = require("next-pwa/cache")
-const withPWA = require("next-pwa")({
+const cache = require("@ducanh2912/next-pwa").runtimeCaching
+const withPWA = require("@ducanh2912/next-pwa").default({
   disable: process.env.NODE_ENV === "development",
   dest: "public",
   publicExcludes: ["*"],
-  runtimeCaching: [
-    {
-      urlPattern: ({ request }) => {
-        return request.headers.get("x-middleware-prefetch")
-      },
-      handler: "NetworkOnly",
-    },
-    {
-      urlPattern: ({ url }) => {
-        return /\/ipfs\/([^/?#]+)$/.test(url.toString())
-      },
-      handler: "CacheFirst",
-      options: {
-        cacheName: "next-ipfs",
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+  workboxOptions: {
+    runtimeCaching: [
+      {
+        urlPattern: ({ request }) => {
+          return request.headers.get("x-middleware-prefetch")
         },
-        cacheableResponse: {
-          statuses: [0, 200],
-        },
+        handler: "NetworkOnly",
       },
-    },
-    {
-      // cspell:ignore Fipfs
-      urlPattern: /\/_next\/image\?url=.+%2Fipfs%2F([^/?#]+)$/i,
-      handler: "CacheFirst",
-      options: {
-        cacheName: "next-ipfs",
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+      {
+        urlPattern: ({ url }) => {
+          return /\/ipfs\/([^/?#]+)$/.test(url.toString())
+        },
+        handler: "CacheFirst",
+        options: {
+          cacheName: "next-ipfs",
+          expiration: {
+            maxEntries: 64,
+            maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
         },
       },
-    },
-    // @ts-ignore
-    ...cache,
-  ],
+      {
+        // cspell:ignore Fipfs
+        urlPattern: /\/_next\/image\?url=.+%2Fipfs%2F([^/?#]+)$/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "next-ipfs",
+          expiration: {
+            maxEntries: 64,
+            maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+          },
+        },
+      },
+      ...cache,
+    ],
+  },
 })
 
 const lastCommitCommand = "git rev-parse HEAD"

@@ -1,7 +1,11 @@
+import AsyncLock from "async-lock"
+
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
+
+const lock = new AsyncLock()
 
 const getOriginalScore = async (cid: string) => {
   try {
@@ -63,50 +67,55 @@ const getOriginalScore = async (cid: string) => {
 async function getScore(cid: string) {
   const score = await cacheGet({
     key: ["summary_score", cid],
+    allowEmpty: true,
+    noUpdate: true,
     getValueFun: async () => {
-      const meta = await prisma.metadata.findFirst({
-        where: {
-          uri: `ipfs://${cid}`,
-        },
-      })
-      if (meta) {
-        if (meta?.ai_score !== null) {
-          return {
-            number: meta.ai_score,
-            reason: meta.ai_score_reason,
+      let resut
+      await lock.acquire(cid, async () => {
+        const meta = await prisma.metadata.findFirst({
+          where: {
+            uri: `ipfs://${cid}`,
+          },
+        })
+        if (meta) {
+          if (meta?.ai_score !== null) {
+            resut = {
+              number: meta.ai_score,
+              reason: meta.ai_score_reason,
+            }
+          } else {
+            const score = await getOriginalScore(cid)
+            if (score) {
+              await prisma.metadata.update({
+                where: {
+                  uri: `ipfs://${cid}`,
+                },
+                data: {
+                  ai_score: score.number,
+                  ai_score_reason: score.reason,
+                },
+              })
+
+              resut = score
+            }
           }
         } else {
           const score = await getOriginalScore(cid)
           if (score) {
-            await prisma.metadata.update({
-              where: {
-                uri: `ipfs://${cid}`,
-              },
+            await prisma.metadata.create({
               data: {
+                uri: `ipfs://${cid}`,
                 ai_score: score.number,
                 ai_score_reason: score.reason,
               },
             })
 
-            return score
+            resut = score
           }
         }
-      } else {
-        const score = await getOriginalScore(cid)
-        if (score) {
-          await prisma.metadata.create({
-            data: {
-              uri: `ipfs://${cid}`,
-              ai_score: score.number,
-              ai_score_reason: score.reason,
-            },
-          })
-
-          return score
-        }
-      }
+      })
+      return resut
     },
-    noUpdate: true,
   })
 
   return score

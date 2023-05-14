@@ -20,11 +20,11 @@ export const useAppRouterEventerListener = () => {
     const rawPush = router.push
     const rawReplace = router.replace
 
-    const popstateHandler = () => {
-      startChangeCallback()
-    }
+    // const popstateHandler = () => {
+    //   startChangeCallback()
+    // }
 
-    window.addEventListener("popstate", popstateHandler)
+    // window.addEventListener("popstate", popstateHandler)
 
     router.push = (...rest) => {
       startChangeCallback()
@@ -44,7 +44,7 @@ export const useAppRouterEventerListener = () => {
       router.push = rawPush
       router.replace = rawReplace
 
-      window.removeEventListener("popstate", popstateHandler)
+      // window.removeEventListener("popstate", popstateHandler)
     }
   }, [])
 

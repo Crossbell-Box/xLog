@@ -3,6 +3,7 @@
 import { Switch } from "@headlessui/react"
 
 import { useDarkModeSwitch, useIsDark } from "~/hooks/useDarkMode"
+import { cn } from "~/lib/utils"
 
 export const DarkModeSwitch = () => {
   const toggle = useDarkModeSwitch()
@@ -11,9 +12,10 @@ export const DarkModeSwitch = () => {
     <Switch
       checked={isDark || false}
       onClick={(e) => toggle(e)}
-      className={`${
-        isDark ? "bg-accent" : "bg-gray-200"
-      } relative inline-flex h-6 w-11 items-center rounded-full text-base dark:text-always-gray-200 text-always-gray-700 align-middle`}
+      className={cn(
+        `${isDark ? "bg-accent" : "bg-gray-200"}`,
+        ` relative inline-flex h-6 w-11 items-center rounded-full text-base dark:text-always-gray-200 text-always-gray-700 align-middle`,
+      )}
     >
       <span className="sr-only">Switch Dark Mode</span>
       <span

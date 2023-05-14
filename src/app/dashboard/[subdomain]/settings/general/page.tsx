@@ -20,7 +20,7 @@ export default function SiteSettingsGeneralPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
-  const { t } = useTranslation("dashboard")
+  const { t, i18n } = useTranslation("dashboard")
 
   const form = useForm({
     defaultValues: {
@@ -185,7 +185,11 @@ export default function SiteSettingsGeneralPage() {
             label="Google Analytics"
             help={
               <p>
-                <Trans i18nKey="Integrate Google Analytics" ns="dashboard">
+                <Trans
+                  i18n={i18n}
+                  i18nKey="Integrate Google Analytics"
+                  ns="dashboard"
+                >
                   Integrate Google Analytics into your site. You can follow the
                   instructions{" "}
                   <UniLink
@@ -207,7 +211,11 @@ export default function SiteSettingsGeneralPage() {
             label="Umami Cloud Analytics"
             help={
               <p>
-                <Trans i18nKey="Integrate Umami Cloud Analytics" ns="dashboard">
+                <Trans
+                  i18n={i18n}
+                  i18nKey="Integrate Umami Cloud Analytics"
+                  ns="dashboard"
+                >
                   Integrate Umami Cloud Analytics into your site. You can follow
                   the instructions{" "}
                   <UniLink

@@ -13,7 +13,7 @@ import { useGetCommentsBySite, useGetSite } from "~/queries/site"
 export default function CommentsPage() {
   const params = useParams()
   const subdomain = params?.subdomain as string
-  const { t } = useTranslation("dashboard")
+  const { t, i18n } = useTranslation("dashboard")
 
   const site = useGetSite(subdomain)
 
@@ -83,6 +83,7 @@ export default function CommentsPage() {
                       <div>
                         {name}{" "}
                         <Trans
+                          i18n={i18n}
                           i18nKey="comment on your"
                           values={{
                             type: t(type || "", {

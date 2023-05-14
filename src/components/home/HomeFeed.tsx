@@ -11,6 +11,7 @@ import { Switch } from "@headlessui/react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { Titles } from "~/components/common/Titles"
+import PostCover from "~/components/site/PostCover"
 import { Image } from "~/components/ui/Image"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
@@ -41,7 +42,7 @@ const Post = ({
     post.metadata?.content?.score?.number !== undefined &&
     post.metadata.content.score.number <= filtering
   ) {
-    return <div></div>
+    return <div className="h-[1px]"></div>
   }
 
   return (
@@ -146,16 +147,7 @@ const Post = ({
             {post.metadata?.content?.summary && "..."}
           </div>
         </div>
-        {post.metadata?.content.cover && (
-          <div className="xlog-post-cover flex items-center relative w-full sm:w-24 h-40 sm:h-24 mt-2 sm:ml-4 sm:mt-0">
-            <Image
-              className="object-cover rounded"
-              alt="cover"
-              fill={true}
-              src={post.metadata?.content.cover}
-            ></Image>
-          </div>
-        )}
+        <PostCover cover={post.metadata?.content.cover} />
       </Link>
     </div>
   )
@@ -315,8 +307,9 @@ export const HomeFeed: React.FC<{
               endReached={() => feed.hasNextPage && feed.fetchNextPage()}
               useWindowScroll
               data={feed.data?.pages}
-              itemContent={(_, posts) =>
-                posts?.list.map((post) => {
+              itemContent={(_, posts) => {
+                if (!posts?.list.length) return <div className="h-[1px]"></div>
+                return posts?.list.map((post) => {
                   return (
                     <MemoedPost
                       key={`${post.characterId}-${post.noteId}`}
@@ -326,7 +319,7 @@ export const HomeFeed: React.FC<{
                     />
                   )
                 })
-              }
+              }}
             ></Virtuoso>
 
             {feed.isFetching && feed.hasNextPage && <Loader />}

@@ -35,6 +35,7 @@ export async function cacheGet(options: {
   key: string | (Record<string, any> | string | undefined | number)[]
   getValueFun: () => Promise<any>
   noUpdate?: boolean
+  allowEmpty?: boolean
 }) {
   const redis = await redisPromise
   if (redis && redis.status === "ready") {
@@ -57,17 +58,32 @@ export async function cacheGet(options: {
       }
       return JSON.parse(cacheValue)
     } else {
-      const value = await options.getValueFun()
-      if (options.noUpdate) {
-        await redis.set(redisKey, JSON.stringify(value))
+      if (options.allowEmpty) {
+        options.getValueFun().then(async (value) => {
+          if (options.noUpdate) {
+            await redis.set(redisKey, JSON.stringify(value))
+          } else {
+            redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+          }
+        })
+        return null
       } else {
-        redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+        const value = await options.getValueFun()
+        if (options.noUpdate) {
+          await redis.set(redisKey, JSON.stringify(value))
+        } else {
+          redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+        }
+        return value
       }
-      return value
     }
   } else {
     console.error("redis not ready")
-    return await options.getValueFun()
+    if (options.allowEmpty) {
+      return null
+    } else {
+      return await options.getValueFun()
+    }
   }
 }
 

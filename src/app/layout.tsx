@@ -1,4 +1,3 @@
-import "aplayer-react/dist/index.css"
 import { dir } from "i18next"
 import { Metadata } from "next"
 import { Toaster } from "react-hot-toast"
