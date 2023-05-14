@@ -171,9 +171,9 @@ export default async function SiteLayout({
           {children}
         </main>
         {site && !onlyContent && (
-          <div className="xlog-blockchain-info max-w-screen-md mx-auto pt-12 pb-10">
+          <section className="xlog-blockchain-info max-w-screen-md mx-auto pt-12 pb-10">
             <BlockchainInfo site={site} page={page || undefined} />
-          </div>
+          </section>
         )}
         {/* @ts-expect-error Async Server Component */}
         {!onlyContent && <SiteFooter site={site || undefined} />}
