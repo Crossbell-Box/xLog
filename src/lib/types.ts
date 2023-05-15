@@ -102,6 +102,7 @@ export type ExpandedCharacter = CharacterEntity & {
       css?: string
       ga?: string
       ua?: string
+      uh?: string
       custom_domain?: string
     }
   }

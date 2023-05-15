@@ -30,6 +30,7 @@ export default function SiteSettingsGeneralPage() {
       description: "",
       ga: "",
       ua: "",
+      uh: "",
     } as {
       icon: string
       banner?: {
@@ -40,6 +41,7 @@ export default function SiteSettingsGeneralPage() {
       description: string
       ga: string
       ua: string
+      uh: string
     },
   })
 
@@ -52,6 +54,7 @@ export default function SiteSettingsGeneralPage() {
       description: values.description,
       ga: values.ga,
       ua: values.ua,
+      uh: values.uh,
     })
   })
 
@@ -94,6 +97,8 @@ export default function SiteSettingsGeneralPage() {
         form.setValue("ga", site.data.metadata?.content?.ga || "")
       !form.getValues("ua") &&
         form.setValue("ua", site.data.metadata?.content?.ua || "")
+      !form.getValues("uh") &&
+        form.setValue("uh", site.data.metadata?.content?.uh || "")
     }
   }, [site.data, form])
 
@@ -206,9 +211,31 @@ export default function SiteSettingsGeneralPage() {
         </div>
         <div className="mt-5">
           <Input
-            id="ua"
-            {...form.register("ua")}
+            id="uh"
+            {...form.register("uh")}
+            prefix="https://"
+            placeholder="analytics.umami.is"
             label="Umami Cloud Analytics"
+            help={
+              <p>
+                <Trans
+                  i18nKey="Integrate Umami Cloud Analytics (set url)"
+                  ns="dashboard"
+                >
+                  Leave blank to use{" "}
+                  <UniLink className="underline" href="https://umami.is/">
+                    the official service
+                  </UniLink>
+                  .
+                </Trans>
+              </p>
+            }
+          />
+          <Input
+            id="ua"
+            className="mt-2"
+            {...form.register("ua")}
+            placeholder="xxxxxxxx-xxxx-..."
             help={
               <p>
                 <Trans
