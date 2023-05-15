@@ -469,8 +469,8 @@ devDependencies:
     specifier: 15.1.0
     version: 15.1.0(postcss@8.4.23)
   postcss-prune-var:
-    specifier: 1.0.5
-    version: 1.0.5
+    specifier: 1.1.1
+    version: 1.1.1
   prettier:
     specifier: 2.8.8
     version: 2.8.8
@@ -10453,6 +10453,13 @@ packages:
       brace-expansion: 2.0.1
     dev: true
 
+  /minimatch@9.0.0:
+    resolution: {integrity: sha512-0jJj8AvgKqWN05mrwuqi8QYKx1WmYSUoKSxu5Qhs9prezTz10sxAHGNZe9J9cqIJzta8DWsleh2KaVaLl6Ru2w==}
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: true
+
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
 
@@ -11203,8 +11210,10 @@ packages:
       postcss: 8.4.23
       postcss-selector-parser: 6.0.11
 
-  /postcss-prune-var@1.0.5:
-    resolution: {integrity: sha512-wDP2zwerXcyaP2f0XnciqFm7ar7BGlBsptoOvf6NuN7VOSS/Pk5PlvvSkcebKQ5AWs0ydpe1MLdIpOxv/u6Rwg==}
+  /postcss-prune-var@1.1.1:
+    resolution: {integrity: sha512-rQS389fV24ohdWYaMjs5PI9eV4vJr6u8qb/8oijomnvOh9Ceytrr1ZMLBt6bJzhH1eqDrFWceXp9SQ5NUPEwCg==}
+    dependencies:
+      minimatch: 9.0.0
     dev: true
 
   /postcss-selector-parser@6.0.11:
