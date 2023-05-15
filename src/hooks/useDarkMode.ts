@@ -3,7 +3,7 @@ import { create } from "zustand"
 
 import { noop } from "~/lib/noop"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
-import { isServerSide, isViewTransition } from "~/lib/utils"
+import { isServerSide } from "~/lib/utils"
 
 import { useGetState } from "./useGetState"
 
@@ -183,7 +183,9 @@ export const useDarkMode = () => {
     storageKey: darkModeKey,
     element: (globalThis.document && document.documentElement) || mockElement,
     transition:
-      !isServerSide() && isViewTransition() // @ts-ignore
+      !isServerSide() &&
+      !!document.startViewTransition &&
+      !window.matchMedia(`(prefers-reduced-motion: reduce)`).matches
         ? document.startViewTransition()
         : undefined,
   })

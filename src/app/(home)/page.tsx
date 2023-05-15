@@ -214,7 +214,7 @@ async function Home() {
               <ul className="pt-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
                 {feature.subfeatures.map((item) => (
                   <li
-                    className="border rounded-xl overflow-hidden bg-white hover:shadow-md hover:scale-105 cursor-pointer transition duration-300 cursor-default"
+                    className="border rounded-xl overflow-hidden bg-white hover:shadow-md hover:scale-105 transition duration-300 cursor-default"
                     key={item.title}
                   >
                     {item.screenshot?.src && (

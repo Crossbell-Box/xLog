@@ -11,4 +11,8 @@ declare global {
   }
 
   var prisma: PrismaClient | undefined
+
+  interface Document {
+    startViewTransition(): void
+  }
 }
