@@ -5,13 +5,14 @@ import { notFound } from "next/navigation"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
-import { Style } from "~/components/common/Style"
+import Style from "~/components/common/Style"
 import { BackToTopFAB } from "~/components/site/BackToTopFAB"
 import SiteFooter from "~/components/site/SiteFooter"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { FABContainer } from "~/components/ui/FAB"
 import { SITE_URL } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
+import { isOnlyContent } from "~/lib/search-parser"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { fetchGetPage } from "~/queries/page.server"
@@ -93,6 +94,8 @@ export default async function SiteLayout({
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   // Issue: The type will not be updated when the page is redirected.
   const pathname = headers().get("x-pathname")
+  const onlyContent = isOnlyContent()
+
   let type: string
   switch (pathname) {
     case "/":
@@ -158,22 +161,22 @@ export default async function SiteLayout({
         className={`xlog-page xlog-page-${type} xlog-user xlog-deprecated-class`}
       >
         <Style content={site?.metadata?.content?.css} />
-        {site && <SiteHeader handle={params.site} />}
-        <div
+        {site && !onlyContent && <SiteHeader handle={params.site} />}
+        <main
           className={cn(
             `xlog-post-id-${page?.characterId}-${page?.noteId}`,
             "xlog-deprecated-class xlog-post-area max-w-screen-md mx-auto px-5 pt-12 relative",
           )}
         >
           {children}
-        </div>
-        {site && (
-          <div className="max-w-screen-md mx-auto pt-12 pb-10">
+        </main>
+        {site && !onlyContent && (
+          <div className="xlog-blockchain-info max-w-screen-md mx-auto pt-12 pb-10">
             <BlockchainInfo site={site} page={page || undefined} />
           </div>
         )}
         {/* @ts-expect-error Async Server Component */}
-        <SiteFooter site={site || undefined} />
+        {!onlyContent && <SiteFooter site={site || undefined} />}
         <FABContainer>
           <BackToTopFAB />
         </FABContainer>

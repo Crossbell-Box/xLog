@@ -7,6 +7,6 @@ const components: TweetComponents = {
   MediaImg: (props) => <Image {...props} fill unoptimized />,
 }
 
-export function Tweet({ id }: { id: string }) {
+export default function Tweet({ id }: { id: string }) {
   return <ReactTweet id={id} components={components} />
 }

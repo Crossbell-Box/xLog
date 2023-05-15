@@ -1,6 +1,6 @@
 import { IPFS_GATEWAY } from "~/lib/env"
 
-const IPFS_PREFIX = "ipfs://"
+export const IPFS_PREFIX = "ipfs://"
 
 export type ToGatewayConfig = {
   needRequestAtServerSide?: boolean

@@ -1,9 +1,10 @@
 import { APlayer as AplayerReact } from "aplayer-react"
+import "aplayer-react/dist/index.css"
 import { memo } from "react"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
-export const APlayer: React.FC<
+const APlayer: React.FC<
   {
     name?: string
     artist?: string
@@ -45,3 +46,5 @@ export const APlayer: React.FC<
     />
   )
 })
+
+export default APlayer

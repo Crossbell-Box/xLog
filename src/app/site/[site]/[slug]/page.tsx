@@ -9,8 +9,8 @@ import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
+import { isOnlyContent } from "~/lib/search-parser"
 import { fetchGetPage } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
@@ -97,8 +97,7 @@ export default async function SitePagePage({
   }
 
   const dehydratedState = dehydrate(queryClient)
-
-  const { t } = await useTranslation("site")
+  const onlyContent = isOnlyContent()
 
   function addPageJsonLd() {
     return {
@@ -131,30 +130,34 @@ export default async function SitePagePage({
         dangerouslySetInnerHTML={addPageJsonLd()}
       />
       <article>
-        <div>
-          {page?.metadata?.content?.tags?.includes("post") ? (
-            <h2 className="xlog-post-title text-4xl font-bold">
-              {page.metadata?.content?.title}
-            </h2>
-          ) : (
-            <h2 className="xlog-post-title text-xl font-bold page-title">
-              {page?.metadata?.content?.title}
-            </h2>
-          )}
-          {page?.metadata?.content?.tags?.includes("post") && (
-            /* @ts-expect-error Async Server Component */
-            <PostMeta page={page} site={site} />
-          )}
-        </div>
+        {!onlyContent && (
+          <div>
+            {page?.metadata?.content?.tags?.includes("post") ? (
+              <h2 className="xlog-post-title text-4xl font-bold">
+                {page.metadata?.content?.title}
+              </h2>
+            ) : (
+              <h2 className="xlog-post-title text-xl font-bold page-title">
+                {page?.metadata?.content?.title}
+              </h2>
+            )}
+            {page?.metadata?.content?.tags?.includes("post") && (
+              /* @ts-expect-error Async Server Component */
+              <PostMeta page={page} site={site} />
+            )}
+          </div>
+        )}
         <PageContent
           className="mt-10"
           content={page?.metadata?.content?.content}
           toc={true}
-        ></PageContent>
+        />
       </article>
-      <Hydrate state={dehydratedState}>
-        {page?.metadata && <PostFooter page={page} site={site} />}
-      </Hydrate>
+      {!onlyContent && (
+        <Hydrate state={dehydratedState}>
+          {page?.metadata && <PostFooter page={page} site={site} />}
+        </Hydrate>
+      )}
     </>
   )
 }
