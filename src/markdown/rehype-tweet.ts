@@ -21,8 +21,8 @@ export const rehypeTweet: Plugin<Array<void>, Root> = () => (tree) => {
       const match = href.match(tweetRegex)
       if (match && match[0] === href) {
         const tweetId = match[1]
-        node.tagName = "tweet"
-        node.properties = {
+        parent.tagName = "tweet"
+        parent.properties = {
           id: tweetId,
         }
       }
