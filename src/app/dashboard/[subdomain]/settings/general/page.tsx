@@ -223,8 +223,8 @@ export default function SiteSettingsGeneralPage() {
                   ns="dashboard"
                 >
                   Leave blank to use{" "}
-                  <UniLink className="underline" href="https://umami.is/">
-                    the official service
+                  <UniLink className="underline" href="https://cloud.umami.is">
+                    the Umami Cloud
                   </UniLink>
                   .
                 </Trans>
