@@ -8,7 +8,7 @@ import toast from "react-hot-toast"
 import { ReactSortable } from "react-sortablejs"
 
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
-import { Platform } from "~/components/site/Platform"
+import { Platform, PlatformsSyncMap } from "~/components/site/Platform"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
@@ -58,6 +58,7 @@ const SortableNavigationItem: React.FC<{
         id={`${item.id}-identity`}
         type="text"
         value={item.identity}
+        placeholder={PlatformsSyncMap[item.platform]?.identityFormatTemplate}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           updateItem(item.id, { identity: e.target.value })
         }

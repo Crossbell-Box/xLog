@@ -3,11 +3,12 @@ import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { cn } from "~/lib/utils"
 
-const syncMap: {
+export const PlatformsSyncMap: {
   [key: string]: {
     name: string
     icon: string
     url?: string
+    identityFormatTemplate?: string
   }
 } = {
   telegram: {
@@ -109,6 +110,24 @@ const syncMap: {
     icon: "/assets/social/whatsapp.svg",
     url: "https://wa.me/{username}",
   },
+  mastodon: {
+    name: "Mastodon",
+    icon: "/assets/social/mastodon.svg",
+    url: "https://{instance}/@{username}",
+    identityFormatTemplate: "username@instance.ltd",
+  },
+  misskey: {
+    name: "Misskey",
+    icon: "/assets/social/misskey.png",
+    url: "https://{instance}/@{username}",
+    identityFormatTemplate: "username@instance.ltd",
+  },
+  pleroma: {
+    name: "Pleroma",
+    icon: "/assets/social/pleroma.svg",
+    url: "https://{instance}/users/{username}",
+    identityFormatTemplate: "username@instance.ltd",
+  },
 }
 
 export const Platform: React.FC<{
@@ -117,6 +136,20 @@ export const Platform: React.FC<{
   className?: string
 }> = ({ platform, username, className }) => {
   platform = platform.toLowerCase()
+  let link = PlatformsSyncMap[platform]?.url
+
+  switch (platform) {
+    case "mastodon":
+    case "misskey":
+    case "pleroma":
+      const [uname, instance] = username?.split("@")
+      link = link?.replace("{instance}", instance).replace("{username}", uname)
+      break
+    default:
+      link = link?.replace("{username}", username)
+      break
+  }
+
   return (
     <UniLink
       className={cn(
@@ -124,18 +157,18 @@ export const Platform: React.FC<{
         className,
       )}
       key={platform}
-      href={syncMap[platform]?.url?.replace("{username}", username)}
+      href={link}
     >
       <Tooltip
-        label={`${syncMap[platform]?.name || platform}: ${username}`}
+        label={`${PlatformsSyncMap[platform]?.name || platform}: ${username}`}
         className="capitalize"
       >
         <span className="w-6 h-6 inline-block overflow-hidden">
-          {syncMap[platform]?.icon ? (
+          {PlatformsSyncMap[platform]?.icon ? (
             <Image
               width={24}
               height={24}
-              src={syncMap[platform]?.icon}
+              src={PlatformsSyncMap[platform]?.icon}
               alt={platform}
             />
           ) : (
