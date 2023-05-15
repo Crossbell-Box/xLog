@@ -1,6 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation"
+import { useEffect } from "react"
 import { Virtuoso } from "react-virtuoso"
 
 import { CommentItem } from "~/components/common/CommentItem"
@@ -20,6 +21,19 @@ export default function CommentsPage() {
   const comments = useGetCommentsBySite({
     characterId: site.data?.characterId,
   })
+
+  // fetch next page when we get a empty list
+  useEffect(() => {
+    if (
+      comments.data?.pages &&
+      comments.data.pages.at(-1)?.list.length === 0 &&
+      comments.hasNextPage
+    ) {
+      comments.fetchNextPage()
+    }
+  }, [comments.data, comments.hasNextPage, comments.fetchNextPage])
+
+  const data = comments.data?.pages.filter((page) => page.list.length > 0)
 
   const feedUrl =
     getSiteLink({
@@ -47,7 +61,7 @@ export default function CommentsPage() {
             <Virtuoso
               className="xlog-comment-list"
               useWindowScroll
-              data={comments.data?.pages}
+              data={data}
               endReached={() =>
                 comments.hasNextPage && comments.fetchNextPage()
               }
