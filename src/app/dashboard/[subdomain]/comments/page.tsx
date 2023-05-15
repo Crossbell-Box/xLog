@@ -9,7 +9,6 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
 import { Trans, useTranslation } from "~/lib/i18n/client"
-import { last } from "~/lib/utils"
 import { useGetCommentsBySite, useGetSite } from "~/queries/site"
 
 export default function CommentsPage() {
@@ -27,12 +26,12 @@ export default function CommentsPage() {
   useEffect(() => {
     if (
       comments.data?.pages &&
-      last(comments.data.pages)?.list.length === 0 &&
+      comments.data.pages.at(-1)?.list.length === 0 &&
       comments.hasNextPage
     ) {
       comments.fetchNextPage()
     }
-  }, [comments.data, comments.hasNextPage])
+  }, [comments.data, comments.hasNextPage, comments.fetchNextPage])
 
   const data = comments.data?.pages.filter((page) => page.list.length > 0)
 
