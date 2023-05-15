@@ -10,7 +10,7 @@ import { Trans as TransW } from "react-i18next/TransWithoutContext"
 
 import { useLang } from "~/hooks/useLang"
 
-import { defaultNS, getOptions } from "./settings"
+import { defaultNS, getOptions, languages } from "./settings"
 
 i18next
   .use(initReactI18next)
@@ -26,7 +26,7 @@ i18next
 
 export function useTranslation(ns: string = defaultNS) {
   const { lang } = useLang()
-  if (i18next.resolvedLanguage !== lang) {
+  if (i18next.resolvedLanguage !== lang && languages.includes(lang)) {
     i18next.changeLanguage(lang)
   }
   return useTranslationOrg(ns)
