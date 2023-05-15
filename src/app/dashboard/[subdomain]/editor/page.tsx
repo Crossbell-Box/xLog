@@ -652,7 +652,7 @@ export default function SubdomainEditor() {
                     placeholder={t("Title goes here...") || ""}
                   />
                 </div>
-                <div className="mt-5 flex-1 flex relative overflow-hidden">
+                <div className="mt-5 flex-1 flex relative mr-[280px]">
                   <CodeMirrorEditor
                     className={!previewVisible ? "!w-full" : ""}
                     value={initialContent}
@@ -793,7 +793,7 @@ const EditorExtraProperties: FC<{
   const site = useGetSite(subdomain)
 
   return (
-    <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+    <div className="fixed right-0 h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
       <div>
         <Input
           type="datetime-local"
