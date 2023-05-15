@@ -11,7 +11,7 @@ export const DarkModeSwitch = () => {
   return (
     <Switch
       checked={isDark || false}
-      onChange={toggle}
+      onClick={(e) => toggle(e)}
       className={cn(
         `${isDark ? "bg-accent" : "bg-gray-200"}`,
         ` relative inline-flex h-6 w-11 items-center rounded-full text-base dark:text-always-gray-200 text-always-gray-700 align-middle`,

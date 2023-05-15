@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from "react"
+import { MouseEvent, useEffect, useRef, useState } from "react"
 import { create } from "zustand"
 
 import { noop } from "~/lib/noop"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
-import { isServerSide } from "~/lib/utils"
+import { isServerSide, isViewTransition } from "~/lib/utils"
 
 import { useGetState } from "./useGetState"
 
 interface IMediaStore {
   isDark: boolean
-  toggle: () => void
+  toggle: (e: MouseEvent) => void
 }
 
 const useMediaStore = create<IMediaStore>(() => {
@@ -24,7 +24,9 @@ interface DarkModeConfig {
   classNameLight?: string // A className to set "light mode". Default = "light".
   element?: HTMLElement | undefined | null // The element to apply the className. Default = `document.body`.
   storageKey?: string // Specify the `localStorage` key. Default = "darkMode". set to `undefined` to disable persistent storage.
+  transition?: any // Specify the `animate` when switching the mode. Only Chromium >= 111 etc.
 }
+
 const darkModeKey = "darkMode"
 const useDarkModeInternal = (
   initialState: boolean | undefined,
@@ -35,23 +37,17 @@ const useDarkModeInternal = (
     classNameLight = "light",
     storageKey = darkModeKey,
     element,
+    transition,
   } = options
 
   const [darkMode, setDarkMode] = useState(initialState)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
-    const presentedDarkMode = storageKey
-      ? isServerSide()
-        ? undefined
-        : getStorage(storageKey)
-      : undefined
+    const presentedDarkMode = !isServerSide() && getStorage(storageKey)
 
     if (presentedDarkMode !== undefined) {
-      if (presentedDarkMode === "true") {
-        setDarkMode(true)
-      } else if (presentedDarkMode === "false") {
-        setDarkMode(false)
-      }
+      setDarkMode(presentedDarkMode === "true")
     } else if (typeof initialState === "undefined") {
       setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
     }
@@ -76,11 +72,7 @@ const useDarkModeInternal = (
         setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
       } else {
         // make multiple pages to switch to dark mode together.
-        if (storageValue === "true") {
-          setDarkMode(true)
-        } else if (storageValue === "false") {
-          setDarkMode(false)
-        }
+        setDarkMode(storageValue === "true")
       }
     }
 
@@ -114,20 +106,46 @@ const useDarkModeInternal = (
       window.removeEventListener("beforeunload", handler)
     }
   }, [])
-
   useEffect(() => {
     if (isServerSide() || typeof darkMode === "undefined") {
       return
     }
+    const setDarkModeClass = () => {
+      if (darkMode) {
+        $el.classList.remove(classNameLight)
+        $el.classList.add(classNameDark)
+      } else {
+        $el.classList.remove(classNameDark)
+        $el.classList.add(classNameLight)
+      }
+    }
 
     const $el = element || document.documentElement
-    if (darkMode) {
-      $el.classList.remove(classNameLight)
-      $el.classList.add(classNameDark)
-    } else {
-      $el.classList.remove(classNameDark)
-      $el.classList.add(classNameLight)
-    }
+    const { x, y } = mousePosition
+    const endRadius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y),
+    )
+    transition?.ready.then(() => {
+      setDarkModeClass()
+      if (mousePosition.x === 0) return
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`,
+      ]
+      $el.animate(
+        {
+          clipPath: !darkMode ? clipPath : [...clipPath].reverse(),
+        },
+        {
+          duration: 400,
+          easing: "ease-in-out",
+          pseudoElement: darkMode
+            ? "::view-transition-old(root)"
+            : "::view-transition-new(root)",
+        },
+      )
+    }) ?? setDarkModeClass()
   }, [classNameDark, classNameLight, darkMode, element])
 
   if (isServerSide()) {
@@ -139,12 +157,12 @@ const useDarkModeInternal = (
 
   return {
     value: darkMode,
-    toggle: () => {
+    toggle: (e: MouseEvent) => {
       setDarkMode((d) => {
         if (storageKey && !isServerSide()) {
           setStorage(storageKey, String(!d))
+          setMousePosition({ x: e.clientX, y: e.clientY })
         }
-
         return !d
       })
     },
@@ -164,6 +182,10 @@ export const useDarkMode = () => {
     classNameLight: "light",
     storageKey: darkModeKey,
     element: (globalThis.document && document.documentElement) || mockElement,
+    transition:
+      !isServerSide() && isViewTransition() // @ts-ignore
+        ? document.startViewTransition()
+        : undefined,
   })
 
   useEffect(() => {
