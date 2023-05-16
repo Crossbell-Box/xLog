@@ -250,9 +250,9 @@ export const SiteHeader: React.FC<{
             )}
             <div className="flex-1 min-w-0 relative">
               <div className="flex items-center justify-between">
-                <div className="xlog-site-name text-2xl sm:text-3xl font-bold text-zinc-900 leading-snug break-words min-w-0">
+                <h1 className="xlog-site-name text-2xl sm:text-3xl font-bold text-zinc-900 leading-snug break-words min-w-0">
                   {site.data?.metadata?.content?.name}
-                </div>
+                </h1>
                 <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 right-0">
                   <div className="xlog-site-more-menu relative inline-block align-middle">
                     <MoreActions>
