@@ -201,5 +201,7 @@
   "You can subscribe to comments through an RSS reader to receive timely reminders.": "你可以通过 RSS 阅读器订阅评论，以便及时收到提醒。",
   "Subscription address:": "订阅地址：",
   "comment on your" : "评论了你的{{type}}「<tolink>{{toTitle}}</tolink>」",
-  "{{newCount}} new comments" : "{{newCount}} 条新评论"
+  "{{newCount}} new comments" : "{{newCount}} 条新评论",
+  "Upload All Images to IPFS": "上传所有图片到 IPFS",
+  "Help: Markdown syntax and components used by xLog": "帮助：xLog 使用的 Markdown 语法和组件"
 }
