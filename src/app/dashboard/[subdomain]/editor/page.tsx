@@ -4,7 +4,6 @@ import { useDebounceEffect } from "ahooks"
 import type { Root } from "mdast"
 import { nanoid } from "nanoid"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
-import NodeID3 from "node-id3"
 import {
   ChangeEvent,
   FC,
@@ -33,6 +32,7 @@ import { Modal } from "~/components/ui/Modal"
 import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
 import { toolbars } from "~/editor"
+import { editorUpload } from "~/editor/Multimedia"
 import { useDate } from "~/hooks/useDate"
 import {
   Values,
@@ -44,7 +44,6 @@ import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useSyncOnce } from "~/hooks/useSyncOnce"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { showConfetti } from "~/lib/confetti"
-import { MAXIMUM_FILE_SIZE } from "~/lib/constants"
 import { getDefaultSlug } from "~/lib/default-slug"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink, getTwitterShareUrl } from "~/lib/helpers"
@@ -345,83 +344,8 @@ export default function SubdomainEditor() {
 
   const handleDropFile = useCallback(
     async (file: File) => {
-      const toastId = toast.loading("Uploading...")
-      try {
-        if (
-          !file.type.startsWith("image/") &&
-          !file.type.startsWith("audio/") &&
-          !file.type.startsWith("video/")
-        ) {
-          throw new Error("You can only upload images, audios and videos")
-        }
-
-        const uploadFilesizeInMB = file.size / 1024 / 1024
-
-        if (uploadFilesizeInMB > MAXIMUM_FILE_SIZE) {
-          toast.error(
-            `File Size is too big. It should be less than ${MAXIMUM_FILE_SIZE} MB`,
-            {
-              id: toastId,
-            },
-          )
-          return
-        }
-
-        const { key } = await uploadFile(file)
-        toast.success("Uploaded!", {
-          id: toastId,
-        })
-        if (file.type.startsWith("image/")) {
-          view?.dispatch(
-            view.state.replaceSelection(
-              `\n![${file.name.replace(/\.\w+$/, "")}](${key})\n`,
-            ),
-          )
-        } else if (file.type.startsWith("audio/")) {
-          const fileArrayBuffer = await file.arrayBuffer()
-          const fileBuffer = Buffer.from(fileArrayBuffer)
-          const tags = NodeID3.read(fileBuffer)
-          const name = tags.title ?? file.name
-          const artist = tags.artist
-          const cover = await (async () => {
-            const image = tags.image
-            if (!image || typeof image === "string") return image
-
-            const toastId = toast.loading("Uploading cover...")
-            const { key } = await uploadFile(
-              new Blob([image.imageBuffer], { type: image.type.name }),
-            )
-            toast.success("Uploaded cover!", {
-              id: toastId,
-            })
-            return key
-          })()
-          view?.dispatch(
-            view.state.replaceSelection(
-              `\n<audio src="${key}" name="${name}" ${
-                artist ? `artist="${artist}"` : ""
-              } ${cover ? `cover="${cover}"` : ""}><audio>\n`,
-            ),
-          )
-        } else if (file.type.startsWith("video/")) {
-          view?.dispatch(
-            view.state.replaceSelection(
-              `
-<video>
-  <source src="${key}" type="${file.type}" />
-</video>
-`,
-            ),
-          )
-        } else if (file.type === "text/plain") {
-          view?.dispatch(view.state.replaceSelection(key))
-        } else {
-          throw new Error("Unknown upload file type")
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message, { id: toastId })
-        }
+      if (view) {
+        editorUpload(file, view)
       }
     },
     [uploadFile, view],

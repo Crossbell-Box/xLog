@@ -13,12 +13,12 @@ import { Emoji } from "./Emoji"
 import { Formula } from "./Formula"
 import { Heading } from "./Heading"
 import { Help } from "./Help"
-import { Image } from "./Image"
 import { Italic } from "./Italic"
 import { Link } from "./Link"
 import { ListOrdered } from "./ListOrdered"
 import { ListUnordered } from "./ListUnordered"
 import { Mention } from "./Mention"
+import { Multimedia } from "./Multimedia"
 import { Quote } from "./Quote"
 import { Strikethrough } from "./Strikethrough"
 import { Underline } from "./Underline"
@@ -145,7 +145,7 @@ export const toolbars: ICommand[] = [
   ListUnordered,
   ListOrdered,
   Link,
-  Image,
+  Multimedia,
   Mention,
   Formula,
   Emoji,
