@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast"
 import "~/css/main.css"
 import { useAcceptLang } from "~/hooks/useAcceptLang"
 import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN, SITE_URL } from "~/lib/env"
+import { getColorScheme } from "~/lib/get-color-scheme"
 
 import Providers from "./providers"
 
@@ -75,9 +76,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const lang = useAcceptLang()
+  const colorScheme = getColorScheme()
 
   return (
-    <html lang={lang} dir={dir(lang)}>
+    <html lang={lang} dir={dir(lang)} className={colorScheme}>
       <body>
         <Providers lang={lang}>{children}</Providers>
         <Toaster />
