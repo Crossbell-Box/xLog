@@ -5,6 +5,8 @@ import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
+import { getNoteSlug } from "./helpers"
+
 export const expandCrossbellNote = async (
   note: NoteEntity,
   useStat?: boolean,
@@ -44,11 +46,7 @@ export const expandCrossbellNote = async (
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
     }
-    expandedNote.metadata.content.slug = encodeURIComponent(
-      expandedNote.metadata.content.attributes?.find(
-        (a) => a.trait_type === "xlog_slug",
-      )?.value || "",
-    )
+    expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
 
     if (useStat) {
       const stat = await (

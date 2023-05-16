@@ -2,8 +2,7 @@ import { NoteEntity } from "crossbell.js"
 import { redirect } from "next/navigation"
 
 import { IS_VERCEL_PREVIEW } from "~/lib/constants"
-import { getDefaultSlug } from "~/lib/default-slug"
-import { getSiteLink } from "~/lib/helpers"
+import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { checkDomainServer } from "~/models/site.model"
 
@@ -63,14 +62,7 @@ export async function GET(req: Request): Promise<Response> {
   })
 
   if (note) {
-    const slug =
-      note?.metadata?.content?.attributes?.find(
-        (a: any) => a.trait_type === "xlog_slug",
-      )?.value ||
-      getDefaultSlug(
-        note?.metadata?.content?.title || "",
-        `${characterId}-${noteId}`,
-      )
+    const slug = getNoteSlug(note)
 
     link += `/${encodeURIComponent(slug)}`
 

@@ -1,4 +1,4 @@
-import { getSiteLink } from "~/lib/helpers"
+import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 import { NextServerResponse } from "~/lib/server-helper"
 import { getCommentsBySite, getSite } from "~/models/site.model"
 
@@ -49,11 +49,7 @@ export async function GET(
         id: comment.characterId + "-" + comment.noteId,
         title: `${name}: ${comment.metadata?.content?.content}`,
         content_html: `${name} commented on ${type} ${toTitle}: ${comment.metadata?.content?.content}`,
-        url: `${link}/${
-          comment.toNote?.metadata?.content?.attributes?.find(
-            (attribute: any) => attribute.trait_type === "xlog_slug",
-          )?.value || comment.toNote?.characterId + "-" + comment.toNote?.noteId
-        }`,
+        url: `${link}/${comment.toNote ? getNoteSlug(comment.toNote) : ""}`,
         date_published: comment.createdAt,
         date_modified: comment.updatedAt,
       }
