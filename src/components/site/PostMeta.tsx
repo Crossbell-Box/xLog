@@ -17,7 +17,7 @@ export default async function PostMeta({
 }) {
   const { t } = await useTranslation("common")
   const { i18n } = await useTranslation()
-  const generatedSummary = await getSummary({
+  const summary = await getSummary({
     cid: toCid(page.metadata?.uri || ""),
     lang: i18n.resolvedLanguage,
   })
@@ -61,30 +61,26 @@ export default async function PostMeta({
           isPost={page.metadata?.content?.tags?.includes("post")}
         />
       </div>
-      {page.metadata.content.summary ? (
-        // Custom summary
+      {page.metadata.content.summary && (
+        // Custom excerpt ( Introduction )
         <div className="xlog-post-summary border rounded-xl mt-4 p-4 space-y-2">
           <div className="font-bold text-zinc-700 flex items-center">
             <i className="icon-[mingcute--notebook-2-line] mr-2 text-lg" />
-            {t("Summary")}
+            {t("Introduction")}
           </div>
           <div className="text-zinc-500 leading-loose text-sm">
             {page.metadata.content.summary}
           </div>
         </div>
-      ) : (
-        generatedSummary && (
-          // AI generated summary
-          <div className="xlog-post-summary border rounded-xl mt-4 p-4 space-y-2">
-            <div className="font-bold text-zinc-700 flex items-center">
-              <i className="icon-[mingcute--android-2-line] mr-2 text-lg" />
-              {t("AI-generated summary")}
-            </div>
-            <div className="text-zinc-500 leading-loose text-sm">
-              {generatedSummary}
-            </div>
+      )}
+      {summary && (
+        <div className="xlog-post-summary border rounded-xl mt-4 p-4 space-y-2">
+          <div className="font-bold text-zinc-700 flex items-center">
+            <i className="icon-[mingcute--android-2-line] mr-2 text-lg" />
+            {t("AI-generated summary")}
           </div>
-        )
+          <div className="text-zinc-500 leading-loose text-sm">{summary}</div>
+        </div>
       )}
     </div>
   )
