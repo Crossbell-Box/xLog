@@ -14,6 +14,10 @@ import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
+function getPageId(page: ExpandedNote) {
+  return page.noteId || page.draftKey || 0
+}
+
 export const PagesManagerBatchSelectActionTab: React.FC<{
   isPost: boolean
   isNotxLogContent: boolean
@@ -21,7 +25,7 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
     list: ExpandedNote[]
   }>
   batchSelected: (string | number)[]
-  setBatchSelected: (selected: string[]) => void
+  setBatchSelected: (selected: (string | number)[]) => void
 }> = ({ isPost, isNotxLogContent, pages, batchSelected, setBatchSelected }) => {
   const { t } = useTranslation("dashboard")
 
@@ -39,10 +43,10 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
       text: "Select All",
       onClick: () => {
         // Get all page IDs
-        const allIDs: string[] = []
+        const allIDs: (string | number)[] = []
         pages?.pages.map((page) =>
           page.list?.map((page) => {
-            allIDs.push(page.metadata?.content?.slug || "")
+            allIDs.push(getPageId(page))
           }),
         )
         setBatchSelected(allIDs)
@@ -70,7 +74,7 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
         const selectedPages: ExpandedNote[] = []
         pages?.pages.map((page) =>
           page.list?.map((page) => {
-            if (batchSelected.includes(page.metadata?.content?.slug || "")) {
+            if (batchSelected.includes(getPageId(page))) {
               selectedPages.push(page)
             }
           }),
