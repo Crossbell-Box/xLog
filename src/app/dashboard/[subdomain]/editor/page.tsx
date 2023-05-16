@@ -656,7 +656,14 @@ export default function SubdomainEditor() {
                     placeholder={t("Title goes here...") || ""}
                   />
                 </div>
-                <div className="mt-5 h-[calc(100%-4.25rem)] flex relative">
+                <div
+                  className="mt-5 h-[calc(100%-4.25rem)] flex relative"
+                  data-debugger={JSON.stringify({
+                    isMobileLayout,
+                    isRendering,
+                    previewVisible,
+                  })}
+                >
                   <CodeMirrorEditor
                     className={!previewVisible ? "!w-full !border-r-0" : ""}
                     value={initialContent}
@@ -669,23 +676,21 @@ export default function SubdomainEditor() {
                       setCurrentScrollArea("editor")
                     }}
                   />
-                  {(isMobileLayout && isRendering) ||
-                    (previewVisible && (
-                      <PageContent
-                        className={cn(
-                          "absolute left-0 right-0 z-10 md:relative",
-                          `bg-white px-5 overflow-scroll pb-[200px] `,
-                          isRendering && "hidden",
-                          "md:block w-full md:w-1/2 h-full",
-                        )}
-                        parsedContent={parsedContent}
-                        inputRef={previewRef}
-                        onScroll={onPreviewScroll}
-                        onMouseEnter={() => {
-                          setCurrentScrollArea("preview")
-                        }}
-                      />
-                    ))}
+                  {((isMobileLayout && isRendering) || previewVisible) && (
+                    <PageContent
+                      className={cn(
+                        "absolute left-0 right-0 z-10 md:relative",
+                        `bg-white px-5 overflow-scroll pb-[200px] `,
+                        "md:block w-full md:w-1/2 h-full",
+                      )}
+                      parsedContent={parsedContent}
+                      inputRef={previewRef}
+                      onScroll={onPreviewScroll}
+                      onMouseEnter={() => {
+                        setCurrentScrollArea("preview")
+                      }}
+                    />
+                  )}
 
                   {!isMobileLayout && (
                     <div
