@@ -7,6 +7,8 @@ import { getFeed } from "~/models/home.model"
 export async function GET(request: Request) {
   const feed = await getFeed({
     type: "latest",
+    useHTML: true,
+    limit: 10,
   })
 
   const data = {

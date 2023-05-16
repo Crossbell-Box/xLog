@@ -7,12 +7,19 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { getNoteSlug } from "./helpers"
 
-export const expandCrossbellNote = async (
-  note: NoteEntity,
-  useStat?: boolean,
-  useScore?: boolean,
-  keyword?: string,
-) => {
+export const expandCrossbellNote = async ({
+  note,
+  useStat,
+  useScore,
+  keyword,
+  useHTML,
+}: {
+  note: NoteEntity
+  useStat?: boolean
+  useScore?: boolean
+  keyword?: string
+  useHTML?: boolean
+}) => {
   const expandedNote: ExpandedNote = Object.assign(
     {
       metadata: {
@@ -45,6 +52,10 @@ export const expandCrossbellNote = async (
       expandedNote.metadata.content.cover = rendered.cover
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
+
+      if (useHTML) {
+        expandedNote.metadata.content.contentHTML = rendered.contentHTML
+      }
     }
     expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
     expandedNote.metadata.content.date_published =

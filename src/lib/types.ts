@@ -86,6 +86,7 @@ export type ExpandedNote = NoteEntity & {
         number?: number
         reason?: string
       }
+      contentHTML?: string
     }
   }
   stat?: {

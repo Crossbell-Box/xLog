@@ -10,6 +10,8 @@ export async function GET(request: Request) {
   const feed = await getFeed({
     type: "hot",
     daysInterval: parseInt(searchParams.get("interval") || "0"),
+    useHTML: true,
+    limit: 10,
   })
 
   const data = {
