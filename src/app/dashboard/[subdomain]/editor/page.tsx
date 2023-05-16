@@ -696,7 +696,7 @@ export default function SubdomainEditor() {
                       style={
                         previewVisible
                           ? {
-                              left: "calc(50% - 105px)",
+                              left: "calc(50% - 20px)",
                               transform: "translateX(-50%)",
                             }
                           : { right: "280px", transform: "translateX(50%)" }
