@@ -8,7 +8,13 @@ import { ExpandedNote } from "~/lib/types"
 
 import filter from "../../data/filter.json"
 
-export type FeedType = "latest" | "following" | "topic" | "hot" | "search"
+export type FeedType =
+  | "latest"
+  | "following"
+  | "topic"
+  | "hot"
+  | "search"
+  | "tag"
 export type SearchType = "latest" | "hot"
 
 export async function getFeed({
@@ -20,6 +26,7 @@ export async function getFeed({
   daysInterval,
   searchKeyword,
   searchType,
+  tag,
 }: {
   type?: FeedType
   cursor?: string
@@ -29,6 +36,7 @@ export async function getFeed({
   daysInterval?: number
   searchKeyword?: string
   searchType?: SearchType
+  tag?: string
 }) {
   if (type === "search" && !searchKeyword) {
     type = "latest"
@@ -253,6 +261,41 @@ export async function getFeed({
             false,
             searchKeyword,
           )
+          delete expand.metadata?.content.content
+          return expand
+        }),
+      )
+
+      return {
+        list,
+        cursor: result.cursor,
+        count: result.count,
+      }
+    }
+    case "tag": {
+      if (!tag) {
+        return {
+          list: [],
+          cursor: "",
+          count: 0,
+        }
+      }
+
+      let result = await indexer.getNotes({
+        sources: "xlog",
+        tags: ["post", tag],
+        limit,
+        cursor,
+        includeCharacter: true,
+      })
+
+      result.list = result.list.filter(
+        (note) => !filter.latest.includes(note.characterId),
+      )
+
+      const list = await Promise.all(
+        result.list.map(async (page: any) => {
+          const expand = await expandCrossbellNote(page, false, true)
           delete expand.metadata?.content.content
           return expand
         }),
