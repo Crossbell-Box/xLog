@@ -3,11 +3,14 @@ import { Dispatch, SetStateAction } from "react"
 import { EditorSelection } from "@codemirror/state"
 import { EditorView } from "@codemirror/view"
 
+import { AlignCenter } from "./AlignCenter"
+import { AlignRight } from "./AlignRight"
 import { Bold } from "./Bold"
 import { Cloud } from "./Cloud"
 import { Code } from "./Code"
 import { CodeBlock } from "./CodeBlock"
 import { Emoji } from "./Emoji"
+import { Formula } from "./Formula"
 import { Heading } from "./Heading"
 import { Help } from "./Help"
 import { Image } from "./Image"
@@ -135,6 +138,8 @@ export const toolbars: ICommand[] = [
   Strikethrough,
   Underline,
   Quote,
+  AlignCenter,
+  AlignRight,
   Code,
   CodeBlock,
   ListUnordered,
@@ -142,6 +147,7 @@ export const toolbars: ICommand[] = [
   Link,
   Image,
   Mention,
+  Formula,
   Emoji,
   Cloud,
   Help,

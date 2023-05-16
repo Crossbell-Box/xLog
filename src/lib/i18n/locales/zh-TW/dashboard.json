@@ -61,7 +61,6 @@
     "Link": "連結",
     "Image": "圖片",
     "Upload Image": "上傳圖片",
-    "Help: Markdown syntax and components used by xLog": "幫助：xLog 使用的 Markdown 語法和組件",
     "Preview": "預覽",
     "Publish": "發布",
     "Update": "更新",
@@ -195,5 +194,10 @@
     "You can subscribe to comments through an RSS reader to receive timely reminders.": "你可以通過 RSS 閱讀器訂閱留言，以便及時收到通知。",
     "Subscription address:": "訂閱地址：",
     "comment on your": "回覆了你的 {{type}}「<tolink>{{toTitle}}</tolink>」",
-    "{{newCount}} new comments": "{{newCount}} 條新留言"
+    "{{newCount}} new comments": "{{newCount}} 條新留言",
+    "Upload All Images to IPFS": "上傳所有圖片到 IPFS",
+    "Help: Markdown syntax and components used by xLog": "幫助：xLog 使用的 Markdown 語法和組件",
+    "Align Center": "居中",
+    "Align Right": "靠右",
+    "Formula": "公式"
 }

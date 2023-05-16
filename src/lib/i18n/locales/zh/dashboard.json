@@ -203,5 +203,8 @@
   "comment on your" : "评论了你的{{type}}「<tolink>{{toTitle}}</tolink>」",
   "{{newCount}} new comments" : "{{newCount}} 条新评论",
   "Upload All Images to IPFS": "上传所有图片到 IPFS",
-  "Help: Markdown syntax and components used by xLog": "帮助：xLog 使用的 Markdown 语法和组件"
+  "Help: Markdown syntax and components used by xLog": "帮助：xLog 使用的 Markdown 语法和组件",
+  "Align Center": "居中对齐",
+  "Align Right": "右对齐",
+  "Formula": "公式"
 }
