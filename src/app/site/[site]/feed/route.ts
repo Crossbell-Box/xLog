@@ -31,7 +31,7 @@ export async function GET(
   })
   const data = {
     version: "https://jsonfeed.org/version/1",
-    title: site?.metadata?.content?.name,
+    title: site?.metadata?.content?.site_name || site?.metadata?.content?.name,
     description: site?.metadata?.content?.bio,
     icon: site?.metadata?.content?.avatars?.[0],
     home_page_url: link,

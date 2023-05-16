@@ -100,6 +100,7 @@ export async function updateSite(
   payload: {
     site: string
     name?: string
+    site_name?: string
     description?: string
     icon?: string | null
     subdomain?: string
@@ -192,6 +193,15 @@ export async function updateSite(
                 {
                   trait_type: "xlog_custom_domain",
                   value: payload.custom_domain,
+                },
+              ]
+            : []),
+          ...(payload.site_name !== undefined &&
+          payload.site_name !== payload.name
+            ? [
+                {
+                  trait_type: "xlog_site_name",
+                  value: payload.site_name,
                 },
               ]
             : []),
