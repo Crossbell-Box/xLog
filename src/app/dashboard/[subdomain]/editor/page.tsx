@@ -18,6 +18,7 @@ import toast from "react-hot-toast"
 import { shallow } from "zustand/shallow"
 
 import type { EditorView } from "@codemirror/view"
+import { DateInput } from "@mantine/dates"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { PageContent } from "~/components/common/PageContent"
@@ -33,7 +34,6 @@ import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
 import { toolbars } from "~/editor"
 import { editorUpload } from "~/editor/Multimedia"
-import { useDate } from "~/hooks/useDate"
 import {
   Values,
   initialEditorState,
@@ -60,11 +60,6 @@ import {
   useGetPagesBySiteLite,
 } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
-
-const getInputDatetimeValue = (date: Date | string, dayjs: any) => {
-  const str = dayjs(date).format()
-  return str.substring(0, ((str.indexOf("T") | 0) + 6) | 0)
-}
 
 export default function SubdomainEditor() {
   const router = useRouter()
@@ -721,32 +716,55 @@ const EditorExtraProperties: FC<{
     (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
     shallow,
   )
-  const date = useDate()
   const { t } = useTranslation("dashboard")
   const site = useGetSite(subdomain)
 
   return (
     <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
       <div>
-        <Input
-          type="datetime-local"
-          label={t("Publish at") || ""}
-          isBlock
+        <label className="form-label" htmlFor="publishAt">
+          {t("Publish at")}
+        </label>
+        <DateInput
+          className=""
+          allowDeselect
+          clearable
+          valueFormat="YYYY-MM-DD, h:mm a"
           name="publishAt"
           id="publishAt"
-          value={getInputDatetimeValue(values.publishedAt, date.dayjs)}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            try {
-              const value = date.inLocalTimezone(e.target.value).toISOString()
-              updateValue("publishedAt", value)
-            } catch (error) {}
+          value={values.publishedAt ? new Date(values.publishedAt) : undefined}
+          onChange={(value: Date | null) => {
+            if (value) {
+              updateValue("publishedAt", value.toISOString())
+            } else {
+              updateValue("publishedAt", "")
+            }
           }}
-          help={t(
+          styles={{
+            input: {
+              borderRadius: "0.5rem",
+              borderColor: "var(--border-color)",
+              height: "2.5rem",
+              "&:focus-within": {
+                borderColor: "var(--theme-color)",
+              },
+            },
+          }}
+        />
+        <div className="text-xs text-gray-400 mt-1">
+          {t(
             `This ${
               isPost ? "post" : "page"
-            } will be accessible from this time`,
+            } will be accessible from this time. Leave blank to use the current time.`,
           )}
-        />
+        </div>
+        {values.publishedAt > new Date().toISOString() && (
+          <div className="text-xs mt-1 text-red-500">
+            {t(
+              "The post is currently unavailable as its publication date has been scheduled for a future time.",
+            )}
+          </div>
+        )}
       </div>
       <div>
         <Input

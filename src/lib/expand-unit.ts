@@ -47,6 +47,8 @@ export const expandCrossbellNote = async (
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
     }
     expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
+    expandedNote.metadata.content.date_published =
+      expandedNote.metadata.content.date_published || new Date().toISOString()
 
     if (useStat) {
       const stat = await (

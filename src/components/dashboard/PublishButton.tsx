@@ -71,7 +71,10 @@ export const PublishButton: React.FC<{
         )}
       </ButtonGroup>
       {showDropdown && (
-        <div className="absolute right-0 min-w-[200px] pt-2" ref={dropdownRef}>
+        <div
+          className="absolute right-0 min-w-[200px] pt-2 z-10"
+          ref={dropdownRef}
+        >
           <div className="bg-white py-2 rounded-lg shadow-modal">
             {published && (
               <div>

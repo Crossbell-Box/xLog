@@ -95,9 +95,7 @@ export async function createOrUpdatePage(
           mime_type: "text/markdown",
         },
       }),
-      ...(input.publishedAt && {
-        date_published: input.publishedAt,
-      }),
+      date_published: input.publishedAt || new Date().toISOString(),
       ...(input.excerpt && {
         summary: {
           content: input.excerpt,
