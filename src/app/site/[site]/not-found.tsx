@@ -16,8 +16,9 @@ export default async function NotFound() {
         <PageContent
           className="mt-10"
           content={`
-- [Back to Home](/)
-- [All posts](/archives)
+- [${t("Back to Home")}](/)
+- [${t("All Posts")}](/archives)
+- [${t("Search Posts")}](/search)
 
 ![image](${SITE_URL}/assets/404.svg)`}
           toc={true}

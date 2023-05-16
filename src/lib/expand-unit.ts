@@ -110,6 +110,10 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
     (expandedCharacter.metadata?.content?.attributes?.find(
       (a: any) => a.trait_type === "xlog_ua",
     )?.value as string) || ""
+  expandedCharacter.metadata.content.uh =
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_uh",
+    )?.value as string) || ""
   expandedCharacter.metadata.content.custom_domain =
     (expandedCharacter.metadata?.content?.attributes?.find(
       (a: any) => a.trait_type === "xlog_custom_domain",

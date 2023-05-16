@@ -108,15 +108,18 @@ export default async function SiteFooter({
         </div>
       )}
       {site?.metadata?.content?.ua && (
-        <div className="xlog-umami-analytics">
-          <Script
-            id="umami-analytics"
-            strategy="afterInteractive"
-            async
-            src="https://analytics.umami.is/script.js"
-            data-website-id={`${site.metadata?.content?.ua}`}
-          ></Script>
-        </div>
+        <Script
+          id="umami-analytics"
+          strategy="afterInteractive"
+          async
+          src="https://analytics.umami.is/script.js"
+          data-host-url={
+            site.metadata?.content?.uh
+              ? `https://${site.metadata?.content?.uh}`
+              : undefined
+          }
+          data-website-id={`${site.metadata?.content?.ua}`}
+        ></Script>
       )}
     </>
   )

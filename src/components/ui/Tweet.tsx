@@ -8,5 +8,9 @@ const components: TweetComponents = {
 }
 
 export default function Tweet({ id }: { id: string }) {
-  return <ReactTweet id={id} components={components} />
+  return (
+    <div className="flex justify-center">
+      <ReactTweet id={id} components={components} />
+    </div>
+  )
 }

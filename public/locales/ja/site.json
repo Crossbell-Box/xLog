@@ -1,9 +1,0 @@
-{
-  "Home": "ホーム",
-  "Archives": "アーカイブ",
-  "About": "紹介",
-  "Tags": "タグ",
-  "load more": "まだ{{count}}件の{{name}}があります。",
-  "Write a comment on the blockchain": "ブロックチェーンでコメントする",
-  "powered by": "<span>このサイトは　</span><name/><span> によって作動します</span>"
-}

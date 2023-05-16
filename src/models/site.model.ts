@@ -107,6 +107,7 @@ export async function updateSite(
     css?: string
     ga?: string
     ua?: string
+    uh?: string
     custom_domain?: string
     banner?: {
       address: string
@@ -143,6 +144,7 @@ export async function updateSite(
         payload.css !== undefined ||
         payload.ga !== undefined ||
         payload.ua !== undefined ||
+        payload.uh !== undefined ||
         payload.custom_domain !== undefined) && {
         attributes: [
           ...(payload.navigation !== undefined
@@ -174,6 +176,14 @@ export async function updateSite(
                 {
                   trait_type: "xlog_ua",
                   value: payload.ua,
+                },
+              ]
+            : []),
+          ...(payload.uh !== undefined
+            ? [
+                {
+                  trait_type: "xlog_uh",
+                  value: payload.uh,
                 },
               ]
             : []),
