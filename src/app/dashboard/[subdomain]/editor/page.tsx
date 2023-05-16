@@ -640,7 +640,7 @@ export default function SubdomainEditor() {
                   : "min-w-[840px] h-screen "
               }`}
             >
-              <div className="h-full overflow-auto w-full mx-auto pt-5 flex flex-col">
+              <div className="flex-1 pt-5">
                 <div className="px-5 h-12">
                   <input
                     type="text"
@@ -656,12 +656,7 @@ export default function SubdomainEditor() {
                     placeholder={t("Title goes here...") || ""}
                   />
                 </div>
-                <div
-                  className={cn(
-                    "mt-5 flex-1 flex relative",
-                    !isMobileLayout && "mr-[280px]",
-                  )}
-                >
+                <div className="mt-5 h-[calc(100%-4.25rem)] flex relative">
                   <CodeMirrorEditor
                     className={!previewVisible ? "!w-full !border-r-0" : ""}
                     value={initialContent}
@@ -807,7 +802,7 @@ const EditorExtraProperties: FC<{
   const site = useGetSite(subdomain)
 
   return (
-    <div className="fixed right-0 h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+    <div className="h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
       <div>
         <Input
           type="datetime-local"
