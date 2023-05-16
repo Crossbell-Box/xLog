@@ -658,7 +658,7 @@ export default function SubdomainEditor() {
                 </div>
                 <div className="mt-5 flex-1 flex relative mr-[280px]">
                   <CodeMirrorEditor
-                    className={!previewVisible ? "!w-full" : ""}
+                    className={!previewVisible ? "!w-full !border-r-0" : ""}
                     value={initialContent}
                     onChange={onChange}
                     handleDropFile={handleDropFile}
@@ -690,12 +690,17 @@ export default function SubdomainEditor() {
                   {!isMobileLayout && (
                     <div
                       className={cn(
-                        previewVisible
-                          ? "left-1/2 -translate-x-1/2"
-                          : "right-0 translate-x-1/2",
-                        "absolute top-1/2 z-10",
+                        "fixed top-1/2 z-10",
                         "bg-accent rounded-full cursor-pointer text-white w-6 h-6",
                       )}
+                      style={
+                        previewVisible
+                          ? {
+                              left: "calc(50% - 105px)",
+                              transform: "translateX(-50%)",
+                            }
+                          : { right: "280px", transform: "translateX(50%)" }
+                      }
                       onClick={() => setPreviewVisible(!previewVisible)}
                     >
                       {previewVisible ? (
