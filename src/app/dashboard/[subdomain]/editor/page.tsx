@@ -656,7 +656,12 @@ export default function SubdomainEditor() {
                     placeholder={t("Title goes here...") || ""}
                   />
                 </div>
-                <div className="mt-5 flex-1 flex relative mr-[280px]">
+                <div
+                  className={cn(
+                    "mt-5 flex-1 flex relative",
+                    !isMobileLayout && "mr-[280px]",
+                  )}
+                >
                   <CodeMirrorEditor
                     className={!previewVisible ? "!w-full !border-r-0" : ""}
                     value={initialContent}
