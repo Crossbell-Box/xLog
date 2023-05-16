@@ -406,7 +406,11 @@ export default function SubdomainEditor() {
         } else if (file.type.startsWith("video/")) {
           view?.dispatch(
             view.state.replaceSelection(
-              `\n<video>\n\t<source src=\"${key}\" type=\"${file.type}\" />\n</video>\n`,
+              `
+<video>
+  <source src="${key}" type="${file.type}" />
+</video>
+`,
             ),
           )
         } else if (file.type === "text/plain") {
