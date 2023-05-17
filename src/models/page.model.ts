@@ -317,12 +317,18 @@ export async function getPagesBySite(input: {
       break
   }
 
-  expandedNotes.list = expandedNotes.list.sort((a, b) =>
-    a.metadata?.content?.date_published && b.metadata?.content?.date_published
-      ? +new Date(b.metadata?.content?.date_published) -
+  expandedNotes.list = expandedNotes.list.sort((a, b) => {
+    if (!a.metadata?.content?.date_published) {
+      return -1
+    } else if (!b.metadata?.content?.date_published) {
+      return 1
+    } else {
+      return (
+        +new Date(b.metadata?.content?.date_published) -
         +new Date(a.metadata?.content?.date_published)
-      : 0,
-  )
+      )
+    }
+  })
 
   return expandedNotes
 }

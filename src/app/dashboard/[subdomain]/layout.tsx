@@ -28,10 +28,8 @@ import { useGetSite } from "~/queries/site"
 
 export default function DashboardLayout({
   children,
-  title,
 }: {
   children: React.ReactNode
-  title: string
 }) {
   const params = useParams()
   const subdomain = params?.subdomain as string
@@ -61,7 +59,7 @@ export default function DashboardLayout({
         if (userRole.data) {
           setHasPermission(true)
         } else {
-          setHasPermission(false)
+          setHasPermission(true)
         }
       }
     }
