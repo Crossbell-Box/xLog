@@ -32,9 +32,6 @@ export function useDate() {
       formatToISO: (date: string | Date) => {
         return dayjs(date || undefined).toISOString()
       },
-      inLocalTimezone: (date: string | Date) => {
-        return dayjs(date).tz().toDate()
-      },
     }
   }, [i18n.resolvedLanguage])
 

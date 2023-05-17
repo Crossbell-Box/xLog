@@ -86,6 +86,7 @@ export type ExpandedNote = NoteEntity & {
         number?: number
         reason?: string
       }
+      contentHTML?: string
     }
   }
   stat?: {
@@ -104,6 +105,7 @@ export type ExpandedCharacter = CharacterEntity & {
       ua?: string
       uh?: string
       custom_domain?: string
+      site_name?: string
     }
   }
 }

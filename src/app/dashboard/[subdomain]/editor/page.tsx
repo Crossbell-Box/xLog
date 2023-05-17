@@ -4,7 +4,6 @@ import { useDebounceEffect } from "ahooks"
 import type { Root } from "mdast"
 import { nanoid } from "nanoid"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
-import NodeID3 from "node-id3"
 import {
   ChangeEvent,
   FC,
@@ -19,6 +18,7 @@ import toast from "react-hot-toast"
 import { shallow } from "zustand/shallow"
 
 import type { EditorView } from "@codemirror/view"
+import { DateInput } from "@mantine/dates"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { PageContent } from "~/components/common/PageContent"
@@ -33,7 +33,7 @@ import { Modal } from "~/components/ui/Modal"
 import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
 import { toolbars } from "~/editor"
-import { useDate } from "~/hooks/useDate"
+import { editorUpload } from "~/editor/Multimedia"
 import {
   Values,
   initialEditorState,
@@ -44,7 +44,6 @@ import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useSyncOnce } from "~/hooks/useSyncOnce"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { showConfetti } from "~/lib/confetti"
-import { MAXIMUM_FILE_SIZE } from "~/lib/constants"
 import { getDefaultSlug } from "~/lib/default-slug"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink, getTwitterShareUrl } from "~/lib/helpers"
@@ -61,11 +60,6 @@ import {
   useGetPagesBySiteLite,
 } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
-
-const getInputDatetimeValue = (date: Date | string, dayjs: any) => {
-  const str = dayjs(date).format()
-  return str.substring(0, ((str.indexOf("T") | 0) + 6) | 0)
-}
 
 export default function SubdomainEditor() {
   const router = useRouter()
@@ -346,83 +340,8 @@ export default function SubdomainEditor() {
 
   const handleDropFile = useCallback(
     async (file: File) => {
-      const toastId = toast.loading("Uploading...")
-      try {
-        if (
-          !file.type.startsWith("image/") &&
-          !file.type.startsWith("audio/") &&
-          !file.type.startsWith("video/")
-        ) {
-          throw new Error("You can only upload images, audios and videos")
-        }
-
-        const uploadFilesizeInMB = file.size / 1024 / 1024
-
-        if (uploadFilesizeInMB > MAXIMUM_FILE_SIZE) {
-          toast.error(
-            `File Size is too big. It should be less than ${MAXIMUM_FILE_SIZE} MB`,
-            {
-              id: toastId,
-            },
-          )
-          return
-        }
-
-        const { key } = await uploadFile(file)
-        toast.success("Uploaded!", {
-          id: toastId,
-        })
-        if (file.type.startsWith("image/")) {
-          view?.dispatch(
-            view.state.replaceSelection(
-              `\n![${file.name.replace(/\.\w+$/, "")}](${key})\n`,
-            ),
-          )
-        } else if (file.type.startsWith("audio/")) {
-          const fileArrayBuffer = await file.arrayBuffer()
-          const fileBuffer = Buffer.from(fileArrayBuffer)
-          const tags = NodeID3.read(fileBuffer)
-          const name = tags.title ?? file.name
-          const artist = tags.artist
-          const cover = await (async () => {
-            const image = tags.image
-            if (!image || typeof image === "string") return image
-
-            const toastId = toast.loading("Uploading cover...")
-            const { key } = await uploadFile(
-              new Blob([image.imageBuffer], { type: image.type.name }),
-            )
-            toast.success("Uploaded cover!", {
-              id: toastId,
-            })
-            return key
-          })()
-          view?.dispatch(
-            view.state.replaceSelection(
-              `\n<audio src="${key}" name="${name}" ${
-                artist ? `artist="${artist}"` : ""
-              } ${cover ? `cover="${cover}"` : ""}><audio>\n`,
-            ),
-          )
-        } else if (file.type.startsWith("video/")) {
-          view?.dispatch(
-            view.state.replaceSelection(
-              `
-<video>
-  <source src="${key}" type="${file.type}" />
-</video>
-`,
-            ),
-          )
-        } else if (file.type === "text/plain") {
-          view?.dispatch(view.state.replaceSelection(key))
-        } else {
-          throw new Error("Unknown upload file type")
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message, { id: toastId })
-        }
+      if (view) {
+        editorUpload(file, view)
       }
     },
     [uploadFile, view],
@@ -802,32 +721,55 @@ const EditorExtraProperties: FC<{
     (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
     shallow,
   )
-  const date = useDate()
   const { t } = useTranslation("dashboard")
   const site = useGetSite(subdomain)
 
   return (
     <div className="h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
       <div>
-        <Input
-          type="datetime-local"
-          label={t("Publish at") || ""}
-          isBlock
+        <label className="form-label" htmlFor="publishAt">
+          {t("Publish at")}
+        </label>
+        <DateInput
+          className=""
+          allowDeselect
+          clearable
+          valueFormat="YYYY-MM-DD, h:mm a"
           name="publishAt"
           id="publishAt"
-          value={getInputDatetimeValue(values.publishedAt, date.dayjs)}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            try {
-              const value = date.inLocalTimezone(e.target.value).toISOString()
-              updateValue("publishedAt", value)
-            } catch (error) {}
+          value={values.publishedAt ? new Date(values.publishedAt) : undefined}
+          onChange={(value: Date | null) => {
+            if (value) {
+              updateValue("publishedAt", value.toISOString())
+            } else {
+              updateValue("publishedAt", "")
+            }
           }}
-          help={t(
+          styles={{
+            input: {
+              borderRadius: "0.5rem",
+              borderColor: "var(--border-color)",
+              height: "2.5rem",
+              "&:focus-within": {
+                borderColor: "var(--theme-color)",
+              },
+            },
+          }}
+        />
+        <div className="text-xs text-gray-400 mt-1">
+          {t(
             `This ${
               isPost ? "post" : "page"
-            } will be accessible from this time`,
+            } will be accessible from this time. Leave blank to use the current time.`,
           )}
-        />
+        </div>
+        {values.publishedAt > new Date().toISOString() && (
+          <div className="text-xs mt-1 text-red-500">
+            {t(
+              "The post is currently unavailable as its publication date has been scheduled for a future time.",
+            )}
+          </div>
+        )}
       </div>
       <div>
         <Input

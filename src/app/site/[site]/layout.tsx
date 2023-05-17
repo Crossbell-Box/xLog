@@ -33,7 +33,8 @@ export async function generateMetadata({
 
   const site = await fetchGetSite(params.site, queryClient)
 
-  const title = site?.metadata?.content?.name || site?.handle
+  const title =
+    site?.metadata?.content?.site_name || site?.metadata?.content?.name
   const description = site?.metadata?.content?.bio
   const images =
     site?.metadata?.content?.avatars || `${SITE_URL}/assets/logo.svg`

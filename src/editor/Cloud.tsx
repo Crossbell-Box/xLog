@@ -16,7 +16,11 @@ const uploadResources = async (text: string) => {
         const url = match[3]
         const toastId = toast.loading(`Uploading ${altText || url}`)
         try {
-          const blob = await fetch(url).then((response) => response.blob())
+          const response = await fetch(url)
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          const blob = await response.blob()
           const key = (await UploadFile(blob)).key
           toast.success(`Uploaded ${altText || url}!`, {
             id: toastId,

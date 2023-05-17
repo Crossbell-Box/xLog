@@ -6,7 +6,9 @@ export const getPageVisibility = (note?: ExpandedNote) => {
   if (!note?.noteId) {
     return PageVisibilityEnum.Draft
   } else if (
-    dayjs(note.metadata?.content?.date_published).isBefore(new Date())
+    !note.metadata?.content?.date_published ||
+    dayjs(note.metadata?.content?.date_published).isBefore(new Date()) ||
+    dayjs(note.metadata?.content?.date_published).isSame(new Date())
   ) {
     if (note.local) {
       return PageVisibilityEnum.Modified

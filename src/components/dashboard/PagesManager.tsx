@@ -36,7 +36,7 @@ export const PagesManager: React.FC<{
   const params = useParams()
   const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams()!
   const router = useRouter()
   const pathname = usePathname()
 
@@ -83,14 +83,13 @@ export const PagesManager: React.FC<{
   ].map((item) => ({
     text: item.text,
     onClick: () => {
-      const newQuery: Record<string, any> = {
-        ...searchParams,
-        visibility: item.value,
-      }
+      // issue related: https://github.com/vercel/next.js/issues/49245
+      const newQuery = new URLSearchParams(searchParams.toString())
+      newQuery.set("visibility", item.value)
       if (item.value === PageVisibilityEnum.All) {
-        delete newQuery["visibility"]
+        newQuery.delete("visibility")
       }
-      const search = new URLSearchParams(newQuery).toString()
+      const search = newQuery.toString()
       router.push(pathname + "?" + search)
     },
     active: item.value === visibility,
@@ -245,7 +244,7 @@ export const PagesManager: React.FC<{
             currentLength++
             return (
               <Link
-                key={page.transactionHash}
+                key={page.transactionHash || page.draftKey}
                 href={getPageEditLink(page)}
                 className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex"
               >

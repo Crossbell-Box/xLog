@@ -4,7 +4,7 @@ import { ICommand } from "."
 
 export const Help: ICommand = {
   name: "help",
-  label: "Help: xLog Flavored Markdown",
+  label: "Help: Markdown syntax and components used by xLog",
   icon: "icon-[mingcute--question-line]",
   execute: ({ view }) => {
     window.open(

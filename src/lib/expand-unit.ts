@@ -5,12 +5,21 @@ import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
-export const expandCrossbellNote = async (
-  note: NoteEntity,
-  useStat?: boolean,
-  useScore?: boolean,
-  keyword?: string,
-) => {
+import { getNoteSlug } from "./helpers"
+
+export const expandCrossbellNote = async ({
+  note,
+  useStat,
+  useScore,
+  keyword,
+  useHTML,
+}: {
+  note: NoteEntity
+  useStat?: boolean
+  useScore?: boolean
+  keyword?: string
+  useHTML?: boolean
+}) => {
   const expandedNote: ExpandedNote = Object.assign(
     {
       metadata: {
@@ -43,12 +52,14 @@ export const expandCrossbellNote = async (
       expandedNote.metadata.content.cover = rendered.cover
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
+
+      if (useHTML) {
+        expandedNote.metadata.content.contentHTML = rendered.contentHTML
+      }
     }
-    expandedNote.metadata.content.slug = encodeURIComponent(
-      expandedNote.metadata.content.attributes?.find(
-        (a) => a.trait_type === "xlog_slug",
-      )?.value || "",
-    )
+    expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
+    expandedNote.metadata.content.date_published =
+      expandedNote.metadata.content.date_published || new Date().toISOString()
 
     if (useStat) {
       const stat = await (
@@ -117,6 +128,10 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
   expandedCharacter.metadata.content.custom_domain =
     (expandedCharacter.metadata?.content?.attributes?.find(
       (a: any) => a.trait_type === "xlog_custom_domain",
+    )?.value as string) || ""
+  expandedCharacter.metadata.content.site_name =
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_site_name",
     )?.value as string) || ""
   expandedCharacter.metadata.content.name =
     expandedCharacter.metadata.content.name || expandedCharacter.handle
