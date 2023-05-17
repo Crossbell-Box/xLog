@@ -575,14 +575,7 @@ export default function SubdomainEditor() {
                     placeholder={t("Title goes here...") || ""}
                   />
                 </div>
-                <div
-                  className="mt-5 h-[calc(100%-4.25rem)] flex relative"
-                  data-debugger={JSON.stringify({
-                    isMobileLayout,
-                    isRendering,
-                    previewVisible,
-                  })}
-                >
+                <div className="mt-5 h-[calc(100%-4.25rem)] flex relative">
                   <CodeMirrorEditor
                     className={!previewVisible ? "!w-full !border-r-0" : ""}
                     value={initialContent}
@@ -595,11 +588,12 @@ export default function SubdomainEditor() {
                       setCurrentScrollArea("editor")
                     }}
                   />
-                  {((isMobileLayout && isRendering) || previewVisible) && (
+                  {((!isMobileLayout && previewVisible) ||
+                    (isMobileLayout && !isRendering)) && (
                     <PageContent
                       className={cn(
                         "absolute left-0 right-0 z-10 md:relative",
-                        `bg-white px-5 overflow-scroll pb-[200px] `,
+                        `bg-white px-5 overflow-scroll pb-[200px]`,
                         "md:block w-full md:w-1/2 h-full",
                       )}
                       parsedContent={parsedContent}
@@ -614,24 +608,21 @@ export default function SubdomainEditor() {
                   {!isMobileLayout && (
                     <div
                       className={cn(
-                        "fixed top-1/2 z-10",
-                        "bg-accent rounded-full cursor-pointer text-white w-6 h-6",
+                        previewVisible ? "right-1/2 " : "right-0",
+                        "absolute top-1/2 z-20 translate-x-1/2",
                       )}
-                      style={
-                        previewVisible
-                          ? {
-                              left: "calc(50% - 20px)",
-                              transform: "translateX(-50%)",
-                            }
-                          : { right: "280px", transform: "translateX(50%)" }
-                      }
-                      onClick={() => setPreviewVisible(!previewVisible)}
                     >
-                      {previewVisible ? (
-                        <i className="icon-[mingcute--right-line] text-2xl inline-block w-6 h-6" />
-                      ) : (
-                        <i className="icon-[mingcute--left-line] text-2xl inline-block w-6 h-6" />
-                      )}
+                      <div
+                        aria-label="Toggle preview view"
+                        className="bg-accent rounded-full cursor-pointer text-white w-6 h-6"
+                        onClick={() => setPreviewVisible(!previewVisible)}
+                      >
+                        {previewVisible ? (
+                          <i className="icon-[mingcute--right-line] text-2xl inline-block w-6 h-6" />
+                        ) : (
+                          <i className="icon-[mingcute--left-line] text-2xl inline-block w-6 h-6" />
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
