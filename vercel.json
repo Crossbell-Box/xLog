@@ -1,0 +1,9 @@
+{
+  "functions": {
+    "api/**/*.ts": {
+      "excludeFiles": [
+        "api/**/*.ts"
+      ]
+    }
+  }
+}
