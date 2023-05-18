@@ -1,5 +1,6 @@
-import type { CharacterOperatorPermission } from "crossbell"
+import { CharacterOperatorPermission } from "crossbell"
 import type Unidata from "unidata.js"
+import type { Address } from "viem"
 
 import type { useContract } from "@crossbell/contract"
 import { indexer } from "@crossbell/indexer"
@@ -11,14 +12,14 @@ import { SiteNavigationItem } from "~/lib/types"
 type Contract = ReturnType<typeof useContract>
 
 export const getSite = async (input: string) => {
-  const result = await indexer.getCharacterByHandle(input)
+  const result = await indexer.character.getByHandle(input)
   if (result) {
     return expandCrossbellCharacter(result)
   }
 }
 
 export const getSiteByAddress = async (input: string) => {
-  const result = await indexer.getCharacters(input, {
+  const result = await indexer.character.getMany(input as Address, {
     primary: true,
   })
 
@@ -65,7 +66,7 @@ export const getSubscription = async (input: {
   toCharacterId: number
   characterId: number
 }) => {
-  const result = await indexer.getLinks(input.characterId, {
+  const result = await indexer.link.getMany(input.characterId, {
     linkType: "follow",
     toCharacterId: input.toCharacterId,
   })
@@ -78,7 +79,7 @@ export const getSiteSubscriptions = async (data: {
   cursor?: string
   limit?: number
 }) => {
-  return indexer.getBacklinksOfCharacter(data.characterId, {
+  return indexer.link.getBacklinksOfCharacter(data.characterId, {
     linkType: "follow",
     cursor: data.cursor,
     limit: data.limit,
@@ -89,7 +90,7 @@ export const getSiteToSubscriptions = async (data: {
   characterId: number
   cursor?: string
 }) => {
-  return indexer.getLinks(data.characterId, {
+  return indexer.link.getMany(data.characterId, {
     linkType: "follow",
     cursor: data.cursor,
   })
@@ -217,7 +218,7 @@ export async function getCommentsBySite(input: {
   characterId?: number
   cursor?: string
 }) {
-  const notes = await indexer.getNotes({
+  const notes = await indexer.note.getMany({
     toCharacterId: input.characterId,
     limit: 7,
     includeCharacter: true,
@@ -249,19 +250,20 @@ export async function addOperator(
   contract?: Contract,
 ) {
   if (input.operator && input.characterId) {
-    return contract?.grantOperatorPermissionsForCharacter(
-      input.characterId,
-      input.operator,
-      xLogOperatorPermissions,
-    )
+    return contract?.operator.grantForCharacter({
+      characterId: input.characterId,
+      operator: input.operator as Address,
+      permissions: xLogOperatorPermissions,
+    })
   }
 }
 
 export async function getOperators(input: { characterId?: number }) {
   if (input.characterId) {
-    const result = await indexer?.getCharacterOperators(input.characterId, {
-      limit: 100,
-    })
+    const result = await indexer?.operator.getManyForCharacter(
+      input.characterId,
+      { limit: 100 },
+    )
     result.list = result.list
       .filter(
         (o) =>
@@ -287,8 +289,12 @@ export async function isOperators(input: {
 }) {
   if (input.characterId) {
     const permissions =
-      (await indexer?.getCharacterOperator(input.characterId, input.operator))
-        ?.permissions || []
+      (
+        await indexer?.operator.getForCharacter(
+          input.characterId,
+          input.operator as Address,
+        )
+      )?.permissions || []
     for (const permission of xLogOperatorPermissions) {
       if (!permissions.includes(permission)) {
         return false
@@ -307,11 +313,11 @@ export async function removeOperator(
   contract?: Contract,
 ) {
   if (input.characterId) {
-    return contract?.grantOperatorPermissionsForCharacter(
-      input.characterId,
-      input.operator,
-      [],
-    )
+    return contract?.operator.grantForCharacter({
+      characterId: input.characterId,
+      operator: input.operator as Address,
+      permissions: [],
+    })
   }
 }
 
@@ -333,15 +339,13 @@ export async function getStat({ characterId }: { characterId: number }) {
           `https://indexer.crossbell.io/v1/stat/characters/${characterId}`,
         )
       ).json(),
-      indexer.getCharacter(characterId),
-      indexer.getBacklinksOfCharacter(characterId, {
-        limit: 0,
-      }),
-      indexer.getNotes({
+      indexer.character.get(characterId),
+      indexer.link.getBacklinksOfCharacter(characterId, { limit: 0 }),
+      indexer.note.getMany({
         limit: 0,
         toCharacterId: characterId,
       }),
-      indexer.getNotes({
+      indexer.note.getMany({
         characterId,
         sources: "xlog",
         tags: ["post"],
@@ -362,7 +366,7 @@ export async function getStat({ characterId }: { characterId: number }) {
 const getMiraTokenDecimals = async (contract: Contract) => {
   let decimals
   try {
-    decimals = await contract.getMiraTokenDecimals()
+    decimals = await contract.tips.getTokenDecimals()
   } catch (error) {
     decimals = {
       data: 18,
@@ -382,18 +386,18 @@ export async function tipCharacter(
 ) {
   const decimals = await getMiraTokenDecimals(contract)
   if (input.noteId) {
-    return await contract?.tipCharacterForNote(
-      input.fromCharacterId,
-      input.toCharacterId,
-      input.noteId,
-      BigInt(input.amount) * BigInt(10) ** BigInt(decimals?.data || 18),
-    )
+    return await contract?.tips.tipCharacterForNote({
+      fromCharacterId: input.fromCharacterId,
+      toCharacterId: input.toCharacterId,
+      toNoteId: input.noteId,
+      amount: BigInt(input.amount) * BigInt(10) ** BigInt(decimals?.data || 18),
+    })
   } else {
-    return await contract?.tipCharacter(
-      input.fromCharacterId,
-      input.toCharacterId,
-      BigInt(input.amount) * BigInt(10) ** BigInt(decimals?.data || 18),
-    )
+    return await contract?.tips.tipCharacter({
+      fromCharacterId: input.fromCharacterId,
+      toCharacterId: input.toCharacterId,
+      amount: BigInt(input.amount) * BigInt(10) ** BigInt(decimals?.data || 18),
+    })
   }
 }
 
@@ -407,8 +411,8 @@ export async function getTips(
   },
   contract: Contract,
 ) {
-  const address = await contract.getMiraTokenAddress()
-  const tips = await indexer?.getTips({
+  const address = await contract.tips.getTokenAddress()
+  const tips = await indexer?.tip.getMany({
     characterId: input.characterId,
     toNoteId: input.toNoteId,
     toCharacterId: input.toCharacterId,
@@ -473,7 +477,7 @@ export type AchievementSection = {
 }
 
 export async function getAchievements(characterId: number) {
-  const crossbellAchievements = (await indexer.getAchievements(characterId))
+  const crossbellAchievements = (await indexer.achievement.getMany(characterId))
     ?.list as AchievementSection[] | undefined
   const xLogAchievements: AchievementSection[] = [
     {
@@ -551,16 +555,14 @@ export async function mintAchievement(input: {
   characterId: number
   achievementId: number
 }) {
-  return indexer.mintAchievement(input.characterId, input.achievementId)
+  return indexer.achievement.mint(input.characterId, input.achievementId)
 }
 
 export async function getMiraBalance(characterId: number, contract: Contract) {
   const decimals = await getMiraTokenDecimals(contract)
-  const result = await contract.getMiraBalanceOfCharacter(characterId)
-  result.data = (
-    BigInt(result.data) /
-    BigInt(10) ** BigInt(decimals?.data || 18)
-  ).toString()
+  const result = await contract.tips.getBalanceOfCharacter({ characterId })
+
+  result.data = BigInt(result.data) / BigInt(10) ** BigInt(decimals?.data || 18)
 
   return result
 }

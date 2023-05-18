@@ -145,6 +145,7 @@
     "unist-util-visit": "4.1.2",
     "use-onclickoutside": "0.4.1",
     "uuid": "9.0.0",
+    "viem": "^0.3.30",
     "wagmi": "1.0.5",
     "zustand": "^4.3.8"
   },

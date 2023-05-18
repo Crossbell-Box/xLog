@@ -45,7 +45,7 @@ export async function getFeed({
   }
   switch (type) {
     case "latest": {
-      let result = await indexer.getNotes({
+      let result = await indexer.note.getMany({
         sources: "xlog",
         tags: ["post"],
         limit,
@@ -84,13 +84,16 @@ export async function getFeed({
           count: 0,
         }
       } else {
-        const result = await indexer.getNotesOfCharacterFollowing(characterId, {
-          sources: "xlog",
-          tags: ["post"],
-          limit: limit,
-          cursor,
-          includeCharacter: true,
-        })
+        const result = await indexer.note.getManyOfCharacterFollowing(
+          characterId,
+          {
+            sources: "xlog",
+            tags: ["post"],
+            limit: limit,
+            cursor,
+            includeCharacter: true,
+          },
+        )
 
         const list = await Promise.all(
           result.list.map(async (page: any) => {
@@ -260,7 +263,7 @@ export async function getFeed({
       }
     }
     case "search": {
-      const result = await indexer.searchNotes(searchKeyword!, {
+      const result = await indexer.search.notes(searchKeyword!, {
         sources: ["xlog"],
         tags: ["post"],
         limit: limit,
@@ -298,7 +301,7 @@ export async function getFeed({
         }
       }
 
-      let result = await indexer.getNotes({
+      let result = await indexer.note.getMany({
         sources: "xlog",
         tags: ["post", tag],
         limit,
