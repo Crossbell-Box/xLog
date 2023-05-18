@@ -1,6 +1,12 @@
 import { MouseEvent, useEffect, useRef, useState } from "react"
 import { create } from "zustand"
 
+import {
+  COLOR_SCHEME_DARK,
+  COLOR_SCHEME_LIGHT,
+  DEFAULT_COLOR_SCHEME,
+  IS_DEV,
+} from "~/lib/constants"
 import { noop } from "~/lib/noop"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { isServerSide } from "~/lib/utils"
@@ -14,7 +20,7 @@ interface IMediaStore {
 
 const useMediaStore = create<IMediaStore>(() => {
   return {
-    isDark: false,
+    isDark: DEFAULT_COLOR_SCHEME === COLOR_SCHEME_DARK,
     toggle: () => void 0,
   }
 })
@@ -33,8 +39,8 @@ const useDarkModeInternal = (
   options: DarkModeConfig,
 ) => {
   const {
-    classNameDark = "dark",
-    classNameLight = "light",
+    classNameDark = COLOR_SCHEME_DARK,
+    classNameLight = COLOR_SCHEME_LIGHT,
     storageKey = darkModeKey,
     element,
     transition,
@@ -178,8 +184,8 @@ const mockElement = {
 
 export const useDarkMode = () => {
   const { toggle, value } = useDarkModeInternal(getStorage(darkModeKey), {
-    classNameDark: "dark",
-    classNameLight: "light",
+    classNameDark: COLOR_SCHEME_DARK,
+    classNameLight: COLOR_SCHEME_LIGHT,
     storageKey: darkModeKey,
     element: (globalThis.document && document.documentElement) || mockElement,
     transition:
@@ -194,6 +200,12 @@ export const useDarkMode = () => {
     useMediaStore.setState({
       isDark: value,
     })
+    const colorScheme = value ? COLOR_SCHEME_DARK : COLOR_SCHEME_LIGHT
+    const date = new Date()
+    date.setMonth(date.getMonth() + 1)
+    document.cookie = IS_DEV
+      ? `color_scheme=${colorScheme};`
+      : `color_scheme=${colorScheme}; Domain=.xlog.app; Path=/; Secure; HttpOnly; expires=${date.toUTCString()}`
   }, [value])
 
   const onceRef = useRef(false)

@@ -1,3 +1,5 @@
+import { ColorScheme } from "./types"
+
 export const IS_BROWSER = typeof document !== "undefined"
 
 export const IS_PROD = IS_BROWSER
@@ -10,3 +12,7 @@ export const IS_VERCEL_PREVIEW =
   process.env.VERCEL_ENV === "preview"
 
 export const MAXIMUM_FILE_SIZE = 100 // MB
+
+export const COLOR_SCHEME_DARK = "dark"
+export const COLOR_SCHEME_LIGHT = "light"
+export const DEFAULT_COLOR_SCHEME: ColorScheme = "light"

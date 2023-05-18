@@ -109,3 +109,5 @@ export type ExpandedCharacter = CharacterEntity & {
     }
   }
 }
+
+export type ColorScheme = "dark" | "light"
