@@ -56,8 +56,7 @@ export default async function middleware(req: NextRequest) {
     pathname.match(/^\/(workbox|worker|fallback)-\w+\.js(\.map)?$/) ||
     pathname === "/sw.js" ||
     pathname === "/sw.js.map" ||
-    pathname === "/robots.txt" ||
-    pathname === "/sitemap.xml"
+    pathname === "/robots.txt"
   ) {
     return NextResponse.next()
   }
@@ -84,6 +83,7 @@ export default async function middleware(req: NextRequest) {
   const requestHeaders = new Headers(req.headers)
   requestHeaders.set("x-pathname", req.nextUrl.pathname)
   requestHeaders.set("x-search", req.nextUrl.search)
+  requestHeaders.set("x-handle", tenant.subdomain || "")
 
   if (tenant?.subdomain) {
     const url = req.nextUrl.clone()

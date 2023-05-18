@@ -15,6 +15,7 @@ export const getQuery = (req: Request) => {
 
 export class NextServerResponse {
   #status: number = 200
+  #headers = new Headers()
   constructor() {}
 
   status(status: number) {
@@ -25,12 +26,9 @@ export class NextServerResponse {
   json(data: any) {
     const nextData = JSON.stringify(data)
 
-    return new Response(nextData, {
-      status: this.#status,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    this.#headers.set("Content-Type", "application/json")
+
+    return new Response(nextData, this.makeResponseOptions())
   }
 
   send(data: any) {
@@ -42,11 +40,23 @@ export class NextServerResponse {
       return this.json(data)
     }
 
-    return new Response(data, { status: this.#status })
+    return new Response(data, this.makeResponseOptions())
+  }
+
+  text(text: string) {
+    return new Response(text, this.makeResponseOptions())
   }
 
   end() {
-    return new Response("", { status: this.#status })
+    return new Response("", this.makeResponseOptions())
+  }
+
+  headers(headers: Record<string, string>) {
+    for (const [key, value] of Object.entries(headers)) {
+      this.#headers.set(key, value)
+    }
+
+    return this
   }
 
   rss(data: any, format = "json") {
@@ -70,6 +80,13 @@ export class NextServerResponse {
           "Cache-Control": "public, max-age=1800",
         },
       })
+    }
+  }
+
+  private makeResponseOptions() {
+    return {
+      status: this.#status,
+      headers: this.#headers,
     }
   }
 }
