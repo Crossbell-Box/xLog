@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { memo, useEffect, useState } from "react"
 import reactStringReplace from "react-string-replace"
 import { Virtuoso } from "react-virtuoso"
@@ -46,7 +46,7 @@ const Post = ({
   }
 
   return (
-    <div className="mt-8">
+    <div>
       <div className="flex items-center space-x-2">
         <CharacterFloatCard siteId={post.character?.handle}>
           <Link
@@ -172,6 +172,8 @@ export const HomeFeed: React.FC<{
   const [hotInterval, setHotInterval] = useState(7)
   const [searchType, setSearchType] = useState<SearchType>("latest")
 
+  const params = useParams()
+
   const feed = useGetFeed({
     type: feedType,
     characterId: currentCharacterId,
@@ -179,6 +181,7 @@ export const HomeFeed: React.FC<{
     daysInterval: hotInterval,
     searchKeyword: searchParams?.get("q") || undefined,
     searchType,
+    tag: decodeURIComponent(params?.tag),
   })
 
   const hasFiltering = feedType === "latest"
@@ -301,7 +304,7 @@ export const HomeFeed: React.FC<{
         ) : !feed.data?.pages[0]?.count ? (
           <EmptyState />
         ) : (
-          <div className="xlog-posts !-mt-0">
+          <div className="xlog-posts my-8">
             <Virtuoso
               overscan={5}
               endReached={() => feed.hasNextPage && feed.fetchNextPage()}
@@ -309,16 +312,20 @@ export const HomeFeed: React.FC<{
               data={feed.data?.pages}
               itemContent={(_, posts) => {
                 if (!posts?.list.length) return <div className="h-[1px]"></div>
-                return posts?.list.map((post) => {
-                  return (
-                    <MemoedPost
-                      key={`${post.characterId}-${post.noteId}`}
-                      post={post}
-                      filtering={aiFiltering ? 60 : 0}
-                      keyword={searchParams?.get("q") || undefined}
-                    />
-                  )
-                })
+                return (
+                  <div className="space-y-8 mb-8">
+                    {posts?.list.map((post) => {
+                      return (
+                        <MemoedPost
+                          key={`${post.characterId}-${post.noteId}`}
+                          post={post}
+                          filtering={aiFiltering ? 60 : 0}
+                          keyword={searchParams?.get("q") || undefined}
+                        />
+                      )
+                    })}
+                  </div>
+                )
               }}
             ></Virtuoso>
 

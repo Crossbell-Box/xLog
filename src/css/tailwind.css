@@ -499,3 +499,12 @@ textarea.input {
   /* The underline */
   @apply after:left-2 after:right-2 after:bg-accent;
 }
+
+/* For users to use within posts */
+.center {
+  @apply flex justify-center;
+}
+
+.right {
+  @apply flex justify-end;
+}

@@ -15,6 +15,7 @@ export const parsePost = (post: ExpandedNote, withTwitter?: boolean) => {
       withTwitter && twitter ? ` by @${twitter}` : ""
     }`,
     summary: post.metadata?.content?.summary,
+    content_html: post.metadata?.content?.contentHTML,
     url: `${SITE_URL}/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`,
     image: post.metadata?.content?.cover,
     date_published: post.createdAt,

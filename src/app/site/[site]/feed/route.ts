@@ -21,6 +21,7 @@ export async function GET(
     type: "post",
     visibility: PageVisibilityEnum.Published,
     keepBody: true,
+    useHTML: true,
   })
 
   const hasAudio = pages.list?.find((page) => page.metadata?.content?.audio)
@@ -31,7 +32,7 @@ export async function GET(
   })
   const data = {
     version: "https://jsonfeed.org/version/1",
-    title: site?.metadata?.content?.name,
+    title: site?.metadata?.content?.site_name || site?.metadata?.content?.name,
     description: site?.metadata?.content?.bio,
     icon: site?.metadata?.content?.avatars?.[0],
     home_page_url: link,
@@ -47,7 +48,7 @@ export async function GET(
       id: page.characterId + "-" + page.noteId,
       title: page.metadata?.content?.title,
       summary: page.metadata?.content?.summary,
-      content_html: page.metadata?.content?.content,
+      content_html: page.metadata?.content?.contentHTML,
       url: `${SITE_URL}/api/redirection?characterId=${page.characterId}&noteId=${page.noteId}`,
       image: page.metadata?.content?.cover,
       date_published: page.metadata?.content?.date_published,

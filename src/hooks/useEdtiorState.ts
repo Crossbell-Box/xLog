@@ -2,7 +2,7 @@ import { create } from "zustand"
 
 export const initialEditorState = {
   title: "",
-  publishedAt: new Date().toISOString(),
+  publishedAt: "",
   published: false,
   excerpt: "",
   slug: "",

@@ -95,9 +95,7 @@ export async function createOrUpdatePage(
           mime_type: "text/markdown",
         },
       }),
-      ...(input.publishedAt && {
-        date_published: input.publishedAt,
-      }),
+      date_published: input.publishedAt || new Date().toISOString(),
       ...(input.excerpt && {
         summary: {
           content: input.excerpt,
@@ -222,6 +220,7 @@ export async function getPagesBySite(input: {
   cursor?: string
   tags?: string[]
   useStat?: boolean
+  useHTML?: boolean
   keepBody?: boolean
   handle?: string // In order to be compatible with old drafts
 }) {
@@ -246,7 +245,12 @@ export async function getPagesBySite(input: {
 
   const list = await Promise.all(
     notes?.list.map(async (note) => {
-      const expanded = await expandCrossbellNote(note, input.useStat)
+      const expanded = await expandCrossbellNote({
+        note,
+        useStat: input.useStat,
+        useHTML: input.useHTML,
+        useScore: false,
+      })
       if (!input.keepBody) {
         delete expanded.metadata?.content?.content
       }
@@ -313,12 +317,18 @@ export async function getPagesBySite(input: {
       break
   }
 
-  expandedNotes.list = expandedNotes.list.sort((a, b) =>
-    a.metadata?.content?.date_published && b.metadata?.content?.date_published
-      ? +new Date(b.metadata?.content?.date_published) -
+  expandedNotes.list = expandedNotes.list.sort((a, b) => {
+    if (!a.metadata?.content?.date_published) {
+      return -1
+    } else if (!b.metadata?.content?.date_published) {
+      return 1
+    } else {
+      return (
+        +new Date(b.metadata?.content?.date_published) -
         +new Date(a.metadata?.content?.date_published)
-      : 0,
-  )
+      )
+    }
+  })
 
   return expandedNotes
 }
@@ -338,7 +348,12 @@ export async function getSearchPagesBySite(input: {
 
   const list: ExpandedNote[] = await Promise.all(
     result.list.map(async (page: any) => {
-      return await expandCrossbellNote(page, true, false, input.keyword)
+      return await expandCrossbellNote({
+        note: page,
+        useStat: true,
+        useScore: false,
+        keyword: input.keyword,
+      })
     }),
   )
 
@@ -392,7 +407,10 @@ export async function getPage<TRender extends boolean = false>(input: {
 
   let expandedNote: ExpandedNote | undefined
   if (page) {
-    expandedNote = await expandCrossbellNote(page, input.useStat)
+    expandedNote = await expandCrossbellNote({
+      note: page,
+      useStat: input.useStat,
+    })
   }
 
   if (localPage) {

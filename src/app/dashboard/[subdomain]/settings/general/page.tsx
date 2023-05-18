@@ -27,6 +27,7 @@ export default function SiteSettingsGeneralPage() {
       icon: "",
       banner: undefined,
       name: "",
+      site_name: "",
       description: "",
       ga: "",
       ua: "",
@@ -38,6 +39,7 @@ export default function SiteSettingsGeneralPage() {
         mime_type: string
       }
       name: string
+      site_name: string
       description: string
       ga: string
       ua: string
@@ -51,6 +53,7 @@ export default function SiteSettingsGeneralPage() {
       banner: values.banner,
       site: subdomain,
       name: values.name,
+      site_name: values.site_name,
       description: values.description,
       ga: values.ga,
       ua: values.ua,
@@ -91,6 +94,8 @@ export default function SiteSettingsGeneralPage() {
         )
       !form.getValues("name") &&
         form.setValue("name", site.data.metadata?.content?.name || "")
+      !form.getValues("site_name") &&
+        form.setValue("site_name", site.data.metadata?.content?.site_name || "")
       !form.getValues("description") &&
         form.setValue("description", site.data.metadata?.content?.bio || "")
       !form.getValues("ga") &&
@@ -165,9 +170,20 @@ export default function SiteSettingsGeneralPage() {
         <div className="mt-5">
           <Input
             required
-            label={t("Name") || ""}
+            label={t("Character Name") || ""}
             id="name"
             {...form.register("name")}
+          />
+        </div>
+        <div className="mt-5">
+          <Input
+            label={t("Site Name") || ""}
+            id="site_name"
+            placeholder={form.getValues("name")}
+            {...form.register("site_name")}
+            help={t(
+              "It will appear in the page title and site header, using the character name by default.",
+            )}
           />
         </div>
         <div className="mt-5">

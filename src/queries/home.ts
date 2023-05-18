@@ -12,6 +12,7 @@ export const useGetFeed = (data?: {
   daysInterval?: number
   searchKeyword?: string
   searchType?: homeModel.SearchType
+  tag?: string
 }) => {
   return useInfiniteQuery({
     queryKey: ["getFeed", data],
