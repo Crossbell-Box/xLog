@@ -1,4 +1,4 @@
-import type { NoteMetadata } from "crossbell.js"
+import type { NoteMetadata } from "crossbell"
 import { useState } from "react"
 
 import { useDate } from "~/hooks/useDate"

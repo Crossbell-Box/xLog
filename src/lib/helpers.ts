@@ -1,4 +1,4 @@
-import type { NoteEntity } from "crossbell.js"
+import type { NoteEntity } from "crossbell"
 
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 

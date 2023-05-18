@@ -1,4 +1,4 @@
-import { CharacterEntity, NoteEntity } from "crossbell.js"
+import type { CharacterEntity, NoteEntity } from "crossbell"
 import { useCallback, useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 

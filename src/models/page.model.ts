@@ -1,11 +1,11 @@
-import { NoteMetadata } from "crossbell.js"
 import type {
   CharacterEntity,
   Contract,
   ListResponse,
   MintedNoteEntity,
   NoteEntity,
-} from "crossbell.js"
+  NoteMetadata,
+} from "crossbell"
 import type Unidata from "unidata.js"
 
 import { GeneralAccount } from "@crossbell/connect-kit"

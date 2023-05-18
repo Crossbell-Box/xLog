@@ -1,6 +1,6 @@
 "use client"
 
-import { CharacterEntity, NoteEntity } from "crossbell.js"
+import type { CharacterEntity, NoteEntity } from "crossbell"
 import { useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"

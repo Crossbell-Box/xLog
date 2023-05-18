@@ -1,15 +1,14 @@
-import { CharacterOperatorPermission, Indexer } from "crossbell.js"
+import type { CharacterOperatorPermission } from "crossbell"
 import type Unidata from "unidata.js"
 
 import type { useContract } from "@crossbell/contract"
+import { indexer } from "@crossbell/indexer"
 import { cacheExchange, createClient, fetchExchange } from "@urql/core"
 
 import { expandCrossbellCharacter } from "~/lib/expand-unit"
 import { SiteNavigationItem } from "~/lib/types"
 
 type Contract = ReturnType<typeof useContract>
-
-const indexer = new Indexer()
 
 export const getSite = async (input: string) => {
   const result = await indexer.getCharacterByHandle(input)

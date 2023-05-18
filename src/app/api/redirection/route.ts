@@ -1,4 +1,4 @@
-import { NoteEntity } from "crossbell.js"
+import type { NoteEntity } from "crossbell"
 import { redirect } from "next/navigation"
 
 import { IS_VERCEL_PREVIEW } from "~/lib/constants"
