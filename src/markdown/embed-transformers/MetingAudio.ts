@@ -1,8 +1,8 @@
 import type { Transformer } from "../rehype-embed"
 import { includesSomeOfArray } from "./utils"
 
-export const MetingMusicTransformer: Transformer = {
-  name: "NetEaseMusic",
+export const MetingAudioTransformer: Transformer = {
+  name: "MetingAudio",
   shouldTransform(url) {
     const { host, pathname } = url
 
