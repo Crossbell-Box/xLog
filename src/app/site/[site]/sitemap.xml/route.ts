@@ -43,6 +43,7 @@ export const GET = async (req: NextRequest) => {
 
   const link = getSiteLink({
     subdomain: site?.handle || "",
+    domain: site?.metadata?.content?.custom_domain,
   })
   return response.headers({
     "Content-Type": "text/xml",
