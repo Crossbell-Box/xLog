@@ -7,6 +7,7 @@ import {
   DEFAULT_COLOR_SCHEME,
   IS_DEV,
 } from "~/lib/constants"
+import { OUR_DOMAIN } from "~/lib/env"
 import { noop } from "~/lib/noop"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { isServerSide } from "~/lib/utils"
@@ -205,7 +206,7 @@ export const useDarkMode = () => {
     date.setMonth(date.getMonth() + 1)
     document.cookie = IS_DEV
       ? `color_scheme=${colorScheme};`
-      : `color_scheme=${colorScheme}; Domain=.xlog.app; Path=/; Secure; HttpOnly; expires=${date.toUTCString()}`
+      : `color_scheme=${colorScheme}; Domain=.${OUR_DOMAIN}; Path=/; Secure; HttpOnly; expires=${date.toUTCString()}`
   }, [value])
 
   const onceRef = useRef(false)
