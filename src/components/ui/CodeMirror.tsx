@@ -249,6 +249,7 @@ const LazyCodeMirrorEditor = forwardRef<
   return (
     <>
       <div
+        data-cm-editor
         ref={editorElementRef}
         onMouseEnter={onMouseEnter}
         className={loading ? "" : props.className}

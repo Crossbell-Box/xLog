@@ -591,12 +591,12 @@ export default function SubdomainEditor() {
                     {isMobileLayout ? (
                       !isRendering ? (
                         <CodeMirrorEditor
-                          cmStyle={cmStyle}
                           value={initialContent}
                           placeholder={t("Start writing...") as string}
                           onChange={onChange}
                           handleDropFile={handleDropFile}
                           onScroll={onEditorScroll}
+                          cmStyle={cmStyle}
                           className={`h-full ${
                             isMobileLayout ? "w-full" : "border-r w-1/2 px-5"
                           }`}
@@ -625,7 +625,10 @@ export default function SubdomainEditor() {
                           onChange={onChange}
                           handleDropFile={handleDropFile}
                           onScroll={onEditorScroll}
-                          // onUpdate={onUpdate}
+                          cmStyle={cmStyle}
+                          className={`h-full ${
+                            isMobileLayout ? "w-full" : "border-r w-1/2 px-5"
+                          }`}
                           onCreateEditor={onCreateEditor}
                           onMouseEnter={() => {
                             setCurrentScrollArea("editor")
