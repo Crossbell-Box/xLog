@@ -59,7 +59,7 @@ export default function DashboardLayout({
         if (userRole.data) {
           setHasPermission(true)
         } else {
-          setHasPermission(true)
+          setHasPermission(false)
         }
       }
     }
