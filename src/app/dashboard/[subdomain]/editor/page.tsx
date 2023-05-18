@@ -209,6 +209,7 @@ export default function SubdomainEditor() {
 
   const isMobileLayout = useIsMobileLayout()
   const [isRendering, setIsRendering] = useState(false)
+  const [previewVisible, setPreviewVisible] = useState(true)
 
   const savePage = async (published: boolean) => {
     const check = await checkPageSlug({
@@ -558,77 +559,72 @@ export default function SubdomainEditor() {
                   : "min-w-[840px] h-screen "
               }`}
             >
-              <div className="h-full overflow-auto w-full">
-                <div className="h-full mx-auto pt-5 flex flex-col">
-                  <div className="px-5 h-12">
-                    <input
-                      type="text"
-                      name="title"
-                      value={values.title}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                          view?.focus()
-                        }
+              <div className="flex-1 pt-5">
+                <div className="px-5 h-12">
+                  <input
+                    type="text"
+                    name="title"
+                    value={values.title}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                        view?.focus()
+                      }
+                    }}
+                    onChange={(e) => updateValue("title", e.target.value)}
+                    className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none bg-white"
+                    placeholder={t("Title goes here...") || ""}
+                  />
+                </div>
+                <div className="mt-5 h-[calc(100%-4.25rem)] flex relative">
+                  <CodeMirrorEditor
+                    className={!previewVisible ? "!w-full !border-r-0" : ""}
+                    value={initialContent}
+                    onChange={onChange}
+                    handleDropFile={handleDropFile}
+                    onScroll={onEditorScroll}
+                    // onUpdate={onUpdate}
+                    onCreateEditor={onCreateEditor}
+                    onMouseEnter={() => {
+                      setCurrentScrollArea("editor")
+                    }}
+                  />
+                  {((!isMobileLayout && previewVisible) ||
+                    (isMobileLayout && !isRendering)) && (
+                    <PageContent
+                      className={cn(
+                        "absolute left-0 right-0 z-10 md:relative",
+                        `bg-white px-5 overflow-scroll pb-[200px]`,
+                        "md:block w-full md:w-1/2 h-full",
+                      )}
+                      parsedContent={parsedContent}
+                      inputRef={previewRef}
+                      onScroll={onPreviewScroll}
+                      onMouseEnter={() => {
+                        setCurrentScrollArea("preview")
                       }}
-                      onChange={(e) => updateValue("title", e.target.value)}
-                      className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none bg-white"
-                      placeholder={t("Title goes here...") || ""}
                     />
-                  </div>
-                  <div className="mt-5 flex-1 flex overflow-hidden">
-                    {isMobileLayout ? (
-                      !isRendering ? (
-                        <CodeMirrorEditor
-                          value={initialContent}
-                          onChange={onChange}
-                          handleDropFile={handleDropFile}
-                          onScroll={onEditorScroll}
-                          // onUpdate={onUpdate}
-                          onCreateEditor={onCreateEditor}
-                          onMouseEnter={() => {
-                            setCurrentScrollArea("editor")
-                          }}
-                        />
-                      ) : (
-                        <PageContent
-                          className={`px-5 overflow-scroll pb-[200px] ${
-                            isMobileLayout ? "" : "w-1/2 "
-                          }`}
-                          parsedContent={parsedContent}
-                          inputRef={previewRef}
-                          onScroll={onPreviewScroll}
-                          onMouseEnter={() => {
-                            setCurrentScrollArea("preview")
-                          }}
-                        ></PageContent>
-                      )
-                    ) : (
-                      <>
-                        <CodeMirrorEditor
-                          value={initialContent}
-                          onChange={onChange}
-                          handleDropFile={handleDropFile}
-                          onScroll={onEditorScroll}
-                          // onUpdate={onUpdate}
-                          onCreateEditor={onCreateEditor}
-                          onMouseEnter={() => {
-                            setCurrentScrollArea("editor")
-                          }}
-                        />
-                        <PageContent
-                          className={`px-5 overflow-scroll pb-[200px] ${
-                            isMobileLayout ? "" : "w-1/2 "
-                          }`}
-                          parsedContent={parsedContent}
-                          inputRef={previewRef}
-                          onScroll={onPreviewScroll}
-                          onMouseEnter={() => {
-                            setCurrentScrollArea("preview")
-                          }}
-                        ></PageContent>
-                      </>
-                    )}
-                  </div>
+                  )}
+
+                  {!isMobileLayout && (
+                    <div
+                      className={cn(
+                        previewVisible ? "right-1/2 " : "right-0",
+                        "absolute top-1/2 z-20 translate-x-1/2",
+                      )}
+                    >
+                      <div
+                        aria-label="Toggle preview view"
+                        className="bg-accent rounded-full cursor-pointer text-white w-6 h-6"
+                        onClick={() => setPreviewVisible(!previewVisible)}
+                      >
+                        {previewVisible ? (
+                          <i className="icon-[mingcute--right-line] text-2xl inline-block w-6 h-6" />
+                        ) : (
+                          <i className="icon-[mingcute--left-line] text-2xl inline-block w-6 h-6" />
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               {!isMobileLayout && (
@@ -720,7 +716,7 @@ const EditorExtraProperties: FC<{
   const site = useGetSite(subdomain)
 
   return (
-    <div className="h-full overflow-auto flex-shrink-0 w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+    <div className="h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
       <div>
         <label className="form-label" htmlFor="publishAt">
           {t("Publish at")}
