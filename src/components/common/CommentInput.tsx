@@ -1,16 +1,20 @@
 import { CharacterEntity, NoteEntity } from "crossbell.js"
-import { useEffect } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
+import { EditorView } from "@codemirror/view"
 import { useAccountState } from "@crossbell/connect-kit"
 import { Popover } from "@headlessui/react"
 
 import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
-import { Input } from "~/components/ui/Input"
+import { editorUpload } from "~/editor/Multimedia"
+import { useUploadFile } from "~/hooks/useUploadFile"
 import { useTranslation } from "~/lib/i18n/client"
 import { useCommentPage, useUpdateComment } from "~/queries/page"
 
+import { CodeMirrorEditor } from "../ui/CodeMirror"
+import { Input } from "../ui/Input"
 import { EmojiPicker } from "./EmojiPicker"
 
 export const CommentInput: React.FC<{
@@ -76,6 +80,38 @@ export const CommentInput: React.FC<{
     }
   }, [commentPage.isSuccess, updateComment.isSuccess, form, onSubmitted])
 
+  const cmViewRef = useRef<EditorView>()
+  const onCreateEditor = useCallback((view: EditorView) => {
+    cmViewRef.current = view
+  }, [])
+
+  const uploadFile = useUploadFile()
+  const handleDropFile = useCallback(
+    async (file: File) => {
+      const view = cmViewRef.current
+      if (view) {
+        editorUpload(file, view)
+      }
+    },
+    [uploadFile],
+  )
+
+  const InputHolder = useCallback(
+    () => (
+      <Input
+        id="content"
+        isBlock
+        required={!!account?.character}
+        disabled={!account?.character}
+        multiline
+        maxLength={600}
+        className="mb-2"
+        placeholder={t("Write a comment on the blockchain") || ""}
+        {...form.register("content", {})}
+      />
+    ),
+    [account?.character, t, form],
+  )
   return (
     <div className="xlog-comment-input flex">
       <Avatar
@@ -86,16 +122,17 @@ export const CommentInput: React.FC<{
       />
       <form className="w-full" onSubmit={handleSubmit}>
         <div>
-          <Input
-            id="content"
-            isBlock
-            required={!!account?.character}
-            disabled={!account?.character}
-            multiline
-            maxLength={600}
-            className="mb-2"
-            placeholder={t("Write a comment on the blockchain") || ""}
+          <CodeMirrorEditor
             {...form.register("content", {})}
+            onChange={(val) => {
+              form.setValue("content", val)
+            }}
+            handleDropFile={handleDropFile}
+            className="mb-2 p-3 h-[74px] border focus-within:border-accent border-[var(--border-color)] rounded-lg outline-2 outline-transparent"
+            placeholder={t("Write a comment on the blockchain") || ""}
+            maxLength={600}
+            onCreateEditor={onCreateEditor}
+            LoadingComponent={InputHolder}
           />
         </div>
         <div className="flex justify-between">
@@ -107,12 +144,26 @@ export const CommentInput: React.FC<{
                 </Popover.Button>
                 <Popover.Panel className="absolute left-0 top-full z-10">
                   <EmojiPicker
-                    onEmojiSelect={(e: any) =>
-                      form.setValue(
-                        "content",
-                        form.getValues("content") + e.native,
-                      )
-                    }
+                    onEmojiSelect={(e: any) => {
+                      const emojiValue = e.native
+                      const view = cmViewRef.current
+                      if (!view) return
+                      const state = view.state
+                      const range = state.selection.ranges[0]
+                      view.dispatch({
+                        changes: {
+                          from: range.from,
+                          to: range.to,
+                          insert: `${emojiValue}`,
+                        },
+                        selection: { anchor: range.from },
+                      })
+
+                      requestAnimationFrame(() => {
+                        // console.log(view.state.doc.toString(), "statevalue")
+                        form.setValue("content", view.state.doc.toString())
+                      })
+                    }}
                   />
                 </Popover.Panel>
               </>
