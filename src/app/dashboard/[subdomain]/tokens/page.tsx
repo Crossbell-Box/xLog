@@ -137,7 +137,7 @@ export default function TokensPage() {
               </div>
               <div className="text-lg">
                 {t("Balance")}:{" "}
-                <span className="font-bold">{token.balance}</span>
+                <span className="font-bold">{`${token.balance}`}</span>
               </div>
               <div>{token.buttons}</div>
             </div>

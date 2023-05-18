@@ -1,4 +1,4 @@
-import { CharacterEntity, NoteEntity } from "crossbell.js"
+import type { CharacterEntity, NoteEntity } from "crossbell"
 import { nanoid } from "nanoid"
 
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"

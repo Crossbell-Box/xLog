@@ -1,12 +1,13 @@
-import { NoteMetadata } from "crossbell.js"
 import type {
   CharacterEntity,
   Contract,
   ListResponse,
   MintedNoteEntity,
   NoteEntity,
-} from "crossbell.js"
+  NoteMetadata,
+} from "crossbell"
 import type Unidata from "unidata.js"
+import type { Address } from "viem"
 
 import { GeneralAccount } from "@crossbell/connect-kit"
 import { indexer } from "@crossbell/indexer"
@@ -136,12 +137,12 @@ export async function postNotes(
   },
   contract?: Contract,
 ) {
-  return contract?.postNotes(
-    input.notes.map((note) => ({
+  return contract?.note.postMany({
+    notes: input.notes.map((note) => ({
       characterId: input.characterId,
       metadataOrUri: note,
     })),
-  )
+  })
 }
 
 const getLocalPages = (input: {
@@ -175,15 +176,15 @@ const getLocalPages = (input: {
           locked: false,
           contractAddress: null,
           uri: null,
-          operator: "",
-          owner: "",
+          operator: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
+          owner: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
           createdAt: new Date(page.date).toISOString(),
           updatedAt: new Date(page.date).toISOString(),
           deletedAt: null,
-          transactionHash: "",
+          transactionHash: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
           blockNumber: 0,
           logIndex: 0,
-          updatedTransactionHash: "",
+          updatedTransactionHash: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
           updatedBlockNumber: 0,
           updatedLogIndex: 0,
           metadata: {
@@ -234,7 +235,7 @@ export async function getPagesBySite(input: {
 
   const visibility = input.visibility || PageVisibilityEnum.All
 
-  const notes = await indexer.getNotes({
+  const notes = await indexer.note.getMany({
     characterId: input.characterId,
     limit: input.limit || 10,
     cursor: input.cursor,
@@ -338,7 +339,7 @@ export async function getSearchPagesBySite(input: {
   keyword?: string
   cursor?: string
 }) {
-  const result = await indexer.searchNotes(input.keyword || "", {
+  const result = await indexer.search.notes(input.keyword || "", {
     cursor: input.cursor,
     characterId: input.characterId,
     tags: ["post"],
@@ -386,7 +387,7 @@ export async function getPage<TRender extends boolean = false>(input: {
       input.noteId = (await response.json())?.noteId
     }
     if (input.noteId) {
-      page = await indexer.getNote(input.characterId, input.noteId)
+      page = await indexer.note.get(input.characterId, input.noteId)
     }
   }
 
@@ -470,7 +471,7 @@ export async function getLikes({
   cursor?: string
   includeCharacter?: boolean
 }) {
-  const res = await indexer.getBacklinksOfNote(characterId, noteId, {
+  const res = await indexer.link.getBacklinksByNote(characterId, noteId, {
     linkType: "like",
     cursor,
   })
@@ -495,7 +496,7 @@ export async function checkLike({
   if (!account.characterId) {
     throw notFound(`character not found`)
   } else {
-    return indexer.getLinks(account.characterId, {
+    return indexer.link.getMany(account.characterId, {
       linkType: "like",
       toCharacterId: characterId,
       toNoteId: noteId,
@@ -515,7 +516,11 @@ export async function mintPage(
   },
   contract?: Contract,
 ) {
-  return contract?.mintNote(characterId, noteId, address)
+  return contract?.note.mint({
+    characterId,
+    noteId,
+    toAddress: address as Address,
+  })
 }
 
 export async function getMints({
@@ -529,7 +534,7 @@ export async function getMints({
   cursor?: string
   includeCharacter?: boolean
 }) {
-  const data = await indexer.getMintedNotesOfNote(characterId, noteId, {
+  const data = await indexer.mintedNote.getManyOfNote(characterId, noteId, {
     cursor,
     limit: 5,
   })
@@ -538,7 +543,7 @@ export async function getMints({
     await Promise.all(
       data.list.map(async (item: any) => {
         if (!item.character) {
-          item.character = await indexer.getPrimaryCharacter(item.owner)
+          item.character = await indexer.character.getPrimary(item.owner)
         }
       }),
     )
@@ -560,7 +565,7 @@ export async function checkMint({
   noteCharacterId: number
   noteId: number
 }) {
-  return indexer.getMintedNotesOfAddress(address, {
+  return indexer.mintedNote.getManyOfAddress(address as Address, {
     noteCharacterId: noteCharacterId,
     noteId: noteId,
   })
@@ -586,7 +591,7 @@ export async function getComments({
     limit: 5,
   }
 
-  const res = (await indexer.getNotes(options)) || {
+  const res = (await indexer.note.getMany(options)) || {
     total: 0,
     list: [],
   }
@@ -608,16 +613,20 @@ export async function updateComment(
   },
   contract: Contract,
 ) {
-  return contract.setNoteMetadata(characterId, noteId, {
-    content,
-    external_urls: [externalUrl],
-    tags: ["comment"],
-    sources: ["xlog"],
+  return contract.note.setMetadata({
+    characterId,
+    noteId,
+    metadata: {
+      content,
+      external_urls: [externalUrl],
+      tags: ["comment"],
+      sources: ["xlog"],
+    },
   })
 }
 
 export async function checkMirror(characterId: number) {
-  const notes = await indexer.getNotes({
+  const notes = await indexer.note.getMany({
     characterId,
     sources: "xlog",
     tags: ["post", "Mirror.xyz"],
