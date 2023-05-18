@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { CSSProperties, useEffect, useMemo, useRef } from "react"
 
 import type { Extension } from "@codemirror/state"
 import { Compartment } from "@codemirror/state"
@@ -38,43 +38,55 @@ export const useCodeMirrorAutoToggleTheme = (
   }, [view, isDark])
 }
 
-export const useCodeMirrorStyle = (view: EditorView | null) => {
+const baseCmStyle = {
+  ".cm-scroller": {
+    fontFamily: monospaceFonts,
+    fontSize: "1rem",
+    overflow: "auto",
+    height: "100%",
+  },
+
+  "&.cm-editor.cm-focused": {
+    outline: "none",
+  },
+  "&.cm-editor": {
+    height: "100%",
+    backgroundColor: "transparent",
+  },
+} as Record<string, CSSProperties>
+
+export const useCodeMirrorStyle = (view: EditorView | null, cmStyle?: any) => {
   const isUnmounted = useIsUnmounted()
   const once = useRef(false)
-  const getStyle = () => {
-    return {
-      ".cm-scroller": {
-        fontFamily: monospaceFonts,
-        fontSize: "1rem",
-        overflow: "auto",
-        height: "100%",
-        padding: "0 1.25rem",
-      },
-      ".cm-content": {
-        paddingBottom: "600px",
-      },
-      "&.cm-editor.cm-focused": {
-        outline: "none",
-      },
-      "&.cm-editor": {
-        height: "100%",
-        backgroundColor: "transparent",
-      },
+
+  const mergedCmStyle = useMemo(() => {
+    const nextStyle = {} as any
+    for (const key in baseCmStyle) {
+      nextStyle[key] = {
+        ...baseCmStyle[key],
+        ...cmStyle?.[key],
+      }
     }
-  }
+
+    return nextStyle
+  }, [cmStyle])
 
   useEffect(() => {
     if (!view) return
     view.dispatch({
-      effects: [extensionMap.style.reconfigure(EditorView.theme(getStyle()))],
+      effects: [
+        extensionMap.style.reconfigure(EditorView.theme(mergedCmStyle)),
+      ],
     })
-  }, [view])
+  }, [view, mergedCmStyle])
 
   if (isUnmounted()) return
   if (!once.current) {
     if (!view) return
     view.dispatch({
-      effects: [extensionMap.style.reconfigure(EditorView.theme(getStyle()))],
+      effects: [
+        extensionMap.style.reconfigure(EditorView.theme(mergedCmStyle)),
+      ],
     })
     once.current = true
   }

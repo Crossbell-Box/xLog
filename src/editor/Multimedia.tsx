@@ -6,7 +6,8 @@ import { type EditorView } from "@codemirror/view"
 import { MAXIMUM_FILE_SIZE } from "~/lib/constants"
 import { UploadFile } from "~/lib/upload-file"
 
-import { ICommand, wrapExecute } from "."
+import type { ICommand } from "."
+import { wrapExecute } from "./helper"
 
 export async function editorUpload(file: File, view: EditorView) {
   const toastId = toast.loading("Uploading...")

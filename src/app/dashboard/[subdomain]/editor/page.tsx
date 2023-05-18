@@ -474,6 +474,18 @@ export default function SubdomainEditor() {
     }
   }, [draftKey, site.data?.characterId])
 
+  const cmStyle = useMemo(
+    () => ({
+      ".cm-scroller": {
+        padding: "0 1.25rem",
+      },
+      ".cm-content": {
+        paddingBottom: "600px",
+      },
+    }),
+    [],
+  )
+
   return (
     <>
       <DashboardMain fullWidth>
@@ -578,15 +590,19 @@ export default function SubdomainEditor() {
                   {!(isMobileLayout && isRendering) && (
                     <CodeMirrorEditor
                       value={initialContent}
+                      placeholder={t("Start writing...") as string}
                       onChange={onChange}
                       handleDropFile={handleDropFile}
                       onScroll={onEditorScroll}
-                      // onUpdate={onUpdate}
+                      cmStyle={cmStyle}
                       onCreateEditor={onCreateEditor}
                       onMouseEnter={() => {
                         setCurrentScrollArea("editor")
                       }}
-                      className={cn("flex-1", isRendering ? "border-r" : "")}
+                      className={cn(
+                        "h-full flex-1",
+                        isRendering ? "border-r" : "",
+                      )}
                     />
                   )}
                   {!isMobileLayout && (

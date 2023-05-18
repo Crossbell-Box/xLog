@@ -1,5 +1,8 @@
 import {
+  CSSProperties,
+  FC,
   Suspense,
+  createElement,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -22,7 +25,6 @@ import {
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
-import { cn } from "~/lib/utils"
 
 const LoadingHolder = () => {
   const { t } = useTranslation("common")
@@ -34,14 +36,18 @@ const LoadingHolder = () => {
 }
 
 interface XLogCodeMirrorEditorProps {
-  value: string
+  value?: string
+  maxLength?: number
+  placeholder?: string
+  className?: string
+  cmStyle?: Record<string, CSSProperties>
   onChange?: (value: string, viewUpdate: ViewUpdate) => void
   handleDropFile?: (file: File) => void
   onScroll?: (scrollTop: number) => void
   onUpdate?: (update: ViewUpdate) => void
   onCreateEditor?: (view: EditorView, state: EditorState) => void
   onMouseEnter?: () => void
-  className?: string
+  LoadingComponent?: FC
 }
 
 export const CodeMirrorEditor = forwardRef<
@@ -49,7 +55,15 @@ export const CodeMirrorEditor = forwardRef<
   XLogCodeMirrorEditorProps
 >((props, ref) => {
   return (
-    <Suspense fallback={<LoadingHolder />}>
+    <Suspense
+      fallback={
+        props.LoadingComponent ? (
+          createElement(props.LoadingComponent)
+        ) : (
+          <LoadingHolder />
+        )
+      }
+    >
       <LazyCodeMirrorEditor {...props} ref={ref} />
     </Suspense>
   )
@@ -65,12 +79,11 @@ const LazyCodeMirrorEditor = forwardRef<
   const [loading, setLoading] = useState(true)
   const editorElementRef = useRef<HTMLDivElement>(null)
   const isUnmounted = useIsUnmounted()
-  const { t } = useTranslation("dashboard")
 
   const [cmEditor, setCmEditor] = useState<EditorView | null>(null)
   const isDark = useIsDark()
 
-  useCodeMirrorStyle(cmEditor)
+  useCodeMirrorStyle(cmEditor, props.cmStyle)
   useCodeMirrorAutoToggleTheme(cmEditor, isDark)
 
   useImperativeHandle(ref, () => cmEditor!)
@@ -79,7 +92,6 @@ const LazyCodeMirrorEditor = forwardRef<
 
   const getHandleDropFile = useGetState(handleDropFile)
   const getOnScroll = useGetState(onScroll)
-  const getValue = useGetState(value)
   const getProps = useGetState(props)
 
   useEffect(() => {
@@ -134,13 +146,13 @@ const LazyCodeMirrorEditor = forwardRef<
         { languages },
       ] = modules
 
+      const props = getProps()
       const editorState = EditorState.create({
-        doc: getValue(),
+        doc: props.value || "",
 
         extensions: [
-          placeholder(t("Start writing...") || ""),
+          placeholder(props.placeholder || ""),
           EditorView.updateListener.of((vu) => {
-            const props = getProps()
             const { onUpdate, onChange } = props
             onUpdate?.(vu)
 
@@ -153,6 +165,10 @@ const LazyCodeMirrorEditor = forwardRef<
             ) {
               const doc = vu.state.doc
               const value = doc.toString()
+
+              if (props.maxLength && value.length > props.maxLength) {
+                return
+              }
               onChange(value, vu)
             }
           }),
@@ -233,11 +249,17 @@ const LazyCodeMirrorEditor = forwardRef<
   return (
     <>
       <div
+        data-cm-editor
         ref={editorElementRef}
         onMouseEnter={onMouseEnter}
-        className={loading ? "" : cn(props.className, "h-full")}
+        className={loading ? "" : props.className}
       />
-      {loading && <LoadingHolder />}
+      {loading &&
+        (props.LoadingComponent ? (
+          createElement(props.LoadingComponent)
+        ) : (
+          <LoadingHolder />
+        ))}
     </>
   )
 })
