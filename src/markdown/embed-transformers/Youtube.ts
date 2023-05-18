@@ -1,5 +1,5 @@
 import type { Transformer } from "../rehype-embed"
-import { iframeStyle, isHostIncludes } from "./utils"
+import { generateIframeHTML, isHostIncludes } from "./utils"
 
 const getTimeValueInSeconds = (timeValue: string) => {
   if (Number(timeValue).toString() === timeValue) {
@@ -49,10 +49,14 @@ export const YoutubeTransformer: Transformer = {
     )
   },
   getHTML(url) {
-    const iframeSrc = getYouTubeIFrameSrc(url)
-
-    return `<div class="xlog-post-content-youtube" style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe width="728" height="409.5" src="${iframeSrc}" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen ${iframeStyle}></iframe>
-    </div>`
+    return generateIframeHTML({
+      name: "youtube",
+      src: getYouTubeIFrameSrc(url),
+      width: "100%",
+      height: "410px",
+      allow:
+        "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
+      allowFullScreen: true,
+    })
   },
 }

@@ -56,6 +56,9 @@ const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
 const Tweet = dynamic(() => import("~/components/ui/Tweet"))
 const GithubRepo = dynamic(() => import("~/components/ui/GithubRepo"))
 const APlayer = dynamic(() => import("~/components/ui/APlayer"))
+const APlayerWithMeting = dynamic(
+  () => import("~/components/ui/APlayerWithMeting"),
+)
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"), {
   ssr: false,
 })
@@ -229,6 +232,7 @@ export const renderPageContent = (
           mention: Mention,
           mermaid: Mermaid,
           audio: APlayer,
+          "meting-audio": APlayerWithMeting,
           video: DPlayer,
           tweet: Tweet,
           "github-repo": GithubRepo,
