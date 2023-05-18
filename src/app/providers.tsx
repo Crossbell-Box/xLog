@@ -1,12 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { WagmiConfig, createClient } from "wagmi"
+import { WagmiConfig } from "wagmi"
 
-import {
-  ConnectKitProvider,
-  getDefaultClientConfig,
-} from "@crossbell/connect-kit"
+import { ConnectKitProvider, createWagmiConfig } from "@crossbell/connect-kit"
 import {
   NotificationModal,
   NotificationModalColorScheme,
@@ -24,7 +21,7 @@ import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
 import { LangProvider } from "~/providers/LangProvider"
 
-const wagmiClient = createClient(getDefaultClientConfig({ appName: APP_NAME }))
+const wagmiConfig = createWagmiConfig({ appName: APP_NAME })
 
 const persister = createIDBPersister()
 
@@ -58,7 +55,7 @@ export default function Providers({
   )
 
   return (
-    <WagmiConfig client={wagmiClient}>
+    <WagmiConfig config={wagmiConfig}>
       <PersistQueryClientProvider
         client={queryClient}
         persistOptions={{

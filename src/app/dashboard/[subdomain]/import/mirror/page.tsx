@@ -1,6 +1,6 @@
 "use client"
 
-import type { NoteMetadata } from "crossbell.js"
+import type { NoteMetadata } from "crossbell"
 import { useParams } from "next/navigation"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"

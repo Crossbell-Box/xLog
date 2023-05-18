@@ -1,4 +1,4 @@
-import type { CharacterEntity, NoteEntity } from "crossbell.js"
+import type { CharacterEntity, NoteEntity } from "crossbell"
 
 export type Site = {
   id: string
