@@ -83,6 +83,7 @@ export default async function middleware(req: NextRequest) {
   const requestHeaders = new Headers(req.headers)
   requestHeaders.set("x-pathname", req.nextUrl.pathname)
   requestHeaders.set("x-search", req.nextUrl.search)
+  requestHeaders.set("x-handle", tenant.subdomain || "")
 
   if (tenant?.subdomain) {
     const url = req.nextUrl.clone()
