@@ -28,7 +28,7 @@ export const generateIframeHTML = ({
     })
     .join(" ")
 
-  return `<div class="xlog-post-content-${name}" style="position: relative; width: ${width}px; height: ${height}; margin: 1rem auto;">
+  return `<div class="xlog-post-content-${name}" style="position: relative; width: ${width}; height: ${height}; margin: 1rem auto;">
   <iframe src="${src}" border="0" ${iframeStyle} ${iframeAttributes}></iframe>
 </div>`
 }
