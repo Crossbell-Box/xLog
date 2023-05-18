@@ -208,8 +208,7 @@ export default function SubdomainEditor() {
   const createOrUpdatePage = useCreateOrUpdatePage()
 
   const isMobileLayout = useIsMobileLayout()
-  const [isRendering, setIsRendering] = useState(false)
-  const [previewVisible, setPreviewVisible] = useState(true)
+  const [isRendering, setIsRendering] = useState(!isMobileLayout)
 
   const savePage = async (published: boolean) => {
     const check = await checkPageSlug({
@@ -559,7 +558,7 @@ export default function SubdomainEditor() {
                   : "min-w-[840px] h-screen "
               }`}
             >
-              <div className="flex-1 pt-5">
+              <div className="flex-1 pt-5 flex flex-col min-w-0">
                 <div className="px-5 h-12">
                   <input
                     type="text"
@@ -575,27 +574,39 @@ export default function SubdomainEditor() {
                     placeholder={t("Title goes here...") || ""}
                   />
                 </div>
-                <div className="mt-5 h-[calc(100%-4.25rem)] flex relative">
-                  <CodeMirrorEditor
-                    className={!previewVisible ? "!w-full !border-r-0" : ""}
-                    value={initialContent}
-                    onChange={onChange}
-                    handleDropFile={handleDropFile}
-                    onScroll={onEditorScroll}
-                    // onUpdate={onUpdate}
-                    onCreateEditor={onCreateEditor}
-                    onMouseEnter={() => {
-                      setCurrentScrollArea("editor")
-                    }}
-                  />
-                  {((!isMobileLayout && previewVisible) ||
-                    (isMobileLayout && !isRendering)) && (
+                <div className="mt-5 flex-1 min-h-0 flex relative items-center">
+                  {!(isMobileLayout && isRendering) && (
+                    <CodeMirrorEditor
+                      value={initialContent}
+                      onChange={onChange}
+                      handleDropFile={handleDropFile}
+                      onScroll={onEditorScroll}
+                      // onUpdate={onUpdate}
+                      onCreateEditor={onCreateEditor}
+                      onMouseEnter={() => {
+                        setCurrentScrollArea("editor")
+                      }}
+                      className={cn("flex-1", isRendering ? "border-r" : "")}
+                    />
+                  )}
+                  {!isMobileLayout && (
+                    <div className="z-10 w-[1px]">
+                      <div
+                        aria-label="Toggle preview view"
+                        className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 -translate-x-1/2"
+                        onClick={() => setIsRendering(!isRendering)}
+                      >
+                        {isRendering ? (
+                          <i className="icon-[mingcute--right-line] text-2xl inline-block w-6 h-6" />
+                        ) : (
+                          <i className="icon-[mingcute--left-line] text-2xl inline-block w-6 h-6" />
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {isRendering && (
                     <PageContent
-                      className={cn(
-                        "absolute left-0 right-0 z-10 md:relative",
-                        `bg-white px-5 overflow-scroll pb-[200px]`,
-                        "md:block w-full md:w-1/2 h-full",
-                      )}
+                      className="bg-white px-5 overflow-scroll pb-[200px] h-full flex-1"
                       parsedContent={parsedContent}
                       inputRef={previewRef}
                       onScroll={onPreviewScroll}
@@ -603,27 +614,6 @@ export default function SubdomainEditor() {
                         setCurrentScrollArea("preview")
                       }}
                     />
-                  )}
-
-                  {!isMobileLayout && (
-                    <div
-                      className={cn(
-                        previewVisible ? "right-1/2 " : "right-0",
-                        "absolute top-1/2 z-20 translate-x-1/2",
-                      )}
-                    >
-                      <div
-                        aria-label="Toggle preview view"
-                        className="bg-accent rounded-full cursor-pointer text-white w-6 h-6"
-                        onClick={() => setPreviewVisible(!previewVisible)}
-                      >
-                        {previewVisible ? (
-                          <i className="icon-[mingcute--right-line] text-2xl inline-block w-6 h-6" />
-                        ) : (
-                          <i className="icon-[mingcute--left-line] text-2xl inline-block w-6 h-6" />
-                        )}
-                      </div>
-                    </div>
                   )}
                 </div>
               </div>

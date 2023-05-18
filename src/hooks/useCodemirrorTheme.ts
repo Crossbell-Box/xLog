@@ -7,7 +7,6 @@ import { EditorView } from "@codemirror/view"
 import { githubLight } from "@ddietr/codemirror-themes/theme/github-light"
 
 import { useIsUnmounted } from "./useLifecycle"
-import { useIsMobileLayout } from "./useMobileLayout"
 
 export const monospaceFonts = `"OperatorMonoSSmLig Nerd Font","Cascadia Code PL","FantasqueSansMono Nerd Font","operator mono","Fira code Retina","Fira code","Consolas", Monaco, "Hannotate SC", monospace, -apple-system`
 
@@ -40,7 +39,6 @@ export const useCodeMirrorAutoToggleTheme = (
 }
 
 export const useCodeMirrorStyle = (view: EditorView | null) => {
-  const isMobileLayout = useIsMobileLayout()
   const isUnmounted = useIsUnmounted()
   const once = useRef(false)
   const getStyle = () => {
@@ -50,7 +48,7 @@ export const useCodeMirrorStyle = (view: EditorView | null) => {
         fontSize: "1rem",
         overflow: "auto",
         height: "100%",
-        padding: isMobileLayout ? "0 1.25rem" : "unset",
+        padding: "0 1.25rem",
       },
       ".cm-content": {
         paddingBottom: "600px",
@@ -70,7 +68,7 @@ export const useCodeMirrorStyle = (view: EditorView | null) => {
     view.dispatch({
       effects: [extensionMap.style.reconfigure(EditorView.theme(getStyle()))],
     })
-  }, [view, isMobileLayout])
+  }, [view])
 
   if (isUnmounted()) return
   if (!once.current) {

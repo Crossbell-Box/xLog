@@ -22,7 +22,6 @@ import {
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
-import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { cn } from "~/lib/utils"
 
 const LoadingHolder = () => {
@@ -67,7 +66,6 @@ const LazyCodeMirrorEditor = forwardRef<
   const editorElementRef = useRef<HTMLDivElement>(null)
   const isUnmounted = useIsUnmounted()
   const { t } = useTranslation("dashboard")
-  const isMobileLayout = useIsMobileLayout()
 
   const [cmEditor, setCmEditor] = useState<EditorView | null>(null)
   const isDark = useIsDark()
@@ -237,15 +235,7 @@ const LazyCodeMirrorEditor = forwardRef<
       <div
         ref={editorElementRef}
         onMouseEnter={onMouseEnter}
-        className={
-          loading
-            ? ""
-            : cn(
-                props.className,
-                "h-full",
-                isMobileLayout ? "w-full" : "border-r w-1/2 px-5",
-              )
-        }
+        className={loading ? "" : cn(props.className, "h-full")}
       />
       {loading && <LoadingHolder />}
     </>
