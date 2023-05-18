@@ -22,7 +22,10 @@ export const generateIframeHTML = ({
   const iframeStyle =
     'style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"'
   const iframeAttributes = Object.entries(attributes)
-    .map(([key, value]) => `${key}="${value}"`)
+    .map(([key, value]) => {
+      if (key === "allowFullScreen") return key.toLowerCase()
+      return `${key.toLowerCase()}="${value}"`
+    })
     .join(" ")
 
   return `<div class="xlog-post-content-${name}" style="position: relative; width: ${width}px; height: ${height}; margin: 1rem auto;">
