@@ -56,8 +56,7 @@ export default async function middleware(req: NextRequest) {
     pathname.match(/^\/(workbox|worker|fallback)-\w+\.js(\.map)?$/) ||
     pathname === "/sw.js" ||
     pathname === "/sw.js.map" ||
-    pathname === "/robots.txt" ||
-    pathname === "/sitemap.xml"
+    pathname === "/robots.txt"
   ) {
     return NextResponse.next()
   }
