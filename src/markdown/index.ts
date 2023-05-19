@@ -31,15 +31,16 @@ import { unified } from "unified"
 
 import { ZoomedImage } from "~/components/ui/Image"
 
+import { transformers } from "./embed-transformers"
 import { rehypeAudio } from "./rehype-audio"
 import {
   allowedCustomWrappers,
   defaultRules,
   rehypeCustomWrapper,
 } from "./rehype-custom-wrapper"
+import { rehypeEmbed } from "./rehype-embed"
 import { rehypeImage } from "./rehype-image"
 import { rehypeTable } from "./rehype-table"
-import { rehypeTweet } from "./rehype-tweet"
 import { rehypeVideo } from "./rehype-video"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
@@ -53,7 +54,9 @@ const Style = dynamic(() => import("~/components/common/Style"))
 const Mention = dynamic(() => import("~/components/ui/Mention"))
 const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
 const Tweet = dynamic(() => import("~/components/ui/Tweet"))
+const GithubRepo = dynamic(() => import("~/components/ui/GithubRepo"))
 const APlayer = dynamic(() => import("~/components/ui/APlayer"))
+
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"), {
   ssr: false,
 })
@@ -176,7 +179,9 @@ export const renderPageContent = (
       .use(rehypeExternalLink)
       .use(rehypeWrapCode)
       .use(rehypeInferDescriptionMeta)
-      .use(rehypeTweet)
+      .use(rehypeEmbed, {
+        transformers,
+      })
       .use(rehypeRewrite, {
         selector: "p, li",
         rewrite: (node: any) => {
@@ -227,6 +232,7 @@ export const renderPageContent = (
           audio: APlayer,
           video: DPlayer,
           tweet: Tweet,
+          "github-repo": GithubRepo,
           style: Style,
         } as any,
       })
