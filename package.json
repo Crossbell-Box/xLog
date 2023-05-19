@@ -183,7 +183,7 @@
     "cspell": "^6.31.1",
     "esbuild": "0.17.19",
     "esbuild-register": "3.4.2",
-    "eslint": "8.40.0",
+    "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-unused-imports": "2.0.0",
