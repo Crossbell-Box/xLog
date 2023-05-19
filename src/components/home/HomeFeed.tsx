@@ -174,17 +174,20 @@ const MemoedPost = memo(Post)
 
 export const HomeFeed: React.FC<{
   noteIds?: string[]
-  keyword?: string
   type?: FeedType
-}> = ({ noteIds, keyword, type }) => {
+}> = ({ noteIds, type }) => {
   const { t } = useTranslation("common")
   const searchParams = useSearchParams()
-
-  const [feedType, setFeedType] = useState<FeedType>(type || "latest")
+  const router = useRouter()
 
   const currentCharacterId = useAccountState(
     (s) => s.computed.account?.characterId,
   )
+
+  const connectModal = useConnectModal()
+  if (type === "following" && !currentCharacterId) {
+    connectModal.show()
+  }
 
   const [hotInterval, setHotInterval] = useState(7)
   const [searchType, setSearchType] = useState<SearchType>("latest")
@@ -192,7 +195,7 @@ export const HomeFeed: React.FC<{
   const params = useParams()
 
   const feed = useGetFeed({
-    type: feedType,
+    type,
     characterId: currentCharacterId,
     noteIds: noteIds,
     daysInterval: hotInterval,
@@ -201,7 +204,7 @@ export const HomeFeed: React.FC<{
     tag: decodeURIComponent(params?.tag),
   })
 
-  const hasFiltering = feedType === "latest"
+  const hasFiltering = type === "latest"
 
   const [aiFiltering, setAiFiltering] = useState(true)
 
@@ -240,40 +243,13 @@ export const HomeFeed: React.FC<{
     },
     {
       text: "Hottest",
-      onClick: () => setSearchType("hot"),
-      active: searchType === "hot",
-    },
-  ]
-
-  const connectModal = useConnectModal()
-
-  const tabs = [
-    {
-      text: "Latest",
-      onClick: () => setFeedType("latest"),
-      active: feedType === "latest",
-    },
-    {
-      text: "Hottest",
-      onClick: () => setFeedType("hot"),
-      active: feedType === "hot",
-    },
-    {
-      text: "Following",
-      onClick: () => {
-        if (!currentCharacterId) {
-          connectModal.show()
-        } else {
-          setFeedType("following")
-        }
-      },
-      active: feedType === "following",
+      onClick: () => setSearchType("hottest"),
+      active: searchType === "hottest",
     },
   ]
 
   return (
     <>
-      {!type && <Tabs items={tabs} className="border-none text-lg"></Tabs>}
       <div className="space-y-10">
         {hasFiltering && (
           <div className="flex items-center text-zinc-500">
@@ -309,10 +285,10 @@ export const HomeFeed: React.FC<{
             </Switch>
           </div>
         )}
-        {feedType === "hot" && (
+        {type === "hottest" && (
           <Tabs items={hotTabs} className="border-none text-sm -my-4"></Tabs>
         )}
-        {feedType === "search" && (
+        {type === "search" && (
           <Tabs items={searchTabs} className="border-none text-sm -my-4"></Tabs>
         )}
 
@@ -337,7 +313,7 @@ export const HomeFeed: React.FC<{
                           key={`${post.characterId}-${post.noteId}`}
                           post={post}
                           previousPost={
-                            feedType === "latest" && index >= 1
+                            type === "latest" && index >= 1
                               ? array[index - 1]
                               : undefined
                           }

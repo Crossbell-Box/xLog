@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const searchParams = new URLSearchParams(request.url.split("?")[1])
 
   const feed = await getFeed({
-    type: "hot",
+    type: "hottest",
     daysInterval: parseInt(searchParams.get("interval") || "0"),
     useHTML: true,
     limit: 10,

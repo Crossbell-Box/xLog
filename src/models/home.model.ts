@@ -12,10 +12,10 @@ export type FeedType =
   | "latest"
   | "following"
   | "topic"
-  | "hot"
+  | "hottest"
   | "search"
   | "tag"
-export type SearchType = "latest" | "hot"
+export type SearchType = "latest" | "hottest"
 
 export async function getFeed({
   type,
@@ -183,7 +183,7 @@ export async function getFeed({
         count: list?.length || 0,
       }
     }
-    case "hot": {
+    case "hottest": {
       const client = createClient({
         url: "https://indexer.crossbell.io/v1/graphql",
         exchanges: [cacheExchange, fetchExchange],
@@ -269,7 +269,7 @@ export async function getFeed({
         limit: limit,
         cursor,
         includeCharacterMetadata: true,
-        orderBy: searchType === "hot" ? "viewCount" : "createdAt",
+        orderBy: searchType === "hottest" ? "viewCount" : "createdAt",
       })
 
       const list = await Promise.all(
