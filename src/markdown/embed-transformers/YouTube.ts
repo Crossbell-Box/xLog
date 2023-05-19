@@ -52,8 +52,7 @@ export const YouTubeTransformer: Transformer = {
     return generateIframeHTML({
       name: "youtube",
       src: getYouTubeIFrameSrc(url),
-      width: "100%",
-      height: "410px",
+      ratio: "16 / 9",
       allow:
         "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
       allowFullScreen: true,

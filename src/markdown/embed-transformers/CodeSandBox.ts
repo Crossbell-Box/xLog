@@ -12,8 +12,7 @@ export const CodeSandboxTransformer: Transformer = {
     return generateIframeHTML({
       name: "codesandbox",
       src: url.toString().replace("/s/", "/embed/"),
-      height: "500px",
-      width: "100%",
+      ratio: "16 / 9",
       allow:
         "accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking",
       sandbox:

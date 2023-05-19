@@ -2,6 +2,7 @@ import { IframeHTMLAttributes } from "react"
 
 interface IframeProps extends IframeHTMLAttributes<HTMLIFrameElement> {
   name: string
+  ratio?: string
 }
 
 export const isHostIncludes = (domain: string, host: string) => {
@@ -16,11 +17,10 @@ export const generateIframeHTML = ({
   src,
   height,
   width,
+  ratio,
   style,
   ...attributes
 }: IframeProps) => {
-  const iframeStyle =
-    'style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"'
   const iframeAttributes = Object.entries(attributes)
     .map(([key, value]) => {
       if (key === "allowFullScreen") return key.toLowerCase()
@@ -28,7 +28,9 @@ export const generateIframeHTML = ({
     })
     .join(" ")
 
-  return `<div class="xlog-post-content-${name}" style="position: relative; width: ${width}; height: ${height}; margin: 1rem auto;">
-  <iframe src="${src}" border="0" ${iframeStyle} ${iframeAttributes}></iframe>
+  return `<div class="xlog-post-content-${name} relative my-4 mx-auto" style="${
+    ratio ? `aspect-ratio: ${ratio};` : `width: ${width}; height: ${height};`
+  }">
+  <iframe class="absolute left-0 top-0 w-full h-full" src="${src}" border="0" ${iframeAttributes}></iframe>
 </div>`
 }

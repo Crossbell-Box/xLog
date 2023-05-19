@@ -1,4 +1,5 @@
 import type { Transformer } from "../rehype-embed"
+import { BilibiliTransformer } from "./Bilibili"
 import { CodeSandboxTransformer } from "./CodeSandBox"
 import { GitHubRepoTransformer } from "./GitHub"
 import { NetEaseMusicTransformer } from "./NetEaseMusic"
@@ -11,4 +12,5 @@ export const transformers: Transformer[] = [
   GitHubRepoTransformer,
   YouTubeTransformer,
   NetEaseMusicTransformer,
+  BilibiliTransformer,
 ]
