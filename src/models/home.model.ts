@@ -47,7 +47,7 @@ export async function getFeed({
     case "latest": {
       let result = await indexer.note.getMany({
         sources: "xlog",
-        tags: ["post"],
+        // tags: ["post"],
         limit,
         cursor,
         includeCharacter: true,
@@ -56,12 +56,18 @@ export async function getFeed({
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
+          const isComment = page.metadata?.content?.tags?.includes("comment")
           const expand = await expandCrossbellNote({
             note: page,
-            useStat: false,
-            useScore: true,
+            useScore: !isComment,
             useHTML,
           })
+          if (isComment && expand.toNote) {
+            expand.toNote = await expandCrossbellNote({
+              note: expand.toNote,
+              useHTML,
+            })
+          }
           delete expand.metadata?.content.content
           return expand
         }),

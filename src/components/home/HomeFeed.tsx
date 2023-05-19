@@ -25,6 +25,97 @@ import { useGetFeed } from "~/queries/home"
 
 import { EmptyState } from "../ui/EmptyState"
 
+const PostCard = ({
+  post,
+  simple,
+  isComment,
+  keyword,
+}: {
+  post: ExpandedNote
+  simple?: boolean
+  isComment?: boolean
+  keyword?: string
+}) => {
+  const router = useRouter()
+
+  return (
+    <Link
+      target="_blank"
+      href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
+      className={cn(
+        "xlog-post sm:hover:bg-hover transition-all p-4 ml-10 sm:rounded-xl flex flex-col sm:flex-row items-center hover:opacity-100",
+        simple && "opacity-90",
+        isComment ? "bg-zinc-50" : "bg-white",
+      )}
+      prefetch={false}
+    >
+      <div className="flex-1 flex justify-center flex-col w-full min-w-0">
+        <h3
+          className={cn(
+            "xlog-post-title font-bold text-zinc-700",
+            simple ? "text-xl" : "text-2xl",
+          )}
+        >
+          {post.metadata?.content?.title}
+        </h3>
+        {!simple && (
+          <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
+            {!!post.metadata?.content?.tags?.filter(
+              (tag) => tag !== "post" && tag !== "page",
+            ).length && (
+              <span className="xlog-post-tags space-x-1 truncate min-w-0">
+                {post.metadata?.content?.tags
+                  ?.filter((tag) => tag !== "post" && tag !== "page")
+                  .map((tag, index) => (
+                    <span
+                      className="hover:text-zinc-600"
+                      key={tag + index}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        router.push(`/tag/${tag}`)
+                      }}
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+              </span>
+            )}
+            {post.stat?.viewDetailCount && (
+              <span className="xlog-post-views inline-flex items-center">
+                <i className="icon-[mingcute--eye-line] mr-[2px]" />
+                <span>{post.stat?.viewDetailCount}</span>
+              </span>
+            )}
+          </div>
+        )}
+        <div
+          className={cn(
+            "xlog-post-excerpt mt-3 text-zinc-500",
+            simple ? "line-clamp-1" : "line-clamp-2",
+          )}
+          style={{
+            wordBreak: "break-word",
+          }}
+        >
+          {keyword
+            ? reactStringReplace(
+                post.metadata?.content?.summary || "",
+                keyword,
+                (match, i) => (
+                  <span key={i} className="bg-yellow-200">
+                    {match}
+                  </span>
+                ),
+              )
+            : post.metadata?.content?.summary}
+          {post.metadata?.content?.summary && "..."}
+        </div>
+      </div>
+      {!simple && <PostCover cover={post.metadata?.content.cover} />}
+    </Link>
+  )
+}
+
 const Post = ({
   post,
   previousPost,
@@ -36,9 +127,9 @@ const Post = ({
   filtering: number
   keyword?: string
 }) => {
-  const router = useRouter()
   const { t } = useTranslation("common")
   const date = useDate()
+  let simple = post.characterId === previousPost?.characterId
 
   if (
     filtering &&
@@ -48,7 +139,13 @@ const Post = ({
     return <div className="h-[1px]"></div>
   }
 
-  let simple = post.characterId === previousPost?.characterId
+  let isComment
+  if (post.metadata?.content?.tags?.includes("comment") && post.toNote) {
+    isComment = true
+    if (post.toNote?.metadata?.content?.tags?.includes("comment")) {
+      return null
+    }
+  }
 
   return (
     <div className={cn(simple ? "!mt-4" : "")}>
@@ -96,76 +193,24 @@ const Post = ({
           </time>
         </div>
       )}
-      <Link
-        target="_blank"
-        href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
-        className="xlog-post sm:hover:bg-hover bg-white transition-all p-4 ml-10 sm:rounded-xl flex flex-col sm:flex-row items-center"
-        prefetch={false}
-      >
-        <div className="flex-1 flex justify-center flex-col w-full min-w-0">
-          <h3
-            className={cn(
-              "xlog-post-title font-bold text-zinc-700",
-              simple ? "text-xl" : "text-2xl",
-            )}
-          >
-            {post.metadata?.content?.title}
-          </h3>
-          {!simple && (
-            <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
-              {!!post.metadata?.content?.tags?.filter(
-                (tag) => tag !== "post" && tag !== "page",
-              ).length && (
-                <span className="xlog-post-tags space-x-1 truncate min-w-0">
-                  {post.metadata?.content?.tags
-                    ?.filter((tag) => tag !== "post" && tag !== "page")
-                    .map((tag, index) => (
-                      <span
-                        className="hover:text-zinc-600"
-                        key={tag + index}
-                        onClick={(e) => {
-                          e.preventDefault()
-                          router.push(`/tag/${tag}`)
-                        }}
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                </span>
-              )}
-              {post.stat?.viewDetailCount && (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--eye-line] mr-[2px]" />
-                  <span>{post.stat?.viewDetailCount}</span>
-                </span>
-              )}
-            </div>
-          )}
-          <div
-            className={cn(
-              "xlog-post-excerpt mt-3 text-zinc-500",
-              simple ? "line-clamp-1" : "line-clamp-2",
-            )}
-            style={{
-              wordBreak: "break-word",
-            }}
-          >
-            {keyword
-              ? reactStringReplace(
-                  post.metadata?.content?.summary || "",
-                  keyword,
-                  (match, i) => (
-                    <span key={i} className="bg-yellow-200">
-                      {match}
-                    </span>
-                  ),
-                )
-              : post.metadata?.content?.summary}
-            {post.metadata?.content?.summary && "..."}
-          </div>
-        </div>
-        {!simple && <PostCover cover={post.metadata?.content.cover} />}
-      </Link>
+      {isComment && (
+        <Link
+          target="_blank"
+          href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
+          className="block p-4 ml-10 font-medium text-zinc-700"
+        >
+          <i className="icon-[mingcute--comment-fill] align-middle mr-2" />
+          <span className="align-middle">
+            {post.metadata?.content?.summary}
+          </span>
+        </Link>
+      )}
+      <PostCard
+        post={isComment ? (post.toNote as ExpandedNote) : post}
+        simple={simple || isComment}
+        isComment={isComment}
+        keyword={keyword}
+      />
     </div>
   )
 }
