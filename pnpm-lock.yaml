@@ -92,8 +92,8 @@ dependencies:
     specifier: 4.29.7
     version: 4.29.7(@tanstack/react-query@4.29.7)
   '@uiw/codemirror-extensions-events':
-    specifier: 4.19.16
-    version: 4.19.16(@codemirror/view@6.11.1)
+    specifier: 4.20.2
+    version: 4.20.2(@codemirror/view@6.11.1)
   '@urql/core':
     specifier: 4.0.7
     version: 4.0.7(graphql@16.6.0)
@@ -4781,8 +4781,8 @@ packages:
       eslint-visitor-keys: 3.4.1
     dev: true
 
-  /@uiw/codemirror-extensions-events@4.19.16(@codemirror/view@6.11.1):
-    resolution: {integrity: sha512-XNoMDj0G/7GCFKOwcP1rMlKHCDKkNKVBr55YaQsznsLfiFo8XtP72/5dM/3xKLa0Mr37Z3BbmVAT/WgnR5s/8A==}
+  /@uiw/codemirror-extensions-events@4.20.2(@codemirror/view@6.11.1):
+    resolution: {integrity: sha512-P0yB45KzzIaow7KinTIyCD8o2S+y6xgWog1mU0/d/Jqs6PLmj9u96GjlFrwr1xI4/S03m76X7HmVkt6B7cc8xw==}
     peerDependencies:
       '@codemirror/view': '>=6.0.0'
     dependencies:

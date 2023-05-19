@@ -58,7 +58,7 @@
     "@tanstack/react-query": "4.29.7",
     "@tanstack/react-query-devtools": "4.29.7",
     "@tanstack/react-query-persist-client": "4.29.7",
-    "@uiw/codemirror-extensions-events": "4.19.16",
+    "@uiw/codemirror-extensions-events": "4.20.2",
     "@urql/core": "4.0.7",
     "ahooks": "^3.7.7",
     "aplayer-react": "^1.1.0",
