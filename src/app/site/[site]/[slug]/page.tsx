@@ -151,6 +151,9 @@ export default async function SitePagePage({
           className="mt-10"
           content={page?.metadata?.content?.content}
           toc={true}
+          page={page}
+          site={site}
+          withActions={true}
         />
       </article>
       {!onlyContent && (

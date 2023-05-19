@@ -24,7 +24,8 @@ export const ReactionLike: React.FC<{
   size?: "sm" | "base"
   characterId?: number
   noteId?: number
-}> = ({ size, characterId, noteId }) => {
+  vertical?: boolean
+}> = ({ size, characterId, noteId, vertical }) => {
   const toggleLikePage = useToggleLikePage()
   const { t, i18n } = useTranslation("common")
 
@@ -94,6 +95,8 @@ export const ReactionLike: React.FC<{
     }
   }, [toggleLikePage.isSuccess])
 
+  const showAvatarStack = size !== "sm" && !vertical
+
   const avatars = useMemo(
     () =>
       likes
@@ -112,7 +115,13 @@ export const ReactionLike: React.FC<{
       <div className={cn("xlog-reactions-like flex items-center sm:mb-0")}>
         <Button
           variant="like"
-          className={`flex items-center mr-2 ${likeStatus.isLiked && "active"}`}
+          className={cn(
+            "flex items-center",
+            {
+              active: likeStatus.isLiked,
+            },
+            vertical ? "!h-auto flex-col" : "mr-2",
+          )}
           isAutoWidth={true}
           onClick={like}
           isLoading={toggleLikePage.isPending}
@@ -122,8 +131,13 @@ export const ReactionLike: React.FC<{
             const inner = (
               <span
                 className={cn(
-                  "icon-[mingcute--thumb-up-2-fill] mr-1",
-                  size === "sm" ? "text-base" : "text-[38px]",
+                  "icon-[mingcute--thumb-up-2-fill]",
+                  size === "sm"
+                    ? "text-base"
+                    : vertical
+                    ? "text-[33px]"
+                    : "text-[38px]",
+                  vertical ? "" : "mr-1",
                 )}
               ></span>
             )
@@ -135,9 +149,9 @@ export const ReactionLike: React.FC<{
               inner
             )
           })()}
-          <span>{likeCount}</span>
+          <span className="leading-snug">{likeCount}</span>
         </Button>
-        {size !== "sm" && (
+        {showAvatarStack && (
           <AvatarStack
             avatars={avatars}
             count={likeCount}
@@ -196,14 +210,16 @@ export const ReactionLike: React.FC<{
           </Button>
         </div>
       </Modal>
-      <CharacterList
-        open={isLikeListOpen}
-        setOpen={setIsLikeListOpen}
-        title={t("Like List")}
-        loadMore={likesMutation.fetchNextPage}
-        hasMore={!!likesMutation.hasNextPage}
-        list={likesMutation.data?.pages || []}
-      ></CharacterList>
+      {showAvatarStack && (
+        <CharacterList
+          open={isLikeListOpen}
+          setOpen={setIsLikeListOpen}
+          title={t("Like List")}
+          loadMore={likesMutation.fetchNextPage}
+          hasMore={!!likesMutation.hasNextPage}
+          list={likesMutation.data?.pages || []}
+        ></CharacterList>
+      )}
     </>
   )
 }

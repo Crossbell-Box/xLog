@@ -23,7 +23,8 @@ export const ReactionMint: React.FC<{
   size?: "sm" | "base"
   noteId?: number
   characterId?: number
-}> = ({ size, noteId, characterId }) => {
+  vertical?: boolean
+}> = ({ size, noteId, characterId, vertical }) => {
   const mintPage = useMintPage()
   const { t, i18n } = useTranslation("common")
 
@@ -83,6 +84,8 @@ export const ReactionMint: React.FC<{
     }
   }, [mintPage.isSuccess])
 
+  const showAvatarStack = size !== "sm" && !vertical
+
   const avatars = useMemo(
     () =>
       mints.data?.pages?.[0]?.list
@@ -102,9 +105,13 @@ export const ReactionMint: React.FC<{
       <div className="xlog-reactions-mint flex items-center">
         <Button
           variant="collect"
-          className={`flex items-center mr-2 ${
-            isMint.isSuccess && isMint.data.count && "active"
-          }`}
+          className={cn(
+            "flex items-center",
+            {
+              active: isMint.isSuccess && isMint.data.count,
+            },
+            vertical ? "!h-auto flex-col" : "mr-2",
+          )}
           isAutoWidth={true}
           onClick={mint}
           isLoading={mintPage.isLoading}
@@ -112,7 +119,15 @@ export const ReactionMint: React.FC<{
         >
           {(() => {
             const inner = (
-              <MintIcon className={cn(size === "sm" ? "w-3 h-3" : "w-8 h-8")} />
+              <MintIcon
+                className={cn(
+                  size === "sm"
+                    ? "w-3 h-3"
+                    : vertical
+                    ? "w-[33px] h-[33px] p-[2px]"
+                    : "w-[38px] h-[38px] p-[3px]",
+                )}
+              />
             )
             return size !== "sm" ? (
               <Tooltip label={t("Mint to an NFT")} placement="top">
@@ -122,9 +137,11 @@ export const ReactionMint: React.FC<{
               inner
             )
           })()}
-          <span className="ml-2">{mints.data?.pages?.[0]?.count || 0}</span>
+          <span className={cn("leading-snug", vertical ? "" : "ml-2")}>
+            {mints.data?.pages?.[0]?.count || 0}
+          </span>
         </Button>
-        {size !== "sm" && (
+        {showAvatarStack && (
           <AvatarStack
             avatars={avatars}
             onClick={() => setIsMintListOpen(true)}
@@ -161,14 +178,16 @@ export const ReactionMint: React.FC<{
           </Button>
         </div>
       </Modal>
-      <CharacterList
-        open={isMintListOpen}
-        setOpen={setIsMintListOpen}
-        title={t("Mint List")}
-        loadMore={mints.fetchNextPage}
-        hasMore={!!mints.hasNextPage}
-        list={mints.data?.pages || []}
-      ></CharacterList>
+      {showAvatarStack && (
+        <CharacterList
+          open={isMintListOpen}
+          setOpen={setIsMintListOpen}
+          title={t("Mint List")}
+          loadMore={mints.fetchNextPage}
+          hasMore={!!mints.hasNextPage}
+          list={mints.data?.pages || []}
+        ></CharacterList>
+      )}
     </>
   )
 }

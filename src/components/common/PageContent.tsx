@@ -2,8 +2,10 @@
 
 import { MutableRefObject, useEffect, useMemo } from "react"
 
+import { PostActions } from "~/components/site/PostActions"
 import { PostToc } from "~/components/site/PostToc"
 import { useCodeCopy } from "~/hooks/useCodeCopy"
+import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { calculateElementTop, cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
@@ -16,6 +18,9 @@ export const PageContent: React.FC<{
   onMouseEnter?: () => void
   parsedContent?: ReturnType<typeof renderPageContent>
   isComment?: boolean
+  page?: ExpandedNote
+  site?: ExpandedCharacter
+  withActions?: boolean
 }> = ({
   className,
   content,
@@ -25,6 +30,9 @@ export const PageContent: React.FC<{
   onMouseEnter,
   parsedContent,
   isComment,
+  page,
+  site,
+  withActions,
 }) => {
   useCodeCopy()
 
@@ -75,6 +83,7 @@ export const PageContent: React.FC<{
         {inParsedContent?.element}
       </div>
       {toc && inParsedContent?.toc && <PostToc data={inParsedContent?.toc} />}
+      {withActions && <PostActions page={page} site={site} />}
     </div>
   )
 }

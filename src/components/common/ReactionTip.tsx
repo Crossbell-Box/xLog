@@ -9,6 +9,7 @@ import { Tooltip } from "~/components/ui/Tooltip"
 import { useTranslation } from "~/lib/i18n/client"
 import { noopArr } from "~/lib/noop"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
+import { cn } from "~/lib/utils"
 import { useGetTips } from "~/queries/site"
 
 import { AvatarStack } from "../ui/AvatarStack"
@@ -19,7 +20,8 @@ export const ReactionTip: React.FC<{
   noteId?: number
   site?: ExpandedCharacter
   page?: ExpandedNote
-}> = ({ characterId, noteId, site, page }) => {
+  vertical?: boolean
+}> = ({ characterId, noteId, site, page, vertical }) => {
   const { t } = useTranslation("common")
 
   const account = useAccountState((s) => s.computed.account)
@@ -43,6 +45,8 @@ export const ReactionTip: React.FC<{
     }
   }
 
+  const showAvatarStack = !vertical
+
   const avatars = useMemo(
     () =>
       tips.data?.pages?.[0]?.list
@@ -62,16 +66,25 @@ export const ReactionTip: React.FC<{
       <div className="xlog-reactions-tip flex items-center">
         <Button
           variant="tip"
-          className={`flex items-center mr-2 ${
-            isTip.isSuccess && isTip.data.pages?.[0].count && "active"
-          }`}
+          className={cn(
+            "flex items-center",
+            {
+              active: isTip.isSuccess && isTip.data.pages?.[0].count,
+            },
+            vertical ? "!h-auto flex-col" : "mr-2",
+          )}
           isAutoWidth={true}
           onClick={tip}
           ref={tipRef}
         >
           {(() => {
             const inner = (
-              <i className="icon-[mingcute--heart-fill] text-[40px]" />
+              <i
+                className={cn(
+                  "icon-[mingcute--heart-fill]",
+                  vertical ? "text-[33px]" : "text-[38px]",
+                )}
+              />
             )
             return (
               <Tooltip label={t("Tip")} placement="top">
@@ -79,14 +92,17 @@ export const ReactionTip: React.FC<{
               </Tooltip>
             )
           })()}
-          <span className="ml-2">{tips.data?.pages?.[0]?.count || 0}</span>
+          <span className={cn("leading-snug", vertical ? "" : "ml-2")}>
+            {tips.data?.pages?.[0]?.count || 0}
+          </span>
         </Button>
-
-        <AvatarStack
-          avatars={avatars}
-          count={tips.data?.pages?.[0]?.count || 0}
-          onClick={tip}
-        />
+        {showAvatarStack && (
+          <AvatarStack
+            avatars={avatars}
+            count={tips.data?.pages?.[0]?.count || 0}
+            onClick={tip}
+          />
+        )}
       </div>
       <PatronModal
         site={site}
