@@ -168,43 +168,52 @@ a {
   @apply fill-black;
 }
 
-.button.is-like {
+.button.is-like,
+.button.is-collect,
+.button.is-tip,
+.button.is-comment {
   @apply shadow-none p-0;
-  @apply text-gray-500 fill-gray-500;
+  @apply text-gray-500;
 }
+.button.is-like.is-light,
+.button.is-collect.is-light,
+.button.is-tip.is-light,
+.button.is-comment.is-light {
+  @apply text-gray-400;
+}
+.button.is-like.is-light.is-loading:before,
+.button.is-collect.is-light.is-loading:before,
+.button.is-tip.is-light.is-loading:before,
+.button.is-comment.is-light.is-loading:before {
+  margin-right: 0;
+}
+
 .button.is-like:hover {
   color: #f91880;
-  fill: #f91880;
 }
 .button.is-like.active {
   color: #f91880;
-  fill: #f91880;
 }
 
-.button.is-collect {
-  @apply shadow-none p-0;
-  @apply text-gray-500 fill-gray-500;
-}
 .button.is-collect:hover {
   color: #ffcf55;
-  fill: #ffcf55;
 }
 .button.is-collect.active {
   color: #ffcf55;
-  fill: #ffcf55;
 }
 
-.button.is-tip {
-  @apply shadow-none p-0;
-  @apply text-gray-500 fill-gray-500;
-}
 .button.is-tip:hover {
   color: #ef4444;
-  fill: #ef4444;
 }
 .button.is-tip.active {
   color: #ef4444;
-  fill: #ef4444;
+}
+
+.button.is-comment:hover {
+  @apply text-green-500;
+}
+.button.is-comment.active {
+  @apply text-green-500;
 }
 
 .button.is-crossbell {

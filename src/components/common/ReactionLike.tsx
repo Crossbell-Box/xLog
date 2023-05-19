@@ -115,6 +115,7 @@ export const ReactionLike: React.FC<{
       <div className={cn("xlog-reactions-like flex items-center sm:mb-0")}>
         <Button
           variant="like"
+          variantColor={vertical ? "light" : undefined}
           className={cn(
             "flex items-center",
             {
@@ -129,7 +130,7 @@ export const ReactionLike: React.FC<{
         >
           {(() => {
             const inner = (
-              <span
+              <i
                 className={cn(
                   "icon-[mingcute--thumb-up-2-fill]",
                   size === "sm"
@@ -137,12 +138,12 @@ export const ReactionLike: React.FC<{
                     : vertical
                     ? "text-[33px]"
                     : "text-[38px]",
-                  vertical ? "" : "mr-1",
+                  !vertical && "mr-1",
                 )}
-              ></span>
+              ></i>
             )
             return size !== "sm" ? (
-              <Tooltip label={t("Like")} placement="top">
+              <Tooltip label={t("Like")} placement={vertical ? "right" : "top"}>
                 {inner}
               </Tooltip>
             ) : (

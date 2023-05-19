@@ -571,6 +571,23 @@ export async function checkMint({
   })
 }
 
+export async function checkComment({
+  characterId,
+  noteCharacterId,
+  noteId,
+}: {
+  characterId: number
+  noteCharacterId: number
+  noteId: number
+}) {
+  return indexer.note.getMany({
+    characterId: characterId,
+    toCharacterId: noteCharacterId,
+    toNoteId: noteId,
+    limit: 0,
+  })
+}
+
 export async function getComments({
   characterId,
   noteId,

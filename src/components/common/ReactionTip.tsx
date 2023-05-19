@@ -66,6 +66,7 @@ export const ReactionTip: React.FC<{
       <div className="xlog-reactions-tip flex items-center">
         <Button
           variant="tip"
+          variantColor={vertical ? "light" : undefined}
           className={cn(
             "flex items-center",
             {
@@ -87,7 +88,7 @@ export const ReactionTip: React.FC<{
               />
             )
             return (
-              <Tooltip label={t("Tip")} placement="top">
+              <Tooltip label={t("Tip")} placement={vertical ? "right" : "top"}>
                 {inner}
               </Tooltip>
             )

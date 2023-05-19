@@ -19,8 +19,15 @@ export type Variant =
   | "crossbell"
   | "outline"
   | "tip"
+  | "comment"
 
-export type VariantColor = "green" | "red" | "gray" | "gradient" | "black"
+export type VariantColor =
+  | "green"
+  | "red"
+  | "gray"
+  | "gradient"
+  | "black"
+  | "light"
 
 type ButtonProps = {
   isLoading?: boolean

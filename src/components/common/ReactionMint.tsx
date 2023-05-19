@@ -6,7 +6,6 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { useAccountState } from "@crossbell/connect-kit"
 
 import { CharacterList } from "~/components/common/CharacterList"
-import { MintIcon } from "~/components/icons/MintIcon"
 import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
@@ -105,6 +104,7 @@ export const ReactionMint: React.FC<{
       <div className="xlog-reactions-mint flex items-center">
         <Button
           variant="collect"
+          variantColor={vertical ? "light" : undefined}
           className={cn(
             "flex items-center",
             {
@@ -119,18 +119,22 @@ export const ReactionMint: React.FC<{
         >
           {(() => {
             const inner = (
-              <MintIcon
+              <i
                 className={cn(
+                  "icon-[mingcute--magic-1-fill]",
                   size === "sm"
-                    ? "w-3 h-3"
+                    ? "text-base"
                     : vertical
-                    ? "w-[33px] h-[33px] p-[2px]"
-                    : "w-[38px] h-[38px] p-[3px]",
+                    ? "text-[33px]"
+                    : "text-[38px]",
                 )}
-              />
+              ></i>
             )
             return size !== "sm" ? (
-              <Tooltip label={t("Mint to an NFT")} placement="top">
+              <Tooltip
+                label={t("Mint to an NFT")}
+                placement={vertical ? "right" : "top"}
+              >
                 {inner}
               </Tooltip>
             ) : (

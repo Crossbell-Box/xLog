@@ -177,6 +177,31 @@ export const useCheckMint = ({
   })
 }
 
+export const useCheckComment = ({
+  noteCharacterId,
+  noteId,
+}: {
+  noteCharacterId?: number
+  noteId?: number
+}) => {
+  const account = useAccountState((s) => s.computed.account)
+
+  return useQuery(
+    ["checkMint", noteCharacterId, noteId, account?.characterId],
+    async () => {
+      if (!noteCharacterId || !noteId || !account?.characterId) {
+        return { count: 0, list: [] }
+      }
+
+      return pageModel.checkComment({
+        characterId: account?.characterId,
+        noteCharacterId: noteCharacterId,
+        noteId: noteId,
+      })
+    },
+  )
+}
+
 export function useCreateOrUpdatePage() {
   const newbieToken = useAccountState((s) => s.email?.token)
   const unidata = useUnidata()

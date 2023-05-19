@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react"
 
+import { ReactionComment } from "~/components/common/ReactionComment"
 import { ReactionLike } from "~/components/common/ReactionLike"
 import { ReactionMint } from "~/components/common/ReactionMint"
 import { ReactionTip } from "~/components/common/ReactionTip"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
-import { calculateElementTop } from "~/lib/utils"
-import { useGetComments } from "~/queries/page"
 
 export const PostActions: React.FC<{
   page?: ExpandedNote
@@ -24,11 +23,6 @@ export const PostActions: React.FC<{
       )
     }
   }, [containerRef])
-
-  const comments = useGetComments({
-    characterId: page?.characterId,
-    noteId: page?.noteId,
-  })
 
   return (
     <div
@@ -56,23 +50,10 @@ export const PostActions: React.FC<{
           page={page}
           vertical={true}
         />
-        <div
-          className="cursor-pointer text-gray-500 flex flex-col items-center leading-snug"
-          onClick={() => {
-            const targetElement = document.querySelector(
-              "#comments",
-            ) as HTMLElement
-            window.scrollTo({
-              top: calculateElementTop(targetElement) - 20,
-              behavior: "smooth",
-            })
-          }}
-        >
-          <i className="icon-[mingcute--comment-fill] text-[33px]" />
-          <span className="text-gray-500">
-            {comments.data?.pages?.[0]?.count}
-          </span>
-        </div>
+        <ReactionComment
+          characterId={page?.characterId}
+          noteId={page?.noteId}
+        />
       </div>
     </div>
   )
