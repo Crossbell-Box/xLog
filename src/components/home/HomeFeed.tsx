@@ -178,7 +178,6 @@ export const HomeFeed: React.FC<{
 }> = ({ noteIds, type }) => {
   const { t } = useTranslation("common")
   const searchParams = useSearchParams()
-  const router = useRouter()
 
   const currentCharacterId = useAccountState(
     (s) => s.computed.account?.characterId,

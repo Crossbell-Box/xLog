@@ -4,10 +4,10 @@ import type { Address } from "viem"
 
 import type { useContract } from "@crossbell/contract"
 import { indexer } from "@crossbell/indexer"
-import { cacheExchange, createClient, fetchExchange } from "@urql/core"
 
 import { expandCrossbellCharacter } from "~/lib/expand-unit"
 import { SiteNavigationItem } from "~/lib/types"
+import { client } from "~/queries/graphql"
 
 type Contract = ReturnType<typeof useContract>
 
@@ -32,11 +32,6 @@ export const getSubscriptionsFromList = async (
   list: number[],
   fromCharacterId: number,
 ) => {
-  const client = createClient({
-    url: "https://indexer.crossbell.io/v1/graphql",
-    exchanges: [cacheExchange, fetchExchange],
-  })
-
   const response = await client
     .query(
       `

@@ -1,10 +1,10 @@
 import dayjs from "dayjs"
 
 import { indexer } from "@crossbell/indexer"
-import { cacheExchange, createClient, fetchExchange } from "@urql/core"
 
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { ExpandedNote } from "~/lib/types"
+import { client } from "~/queries/graphql"
 
 import filter from "../../data/filter.json"
 
@@ -118,10 +118,6 @@ export async function getFeed({
           count: 0,
         }
       }
-      const client = createClient({
-        url: "https://indexer.crossbell.io/v1/graphql",
-        exchanges: [cacheExchange, fetchExchange],
-      })
 
       const orString = noteIds
         .map(
@@ -181,11 +177,6 @@ export async function getFeed({
       }
     }
     case "hottest": {
-      const client = createClient({
-        url: "https://indexer.crossbell.io/v1/graphql",
-        exchanges: [cacheExchange, fetchExchange],
-      })
-
       let time
       if (daysInterval) {
         time = dayjs().subtract(daysInterval, "day").toISOString()
@@ -330,10 +321,6 @@ export async function getFeed({
 }
 
 export const getShowcase = async () => {
-  const client = createClient({
-    url: "https://indexer.crossbell.io/v1/graphql",
-    exchanges: [cacheExchange, fetchExchange],
-  })
   const oneMonthAgo = dayjs().subtract(10, "day").toISOString()
 
   const listResponse = await client
