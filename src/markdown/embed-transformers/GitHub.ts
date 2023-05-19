@@ -3,7 +3,7 @@ import { match } from "path-to-regexp"
 import type { Transformer } from "../rehype-embed"
 import { isHostIncludes } from "./utils"
 
-export const GithubRepoTransformer: Transformer = {
+export const GitHubRepoTransformer: Transformer = {
   name: "GithubRepo",
   shouldTransform(url) {
     const { host } = url

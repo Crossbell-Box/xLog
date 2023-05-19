@@ -36,7 +36,7 @@ const getYouTubeIFrameSrc = (url: URL) => {
   return embedUrl.toString()
 }
 
-export const YoutubeTransformer: Transformer = {
+export const YouTubeTransformer: Transformer = {
   name: "Youtube",
   shouldTransform(url) {
     const { host, pathname, searchParams } = url
