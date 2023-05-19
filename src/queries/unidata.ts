@@ -15,7 +15,6 @@ export const useUnidata = () => {
     import("unidata.js").then(({ default: Unidata }) => {
       if (isConnected && connector) {
         connector?.getProvider().then((provider) => {
-          console.log("provider", provider)
           setUnidata(
             new Unidata({
               ethereumProvider: provider,

@@ -27,7 +27,11 @@ export const rehypeEmbed: Plugin<
       const href = node.properties?.href
 
       if (typeof href === "string") {
-        const url = new URL(href)
+        let url
+        try {
+          url = new URL(href)
+        } catch (error) {}
+        if (!url) return
         for (const transformer of transformers) {
           if (transformer.shouldTransform(url)) {
             const html = transformer.getHTML(url)?.trim()

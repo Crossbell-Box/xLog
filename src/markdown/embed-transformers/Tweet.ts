@@ -14,6 +14,6 @@ export const TweetTransformer: Transformer = {
     const { pathname } = url
     const matched = match<{ id: string }>("/:user/status/:id")(pathname)
     if (!matched) return
-    return `<tweet id=${matched.params.id}/>`
+    return `<tweet id="${matched.params.id}" />`
   },
 }
