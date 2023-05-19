@@ -51,11 +51,8 @@ export async function getFeed({
         limit,
         cursor,
         includeCharacter: true,
-      })
-
-      result.list = result.list.filter(
-        (note) => !filter.latest.includes(note.characterId),
-      )
+        excludeCharacterId: filter.latest,
+      } as any)
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
@@ -307,11 +304,8 @@ export async function getFeed({
         limit,
         cursor,
         includeCharacter: true,
-      })
-
-      result.list = result.list.filter(
-        (note) => !filter.latest.includes(note.characterId),
-      )
+        excludeCharacterId: filter.latest,
+      } as any)
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
