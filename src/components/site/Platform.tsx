@@ -61,6 +61,11 @@ export const PlatformsSyncMap: {
     icon: "/assets/social/bilibili.svg",
     url: "https://space.bilibili.com/{username}",
   },
+  zhihu: {
+    name: "zhihu",
+    icon: "/assets/social/zhihu.svg",
+    url: "https://www.zhihu.com/people/{username}",
+  },
   playstation: {
     name: "PlayStation",
     icon: "/assets/social/playstation.svg",
