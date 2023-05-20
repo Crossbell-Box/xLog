@@ -55,22 +55,29 @@ export async function getFeed({
       } as any)
 
       const list = await Promise.all(
-        result.list.map(async (page: any) => {
-          const isComment = page.metadata?.content?.tags?.includes("comment")
-          const expand = await expandCrossbellNote({
-            note: page,
-            useScore: !isComment,
-            useHTML,
+        result.list
+          .filter((page) => {
+            return !(
+              page.metadata?.content?.tags?.includes("comment") &&
+              page.toNote?.metadata?.content?.tags?.includes("comment")
+            )
           })
-          if (isComment && expand.toNote) {
-            expand.toNote = await expandCrossbellNote({
-              note: expand.toNote,
+          .map(async (page) => {
+            const isComment = page.metadata?.content?.tags?.includes("comment")
+            const expand = await expandCrossbellNote({
+              note: page,
+              useScore: !isComment,
               useHTML,
             })
-          }
-          delete expand.metadata?.content.content
-          return expand
-        }),
+            if (isComment && expand.toNote) {
+              expand.toNote = await expandCrossbellNote({
+                note: expand.toNote,
+                useHTML,
+              })
+            }
+            delete expand.metadata?.content.content
+            return expand
+          }),
       )
 
       return {
