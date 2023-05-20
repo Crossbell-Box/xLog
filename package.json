@@ -28,7 +28,7 @@
     ]
   },
   "dependencies": {
-    "@birdgg/react-github": "0.2.2",
+    "@birdgg/react-github": "0.2.3",
     "@codemirror/commands": "6.2.4",
     "@codemirror/lang-markdown": "6.1.1",
     "@codemirror/language": "6.7.0",

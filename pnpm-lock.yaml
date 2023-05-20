@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@birdgg/react-github':
-    specifier: 0.2.2
-    version: 0.2.2(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.2.3
+    version: 0.2.3(react-dom@18.2.0)(react@18.2.0)
   '@codemirror/commands':
     specifier: 6.2.4
     version: 6.2.4
@@ -1713,8 +1713,8 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
 
-  /@birdgg/react-github@0.2.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-mBiLK5str0duFrBCCzGaNAkBP9yuxIq04cnGUmNHpfuYLrPyt18o8d13Gt9zAFjKkLOTg4J4yWoKaQwCCI8DCQ==}
+  /@birdgg/react-github@0.2.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-VIwpLdZYf/oiRneMmkwiQU3F9TmuSgfZ1bp2IImeCB3xwyVYIkjTY41gh1XkQoidLdiS4J35FUmibJxgpiLjoQ==}
     peerDependencies:
       react: '>= 18.0.0'
       react-dom: '>= 18.0.0'
