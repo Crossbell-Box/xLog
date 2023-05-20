@@ -20,8 +20,7 @@ export const rehypeEmbed: Plugin<
         !parent ||
         !("tagName" in parent) ||
         parent.tagName !== "p" ||
-        parent.children.length > 1 ||
-        (node.children?.[0] as any)?.value !== node.properties?.href
+        parent.children.length > 1
       )
         return
 
