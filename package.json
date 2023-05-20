@@ -156,7 +156,7 @@
     "@ducanh2912/next-pwa": "^8.4.1",
     "@iconify/tailwind": "^0.1.2",
     "@next/bundle-analyzer": "13.4.3",
-    "@playwright/test": "1.33.0",
+    "@playwright/test": "1.34.0",
     "@trivago/prettier-plugin-sort-imports": "4.1.1",
     "@types/async-lock": "^1.4.0",
     "@types/canvas-confetti": "^1.6.0",
