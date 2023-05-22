@@ -215,6 +215,12 @@ export const renderPageContent = (
           }
         },
       })
+      .use(rehypeRewrite, {
+        selector: "h1",
+        rewrite: (node: any) => {
+          node.tagName = "h2"
+        },
+      })
       .use(rehypePrism, {
         ignoreMissing: true,
         showLineNumbers: true,
