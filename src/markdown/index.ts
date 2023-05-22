@@ -183,8 +183,12 @@ export const renderPageContent = (
         transformers,
       })
       .use(rehypeRewrite, {
-        selector: "p, li",
+        selector: "p, li, h1",
         rewrite: (node: any) => {
+          if (node.tagName === "h1") {
+            node.tagName = "h2"
+            return
+          }
           if (node.children) {
             node.children = node.children.flatMap((child: any) => {
               if (child.type === "text") {
@@ -215,12 +219,12 @@ export const renderPageContent = (
           }
         },
       })
-      .use(rehypeRewrite, {
-        selector: "h1",
-        rewrite: (node: any) => {
-          node.tagName = "h2"
-        },
-      })
+      // .use(rehypeRewrite, {
+      //   selector: "h1",
+      //   rewrite: (node: any) => {
+      //     node.tagName = "h2"
+      //   },
+      // })
       .use(rehypePrism, {
         ignoreMissing: true,
         showLineNumbers: true,
