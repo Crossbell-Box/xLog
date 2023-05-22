@@ -24,6 +24,7 @@ import type { FeedType, SearchType } from "~/models/home.model"
 import { useGetFeed } from "~/queries/home"
 
 import { EmptyState } from "../ui/EmptyState"
+import { Skeleton } from "../ui/Skeleton"
 
 const PostCard = ({
   post,
@@ -337,7 +338,7 @@ export const HomeFeed: React.FC<{
         )}
 
         {feed.isLoading ? (
-          <div className="text-center text-zinc-600">{t("Loading")}...</div>
+          <FeedSkeleton />
         ) : !feed.data?.pages[0]?.count ? (
           <EmptyState />
         ) : (
@@ -388,5 +389,21 @@ const Loader = () => {
     >
       {t("Loading")} ...
     </div>
+  )
+}
+
+const FeedSkeleton = () => {
+  return (
+    <Skeleton.Container count={5} className="space-y-8">
+      <div>
+        <div className="flex space-x-2 items-center">
+          <Skeleton.Circle size={40} />
+          <Skeleton.Rectangle className="w-1/3" />
+        </div>
+        <div className="py-4 pr-4 ml-12">
+          <Skeleton.Rectangle className="w-full h-24" />
+        </div>
+      </div>
+    </Skeleton.Container>
   )
 }
