@@ -25,6 +25,10 @@ export const Comment: React.FC<{
     noteId: page?.noteId,
   })
 
+  const data = comments.data?.pages.filter(
+    (page) => (page?.list?.length ?? 0) > 0,
+  )
+
   return (
     <div
       className={cn("xlog-comment comment", className)}
@@ -51,7 +55,7 @@ export const Comment: React.FC<{
       <Virtuoso
         className="xlog-comment-list"
         useWindowScroll
-        data={comments.data?.pages}
+        data={data}
         endReached={() => comments.hasNextPage && comments.fetchNextPage()}
         components={{
           Footer: comments.isLoading ? Loader : undefined,

@@ -71,14 +71,14 @@ export const BlockchainInfo: React.FC<{
                       <>
                         <BlockchainInfoLink
                           href={`${CSB_SCAN}/tx/${page?.transactionHash}`}
-                          key={page?.transactionHash}
+                          key={`create_${page?.transactionHash}`}
                         >
                           {t("Creation")} {page?.transactionHash.slice(0, 10)}
                           ...{page?.transactionHash.slice(-10)}
                         </BlockchainInfoLink>
                         <BlockchainInfoLink
                           href={`${CSB_SCAN}/tx/${page?.updatedTransactionHash}`}
-                          key={page?.updatedTransactionHash}
+                          key={`update_${page?.updatedTransactionHash}`}
                         >
                           {t("Last Update")}{" "}
                           {page?.updatedTransactionHash.slice(0, 10)}...
@@ -89,14 +89,14 @@ export const BlockchainInfo: React.FC<{
                       <>
                         <BlockchainInfoLink
                           href={`${CSB_SCAN}/tx/${site?.transactionHash}`}
-                          key={site?.transactionHash}
+                          key={`create_${site?.transactionHash}`}
                         >
                           {t("Creation")} {site?.transactionHash.slice(0, 10)}
                           ...{site?.transactionHash.slice(-10)}
                         </BlockchainInfoLink>
                         <BlockchainInfoLink
                           href={`${CSB_SCAN}/tx/${site?.updatedTransactionHash}`}
-                          key={site?.updatedTransactionHash}
+                          key={`update_${site?.transactionHash}`}
                         >
                           {t("Last Update")}{" "}
                           {site?.updatedTransactionHash.slice(0, 10)}...
