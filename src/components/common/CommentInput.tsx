@@ -129,7 +129,7 @@ export const CommentInput: React.FC<{
               form.setValue("content", val)
             }}
             handleDropFile={handleDropFile}
-            className="mb-2 p-3 h-[74px] border focus-within:border-accent border-[var(--border-color)] rounded-lg outline-2 outline-transparent"
+            className="mb-2 p-3 h-[74px] border focus-within:border-accent border-[var(--border-color)] rounded-lg outline-2 outline-transparent cursor-text"
             placeholder={t("Write a comment on the blockchain") || ""}
             maxLength={600}
             onCreateEditor={onCreateEditor}
