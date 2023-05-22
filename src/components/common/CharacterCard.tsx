@@ -2,6 +2,7 @@ import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import { Titles } from "~/components/common/Titles"
 import { Avatar } from "~/components/ui/Avatar"
+import { Skeleton } from "~/components/ui/Skeleton"
 import { useDate } from "~/hooks/useDate"
 import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
@@ -97,7 +98,15 @@ export const CharacterCard: React.FC<{
           )}
         </>
       ) : (
-        <>{t("Loading")}...</>
+        <Skeleton.Container className={cn(simple ? "space-y-1" : "space-y-2")}>
+          <div className="flex justify-between items-center">
+            <Skeleton.Circle size={40} />
+            <Skeleton.Rectangle className="h-7 w-24" />
+          </div>
+          <Skeleton.Rectangle className="w-2/3" />
+          <Skeleton.Rectangle className="my-4 w-full h-16" />
+          <Skeleton.Rectangle className="w-1/2" />
+        </Skeleton.Container>
       )}
     </span>
   )
