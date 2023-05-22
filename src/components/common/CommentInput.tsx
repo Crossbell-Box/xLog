@@ -123,6 +123,7 @@ export const CommentInput: React.FC<{
       <form className="w-full" onSubmit={handleSubmit}>
         <div>
           <CodeMirrorEditor
+            value={form.watch("content")}
             {...form.register("content", {})}
             onChange={(val) => {
               form.setValue("content", val)
