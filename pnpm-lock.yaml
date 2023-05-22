@@ -381,9 +381,6 @@ devDependencies:
   '@next/bundle-analyzer':
     specifier: 13.4.3
     version: 13.4.3
-  '@playwright/test':
-    specifier: 1.33.0
-    version: 1.33.0
   '@trivago/prettier-plugin-sort-imports':
     specifier: 4.1.1
     version: 4.1.1(prettier@2.8.8)
@@ -3870,17 +3867,6 @@ packages:
       open: 9.1.0
       picocolors: 1.0.0
       tslib: 2.5.2
-    dev: true
-
-  /@playwright/test@1.33.0:
-    resolution: {integrity: sha512-YunBa2mE7Hq4CfPkGzQRK916a4tuZoVx/EpLjeWlTVOnD4S2+fdaQZE0LJkbfhN5FTSKNLdcl7MoT5XB37bTkg==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dependencies:
-      '@types/node': 20.2.1
-      playwright-core: 1.33.0
-    optionalDependencies:
-      fsevents: 2.3.2
     dev: true
 
   /@polka/url@1.0.0-next.21:
@@ -11035,12 +11021,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       find-up: 4.1.0
-    dev: true
-
-  /playwright-core@1.33.0:
-    resolution: {integrity: sha512-aizyPE1Cj62vAECdph1iaMILpT0WUDCq3E6rW6I+dleSbBoGbktvJtzS6VHkZ4DKNEOG9qJpiom/ZxO+S15LAw==}
-    engines: {node: '>=14'}
-    hasBin: true
     dev: true
 
   /pngjs@5.0.0:
