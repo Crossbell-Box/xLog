@@ -20,7 +20,9 @@ export async function GET(request: Request) {
     icon: "https://ipfs.4everland.xyz/ipfs/bafkreigxdnr5lvtjxqin5upquomrti2s77hlgtjy5zaeu43uhpny75rbga",
     home_page_url: `${SITE_URL}/activities`,
     feed_url: `${SITE_URL}/feed/latest`,
-    items: feed?.list?.map((post: ExpandedNote) => parsePost(post)),
+    items: feed?.list?.map((post: ExpandedNote) =>
+      parsePost(post, !!searchParams.get("withTwitter")),
+    ),
   }
 
   const format = searchParams.get("format") === "xml" ? "xml" : "json"
