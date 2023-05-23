@@ -124,9 +124,6 @@ export const renderPageContent = (
           }
         }
       })
-      .use(() => (tree) => {
-        env.toc = toc(tree, { tight: true, ordered: true })
-      })
       .use(remarkGfm, {
         singleTilde: false,
       })
@@ -139,6 +136,9 @@ export const renderPageContent = (
         singleDollarTextMath: false,
       })
       .use(remarkPangu)
+      .use(() => (tree) => {
+        env.toc = toc(tree, { tight: true, ordered: true })
+      })
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(emoji)
 
