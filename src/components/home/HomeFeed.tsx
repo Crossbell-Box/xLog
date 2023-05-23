@@ -19,7 +19,7 @@ import { useDate } from "~/hooks/useDate"
 import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
-import { cn } from "~/lib/utils"
+import { cn, getStringLength } from "~/lib/utils"
 import type { FeedType, SearchType } from "~/models/home.model"
 import { useGetFeed } from "~/queries/home"
 
@@ -144,6 +144,12 @@ const Post = ({
   if (post.metadata?.content?.tags?.includes("comment") && post.toNote) {
     isComment = true
     if (post.toNote?.metadata?.content?.tags?.includes("comment")) {
+      return null
+    }
+    if (
+      !post.metadata?.content?.summary ||
+      getStringLength(post.metadata.content.summary) < 6
+    ) {
       return null
     }
   }
