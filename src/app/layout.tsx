@@ -82,9 +82,14 @@ export default function RootLayout({
   const colorScheme = getColorScheme()
 
   // For viewing statistics
-  updateIndexerFetchOptions({
-    headers: headers(),
-  })
+  const ip = headers().get("x-xlog-ip")
+  if (ip) {
+    updateIndexerFetchOptions({
+      headers: {
+        "x-forwarded-for": ip || "",
+      },
+    })
+  }
 
   return (
     <html lang={lang} dir={dir(lang)} className={colorScheme}>
