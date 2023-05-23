@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["com.crossbell.xlog"],
+        "components": [
+          {
+            "/": "/*",
+            "comment": "Matches any URL whose path starts with /"
+          }
+        ]
+      }
+    ]
+  }
+}

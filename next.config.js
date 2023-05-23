@@ -121,5 +121,19 @@ module.exports = withBundleAnalyzer(
       ENV_POAP_API_KEY: process.env.POAP_API_KEY,
       ENV_OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     },
+
+    async headers() {
+      return [
+        {
+          source: "/.well-known/apple-app-site-association",
+          headers: [
+            {
+              key: "Content-Type",
+              value: "application/json",
+            },
+          ],
+        },
+      ]
+    },
   }),
 )
