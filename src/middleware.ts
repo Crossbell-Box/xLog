@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
+import { getClientIp } from "@supercharge/request-ip"
+
 import { IS_PROD } from "~/lib/constants"
 import { DISCORD_LINK } from "~/lib/env"
 
@@ -80,9 +82,10 @@ export default async function middleware(req: NextRequest) {
 
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   const requestHeaders = new Headers(req.headers)
-  requestHeaders.set("x-pathname", req.nextUrl.pathname)
-  requestHeaders.set("x-search", req.nextUrl.search)
-  requestHeaders.set("x-handle", tenant.subdomain || "")
+  requestHeaders.set("x-xlog-pathname", req.nextUrl.pathname)
+  requestHeaders.set("x-xlog-search", req.nextUrl.search)
+  requestHeaders.set("x-xlog-handle", tenant.subdomain || "")
+  requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
   if (tenant?.subdomain) {
     const url = req.nextUrl.clone()

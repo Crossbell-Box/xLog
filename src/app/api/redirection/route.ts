@@ -9,10 +9,14 @@ import { checkDomainServer } from "~/models/site.model"
 async function getOriginalNote(
   characterId: string,
   noteId: string,
+  headers?: Record<string, string>,
 ): Promise<NoteEntity> {
   const note = await (
     await fetch(
       `https://indexer.crossbell.io/v1/characters/${characterId}/notes/${noteId}`,
+      {
+        headers,
+      },
     )
   ).json()
 
@@ -21,6 +25,7 @@ async function getOriginalNote(
       return await getOriginalNote(
         note?.toNote.toCharacterId,
         note?.toNote.toNoteId,
+        headers,
       )
     } else {
       return note.toNote
@@ -41,13 +46,31 @@ export async function GET(req: Request): Promise<Response> {
   let character
   let note
 
+  const ip = req.headers.get("x-xlog-ip")
   if (noteId && typeof noteId === "string") {
-    note = await getOriginalNote(characterId, noteId)
+    note = await getOriginalNote(
+      characterId,
+      noteId,
+      ip
+        ? {
+            "x-forwarded-for": ip || "",
+          }
+        : undefined,
+    )
     characterId = note.characterId + ""
   }
 
   character = await (
-    await fetch(`https://indexer.crossbell.io/v1/characters/${characterId}`)
+    await fetch(
+      `https://indexer.crossbell.io/v1/characters/${characterId}`,
+      ip
+        ? {
+            headers: {
+              "x-forwarded-for": ip || "",
+            },
+          }
+        : undefined,
+    )
   ).json()
 
   let domain = character?.metadata?.content?.attributes?.find(

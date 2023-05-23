@@ -1,7 +1,7 @@
 import { headers } from "next/headers"
 
 export const searchParser = () => {
-  const search = headers().get("x-search")
+  const search = headers().get("x-xlog-search")
 
   return new URLSearchParams(search?.substring(1) || "")
 }

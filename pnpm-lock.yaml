@@ -85,6 +85,9 @@ dependencies:
   '@prisma/client':
     specifier: ^4.14.1
     version: 4.14.1(prisma@4.14.1)
+  '@supercharge/request-ip':
+    specifier: ^1.2.0
+    version: 1.2.0
   '@tanstack/react-query':
     specifier: 4.29.7
     version: 4.29.7(react-dom@18.2.0)(react@18.2.0)
@@ -4285,6 +4288,10 @@ packages:
       '@stablelib/keyagreement': 1.0.1
       '@stablelib/random': 1.0.2
       '@stablelib/wipe': 1.0.1
+    dev: false
+
+  /@supercharge/request-ip@1.2.0:
+    resolution: {integrity: sha512-wlt6JW69MHqLY2M6Sm/jVyCojNRKq2CBvwH0Hbx24SFhDQQGkgEjeKxVutDxHSyrWixFaOSLXC27euzxijhyMQ==}
     dev: false
 
   /@surma/rollup-plugin-off-main-thread@2.2.3:

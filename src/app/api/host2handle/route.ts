@@ -22,8 +22,16 @@ export async function GET(req: Request) {
       getValueFun: async () => {
         if (realHost.endsWith(OUR_DOMAIN_SUFFIX)) {
           const subdomain = realHost.replace(OUR_DOMAIN_SUFFIX, "")
+          const ip = req.headers.get("x-xlog-ip")
           const res = await fetch(
             `https://indexer.crossbell.io/v1/handles/${subdomain}/character`,
+            ip
+              ? {
+                  headers: {
+                    "x-forwarded-for": ip,
+                  },
+                }
+              : undefined,
           )
           const char = await res.json()
           const customDomain =

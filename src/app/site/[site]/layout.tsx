@@ -94,7 +94,7 @@ export default async function SiteLayout({
 
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   // Issue: The type will not be updated when the page is redirected.
-  const pathname = headers().get("x-pathname")
+  const pathname = headers().get("x-xlog-pathname")
   const onlyContent = isOnlyContent()
 
   let type: string

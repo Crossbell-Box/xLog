@@ -2,6 +2,7 @@ import AsyncLock from "async-lock"
 import { AnalyzeDocumentChain, loadSummarizationChain } from "langchain/chains"
 import { OpenAI } from "langchain/llms/openai"
 import { PromptTemplate } from "langchain/prompts"
+import { headers } from "next/headers"
 import removeMarkdown from "remove-markdown"
 
 import { Metadata } from "@prisma/client"
@@ -16,6 +17,7 @@ import * as pageModel from "~/models/page.model"
 export async function getIdBySlug(slug: string, characterId: string | number) {
   slug = (slug as string)?.toLowerCase?.()
 
+  const ip = headers().get("x-xlog-ip")
   const result = (await cacheGet({
     key: ["slug2id", characterId, slug],
     getValueFun: async () => {
@@ -26,6 +28,13 @@ export async function getIdBySlug(slug: string, characterId: string | number) {
         const response = await (
           await fetch(
             `https://indexer.crossbell.io/v1/notes?characterId=${characterId}&sources=xlog&cursor=${cursor}&limit=100`,
+            ip
+              ? {
+                  headers: {
+                    "x-forwarded-for": ip,
+                  },
+                }
+              : undefined,
           )
         ).json()
         cursor = response.cursor
@@ -51,6 +60,13 @@ export async function getIdBySlug(slug: string, characterId: string | number) {
     if (!noteIdMatch?.[1]) {
       fetch(
         `https://indexer.crossbell.io/v1/characters/${characterId}/notes/${result.noteId}`,
+        ip
+          ? {
+              headers: {
+                "x-forwarded-for": ip,
+              },
+            }
+          : undefined,
       )
         .then((res) => res.json())
         .then((note) => {

@@ -18,7 +18,7 @@ export const GET = async (req: NextRequest) => {
   // find innei-5425 site handle by regexp
   const domainOrSubdomain =
     req.nextUrl.pathname.match(/\/site\/(.*)\/sitemap.xml/)?.[1] ||
-    req.headers.get("x-handle") ||
+    req.headers.get("x-xlog-handle") ||
     // http://innei-4525.localhost:2222/sitemap.xml
     req.headers.get("host")?.split(".")[0] ||
     ""

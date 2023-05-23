@@ -56,6 +56,7 @@
     "@monaco-editor/react": "4.5.1",
     "@popperjs/core": "^2.11.7",
     "@prisma/client": "^4.14.1",
+    "@supercharge/request-ip": "^1.2.0",
     "@tanstack/react-query": "4.29.7",
     "@tanstack/react-query-devtools": "4.29.7",
     "@tanstack/react-query-persist-client": "4.29.7",
