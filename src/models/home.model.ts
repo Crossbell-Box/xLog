@@ -28,6 +28,7 @@ export async function getFeed({
   searchType,
   tag,
   useHTML,
+  topicIncludeKeywords,
 }: {
   type?: FeedType
   cursor?: string
@@ -39,6 +40,7 @@ export async function getFeed({
   searchType?: SearchType
   tag?: string
   useHTML?: boolean
+  topicIncludeKeywords?: string[]
 }) {
   if (type === "search" && !searchKeyword) {
     type = "latest"
@@ -124,7 +126,7 @@ export async function getFeed({
       }
     }
     case "topic": {
-      if (!noteIds) {
+      if (!topicIncludeKeywords && !noteIds) {
         return {
           list: [],
           cursor: "",
@@ -132,26 +134,108 @@ export async function getFeed({
         }
       }
 
-      const orString = noteIds
-        .map(
-          (note) =>
-            `{ noteId: { equals: ${
-              note.split("-")[1]
-            } }, characterId: { equals: ${note.split("-")[0]}}},`,
+      if (noteIds) {
+        const orString = noteIds
+          .map(
+            (note) =>
+              `{ noteId: { equals: ${
+                note.split("-")[1]
+              } }, characterId: { equals: ${note.split("-")[0]}}},`,
+          )
+          .join("\n")
+        const result = await client
+          .query(
+            `
+                query getNotes {
+                  notes(
+                    where: {
+                      OR: [
+                        ${orString}
+                      ]
+                    },
+                    orderBy: [{ createdAt: desc }],
+                    take: 1000,
+                  ) {
+                    characterId
+                    noteId
+                    character {
+                      handle
+                      metadata {
+                        content
+                      }
+                    }
+                    createdAt
+                    metadata {
+                      uri
+                      content
+                    }
+                  }
+                }`,
+            {},
+          )
+          .toPromise()
+
+        const list = await Promise.all(
+          result?.data?.notes.map(async (page: any) => {
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            })
+            delete expand.metadata?.content.content
+            return expand
+          }),
         )
-        .join("\n")
-      const result = await client
-        .query(
-          `
+
+        return {
+          list: list,
+          cursor: "",
+          count: list?.length || 0,
+        }
+      }
+
+      if (topicIncludeKeywords) {
+        const includeString = topicIncludeKeywords
+          .map(
+            (topicIncludeKeyword) =>
+              `{ content: { path: "title", string_contains: "${topicIncludeKeyword}" } }, { content: { path: "content", string_contains: "${topicIncludeKeyword}" } },`,
+          )
+          .join("\n")
+        const result = await client
+          .query(
+            `
               query getNotes {
                 notes(
                   where: {
-                    OR: [
-                      ${orString}
-                    ]
+                    metadata: {
+                      content: {
+                        path: "sources",
+                        array_contains: "xlog"
+                      },
+                      AND: [{
+                        content: {
+                          path: "tags",
+                          array_contains: "post"
+                        }
+                      }, {
+                        OR: [
+                          ${includeString}
+                        ]
+                      }]
+                    },
                   },
                   orderBy: [{ createdAt: desc }],
-                  take: 1000,
+                  take: ${limit},
+                  ${
+                    cursor
+                      ? `
+                  cursor: {
+                    note_characterId_noteId_unique: {
+                      characterId: ${cursor.split("_")[0]},
+                      noteId: ${cursor.split("_")[1]}
+                    },
+                  },`
+                      : ""
+                  }
                 ) {
                   characterId
                   noteId
@@ -168,25 +252,28 @@ export async function getFeed({
                   }
                 }
               }`,
-          {},
+            {},
+          )
+          .toPromise()
+
+        const list = await Promise.all(
+          result?.data?.notes.map(async (page: any) => {
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            })
+            delete expand.metadata?.content.content
+            return expand
+          }),
         )
-        .toPromise()
 
-      const list = await Promise.all(
-        result?.data?.notes.map(async (page: any) => {
-          const expand = await expandCrossbellNote({
-            note: page,
-            useHTML,
-          })
-          delete expand.metadata?.content.content
-          return expand
-        }),
-      )
-
-      return {
-        list: list,
-        cursor: "",
-        count: list?.length || 0,
+        return {
+          list: list,
+          cursor: `${list[list.length - 1]?.characterId}_${
+            list[list.length - 1]?.noteId
+          }`,
+          count: list?.length || 0,
+        }
       }
     }
     case "hottest": {

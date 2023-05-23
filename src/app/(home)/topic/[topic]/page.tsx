@@ -13,6 +13,7 @@ export function generateMetadata({
     topic: string
   }
 }): Metadata {
+  params.topic = decodeURIComponent(params.topic)
   return {
     title: `Topic: ${params.topic} - ${APP_NAME}`,
   }
@@ -25,6 +26,7 @@ function Topic({
     topic: string
   }
 }) {
+  params.topic = decodeURIComponent(params.topic)
   const info = topics.find((t) => t.name === params.topic)
 
   return (

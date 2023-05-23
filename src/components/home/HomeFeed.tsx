@@ -23,6 +23,7 @@ import { cn, getStringLength } from "~/lib/utils"
 import type { FeedType, SearchType } from "~/models/home.model"
 import { useGetFeed } from "~/queries/home"
 
+import topics from "../../../data/topics.json"
 import { EmptyState } from "../ui/EmptyState"
 import { Skeleton } from "../ui/Skeleton"
 
@@ -244,6 +245,13 @@ export const HomeFeed: React.FC<{
   const [searchType, setSearchType] = useState<SearchType>("latest")
 
   const params = useParams()
+  if (params.topic) {
+    params.topic = decodeURIComponent(params.topic)
+  }
+  console.log(
+    params.topic,
+    topics.find((t) => t.name === params.topic)?.includeKeywords,
+  )
 
   const feed = useGetFeed({
     type,
@@ -253,6 +261,9 @@ export const HomeFeed: React.FC<{
     searchKeyword: searchParams?.get("q") || undefined,
     searchType,
     tag: decodeURIComponent(params?.tag),
+    topicIncludeKeywords: params.topic
+      ? topics.find((t) => t.name === params.topic)?.includeKeywords
+      : undefined,
   })
 
   const hasFiltering = type === "latest"
