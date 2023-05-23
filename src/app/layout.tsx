@@ -1,6 +1,9 @@
 import { dir } from "i18next"
 import { Metadata } from "next"
+import { headers } from "next/headers"
 import { Toaster } from "react-hot-toast"
+
+import { updateIndexerFetchOptions } from "@crossbell/indexer"
 
 import "~/css/main.css"
 import { useAcceptLang } from "~/hooks/useAcceptLang"
@@ -77,6 +80,11 @@ export default function RootLayout({
 }) {
   const lang = useAcceptLang()
   const colorScheme = getColorScheme()
+
+  // For viewing statistics
+  updateIndexerFetchOptions({
+    headers: headers(),
+  })
 
   return (
     <html lang={lang} dir={dir(lang)} className={colorScheme}>

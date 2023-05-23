@@ -7,7 +7,7 @@ import { CommentItem } from "~/components/common/CommentItem"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import { useGetComments, useGetPage } from "~/queries/page"
+import { useGetComments } from "~/queries/page"
 
 export const Comment: React.FC<{
   page?: ExpandedNote
@@ -18,12 +18,6 @@ export const Comment: React.FC<{
     noteId: page?.noteId,
   })
   const { t } = useTranslation("common")
-
-  // For viewing statistics
-  useGetPage({
-    characterId: page?.characterId,
-    noteId: page?.noteId,
-  })
 
   const data = comments.data?.pages.filter(
     (page) => (page?.list?.length ?? 0) > 0,
