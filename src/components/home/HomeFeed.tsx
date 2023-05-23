@@ -137,7 +137,7 @@ const Post = ({
     post.metadata?.content?.score?.number !== undefined &&
     post.metadata.content.score.number <= filtering
   ) {
-    return <div className="h-[1px]"></div>
+    return null
   }
 
   let isComment
