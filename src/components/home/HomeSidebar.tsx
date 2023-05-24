@@ -32,9 +32,9 @@ export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
                   href={`/topic/${topic.name}`}
                   className="flex flex-col sm:hover:bg-hover px-4 py-2 -mx-4 rounded-lg transition-colors"
                 >
-                  <span className="font-medium">{topic.name}</span>
+                  <span className="font-medium">{t(topic.name)}</span>
                   <span className="text-zinc-400 text-sm">
-                    {topic.description}
+                    {t(topic.description)}
                   </span>
                 </UniLink>
               </li>

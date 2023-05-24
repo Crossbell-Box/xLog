@@ -248,10 +248,6 @@ export const HomeFeed: React.FC<{
   if (params.topic) {
     params.topic = decodeURIComponent(params.topic)
   }
-  console.log(
-    params.topic,
-    topics.find((t) => t.name === params.topic)?.includeKeywords,
-  )
 
   const feed = useGetFeed({
     type,
@@ -375,7 +371,8 @@ export const HomeFeed: React.FC<{
                           key={`${post.characterId}-${post.noteId}`}
                           post={post}
                           previousPost={
-                            type === "latest" && index >= 1
+                            (type === "latest" || type === "topic") &&
+                            index >= 1
                               ? array[index - 1]
                               : undefined
                           }
