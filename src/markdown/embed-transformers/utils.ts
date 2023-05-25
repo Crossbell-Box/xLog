@@ -1,8 +1,11 @@
 import { IframeHTMLAttributes } from "react"
 
-interface IframeProps extends IframeHTMLAttributes<HTMLIFrameElement> {
+interface IframeProps
+  extends Omit<IframeHTMLAttributes<HTMLIFrameElement>, "style"> {
   name: string
   ratio?: string
+  /** inline style string */
+  style?: string
 }
 
 export const isHostIncludes = (domain: string, host: string) => {
@@ -18,7 +21,6 @@ export const generateIframeHTML = ({
   height,
   width,
   ratio,
-  style,
   ...attributes
 }: IframeProps) => {
   const iframeAttributes = Object.entries(attributes)
