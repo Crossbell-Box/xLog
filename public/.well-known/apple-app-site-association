@@ -1,6 +1,6 @@
 {
   "applinks": {
-    "apps": [], // This is usually left empty, but still must be included
+    "apps": [],
     "details": [
       {
         "appID": "9AYPRU93J4.com.crossbell.xlog",
