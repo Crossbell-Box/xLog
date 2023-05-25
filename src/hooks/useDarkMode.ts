@@ -206,7 +206,7 @@ export const useDarkMode = () => {
     date.setMonth(date.getMonth() + 1)
     document.cookie = IS_DEV
       ? `color_scheme=${colorScheme};`
-      : `color_scheme=${colorScheme}; Domain=.${OUR_DOMAIN}; Path=/; Secure; HttpOnly; expires=${date.toUTCString()}`
+      : `color_scheme=${colorScheme}; Domain=.${OUR_DOMAIN}; Path=/; Secure; expires=${date.toUTCString()}`
   }, [value])
 
   const onceRef = useRef(false)
