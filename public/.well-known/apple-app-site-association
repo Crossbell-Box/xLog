@@ -1,6 +1,11 @@
 {
   "applinks": {
+    "apps": [], // This is usually left empty, but still must be included
     "details": [
+      {
+        "appID": "9AYPRU93J4.com.crossbell.xlog",
+        "paths": ["/*"]
+      },
       {
         "appIDs": ["9AYPRU93J4.com.crossbell.xlog"],
         "components": [
