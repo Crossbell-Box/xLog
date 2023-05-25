@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base", "group:allNonMajor", "group:codemirror"],
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true
@@ -19,10 +17,6 @@
       "automerge": true
     }
   ],
-  "automergeSchedule": [
-    "before 2am"
-  ],
-  "schedule": [
-    "before 2am"
-  ]
+  "automergeSchedule": ["before 2am"],
+  "schedule": ["before 2am"]
 }
