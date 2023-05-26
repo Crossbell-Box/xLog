@@ -122,9 +122,11 @@ export const CommentItem: React.FC<{
                 onClick={() => setReplyOpen(!replyOpen)}
               >
                 {t(`${replyOpen ? "Cancel " : ""}Reply`)}
-                <span className="ml-1">
-                  {(comment as any)?.fromNotes?.count || 0}
-                </span>
+                {!replyOpen && (
+                  <span className="ml-1">
+                    {(comment as any)?.fromNotes?.count || 0}
+                  </span>
+                )}
               </Button>
             )}
             {comment.characterId === account?.characterId && (
