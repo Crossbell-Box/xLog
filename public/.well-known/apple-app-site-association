@@ -3,11 +3,19 @@
     "apps": [],
     "details": [
       {
+        "appID": "9AYPRU93J4.com.crossbell.xlog.development",
+        "paths": ["/*"]
+      },
+      {
+        "appID": "9AYPRU93J4.com.crossbell.xlog.staging",
+        "paths": ["/*"]
+      },
+      {
         "appID": "9AYPRU93J4.com.crossbell.xlog",
         "paths": ["/*"]
       },
       {
-        "appIDs": ["9AYPRU93J4.com.crossbell.xlog"],
+        "appIDs": ["9AYPRU93J4.com.crossbell.xlog.development","9AYPRU93J4.com.crossbell.xlog.staging","9AYPRU93J4.com.crossbell.xlog"],
         "components": [
           {
             "/": "/*",
