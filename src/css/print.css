@@ -2,6 +2,10 @@
   nav,
   header,
   footer,
+  .xlog-post-views,
+  .xlog-post-editor,
+  .xlog-post-toc,
+  .xlog-post-actions,
   *[data-hide-print] {
     display: none !important;
   }
