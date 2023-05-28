@@ -1,4 +1,11 @@
 @media print {
+  /* Copied from https://stackoverflow.com/a/44908040 */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   nav,
   header,
   footer,
