@@ -10,6 +10,7 @@ import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { isInRN } from "~/lib/is-in-rn"
 import getQueryClient from "~/lib/query-client"
 import { isOnlyContent } from "~/lib/search-parser"
 import { fetchGetPage } from "~/queries/page.server"
@@ -78,6 +79,8 @@ export default async function SitePagePage({
   }
 }) {
   const queryClient = getQueryClient()
+
+  const { inRN } = isInRN()
 
   const site = await fetchGetSite(params.site, queryClient)
 
@@ -156,7 +159,10 @@ export default async function SitePagePage({
           site={site}
           withActions={true}
         />
-        <OIAButton link={`/notes/${page?.noteId}/${page?.characterId}`} />
+        <OIAButton
+          isInRN={!!inRN}
+          link={`/notes/${page?.noteId}/${page?.characterId}`}
+        />
       </article>
       {!onlyContent && (
         <Hydrate state={dehydratedState}>

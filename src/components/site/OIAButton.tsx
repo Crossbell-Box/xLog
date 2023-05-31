@@ -7,8 +7,9 @@ import { useTranslation } from "~/lib/i18n/client"
 
 export const OIAButton: React.FC<{
   link: `/${string}`
-}> = ({ link }) => {
-  const { t, i18n } = useTranslation("site")
+  isInRN: boolean
+}> = ({ link, isInRN }) => {
+  const { t } = useTranslation("site")
   const [isVisible, setIsVisible] = useState(true)
 
   const oia = useCallback(() => {
@@ -32,7 +33,7 @@ export const OIAButton: React.FC<{
     return () => window.removeEventListener("scroll", handleScroll)
   }, [isMobileLayout])
 
-  if (!isMobileLayout) {
+  if (!isMobileLayout || isInRN) {
     return null
   }
 

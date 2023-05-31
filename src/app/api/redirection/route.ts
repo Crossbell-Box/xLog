@@ -1,7 +1,7 @@
 import type { NoteEntity } from "crossbell"
 import { redirect } from "next/navigation"
 
-import { IS_VERCEL_PREVIEW } from "~/lib/constants"
+import { IS_DEV, IS_VERCEL_PREVIEW } from "~/lib/constants"
 import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { checkDomainServer } from "~/models/site.model"
@@ -94,7 +94,7 @@ export async function GET(req: Request): Promise<Response> {
     }
   }
 
-  if (IS_VERCEL_PREVIEW) {
+  if (IS_VERCEL_PREVIEW || IS_DEV) {
     const path = new URL(link).pathname
 
     redirect(`/site/${character.handle}${path}`)
