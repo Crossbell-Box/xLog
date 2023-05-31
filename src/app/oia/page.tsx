@@ -3,8 +3,11 @@
 import { useCallback, useEffect } from "react"
 
 import { Image } from "~/components/ui/Image"
+import { useTranslation } from "~/lib/i18n/client"
 
 async function OIAPage() {
+  const { t } = useTranslation("site")
+
   useEffect(() => {
     document.body.style.backgroundColor = "#fb9148"
     return () => {
@@ -35,19 +38,19 @@ async function OIAPage() {
         alt="Download Preview"
       />
       <div className="absolute top-5 w-full text-xs text-center text-[white]">
-        已下载？下拉打开应用
+        {t("Pull down to open the app")}
       </div>
       <button
         className="absolute left-1/2 transform -translate-x-1/2 bottom-[15%] text-accent px-4 py-2 rounded-[25px] w-[56.5%] bg-[white]"
         onClick={download}
       >
-        立即下载
+        {t("Download")}
       </button>
       <button
         className="absolute left-1/2 transform -translate-x-1/2 translate-y-[150%] bottom-[15%] text-[white] px-4 py-2 rounded-[25px] w-[56.5%]"
         onClick={goBack}
       >
-        取消下载
+        {t("Cancel Download")}
       </button>
     </div>
   )
