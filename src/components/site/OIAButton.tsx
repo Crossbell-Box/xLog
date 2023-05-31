@@ -3,10 +3,12 @@
 import React, { useCallback, useEffect, useState } from "react"
 
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { useTranslation } from "~/lib/i18n/client"
 
 export const OIAButton: React.FC<{
   link: `/${string}`
 }> = ({ link }) => {
+  const { t, i18n } = useTranslation("site")
   const [isVisible, setIsVisible] = useState(true)
 
   const oia = useCallback(() => {
@@ -41,7 +43,7 @@ export const OIAButton: React.FC<{
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
-      打开App
+      {t("Open in App")}
     </button>
   )
 }
