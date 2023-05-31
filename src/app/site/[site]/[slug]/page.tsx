@@ -5,6 +5,7 @@ import serialize from "serialize-javascript"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { PageContent } from "~/components/common/PageContent"
+import { OIAButton } from "~/components/site/OIAButton"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SITE_URL } from "~/lib/env"
@@ -155,6 +156,7 @@ export default async function SitePagePage({
           site={site}
           withActions={true}
         />
+        <OIAButton link={`/notes/${page?.noteId}/${page?.characterId}`} />
       </article>
       {!onlyContent && (
         <Hydrate state={dehydratedState}>
