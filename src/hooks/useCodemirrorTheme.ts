@@ -53,6 +53,7 @@ const baseCmStyle = {
     height: "100%",
     backgroundColor: "transparent",
   },
+  ".cm-content": {},
 } as Record<string, CSSProperties>
 
 export const useCodeMirrorStyle = (view: EditorView | null, cmStyle?: any) => {
