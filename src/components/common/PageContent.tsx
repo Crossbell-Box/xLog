@@ -5,6 +5,7 @@ import { MutableRefObject, useEffect, useMemo } from "react"
 import { PostActions } from "~/components/site/PostActions"
 import { PostToc } from "~/components/site/PostToc"
 import { useCodeCopy } from "~/hooks/useCodeCopy"
+import { useHash } from "~/hooks/useHash"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { calculateElementTop, cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
@@ -34,6 +35,7 @@ export const PageContent: React.FC<{
   site,
   withActions,
 }) => {
+  const hash = useHash()
   useCodeCopy()
 
   const inParsedContent = useMemo(() => {
@@ -48,30 +50,22 @@ export const PageContent: React.FC<{
   }, [content, isComment, parsedContent])
 
   useEffect(() => {
-    const hashChangeHandler = () => {
-      const hash = decodeURIComponent(location.hash.slice(1))
-      if (hash) {
-        if (history.state?.preventScrollToToc) {
-          history.state.preventScrollToToc = false
-          return
-        }
-        const targetElement = document.querySelector(
-          `#user-content-${decodeURIComponent(hash)}`,
-        ) as HTMLElement
-        if (!targetElement) return
-
-        window.scrollTo({
-          top: calculateElementTop(targetElement) - 20,
-          behavior: "smooth",
-        })
-      }
+    const _hash = decodeURIComponent(hash.slice(1))
+    if (!_hash) return
+    if (history.state?.preventScrollToToc) {
+      history.state.preventScrollToToc = false
+      return
     }
+    const targetElement = document.querySelector(
+      `#user-content-${decodeURIComponent(_hash)}`,
+    ) as HTMLElement
+    if (!targetElement) return
 
-    window.addEventListener("hashchange", hashChangeHandler)
-    return () => {
-      window.removeEventListener("hashchange", hashChangeHandler)
-    }
-  }, [])
+    window.scrollTo({
+      top: calculateElementTop(targetElement) - 20,
+      behavior: "smooth",
+    })
+  }, [hash])
 
   return (
     <div
