@@ -17,7 +17,9 @@ async function OIAPage() {
 
   const download = useCallback(() => {
     const result = confirm(
-      "The app is currently under review, please stay tuned. Do you want to join the early access program?",
+      t(
+        "The app is currently under review, please stay tuned. Do you want to join the early access program?",
+      )!,
     )
     const dcLink = "https://discord.gg/uK2yAtWw2s"
     if (result) {
