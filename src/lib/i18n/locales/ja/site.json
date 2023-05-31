@@ -5,6 +5,10 @@
   "Tags": "タグ",
   "load more": "まだ{{count}}件の{{name}}があります。",
   "signed and stored on the blockchain": "{{name}}は、創作者によって署名され、ブロックチェーンに安全に保存されています。",
+  "Download": "ダウンロード",
+  "Cancel Download": "ダウンロードをキャンセル",
+  "Pull down to open the app": "ダウンロード済みですか？アプリを開くために引き下げてく",
+  "The app is currently under review, please stay tuned. Do you want to join the early access program?": "アプリは現在レビュー中です。お待ちください。アーリーアクセスプログラムに参加しますか？",
   "Write a comment on the blockchain": "ブロックチェーンでコメントする",
   "Open in App": "アプリで開く",
   "powered by": "<span>このサイトは　</span><name/><span> によって作動します</span>"
