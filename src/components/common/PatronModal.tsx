@@ -2,7 +2,7 @@ import confetti from "canvas-confetti"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "react-hot-toast"
 
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+import { useConnectModal } from "@crossbell/connect-kit"
 
 import { Avatar } from "~/components/ui/Avatar"
 import { BoxRadio } from "~/components/ui/BoxRadio"
@@ -66,15 +66,10 @@ export const PatronModal: React.FC<{
 
   const [value, setValue] = useState(radios[1].value!)
 
-  const currentCharacterId = useAccountState(
-    (s) => s.computed.account?.characterId,
-  )
-
   const submit = () => {
-    if (currentCharacterId && site?.characterId && parseInt(value)) {
+    if (site?.characterId && parseInt(value)) {
       tipCharacter.mutate({
-        fromCharacterId: currentCharacterId,
-        toCharacterId: site?.characterId,
+        characterId: site?.characterId,
         amount: parseInt(value),
         noteId: page?.noteId,
       })
