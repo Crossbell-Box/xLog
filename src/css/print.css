@@ -1,7 +1,18 @@
 @media print {
+  /* Copied from https://stackoverflow.com/a/44908040 */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   nav,
   header,
   footer,
+  .xlog-post-views,
+  .xlog-post-editor,
+  .xlog-post-toc,
+  .xlog-post-actions,
   *[data-hide-print] {
     display: none !important;
   }
