@@ -455,6 +455,9 @@ export default function SubdomainEditor() {
     )
   }, [draftKey, subdomain, site.data?.characterId])
 
+  const [isAdvancedOptionsOpen, setIsAdvancedOptionsOpen] =
+    useState<boolean>(false)
+
   const extraProperties = (
     <EditorExtraProperties
       defaultSlug={defaultSlug}
@@ -462,6 +465,7 @@ export default function SubdomainEditor() {
       isPost={isPost}
       subdomain={subdomain}
       userTags={userTags}
+      openAdvancedOptions={() => setIsAdvancedOptionsOpen(true)}
     />
   )
 
@@ -640,12 +644,18 @@ export default function SubdomainEditor() {
                   isPost={isPost}
                   userTags={userTags}
                   subdomain={subdomain}
+                  openAdvancedOptions={() => setIsAdvancedOptionsOpen(true)}
                 />
               )}
             </div>
           </>
         )}
       </DashboardMain>
+      <EditorAdvancedOptions
+        updateValue={updateValue}
+        isAdvancedOptionsOpen={isAdvancedOptionsOpen}
+        setIsAdvancedOptionsOpen={setIsAdvancedOptionsOpen}
+      />
       <Modal
         open={isCheersOpen}
         setOpen={setIsCheersOpen}
@@ -713,130 +723,182 @@ const EditorExtraProperties: FC<{
   subdomain: string
   defaultSlug: string
   userTags: string[]
-}> = memo(({ isPost, updateValue, subdomain, defaultSlug, userTags }) => {
-  const values = useEditorState(
-    (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
-    shallow,
-  )
-  const { t } = useTranslation("dashboard")
-  const site = useGetSite(subdomain)
 
-  return (
-    <div className="h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
-      <div>
-        <label className="form-label" htmlFor="publishAt">
-          {t("Publish at")}
-        </label>
-        <DateInput
-          className=""
-          allowDeselect
-          clearable
-          valueFormat="YYYY-MM-DD, h:mm a"
-          name="publishAt"
-          id="publishAt"
-          value={values.publishedAt ? new Date(values.publishedAt) : undefined}
-          onChange={(value: Date | null) => {
-            if (value) {
-              updateValue("publishedAt", value.toISOString())
-            } else {
-              updateValue("publishedAt", "")
+  openAdvancedOptions: () => void
+}> = memo(
+  ({
+    isPost,
+    updateValue,
+    subdomain,
+    defaultSlug,
+    userTags,
+    openAdvancedOptions,
+  }) => {
+    const values = useEditorState(
+      (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
+      shallow,
+    )
+    const { t } = useTranslation("dashboard")
+    const site = useGetSite(subdomain)
+
+    return (
+      <div className="h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
+        <div>
+          <label className="form-label" htmlFor="publishAt">
+            {t("Publish at")}
+          </label>
+          <DateInput
+            className=""
+            allowDeselect
+            clearable
+            valueFormat="YYYY-MM-DD, h:mm a"
+            name="publishAt"
+            id="publishAt"
+            value={
+              values.publishedAt ? new Date(values.publishedAt) : undefined
             }
-          }}
-          styles={{
-            input: {
-              borderRadius: "0.5rem",
-              borderColor: "var(--border-color)",
-              height: "2.5rem",
-              "&:focus-within": {
-                borderColor: "var(--theme-color)",
+            onChange={(value: Date | null) => {
+              if (value) {
+                updateValue("publishedAt", value.toISOString())
+              } else {
+                updateValue("publishedAt", "")
+              }
+            }}
+            styles={{
+              input: {
+                borderRadius: "0.5rem",
+                borderColor: "var(--border-color)",
+                height: "2.5rem",
+                "&:focus-within": {
+                  borderColor: "var(--theme-color)",
+                },
               },
-            },
-          }}
-        />
-        <div className="text-xs text-gray-400 mt-1">
-          {t(
-            `This ${
-              isPost ? "post" : "page"
-            } will be accessible from this time. Leave blank to use the current time.`,
-          )}
-        </div>
-        {values.publishedAt > new Date().toISOString() && (
-          <div className="text-xs mt-1 text-red-500">
+            }}
+          />
+          <div className="text-xs text-gray-400 mt-1">
             {t(
-              "The post is currently unavailable as its publication date has been scheduled for a future time.",
+              `This ${
+                isPost ? "post" : "page"
+              } will be accessible from this time. Leave blank to use the current time.`,
             )}
           </div>
-        )}
-      </div>
-      <div>
-        <Input
-          name="slug"
-          value={values.slug}
-          placeholder={defaultSlug}
-          label={t(`${isPost ? "Post" : "Page"} slug`) || ""}
-          id="slug"
-          isBlock
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            updateValue("slug", e.target.value)
-          }
-          help={
-            <>
-              {(values.slug || defaultSlug) && (
-                <>
-                  {t(`This ${isPost ? "post" : "page"} will be accessible at`)}{" "}
-                  <UniLink
-                    href={`${getSiteLink({
-                      subdomain,
-                      domain: site.data?.metadata?.content?.custom_domain,
-                    })}/${encodeURIComponent(values.slug || defaultSlug)}`}
-                    className="hover:underline"
-                  >
-                    {getSiteLink({
-                      subdomain,
-                      domain: site.data?.metadata?.content?.custom_domain,
-                      noProtocol: true,
-                    })}
-                    /{encodeURIComponent(values.slug || defaultSlug)}
-                  </UniLink>
-                </>
+          {values.publishedAt > new Date().toISOString() && (
+            <div className="text-xs mt-1 text-red-500">
+              {t(
+                "The post is currently unavailable as its publication date has been scheduled for a future time.",
               )}
-            </>
-          }
-        />
-      </div>
-      <div>
-        <Input
-          name="tags"
-          value={values.tags}
-          label={t("Tags") || ""}
-          id="tags"
-          isBlock
-          renderInput={(props) => (
-            <TagInput
-              {...props}
-              userTags={userTags}
-              onTagChange={(value: string) => updateValue("tags", value)}
-            />
+            </div>
           )}
-        />
+        </div>
+        <div>
+          <Input
+            name="slug"
+            value={values.slug}
+            placeholder={defaultSlug}
+            label={t(`${isPost ? "Post" : "Page"} slug`) || ""}
+            id="slug"
+            isBlock
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              updateValue("slug", e.target.value)
+            }
+            help={
+              <>
+                {(values.slug || defaultSlug) && (
+                  <>
+                    {t(
+                      `This ${isPost ? "post" : "page"} will be accessible at`,
+                    )}{" "}
+                    <UniLink
+                      href={`${getSiteLink({
+                        subdomain,
+                        domain: site.data?.metadata?.content?.custom_domain,
+                      })}/${encodeURIComponent(values.slug || defaultSlug)}`}
+                      className="hover:underline"
+                    >
+                      {getSiteLink({
+                        subdomain,
+                        domain: site.data?.metadata?.content?.custom_domain,
+                        noProtocol: true,
+                      })}
+                      /{encodeURIComponent(values.slug || defaultSlug)}
+                    </UniLink>
+                  </>
+                )}
+              </>
+            }
+          />
+        </div>
+        <div>
+          <Input
+            name="tags"
+            value={values.tags}
+            label={t("Tags") || ""}
+            id="tags"
+            isBlock
+            renderInput={(props) => (
+              <TagInput
+                {...props}
+                userTags={userTags}
+                onTagChange={(value: string) => updateValue("tags", value)}
+              />
+            )}
+          />
+        </div>
+        <div>
+          <Input
+            label={t("Excerpt") || ""}
+            isBlock
+            name="excerpt"
+            id="excerpt"
+            value={values.excerpt}
+            multiline
+            rows={5}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+              updateValue("excerpt", e.target.value)
+            }}
+            help={t("Leave it blank to use auto-generated excerpt")}
+          />
+        </div>
+        <div>
+          <Button
+            variant="secondary"
+            className="border"
+            type="button"
+            isBlock
+            onClick={openAdvancedOptions}
+          >
+            <span className="inline-flex items-center">
+              <i className="icon-[mingcute--settings-4-fill] inline-block mr-2" />
+              <span>{t("Advanced Settings")}</span>
+            </span>
+          </Button>
+        </div>
       </div>
-      <div>
-        <Input
-          label={t("Excerpt") || ""}
-          isBlock
-          name="excerpt"
-          id="excerpt"
-          value={values.excerpt}
-          multiline
-          rows={5}
-          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-            updateValue("excerpt", e.target.value)
-          }}
-          help={t("Leave it blank to use auto-generated excerpt")}
-        />
-      </div>
-    </div>
-  )
-})
+    )
+  },
+)
 
 EditorExtraProperties.displayName = "EditorExtraProperties"
+
+const EditorAdvancedOptions: FC<{
+  updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
+
+  isAdvancedOptionsOpen: boolean
+  setIsAdvancedOptionsOpen: (state: boolean) => void
+}> = memo(
+  ({ updateValue, isAdvancedOptionsOpen, setIsAdvancedOptionsOpen }) => {
+    const { t } = useTranslation("dashboard")
+
+    return (
+      <Modal
+        open={isAdvancedOptionsOpen}
+        setOpen={setIsAdvancedOptionsOpen}
+        title={t("Advanced Settings")}
+      >
+        <div className="p-5 space-y-3"></div>
+      </Modal>
+    )
+  },
+)
+
+EditorAdvancedOptions.displayName = "EditorAdvancedOptions"
