@@ -181,12 +181,13 @@ export default function SubdomainEditor() {
         )
       }
       if (key === "slug" && !/^[a-zA-Z0-9\-_]*$/.test(value as string)) {
+        // Replace all invalid chars
+        ;(value as string) = (value as string).replace(/[^\w\-]/g, "-")
         toast.error(
           t(
             "Slug can only contain letters, numbers, hyphens, and underscores.",
           ),
         )
-        return
       }
       const newValues = { ...values, [key]: value }
       if (draftKey) {
