@@ -176,7 +176,6 @@ export default async function SiteLayout({
             <BlockchainInfo site={site} page={page || undefined} />
           </section>
         )}
-        {/* @ts-expect-error Async Server Component */}
         {!onlyContent && <SiteFooter site={site || undefined} />}
         <FABContainer>
           <BackToTopFAB />
