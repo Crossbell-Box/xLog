@@ -119,7 +119,7 @@ function Items(props: ItemsProps) {
                   createElement(Items, {
                     items: child,
                     activeId,
-                    prefix: `${index + 1}.`,
+                    prefix: `${prefix}${index + 1}.`,
                   })}
               </span>
             )
