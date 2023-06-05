@@ -13,6 +13,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { cacheDelete, cacheGet } from "~/lib/redis.server"
 import * as pageModel from "~/models/page.model"
+import { client } from "~/queries/graphql"
 
 export async function getIdBySlug(slug: string, characterId: string | number) {
   slug = (slug as string)?.toLowerCase?.()
@@ -58,19 +59,30 @@ export async function getIdBySlug(slug: string, characterId: string | number) {
   if (result) {
     const noteIdMatch = slug.match(`^${characterId}-(\\d+)$`)
     if (!noteIdMatch?.[1]) {
-      fetch(
-        `https://indexer.crossbell.io/v1/characters/${characterId}/notes/${result.noteId}`,
-        ip
-          ? {
-              headers: {
-                "x-forwarded-for": ip,
-              },
-            }
-          : undefined,
-      )
-        .then((res) => res.json())
-        .then((note) => {
-          if ((note && getNoteSlug(note) !== slug) || note.deleted) {
+      client
+        .query(
+          `query getNote {
+        note(
+          where: {
+            note_characterId_noteId_unique: {
+              characterId: ${characterId},
+              noteId: ${result.noteId},
+            },
+          },
+        ) {
+          characterId
+          noteId
+          deleted
+          metadata {
+            content
+          }
+        }
+      }`,
+          {},
+        )
+        .then((result: any) => {
+          const note = result.data?.note
+          if ((note && getNoteSlug(note) !== slug) || note?.deleted) {
             cacheDelete(["slug2id", characterId + "", slug])
           }
         })
