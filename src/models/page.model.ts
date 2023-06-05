@@ -372,7 +372,7 @@ export async function getPage<TRender extends boolean = false>(input: {
   noteId?: number
   handle?: string // In order to be compatible with old drafts
 }) {
-  const mustLocal = input.slug?.startsWith("local-")
+  const mustLocal = input.slug?.startsWith("local-") && !input.noteId
 
   let page: NoteEntity | null = null
 
