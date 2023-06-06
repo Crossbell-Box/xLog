@@ -1,6 +1,6 @@
 import { ConnectKitProviderProps } from "@crossbell/connect-kit"
 
-import { CSB_IO } from "~/lib/env"
+import { CSB_XFEED } from "~/lib/env"
 import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 
 export const urlComposer: ConnectKitProviderProps["urlComposer"] = {
@@ -35,7 +35,7 @@ export const urlComposer: ConnectKitProviderProps["urlComposer"] = {
         }
       }
     } else {
-      return `${CSB_IO}/notes/${note.characterId}-${note.noteId}`
+      return `${CSB_XFEED}/notes/${note.characterId}-${note.noteId}`
     }
   },
 }
