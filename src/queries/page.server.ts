@@ -46,11 +46,13 @@ export async function getIdBySlug(slug: string, characterId: string | number) {
         )
       } while (!note && cursor)
 
-      return {
-        noteId: note?.noteId,
+      if (note?.noteId) {
+        return {
+          noteId: note?.noteId,
+        }
       }
     },
-    // noUpdate: true,
+    noUpdate: true,
   })) as {
     noteId: number
   }
