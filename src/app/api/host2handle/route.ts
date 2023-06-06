@@ -55,8 +55,10 @@ export async function GET(req: Request) {
           }
         } else {
           const tenant = await fetchTenant(realHost, 5)
-          return {
-            subdomain: tenant,
+          if (tenant) {
+            return {
+              subdomain: tenant,
+            }
           }
         }
       },

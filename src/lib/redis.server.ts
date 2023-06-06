@@ -52,7 +52,9 @@ export async function cacheGet(options: {
       if (!options.noUpdate) {
         setTimeout(() => {
           options.getValueFun().then((value) => {
-            redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+            if (value) {
+              redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+            }
           })
         }, Math.random() * REDIS_REFRESH)
       }
@@ -60,19 +62,23 @@ export async function cacheGet(options: {
     } else {
       if (options.allowEmpty) {
         options.getValueFun().then(async (value) => {
-          if (options.noUpdate) {
-            await redis.set(redisKey, JSON.stringify(value))
-          } else {
-            redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+          if (value) {
+            if (options.noUpdate) {
+              await redis.set(redisKey, JSON.stringify(value))
+            } else {
+              redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+            }
           }
         })
         return null
       } else {
         const value = await options.getValueFun()
-        if (options.noUpdate) {
-          await redis.set(redisKey, JSON.stringify(value))
-        } else {
-          redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+        if (value) {
+          if (options.noUpdate) {
+            await redis.set(redisKey, JSON.stringify(value))
+          } else {
+            redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+          }
         }
         return value
       }
