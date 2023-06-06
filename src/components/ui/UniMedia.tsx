@@ -30,7 +30,7 @@ export const UniMedia: React.FC<{
   }
 
   return (
-    <div className="w-full h-0 pt-[100%] relative rounded overflow-hidden">
+    <div className="w-full aspect-[1] relative rounded overflow-hidden">
       <div className="absolute top-0 bottom-0 left-0 right-0">
         {(() => {
           switch (type?.split("/")[0]) {
