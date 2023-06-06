@@ -79,6 +79,8 @@
   "Separate multiple tags with English commas": "多个标签请用英文逗号分隔",
   "Excerpt": "摘要",
   "Leave it blank to use auto-generated excerpt": "留空则使用自动生成的摘要",
+  "Cover Image": "封面图",
+  "Leave blank to use the first image in the post": "留空则使用文章中的第一张图片",
   "General": "常规",
   "Social Platforms": "社交平台",
   "Navigation": "导航",

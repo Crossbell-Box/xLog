@@ -28,6 +28,8 @@ import { PublishButton } from "~/components/dashboard/PublishButton"
 import { Button } from "~/components/ui/Button"
 import { CodeMirrorEditor } from "~/components/ui/CodeMirror"
 import { EditorToolbar } from "~/components/ui/EditorToolbar"
+import { FieldLabel } from "~/components/ui/FieldLabel"
+import { ImageUploader } from "~/components/ui/ImageUploader"
 import { Input } from "~/components/ui/Input"
 import { Modal } from "~/components/ui/Modal"
 import { TagInput } from "~/components/ui/TagInput"
@@ -239,6 +241,7 @@ export default function SubdomainEditor() {
           })}/${encodeURIComponent(values.slug || defaultSlug)}`,
         applications: page.data?.metadata?.content?.sources,
         characterId: site.data?.characterId,
+        cover: values.cover,
       })
     }
   }
@@ -292,6 +295,12 @@ export default function SubdomainEditor() {
           ?.filter((tag) => tag !== "post" && tag !== "page")
           ?.join(", ") || "",
       content: page.data.metadata?.content?.content || "",
+      cover: page.data.metadata?.content?.attachments?.find(
+        (attachment) => attachment.name === "cover",
+      ) || {
+        address: "",
+        mime_type: "",
+      },
     })
     setDefaultSlug(
       getDefaultSlug(
@@ -716,7 +725,7 @@ const EditorExtraProperties: FC<{
   userTags: string[]
 }> = memo(({ isPost, updateValue, subdomain, defaultSlug, userTags }) => {
   const values = useEditorState(
-    (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags"]),
+    (state) => pick(state, ["publishedAt", "slug", "excerpt", "tags", "cover"]),
     shallow,
   )
   const { t } = useTranslation("dashboard")
@@ -829,12 +838,35 @@ const EditorExtraProperties: FC<{
           id="excerpt"
           value={values.excerpt}
           multiline
-          rows={5}
+          rows={4}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
             updateValue("excerpt", e.target.value)
           }}
           help={t("Leave it blank to use auto-generated excerpt")}
         />
+      </div>
+      <div>
+        <FieldLabel label={t("Cover Image")} />
+        <ImageUploader
+          id="icon"
+          className="aspect-video rounded-lg"
+          value={values.cover as any}
+          hasClose={true}
+          withMimeType={true}
+          uploadEnd={(key) => {
+            const { address, mime_type } = key as {
+              address?: string
+              mime_type?: string
+            }
+            updateValue("cover", {
+              address,
+              mime_type,
+            })
+          }}
+        />
+        <div className="text-xs text-gray-400 mt-1">
+          {t("Leave blank to use the first image in the post")}
+        </div>
       </div>
     </div>
   )

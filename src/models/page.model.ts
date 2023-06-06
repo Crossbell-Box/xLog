@@ -57,6 +57,10 @@ export async function createOrUpdatePage(
     isPost?: boolean
     externalUrl?: string
     applications?: string[]
+    cover?: {
+      address?: string
+      mime_type?: string
+    }
   },
   customUnidata?: Unidata,
   newbieToken?: string,
@@ -122,6 +126,15 @@ export async function createOrUpdatePage(
           },
         ],
       }),
+      attachments: input.cover?.address
+        ? [
+            {
+              name: "cover",
+              address: input.cover.address,
+              mime_type: input.cover.mime_type,
+            },
+          ]
+        : [],
     },
     {
       newbieToken,
