@@ -863,6 +863,7 @@ const EditorExtraProperties: FC<{
               mime_type,
             })
           }}
+          accept="image/*"
         />
         <div className="text-xs text-gray-400 mt-1">
           {t("Leave blank to use the first image in the post")}

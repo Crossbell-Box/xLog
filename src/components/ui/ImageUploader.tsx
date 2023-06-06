@@ -22,6 +22,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
     uploadEnd,
     withMimeType,
     hasClose,
+    accept,
     ...inputProps
   }: {
     className?: string
@@ -37,6 +38,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
     ) => void
     withMimeType?: boolean
     hasClose?: boolean
+    accept?: string
   } & React.ComponentPropsWithRef<"input">,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
@@ -138,6 +140,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
         onChange={handleChange}
         type="file"
         className="absolute top-0 bottom-0 left-0 right-0 opacity-0"
+        accept={accept}
       />
       {imageUrl && hasClose && (
         <div
