@@ -50,7 +50,7 @@ export async function getIdBySlug(slug: string, characterId: string | number) {
         noteId: note?.noteId,
       }
     },
-    noUpdate: true,
+    // noUpdate: true,
   })) as {
     noteId: number
   }
