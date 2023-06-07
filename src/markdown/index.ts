@@ -156,6 +156,7 @@ export const renderPageContent = (
       .use(rehypeVideo, { env })
       .use(rehypeSlug)
       .use(rehypeAutolinkHeadings, {
+        behavior: "append",
         properties: {
           className: ["xlog-anchor"],
           ariaHidden: true,
@@ -164,12 +165,8 @@ export const renderPageContent = (
         content(node) {
           return [
             {
-              type: "element",
-              tagName: "span",
-              properties: {
-                className: ["icon-[mingcute--link-line]"],
-              },
-              children: [],
+              type: "text",
+              value: "#",
             },
           ]
         },
