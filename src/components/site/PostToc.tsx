@@ -6,6 +6,8 @@ import { toHast } from "mdast-util-to-hast"
 import type { Result as TocResult } from "mdast-util-toc"
 import React, { createElement, useEffect, useRef, useState } from "react"
 
+import { scrollTo } from "~/lib/utils"
+
 const inlineElements = ["delete", "strong", "emphasis", "inlineCode"]
 
 function getLinkNode(node: any): List["children"] {
@@ -29,7 +31,7 @@ function getIds(items: TocResult["map"]) {
 }
 
 function getElement(id: string) {
-  return document.querySelector(`a[href="#${id}"]`)
+  return document.querySelector(`#user-content-${id}`)
 }
 
 function useActiveId(itemIds: string[]) {
@@ -39,14 +41,7 @@ function useActiveId(itemIds: string[]) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // const state = history.state
-
-            // history.replaceState(
-            //   { ...state, preventScrollToToc: true },
-            //   "",
-            //   entry.target.getAttribute("href"),
-            // )
-            setActiveId(entry.target.getAttribute("href"))
+            setActiveId(entry.target.id.replace("user-content-", ""))
           }
         })
       },
@@ -69,11 +64,13 @@ function useActiveId(itemIds: string[]) {
   }, [itemIds])
   return activeId
 }
+
 interface ItemsProps {
   items: TocResult["map"]
   activeId?: string | null
   prefix?: string
 }
+
 function Items(props: ItemsProps) {
   const { items, activeId, prefix = "" } = props
   return (
@@ -98,14 +95,15 @@ function Items(props: ItemsProps) {
             return (
               <span key={index + "-" + i}>
                 {child.type === "paragraph" && child.children?.[0]?.url && (
-                  <a
-                    href={child.children[0].url}
+                  <span
+                    data-url={child.children[0].url}
+                    onClick={() => scrollTo(child.children[0].url)}
                     title={content}
                     className={
-                      (activeId === child.children[0].url
+                      (`#${activeId}` === child.children[0].url
                         ? "text-accent"
                         : "text-zinc-700") +
-                      " truncate inline-block max-w-full align-bottom hover:text-accent"
+                      " truncate inline-block max-w-full align-bottom hover:text-accent cursor-pointer"
                     }
                   >
                     <span
@@ -113,7 +111,7 @@ function Items(props: ItemsProps) {
                         __html: content,
                       }}
                     />
-                  </a>
+                  </span>
                 )}
                 {child.type === "list" &&
                   createElement(Items, {

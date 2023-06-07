@@ -2,7 +2,7 @@
 
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useTranslation } from "~/lib/i18n/client"
-import { calculateElementTop, cn } from "~/lib/utils"
+import { cn, scrollTo } from "~/lib/utils"
 import { useCheckComment, useGetComments } from "~/queries/page"
 
 import { Button } from "../ui/Button"
@@ -23,14 +23,6 @@ export const ReactionComment: React.FC<{
     noteId: noteId,
   })
 
-  const comment = () => {
-    const targetElement = document.querySelector("#comments") as HTMLElement
-    window.scrollTo({
-      top: calculateElementTop(targetElement) - 20,
-      behavior: "smooth",
-    })
-  }
-
   return (
     <>
       <div className={cn("xlog-reactions-comment flex items-center sm:mb-0")}>
@@ -45,7 +37,7 @@ export const ReactionComment: React.FC<{
             "!h-auto flex-col",
           )}
           isAutoWidth={true}
-          onClick={comment}
+          onClick={() => scrollTo("#comments", true)}
         >
           {(() => {
             const inner = (

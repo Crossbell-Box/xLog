@@ -7,7 +7,7 @@ import { PostToc } from "~/components/site/PostToc"
 import { useCodeCopy } from "~/hooks/useCodeCopy"
 import { useHash } from "~/hooks/useHash"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
-import { calculateElementTop, cn } from "~/lib/utils"
+import { cn, scrollTo } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
 export const PageContent: React.FC<{
@@ -35,7 +35,6 @@ export const PageContent: React.FC<{
   site,
   withActions,
 }) => {
-  const hash = useHash()
   useCodeCopy()
 
   const inParsedContent = useMemo(() => {
@@ -49,22 +48,9 @@ export const PageContent: React.FC<{
     }
   }, [content, isComment, parsedContent])
 
+  const hash = useHash()
   useEffect(() => {
-    const _hash = decodeURIComponent(hash.slice(1))
-    if (!_hash) return
-    if (history.state?.preventScrollToToc) {
-      history.state.preventScrollToToc = false
-      return
-    }
-    const targetElement = document.querySelector(
-      `#user-content-${decodeURIComponent(_hash)}`,
-    ) as HTMLElement
-    if (!targetElement) return
-
-    window.scrollTo({
-      top: calculateElementTop(targetElement) - 20,
-      behavior: "smooth",
-    })
+    scrollTo(hash)
   }, [hash])
 
   return (
