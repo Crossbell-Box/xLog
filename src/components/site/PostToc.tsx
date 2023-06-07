@@ -101,8 +101,8 @@ function Items(props: ItemsProps) {
                     title={content}
                     className={
                       (`#${activeId}` === child.children[0].url
-                        ? "text-accent"
-                        : "text-zinc-700") +
+                        ? "text-accent font-bold"
+                        : "text-zinc-400 font-medium") +
                       " truncate inline-block max-w-full align-bottom hover:text-accent cursor-pointer"
                     }
                   >
@@ -138,7 +138,7 @@ export const PostToc: React.FC<{
 
   return (
     <div
-      className="xlog-post-toc absolute left-full pl-10 h-full top-0 lg:block hidden"
+      className="xlog-post-toc absolute left-full pl-14 h-full top-0 lg:block hidden"
       ref={containerRef}
     >
       <div
