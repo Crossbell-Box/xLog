@@ -419,3 +419,18 @@ export function useCheckMirror(characterId?: number) {
     return pageModel.checkMirror(characterId)
   })
 }
+
+export function useGetImageInfo(src?: string) {
+  return useQuery(["getImageInfo", src], async () => {
+    if (!src) {
+      return
+    }
+    return (await (await fetch(`/api/image?url=${src}`)).json()) as {
+      size: {
+        width: number
+        height: number
+      }
+      base64: string
+    }
+  })
+}

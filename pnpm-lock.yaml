@@ -224,6 +224,9 @@ dependencies:
   pinyin-pro:
     specifier: 3.14.0
     version: 3.14.0
+  plaiceholder:
+    specifier: 3.0.0
+    version: 3.0.0(sharp@0.32.1)
   prismjs:
     specifier: 1.29.0
     version: 1.29.0
@@ -11069,6 +11072,14 @@ packages:
     dependencies:
       find-up: 4.1.0
     dev: true
+
+  /plaiceholder@3.0.0(sharp@0.32.1):
+    resolution: {integrity: sha512-jwHxxHPnr1BwRzPCeZgEK2BMsEy2327sWynw3qb6XC/oGgGDUTPtR8pFxFQmNArhMBwhkUbUr5OPhhIJpCa8eQ==}
+    peerDependencies:
+      sharp: '>= 0.30.6'
+    dependencies:
+      sharp: 0.32.1
+    dev: false
 
   /pngjs@5.0.0:
     resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==}

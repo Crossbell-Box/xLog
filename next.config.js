@@ -88,7 +88,7 @@ module.exports = withBundleAnalyzer(
 
       // https://github.com/kkomelin/isomorphic-dompurify/issues/54
       // Fix isomorphic-dompurify in app router
-      config.externals = [...config.externals, "canvas", "jsdom"]
+      config.externals = [...config.externals, "canvas", "jsdom", "sharp"]
 
       return config
     },
