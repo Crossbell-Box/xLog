@@ -60,7 +60,7 @@ export const ReactionComment: React.FC<{
             )
           })()}
           <span className={cn("leading-snug")}>
-            {comments.data?.pages?.[0]?.count}
+            {!comments.isLoading ? comments.data?.pages?.[0]?.count : "-"}
           </span>
         </Button>
       </div>

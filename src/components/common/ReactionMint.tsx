@@ -142,7 +142,7 @@ export const ReactionMint: React.FC<{
             )
           })()}
           <span className={cn("leading-snug", vertical ? "" : "ml-2")}>
-            {mints.data?.pages?.[0]?.count || 0}
+            {!mints.isLoading ? mints.data?.pages?.[0]?.count || 0 : "-"}
           </span>
         </Button>
         {showAvatarStack && (

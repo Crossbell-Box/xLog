@@ -135,28 +135,12 @@ export const PostToc: React.FC<{
 }> = ({ data }) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
 
-  const [maxWidth, setMaxWidth] = useState(0)
-  useEffect(() => {
-    if (containerRef?.current) {
-      setMaxWidth(
-        (window.innerWidth -
-          (containerRef.current?.parentElement?.clientWidth || 0)) /
-          2 -
-          40,
-      )
-    }
-  }, [containerRef])
-
   const idList = getIds(data?.map)
   const activeId = useActiveId(idList)
 
   return (
     <div
-      className="xlog-post-toc absolute left-full pl-10 h-full top-0"
-      style={{
-        maxWidth: maxWidth > 60 ? maxWidth : 0,
-        display: maxWidth > 60 ? "block" : "none",
-      }}
+      className="xlog-post-toc absolute left-full pl-10 h-full top-0 lg:block hidden"
       ref={containerRef}
     >
       <div

@@ -41,7 +41,7 @@ export const ReactionLike: React.FC<{
     characterId,
     noteId,
   })
-  const { data: likeCount = 0 } = useGetLikeCounts({
+  const likeCounts = useGetLikeCounts({
     characterId,
     noteId,
   })
@@ -150,12 +150,14 @@ export const ReactionLike: React.FC<{
               inner
             )
           })()}
-          <span className="leading-snug">{likeCount}</span>
+          <span className="leading-snug">
+            {!likeCounts.isLoading ? likeCounts.data : "-"}
+          </span>
         </Button>
         {showAvatarStack && (
           <AvatarStack
             avatars={avatars}
-            count={likeCount}
+            count={likeCounts.data || 0}
             onClick={() => setIsLikeListOpen(true)}
           />
         )}
