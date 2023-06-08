@@ -139,8 +139,8 @@ export default function SitePostList({
       )}
       {posts.hasNextPage && (
         <Button
-          className="mt-8 w-full bg-zinc-50 text-sm"
-          variant="text"
+          className="mt-8 mx-auto !flex"
+          variant="outline"
           onClick={() => posts.fetchNextPage()}
           isLoading={posts.isFetchingNextPage}
           aria-label="load more"
