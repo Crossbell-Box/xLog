@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams, usePathname } from "next/navigation"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
@@ -45,6 +45,8 @@ export default function DashboardLayout({
   const [hasPermission, setHasPermission] = React.useState(false)
   const { t } = useTranslation("dashboard")
 
+  const [css, setCss] = useState("")
+
   const isMobileLayout = useIsMobileLayout()
   const pathname = usePathname()
 
@@ -64,6 +66,13 @@ export default function DashboardLayout({
       }
     }
   }, [ssrReady, userRole.isSuccess, userRole.data, account, connectModal])
+
+  // Set CSS
+  useEffect(() => {
+    if (site?.data?.metadata?.content?.css) {
+      setCss(site.data.metadata.content.css)
+    }
+  }, [site?.data?.metadata?.content?.css])
 
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
@@ -168,15 +177,13 @@ export default function DashboardLayout({
       <>
         {/* TODO */}
         {/* <SEOHead title={t(title) || ""} siteName={APP_NAME} /> */}
-        {site?.data?.metadata?.content?.css && (
+        {css && (
           <link
             type="text/css"
             rel="stylesheet"
             href={
               "data:text/css;base64," +
-              Buffer.from(toGateway(site.data.metadata?.content?.css)).toString(
-                "base64",
-              )
+              Buffer.from(toGateway(css)).toString("base64")
             }
           />
         )}
