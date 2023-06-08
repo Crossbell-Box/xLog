@@ -12,6 +12,7 @@ export const initialEditorState = {
     address: "",
     mime_type: "",
   },
+  disableAISummary: false,
 }
 export type Values = {
   title: string
@@ -25,6 +26,7 @@ export type Values = {
     address?: string
     mime_type?: string
   }
+  disableAISummary: boolean
 }
 
 export const useEditorState = create<
