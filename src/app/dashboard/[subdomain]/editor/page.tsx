@@ -32,6 +32,7 @@ import { FieldLabel } from "~/components/ui/FieldLabel"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { Input } from "~/components/ui/Input"
 import { Modal } from "~/components/ui/Modal"
+import { Switch } from "~/components/ui/Switch"
 import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
 import { toolbars } from "~/editor"
@@ -242,6 +243,7 @@ export default function SubdomainEditor() {
         applications: page.data?.metadata?.content?.sources,
         characterId: site.data?.characterId,
         cover: values.cover,
+        disableAISummary: values.disableAISummary,
       })
     }
   }
@@ -301,6 +303,7 @@ export default function SubdomainEditor() {
         address: "",
         mime_type: "",
       },
+      disableAISummary: page.data.metadata?.content?.disableAISummary,
     })
     setDefaultSlug(
       getDefaultSlug(
@@ -922,6 +925,10 @@ const EditorAdvancedOptions: FC<{
   setIsAdvancedOptionsOpen: (state: boolean) => void
 }> = memo(
   ({ updateValue, isAdvancedOptionsOpen, setIsAdvancedOptionsOpen }) => {
+    const values = useEditorState(
+      (state) => pick(state, ["disableAISummary"]),
+      shallow,
+    )
     const { t } = useTranslation("dashboard")
 
     return (
@@ -930,7 +937,15 @@ const EditorAdvancedOptions: FC<{
         setOpen={setIsAdvancedOptionsOpen}
         title={t("Advanced Settings")}
       >
-        <div className="p-5 space-y-3"></div>
+        <div className="p-5 space-y-3">
+          <div>
+            <Switch
+              label={t("Disable AI Summary")}
+              checked={values.disableAISummary}
+              setChecked={(state) => updateValue("disableAISummary", state)}
+            />
+          </div>
+        </div>
       </Modal>
     )
   },

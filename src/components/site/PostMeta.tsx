@@ -17,10 +17,14 @@ export default async function PostMeta({
 }) {
   const { t } = await useTranslation("common")
   const { i18n } = await useTranslation()
-  const summary = await getSummary({
-    cid: toCid(page.metadata?.uri || ""),
-    lang: i18n.resolvedLanguage,
-  })
+
+  let summary: string | undefined
+  if (!page.metadata.content.disableAISummary) {
+    summary = await getSummary({
+      cid: toCid(page.metadata?.uri || ""),
+      lang: i18n.resolvedLanguage,
+    })
+  }
 
   return (
     <div className="xlog-post-meta">
