@@ -45,16 +45,17 @@ const PostCard = ({
       target="_blank"
       href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
       className={cn(
-        "xlog-post sm:hover:bg-hover transition-all p-4 ml-10 sm:rounded-xl flex flex-col sm:flex-row items-center hover:opacity-100",
+        "xlog-post sm:hover:bg-hover transition-all p-4 ml-10 sm:rounded-xl flex flex-col sm:flex-row items-center hover:opacity-100 group",
         simple && "opacity-90",
         isComment ? "bg-zinc-50" : "bg-white",
       )}
       prefetch={false}
     >
+      {!simple && <PostCover cover={post.metadata?.content.cover} />}
       <div className="flex-1 flex justify-center flex-col w-full min-w-0">
         <h3
           className={cn(
-            "xlog-post-title font-bold text-zinc-700",
+            "xlog-post-title font-bold text-zinc-700 line-clamp-2",
             simple ? "text-xl" : "text-2xl",
           )}
         >
@@ -113,7 +114,6 @@ const PostCard = ({
           {post.metadata?.content?.summary && "..."}
         </div>
       </div>
-      {!simple && <PostCover cover={post.metadata?.content.cover} />}
     </Link>
   )
 }

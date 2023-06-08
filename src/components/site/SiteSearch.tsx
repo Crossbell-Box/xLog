@@ -52,10 +52,11 @@ export const SiteSearch = () => {
                 <Link
                   key={post.noteId}
                   href={`/${post.metadata.content.slug}`}
-                  className="xlog-post sm:hover:bg-hover bg-white transition-all px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
+                  className="xlog-post sm:hover:bg-hover bg-white transition-all px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center group"
                 >
+                  <PostCover cover={post.metadata?.content.cover} />
                   <div className="flex-1 flex justify-center flex-col w-full min-w-0">
-                    <h3 className="xlog-post-title text-2xl font-bold text-zinc-700">
+                    <h3 className="xlog-post-title text-2xl font-bold text-zinc-700 line-clamp-2">
                       {post.metadata.content.title}
                     </h3>
                     <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
@@ -118,7 +119,6 @@ export const SiteSearch = () => {
                       {post.metadata.content.summary && "..."}
                     </div>
                   </div>
-                  <PostCover cover={post.metadata?.content.cover} />
                 </Link>
               )
             }),

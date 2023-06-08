@@ -5,22 +5,22 @@ export default function PostMeta({ cover }: { cover?: string }) {
 
   return (
     <>
-      <div className="xlog-post-cover hidden sm:flex items-center relative w-28 h-28 ml-4 mt-0">
+      <div className="xlog-post-cover rounded-2xl overflow-hidden hidden sm:flex items-center relative h-36 aspect-video mr-8 mt-0">
         <Image
-          className="object-cover rounded"
+          className="object-cover group-hover:scale-105 transition-transform duration-400 ease-in-out"
           alt="cover"
           src={cover}
-          width={192}
-          height={192}
+          width={256}
+          height={256}
         ></Image>
       </div>
-      <div className="xlog-post-cover flex sm:hidden items-center relative w-full h-40 mt-2 sm:ml-4 sm:mt-0">
+      <div className="xlog-post-cover rounded-2xl overflow-hidden flex sm:hidden items-center relative w-full aspect-video mb-4">
         <Image
-          className="object-cover rounded"
+          className="object-cover"
           alt="cover"
           src={cover}
-          width={350}
-          height={160}
+          width={480}
+          height={270}
         ></Image>
       </div>
     </>

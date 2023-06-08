@@ -50,12 +50,13 @@ export default function SiteHome({ handle }: { handle: string }) {
                   role="article"
                   key={post.transactionHash}
                   href={getSlugUrl(`/${post.metadata?.content?.slug}`)}
-                  className="xlog-post focus-visible:outline focus-visible:outline-accent sm:hover:bg-hover bg-white transition-colors px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center"
+                  className="xlog-post focus-visible:outline focus-visible:outline-accent bg-white transition-colors px-5 py-7 -mx-5 first:-mt-5 sm:rounded-xl flex flex-col sm:flex-row items-center group"
                   suppressHydrationWarning
                   aria-label={post.metadata?.content?.title}
                 >
+                  <PostCover cover={post.metadata?.content?.cover} />
                   <div className="flex-1 flex justify-center flex-col w-full min-w-0">
-                    <h3 className="xlog-post-title text-2xl font-bold text-zinc-700">
+                    <h3 className="xlog-post-title text-2xl font-bold text-zinc-700 line-clamp-2">
                       {post.metadata?.content?.title}
                     </h3>
                     <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
@@ -113,7 +114,6 @@ export default function SiteHome({ handle }: { handle: string }) {
                       {post.metadata?.content?.summary && "..."}
                     </div>
                   </div>
-                  <PostCover cover={post.metadata?.content?.cover} />
                 </Link>
               )
             }),
