@@ -940,7 +940,7 @@ const EditorAdvancedOptions: FC<{
         <div className="p-5 space-y-3">
           <div>
             <Switch
-              label={t("Disable AI Summary")}
+              label={t("Disable AI-generated summary")}
               checked={values.disableAISummary}
               setChecked={(state) => updateValue("disableAISummary", state)}
             />
