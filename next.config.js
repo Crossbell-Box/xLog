@@ -5,7 +5,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 })
 const execSync = require("child_process").execSync
 
-const cache = require("@ducanh2912/next-pwa").runtimeCaching
 const withPWA = require("@ducanh2912/next-pwa").default({
   disable: process.env.NODE_ENV === "development",
   dest: "public",
@@ -15,6 +14,7 @@ const withPWA = require("@ducanh2912/next-pwa").default({
     /^manifest.*\.js$/,
     /^\/_next\/static\/chunks\/app\/dashboard/,
   ],
+  extendDefaultRuntimeCaching: true,
   workboxOptions: {
     runtimeCaching: [
       {
@@ -51,7 +51,6 @@ const withPWA = require("@ducanh2912/next-pwa").default({
           },
         },
       },
-      ...cache,
     ],
   },
 })
@@ -89,7 +88,7 @@ module.exports = withBundleAnalyzer(
 
       // https://github.com/kkomelin/isomorphic-dompurify/issues/54
       // Fix isomorphic-dompurify in app router
-      config.externals = [...config.externals, "canvas", "jsdom"]
+      config.externals = [...config.externals, "canvas", "jsdom", "sharp"]
 
       return config
     },

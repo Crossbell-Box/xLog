@@ -5,31 +5,66 @@ import { IS_DEV, IS_VERCEL_PREVIEW } from "~/lib/constants"
 import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { checkDomainServer } from "~/models/site.model"
+import { client } from "~/queries/graphql"
 
 async function getOriginalNote(
   characterId: string,
   noteId: string,
-  headers?: Record<string, string>,
 ): Promise<NoteEntity> {
-  const note = await (
-    await fetch(
-      `https://indexer.crossbell.io/v1/characters/${characterId}/notes/${noteId}`,
-      {
-        headers,
+  const result = await client
+    .query(
+      `query getNote {
+    note(
+      where: {
+        note_characterId_noteId_unique: {
+          characterId: ${characterId},
+          noteId: ${noteId},
+        },
       },
-    )
-  ).json()
-
-  if (note?.toNote) {
-    if (note?.toNote.toNoteId) {
-      return await getOriginalNote(
-        note?.toNote.toCharacterId,
-        note?.toNote.toNoteId,
-        headers,
-      )
-    } else {
-      return note.toNote
+    ) {
+      characterId
+      noteId
+      deleted
+      toNote {
+        characterId
+        noteId
+        deleted
+        toNote {
+          characterId
+          noteId
+          deleted
+          toNote {
+            characterId
+            noteId
+            deleted
+            metadata {
+              content
+            }
+          }
+          metadata {
+            content
+          }
+        }
+        metadata {
+          content
+        }
+      }
+      metadata {
+        content
+      }
     }
+  }`,
+      {},
+    )
+    .toPromise()
+  const note = result.data?.note
+
+  if (note?.toNote?.toNote?.toNote) {
+    return note?.toNote?.toNote?.toNote
+  } else if (note?.toNote?.toNote) {
+    return note?.toNote?.toNote
+  } else if (note?.toNote) {
+    return note?.toNote
   } else {
     return note
   }
@@ -46,32 +81,29 @@ export async function GET(req: Request): Promise<Response> {
   let character
   let note
 
-  const ip = req.headers.get("x-xlog-ip")
   if (noteId && typeof noteId === "string") {
-    note = await getOriginalNote(
-      characterId,
-      noteId,
-      ip
-        ? {
-            "x-forwarded-for": ip || "",
-          }
-        : undefined,
-    )
+    note = await getOriginalNote(characterId, noteId)
     characterId = note.characterId + ""
   }
 
-  character = await (
-    await fetch(
-      `https://indexer.crossbell.io/v1/characters/${characterId}`,
-      ip
-        ? {
-            headers: {
-              "x-forwarded-for": ip || "",
-            },
-          }
-        : undefined,
+  const result = await client
+    .query(
+      `query getCharacter {
+    character(
+      where: {
+        characterId: ${characterId},
+      },
+    ) {
+      handle
+      metadata {
+        content
+      }
+    }
+  }`,
+      {},
     )
-  ).json()
+    .toPromise()
+  character = result.data?.character
 
   let domain = character?.metadata?.content?.attributes?.find(
     (a: any) => a.trait_type === "xlog_custom_domain",

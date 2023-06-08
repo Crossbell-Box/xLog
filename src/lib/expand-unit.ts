@@ -49,7 +49,10 @@ export const expandCrossbellNote = async ({
           expandedNote.metadata.content.summary = rendered.excerpt
         }
       }
-      expandedNote.metadata.content.cover = rendered.cover
+      expandedNote.metadata.content.cover =
+        expandedNote.metadata?.content?.attachments?.find(
+          (attachment) => attachment.name === "cover",
+        )?.address || rendered.cover
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
 

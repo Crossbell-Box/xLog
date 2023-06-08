@@ -17,7 +17,7 @@ import { Image } from "~/components/ui/Image"
 import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useIsDark } from "~/hooks/useDarkMode"
-import { CSB_IO, CSB_SCAN, CSB_XCHAR } from "~/lib/env"
+import { CSB_SCAN, CSB_XCHAR, CSB_XFEED } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import { useGetSite } from "~/queries/site"
@@ -78,7 +78,7 @@ export const SiteHeader: React.FC<{
     {
       text: "View on xFeed",
       icon: <XFeedLogo className="w-full h-full" />,
-      url: `${CSB_IO}/@${site.data?.handle}`,
+      url: `${CSB_XFEED}/u/${site.data?.handle}`,
     },
     {
       text: "View on Hoot It",

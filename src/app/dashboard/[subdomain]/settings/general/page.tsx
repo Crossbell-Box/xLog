@@ -131,6 +131,7 @@ export default function SiteSettingsGeneralPage() {
                   form.setValue("icon", key as string)
                   setIconUploading(false)
                 }}
+                accept="image/*"
                 {...field}
               />
             )}
@@ -159,6 +160,7 @@ export default function SiteSettingsGeneralPage() {
                 }}
                 withMimeType={true}
                 hasClose={true}
+                accept="image/*,video/*"
                 {...(field as any)}
               />
             )}

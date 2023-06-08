@@ -8,6 +8,7 @@ import toast from "react-hot-toast"
 import {
   useAccountState,
   useUpgradeEmailAccountModal,
+  validateHandle,
 } from "@crossbell/connect-kit"
 
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
@@ -18,7 +19,7 @@ import { useUserRole } from "~/hooks/useUserRole"
 import { OUR_DOMAIN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
-import { checkDomain, getSite } from "~/models/site.model"
+import { checkDomain } from "~/models/site.model"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export default function SettingsDomainsPage() {
@@ -112,29 +113,24 @@ export default function SettingsDomainsPage() {
   const [subdomainCheckResult, setSubdomainCheckResult] = useState<{
     isLoading: boolean
     data?: boolean
+    error?: string
   }>({
     isLoading: false,
     data: true,
+    error: "",
   })
   const toCheckSubdomain = (subdomain: string) => {
     if (subdomain) {
       setSubdomainCheckResult({
         isLoading: true,
       })
-      const subdomainRegex = /^[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?$/i
-      if (!subdomainRegex.test(subdomain)) {
+      validateHandle(subdomain).then(({ isValid, error, errorMsg }) => {
         setSubdomainCheckResult({
           isLoading: false,
-          data: false,
+          data: isValid,
+          error: errorMsg,
         })
-      } else {
-        getSite(subdomain).then((r) =>
-          setSubdomainCheckResult({
-            isLoading: false,
-            data: !r,
-          }),
-        )
-      }
+      })
     }
   }
 
@@ -191,7 +187,7 @@ export default function SettingsDomainsPage() {
                   {t(
                     subdomainCheckResult.data
                       ? "Subdomain Available."
-                      : "Subdomain Unavailable.",
+                      : subdomainCheckResult.error || "Subdomain Unavailable.",
                   )}
                 </span>
               )}

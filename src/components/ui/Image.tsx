@@ -6,6 +6,7 @@ import React, { useEffect } from "react"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
+import { useGetImageInfo } from "~/queries/page"
 
 type TImageProps = {
   className?: string
@@ -152,10 +153,20 @@ export const Image: React.FC<TImageProps> = ({
 }
 
 export const ZoomedImage: React.FC<TImageProps> = (props) => {
+  const info = useGetImageInfo(props.src)
+  const autoProps = info?.data
+    ? {
+        width: info.data.size?.width,
+        height: info.data.size?.height,
+        blurDataURL: info.data.base64,
+        placeholder: "blur" as const,
+      }
+    : {}
+
   return (
     <span className="text-center block">
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <Image {...props} zoom />
+      <Image {...props} {...autoProps} zoom />
     </span>
   )
 }

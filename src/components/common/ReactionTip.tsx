@@ -94,7 +94,7 @@ export const ReactionTip: React.FC<{
             )
           })()}
           <span className={cn("leading-snug", vertical ? "" : "ml-2")}>
-            {tips.data?.pages?.[0]?.count || 0}
+            {!tips.isLoading ? tips.data?.pages?.[0]?.count || 0 : "-"}
           </span>
         </Button>
         {showAvatarStack && (

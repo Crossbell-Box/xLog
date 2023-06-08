@@ -156,6 +156,7 @@ export const renderPageContent = (
       .use(rehypeVideo, { env })
       .use(rehypeSlug)
       .use(rehypeAutolinkHeadings, {
+        behavior: "append",
         properties: {
           className: ["xlog-anchor"],
           ariaHidden: true,
@@ -164,12 +165,8 @@ export const renderPageContent = (
         content(node) {
           return [
             {
-              type: "element",
-              tagName: "span",
-              properties: {
-                className: ["icon-[mingcute--link-line]"],
-              },
-              children: [],
+              type: "text",
+              value: "#",
             },
           ]
         },
@@ -219,12 +216,6 @@ export const renderPageContent = (
           }
         },
       })
-      // .use(rehypeRewrite, {
-      //   selector: "h1",
-      //   rewrite: (node: any) => {
-      //     node.tagName = "h2"
-      //   },
-      // })
       .use(rehypePrism, {
         ignoreMissing: true,
         showLineNumbers: true,

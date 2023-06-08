@@ -5,8 +5,9 @@ import { MutableRefObject, useEffect, useMemo } from "react"
 import { PostActions } from "~/components/site/PostActions"
 import { PostToc } from "~/components/site/PostToc"
 import { useCodeCopy } from "~/hooks/useCodeCopy"
+import { useHash } from "~/hooks/useHash"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
-import { calculateElementTop, cn } from "~/lib/utils"
+import { cn, scrollTo } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
 export const PageContent: React.FC<{
@@ -47,31 +48,10 @@ export const PageContent: React.FC<{
     }
   }, [content, isComment, parsedContent])
 
+  const hash = useHash()
   useEffect(() => {
-    const hashChangeHandler = () => {
-      const hash = decodeURIComponent(location.hash.slice(1))
-      if (hash) {
-        if (history.state?.preventScrollToToc) {
-          history.state.preventScrollToToc = false
-          return
-        }
-        const targetElement = document.querySelector(
-          `#user-content-${decodeURIComponent(hash)}`,
-        ) as HTMLElement
-        if (!targetElement) return
-
-        window.scrollTo({
-          top: calculateElementTop(targetElement) - 20,
-          behavior: "smooth",
-        })
-      }
-    }
-
-    window.addEventListener("hashchange", hashChangeHandler)
-    return () => {
-      window.removeEventListener("hashchange", hashChangeHandler)
-    }
-  }, [])
+    scrollTo(hash)
+  }, [hash])
 
   return (
     <div

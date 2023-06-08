@@ -146,7 +146,6 @@ export default async function SitePagePage({
               </h2>
             )}
             {page?.metadata?.content?.tags?.includes("post") && (
-              /* @ts-expect-error Async Server Component */
               <PostMeta page={page} site={site} />
             )}
           </div>

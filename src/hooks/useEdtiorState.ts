@@ -8,11 +8,27 @@ export const initialEditorState = {
   slug: "",
   tags: "",
   content: "",
+  cover: {
+    address: "",
+    mime_type: "",
+  },
 }
-export type Values = typeof initialEditorState
+export type Values = {
+  title: string
+  publishedAt: string
+  published: boolean
+  excerpt: string
+  slug: string
+  tags: string
+  content: string
+  cover: {
+    address?: string
+    mime_type?: string
+  }
+}
 
 export const useEditorState = create<
-  typeof initialEditorState & {
+  Values & {
     setValues: (values: Partial<typeof initialEditorState>) => void
   }
 >((set) => ({

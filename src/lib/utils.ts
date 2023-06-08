@@ -40,13 +40,33 @@ export const throttle = (func: Function, limit: number) => {
   }
 }
 
-export const calculateElementTop = (el: HTMLElement) => {
-  let top = 0
-  while (el) {
-    top += el.offsetTop
-    el = el.offsetParent as HTMLElement
+export const scrollTo = (hash: string, notUserContent?: boolean) => {
+  const calculateElementTop = (el: HTMLElement) => {
+    let top = 0
+    while (el) {
+      top += el.offsetTop
+      el = el.offsetParent as HTMLElement
+    }
+    return top
   }
-  return top
+
+  const _hash = decodeURIComponent(hash.slice(1))
+  if (!_hash) return
+  if (history.state?.preventScrollToToc) {
+    history.state.preventScrollToToc = false
+    return
+  }
+  const targetElement = document.querySelector(
+    notUserContent
+      ? `#${decodeURIComponent(_hash)}`
+      : `#user-content-${decodeURIComponent(_hash)}`,
+  ) as HTMLElement
+  if (!targetElement) return
+
+  window.scrollTo({
+    top: calculateElementTop(targetElement) - 20,
+    behavior: "smooth",
+  })
 }
 
 export function getStringLength(str: string) {
