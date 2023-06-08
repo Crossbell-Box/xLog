@@ -16,9 +16,7 @@ const icons: {
   },
 }
 
-export const Titles: React.FC<{
-  characterId?: number
-}> = ({ characterId }) => {
+export const Titles = ({ characterId }: { characterId?: number }) => {
   if (!characterId) {
     return null
   }

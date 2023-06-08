@@ -4,14 +4,7 @@ import { memo } from "react"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
-const APlayer: React.FC<
-  {
-    name?: string
-    artist?: string
-    cover?: string
-    lrc?: string
-  } & React.AudioHTMLAttributes<HTMLAudioElement>
-> = memo(function APlayer({
+const APlayer = memo(function APlayer({
   src,
   name,
   artist,
@@ -20,7 +13,12 @@ const APlayer: React.FC<
   muted,
   autoPlay,
   loop,
-}) {
+}: {
+  name?: string
+  artist?: string
+  cover?: string
+  lrc?: string
+} & React.AudioHTMLAttributes<HTMLAudioElement>) {
   if (!src) return null
 
   src = toGateway(src)

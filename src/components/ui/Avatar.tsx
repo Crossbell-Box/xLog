@@ -4,15 +4,22 @@ import { Image } from "~/components/ui/Image"
 import { toGateway } from "~/lib/ipfs-parser"
 import { cn } from "~/lib/utils"
 
-export const Avatar: React.FC<
-  {
-    images: (string | null | undefined)[]
-    name?: string | null
-    size?: number
-    rounded?: boolean
-    imageRef?: React.MutableRefObject<HTMLImageElement>
-  } & React.HTMLAttributes<HTMLSpanElement>
-> = ({ images, size, name, className, rounded, imageRef, ...props }) => {
+export const Avatar = ({
+  images,
+  size,
+  name,
+  className,
+  rounded,
+  imageRef,
+  ...props
+}: {
+  images: (string | null | undefined)[]
+  name?: string | null
+  size?: number
+  rounded?: boolean
+  imageRef?: React.MutableRefObject<HTMLImageElement>
+  className?: string
+} & React.HTMLAttributes<HTMLSpanElement>) => {
   size = size || 60
 
   const fontSize = size * 0.5

@@ -10,12 +10,17 @@ import { useTranslation } from "~/lib/i18n/client"
 import { getSubscriptionsFromList } from "~/models/site.model"
 import { useSubscribeToSites } from "~/queries/site"
 
-export const FollowAllButton: React.FC<{
+export const FollowAllButton = ({
+  size,
+  characterIds = [],
+  siteIds = [],
+  className,
+}: {
   size?: "sm" | "xl"
   characterIds?: number[]
   siteIds?: string[]
   className?: string
-}> = ({ size, characterIds = [], siteIds = [], className }) => {
+}) => {
   const subscribeToSites = useSubscribeToSites()
   const { t } = useTranslation("index")
   const account = useAccountState((s) => s.computed.account)

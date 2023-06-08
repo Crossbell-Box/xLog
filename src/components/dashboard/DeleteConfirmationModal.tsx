@@ -3,12 +3,17 @@ import { useTranslation } from "react-i18next"
 import { Button } from "../ui/Button"
 import { Modal } from "../ui/Modal"
 
-export const DeleteConfirmationModal: React.FC<{
+export const DeleteConfirmationModal = ({
+  open,
+  setOpen,
+  onConfirm,
+  isPost,
+}: {
   open: boolean
   setOpen: (open: boolean) => void
   onConfirm: () => void
   isPost?: boolean
-}> = ({ open, setOpen, onConfirm, isPost }) => {
+}) => {
   const { t } = useTranslation("dashboard")
 
   return (

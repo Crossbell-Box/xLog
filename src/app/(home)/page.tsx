@@ -288,6 +288,7 @@ async function Home() {
                     href={getSiteLink({ subdomain: "xlog" })}
                     role="button"
                     className="button is-black rounded-lg"
+                    rel="noreferrer"
                   >
                     {t(`features.${feature.title}.extra.button`)}
                   </a>

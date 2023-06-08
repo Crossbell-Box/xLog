@@ -135,11 +135,15 @@ export const PlatformsSyncMap: {
   },
 }
 
-export const Platform: React.FC<{
+export const Platform = ({
+  platform,
+  username,
+  className,
+}: {
   platform: string
   username: string
   className?: string
-}> = ({ platform, username, className }) => {
+}) => {
   platform = platform.toLowerCase()
   let link = PlatformsSyncMap[platform]?.url
 

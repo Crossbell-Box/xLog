@@ -1,7 +1,4 @@
-export const FieldLabel: React.FC<{ id?: string; label: string }> = ({
-  id,
-  label,
-}) => {
+export const FieldLabel = ({ id, label }: { id?: string; label: string }) => {
   return (
     <label className="form-label" htmlFor={id}>
       {label}

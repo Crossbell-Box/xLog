@@ -18,7 +18,13 @@ function getPageId(page: ExpandedNote) {
   return page.noteId || page.draftKey || 0
 }
 
-export const PagesManagerBatchSelectActionTab: React.FC<{
+export const PagesManagerBatchSelectActionTab = ({
+  isPost,
+  isNotxLogContent,
+  pages,
+  batchSelected,
+  setBatchSelected,
+}: {
   isPost: boolean
   isNotxLogContent: boolean
   pages?: InfiniteData<{
@@ -26,7 +32,7 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
   }>
   batchSelected: (string | number)[]
   setBatchSelected: (selected: (string | number)[]) => void
-}> = ({ isPost, isNotxLogContent, pages, batchSelected, setBatchSelected }) => {
+}) => {
   const { t } = useTranslation("dashboard")
 
   const params = useParams()

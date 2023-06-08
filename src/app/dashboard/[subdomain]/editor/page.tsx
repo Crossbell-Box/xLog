@@ -6,7 +6,6 @@ import { nanoid } from "nanoid"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import {
   ChangeEvent,
-  FC,
   memo,
   useCallback,
   useEffect,
@@ -729,16 +728,7 @@ export default function SubdomainEditor() {
   )
 }
 
-const EditorExtraProperties: FC<{
-  updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
-  isPost: boolean
-
-  subdomain: string
-  defaultSlug: string
-  userTags: string[]
-
-  openAdvancedOptions: () => void
-}> = memo(
+const EditorExtraProperties = memo(
   ({
     isPost,
     updateValue,
@@ -746,6 +736,15 @@ const EditorExtraProperties: FC<{
     defaultSlug,
     userTags,
     openAdvancedOptions,
+  }: {
+    updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
+    isPost: boolean
+
+    subdomain: string
+    defaultSlug: string
+    userTags: string[]
+
+    openAdvancedOptions: () => void
   }) => {
     const values = useEditorState(
       (state) =>
@@ -918,13 +917,17 @@ const EditorExtraProperties: FC<{
 
 EditorExtraProperties.displayName = "EditorExtraProperties"
 
-const EditorAdvancedOptions: FC<{
-  updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
+const EditorAdvancedOptions = memo(
+  ({
+    updateValue,
+    isAdvancedOptionsOpen,
+    setIsAdvancedOptionsOpen,
+  }: {
+    updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
 
-  isAdvancedOptionsOpen: boolean
-  setIsAdvancedOptionsOpen: (state: boolean) => void
-}> = memo(
-  ({ updateValue, isAdvancedOptionsOpen, setIsAdvancedOptionsOpen }) => {
+    isAdvancedOptionsOpen: boolean
+    setIsAdvancedOptionsOpen: (state: boolean) => void
+  }) => {
     const values = useEditorState(
       (state) => pick(state, ["disableAISummary"]),
       shallow,

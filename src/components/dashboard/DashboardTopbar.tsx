@@ -5,11 +5,15 @@ import { Bars3Icon } from "@heroicons/react/24/outline"
 
 import { Logo } from "../common/Logo"
 
-export const DashboardTopbar: React.FC<{
+export const DashboardTopbar = ({
+  children,
+  userWidget,
+  drawerWidget,
+}: {
   children: (open: boolean) => React.ReactNode
   userWidget: React.ReactNode
   drawerWidget: (close: any) => React.ReactNode
-}> = ({ children, userWidget, drawerWidget }) => {
+}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (

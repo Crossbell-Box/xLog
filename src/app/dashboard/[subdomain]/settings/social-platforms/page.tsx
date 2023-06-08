@@ -27,11 +27,15 @@ type UpdateItem = (id: string, newItem: Partial<Item>) => void
 
 type RemoveItem = (id: string) => void
 
-const SortableNavigationItem: React.FC<{
+const SortableNavigationItem = ({
+  item,
+  updateItem,
+  removeItem,
+}: {
   item: Item
   updateItem: UpdateItem
   removeItem: RemoveItem
-}> = ({ item, updateItem, removeItem }) => {
+}) => {
   const { t } = useTranslation("dashboard")
   return (
     <div className="flex space-x-5 border-b p-5 bg-zinc-50 last:border-0">
@@ -213,6 +217,7 @@ export default function SiteSettingsNavigationPage() {
                 />
               )
             })}
+            {/* eslint-disable-next-line react/no-unknown-property */}
             <style jsx global>{`
               .sortable-ghost {
                 opacity: 0.4;

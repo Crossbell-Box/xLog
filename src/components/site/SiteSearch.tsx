@@ -14,7 +14,7 @@ import { useGetSite } from "~/queries/site"
 
 import { EmptyState } from "../ui/EmptyState"
 
-export const SiteSearch: React.FC = () => {
+export const SiteSearch = () => {
   const router = useRouter()
   const { t } = useTranslation("site")
   const date = useDate()

@@ -6,10 +6,13 @@ import { useForm } from "react-hook-form"
 import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
-export const SearchInput: React.FC<{
+export const SearchInput = ({
+  noBorder,
+  onSubmit,
+}: {
   noBorder?: boolean
   onSubmit?: (value?: string) => void
-}> = ({ noBorder, onSubmit }) => {
+}) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { t } = useTranslation("common")

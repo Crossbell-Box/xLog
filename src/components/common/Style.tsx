@@ -1,9 +1,12 @@
 import { toGateway } from "~/lib/ipfs-parser"
 
-const Style: React.FC<{
+const Style = ({
+  content,
+  children,
+}: {
   content?: string
   children?: React.ReactNode[]
-}> = ({ content, children }) => {
+}) => {
   let css = content
   if (!css && typeof children?.[0] === "string") {
     css = children[0].trim()

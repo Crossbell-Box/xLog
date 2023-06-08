@@ -1,12 +1,13 @@
+/* eslint-disable react/prop-types */
 "use client"
 
 import React, { memo } from "react"
 
 import { cn } from "~/lib/utils"
 
-export const ButtonGroup: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+/* eslint-disable react/prop-types */
+
+export const ButtonGroup = ({ children }: { children: React.ReactNode }) => {
   return <div className="button-group">{children}</div>
 }
 
@@ -60,7 +61,7 @@ export const Button = memo(
       rounded,
       isAutoWidth,
       ...props
-    },
+    }: React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps,
     ref,
   ) {
     return (

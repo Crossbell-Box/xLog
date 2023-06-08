@@ -19,7 +19,7 @@ type TImageProps = {
 } & React.HTMLAttributes<HTMLImageElement> &
   ImageProps
 
-export const Image: React.FC<TImageProps> = ({
+export const Image = ({
   fill,
   className,
   alt,
@@ -29,7 +29,7 @@ export const Image: React.FC<TImageProps> = ({
   imageRef,
   zoom,
   ...props
-}) => {
+}: TImageProps) => {
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
   const [autoWidth, setAutoWidth] = React.useState(0)
@@ -152,7 +152,7 @@ export const Image: React.FC<TImageProps> = ({
   )
 }
 
-export const ZoomedImage: React.FC<TImageProps> = (props) => {
+export const ZoomedImage = (props: TImageProps) => {
   const info = useGetImageInfo(props.src)
   const autoProps = info?.data
     ? {

@@ -20,7 +20,13 @@ import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
-export const CommentItem: React.FC<{
+export const CommentItem = ({
+  comment,
+  originalCharacterId,
+  originalNoteId,
+  depth,
+  className,
+}: {
   comment: NoteEntity & {
     character?: CharacterEntity | null
   }
@@ -28,7 +34,7 @@ export const CommentItem: React.FC<{
   originalNoteId?: number
   depth: number
   className?: string
-}> = ({ comment, originalCharacterId, originalNoteId, depth, className }) => {
+}) => {
   const [replyOpen, setReplyOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
 

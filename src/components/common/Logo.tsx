@@ -7,13 +7,19 @@ import { Image } from "~/components/ui/Image"
 
 import LogoLottieJSON from "../../../public/assets/logo.json"
 
-export const Logo: React.FC<{
+export const Logo = ({
+  type,
+  width,
+  height,
+  loop,
+  autoplay,
+}: {
   type: "svg" | "png" | "lottie"
   width?: number
   height?: number
   loop?: boolean
   autoplay?: boolean
-}> = ({ type, width, height, loop, autoplay }) => {
+}) => {
   const ref = useRef<LottieRefCurrentProps>(null)
 
   switch (type) {

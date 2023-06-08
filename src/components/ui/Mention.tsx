@@ -18,11 +18,8 @@ const getSiteId = ({ id, children }: { id: string; children?: any }) => {
   }
 }
 
-const Mention: React.FC<{
-  id: string
-  children?: any
-}> = memo(
-  function Mention({ id, children }) {
+const Mention = memo(
+  function Mention({ id, children }: { id: string; children?: any }) {
     let siteId = getSiteId({ id, children })
 
     const site = useGetSite(siteId)

@@ -38,10 +38,10 @@ export type ICommand<P = any> = {
   // While the `ui` field exists, the ui component will be rendered in a popover first,
   // then you can call `transferPayload` to transfer the payload to the `execute` function.
   // You can find a sample usage in `./Emoji.tsx`.
-  ui?: React.FC<{
+  ui?: (props: {
     transferPayload: (payload: P) => void
     view: EditorView
-  }>
+  }) => JSX.Element
 }
 
 export type IPrependExecute = {

@@ -1,5 +1,5 @@
 import { useParams, useRouter } from "next/navigation"
-import { FC, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
 import { Menu } from "@headlessui/react"
@@ -30,11 +30,15 @@ interface Item {
   icon: JSX.Element
   onClick: () => void
 }
-export const PagesManagerMenu: FC<{
+export const PagesManagerMenu = ({
+  isPost,
+  page,
+  onClick: onClose,
+}: {
   isPost: boolean
   page: ExpandedNote
   onClick: () => void
-}> = ({ isPost, page, onClick: onClose }) => {
+}) => {
   const { t } = useTranslation("dashboard")
 
   const isCrossbell = !page.metadata?.content?.sources?.includes("xlog")

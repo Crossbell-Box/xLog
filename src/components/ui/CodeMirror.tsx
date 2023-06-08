@@ -1,6 +1,5 @@
 import {
   CSSProperties,
-  FC,
   Suspense,
   createElement,
   forwardRef,
@@ -47,7 +46,7 @@ interface XLogCodeMirrorEditorProps {
   onUpdate?: (update: ViewUpdate) => void
   onCreateEditor?: (view: EditorView, state: EditorState) => void
   onMouseEnter?: () => void
-  LoadingComponent?: FC
+  LoadingComponent?: () => JSX.Element
 }
 
 export const CodeMirrorEditor = forwardRef<

@@ -8,18 +8,7 @@ import { cn } from "~/lib/utils"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
-export const OptionsButton: React.FC<{
-  visibility: PageVisibilityEnum | undefined
-  previewPage: () => void
-  renderPage: Dispatch<SetStateAction<boolean>>
-  savePage: (published: boolean) => any
-  propertiesWidget: React.ReactNode
-  isRendering: boolean
-  published: boolean
-  isPost: boolean
-  isModified: boolean
-  discardChanges: () => void
-}> = ({
+export const OptionsButton = ({
   visibility,
   previewPage,
   savePage,
@@ -30,6 +19,17 @@ export const OptionsButton: React.FC<{
   isPost,
   isModified,
   discardChanges,
+}: {
+  visibility: PageVisibilityEnum | undefined
+  previewPage: () => void
+  renderPage: Dispatch<SetStateAction<boolean>>
+  savePage: (published: boolean) => any
+  propertiesWidget: React.ReactNode
+  isRendering: boolean
+  published: boolean
+  isPost: boolean
+  isModified: boolean
+  discardChanges: () => void
 }) => {
   const { t } = useTranslation("dashboard")
 

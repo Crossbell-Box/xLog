@@ -225,10 +225,13 @@ const Post = ({
 
 const MemoedPost = memo(Post)
 
-export const HomeFeed: React.FC<{
+export const HomeFeed = ({
+  noteIds,
+  type,
+}: {
   noteIds?: string[]
   type?: FeedType
-}> = ({ noteIds, type }) => {
+}) => {
   const { t } = useTranslation("common")
   const searchParams = useSearchParams()
 

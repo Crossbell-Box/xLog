@@ -20,12 +20,17 @@ import {
 import { AvatarStack } from "../ui/AvatarStack"
 import { Button } from "../ui/Button"
 
-export const ReactionLike: React.FC<{
+export const ReactionLike = ({
+  size,
+  characterId,
+  noteId,
+  vertical,
+}: {
   size?: "sm" | "base"
   characterId?: number
   noteId?: number
   vertical?: boolean
-}> = ({ size, characterId, noteId, vertical }) => {
+}) => {
   const toggleLikePage = useToggleLikePage()
   const { t, i18n } = useTranslation("common")
 

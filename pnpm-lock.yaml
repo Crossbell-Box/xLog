@@ -478,6 +478,9 @@ devDependencies:
   eslint-plugin-import:
     specifier: 2.27.5
     version: 2.27.5(@typescript-eslint/parser@5.59.8)(eslint-import-resolver-typescript@3.5.5)(eslint@8.42.0)
+  eslint-plugin-react:
+    specifier: 7.32.2
+    version: 7.32.2(eslint@8.42.0)
   eslint-plugin-unused-imports:
     specifier: 2.0.0
     version: 2.0.0(eslint@8.42.0)
@@ -6439,7 +6442,7 @@ packages:
     dev: true
 
   /concat-map@0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
 
   /configstore@5.0.1:
     resolution: {integrity: sha512-aMKprgk5YhBNyH25hj8wGt2+D52Sw1DRRIzqBwLp2Ya9mFmY8KPvvtvmna8SxVR9JMZ4kzMD68N22vlaRpkeFA==}

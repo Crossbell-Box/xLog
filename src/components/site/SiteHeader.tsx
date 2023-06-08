@@ -32,7 +32,7 @@ type HeaderLinkType = {
   onClick?: () => void
 }
 
-const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
+const HeaderLink = ({ link }: { link: HeaderLinkType }) => {
   const pathname = usePathname()
   const { t } = useTranslation("site")
 
@@ -51,9 +51,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
   )
 }
 
-export const SiteHeader: React.FC<{
-  handle: string
-}> = ({ handle }) => {
+export const SiteHeader = ({ handle }: { handle: string }) => {
   const site = useGetSite(handle)
   const { t } = useTranslation("site")
   const leftLinks: HeaderLinkType[] =

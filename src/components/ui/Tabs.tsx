@@ -15,9 +15,12 @@ export type TabItem = {
   tooltip?: string
 }
 
-export const Tabs: React.FC<{ items: TabItem[]; className?: string }> = ({
+export const Tabs = ({
   items,
   className,
+}: {
+  items: TabItem[]
+  className?: string
 }) => {
   const { t } = useTranslation("dashboard")
 

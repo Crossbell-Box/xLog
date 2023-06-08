@@ -8,15 +8,7 @@ import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import { useGetCharacterCard } from "~/queries/site"
 
-export const CharacterCard: React.FC<{
-  siteId?: string
-  address?: string
-  open?: boolean
-  setButtonLoading?: (loading: boolean) => void
-  hideFollowButton?: boolean
-  simple?: boolean
-  style?: "flat" | "normal"
-}> = ({
+export const CharacterCard = ({
   siteId,
   address,
   open,
@@ -24,6 +16,14 @@ export const CharacterCard: React.FC<{
   hideFollowButton,
   simple,
   style,
+}: {
+  siteId?: string
+  address?: string
+  open?: boolean
+  setButtonLoading?: (loading: boolean) => void
+  hideFollowButton?: boolean
+  simple?: boolean
+  style?: "flat" | "normal"
 }) => {
   const date = useDate()
   const { t } = useTranslation("common")

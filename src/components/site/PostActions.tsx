@@ -10,10 +10,13 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { usePostFooterInView } from "./PostFooter"
 
-export const PostActions: React.FC<{
+export const PostActions = ({
+  page,
+  site,
+}: {
   page?: ExpandedNote
   site?: ExpandedCharacter
-}> = ({ page, site }) => {
+}) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   const isPostFooterInView = usePostFooterInView()

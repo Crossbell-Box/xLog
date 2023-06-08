@@ -2,9 +2,11 @@ import { useEffect, useState } from "react"
 
 import { getStorage, setStorage } from "~/lib/storage"
 
-export const DashboardSidebar: React.FC<{
+export const DashboardSidebar = ({
+  children,
+}: {
   children: (isOpen: boolean) => React.ReactNode
-}> = ({ children }) => {
+}) => {
   const [isOpen, setIsOpen] = useState(true)
 
   useEffect(() => {

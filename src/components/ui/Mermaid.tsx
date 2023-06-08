@@ -1,17 +1,15 @@
 "use client"
 
 import { nanoid } from "nanoid"
-import { FC, memo, useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 
 import { ZoomedImage } from "./Image"
 
-const Mermaid: FC<{
-  children: [string]
-}> = memo(
-  function Mermaid(props) {
+const Mermaid = memo(
+  function Mermaid(props: { children: [string] }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [svg, setSvg] = useState("")

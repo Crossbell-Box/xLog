@@ -6,16 +6,7 @@ import { useTranslation } from "~/lib/i18n/client"
 import { Button, ButtonGroup } from "../ui/Button"
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
-export const PublishButton: React.FC<{
-  save: (published: boolean) => void
-  published: boolean
-  isSaving: boolean
-  isDisabled: boolean
-  twitterShareUrl?: string
-  isPost: boolean
-  isModified: boolean
-  discardChanges: () => void
-}> = ({
+export const PublishButton = ({
   save,
   discardChanges,
   published,
@@ -24,6 +15,15 @@ export const PublishButton: React.FC<{
   isModified,
   twitterShareUrl,
   isPost,
+}: {
+  save: (published: boolean) => void
+  published: boolean
+  isSaving: boolean
+  isDisabled: boolean
+  twitterShareUrl?: string
+  isPost: boolean
+  isModified: boolean
+  discardChanges: () => void
 }) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
