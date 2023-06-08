@@ -61,6 +61,7 @@ export async function createOrUpdatePage(
       address?: string
       mime_type?: string
     }
+    disableAISummary?: boolean
   },
   customUnidata?: Unidata,
   newbieToken?: string,
@@ -118,14 +119,24 @@ export async function createOrUpdatePage(
         "xlog",
         ...(input.applications?.filter((app) => app !== "xlog") || []),
       ],
-      ...(input.slug && {
-        attributes: [
-          {
-            trait_type: "xlog_slug",
-            value: input.slug,
-          },
-        ],
-      }),
+      attributes: [
+        ...(input.slug
+          ? [
+              {
+                trait_type: "xlog_slug",
+                value: input.slug,
+              },
+            ]
+          : []),
+        ...(input.disableAISummary
+          ? [
+              {
+                trait_type: "xlog_disable_ai_summary",
+                value: input.disableAISummary,
+              },
+            ]
+          : []),
+      ],
       attachments: input.cover?.address
         ? [
             {
@@ -215,6 +226,7 @@ const getLocalPages = (input: {
               ],
               slug: page.values?.slug,
               sources: ["xlog"],
+              disableAISummary: page.values?.disableAISummary,
             },
           },
           local: true,
