@@ -133,6 +133,11 @@ export const PlatformsSyncMap: {
     url: "https://{instance}/users/{username}",
     identityFormatTemplate: "username@instance.ltd",
   },
+  douban: {
+    name: "douban",
+    icon: "/assets/social/douban.png",
+    url: "https://www.douban.com/people/{username}",
+  },
 }
 
 export const Platform = ({
