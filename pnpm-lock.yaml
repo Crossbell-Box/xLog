@@ -140,9 +140,9 @@ dependencies:
   emoji-mart:
     specifier: 5.5.2
     version: 5.5.2
-  fast-average-color:
-    specifier: 9.3.0
-    version: 9.3.0
+  fast-average-color-node:
+    specifier: 2.6.0
+    version: 2.6.0
   fast-deep-equal:
     specifier: 3.1.3
     version: 3.1.3
@@ -7979,6 +7979,17 @@ packages:
     resolution: {integrity: sha512-oNvBekbhsm/0PNSOWca5raHNAi6dG960Bx6LJgxDPNF59WpuspgQ17bN5MKwOr7JcFdQYc7StW3VZ28DBZLavQ==}
     dev: false
 
+  /fast-average-color-node@2.6.0:
+    resolution: {integrity: sha512-dn7ps7AhcsO8Gq4468aAeSVMtYWAGjTIjQ6J83+QueA6UYZ22YeKfIrfKjQiYAjBt+oBWskZ5e1fXtmsm24xMg==}
+    engines: {node: '>= 12'}
+    dependencies:
+      fast-average-color: 9.3.0
+      node-fetch: 2.6.11
+      sharp: 0.31.3
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /fast-average-color@9.3.0:
     resolution: {integrity: sha512-FlPROSqDMOnoBgkFhWMHJODPvpS0Od0WDpedcKq4U/t0JVapGAkblNwxOr75qT+ZNd0dQM4qlgqrtnXbCJ8cNg==}
     engines: {node: '>= 12'}
@@ -10609,6 +10620,10 @@ packages:
     resolution: {integrity: sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==}
     dev: false
 
+  /node-addon-api@5.1.0:
+    resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==}
+    dev: false
+
   /node-addon-api@6.1.0:
     resolution: {integrity: sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==}
     dev: false
@@ -12226,6 +12241,21 @@ packages:
     dependencies:
       inherits: 2.0.4
       safe-buffer: 5.2.1
+    dev: false
+
+  /sharp@0.31.3:
+    resolution: {integrity: sha512-XcR4+FCLBFKw1bdB+GEhnUNXNXvnt0tDo4WsBsraKymuo/IAuPuCBVAL2wIkUw2r/dwFW5Q5+g66Kwl2dgDFVg==}
+    engines: {node: '>=14.15.0'}
+    requiresBuild: true
+    dependencies:
+      color: 4.2.3
+      detect-libc: 2.0.1
+      node-addon-api: 5.1.0
+      prebuild-install: 7.1.1
+      semver: 7.5.1
+      simple-get: 4.0.1
+      tar-fs: 2.1.1
+      tunnel-agent: 0.6.0
     dev: false
 
   /sharp@0.32.1:
