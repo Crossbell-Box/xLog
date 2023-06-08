@@ -165,7 +165,7 @@ export default async function SiteLayout({
         className={`xlog-page xlog-page-${type} xlog-user xlog-deprecated-class`}
       >
         <Style content={site?.metadata?.content?.css} />
-        {colors?.light.averageColor && (
+        {colors?.light && colors?.dark && (
           <style>
             {`.light {
               --auto-hover-color: ${colors.light.autoHoverColor};
