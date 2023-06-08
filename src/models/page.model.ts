@@ -131,7 +131,7 @@ export async function createOrUpdatePage(
         ...(input.disableAISummary
           ? [
               {
-                trait_type: "xlog_option_disableAISummary",
+                trait_type: "xlog_disable_ai_summary",
                 value: input.disableAISummary,
               },
             ]

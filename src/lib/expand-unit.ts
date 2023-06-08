@@ -67,7 +67,7 @@ export const expandCrossbellNote = async ({
 
     expandedNote.metadata.content.disableAISummary = Boolean(
       expandedNote.metadata.content.attributes?.find(
-        (attribute) => attribute.trait_type === "xlog_option_disableAISummary",
+        (attribute) => attribute.trait_type === "xlog_disable_ai_summary",
       )?.value,
     )
 
