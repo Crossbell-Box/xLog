@@ -1,6 +1,6 @@
 "use client"
 
-import SitePostList from "~/components/site/SitePostList"
+import PostList from "~/components/site/PostList"
 import { PageVisibilityEnum } from "~/lib/types"
 import { useGetPagesBySiteLite } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
@@ -18,7 +18,7 @@ export default function SiteHome({ handle }: { handle: string }) {
 
   return (
     <>
-      <SitePostList posts={posts} />
+      <PostList posts={posts} />
     </>
   )
 }

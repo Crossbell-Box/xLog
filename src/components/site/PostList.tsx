@@ -15,7 +15,7 @@ import { getSlugUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 
-export default function SitePostList({
+export default function PostList({
   posts,
   keyword,
 }: {

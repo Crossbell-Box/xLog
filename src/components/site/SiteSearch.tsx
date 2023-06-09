@@ -2,7 +2,7 @@
 
 import { useParams, useSearchParams } from "next/navigation"
 
-import SitePostList from "~/components/site/SitePostList"
+import PostList from "~/components/site/PostList"
 import { useTranslation } from "~/lib/i18n/client"
 import { useGetSearchPagesBySite } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
@@ -25,7 +25,7 @@ export const SiteSearch = () => {
         {posts.data?.pages?.[0].count || "0"} {t("results")}
       </h2>
       {posts.isLoading && <>{t("Loading")}...</>}
-      <SitePostList posts={posts} keyword={keyword} />
+      <PostList posts={posts} keyword={keyword} />
     </>
   )
 }
