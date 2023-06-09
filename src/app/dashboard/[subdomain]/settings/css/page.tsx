@@ -49,7 +49,7 @@ export default function SettingsCSSPage() {
     }
   }, [site.data, site.isSuccess, css, hasSet])
 
-  const toPreview = () => {
+  const doPreview = () => {
     // Save css into storage
     setStorage("cssPreview", css)
 
@@ -57,9 +57,9 @@ export default function SettingsCSSPage() {
     window.open(`/site/${subdomain}/`)
   }
 
-  const toDiscard = () => {
+  const doReset = () => {
     delStorage("cssPreview")
-    toast.success(t("Styles discard successfully, please refresh page later"))
+    toast.success(t("Styles reset successfully, please refresh page later"))
     // setCss(site.data?.metadata?.content?.css || "")
   }
 
@@ -131,7 +131,7 @@ export default function SettingsCSSPage() {
             type="button"
             variant="secondary"
             isLoading={updateSite.isLoading}
-            onClick={toPreview}
+            onClick={doPreview}
           >
             {t("Preview")}
           </Button>
@@ -139,9 +139,9 @@ export default function SettingsCSSPage() {
             type="button"
             variant="secondary"
             isLoading={updateSite.isLoading}
-            onClick={toDiscard}
+            onClick={doReset}
           >
-            {t("Discard")}
+            {t("Reset")}
           </Button>
         </div>
       </form>
