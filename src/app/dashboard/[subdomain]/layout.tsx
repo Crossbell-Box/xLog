@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams, usePathname } from "next/navigation"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
@@ -12,6 +12,7 @@ import {
 
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { Logo } from "~/components/common/Logo"
+import Style from "~/components/common/Style"
 import { DashboardSidebar } from "~/components/dashboard/DashboardSidebar"
 import { DashboardTopbar } from "~/components/dashboard/DashboardTopbar"
 import { Avatar } from "~/components/ui/Avatar"
@@ -20,7 +21,6 @@ import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useUserRole } from "~/hooks/useUserRole"
 import { DISCORD_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { toGateway } from "~/lib/ipfs-parser"
 import { getStorage } from "~/lib/storage"
 import { cn } from "~/lib/utils"
 import { useGetPagesBySite } from "~/queries/page"
@@ -45,8 +45,6 @@ export default function DashboardLayout({
   const [hasPermission, setHasPermission] = React.useState(false)
   const { t } = useTranslation("dashboard")
 
-  const [css, setCss] = useState("")
-
   const isMobileLayout = useIsMobileLayout()
   const pathname = usePathname()
 
@@ -66,13 +64,6 @@ export default function DashboardLayout({
       }
     }
   }, [ssrReady, userRole.isSuccess, userRole.data, account, connectModal])
-
-  // Set CSS
-  useEffect(() => {
-    if (site?.data?.metadata?.content?.css) {
-      setCss(site.data.metadata.content.css)
-    }
-  }, [site?.data?.metadata?.content?.css])
 
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
@@ -177,16 +168,7 @@ export default function DashboardLayout({
       <>
         {/* TODO */}
         {/* <SEOHead title={t(title) || ""} siteName={APP_NAME} /> */}
-        {css && (
-          <link
-            type="text/css"
-            rel="stylesheet"
-            href={
-              "data:text/css;base64," +
-              Buffer.from(toGateway(css)).toString("base64")
-            }
-          />
-        )}
+        <Style content={site?.data?.metadata?.content?.css} />
         <div className="flex h-screen">
           {isMobileLayout ? (
             <DashboardTopbar

@@ -1,4 +1,9 @@
+"use client"
+
+import { useEffect, useState } from "react"
+
 import { toGateway } from "~/lib/ipfs-parser"
+import { getStorage } from "~/lib/storage"
 
 const Style = ({
   content,
@@ -7,22 +12,41 @@ const Style = ({
   content?: string
   children?: React.ReactNode[]
 }) => {
-  let css = content
-  if (!css && typeof children?.[0] === "string") {
-    css = children[0].trim()
-  }
-  if (!css) {
-    return null
-  }
+  const [isPreviewingCss, setIsPreviewingCss] = useState(false)
+  const [css, setCss] = useState(content)
+
+  // Set CSS
+  useEffect(() => {
+    if (!isPreviewingCss) {
+      // Check if preview css
+      const savedCss = getStorage("cssPreview", true)
+      if (savedCss) {
+        setIsPreviewingCss(true)
+        setCss(savedCss)
+      } else {
+        setIsPreviewingCss(false)
+        if (content) {
+          setCss(content)
+        } else if (!css && typeof children?.[0] === "string") {
+          setCss(children[0].trim())
+        }
+      }
+    } // else just keep preview mode
+  }, [content, children])
 
   return (
-    <link
-      type="text/css"
-      rel="stylesheet"
-      href={
-        "data:text/css;base64," + Buffer.from(toGateway(css)).toString("base64")
-      }
-    />
+    <>
+      {css && (
+        <link
+          type="text/css"
+          rel="stylesheet"
+          href={
+            "data:text/css;base64," +
+            Buffer.from(toGateway(css)).toString("base64")
+          }
+        />
+      )}
+    </>
   )
 }
 
