@@ -4,6 +4,7 @@
   "description": "xLog is the best on-chain and open-source blogging community for everyone.",
   "license": "AGPL-3.0",
   "sideEffects": false,
+  "packageManager": "pnpm@8.6.1",
   "scripts": {
     "build": "next build",
     "dev": "next -p 2222",
