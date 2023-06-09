@@ -1,6 +1,6 @@
 import { Image } from "~/components/ui/Image"
 
-export default function PostMeta({ cover }: { cover?: string }) {
+export default function PostCover({ cover }: { cover?: string }) {
   if (!cover) return null
 
   return (
