@@ -145,22 +145,24 @@ export default function PostList({
         </div>
       )}
       {posts.hasNextPage && (
-        <Button
-          className="mt-8 mx-auto !flex"
-          variant="outline"
-          onClick={() => posts.fetchNextPage()}
-          isLoading={posts.isFetchingNextPage}
-          aria-label="load more"
-        >
-          {t("load more", {
-            ns: "site",
-            name: t(
-              "post" +
-                (posts.data?.pages[0].count - currentLength > 1 ? "s" : ""),
-            ),
-            count: posts.data?.pages[0].count - currentLength,
-          })}
-        </Button>
+        <div className="text-center">
+          <Button
+            className="mt-8 truncate max-w-full !inline-block"
+            variant="outline"
+            onClick={() => posts.fetchNextPage()}
+            isLoading={posts.isFetchingNextPage}
+            aria-label="load more"
+          >
+            {t("load more", {
+              ns: "site",
+              name: t(
+                "post" +
+                  (posts.data?.pages[0].count - currentLength > 1 ? "s" : ""),
+              ),
+              count: posts.data?.pages[0].count - currentLength,
+            })}
+          </Button>
+        </div>
       )}
     </>
   )
