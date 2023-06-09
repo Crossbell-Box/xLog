@@ -1,6 +1,6 @@
 "use client"
 
-import React, { FC, PropsWithChildren, useEffect, useState } from "react"
+import React, { PropsWithChildren, useEffect, useState } from "react"
 
 import { useGetState } from "~/hooks/useGetState"
 import { cn } from "~/lib/utils"
@@ -52,8 +52,8 @@ export const useFAB = (fabConfig: FABConfig) => {
   }, [])
 }
 
-export const FABBase: FC<
-  PropsWithChildren<
+export const FABBase = (
+  props: PropsWithChildren<
     {
       id: string
       show?: boolean
@@ -62,8 +62,8 @@ export const FABBase: FC<
       React.ButtonHTMLAttributes<HTMLButtonElement>,
       HTMLButtonElement
     >
-  >
-> = (props) => {
+  >,
+) => {
   const { children, id, show = true, ...extra } = props
   const { className, onTransitionEnd, ...rest } = extra
 
@@ -106,9 +106,9 @@ export const FABBase: FC<
   )
 }
 
-export const FABContainer: FC<{
+export const FABContainer = (props: {
   children: JSX.Element | JSX.Element[]
-}> = (props) => {
+}) => {
   const [fabConfig, setFabConfig] = useState<FABConfig[]>([])
   useEffect(() => {
     fab.register(setFabConfig)

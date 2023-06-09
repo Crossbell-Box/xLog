@@ -14,7 +14,7 @@ import { useGetSite } from "~/queries/site"
 import { EmptyState } from "../ui/EmptyState"
 import { UniLink } from "../ui/UniLink"
 
-export const SiteArchives: React.FC = () => {
+export const SiteArchives = () => {
   let currentLength = 0
   const date = useDate()
   const { t } = useTranslation("site")

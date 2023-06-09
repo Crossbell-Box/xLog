@@ -7,10 +7,13 @@ import { useCheckComment, useGetComments } from "~/queries/page"
 
 import { Button } from "../ui/Button"
 
-export const ReactionComment: React.FC<{
+export const ReactionComment = ({
+  characterId,
+  noteId,
+}: {
   characterId?: number
   noteId?: number
-}> = ({ characterId, noteId }) => {
+}) => {
   const { t } = useTranslation("common")
 
   const comments = useGetComments({

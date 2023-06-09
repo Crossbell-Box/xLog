@@ -18,11 +18,15 @@ export type RadioItem = {
   default?: boolean
 }
 
-export const BoxRadio: React.FC<{
+export const BoxRadio = ({
+  value,
+  setValue,
+  items,
+}: {
   value: string
   setValue: Dispatch<SetStateAction<string>>
   items: RadioItem[]
-}> = ({ value, setValue, items }) => {
+}) => {
   const { t } = useTranslation("common")
   const randomId = useMemo(() => nanoid(), [])
   const [isCustom, setIsCustom] = useState(false)

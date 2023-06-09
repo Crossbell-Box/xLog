@@ -17,7 +17,14 @@ import { CodeMirrorEditor } from "../ui/CodeMirror"
 import { Input } from "../ui/Input"
 import { EmojiPicker } from "./EmojiPicker"
 
-export const CommentInput: React.FC<{
+export const CommentInput = ({
+  characterId,
+  noteId,
+  originalCharacterId,
+  originalNoteId,
+  onSubmitted,
+  comment,
+}: {
   characterId?: number
   noteId?: number
   originalCharacterId?: number
@@ -26,13 +33,6 @@ export const CommentInput: React.FC<{
   comment?: NoteEntity & {
     character?: CharacterEntity | null
   }
-}> = ({
-  characterId,
-  noteId,
-  originalCharacterId,
-  originalNoteId,
-  onSubmitted,
-  comment,
 }) => {
   const account = useAccountState((s) => s.computed.account)
   const commentPage = useCommentPage()

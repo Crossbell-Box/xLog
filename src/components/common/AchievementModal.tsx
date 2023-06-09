@@ -12,14 +12,21 @@ import { cn } from "~/lib/utils"
 import type { AchievementSection } from "~/models/site.model"
 import { useMintAchievement } from "~/queries/site"
 
-export const AchievementModal: React.FC<{
+export const AchievementModal = ({
+  opened,
+  setOpened,
+  group,
+  layoutId,
+  isOwner,
+  characterId,
+}: {
   opened: boolean
   setOpened: (value: boolean) => void
   group: AchievementSection["groups"][number]
   layoutId: string
   isOwner: boolean
   characterId?: number
-}> = ({ opened, setOpened, group, layoutId, isOwner, characterId }) => {
+}) => {
   const date = useDate()
   const { t } = useTranslation("common")
 

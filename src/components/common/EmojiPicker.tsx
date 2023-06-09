@@ -3,9 +3,11 @@ import { useTranslation } from "react-i18next"
 
 import { useIsDark } from "~/hooks/useDarkMode"
 
-export const EmojiPicker: React.FC<{
+export const EmojiPicker = ({
+  onEmojiSelect,
+}: {
   onEmojiSelect: (e: any) => void
-}> = ({ onEmojiSelect }) => {
+}) => {
   const ref = useRef<any>()
   const isDark = useIsDark()
 

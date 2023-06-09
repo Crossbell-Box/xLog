@@ -5,10 +5,13 @@ import React, { useCallback, useEffect, useState } from "react"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useTranslation } from "~/lib/i18n/client"
 
-export const OIAButton: React.FC<{
+export const OIAButton = ({
+  link,
+  isInRN,
+}: {
   link: `/${string}`
   isInRN: boolean
-}> = ({ link, isInRN }) => {
+}) => {
   const { t } = useTranslation("site")
   const [isVisible, setIsVisible] = useState(true)
 

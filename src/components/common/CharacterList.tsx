@@ -9,7 +9,14 @@ import { Button } from "../ui/Button"
 import CharacterListItem from "./CharacterListItem"
 import { PortalProvider } from "./Portal"
 
-export const CharacterList: React.FC<{
+export const CharacterList = ({
+  open,
+  setOpen,
+  hasMore,
+  loadMore,
+  list,
+  title,
+}: {
   open: boolean
   setOpen: (open: boolean) => void
   hasMore: boolean
@@ -18,7 +25,7 @@ export const CharacterList: React.FC<{
     list: any[]
   } | null)[]
   title: string
-}> = ({ open, setOpen, hasMore, loadMore, list, title }) => {
+}) => {
   const { t } = useTranslation("common")
   const flattenList = list?.reduce(
     (acc, cur) => acc.concat(cur?.list || []),

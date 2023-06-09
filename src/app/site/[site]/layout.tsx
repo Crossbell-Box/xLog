@@ -18,6 +18,7 @@ import { cn } from "~/lib/utils"
 import { fetchGetPage } from "~/queries/page.server"
 import {
   fetchGetSite,
+  getCharacterColors,
   prefetchGetSiteSubscriptions,
   prefetchGetSiteToSubscriptions,
 } from "~/queries/site.server"
@@ -156,12 +157,34 @@ export default async function SiteLayout({
 
   const dehydratedState = dehydrate(queryClient)
 
+  const colors = await getCharacterColors(site)
+
   return (
     <Hydrate state={dehydratedState}>
       <div
         className={`xlog-page xlog-page-${type} xlog-user xlog-deprecated-class`}
       >
         <Style content={site?.metadata?.content?.css} />
+        {colors?.light && colors?.dark && (
+          <style>
+            {`.light {
+              --auto-hover-color: ${colors.light.autoHoverColor};
+              --auto-theme-color: ${colors.light.autoThemeColor};
+              --auto-banner-bg-color: ${colors.light.averageColor};
+            }
+            .light .xlog-banner {
+              background-color: var(--banner-bg-color, ${colors.light.averageColor});
+            }
+            .dark {
+              --auto-hover-color: ${colors.dark.autoHoverColor};
+              --auto-theme-color: ${colors.dark.autoThemeColor};
+              --auto-banner-bg-color: ${colors.dark.averageColor};
+            }
+            .dark .xlog-banner {
+              background-color: var(--banner-bg-color, ${colors.dark.averageColor});
+            }`}
+          </style>
+        )}
         {site && !onlyContent && <SiteHeader handle={params.site} />}
         <main
           className={cn(

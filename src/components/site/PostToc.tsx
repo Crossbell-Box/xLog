@@ -128,9 +128,7 @@ function Items(props: ItemsProps) {
   )
 }
 
-export const PostToc: React.FC<{
-  data: TocResult
-}> = ({ data }) => {
+export const PostToc = ({ data }: { data: TocResult }) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   const idList = getIds(data?.map)

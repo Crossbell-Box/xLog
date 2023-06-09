@@ -1,9 +1,13 @@
+import chroma from "chroma-js"
+import { getAverageColor } from "fast-average-color-node"
 import { Asset } from "unidata.js"
 
 import { QueryClient } from "@tanstack/react-query"
 
 import { IPFS_GATEWAY } from "~/lib/env"
+import { toGateway } from "~/lib/ipfs-parser"
 import { cacheGet, getRedis } from "~/lib/redis.server"
+import { ExpandedCharacter } from "~/lib/types"
 import * as siteModel from "~/models/site.model"
 
 export const prefetchGetSite = async (
@@ -152,4 +156,88 @@ export const getNFTs = async (address?: string) => {
     redis?.set(redisKey, JSON.stringify(result), "EX", 60 * 60 * 24)
     return result
   }
+}
+
+export const getCharacterColors = async (character?: ExpandedCharacter) => {
+  const key = ["getThemeColors", character?.handle]
+  if (!character) {
+    return null
+  }
+  return cacheGet({
+    key,
+    getValueFun: async () => {
+      let colors = {}
+
+      try {
+        if (
+          character.metadata?.content?.banners?.[0]?.mime_type?.split(
+            "/",
+          )[0] === "image"
+        ) {
+          const color = await getAverageColor(
+            toGateway(
+              character.metadata.content.banners[0].address,
+              "https://cloudflare-ipfs.com/ipfs/",
+            ),
+          )
+          colors = {
+            dark: {
+              averageColor: chroma(color.hex).luminance(0.007).hex(),
+              autoHoverColor: chroma(color.hex).luminance(0.02).hex(),
+              autoThemeColor: chroma(color.hex)
+                .saturate(3)
+                .luminance(0.3)
+                .hex(),
+            },
+            light: {
+              averageColor: chroma(color.hex).hex(),
+              autoHoverColor: chroma(color.hex).luminance(0.8).hex(),
+              autoThemeColor: chroma(color.hex)
+                .saturate(3)
+                .luminance(0.3)
+                .hex(),
+            },
+          }
+        } else if (character.metadata?.content?.avatars?.[0]) {
+          const color = await getAverageColor(
+            toGateway(
+              character.metadata.content.avatars[0],
+              "https://cloudflare-ipfs.com/ipfs/",
+            ),
+          )
+          colors = {
+            dark: {
+              averageColor: chroma(color.hex).luminance(0.007).hex(),
+              autoHoverColor: chroma(color.hex).luminance(0.02).hex(),
+              autoThemeColor: chroma(color.hex)
+                .saturate(3)
+                .luminance(0.3)
+                .hex(),
+            },
+            light: {
+              averageColor: chroma(color.hex).luminance(0.95).hex(),
+              autoHoverColor: chroma(color.hex).luminance(0.8).hex(),
+              autoThemeColor: chroma(color.hex)
+                .saturate(3)
+                .luminance(0.3)
+                .hex(),
+            },
+          }
+        }
+      } catch (error) {}
+
+      return colors
+    },
+  }) as Promise<{
+    dark?: {
+      averageColor?: string
+      autoHoverColor?: string
+      autoThemeColor?: string
+    }
+    light?: {
+      averageColor?: string
+      autoHoverColor?: string
+      autoThemeColor?: string
+    }
+  }>
 }

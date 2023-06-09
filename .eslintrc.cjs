@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ["next/core-web-vitals", "plugin:import/recommended"],
+  extends: ["next/core-web-vitals", "plugin:import/recommended", "plugin:react/recommended"],
   root: true,
   settings: {
     "import/resolver": {
@@ -8,11 +8,12 @@ module.exports = {
   },
   plugins: ["unused-imports"],
   rules: {
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "import/named": "off",
     "import/no-anonymous-default-export": "off",
     "import/no-named-as-default": "off",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "import/no-named-as-default-member": "off",
   },
 }

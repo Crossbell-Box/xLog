@@ -9,10 +9,13 @@ import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetComments } from "~/queries/page"
 
-export const Comment: React.FC<{
+export const Comment = ({
+  page,
+  className,
+}: {
   page?: ExpandedNote
   className?: string
-}> = ({ page, className }) => {
+}) => {
   const comments = useGetComments({
     characterId: page?.characterId,
     noteId: page?.noteId,

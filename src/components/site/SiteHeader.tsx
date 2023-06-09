@@ -1,9 +1,7 @@
 "use client"
 
-import chroma from "chroma-js"
-import { FastAverageColor } from "fast-average-color"
 import { usePathname } from "next/navigation"
-import { MutableRefObject, RefObject, useEffect, useRef, useState } from "react"
+import { useState } from "react"
 
 import { XCharLogo, XFeedLogo } from "@crossbell/ui"
 import { RssIcon } from "@heroicons/react/24/solid"
@@ -16,7 +14,6 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Image } from "~/components/ui/Image"
 import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
-import { useIsDark } from "~/hooks/useDarkMode"
 import { CSB_SCAN, CSB_XCHAR, CSB_XFEED } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
@@ -35,9 +32,7 @@ type HeaderLinkType = {
   onClick?: () => void
 }
 
-const fac = new FastAverageColor()
-
-const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
+const HeaderLink = ({ link }: { link: HeaderLinkType }) => {
   const pathname = usePathname()
   const { t } = useTranslation("site")
 
@@ -56,9 +51,7 @@ const HeaderLink: React.FC<{ link: HeaderLinkType }> = ({ link }) => {
   )
 }
 
-export const SiteHeader: React.FC<{
-  handle: string
-}> = ({ handle }) => {
+export const SiteHeader = ({ handle }: { handle: string }) => {
   const site = useGetSite(handle)
   const { t } = useTranslation("site")
   const leftLinks: HeaderLinkType[] =
@@ -135,68 +128,9 @@ export const SiteHeader: React.FC<{
 
   const [searchOpen, setSearchOpen] = useState(false)
 
-  const avatarRef = useRef<HTMLImageElement>(null)
-  const bannerRef = useRef<HTMLImageElement | HTMLVideoElement>(null)
-
-  const isDark = useIsDark()
-  const [averageColor, setAverageColor] = useState<string>()
-  const [autoHoverColor, setAutoHoverColor] = useState<string>()
-  const [autoThemeColor, setAutoThemeColor] = useState<string>()
-
-  useEffect(() => {
-    if (bannerRef?.current) {
-      fac
-        .getColorAsync(bannerRef.current)
-        .then((color) => {
-          if (isDark) {
-            setAverageColor(chroma(color.hex).luminance(0.007).hex())
-            setAutoHoverColor(chroma(color.hex).luminance(0.02).hex())
-          } else {
-            setAverageColor(chroma(color.hex).hex())
-            setAutoHoverColor(chroma(color.hex).luminance(0.8).hex())
-          }
-          setAutoThemeColor(chroma(color.hex).saturate(3).luminance(0.3).hex())
-        })
-        .catch((e) => {
-          console.warn(e)
-        })
-    } else if (avatarRef?.current) {
-      fac
-        .getColorAsync(avatarRef.current)
-        .then((color) => {
-          if (isDark) {
-            setAverageColor(chroma(color.hex).luminance(0.007).hex())
-            setAutoHoverColor(chroma(color.hex).luminance(0.02).hex())
-          } else {
-            setAverageColor(chroma(color.hex).luminance(0.95).hex())
-            setAutoHoverColor(chroma(color.hex).luminance(0.8).hex())
-          }
-          setAutoThemeColor(chroma(color.hex).saturate(3).luminance(0.3).hex())
-        })
-        .catch((e) => {
-          console.warn(e)
-        })
-    }
-  }, [bannerRef, avatarRef, isDark])
-
   return (
     <header className="xlog-header border-b border-zinc-100 relative">
-      {averageColor && (
-        <style jsx global>{`
-          :root {
-            --auto-hover-color: ${autoHoverColor};
-            --auto-theme-color: ${autoThemeColor};
-          }
-        `}</style>
-      )}
-      <div
-        className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden"
-        style={{
-          backgroundColor: averageColor
-            ? `var(--banner-bg-color, ${averageColor})`
-            : "var(--banner-bg-color)",
-        }}
-      >
+      <div className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden">
         {(() => {
           switch (
             site.data?.metadata?.content?.banners?.[0]?.mime_type?.split("/")[0]
@@ -208,7 +142,6 @@ export const SiteHeader: React.FC<{
                   src={site.data?.metadata?.content?.banners?.[0]?.address}
                   alt="banner"
                   fill
-                  imageRef={bannerRef as MutableRefObject<HTMLImageElement>}
                 />
               )
             case "video":
@@ -219,7 +152,6 @@ export const SiteHeader: React.FC<{
                   autoPlay
                   muted
                   playsInline
-                  ref={bannerRef as RefObject<HTMLVideoElement>}
                   crossOrigin="anonymous"
                 />
               )
@@ -245,7 +177,6 @@ export const SiteHeader: React.FC<{
                 images={site.data?.metadata?.content?.avatars}
                 size={120}
                 name={site.data?.metadata?.content?.name}
-                imageRef={avatarRef as MutableRefObject<HTMLImageElement>}
               />
             )}
             <div className="flex-1 min-w-0 relative">

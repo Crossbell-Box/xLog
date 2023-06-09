@@ -6,9 +6,7 @@ import { useTranslation } from "~/lib/i18n/client"
 
 import { PageContent } from "../common/PageContent"
 
-export const ImportPreview: React.FC<{
-  note: NoteMetadata
-}> = ({ note }) => {
+export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
   const date = useDate()
   const [showcaseMore, setShowcaseMore] = useState(false)
   const { t } = useTranslation("common")

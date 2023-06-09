@@ -30,9 +30,7 @@ import { DashboardMain } from "./DashboardMain"
 import { PagesManagerBatchSelectActionTab } from "./PagesManagerBatchSelectActionTab"
 import { PagesManagerMenu } from "./PagesManagerMenu"
 
-export const PagesManager: React.FC<{
-  isPost: boolean
-}> = ({ isPost }) => {
+export const PagesManager = ({ isPost }: { isPost: boolean }) => {
   const params = useParams()
   const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)

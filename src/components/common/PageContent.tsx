@@ -10,19 +10,7 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn, scrollTo } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
-export const PageContent: React.FC<{
-  content?: string
-  className?: string
-  toc?: boolean
-  inputRef?: MutableRefObject<HTMLDivElement | null>
-  onScroll?: (scrollTop: number) => void
-  onMouseEnter?: () => void
-  parsedContent?: ReturnType<typeof renderPageContent>
-  isComment?: boolean
-  page?: ExpandedNote
-  site?: ExpandedCharacter
-  withActions?: boolean
-}> = ({
+export const PageContent = ({
   className,
   content,
   toc,
@@ -34,6 +22,18 @@ export const PageContent: React.FC<{
   page,
   site,
   withActions,
+}: {
+  content?: string
+  className?: string
+  toc?: boolean
+  inputRef?: MutableRefObject<HTMLDivElement | null>
+  onScroll?: (scrollTop: number) => void
+  onMouseEnter?: () => void
+  parsedContent?: ReturnType<typeof renderPageContent>
+  isComment?: boolean
+  page?: ExpandedNote
+  site?: ExpandedCharacter
+  withActions?: boolean
 }) => {
   useCodeCopy()
 

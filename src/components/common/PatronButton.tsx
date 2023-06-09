@@ -6,12 +6,17 @@ import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
-export const PatronButton: React.FC<{
+export const PatronButton = ({
+  site,
+  className,
+  size,
+  loadingStatusChange,
+}: {
   site?: ExpandedCharacter
   className?: string
   size?: "sm" | "xl"
   loadingStatusChange?: (status: boolean) => void
-}> = ({ site, className, size, loadingStatusChange }) => {
+}) => {
   const { t } = useTranslation("common")
   const [open, setOpen] = useState(false)
 

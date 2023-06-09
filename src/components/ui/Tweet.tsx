@@ -3,8 +3,8 @@ import { Tweet as ReactTweet } from "react-tweet"
 import type { TweetComponents } from "react-tweet"
 
 const components: TweetComponents = {
-  AvatarImg: (props) => <Image {...props} />,
-  MediaImg: (props) => <Image {...props} fill unoptimized />,
+  AvatarImg: (props) => <Image {...props} alt="avatar" />,
+  MediaImg: (props) => <Image {...props} fill unoptimized alt="tweet-media" />,
 }
 
 export default function Tweet({ id }: { id: string }) {

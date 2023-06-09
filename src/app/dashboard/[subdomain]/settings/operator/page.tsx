@@ -27,12 +27,17 @@ import {
 
 type RemoveItem = (operator: string) => void
 
-const SortableNavigationItem: React.FC<{
+const SortableNavigationItem = ({
+  item,
+  removeItem,
+  isLoading,
+  disabled,
+}: {
   item: string
   removeItem: RemoveItem
   isLoading: boolean
   disabled?: boolean
-}> = ({ item, removeItem, isLoading, disabled }) => {
+}) => {
   const { t } = useTranslation("dashboard")
   return (
     <div className="flex space-x-5 border-b p-5 bg-zinc-50 last:border-0 items-center">
@@ -241,6 +246,7 @@ export default function SettingsOperatorPage() {
               />
             )
           })}
+          {/* eslint-disable-next-line react/no-unknown-property */}
           <style jsx global>{`
             .sortable-ghost {
               opacity: 0.4;

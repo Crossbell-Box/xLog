@@ -133,13 +133,22 @@ export const PlatformsSyncMap: {
     url: "https://{instance}/users/{username}",
     identityFormatTemplate: "username@instance.ltd",
   },
+  douban: {
+    name: "douban",
+    icon: "/assets/social/douban.png",
+    url: "https://www.douban.com/people/{username}",
+  },
 }
 
-export const Platform: React.FC<{
+export const Platform = ({
+  platform,
+  username,
+  className,
+}: {
   platform: string
   username: string
   className?: string
-}> = ({ platform, username, className }) => {
+}) => {
   platform = platform.toLowerCase()
   let link = PlatformsSyncMap[platform]?.url
 

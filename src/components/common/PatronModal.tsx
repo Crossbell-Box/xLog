@@ -18,12 +18,17 @@ import { Tabs } from "../ui/Tabs"
 import { UniLink } from "../ui/UniLink"
 import { CharacterFloatCard } from "./CharacterFloatCard"
 
-export const PatronModal: React.FC<{
+export const PatronModal = ({
+  site,
+  page,
+  open,
+  setOpen,
+}: {
   site?: ExpandedCharacter
   page?: ExpandedNote
   open: boolean
   setOpen: (open: boolean) => void
-}> = ({ site, page, open, setOpen }) => {
+}) => {
   const { t } = useTranslation("common")
   const tipCharacter = useTipCharacter()
   const tips = useGetTips(

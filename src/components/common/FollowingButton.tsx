@@ -14,13 +14,19 @@ import {
   useUnsubscribeFromSite,
 } from "~/queries/site"
 
-export const FollowingButton: React.FC<{
+export const FollowingButton = ({
+  site,
+  variant,
+  className,
+  size,
+  loadingStatusChange,
+}: {
   site?: ExpandedCharacter
   variant?: Variant
   className?: string
   size?: "sm" | "xl"
   loadingStatusChange?: (status: boolean) => void
-}> = ({ site, variant, className, size, loadingStatusChange }) => {
+}) => {
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
   const { t, i18n } = useTranslation("common")

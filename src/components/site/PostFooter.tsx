@@ -20,10 +20,13 @@ export const usePostFooterInView = () => {
   })
   return data
 }
-export const PostFooter: React.FC<{
+export const PostFooter = ({
+  page,
+  site,
+}: {
   page?: ExpandedNote
   site?: ExpandedCharacter
-}> = ({ page, site }) => {
+}) => {
   const actionElRef = useRef<HTMLDivElement>(null)
   const [isInView] = useInViewport(actionElRef)
 

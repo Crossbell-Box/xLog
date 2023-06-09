@@ -4,9 +4,7 @@ import { useEffect, useState } from "react"
 
 import { useDate } from "~/hooks/useDate"
 
-export const Time: React.FC<{
-  isoString?: string
-}> = ({ isoString }) => {
+export const Time = ({ isoString }: { isoString?: string }) => {
   const date = useDate()
   const [isMounted, setIsMounted] = useState(false)
 

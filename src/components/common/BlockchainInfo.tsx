@@ -10,10 +10,13 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetGreenfieldId } from "~/queries/site"
 
-export const BlockchainInfo: React.FC<{
+export const BlockchainInfo = ({
+  site,
+  page,
+}: {
   site?: ExpandedCharacter
   page?: ExpandedNote
-}> = ({ site, page }) => {
+}) => {
   const { t } = useTranslation("common")
 
   const ipfs = (page ? page.metadata?.uri : site?.metadata?.uri) || ""

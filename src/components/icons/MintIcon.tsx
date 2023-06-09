@@ -1,8 +1,6 @@
 import React from "react"
 
-export const MintIcon: React.FC<React.ComponentPropsWithoutRef<"svg">> = (
-  props,
-) => {
+export const MintIcon = (props: React.ComponentPropsWithoutRef<"svg">) => {
   return (
     <svg
       width="1em"

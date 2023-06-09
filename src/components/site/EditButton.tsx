@@ -7,11 +7,15 @@ import { useUserRole } from "~/hooks/useUserRole"
 import { SITE_URL } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n/client"
 
-export const EditButton: React.FC<{
+export const EditButton = ({
+  handle,
+  noteId,
+  isPost,
+}: {
   handle?: string
   noteId?: number
   isPost?: boolean
-}> = ({ handle, noteId, isPost }) => {
+}) => {
   const { t } = useTranslation("common")
   const [showEdit, setShowEdit] = useState(false)
   const userRole = useUserRole(handle)

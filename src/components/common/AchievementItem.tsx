@@ -34,13 +34,19 @@ export const Badge = ({
   )
 }
 
-export const AchievementItem: React.FC<{
+export const AchievementItem = ({
+  group,
+  layoutId,
+  size,
+  characterId,
+  isOwner,
+}: {
   group: AchievementSection["groups"][number]
   layoutId: string
   size?: number
   characterId?: number
   isOwner: boolean
-}> = ({ group, layoutId, size, characterId, isOwner }) => {
+}) => {
   const date = useDate()
   const { t } = useTranslation("common")
 

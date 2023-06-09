@@ -5,10 +5,13 @@ import React, { useState } from "react"
 import { Image } from "~/components/ui/Image"
 import { IPFS_GATEWAY } from "~/lib/env"
 
-export const UniMedia: React.FC<{
+export const UniMedia = ({
+  src,
+  mime_type,
+}: {
   src: string
   mime_type?: string
-}> = ({ src, mime_type }) => {
+}) => {
   const [errorHandled, setErrorHandled] = useState(false)
 
   const [type, setType] = useState(mime_type)

@@ -18,12 +18,17 @@ import { useCheckMint, useGetMints, useMintPage } from "~/queries/page"
 import { AvatarStack } from "../ui/AvatarStack"
 import { Button } from "../ui/Button"
 
-export const ReactionMint: React.FC<{
+export const ReactionMint = ({
+  size,
+  noteId,
+  characterId,
+  vertical,
+}: {
   size?: "sm" | "base"
   noteId?: number
   characterId?: number
   vertical?: boolean
-}> = ({ size, noteId, characterId, vertical }) => {
+}) => {
   const mintPage = useMintPage()
   const { t, i18n } = useTranslation("common")
 

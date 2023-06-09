@@ -15,13 +15,19 @@ import { useGetTips } from "~/queries/site"
 import { AvatarStack } from "../ui/AvatarStack"
 import { Button } from "../ui/Button"
 
-export const ReactionTip: React.FC<{
+export const ReactionTip = ({
+  characterId,
+  noteId,
+  site,
+  page,
+  vertical,
+}: {
   characterId?: number
   noteId?: number
   site?: ExpandedCharacter
   page?: ExpandedNote
   vertical?: boolean
-}> = ({ characterId, noteId, site, page, vertical }) => {
+}) => {
   const { t } = useTranslation("common")
 
   const account = useAccountState((s) => s.computed.account)

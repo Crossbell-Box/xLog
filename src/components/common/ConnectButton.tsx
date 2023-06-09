@@ -47,15 +47,7 @@ type HeaderLinkType = {
     }
 )
 
-export const ConnectButton: React.FC<{
-  left?: boolean
-  variant?: Variant
-  variantColor?: VariantColor
-  size?: "base" | "sm"
-  hideNotification?: boolean
-  mobileSimplification?: boolean
-  hideName?: boolean
-}> = ({
+export const ConnectButton = ({
   left,
   variant,
   variantColor,
@@ -63,6 +55,14 @@ export const ConnectButton: React.FC<{
   hideNotification,
   mobileSimplification,
   hideName,
+}: {
+  left?: boolean
+  variant?: Variant
+  variantColor?: VariantColor
+  size?: "base" | "sm"
+  hideNotification?: boolean
+  mobileSimplification?: boolean
+  hideName?: boolean
 }) => {
   let avatarSize
   let sizeDecrease

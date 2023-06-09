@@ -8,14 +8,14 @@ export type UniLinkProps = {
   target?: string
 }
 
-export const UniLink: React.FC<UniLinkProps> = ({
+export const UniLink = ({
   href,
   onClick,
   children,
   className,
   target,
   ...props
-}) => {
+}: UniLinkProps) => {
   if (onClick) {
     return (
       <button className={className} onClick={onClick} {...props}>

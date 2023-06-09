@@ -5,7 +5,7 @@ export default function PostMeta({ cover }: { cover?: string }) {
 
   return (
     <>
-      <div className="xlog-post-cover hidden sm:flex items-center relative sm:w-28 sm:h-28 mt-2 sm:ml-4 sm:mt-0">
+      <div className="xlog-post-cover hidden sm:flex items-center relative w-28 h-28 ml-4 mt-0">
         <Image
           className="object-cover rounded"
           alt="cover"

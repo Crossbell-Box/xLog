@@ -9,7 +9,7 @@ import { FABBase } from "../ui/FAB"
 const isShouldShow = () =>
   document.documentElement.scrollTop > document.documentElement.clientHeight
 
-export const BackToTopFAB: React.FC<{}> = () => {
+export const BackToTopFAB = () => {
   const [shouldShow, setShouldShow] = useState(isShouldShow())
   useEffect(() => {
     const handler = throttle(() => {

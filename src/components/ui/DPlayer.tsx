@@ -1,15 +1,17 @@
 import { DPlayerProps, Player as RcDPlayer } from "rc-dplayer"
-import { FC, memo } from "react"
+import { memo } from "react"
 import { ReactElement } from "rehype-react/lib"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
-const DPlayer: FC<
-  {
-    src?: string
-    children?: ReactElement[]
-  } & DPlayerProps
-> = memo(function DPlayer({ src, children, ...props }) {
+const DPlayer = memo(function DPlayer({
+  src,
+  children,
+  ...props
+}: {
+  src?: string
+  children?: ReactElement[]
+} & DPlayerProps) {
   const sources = children?.filter(
     (child) =>
       child && typeof child.type === "string" && child.type === "source",
