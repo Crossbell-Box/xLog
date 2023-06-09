@@ -10,9 +10,12 @@ import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { Switch } from "@headlessui/react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import FadeIn from "~/components/common/FadeIn"
 import { Titles } from "~/components/common/Titles"
 import PostCover from "~/components/site/PostCover"
+import { EmptyState } from "~/components/ui/EmptyState"
 import { Image } from "~/components/ui/Image"
+import { Skeleton } from "~/components/ui/Skeleton"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
@@ -24,8 +27,6 @@ import type { FeedType, SearchType } from "~/models/home.model"
 import { useGetFeed } from "~/queries/home"
 
 import topics from "../../../data/topics.json"
-import { EmptyState } from "../ui/EmptyState"
-import { Skeleton } from "../ui/Skeleton"
 
 const PostCard = ({
   post,
@@ -156,70 +157,72 @@ const Post = ({
   }
 
   return (
-    <div className={cn(simple ? "!mt-4" : "")}>
-      {!simple && (
-        <div className="flex items-center space-x-2">
-          <CharacterFloatCard siteId={post.character?.handle}>
-            <Link
-              target="_blank"
-              href={`/api/redirection?characterId=${post.characterId}`}
-              className="flex items-center space-x-4 cursor-pointer"
-              prefetch={false}
+    <FadeIn className={cn(simple ? "!mt-4" : "")}>
+      <>
+        {!simple && (
+          <div className="flex items-center space-x-2">
+            <CharacterFloatCard siteId={post.character?.handle}>
+              <Link
+                target="_blank"
+                href={`/api/redirection?characterId=${post.characterId}`}
+                className="flex items-center space-x-4 cursor-pointer"
+                prefetch={false}
+              >
+                <span className="w-10 h-10 inline-block">
+                  <Image
+                    className="rounded-full"
+                    src={
+                      post.character?.metadata?.content?.avatars?.[0] ||
+                      "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
+                    }
+                    alt={post.character?.handle || ""}
+                    width="40"
+                    height="40"
+                  ></Image>
+                </span>
+                <span className="font-medium">
+                  {post.character?.metadata?.content?.name ||
+                    post.character?.handle}
+                </span>
+              </Link>
+            </CharacterFloatCard>
+            <Titles characterId={post.characterId} />
+            <span className="text-zinc-400">·</span>
+            <time
+              dateTime={date.formatToISO(post.createdAt)}
+              className="xlog-post-date whitespace-nowrap text-zinc-400 text-sm"
             >
-              <span className="w-10 h-10 inline-block">
-                <Image
-                  className="rounded-full"
-                  src={
-                    post.character?.metadata?.content?.avatars?.[0] ||
-                    "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
-                  }
-                  alt={post.character?.handle || ""}
-                  width="40"
-                  height="40"
-                ></Image>
-              </span>
-              <span className="font-medium">
-                {post.character?.metadata?.content?.name ||
-                  post.character?.handle}
-              </span>
-            </Link>
-          </CharacterFloatCard>
-          <Titles characterId={post.characterId} />
-          <span className="text-zinc-400">·</span>
-          <time
-            dateTime={date.formatToISO(post.createdAt)}
-            className="xlog-post-date whitespace-nowrap text-zinc-400 text-sm"
+              {t("ago", {
+                time: date.dayjs
+                  .duration(
+                    date.dayjs(post?.createdAt).diff(date.dayjs(), "minute"),
+                    "minute",
+                  )
+                  .humanize(),
+              })}
+            </time>
+          </div>
+        )}
+        {isComment && (
+          <Link
+            target="_blank"
+            href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
+            className="block p-4 ml-10 font-medium text-zinc-700"
           >
-            {t("ago", {
-              time: date.dayjs
-                .duration(
-                  date.dayjs(post?.createdAt).diff(date.dayjs(), "minute"),
-                  "minute",
-                )
-                .humanize(),
-            })}
-          </time>
-        </div>
-      )}
-      {isComment && (
-        <Link
-          target="_blank"
-          href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
-          className="block p-4 ml-10 font-medium text-zinc-700"
-        >
-          <i className="icon-[mingcute--comment-fill] align-middle mr-2" />
-          <span className="align-middle">
-            {post.metadata?.content?.summary}
-          </span>
-        </Link>
-      )}
-      <PostCard
-        post={isComment ? (post.toNote as ExpandedNote) : post}
-        simple={simple || isComment}
-        isComment={isComment}
-        keyword={keyword}
-      />
-    </div>
+            <i className="icon-[mingcute--comment-fill] align-middle mr-2" />
+            <span className="align-middle">
+              {post.metadata?.content?.summary}
+            </span>
+          </Link>
+        )}
+        <PostCard
+          post={isComment ? (post.toNote as ExpandedNote) : post}
+          simple={simple || isComment}
+          isComment={isComment}
+          keyword={keyword}
+        />
+      </>
+    </FadeIn>
   )
 }
 

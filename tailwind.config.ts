@@ -71,6 +71,7 @@ const config: Config = {
       },
       transitionDuration: {
         "400": "400ms",
+        "800": "800ms",
       },
     },
   },
