@@ -9,6 +9,7 @@ import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { useTranslation } from "~/lib/i18n/client"
+import { delStorage, setStorage } from "~/lib/storage"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export default function SettingsCSSPage() {
@@ -47,6 +48,20 @@ export default function SettingsCSSPage() {
       setHasSet(true)
     }
   }, [site.data, site.isSuccess, css, hasSet])
+
+  const toPreview = () => {
+    // Save css into storage
+    setStorage("cssPreview", css)
+
+    // Open preview site page
+    window.open(`/site/${subdomain}/`)
+  }
+
+  const toDiscard = () => {
+    delStorage("cssPreview")
+    toast.success(t("Styles discard successfully, please refresh page later"))
+    // setCss(site.data?.metadata?.content?.css || "")
+  }
 
   return (
     <SettingsLayout title={"Site Settings"}>
@@ -108,9 +123,25 @@ export default function SettingsCSSPage() {
             }}
           />
         </div>
-        <div className="mt-5">
+        <div className="mt-5 space-x-3">
           <Button type="submit" isLoading={updateSite.isLoading}>
             {t("Save")}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            isLoading={updateSite.isLoading}
+            onClick={toPreview}
+          >
+            {t("Preview")}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            isLoading={updateSite.isLoading}
+            onClick={toDiscard}
+          >
+            {t("Discard")}
           </Button>
         </div>
       </form>
