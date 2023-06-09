@@ -25,19 +25,19 @@ const FadeIn = ({
   }, [isInView])
 
   return (
-    <div
+    <span
       ref={ref}
       className={cn(
-        className,
-        "transition-[opacity,transform] duration-800 ease-in-out",
+        "block transition-[opacity,transform] duration-800 ease-in-out",
         isInView === false && !locked
           ? "opacity-0 translate-y-[20%]"
           : "opacity-1 translate-y-0",
+        className,
       )}
       {...props}
     >
       {children}
-    </div>
+    </span>
   )
 }
 

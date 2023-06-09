@@ -6,7 +6,7 @@ import { memo, useEffect, useState } from "react"
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 
-import { ZoomedImage } from "./Image"
+import { AdvancedImage } from "./Image"
 
 const Mermaid = memo(
   function Mermaid(props: { children: [string] }) {
@@ -74,7 +74,7 @@ const Mermaid = memo(
       </div>
     ) : svg ? (
       <div>
-        <ZoomedImage
+        <AdvancedImage
           alt="mermaid"
           src={
             "data:image/svg+xml;base64," + Buffer.from(svg).toString("base64")

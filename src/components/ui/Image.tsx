@@ -3,9 +3,11 @@
 import { ImageProps, default as NextImage } from "next/image"
 import React, { useEffect } from "react"
 
+import FadeIn from "~/components/common/FadeIn"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
+import { cn } from "~/lib/utils"
 import { useGetImageInfo } from "~/queries/page"
 
 type TImageProps = {
@@ -16,6 +18,8 @@ type TImageProps = {
   "original-src"?: string
   imageRef?: React.MutableRefObject<HTMLImageElement>
   zoom?: boolean
+  blurDataURL?: string
+  placeholder?: "blur"
 } & React.HTMLAttributes<HTMLImageElement> &
   ImageProps
 
@@ -28,6 +32,8 @@ export const Image = ({
   height,
   imageRef,
   zoom,
+  blurDataURL,
+  placeholder,
   ...props
 }: TImageProps) => {
   src = toIPFS(src)
@@ -138,6 +144,8 @@ export const Image = ({
           width={width}
           height={height}
           fill={fill || autoSize}
+          blurDataURL={blurDataURL}
+          placeholder={placeholder}
           onLoad={({ target }) => {
             if (autoSize) {
               const { naturalWidth, naturalHeight } = target as HTMLImageElement
@@ -152,9 +160,9 @@ export const Image = ({
   )
 }
 
-export const ZoomedImage = (props: TImageProps) => {
+export const AdvancedImage = (props: TImageProps) => {
   const info = useGetImageInfo(props.src)
-  const autoProps = info?.data
+  const autoProps = info?.data?.base64
     ? {
         width: info.data.size?.width,
         height: info.data.size?.height,
@@ -164,9 +172,17 @@ export const ZoomedImage = (props: TImageProps) => {
     : {}
 
   return (
-    <span className="text-center block">
+    <FadeIn className="text-center">
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <Image {...props} {...autoProps} zoom />
-    </span>
+      <Image
+        {...autoProps}
+        {...props}
+        zoom
+        className={cn(
+          props.className,
+          info.data && info.data.size.height < 50 ? "" : "rounded-xl",
+        )}
+      />
+    </FadeIn>
   )
 }
