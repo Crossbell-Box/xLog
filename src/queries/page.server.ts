@@ -173,9 +173,9 @@ const getOriginalSummary = async (cid: string, lang: string) => {
       let chain = chains.get(lang)
       if (!chain) {
         const prompt = new PromptTemplate({
-          template: `Summarize this in "${lang}" language:
-        "{text}"
-        CONCISE SUMMARY:`,
+          template: `Summarize this in "${lang}" language, if it's a neutral subject like "ta" or other, you should replace the subject with a neutral word equivalent to the target translation language:
+          "{text}"
+          CONCISE SUMMARY:`,
           inputVariables: ["text"],
         })
 
