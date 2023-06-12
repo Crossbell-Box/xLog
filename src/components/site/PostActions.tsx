@@ -4,7 +4,6 @@ import React, { useRef } from "react"
 
 import { ReactionComment } from "~/components/common/ReactionComment"
 import { ReactionLike } from "~/components/common/ReactionLike"
-import { ReactionMint } from "~/components/common/ReactionMint"
 import { ReactionTip } from "~/components/common/ReactionTip"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
@@ -30,17 +29,17 @@ export const PostActions = ({
       }}
       ref={containerRef}
     >
-      <div className="sticky top-[calc(100vh-313px)] text-sm leading-loose whitespace-nowrap flex flex-col justify-center items-center space-y-4">
+      <div className="sticky top-[calc(100vh-245px)] text-sm leading-loose whitespace-nowrap flex flex-col justify-center items-center space-y-4">
         <ReactionLike
           characterId={page?.characterId}
           noteId={page?.noteId}
           vertical={true}
         />
-        <ReactionMint
+        {/* <ReactionMint
           characterId={page?.characterId}
           noteId={page?.noteId}
           vertical={true}
-        />
+        /> */}
         <ReactionTip
           characterId={page?.characterId}
           noteId={page?.noteId}
