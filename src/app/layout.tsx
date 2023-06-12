@@ -3,6 +3,7 @@ import { Metadata } from "next"
 import { headers } from "next/headers"
 import { Toaster } from "react-hot-toast"
 
+import "@crossbell/connect-kit/colors.css"
 import { updateIndexerFetchOptions } from "@crossbell/indexer"
 
 import "~/css/main.css"
