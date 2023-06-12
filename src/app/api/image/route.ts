@@ -12,13 +12,23 @@ const getImage = async (src: string) => {
         Buffer.from(await res.arrayBuffer()),
       )
 
-      const {
-        metadata: { height, width },
-        ...plaiceholder
-      } = await getPlaiceholder(buffer, { size: 10 })
+      let height: number | null = null
+      let width: number | null = null
+      let plaiceholder: {
+        base64: string
+      } | null = null
+      try {
+        const {
+          metadata: { height: h, width: w },
+          ...plaice
+        } = await getPlaiceholder(buffer, { size: 10 })
+        height = h
+        width = w
+        plaiceholder = plaice
+      } catch (error) {}
 
       return {
-        base64: plaiceholder.base64,
+        base64: plaiceholder?.base64,
         size: { height, width },
       }
     },

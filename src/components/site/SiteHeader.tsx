@@ -165,7 +165,7 @@ export const SiteHeader = ({ handle }: { handle: string }) => {
         <div className="flex py-12 w-full">
           <div
             className={cn(
-              "xlog-site-info flex space-x-6 items-center w-full",
+              "xlog-site-info flex space-x-6 sm:space-x-8 items-center w-full",
               site.data?.metadata?.content?.banners?.[0]?.address
                 ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-xl p-4 sm:p-8 z-[1] border"
                 : "",
@@ -173,15 +173,15 @@ export const SiteHeader = ({ handle }: { handle: string }) => {
           >
             {site.data?.metadata?.content?.avatars?.[0] && (
               <Avatar
-                className="xlog-site-icon max-w-[80px] max-h-[80px] sm:max-w-none sm:max-h-none"
+                className="xlog-site-icon max-w-[100px] max-h-[100px] sm:max-w-none sm:max-h-none"
                 images={site.data?.metadata?.content?.avatars}
-                size={120}
+                size={150}
                 name={site.data?.metadata?.content?.name}
               />
             )}
             <div className="flex-1 min-w-0 relative">
               <div className="flex items-center justify-between">
-                <h1 className="xlog-site-name text-2xl sm:text-3xl font-bold text-zinc-900 leading-snug break-words min-w-0">
+                <h1 className="xlog-site-name text-3xl sm:text-4xl font-bold text-zinc-900 leading-snug break-words min-w-0">
                   {site.data?.metadata?.content?.site_name ||
                     site.data?.metadata?.content?.name}
                 </h1>

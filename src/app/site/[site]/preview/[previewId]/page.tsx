@@ -37,7 +37,7 @@ export default function SitePreviewPage({
       <article>
         <div>
           {page.data?.metadata?.content?.tags?.includes("post") ? (
-            <h2 className="xlog-post-title text-4xl font-bold">
+            <h2 className="xlog-post-title text-4xl font-bold leading-tight">
               {page.data.metadata?.content?.title}
             </h2>
           ) : (

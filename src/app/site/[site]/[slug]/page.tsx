@@ -137,7 +137,7 @@ export default async function SitePagePage({
         {!onlyContent && (
           <div>
             {page?.metadata?.content?.tags?.includes("post") ? (
-              <h2 className="xlog-post-title text-4xl font-bold">
+              <h2 className="xlog-post-title text-4xl font-bold leading-tight">
                 {page.metadata?.content?.title}
               </h2>
             ) : (

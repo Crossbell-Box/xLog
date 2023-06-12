@@ -29,7 +29,7 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
-import { ZoomedImage } from "~/components/ui/Image"
+import { AdvancedImage } from "~/components/ui/Image"
 
 import { transformers } from "./embed-transformers"
 import { rehypeAudio } from "./rehype-audio"
@@ -227,7 +227,7 @@ export const renderPageContent = (
       pipeline.use(rehypeReact, {
         createElement: createElement,
         components: {
-          img: ZoomedImage,
+          img: AdvancedImage,
           mention: Mention,
           mermaid: Mermaid,
           audio: APlayer,

@@ -145,17 +145,20 @@ export const SiteArchives = () => {
               )
             })}
             {posts.hasNextPage && (
-              <Button
-                className="mt-8 w-full bg-zinc-50 text-sm"
-                variant="text"
-                onClick={() => posts.fetchNextPage()}
-                isLoading={posts.isFetchingNextPage}
-                aria-label="load more"
-              >
-                There are {posts.data?.pages[0].count - currentLength} more post
-                {posts.data?.pages[0].count - currentLength > 1 ? "s" : ""},
-                click to load more
-              </Button>
+              <div className="text-center">
+                <Button
+                  className="mt-8 truncate max-w-full !inline-block"
+                  variant="outline"
+                  onClick={() => posts.fetchNextPage()}
+                  isLoading={posts.isFetchingNextPage}
+                  aria-label="load more"
+                >
+                  There are {posts.data?.pages[0].count - currentLength} more
+                  post
+                  {posts.data?.pages[0].count - currentLength > 1 ? "s" : ""},
+                  click to load more
+                </Button>
+              </div>
             )}
           </div>
         </>

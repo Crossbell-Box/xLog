@@ -69,6 +69,10 @@ const config: Config = {
       animation: {
         "buzz-out": "buzz-out .75s linear 1",
       },
+      transitionDuration: {
+        "400": "400ms",
+        "800": "800ms",
+      },
     },
   },
   variants: {},
