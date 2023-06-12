@@ -87,9 +87,6 @@ export default function SettingsCSSPage() {
     setIsPreviewingCSS(false)
     cssStateTs.current = new Date()
     broadcastCSS("")
-
-    toast.success(t("Styles reset successfully, please refresh page later"))
-    // setCss(site.data?.metadata?.content?.css || "")
   }
 
   return (
