@@ -1,3 +1,5 @@
+"use client"
+
 import { APlayer as AplayerReact } from "aplayer-react"
 import "aplayer-react/dist/index.css"
 import { memo } from "react"

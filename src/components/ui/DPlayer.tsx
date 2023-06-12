@@ -1,3 +1,5 @@
+"use client"
+
 import { DPlayerProps, Player as RcDPlayer } from "rc-dplayer"
 import { memo } from "react"
 import { ReactElement } from "rehype-react/lib"
