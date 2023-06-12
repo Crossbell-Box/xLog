@@ -7,6 +7,10 @@ import { cn } from "~/lib/utils"
 
 /* eslint-disable react/prop-types */
 
+/* eslint-disable react/prop-types */
+
+/* eslint-disable react/prop-types */
+
 export const ButtonGroup = ({ children }: { children: React.ReactNode }) => {
   return <div className="button-group">{children}</div>
 }
@@ -81,7 +85,8 @@ export const Button = memo(
           isAutoWidth && `is-auto-width`,
           size && `is-${size}`,
           `is-${variant || "primary"}`,
-          rounded === "full" ? "rounded-full" : "rounded-lg",
+          "rounded-full",
+          // rounded === "full" ? "rounded-full" : "rounded-lg",
         )}
       >
         {children}
