@@ -1,9 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { toGateway } from "~/lib/ipfs-parser"
-import { getStorage } from "~/lib/storage"
 
 const Style = ({
   content,
@@ -12,26 +11,41 @@ const Style = ({
   content?: string
   children?: React.ReactNode[]
 }) => {
-  const [isPreviewingCss, setIsPreviewingCss] = useState(false)
-  const [css, setCss] = useState(content)
+  const cssStateTs = useRef(new Date(0))
+  const [css, setCss] = useState("")
+
+  // Init CSS
+  const initCss = () => {
+    if (content) {
+      setCss(content)
+    } else if (typeof children?.[0] === "string") {
+      setCss(children[0].trim())
+    } else {
+      setCss("") // Nothing
+    }
+  }
+
+  // Preview CSS
+  const previewCSSChannel = new BroadcastChannel("previewCSS")
+  previewCSSChannel.onmessage = (msg) => {
+    if (msg.data.ts > cssStateTs.current) {
+      cssStateTs.current = msg.data.ts
+      if (msg.data.css) {
+        setCss(msg.data.css)
+      } else {
+        initCss()
+      }
+    }
+  }
+
+  // Preview CSS init
+  const previewInitChannel = new BroadcastChannel("cssState")
 
   // Set CSS
   useEffect(() => {
-    if (!isPreviewingCss) {
-      // Check if preview css
-      const savedCss = getStorage("cssPreview", true)
-      if (savedCss) {
-        setIsPreviewingCss(true)
-        setCss(savedCss)
-      } else {
-        setIsPreviewingCss(false)
-        if (content) {
-          setCss(content)
-        } else if (!css && typeof children?.[0] === "string") {
-          setCss(children[0].trim())
-        }
-      }
-    } // else just keep preview mode
+    initCss()
+    // Query for preview
+    previewInitChannel.postMessage({})
   }, [content, children])
 
   return (

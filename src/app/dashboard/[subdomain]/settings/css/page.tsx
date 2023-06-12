@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 
 import { MonacoEditor } from "~/components/common/Monaco"
@@ -9,7 +9,6 @@ import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { useTranslation } from "~/lib/i18n/client"
-import { delStorage, setStorage } from "~/lib/storage"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export default function SettingsCSSPage() {
@@ -49,16 +48,46 @@ export default function SettingsCSSPage() {
     }
   }, [site.data, site.isSuccess, css, hasSet])
 
+  const [isPreviewingCSS, setIsPreviewingCSS] = useState(false)
+  const cssStateTs = useRef(new Date(0))
+
+  // Preview CSS content channel
+  const previewCSSChannel = new BroadcastChannel("previewCSS")
+
+  // Broadcast current CSS
+  const broadcastCSS = (css: string) => {
+    const msg = {
+      ts: cssStateTs.current,
+      css,
+    }
+    previewCSSChannel.postMessage(msg)
+  }
+
   const doPreview = () => {
-    // Save css into storage
-    setStorage("cssPreview", css)
+    // Broadcast preview css
+    setIsPreviewingCSS(true)
+    cssStateTs.current = new Date()
+    broadcastCSS(css)
 
     // Open preview site page
     window.open(`/site/${subdomain}/`)
   }
 
+  // Preview CSS init
+  const previewInitChannel = new BroadcastChannel("cssState")
+  previewInitChannel.onmessage = (msg) => {
+    // Broadcast current previewing CSS
+    if (isPreviewingCSS) {
+      broadcastCSS(css)
+    }
+  }
+
   const doReset = () => {
-    delStorage("cssPreview")
+    // Broadcast revoke css
+    setIsPreviewingCSS(false)
+    cssStateTs.current = new Date()
+    broadcastCSS("")
+
     toast.success(t("Styles reset successfully, please refresh page later"))
     // setCss(site.data?.metadata?.content?.css || "")
   }
@@ -140,6 +169,7 @@ export default function SettingsCSSPage() {
             variant="secondary"
             isLoading={updateSite.isLoading}
             onClick={doReset}
+            disabled={!isPreviewingCSS}
           >
             {t("Reset")}
           </Button>
