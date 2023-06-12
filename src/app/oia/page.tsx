@@ -17,7 +17,7 @@ async function OIAPage() {
 
   const download = useCallback(() => {
     window.open(
-      "https://apps.apple.com/us/app/xlog-on-chain-blogging/id6449499296",
+      "itms-apps://apps.apple.com/app/xlog-on-chain-blogging/id6449499296",
     )
   }, [])
 
