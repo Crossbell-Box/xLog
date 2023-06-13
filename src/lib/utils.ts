@@ -81,3 +81,16 @@ export function getStringLength(str: string) {
   }
   return len
 }
+
+export const isMobileDevice = () => {
+  if (isServerSide()) {
+    return false
+  } else {
+    const userAgent = window.navigator.userAgent
+    const isIOS = /(iPad|iPhone|iPod)/.test(userAgent)
+    const isIPadOS = /Macintosh/.test(userAgent) && navigator.maxTouchPoints > 1
+    // const isAndroid = /Android/.test(userAgent);
+
+    return isIOS || isIPadOS
+  }
+}
