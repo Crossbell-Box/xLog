@@ -34,7 +34,7 @@ import { Modal } from "~/components/ui/Modal"
 import { Switch } from "~/components/ui/Switch"
 import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
-import { toolbars } from "~/editor"
+import { toolbarShortcuts, toolbars } from "~/editor"
 import { editorUpload } from "~/editor/Multimedia"
 import {
   Values,
@@ -619,6 +619,7 @@ export default function SubdomainEditor() {
                         "h-full flex-1",
                         isRendering ? "border-r" : "",
                       )}
+                      shortcuts={toolbarShortcuts}
                     />
                   )}
                   {!isMobileLayout && (
