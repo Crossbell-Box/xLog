@@ -15,8 +15,8 @@ dependencies:
     specifier: 6.1.1
     version: 6.1.1
   '@codemirror/language':
-    specifier: 6.7.0
-    version: 6.7.0
+    specifier: 6.8.0
+    version: 6.8.0
   '@codemirror/language-data':
     specifier: 6.3.1
     version: 6.3.1(@codemirror/state@6.2.1)(@codemirror/view@6.13.0)(@lezer/common@1.0.3)
