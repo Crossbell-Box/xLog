@@ -153,7 +153,7 @@
     "use-onclickoutside": "0.4.1",
     "uuid": "9.0.0",
     "viem": "1.0.6",
-    "wagmi": "1.1.1",
+    "wagmi": "1.2.0",
     "zustand": "4.3.8"
   },
   "devDependencies": {
@@ -184,7 +184,7 @@
     "autoprefixer": "10.4.14",
     "babel-loader": "9.1.2",
     "cspell": "6.31.1",
-    "esbuild": "0.18.1",
+    "esbuild": "0.18.2",
     "esbuild-register": "3.4.2",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.5",
