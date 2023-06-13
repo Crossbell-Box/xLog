@@ -90,7 +90,7 @@ a {
   @apply inline-flex;
   @apply items-center;
   @apply justify-center;
-  @apply h-8;
+  @apply h-9;
   @apply px-5;
   @apply min-w-[100px];
   @apply whitespace-nowrap;
@@ -155,7 +155,7 @@ a {
 }
 
 .button.is-text {
-  @apply shadow-none py-0 px-2;
+  @apply shadow-none py-0 px-3;
   @apply min-w-0;
   @apply hover:bg-hover;
   @apply transition-colors;

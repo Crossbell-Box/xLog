@@ -16,15 +16,9 @@ async function OIAPage() {
   }, [])
 
   const download = useCallback(() => {
-    const result = confirm(
-      t(
-        "The app is currently under review, please stay tuned. Do you want to join the early access program?",
-      )!,
+    window.open(
+      "itms-apps://apps.apple.com/app/xlog-on-chain-blogging/id6449499296",
     )
-    const dcLink = "https://discord.gg/uK2yAtWw2s"
-    if (result) {
-      window.open(dcLink)
-    }
   }, [])
 
   const goBack = useCallback(() => {

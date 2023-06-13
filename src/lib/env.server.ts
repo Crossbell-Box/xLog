@@ -23,3 +23,6 @@ export const OPENSEA_API_KEY =
 export const POAP_API_KEY = config.ENV_POAP_API_KEY || process.env.POAP_API_KEY
 export const OPENAI_API_KEY =
   config.ENV_OPENAI_API_KEY || process.env.OPENAI_API_KEY
+export const ANONYMOUS_ACCOUNT_PRIVATEKEY =
+  config.ENV_ANONYMOUS_ACCOUNT_PRIVATEKEY ||
+  process.env.ANONYMOUS_ACCOUNT_PRIVATEKEY

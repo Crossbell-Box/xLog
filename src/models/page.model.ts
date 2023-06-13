@@ -203,6 +203,7 @@ const getLocalPages = (input: {
           operator: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
           owner: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
           createdAt: new Date(page.date).toISOString(),
+          publishedAt: new Date(page.date).toISOString(),
           updatedAt: new Date(page.date).toISOString(),
           deletedAt: null,
           transactionHash: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
