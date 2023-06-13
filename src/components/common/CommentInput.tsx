@@ -19,6 +19,7 @@ import {
 
 import { CodeMirrorEditor } from "../ui/CodeMirror"
 import { Input } from "../ui/Input"
+import { Tooltip } from "../ui/Tooltip"
 import { EmojiPicker } from "./EmojiPicker"
 
 export const CommentInput = ({
@@ -252,8 +253,18 @@ export const CommentInput = ({
                     checked={anonymous}
                     onChange={(e) => setAnonymous(e.target.checked)}
                   />
-                  <label className="text-gray-500 pl-1" htmlFor="anonymous">
+                  <label
+                    className="text-gray-500 pl-1 inline-flex items-center"
+                    htmlFor="anonymous"
+                  >
                     {t("Comment Without Login")}
+                    <Tooltip
+                      label={t(
+                        "You'll use an official public account for comments and give up blockchain ownership",
+                      )}
+                    >
+                      <i className="icon-[mingcute--question-line] ml-1" />
+                    </Tooltip>
                   </label>
                 </div>
                 {anonymous && (
