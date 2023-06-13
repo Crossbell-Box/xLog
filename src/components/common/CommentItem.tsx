@@ -47,6 +47,10 @@ export const CommentItem = ({
     return null
   }
 
+  const displayName = comment?.metadata?.content?.attributes?.find(
+    (attribute) => attribute.trait_type === "xlog_sender_name",
+  )?.value as string | undefined
+
   return (
     <div
       className={cn(depth > 0 ? "" : "border-b border-dashed pb-6", className)}
@@ -84,7 +88,7 @@ export const CommentItem = ({
               }
               className="font-medium text-accent"
             >
-              {comment?.character?.metadata?.content?.name}
+              {displayName || comment?.character?.metadata?.content?.name}
             </UniLink>
             <Titles characterId={comment.characterId} />
             <span>·</span>

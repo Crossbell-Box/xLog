@@ -8,6 +8,8 @@ import { githubLight } from "@ddietr/codemirror-themes/theme/github-light"
 
 import { useIsUnmounted } from "./useLifecycle"
 
+export const monospaceFonts = `"OperatorMonoSSmLig Nerd Font","Cascadia Code PL","FantasqueSansMono Nerd Font","operator mono","Fira code Retina","Fira code","Consolas", Monaco, "Hannotate SC", monospace, -apple-system`
+
 const extensionMap = {
   theme: new Compartment(),
   style: new Compartment(),
