@@ -465,6 +465,13 @@ export async function getPage<TRender extends boolean = false>(input: {
             blockNumber
             updatedTransactionHash
             updatedBlockNumber
+            ${
+              input.useStat
+                ? `stat {
+              viewDetailCount
+            }`
+                : ""
+            }
           }
         }`,
           {},
@@ -472,7 +479,46 @@ export async function getPage<TRender extends boolean = false>(input: {
         .toPromise()
       page = result.data.notes[0]
     } else {
-      page = await indexer.note.get(input.characterId, input.noteId)
+      const result = await client
+        .query(
+          `
+        query getNote {
+          note(
+            where: {
+              note_characterId_noteId_unique: {
+                characterId: ${input.characterId},
+                noteId: ${input.noteId},
+              },
+            },
+          ) {
+            characterId
+            noteId
+            uri
+            metadata {
+              uri
+              content
+            }
+            owner
+            createdAt
+            updatedAt
+            publishedAt
+            transactionHash
+            blockNumber
+            updatedTransactionHash
+            updatedBlockNumber
+            ${
+              input.useStat
+                ? `stat {
+              viewDetailCount
+            }`
+                : ""
+            }
+          }
+        }`,
+          {},
+        )
+        .toPromise()
+      page = result.data.note
     }
   }
 
@@ -520,6 +566,13 @@ export async function getPage<TRender extends boolean = false>(input: {
   }
 
   return expandedNote
+}
+
+export async function reportStats(input: {
+  characterId: number
+  noteId: number
+}) {
+  return await indexer.note.get(input.characterId, input.noteId)
 }
 
 export async function deletePage(

@@ -434,3 +434,20 @@ export function useGetImageInfo(src?: string) {
     }
   })
 }
+
+export const useReportStats = (
+  input: Partial<Parameters<typeof pageModel.reportStats>[0]>,
+) => {
+  return useQuery(
+    ["reportStats", input.characterId, input.noteId],
+    async () => {
+      if (!input.characterId || !input.noteId) {
+        return null
+      }
+      return pageModel.reportStats({
+        characterId: input.characterId,
+        noteId: input.noteId,
+      })
+    },
+  )
+}
