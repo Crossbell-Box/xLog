@@ -47,6 +47,7 @@ interface XLogCodeMirrorEditorProps {
   onCreateEditor?: (view: EditorView, state: EditorState) => void
   onMouseEnter?: () => void
   LoadingComponent?: () => JSX.Element
+  shortcuts?: KeyBinding[]
 }
 
 export const CodeMirrorEditor = forwardRef<
@@ -189,6 +190,7 @@ const LazyCodeMirrorEditor = forwardRef<
           }),
 
           keymap.of([
+            ...(props.shortcuts ?? []),
             ...defaultKeymap,
             ...historyKeymap,
             ...markdownKeymap,
