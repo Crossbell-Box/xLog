@@ -340,6 +340,30 @@ export function useCommentPage() {
   }
 }
 
+export function useAnonymousComment() {
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    async (
+      payload: Parameters<typeof pageModel.anonymousComment>[0] & {
+        originalNoteId?: number
+        originalCharacterId?: number
+      },
+    ) => {
+      return pageModel.anonymousComment(payload)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getComments",
+          variables.originalCharacterId || variables.targetCharacterId,
+          variables.originalNoteId || variables.targetNoteId,
+        ])
+      },
+    },
+  )
+}
+
 export function useUpdateComment() {
   const queryClient = useQueryClient()
   const contract = useContract()

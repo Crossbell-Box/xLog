@@ -754,6 +754,28 @@ export async function getComments({
   return res
 }
 
+export async function anonymousComment(input: {
+  targetCharacterId: number
+  targetNoteId: number
+  content: string
+  name: string
+  email: string
+}) {
+  return await fetch("/api/anonymous/comment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      targetCharacterId: input.targetCharacterId,
+      targetNoteId: input.targetNoteId,
+      content: input.content,
+      name: input.name,
+      email: input.email,
+    }),
+  })
+}
+
 export async function updateComment(
   {
     content,
