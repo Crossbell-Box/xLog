@@ -94,3 +94,10 @@ export const isMobileDevice = () => {
     return isIOS || isIPadOS
   }
 }
+
+export const isMacOS = () => {
+  const userAgent = window.navigator.userAgent
+  const isMacOS = /Mac OS X/.test(userAgent)
+
+  return isMacOS
+}
