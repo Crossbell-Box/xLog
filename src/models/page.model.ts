@@ -17,6 +17,7 @@ import { notFound } from "~/lib/server-side-props"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
+import { client } from "~/queries/graphql"
 
 export async function checkPageSlug(input: {
   slug: string
@@ -404,15 +405,73 @@ export async function getPage<TRender extends boolean = false>(input: {
 
   if (!mustLocal) {
     if (!input.noteId) {
-      const response = await fetch(
-        `/api/slug2id?${new URLSearchParams({
-          characterId: input.characterId + "",
-          slug: input.slug!,
-        }).toString()}`,
-      )
-      input.noteId = (await response.json())?.noteId
-    }
-    if (input.noteId) {
+      const result = await client
+        .query(
+          `
+        query getNotes {
+          notes(
+            where: {
+              characterId: {
+                equals: ${input.characterId},
+              },
+              deleted: {
+                equals: false,
+              },
+              metadata: {
+                AND: [
+                  {
+                    content: {
+                      path: ["sources"],
+                      array_contains: ["xlog"]
+                    },
+                  },
+                  {
+                    OR: [
+                      {
+                        content: {
+                          path: ["attributes"],
+                          array_contains: [{
+                            trait_type: "xlog_slug",
+                            value: "${input.slug}",
+                          }]
+                        }
+                      },
+                      {
+                        content: {
+                          path: ["title"],
+                          equals: "${decodeURIComponent(input.slug!)}"
+                        },
+                      }
+                    ]
+                  }
+                ]
+              },
+            },
+            orderBy: [{ createdAt: desc }],
+            take: 1,
+          ) {
+            characterId
+            noteId
+            uri
+            metadata {
+              uri
+              content
+            }
+            owner
+            createdAt
+            updatedAt
+            publishedAt
+            transactionHash
+            blockNumber
+            updatedTransactionHash
+            updatedBlockNumber
+          }
+        }`,
+          {},
+        )
+        .toPromise()
+      page = result.data.notes[0]
+    } else {
       page = await indexer.note.get(input.characterId, input.noteId)
     }
   }
