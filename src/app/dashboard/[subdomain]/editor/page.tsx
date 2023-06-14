@@ -797,9 +797,9 @@ const EditorExtraProperties = memo(
             )}
           </div>
           {values.publishedAt > new Date().toISOString() && (
-            <div className="text-xs mt-1 text-red-500">
+            <div className="text-xs mt-1 text-orange-500">
               {t(
-                "The post is currently unavailable as its publication date has been scheduled for a future time.",
+                "The post is currently not public as its publication date has been scheduled for a future time.",
               )}
             </div>
           )}

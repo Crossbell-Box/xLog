@@ -70,7 +70,7 @@
   "Publish at": "发布时间",
   "This post will be accessible from this time. Leave blank to use the current time.": "此文章将从此时间开始可访问。留空则使用当前时间。",
   "This page will be accessible from this time. Leave blank to use the current time.": "此页面将从此时间开始可访问。留空则使用当前时间。",
-  "The post is currently unavailable as its publication date has been scheduled for a future time.": "此文章当前不可用，因为它的发布日期已被定为将来的某个时间。",
+  "The post is currently not public as its publication date has been scheduled for a future time.": "此文章当前没有公开，因为它的发布日期已被定为将来的某个时间。",
   "Post slug": "文章短链接",
   "Page slug": "页面短链接",
   "This post will be accessible at": "此文章将可通过以下链接访问",
