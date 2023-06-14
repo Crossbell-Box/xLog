@@ -6,12 +6,11 @@ import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { useGetState } from "~/hooks/useGetState"
-import { APP_NAME } from "~/lib/env"
 import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
-import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
+import { useDeletePage, useUpdatePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
@@ -41,11 +40,10 @@ export const PagesManagerMenu = ({
 }) => {
   const { t } = useTranslation("dashboard")
 
-  const isCrossbell = !page.metadata?.content?.sources?.includes("xlog")
   const router = useRouter()
   const params = useParams()
   const subdomain = params?.subdomain as string
-  const createOrUpdatePage = useCreateOrUpdatePage()
+  const updatePage = useUpdatePage()
 
   const editLink = usePageEditLink(page, isPost)
   const queryClient = useQueryClient()
@@ -76,17 +74,19 @@ export const PagesManagerMenu = ({
   }, [deletePage.isError])
 
   useEffect(() => {
-    if (createOrUpdatePage.isSuccess) {
+    if (updatePage.isSuccess) {
       toast.success(t("Converted!"), {
         id: getCurrentToastId(),
       })
-    } else if (createOrUpdatePage.isError) {
+      updatePage.reset()
+    } else if (updatePage.isError) {
       toast.error(t("Failed to convert."), {
         id: getCurrentToastId(),
       })
+      updatePage.reset()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createOrUpdatePage.isSuccess, createOrUpdatePage.isError])
+  }, [updatePage.isSuccess, updatePage.isError])
 
   const site = useGetSite(subdomain)
 
@@ -99,60 +99,34 @@ export const PagesManagerMenu = ({
       },
     },
     {
-      text:
-        "Convert to " +
-        (isCrossbell
-          ? `${APP_NAME} ${isPost ? "Post" : "Page"}`
-          : isPost
-          ? "Page"
-          : "Post"),
+      text: "Convert to " + (isPost ? "Page" : "Post"),
       icon: (
         <span className="icon-[mingcute--transfer-3-line] inline-block"></span>
       ),
       onClick() {
         const toastId = toast.loading("Converting...")
-        if (isCrossbell) {
-          setConvertToastId(toastId)
-          createOrUpdatePage.mutate({
-            published: true,
-            pageId: `${page.characterId}-${page.noteId}`,
-            siteId: subdomain,
-            tags: page.metadata?.content?.tags
-              ?.filter((tag) => tag !== "post" && tag !== "page")
-              ?.join(", "),
-            isPost: isPost,
-            applications: page.metadata?.content?.sources,
-            characterId: page.characterId,
+
+        if (!page.noteId) {
+          const data = getStorage(
+            `draft-${site.data?.characterId}-${page.draftKey}`,
+          )
+          data.isPost = !isPost
+          setStorage(`draft-${site.data?.characterId}-${page.draftKey}`, data)
+          queryClient.invalidateQueries([
+            "getPagesBySite",
+            site.data?.characterId,
+          ])
+          queryClient.invalidateQueries(["getPage", page.characterId])
+          toast.success("Converted!", {
+            id: toastId,
           })
         } else {
-          if (!page.noteId) {
-            const data = getStorage(
-              `draft-${site.data?.characterId}-${page.draftKey}`,
-            )
-            data.isPost = !isPost
-            setStorage(`draft-${site.data?.characterId}-${page.draftKey}`, data)
-            queryClient.invalidateQueries([
-              "getPagesBySite",
-              site.data?.characterId,
-            ])
-            queryClient.invalidateQueries(["getPage", page.characterId])
-            toast.success("Converted!", {
-              id: toastId,
-            })
-          } else {
-            setConvertToastId(toastId)
-            createOrUpdatePage.mutate({
-              published: true,
-              pageId: `${page.characterId}-${page.noteId}`,
-              siteId: subdomain,
-              tags: page.metadata?.content?.tags
-                ?.filter((tag) => tag !== "post" && tag !== "page")
-                ?.join(", "),
-              isPost: !isPost,
-              applications: page.metadata?.content?.sources,
-              characterId: page.characterId,
-            })
-          }
+          setConvertToastId(toastId)
+          updatePage.mutate({
+            isPost: !isPost,
+            characterId: page.characterId,
+            noteId: page.noteId,
+          })
         }
       },
     },

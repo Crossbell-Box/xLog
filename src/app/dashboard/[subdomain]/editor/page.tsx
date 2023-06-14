@@ -57,9 +57,11 @@ import { cn, pick } from "~/lib/utils"
 import { Rendered, renderPageContent } from "~/markdown"
 import { checkPageSlug } from "~/models/page.model"
 import {
-  useCreateOrUpdatePage,
+  useCreatePage,
+  useDeletePage,
   useGetDistinctNoteTagsOfCharacter,
   useGetPage,
+  useUpdatePage,
 } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
@@ -186,12 +188,13 @@ export default function SubdomainEditor() {
     [isPost, queryClient, subdomain, visibility],
   )
 
-  const createOrUpdatePage = useCreateOrUpdatePage()
+  const createPage = useCreatePage()
+  const updatePage = useUpdatePage()
 
   const isMobileLayout = useIsMobileLayout()
   const [isRendering, setIsRendering] = useState(!isMobileLayout)
 
-  const savePage = async (published: boolean) => {
+  const savePage = async () => {
     const check = await checkPageSlug({
       slug: values.slug || defaultSlug,
       characterId: site.data?.characterId,
@@ -201,58 +204,87 @@ export default function SubdomainEditor() {
       toast.error(check)
     } else {
       const uniqueTags = Array.from(new Set(values.tags.split(","))).join(",")
-      createOrUpdatePage.mutate({
+
+      const baseValues = {
         ...values,
         tags: uniqueTags,
         slug: values.slug || defaultSlug,
-        siteId: subdomain,
-        ...(visibility === PageVisibilityEnum.Draft
-          ? {}
-          : { pageId: `${page?.data?.characterId}-${page?.data?.noteId}` }),
-        isPost: isPost,
-        published,
-        applications: page.data?.metadata?.content?.sources,
         characterId: site.data?.characterId,
         cover: values.cover,
         disableAISummary: values.disableAISummary,
-      })
+      }
+      if (visibility === PageVisibilityEnum.Draft) {
+        createPage.mutate({
+          ...baseValues,
+          isPost: isPost,
+        })
+      } else {
+        updatePage.mutate({
+          ...baseValues,
+          noteId: page?.data?.noteId,
+        })
+      }
+    }
+  }
+
+  const deleteP = useDeletePage()
+  const deletePage = async () => {
+    if (page.data) {
+      if (!page.data?.noteId) {
+        // Is draft
+        delStorage(`draft-${page.data.characterId}-${page.data.draftKey}`)
+      } else {
+        // Is Note
+        return deleteP.mutateAsync({
+          site: subdomain,
+          id: `${page.data.characterId}-${page.data.noteId}`,
+          characterId: page.data.characterId,
+        })
+      }
     }
   }
 
   const [isCheersOpen, setIsCheersOpen] = useState(false)
 
   useEffect(() => {
-    if (createOrUpdatePage.isSuccess) {
-      if (createOrUpdatePage.data?.code === 0) {
-        if (draftKey) {
-          delStorage(draftKey)
-          queryClient.invalidateQueries([
-            "getPagesBySite",
-            site.data?.characterId,
-          ])
-          queryClient.invalidateQueries([
-            "getPage",
-            draftKey.replace(`draft-${site.data?.characterId}-`, ""),
-          ])
-        } else {
-          queryClient.invalidateQueries(["getPage", pageId])
-        }
-
-        if (createOrUpdatePage.data.data) {
-          router.replace(
-            `/dashboard/${subdomain}/editor?id=${site.data?.characterId}-${
-              createOrUpdatePage.data.data
-            }&type=${searchParams?.get("type")}`,
-          )
-        }
-
-        setIsCheersOpen(true)
-        showConfetti()
+    if (createPage.isSuccess || updatePage.isSuccess) {
+      if (draftKey) {
+        delStorage(draftKey)
+        queryClient.invalidateQueries([
+          "getPagesBySite",
+          site.data?.characterId,
+        ])
+        queryClient.invalidateQueries([
+          "getPage",
+          draftKey.replace(`draft-${site.data?.characterId}-`, ""),
+        ])
       } else {
-        toast.error("Error: " + createOrUpdatePage.data?.message)
+        queryClient.invalidateQueries(["getPage", pageId])
       }
+
+      if (createPage.data?.noteId) {
+        router.replace(
+          `/dashboard/${subdomain}/editor?id=${
+            createPage.data?.noteId
+          }&type=${searchParams?.get("type")}`,
+        )
+      }
+
+      setIsCheersOpen(true)
+      showConfetti()
+
+      createPage.reset()
+      updatePage.reset()
     }
-  }, [createOrUpdatePage.isSuccess])
+  }, [createPage.isSuccess, updatePage.isSuccess])
+
+  useEffect(() => {
+    if (createPage.isError || updatePage.isError) {
+      toast.error("Error: " + (createPage.error || updatePage.error))
+      createPage.reset()
+      updatePage.reset()
+    }
+  }, [createPage.isError, updatePage.isSuccess])
 
   useEffect(() => {
     if (!page.data || !draftKey) return
@@ -500,6 +532,7 @@ export default function SubdomainEditor() {
                   <OptionsButton
                     visibility={visibility}
                     savePage={savePage}
+                    deletePage={deletePage}
                     published={visibility !== PageVisibilityEnum.Draft}
                     isRendering={isRendering}
                     renderPage={setIsRendering}
@@ -539,7 +572,7 @@ export default function SubdomainEditor() {
                         : ""
                     }
                     published={visibility !== PageVisibilityEnum.Draft}
-                    isSaving={createOrUpdatePage.isLoading}
+                    isSaving={createPage.isLoading || updatePage.isLoading}
                     isDisabled={
                       visibility !== PageVisibilityEnum.Modified &&
                       visibility !== PageVisibilityEnum.Draft

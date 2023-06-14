@@ -222,7 +222,6 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
       {batchSelected.length > 0 ? (
         <PagesManagerBatchSelectActionTab
           isPost={isPost}
-          isNotxLogContent={false}
           pages={pages.data}
           batchSelected={batchSelected}
           setBatchSelected={setBatchSelected}

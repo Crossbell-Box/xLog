@@ -6,11 +6,10 @@ import type { InfiniteData } from "@tanstack/react-query"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { type TabItem, Tabs } from "~/components/ui/Tabs"
-import { APP_NAME } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
-import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
+import { useDeletePage, useUpdatePage } from "~/queries/page"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
@@ -20,13 +19,11 @@ function getPageId(page: ExpandedNote) {
 
 export const PagesManagerBatchSelectActionTab = ({
   isPost,
-  isNotxLogContent,
   pages,
   batchSelected,
   setBatchSelected,
 }: {
   isPost: boolean
-  isNotxLogContent: boolean
   pages?: InfiniteData<{
     list: ExpandedNote[]
   }>
@@ -41,7 +38,7 @@ export const PagesManagerBatchSelectActionTab = ({
   const queryClient = useQueryClient()
 
   // Convert or Delete page
-  const createOrUpdatePage = useCreateOrUpdatePage()
+  const updatePage = useUpdatePage()
   const deletePage = useDeletePage()
 
   const tabItems: TabItem[] = [
@@ -65,13 +62,7 @@ export const PagesManagerBatchSelectActionTab = ({
       },
     },
     {
-      text:
-        "Convert to " +
-        (isNotxLogContent
-          ? `${APP_NAME} ${isPost ? "Post" : "Page"}`
-          : isPost
-          ? "Page"
-          : "Post"),
+      text: "Convert to " + (isPost ? "Page" : "Post"),
       onClick: async () => {
         // Start message
         const toastId = toast.loading("Converting...")
@@ -90,48 +81,22 @@ export const PagesManagerBatchSelectActionTab = ({
         try {
           await Promise.all(
             selectedPages.map((page) => {
-              // Check again to ensure it's not
-              const isNotxLogContent =
-                !page.metadata?.content?.sources?.includes("xlog")
-
-              const targetNoteBase = {
-                published: true,
-                pageId: `${page.characterId}-${page.noteId}`,
-                siteId: subdomain,
-                tags: page.metadata?.content?.tags
-                  ?.filter((tag) => tag !== "post" && tag !== "page")
-                  ?.join(", "),
-                applications: page.metadata?.content?.sources,
-              }
-
-              if (isNotxLogContent) {
-                return createOrUpdatePage.mutateAsync({
-                  ...targetNoteBase,
-                  isPost: isPost, // Convert to xLog content
-                  characterId: page.characterId,
-                })
+              if (!page.noteId) {
+                // Is draft
+                const key = `draft-${page?.characterId}-${page.draftKey}`
+                const data = getStorage(key)
+                data.isPost = !isPost
+                setStorage(key, data)
               } else {
-                if (!page.noteId) {
-                  // Is draft
-                  const key = `draft-${page?.characterId}-${page.draftKey}`
-                  const data = getStorage(key)
-                  data.isPost = !isPost
-                  setStorage(key, data)
-                } else {
-                  // IsNote
-                  return createOrUpdatePage.mutateAsync({
-                    ...targetNoteBase,
-                    isPost: !isPost, // Change type
-                    characterId: page.characterId,
-                  })
-                }
+                // IsNote
+                return updatePage.mutate({
+                  characterId: page.characterId,
+                  noteId: page.noteId,
+                  isPost: !isPost, // Change type
+                })
               }
             }),
           )
-
-          toast.success(t("Converted!"), {
-            id: toastId,
-          })
         } catch (e) {
           // Some failed
           toast.error(t("Failed to convert."), {

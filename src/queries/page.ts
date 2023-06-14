@@ -1,13 +1,18 @@
 "use client"
 
+import { NoteMetadata } from "crossbell"
+import { nanoid } from "nanoid"
+
 import {
   useAccountState,
   useIsNoteLiked,
   useMintNote,
   useNoteLikeCount,
   useNoteLikeList,
+  usePostNote,
   usePostNoteForNote,
   useToggleLikeNote,
+  useUpdateNote,
 } from "@crossbell/connect-kit"
 import { useContract } from "@crossbell/contract"
 import { useRefCallback } from "@crossbell/util-hooks"
@@ -202,26 +207,211 @@ export const useCheckComment = ({
   )
 }
 
-export function useCreateOrUpdatePage() {
-  const newbieToken = useAccountState((s) => s.email?.token)
-  const unidata = useUnidata()
+export function useCreatePage() {
   const queryClient = useQueryClient()
-  const mutation = useMutation(
-    async (
-      payload: Parameters<typeof pageModel.createOrUpdatePage>[0] & {
-        characterId?: number
-      },
-    ) => {
-      return pageModel.createOrUpdatePage(payload, unidata, newbieToken)
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getPagesBySite", variables.characterId])
-        queryClient.invalidateQueries(["getPage", variables.characterId])
-      },
+  const { mutateAsync: _, ...postNote } = usePostNote()
+
+  const mutate = useRefCallback(
+    (input: {
+      characterId?: number
+      slug?: string
+      tags?: string
+      title?: string
+      content?: string
+      publishedAt?: string
+      excerpt?: string
+      isPost?: boolean
+      cover?: {
+        address?: string
+        mime_type?: string
+      }
+      disableAISummary?: boolean
+    }) => {
+      if (!input.characterId) {
+        throw new Error("characterId is required")
+      }
+
+      return postNote.mutate(
+        {
+          characterId: input.characterId,
+          metadata: {
+            title: input.title,
+            content: input.content,
+            date_published: input.publishedAt || new Date().toISOString(),
+            summary: input.excerpt,
+            tags: [
+              input.isPost ? "post" : "page",
+              ...(input.tags
+                ?.split(",")
+                .map((tag) => tag.trim())
+                .filter((tag) => tag) || []),
+            ],
+            sources: ["xlog"],
+            attributes: [
+              {
+                trait_type: "xlog_slug",
+                value: input.slug || nanoid(),
+              },
+              ...(input.disableAISummary
+                ? [
+                    {
+                      trait_type: "xlog_disable_ai_summary",
+                      value: input.disableAISummary,
+                    },
+                  ]
+                : []),
+            ],
+            attachments: [
+              ...(input.cover?.address
+                ? [
+                    {
+                      name: "cover",
+                      address: input.cover.address,
+                      mime_type: input.cover.mime_type,
+                    },
+                  ]
+                : []),
+            ],
+          } as NoteMetadata & {
+            summary?: string
+          },
+        },
+        {
+          onSuccess: (data, variables) => {
+            queryClient.invalidateQueries(["getPagesBySite", input.characterId])
+            queryClient.invalidateQueries(["getPage", input.characterId])
+          },
+        },
+      )
     },
   )
-  return mutation
+
+  return {
+    ...postNote,
+    mutate,
+  }
+}
+
+export function useUpdatePage() {
+  const queryClient = useQueryClient()
+  const { mutateAsync: _, ...updateNote } = useUpdateNote()
+
+  const mutate = useRefCallback(
+    (input: {
+      noteId?: number
+      characterId?: number
+      slug?: string
+      tags?: string
+      title?: string
+      content?: string
+      publishedAt?: string
+      excerpt?: string
+      isPost?: boolean
+      cover?: {
+        address?: string
+        mime_type?: string
+      }
+      disableAISummary?: boolean
+    }) => {
+      if (!input.characterId || !input.noteId) {
+        throw new Error("characterId and noteId are required")
+      }
+
+      return updateNote.mutate(
+        {
+          note: {
+            characterId: input.characterId,
+            noteId: input.noteId,
+          },
+          edit(metadataDraft) {
+            if (input.title !== undefined) {
+              metadataDraft.title = input.title
+            }
+            if (input.content !== undefined) {
+              metadataDraft.content = input.content
+            }
+            if (input.publishedAt !== undefined) {
+              metadataDraft.date_published = input.publishedAt
+            }
+            if (input.excerpt !== undefined) {
+              ;(metadataDraft as any).summary = input.excerpt
+            }
+
+            if (!metadataDraft.tags) {
+              metadataDraft.tags = []
+            }
+            if (input.isPost !== undefined) {
+              metadataDraft.tags[0] = input.isPost ? "post" : "page"
+            }
+            if (input.tags !== undefined) {
+              metadataDraft.tags = [
+                metadataDraft.tags[0],
+                ...input.tags
+                  .split(",")
+                  .map((tag) => tag.trim())
+                  .filter((tag) => tag),
+              ]
+            }
+
+            if (input.slug !== undefined) {
+              const slug = metadataDraft.attributes?.find(
+                (attr) => attr.trait_type === "xlog_slug",
+              )
+              if (slug) {
+                slug.value = input.slug
+              } else {
+                metadataDraft.attributes?.push({
+                  trait_type: "xlog_slug",
+                  value: input.slug,
+                })
+              }
+            }
+
+            if (input.disableAISummary !== undefined) {
+              const disableAISummary = metadataDraft.attributes?.find(
+                (attr) => attr.trait_type === "xlog_disable_ai_summary",
+              )
+              if (disableAISummary) {
+                disableAISummary.value = input.disableAISummary
+              } else {
+                metadataDraft.attributes?.push({
+                  trait_type: "xlog_disable_ai_summary",
+                  value: input.disableAISummary,
+                })
+              }
+            }
+
+            if (input.cover?.address !== undefined) {
+              const cover = metadataDraft.attachments?.find(
+                (attr) => attr.name === "cover",
+              )
+              if (cover) {
+                cover.address = input.cover.address
+                cover.mime_type = input.cover.mime_type
+              } else {
+                metadataDraft.attachments?.push({
+                  name: "cover",
+                  address: input.cover.address,
+                  mime_type: input.cover.mime_type,
+                })
+              }
+            }
+          },
+        },
+        {
+          onSuccess: (data, variables) => {
+            queryClient.invalidateQueries(["getPagesBySite", input.characterId])
+            queryClient.invalidateQueries(["getPage", input.characterId])
+          },
+        },
+      )
+    },
+  )
+
+  return {
+    ...updateNote,
+    mutate,
+  }
 }
 
 export function usePostNotes() {

@@ -12,6 +12,7 @@ export const OptionsButton = ({
   visibility,
   previewPage,
   savePage,
+  deletePage,
   isRendering,
   renderPage,
   published,
@@ -23,7 +24,8 @@ export const OptionsButton = ({
   visibility: PageVisibilityEnum | undefined
   previewPage: () => void
   renderPage: Dispatch<SetStateAction<boolean>>
-  savePage: (published: boolean) => any
+  savePage: () => any
+  deletePage: () => any
   propertiesWidget: React.ReactNode
   isRendering: boolean
   published: boolean
@@ -109,7 +111,7 @@ export const OptionsButton = ({
                           className={`${
                             active ? "bg-accent text-white" : "text-gray-900"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                          onClick={() => savePage(true)}
+                          onClick={() => savePage()}
                         >
                           {t(published ? "Update" : "Publish")}
                         </button>
@@ -152,7 +154,7 @@ export const OptionsButton = ({
                 open={deleteConfirmModalOpen}
                 setOpen={setDeleteConfirmModalOpen}
                 onConfirm={() => {
-                  savePage(false)
+                  deletePage()
                 }}
                 isPost={isPost}
               />
