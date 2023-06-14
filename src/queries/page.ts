@@ -297,14 +297,12 @@ export function useCommentPage() {
       characterId,
       noteId,
       content,
-      externalUrl,
       originalCharacterId,
       originalNoteId,
     }: {
       characterId: number
       noteId: number
       content: string
-      externalUrl: string
       originalCharacterId?: number
       originalNoteId?: number
     }) => {
@@ -316,7 +314,6 @@ export function useCommentPage() {
           },
           metadata: {
             content,
-            external_urls: [externalUrl],
             tags: ["comment"],
             sources: ["xlog"],
           },

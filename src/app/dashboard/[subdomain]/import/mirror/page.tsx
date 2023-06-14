@@ -9,7 +9,6 @@ import { toast } from "react-hot-toast"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { ImportPreview } from "~/components/dashboard/ImportPreview"
 import { Button } from "~/components/ui/Button"
-import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { useCheckMirror, useGetMirrorXyz, usePostNotes } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
@@ -42,13 +41,7 @@ export default function ImportMarkdownPage() {
       },
     ],
     date_published: note.date_published,
-    external_urls: [
-      `${getSiteLink({
-        subdomain,
-        domain: site.data?.metadata?.content?.custom_domain,
-      })}/${encodeURIComponent(note.slug)}`,
-      ...note.external_urls,
-    ],
+    external_urls: [...note.external_urls],
   }))
 
   const handleSubmit = form.handleSubmit(async (values) => {

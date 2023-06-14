@@ -211,12 +211,6 @@ export default function SubdomainEditor() {
           : { pageId: `${page?.data?.characterId}-${page?.data?.noteId}` }),
         isPost: isPost,
         published,
-        externalUrl:
-          (values.slug || defaultSlug) &&
-          `${getSiteLink({
-            subdomain,
-            domain: site.data?.metadata?.content?.custom_domain,
-          })}/${encodeURIComponent(values.slug || defaultSlug)}`,
         applications: page.data?.metadata?.content?.sources,
         characterId: site.data?.characterId,
         cover: values.cover,

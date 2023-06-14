@@ -10,7 +10,6 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { ImportPreview } from "~/components/dashboard/ImportPreview"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { readFiles } from "~/lib/read-files"
 import { usePostNotes } from "~/queries/page"
@@ -57,12 +56,6 @@ export default function ImportMarkdownPage() {
             },
           ],
           date_published: file.date_published,
-          external_urls: [
-            `${getSiteLink({
-              subdomain,
-              domain: site.data?.metadata?.content?.custom_domain,
-            })}/${encodeURIComponent(file.slug)}`,
-          ],
         }
       })
       setNotes(notes)

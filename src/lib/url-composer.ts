@@ -1,7 +1,7 @@
 import { ConnectKitProviderProps } from "@crossbell/connect-kit"
 
-import { CSB_XFEED } from "~/lib/env"
-import { getNoteSlug, getSiteLink } from "~/lib/helpers"
+import { CSB_XFEED, SITE_URL } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
 
 export const urlComposer: ConnectKitProviderProps["urlComposer"] = {
   characterUrl: ({ handle }) => getSiteLink({ subdomain: handle }),
@@ -13,27 +13,7 @@ export const urlComposer: ConnectKitProviderProps["urlComposer"] = {
     }
 
     if (originalNote.metadata?.content?.sources?.includes("xlog")) {
-      if (originalNote.metadata?.content?.external_urls?.[0]) {
-        return (
-          originalNote.metadata.content.external_urls[0] +
-          (originalNote !== note ? `#comments` : "")
-        )
-      } else {
-        const { character } = originalNote
-
-        if (character) {
-          return (
-            getSiteLink({
-              subdomain: character.handle,
-            }) +
-            "/" +
-            getNoteSlug(originalNote) +
-            (originalNote !== note ? `#comments` : "")
-          )
-        } else {
-          return ""
-        }
-      }
+      return `${SITE_URL}/api/redirection?characterId=${originalNote.characterId}&noteId=${originalNote.noteId}`
     } else {
       return `${CSB_XFEED}/notes/${note.characterId}-${note.noteId}`
     }

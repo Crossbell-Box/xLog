@@ -70,7 +70,6 @@ export const CommentInput = ({
         if (values.content) {
           updateComment.mutate({
             content: values.content,
-            externalUrl: window.location.href,
             characterId: comment.characterId,
             noteId: comment.noteId,
             originalCharacterId,
@@ -99,7 +98,6 @@ export const CommentInput = ({
             characterId,
             noteId,
             content: values.content,
-            externalUrl: window.location.href,
             originalCharacterId,
             originalNoteId,
           })

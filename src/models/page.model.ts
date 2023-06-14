@@ -56,7 +56,6 @@ export async function createOrUpdatePage(
     excerpt?: string
     /** Only needed when creating page */
     isPost?: boolean
-    externalUrl?: string
     applications?: string[]
     cover?: {
       address?: string
@@ -93,7 +92,6 @@ export async function createOrUpdatePage(
       action: input.pageId ? "update" : "add",
     },
     {
-      ...(input.externalUrl && { related_urls: [input.externalUrl] }),
       ...(input.pageId && { id: input.pageId }),
       ...(input.title && { title: input.title }),
       ...(input.content && {
@@ -779,12 +777,10 @@ export async function anonymousComment(input: {
 export async function updateComment(
   {
     content,
-    externalUrl,
     characterId,
     noteId,
   }: {
     content: string
-    externalUrl: string
     characterId: number
     noteId: number
   },
@@ -795,7 +791,6 @@ export async function updateComment(
     noteId,
     metadata: {
       content,
-      external_urls: [externalUrl],
       tags: ["comment"],
       sources: ["xlog"],
     },
