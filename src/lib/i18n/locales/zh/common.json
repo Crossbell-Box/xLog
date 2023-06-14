@@ -84,5 +84,9 @@
   "Search for your interest": "搜索你感兴趣的内容",
   "results": "条结果",
   "My xLog": "我的 xLog",
-  "Click to select files": "点击选择文件"
+  "Click to select files": "点击选择文件",
+  "Comment Without Login": "免登录评论",
+  "Name": "昵称",
+  "Email": "电子邮箱",
+  "You'll use an official public account for comments and give up blockchain ownership": "你将使用官方公共账号进行评论并放弃区块链所有权"
 }

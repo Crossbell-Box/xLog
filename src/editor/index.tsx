@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react"
 
 import { EditorSelection } from "@codemirror/state"
-import { EditorView } from "@codemirror/view"
+import { type EditorView, type KeyBinding } from "@codemirror/view"
 
 import { AlignCenter } from "./AlignCenter"
 import { AlignRight } from "./AlignRight"
@@ -42,6 +42,8 @@ export type ICommand<P = any> = {
     transferPayload: (payload: P) => void
     view: EditorView
   }) => JSX.Element
+
+  shortcut?: KeyBinding
 }
 
 export type IPrependExecute = {
@@ -105,6 +107,10 @@ export const toolbars: ICommand[] = [
   Cloud,
   Help,
 ]
+
+export const toolbarShortcuts = toolbars
+  .map((t) => t.shortcut)
+  .filter(<T,>(v: T): v is NonNullable<T> => !!v)
 
 export { wrapExecute } from "./helper"
 export type { IWrapExecute } from "./helper"

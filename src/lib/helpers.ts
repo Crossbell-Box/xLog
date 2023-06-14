@@ -46,11 +46,9 @@ export const getNoteSlug = (note: NoteEntity) => {
     note.metadata?.content?.attributes?.find(
       (a) => a?.trait_type === "xlog_slug",
     )?.value ||
-      (note.metadata?.content as any)?._xlog_slug ||
-      (note.metadata?.content as any)?._crosslog_slug ||
       note.metadata?.content?.title ||
-      `${note.characterId}-${note.noteId}`,
-  )?.toLowerCase?.()
+      "",
+  )
 }
 
 export const getNoteSlugFromNote = (page: ExpandedNote) => {

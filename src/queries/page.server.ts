@@ -2,97 +2,15 @@ import AsyncLock from "async-lock"
 import { AnalyzeDocumentChain, loadSummarizationChain } from "langchain/chains"
 import { OpenAI } from "langchain/llms/openai"
 import { PromptTemplate } from "langchain/prompts"
-import { headers } from "next/headers"
 import removeMarkdown from "remove-markdown"
 
 import { Metadata } from "@prisma/client"
 import { QueryClient } from "@tanstack/react-query"
 
-import { getNoteSlug } from "~/lib/helpers"
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
-import { cacheDelete, cacheGet } from "~/lib/redis.server"
+import { cacheGet } from "~/lib/redis.server"
 import * as pageModel from "~/models/page.model"
-import { client } from "~/queries/graphql"
-
-export async function getIdBySlug(slug: string, characterId: string | number) {
-  slug = (slug as string)?.toLowerCase?.()
-
-  const ip = headers().get("x-xlog-ip")
-  const result = (await cacheGet({
-    key: ["slug2id", characterId, slug],
-    getValueFun: async () => {
-      let note
-      let cursor = ""
-
-      do {
-        const response = await (
-          await fetch(
-            `https://indexer.crossbell.io/v1/notes?characterId=${characterId}&sources=xlog&cursor=${cursor}&limit=100`,
-            ip
-              ? {
-                  headers: {
-                    "x-forwarded-for": ip,
-                  },
-                }
-              : undefined,
-          )
-        ).json()
-        cursor = response.cursor
-        note = response?.list?.find(
-          (item: any) =>
-            slug === getNoteSlug(item) ||
-            slug === `${characterId}-${item.noteId}`,
-        )
-      } while (!note && cursor)
-
-      if (note?.noteId) {
-        return {
-          noteId: note?.noteId,
-        }
-      }
-    },
-    noUpdate: true,
-  })) as {
-    noteId: number
-  }
-
-  // revalidate
-  if (result) {
-    const noteIdMatch = slug.match(`^${characterId}-(\\d+)$`)
-    if (!noteIdMatch?.[1]) {
-      client
-        .query(
-          `query getNote {
-        note(
-          where: {
-            note_characterId_noteId_unique: {
-              characterId: ${characterId},
-              noteId: ${result.noteId},
-            },
-          },
-        ) {
-          characterId
-          noteId
-          deleted
-          metadata {
-            content
-          }
-        }
-      }`,
-          {},
-        )
-        .then((result: any) => {
-          const note = result.data?.note
-          if ((note && getNoteSlug(note) !== slug) || note?.deleted) {
-            cacheDelete(["slug2id", characterId + "", slug])
-          }
-        })
-    }
-  }
-
-  return result
-}
 
 export const fetchGetPage = async (
   input: Partial<Parameters<typeof pageModel.getPage>[0]>,
@@ -102,13 +20,6 @@ export const fetchGetPage = async (
   return await queryClient.fetchQuery(key, async () => {
     if (!input.characterId || !input.slug) {
       return null
-    }
-    if (!input.noteId) {
-      const slug2Id = await getIdBySlug(input.slug, input.characterId)
-      if (!slug2Id?.noteId) {
-        return null
-      }
-      input.noteId = slug2Id.noteId
     }
     return cacheGet({
       key,

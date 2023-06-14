@@ -1,10 +1,23 @@
-import { ICommand, wrapExecute } from "."
+import { type EditorView } from "@codemirror/view"
+
+import { type ICommand, wrapExecute } from "."
+
+const action = (view: EditorView) => {
+  wrapExecute({ view, prepend: "[", append: "]()" })
+}
 
 export const Link: ICommand = {
   name: "link",
   label: "Link",
   icon: "icon-[mingcute--link-2-line]",
-  execute: ({ view }) => {
-    wrapExecute({ view, prepend: "[", append: "]()" })
+  execute({ view }) {
+    action(view)
+  },
+  shortcut: {
+    key: "Mod-k",
+    run(view) {
+      action(view)
+      return true
+    },
   },
 }

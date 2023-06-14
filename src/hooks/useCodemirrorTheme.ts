@@ -40,7 +40,6 @@ export const useCodeMirrorAutoToggleTheme = (
 
 const baseCmStyle = {
   ".cm-scroller": {
-    fontFamily: monospaceFonts,
     fontSize: "1rem",
     overflow: "auto",
     height: "100%",

@@ -17,6 +17,7 @@ import { notFound } from "~/lib/server-side-props"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
+import { client } from "~/queries/graphql"
 
 export async function checkPageSlug(input: {
   slug: string
@@ -404,16 +405,120 @@ export async function getPage<TRender extends boolean = false>(input: {
 
   if (!mustLocal) {
     if (!input.noteId) {
-      const response = await fetch(
-        `/api/slug2id?${new URLSearchParams({
-          characterId: input.characterId + "",
-          slug: input.slug!,
-        }).toString()}`,
-      )
-      input.noteId = (await response.json())?.noteId
-    }
-    if (input.noteId) {
-      page = await indexer.note.get(input.characterId, input.noteId)
+      const result = await client
+        .query(
+          `
+        query getNotes {
+          notes(
+            where: {
+              characterId: {
+                equals: ${input.characterId},
+              },
+              deleted: {
+                equals: false,
+              },
+              metadata: {
+                AND: [
+                  {
+                    content: {
+                      path: ["sources"],
+                      array_contains: ["xlog"]
+                    },
+                  },
+                  {
+                    OR: [
+                      {
+                        content: {
+                          path: ["attributes"],
+                          array_contains: [{
+                            trait_type: "xlog_slug",
+                            value: "${input.slug}",
+                          }]
+                        }
+                      },
+                      {
+                        content: {
+                          path: ["title"],
+                          equals: "${decodeURIComponent(input.slug!)}"
+                        },
+                      }
+                    ]
+                  }
+                ]
+              },
+            },
+            orderBy: [{ createdAt: desc }],
+            take: 1,
+          ) {
+            characterId
+            noteId
+            uri
+            metadata {
+              uri
+              content
+            }
+            owner
+            createdAt
+            updatedAt
+            publishedAt
+            transactionHash
+            blockNumber
+            updatedTransactionHash
+            updatedBlockNumber
+            ${
+              input.useStat
+                ? `stat {
+              viewDetailCount
+            }`
+                : ""
+            }
+          }
+        }`,
+          {},
+        )
+        .toPromise()
+      page = result.data.notes[0]
+    } else {
+      const result = await client
+        .query(
+          `
+        query getNote {
+          note(
+            where: {
+              note_characterId_noteId_unique: {
+                characterId: ${input.characterId},
+                noteId: ${input.noteId},
+              },
+            },
+          ) {
+            characterId
+            noteId
+            uri
+            metadata {
+              uri
+              content
+            }
+            owner
+            createdAt
+            updatedAt
+            publishedAt
+            transactionHash
+            blockNumber
+            updatedTransactionHash
+            updatedBlockNumber
+            ${
+              input.useStat
+                ? `stat {
+              viewDetailCount
+            }`
+                : ""
+            }
+          }
+        }`,
+          {},
+        )
+        .toPromise()
+      page = result.data.note
     }
   }
 
@@ -461,6 +566,13 @@ export async function getPage<TRender extends boolean = false>(input: {
   }
 
   return expandedNote
+}
+
+export async function reportStats(input: {
+  characterId: number
+  noteId: number
+}) {
+  return await indexer.note.get(input.characterId, input.noteId)
 }
 
 export async function deletePage(
@@ -640,6 +752,28 @@ export async function getComments({
   }
 
   return res
+}
+
+export async function anonymousComment(input: {
+  targetCharacterId: number
+  targetNoteId: number
+  content: string
+  name: string
+  email: string
+}) {
+  return await fetch("/api/anonymous/comment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      targetCharacterId: input.targetCharacterId,
+      targetNoteId: input.targetNoteId,
+      content: input.content,
+      name: input.name,
+      email: input.email,
+    }),
+  })
 }
 
 export async function updateComment(

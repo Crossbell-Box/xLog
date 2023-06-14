@@ -9,6 +9,7 @@ import { useHash } from "~/hooks/useHash"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn, scrollTo } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
+import { useReportStats } from "~/queries/page"
 
 export const PageContent = ({
   className,
@@ -52,6 +53,11 @@ export const PageContent = ({
   useEffect(() => {
     scrollTo(hash)
   }, [hash])
+
+  useReportStats({
+    characterId: page?.characterId,
+    noteId: page?.noteId,
+  })
 
   return (
     <div

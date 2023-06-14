@@ -7,6 +7,7 @@ import { Popover } from "@headlessui/react"
 
 import type { ICommand } from "~/editor"
 import { useTranslation } from "~/lib/i18n/client"
+import { isMacOS } from "~/lib/utils"
 
 import { Tooltip } from "./Tooltip"
 
@@ -22,6 +23,12 @@ enum ToolbarMode {
 
 type IToolbarItemProps = ICommand<any> & { view?: EditorView }
 
+const keyDisplay = (shortcut?: { key?: string }) => {
+  return shortcut?.key
+    ? `(${shortcut?.key.replace("Mod", isMacOS() ? "⌘" : "Ctrl")})`
+    : ""
+}
+
 const ToolbarItemWithPopover = ({
   name,
   icon,
@@ -29,6 +36,7 @@ const ToolbarItemWithPopover = ({
   execute,
   ui,
   view,
+  shortcut,
 }: IToolbarItemProps) => {
   const { t } = useTranslation("dashboard")
   let [popoverButtonRef, setPopoverButtonRef] =
@@ -44,7 +52,11 @@ const ToolbarItemWithPopover = ({
     <Popover key={name}>
       {({ open }: { open: boolean }) => (
         <>
-          <Tooltip key={name} label={t(label)} placement="bottom">
+          <Tooltip
+            key={name}
+            label={`${t(label)}${keyDisplay(shortcut)}`}
+            placement="bottom"
+          >
             <Popover.Button
               key={name}
               title={name}
@@ -85,7 +97,7 @@ export const EditorToolbar = memo(({ view, toolbars }: EditorToolbarProps) => {
   const renderToolbar = useCallback(
     (mode: ToolbarMode) =>
       // eslint-disable-next-line react/display-name
-      ({ name, icon, label, execute, ui }: ICommand) => {
+      ({ name, icon, label, execute, ui, shortcut }: ICommand) => {
         return ui ? (
           <ToolbarItemWithPopover
             key={name}
@@ -95,9 +107,14 @@ export const EditorToolbar = memo(({ view, toolbars }: EditorToolbarProps) => {
             execute={execute}
             ui={ui}
             view={view}
+            shortcut={shortcut}
           />
         ) : (
-          <Tooltip key={name} label={t(label)} placement="bottom">
+          <Tooltip
+            key={name}
+            label={`${t(label)}${keyDisplay(shortcut)}`}
+            placement="bottom"
+          >
             <button
               key={name}
               title={name}

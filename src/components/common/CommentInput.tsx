@@ -1,5 +1,5 @@
 import type { CharacterEntity, NoteEntity } from "crossbell"
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 
 import { EditorView } from "@codemirror/view"
@@ -11,10 +11,15 @@ import { Button } from "~/components/ui/Button"
 import { editorUpload } from "~/editor/Multimedia"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { useTranslation } from "~/lib/i18n/client"
-import { useCommentPage, useUpdateComment } from "~/queries/page"
+import {
+  useAnonymousComment,
+  useCommentPage,
+  useUpdateComment,
+} from "~/queries/page"
 
 import { CodeMirrorEditor } from "../ui/CodeMirror"
 import { Input } from "../ui/Input"
+import { Tooltip } from "../ui/Tooltip"
 import { EmojiPicker } from "./EmojiPicker"
 
 export const CommentInput = ({
@@ -38,10 +43,22 @@ export const CommentInput = ({
   const commentPage = useCommentPage()
   const updateComment = useUpdateComment()
   const { t } = useTranslation("site")
+  const anonymousComment = useAnonymousComment()
+  const [anonymous, setAnonymous] = useState(false)
 
   const form = useForm({
     defaultValues: {
       content: comment?.metadata?.content?.content || "",
+    },
+  })
+
+  const anonymousForm = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+    } as {
+      name: string
+      email: string
     },
   })
 
@@ -61,24 +78,52 @@ export const CommentInput = ({
           })
         }
       } else {
-        commentPage.mutate({
-          characterId,
-          noteId,
-          content: values.content,
-          externalUrl: window.location.href,
-          originalCharacterId,
-          originalNoteId,
-        })
+        if (anonymous) {
+          if (
+            values.content &&
+            anonymousForm.getValues("name") &&
+            anonymousForm.getValues("email")
+          ) {
+            anonymousComment.mutate({
+              targetCharacterId: characterId,
+              targetNoteId: noteId,
+              content: values.content,
+              name: anonymousForm.getValues("name"),
+              email: anonymousForm.getValues("email"),
+              originalCharacterId,
+              originalNoteId,
+            })
+          }
+        } else {
+          commentPage.mutate({
+            characterId,
+            noteId,
+            content: values.content,
+            externalUrl: window.location.href,
+            originalCharacterId,
+            originalNoteId,
+          })
+        }
       }
     }
   })
 
   useEffect(() => {
-    if (commentPage.isSuccess || updateComment.isSuccess) {
+    if (
+      commentPage.isSuccess ||
+      updateComment.isSuccess ||
+      anonymousComment.isSuccess
+    ) {
       form.reset()
       onSubmitted?.()
     }
-  }, [commentPage.isSuccess, updateComment.isSuccess, form, onSubmitted])
+  }, [
+    commentPage.isSuccess,
+    updateComment.isSuccess,
+    anonymousComment.isSuccess,
+    form,
+    onSubmitted,
+  ])
 
   const cmViewRef = useRef<EditorView>()
   const onCreateEditor = useCallback((view: EditorView) => {
@@ -112,6 +157,35 @@ export const CommentInput = ({
     ),
     [account?.character, t, form],
   )
+
+  let submitText = "Connect"
+  if (anonymous) {
+    submitText = "Submit"
+  } else if (account) {
+    if (!account.character) {
+      submitText = "Create Character"
+    } else if (comment) {
+      submitText = "Confirm Modification"
+    } else {
+      submitText = "Submit"
+    }
+  }
+
+  let submitDisabled = false
+  const name = anonymousForm.watch("name").trim()
+  const email = anonymousForm.watch("email").trim()
+  if (account?.character) {
+    if (!inputContent || inputContent === comment?.metadata?.content?.content) {
+      submitDisabled = true
+    }
+  } else if (anonymous) {
+    if (!name || !email || !inputContent) {
+      submitDisabled = true
+    }
+  }
+
+  const id = `anonymous-${characterId}-${noteId}`
+
   return (
     <div className="xlog-comment-input flex">
       <Avatar
@@ -129,7 +203,7 @@ export const CommentInput = ({
               form.setValue("content", val)
             }}
             handleDropFile={handleDropFile}
-            className="mb-2 p-3 h-[74px] border focus-within:border-accent border-[var(--border-color)] rounded-lg outline-2 outline-transparent cursor-text"
+            className="mb-2 p-3 h-[74px] border focus-within:border-accent border-[var(--border-color)] rounded-lg outline-2 outline-transparent cursor-text transition-colors"
             placeholder={t("Write a comment on the blockchain") || ""}
             maxLength={600}
             onCreateEditor={onCreateEditor}
@@ -137,10 +211,10 @@ export const CommentInput = ({
           />
         </div>
         <div className="flex justify-between">
-          <Popover className="relative flex justify-center">
+          <Popover className="relative justify-center">
             {({ open }: { open: boolean }) => (
               <>
-                <Popover.Button className="group inline-flex items-center rounded-md px-2 text-xl text-zinc-400 hover:text-zinc-500">
+                <Popover.Button className="group items-center rounded-md px-2 text-xl text-zinc-400 hover:text-zinc-500 hidden sm:inline-flex">
                   <span className="icon-[mingcute--emoji-2-line] text-2xl"></span>
                 </Popover.Button>
                 <Popover.Panel className="absolute left-0 top-full z-10">
@@ -170,25 +244,60 @@ export const CommentInput = ({
               </>
             )}
           </Popover>
-          <Button
-            type="submit"
-            isLoading={commentPage.isLoading || updateComment.isLoading}
-            isDisabled={
-              !!account?.character &&
-              (!inputContent ||
-                inputContent === comment?.metadata?.content?.content)
-            }
-          >
-            {t(
-              account
-                ? !account.character
-                  ? "Create Character"
-                  : comment
-                  ? "Confirm Modification"
-                  : "Submit"
-                : "Connect",
+          <div className="flex items-center relative">
+            {!account && (
+              <div>
+                <div className="mr-2 sm:mr-6 flex items-center">
+                  <input
+                    type="checkbox"
+                    id={id}
+                    name={id}
+                    checked={anonymous}
+                    onChange={(e) => setAnonymous(e.target.checked)}
+                  />
+                  <label
+                    className="text-gray-500 pl-1 inline-flex items-center"
+                    htmlFor={id}
+                  >
+                    {t("Comment Without Login")}
+                    <Tooltip
+                      label={t(
+                        "You'll use an official public account for comments and give up blockchain ownership",
+                      )}
+                      childrenClassName="hidden sm:inline-flex ml-1"
+                    >
+                      <i className="icon-[mingcute--question-line]" />
+                    </Tooltip>
+                  </label>
+                </div>
+                {anonymous && (
+                  <div className="absolute right-0 top-full border rounded-lg px-6 pt-4 pb-5 space-y-2 bg-white z-10 mt-4">
+                    <Input
+                      label={t("Name") || ""}
+                      id="name"
+                      {...anonymousForm.register("name")}
+                    />
+                    <Input
+                      label={t("Email") || ""}
+                      id="email"
+                      {...anonymousForm.register("email")}
+                    />
+                  </div>
+                )}
+              </div>
             )}
-          </Button>
+            <Button
+              type="submit"
+              isLoading={
+                commentPage.isLoading ||
+                updateComment.isLoading ||
+                anonymousComment.isLoading
+              }
+              isDisabled={submitDisabled}
+            >
+              {t(submitText)}
+            </Button>
+          </div>
         </div>
       </form>
     </div>

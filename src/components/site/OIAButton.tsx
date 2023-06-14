@@ -2,8 +2,8 @@
 
 import React, { useCallback, useEffect, useState } from "react"
 
-import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useTranslation } from "~/lib/i18n/client"
+import { isMobileDevice } from "~/lib/utils"
 
 export const OIAButton = ({
   link,
@@ -19,10 +19,10 @@ export const OIAButton = ({
     window.open(`https://oia.xlog.app${link}`, "_blank")
   }, [])
 
-  const isMobileLayout = useIsMobileLayout()
+  const enabled = isMobileDevice() && !isInRN
 
   useEffect(() => {
-    if (!isMobileLayout) {
+    if (!enabled) {
       return
     }
 
@@ -34,9 +34,9 @@ export const OIAButton = ({
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [isMobileLayout])
+  }, [])
 
-  if (!isMobileLayout || isInRN) {
+  if (!enabled) {
     return null
   }
 
