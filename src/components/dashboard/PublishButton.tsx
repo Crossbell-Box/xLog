@@ -7,7 +7,8 @@ import { Button, ButtonGroup } from "../ui/Button"
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 export const PublishButton = ({
-  save,
+  savePage,
+  deletePage,
   discardChanges,
   published,
   isSaving,
@@ -16,7 +17,8 @@ export const PublishButton = ({
   twitterShareUrl,
   isPost,
 }: {
-  save: (published: boolean) => void
+  savePage: () => void
+  deletePage: () => void
   published: boolean
   isSaving: boolean
   isDisabled: boolean
@@ -50,7 +52,7 @@ export const PublishButton = ({
         <Button
           isAutoWidth
           style={{ padding: "0 15px" }}
-          onClick={() => save(true)}
+          onClick={() => savePage()}
           isLoading={isSaving}
           isDisabled={isDisabled}
         >
@@ -110,7 +112,7 @@ export const PublishButton = ({
         open={deleteConfirmModalOpen}
         setOpen={setDeleteConfirmModalOpen}
         onConfirm={() => {
-          save(false)
+          deletePage()
         }}
         isPost={isPost}
       />

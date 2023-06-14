@@ -235,14 +235,21 @@ export default function SubdomainEditor() {
         delStorage(`draft-${page.data.characterId}-${page.data.draftKey}`)
       } else {
         // Is Note
-        return deleteP.mutateAsync({
-          site: subdomain,
-          id: `${page.data.characterId}-${page.data.noteId}`,
+        return deleteP.mutate({
+          noteId: page.data.noteId,
           characterId: page.data.characterId,
         })
       }
     }
   }
+
+  useEffect(() => {
+    if (deleteP.isSuccess) {
+      toast.success(t("Deleted!"))
+      deleteP.reset()
+      router.push(`/dashboard/${subdomain}/${searchParams?.get("type")}s`)
+    }
+  }, [deleteP.isSuccess])
 
   const [isCheersOpen, setIsCheersOpen] = useState(false)
 
@@ -561,7 +568,8 @@ export default function SubdomainEditor() {
                     {t("Preview")}
                   </Button>
                   <PublishButton
-                    save={savePage}
+                    savePage={savePage}
+                    deletePage={deletePage}
                     twitterShareUrl={
                       page.data && site.data
                         ? getTwitterShareUrl({
@@ -572,7 +580,11 @@ export default function SubdomainEditor() {
                         : ""
                     }
                     published={visibility !== PageVisibilityEnum.Draft}
-                    isSaving={createPage.isLoading || updatePage.isLoading}
+                    isSaving={
+                      createPage.isLoading ||
+                      updatePage.isLoading ||
+                      deleteP.isLoading
+                    }
                     isDisabled={
                       visibility !== PageVisibilityEnum.Modified &&
                       visibility !== PageVisibilityEnum.Draft

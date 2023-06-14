@@ -5,6 +5,7 @@ import { nanoid } from "nanoid"
 
 import {
   useAccountState,
+  useDeleteNote,
   useIsNoteLiked,
   useMintNote,
   useNoteLikeCount,
@@ -24,8 +25,6 @@ import {
 } from "@tanstack/react-query"
 
 import * as pageModel from "~/models/page.model"
-
-import { useUnidata } from "./unidata"
 
 export const useGetPagesBySiteLite = (
   input: Parameters<typeof pageModel.getPagesBySite>[0],
@@ -431,24 +430,37 @@ export function usePostNotes() {
 }
 
 export function useDeletePage() {
-  const newbieToken = useAccountState((s) => s.email?.token)
-  const unidata = useUnidata()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (
-      input: Parameters<typeof pageModel.deletePage>[0] & {
-        characterId?: number
-      },
-    ) => {
-      return pageModel.deletePage(input, unidata, newbieToken)
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getPagesBySite", variables.characterId])
-        queryClient.invalidateQueries(["getPage", variables.characterId])
-      },
+  const { mutateAsync: _, ...deleteNote } = useDeleteNote()
+
+  const mutate = useRefCallback(
+    (input: { noteId?: number; characterId?: number }) => {
+      if (!input.characterId || !input.noteId) {
+        throw new Error("characterId and noteId are required")
+      }
+
+      return deleteNote.mutate(
+        {
+          characterId: input.characterId,
+          noteId: input.noteId,
+        },
+        {
+          onSuccess: (data, variables) => {
+            queryClient.invalidateQueries([
+              "getPagesBySite",
+              variables.characterId,
+            ])
+            queryClient.invalidateQueries(["getPage", variables.characterId])
+          },
+        },
+      )
     },
   )
+
+  return {
+    ...deleteNote,
+    mutate,
+  }
 }
 
 export const useToggleLikePage = useToggleLikeNote

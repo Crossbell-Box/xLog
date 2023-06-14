@@ -193,8 +193,7 @@ export const PagesManagerMenu = ({
     } else {
       setDeleteToastId(toast.loading("Deleting..."))
       deletePage.mutate({
-        site: subdomain,
-        id: `${page.characterId}-${page.noteId}`,
+        noteId: page.noteId,
         characterId: page.characterId,
       })
     }

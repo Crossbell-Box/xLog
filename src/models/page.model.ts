@@ -6,7 +6,6 @@ import type {
   NoteEntity,
   NoteMetadata,
 } from "crossbell"
-import type Unidata from "unidata.js"
 import type { Address } from "viem"
 
 import { GeneralAccount } from "@crossbell/connect-kit"
@@ -462,29 +461,6 @@ export async function reportStats(input: {
   noteId: number
 }) {
   return await indexer.note.get(input.characterId, input.noteId)
-}
-
-export async function deletePage(
-  { site, id }: { site: string; id: string },
-  customUnidata?: Unidata,
-  newbieToken?: string,
-) {
-  const { default: unidata } = await import("~/queries/unidata.server")
-
-  return await (customUnidata || unidata).notes.set(
-    {
-      source: "Crossbell Note",
-      identity: site,
-      platform: "Crossbell",
-      action: "remove",
-    },
-    {
-      id,
-    },
-    {
-      newbieToken,
-    },
-  )
 }
 
 export async function getLikes({

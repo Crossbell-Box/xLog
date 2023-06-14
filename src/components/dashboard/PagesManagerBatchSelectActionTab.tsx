@@ -152,9 +152,8 @@ export const PagesManagerBatchSelectActionTab = ({
             delStorage(`draft-${page?.characterId}-${page.draftKey}`)
           } else {
             // Is Note
-            return deletePage.mutateAsync({
-              site: subdomain,
-              id: `${page.characterId}-${page.noteId}`,
+            return deletePage.mutate({
+              noteId: page.noteId,
               characterId: page.characterId,
             })
           }
