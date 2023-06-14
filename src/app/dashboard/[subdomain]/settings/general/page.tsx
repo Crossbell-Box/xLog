@@ -49,9 +49,9 @@ export default function SiteSettingsGeneralPage() {
 
   const handleSubmit = form.handleSubmit((values) => {
     updateSite.mutate({
+      characterId: site.data?.characterId,
       icon: values.icon,
       banner: values.banner,
-      site: subdomain,
       name: values.name,
       site_name: values.site_name,
       description: values.description,
@@ -63,11 +63,7 @@ export default function SiteSettingsGeneralPage() {
 
   useEffect(() => {
     if (updateSite.isSuccess) {
-      if (updateSite.data?.code === 0) {
-        toast.success("Site updated")
-      } else {
-        toast.error("Failed to update site" + ": " + updateSite.data.message)
-      }
+      toast.success("Site updated")
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
     }

@@ -6,8 +6,11 @@ import {
   useFollowCharacters,
   useTip,
   useUnfollowCharacter,
+  useUpdateCharacterHandle,
+  useUpdateCharacterMetadata,
 } from "@crossbell/connect-kit"
 import { useContract } from "@crossbell/contract"
+import { useRefCallback } from "@crossbell/util-hooks"
 import {
   useInfiniteQuery,
   useMutation,
@@ -15,9 +18,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 
+import { SiteNavigationItem } from "~/lib/types"
 import * as siteModel from "~/models/site.model"
-
-import { useUnidata } from "./unidata"
 
 export const useGetSite = (input?: string) => {
   return useQuery(["getSite", input], async () => {
@@ -86,21 +88,208 @@ export const useGetSiteToSubscriptions = (data: { characterId?: number }) => {
   })
 }
 
-export function useUpdateSite() {
-  const newbieToken = useAccountState((s) => s.email?.token)
-  const unidata = useUnidata()
+export function useUpdateHandle() {
   const queryClient = useQueryClient()
-  const mutation = useMutation(
-    async (payload: Parameters<typeof siteModel.updateSite>[0]) => {
-      return siteModel.updateSite(payload, unidata, newbieToken)
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getSite"])
-      },
+  const { mutateAsync: _, ...updateCharacterHandle } =
+    useUpdateCharacterHandle()
+
+  const mutate = useRefCallback(
+    (input: { characterId?: number; handle?: string }) => {
+      if (!input.characterId || !input.handle) {
+        throw new Error("characterId and handle are required")
+      }
+
+      return updateCharacterHandle.mutate(
+        {
+          characterId: input.characterId,
+          handle: input.handle,
+        },
+        {
+          onSuccess: (data, variables) => {
+            queryClient.invalidateQueries(["getSite"])
+          },
+        },
+      )
     },
   )
-  return mutation
+
+  return {
+    ...updateCharacterHandle,
+    mutate,
+  }
+}
+
+export function useUpdateSite() {
+  const queryClient = useQueryClient()
+  const { mutateAsync: _, ...updateCharacterMetadata } =
+    useUpdateCharacterMetadata()
+
+  const mutate = useRefCallback(
+    (input: {
+      characterId?: number
+      name?: string
+      site_name?: string
+      description?: string
+      icon?: string
+      navigation?: SiteNavigationItem[]
+      css?: string
+      ga?: string
+      ua?: string
+      uh?: string
+      custom_domain?: string
+      banner?: {
+        address: string
+        mime_type: string
+      }
+      connected_accounts?: {
+        identity: string
+        platform: string
+        url?: string | undefined
+      }[]
+    }) => {
+      if (!input.characterId) {
+        throw new Error("characterId are required")
+      }
+
+      return updateCharacterMetadata.mutate(
+        {
+          characterId: input.characterId,
+          edit(metadataDraft) {
+            if (input.name !== undefined) {
+              metadataDraft.name = input.name
+            }
+            if (input.description !== undefined) {
+              metadataDraft.bio = input.description
+            }
+            if (input.icon !== undefined) {
+              metadataDraft.avatars = [input.icon]
+            }
+            if (input.banner !== undefined) {
+              metadataDraft.banners = [input.banner]
+            }
+            if (input.connected_accounts !== undefined) {
+              metadataDraft.connected_accounts = input.connected_accounts.map(
+                (account) => {
+                  if (account.identity && account.platform) {
+                    return `csb://account:${
+                      account.identity
+                    }@${account.platform.toLowerCase()}`
+                  } else if (typeof account === "string") {
+                    return account
+                  } else {
+                    return ""
+                  }
+                },
+              )
+            }
+
+            // attributes
+            if (input.navigation !== undefined) {
+              const navigation = metadataDraft.attributes?.find(
+                (attr) => attr.trait_type === "xlog_navigation",
+              )
+              if (navigation) {
+                navigation.value = JSON.stringify(input.navigation)
+              } else {
+                metadataDraft.attributes?.push({
+                  trait_type: "xlog_navigation",
+                  value: JSON.stringify(input.navigation),
+                })
+              }
+            }
+            if (input.css !== undefined) {
+              const css = metadataDraft.attributes?.find(
+                (attr) => attr.trait_type === "xlog_css",
+              )
+              if (css) {
+                css.value = input.css
+              } else {
+                metadataDraft.attributes?.push({
+                  trait_type: "xlog_css",
+                  value: input.css,
+                })
+              }
+            }
+            if (input.ga !== undefined) {
+              const ga = metadataDraft.attributes?.find(
+                (attr) => attr.trait_type === "xlog_ga",
+              )
+              if (ga) {
+                ga.value = input.ga
+              } else {
+                metadataDraft.attributes?.push({
+                  trait_type: "xlog_ga",
+                  value: input.ga,
+                })
+              }
+            }
+            if (input.ua !== undefined) {
+              const ua = metadataDraft.attributes?.find(
+                (attr) => attr.trait_type === "xlog_ua",
+              )
+              if (ua) {
+                ua.value = input.ua
+              } else {
+                metadataDraft.attributes?.push({
+                  trait_type: "xlog_ua",
+                  value: input.ua,
+                })
+              }
+            }
+            if (input.uh !== undefined) {
+              const uh = metadataDraft.attributes?.find(
+                (attr) => attr.trait_type === "xlog_uh",
+              )
+              if (uh) {
+                uh.value = input.uh
+              } else {
+                metadataDraft.attributes?.push({
+                  trait_type: "xlog_uh",
+                  value: input.uh,
+                })
+              }
+            }
+            if (input.custom_domain !== undefined) {
+              const custom_domain = metadataDraft.attributes?.find(
+                (attr) => attr.trait_type === "xlog_custom_domain",
+              )
+              if (custom_domain) {
+                custom_domain.value = input.custom_domain
+              } else {
+                metadataDraft.attributes?.push({
+                  trait_type: "xlog_custom_domain",
+                  value: input.custom_domain,
+                })
+              }
+            }
+            if (input.site_name !== undefined) {
+              const site_name = metadataDraft.attributes?.find(
+                (attr) => attr.trait_type === "xlog_site_name",
+              )
+              if (site_name) {
+                site_name.value = input.site_name
+              } else {
+                metadataDraft.attributes?.push({
+                  trait_type: "xlog_site_name",
+                  value: input.site_name,
+                })
+              }
+            }
+          },
+        },
+        {
+          onSuccess: (data, variables) => {
+            queryClient.invalidateQueries(["getSite"])
+          },
+        },
+      )
+    },
+  )
+
+  return {
+    ...updateCharacterMetadata,
+    mutate,
+  }
 }
 
 export function useSubscribeToSite() {

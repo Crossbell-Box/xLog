@@ -116,7 +116,7 @@ export default function SiteSettingsNavigationPage() {
     e.preventDefault()
     if (site.data?.handle) {
       updateSite.mutate({
-        site: site.data?.handle,
+        characterId: site.data?.characterId,
         connected_accounts: items.map(({ id, ...item }) => item),
       })
     }
@@ -124,11 +124,7 @@ export default function SiteSettingsNavigationPage() {
 
   useEffect(() => {
     if (updateSite.isSuccess) {
-      if (updateSite.data?.code === 0) {
-        toast.success("Saved")
-      } else {
-        toast.error("Failed to save" + ": " + updateSite.data.message)
-      }
+      toast.success("Saved")
     } else if (updateSite.isError) {
       toast.error("Failed to save")
     }

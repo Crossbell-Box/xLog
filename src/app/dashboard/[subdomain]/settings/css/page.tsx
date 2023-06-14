@@ -23,20 +23,18 @@ export default function SettingsCSSPage() {
   const handleSubmit = (e: any) => {
     e.preventDefault()
     updateSite.mutate({
-      site: subdomain,
+      characterId: site.data?.characterId,
       css: css,
     })
   }
 
   useEffect(() => {
     if (updateSite.isSuccess) {
-      if (updateSite.data?.code === 0) {
-        toast.success("Saved!")
-      } else {
-        toast.error("Failed to update site" + ": " + updateSite.data.message)
-      }
+      toast.success("Saved!")
+      updateSite.reset()
     } else if (updateSite.isError) {
       toast.error("Failed to update site")
+      updateSite.reset()
     }
   }, [updateSite.isSuccess, updateSite.isError])
 

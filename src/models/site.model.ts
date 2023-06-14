@@ -1,12 +1,10 @@
 import { CharacterOperatorPermission } from "crossbell"
-import type Unidata from "unidata.js"
 import type { Address } from "viem"
 
 import type { useContract } from "@crossbell/contract"
 import { indexer } from "@crossbell/indexer"
 
 import { expandCrossbellCharacter } from "~/lib/expand-unit"
-import { SiteNavigationItem } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 type Contract = ReturnType<typeof useContract>
@@ -89,124 +87,6 @@ export const getSiteToSubscriptions = async (data: {
     linkType: "follow",
     cursor: data.cursor,
   })
-}
-
-export async function updateSite(
-  payload: {
-    site: string
-    name?: string
-    site_name?: string
-    description?: string
-    icon?: string | null
-    subdomain?: string
-    navigation?: SiteNavigationItem[]
-    css?: string
-    ga?: string
-    ua?: string
-    uh?: string
-    custom_domain?: string
-    banner?: {
-      address: string
-      mime_type: string
-    }
-    connected_accounts?: {
-      identity: string
-      platform: string
-      url?: string | undefined
-    }[]
-  },
-  customUnidata?: Unidata,
-  newbieToken?: string,
-) {
-  const { default: unidata } = await import("~/queries/unidata.server")
-
-  return await (customUnidata || unidata).profiles.set(
-    {
-      source: "Crossbell Profile",
-      identity: payload.site,
-      platform: "Crossbell",
-      action: "update",
-    },
-    {
-      ...(payload.name && { name: payload.name }),
-      ...(payload.description && { bio: payload.description }),
-      ...(payload.icon && { avatars: [payload.icon] }),
-      ...(payload.banner && { banners: [payload.banner] }),
-      ...(payload.subdomain && { username: payload.subdomain }),
-      ...(payload.connected_accounts && {
-        connected_accounts: payload.connected_accounts,
-      }),
-      ...((payload.navigation !== undefined ||
-        payload.css !== undefined ||
-        payload.ga !== undefined ||
-        payload.ua !== undefined ||
-        payload.uh !== undefined ||
-        payload.custom_domain !== undefined) && {
-        attributes: [
-          ...(payload.navigation !== undefined
-            ? [
-                {
-                  trait_type: "xlog_navigation",
-                  value: JSON.stringify(payload.navigation),
-                },
-              ]
-            : []),
-          ...(payload.css !== undefined
-            ? [
-                {
-                  trait_type: "xlog_css",
-                  value: payload.css,
-                },
-              ]
-            : []),
-          ...(payload.ga !== undefined
-            ? [
-                {
-                  trait_type: "xlog_ga",
-                  value: payload.ga,
-                },
-              ]
-            : []),
-          ...(payload.ua !== undefined
-            ? [
-                {
-                  trait_type: "xlog_ua",
-                  value: payload.ua,
-                },
-              ]
-            : []),
-          ...(payload.uh !== undefined
-            ? [
-                {
-                  trait_type: "xlog_uh",
-                  value: payload.uh,
-                },
-              ]
-            : []),
-          ...(payload.custom_domain !== undefined
-            ? [
-                {
-                  trait_type: "xlog_custom_domain",
-                  value: payload.custom_domain,
-                },
-              ]
-            : []),
-          ...(payload.site_name !== undefined &&
-          payload.site_name !== payload.name
-            ? [
-                {
-                  trait_type: "xlog_site_name",
-                  value: payload.site_name,
-                },
-              ]
-            : []),
-        ],
-      }),
-    },
-    {
-      newbieToken,
-    },
-  )
 }
 
 export async function getCommentsBySite(input: {

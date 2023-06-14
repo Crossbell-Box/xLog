@@ -20,13 +20,14 @@ import { OUR_DOMAIN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { checkDomain } from "~/models/site.model"
-import { useGetSite, useUpdateSite } from "~/queries/site"
+import { useGetSite, useUpdateHandle, useUpdateSite } from "~/queries/site"
 
 export default function SettingsDomainsPage() {
   const params = useParams()
   const subdomain = params?.subdomain as string
 
   const updateSite = useUpdateSite()
+  const updateHandle = useUpdateHandle()
   const site = useGetSite(subdomain)
   const userRole = useUserRole(subdomain)
   const { t } = useTranslation("dashboard")
@@ -45,14 +46,18 @@ export default function SettingsDomainsPage() {
   })
 
   const handleSubmit = form.handleSubmit((values) => {
-    updateSite.mutate({
-      site: subdomain,
-      ...(subdomain !== values.subdomain && { subdomain: values.subdomain }),
-      ...(site.data?.metadata?.content?.custom_domain !==
-        values.custom_domain && {
+    if (site.data?.metadata?.content?.custom_domain !== values.custom_domain) {
+      updateSite.mutate({
+        characterId: site.data?.characterId,
         custom_domain: values.custom_domain,
-      }),
-    })
+      })
+    }
+    if (subdomain !== values.subdomain) {
+      updateHandle.mutate({
+        characterId: site.data?.characterId,
+        handle: values.subdomain,
+      })
+    }
   })
 
   const [customDomain, setCustomDomain] = useState("")
@@ -66,26 +71,29 @@ export default function SettingsDomainsPage() {
   const customSubdomain = customDomain?.split(".").slice(0, -2).join(".") || ""
 
   useEffect(() => {
-    if (updateSite.isSuccess) {
-      if (updateSite.data?.code === 0) {
+    if (!updateSite.isLoading && !updateHandle.isLoading) {
+      if (updateSite.isError || updateHandle.isError) {
+        toast.error("Failed to update site")
+      } else if (updateSite.isSuccess || updateHandle.isSuccess) {
         toast.success("Saved!")
-        useAccountState
-          .getState()
-          .refresh()
-          .then(() => {
-            router.replace(
-              `/dashboard/${
-                updateSite.variables?.subdomain || updateSite.variables?.site
-              }/settings/domains`,
-            )
-          })
-      } else {
-        toast.error("Failed to update site" + ": " + updateSite.data.message)
+        if (updateHandle.isSuccess) {
+          useAccountState
+            .getState()
+            .refresh()
+            .then(() => {
+              router.replace(
+                `/dashboard/${updateHandle.variables?.handle}/settings/domains`,
+              )
+            })
+        }
       }
-    } else if (updateSite.isError) {
-      toast.error("Failed to update site")
     }
-  }, [updateSite.isSuccess])
+  }, [
+    updateSite.isSuccess,
+    updateSite.isLoading,
+    updateHandle.isSuccess,
+    updateHandle.isLoading,
+  ])
 
   const [domainCheckResult, setDomainCheckResult] = useState<{
     isLoading: boolean
