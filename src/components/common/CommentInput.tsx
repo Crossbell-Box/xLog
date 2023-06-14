@@ -184,6 +184,8 @@ export const CommentInput = ({
     }
   }
 
+  const id = `anonymous-${characterId}-${noteId}`
+
   return (
     <div className="xlog-comment-input flex">
       <Avatar
@@ -248,14 +250,14 @@ export const CommentInput = ({
                 <div className="mr-2 sm:mr-6 flex items-center">
                   <input
                     type="checkbox"
-                    id="anonymous"
-                    name="anonymous"
+                    id={id}
+                    name={id}
                     checked={anonymous}
                     onChange={(e) => setAnonymous(e.target.checked)}
                   />
                   <label
                     className="text-gray-500 pl-1 inline-flex items-center"
-                    htmlFor="anonymous"
+                    htmlFor={id}
                   >
                     {t("Comment Without Login")}
                     <Tooltip
