@@ -196,16 +196,6 @@ export async function removeOperator(
   }
 }
 
-export async function getNFTs(address: string) {
-  const { default: unidata } = await import("~/queries/unidata.server")
-
-  const assets = await unidata.assets.get({
-    source: "Ethereum NFT",
-    identity: address,
-  })
-  return assets
-}
-
 export async function getStat({ characterId }: { characterId: number }) {
   if (characterId) {
     const [stat, site, subscriptions, comments, notes] = await Promise.all([

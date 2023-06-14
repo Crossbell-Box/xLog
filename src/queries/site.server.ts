@@ -9,6 +9,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 import { cacheGet, getRedis } from "~/lib/redis.server"
 import { ExpandedCharacter } from "~/lib/types"
 import * as siteModel from "~/models/site.model"
+import unidata from "~/queries/unidata.server"
 
 export const prefetchGetSite = async (
   input: string,
@@ -113,6 +114,10 @@ export const getNFTs = async (address?: string) => {
   const redis = await getRedis()
   const redisKey = `nfts/${address}`
 
+  if (!address) {
+    return null
+  }
+
   let cache
   try {
     cache = await redis?.get(redisKey)
@@ -120,7 +125,10 @@ export const getNFTs = async (address?: string) => {
   if (cache) {
     return JSON.parse(cache)
   } else {
-    const result = await siteModel.getNFTs(address as string)
+    const result = await unidata.assets.get({
+      source: "Ethereum NFT",
+      identity: address,
+    })
     await Promise.all(
       result.list.map(async (nft: Asset) => {
         if (!nft.items?.[0].mime_type && nft.items?.[0]?.address) {
