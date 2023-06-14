@@ -58,8 +58,8 @@ import { Rendered, renderPageContent } from "~/markdown"
 import { checkPageSlug } from "~/models/page.model"
 import {
   useCreateOrUpdatePage,
+  useGetDistinctNoteTagsOfCharacter,
   useGetPage,
-  useGetPagesBySiteLite,
 } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
@@ -119,29 +119,7 @@ export default function SubdomainEditor() {
     handle: subdomain,
   })
 
-  const { data: posts = { pages: [] } } = useGetPagesBySiteLite({
-    characterId: site.data?.characterId,
-    limit: 100,
-    type: "post",
-    visibility: PageVisibilityEnum.Published,
-  })
-
-  const userTags = useMemo(() => {
-    const result = new Set<string>()
-
-    if (posts?.pages?.length) {
-      for (const page of posts.pages) {
-        for (const post of page.list) {
-          post.metadata?.content?.tags?.forEach((tag) => {
-            if (tag !== "post" && tag !== "page") {
-              result.add(tag)
-            }
-          })
-        }
-      }
-    }
-    return Array.from(result)
-  }, [posts.pages])
+  const userTags = useGetDistinctNoteTagsOfCharacter(site.data?.characterId)
 
   const [visibility, setVisibility] = useState<PageVisibilityEnum>()
 
@@ -476,7 +454,7 @@ export default function SubdomainEditor() {
       updateValue={updateValue}
       isPost={isPost}
       subdomain={subdomain}
-      userTags={userTags}
+      userTags={userTags.data?.list || []}
       openAdvancedOptions={() => setIsAdvancedOptionsOpen(true)}
     />
   )
@@ -655,7 +633,7 @@ export default function SubdomainEditor() {
                   defaultSlug={defaultSlug}
                   updateValue={updateValue}
                   isPost={isPost}
-                  userTags={userTags}
+                  userTags={userTags.data?.list || []}
                   subdomain={subdomain}
                   openAdvancedOptions={() => setIsAdvancedOptionsOpen(true)}
                 />

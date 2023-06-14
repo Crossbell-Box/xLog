@@ -812,3 +812,14 @@ export async function checkMirror(characterId: number) {
 
   return notes.count === 0
 }
+
+export const getDistinctNoteTagsOfCharacter = async (characterId: number) => {
+  const result = await indexer.note.getDistinctTagsOfCharacter(characterId, {
+    sources: "xlog",
+  })
+  result.list = result.list.filter(
+    (tag) => ["post", "comment", "page"].findIndex((t) => t === tag) === -1,
+  )
+
+  return result
+}

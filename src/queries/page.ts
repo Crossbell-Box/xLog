@@ -475,3 +475,14 @@ export const useReportStats = (
     },
   )
 }
+
+export const useGetDistinctNoteTagsOfCharacter = (characterId?: number) => {
+  return useQuery(["getDistinctNoteTagsOfCharacter", characterId], async () => {
+    if (!characterId) {
+      return {
+        list: [],
+      }
+    }
+    return pageModel.getDistinctNoteTagsOfCharacter(characterId)
+  })
+}
