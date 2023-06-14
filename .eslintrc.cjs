@@ -1,5 +1,9 @@
 module.exports = {
-  extends: ["next/core-web-vitals", "plugin:import/recommended", "plugin:react/recommended"],
+  extends: [
+    "next/core-web-vitals",
+    "plugin:import/recommended",
+    "plugin:react/recommended",
+  ],
   root: true,
   settings: {
     "import/resolver": {
@@ -13,7 +17,8 @@ module.exports = {
     "import/no-anonymous-default-export": "off",
     "import/no-named-as-default": "off",
     "react/react-in-jsx-scope": "off",
-    "react-hooks/exhaustive-deps": "off",
+    "react-hooks/exhaustive-deps":
+      process.env.NODE_ENV === "production" ? "off" : "warn",
     "import/no-named-as-default-member": "off",
   },
 }

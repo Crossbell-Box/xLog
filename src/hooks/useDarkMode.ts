@@ -31,7 +31,7 @@ interface DarkModeConfig {
   classNameLight?: string // A className to set "light mode". Default = "light".
   element?: HTMLElement | undefined | null // The element to apply the className. Default = `document.body`.
   storageKey?: string // Specify the `localStorage` key. Default = "darkMode". set to `undefined` to disable persistent storage.
-  transition?: any // Specify the `animate` when switching the mode. Only Chromium >= 111 etc.
+  transition?: ViewTransition | undefined // Specify the `animate` when switching the mode. Only Chromium >= 111 etc.
 }
 
 const darkModeKey = "darkMode"
@@ -117,17 +117,17 @@ const useDarkModeInternal = (
     if (isServerSide() || typeof darkMode === "undefined") {
       return
     }
+    const $document = element || document.documentElement
     const setDarkModeClass = () => {
       if (darkMode) {
-        $el.classList.remove(classNameLight)
-        $el.classList.add(classNameDark)
+        $document.classList.remove(classNameLight)
+        $document.classList.add(classNameDark)
       } else {
-        $el.classList.remove(classNameDark)
-        $el.classList.add(classNameLight)
+        $document.classList.remove(classNameDark)
+        $document.classList.add(classNameLight)
       }
     }
 
-    const $el = element || document.documentElement
     const { x, y } = mousePosition
     const endRadius = Math.hypot(
       Math.max(x, innerWidth - x),
@@ -140,7 +140,7 @@ const useDarkModeInternal = (
         `circle(0px at ${x}px ${y}px)`,
         `circle(${endRadius}px at ${x}px ${y}px)`,
       ]
-      $el.animate(
+      $document.animate(
         {
           clipPath: !darkMode ? clipPath : [...clipPath].reverse(),
         },
