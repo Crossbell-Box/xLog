@@ -209,10 +209,10 @@ export const CommentInput = ({
           />
         </div>
         <div className="flex justify-between">
-          <Popover className="relative flex justify-center">
+          <Popover className="relative justify-center">
             {({ open }: { open: boolean }) => (
               <>
-                <Popover.Button className="group inline-flex items-center rounded-md px-2 text-xl text-zinc-400 hover:text-zinc-500">
+                <Popover.Button className="group items-center rounded-md px-2 text-xl text-zinc-400 hover:text-zinc-500 hidden sm:inline-flex">
                   <span className="icon-[mingcute--emoji-2-line] text-2xl"></span>
                 </Popover.Button>
                 <Popover.Panel className="absolute left-0 top-full z-10">
@@ -245,7 +245,7 @@ export const CommentInput = ({
           <div className="flex items-center relative">
             {!account && (
               <div>
-                <div className="mr-6 flex items-center">
+                <div className="mr-2 sm:mr-6 flex items-center">
                   <input
                     type="checkbox"
                     id="anonymous"
@@ -262,8 +262,9 @@ export const CommentInput = ({
                       label={t(
                         "You'll use an official public account for comments and give up blockchain ownership",
                       )}
+                      childrenClassName="hidden sm:inline-flex ml-1"
                     >
-                      <i className="icon-[mingcute--question-line] ml-1" />
+                      <i className="icon-[mingcute--question-line]" />
                     </Tooltip>
                   </label>
                 </div>
