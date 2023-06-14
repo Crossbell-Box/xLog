@@ -16,6 +16,7 @@ import { Annotation } from "@codemirror/state"
 import { EditorView, KeyBinding, ViewUpdate } from "@codemirror/view"
 import { tags } from "@lezer/highlight"
 
+import { mentionAutocompletion } from "~/editor/mention-autocompletion"
 import {
   monospaceFonts,
   useCodeMirrorAutoToggleTheme,
@@ -231,6 +232,7 @@ const LazyCodeMirrorEditor = forwardRef<
             },
           }),
           EditorView.lineWrapping,
+          mentionAutocompletion(),
         ],
       })
 
