@@ -53,7 +53,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
   const pages = useGetPagesBySite({
     type: isPost ? "post" : "page",
     characterId: site.data?.characterId,
-    limit: 100,
+    limit: 20,
     visibility,
     handle: subdomain,
   })
