@@ -13,6 +13,7 @@ const Style = ({
 }) => {
   const cssStateTs = useRef(new Date(0))
   const [css, setCss] = useState("")
+  const isPreviewingCSS = useRef(false)
 
   // Init CSS
   const initCss = () => {
@@ -26,26 +27,31 @@ const Style = ({
   }
 
   // Preview CSS
-  const previewCSSChannel = new BroadcastChannel("previewCSS")
-  previewCSSChannel.onmessage = (msg) => {
-    if (msg.data.ts > cssStateTs.current) {
-      cssStateTs.current = msg.data.ts
-      if (msg.data.css) {
-        setCss(msg.data.css)
-      } else {
-        initCss()
+  useEffect(() => {
+    const previewCSSChannel = new BroadcastChannel("previewCSS")
+    previewCSSChannel.onmessage = (msg) => {
+      if (msg.data.type === "update" && msg.data.ts > cssStateTs.current) {
+        isPreviewingCSS.current = true
+        cssStateTs.current = msg.data.ts
+        if (msg.data.css) {
+          setCss(msg.data.css)
+        } else {
+          initCss()
+        }
       }
     }
-  }
 
-  // Preview CSS init
-  const previewInitChannel = new BroadcastChannel("cssState")
+    // Query for preview
+    previewCSSChannel.postMessage({
+      type: "fetch",
+    })
+  }, [])
 
   // Set CSS
   useEffect(() => {
-    initCss()
-    // Query for preview
-    previewInitChannel.postMessage({})
+    if (!isPreviewingCSS.current) {
+      initCss()
+    }
   }, [content, children])
 
   return (

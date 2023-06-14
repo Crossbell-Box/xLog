@@ -51,16 +51,15 @@ export default function SettingsCSSPage() {
   const [isPreviewingCSS, setIsPreviewingCSS] = useState(false)
   const cssStateTs = useRef(new Date(0))
 
-  // Preview CSS content channel
-  const previewCSSChannel = new BroadcastChannel("previewCSS")
-
   // Broadcast current CSS
+  const previewCSSChannel = useRef<BroadcastChannel | null>(null)
   const broadcastCSS = (css: string) => {
     const msg = {
+      type: "update",
       ts: cssStateTs.current,
       css,
     }
-    previewCSSChannel.postMessage(msg)
+    previewCSSChannel.current?.postMessage(msg)
   }
 
   const doPreview = () => {
@@ -74,13 +73,15 @@ export default function SettingsCSSPage() {
   }
 
   // Preview CSS init
-  const previewInitChannel = new BroadcastChannel("cssState")
-  previewInitChannel.onmessage = (msg) => {
-    // Broadcast current previewing CSS
-    if (isPreviewingCSS) {
-      broadcastCSS(css)
+  useEffect(() => {
+    previewCSSChannel.current = new BroadcastChannel("previewCSS")
+    previewCSSChannel.current.onmessage = (msg) => {
+      // Broadcast current previewing CSS
+      if (msg.data.type === "fetch" && isPreviewingCSS) {
+        broadcastCSS(css)
+      }
     }
-  }
+  }, [])
 
   const doReset = () => {
     // Broadcast revoke css
