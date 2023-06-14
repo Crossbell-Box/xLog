@@ -61,14 +61,16 @@ export default function PostList({
             isLoading={posts.isFetchingNextPage}
             aria-label="load more"
           >
-            {t("load more", {
-              ns: "site",
-              name: t(
-                "post" +
-                  (posts.data?.pages[0].count - currentLength > 1 ? "s" : ""),
-              ),
-              count: posts.data?.pages[0].count - currentLength,
-            })}
+            <span className="align-middle">
+              {t("load more", {
+                ns: "site",
+                name: t(
+                  "post" +
+                    (posts.data?.pages[0].count - currentLength > 1 ? "s" : ""),
+                ),
+                count: posts.data?.pages[0].count - currentLength,
+              })}
+            </span>
           </Button>
         </div>
       )}
