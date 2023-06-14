@@ -43,7 +43,7 @@ import {
 } from "~/hooks/useEdtiorState"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
-import { useSyncOnce } from "~/hooks/useSyncOnce"
+import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { showConfetti } from "~/lib/confetti"
 import { getDefaultSlug } from "~/lib/default-slug"
@@ -154,7 +154,7 @@ export default function SubdomainEditor() {
   const uploadFile = useUploadFile()
 
   // reset editor state when page changes
-  useSyncOnce(() => {
+  useBeforeMounted(() => {
     useEditorState.setState(initialEditorState)
   })
 
