@@ -25,7 +25,11 @@ export const UniLink = ({
   }
 
   if (!href) {
-    return <span className={className}>{children}</span>
+    return (
+      <span className={className} {...props}>
+        {children}
+      </span>
+    )
   }
 
   const isExternal =
