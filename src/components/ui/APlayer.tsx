@@ -42,7 +42,7 @@ const APlayer = memo(function APlayer({
   }
 
   const addToList = () => {
-    return siteAPlayer.list.add([audioInfo])
+    return siteAPlayer.list.add(audioInfo)
   }
 
   const playNow = () => {
