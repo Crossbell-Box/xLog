@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
+import { SitePlayerContainer } from "~/components/common/SitePlayer"
 import Style from "~/components/common/Style"
 import { BackToTopFAB } from "~/components/site/BackToTopFAB"
 import SiteFooter from "~/components/site/SiteFooter"
@@ -208,6 +209,8 @@ export default async function SiteLayout({
           <BackToTopFAB />
         </FABContainer>
       </div>
+
+      <SitePlayerContainer />
     </Hydrate>
   )
 }
