@@ -47,7 +47,7 @@ const APlayer = memo(function APlayer({
 
   const playNow = () => {
     addToList()
-    siteAPlayer.skipForward()
+    siteAPlayer.list.switch(siteAPlayer.list.audios.length - 1)
     siteAPlayer.play()
   }
 
