@@ -119,9 +119,6 @@ dependencies:
   aplayer:
     specifier: ^1.10.1
     version: 1.10.1
-  aplayer-react:
-    specifier: 1.4.0
-    version: 1.4.0(react@18.2.0)
   async-lock:
     specifier: 1.4.0
     version: 1.4.0
@@ -5671,17 +5668,6 @@ packages:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
-
-  /aplayer-react@1.4.0(react@18.2.0):
-    resolution: {integrity: sha512-gYEWk1ynBSdF7qjMCo1wl2itg595iVj5jdo0Ewep9RhX7aHxdCykwp22t/cwce+KSQ6BAXg4JhUPCsm1oopiLw==}
-    peerDependencies:
-      react: ^18.2.0
-    dependencies:
-      clsx: 1.2.1
-      fast-average-color: 9.3.0
-      react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
-    dev: false
 
   /aplayer@1.10.1:
     resolution: {integrity: sha512-HAfyxgCUTLAqtYlxzzK9Fyqg6y+kZ9CqT1WfeWE8FSzwspT6oBqWOZHANPHF3RGTtC33IsyEgrfthPDzU5r9kQ==}
