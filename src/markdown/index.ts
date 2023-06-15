@@ -46,7 +46,6 @@ import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
 import { remarkCallout } from "./remark-callout"
 import { remarkMermaid } from "./remark-mermaid"
-import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 
@@ -124,7 +123,6 @@ export const renderPageContent = (
       .use(remarkMath, {
         singleDollarTextMath: false,
       })
-      .use(remarkPangu)
       .use(() => (tree) => {
         env.toc = toc(tree, { tight: true, ordered: true })
       })
