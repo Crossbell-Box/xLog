@@ -9,11 +9,7 @@ const withPWA = require("@ducanh2912/next-pwa").default({
   disable: process.env.NODE_ENV === "development",
   dest: "public",
   publicExcludes: ["*"],
-  buildExcludes: [
-    /\.map$/,
-    /^manifest.*\.js$/,
-    /^\/_next\/static\/chunks\/app\/dashboard/,
-  ],
+  buildExcludes: [/./],
   extendDefaultRuntimeCaching: true,
   workboxOptions: {
     runtimeCaching: [
