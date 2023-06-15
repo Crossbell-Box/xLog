@@ -12,7 +12,6 @@ import { GeneralAccount } from "@crossbell/connect-kit"
 import { indexer } from "@crossbell/indexer"
 
 import { expandCrossbellNote } from "~/lib/expand-unit"
-import { notFound } from "~/lib/server-side-props"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
@@ -449,10 +448,6 @@ export async function getPage<TRender extends boolean = false>(input: {
     }
   }
 
-  if (!expandedNote && !mustLocal) {
-    throw notFound(`page ${input.slug} not found`)
-  }
-
   return expandedNote
 }
 
@@ -496,9 +491,7 @@ export async function checkLike({
   characterId: number
   noteId: number
 }) {
-  if (!account.characterId) {
-    throw notFound(`character not found`)
-  } else {
+  if (account.characterId) {
     return indexer.link.getMany(account.characterId, {
       linkType: "like",
       toCharacterId: characterId,
