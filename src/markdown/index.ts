@@ -50,17 +50,6 @@ import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 
-const Style = dynamic(() => import("~/components/common/Style"))
-const Mention = dynamic(() => import("~/components/ui/Mention"))
-const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
-const Tweet = dynamic(() => import("~/components/ui/Tweet"))
-const GithubRepo = dynamic(() => import("~/components/ui/GithubRepo"))
-const APlayer = dynamic(() => import("~/components/ui/APlayer"))
-
-const DPlayer = dynamic(() => import("~/components/ui/DPlayer"), {
-  ssr: false,
-})
-
 export type MarkdownEnv = {
   excerpt: string
   frontMatter: Record<string, any>
@@ -224,6 +213,17 @@ export const renderPageContent = (
       .use(rehypeKatex)
 
     if (!html) {
+      const Style = dynamic(() => import("~/components/common/Style"))
+      const Mention = dynamic(() => import("~/components/ui/Mention"))
+      const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
+      const Tweet = dynamic(() => import("~/components/ui/Tweet"))
+      const GithubRepo = dynamic(() => import("~/components/ui/GithubRepo"))
+      const APlayer = dynamic(() => import("~/components/ui/APlayer"))
+
+      const DPlayer = dynamic(() => import("~/components/ui/DPlayer"), {
+        ssr: false,
+      })
+
       pipeline.use(rehypeReact, {
         createElement: createElement,
         components: {
