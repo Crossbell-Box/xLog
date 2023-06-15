@@ -9,7 +9,7 @@ import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetComments } from "~/queries/page"
 
-export const Comment = ({
+const Comment = ({
   page,
   className,
 }: {
@@ -90,3 +90,5 @@ const Loader = () => {
     </div>
   )
 }
+
+export default Comment
