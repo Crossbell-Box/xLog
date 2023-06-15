@@ -4,6 +4,8 @@ import Image from "next/image"
 import { memo } from "react"
 
 import { useAPlayer } from "~/components/common/SitePlayer"
+import { Tooltip } from "~/components/ui/Tooltip"
+import { useTranslation } from "~/lib/i18n/client"
 import { toGateway } from "~/lib/ipfs-parser"
 
 const APlayer = memo(function APlayer({
@@ -22,6 +24,7 @@ const APlayer = memo(function APlayer({
   lrc?: string
 } & React.AudioHTMLAttributes<HTMLAudioElement>) {
   const siteAPlayer = useAPlayer()
+  const { t } = useTranslation("common")
 
   if (!src) return null
 
@@ -80,22 +83,26 @@ const APlayer = memo(function APlayer({
       <div className="flex flex-row items-center mr-4 gap-3">
         {/*Play Now*/}
         <div>
-          <button
-            onClick={playNow}
-            className="p-2 rounded-full bg-accent opacity-90 hover:opacity-100 transition-opacity"
-          >
-            <i className="icon-[mingcute--play-fill] block text-4xl text-white" />
-          </button>
+          <Tooltip label={t("Play")}>
+            <button
+              onClick={playNow}
+              className="p-2 rounded-full bg-accent opacity-90 hover:opacity-100 transition-opacity"
+            >
+              <i className="icon-[mingcute--play-fill] block text-4xl text-white" />
+            </button>
+          </Tooltip>
         </div>
 
         {/*Add to playlist*/}
         <div>
-          <button
-            onClick={addToList}
-            className="p-2 rounded-full bg-gray-50 hover:bg-gray-100"
-          >
-            <i className="icon-[mingcute--calendar-add-line] block text-2xl" />
-          </button>
+          <Tooltip label={t("Add to playlist")}>
+            <button
+              onClick={addToList}
+              className="p-2 rounded-full bg-gray-50 hover:bg-gray-100"
+            >
+              <i className="icon-[mingcute--calendar-add-line] block text-2xl" />
+            </button>
+          </Tooltip>
         </div>
       </div>
     </div>
