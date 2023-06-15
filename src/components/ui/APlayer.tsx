@@ -1,12 +1,11 @@
 "use client"
 
-import { APlayer as AplayerReact } from "aplayer-react"
 import "aplayer-react/dist/index.css"
 import { memo } from "react"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
-const APlayer = memo(function APlayer({
+const APlayer = memo(async function APlayer({
   src,
   name,
   artist,
@@ -30,6 +29,8 @@ const APlayer = memo(function APlayer({
   if (name) {
     name = name.replace(/^user-content-/, "")
   }
+
+  const { APlayer: AplayerReact } = await import("aplayer-react")
 
   return (
     <AplayerReact
