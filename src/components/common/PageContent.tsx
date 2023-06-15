@@ -1,15 +1,12 @@
-"use client"
-
-import { MutableRefObject, useEffect, useMemo } from "react"
+import { type MutableRefObject } from "react"
 
 import { PostActions } from "~/components/site/PostActions"
 import { PostToc } from "~/components/site/PostToc"
-import { useCodeCopy } from "~/hooks/useCodeCopy"
-import { useHash } from "~/hooks/useHash"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
-import { cn, scrollTo } from "~/lib/utils"
+import { cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
-import { useReportStats } from "~/queries/page"
+
+import { PageContentContainer } from "./PageContentContainer"
 
 export const PageContent = ({
   className,
@@ -36,40 +33,26 @@ export const PageContent = ({
   site?: ExpandedCharacter
   withActions?: boolean
 }) => {
-  useCodeCopy()
-
-  const inParsedContent = useMemo(() => {
-    if (parsedContent) {
-      return parsedContent
-    } else if (content) {
-      const result = renderPageContent(content, false, isComment)
-      return result
-    } else {
-      return null
-    }
-  }, [content, isComment, parsedContent])
-
-  const hash = useHash()
-  useEffect(() => {
-    scrollTo(hash)
-  }, [hash])
-
-  useReportStats({
-    characterId: page?.characterId,
-    noteId: page?.noteId,
-  })
+  let inParsedContent
+  if (parsedContent) {
+    inParsedContent = parsedContent
+  } else if (content) {
+    inParsedContent = renderPageContent(content, false, isComment)
+  }
 
   return (
-    <div
+    <PageContentContainer
       className={cn("relative", className)}
+      page={page}
+      inputRef={inputRef}
+      onScroll={onScroll}
       onMouseEnter={onMouseEnter}
-      onScroll={(e) => onScroll?.((e.target as any)?.scrollTop)}
+      element={inParsedContent?.element}
     >
-      <div className="xlog-post-content prose" ref={inputRef}>
-        {inParsedContent?.element}
-      </div>
-      {toc && inParsedContent?.toc && <PostToc data={inParsedContent?.toc} />}
-      {withActions && <PostActions page={page} site={site} />}
-    </div>
+      <>
+        {toc && inParsedContent?.toc && <PostToc data={inParsedContent?.toc} />}
+        {withActions && <PostActions page={page} site={site} />}
+      </>
+    </PageContentContainer>
   )
 }

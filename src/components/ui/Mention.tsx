@@ -1,3 +1,5 @@
+"use client"
+
 import React, { memo } from "react"
 
 import { getSiteLink } from "~/lib/helpers"
