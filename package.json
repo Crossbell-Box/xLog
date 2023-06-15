@@ -159,7 +159,7 @@
     "zustand": "4.3.8"
   },
   "devDependencies": {
-    "@ducanh2912/next-pwa": "8.6.0",
+    "@ducanh2912/next-pwa": "8.7.0",
     "@iconify/tailwind": "0.1.3",
     "@next/bundle-analyzer": "13.4.5",
     "@trivago/prettier-plugin-sort-imports": "4.1.1",
