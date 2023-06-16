@@ -12,7 +12,8 @@ const withPWA = require("@ducanh2912/next-pwa").default({
   buildExcludes: [
     /\.map$/,
     /^manifest.*\.js$/,
-    /^\/_next\/static\/chunks\/app\/dashboard/,
+    /\/chunks\/app\/dashboard/,
+    /\/chunks\/app\/\(home\)/,
   ],
   extendDefaultRuntimeCaching: true,
   workboxOptions: {
