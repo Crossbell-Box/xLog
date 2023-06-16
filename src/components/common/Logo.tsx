@@ -1,11 +1,15 @@
 "use client"
 
-import Lottie, { type LottieRefCurrentProps } from "lottie-react"
+import { useInViewport } from "ahooks"
+import { type LottieRefCurrentProps } from "lottie-react"
+import dynamic from "next/dynamic"
 import React, { useRef } from "react"
 
 import { Image } from "~/components/ui/Image"
 
 import LogoLottieJSON from "../../../public/assets/logo.json"
+
+const DynamicLottie = dynamic(() => import("lottie-react"))
 
 export const Logo = ({
   type,
@@ -21,6 +25,9 @@ export const Logo = ({
   autoplay?: boolean
 }) => {
   const ref = useRef<LottieRefCurrentProps>(null)
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isInView] = useInViewport(containerRef)
 
   switch (type) {
     case "svg":
@@ -43,18 +50,24 @@ export const Logo = ({
       )
     case "lottie":
       return (
-        <Lottie
-          animationData={LogoLottieJSON}
-          loop={loop ?? false}
-          autoplay={autoplay ?? true}
-          lottieRef={ref}
-          onMouseEnter={() => ref.current?.goToAndPlay(0)}
+        <div
+          ref={containerRef}
           style={{
             width: width || 100,
             height: height || 100,
           }}
-          className="xlog-lottie-logo"
-        />
+        >
+          {isInView && (
+            <DynamicLottie
+              animationData={LogoLottieJSON}
+              loop={loop ?? false}
+              autoplay={autoplay ?? true}
+              lottieRef={ref}
+              onMouseEnter={() => ref.current?.goToAndPlay(0)}
+              className="xlog-lottie-logo text-black w-full h-full"
+            />
+          )}
+        </div>
       )
   }
 }
