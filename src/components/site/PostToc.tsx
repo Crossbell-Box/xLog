@@ -6,7 +6,7 @@ import katex from "katex"
 import type { List } from "mdast"
 import { toHast } from "mdast-util-to-hast"
 import type { Result as TocResult } from "mdast-util-toc"
-import React, { createElement, useEffect, useRef, useState } from "react"
+import React, { createElement, useEffect, useState } from "react"
 
 import { scrollTo } from "~/lib/utils"
 
@@ -130,17 +130,12 @@ function Items(props: ItemsProps) {
   )
 }
 
-export const PostToc = ({ data }: { data: TocResult }) => {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-
+const PostToc = ({ data }: { data: TocResult }) => {
   const idList = getIds(data?.map)
   const activeId = useActiveId(idList)
 
   return (
-    <div
-      className="xlog-post-toc absolute left-full pl-14 h-full top-0 lg:block hidden"
-      ref={containerRef}
-    >
+    <div className="xlog-post-toc absolute left-full pl-14 h-full top-0 lg:block hidden">
       <div
         className="sticky top-14 text-sm leading-loose whitespace-nowrap text-ellipsis max-h-[calc(100vh-theme('spacing.28'))] truncate"
         style={{
@@ -152,3 +147,5 @@ export const PostToc = ({ data }: { data: TocResult }) => {
     </div>
   )
 }
+
+export default PostToc
