@@ -14,7 +14,11 @@ const key = ["PostFooterInView"]
 
 const DynamicComment = dynamic(() => import("~/components/common/Comment"), {
   // TODO Skeleton
-  loading: () => <p>Loading comments...</p>,
+  loading: () => (
+    <div className="xlog-comment comment" id="comments" data-hide-print>
+      <p>Loading comments...</p>
+    </div>
+  ),
 })
 
 export const usePostFooterInView = () => {
@@ -61,7 +65,13 @@ export const PostFooter = ({
           page={page}
         />
       </div>
-      {(inited || isInView) && <DynamicComment page={page} />}
+      {inited || isInView ? (
+        <DynamicComment page={page} />
+      ) : (
+        <div className="xlog-comment comment" id="comments" data-hide-print>
+          <p>Loading comments...</p>
+        </div>
+      )}
     </>
   )
 }
