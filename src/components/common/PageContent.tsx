@@ -44,12 +44,13 @@ export const PageContent = ({
     <PageContentContainer
       className={cn("relative", className)}
       page={page}
-      inputRef={inputRef}
       onScroll={onScroll}
       onMouseEnter={onMouseEnter}
-      element={inParsedContent?.element}
     >
       <>
+        <div className="xlog-post-content prose" ref={inputRef}>
+          {inParsedContent?.element}
+        </div>
         {toc && inParsedContent?.toc && <PostToc data={inParsedContent?.toc} />}
         {withActions && <PostActions page={page} site={site} />}
       </>
