@@ -3,14 +3,11 @@
 import { ImageProps, default as NextImage } from "next/image"
 import React, { useEffect } from "react"
 
-import FadeIn from "~/components/common/FadeIn"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
-import { cn } from "~/lib/utils"
-import { useGetImageInfo } from "~/queries/page"
 
-type TImageProps = {
+export type TImageProps = {
   className?: string
   src?: string
   width?: number | string
@@ -157,32 +154,5 @@ export const Image = ({
         />
       </span>
     </span>
-  )
-}
-
-export const AdvancedImage = (props: TImageProps) => {
-  const info = useGetImageInfo(props.src)
-  const autoProps = info?.data?.base64
-    ? {
-        width: info.data.size?.width,
-        height: info.data.size?.height,
-        blurDataURL: info.data.base64,
-        placeholder: "blur" as const,
-      }
-    : {}
-
-  return (
-    <FadeIn className="text-center">
-      {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <Image
-        {...autoProps}
-        {...props}
-        zoom
-        className={cn(
-          props.className,
-          info.data && info.data.size.height < 50 ? "" : "rounded-xl",
-        )}
-      />
-    </FadeIn>
   )
 }

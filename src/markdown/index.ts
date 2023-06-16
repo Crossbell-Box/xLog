@@ -29,7 +29,7 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
-import { AdvancedImage } from "~/components/ui/Image"
+import { AdvancedImage } from "~/components/ui/AdvancedImage"
 
 import { transformers } from "./embed-transformers"
 import { rehypeAudio } from "./rehype-audio"
