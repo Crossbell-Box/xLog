@@ -1,16 +1,12 @@
-import dynamic from "next/dynamic"
 import { type MutableRefObject } from "react"
 
+import PostActions from "~/components/site/PostActions"
 import PostToc from "~/components/site/PostToc"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
 import { PageContentContainer } from "./PageContentContainer"
-
-const DynamicPostActions = dynamic(
-  () => import("~/components/site/PostActions"),
-)
 
 export const PageContent = ({
   className,
@@ -56,7 +52,7 @@ export const PageContent = ({
           {inParsedContent?.element}
         </div>
         {toc && inParsedContent?.toc && <PostToc data={inParsedContent?.toc} />}
-        {withActions && <DynamicPostActions page={page} site={site} />}
+        {withActions && <PostActions page={page} site={site} />}
       </>
     </PageContentContainer>
   )
