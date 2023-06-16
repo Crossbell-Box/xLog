@@ -3,7 +3,7 @@ import { Image, type TImageProps } from "~/components/ui/Image"
 import { SITE_URL } from "~/lib/env"
 import { cn } from "~/lib/utils"
 
-export const AdvancedImage = async (props: TImageProps) => {
+const AdvancedImage = async (props: TImageProps) => {
   let info: {
     size: {
       width: number
@@ -44,3 +44,5 @@ export const AdvancedImage = async (props: TImageProps) => {
     </FadeIn>
   )
 }
+
+export default AdvancedImage
