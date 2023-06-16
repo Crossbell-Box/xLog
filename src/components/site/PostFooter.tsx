@@ -13,6 +13,11 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 const key = ["PostFooterInView"]
 
+const DynamicComment = dynamic(() => import("~/components/common/Comment"), {
+  // TODO Skeleton
+  loading: () => <p>Loading comments...</p>,
+})
+
 export const usePostFooterInView = () => {
   const { data } = useQuery<boolean>({
     queryKey: key,
@@ -36,10 +41,6 @@ export const PostFooter = ({
   }, [isInView])
 
   const { t } = useTranslation("common")
-
-  const DynamicComment = dynamic(() => import("~/components/common/Comment"), {
-    loading: () => <p>{t("Loading comments")}...</p>,
-  })
 
   return (
     <>
