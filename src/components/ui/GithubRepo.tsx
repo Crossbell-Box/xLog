@@ -1,5 +1,5 @@
-import { GithubRepo as ReactGithubRepo } from "@birdgg/react-github"
+export default async function GithubRepo({ repo }: { repo: string }) {
+  const { GithubRepo: ReactGithubRepo } = await import("@birdgg/react-github")
 
-export default function GithubRepo({ repo }: { repo: string }) {
   return <ReactGithubRepo repo={repo} />
 }

@@ -1,16 +1,22 @@
 "use client"
 
 import { useInViewport } from "ahooks"
+import dynamic from "next/dynamic"
 import { useEffect, useRef } from "react"
 
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { Comment } from "~/components/common/Comment"
 import { ReactionLike } from "~/components/common/ReactionLike"
 import { ReactionTip } from "~/components/common/ReactionTip"
+import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 const key = ["PostFooterInView"]
+
+const DynamicComment = dynamic(() => import("~/components/common/Comment"), {
+  // TODO Skeleton
+  loading: () => <p>Loading comments...</p>,
+})
 
 export const usePostFooterInView = () => {
   const { data } = useQuery<boolean>({
@@ -34,6 +40,8 @@ export const PostFooter = ({
     queryClient.setQueryData(key, () => isInView)
   }, [isInView])
 
+  const { t } = useTranslation("common")
+
   return (
     <>
       <div
@@ -50,7 +58,7 @@ export const PostFooter = ({
           page={page}
         />
       </div>
-      <Comment page={page} />
+      <DynamicComment page={page} />
     </>
   )
 }

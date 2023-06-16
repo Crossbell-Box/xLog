@@ -1,10 +1,10 @@
 import { Metadata } from "next"
 import Script from "next/script"
-import type { Asset } from "unidata.js"
 
 import { UniLink } from "~/components/ui/UniLink"
 import { UniMedia } from "~/components/ui/UniMedia"
 import { useTranslation } from "~/lib/i18n"
+import { toGateway } from "~/lib/ipfs-parser"
 import getQueryClient from "~/lib/query-client"
 import { fetchGetSite, getNFTs } from "~/queries/site.server"
 
@@ -38,7 +38,32 @@ export default async function SiteNFTPage({
   const site = await fetchGetSite(params.site, queryClient)
   const { t } = await useTranslation("common")
 
-  const nfts = await getNFTs(site?.owner)
+  let nfts = await getNFTs(site?.owner)
+
+  nfts.forEach((chain: any) => {
+    chain.assets = []
+    chain.collection_assets.forEach((collection: any) => {
+      chain.assets = chain.assets.concat(collection.assets)
+    })
+    chain.assets = chain.assets.filter((asset: any) => asset.content_uri)
+  })
+  nfts = nfts
+    .filter((chain: any) => chain.assets.length)
+    .sort((a: any, b: any) => b.assets.length - a.assets.length)
+
+  const displayNames: Record<string, string> = {
+    eth: "Ethereum",
+    bsc: "BNB Chain",
+    pls: "Polygon",
+    arbi: "Arbitrum One",
+    opti: "Optimism",
+    avax: "Avalanche",
+    cro: "Cronos",
+    platon: "PlatON",
+    glmr: "Moonbeam",
+    ftm: "Fantom",
+    gnosis: "Gnosis",
+  }
 
   return (
     <>
@@ -46,31 +71,53 @@ export default async function SiteNFTPage({
         type="module"
         src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer.min.js"
       ></Script>
-      <h2 className="text-xl font-bold page-title">NFT {t("Showcase")}</h2>
-      <div className="mt-8">
-        <div className="grid grid-cols-3 md:grid-cols-4 gap-10">
-          {nfts.list
-            ?.filter((nft: Asset) => nft.items?.[0]?.address)
-            .map((nft: Asset) => (
-              <UniLink
-                key={nft.metadata?.proof}
-                className="xlog-nft flex items-center flex-col"
-                href={nft.related_urls?.[nft.related_urls.length - 1]}
-                data-collection={nft.metadata?.collection_address}
-                data-network={nft.metadata?.network}
-                data-token-id={nft.metadata?.token_id}
-                data-name={nft.name}
-              >
-                <UniMedia
-                  src={nft.items?.[0]?.address || ""}
-                  mime_type={nft.items?.[0].mime_type}
-                />
-                <div className="text-xs mt-2 text-center font-medium">
-                  {nft.name}
-                </div>
-              </UniLink>
-            ))}
-        </div>
+      <h2 className="page-title">NFT {t("Showcase")}</h2>
+      <div className="mt-8 text-zinc-500 text-sm">
+        <span className="font-medium">Supported chains:</span>{" "}
+        {Object.values(displayNames).join(", ")}
+      </div>
+      <div>
+        {nfts.map((chain: any) => (
+          <div
+            key={chain.chain}
+            className="flex flex-col"
+            data-network={chain.chain}
+          >
+            <details open>
+              <summary>
+                <span className="inline-block text-2xl font-bold my-8 pl-2">
+                  {displayNames[chain.chain] || chain.chain} (
+                  {chain.assets.length})
+                </span>
+              </summary>
+              <div className="grid grid-cols-3 md:grid-cols-4 gap-10">
+                {chain.assets.map((nft: any) => (
+                  <UniLink
+                    key={nft.mint_transaction_hash}
+                    className="xlog-nft flex items-center flex-col"
+                    href={nft.external_link}
+                    data-collection={nft.contract_address}
+                    data-token-id={nft.token_id}
+                    data-name={nft.name}
+                  >
+                    <UniMedia
+                      src={
+                        nft.content_uri?.startsWith?.("http") ||
+                        nft.content_uri?.startsWith?.("data:")
+                          ? nft.content_uri
+                          : toGateway(`ipfs://${nft.content_uri}`) || ""
+                      }
+                      mime_type={nft.content_type}
+                    />
+                    <div className="text-xs mt-2 text-center font-medium">
+                      {nft.name}
+                    </div>
+                  </UniLink>
+                ))}
+              </div>
+            </details>
+          </div>
+        ))}
       </div>
     </>
   )

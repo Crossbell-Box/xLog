@@ -55,7 +55,7 @@ export default function PostList({
       {posts.hasNextPage && (
         <div className="text-center">
           <Button
-            className="mt-8 truncate max-w-full !inline-block before:!hidden"
+            className="mt-8 truncate max-w-full !inline-block"
             variant="outline"
             onClick={() => posts.fetchNextPage()}
             isLoading={posts.isFetchingNextPage}

@@ -1,5 +1,4 @@
 import Image from "next/image"
-import { Tweet as ReactTweet } from "react-tweet"
 import type { TweetComponents } from "react-tweet"
 
 const components: TweetComponents = {
@@ -7,7 +6,9 @@ const components: TweetComponents = {
   MediaImg: (props) => <Image {...props} fill unoptimized alt="tweet-media" />,
 }
 
-export default function Tweet({ id }: { id: string }) {
+export default async function Tweet({ id }: { id: string }) {
+  const { Tweet: ReactTweet } = await import("react-tweet")
+
   return (
     <div className="flex justify-center">
       <ReactTweet id={id} components={components} />

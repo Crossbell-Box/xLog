@@ -1,3 +1,5 @@
+"use client"
+
 import { toHtml } from "hast-util-to-html"
 import DOMPurify from "isomorphic-dompurify"
 import katex from "katex"
