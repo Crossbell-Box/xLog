@@ -59,7 +59,6 @@ const ToolbarItemWithPopover = ({
           >
             <Popover.Button
               key={name}
-              title={name}
               className="w-9 h-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
               ref={setPopoverButtonRef}
             >
