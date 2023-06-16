@@ -1,7 +1,7 @@
 "use client"
 
 import { useInViewport } from "ahooks"
-import dynamic from "next/dynamic"
+// import dynamic from "next/dynamic"
 import { useEffect, useRef, useState } from "react"
 
 import { useQuery, useQueryClient } from "@tanstack/react-query"
@@ -12,14 +12,14 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 const key = ["PostFooterInView"]
 
-const DynamicComment = dynamic(() => import("~/components/common/Comment"), {
-  // TODO Skeleton
-  loading: () => (
-    <div className="xlog-comment comment" id="comments" data-hide-print>
-      <p>Loading comments...</p>
-    </div>
-  ),
-})
+// const DynamicComment = dynamic(() => import("~/components/common/Comment"), {
+//   // TODO Skeleton
+//   loading: () => (
+//     <div className="xlog-comment comment" id="comments" data-hide-print>
+//       <p>Loading comments...</p>
+//     </div>
+//   ),
+// })
 
 export const usePostFooterInView = () => {
   const { data } = useQuery<boolean>({
@@ -65,13 +65,13 @@ export const PostFooter = ({
           page={page}
         />
       </div>
-      {inited || isInView ? (
+      {/* {inited || isInView ? (
         <DynamicComment page={page} />
       ) : (
         <div className="xlog-comment comment" id="comments" data-hide-print>
           <p>Loading comments...</p>
         </div>
-      )}
+      )} */}
     </>
   )
 }
