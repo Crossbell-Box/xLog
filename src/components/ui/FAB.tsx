@@ -64,7 +64,7 @@ export const FABBase = (
     >
   >,
 ) => {
-  const { children, id, show = true, ...extra } = props
+  const { children, show = true, ...extra } = props
   const { className, onTransitionEnd, ...rest } = extra
 
   const [mounted, setMounted] = useState(true)
@@ -98,7 +98,6 @@ export const FABBase = (
         className,
       )}
       onTransitionEnd={handleTransitionEnd}
-      aria-label="back to top"
       {...rest}
     >
       {children}

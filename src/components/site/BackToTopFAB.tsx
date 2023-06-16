@@ -25,6 +25,7 @@ export const BackToTopFAB = () => {
   return (
     <FABBase
       id="to-top"
+      aria-label="Back to top"
       show={shouldShow}
       onClick={() => {
         window.scrollTo({
