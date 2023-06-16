@@ -4,8 +4,8 @@ import PostActions from "~/components/site/PostActions"
 import PostToc from "~/components/site/PostToc"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
+import { renderPageContent } from "~/markdown"
 
-// import { renderPageContent } from "~/markdown"
 import { PageContentContainer } from "./PageContentContainer"
 
 export const PageContent = ({
@@ -27,7 +27,7 @@ export const PageContent = ({
   inputRef?: MutableRefObject<HTMLDivElement | null>
   onScroll?: (scrollTop: number) => void
   onMouseEnter?: () => void
-  parsedContent?: any
+  parsedContent?: ReturnType<typeof renderPageContent>
   isComment?: boolean
   page?: ExpandedNote
   site?: ExpandedCharacter
@@ -37,7 +37,7 @@ export const PageContent = ({
   if (parsedContent) {
     inParsedContent = parsedContent
   } else if (content) {
-    // inParsedContent = renderPageContent(content, false, isComment)
+    inParsedContent = renderPageContent(content, false, isComment)
   }
 
   return (

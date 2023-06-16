@@ -31,8 +31,11 @@ export const expandCrossbellNote = async ({
 
   if (expandedNote.metadata?.content) {
     if (expandedNote.metadata?.content?.content) {
-      // const { renderPageContent } = await import("~/markdown")
-      const rendered = {} as any
+      const { renderPageContent } = await import("~/markdown")
+      const rendered = renderPageContent(
+        expandedNote.metadata.content.content,
+        true,
+      )
       if (keyword) {
         const position = expandedNote.metadata.content.content
           .toLowerCase()
