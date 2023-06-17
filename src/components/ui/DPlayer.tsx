@@ -1,12 +1,12 @@
 "use client"
 
-import { type DPlayerProps } from "rc-dplayer"
+import { DPlayerProps, Player as RcDPlayer } from "rc-dplayer"
 import { memo } from "react"
 import { ReactElement } from "rehype-react/lib"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
-const DPlayer = memo(async function DPlayer({
+const DPlayer = memo(function DPlayer({
   src,
   children,
   ...props
@@ -28,8 +28,6 @@ const DPlayer = memo(async function DPlayer({
   }
 
   src = toGateway(src)
-
-  const { Player: RcDPlayer } = await import("rc-dplayer")
 
   return (
     <div className="my-8">
