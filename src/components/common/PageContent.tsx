@@ -57,3 +57,5 @@ export const PageContent = ({
     </PageContentContainer>
   )
 }
+
+export default PageContent
