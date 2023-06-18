@@ -3,7 +3,6 @@
 import { useDebounceEffect } from "ahooks"
 import type { Root } from "mdast"
 import { nanoid } from "nanoid"
-import dynamic from "next/dynamic"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import {
   ChangeEvent,
@@ -21,6 +20,7 @@ import type { EditorView } from "@codemirror/view"
 import { DateInput } from "@mantine/dates"
 import { useQueryClient } from "@tanstack/react-query"
 
+import { PageContent } from "~/components/common/PageContent"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import { PublishButton } from "~/components/dashboard/PublishButton"
@@ -64,13 +64,6 @@ import {
   useUpdatePage,
 } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
-
-const DynamicPageContent = dynamic(
-  () => import("~/components/common/PageContent"),
-  {
-    ssr: false,
-  },
-)
 
 export default function SubdomainEditor() {
   const router = useRouter()
@@ -662,7 +655,7 @@ export default function SubdomainEditor() {
                     </div>
                   )}
                   {isRendering && (
-                    <DynamicPageContent
+                    <PageContent
                       className="bg-white px-5 overflow-scroll pb-[200px] h-full flex-1"
                       parsedContent={parsedContent}
                       inputRef={previewRef}

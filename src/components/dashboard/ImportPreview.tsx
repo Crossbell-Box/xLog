@@ -1,13 +1,10 @@
 import type { NoteMetadata } from "crossbell"
-import dynamic from "next/dynamic"
 import { useState } from "react"
 
 import { useDate } from "~/hooks/useDate"
 import { useTranslation } from "~/lib/i18n/client"
 
-const DynamicPageContent = dynamic(() => import("../common/PageContent"), {
-  ssr: false,
-})
+import { PageContent } from "../common/PageContent"
 
 export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
   const date = useDate()
@@ -52,10 +49,7 @@ export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
         >
           {t("Show more")}
         </div>
-        <DynamicPageContent
-          className="mt-4"
-          content={note?.content}
-        ></DynamicPageContent>
+        <PageContent className="mt-4" content={note?.content}></PageContent>
       </div>
     </article>
   )

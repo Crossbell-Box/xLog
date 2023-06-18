@@ -1,17 +1,9 @@
 "use client"
 
-import dynamic from "next/dynamic"
-
+import { PageContent } from "~/components/common/PageContent"
 import { useTranslation } from "~/lib/i18n/client"
 import { useGetPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
-
-const DynamicPageContent = dynamic(
-  () => import("~/components/common/PageContent"),
-  {
-    ssr: false,
-  },
-)
 
 export default function SitePreviewPage({
   params,
@@ -54,11 +46,11 @@ export default function SitePreviewPage({
             </h2>
           )}
         </div>
-        <DynamicPageContent
+        <PageContent
           className="mt-10"
           content={page.data?.metadata?.content?.content}
           toc={true}
-        ></DynamicPageContent>
+        ></PageContent>
       </article>
     </>
   )
