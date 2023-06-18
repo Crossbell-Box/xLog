@@ -1,4 +1,4 @@
-import { type MutableRefObject } from "react"
+import { type MutableRefObject, memo } from "react"
 
 import PostActions from "~/components/site/PostActions"
 import PostToc from "~/components/site/PostToc"
@@ -8,7 +8,7 @@ import { renderPageContent } from "~/markdown"
 
 import { PageContentContainer } from "./PageContentContainer"
 
-export const PageContent = ({
+const PageContent = memo(function PageContent({
   className,
   content,
   toc,
@@ -32,7 +32,7 @@ export const PageContent = ({
   page?: ExpandedNote
   site?: ExpandedCharacter
   withActions?: boolean
-}) => {
+}) {
   let inParsedContent
   if (parsedContent) {
     inParsedContent = parsedContent
@@ -56,6 +56,6 @@ export const PageContent = ({
       </>
     </PageContentContainer>
   )
-}
+})
 
 export default PageContent

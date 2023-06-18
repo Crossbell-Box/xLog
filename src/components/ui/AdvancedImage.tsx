@@ -1,9 +1,11 @@
+import { memo } from "react"
+
 import FadeIn from "~/components/common/FadeIn"
 import { Image, type TImageProps } from "~/components/ui/Image"
 import { SITE_URL } from "~/lib/env"
 import { cn } from "~/lib/utils"
 
-const AdvancedImage = async (props: TImageProps) => {
+const AdvancedImage = memo(async function AdvancedImage(props: TImageProps) {
   let info: {
     size: {
       width: number
@@ -15,7 +17,11 @@ const AdvancedImage = async (props: TImageProps) => {
   if (props.src?.startsWith("http")) {
     try {
       info = await (
-        await fetch(`${SITE_URL}/api/image?url=${props.src}`)
+        await fetch(
+          `${typeof window === "undefined" ? SITE_URL : ""}/api/image?url=${
+            props.src
+          }`,
+        )
       ).json()
     } catch (error) {}
   }
@@ -43,6 +49,6 @@ const AdvancedImage = async (props: TImageProps) => {
       />
     </FadeIn>
   )
-}
+})
 
 export default AdvancedImage
