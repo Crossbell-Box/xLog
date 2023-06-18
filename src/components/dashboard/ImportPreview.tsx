@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useDate } from "~/hooks/useDate"
 import { useTranslation } from "~/lib/i18n/client"
 
-import { PageContent } from "../common/PageContent"
+import PageContent from "../common/PageContent"
 
 export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
   const date = useDate()

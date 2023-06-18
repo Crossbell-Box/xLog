@@ -1,6 +1,6 @@
 "use client"
 
-import { PageContent } from "~/components/common/PageContent"
+import PageContent from "~/components/common/PageContent"
 import { useTranslation } from "~/lib/i18n/client"
 import { useGetPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"

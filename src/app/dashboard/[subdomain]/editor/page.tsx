@@ -20,7 +20,7 @@ import type { EditorView } from "@codemirror/view"
 import { DateInput } from "@mantine/dates"
 import { useQueryClient } from "@tanstack/react-query"
 
-import { PageContent } from "~/components/common/PageContent"
+import PageContent from "~/components/common/PageContent"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import { PublishButton } from "~/components/dashboard/PublishButton"
