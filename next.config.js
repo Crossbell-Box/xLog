@@ -62,15 +62,14 @@ const lastCommitCommand = "git rev-parse HEAD"
 module.exports = withBundleAnalyzer(
   // @ts-ignore
   withPWA({
+    output: "standalone",
     env: {
       APP_DESCRIPTION: pkg.description,
     },
     experimental: {
       scrollRestoration: true,
-      appDir: true,
       serverComponentsExternalPackages: ["rehype-react"],
     },
-    output: "standalone",
     productionBrowserSourceMaps: true,
 
     webpack(config) {
