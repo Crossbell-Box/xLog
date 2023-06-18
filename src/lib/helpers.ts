@@ -1,4 +1,5 @@
 import type { NoteEntity } from "crossbell"
+import { TFunction } from "i18next"
 
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
@@ -64,7 +65,7 @@ export const getTwitterShareUrl = ({
 }: {
   page: ExpandedNote
   site: ExpandedCharacter
-  t: (key: string, options?: any) => string
+  t: TFunction<string, undefined>
 }) => {
   const slug = getNoteSlugFromNote(page)
 
