@@ -19,6 +19,7 @@ const DynamicComment = dynamic(() => import("~/components/common/Comment"), {
       <p>Loading comments...</p>
     </div>
   ),
+  ssr: false,
 })
 
 export const usePostFooterInView = () => {
