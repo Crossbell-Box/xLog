@@ -131,5 +131,6 @@ module.exports = withBundleAnalyzer(
         },
       ]
     },
+    staticPageGenerationTimeout: 3600,
   }),
 )
