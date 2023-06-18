@@ -10,7 +10,7 @@ FROM base as deps
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml prisma ./
 
 RUN pnpm i --frozen-lockfile
 
