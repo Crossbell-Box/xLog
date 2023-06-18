@@ -10,16 +10,17 @@ FROM base as deps
 
 WORKDIR /app
 
-ADD . .
+COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm i
+RUN pnpm i --frozen-lockfile
 
 ##### BUILD
 FROM deps as build
 
 WORKDIR /app
 
-COPY --from=deps /app /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
 ARG NEXT_PUBLIC_DISCORD_LINK
 ENV NEXT_PUBLIC_DISCORD_LINK=${NEXT_PUBLIC_DISCORD_LINK}
