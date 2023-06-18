@@ -154,9 +154,9 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
 
   if (expandedCharacter.metadata.content.avatars) {
     expandedCharacter.metadata.content.avatars =
-      expandedCharacter.metadata.content.avatars.map((avatar) =>
-        toGateway(avatar),
-      )
+      expandedCharacter.metadata.content.avatars
+        .map((avatar) => toGateway(avatar))
+        .filter(Boolean)
   }
   if (expandedCharacter.metadata.content.banners) {
     expandedCharacter.metadata.content.banners =
