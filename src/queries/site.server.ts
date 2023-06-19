@@ -1,8 +1,8 @@
 import chroma from "chroma-js"
-import { getAverageColor } from "fast-average-color-node"
 
 import { QueryClient } from "@tanstack/react-query"
 
+import { getAverageColor } from "~/lib/fast-average-color-node"
 import { toGateway } from "~/lib/ipfs-parser"
 import { cacheGet, getRedis } from "~/lib/redis.server"
 import { ExpandedCharacter } from "~/lib/types"
