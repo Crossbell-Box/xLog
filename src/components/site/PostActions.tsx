@@ -9,7 +9,7 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { usePostFooterInView } from "./PostFooter"
 
-export const PostActions = ({
+const PostActions = ({
   page,
   site,
 }: {
@@ -55,3 +55,5 @@ export const PostActions = ({
     </div>
   )
 }
+
+export default PostActions

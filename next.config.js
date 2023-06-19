@@ -12,7 +12,8 @@ const withPWA = require("@ducanh2912/next-pwa").default({
   buildExcludes: [
     /\.map$/,
     /^manifest.*\.js$/,
-    /^\/_next\/static\/chunks\/app\/dashboard/,
+    /\/chunks\/app\/dashboard/,
+    /\/chunks\/app\/\(home\)/,
   ],
   extendDefaultRuntimeCaching: true,
   workboxOptions: {
@@ -61,15 +62,14 @@ const lastCommitCommand = "git rev-parse HEAD"
 module.exports = withBundleAnalyzer(
   // @ts-ignore
   withPWA({
+    output: "standalone",
     env: {
       APP_DESCRIPTION: pkg.description,
     },
     experimental: {
       scrollRestoration: true,
-      appDir: true,
       serverComponentsExternalPackages: ["rehype-react"],
     },
-    output: "standalone",
     productionBrowserSourceMaps: true,
 
     webpack(config) {
@@ -131,5 +131,6 @@ module.exports = withBundleAnalyzer(
         },
       ]
     },
+    staticPageGenerationTimeout: 3600,
   }),
 )

@@ -1,6 +1,6 @@
 "use client"
 
-import { type MutableRefObject, useEffect } from "react"
+import { useEffect } from "react"
 
 import { useCodeCopy } from "~/hooks/useCodeCopy"
 import { useHash } from "~/hooks/useHash"
@@ -11,19 +11,15 @@ import { useReportStats } from "~/queries/page"
 export const PageContentContainer = ({
   className,
   page,
-  inputRef,
   onScroll,
   onMouseEnter,
   children,
-  element,
 }: {
   className?: string
   page?: ExpandedNote
-  inputRef?: MutableRefObject<HTMLDivElement | null>
   onScroll?: (scrollTop: number) => void
   onMouseEnter?: () => void
   children?: JSX.Element
-  element?: JSX.Element
 }) => {
   useCodeCopy()
 
@@ -38,10 +34,11 @@ export const PageContentContainer = ({
   })
 
   return (
-    <div className={cn("relative", className)}>
-      <div className="xlog-post-content prose" ref={inputRef}>
-        {element}
-      </div>
+    <div
+      className={cn("relative", className)}
+      onMouseEnter={onMouseEnter}
+      onScroll={(e) => onScroll?.((e.target as any)?.scrollTop)}
+    >
       {children}
     </div>
   )

@@ -6,7 +6,7 @@ import { memo, useEffect, useState } from "react"
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 
-import { AdvancedImage } from "./Image"
+import AdvancedImage from "./AdvancedImage"
 
 const Mermaid = memo(
   function Mermaid(props: { children: [string] }) {

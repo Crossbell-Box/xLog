@@ -29,8 +29,6 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
-import { AdvancedImage } from "~/components/ui/Image"
-
 import { transformers } from "./embed-transformers"
 import { rehypeAudio } from "./rehype-audio"
 import {
@@ -50,6 +48,7 @@ import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 
+const AdvancedImage = dynamic(() => import("~/components/ui/AdvancedImage"))
 const Style = dynamic(() => import("~/components/common/Style"))
 const Mention = dynamic(() => import("~/components/ui/Mention"))
 const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))

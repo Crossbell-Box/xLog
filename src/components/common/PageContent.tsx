@@ -1,14 +1,14 @@
-import { type MutableRefObject } from "react"
+import { type MutableRefObject, memo } from "react"
 
-import { PostActions } from "~/components/site/PostActions"
-import { PostToc } from "~/components/site/PostToc"
+import PostActions from "~/components/site/PostActions"
+import PostToc from "~/components/site/PostToc"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
 import { PageContentContainer } from "./PageContentContainer"
 
-export const PageContent = ({
+const PageContent = memo(function PageContent({
   className,
   content,
   toc,
@@ -32,7 +32,7 @@ export const PageContent = ({
   page?: ExpandedNote
   site?: ExpandedCharacter
   withActions?: boolean
-}) => {
+}) {
   let inParsedContent
   if (parsedContent) {
     inParsedContent = parsedContent
@@ -44,15 +44,18 @@ export const PageContent = ({
     <PageContentContainer
       className={cn("relative", className)}
       page={page}
-      inputRef={inputRef}
       onScroll={onScroll}
       onMouseEnter={onMouseEnter}
-      element={inParsedContent?.element}
     >
       <>
+        <div className="xlog-post-content prose" ref={inputRef}>
+          {inParsedContent?.element}
+        </div>
         {toc && inParsedContent?.toc && <PostToc data={inParsedContent?.toc} />}
         {withActions && <PostActions page={page} site={site} />}
       </>
     </PageContentContainer>
   )
-}
+})
+
+export default PageContent

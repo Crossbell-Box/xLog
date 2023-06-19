@@ -7,7 +7,7 @@ import { useAccountState } from "@crossbell/connect-kit"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { CommentInput } from "~/components/common/CommentInput"
-import { PageContent } from "~/components/common/PageContent"
+import PageContent from "~/components/common/PageContent"
 import { ReactionLike } from "~/components/common/ReactionLike"
 import { Titles } from "~/components/common/Titles"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
