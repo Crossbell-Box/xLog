@@ -255,7 +255,7 @@ const LazyCodeMirrorEditor = forwardRef<
         data-cm-editor
         ref={editorElementRef}
         onMouseEnter={onMouseEnter}
-        className={loading ? "" : props.className}
+        className={loading ? "hidden" : props.className}
       />
       {loading &&
         (props.LoadingComponent ? (
