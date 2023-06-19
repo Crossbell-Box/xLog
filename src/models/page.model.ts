@@ -17,6 +17,8 @@ import { getKeys, getStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
+import filter from "../../data/filter.json"
+
 export async function checkPageSlug(input: {
   slug: string
   characterId?: number
@@ -608,6 +610,10 @@ export async function getComments({
     total: 0,
     list: [],
   }
+
+  res.list = res.list.filter(
+    (item) => !filter.comment.includes(item.characterId),
+  )
 
   return res
 }
