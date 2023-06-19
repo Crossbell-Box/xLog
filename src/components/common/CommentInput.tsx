@@ -17,6 +17,7 @@ import {
   useUpdateComment,
 } from "~/queries/page"
 
+import filter from "../../../data/filter.json"
 import { CodeMirrorEditor } from "../ui/CodeMirror"
 import { Input } from "../ui/Input"
 import { Tooltip } from "../ui/Tooltip"
@@ -155,6 +156,10 @@ export const CommentInput = ({
     ),
     [account?.character, t, form],
   )
+
+  if (account?.characterId && filter.comment.includes(account.characterId)) {
+    return null
+  }
 
   let submitText = "Connect"
   if (anonymous) {

@@ -20,7 +20,7 @@ export function filterCharacter<T>(
 }
 
 export const filterNotificationCharacter = filterCharacter(
-  filter.latest,
+  filter.comment,
   ({ fromCharacter }: ParsedNotification) => fromCharacter?.characterId,
 )
 
