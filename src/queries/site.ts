@@ -184,92 +184,95 @@ export function useUpdateSite() {
             }
 
             // attributes
+            if (!metadataDraft.attributes) {
+              metadataDraft.attributes = []
+            }
             if (input.navigation !== undefined) {
-              const navigation = metadataDraft.attributes?.find(
+              const navigation = metadataDraft.attributes.find(
                 (attr) => attr.trait_type === "xlog_navigation",
               )
               if (navigation) {
                 navigation.value = JSON.stringify(input.navigation)
               } else {
-                metadataDraft.attributes?.push({
+                metadataDraft.attributes.push({
                   trait_type: "xlog_navigation",
                   value: JSON.stringify(input.navigation),
                 })
               }
             }
             if (input.css !== undefined) {
-              const css = metadataDraft.attributes?.find(
+              const css = metadataDraft.attributes.find(
                 (attr) => attr.trait_type === "xlog_css",
               )
               if (css) {
                 css.value = input.css
               } else {
-                metadataDraft.attributes?.push({
+                metadataDraft.attributes.push({
                   trait_type: "xlog_css",
                   value: input.css,
                 })
               }
             }
             if (input.ga !== undefined) {
-              const ga = metadataDraft.attributes?.find(
+              const ga = metadataDraft.attributes.find(
                 (attr) => attr.trait_type === "xlog_ga",
               )
               if (ga) {
                 ga.value = input.ga
               } else {
-                metadataDraft.attributes?.push({
+                metadataDraft.attributes.push({
                   trait_type: "xlog_ga",
                   value: input.ga,
                 })
               }
             }
             if (input.ua !== undefined) {
-              const ua = metadataDraft.attributes?.find(
+              const ua = metadataDraft.attributes.find(
                 (attr) => attr.trait_type === "xlog_ua",
               )
               if (ua) {
                 ua.value = input.ua
               } else {
-                metadataDraft.attributes?.push({
+                metadataDraft.attributes.push({
                   trait_type: "xlog_ua",
                   value: input.ua,
                 })
               }
             }
             if (input.uh !== undefined) {
-              const uh = metadataDraft.attributes?.find(
+              const uh = metadataDraft.attributes.find(
                 (attr) => attr.trait_type === "xlog_uh",
               )
               if (uh) {
                 uh.value = input.uh
               } else {
-                metadataDraft.attributes?.push({
+                metadataDraft.attributes.push({
                   trait_type: "xlog_uh",
                   value: input.uh,
                 })
               }
             }
             if (input.custom_domain !== undefined) {
-              const custom_domain = metadataDraft.attributes?.find(
+              const custom_domain = metadataDraft.attributes.find(
                 (attr) => attr.trait_type === "xlog_custom_domain",
               )
               if (custom_domain) {
                 custom_domain.value = input.custom_domain
               } else {
-                metadataDraft.attributes?.push({
+                metadataDraft.attributes.push({
                   trait_type: "xlog_custom_domain",
                   value: input.custom_domain,
                 })
               }
             }
             if (input.site_name !== undefined) {
-              const site_name = metadataDraft.attributes?.find(
+              const site_name = metadataDraft.attributes.find(
                 (attr) => attr.trait_type === "xlog_site_name",
               )
               if (site_name) {
                 site_name.value = input.site_name
               } else {
-                metadataDraft.attributes?.push({
+                metadataDraft.attributes.push({
                   trait_type: "xlog_site_name",
                   value: input.site_name,
                 })
