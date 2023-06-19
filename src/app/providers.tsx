@@ -16,6 +16,7 @@ import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { useNProgress } from "~/hooks/useNProgress"
 import { APP_NAME } from "~/lib/env"
+import { filterNotificationCharacter } from "~/lib/filter-character"
 import { toGateway } from "~/lib/ipfs-parser"
 import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
@@ -80,7 +81,10 @@ export default function Providers({
           ignoreWalletDisconnectEvent={true}
         >
           <LangProvider lang={lang}>{children}</LangProvider>
-          <NotificationModal colorScheme={colorScheme} />
+          <NotificationModal
+            colorScheme={colorScheme}
+            filter={filterNotificationCharacter}
+          />
         </ConnectKitProvider>
       </PersistQueryClientProvider>
     </WagmiConfig>

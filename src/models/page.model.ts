@@ -12,12 +12,11 @@ import { GeneralAccount } from "@crossbell/connect-kit"
 import { indexer } from "@crossbell/indexer"
 
 import { expandCrossbellNote } from "~/lib/expand-unit"
+import { filterCommentCharacter } from "~/lib/filter-character"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { client } from "~/queries/graphql"
-
-import filter from "../../data/filter.json"
 
 export async function checkPageSlug(input: {
   slug: string
@@ -611,9 +610,7 @@ export async function getComments({
     list: [],
   }
 
-  res.list = res.list.filter(
-    (item) => !filter.comment.includes(item.characterId),
-  )
+  res.list = res.list.filter(filterCommentCharacter)
 
   return res
 }
