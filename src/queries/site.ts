@@ -184,100 +184,43 @@ export function useUpdateSite() {
             }
 
             // attributes
-            if (!metadataDraft.attributes) {
-              metadataDraft.attributes = []
-            }
-            if (input.navigation !== undefined) {
-              const navigation = metadataDraft.attributes.find(
-                (attr) => attr.trait_type === "xlog_navigation",
-              )
-              if (navigation) {
-                navigation.value = JSON.stringify(input.navigation)
-              } else {
-                metadataDraft.attributes.push({
-                  trait_type: "xlog_navigation",
-                  value: JSON.stringify(input.navigation),
-                })
+            const setAttribute = (
+              inputKey: keyof typeof input,
+              typeKey: string,
+              needStringify: boolean = false,
+            ) => {
+              if (input[inputKey] !== undefined) {
+                // Initialize attributes
+                const newAttribute: {
+                  trait_type: string
+                  value: any
+                } = {
+                  trait_type: `xlog_${typeKey}`,
+                  value: needStringify
+                    ? JSON.stringify(input[inputKey])
+                    : input[inputKey],
+                }
+                if (!metadataDraft.attributes) {
+                  metadataDraft.attributes = [newAttribute]
+                } else {
+                  const oldAttribute = metadataDraft.attributes.find(
+                    (attr) => attr.trait_type === newAttribute.trait_type,
+                  )
+                  if (oldAttribute) {
+                    oldAttribute.value = newAttribute.value
+                  } else {
+                    metadataDraft.attributes.push(newAttribute)
+                  }
+                }
               }
             }
-            if (input.css !== undefined) {
-              const css = metadataDraft.attributes.find(
-                (attr) => attr.trait_type === "xlog_css",
-              )
-              if (css) {
-                css.value = input.css
-              } else {
-                metadataDraft.attributes.push({
-                  trait_type: "xlog_css",
-                  value: input.css,
-                })
-              }
-            }
-            if (input.ga !== undefined) {
-              const ga = metadataDraft.attributes.find(
-                (attr) => attr.trait_type === "xlog_ga",
-              )
-              if (ga) {
-                ga.value = input.ga
-              } else {
-                metadataDraft.attributes.push({
-                  trait_type: "xlog_ga",
-                  value: input.ga,
-                })
-              }
-            }
-            if (input.ua !== undefined) {
-              const ua = metadataDraft.attributes.find(
-                (attr) => attr.trait_type === "xlog_ua",
-              )
-              if (ua) {
-                ua.value = input.ua
-              } else {
-                metadataDraft.attributes.push({
-                  trait_type: "xlog_ua",
-                  value: input.ua,
-                })
-              }
-            }
-            if (input.uh !== undefined) {
-              const uh = metadataDraft.attributes.find(
-                (attr) => attr.trait_type === "xlog_uh",
-              )
-              if (uh) {
-                uh.value = input.uh
-              } else {
-                metadataDraft.attributes.push({
-                  trait_type: "xlog_uh",
-                  value: input.uh,
-                })
-              }
-            }
-            if (input.custom_domain !== undefined) {
-              const custom_domain = metadataDraft.attributes.find(
-                (attr) => attr.trait_type === "xlog_custom_domain",
-              )
-              if (custom_domain) {
-                custom_domain.value = input.custom_domain
-              } else {
-                metadataDraft.attributes.push({
-                  trait_type: "xlog_custom_domain",
-                  value: input.custom_domain,
-                })
-              }
-            }
-            if (input.site_name !== undefined) {
-              const site_name = metadataDraft.attributes.find(
-                (attr) => attr.trait_type === "xlog_site_name",
-              )
-              if (site_name) {
-                site_name.value = input.site_name
-              } else {
-                metadataDraft.attributes.push({
-                  trait_type: "xlog_site_name",
-                  value: input.site_name,
-                })
-              }
-            }
+            setAttribute("navigation", "navigation", true)
+            setAttribute("css", "css")
+            setAttribute("ga", "ga")
+            setAttribute("ua", "ua")
+            setAttribute("uh", "uh")
+            setAttribute("custom_domain", "custom_domain")
+            setAttribute("site_name", "site_name")
           },
         },
         {
