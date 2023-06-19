@@ -80,6 +80,9 @@ module.exports = withBundleAnalyzer(
       // Since this is a NextJS app, simply mark it as external to avoid the webpack bundling warning.
       config.externals.push("react-native")
 
+      // https://github.com/WalletConnect/walletconnect-monorepo/issues/1908#issuecomment-1487801131
+      config.externals.push("pino-pretty", "lokijs", "encoding")
+
       // https://github.com/WalletConnect/walletconnect-utils/blob/b7d7dc003c25dd33ef74c2fac483140f71a51d86/jsonrpc/http-connection/src/http.ts#L2
       // `@walletconnect/jsonrpc-http-connection` imports `cross-fetch` to support fetch in Node.js. It's unnecessary for Next.JS app.
       config.resolve.alias["cross-fetch"] = require.resolve(
