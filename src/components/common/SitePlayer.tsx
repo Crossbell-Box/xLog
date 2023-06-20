@@ -1,8 +1,7 @@
 "use client"
 
 // @ts-ignore
-import APlayer from "aplayer"
-import "aplayer/dist/APlayer.min.css"
+import type APlayer from "aplayer"
 
 let siteAPlayer: APlayer
 
@@ -21,10 +20,13 @@ export interface AudioInfo {
   url: string
 }
 
-export const sitePlayerAddToPlaylist = (audio: AudioInfo) => {
+export const sitePlayerAddToPlaylist = async (audio: AudioInfo) => {
   // Check if player is initialized
   if (!siteAPlayer) {
-    // Initialize
+    // @ts-ignore
+    const APlayer = (await import("aplayer")).default
+    // @ts-ignore
+    await import("aplayer/dist/APlayer.min.css")
     siteAPlayer = new APlayer({
       container: document.getElementById(playerId),
       fixed: true,
@@ -35,9 +37,9 @@ export const sitePlayerAddToPlaylist = (audio: AudioInfo) => {
   siteAPlayer.list.add(audio)
 }
 
-export const sitePlayerPlayNow = (audio: AudioInfo) => {
+export const sitePlayerPlayNow = async (audio: AudioInfo) => {
   // Add to playlist
-  sitePlayerAddToPlaylist(audio)
+  await sitePlayerAddToPlaylist(audio)
   // Play now
   siteAPlayer.list.switch(siteAPlayer.list.audios.length - 1)
   siteAPlayer.play()

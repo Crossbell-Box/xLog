@@ -1,7 +1,9 @@
-import { memo } from "react"
+import dynamic from "next/dynamic"
 
-import { GithubRepo as ReactGithubRepo } from "@birdgg/react-github"
+const ReactGithubRepo = dynamic(
+  async () => (await import("@birdgg/react-github")).GithubRepo,
+)
 
-export default memo(function GithubRepo({ repo }: { repo: string }) {
+export default function GithubRepo({ repo }: { repo: string }) {
   return <ReactGithubRepo repo={repo} />
-})
+}

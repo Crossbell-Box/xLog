@@ -1,12 +1,14 @@
 "use client"
 
-import { DPlayerProps, Player as RcDPlayer } from "rc-dplayer"
-import { memo } from "react"
+import dynamic from "next/dynamic"
+import { type DPlayerProps } from "rc-dplayer"
 import { ReactElement } from "rehype-react/lib"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
-const DPlayer = memo(function DPlayer({
+const RcDPlayer = dynamic(async () => (await import("rc-dplayer")).Player)
+
+const DPlayer = function DPlayer({
   src,
   children,
   ...props
@@ -34,6 +36,6 @@ const DPlayer = memo(function DPlayer({
       <RcDPlayer src={src} {...props} />
     </div>
   )
-})
+}
 
 export default DPlayer

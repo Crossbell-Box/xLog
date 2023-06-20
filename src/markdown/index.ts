@@ -56,9 +56,7 @@ const Tweet = dynamic(() => import("~/components/ui/Tweet"))
 const GithubRepo = dynamic(() => import("~/components/ui/GithubRepo"))
 const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 
-const DPlayer = dynamic(() => import("~/components/ui/DPlayer"), {
-  ssr: false,
-})
+const DPlayer = dynamic(() => import("~/components/ui/DPlayer"))
 
 export type MarkdownEnv = {
   excerpt: string
