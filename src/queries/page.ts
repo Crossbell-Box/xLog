@@ -323,6 +323,7 @@ export function useUpdatePage() {
             noteId: input.noteId,
           },
           edit(metadataDraft) {
+            metadataDraft.type = "note"
             if (input.title !== undefined) {
               metadataDraft.title = input.title
             }
