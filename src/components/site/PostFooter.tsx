@@ -10,16 +10,34 @@ import { ReactionLike } from "~/components/common/ReactionLike"
 import { ReactionTip } from "~/components/common/ReactionTip"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
+import { Skeleton } from "../ui/Skeleton"
+
 const key = ["PostFooterInView"]
 
+const CommentSkeleton = () => (
+  <div className="xlog-comment comment" id="comments" data-hide-print>
+    <Skeleton.Container>
+      <>
+        <div className="xlog-comment-count border-b pb-2 mb-6">
+          <Skeleton.Rectangle className="h-[19px] w-[46px]" />
+        </div>
+        <div className="xlog-comment-input flex">
+          <Skeleton.Circle size={45} className="mr-3" />
+          <div className="flex-1">
+            <Skeleton.Rectangle className="mb-2 h-[74px] border border-[var(--border-color)] rounded-lg" />
+            <div className="flex justify-between">
+              <Skeleton.Circle size={24} className="px-2" />
+              <Skeleton.Rectangle className="h-[36px] w-[100px] rounded-full" />
+            </div>
+          </div>
+        </div>
+      </>
+    </Skeleton.Container>
+  </div>
+)
+
 const DynamicComment = dynamic(() => import("~/components/common/Comment"), {
-  // TODO Skeleton
-  loading: () => (
-    <div className="xlog-comment comment" id="comments" data-hide-print>
-      <p>Loading comments...</p>
-    </div>
-  ),
-  ssr: false,
+  loading: CommentSkeleton,
 })
 
 export const usePostFooterInView = () => {
@@ -69,9 +87,7 @@ export const PostFooter = ({
       {inited || isInView ? (
         <DynamicComment page={page} />
       ) : (
-        <div className="xlog-comment comment" id="comments" data-hide-print>
-          <p>Loading comments...</p>
-        </div>
+        <CommentSkeleton />
       )}
     </>
   )

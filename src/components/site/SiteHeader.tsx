@@ -173,7 +173,7 @@ export const SiteHeader = ({ handle }: { handle: string }) => {
           >
             {site.data?.metadata?.content?.avatars?.[0] && (
               <Avatar
-                className="xlog-site-icon max-w-[100px] max-h-[100px] sm:max-w-none sm:max-h-none"
+                className="xlog-site-icon"
                 images={site.data?.metadata?.content?.avatars}
                 size={150}
                 name={site.data?.metadata?.content?.name}
