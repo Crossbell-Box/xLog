@@ -16,6 +16,7 @@ export const SitePlayerContainer = () => {
     siteAPlayer = new APlayer({
       container: document.getElementById(playerId),
       fixed: true,
+      listFolded: false,
     })
   }, [])
 
