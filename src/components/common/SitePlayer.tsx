@@ -3,7 +3,6 @@
 // @ts-ignore
 import APlayer from "aplayer"
 import "aplayer/dist/APlayer.min.css"
-import { useEffect } from "react"
 
 let siteAPlayer: APlayer
 
@@ -11,18 +10,35 @@ const playerId = "site-aplayer"
 
 // APlayer Container
 export const SitePlayerContainer = () => {
-  useEffect(() => {
+  return <div id={playerId} />
+}
+
+export interface AudioInfo {
+  name?: string
+  artist?: string
+  cover?: string
+  lrc?: string
+  url: string
+}
+
+export const sitePlayerAddToPlaylist = (audio: AudioInfo) => {
+  // Check if player is initialized
+  if (!siteAPlayer) {
     // Initialize
     siteAPlayer = new APlayer({
       container: document.getElementById(playerId),
       fixed: true,
       listFolded: false,
     })
-  }, [])
-
-  return <div id={playerId} />
+  }
+  // Add
+  siteAPlayer.list.add(audio)
 }
 
-export const useAPlayer = () => {
-  return siteAPlayer
+export const sitePlayerPlayNow = (audio: AudioInfo) => {
+  // Add to playlist
+  sitePlayerAddToPlaylist(audio)
+  // Play now
+  siteAPlayer.list.switch(siteAPlayer.list.audios.length - 1)
+  siteAPlayer.play()
 }

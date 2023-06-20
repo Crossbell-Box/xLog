@@ -3,7 +3,10 @@
 import Image from "next/image"
 import { memo } from "react"
 
-import { useAPlayer } from "~/components/common/SitePlayer"
+import {
+  sitePlayerAddToPlaylist,
+  sitePlayerPlayNow,
+} from "~/components/common/SitePlayer"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useTranslation } from "~/lib/i18n/client"
 import { toGateway } from "~/lib/ipfs-parser"
@@ -23,7 +26,6 @@ const APlayer = memo(function APlayer({
   cover?: string
   lrc?: string
 } & React.AudioHTMLAttributes<HTMLAudioElement>) {
-  const siteAPlayer = useAPlayer()
   const { t } = useTranslation("common")
 
   if (!src) return null
@@ -45,13 +47,11 @@ const APlayer = memo(function APlayer({
   }
 
   const addToList = () => {
-    return siteAPlayer.list.add(audioInfo)
+    sitePlayerAddToPlaylist(audioInfo)
   }
 
   const playNow = () => {
-    addToList()
-    siteAPlayer.list.switch(siteAPlayer.list.audios.length - 1)
-    siteAPlayer.play()
+    sitePlayerPlayNow(audioInfo)
   }
 
   return (
