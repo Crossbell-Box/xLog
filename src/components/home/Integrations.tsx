@@ -40,7 +40,7 @@ export function Integration() {
     {
       name: "xFeed",
       icon: <XFeedLogo className="w-full h-full" />,
-      url: "https://crossbell.io/feed",
+      url: "https://xfeed.app/",
     },
     {
       name: "xSync",
