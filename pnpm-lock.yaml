@@ -192,8 +192,8 @@ dependencies:
     specifier: 0.16.7
     version: 0.16.7
   langchain:
-    specifier: 0.0.95
-    version: 0.0.95
+    specifier: 0.0.96
+    version: 0.0.96
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -9254,8 +9254,8 @@ packages:
     resolution: {integrity: sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==}
     dev: false
 
-  /js-tiktoken@1.0.6:
-    resolution: {integrity: sha512-lxHntEupgjWvSh37WxpAW4XN6UBXBtFJOpZZq5HN5oNjDfN7L/iJhHOKjyL/DFtuYXUwn5jfTciLtOWpgQmHjQ==}
+  /js-tiktoken@1.0.7:
+    resolution: {integrity: sha512-biba8u/clw7iesNEWLOLwrNGoBP2lA+hTaBLs/D45pJdUPFXyxD6nhcDVtADChghv4GgyAiMKYMiRx7x6h7Biw==}
     dependencies:
       base64-js: 1.5.1
     dev: false
@@ -9437,8 +9437,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.95:
-    resolution: {integrity: sha512-UjOr1XArTTSZB4uCayKzQs69pCahHCq/CVTc66fAymCD5uKerh8AvcemPxgRpTi8tgcdhY76j//c0e06l5aFdA==}
+  /langchain@0.0.96:
+    resolution: {integrity: sha512-m1d0IWjwZK+D19uBfgmfp5sUTxJXcjJb/YuIyn2cGNmXGqOH2r2cl0TUnhuFKxTXpMTXgTywd7MYF5U5/qkNTQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0
@@ -9594,7 +9594,7 @@ packages:
       decamelize: 5.0.1
       expr-eval: 2.0.2
       flat: 5.0.2
-      js-tiktoken: 1.0.6
+      js-tiktoken: 1.0.7
       jsonpointer: 5.0.1
       langchainplus-sdk: 0.0.11
       ml-distance: 4.0.1
