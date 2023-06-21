@@ -59,7 +59,7 @@
     "@mantine/dates": "6.0.13",
     "@monaco-editor/react": "4.5.1",
     "@popperjs/core": "2.11.8",
-    "@prisma/client": "4.15.0",
+    "@prisma/client": "4.16.0",
     "@supercharge/request-ip": "1.2.0",
     "@tanstack/react-query": "4.29.14",
     "@tanstack/react-query-devtools": "4.29.14",
