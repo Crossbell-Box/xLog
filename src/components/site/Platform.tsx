@@ -180,10 +180,9 @@ export const Platform = ({
         <span className="w-6 h-6 inline-block overflow-hidden">
           {PlatformsSyncMap[platform]?.icon ? (
             <Image
-              width={24}
-              height={24}
               src={PlatformsSyncMap[platform]?.icon}
               alt={platform}
+              fill={true}
             />
           ) : (
             <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300 w-6 h-6">
