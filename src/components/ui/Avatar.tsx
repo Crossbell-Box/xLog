@@ -11,6 +11,7 @@ export const Avatar = ({
   className,
   rounded,
   imageRef,
+  priority,
   ...props
 }: {
   images: (string | null | undefined)[]
@@ -19,6 +20,7 @@ export const Avatar = ({
   rounded?: boolean
   imageRef?: React.MutableRefObject<HTMLImageElement>
   className?: string
+  priority?: boolean
 } & React.HTMLAttributes<HTMLSpanElement>) => {
   size = size || 60
 
@@ -78,6 +80,7 @@ export const Avatar = ({
         height={size}
         alt={name || ""}
         imageRef={imageRef}
+        priority={priority}
       />
     </span>
   )

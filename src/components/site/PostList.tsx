@@ -42,11 +42,16 @@ export default function PostList({
       {!posts.data.pages[0].count && <EmptyState />}
       {!!posts.data.pages[0].count && (
         <div className="xlog-posts space-y-8">
-          {posts.data.pages.map((posts) =>
-            posts.list.map((post) => {
+          {posts.data.pages.map((posts, listIndex) =>
+            posts.list.map((post, postIndex) => {
               currentLength++
               return (
-                <PostItem post={post} keyword={keyword} key={post.noteId} />
+                <PostItem
+                  post={post}
+                  keyword={keyword}
+                  key={post.noteId}
+                  priority={listIndex === 0 && postIndex < 3}
+                />
               )
             }),
           )}
@@ -79,7 +84,15 @@ export default function PostList({
 }
 
 const PostItem = memo(
-  ({ post, keyword }: { post: ExpandedNote; keyword?: string }) => {
+  ({
+    post,
+    keyword,
+    priority,
+  }: {
+    post: ExpandedNote
+    keyword?: string
+    priority?: boolean
+  }) => {
     const isMounted = useIsClient()
     const date = useDate()
     const router = useRouter()
@@ -96,7 +109,10 @@ const PostItem = memo(
           href={getSlugUrl(`/${post.metadata?.content?.slug}`)}
           suppressHydrationWarning
         >
-          <PostCover cover={post.metadata?.content?.cover} />
+          <PostCover
+            cover={post.metadata?.content?.cover}
+            priority={priority}
+          />
           <div className="flex-1 flex justify-center flex-col w-full min-w-0">
             <h3 className="xlog-post-title text-2xl font-bold text-zinc-700 line-clamp-2">
               {post.metadata?.content?.title}

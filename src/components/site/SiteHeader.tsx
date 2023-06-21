@@ -142,6 +142,7 @@ export const SiteHeader = ({ handle }: { handle: string }) => {
                   src={site.data?.metadata?.content?.banners?.[0]?.address}
                   alt="banner"
                   fill
+                  priority={true}
                 />
               )
             case "video":
@@ -177,6 +178,7 @@ export const SiteHeader = ({ handle }: { handle: string }) => {
                 images={site.data?.metadata?.content?.avatars}
                 size={150}
                 name={site.data?.metadata?.content?.name}
+                priority={true}
               />
             )}
             <div className="flex-1 min-w-0 relative">
