@@ -114,9 +114,9 @@ const PostItem = memo(
             priority={priority}
           />
           <div className="flex-1 flex justify-center flex-col w-full min-w-0">
-            <h3 className="xlog-post-title text-2xl font-bold text-zinc-700 line-clamp-2">
+            <h2 className="xlog-post-title text-2xl font-bold text-zinc-700 line-clamp-2">
               {post.metadata?.content?.title}
-            </h3>
+            </h2>
             <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
               <time
                 dateTime={date.formatToISO(

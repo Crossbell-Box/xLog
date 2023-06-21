@@ -54,14 +54,14 @@ const PostCard = ({
     >
       {!simple && <PostCover cover={post.metadata?.content.cover} />}
       <div className="flex-1 flex justify-center flex-col w-full min-w-0">
-        <h3
+        <h2
           className={cn(
             "xlog-post-title font-bold text-zinc-700 line-clamp-2",
             simple ? "text-xl" : "text-2xl",
           )}
         >
           {post.metadata?.content?.title}
-        </h3>
+        </h2>
         {!simple && (
           <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
             {!!post.metadata?.content?.tags?.filter(
