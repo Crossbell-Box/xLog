@@ -293,7 +293,7 @@ export async function getFeed({
                     metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
                   },
                   orderBy: { stat: { viewDetailCount: desc } },
-                  take: 50,
+                  take: 25,
                 ) {
                   stat {
                     viewDetailCount
