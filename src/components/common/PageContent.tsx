@@ -1,4 +1,3 @@
-import "katex/dist/katex.min.css"
 import { type MutableRefObject, memo } from "react"
 
 import PostActions from "~/components/site/PostActions"

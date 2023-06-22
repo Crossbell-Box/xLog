@@ -1,3 +1,5 @@
+@import url("https://fastly.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css");
+
 @import "./variables.css";
 @import "./tailwind.css";
 @import "./prose.css";
