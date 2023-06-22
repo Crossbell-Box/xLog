@@ -262,7 +262,7 @@ export const SiteHeader = ({ handle }: { handle: string }) => {
           </div>
         </div>
         <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
-          <div className="xlog-site-navigation flex items-center gap-1 mx-[-.5rem] min-w-0 text-sm sm:text-base">
+          <div className="xlog-site-navigation flex items-center gap-1 mx-[-.5rem] min-w-0 text-sm sm:text-base overflow-x-auto">
             {leftLinks.map((link, i) => {
               return <HeaderLink link={link} key={`${link.label}${i}`} />
             })}
