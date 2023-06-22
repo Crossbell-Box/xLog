@@ -175,7 +175,6 @@ export const Platform = ({
     >
       <Tooltip
         label={`${PlatformsSyncMap[platform]?.name || platform}: ${username}`}
-        className="capitalize"
       >
         <span className="w-6 h-6 inline-block overflow-hidden">
           {PlatformsSyncMap[platform]?.icon ? (
