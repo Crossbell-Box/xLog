@@ -270,8 +270,8 @@ dependencies:
     specifier: 1.1.1
     version: 1.1.1
   react-tweet:
-    specifier: 2.0.1
-    version: 2.0.1(react-dom@18.2.0)(react@18.2.0)
+    specifier: 2.0.2
+    version: 2.0.2(react-dom@18.2.0)(react@18.2.0)
   react-virtuoso:
     specifier: 4.3.10
     version: 4.3.10(react-dom@18.2.0)(react@18.2.0)
@@ -11610,8 +11610,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-tweet@2.0.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-r8Yrv+cW8ajpCcT2AJCIji9crbbVxiaYSagqU4IW4Btsm3b3Ui65pFOV9gZmnt2xorn8L98kqj8REEuGxwnaeA==}
+  /react-tweet@2.0.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-cTyExNUHyWHiUZ2Uuted2/b4ePClOe6q3cyQklP5qZrpiAldnQhXzA7dYBO5pPtg09uoriG+LZxqauZ2Yd/Rqw==}
     peerDependencies:
       react: '>= 18.0.0'
       react-dom: '>= 18.0.0'
