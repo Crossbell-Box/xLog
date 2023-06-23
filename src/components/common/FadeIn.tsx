@@ -30,7 +30,8 @@ const FadeIn = ({
       className={cn(
         "block transition-[opacity,transform] duration-800 ease-in-out",
         isInView === false && !locked
-          ? "opacity-0 translate-y-[20%]"
+          ? // @see https://www.debugbear.com/blog/opacity-animation-poor-lcp
+            "opacity-[0.00001] translate-y-[20%]"
           : "opacity-1 translate-y-0",
         className,
       )}
