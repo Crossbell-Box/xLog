@@ -29,7 +29,7 @@ export const SearchInput = ({
   })
 
   return (
-    <div className="xlog-comment-input flex">
+    <div className="xlog-search-input flex">
       <form className="w-full relative" onSubmit={handleSubmit}>
         <div
           className="absolute left-0 top-1/2 -translate-y-1/2 text-2xl text-zinc-500 h-11 ml-4 flex items-center justify-center cursor-pointer"
