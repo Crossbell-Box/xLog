@@ -1,6 +1,7 @@
 import { Time } from "~/components/common/Time"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { EditButton } from "~/components/site/EditButton"
+import PostTag from "~/components/site/PostTag"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n"
@@ -38,13 +39,7 @@ export default async function PostMeta({
               {page.metadata?.content?.tags
                 ?.filter((tag) => tag !== "post" && tag !== "page")
                 .map((tag) => (
-                  <UniLink
-                    className="hover:text-zinc-600"
-                    key={tag}
-                    href={`/tag/${tag}`}
-                  >
-                    <>#{tag}</>
-                  </UniLink>
+                  <PostTag key={tag} tag={tag} />
                 ))}
             </span>
           </>

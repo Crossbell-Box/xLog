@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation"
 
+import { getSiteRelativeUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
@@ -17,6 +18,9 @@ export type HeaderLinkType = {
 export const HeaderLink = ({ link }: { link: HeaderLinkType }) => {
   const pathname = usePathname()
   const { t } = useTranslation("site")
+  if (link.url) {
+    link.url = getSiteRelativeUrl(pathname, link.url)
+  }
 
   const active = pathname === link.url
   return (

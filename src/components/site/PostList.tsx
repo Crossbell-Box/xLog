@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { memo } from "react"
 import reactStringReplace from "react-string-replace"
 
@@ -13,7 +13,7 @@ import { Button } from "~/components/ui/Button"
 import { EmptyState } from "~/components/ui/EmptyState"
 import { useIsClient } from "~/hooks/useClient"
 import { useDate } from "~/hooks/useDate"
-import { getSlugUrl } from "~/lib/helpers"
+import { getSiteRelativeUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 
@@ -96,6 +96,7 @@ const PostItem = memo(
     const isMounted = useIsClient()
     const date = useDate()
     const router = useRouter()
+    const pathname = usePathname()
 
     return (
       <FadeIn
@@ -106,7 +107,10 @@ const PostItem = memo(
       >
         <Link
           className="flex flex-col sm:flex-row items-center group px-5 py-7 focus-visible:outline focus-visible:outline-accent"
-          href={getSlugUrl(`/${post.metadata?.content?.slug}`)}
+          href={getSiteRelativeUrl(
+            pathname,
+            `/${post.metadata?.content?.slug}`,
+          )}
           suppressHydrationWarning
         >
           <PostCover
@@ -146,7 +150,9 @@ const PostItem = memo(
                         onClick={(e) => {
                           e.stopPropagation()
                           e.preventDefault()
-                          router.push(`/tag/${tag}`)
+                          router.push(
+                            getSiteRelativeUrl(pathname, `/tag/${tag}`),
+                          )
                         }}
                       >
                         #{tag}

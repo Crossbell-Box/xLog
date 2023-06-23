@@ -1,11 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { useParams } from "next/navigation"
+import { useParams, usePathname } from "next/navigation"
 import { useMemo } from "react"
 
 import { Button } from "~/components/ui/Button"
 import { useDate } from "~/hooks/useDate"
+import { getSiteRelativeUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { useGetPagesBySiteLite } from "~/queries/page"
@@ -19,6 +20,7 @@ export const SiteArchives = () => {
   const date = useDate()
   const { t } = useTranslation("site")
   const { t: commonT } = useTranslation("common")
+  const pathname = usePathname()
   const params = useParams()
   if (params?.tag) {
     params.tag = decodeURIComponent(params.tag as string)
@@ -96,7 +98,11 @@ export const SiteArchives = () => {
               </h3>
               <div className="pt-2">
                 {[...tags.keys()].map((tag) => (
-                  <UniLink key={tag} href={`/tag/${tag}`} className="mr-6">
+                  <UniLink
+                    key={tag}
+                    href={getSiteRelativeUrl(pathname, `/tag/${tag}`)}
+                    className="mr-6"
+                  >
                     <span className="align-middle">{tag}</span>
                     <span className="text-gray-400 text-sm ml-1 align-middle">
                       ({tags.get(tag)})
@@ -119,7 +125,10 @@ export const SiteArchives = () => {
                     return (
                       <Link
                         key={post.transactionHash}
-                        href={`/${post.metadata?.content?.slug}`}
+                        href={getSiteRelativeUrl(
+                          pathname,
+                          `/${post.metadata?.content?.slug}`,
+                        )}
                         className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-hover"
                       >
                         <span className="text-zinc-700">

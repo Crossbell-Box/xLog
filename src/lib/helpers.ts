@@ -5,7 +5,6 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { IS_PROD, IS_VERCEL_PREVIEW } from "./constants"
 import { OUR_DOMAIN } from "./env"
-import { isServerSide } from "./utils"
 
 export const getSiteLink = ({
   domain,
@@ -26,20 +25,6 @@ export const getSiteLink = ({
   }
 
   return `${IS_PROD ? "https" : "http"}://${subdomain}.${OUR_DOMAIN}`
-}
-
-export const getSlugUrl = (slug: string) => {
-  if (!isServerSide() && IS_VERCEL_PREVIEW) {
-    const pathArr = new URL(location.href).pathname.split("/").filter(($) => $)
-    const indicatorIndex = pathArr.findIndex(($) => $ === "site")
-    if (-~indicatorIndex) {
-      const handle = pathArr[indicatorIndex + 1]
-
-      return `/site/${handle}${slug}`
-    }
-  }
-
-  return slug
 }
 
 export const getNoteSlug = (note: NoteEntity) => {
@@ -84,4 +69,21 @@ export const getTwitterShareUrl = ({
       },
     ),
   )}`
+}
+
+export const getSiteRelativeUrl = (pathname: string, address: string) => {
+  if (!address.startsWith("/")) {
+    address = `/${address}`
+  }
+  const reg = /\/site\/[^/]*/
+  if (address.match(reg) || address.match(/^https?:\/\//)) {
+    return address
+  } else {
+    const match = pathname.match(reg)
+    if (match?.[0]) {
+      return `${match[0]}${address === "/" ? "" : address}`
+    } else {
+      return address
+    }
+  }
 }
