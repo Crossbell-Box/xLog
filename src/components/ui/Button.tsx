@@ -1,13 +1,8 @@
-/* eslint-disable react/prop-types */
 "use client"
 
 import React, { memo } from "react"
 
 import { cn } from "~/lib/utils"
-
-/* eslint-disable react/prop-types */
-
-/* eslint-disable react/prop-types */
 
 /* eslint-disable react/prop-types */
 
@@ -25,6 +20,7 @@ export type Variant =
   | "outline"
   | "tip"
   | "comment"
+  | "share"
 
 export type VariantColor =
   | "green"

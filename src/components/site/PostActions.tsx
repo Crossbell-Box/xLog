@@ -7,6 +7,7 @@ import { ReactionLike } from "~/components/common/ReactionLike"
 import { ReactionTip } from "~/components/common/ReactionTip"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
+import { ReactionShare } from "../common/ReactionShare"
 import { usePostFooterInView } from "./PostFooter"
 
 const PostActions = ({
@@ -47,6 +48,7 @@ const PostActions = ({
           page={page}
           vertical={true}
         />
+        <ReactionShare noteId={page?.noteId} vertical />
         <ReactionComment
           characterId={page?.characterId}
           noteId={page?.noteId}

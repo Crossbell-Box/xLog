@@ -85,5 +85,8 @@
   "results": "項結果",
   "My xLog": "你的 xLog",
   "Play": "播放",
-  "Add to playlist": "添加到播放列表"
+  "Add to playlist": "添加到播放列表",
+  "Share Modal": "分享到..",
+  "Share": "分享",
+  "Share Message": "嘿，我發現了一片寶藏文章「{{title}}」哩，快來看看吧！"
 }

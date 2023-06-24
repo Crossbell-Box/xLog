@@ -10,6 +10,7 @@ import { ReactionLike } from "~/components/common/ReactionLike"
 import { ReactionTip } from "~/components/common/ReactionTip"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
+import { ReactionShare } from "../common/ReactionShare"
 import { Skeleton } from "../ui/Skeleton"
 
 const key = ["PostFooterInView"]
@@ -76,6 +77,7 @@ export const PostFooter = ({
         data-hide-print
       >
         <ReactionLike characterId={page?.characterId} noteId={page?.noteId} />
+        <ReactionShare noteId={page?.noteId} />
         {/* <ReactionMint characterId={page?.characterId} noteId={page?.noteId} /> */}
         <ReactionTip
           characterId={page?.characterId}
