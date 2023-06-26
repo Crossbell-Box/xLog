@@ -40,7 +40,7 @@
   "Like successfully": "点赞成功",
   "Mint successfully": "珍藏成功",
   "like stored": "你的点赞已被安全地存储在区块链上，可以在 <2>Crossbell Scan</2> 上查看",
-  "mint stored": "你已将此篇文章珍藏成NFT, 可以在 <2>xChar</2> 或 <6>Crossbell Scan</6> 上查看",
+  "mint stored": "你已将此篇文章珍藏成 NFT, 可以在 <2>xChar</2> 或 <6>Crossbell Scan</6> 上查看",
   "Got it, thanks!": "好的，谢谢！",
   "Like List": "点赞列表",
   "Mint List": "珍藏列表",
@@ -63,7 +63,7 @@
   "Generating": "生成中",
   "Show more": "显示更多",
   "Patron": "赞助",
-  "Become a patron of {{name}}" : "成为 {{name}} 的赞助者",
+  "Become a patron of {{name}}": "成为 {{name}} 的赞助者",
   "Latest patrons": "最近赞助者",
   "Latest tipper": "最近赞赏者",
   "You are here to be the first patron.": "你将是第一个赞助者。",
@@ -72,7 +72,7 @@
   "One-time": "一次性",
   "Monthly and NFT Rewards": "每月和 NFT 奖励",
   "Coming soon": "即将推出",
-  "What is MIRA? Where can I get some?" : "MIRA 是什么？我在哪里可以获得？",
+  "What is MIRA? Where can I get some?": "MIRA 是什么？我在哪里可以获得？",
   "Tip": "赞赏",
   "Tip the post: {{name}}": "赞赏文章：{{name}}",
   "Custom": "自定义",
@@ -90,5 +90,8 @@
   "Email": "电子邮箱",
   "You'll use an official public account for comments and give up blockchain ownership": "你将使用官方公共账号进行评论并放弃区块链所有权",
   "Play": "播放",
-  "Add to playlist": "添加到播放列表"
+  "Add to playlist": "添加到播放列表",
+  "Share Modal": "分享到...",
+  "Share": "分享",
+  "Share Message": "嘿，我发现了一片宝藏文章「{{title}}」哩，快来看看吧！"
 }

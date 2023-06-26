@@ -239,6 +239,9 @@ dependencies:
   qier-progress:
     specifier: 1.0.4
     version: 1.0.4
+  qrcode.react:
+    specifier: 3.1.0
+    version: 3.1.0(react@18.2.0)
   rc-dplayer:
     specifier: 0.1.0
     version: 0.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -11159,6 +11162,14 @@ packages:
   /qier-progress@1.0.4:
     resolution: {integrity: sha512-gCxgoM2wxW7GCo/iEpOlaunVo2cf+/AJfG6wtYIbYz18GXtUhFjgZjX2s+otWh/P8ppVgGULASkWtXfZQEd2FQ==}
     engines: {node: '>=6.0.0'}
+    dev: false
+
+  /qrcode.react@3.1.0(react@18.2.0):
+    resolution: {integrity: sha512-oyF+Urr3oAMUG/OiOuONL3HXM+53wvuH3mtIWQrYmsXoAq0DkvZp2RYUWFSMFtbdOpuS++9v+WAkzNVkMlNW6Q==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /qrcode@1.5.3:

@@ -30,11 +30,11 @@
   "Cancel Reply": "キャンセル",
   "ago": "{{time}}前",
   "joined ago": "{{time}}に参加した",
-  "Mint to an NFT": "NFTとしてミント",
+  "Mint to an NFT": "NFT としてミント",
   "Like successfully": "いいね済",
   "Mint successfully": "ミント済",
   "like stored": "いいねは安全にブロックチェーンに保存されました。 <2>Crossbell Scan</2> で確認できます。",
-  "mint stored": "この記事をNFTとしてミントしました。 <2>xChar</2> または <6>Crossbell Scan</6> で確認できます。",
+  "mint stored": "この記事を NFT としてミントしました。 <2>xChar</2> または <6>Crossbell Scan</6> で確認できます。",
   "Got it, thanks!": "了解しました、ありがとうございます！",
   "Like List": "いいねリスト",
   "Mint List": "ミントリスト",
@@ -53,9 +53,12 @@
   "Disconnect": "中断する",
   "Loading": "読み込み中",
   "Showcase": "ショーケース",
-  "AI-generated summary": "AIが生成した要約",
+  "AI-generated summary": "AI が生成した要約",
   "Generating": "生成中",
   "Show more": "もっと表示する",
   "Play": "再生",
-  "Add to playlist": "プレイリストに追加する"
+  "Add to playlist": "プレイリストに追加する",
+  "Share Modal": "と共有する..",
+  "Share Message": "お宝記事「{{title}}」を見つけました、見に来てください！",
+  "Share": "共有"
 }
