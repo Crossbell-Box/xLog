@@ -25,3 +25,5 @@ export const IPFS_GATEWAY =
   process.env.NEXT_PUBLIC_IPFS_GATEWAY || "https://ipfs.4everland.xyz/ipfs/"
 export const MIRA_LINK =
   process.env.NEXT_PUBLIC_MIRA_LINK || "https://mira.crossbell.io"
+export const WALLET_CONNECT_V2_PROJECT_ID =
+  process.env.NEXT_PUBLIC_WALLET_CONNECT_V2_PROJECT_ID
