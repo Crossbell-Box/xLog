@@ -114,8 +114,8 @@ dependencies:
     specifier: 4.0.10
     version: 4.0.10
   ahooks:
-    specifier: 3.7.7
-    version: 3.7.7(react@18.2.0)
+    specifier: 3.7.8
+    version: 3.7.8(react@18.2.0)
   aplayer:
     specifier: ^1.10.1
     version: 1.10.1
@@ -5139,8 +5139,8 @@ packages:
     resolution: {integrity: sha512-V7uUvAwnimu6eh/PED4mCDjE7tokeZQLKlxg9lCTMPhN+NjsSbtdacByVlR1oluXQzD3MOw55wylDmQo4+S9ZQ==}
     dev: false
 
-  /ahooks@3.7.7(react@18.2.0):
-    resolution: {integrity: sha512-5e5WlPq81Y84UnTLOKIQeq2cJw4aa7yj8fR2Nb/oMmXPrWMjIMCbPS1o+fpxSfCaNA3AzOnnMc8AehWRZltkJQ==}
+  /ahooks@3.7.8(react@18.2.0):
+    resolution: {integrity: sha512-e/NMlQWoCjaUtncNFIZk3FG1ImSkV/JhScQSkTqnftakRwdfZWSw6zzoWSG9OMYqPNs2MguDYBUFFC6THelWXA==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -10812,7 +10812,7 @@ packages:
       react: '>=17'
       react-dom: '>=17'
     dependencies:
-      ahooks: 3.7.7(react@18.2.0)
+      ahooks: 3.7.8(react@18.2.0)
       classnames: 2.3.2
       dplayer: 1.27.1
       flv.js: 1.6.2
