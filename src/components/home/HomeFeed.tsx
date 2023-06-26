@@ -43,8 +43,7 @@ const PostCard = ({
 
   return (
     <Link
-      target="_blank"
-      href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
+      href={`/site/${post.character?.handle}/${post.metadata?.content?.slug}`}
       className={cn(
         "xlog-post sm:hover:bg-hover transition-all p-4 ml-10 sm:rounded-xl flex flex-col sm:flex-row items-center hover:opacity-100 group",
         simple && "opacity-90",

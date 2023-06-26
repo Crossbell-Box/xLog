@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 // TODO
 import { Virtuoso } from "react-virtuoso"
 
@@ -13,9 +14,11 @@ import { useGetComments } from "~/queries/page"
 const Comment = ({
   page,
   className,
+  fixHeight,
 }: {
   page?: ExpandedNote
   className?: string
+  fixHeight?: boolean
 }) => {
   const comments = useGetComments({
     characterId: page?.characterId,
@@ -26,6 +29,8 @@ const Comment = ({
   const data = comments.data?.pages.filter(
     (page) => (page?.list?.length ?? 0) > 0,
   )
+
+  const [totalListHeight, setTotalListHeight] = useState(10)
 
   return (
     <div
@@ -52,7 +57,13 @@ const Comment = ({
 
       <Virtuoso
         className="xlog-comment-list"
-        useWindowScroll
+        style={{
+          height: fixHeight ? totalListHeight : undefined,
+        }}
+        useWindowScroll={!fixHeight}
+        totalListHeightChanged={(height) => {
+          setTotalListHeight(height + 71)
+        }}
         data={data}
         endReached={() => comments.hasNextPage && comments.fetchNextPage()}
         components={{

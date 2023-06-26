@@ -10,6 +10,7 @@ generated/
 test-results/
 tsconfig.tsbuildinfo
 .eslintcache
+server.js
 
 # IDE Specific
 .idea

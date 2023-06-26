@@ -76,8 +76,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode
+  modal: React.ReactNode
 }) {
   const lang = useAcceptLang()
   const colorScheme = getColorScheme()
@@ -95,7 +97,10 @@ export default function RootLayout({
   return (
     <html lang={lang} dir={dir(lang)} className={colorScheme}>
       <body>
-        <Providers lang={lang}>{children}</Providers>
+        <Providers lang={lang}>
+          {modal}
+          {children}
+        </Providers>
         <Toaster />
       </body>
     </html>

@@ -51,9 +51,11 @@ export const usePostFooterInView = () => {
 export const PostFooter = ({
   page,
   site,
+  fixHeight,
 }: {
   page?: ExpandedNote
   site?: ExpandedCharacter
+  fixHeight?: boolean
 }) => {
   const actionElRef = useRef<HTMLDivElement>(null)
   const [isInView] = useInViewport(actionElRef)
@@ -87,7 +89,7 @@ export const PostFooter = ({
         <ReactionShare noteId={page?.noteId} />
       </div>
       {inited || isInView ? (
-        <DynamicComment page={page} />
+        <DynamicComment page={page} fixHeight={fixHeight} />
       ) : (
         <CommentSkeleton />
       )}
