@@ -125,7 +125,7 @@
     "rehype-autolink-headings": "6.1.1",
     "rehype-infer-description-meta": "1.1.0",
     "rehype-katex": "6.0.3",
-    "rehype-prism-plus": "1.5.1",
+    "rehype-prism-plus": "1.6.1",
     "rehype-raw": "6.1.1",
     "rehype-react": "7.2.0",
     "rehype-rewrite": "3.0.6",
