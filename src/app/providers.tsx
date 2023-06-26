@@ -15,14 +15,18 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { useNProgress } from "~/hooks/useNProgress"
-import { APP_NAME } from "~/lib/env"
+import { APP_NAME, WALLET_CONNECT_V2_PROJECT_ID } from "~/lib/env"
 import { filterNotificationCharacter } from "~/lib/filter-character"
 import { toGateway } from "~/lib/ipfs-parser"
 import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
 import { LangProvider } from "~/providers/LangProvider"
 
-const wagmiConfig = createWagmiConfig({ appName: APP_NAME })
+const wagmiConfig = createWagmiConfig({
+  appName: APP_NAME,
+  // You can create or find it at https://cloud.walletconnect.com
+  walletConnectV2ProjectId: WALLET_CONNECT_V2_PROJECT_ID,
+})
 
 const persister = createIDBPersister()
 
