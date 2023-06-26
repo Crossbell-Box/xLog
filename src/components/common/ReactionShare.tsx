@@ -79,8 +79,7 @@ export const ReactionShare: FC<{
           variant="share"
           variantColor={vertical ? "light" : undefined}
           className={cn(
-            "flex items-center is-tip",
-
+            "flex items-center",
             vertical ? "!h-auto flex-col" : "mr-2",
           )}
           isAutoWidth={true}
@@ -118,7 +117,7 @@ export const ReactionShare: FC<{
         setOpen={setIsShareOpen}
         title={t("Share Modal") || ""}
       >
-        <div className="relative grid grid-cols-[200px_auto] gap-5 p-4">
+        <div className="relative grid grid-cols-[200px_auto] gap-5 px-5 py-6">
           <div className="qrcode inline-block min-h-[200px]">
             <QRCodeSVG
               value={url}

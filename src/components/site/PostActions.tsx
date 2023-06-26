@@ -30,7 +30,7 @@ const PostActions = ({
       }}
       ref={containerRef}
     >
-      <div className="sticky top-[calc(100vh-245px)] text-sm leading-loose whitespace-nowrap flex flex-col justify-center items-center space-y-4">
+      <div className="sticky top-[calc(100vh-290px)] text-sm leading-loose whitespace-nowrap flex flex-col justify-center items-center space-y-4">
         <ReactionLike
           characterId={page?.characterId}
           noteId={page?.noteId}
@@ -48,11 +48,11 @@ const PostActions = ({
           page={page}
           vertical={true}
         />
-        <ReactionShare noteId={page?.noteId} vertical />
         <ReactionComment
           characterId={page?.characterId}
           noteId={page?.noteId}
         />
+        <ReactionShare noteId={page?.noteId} vertical />
       </div>
     </div>
   )

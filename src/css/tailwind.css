@@ -173,6 +173,7 @@ a {
 .button.is-like,
 .button.is-collect,
 .button.is-tip,
+.button.is-share,
 .button.is-comment {
   @apply shadow-none p-0;
   @apply text-gray-500;
@@ -180,12 +181,14 @@ a {
 .button.is-like.is-light,
 .button.is-collect.is-light,
 .button.is-tip.is-light,
+.button.is-share.is-light,
 .button.is-comment.is-light {
   @apply text-gray-400;
 }
 .button.is-like.is-light.is-loading:before,
 .button.is-collect.is-light.is-loading:before,
 .button.is-tip.is-light.is-loading:before,
+.button.is-share.is-light.is-loading:before,
 .button.is-comment.is-light.is-loading:before {
   margin-right: 0;
 }
@@ -205,10 +208,17 @@ a {
 }
 
 .button.is-tip:hover {
-  color: #ef4444;
+  color: #facc15;
 }
 .button.is-tip.active {
-  color: #ef4444;
+  color: #facc15;
+}
+
+.button.is-share:hover {
+  color: #0ea5e9;
+}
+.button.is-share.active {
+  color: #0ea5e9;
 }
 
 .button.is-comment:hover {

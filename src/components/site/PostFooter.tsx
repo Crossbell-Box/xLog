@@ -77,7 +77,6 @@ export const PostFooter = ({
         data-hide-print
       >
         <ReactionLike characterId={page?.characterId} noteId={page?.noteId} />
-        <ReactionShare noteId={page?.noteId} />
         {/* <ReactionMint characterId={page?.characterId} noteId={page?.noteId} /> */}
         <ReactionTip
           characterId={page?.characterId}
@@ -85,6 +84,7 @@ export const PostFooter = ({
           site={site}
           page={page}
         />
+        <ReactionShare noteId={page?.noteId} />
       </div>
       {inited || isInView ? (
         <DynamicComment page={page} />
