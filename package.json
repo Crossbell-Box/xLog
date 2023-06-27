@@ -91,7 +91,7 @@
     "js-yaml": "4.1.0",
     "jsdom": "22.1.0",
     "jsonfeed-to-rss": "3.0.7",
-    "katex": "0.16.7",
+    "katex": "0.16.8",
     "langchain": "0.0.96",
     "lottie-react": "2.4.0",
     "mdast-util-to-hast": "12.3.0",
