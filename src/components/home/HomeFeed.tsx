@@ -169,7 +169,7 @@ const Post = ({
               >
                 <span className="w-10 h-10 inline-block">
                   <Image
-                    className="rounded-full"
+                    className="rounded-full object-cover"
                     src={
                       post.character?.metadata?.content?.avatars?.[0] ||
                       "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
