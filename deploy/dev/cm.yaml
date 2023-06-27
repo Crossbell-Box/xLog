@@ -73,8 +73,10 @@ data:
             return Response(status=404)
         attributes = res.json().get("metadata", {}).get("content", {}).get("attributes", [])
         for d in attributes:
-            print(d)
-            if d.get("trait_type") == "xlog_custom_domain" and d.get("value") == domain:
-                return Response(status=200)
+            if d.get("trait_type") == "xlog_custom_domain":
+                print(d)
+                xlog_custom_domain = d.get("value", "").lower()
+                if xlog_custom_domain == domain:
+                    return Response(status=200)
 
         return Response(status=404)
