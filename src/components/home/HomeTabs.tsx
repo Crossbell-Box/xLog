@@ -15,8 +15,8 @@ const tabs = [
     link: "/",
   },
   {
-    name: "Activities",
-    link: "/activities",
+    name: "About",
+    link: "/about",
   },
   {
     name: (
