@@ -15,7 +15,7 @@ export default function SiteModal({ children }: { children: JSX.Element }) {
   return (
     <Modal
       open={open}
-      panelClassName="max-w-[888px] py-12 px-20"
+      panelClassName="max-w-[888px] py-16 px-20 rounded-xl"
       zIndex={9}
       setOpen={() => router.back()}
     >
