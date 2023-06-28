@@ -1,0 +1,15 @@
+{
+	"applinks": {
+		"apps": [],
+		"details": [{
+			"appIDs": [
+				"9AYPRU93J4.com.crossbell.xlog.development",
+				"9AYPRU93J4.com.crossbell.xlog.staging",
+				"9AYPRU93J4.com.crossbell.xlog"
+			],
+			"components": [{
+				"/": "/"
+			}]
+		}]
+	}
+}
