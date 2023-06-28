@@ -49,7 +49,6 @@ const PostCard = ({
         simple && "opacity-90",
         isComment ? "bg-zinc-50" : "bg-white",
       )}
-      prefetch={false}
     >
       {!simple && <PostCover cover={post.metadata?.content.cover} />}
       <div className="flex-1 flex justify-center flex-col w-full min-w-0">

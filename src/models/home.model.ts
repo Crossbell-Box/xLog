@@ -47,24 +47,83 @@ export async function getFeed({
   }
   switch (type) {
     case "latest": {
-      let result = await indexer.note.getMany({
-        sources: "xlog",
-        // tags: ["post"],
-        limit,
-        cursor,
-        includeCharacter: true,
-        excludeCharacterId: filter.latest,
-      } as any)
+      const result = await client
+        .query(
+          `
+          query getNotes($filter: [Int!]) {
+            notes(
+              where: {
+                characterId: {
+                  notIn: $filter
+                }
+                metadata: {
+                  AND: [{
+                    content: {
+                      path: "sources",
+                      array_contains: "xlog"
+                    }
+                  }]
+                },
+              },
+              orderBy: [{ createdAt: desc }],
+              take: ${limit},
+              ${
+                cursor
+                  ? `
+              cursor: {
+                note_characterId_noteId_unique: {
+                  characterId: ${cursor.split("_")[0]},
+                  noteId: ${cursor.split("_")[1]}
+                },
+              },`
+                  : ""
+              }
+            ) {
+              characterId
+              noteId
+              character {
+                handle
+                metadata {
+                  content
+                }
+              }
+              createdAt
+              metadata {
+                uri
+                content
+              }
+              toNote {
+                characterId
+                noteId
+                character {
+                  handle
+                  metadata {
+                    content
+                  }
+                }
+                createdAt
+                metadata {
+                  uri
+                  content
+                }
+              }
+            }
+          }`,
+          {
+            filter: filter.latest,
+          },
+        )
+        .toPromise()
 
       const list = await Promise.all(
-        result.list
-          .filter((page) => {
+        result?.data?.notes
+          .filter((page: any) => {
             return !(
               page.metadata?.content?.tags?.includes("comment") &&
               page.toNote?.metadata?.content?.tags?.includes("comment")
             )
           })
-          .map(async (page) => {
+          .map(async (page: any) => {
             const isComment = page.metadata?.content?.tags?.includes("comment")
             const expand = await expandCrossbellNote({
               note: page,
@@ -84,8 +143,10 @@ export async function getFeed({
 
       return {
         list,
-        cursor: result.cursor,
-        count: result.count,
+        cursor: `${list[list.length - 1]?.characterId}_${
+          list[list.length - 1]?.noteId
+        }`,
+        count: list?.length || 0,
       }
     }
     case "following": {
