@@ -320,7 +320,7 @@ export async function getPage<TRender extends boolean = false>(input: {
                           path: ["attributes"],
                           array_contains: [{
                             trait_type: "xlog_slug",
-                            value: "${input.slug}",
+                            value: "${decodeURIComponent(input.slug!)}",
                           }]
                         }
                       },
