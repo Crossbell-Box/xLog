@@ -4,29 +4,21 @@ import { EditButton } from "~/components/site/EditButton"
 import PostTag from "~/components/site/PostTag"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN } from "~/lib/env"
-import { useTranslation } from "~/lib/i18n"
-import { toCid } from "~/lib/ipfs-parser"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
-import { getSummary } from "~/queries/page.server"
 
-export default async function PostMeta({
+export default function PostMeta({
   page,
   site,
+  summary,
+  translated,
 }: {
   page: ExpandedNote
   site?: ExpandedCharacter
-}) {
-  const { t } = await useTranslation("common")
-  const { i18n } = await useTranslation()
-
-  let summary: string | undefined
-  if (!page.metadata.content.disableAISummary) {
-    summary = await getSummary({
-      cid: toCid(page.metadata?.uri || ""),
-      lang: i18n.resolvedLanguage,
-    })
+  summary?: string
+  translated?: {
+    "AI-generated summary": string
   }
-
+}) {
   return (
     <div className="xlog-post-meta">
       <div className="text-zinc-400 mt-4 space-x-5 flex items-center">
@@ -64,7 +56,7 @@ export default async function PostMeta({
         <div className="xlog-post-summary border rounded-xl mt-4 p-4 space-y-2">
           <div className="font-bold text-zinc-700 flex items-center">
             <i className="icon-[mingcute--android-2-line] mr-2 text-lg" />
-            {t("AI-generated summary")}
+            {translated?.["AI-generated summary"] || "AI-generated summary"}
           </div>
           <div className="text-zinc-500 leading-loose text-sm">{summary}</div>
         </div>

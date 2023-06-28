@@ -10,10 +10,12 @@ import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n"
+import { toCid } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import getQueryClient from "~/lib/query-client"
 import { isOnlyContent } from "~/lib/search-parser"
-import { fetchGetPage } from "~/queries/page.server"
+import { fetchGetPage, getSummary } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
 export async function generateMetadata({
@@ -127,6 +129,16 @@ export default async function SitePagePage({
     }
   }
 
+  const { i18n } = await useTranslation()
+  const { t } = await useTranslation("common")
+  let summary: string | undefined
+  if (!page.metadata.content.disableAISummary) {
+    summary = await getSummary({
+      cid: toCid(page.metadata?.uri || ""),
+      lang: i18n.resolvedLanguage,
+    })
+  }
+
   return (
     <>
       <script
@@ -146,7 +158,14 @@ export default async function SitePagePage({
               </h2>
             )}
             {page?.metadata?.content?.tags?.includes("post") && (
-              <PostMeta page={page} site={site} />
+              <PostMeta
+                page={page}
+                site={site}
+                summary={summary}
+                translated={{
+                  "AI-generated summary": t("AI-generated summary"),
+                }}
+              />
             )}
           </div>
         )}

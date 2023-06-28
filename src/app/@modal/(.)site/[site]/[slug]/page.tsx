@@ -6,8 +6,10 @@ import PageContent from "~/components/common/PageContent"
 import PostModal from "~/components/home/PostModal"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
+import { useTranslation } from "~/lib/i18n"
+import { toCid } from "~/lib/ipfs-parser"
 import getQueryClient from "~/lib/query-client"
-import { fetchGetPage } from "~/queries/page.server"
+import { fetchGetPage, getSummary } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
 export default async function SiteModal({
@@ -40,6 +42,16 @@ export default async function SiteModal({
 
   const dehydratedState = dehydrate(queryClient)
 
+  const { i18n } = await useTranslation()
+  const { t } = await useTranslation("common")
+  let summary: string | undefined
+  if (!page.metadata.content.disableAISummary) {
+    summary = await getSummary({
+      cid: toCid(page.metadata?.uri || ""),
+      lang: i18n.resolvedLanguage,
+    })
+  }
+
   return (
     <PostModal>
       <div>
@@ -55,7 +67,14 @@ export default async function SiteModal({
               </h2>
             )}
             {page?.metadata?.content?.tags?.includes("post") && (
-              <PostMeta page={page} site={site} />
+              <PostMeta
+                page={page}
+                site={site}
+                summary={summary}
+                translated={{
+                  "AI-generated summary": t("AI-generated summary"),
+                }}
+              />
             )}
           </div>
           <PageContent

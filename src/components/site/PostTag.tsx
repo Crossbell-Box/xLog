@@ -6,7 +6,7 @@ import { getSiteRelativeUrl } from "~/lib/helpers"
 
 import { UniLink } from "../ui/UniLink"
 
-export default async function PostTag({ tag }: { tag: string }) {
+export default function PostTag({ tag }: { tag: string }) {
   const pathname = usePathname()
 
   return (
