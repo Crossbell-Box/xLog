@@ -12,7 +12,13 @@ import { Avatar } from "../ui/Avatar"
 import { HeaderLink, type HeaderLinkType } from "./SiteHeaderLink"
 import { SiteHeaderMenu } from "./SiteHeaderMenu"
 
-export const SiteHeader = async ({ handle }: { handle: string }) => {
+export const SiteHeader = async ({
+  handle,
+  full,
+}: {
+  handle: string
+  full?: boolean
+}) => {
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(handle, queryClient)
@@ -35,7 +41,10 @@ export const SiteHeader = async ({ handle }: { handle: string }) => {
             case "image":
               return (
                 <NextImage
-                  className="max-w-screen-md mx-auto object-cover"
+                  className={cn(
+                    "object-cover",
+                    !full && "max-w-screen-md mx-auto",
+                  )}
                   src={site?.metadata?.content?.banners?.[0]?.address}
                   alt="banner"
                   fill
@@ -45,7 +54,10 @@ export const SiteHeader = async ({ handle }: { handle: string }) => {
             case "video":
               return (
                 <video
-                  className="max-w-screen-md mx-auto object-cover h-full w-full"
+                  className={cn(
+                    "object-cover h-full w-full",
+                    !full && "max-w-screen-md mx-auto",
+                  )}
                   src={site?.metadata?.content?.banners?.[0]?.address}
                   autoPlay
                   muted
