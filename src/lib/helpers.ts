@@ -75,13 +75,13 @@ export const getSiteRelativeUrl = (pathname: string, address: string) => {
   if (!address.startsWith("/")) {
     address = `/${address}`
   }
-  const reg = /\/site\/[^/]*/
+  const reg = /\/(site|post)\/([^/]*)/
   if (address.match(reg) || address.match(/^https?:\/\//)) {
     return address
   } else {
     const match = pathname.match(reg)
-    if (match?.[0]) {
-      return `${match[0]}${address === "/" ? "" : address}`
+    if (match?.[2]) {
+      return `/site/${match[2]}${address === "/" ? "" : address}`
     } else {
       return address
     }

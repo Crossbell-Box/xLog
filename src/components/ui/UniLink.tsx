@@ -35,7 +35,11 @@ export const UniLink = ({
   const isExternal =
     href && (/^https?:\/\//.test(href) || href.startsWith("/feed"))
 
-  if (isExternal) {
+  const isInModal =
+    typeof window !== "undefined" &&
+    window.location.pathname.startsWith("/post/")
+
+  if (isExternal || isInModal) {
     return (
       <a
         {...props}

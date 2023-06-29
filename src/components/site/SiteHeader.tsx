@@ -15,9 +15,13 @@ import { SiteHeaderMenu } from "./SiteHeaderMenu"
 export const SiteHeader = async ({
   handle,
   full,
+  hideNavigation,
+  hideSearch,
 }: {
   handle: string
   full?: boolean
+  hideNavigation?: boolean
+  hideSearch?: boolean
 }) => {
   const queryClient = getQueryClient()
 
@@ -97,7 +101,11 @@ export const SiteHeader = async ({
                     site?.metadata?.content?.name}
                 </h1>
                 <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 right-0">
-                  <SiteHeaderMenu handle={site?.handle} owner={site?.owner} />
+                  <SiteHeaderMenu
+                    handle={site?.handle}
+                    owner={site?.owner}
+                    hideSearch={hideSearch}
+                  />
                   <div className="xlog-site-follow-button">
                     <FollowingButton site={site || undefined} />
                   </div>
@@ -119,16 +127,18 @@ export const SiteHeader = async ({
             </div>
           </div>
         </div>
-        <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
-          <div className="xlog-site-navigation flex items-center gap-1 mx-[-.5rem] min-w-0 text-sm sm:text-base overflow-x-auto">
-            {leftLinks.map((link, i) => {
-              return <HeaderLink link={link} key={`${link.label}${i}`} />
-            })}
+        {!hideNavigation && (
+          <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
+            <div className="xlog-site-navigation flex items-center gap-1 mx-[-.5rem] min-w-0 text-sm sm:text-base overflow-x-auto">
+              {leftLinks.map((link, i) => {
+                return <HeaderLink link={link} key={`${link.label}${i}`} />
+              })}
+            </div>
+            <div className="xlog-site-connect pl-1">
+              <ConnectButton variant="text" mobileSimplification={true} />
+            </div>
           </div>
-          <div className="xlog-site-connect pl-1">
-            <ConnectButton variant="text" mobileSimplification={true} />
-          </div>
-        </div>
+        )}
       </div>
     </header>
   )

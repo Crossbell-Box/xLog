@@ -8,6 +8,7 @@ import { Modal } from "~/components/ui/Modal"
 export default function SiteModal({ children }: { children: JSX.Element }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
+
   useEffect(() => {
     setOpen(true)
   }, [])

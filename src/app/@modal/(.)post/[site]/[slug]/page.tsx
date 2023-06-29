@@ -57,7 +57,12 @@ export default async function SiteModal({
   return (
     <PostModal>
       <div className="pb-16">
-        <SiteHeader handle={params.site} full={true} />
+        <SiteHeader
+          handle={params.site}
+          full={true}
+          hideNavigation={true}
+          hideSearch={true}
+        />
         <main
           className={cn(
             `xlog-post-id-${page?.characterId}-${page?.noteId}`,

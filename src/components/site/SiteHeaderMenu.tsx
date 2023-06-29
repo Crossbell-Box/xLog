@@ -37,9 +37,11 @@ function MoreActions({ children }: React.PropsWithChildren<{}>) {
 export const SiteHeaderMenu = ({
   handle,
   owner,
+  hideSearch,
 }: {
   handle?: string
   owner?: string
+  hideSearch?: boolean
 }) => {
   const { t } = useTranslation("site")
   const [searchOpen, setSearchOpen] = useState(false)
@@ -98,16 +100,20 @@ export const SiteHeaderMenu = ({
       })}/feed?format=xml`,
       out: true,
     },
-    {
-      text: "Search on this site",
-      icon: (
-        <span className="text-stone-400">
-          <i className="icon-[mingcute--search-line] block" />
-        </span>
-      ),
-      onClick: () => setSearchOpen(true),
-      out: true,
-    },
+    ...(hideSearch
+      ? []
+      : [
+          {
+            text: "Search on this site",
+            icon: (
+              <span className="text-stone-400">
+                <i className="icon-[mingcute--search-line] block" />
+              </span>
+            ),
+            onClick: () => setSearchOpen(true),
+            out: true,
+          },
+        ]),
   ]
 
   return (
