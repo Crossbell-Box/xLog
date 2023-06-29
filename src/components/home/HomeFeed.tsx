@@ -19,6 +19,7 @@ import { Skeleton } from "~/components/ui/Skeleton"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
+import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
@@ -43,7 +44,7 @@ const PostCard = ({
 
   return (
     <Link
-      href={`/site/${post.character?.handle}/${post.metadata?.content?.slug}`}
+      href={`/post/${post.character?.handle}/${post.metadata?.content?.slug}`}
       className={cn(
         "xlog-post sm:hover:bg-hover transition-all p-4 ml-10 sm:rounded-xl flex flex-col sm:flex-row items-center hover:opacity-100 group",
         simple && "opacity-90",
@@ -162,7 +163,9 @@ const Post = ({
             <CharacterFloatCard siteId={post.character?.handle}>
               <Link
                 target="_blank"
-                href={`/api/redirection?characterId=${post.characterId}`}
+                href={`${getSiteLink({
+                  subdomain: post.character?.handle || "",
+                })}`}
                 className="flex items-center space-x-4 cursor-pointer"
                 prefetch={false}
               >
@@ -203,8 +206,9 @@ const Post = ({
         )}
         {isComment && (
           <Link
-            target="_blank"
-            href={`/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`}
+            href={`/post/${post.toNote?.character?.handle}/${
+              (post.toNote as ExpandedNote)?.metadata?.content?.slug
+            }`}
             className="block p-4 ml-10 font-medium text-zinc-700"
           >
             <i className="icon-[mingcute--comment-fill] align-middle mr-2" />
