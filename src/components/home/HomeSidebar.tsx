@@ -6,6 +6,7 @@ import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { SearchInput } from "~/components/common/SearchInput"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
+import { DEFAULT_AVATAR } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { useGetShowcase } from "~/queries/home"
@@ -82,7 +83,7 @@ export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
                         className="rounded-full object-cover"
                         src={
                           site?.metadata?.content?.avatars?.[0] ||
-                          "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
+                          DEFAULT_AVATAR
                         }
                         alt={site.handle}
                         width="40"

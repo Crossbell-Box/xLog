@@ -7,7 +7,13 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
-import { CSB_SCAN, DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
+import {
+  CSB_SCAN,
+  DEFAULT_AVATAR,
+  DISCORD_LINK,
+  GITHUB_LINK,
+  TWITTER_LINK,
+} from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { Trans, useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
@@ -239,7 +245,7 @@ export default function SubdomainIndex() {
                           className="rounded-full"
                           src={
                             site.metadata.content?.avatars?.[0] ||
-                            "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
+                            DEFAULT_AVATAR
                           }
                           alt={site.handle}
                           width="56"
