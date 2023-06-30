@@ -87,7 +87,7 @@
     "idb-keyval": "6.2.1",
     "immer": "10.0.2",
     "ioredis": "5.3.2",
-    "isomorphic-dompurify": "1.6.0",
+    "isomorphic-dompurify": "1.7.0",
     "js-yaml": "4.1.0",
     "jsdom": "22.1.0",
     "jsonfeed-to-rss": "3.0.7",
