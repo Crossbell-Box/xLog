@@ -1,24 +1,25 @@
 "use client"
 
+import { CharacterEntity } from "crossbell"
 import Link from "next/link"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { memo, useEffect, useState } from "react"
 import reactStringReplace from "react-string-replace"
-import { Virtuoso } from "react-virtuoso"
+import { VirtuosoGrid } from "react-virtuoso"
 
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { Switch } from "@headlessui/react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
-import FadeIn from "~/components/common/FadeIn"
 import { Titles } from "~/components/common/Titles"
-import PostCover from "~/components/site/PostCover"
+import PostCover from "~/components/home/PostCover"
 import { EmptyState } from "~/components/ui/EmptyState"
 import { Image } from "~/components/ui/Image"
 import { Skeleton } from "~/components/ui/Skeleton"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
+import { DEFAULT_AVATAR } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
@@ -30,59 +31,115 @@ import { useGetFeed } from "~/queries/home"
 import topics from "../../../data/topics.json"
 
 const PostCard = ({
+  character,
   post,
-  simple,
-  isComment,
   keyword,
+  comment,
 }: {
+  character?: CharacterEntity
   post: ExpandedNote
-  simple?: boolean
-  isComment?: boolean
   keyword?: string
+  comment?: string
 }) => {
   const router = useRouter()
+  const { t } = useTranslation("common")
+  const date = useDate()
 
   return (
     <Link
-      href={`/post/${post.character?.handle}/${post.metadata?.content?.slug}`}
+      href={`/post/${character?.handle}/${post.metadata?.content?.slug}`}
       className={cn(
-        "xlog-post sm:hover:bg-hover transition-all p-4 ml-10 sm:rounded-xl flex flex-col sm:flex-row items-center hover:opacity-100 group",
-        simple && "opacity-90",
-        isComment ? "bg-zinc-50" : "bg-white",
+        "xlog-post sm:hover:bg-hover transition-all sm:rounded-2xl flex flex-col items-center hover:opacity-100 group border",
       )}
     >
-      {!simple && <PostCover cover={post.metadata?.content.cover} />}
-      <div className="flex-1 flex justify-center flex-col w-full min-w-0">
+      <PostCover
+        cover={
+          post.metadata?.content.cover ||
+          character?.metadata?.content?.avatars?.[0] ||
+          DEFAULT_AVATAR
+        }
+      />
+      <div className="p-5 pt-4 w-full min-w-0 h-[204px] flex flex-col">
+        <div className="flex items-center space-x-2 mb-4">
+          <CharacterFloatCard siteId={character?.handle}>
+            <span
+              className="flex items-center space-x-2 cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault()
+                window.open(
+                  `${getSiteLink({
+                    subdomain: character?.handle || "",
+                  })}`,
+                )
+              }}
+            >
+              <span className="w-6 h-6 inline-block">
+                <Image
+                  className="rounded-full object-cover"
+                  src={
+                    character?.metadata?.content?.avatars?.[0] || DEFAULT_AVATAR
+                  }
+                  alt={character?.handle || ""}
+                  width="24"
+                  height="24"
+                ></Image>
+              </span>
+              <span className="font-medium">
+                {character?.metadata?.content?.name || character?.handle}
+              </span>
+            </span>
+          </CharacterFloatCard>
+          <Titles characterId={character?.characterId} />
+          <span className="text-zinc-400">·</span>
+          <time
+            dateTime={date.formatToISO(post.createdAt)}
+            className="xlog-post-date whitespace-nowrap text-zinc-400 text-sm"
+          >
+            {t("ago", {
+              time: date.dayjs
+                .duration(
+                  date.dayjs(post?.createdAt).diff(date.dayjs(), "minute"),
+                  "minute",
+                )
+                .humanize(),
+            })}
+          </time>
+        </div>
+        {comment && (
+          <div className="font-medium text-zinc-700 mb-2 line-clamp-2">
+            <i className="icon-[mingcute--comment-fill] mr-2" />
+            {comment}
+          </div>
+        )}
         <h2
           className={cn(
-            "xlog-post-title font-bold text-zinc-700 line-clamp-2",
-            simple ? "text-xl" : "text-2xl",
+            "xlog-post-title font-bold line-clamp-2 text-xl",
+            comment ? "text-zinc-500" : "text-zinc-700",
           )}
         >
           {post.metadata?.content?.title}
         </h2>
-        {!simple && (
+        {(!!post.metadata?.content?.tags?.filter(
+          (tag) => tag !== "post" && tag !== "page",
+        ).length ||
+          post.stat?.viewDetailCount) && (
           <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
-            {!!post.metadata?.content?.tags?.filter(
-              (tag) => tag !== "post" && tag !== "page",
-            ).length && (
-              <span className="xlog-post-tags space-x-1 truncate min-w-0">
-                {post.metadata?.content?.tags
-                  ?.filter((tag) => tag !== "post" && tag !== "page")
-                  .map((tag, index) => (
-                    <span
-                      className="hover:text-zinc-600"
-                      key={tag + index}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        router.push(`/tag/${tag}`)
-                      }}
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-              </span>
-            )}
+            <span className="xlog-post-tags space-x-1 truncate min-w-0">
+              {post.metadata?.content?.tags
+                ?.filter((tag) => tag !== "post" && tag !== "page")
+                .map((tag, index) => (
+                  <span
+                    className="hover:text-zinc-600"
+                    key={tag + index}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      router.push(`/tag/${tag}`)
+                    }}
+                  >
+                    #{tag}
+                  </span>
+                ))}
+            </span>
             {post.stat?.viewDetailCount && (
               <span className="xlog-post-views inline-flex items-center">
                 <i className="icon-[mingcute--eye-line] mr-[2px]" />
@@ -91,140 +148,45 @@ const PostCard = ({
             )}
           </div>
         )}
-        <div
-          className={cn(
-            "xlog-post-excerpt mt-3 text-zinc-500",
-            simple ? "line-clamp-1" : "line-clamp-2",
-          )}
-          style={{
-            wordBreak: "break-word",
-          }}
-        >
-          {keyword
-            ? reactStringReplace(
-                post.metadata?.content?.summary || "",
-                keyword,
-                (match, i) => (
-                  <span key={i} className="bg-yellow-200">
-                    {match}
-                  </span>
-                ),
-              )
-            : post.metadata?.content?.summary}
-          {post.metadata?.content?.summary && "..."}
-        </div>
+        {!comment && (
+          <div
+            className="xlog-post-excerpt mt-2 text-zinc-500 line-clamp-2 text-sm"
+            style={{
+              wordBreak: "break-word",
+            }}
+          >
+            {keyword
+              ? reactStringReplace(
+                  post.metadata?.content?.summary || "",
+                  keyword,
+                  (match, i) => (
+                    <span key={i} className="bg-yellow-200">
+                      {match}
+                    </span>
+                  ),
+                )
+              : post.metadata?.content?.summary}
+            {post.metadata?.content?.summary && "..."}
+          </div>
+        )}
       </div>
     </Link>
   )
 }
 
-const Post = ({
-  post,
-  previousPost,
-  filtering,
-  keyword,
-}: {
-  post: ExpandedNote
-  previousPost?: ExpandedNote
-  filtering: number
-  keyword?: string
-}) => {
-  const { t } = useTranslation("common")
-  const date = useDate()
-  let simple = post.characterId === previousPost?.characterId
-
-  if (
-    filtering &&
-    post.metadata?.content?.score?.number !== undefined &&
-    post.metadata.content.score.number <= filtering
-  ) {
-    return null
-  }
-
+const Post = ({ post, keyword }: { post: ExpandedNote; keyword?: string }) => {
   let isComment
   if (post.metadata?.content?.tags?.includes("comment") && post.toNote) {
     isComment = true
-    if (post.toNote?.metadata?.content?.tags?.includes("comment")) {
-      return null
-    }
-    if (
-      !post.metadata?.content?.summary ||
-      getStringLength(post.metadata.content.summary) < 6
-    ) {
-      return null
-    }
   }
 
   return (
-    <FadeIn className={cn(simple ? "!mt-4" : "")}>
-      <>
-        {!simple && (
-          <div className="flex items-center space-x-2">
-            <CharacterFloatCard siteId={post.character?.handle}>
-              <Link
-                target="_blank"
-                href={`${getSiteLink({
-                  subdomain: post.character?.handle || "",
-                })}`}
-                className="flex items-center space-x-4 cursor-pointer"
-                prefetch={false}
-              >
-                <span className="w-10 h-10 inline-block">
-                  <Image
-                    className="rounded-full object-cover"
-                    src={
-                      post.character?.metadata?.content?.avatars?.[0] ||
-                      "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
-                    }
-                    alt={post.character?.handle || ""}
-                    width="40"
-                    height="40"
-                  ></Image>
-                </span>
-                <span className="font-medium">
-                  {post.character?.metadata?.content?.name ||
-                    post.character?.handle}
-                </span>
-              </Link>
-            </CharacterFloatCard>
-            <Titles characterId={post.characterId} />
-            <span className="text-zinc-400">·</span>
-            <time
-              dateTime={date.formatToISO(post.createdAt)}
-              className="xlog-post-date whitespace-nowrap text-zinc-400 text-sm"
-            >
-              {t("ago", {
-                time: date.dayjs
-                  .duration(
-                    date.dayjs(post?.createdAt).diff(date.dayjs(), "minute"),
-                    "minute",
-                  )
-                  .humanize(),
-              })}
-            </time>
-          </div>
-        )}
-        {isComment && (
-          <Link
-            href={`/post/${post.toNote?.character?.handle}/${
-              (post.toNote as ExpandedNote)?.metadata?.content?.slug
-            }`}
-            className="block p-4 ml-10 font-medium text-zinc-700"
-          >
-            <i className="icon-[mingcute--comment-fill] align-middle mr-2" />
-            <span className="align-middle">
-              {post.metadata?.content?.summary}
-            </span>
-          </Link>
-        )}
-        <PostCard
-          post={isComment ? (post.toNote as ExpandedNote) : post}
-          simple={simple || isComment}
-          isComment={isComment}
-          keyword={keyword}
-        />
-      </>
-    </FadeIn>
+    <PostCard
+      character={post.character || undefined}
+      post={isComment ? (post.toNote as ExpandedNote) : post}
+      keyword={keyword}
+      comment={isComment ? post.metadata?.content?.summary : undefined}
+    />
   )
 }
 
@@ -314,6 +276,38 @@ export const HomeFeed = ({
     },
   ]
 
+  const [feedInOne, setFeedInOne] = useState<ExpandedNote[]>([])
+  useEffect(() => {
+    if (feed.data?.pages?.length) {
+      setFeedInOne(
+        feed.data.pages
+          .reduce((acc, cur) => {
+            return acc.concat((cur?.list || []) as ExpandedNote[])
+          }, [] as ExpandedNote[])
+          .filter((post) => {
+            if (
+              aiFiltering &&
+              post.metadata?.content?.score?.number !== undefined &&
+              post.metadata.content.score.number <= 60
+            ) {
+              return false
+            } else if (
+              post.toNote?.metadata?.content?.tags?.includes("comment")
+            ) {
+              return false
+            } else if (
+              !post.metadata?.content?.summary ||
+              getStringLength(post.metadata.content.summary) < 6
+            ) {
+              return false
+            } else {
+              return true
+            }
+          }),
+      )
+    }
+  }, [feed.data?.pages, aiFiltering])
+
   return (
     <>
       <div className="space-y-10">
@@ -364,35 +358,24 @@ export const HomeFeed = ({
           <EmptyState />
         ) : (
           <div className="xlog-posts my-8">
-            <Virtuoso
-              overscan={5}
+            <VirtuosoGrid
+              overscan={2604}
               endReached={() => feed.hasNextPage && feed.fetchNextPage()}
               useWindowScroll
-              data={feed.data?.pages}
-              itemContent={(_, posts) => {
-                if (!posts?.list.length) return <div className="h-[1px]"></div>
+              data={feedInOne}
+              totalCount={feed.data?.pages[0]?.count || 0}
+              listClassName="grid gap-6 grid-cols-3"
+              itemContent={(index) => {
+                const post = feedInOne[index]
                 return (
-                  <div className="space-y-8 mb-8">
-                    {posts?.list.map((post, index, array) => {
-                      return (
-                        <MemoedPost
-                          key={`${post.characterId}-${post.noteId}`}
-                          post={post}
-                          previousPost={
-                            (type === "latest" || type === "topic") &&
-                            index >= 1
-                              ? array[index - 1]
-                              : undefined
-                          }
-                          filtering={aiFiltering ? 60 : 0}
-                          keyword={searchParams?.get("q") || undefined}
-                        />
-                      )
-                    })}
-                  </div>
+                  <MemoedPost
+                    key={`${post.characterId}-${post.noteId}`}
+                    post={post}
+                    keyword={searchParams?.get("q") || undefined}
+                  />
                 )
               }}
-            ></Virtuoso>
+            ></VirtuosoGrid>
 
             {feed.isFetching && feed.hasNextPage && <Loader />}
           </div>
