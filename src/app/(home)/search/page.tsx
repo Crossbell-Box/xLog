@@ -19,17 +19,15 @@ export function generateMetadata({
 
 async function Search() {
   return (
-    <section className="pt-24">
-      <div className="max-w-screen-lg px-5 mx-auto flex">
-        <div className="flex-1 min-w-[300px]">
-          <SearchInput />
-          <div className="mt-10">
-            <HomeFeed type="search" />
-          </div>
+    <>
+      <div className="flex-1 min-w-[300px]">
+        <SearchInput />
+        <div className="mt-10">
+          <HomeFeed type="search" />
         </div>
-        <HomeSidebar hideSearch={true} />
       </div>
-    </section>
+      <HomeSidebar hideSearch={true} />
+    </>
   )
 }
 

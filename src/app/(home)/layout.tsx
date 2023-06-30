@@ -14,7 +14,7 @@ export default async function HomeLayout({
   return (
     <>
       <header className="py-5 fixed w-full top-0 bg-white z-[1]">
-        <div className="max-w-screen-lg px-5 mx-auto flex justify-between items-center">
+        <div className="max-w-screen-xl px-5 mx-auto flex justify-between items-center">
           <UniLink
             href="/"
             className="text-2xl font-extrabold flex items-center"
@@ -30,7 +30,9 @@ export default async function HomeLayout({
           </div>
         </div>
       </header>
-      {children}
+      <section className="pt-24">
+        <div className="max-w-screen-lg px-5 mx-auto flex">{children}</div>
+      </section>
       <footer className="mt-10 font-medium border-t">
         <div className="max-w-screen-lg px-5 py-14 mx-auto flex justify-between">
           <span className="text-zinc-700 ml-2 inline-flex items-center space-x-5 align-middle">

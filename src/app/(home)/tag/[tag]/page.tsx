@@ -26,14 +26,12 @@ export default function Tag({
   params.tag = decodeURIComponent(params.tag)
 
   return (
-    <section className="pt-24">
-      <div className="max-w-screen-lg px-5 mx-auto flex">
-        <div className="flex-1 min-w-[300px]">
-          <h2 className="text-3xl font-bold">Tag: {params.tag}</h2>
-          <HomeFeed type="tag" />
-        </div>
-        <HomeSidebar />
+    <>
+      <div className="flex-1 min-w-[300px]">
+        <h2 className="text-3xl font-bold">Tag: {params.tag}</h2>
+        <HomeFeed type="tag" />
       </div>
-    </section>
+      <HomeSidebar />
+    </>
   )
 }

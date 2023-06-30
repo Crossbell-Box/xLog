@@ -14,14 +14,12 @@ export default async function ActivitiesLayout({
   children?: React.ReactNode
 }) {
   return (
-    <section className="pt-24">
-      <div className="max-w-screen-lg px-5 mx-auto flex">
-        <div className="flex-1 min-w-[300px]">
-          <HomeActivitiesTabs />
-          {children}
-        </div>
-        <HomeSidebar />
+    <>
+      <div className="flex-1 min-w-[300px]">
+        <HomeActivitiesTabs />
+        {children}
       </div>
-    </section>
+      <HomeSidebar />
+    </>
   )
 }

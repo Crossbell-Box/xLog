@@ -108,8 +108,8 @@ async function Home() {
   ]
 
   return (
-    <div className="max-w-screen-lg px-5 mx-auto">
-      <div className="h-screen w-full flex justify-center flex-col relative text-center">
+    <div>
+      <div className="h-[calc(100vh-6rem)] w-full flex justify-center flex-col relative text-center">
         <h2 className="text-6xl sm:text-8xl font-bold mb-5">
           {features.map((feature) => (
             <span

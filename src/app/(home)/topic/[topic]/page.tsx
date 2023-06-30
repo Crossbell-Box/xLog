@@ -32,20 +32,18 @@ export default async function Topic({
   const info = topics.find((t) => t.name === params.topic)
 
   return (
-    <section className="pt-24">
-      <div className="max-w-screen-lg px-5 mx-auto flex">
-        <div className="flex-1 min-w-[300px]">
-          <h2 className="text-4xl font-bold mb-4">{t(params.topic)}</h2>
-          <p className="text-zinc-400 mb-2">{t(info?.description || "")}</p>
-          {info?.includeKeywords?.length || 0 > 0 ? (
-            <p className="text-zinc-400 mb-6">
-              {t("Topic Keywords")}: {info?.includeKeywords?.join(", ")}
-            </p>
-          ) : null}
-          <HomeFeed type="topic" noteIds={info?.notes} />
-        </div>
-        <HomeSidebar />
+    <>
+      <div className="flex-1 min-w-[300px]">
+        <h2 className="text-4xl font-bold mb-4">{t(params.topic)}</h2>
+        <p className="text-zinc-400 mb-2">{t(info?.description || "")}</p>
+        {info?.includeKeywords?.length || 0 > 0 ? (
+          <p className="text-zinc-400 mb-6">
+            {t("Topic Keywords")}: {info?.includeKeywords?.join(", ")}
+          </p>
+        ) : null}
+        <HomeFeed type="topic" noteIds={info?.notes} />
       </div>
-    </section>
+      <HomeSidebar />
+    </>
   )
 }
