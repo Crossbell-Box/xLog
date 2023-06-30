@@ -405,14 +405,20 @@ const Loader = () => {
 
 const FeedSkeleton = () => {
   return (
-    <Skeleton.Container count={5} className="space-y-8">
-      <div>
-        <div className="flex space-x-2 items-center">
-          <Skeleton.Circle size={40} />
-          <Skeleton.Rectangle className="w-1/3" />
-        </div>
-        <div className="py-4 pr-4 ml-12">
-          <Skeleton.Rectangle className="w-full h-24" />
+    <Skeleton.Container
+      count={9}
+      className="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3"
+    >
+      <div className="rounded-2xl border">
+        <Skeleton.Rectangle className="h-auto rounded-t-2xl rounded-b-none w-full aspect-video border-b" />
+        <div className="rounded-t-none rounded-b-2xl p-3 pt-2 sm:p-5 sm:pt-4 h-[168px] sm:h-[204px]">
+          <div className="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-4 text-xs sm:text-sm">
+            <span className="flex items-center space-x-1 sm:space-x-2 cursor-pointer">
+              <Skeleton.Circle className="!w-5 !h-5 sm:!w-6 sm:!h-6 bg-gray-100 dark:bg-gray-800" />
+              <Skeleton.Rectangle className="w-[120px] h-5 bg-gray-100 dark:bg-gray-800"></Skeleton.Rectangle>
+            </span>
+          </div>
+          <Skeleton.Rectangle className="w-full h-28 bg-gray-100 dark:bg-gray-800"></Skeleton.Rectangle>
         </div>
       </div>
     </Skeleton.Container>
