@@ -360,7 +360,10 @@ export function useUpdatePage() {
               if (slug) {
                 slug.value = input.slug
               } else {
-                metadataDraft.attributes?.push({
+                if (!metadataDraft.attributes) {
+                  metadataDraft.attributes = []
+                }
+                metadataDraft.attributes.push({
                   trait_type: "xlog_slug",
                   value: input.slug,
                 })
@@ -374,7 +377,10 @@ export function useUpdatePage() {
               if (disableAISummary) {
                 disableAISummary.value = input.disableAISummary
               } else {
-                metadataDraft.attributes?.push({
+                if (!metadataDraft.attributes) {
+                  metadataDraft.attributes = []
+                }
+                metadataDraft.attributes.push({
                   trait_type: "xlog_disable_ai_summary",
                   value: input.disableAISummary,
                 })
@@ -389,6 +395,9 @@ export function useUpdatePage() {
                 cover.address = input.cover.address
                 cover.mime_type = input.cover.mime_type
               } else {
+                if (!metadataDraft.attachments) {
+                  metadataDraft.attachments = []
+                }
                 metadataDraft.attachments?.push({
                   name: "cover",
                   address: input.cover.address,
