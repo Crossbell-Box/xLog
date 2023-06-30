@@ -21,7 +21,7 @@ export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
   const [showcaseMore, setShowcaseMore] = useState(false)
 
   return (
-    <div className="w-80 pl-10 hidden sm:block space-y-10">
+    <div className="w-80 pl-10 hidden lg:block space-y-10">
       {!hideSearch && <SearchInput />}
       <div className="text-center">
         <div className="text-zinc-700 space-y-3">

@@ -19,6 +19,7 @@ import { Skeleton } from "~/components/ui/Skeleton"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
+import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { DEFAULT_AVATAR } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
@@ -44,12 +45,18 @@ const PostCard = ({
   const router = useRouter()
   const { t } = useTranslation("common")
   const date = useDate()
+  const isMobileLayout = useIsMobileLayout()
 
   return (
     <Link
-      href={`/post/${character?.handle}/${post.metadata?.content?.slug}`}
+      target={isMobileLayout ? "_blank" : undefined}
+      href={
+        isMobileLayout
+          ? `/site/${character?.handle}/${post.metadata?.content?.slug}`
+          : `/post/${character?.handle}/${post.metadata?.content?.slug}`
+      }
       className={cn(
-        "xlog-post sm:hover:bg-hover transition-all sm:rounded-2xl flex flex-col items-center hover:opacity-100 group border",
+        "xlog-post sm:hover:bg-hover transition-all rounded-2xl flex flex-col items-center hover:opacity-100 group border",
       )}
     >
       <PostCover
@@ -59,11 +66,11 @@ const PostCard = ({
           DEFAULT_AVATAR
         }
       />
-      <div className="p-5 pt-4 w-full min-w-0 h-[204px] flex flex-col">
-        <div className="flex items-center space-x-2 mb-4">
+      <div className="p-3 pt-2 sm:p-5 sm:pt-4 w-full min-w-0 h-[168px] sm:h-[204px] flex flex-col">
+        <div className="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-4 text-xs sm:text-sm">
           <CharacterFloatCard siteId={character?.handle}>
             <span
-              className="flex items-center space-x-2 cursor-pointer"
+              className="flex items-center space-x-1 sm:space-x-2 cursor-pointer"
               onClick={(e) => {
                 e.preventDefault()
                 window.open(
@@ -73,18 +80,17 @@ const PostCard = ({
                 )
               }}
             >
-              <span className="w-6 h-6 inline-block">
+              <span className="w-5 h-5 sm:w-6 sm:h-6 inline-block">
                 <Image
                   className="rounded-full object-cover"
                   src={
                     character?.metadata?.content?.avatars?.[0] || DEFAULT_AVATAR
                   }
                   alt={character?.handle || ""}
-                  width="24"
-                  height="24"
+                  fill
                 ></Image>
               </span>
-              <span className="font-medium">
+              <span className="font-medium max-w-[60px] truncate">
                 {character?.metadata?.content?.name || character?.handle}
               </span>
             </span>
@@ -93,7 +99,7 @@ const PostCard = ({
           <span className="text-zinc-400">·</span>
           <time
             dateTime={date.formatToISO(post.createdAt)}
-            className="xlog-post-date whitespace-nowrap text-zinc-400 text-sm"
+            className="xlog-post-date whitespace-nowrap text-zinc-400"
           >
             {t("ago", {
               time: date.dayjs
@@ -113,7 +119,7 @@ const PostCard = ({
         )}
         <h2
           className={cn(
-            "xlog-post-title font-bold line-clamp-2 text-xl",
+            "xlog-post-title font-bold line-clamp-2 sm:text-xl",
             comment ? "text-zinc-500" : "text-zinc-700",
           )}
         >
@@ -364,7 +370,7 @@ export const HomeFeed = ({
               useWindowScroll
               data={feedInOne}
               totalCount={feed.data?.pages[0]?.count || 0}
-              listClassName="grid gap-6 grid-cols-3"
+              listClassName="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3"
               itemContent={(index) => {
                 const post = feedInOne[index]
                 return (
