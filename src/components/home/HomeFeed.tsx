@@ -52,8 +52,8 @@ const PostCard = ({
       target={isMobileLayout ? "_blank" : undefined}
       href={
         isMobileLayout
-          ? `/site/${character?.handle}/${post.metadata?.content?.slug}`
-          : `/post/${character?.handle}/${post.metadata?.content?.slug}`
+          ? `/site/${post?.character?.handle}/${post.metadata?.content?.slug}`
+          : `/post/${post?.character?.handle}/${post.metadata?.content?.slug}`
       }
       className={cn(
         "xlog-post sm:hover:bg-hover transition-all rounded-2xl flex flex-col items-center hover:opacity-100 group border",
@@ -119,8 +119,8 @@ const PostCard = ({
         )}
         <h2
           className={cn(
-            "xlog-post-title font-bold line-clamp-2 sm:text-xl",
-            comment ? "text-zinc-500" : "text-zinc-700",
+            "xlog-post-title font-bold line-clamp-2",
+            comment ? "text-zinc-500" : "text-zinc-700 sm:text-xl",
           )}
         >
           {post.metadata?.content?.title}

@@ -16,11 +16,21 @@ export default function SiteModal({ children }: { children: JSX.Element }) {
   return (
     <Modal
       open={open}
-      panelClassName="max-w-[888px] rounded-xl"
+      boxClassName="pt-12"
+      panelClassName="max-w-[888px] rounded-xl relative overflow-visible"
       zIndex={9}
       setOpen={() => router.back()}
     >
-      {children}
+      <div
+        className="text-3xl absolute bottom-full text-white cursor-pointer"
+        onClick={() => {
+          window.open(window.location.href)
+          setOpen(false)
+        }}
+      >
+        <i className="icon-[mingcute--expand-player-line]" />
+      </div>
+      <div className="h-full overflow-y-auto rounded-xl">{children}</div>
     </Modal>
   )
 }

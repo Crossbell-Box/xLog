@@ -15,6 +15,7 @@ interface ModalProps {
   size?: "md" | "lg" | "sm"
   zIndex?: number
   panelClassName?: string
+  boxClassName?: string
 }
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
@@ -28,6 +29,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       size = "md",
       zIndex,
       panelClassName,
+      boxClassName,
     },
     ref,
   ) => {
@@ -56,7 +58,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           </Transition.Child>
 
           <div
-            className="fixed inset-0 flex items-center justify-center p-8 z-40"
+            className={cn(
+              "fixed inset-0 flex items-center justify-center p-8 z-40",
+              boxClassName,
+            )}
             ref={ref}
           >
             <Transition.Child
