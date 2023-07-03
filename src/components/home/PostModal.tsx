@@ -25,7 +25,7 @@ export default function SiteModal({ children }: { children: JSX.Element }) {
         className="text-3xl absolute bottom-full text-white cursor-pointer"
         onClick={() => {
           window.open(window.location.href)
-          setOpen(false)
+          router.back()
         }}
       >
         <i className="icon-[mingcute--expand-player-line]" />
