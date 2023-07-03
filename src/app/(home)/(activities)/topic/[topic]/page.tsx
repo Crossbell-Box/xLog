@@ -1,7 +1,6 @@
 import { Metadata } from "next"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
-import { Button } from "~/components/ui/Button"
 import { APP_NAME } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n"
 
@@ -44,9 +43,9 @@ export default async function Topic({
             {t("Topic Keywords")}: {info?.includeKeywords?.join(", ")}
           </p>
         ) : null}
-        <Button className="absolute right-5 top-4">
+        {/* <Button className="absolute right-5 top-4">
           {t("Participate in Topic")}
-        </Button>
+        </Button> */}
       </div>
       <HomeFeed type="topic" noteIds={info?.notes} />
     </>
