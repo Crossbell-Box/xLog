@@ -194,7 +194,7 @@
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-unused-imports": "2.0.0",
     "husky": "8.0.3",
-    "lint-staged": "13.2.2",
+    "lint-staged": "13.2.3",
     "postcss-import": "15.1.0",
     "postcss-prune-var": "1.1.1",
     "prettier": "2.8.8",
