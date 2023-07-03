@@ -207,31 +207,31 @@ export async function getFeed({
         const result = await client
           .query(
             `
-                query getNotes {
-                  notes(
-                    where: {
-                      OR: [
-                        ${orString}
-                      ]
-                    },
-                    orderBy: [{ createdAt: desc }],
-                    take: 1000,
-                  ) {
-                    characterId
-                    noteId
-                    character {
-                      handle
-                      metadata {
-                        content
-                      }
-                    }
-                    createdAt
-                    metadata {
-                      uri
-                      content
-                    }
+            query getNotes {
+              notes(
+                where: {
+                  OR: [
+                    ${orString}
+                  ]
+                },
+                orderBy: [{ createdAt: desc }],
+                take: 1000,
+              ) {
+                characterId
+                noteId
+                character {
+                  handle
+                  metadata {
+                    content
                   }
-                }`,
+                }
+                createdAt
+                metadata {
+                  uri
+                  content
+                }
+              }
+            }`,
             {},
           )
           .toPromise()
@@ -264,56 +264,61 @@ export async function getFeed({
         const result = await client
           .query(
             `
-              query getNotes {
-                notes(
-                  where: {
-                    metadata: {
-                      content: {
-                        path: "sources",
-                        array_contains: "xlog"
-                      },
-                      AND: [{
-                        content: {
-                          path: "tags",
-                          array_contains: "post"
-                        }
-                      }, {
-                        OR: [
-                          ${includeString}
-                        ]
-                      }]
-                    },
+            query getNotes($filter: [Int!]) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
                   },
-                  orderBy: [{ createdAt: desc }],
-                  take: ${limit},
-                  ${
-                    cursor
-                      ? `
-                  cursor: {
-                    note_characterId_noteId_unique: {
-                      characterId: ${cursor.split("_")[0]},
-                      noteId: ${cursor.split("_")[1]}
+                  metadata: {
+                    content: {
+                      path: "sources",
+                      array_contains: "xlog"
                     },
-                  },`
-                      : ""
-                  }
-                ) {
-                  characterId
-                  noteId
-                  character {
-                    handle
-                    metadata {
-                      content
-                    }
-                  }
-                  createdAt
+                    AND: [{
+                      content: {
+                        path: "tags",
+                        array_contains: "post"
+                      }
+                    }, {
+                      OR: [
+                        ${includeString}
+                      ]
+                    }]
+                  },
+                },
+                orderBy: [{ createdAt: desc }],
+                take: ${limit},
+                ${
+                  cursor
+                    ? `
+                cursor: {
+                  note_characterId_noteId_unique: {
+                    characterId: ${cursor.split("_")[0]},
+                    noteId: ${cursor.split("_")[1]}
+                  },
+                },`
+                    : ""
+                }
+              ) {
+                characterId
+                noteId
+                character {
+                  handle
                   metadata {
-                    uri
                     content
                   }
                 }
-              }`,
-            {},
+                createdAt
+                metadata {
+                  uri
+                  content
+                }
+              }
+            }`,
+            {
+              filter: filter.latest,
+            },
           )
           .toPromise()
 
@@ -346,35 +351,40 @@ export async function getFeed({
       const result = await client
         .query(
           `
-              query getNotes {
-                notes(
-                  where: {
-                    ${time ? `createdAt: { gt: "${time}" },` : ``}
-                    stat: { viewDetailCount: { gt: 0 } },
-                    metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
-                  },
-                  orderBy: { stat: { viewDetailCount: desc } },
-                  take: 25,
-                ) {
-                  stat {
-                    viewDetailCount
-                  }
-                  characterId
-                  noteId
-                  character {
-                    handle
-                    metadata {
-                      content
-                    }
-                  }
-                  createdAt
-                  metadata {
-                    uri
-                    content
-                  }
+          query getNotes($filter: [Int!]) {
+            notes(
+              where: {
+                characterId: {
+                  notIn: $filter
+                },
+                ${time ? `createdAt: { gt: "${time}" },` : ``}
+                stat: { viewDetailCount: { gt: 0 } },
+                metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
+              },
+              orderBy: { stat: { viewDetailCount: desc } },
+              take: 25,
+            ) {
+              stat {
+                viewDetailCount
+              }
+              characterId
+              noteId
+              character {
+                handle
+                metadata {
+                  content
                 }
-              }`,
-          {},
+              }
+              createdAt
+              metadata {
+                uri
+                content
+              }
+            }
+          }`,
+          {
+            filter: filter.latest,
+          },
         )
         .toPromise()
 
