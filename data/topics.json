@@ -2,13 +2,39 @@
   {
     "name": "xLog",
     "description": "Let's talk about xLog, whether to praise or criticize it.",
+    "includeTags": [
+      "xLog"
+    ],
     "includeKeywords": [
       "xLog"
     ]
   },
   {
+    "name": "Web3",
+    "includeTags": [
+      "Web3"
+    ],
+    "includeKeywords": [
+      "Web3",
+      "Blockchain",
+      "NFT",
+      "DeFi",
+      "DAO",
+      "DApp",
+      "区块链",
+      "區塊鏈",
+      "加密货币",
+      "DeGame",
+      "链游",
+      "Crypto"
+    ]
+  },
+  {
     "name": "Artificial Intelligence",
     "description": "The world is undergoing changes, and we are at the center of it.",
+    "includeTags": [
+      "AI"
+    ],
     "includeKeywords": [
       "GPT",
       "Midjourney",
@@ -20,6 +46,10 @@
   {
     "name": "Life Journal",
     "description": "Discover new perspectives and insights in others' weekly, monthly, or yearly journal.",
+    "includeTags": [
+      "Life",
+      "生活"
+    ],
     "includeKeywords": [
       "Review",
       "Weekly",
@@ -33,6 +63,10 @@
   {
     "name": "Fiction",
     "description": "Experience a world of imagination through these fiction stories.",
+    "includeTags": [
+      "Fiction",
+      "小说"
+    ],
     "notes": [
       "51124-60",
       "53766-19",
@@ -78,6 +112,28 @@
       "48910-9",
       "48910-11",
       "51124-31"
+    ]
+  },
+  {
+    "name": "Coding",
+    "includeTags": [
+      "Coding",
+      "编程"
+    ],
+    "includeKeywords": [
+      "Coding",
+      "编程",
+      "JavaScript",
+      "Python",
+      "Java",
+      "前端",
+      "源码",
+      "Linux",
+      "Ubuntu",
+      "React",
+      "Vue",
+      "服务器",
+      "Docker"
     ]
   }
 ]

@@ -27,8 +27,8 @@ export const Tabs = ({
   return (
     <div
       className={cn(
-        className,
         "flex border-b space-x-5 mb-8 overflow-x-auto scrollbar-hide",
+        className,
       )}
     >
       {items.map((item) => {

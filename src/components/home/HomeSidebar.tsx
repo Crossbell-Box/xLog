@@ -11,7 +11,6 @@ import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { useGetShowcase } from "~/queries/home"
 
-import topics from "../../../data/topics.json"
 import { FollowAllButton } from "../common/FollowAllButton"
 
 export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
@@ -23,26 +22,6 @@ export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
   return (
     <div className="w-80 pl-10 hidden lg:block space-y-10">
       {!hideSearch && <SearchInput />}
-      <div className="text-center">
-        <div className="text-zinc-700 space-y-3">
-          <p className="font-bold text-lg">{t("Hot Topics")}</p>
-          <ul className="overflow-y-clip relative text-left space-y-2">
-            {topics.map((topic: any) => (
-              <li className="flex align-middle" key={topic.name}>
-                <UniLink
-                  href={`/topic/${topic.name}`}
-                  className="flex flex-col sm:hover:bg-hover px-4 py-2 -mx-4 rounded-lg transition-colors"
-                >
-                  <span className="font-medium">{t(topic.name)}</span>
-                  <span className="text-zinc-400 text-sm">
-                    {t(topic.description)}
-                  </span>
-                </UniLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
       <div className="text-center">
         <div className="text-zinc-700 space-y-3">
           <p className="font-bold text-lg">{t("Suggested creators for you")}</p>

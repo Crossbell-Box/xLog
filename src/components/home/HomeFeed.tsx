@@ -373,6 +373,7 @@ export const HomeFeed = ({
               listClassName="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3"
               itemContent={(index) => {
                 const post = feedInOne[index]
+                if (!post) return null
                 return (
                   <MemoedPost
                     key={`${post.characterId}-${post.noteId}`}

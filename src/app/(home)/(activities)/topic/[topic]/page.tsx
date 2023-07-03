@@ -1,11 +1,11 @@
 import { Metadata } from "next"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
-import { HomeSidebar } from "~/components/home/HomeSidebar"
+import { Button } from "~/components/ui/Button"
 import { APP_NAME } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n"
 
-import topics from "../../../../../data/topics.json"
+import topics from "../../../../../../data/topics.json"
 
 export function generateMetadata({
   params,
@@ -33,17 +33,22 @@ export default async function Topic({
 
   return (
     <>
-      <div className="flex-1 min-w-[300px]">
-        <h2 className="text-4xl font-bold mb-4">{t(params.topic)}</h2>
-        <p className="text-zinc-400 mb-2">{t(info?.description || "")}</p>
+      <div className="border rounded-xl px-5 py-6 mb-4 space-y-2 relative bg-zinc-50">
+        <div className="text-2xl flex items-center font-bold">
+          <i className="icon-[mingcute--hashtag-fill]" />
+          {info?.includeTags[0]}
+        </div>
+        <p className="text-zinc-600">{t(info?.description || "")}</p>
         {info?.includeKeywords?.length || 0 > 0 ? (
-          <p className="text-zinc-400 mb-6">
+          <p className="text-zinc-400 text-sm">
             {t("Topic Keywords")}: {info?.includeKeywords?.join(", ")}
           </p>
         ) : null}
-        <HomeFeed type="topic" noteIds={info?.notes} />
+        <Button className="absolute right-5 top-4">
+          {t("Participate in Topic")}
+        </Button>
       </div>
-      <HomeSidebar />
+      <HomeFeed type="topic" noteIds={info?.notes} />
     </>
   )
 }

@@ -7,11 +7,13 @@ import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { Tabs } from "~/components/ui/Tabs"
 import { useTranslation } from "~/lib/i18n/client"
 
+import topics from "../../../data/topics.json"
+
 export const HomeActivitiesTabs = () => {
   const pathname = usePathname()
   const connectModal = useConnectModal()
   const router = useRouter()
-  const { t, i18n } = useTranslation("index")
+  const { t } = useTranslation("index")
 
   const currentCharacterId = useAccountState(
     (s) => s.computed.account?.characterId,
@@ -39,7 +41,12 @@ export const HomeActivitiesTabs = () => {
       },
       active: pathname === "/following",
     },
+    ...topics.map((topic) => ({
+      text: t(topic.name),
+      href: `/topic/${encodeURIComponent(topic.name)}`,
+      active: pathname === `/topic/${encodeURIComponent(topic.name)}`,
+    })),
   ]
 
-  return <Tabs items={tabs} className="border-none text-lg"></Tabs>
+  return <Tabs items={tabs} className="border-none"></Tabs>
 }
