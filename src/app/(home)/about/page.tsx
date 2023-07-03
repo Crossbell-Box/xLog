@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import Link from "next/link"
 import { memo } from "react"
 
@@ -12,7 +13,8 @@ import { getSiteLink } from "~/lib/helpers"
 import { Trans, useTranslation } from "~/lib/i18n"
 
 async function Home() {
-  const { t, i18n } = await useTranslation("index")
+  const { i18n } = await useTranslation("index")
+  const t = useTranslations()
 
   const EntranceButton = memo(function Button() {
     return (

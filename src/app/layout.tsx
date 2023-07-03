@@ -1,5 +1,6 @@
 import { dir } from "i18next"
 import { Metadata } from "next"
+import { NextIntlClientProvider } from "next-intl"
 import { headers } from "next/headers"
 import { Toaster } from "react-hot-toast"
 
@@ -74,7 +75,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   modal,
 }: {
@@ -94,13 +95,21 @@ export default function RootLayout({
     })
   }
 
+  let messages
+  try {
+    messages = (await import(`../messages/${lang}.json`)).default
+  } catch (error) {}
+  console.log("messages", messages)
+
   return (
     <html lang={lang} dir={dir(lang)} className={colorScheme}>
       <body>
-        <Providers lang={lang}>
-          {modal}
-          {children}
-        </Providers>
+        <NextIntlClientProvider locale={lang} messages={messages}>
+          <Providers lang={lang}>
+            {modal}
+            {children}
+          </Providers>
+        </NextIntlClientProvider>
         <Toaster />
       </body>
     </html>

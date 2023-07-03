@@ -1,6 +1,7 @@
 "use client"
 
 import { CharacterEntity } from "crossbell"
+import { useTranslations } from "next-intl"
 import Link from "next/link"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { memo, useEffect, useState } from "react"
@@ -205,7 +206,7 @@ export const HomeFeed = ({
   noteIds?: string[]
   type?: FeedType
 }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   const searchParams = useSearchParams()
 
   const currentCharacterId = useAccountState(
