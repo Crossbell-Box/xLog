@@ -15,10 +15,21 @@ async function OIAPage() {
     }
   }, [])
 
+  const isAndroid = () => {
+    const userAgent = navigator.userAgent || navigator.vendor
+    return /android/i.test(userAgent)
+  }
+
   const download = useCallback(() => {
-    window.open(
-      "itms-apps://apps.apple.com/app/xlog-on-chain-blogging/id6449499296",
-    )
+    if (isAndroid()) {
+      window.open(
+        "https://play.google.com/store/apps/details?id=com.crossbell.xlog",
+      )
+    } else {
+      window.open(
+        "itms-apps://apps.apple.com/app/xlog-on-chain-blogging/id6449499296",
+      )
+    }
   }, [])
 
   const goBack = useCallback(() => {
