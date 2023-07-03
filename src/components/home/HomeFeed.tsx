@@ -236,6 +236,9 @@ export const HomeFeed = ({
     topicIncludeKeywords: params.topic
       ? topics.find((t) => t.name === params.topic)?.includeKeywords
       : undefined,
+    topicIncludeTags: params.topic
+      ? topics.find((t) => t.name === params.topic)?.includeTags
+      : undefined,
   })
 
   const hasFiltering = type === "latest"

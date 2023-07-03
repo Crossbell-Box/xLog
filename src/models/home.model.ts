@@ -29,6 +29,7 @@ export async function getFeed({
   tag,
   useHTML,
   topicIncludeKeywords,
+  topicIncludeTags,
 }: {
   type?: FeedType
   cursor?: string
@@ -41,6 +42,7 @@ export async function getFeed({
   tag?: string
   useHTML?: boolean
   topicIncludeKeywords?: string[]
+  topicIncludeTags?: string[]
 }) {
   if (type === "search" && !searchKeyword) {
     type = "latest"
@@ -143,9 +145,11 @@ export async function getFeed({
 
       return {
         list,
-        cursor: `${list[list.length - 1]?.characterId}_${
-          list[list.length - 1]?.noteId
-        }`,
+        cursor: list?.length
+          ? `${list[list.length - 1]?.characterId}_${
+              list[list.length - 1]?.noteId
+            }`
+          : undefined,
         count: list?.length || 0,
       }
     }
@@ -187,7 +191,7 @@ export async function getFeed({
       }
     }
     case "topic": {
-      if (!topicIncludeKeywords && !noteIds) {
+      if (!topicIncludeKeywords && !topicIncludeTags && !noteIds) {
         return {
           list: [],
           cursor: "",
@@ -215,7 +219,18 @@ export async function getFeed({
                   ]
                 },
                 orderBy: [{ createdAt: desc }],
-                take: 1000,
+                take: ${limit},
+                ${
+                  cursor
+                    ? `
+                cursor: {
+                  note_characterId_noteId_unique: {
+                    characterId: ${cursor.split("_")[0]},
+                    noteId: ${cursor.split("_")[1]}
+                  },
+                },`
+                    : ""
+                }
               ) {
                 characterId
                 noteId
@@ -249,18 +264,25 @@ export async function getFeed({
 
         return {
           list: list,
-          cursor: "",
+          cursor: list?.length
+            ? `${list[list.length - 1]?.characterId}_${
+                list[list.length - 1]?.noteId
+              }`
+            : undefined,
           count: list?.length || 0,
         }
-      }
-
-      if (topicIncludeKeywords) {
-        const includeString = topicIncludeKeywords
-          .map(
+      } else {
+        const includeString = [
+          ...(topicIncludeKeywords?.map(
             (topicIncludeKeyword) =>
-              `{ content: { path: "title", string_contains: "${topicIncludeKeyword}" } }, { content: { path: "content", string_contains: "${topicIncludeKeyword}" } },`,
-          )
-          .join("\n")
+              `{ content: { path: "title", string_contains: "${topicIncludeKeyword}" } }, { content: { path: "content", string_contains: "${topicIncludeKeyword}" } }`,
+          ) || []),
+          ...(topicIncludeTags?.map(
+            (topicIncludeTag) =>
+              `{ content: { path: "tags", array_contains: "${topicIncludeTag}" } },`,
+          ) || []),
+        ].join("\n")
+
         const result = await client
           .query(
             `
@@ -335,9 +357,11 @@ export async function getFeed({
 
         return {
           list: list,
-          cursor: `${list[list.length - 1]?.characterId}_${
-            list[list.length - 1]?.noteId
-          }`,
+          cursor: list?.length
+            ? `${list[list.length - 1]?.characterId}_${
+                list[list.length - 1]?.noteId
+              }`
+            : undefined,
           count: list?.length || 0,
         }
       }
