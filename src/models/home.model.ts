@@ -64,6 +64,18 @@ export async function getFeed({
                       path: "sources",
                       array_contains: "xlog"
                     }
+                  }, {
+                    OR: [{
+                      content: {
+                        path: "tags",
+                        array_starts_with: "page"
+                      }
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_starts_with: "post"
+                      }
+                    }]
                   }]
                 },
               },
