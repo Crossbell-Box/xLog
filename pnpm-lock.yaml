@@ -51,8 +51,8 @@ dependencies:
     specifier: 1.4.4
     version: 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
   '@crossbell/util-metadata':
-    specifier: 1.4.0
-    version: 1.4.0(typescript@5.1.6)(zod@3.21.4)
+    specifier: 1.4.9
+    version: 1.4.9(typescript@5.1.6)(zod@3.21.4)
   '@ddietr/codemirror-themes':
     specifier: 1.4.1
     version: 1.4.1
@@ -2130,7 +2130,7 @@ packages:
       '@crossbell/ui': 1.4.8(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/util-ethers': 1.4.0
       '@crossbell/util-hooks': 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
-      '@crossbell/util-metadata': 1.4.0(typescript@5.1.6)(zod@3.21.4)
+      '@crossbell/util-metadata': 1.4.9(typescript@5.1.6)(zod@3.21.4)
       '@emotion/react': 11.11.1(@types/react@18.2.14)(react@18.2.0)
       '@mantine/core': 6.0.15(@emotion/react@11.11.1)(@mantine/hooks@6.0.14)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks': 6.0.14(react@18.2.0)
@@ -2226,7 +2226,7 @@ packages:
       '@crossbell/react-account': 1.4.8(@tanstack/react-query@4.29.19)(react-dom@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/ui': 1.4.8(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/util-hooks': 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
-      '@crossbell/util-metadata': 1.4.0(typescript@5.1.6)(zod@3.21.4)
+      '@crossbell/util-metadata': 1.4.9(typescript@5.1.6)(zod@3.21.4)
       '@tanstack/react-query': 4.29.19(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       dayjs: 1.11.9
@@ -2255,7 +2255,7 @@ packages:
       '@crossbell/indexer': 1.4.8(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/util-ethers': 1.4.0
       '@crossbell/util-hooks': 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
-      '@crossbell/util-metadata': 1.4.0(typescript@5.1.6)(zod@3.21.4)
+      '@crossbell/util-metadata': 1.4.9(typescript@5.1.6)(zod@3.21.4)
       '@tanstack/react-query': 4.29.19(react-dom@18.2.0)(react@18.2.0)
       check-password-strength: 2.0.7
       crossbell: 1.4.0(typescript@5.1.6)(zod@3.21.4)
@@ -2283,7 +2283,7 @@ packages:
     dependencies:
       '@crossbell/indexer': 1.4.8(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/util-hooks': 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
-      '@crossbell/util-metadata': 1.4.0(typescript@5.1.6)(zod@3.21.4)
+      '@crossbell/util-metadata': 1.4.9(typescript@5.1.6)(zod@3.21.4)
       '@tanstack/react-query': 4.29.19(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       crossbell: 1.4.0(typescript@5.1.6)(zod@3.21.4)
@@ -2324,8 +2324,8 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/util-metadata@1.4.0(typescript@5.1.6)(zod@3.21.4):
-    resolution: {integrity: sha512-FmfuWZdbCZyMsHje8A/j0GoTkthLjPo0fDXAn42qvFMlTBYzkQ/pOS08i9m/KeMNKssFQ9WcXPdqmYn0ze9hIA==}
+  /@crossbell/util-metadata@1.4.9(typescript@5.1.6)(zod@3.21.4):
+    resolution: {integrity: sha512-cSdL4ryeUliRGIDFAIG2MYeu8MxaWlILUhmUZUOXR1yOo97fre5EcuIlHLUOsdp6P/Lbj8qj/S50lzv0ivJrOA==}
     dependencies:
       '@crossbell/util-ethers': 1.4.0
       '@fastify/deepmerge': 1.3.0
