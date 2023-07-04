@@ -19,7 +19,7 @@ import { getKeys, getStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
-export const PINNED_PAGE_KEY = "xlog:pinned-page"
+export const PINNED_PAGE_KEY = "xlog_pinned_page"
 
 export async function checkPageSlug(input: {
   slug: string
