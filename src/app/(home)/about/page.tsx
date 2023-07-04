@@ -152,7 +152,7 @@ async function Home() {
             variant="outline"
             variantColor="gradient"
           >
-            <Link className="h-full flex items-center" href="/activities">
+            <Link className="h-full flex items-center" href="/">
               {t("Look at others'")}
             </Link>
           </Button>

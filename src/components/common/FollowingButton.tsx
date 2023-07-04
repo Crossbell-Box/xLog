@@ -64,7 +64,7 @@ export const FollowingButton = ({
         <span>
           <Trans i18n={i18n} i18nKey="Successfully followed" ns="common">
             Hey there! You&apos;re all set to{" "}
-            <UniLink className="underline" href={`${SITE_URL}/activities`}>
+            <UniLink className="underline" href={`${SITE_URL}/`}>
               keep up with your followed blogger&apos;s latest buzz here
             </UniLink>
             .

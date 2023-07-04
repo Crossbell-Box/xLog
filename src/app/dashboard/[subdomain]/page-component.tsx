@@ -164,7 +164,7 @@ export default function SubdomainIndex() {
               }}
             >
               <li>
-                <UniLink href="/activities" target="_blank">
+                <UniLink href="/" target="_blank">
                   {t("Check out the updates of other bloggers")}
                 </UniLink>
               </li>
