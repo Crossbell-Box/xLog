@@ -36,11 +36,13 @@ const PostCard = ({
   post,
   keyword,
   comment,
+  createdAt,
 }: {
   character?: CharacterEntity
   post: ExpandedNote
   keyword?: string
   comment?: string
+  createdAt?: string
 }) => {
   const router = useRouter()
   const { t } = useTranslation("common")
@@ -67,10 +69,10 @@ const PostCard = ({
         }
       />
       <div className="p-3 pt-2 sm:p-5 sm:pt-4 w-full min-w-0 h-[168px] sm:h-[204px] flex flex-col">
-        <div className="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-4 text-xs sm:text-sm">
+        <div className="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-4 text-xs sm:text-sm overflow-hidden">
           <CharacterFloatCard siteId={character?.handle}>
             <span
-              className="flex items-center space-x-1 sm:space-x-2 cursor-pointer"
+              className="flex items-center space-x-2 cursor-pointer"
               onClick={(e) => {
                 e.preventDefault()
                 window.open(
@@ -90,21 +92,23 @@ const PostCard = ({
                   fill
                 ></Image>
               </span>
-              <span className="font-medium max-w-[60px] truncate">
+              <span className="font-medium truncate">
                 {character?.metadata?.content?.name || character?.handle}
               </span>
             </span>
           </CharacterFloatCard>
           <Titles characterId={character?.characterId} />
-          <span className="text-zinc-400">·</span>
+          <span className="text-zinc-400 hidden sm:inline-block">·</span>
           <time
-            dateTime={date.formatToISO(post.createdAt)}
-            className="xlog-post-date whitespace-nowrap text-zinc-400"
+            dateTime={date.formatToISO(createdAt || post.createdAt)}
+            className="xlog-post-date whitespace-nowrap text-zinc-400 hidden sm:inline-block"
           >
             {t("ago", {
               time: date.dayjs
                 .duration(
-                  date.dayjs(post?.createdAt).diff(date.dayjs(), "minute"),
+                  date
+                    .dayjs(createdAt || post?.createdAt)
+                    .diff(date.dayjs(), "minute"),
                   "minute",
                 )
                 .humanize(),
@@ -192,6 +196,7 @@ const Post = ({ post, keyword }: { post: ExpandedNote; keyword?: string }) => {
       post={isComment ? (post.toNote as ExpandedNote) : post}
       keyword={keyword}
       comment={isComment ? post.metadata?.content?.summary : undefined}
+      createdAt={isComment ? post?.createdAt : post.toNote?.createdAt}
     />
   )
 }
