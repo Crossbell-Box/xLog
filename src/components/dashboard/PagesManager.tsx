@@ -20,7 +20,7 @@ import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import { useGetPagesBySite } from "~/queries/page"
+import { useGetPagesBySite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 import { Button } from "../ui/Button"
@@ -39,6 +39,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
   const searchParams = useSearchParams()!
   const router = useRouter()
   const pathname = usePathname()
+  const pinnedPage = usePinnedPage({ characterId: site.data?.characterId })
 
   const visibility = useMemo<PageVisibilityEnum>(
     () =>
@@ -314,6 +315,15 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
                             page.metadata?.content?.date_published || "",
                           )}
                     </span>
+                    {pinnedPage.noteId === page.noteId && (
+                      <>
+                        <span className="mx-2">·</span>
+                        <span>
+                          <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
+                          {siteT("Pinned")}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="w-10 flex-shrink-0 flex self-center ml-auto">

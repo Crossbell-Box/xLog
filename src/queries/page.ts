@@ -1,10 +1,11 @@
 "use client"
 
-import { NoteMetadata } from "crossbell"
+import type { NoteEntity, NoteMetadata } from "crossbell"
 import { nanoid } from "nanoid"
 
 import {
   useAccountState,
+  useCharacterAttribute,
   useDeleteNote,
   useIsNoteLiked,
   useMintNote,
@@ -694,4 +695,45 @@ export const useGetDistinctNoteTagsOfCharacter = (characterId?: number) => {
     }
     return pageModel.getDistinctNoteTagsOfCharacter(characterId)
   })
+}
+
+export const usePinPage = ({
+  characterId,
+  noteId,
+}: Pick<NoteEntity, "noteId" | "characterId">) => {
+  const queryClient = useQueryClient()
+  const { data, isLoading, update } = useCharacterAttribute<number>(
+    {
+      characterId,
+      key: pageModel.PINNED_PAGE_KEY,
+    },
+    {
+      onSuccess() {
+        return queryClient.invalidateQueries(["getPagesBySite", characterId])
+      },
+    },
+  )
+
+  const isPinned = data === noteId
+
+  const togglePin = useRefCallback(() => {
+    if (isPinned) {
+      update(null)
+    } else {
+      update(noteId)
+    }
+  })
+
+  return { isLoading, isPinned, togglePin }
+}
+
+export const usePinnedPage = ({
+  characterId,
+}: Pick<Partial<NoteEntity>, "characterId">) => {
+  const { data, isLoading } = useCharacterAttribute({
+    characterId,
+    key: pageModel.PINNED_PAGE_KEY,
+  })
+
+  return { isLoading, noteId: data as number }
 }

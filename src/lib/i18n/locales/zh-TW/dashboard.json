@@ -202,5 +202,7 @@
     "Align Right": "靠右",
     "Formula": "公式",
     "Advanced Settings": "高級設置",
-    "Disable AI-generated summary": "禁用 AI 生成的摘要"
+    "Disable AI-generated summary": "禁用 AI 生成的摘要",
+    "Pin": "釘選",
+    "Unpin": "取消釘選"
 }

@@ -10,6 +10,7 @@ import type { Address } from "viem"
 
 import { GeneralAccount } from "@crossbell/connect-kit"
 import { indexer } from "@crossbell/indexer"
+import { extractCharacterAttribute } from "@crossbell/util-metadata"
 
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { filterCommentCharacter } from "~/lib/filter-character"
@@ -17,6 +18,8 @@ import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { client } from "~/queries/graphql"
+
+export const PINNED_PAGE_KEY = "xlog:pinned-page"
 
 export async function checkPageSlug(input: {
   slug: string
@@ -150,37 +153,53 @@ export async function getPagesBySite(input: {
 
   const visibility = input.visibility || PageVisibilityEnum.All
 
-  const notes = await indexer.note.getMany({
-    characterId: input.characterId,
-    limit: input.limit || 10,
-    cursor: input.cursor,
-    orderBy: "publishedAt",
-    tags: [...(input.tags || []), input.type],
-    sources: "xlog",
-  })
-
-  const list = await Promise.all(
-    notes?.list.map(async (note) => {
-      const expanded = await expandCrossbellNote({
-        note,
-        useStat: input.useStat,
-        useHTML: input.useHTML,
-        useScore: false,
-      })
-      if (!input.keepBody) {
-        delete expanded.metadata?.content?.content
-      }
-      return expanded
-    }),
-  )
-
-  const expandedNotes: {
+  const expandedNotes = await (async (): Promise<{
     list: ExpandedNote[]
+    pinnedNoteId?: number
     count: number
     cursor: string | null
-  } = Object.assign(notes, {
-    list,
-  })
+  }> => {
+    const [pinnedNote, notes] = await Promise.all([
+      !input.cursor ? getPinnedPage(input) : null,
+
+      await indexer.note.getMany({
+        characterId: input.characterId,
+        limit: input.limit || 10,
+        cursor: input.cursor,
+        orderBy: "publishedAt",
+        tags: [...(input.tags || []), input.type],
+        sources: "xlog",
+      }),
+    ])
+
+    const list: NoteEntity[] = pinnedNote
+      ? [
+          pinnedNote,
+          ...notes.list.filter((note) => note.noteId !== pinnedNote.noteId),
+        ]
+      : notes.list
+
+    return {
+      ...notes,
+      pinnedNoteId: pinnedNote?.noteId,
+      list: await Promise.all(
+        list.map(async (note) => {
+          const expanded = await expandCrossbellNote({
+            note,
+            useStat: input.useStat,
+            useHTML: input.useHTML,
+            useScore: false,
+          })
+
+          if (!input.keepBody) {
+            delete expanded.metadata?.content?.content
+          }
+
+          return expanded
+        }),
+      ),
+    }
+  })()
 
   const local = getLocalPages({
     characterId: input.characterId,
@@ -233,10 +252,16 @@ export async function getPagesBySite(input: {
       break
   }
 
-  expandedNotes.list = expandedNotes.list.sort((a, b) => {
-    if (!a.metadata?.content?.date_published) {
+  expandedNotes.list.sort((a, b) => {
+    if (
+      !a.metadata?.content?.date_published ||
+      a.noteId === expandedNotes.pinnedNoteId
+    ) {
       return -1
-    } else if (!b.metadata?.content?.date_published) {
+    } else if (
+      !b.metadata?.content?.date_published ||
+      b.noteId === expandedNotes.pinnedNoteId
+    ) {
       return 1
     } else {
       return (
@@ -680,4 +705,15 @@ export const getDistinctNoteTagsOfCharacter = async (characterId: number) => {
   )
 
   return result
+}
+
+export async function getPinnedPage({ characterId }: { characterId?: number }) {
+  if (!characterId) return null
+
+  const character = await indexer.character.get(characterId)
+  const noteId = extractCharacterAttribute(character, PINNED_PAGE_KEY)?.value
+
+  if (!character || !noteId || typeof noteId !== "number") return null
+
+  return indexer.note.get(character.characterId, noteId)
 }

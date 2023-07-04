@@ -2,7 +2,7 @@
 
 import PostList from "~/components/site/PostList"
 import { PageVisibilityEnum } from "~/lib/types"
-import { useGetPagesBySiteLite } from "~/queries/page"
+import { useGetPagesBySiteLite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 export default function SiteHome({ handle }: { handle: string }) {
@@ -13,12 +13,13 @@ export default function SiteHome({ handle }: { handle: string }) {
     visibility: PageVisibilityEnum.Published,
     useStat: true,
   })
+  const pinnedPage = usePinnedPage({ characterId: site.data?.characterId })
 
   if (!posts.data?.pages?.length) return null
 
   return (
     <>
-      <PostList posts={posts} />
+      <PostList posts={posts} pinnedNoteId={pinnedPage.noteId} />
     </>
   )
 }

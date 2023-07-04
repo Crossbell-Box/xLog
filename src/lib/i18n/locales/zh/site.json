@@ -7,8 +7,7 @@
   "signed and stored on the blockchain": "此{{name}}数据所有权由区块链加密技术和智能合约保障仅归创作者所有。",
   "Write a comment on the blockchain": "在区块链上写下你的评论",
   "powered by": "<span>由 </span><name/><span> 提供支持</span>",
-  "This address is in local editing preview mode and cannot be viewed by the public.":
-    "此地址处于本地编辑预览模式，无法被公众查看。",
+  "This address is in local editing preview mode and cannot be viewed by the public.": "此地址处于本地编辑预览模式，无法被公众查看。",
   "View on xChar": "在 xChar 上查看",
   "View on xFeed": "在 xFeed 上查看",
   "View on Hoot It": "在 Hoot It 上查看",
@@ -23,5 +22,6 @@
   "Back to Home": "返回主页",
   "All Posts": "所有文章",
   "Open in App": "在 App 中打开",
-  "Search Posts": "搜索文章"
+  "Search Posts": "搜索文章",
+  "Pinned": "置顶"
 }
