@@ -55,7 +55,7 @@
     "@heroicons/react": "2.0.18",
     "@iconify-json/mingcute": "1.1.7",
     "@lezer/highlight": "1.1.6",
-    "@mantine/core": "6.0.15",
+    "@mantine/core": "6.0.16",
     "@mantine/dates": "6.0.15",
     "@monaco-editor/react": "4.5.1",
     "@popperjs/core": "2.11.8",
