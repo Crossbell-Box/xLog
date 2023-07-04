@@ -19,6 +19,7 @@ import { ExpandedNote } from "~/lib/types"
 
 export default function PostList({
   posts,
+  pinnedNoteId,
   keyword,
 }: {
   posts: UseInfiniteQueryResult<
@@ -29,6 +30,7 @@ export default function PostList({
     },
     unknown
   >
+  pinnedNoteId?: number | null
   keyword?: string
 }) {
   const { t } = useTranslation("site")
@@ -48,6 +50,7 @@ export default function PostList({
               return (
                 <PostItem
                   post={post}
+                  isPinned={post.noteId === pinnedNoteId}
                   keyword={keyword}
                   key={post.noteId}
                   priority={listIndex === 0 && postIndex < 3}
@@ -86,13 +89,16 @@ export default function PostList({
 const PostItem = memo(
   ({
     post,
+    isPinned,
     keyword,
     priority,
   }: {
     post: ExpandedNote
+    isPinned?: boolean
     keyword?: string
     priority?: boolean
   }) => {
+    const { t } = useTranslation("site")
     const isMounted = useIsClient()
     const date = useDate()
     const router = useRouter()
@@ -113,6 +119,12 @@ const PostItem = memo(
           )}
           suppressHydrationWarning
         >
+          {isPinned && (
+            <span className="absolute top-2 right-5 text-xs text-zinc-400 flex items-center gap-1">
+              <i className="icon-[mingcute--pin-2-fill]" />
+              {t("Pinned")}
+            </span>
+          )}
           <PostCover
             cover={post.metadata?.content?.cover}
             priority={priority}

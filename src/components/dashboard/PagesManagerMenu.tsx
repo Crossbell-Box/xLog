@@ -10,7 +10,7 @@ import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
-import { useDeletePage, useUpdatePage } from "~/queries/page"
+import { useDeletePage, usePinPage, useUpdatePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
@@ -48,6 +48,7 @@ export const PagesManagerMenu = ({
   const editLink = usePageEditLink(page, isPost)
   const queryClient = useQueryClient()
   const deletePage = useDeletePage()
+  const pinPage = usePinPage(page)
 
   const [convertToastId, setConvertToastId] = useState("")
   const [deleteToastId, setDeleteToastId] = useState("")
@@ -97,6 +98,11 @@ export const PagesManagerMenu = ({
       onClick() {
         router.push(editLink)
       },
+    },
+    {
+      text: pinPage.isPinned ? "Unpin" : "Pin",
+      icon: <span className="icon-[mingcute--pin-2-line] inline-block"></span>,
+      onClick: pinPage.togglePin,
     },
     {
       text: "Convert to " + (isPost ? "Page" : "Post"),
