@@ -692,6 +692,7 @@ export default function SubdomainEditor() {
         updateValue={updateValue}
         isAdvancedOptionsOpen={isAdvancedOptionsOpen}
         setIsAdvancedOptionsOpen={setIsAdvancedOptionsOpen}
+        isPost={isPost}
       />
       <Modal
         open={isCheersOpen}
@@ -782,51 +783,44 @@ const EditorExtraProperties = memo(
     return (
       <div className="h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
         <div>
-          <label className="form-label" htmlFor="publishAt">
-            {t("Publish at")}
-          </label>
-          <DateInput
-            className=""
-            allowDeselect
-            clearable
-            valueFormat="YYYY-MM-DD, h:mm a"
-            name="publishAt"
-            id="publishAt"
-            value={
-              values.publishedAt ? new Date(values.publishedAt) : undefined
-            }
-            onChange={(value: Date | null) => {
-              if (value) {
-                updateValue("publishedAt", value.toISOString())
-              } else {
-                updateValue("publishedAt", "")
+          <FieldLabel label={t("Cover Image")} />
+          <ImageUploader
+            id="icon"
+            className="aspect-video rounded-lg"
+            value={values.cover as any}
+            hasClose={true}
+            withMimeType={true}
+            uploadEnd={(key) => {
+              const { address, mime_type } = key as {
+                address?: string
+                mime_type?: string
               }
+              updateValue("cover", {
+                address,
+                mime_type,
+              })
             }}
-            styles={{
-              input: {
-                borderRadius: "0.5rem",
-                borderColor: "var(--border-color)",
-                height: "2.5rem",
-                "&:focus-within": {
-                  borderColor: "var(--theme-color)",
-                },
-              },
-            }}
+            accept="image/*"
           />
           <div className="text-xs text-gray-400 mt-1">
-            {t(
-              `This ${
-                isPost ? "post" : "page"
-              } will be accessible from this time. Leave blank to use the current time.`,
-            )}
+            {t("Leave blank to use the first image in the post")}
           </div>
-          {values.publishedAt > new Date().toISOString() && (
-            <div className="text-xs mt-1 text-orange-500">
-              {t(
-                "The post is currently not public as its publication date has been scheduled for a future time.",
-              )}
-            </div>
-          )}
+        </div>
+        <div>
+          <Input
+            name="tags"
+            value={values.tags}
+            label={t("Tags") || ""}
+            id="tags"
+            isBlock
+            renderInput={(props) => (
+              <TagInput
+                {...props}
+                userTags={userTags}
+                onTagChange={(value: string) => updateValue("tags", value)}
+              />
+            )}
+          />
         </div>
         <div>
           <Input
@@ -868,22 +862,6 @@ const EditorExtraProperties = memo(
         </div>
         <div>
           <Input
-            name="tags"
-            value={values.tags}
-            label={t("Tags") || ""}
-            id="tags"
-            isBlock
-            renderInput={(props) => (
-              <TagInput
-                {...props}
-                userTags={userTags}
-                onTagChange={(value: string) => updateValue("tags", value)}
-              />
-            )}
-          />
-        </div>
-        <div>
-          <Input
             label={t("Excerpt") || ""}
             isBlock
             name="excerpt"
@@ -896,30 +874,6 @@ const EditorExtraProperties = memo(
             }}
             help={t("Leave it blank to use auto-generated excerpt")}
           />
-        </div>
-        <div>
-          <FieldLabel label={t("Cover Image")} />
-          <ImageUploader
-            id="icon"
-            className="aspect-video rounded-lg"
-            value={values.cover as any}
-            hasClose={true}
-            withMimeType={true}
-            uploadEnd={(key) => {
-              const { address, mime_type } = key as {
-                address?: string
-                mime_type?: string
-              }
-              updateValue("cover", {
-                address,
-                mime_type,
-              })
-            }}
-            accept="image/*"
-          />
-          <div className="text-xs text-gray-400 mt-1">
-            {t("Leave blank to use the first image in the post")}
-          </div>
         </div>
         <div>
           <Button
@@ -947,14 +901,16 @@ const EditorAdvancedOptions = memo(
     updateValue,
     isAdvancedOptionsOpen,
     setIsAdvancedOptionsOpen,
+    isPost,
   }: {
     updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
 
     isAdvancedOptionsOpen: boolean
     setIsAdvancedOptionsOpen: (state: boolean) => void
+    isPost: boolean
   }) => {
     const values = useEditorState(
-      (state) => pick(state, ["disableAISummary"]),
+      (state) => pick(state, ["disableAISummary", "publishedAt"]),
       shallow,
     )
     const { t } = useTranslation("dashboard")
@@ -965,13 +921,63 @@ const EditorAdvancedOptions = memo(
         setOpen={setIsAdvancedOptionsOpen}
         title={t("Advanced Settings")}
       >
-        <div className="p-5 space-y-3">
+        <div className="p-5 space-y-5">
           <div>
+            <label className="form-label">
+              {t("Disable AI-generated summary")}
+            </label>
             <Switch
-              label={t("Disable AI-generated summary")}
+              label=""
               checked={values.disableAISummary}
               setChecked={(state) => updateValue("disableAISummary", state)}
             />
+          </div>
+          <div>
+            <label className="form-label" htmlFor="publishAt">
+              {t("Publish at")}
+            </label>
+            <DateInput
+              className=""
+              allowDeselect
+              clearable
+              valueFormat="YYYY-MM-DD, h:mm a"
+              name="publishAt"
+              id="publishAt"
+              value={
+                values.publishedAt ? new Date(values.publishedAt) : undefined
+              }
+              onChange={(value: Date | null) => {
+                if (value) {
+                  updateValue("publishedAt", value.toISOString())
+                } else {
+                  updateValue("publishedAt", "")
+                }
+              }}
+              styles={{
+                input: {
+                  borderRadius: "0.5rem",
+                  borderColor: "var(--border-color)",
+                  height: "2.5rem",
+                  "&:focus-within": {
+                    borderColor: "var(--theme-color)",
+                  },
+                },
+              }}
+            />
+            <div className="text-xs text-gray-400 mt-1">
+              {t(
+                `This ${
+                  isPost ? "post" : "page"
+                } will be accessible from this time. Leave blank to use the current time.`,
+              )}
+            </div>
+            {values.publishedAt > new Date().toISOString() && (
+              <div className="text-xs mt-1 text-orange-500">
+                {t(
+                  "The post is currently not public as its publication date has been scheduled for a future time.",
+                )}
+              </div>
+            )}
           </div>
         </div>
       </Modal>
