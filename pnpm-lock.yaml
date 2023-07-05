@@ -34,7 +34,7 @@ dependencies:
     version: 6.14.0
   '@crossbell/connect-kit':
     specifier: 1.4.9
-    version: 1.4.9(@tanstack/react-query@4.29.19)(@types/react@18.2.14)(@wagmi/core@1.3.4)(react-dom@18.2.0)(typescript@5.1.6)(wagmi@1.3.4)(zod@3.21.4)
+    version: 1.4.9(@tanstack/react-query@4.29.19)(@types/react@18.2.14)(@wagmi/core@1.3.6)(react-dom@18.2.0)(typescript@5.1.6)(wagmi@1.3.7)(zod@3.21.4)
   '@crossbell/contract':
     specifier: 1.4.8
     version: 1.4.8(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
@@ -43,7 +43,7 @@ dependencies:
     version: 1.4.8(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
   '@crossbell/notification':
     specifier: 1.4.9
-    version: 1.4.9(@tanstack/react-query@4.29.19)(@types/react@18.2.14)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(wagmi@1.3.4)(zod@3.21.4)
+    version: 1.4.9(@tanstack/react-query@4.29.19)(@types/react@18.2.14)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(wagmi@1.3.7)(zod@3.21.4)
   '@crossbell/ui':
     specifier: 1.4.9
     version: 1.4.9(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
@@ -381,8 +381,8 @@ dependencies:
     specifier: 1.2.9
     version: 1.2.9(typescript@5.1.6)(zod@3.21.4)
   wagmi:
-    specifier: 1.3.4
-    version: 1.3.4(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
+    specifier: 1.3.7
+    version: 1.3.7(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
   zustand:
     specifier: 4.3.8
     version: 4.3.8(immer@10.0.2)(react@18.2.0)
@@ -2118,7 +2118,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit@1.4.9(@tanstack/react-query@4.29.19)(@types/react@18.2.14)(@wagmi/core@1.3.4)(react-dom@18.2.0)(typescript@5.1.6)(wagmi@1.3.4)(zod@3.21.4):
+  /@crossbell/connect-kit@1.4.9(@tanstack/react-query@4.29.19)(@types/react@18.2.14)(@wagmi/core@1.3.6)(react-dom@18.2.0)(typescript@5.1.6)(wagmi@1.3.7)(zod@3.21.4):
     resolution: {integrity: sha512-4cGK2hxFuarKWZTXA5/q194Fyp3omkEsNqBcxoA8lAV2pOhoEqT94I+YaHi4qdwli1da90HcfzgddmZ6kOhuiA==}
     peerDependencies:
       '@tanstack/react-query': ^4
@@ -2136,8 +2136,8 @@ packages:
       '@mantine/hooks': 6.0.15(react@18.2.0)
       '@mantine/notifications': 6.0.13(@mantine/core@6.0.15)(@mantine/hooks@6.0.15)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': 4.29.19(react-dom@18.2.0)(react@18.2.0)
-      '@wagmi/connectors': 2.6.3(@wagmi/chains@1.4.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
-      '@web3modal/ethereum': 2.6.0(@wagmi/core@1.3.4)(viem@1.2.9)
+      '@wagmi/connectors': 2.6.3(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
+      '@web3modal/ethereum': 2.6.0(@wagmi/core@1.3.6)(viem@1.2.9)
       canvas-confetti: 1.6.0
       check-password-strength: 2.0.7
       classnames: 2.3.2
@@ -2154,7 +2154,7 @@ packages:
       rxjs: 7.8.1
       ts-essentials: 9.3.2(typescript@5.1.6)
       viem: 1.2.9(typescript@5.1.6)(zod@3.21.4)
-      wagmi: 1.3.4(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
+      wagmi: 1.3.7(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
       zustand: 4.3.8(immer@10.0.2)(react@18.2.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
@@ -2214,7 +2214,7 @@ packages:
     resolution: {integrity: sha512-0Yf9+MMTSD+JJkFbNaK/s+kl3CXhr4oq2yj3K0dvheB+e8uykcpM7yomxHie/sr0ushw3G7Ppf5NXYkfH0eiSw==}
     dev: false
 
-  /@crossbell/notification@1.4.9(@tanstack/react-query@4.29.19)(@types/react@18.2.14)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(wagmi@1.3.4)(zod@3.21.4):
+  /@crossbell/notification@1.4.9(@tanstack/react-query@4.29.19)(@types/react@18.2.14)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(wagmi@1.3.7)(zod@3.21.4):
     resolution: {integrity: sha512-k3LSul6uRqc+vzp0OiAUGCqhVOVxr+qrawO1Q/AtleitzwtNDS6TIGh/QiZ/3lTRKA5BYw8GfQP9CRxWboOnxA==}
     peerDependencies:
       '@tanstack/react-query': ^4
@@ -2232,7 +2232,7 @@ packages:
       react: 18.2.0
       react-intersection-observer: 9.5.1(react@18.2.0)
       viem: 1.2.9(typescript@5.1.6)(zod@3.21.4)
-      wagmi: 1.3.4(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
+      wagmi: 1.3.7(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
       zustand: 4.3.8(immer@10.0.2)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -4442,7 +4442,7 @@ packages:
       typescript: 5.1.6
     dev: false
 
-  /@wagmi/connectors@2.6.3(@wagmi/chains@1.4.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4):
+  /@wagmi/connectors@2.6.3(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4):
     resolution: {integrity: sha512-tloHzZq/7OCoOnveNdouhwv0pB1H0lB8+wqurColJsQdMKBTKn5xodl0pCkHjcKHZdELyIcuTINoq9aDzt30sA==}
     peerDependencies:
       '@wagmi/chains': '>=1.3.0'
@@ -4458,7 +4458,6 @@ packages:
       '@ledgerhq/connect-kit-loader': 1.1.0
       '@safe-global/safe-apps-provider': 0.17.1(typescript@5.1.6)(zod@3.21.4)
       '@safe-global/safe-apps-sdk': 8.0.0(typescript@5.1.6)(zod@3.21.4)
-      '@wagmi/chains': 1.4.0(typescript@5.1.6)
       '@walletconnect/ethereum-provider': 2.8.6(@walletconnect/modal@2.5.9)
       '@walletconnect/legacy-provider': 2.0.0
       '@walletconnect/modal': 2.5.9(react@18.2.0)
@@ -4477,8 +4476,44 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.3.4(immer@10.0.2)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4):
-    resolution: {integrity: sha512-2p6DVtKMRjkFljaQVIBtbH/oHpgoHQ1l9lSG8RmH6Z+Gm8IO67KdUbO0HuxceO/3sfBPrbNY6abbyMEaz0Rx1g==}
+  /@wagmi/connectors@2.6.5(@wagmi/chains@1.4.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4):
+    resolution: {integrity: sha512-klF31togMDd0qQqEcLl5cCGxjMbL0RRXQ8I1vxmEa3KdGzw6Z3ICVzX7/bDfnNEZcOW7BKyAnZDq7rCt5jTOiw==}
+    peerDependencies:
+      '@wagmi/chains': '>=1.3.0'
+      typescript: '>=5.0.4'
+      viem: '>=0.3.35'
+    peerDependenciesMeta:
+      '@wagmi/chains':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@coinbase/wallet-sdk': 3.7.1
+      '@ledgerhq/connect-kit-loader': 1.1.0
+      '@safe-global/safe-apps-provider': 0.17.1(typescript@5.1.6)(zod@3.21.4)
+      '@safe-global/safe-apps-sdk': 8.0.0(typescript@5.1.6)(zod@3.21.4)
+      '@wagmi/chains': 1.4.0(typescript@5.1.6)
+      '@walletconnect/ethereum-provider': 2.8.6(@walletconnect/modal@2.5.9)
+      '@walletconnect/legacy-provider': 2.0.0
+      '@walletconnect/modal': 2.5.9(react@18.2.0)
+      '@walletconnect/utils': 2.8.6
+      abitype: 0.8.7(typescript@5.1.6)(zod@3.21.4)
+      eventemitter3: 4.0.7
+      typescript: 5.1.6
+      viem: 1.2.9(typescript@5.1.6)(zod@3.21.4)
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - bufferutil
+      - encoding
+      - lokijs
+      - react
+      - supports-color
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /@wagmi/core@1.3.6(immer@10.0.2)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4):
+    resolution: {integrity: sha512-TXv9ZlRR5aySfERFuWMuo+lKXC/CoqtxVJZVHPqhK1jY+nldMx3AvrWzzF4CccRaMYcVdvPFepvmxzq2A2VvWg==}
     peerDependencies:
       typescript: '>=5.0.4'
       viem: '>=0.3.35'
@@ -4487,7 +4522,7 @@ packages:
         optional: true
     dependencies:
       '@wagmi/chains': 1.4.0(typescript@5.1.6)
-      '@wagmi/connectors': 2.6.3(@wagmi/chains@1.4.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
+      '@wagmi/connectors': 2.6.5(@wagmi/chains@1.4.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
       abitype: 0.8.7(typescript@5.1.6)(zod@3.21.4)
       eventemitter3: 4.0.7
       typescript: 5.1.6
@@ -4879,13 +4914,13 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@web3modal/ethereum@2.6.0(@wagmi/core@1.3.4)(viem@1.2.9):
+  /@web3modal/ethereum@2.6.0(@wagmi/core@1.3.6)(viem@1.2.9):
     resolution: {integrity: sha512-ivTqNai7OQwAQ03LUdPzevPIKAnL1s8L0uXwV2oEwD4j8Sj4AotAGL8Ev4Kf1IgX/5gO3/Rv2VUJIezqDV515w==}
     peerDependencies:
       '@wagmi/core': '>=1'
       viem: '>=1'
     dependencies:
-      '@wagmi/core': 1.3.4(immer@10.0.2)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
+      '@wagmi/core': 1.3.6(immer@10.0.2)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
       viem: 1.2.9(typescript@5.1.6)(zod@3.21.4)
     dev: false
 
@@ -12858,8 +12893,8 @@ packages:
       xml-name-validator: 4.0.0
     dev: false
 
-  /wagmi@1.3.4(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4):
-    resolution: {integrity: sha512-PY+8coQDfQsXiJZq8KGYTzVRe708bMn7OFrbGq2NhykahkfsIB0QtEGDtpoa3Kvkt4RO68ClRSmH6vmt1ZqYSA==}
+  /wagmi@1.3.7(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4):
+    resolution: {integrity: sha512-n4Qwby0QB8/JSGjc0gGn4MWZ0BT229agEg6saPGS6VswmPjJLdkLq9qxKn1JptXxPREmb/ZvwHxU++3Z+gQJVA==}
     peerDependencies:
       react: '>=17.0.0'
       typescript: '>=5.0.4'
@@ -12871,7 +12906,7 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.29.19
       '@tanstack/react-query': 4.29.19(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.29.19(@tanstack/react-query@4.29.19)
-      '@wagmi/core': 1.3.4(immer@10.0.2)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
+      '@wagmi/core': 1.3.6(immer@10.0.2)(react@18.2.0)(typescript@5.1.6)(viem@1.2.9)(zod@3.21.4)
       abitype: 0.8.7(typescript@5.1.6)(zod@3.21.4)
       react: 18.2.0
       typescript: 5.1.6
