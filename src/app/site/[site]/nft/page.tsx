@@ -38,7 +38,7 @@ export default async function SiteNFTPage({
   const site = await fetchGetSite(params.site, queryClient)
   const { t } = await useTranslation("common")
 
-  let nfts = await getNFTs(site?.owner)
+  let nfts = (await getNFTs(site?.owner)) ?? []
 
   nfts.forEach((chain: any) => {
     chain.assets = []
