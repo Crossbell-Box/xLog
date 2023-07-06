@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic"
-import { FC, useState } from "react"
+import { FC } from "react"
 import { toast } from "react-hot-toast"
 
 import { useIsClient } from "~/hooks/useClient"
@@ -7,7 +7,7 @@ import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 import { Button } from "../ui/Button"
-import { Modal } from "../ui/Modal"
+import { useModalStack } from "../ui/ModalStack"
 import { Tooltip } from "../ui/Tooltip"
 
 const QRCodeSVG = dynamic(
@@ -59,19 +59,26 @@ export const ReactionShare: FC<{
   size?: "sm" | "base"
 }> = ({ vertical, size }) => {
   const { t } = useTranslation("common")
-  const [isShareOpen, setIsShareOpen] = useState(false)
 
   const isClient = useIsClient()
+
+  const presentModal = usePresentShareModal()
+
   if (!isClient) return null
 
+  // TODO: get from Note
+
   const handleShare = () => {
-    setIsShareOpen(true)
+    const title = document.title
+    const url = location.href
+    const text = t("Share Message", { title })
+    presentModal({
+      url,
+      title,
+      text,
+    })
   }
 
-  // TODO: get from Note
-  const title = document.title
-  const url = location.href
-  const text = t("Share Message", { title })
   return (
     <>
       <div className={cn("xlog-reactions-share flex items-center sm:mb-0")}>
@@ -112,38 +119,52 @@ export const ReactionShare: FC<{
           })()}
         </Button>
       </div>
-      <Modal
-        open={isShareOpen}
-        setOpen={setIsShareOpen}
-        title={t("Share Modal") || ""}
-      >
-        <div className="relative grid grid-cols-[200px_auto] gap-5 px-5 py-6">
-          <div className="qrcode inline-block min-h-[200px]">
-            <QRCodeSVG
-              value={url}
-              className="aspect-square w-[200px]"
-              height={200}
-              width={200}
-            />
-          </div>
-          <div className="share-options flex flex-col gap-2">
-            <ul className="w-[200px] flex-col gap-2 [&>li]:flex [&>li]:items-center [&>li]:space-x-2">
-              {shareList.map(({ name, icon, onClick }) => (
-                <li
-                  key={name}
-                  className="flex cursor-pointer items-center space-x-2 rounded-md px-3 py-2 text-lg transition-colors hover:bg-gray-100 [&_img]:w-[1rem] [&_img]:h-[1rem]"
-                  aria-label={`Share to ${name}`}
-                  role="button"
-                  onClick={() => onClick({ url, text, title })}
-                >
-                  {icon}
-                  <span>{name}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </Modal>
     </>
+  )
+}
+
+const usePresentShareModal = () => {
+  const { present } = useModalStack()
+  const { t } = useTranslation("common")
+  return (props: ShareModalProps) => {
+    present({
+      title: t("Share Modal") || "",
+      content: () => <ShareModal {...props} />,
+    })
+  }
+}
+interface ShareModalProps {
+  url: string
+  title: string
+  text: string
+}
+const ShareModal: FC<ShareModalProps> = ({ url, text, title }) => {
+  return (
+    <div className="relative grid grid-cols-[200px_auto] gap-5 px-5 py-6">
+      <div className="qrcode inline-block min-h-[200px]">
+        <QRCodeSVG
+          value={url}
+          className="aspect-square w-[200px]"
+          height={200}
+          width={200}
+        />
+      </div>
+      <div className="share-options flex flex-col gap-2">
+        <ul className="w-[200px] flex-col gap-2 [&>li]:flex [&>li]:items-center [&>li]:space-x-2">
+          {shareList.map(({ name, icon, onClick }) => (
+            <li
+              key={name}
+              className="flex cursor-pointer items-center space-x-2 rounded-md px-3 py-2 text-lg transition-colors hover:bg-gray-100 [&_img]:w-[1rem] [&_img]:h-[1rem]"
+              aria-label={`Share to ${name}`}
+              role="button"
+              onClick={() => onClick({ url, text, title })}
+            >
+              {icon}
+              <span>{name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   )
 }
