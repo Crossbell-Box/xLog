@@ -192,8 +192,8 @@ dependencies:
     specifier: 0.16.8
     version: 0.16.8
   langchain:
-    specifier: 0.0.102
-    version: 0.0.102
+    specifier: 0.0.103
+    version: 0.0.103
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -8864,8 +8864,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.102:
-    resolution: {integrity: sha512-fAZP9YI3qOruPKYa9QrRwGIg2xr9qCAIonYLh0WUb58lkEDQnY8XbSapgWy4a6er5OCfEh9z6x4EPri1+HpD0g==}
+  /langchain@0.0.103:
+    resolution: {integrity: sha512-vRkDSDPA76dpM23WrSeZr4F616E1EW08Ec+2HX15WFKoiUCd+fmkdfbjeJLXWYwFxKG5iy2jVE3d00nJ/8tqAw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0
@@ -9039,7 +9039,7 @@ packages:
       js-tiktoken: 1.0.7
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langchainplus-sdk: 0.0.15
+      langchainplus-sdk: 0.0.19
       ml-distance: 4.0.1
       object-hash: 3.0.0
       openai: 3.3.0
@@ -9055,8 +9055,8 @@ packages:
       - encoding
     dev: false
 
-  /langchainplus-sdk@0.0.15:
-    resolution: {integrity: sha512-CWaTylvR2d17rErPqgLCBiAnY3UJMdV4c27itvL0CB0eurYnZspa75u3Xl4frmbMy0nhN2N94jWCnrAZX4YDjg==}
+  /langchainplus-sdk@0.0.19:
+    resolution: {integrity: sha512-WKMN90E8M/JWO9lajbw8sv32xVHUZM+fN9I4LUveffBoX4qoJFi6uzYeDH0loW2SjnOSh3Tnzlz+Qp6ZenCu6g==}
     hasBin: true
     dependencies:
       '@types/uuid': 9.0.2
