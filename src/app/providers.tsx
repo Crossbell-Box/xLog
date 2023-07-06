@@ -11,6 +11,7 @@ import {
 import { QueryClient } from "@tanstack/react-query"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 
+import { ModalStackProvider } from "~/components/ui/ModalStack"
 // eslint-disable-next-line import/no-unresolved
 import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
@@ -84,7 +85,10 @@ export default function Providers({
           signInStrategy="simple"
           ignoreWalletDisconnectEvent={true}
         >
-          <LangProvider lang={lang}>{children}</LangProvider>
+          <LangProvider lang={lang}>
+            <ModalStackProvider>{children}</ModalStackProvider>
+          </LangProvider>
+
           <NotificationModal
             colorScheme={colorScheme}
             filter={filterNotificationCharacter}

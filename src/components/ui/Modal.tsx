@@ -6,7 +6,7 @@ import { Dialog, Transition } from "@headlessui/react"
 
 import { cn } from "~/lib/utils"
 
-interface ModalProps {
+export interface ModalProps {
   open: boolean
   setOpen: (open: boolean) => void
   children: React.ReactNode
@@ -16,6 +16,7 @@ interface ModalProps {
   zIndex?: number
   panelClassName?: string
   boxClassName?: string
+  afterLeave?: () => void
 }
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
@@ -30,11 +31,12 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       zIndex,
       panelClassName,
       boxClassName,
+      afterLeave,
     },
     ref,
   ) => {
     return (
-      <Transition appear show={open} as={Fragment}>
+      <Transition appear show={open} as={Fragment} afterLeave={afterLeave}>
         <Dialog
           onClose={() => setOpen(false)}
           className="relative"

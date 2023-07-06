@@ -31,6 +31,7 @@ import { FieldLabel } from "~/components/ui/FieldLabel"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { Input } from "~/components/ui/Input"
 import { Modal } from "~/components/ui/Modal"
+import { ModalContentProps, useModalStack } from "~/components/ui/ModalStack"
 import { Switch } from "~/components/ui/Switch"
 import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
@@ -258,7 +259,28 @@ export default function SubdomainEditor() {
     }
   }, [deleteP.isSuccess])
 
-  const [isCheersOpen, setIsCheersOpen] = useState(false)
+  const { present, dismiss } = useModalStack()
+
+  const postUrl = `${getSiteLink({
+    subdomain,
+    domain: site.data?.metadata?.content?.custom_domain,
+  })}/${encodeURIComponent(values.slug || defaultSlug)}`
+  const transactionUrl = `${CSB_SCAN}/tx/${
+    page.data?.updatedTransactionHash || page.data?.transactionHash
+  }`
+
+  const twitterShareUrl =
+    page.data && site.data
+      ? getTwitterShareUrl({
+          page: page.data,
+          site: site.data,
+          t,
+        })
+      : ""
+
+  const getPostUrl = useGetState(postUrl)
+  const getTransactionUrl = useGetState(transactionUrl)
+  const getTwitterShareUrl_ = useGetState(twitterShareUrl)
 
   useEffect(() => {
     if (createPage.isSuccess || updatePage.isSuccess) {
@@ -283,8 +305,20 @@ export default function SubdomainEditor() {
           }&type=${searchParams?.get("type")}`,
         )
       }
+      const modalId = "publish-modal"
+      present({
+        title: `🎉 ${t("Published!")}`,
+        id: modalId,
+        content: (props) => (
+          <PublishedModal
+            postUrl={getPostUrl()}
+            transactionUrl={getTransactionUrl()}
+            twitterShareUrl={getTwitterShareUrl_()}
+            {...props}
+          />
+        ),
+      })
 
-      setIsCheersOpen(true)
       showConfetti()
 
       createPage.reset()
@@ -694,62 +728,6 @@ export default function SubdomainEditor() {
         setIsAdvancedOptionsOpen={setIsAdvancedOptionsOpen}
         isPost={isPost}
       />
-      <Modal
-        open={isCheersOpen}
-        setOpen={setIsCheersOpen}
-        title={`🎉 ${t("Published!")}`}
-      >
-        <div className="p-5">
-          {t(
-            "Your post has been securely stored on the blockchain. Now you may want to",
-          )}
-          <ul className="list-disc pl-5 mt-2 space-y-1">
-            <li>
-              <UniLink
-                className="text-accent"
-                href={`${getSiteLink({
-                  subdomain,
-                  domain: site.data?.metadata?.content?.custom_domain,
-                })}/${encodeURIComponent(values.slug || defaultSlug)}`}
-              >
-                {t("View the post")}
-              </UniLink>
-            </li>
-            <li>
-              <UniLink
-                className="text-accent"
-                href={`${CSB_SCAN}/tx/${
-                  page.data?.updatedTransactionHash ||
-                  page.data?.transactionHash
-                }`}
-              >
-                {t("View the transaction")}
-              </UniLink>
-            </li>
-            <li>
-              <UniLink
-                className="text-accent"
-                href={
-                  page.data && site.data
-                    ? getTwitterShareUrl({
-                        page: page.data,
-                        site: site.data,
-                        t,
-                      })
-                    : ""
-                }
-              >
-                {t("Share to Twitter")}
-              </UniLink>
-            </li>
-          </ul>
-        </div>
-        <div className="h-16 border-t flex items-center px-5">
-          <Button isBlock onClick={() => setIsCheersOpen(false)}>
-            {t("Got it, thanks!")}
-          </Button>
-        </div>
-      </Modal>
     </>
   )
 }
@@ -986,3 +964,47 @@ const EditorAdvancedOptions = memo(
 )
 
 EditorAdvancedOptions.displayName = "EditorAdvancedOptions"
+
+const PublishedModal = ({
+  dismiss,
+  postUrl,
+  transactionUrl,
+  twitterShareUrl,
+}: ModalContentProps<{
+  postUrl: string
+  transactionUrl: string
+  twitterShareUrl: string
+}>) => {
+  const { t } = useTranslation("dashboard")
+  return (
+    <>
+      <div className="p-5">
+        {t(
+          "Your post has been securely stored on the blockchain. Now you may want to",
+        )}
+        <ul className="list-disc pl-5 mt-2 space-y-1">
+          <li>
+            <UniLink className="text-accent" href={postUrl}>
+              {t("View the post")}
+            </UniLink>
+          </li>
+          <li>
+            <UniLink className="text-accent" href={transactionUrl}>
+              {t("View the transaction")}
+            </UniLink>
+          </li>
+          <li>
+            <UniLink className="text-accent" href={twitterShareUrl}>
+              {t("Share to Twitter")}
+            </UniLink>
+          </li>
+        </ul>
+      </div>
+      <div className="h-16 border-t flex items-center px-5">
+        <Button isBlock onClick={() => dismiss()}>
+          {t("Got it, thanks!")}
+        </Button>
+      </div>
+    </>
+  )
+}
