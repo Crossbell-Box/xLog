@@ -1,8 +1,6 @@
 "use client"
 
-import { useState } from "react"
-
-import { PatronModal } from "~/components/common/PatronModal"
+import { usePatronModal } from "~/components/common/PatronModal"
 import { Button } from "~/components/ui/Button"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
@@ -20,17 +18,17 @@ export const PatronButton = ({
   loadingStatusChange?: (status: boolean) => void
 }) => {
   const { t } = useTranslation("common")
-  const [open, setOpen] = useState(false)
+
+  const presentPatronModal = usePatronModal()
 
   return (
     <>
-      <PatronModal open={open} setOpen={setOpen} site={site} />
       <Button
         variant="text"
         aria-label={"Patron"}
         key={t("Patron")}
         className={cn(className, "-mx-2 text-red-400")}
-        onClick={() => setOpen(true)}
+        onClick={() => presentPatronModal(site)}
       >
         <span className="inline-flex items-center">
           <i className="text-red-400 text-xl inline-flex items-center">

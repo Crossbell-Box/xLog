@@ -5,7 +5,7 @@ import { shallow } from "zustand/shallow"
 import { Combobox, Transition } from "@headlessui/react"
 import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/20/solid"
 
-import { useEditorState } from "~/hooks/useEdtiorState"
+import { useEditorState } from "~/hooks/useEditorState"
 import { cn } from "~/lib/utils"
 
 import { CustomInputProps } from "./Input"
