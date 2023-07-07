@@ -66,8 +66,8 @@ dependencies:
     specifier: 1.1.1
     version: 1.1.1(emoji-mart@5.5.2)(react@18.2.0)
   '@floating-ui/react':
-    specifier: 0.24.3
-    version: 0.24.3(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.24.5
+    version: 0.24.5(react-dom@18.2.0)(react@18.2.0)
   '@headlessui/react':
     specifier: 1.7.15
     version: 1.7.15(react-dom@18.2.0)(react@18.2.0)
@@ -3029,8 +3029,8 @@ packages:
       tabbable: 6.2.0
     dev: false
 
-  /@floating-ui/react@0.24.3(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-wWC9duiog4HmbgKSKObDRuXqMjZR/6m75MIG+slm5CVWbridAjK9STcnCsGYmdpK78H/GmzYj4ADVP8paZVLYQ==}
+  /@floating-ui/react@0.24.5(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-p/cOvACHFooJX5yTaim8PZgMAt67IIBAkynZfWiLsor5aUE6all1OJ73eVpjATUxFP5l8gqOszvP1Zr22T2UgQ==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
