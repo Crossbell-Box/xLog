@@ -70,6 +70,11 @@ const DynamicPageContent = dynamic(
   () => import("~/components/common/PageContent"),
   {
     ssr: false,
+    loading: () => (
+      <div className="bg-white px-5 overflow-scroll pb-[200px] h-full flex-1 text-center">
+        Loading...
+      </div>
+    ),
   },
 )
 
