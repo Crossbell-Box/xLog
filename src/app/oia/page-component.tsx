@@ -5,7 +5,7 @@ import { useCallback, useEffect } from "react"
 import { Image } from "~/components/ui/Image"
 import { useTranslation } from "~/lib/i18n/client"
 
-async function OIAPage() {
+function OIAPage() {
   const { t } = useTranslation("site")
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic"
+import Image from "next/image"
 import { FC } from "react"
 import { toast } from "react-hot-toast"
 
@@ -24,7 +25,14 @@ interface ShareData {
 const shareList = [
   {
     name: "Twitter",
-    icon: <img src="/assets/social/twitter.svg" alt="twitter" />,
+    icon: (
+      <Image
+        width={16}
+        height={16}
+        src="/assets/social/twitter.svg"
+        alt="twitter"
+      />
+    ),
     onClick: (data: ShareData) => {
       window.open(
         `https://twitter.com/intent/tweet?url=${data.url}&text=${data.text}&via=XLog`,
@@ -33,7 +41,14 @@ const shareList = [
   },
   {
     name: "Telegram",
-    icon: <img src="/assets/social/telegram.svg" alt="telegram" />,
+    icon: (
+      <Image
+        width={16}
+        height={16}
+        src="/assets/social/telegram.svg"
+        alt="telegram"
+      />
+    ),
     onClick: (data: ShareData) => {
       window.open(
         `https://telegram.me/share/url?url=${data.url}&text=${data.text}`,
