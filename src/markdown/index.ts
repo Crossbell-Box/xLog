@@ -109,7 +109,7 @@ export const renderPageContent = (
       .use(remarkParse)
       .use(remarkBreaks)
       .use(remarkFrontmatter, ["yaml"])
-      .use(() => (tree) => {
+      .use(() => (tree: Root) => {
         const yaml = tree.children.find((node) => node.type === "yaml")
         if ((yaml as any)?.value) {
           try {
@@ -135,7 +135,7 @@ export const renderPageContent = (
       })
       .use(remarkPangu)
       .use(() => (tree) => {
-        env.toc = toc(tree, { tight: true, ordered: true })
+        env.toc = toc(tree as any, { tight: true, ordered: true })
       })
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(emoji)

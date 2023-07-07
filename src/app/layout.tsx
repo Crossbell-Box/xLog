@@ -7,7 +7,7 @@ import "@crossbell/connect-kit/colors.css"
 import { updateIndexerFetchOptions } from "@crossbell/indexer"
 
 import "~/css/main.css"
-import { useAcceptLang } from "~/hooks/useAcceptLang"
+import { getAcceptLang } from "~/lib/accept-lang"
 import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN, SITE_URL } from "~/lib/env"
 import { getColorScheme } from "~/lib/get-color-scheme"
 
@@ -81,7 +81,7 @@ export default function RootLayout({
   children: React.ReactNode
   modal: React.ReactNode
 }) {
-  const lang = useAcceptLang()
+  const lang = getAcceptLang()
   const colorScheme = getColorScheme()
 
   // For viewing statistics

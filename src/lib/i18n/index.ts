@@ -3,7 +3,7 @@ import resourcesToBackend from "i18next-resources-to-backend"
 import { Trans as TransW } from "react-i18next/TransWithoutContext"
 import { initReactI18next } from "react-i18next/initReactI18next"
 
-import { useAcceptLang } from "~/hooks/useAcceptLang"
+import { getAcceptLang } from "~/lib/accept-lang"
 
 import { defaultNS, getOptions } from "./settings"
 
@@ -21,8 +21,8 @@ const initI18next = async (lng: string, ns: string) => {
   return i18nInstance
 }
 
-export async function useTranslation(ns: string = defaultNS) {
-  const lang = useAcceptLang()
+export async function getTranslation(ns: string = defaultNS) {
+  const lang = getAcceptLang()
   const i18nextInstance = await initI18next(lang, ns)
   return {
     t: i18nextInstance.getFixedT(lang, ns),

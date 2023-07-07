@@ -2,7 +2,7 @@ import { headers } from "next/headers"
 
 import { fallbackLng } from "~/lib/i18n/settings"
 
-export function useAcceptLang() {
+export function getAcceptLang() {
   let lng = fallbackLng
 
   let acceptLang = headers().get("accept-language")?.split(",")[0]

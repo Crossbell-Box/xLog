@@ -10,7 +10,7 @@ import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n"
+import { getTranslation } from "~/lib/i18n"
 import { toCid } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import getQueryClient from "~/lib/query-client"
@@ -129,8 +129,8 @@ export default async function SitePagePage({
     }
   }
 
-  const { i18n } = await useTranslation()
-  const { t } = await useTranslation("common")
+  const { i18n } = await getTranslation()
+  const { t } = await getTranslation("common")
   let summary: string | undefined
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({

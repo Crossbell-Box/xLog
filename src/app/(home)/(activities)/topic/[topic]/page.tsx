@@ -2,7 +2,7 @@ import { Metadata } from "next"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
 import { APP_NAME } from "~/lib/env"
-import { useTranslation } from "~/lib/i18n"
+import { getTranslation } from "~/lib/i18n"
 
 import topics from "../../../../../../data/topics.json"
 
@@ -26,7 +26,7 @@ export default async function Topic({
     topic: string
   }
 }) {
-  const { t } = await useTranslation("index")
+  const { t } = await getTranslation("index")
   params.topic = decodeURIComponent(params.topic)
   const info = topics.find((t) => t.name === params.topic)
 

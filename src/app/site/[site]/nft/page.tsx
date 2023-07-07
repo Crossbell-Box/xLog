@@ -3,7 +3,7 @@ import Script from "next/script"
 
 import { UniLink } from "~/components/ui/UniLink"
 import { UniMedia } from "~/components/ui/UniMedia"
-import { useTranslation } from "~/lib/i18n"
+import { getTranslation } from "~/lib/i18n"
 import { toGateway } from "~/lib/ipfs-parser"
 import getQueryClient from "~/lib/query-client"
 import { fetchGetSite, getNFTs } from "~/queries/site.server"
@@ -36,7 +36,7 @@ export default async function SiteNFTPage({
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
-  const { t } = await useTranslation("common")
+  const { t } = await getTranslation("common")
 
   let nfts = (await getNFTs(site?.owner)) ?? []
 
