@@ -48,12 +48,16 @@ const PostCard = ({
   const { t } = useTranslation("common")
   const date = useDate()
   const isMobileLayout = useIsMobileLayout()
+  const isArcBrowser = !!window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue("--arc-palette-title")
+  const isPostModalDisabled = isMobileLayout || isArcBrowser
 
   return (
     <Link
-      target={isMobileLayout ? "_blank" : undefined}
+      target={isPostModalDisabled ? "_blank" : undefined}
       href={
-        isMobileLayout
+        isPostModalDisabled
           ? `/site/${post?.character?.handle}/${post.metadata?.content?.slug}`
           : `/post/${post?.character?.handle}/${post.metadata?.content?.slug}`
       }
