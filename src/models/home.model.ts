@@ -158,9 +158,8 @@ export async function getFeed({
       return {
         list,
         cursor: list?.length
-          ? `${list[list.length - 1]?.characterId}_${
-              list[list.length - 1]?.noteId
-            }`
+          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+              ?.noteId}`
           : undefined,
         count: list?.length || 0,
       }
@@ -277,9 +276,8 @@ export async function getFeed({
         return {
           list: list,
           cursor: list?.length
-            ? `${list[list.length - 1]?.characterId}_${
-                list[list.length - 1]?.noteId
-              }`
+            ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+                ?.noteId}`
             : undefined,
           count: list?.length || 0,
         }
@@ -370,9 +368,8 @@ export async function getFeed({
         return {
           list: list,
           cursor: list?.length
-            ? `${list[list.length - 1]?.characterId}_${
-                list[list.length - 1]?.noteId
-              }`
+            ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+                ?.noteId}`
             : undefined,
           count: list?.length || 0,
         }

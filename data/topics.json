@@ -2,18 +2,12 @@
   {
     "name": "xLog",
     "description": "Let's talk about xLog, whether to praise or criticize it.",
-    "includeTags": [
-      "xLog"
-    ],
-    "includeKeywords": [
-      "xLog"
-    ]
+    "includeTags": ["xLog"],
+    "includeKeywords": ["xLog"]
   },
   {
     "name": "Web3",
-    "includeTags": [
-      "Web3"
-    ],
+    "includeTags": ["Web3"],
     "includeKeywords": [
       "Web3",
       "Blockchain",
@@ -35,24 +29,13 @@
   {
     "name": "Artificial Intelligence",
     "description": "The world is undergoing changes, and we are at the center of it.",
-    "includeTags": [
-      "AI"
-    ],
-    "includeKeywords": [
-      "GPT",
-      "Midjourney",
-      "AIGC",
-      " AI ",
-      "OpenAI"
-    ]
+    "includeTags": ["AI"],
+    "includeKeywords": ["GPT", "Midjourney", "AIGC", " AI ", "OpenAI"]
   },
   {
     "name": "Life Journal",
     "description": "Discover new perspectives and insights in others' weekly, monthly, or yearly journal.",
-    "includeTags": [
-      "Life",
-      "生活"
-    ],
+    "includeTags": ["Life", "生活"],
     "includeKeywords": [
       "Review",
       "Weekly",
@@ -66,10 +49,7 @@
   {
     "name": "Fiction",
     "description": "Experience a world of imagination through these fiction stories.",
-    "includeTags": [
-      "Fiction",
-      "小说"
-    ],
+    "includeTags": ["Fiction", "小说"],
     "notes": [
       "55405-3",
       "54513-24",
@@ -121,10 +101,7 @@
   },
   {
     "name": "Coding",
-    "includeTags": [
-      "Coding",
-      "编程"
-    ],
+    "includeTags": ["Coding", "编程"],
     "includeKeywords": [
       "Coding",
       "编程",

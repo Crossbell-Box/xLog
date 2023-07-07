@@ -239,123 +239,126 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
           <EmptyState resource={isPost ? "posts" : "pages"} />
         )}
 
-        {pages.data?.pages.map((page) =>
-          page.list?.map((page) => {
-            currentLength++
-            return (
-              <Link
-                key={page.transactionHash || page.draftKey}
-                href={getPageEditLink(page)}
-                className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex"
-              >
-                <div className="w-10 flex-shrink-0 flex self-center">
-                  <button
-                    className={cn(
-                      `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
-                      batchSelected.includes(page.noteId || page.draftKey || 0)
-                        ? "bg-gray-200"
-                        : `hover:bg-gray-200`,
-                    )}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      // Toggle selection
-                      if (
+        {pages.data?.pages.map(
+          (page) =>
+            page.list?.map((page) => {
+              currentLength++
+              return (
+                <Link
+                  key={page.transactionHash || page.draftKey}
+                  href={getPageEditLink(page)}
+                  className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex"
+                >
+                  <div className="w-10 flex-shrink-0 flex self-center">
+                    <button
+                      className={cn(
+                        `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
                         batchSelected.includes(
                           page.noteId || page.draftKey || 0,
                         )
-                      ) {
-                        // Deselect
-                        setBatchSelected(
-                          batchSelected.filter(
-                            (pageId) =>
-                              pageId !== page.noteId || page.draftKey || 0,
-                          ),
-                        )
-                      } else {
-                        // Do select
-                        setBatchSelected([
-                          ...batchSelected,
-                          page.noteId || page.draftKey || 0,
-                        ])
-                      }
-                    }}
-                  >
-                    <i
-                      className={`${
-                        batchSelected.includes(
-                          page.noteId || page.draftKey || 0,
-                        )
-                          ? "icon-[mingcute--check-line]"
-                          : isPost
-                          ? "icon-[mingcute--news-line]"
-                          : "icon-[mingcute--file-line]"
-                      } text-2xl`}
-                    />
-                  </button>
-                </div>
-                <div className="min-w-0">
-                  {page.metadata?.content?.title ? (
-                    <div className="flex items-center">
-                      <span>{page.metadata?.content?.title}</span>
-                    </div>
-                  ) : (
-                    <div className="text-zinc-500 text-xs mt-1 truncate">
-                      <span>{page.metadata?.content?.summary}</span>
-                    </div>
-                  )}
-                  <div className="text-zinc-400 text-xs mt-1">
-                    <span className="capitalize">
-                      {t(getPageVisibility(page))}
-                    </span>
-                    <span className="mx-2">·</span>
-                    <span>
-                      {getPageVisibility(page) === PageVisibilityEnum.Draft
-                        ? date.formatDate(page.updatedAt)
-                        : date.formatDate(
-                            page.metadata?.content?.date_published || "",
-                          )}
-                    </span>
-                    {pinnedPage.noteId === page.noteId && (
-                      <>
-                        <span className="mx-2">·</span>
-                        <span>
-                          <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
-                          {siteT("Pinned")}
-                        </span>
-                      </>
-                    )}
+                          ? "bg-gray-200"
+                          : `hover:bg-gray-200`,
+                      )}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        // Toggle selection
+                        if (
+                          batchSelected.includes(
+                            page.noteId || page.draftKey || 0,
+                          )
+                        ) {
+                          // Deselect
+                          setBatchSelected(
+                            batchSelected.filter(
+                              (pageId) =>
+                                pageId !== page.noteId || page.draftKey || 0,
+                            ),
+                          )
+                        } else {
+                          // Do select
+                          setBatchSelected([
+                            ...batchSelected,
+                            page.noteId || page.draftKey || 0,
+                          ])
+                        }
+                      }}
+                    >
+                      <i
+                        className={`${
+                          batchSelected.includes(
+                            page.noteId || page.draftKey || 0,
+                          )
+                            ? "icon-[mingcute--check-line]"
+                            : isPost
+                            ? "icon-[mingcute--news-line]"
+                            : "icon-[mingcute--file-line]"
+                        } text-2xl`}
+                      />
+                    </button>
                   </div>
-                </div>
-                <div className="w-10 flex-shrink-0 flex self-center ml-auto">
-                  <Menu>
-                    {({ open, close }) => (
-                      <>
-                        <Menu.Button as={Fragment}>
-                          <button
-                            className={cn(
-                              `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
-                              open ? `bg-gray-200` : `hover:bg-gray-200`,
-                            )}
-                            onClick={(e) => {
-                              e.stopPropagation()
-                            }}
-                          >
-                            <i className="icon-[mingcute--more-1-line] text-2xl" />
-                          </button>
-                        </Menu.Button>
-
-                        <PagesManagerMenu
-                          isPost={isPost}
-                          page={page}
-                          onClick={close}
-                        />
-                      </>
+                  <div className="min-w-0">
+                    {page.metadata?.content?.title ? (
+                      <div className="flex items-center">
+                        <span>{page.metadata?.content?.title}</span>
+                      </div>
+                    ) : (
+                      <div className="text-zinc-500 text-xs mt-1 truncate">
+                        <span>{page.metadata?.content?.summary}</span>
+                      </div>
                     )}
-                  </Menu>
-                </div>
-              </Link>
-            )
-          }),
+                    <div className="text-zinc-400 text-xs mt-1">
+                      <span className="capitalize">
+                        {t(getPageVisibility(page))}
+                      </span>
+                      <span className="mx-2">·</span>
+                      <span>
+                        {getPageVisibility(page) === PageVisibilityEnum.Draft
+                          ? date.formatDate(page.updatedAt)
+                          : date.formatDate(
+                              page.metadata?.content?.date_published || "",
+                            )}
+                      </span>
+                      {pinnedPage.noteId === page.noteId && (
+                        <>
+                          <span className="mx-2">·</span>
+                          <span>
+                            <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
+                            {siteT("Pinned")}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="w-10 flex-shrink-0 flex self-center ml-auto">
+                    <Menu>
+                      {({ open, close }) => (
+                        <>
+                          <Menu.Button as={Fragment}>
+                            <button
+                              className={cn(
+                                `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
+                                open ? `bg-gray-200` : `hover:bg-gray-200`,
+                              )}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                              }}
+                            >
+                              <i className="icon-[mingcute--more-1-line] text-2xl" />
+                            </button>
+                          </Menu.Button>
+
+                          <PagesManagerMenu
+                            isPost={isPost}
+                            page={page}
+                            onClick={close}
+                          />
+                        </>
+                      )}
+                    </Menu>
+                  </div>
+                </Link>
+              )
+            }),
         )}
 
         {pages.hasNextPage && (

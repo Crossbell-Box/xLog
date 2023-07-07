@@ -30,9 +30,7 @@ export default function PostMeta({
             <span className="xlog-post-tags space-x-1 truncate min-w-0">
               {page.metadata?.content?.tags
                 ?.filter((tag) => tag !== "post" && tag !== "page")
-                .map((tag) => (
-                  <PostTag key={tag} tag={tag} />
-                ))}
+                .map((tag) => <PostTag key={tag} tag={tag} />)}
             </span>
           </>
         ) : null}

@@ -300,9 +300,8 @@ export default function SubdomainEditor() {
 
       if (createPage.data?.noteId) {
         router.replace(
-          `/dashboard/${subdomain}/editor?id=${
-            createPage.data?.noteId
-          }&type=${searchParams?.get("type")}`,
+          `/dashboard/${subdomain}/editor?id=${createPage.data
+            ?.noteId}&type=${searchParams?.get("type")}`,
         )
       }
       const modalId = "publish-modal"

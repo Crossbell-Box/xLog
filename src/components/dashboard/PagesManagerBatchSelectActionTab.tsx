@@ -47,10 +47,11 @@ export const PagesManagerBatchSelectActionTab = ({
       onClick: () => {
         // Get all page IDs
         const allIDs: (string | number)[] = []
-        pages?.pages.map((page) =>
-          page.list?.map((page) => {
-            allIDs.push(getPageId(page))
-          }),
+        pages?.pages.map(
+          (page) =>
+            page.list?.map((page) => {
+              allIDs.push(getPageId(page))
+            }),
         )
         setBatchSelected(allIDs)
       },
@@ -69,12 +70,13 @@ export const PagesManagerBatchSelectActionTab = ({
 
         // Find all selected
         const selectedPages: ExpandedNote[] = []
-        pages?.pages.map((page) =>
-          page.list?.map((page) => {
-            if (batchSelected.includes(getPageId(page))) {
-              selectedPages.push(page)
-            }
-          }),
+        pages?.pages.map(
+          (page) =>
+            page.list?.map((page) => {
+              if (batchSelected.includes(getPageId(page))) {
+                selectedPages.push(page)
+              }
+            }),
         )
 
         // Convert all // TODO: use multicall to optimize
@@ -135,12 +137,13 @@ export const PagesManagerBatchSelectActionTab = ({
 
     // Find all selected
     const selectedPages: ExpandedNote[] = []
-    pages?.pages.map((page) =>
-      page.list?.map((page) => {
-        if (batchSelected.includes(page.noteId || page.draftKey || 0)) {
-          selectedPages.push(page)
-        }
-      }),
+    pages?.pages.map(
+      (page) =>
+        page.list?.map((page) => {
+          if (batchSelected.includes(page.noteId || page.draftKey || 0)) {
+            selectedPages.push(page)
+          }
+        }),
     )
 
     // Delete all // TODO: use multicall to optimize
