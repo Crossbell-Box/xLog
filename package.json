@@ -82,7 +82,7 @@
     "hast-util-from-html": "1.0.2",
     "hast-util-to-html": "8.0.4",
     "hast-util-to-text": "3.1.2",
-    "i18next": "23.2.6",
+    "i18next": "23.2.8",
     "i18next-resources-to-backend": "1.1.4",
     "idb-keyval": "6.2.1",
     "immer": "10.0.2",
