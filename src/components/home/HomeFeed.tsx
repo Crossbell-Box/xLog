@@ -13,8 +13,8 @@ import { Switch } from "@headlessui/react"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { Titles } from "~/components/common/Titles"
 import PostCover from "~/components/home/PostCover"
+import { Avatar } from "~/components/ui/Avatar"
 import { EmptyState } from "~/components/ui/EmptyState"
-import { Image } from "~/components/ui/Image"
 import { Skeleton } from "~/components/ui/Skeleton"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
@@ -83,14 +83,11 @@ const PostCard = ({
               }}
             >
               <span className="w-5 h-5 sm:w-6 sm:h-6 inline-block">
-                <Image
-                  className="rounded-full object-cover"
-                  src={
-                    character?.metadata?.content?.avatars?.[0] || DEFAULT_AVATAR
-                  }
-                  alt={character?.handle || ""}
-                  fill
-                ></Image>
+                <Avatar
+                  images={character?.metadata?.content?.avatars || []}
+                  size={24}
+                  name={character?.metadata?.content?.name}
+                ></Avatar>
               </span>
               <span className="font-medium truncate">
                 {character?.metadata?.content?.name || character?.handle}

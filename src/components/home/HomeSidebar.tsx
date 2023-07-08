@@ -4,9 +4,8 @@ import { useState } from "react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { SearchInput } from "~/components/common/SearchInput"
-import { Image } from "~/components/ui/Image"
+import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
-import { DEFAULT_AVATAR } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { useGetShowcase } from "~/queries/home"
@@ -58,16 +57,11 @@ export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
                 >
                   <CharacterFloatCard siteId={site.handle}>
                     <span className="w-10 h-10 inline-block">
-                      <Image
-                        className="rounded-full object-cover"
-                        src={
-                          site?.metadata?.content?.avatars?.[0] ||
-                          DEFAULT_AVATAR
-                        }
-                        alt={site.handle}
-                        width="40"
-                        height="40"
-                      ></Image>
+                      <Avatar
+                        images={site?.metadata?.content?.avatars || []}
+                        size={40}
+                        name={site?.metadata?.content?.name}
+                      ></Avatar>
                     </span>
                   </CharacterFloatCard>
                   <span className="ml-3 min-w-0 flex-1 justify-center inline-flex flex-col">

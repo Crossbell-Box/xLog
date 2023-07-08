@@ -12,7 +12,7 @@ export default function PostModal({
   handle,
   children,
 }: {
-  handle: string
+  handle?: string
   children: JSX.Element
 }) {
   const router = useRouter()
@@ -42,7 +42,7 @@ export default function PostModal({
         <UniLink
           className="block"
           href={getSiteLink({
-            subdomain: handle,
+            subdomain: handle || "",
           })}
           target="_blank"
         >
