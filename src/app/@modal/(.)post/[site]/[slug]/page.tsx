@@ -55,7 +55,7 @@ export default async function SiteModal({
   }
 
   return (
-    <PostModal>
+    <PostModal handle={site?.handle}>
       <div className="pb-16">
         <SiteHeader
           handle={params.site}
