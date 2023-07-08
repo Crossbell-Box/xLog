@@ -7,16 +7,41 @@ import {
   useRef,
   useState,
 } from "react"
-import { useTranslation } from "react-i18next"
 
-import { HighlightStyle } from "@codemirror/language"
-import type { EditorState } from "@codemirror/state"
-import { Annotation } from "@codemirror/state"
-import { EditorView, KeyBinding, ViewUpdate } from "@codemirror/view"
+import {
+  defaultKeymap,
+  history,
+  historyKeymap,
+  indentWithTab,
+} from "@codemirror/commands"
+import {
+  markdown,
+  markdownKeymap,
+  markdownLanguage,
+} from "@codemirror/lang-markdown"
+import {
+  HighlightStyle,
+  indentOnInput,
+  syntaxHighlighting,
+} from "@codemirror/language"
+import { languages } from "@codemirror/language-data"
+import { Annotation, EditorState } from "@codemirror/state"
+import {
+  EditorView,
+  KeyBinding,
+  ViewUpdate,
+  crosshairCursor,
+  drawSelection,
+  dropCursor,
+  keymap,
+  placeholder,
+} from "@codemirror/view"
 import { tags } from "@lezer/highlight"
+import { scroll } from "@uiw/codemirror-extensions-events"
 
 import { mentionAutocompletion } from "~/editor/mention-autocompletion"
 import {
+  codemirrorReconfigureExtension,
   monospaceFonts,
   useCodeMirrorAutoToggleTheme,
   useCodeMirrorStyle,
@@ -26,10 +51,9 @@ import { useGetState } from "~/hooks/useGetState"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 
 const LoadingHolder = () => {
-  const { t } = useTranslation("common")
   return (
     <div className="flex-1 h-12 flex items-center justify-center">
-      {t("Loading")}...
+      Loading...
     </div>
   )
 }
@@ -89,141 +113,106 @@ const CodeMirrorEditor = forwardRef<
   }, [value, cmEditor])
 
   useEffect(() => {
-    Promise.all([
-      import("@codemirror/state"),
-      import("@codemirror/view"),
-      import("@codemirror/lang-markdown"),
-      import("@uiw/codemirror-extensions-events"),
-      import("~/hooks/useCodemirrorTheme"),
-      import("@codemirror/language"),
-      import("@codemirror/commands"),
-      import("@codemirror/language-data"),
-    ]).then((modules) => {
-      if (isUnmounted()) return
-      if (!editorElementRef.current) return
-      const [
-        // @codemirror/state
-        { EditorState },
-        // @codemirror/view
-        {
-          EditorView,
-          dropCursor,
-          drawSelection,
-          crosshairCursor,
-          keymap,
-          placeholder,
-        },
-        // @codemirror/lang-markdown
-        { markdown, markdownKeymap, markdownLanguage },
-        // @uiw/codemirror-extensions-events
-        { scroll },
-        { codemirrorReconfigureExtension },
-        // @codemirror/language
-        { syntaxHighlighting, indentOnInput },
-        // @codemirror/commands
-        { defaultKeymap, history, historyKeymap, indentWithTab },
-        // @codemirror/language-data
-        { languages },
-      ] = modules
+    if (isUnmounted()) return
+    if (!editorElementRef.current) return
 
-      const props = getProps()
-      const editorState = EditorState.create({
-        doc: props.value || "",
+    const props = getProps()
+    const editorState = EditorState.create({
+      doc: props.value || "",
 
-        extensions: [
-          placeholder(props.placeholder || ""),
-          EditorView.updateListener.of((vu) => {
-            const { onUpdate, onChange } = props
-            onUpdate?.(vu)
+      extensions: [
+        placeholder(props.placeholder || ""),
+        EditorView.updateListener.of((vu) => {
+          const { onUpdate, onChange } = props
+          onUpdate?.(vu)
 
-            if (
-              vu.docChanged &&
-              typeof onChange === "function" &&
-              // Fix echoing of the remote changes:
-              // If transaction is market as remote we don't have to call `onChange` handler again
-              !vu.transactions.some((tr) => tr.annotation(External))
-            ) {
-              const doc = vu.state.doc
-              const value = doc.toString()
+          if (
+            vu.docChanged &&
+            typeof onChange === "function" &&
+            // Fix echoing of the remote changes:
+            // If transaction is market as remote we don't have to call `onChange` handler again
+            !vu.transactions.some((tr) => tr.annotation(External))
+          ) {
+            const doc = vu.state.doc
+            const value = doc.toString()
 
-              if (props.maxLength && value.length > props.maxLength) {
-                return
-              }
-              onChange(value, vu)
+            if (props.maxLength && value.length > props.maxLength) {
+              return
             }
-          }),
+            onChange(value, vu)
+          }
+        }),
 
-          indentOnInput(),
-          drawSelection(),
-          dropCursor(),
-          crosshairCursor(),
-          history(),
+        indentOnInput(),
+        drawSelection(),
+        dropCursor(),
+        crosshairCursor(),
+        history(),
 
-          EditorState.allowMultipleSelections.of(true),
+        EditorState.allowMultipleSelections.of(true),
 
-          [EditorView.theme({}), syntaxHighlighting(codeMirrorMarkdownSyntax)],
-          ...codemirrorReconfigureExtension,
+        [EditorView.theme({}), syntaxHighlighting(codeMirrorMarkdownSyntax)],
+        ...codemirrorReconfigureExtension,
 
-          markdown({
-            base: markdownLanguage,
-            codeLanguages: languages,
-          }),
+        markdown({
+          base: markdownLanguage,
+          codeLanguages: languages,
+        }),
 
-          keymap.of([
-            ...(props.shortcuts ?? []),
-            ...defaultKeymap,
-            ...historyKeymap,
-            ...markdownKeymap,
-            indentWithTab,
-          ] as KeyBinding[]),
+        keymap.of([
+          ...(props.shortcuts ?? []),
+          ...defaultKeymap,
+          ...historyKeymap,
+          ...markdownKeymap,
+          indentWithTab,
+        ] as KeyBinding[]),
 
-          EditorView.domEventHandlers({
-            drop(e) {
-              const items = Array.from(e.dataTransfer?.items || [])
+        EditorView.domEventHandlers({
+          drop(e) {
+            const items = Array.from(e.dataTransfer?.items || [])
+            {
+              ;(async () => {
+                for (let i = 0; i < items.length; i++) {
+                  const file = items[i]?.getAsFile()
+                  if (file) {
+                    getHandleDropFile()?.(file)
+                  }
+                }
+              })()
+            }
+          },
+          paste(e) {
+            const files = e.clipboardData?.files
+            if (files) {
+              const items = Array.from(files)
               {
                 ;(async () => {
                   for (let i = 0; i < items.length; i++) {
-                    const file = items[i]?.getAsFile()
-                    if (file) {
-                      getHandleDropFile()?.(file)
-                    }
+                    getHandleDropFile()?.(items[i])
                   }
                 })()
               }
-            },
-            paste(e) {
-              const files = e.clipboardData?.files
-              if (files) {
-                const items = Array.from(files)
-                {
-                  ;(async () => {
-                    for (let i = 0; i < items.length; i++) {
-                      getHandleDropFile()?.(items[i])
-                    }
-                  })()
-                }
-              }
-            },
-          }),
-          scroll({
-            scroll: (evn) => {
-              getOnScroll()?.((evn.target as any)?.scrollTop)
-            },
-          }),
-          EditorView.lineWrapping,
-          mentionAutocompletion(),
-        ],
-      })
-
-      const view = new EditorView({
-        state: editorState,
-        parent: editorElementRef.current,
-      })
-
-      getProps().onCreateEditor?.(view, editorState)
-      setCmEditor(view)
-      setLoading(false)
+            }
+          },
+        }),
+        scroll({
+          scroll: (evn) => {
+            getOnScroll()?.((evn.target as any)?.scrollTop)
+          },
+        }),
+        EditorView.lineWrapping,
+        mentionAutocompletion(),
+      ],
     })
+
+    const view = new EditorView({
+      state: editorState,
+      parent: editorElementRef.current,
+    })
+
+    getProps().onCreateEditor?.(view, editorState)
+    setCmEditor(view)
+    setLoading(false)
   }, [])
 
   useEffect(() => () => cmEditor?.destroy(), [cmEditor])
