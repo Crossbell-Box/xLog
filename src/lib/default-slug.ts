@@ -11,7 +11,7 @@ export const getDefaultSlug = (title: string, id?: string) => {
       ?.filter((word) => word)
       ?.join("-")
       ?.replace(/\s+/g, "-") ||
-    id?.replace(`local-`, "") ||
+    id?.replace(`!local-`, "")?.replace(`local-`, "") ||
     ""
   generated = generated.replace(/[^a-zA-Z0-9\s-_]/g, "")
 

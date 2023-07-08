@@ -97,14 +97,14 @@ export default function SubdomainEditor() {
       let key
       if (!pageId) {
         const randomId = nanoid()
-        key = `draft-${site.data?.characterId}-local-${randomId}`
+        key = `draft-${site.data?.characterId}-!local-${randomId}`
         setDraftKey(key)
         queryClient.invalidateQueries([
           "getPagesBySite",
           site.data?.characterId,
         ])
         router.replace(
-          `/dashboard/${subdomain}/editor?id=local-${randomId}&type=${searchParams?.get(
+          `/dashboard/${subdomain}/editor?id=!local-${randomId}&type=${searchParams?.get(
             "type",
           )}`,
         )
@@ -114,7 +114,7 @@ export default function SubdomainEditor() {
       setDraftKey(key)
       setDefaultSlug(
         key
-          .replace(`draft-${site.data?.characterId}-local-`, "")
+          .replace(`draft-${site.data?.characterId}-!local-`, "")
           .replace(`draft-${site.data?.characterId}-`, ""),
       )
     }

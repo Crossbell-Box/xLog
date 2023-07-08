@@ -112,7 +112,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
       const file = (await readFiles(e.target?.files))?.[0]
       if (file) {
         const id = nanoid()
-        const key = `draft-${site.data?.characterId}-local-${id}`
+        const key = `draft-${site.data?.characterId}-!local-${id}`
         setStorage(key, {
           date: +new Date(),
           values: {
@@ -130,7 +130,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
           site.data?.characterId,
         ])
         router.push(
-          `/dashboard/${subdomain}/editor?id=local-${id}&type=${
+          `/dashboard/${subdomain}/editor?id=!local-${id}&type=${
             isPost ? "post" : "page"
           }`,
         )
