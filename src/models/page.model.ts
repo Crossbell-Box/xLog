@@ -312,11 +312,48 @@ export async function getPage<TRender extends boolean = false>(input: {
   noteId?: number
   handle?: string // In order to be compatible with old drafts
 }) {
-  const mustLocal = input.slug?.startsWith("local-") && !input.noteId
+  const couldBeLocal = input.slug?.startsWith("local-") && !input.noteId
 
-  let page: NoteEntity | null = null
+  let expandedNote: ExpandedNote | undefined
 
-  if (!mustLocal) {
+  if (couldBeLocal) {
+    // Try local page
+    const local = getLocalPages({
+      characterId: input.characterId,
+      handle: input.handle,
+    })
+    const localPages = local.filter(
+      (page) =>
+        page.draftKey === input.noteId + "" || page.draftKey === input.slug,
+    )
+    const localPage =
+      localPages.length &&
+      localPages.reduce((prev, current) => {
+        return prev.updatedAt > current.updatedAt ? prev : current
+      })
+
+    if (localPage) {
+      if (expandedNote) {
+        if (new Date(localPage.updatedAt) > new Date(expandedNote.updatedAt)) {
+          expandedNote = {
+            ...expandedNote,
+            metadata: {
+              content: localPage.metadata?.content,
+            },
+            local: true,
+          }
+        }
+      } else {
+        expandedNote = localPage
+      }
+    }
+  }
+
+  if (!expandedNote) {
+    // Query from indexer
+
+    let page: NoteEntity | null = null
+
     if (!input.noteId) {
       const result = await client
         .query(
@@ -433,44 +470,12 @@ export async function getPage<TRender extends boolean = false>(input: {
         .toPromise()
       page = result.data.note
     }
-  }
 
-  // local page
-  const local = getLocalPages({
-    characterId: input.characterId,
-    handle: input.handle,
-  })
-  const localPages = local.filter(
-    (page) =>
-      page.draftKey === input.noteId + "" || page.draftKey === input.slug,
-  )
-  const localPage =
-    localPages.length &&
-    localPages.reduce((prev, current) => {
-      return prev.updatedAt > current.updatedAt ? prev : current
-    })
-
-  let expandedNote: ExpandedNote | undefined
-  if (page) {
-    expandedNote = await expandCrossbellNote({
-      note: page,
-      useStat: input.useStat,
-    })
-  }
-
-  if (localPage) {
-    if (expandedNote) {
-      if (new Date(localPage.updatedAt) > new Date(expandedNote.updatedAt)) {
-        expandedNote = {
-          ...expandedNote,
-          metadata: {
-            content: localPage.metadata?.content,
-          },
-          local: true,
-        }
-      }
-    } else {
-      expandedNote = localPage
+    if (page) {
+      expandedNote = await expandCrossbellNote({
+        note: page,
+        useStat: input.useStat,
+      })
     }
   }
 
