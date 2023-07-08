@@ -4,17 +4,12 @@ import { cacheGet } from "~/lib/redis.server"
 import * as homeModel from "~/models/home.model"
 
 export const prefetchGetFeed = async (
-  data: {
-    type?: homeModel.FeedType
-    characterId?: number
-    limit?: number
-    noteIds?: string[]
-  },
+  data: Parameters<typeof homeModel.getFeed>[0],
   queryClient: QueryClient,
 ) => {
   const key = ["getFeed", data]
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["getFeed", data],
+    queryKey: key,
     queryFn: async ({ pageParam }) => {
       return cacheGet({
         key,

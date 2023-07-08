@@ -200,13 +200,7 @@ const Post = ({ post, keyword }: { post: ExpandedNote; keyword?: string }) => {
 
 const MemoedPost = memo(Post)
 
-export const HomeFeed = ({
-  noteIds,
-  type,
-}: {
-  noteIds?: string[]
-  type?: FeedType
-}) => {
+export const HomeFeed = ({ type }: { type?: FeedType }) => {
   const { t } = useTranslation("common")
   const searchParams = useSearchParams()
 
@@ -227,21 +221,47 @@ export const HomeFeed = ({
     params.topic = decodeURIComponent(params.topic)
   }
 
-  const feed = useGetFeed({
+  let feedConfig: Parameters<typeof useGetFeed>[0] = {
     type,
-    characterId: currentCharacterId,
-    noteIds: noteIds,
-    daysInterval: hotInterval,
-    searchKeyword: searchParams?.get("q") || undefined,
-    searchType,
-    tag: decodeURIComponent(params?.tag),
-    topicIncludeKeywords: params.topic
-      ? topics.find((t) => t.name === params.topic)?.includeKeywords
-      : undefined,
-    topicIncludeTags: params.topic
-      ? topics.find((t) => t.name === params.topic)?.includeTags
-      : undefined,
-  })
+  }
+  switch (type) {
+    case "following":
+      feedConfig = {
+        type,
+        characterId: currentCharacterId,
+      }
+      break
+    case "topic":
+      const info = topics.find((t) => t.name === params.topic)
+      feedConfig = {
+        type,
+        topicIncludeKeywords: info?.includeKeywords,
+        topicIncludeTags: info?.includeTags,
+        noteIds: info?.notes,
+      }
+      break
+    case "hottest":
+      feedConfig = {
+        type,
+        daysInterval: hotInterval,
+      }
+      break
+    case "search":
+      feedConfig = {
+        type,
+        searchKeyword: searchParams?.get("q") || undefined,
+        searchType,
+      }
+      break
+    case "tag":
+      feedConfig = {
+        type,
+        tag: decodeURIComponent(params?.tag),
+      }
+      break
+  }
+
+  const feed = useGetFeed(feedConfig)
 
   const hasFiltering = type === "latest"
 
@@ -287,7 +307,9 @@ export const HomeFeed = ({
     },
   ]
 
-  const [feedInOne, setFeedInOne] = useState<ExpandedNote[]>([])
+  const [feedInOne, setFeedInOne] = useState<ExpandedNote[]>(
+    feed.data?.pages?.[0]?.list || [],
+  )
   useEffect(() => {
     if (feed.data?.pages?.length) {
       setFeedInOne(
@@ -368,8 +390,9 @@ export const HomeFeed = ({
         ) : !feed.data?.pages[0]?.count ? (
           <EmptyState />
         ) : (
-          <div className="xlog-posts my-8">
+          <div className="xlog-posts my-8 min-h-[1177px]">
             <VirtuosoGrid
+              initialItemCount={9}
               overscan={2604}
               endReached={() => feed.hasNextPage && feed.fetchNextPage()}
               useWindowScroll
@@ -413,7 +436,7 @@ const FeedSkeleton = () => {
   return (
     <Skeleton.Container
       count={9}
-      className="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3"
+      className="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3 my-8"
     >
       <div className="rounded-2xl border">
         <Skeleton.Rectangle className="h-auto rounded-t-2xl rounded-b-none w-full aspect-video border-b" />
