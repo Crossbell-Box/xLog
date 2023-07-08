@@ -14,17 +14,17 @@ import {
   historyKeymap,
   indentWithTab,
 } from "@codemirror/commands"
-import {
-  markdown,
-  markdownKeymap,
-  markdownLanguage,
-} from "@codemirror/lang-markdown"
+// import {
+//   markdown,
+//   markdownKeymap,
+//   markdownLanguage,
+// } from "@codemirror/lang-markdown"
 import {
   HighlightStyle,
   indentOnInput,
   syntaxHighlighting,
 } from "@codemirror/language"
-import { languages } from "@codemirror/language-data"
+// import { languages } from "@codemirror/language-data"
 import { Annotation, EditorState } from "@codemirror/state"
 import {
   EditorView,
@@ -154,16 +154,16 @@ const CodeMirrorEditor = forwardRef<
         [EditorView.theme({}), syntaxHighlighting(codeMirrorMarkdownSyntax)],
         ...codemirrorReconfigureExtension,
 
-        markdown({
-          base: markdownLanguage,
-          codeLanguages: languages,
-        }),
+        // markdown({
+        //   base: markdownLanguage,
+        //   codeLanguages: languages,
+        // }),
 
         keymap.of([
           ...(props.shortcuts ?? []),
           ...defaultKeymap,
           ...historyKeymap,
-          ...markdownKeymap,
+          // ...markdownKeymap,
           indentWithTab,
         ] as KeyBinding[]),
 
