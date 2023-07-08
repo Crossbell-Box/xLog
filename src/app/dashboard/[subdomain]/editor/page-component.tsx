@@ -26,7 +26,6 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import { PublishButton } from "~/components/dashboard/PublishButton"
 import { Button } from "~/components/ui/Button"
-import { CodeMirrorEditor } from "~/components/ui/CodeMirror"
 import { EditorToolbar } from "~/components/ui/EditorToolbar"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { ImageUploader } from "~/components/ui/ImageUploader"
@@ -66,12 +65,24 @@ import {
 } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
+const DynamicCodeMirrorEditor = dynamic(
+  () => import("~/components/ui/CodeMirror"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex-1 h-12 flex items-center justify-center">
+        Loading...
+      </div>
+    ),
+  },
+)
+
 const DynamicPageContent = dynamic(
   () => import("~/components/common/PageContent"),
   {
     ssr: false,
     loading: () => (
-      <div className="bg-white px-5 overflow-scroll pb-[200px] h-full flex-1 text-center">
+      <div className="flex-1 h-12 flex items-center justify-center">
         Loading...
       </div>
     ),
@@ -664,7 +675,7 @@ export default function SubdomainEditor() {
                 </div>
                 <div className="mt-5 flex-1 min-h-0 flex relative items-center">
                   {!(isMobileLayout && isRendering) && (
-                    <CodeMirrorEditor
+                    <DynamicCodeMirrorEditor
                       value={initialContent}
                       placeholder={t("Start writing...") as string}
                       onChange={onChange}

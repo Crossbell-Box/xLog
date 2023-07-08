@@ -1,6 +1,5 @@
 import {
   CSSProperties,
-  Suspense,
   createElement,
   forwardRef,
   useEffect,
@@ -51,29 +50,9 @@ interface XLogCodeMirrorEditorProps {
   shortcuts?: KeyBinding[]
 }
 
-export const CodeMirrorEditor = forwardRef<
-  EditorView | null,
-  XLogCodeMirrorEditorProps
->((props, ref) => {
-  return (
-    <Suspense
-      fallback={
-        props.LoadingComponent ? (
-          createElement(props.LoadingComponent)
-        ) : (
-          <LoadingHolder />
-        )
-      }
-    >
-      <LazyCodeMirrorEditor {...props} ref={ref} />
-    </Suspense>
-  )
-})
-CodeMirrorEditor.displayName = "CodeMirrorEditor"
-
 const External = Annotation.define<boolean>()
 
-const LazyCodeMirrorEditor = forwardRef<
+const CodeMirrorEditor = forwardRef<
   EditorView | null,
   XLogCodeMirrorEditorProps
 >((props, ref) => {
@@ -267,7 +246,9 @@ const LazyCodeMirrorEditor = forwardRef<
   )
 })
 
-LazyCodeMirrorEditor.displayName = "LazyCodeMirrorEditor"
+CodeMirrorEditor.displayName = "CodeMirrorEditor"
+
+export default CodeMirrorEditor
 
 const markdownTags = [
   tags.heading1,
