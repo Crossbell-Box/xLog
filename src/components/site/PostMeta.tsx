@@ -53,7 +53,7 @@ export default function PostMeta({
       {summary && (
         <div className="xlog-post-summary border rounded-xl mt-4 p-4 space-y-2">
           <div className="font-bold text-zinc-700 flex items-center">
-            <i className="icon-[mingcute--android-2-line] mr-2 text-lg" />
+            <i className="icon-[mingcute--sparkles-line] mr-2 text-lg" />
             {translated?.["AI-generated summary"] || "AI-generated summary"}
           </div>
           <div className="text-zinc-500 leading-loose text-sm">{summary}</div>

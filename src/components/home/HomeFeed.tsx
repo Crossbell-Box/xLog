@@ -327,7 +327,7 @@ export const HomeFeed = ({
       <div className="space-y-10">
         {hasFiltering && (
           <div className="flex items-center text-zinc-500">
-            <i className="icon-[mingcute--android-2-line] mr-2 text-lg" />
+            <i className="icon-[mingcute--sparkles-line] mr-2 text-lg" />
             <span className="mr-1 cursor-default">
               {t("Enable AI Filtering")}
             </span>
