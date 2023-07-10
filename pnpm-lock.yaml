@@ -51,8 +51,8 @@ dependencies:
     specifier: 1.4.4
     version: 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
   '@crossbell/util-metadata':
-    specifier: 1.4.9
-    version: 1.4.9(typescript@5.1.6)(zod@3.21.4)
+    specifier: 1.5.0
+    version: 1.5.0(typescript@5.1.6)(zod@3.21.4)
   '@ddietr/codemirror-themes':
     specifier: 1.4.1
     version: 1.4.1
@@ -2225,7 +2225,7 @@ packages:
       '@crossbell/ui': 1.4.9(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/util-ethers': 1.4.0
       '@crossbell/util-hooks': 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
-      '@crossbell/util-metadata': 1.4.9(typescript@5.1.6)(zod@3.21.4)
+      '@crossbell/util-metadata': 1.5.0(typescript@5.1.6)(zod@3.21.4)
       '@emotion/react': 11.11.1(@types/react@18.2.14)(react@18.2.0)
       '@mantine/core': 6.0.16(@emotion/react@11.11.1)(@mantine/hooks@6.0.15)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks': 6.0.15(react@18.2.0)
@@ -2320,7 +2320,7 @@ packages:
       '@crossbell/react-account': 1.4.9(@tanstack/react-query@4.29.19)(react-dom@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/ui': 1.4.9(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/util-hooks': 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
-      '@crossbell/util-metadata': 1.4.9(typescript@5.1.6)(zod@3.21.4)
+      '@crossbell/util-metadata': 1.5.0(typescript@5.1.6)(zod@3.21.4)
       '@tanstack/react-query': 4.29.19(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       dayjs: 1.11.9
@@ -2347,9 +2347,9 @@ packages:
     dependencies:
       '@crossbell/contract': 1.4.8(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/indexer': 1.4.8(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
-      '@crossbell/util-ethers': 1.4.0
+      '@crossbell/util-ethers': 1.5.0
       '@crossbell/util-hooks': 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
-      '@crossbell/util-metadata': 1.4.9(typescript@5.1.6)(zod@3.21.4)
+      '@crossbell/util-metadata': 1.5.0(typescript@5.1.6)(zod@3.21.4)
       '@tanstack/react-query': 4.29.19(react-dom@18.2.0)(react@18.2.0)
       check-password-strength: 2.0.7
       crossbell: 1.4.1(typescript@5.1.6)(zod@3.21.4)
@@ -2377,7 +2377,7 @@ packages:
     dependencies:
       '@crossbell/indexer': 1.4.8(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
       '@crossbell/util-hooks': 1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
-      '@crossbell/util-metadata': 1.4.9(typescript@5.1.6)(zod@3.21.4)
+      '@crossbell/util-metadata': 1.5.0(typescript@5.1.6)(zod@3.21.4)
       '@tanstack/react-query': 4.29.19(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       crossbell: 1.4.1(typescript@5.1.6)(zod@3.21.4)
@@ -2401,6 +2401,10 @@ packages:
     resolution: {integrity: sha512-U4ClTu/akp/X/kUmZ652wqJ748552jxfIv0bt2HYAI/pyCeNtnuP1A6WDA4TTMlWEGaa2xfoLde8Ga0zUWYngA==}
     dev: false
 
+  /@crossbell/util-ethers@1.5.0:
+    resolution: {integrity: sha512-6ft4p4246ufWohu82Jr24vW1TP/IgXPPyc7pMtFskMajdQca78gtfEa2oyUn/GeMPMIpMVXaHDbbXwzhRIFs1g==}
+    dev: false
+
   /@crossbell/util-hooks@1.4.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4):
     resolution: {integrity: sha512-FXps9gUV3gpslk9C18kcyAlXdKg/1civGMPPAyAMQ2R65SUj65zQBrsi04aNCf9BCgy7KxB6cGWmVTBc1oUqmw==}
     peerDependencies:
@@ -2418,10 +2422,10 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/util-metadata@1.4.9(typescript@5.1.6)(zod@3.21.4):
-    resolution: {integrity: sha512-cSdL4ryeUliRGIDFAIG2MYeu8MxaWlILUhmUZUOXR1yOo97fre5EcuIlHLUOsdp6P/Lbj8qj/S50lzv0ivJrOA==}
+  /@crossbell/util-metadata@1.5.0(typescript@5.1.6)(zod@3.21.4):
+    resolution: {integrity: sha512-YVi5AU3A4cmiSxq4vFzSBf2A62Qk2M10iOtr3UCiix4XhtcQ5Gfe0roKuW0hJHe6wgJcg32EsNEFQ6rz9Gv8HQ==}
     dependencies:
-      '@crossbell/util-ethers': 1.4.0
+      '@crossbell/util-ethers': 1.5.0
       '@fastify/deepmerge': 1.3.0
       crossbell: 1.4.1(typescript@5.1.6)(zod@3.21.4)
     transitivePeerDependencies:
