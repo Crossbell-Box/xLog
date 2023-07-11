@@ -319,6 +319,11 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
           }, [] as ExpandedNote[])
           .filter((post) => {
             if (
+              new Date(post.metadata?.content?.date_published || "") >
+              new Date()
+            ) {
+              return false
+            } else if (
               aiFiltering &&
               post.metadata?.content?.score?.number !== undefined &&
               post.metadata.content.score.number <= 60
