@@ -40,15 +40,19 @@ export default async function SiteNFTPage({
 
   let nfts = (await getNFTs(site?.owner)) ?? []
 
+  const names = new Map<string, boolean>()
   nfts.forEach((chain: any) => {
-    chain.assets = []
-    chain.collection_assets.forEach((collection: any) => {
-      chain.assets = chain.assets.concat(collection.assets)
-    })
-    chain.assets = chain.assets.filter((asset: any) => asset.content_uri)
+    if (!names.get(chain.chain)) {
+      names.set(chain.chain, true)
+      chain.assets = []
+      chain.collection_assets.forEach((collection: any) => {
+        chain.assets = chain.assets.concat(collection.assets)
+      })
+      chain.assets = chain.assets.filter((asset: any) => asset.content_uri)
+    }
   })
   nfts = nfts
-    .filter((chain: any) => chain.assets.length)
+    .filter((chain: any) => chain.assets?.length)
     .sort((a: any, b: any) => b.assets.length - a.assets.length)
 
   const displayNames: Record<string, string> = {
