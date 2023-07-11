@@ -20,7 +20,6 @@ import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
-import { DEFAULT_AVATAR } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
@@ -62,11 +61,8 @@ const PostCard = ({
       )}
     >
       <PostCover
-        cover={
-          post.metadata?.content.cover ||
-          character?.metadata?.content?.avatars?.[0] ||
-          DEFAULT_AVATAR
-        }
+        cover={post.metadata?.content.cover}
+        title={post.metadata?.content?.title}
       />
       <div className="p-3 pt-2 sm:p-5 sm:pt-4 w-full min-w-0 h-[168px] sm:h-[204px] flex flex-col">
         <div className="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-4 text-xs sm:text-sm overflow-hidden">
