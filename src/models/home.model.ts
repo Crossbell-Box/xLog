@@ -210,6 +210,17 @@ export async function getFeed({
         }
       }
 
+      const includeString = [
+        ...(topicIncludeKeywords?.map(
+          (topicIncludeKeyword) =>
+            `{ content: { path: "title", string_contains: "${topicIncludeKeyword}" } }, { content: { path: "content", string_contains: "${topicIncludeKeyword}" } }`,
+        ) || []),
+        ...(topicIncludeTags?.map(
+          (topicIncludeTag) =>
+            `{ content: { path: "tags", array_contains: "${topicIncludeTag}" } },`,
+        ) || []),
+      ].join("\n")
+
       if (noteIds) {
         const orString = noteIds
           .map(
@@ -222,11 +233,42 @@ export async function getFeed({
         const result = await client
           .query(
             `
-            query getNotes {
+            query getNotes($filter: [Int!]) {
               notes(
                 where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  metadata: {
+                    content: {
+                      path: "sources",
+                      array_contains: "xlog"
+                    }
+                  }
                   OR: [
-                    ${orString}
+                    {
+                      metadata: {
+                        content: {
+                          path: "sources",
+                          array_contains: "xlog"
+                        },
+                        AND: [{
+                          content: {
+                            path: "tags",
+                            array_contains: "post"
+                          }
+                        }, {
+                          OR: [
+                            ${includeString}
+                          ]
+                        }]
+                      }
+                    }
+                    {
+                      OR: [
+                        ${orString}
+                      ]
+                    }
                   ]
                 },
                 orderBy: [{ createdAt: desc }],
@@ -258,7 +300,9 @@ export async function getFeed({
                 }
               }
             }`,
-            {},
+            {
+              filter: filter.latest,
+            },
           )
           .toPromise()
 
@@ -282,17 +326,6 @@ export async function getFeed({
           count: list?.length || 0,
         }
       } else {
-        const includeString = [
-          ...(topicIncludeKeywords?.map(
-            (topicIncludeKeyword) =>
-              `{ content: { path: "title", string_contains: "${topicIncludeKeyword}" } }, { content: { path: "content", string_contains: "${topicIncludeKeyword}" } }`,
-          ) || []),
-          ...(topicIncludeTags?.map(
-            (topicIncludeTag) =>
-              `{ content: { path: "tags", array_contains: "${topicIncludeTag}" } },`,
-          ) || []),
-        ].join("\n")
-
         const result = await client
           .query(
             `
