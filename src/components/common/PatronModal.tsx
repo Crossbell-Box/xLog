@@ -155,6 +155,7 @@ const PatronModal = ({
         <div className="space-y-1">
           <span className="flex items-center justify-center">
             <Avatar
+              cid={site?.characterId}
               images={site?.metadata?.content?.avatars || []}
               name={site?.metadata?.content?.name}
               size={100}
@@ -195,6 +196,7 @@ const PatronModal = ({
                             })}
                           >
                             <Avatar
+                              cid={tip.character?.characterId}
                               className="relative align-middle border-2 border-white"
                               images={
                                 tip.character?.metadata?.content?.avatars || []

@@ -1,4 +1,5 @@
 import type { CharacterEntity, NoteEntity } from "crossbell"
+import { nanoid } from "nanoid"
 import dynamic from "next/dynamic"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -58,6 +59,8 @@ export const CommentInput = ({
   const { t } = useTranslation("site")
   const anonymousComment = useAnonymousComment()
   const [anonymous, setAnonymous] = useState(false)
+
+  const [randomId] = useState(nanoid())
 
   const form = useForm({
     defaultValues: {
@@ -204,6 +207,7 @@ export const CommentInput = ({
   return (
     <div className="xlog-comment-input flex">
       <Avatar
+        cid={account?.character?.characterId || randomId}
         className="align-middle mr-3"
         images={account?.character?.metadata?.content?.avatars || []}
         name={account?.character?.metadata?.content?.name}

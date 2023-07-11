@@ -5,6 +5,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 import { cn } from "~/lib/utils"
 
 export const Avatar = ({
+  cid,
   images,
   size,
   name,
@@ -14,6 +15,7 @@ export const Avatar = ({
   priority,
   ...props
 }: {
+  cid?: string | number | null
   images: (string | null | undefined)[]
   name?: string | null
   size?: number
@@ -24,15 +26,7 @@ export const Avatar = ({
 } & React.HTMLAttributes<HTMLSpanElement>) => {
   size = size || 60
 
-  const fontSize = size * 0.5
-
-  const nameAbbr = (name || "")
-    .split(" ")
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join("")
-
-  const image = useMemo(() => {
+  let image = useMemo(() => {
     for (const image of images) {
       if (image) return toGateway(image)
     }
@@ -41,23 +35,11 @@ export const Avatar = ({
   const borderRadius = rounded === false ? "rounded-lg" : "rounded-full"
 
   if (!image) {
-    return (
-      <span
-        {...props}
-        className={cn(
-          `inline-flex text-white bg-gray-400 items-center justify-center text-xl font-medium uppercase flex-shrink-0 max-w-full max-h-full`,
-          borderRadius,
-          className,
-        )}
-        style={{
-          width: `${size}px`,
-          height: `${size}px`,
-          fontSize: `${fontSize}px`,
-        }}
-      >
-        {nameAbbr}
-      </span>
-    )
+    image = `https://api.dicebear.com/6.x/bottts-neutral/svg?seed=${cid}`
+  }
+
+  if (cid === 56592) {
+    image = `https://api.dicebear.com/6.x/bottts-neutral/svg?seed=${name}`
   }
 
   return (

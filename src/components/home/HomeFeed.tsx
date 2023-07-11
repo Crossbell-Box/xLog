@@ -84,6 +84,7 @@ const PostCard = ({
             >
               <span className="w-5 h-5 sm:w-6 sm:h-6 inline-block">
                 <Avatar
+                  cid={character?.characterId}
                   images={character?.metadata?.content?.avatars || []}
                   size={24}
                   name={character?.metadata?.content?.name}

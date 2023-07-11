@@ -136,6 +136,7 @@ export const ReactionLike = ({
         .map(($) => ({
           images: $.character?.metadata?.content?.avatars,
           name: $.character?.metadata?.content?.name,
+          cid: $.characterId,
         })),
     [likes],
   )

@@ -102,6 +102,7 @@ export const ReactionMint = ({
         .map((mint) => ({
           images: mint.character?.metadata?.content?.avatars,
           name: mint.character?.metadata?.content?.name,
+          cid: mint.character.characterId,
         })) || noopArr,
     [mints],
   )

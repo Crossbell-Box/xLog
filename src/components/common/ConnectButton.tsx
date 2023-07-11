@@ -255,6 +255,7 @@ export const ConnectButton = ({
                   aria-label="connector"
                 >
                   <Avatar
+                    cid={account.character?.characterId}
                     className="align-middle"
                     images={account.character?.metadata?.content?.avatars || []}
                     name={account.character?.metadata?.content?.name}

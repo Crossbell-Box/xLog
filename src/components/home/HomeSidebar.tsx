@@ -58,6 +58,7 @@ export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
                   <CharacterFloatCard siteId={site.handle}>
                     <span className="w-10 h-10 inline-block">
                       <Avatar
+                        cid={site?.characterId}
                         images={site?.metadata?.content?.avatars || []}
                         size={40}
                         name={site?.metadata?.content?.name}
