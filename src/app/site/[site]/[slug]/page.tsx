@@ -11,7 +11,7 @@ import PostMeta from "~/components/site/PostMeta"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { getTranslation } from "~/lib/i18n"
-import { toCid } from "~/lib/ipfs-parser"
+import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import getQueryClient from "~/lib/query-client"
 import { isOnlyContent } from "~/lib/search-parser"
@@ -44,14 +44,12 @@ export async function generateMetadata({
   }`
   const description = page?.metadata?.content?.summary
   const siteImages =
-    site?.metadata?.content?.avatars || `${SITE_URL}/assets/logo.svg`
-  const images = page?.metadata?.content?.cover || siteImages
+    site?.metadata?.content?.avatars?.[0] || `${SITE_URL}/assets/logo.svg`
+  const images = toGateway(page?.metadata?.content?.cover || siteImages)
   const useLargeOGImage = !!page?.metadata?.content?.cover
-  const twitterCreator =
-    "@" +
-    site?.metadata?.content?.connected_accounts
-      ?.find((account) => account?.endsWith?.("@twitter"))
-      ?.match(/csb:\/\/account:([^@]+)@twitter/)?.[1]
+  const twitterCreator = site?.metadata?.content?.connected_accounts
+    ?.find((account) => account?.endsWith?.("@twitter"))
+    ?.match(/csb:\/\/account:([^@]+)@twitter/)?.[1]
 
   return {
     title,
@@ -67,7 +65,7 @@ export async function generateMetadata({
       description,
       images,
       site: "@_xLog",
-      creator: twitterCreator,
+      creator: twitterCreator ? `@${twitterCreator}` : undefined,
     },
   }
 }
