@@ -219,7 +219,9 @@ export const renderPageContent = (
         showLineNumbers: true,
       })
       // Move it to the end as it generates a lot of DOM and requires extensive traversal.
-      .use(rehypeKatex)
+      .use(rehypeKatex, {
+        strict: false,
+      })
 
     if (!html) {
       pipeline.use(rehypeReact, {

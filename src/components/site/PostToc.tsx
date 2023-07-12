@@ -22,7 +22,10 @@ function generateContent(items: TocResult["map"]) {
 
       children.forEach((child: any) => {
         if (child.type === "inlineMath") {
-          content += katex.renderToString(child.value, { output: "html" })
+          content += katex.renderToString(child.value, {
+            output: "html",
+            strict: false,
+          })
         } else if (inlineElements.includes(child.type)) {
           content += toHtml(toHast(child) || [])
         } else {
