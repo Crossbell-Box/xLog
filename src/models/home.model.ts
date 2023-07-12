@@ -1,6 +1,7 @@
 import dayjs from "dayjs"
 
 import { indexer } from "@crossbell/indexer"
+import { gql } from "@urql/core"
 
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { ExpandedNote } from "~/lib/types"
@@ -48,70 +49,69 @@ export async function getFeed({
   if (type === "search" && !searchKeyword) {
     type = "latest"
   }
+
+  const cursorQuery = cursor
+    ? `
+    cursor: {
+      note_characterId_noteId_unique: {
+        characterId: ${cursor.split("_")[0]},
+        noteId: ${cursor.split("_")[1]}
+      },
+    },
+  `
+    : ""
+  const resultFields = `
+    characterId
+    noteId
+    character {
+      handle
+      characterId
+      metadata {
+        content
+      }
+    }
+    createdAt
+    metadata {
+      uri
+      content
+    }
+  `
+
   switch (type) {
     case "latest": {
       const result = await client
         .query(
-          `
-          query getNotes($filter: [Int!]) {
-            notes(
-              where: {
-                characterId: {
-                  notIn: $filter
-                }
-                metadata: {
-                  AND: [{
+          gql`
+            query getNotes($filter: [Int!], $limit: Int) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  metadata: {
                     content: {
                       path: "sources",
                       array_contains: "xlog"
-                    }
-                  }, {
-                    OR: [{
+                    },
+                    NOT: [{
                       content: {
                         path: "tags",
-                        array_starts_with: "page"
-                      }
-                    }, {
-                      content: {
-                        path: "tags",
-                        array_starts_with: "post"
+                        array_starts_with: "comment"
                       }
                     }]
-                  }]
+                  },
                 },
-              },
-              orderBy: [{ createdAt: desc }],
-              take: ${limit},
-              ${
-                cursor
-                  ? `
-              cursor: {
-                note_characterId_noteId_unique: {
-                  characterId: ${cursor.split("_")[0]},
-                  noteId: ${cursor.split("_")[1]}
-                },
-              },`
-                  : ""
-              }
-            ) {
-              characterId
-              noteId
-              character {
-                handle
-                characterId
-                metadata {
-                  content
-                }
-              }
-              createdAt
-              metadata {
-                uri
-                content
+                orderBy: [{ createdAt: desc }],
+                take: $limit,
+                ${cursorQuery}
+              ) {
+                ${resultFields}
               }
             }
-          }`,
+          `,
           {
             filter: filter.latest,
+            limit,
           },
         )
         .toPromise()
@@ -140,74 +140,53 @@ export async function getFeed({
     case "comments": {
       const result = await client
         .query(
-          `
-          query getNotes($filter: [Int!]) {
-            notes(
-              where: {
-                characterId: {
-                  notIn: $filter
-                }
-                metadata: {
-                  AND: [{
-                    content: {
-                      path: "sources",
-                      array_contains: "xlog"
-                    }
-                  }, {
-                    content: {
-                      path: "tags",
-                      array_starts_with: "comment"
-                    }
-                  }]
+          gql`
+            query getNotes($filter: [Int!], $limit: Int) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  metadata: {
+                    AND: [{
+                      content: {
+                        path: "sources",
+                        array_contains: "xlog"
+                      }
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_starts_with: "comment"
+                      }
+                    }]
+                  },
                 },
-              },
-              orderBy: [{ createdAt: desc }],
-              take: ${limit},
-              ${
-                cursor
-                  ? `
-              cursor: {
-                note_characterId_noteId_unique: {
-                  characterId: ${cursor.split("_")[0]},
-                  noteId: ${cursor.split("_")[1]}
-                },
-              },`
-                  : ""
-              }
-            ) {
-              characterId
-              noteId
-              character {
-                handle
-                characterId
-                metadata {
-                  content
-                }
-              }
-              createdAt
-              metadata {
-                uri
-                content
-              }
-              toNote {
-                characterId
-                noteId
-                character {
-                  handle
+                orderBy: [{ createdAt: desc }],
+                take: $limit,
+                ${cursorQuery}
+              ) {
+                ${resultFields}
+                toNote {
+                  characterId
+                  noteId
+                  character {
+                    handle
+                    metadata {
+                      content
+                    }
+                  }
+                  createdAt
                   metadata {
+                    uri
                     content
                   }
                 }
-                createdAt
-                metadata {
-                  uri
-                  content
-                }
               }
             }
-          }`,
+          `,
           {
             filter: filter.latest,
+            limit,
           },
         )
         .toPromise()
@@ -310,77 +289,52 @@ export async function getFeed({
           .join("\n")
         const result = await client
           .query(
-            `
-            query getNotes($filter: [Int!]) {
-              notes(
-                where: {
-                  characterId: {
-                    notIn: $filter
-                  },
-                  metadata: {
-                    content: {
-                      path: "sources",
-                      array_contains: "xlog"
-                    }
-                  }
-                  OR: [
-                    {
-                      metadata: {
+            gql`
+              query getNotes($filter: [Int!], $limit: Int) {
+                notes(
+                  where: {
+                    characterId: {
+                      notIn: $filter
+                    },
+                    metadata: {
+                      AND: [{
                         content: {
                           path: "sources",
                           array_contains: "xlog"
                         },
-                        AND: [{
-                          content: {
-                            path: "tags",
-                            array_contains: "post"
-                          }
-                        }, {
+                      }, {
+                        content: {
+                          path: "tags",
+                          array_contains: "post"
+                        }
+                      }]
+                    },
+                    OR: [
+                      {
+                        metadata: {
                           OR: [
                             ${includeString}
                           ]
-                        }]
+                        }
+                      },
+                      {
+                        OR: [
+                          ${orString}
+                        ]
                       }
-                    }
-                    {
-                      OR: [
-                        ${orString}
-                      ]
-                    }
-                  ]
-                },
-                orderBy: [{ createdAt: desc }],
-                take: ${limit},
-                ${
-                  cursor
-                    ? `
-                cursor: {
-                  note_characterId_noteId_unique: {
-                    characterId: ${cursor.split("_")[0]},
-                    noteId: ${cursor.split("_")[1]}
+                    ]
                   },
-                },`
-                    : ""
-                }
-              ) {
-                characterId
-                noteId
-                character {
-                  handle
-                  characterId
-                  metadata {
-                    content
-                  }
-                }
-                createdAt
-                metadata {
-                  uri
-                  content
+                  orderBy: [{ createdAt: desc }],
+                  take: $limit,
+                  ${cursorQuery}
+                ) {
+                  ${resultFields}
                 }
               }
-            }`,
+            `,
             {
               filter: filter.latest,
+              limit,
             },
           )
           .toPromise()
@@ -407,62 +361,42 @@ export async function getFeed({
       } else {
         const result = await client
           .query(
-            `
-            query getNotes($filter: [Int!]) {
-              notes(
-                where: {
-                  characterId: {
-                    notIn: $filter
-                  },
-                  metadata: {
-                    content: {
-                      path: "sources",
-                      array_contains: "xlog"
+            gql`
+              query getNotes($filter: [Int!], $limit: Int) {
+                notes(
+                  where: {
+                    characterId: {
+                      notIn: $filter
                     },
-                    AND: [{
-                      content: {
-                        path: "tags",
-                        array_contains: "post"
-                      }
-                    }, {
-                      OR: [
-                        ${includeString}
-                      ]
-                    }]
+                    metadata: {
+                      AND: [{
+                        content: {
+                          path: "sources",
+                          array_contains: "xlog"
+                        },
+                      }, {
+                        content: {
+                          path: "tags",
+                          array_contains: "post"
+                        }
+                      }, {
+                        OR: [
+                          ${includeString}
+                        ]
+                      }]
+                    },
                   },
-                },
-                orderBy: [{ createdAt: desc }],
-                take: ${limit},
-                ${
-                  cursor
-                    ? `
-                cursor: {
-                  note_characterId_noteId_unique: {
-                    characterId: ${cursor.split("_")[0]},
-                    noteId: ${cursor.split("_")[1]}
-                  },
-                },`
-                    : ""
-                }
-              ) {
-                characterId
-                noteId
-                character {
-                  handle
-                  characterId
-                  metadata {
-                    content
-                  }
-                }
-                createdAt
-                metadata {
-                  uri
-                  content
+                  orderBy: [{ createdAt: desc }],
+                  take: $limit,
+                  ${cursorQuery}
+                ) {
+                  ${resultFields}
                 }
               }
-            }`,
+            `,
             {
               filter: filter.latest,
+              limit,
             },
           )
           .toPromise()
@@ -496,39 +430,50 @@ export async function getFeed({
 
       const result = await client
         .query(
-          `
-          query getNotes($filter: [Int!]) {
-            notes(
-              where: {
-                characterId: {
-                  notIn: $filter
+          gql`
+            query getNotes($filter: [Int!]) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  ${
+                    time
+                      ? `
+                  createdAt: {
+                    gt: "${time}"
+                  },
+                  `
+                      : ``
+                  }
+                  stat: {
+                    viewDetailCount: {
+                      gt: 0
+                    },
+                  },
+                  metadata: {
+                    AND: [{
+                      content: {
+                        path: "sources",
+                        array_contains: "xlog"
+                      },
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_contains: "post"
+                      }
+                    }]
+                  },
                 },
-                ${time ? `createdAt: { gt: "${time}" },` : ``}
-                stat: { viewDetailCount: { gt: 0 } },
-                metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
-              },
-              orderBy: { stat: { viewDetailCount: desc } },
-              take: 40,
-            ) {
-              stat {
-                viewDetailCount
-              }
-              characterId
-              noteId
-              character {
-                handle
-                characterId
-                metadata {
-                  content
+                take: 40,
+              ) {
+                stat {
+                  viewDetailCount
                 }
-              }
-              createdAt
-              metadata {
-                uri
-                content
+                ${resultFields}
               }
             }
-          }`,
+          `,
           {
             filter: filter.latest,
           },
@@ -645,19 +590,19 @@ export const getShowcase = async () => {
 
   const listResponse = await client
     .query(
-      `
+      gql`
         query getCharacters($filter: [Int!]) {
           characters(
             where: {
-              characterId: {
-                notIn: $filter
-              }
+              characterId: { notIn: $filter }
               notes: {
                 some: {
-                  stat: { viewDetailCount: { gte: 100 } }
+                  stat: { viewDetailCount: { gte: 300 } }
                   metadata: {
-                    content: { path: "sources", array_contains: "xlog" }
-                    AND: { content: { path: "tags", array_contains: "post" } }
+                    AND: [
+                      { content: { path: "sources", array_contains: "xlog" } }
+                      { content: { path: "tags", array_contains: "post" } }
+                    ]
                   }
                 }
               }
@@ -665,7 +610,8 @@ export const getShowcase = async () => {
           ) {
             characterId
           }
-        }`,
+        }
+      `,
       {
         filter: filter.latest,
       },
@@ -677,9 +623,18 @@ export const getShowcase = async () => {
 
   const result = await client
     .query(
-      `
+      gql`
         query getCharacters($identities: [Int!]) {
-          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }] ) {
+          characters(
+            where: {
+              characterId: {
+                in: $identities
+              }
+            },
+            orderBy: [{
+              updatedAt: desc
+            }]
+          ) {
             handle
             characterId
             metadata {
@@ -687,11 +642,30 @@ export const getShowcase = async () => {
               content
             }
           }
-          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
+          notes(
+            where: {
+              characterId: {
+                in: $identities
+              },
+              createdAt: {
+                gt: "${oneMonthAgo}"
+              },
+              metadata: {
+                content: {
+                  path: "sources",
+                  array_contains: "xlog"
+                }
+              }
+            },
+            orderBy: [{
+              updatedAt: desc
+            }]
+          ) {
             characterId
             createdAt
           }
-        }`,
+        }
+      `,
       {
         identities: characterList,
       },
@@ -735,7 +709,7 @@ export const getShowcase = async () => {
     .sort((a: any, b: any) => {
       return b.createdAt > a.createdAt ? 1 : -1
     })
-    .slice(0, 100)
+    .slice(0, 50)
 
   return list
 }
