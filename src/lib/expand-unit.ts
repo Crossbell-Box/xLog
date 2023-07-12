@@ -151,12 +151,17 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
   expandedCharacter.metadata.content.name =
     expandedCharacter.metadata.content.name || expandedCharacter.handle
 
-  if (expandedCharacter.metadata.content.avatars) {
+  if (expandedCharacter.metadata.content.avatars?.length) {
     expandedCharacter.metadata.content.avatars =
       expandedCharacter.metadata.content.avatars
         .map((avatar) => toGateway(avatar))
         .filter(Boolean)
+  } else {
+    expandedCharacter.metadata.content.avatars = [
+      `https://api.dicebear.com/6.x/bottts-neutral/svg?seed=${expandedCharacter.characterId}`,
+    ]
   }
+
   if (expandedCharacter.metadata.content.banners) {
     expandedCharacter.metadata.content.banners =
       expandedCharacter.metadata.content.banners

@@ -38,10 +38,6 @@ export const Avatar = ({
     image = `https://api.dicebear.com/6.x/bottts-neutral/svg?seed=${cid}`
   }
 
-  if (cid === 56592) {
-    image = `https://api.dicebear.com/6.x/bottts-neutral/svg?seed=${name}`
-  }
-
   return (
     <span
       {...props}

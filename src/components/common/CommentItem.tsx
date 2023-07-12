@@ -69,8 +69,12 @@ export const CommentItem = ({
                 className="block align-middle mr-3"
               >
                 <Avatar
-                  cid={comment?.character?.characterId}
-                  images={comment?.character?.metadata?.content?.avatars || []}
+                  cid={displayName || comment?.character?.characterId}
+                  images={
+                    displayName
+                      ? []
+                      : comment?.character?.metadata?.content?.avatars || []
+                  }
                   name={
                     displayName || comment?.character?.metadata?.content?.name
                   }
