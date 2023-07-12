@@ -41,6 +41,11 @@ export const HomeActivitiesTabs = () => {
       },
       active: pathname === "/following",
     },
+    {
+      text: "Comments",
+      href: "/comments",
+      active: pathname === "/comments",
+    },
     ...topics.map((topic) => ({
       text: t(topic.name),
       href: `/topic/${encodeURIComponent(topic.name)}`,

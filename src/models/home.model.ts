@@ -15,6 +15,7 @@ export type FeedType =
   | "hottest"
   | "search"
   | "tag"
+  | "comments"
 export type SearchType = "latest" | "hottest"
 
 export async function getFeed({
@@ -107,6 +108,87 @@ export async function getFeed({
                 uri
                 content
               }
+            }
+          }`,
+          {
+            filter: filter.latest,
+          },
+        )
+        .toPromise()
+
+      const list = await Promise.all(
+        result?.data?.notes.map(async (page: any) => {
+          const expand = await expandCrossbellNote({
+            note: page,
+            useScore: true,
+            useHTML,
+          })
+          delete expand.metadata?.content.content
+          return expand
+        }),
+      )
+
+      return {
+        list,
+        cursor: list?.length
+          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+              ?.noteId}`
+          : undefined,
+        count: list?.length || 0,
+      }
+    }
+    case "comments": {
+      const result = await client
+        .query(
+          `
+          query getNotes($filter: [Int!]) {
+            notes(
+              where: {
+                characterId: {
+                  notIn: $filter
+                }
+                metadata: {
+                  AND: [{
+                    content: {
+                      path: "sources",
+                      array_contains: "xlog"
+                    }
+                  }, {
+                    content: {
+                      path: "tags",
+                      array_starts_with: "comment"
+                    }
+                  }]
+                },
+              },
+              orderBy: [{ createdAt: desc }],
+              take: ${limit},
+              ${
+                cursor
+                  ? `
+              cursor: {
+                note_characterId_noteId_unique: {
+                  characterId: ${cursor.split("_")[0]},
+                  noteId: ${cursor.split("_")[1]}
+                },
+              },`
+                  : ""
+              }
+            ) {
+              characterId
+              noteId
+              character {
+                handle
+                characterId
+                metadata {
+                  content
+                }
+              }
+              createdAt
+              metadata {
+                uri
+                content
+              }
               toNote {
                 characterId
                 noteId
@@ -133,19 +215,14 @@ export async function getFeed({
       const list = await Promise.all(
         result?.data?.notes
           .filter((page: any) => {
-            return !(
-              page.metadata?.content?.tags?.includes("comment") &&
-              page.toNote?.metadata?.content?.tags?.includes("comment")
-            )
+            return !page.toNote?.metadata?.content?.tags?.includes("comment")
           })
           .map(async (page: any) => {
-            const isComment = page.metadata?.content?.tags?.includes("comment")
             const expand = await expandCrossbellNote({
               note: page,
-              useScore: !isComment,
               useHTML,
             })
-            if (isComment && expand.toNote) {
+            if (expand.toNote) {
               expand.toNote = await expandCrossbellNote({
                 note: expand.toNote,
                 useHTML,
@@ -431,7 +508,7 @@ export async function getFeed({
                 metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
               },
               orderBy: { stat: { viewDetailCount: desc } },
-              take: 25,
+              take: 40,
             ) {
               stat {
                 viewDetailCount
@@ -476,13 +553,15 @@ export async function getFeed({
       )
 
       if (daysInterval) {
-        list = list.sort((a, b) => {
-          if (a.stat?.hotScore && b.stat?.hotScore) {
-            return b.stat.hotScore - a.stat.hotScore
-          } else {
-            return 0
-          }
-        })
+        list = list
+          .sort((a, b) => {
+            if (a.stat?.hotScore && b.stat?.hotScore) {
+              return b.stat.hotScore - a.stat.hotScore
+            } else {
+              return 0
+            }
+          })
+          .slice(0, 24)
       }
 
       return {
