@@ -27,6 +27,7 @@
     }
   },
   "Home": "首頁",
+  "About": "關於",
   "Activities": "文章流",
   "Source Code": "原始碼",
   "Features": "特色",
@@ -57,5 +58,16 @@
   "xLog's open design allows it to integrate with many other open protocols and applications without friction.": "我們相信，只有在開放、互聯、共享的基礎上才能有更大的價值和創新。",
   "Dashboard": "主控臺",
   "Suggested creators for you": "推薦給你一些優質創作者",
-  "Hot Topics": "流行話題"
+  "Hot Topics": "流行話題",
+  "Topic Keywords" : "關鍵字",
+  "Topic Tags": "標籤",
+  "Let's talk about xLog, whether to praise or criticize it." : "讚美與批評，推進著 xLog 的成長。",
+  "Artificial Intelligence": "人工智慧",
+  "The world is undergoing changes, and we are at the center of it.": "世界正在變革，我們站在時代的風頭浪尖。",
+  "Life Journal": "生活隨筆",
+  "Discover new perspectives and insights in others' weekly, monthly, or yearly journal.": "分享你剛編的故事。",
+  "Fiction": "虛構小說",
+  "Experience a world of imagination through these fiction stories." : "年輕人的第一個虛擬世界。",
+  "Coding": "Coding",
+  "Participate in Topic": "加入話題"
 }
