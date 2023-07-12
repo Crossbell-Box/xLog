@@ -1,9 +1,9 @@
 import { Image } from "~/components/ui/Image"
 import { SITE_URL } from "~/lib/env"
-import { useTranslation } from "~/lib/i18n"
+import { getTranslation } from "~/lib/i18n"
 
 export default async function NotFound() {
-  const { t } = await useTranslation("site")
+  const { t } = await getTranslation("site")
 
   return (
     <>

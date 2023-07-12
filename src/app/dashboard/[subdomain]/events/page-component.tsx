@@ -26,6 +26,7 @@ function SiteAvatar({ siteId }: { siteId: string }) {
           })}
         >
           <Avatar
+            cid={site.data?.characterId}
             images={site.data?.metadata?.content?.avatars || []}
             name={site.data?.metadata?.content?.name || ""}
             size={40}

@@ -7,7 +7,7 @@ import PostModal from "~/components/home/PostModal"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SiteHeader } from "~/components/site/SiteHeader"
-import { useTranslation } from "~/lib/i18n"
+import { getTranslation } from "~/lib/i18n"
 import { toCid } from "~/lib/ipfs-parser"
 import getQueryClient from "~/lib/query-client"
 import { cn } from "~/lib/utils"
@@ -44,8 +44,8 @@ export default async function SiteModal({
 
   const dehydratedState = dehydrate(queryClient)
 
-  const { i18n } = await useTranslation()
-  const { t } = await useTranslation("common")
+  const { i18n } = await getTranslation()
+  const { t } = await getTranslation("common")
   let summary: string | undefined
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
@@ -55,7 +55,7 @@ export default async function SiteModal({
   }
 
   return (
-    <PostModal>
+    <PostModal handle={site?.handle}>
       <div className="pb-16">
         <SiteHeader
           handle={params.site}

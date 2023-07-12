@@ -50,6 +50,7 @@ export const CharacterCard = ({
         <>
           <span className="flex items-center justify-between">
             <Avatar
+              cid={site?.characterId}
               images={site?.metadata?.content?.avatars || []}
               name={site?.metadata?.content?.name}
               size={45}

@@ -1,4 +1,6 @@
 import type { CharacterEntity, NoteEntity } from "crossbell"
+import { nanoid } from "nanoid"
+import dynamic from "next/dynamic"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -18,10 +20,21 @@ import {
 } from "~/queries/page"
 
 import filter from "../../../data/filter.json"
-import { CodeMirrorEditor } from "../ui/CodeMirror"
 import { Input } from "../ui/Input"
 import { Tooltip } from "../ui/Tooltip"
 import { EmojiPicker } from "./EmojiPicker"
+
+const DynamicCodeMirrorEditor = dynamic(
+  () => import("~/components/ui/CodeMirror"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex-1 h-12 flex items-center justify-center">
+        Loading...
+      </div>
+    ),
+  },
+)
 
 export const CommentInput = ({
   characterId,
@@ -46,6 +59,8 @@ export const CommentInput = ({
   const { t } = useTranslation("site")
   const anonymousComment = useAnonymousComment()
   const [anonymous, setAnonymous] = useState(false)
+
+  const [randomId] = useState(nanoid())
 
   const form = useForm({
     defaultValues: {
@@ -192,6 +207,7 @@ export const CommentInput = ({
   return (
     <div className="xlog-comment-input flex">
       <Avatar
+        cid={account?.character?.characterId || randomId}
         className="align-middle mr-3"
         images={account?.character?.metadata?.content?.avatars || []}
         name={account?.character?.metadata?.content?.name}
@@ -199,7 +215,7 @@ export const CommentInput = ({
       />
       <form className="w-full" onSubmit={handleSubmit}>
         <div>
-          <CodeMirrorEditor
+          <DynamicCodeMirrorEditor
             value={form.watch("content")}
             {...form.register("content", {})}
             onChange={(val) => {

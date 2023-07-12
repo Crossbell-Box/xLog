@@ -283,6 +283,7 @@ export default function DashboardLayout({
                             {isOpen && "You are operating"}
                           </div>
                           <Avatar
+                            cid={site.data?.characterId}
                             images={site.data?.metadata?.content?.avatars || []}
                             size={isOpen ? 60 : 40}
                             name={site.data?.metadata?.content?.name}

@@ -7,28 +7,54 @@ import { useConnectModal } from "@crossbell/connect-kit"
 import { Avatar } from "~/components/ui/Avatar"
 import { BoxRadio } from "~/components/ui/BoxRadio"
 import { Button } from "~/components/ui/Button"
-import { Modal } from "~/components/ui/Modal"
 import { CSB_SCAN, MIRA_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { useGetTips, useTipCharacter } from "~/queries/site"
 
+import { ModalContentProps, useModalStack } from "../ui/ModalStack"
 import { Tabs } from "../ui/Tabs"
 import { UniLink } from "../ui/UniLink"
 import { CharacterFloatCard } from "./CharacterFloatCard"
 
-export const PatronModal = ({
+export const usePatronModal = () => {
+  const { present } = useModalStack()
+  const { t } = useTranslation("common")
+  return (site?: ExpandedCharacter, page?: ExpandedNote) => {
+    const title =
+      (page
+        ? t("Tip the post: {{name}}", {
+            name: page.metadata?.content?.title,
+          })
+        : t("Become a patron of {{name}}", {
+            name: site?.metadata?.content?.name,
+          })) || ""
+
+    present({
+      title: (
+        <span className="inline-flex items-center justify-center w-full space-x-1">
+          <span className="text-red-500 flex w-6 h-6 -mb-[1px]">
+            <i className="icon-[mingcute--heart-fill] text-2xl -mb-[1px]" />
+          </span>
+          <span className="truncate">{title}</span>
+        </span>
+      ),
+      content: (props) => <PatronModal {...props} page={page} site={site} />,
+      modalProps: {
+        size: "lg",
+      },
+    })
+  }
+}
+const PatronModal = ({
   site,
   page,
-  open,
-  setOpen,
-}: {
+  dismiss,
+}: ModalContentProps<{
   site?: ExpandedCharacter
   page?: ExpandedNote
-  open: boolean
-  setOpen: (open: boolean) => void
-}) => {
+}>) => {
   const { t } = useTranslation("common")
   const tipCharacter = useTipCharacter()
   const tips = useGetTips(
@@ -79,7 +105,7 @@ export const PatronModal = ({
         noteId: page?.noteId,
       })
     } else {
-      setOpen(false)
+      dismiss()
       connectModal.show()
     }
   }
@@ -124,23 +150,12 @@ export const PatronModal = ({
         })) || ""
 
   return (
-    <Modal
-      open={open}
-      setOpen={setOpen}
-      title={
-        <span className="inline-flex items-center justify-center w-full space-x-1">
-          <span className="text-red-500 flex w-6 h-6 -mb-[1px]">
-            <i className="icon-[mingcute--heart-fill] text-2xl -mb-[1px]" />
-          </span>
-          <span className="truncate">{title}</span>
-        </span>
-      }
-      size="lg"
-    >
+    <>
       <div className="px-5 py-4 space-y-4 text-center">
         <div className="space-y-1">
           <span className="flex items-center justify-center">
             <Avatar
+              cid={site?.characterId}
               images={site?.metadata?.content?.avatars || []}
               name={site?.metadata?.content?.name}
               size={100}
@@ -181,6 +196,7 @@ export const PatronModal = ({
                             })}
                           >
                             <Avatar
+                              cid={tip.character?.characterId}
                               className="relative align-middle border-2 border-white"
                               images={
                                 tip.character?.metadata?.content?.avatars || []
@@ -263,6 +279,6 @@ export const PatronModal = ({
           </Button>
         </div>
       </div>
-    </Modal>
+    </>
   )
 }

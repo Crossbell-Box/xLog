@@ -6,7 +6,7 @@ import { Dialog, Transition } from "@headlessui/react"
 
 import { cn } from "~/lib/utils"
 
-interface ModalProps {
+export interface ModalProps {
   open: boolean
   setOpen: (open: boolean) => void
   children: React.ReactNode
@@ -16,6 +16,7 @@ interface ModalProps {
   zIndex?: number
   panelClassName?: string
   boxClassName?: string
+  afterLeave?: () => void
 }
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
@@ -30,11 +31,12 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       zIndex,
       panelClassName,
       boxClassName,
+      afterLeave,
     },
     ref,
   ) => {
     return (
-      <Transition appear show={open} as={Fragment}>
+      <Transition appear show={open} as={Fragment} afterLeave={afterLeave}>
         <Dialog
           onClose={() => setOpen(false)}
           className="relative"
@@ -76,7 +78,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               {/* The actual dialog panel  */}
               <Dialog.Panel
                 className={cn(
-                  `mx-auto rounded-lg bg-white w-full shadow-modal max-h-full overflow-y-auto flex flex-col`,
+                  `mx-auto rounded-lg bg-white w-full shadow-modal max-h-full flex flex-col`,
                   size === "md"
                     ? `max-w-md`
                     : size === "lg"
@@ -92,7 +94,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                       {title}
                     </span>
                     <span
-                      className="absolute right-1 w-7 h-7 text-xl cursor-pointer bg-white flex items-center justify-center"
+                      className="absolute right-4 w-7 h-7 text-xl cursor-pointer bg-white flex items-center justify-center"
                       onClick={() => setOpen(false)}
                     >
                       <i className="icon-[mingcute--close-line] inline-block" />

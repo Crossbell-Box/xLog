@@ -1,10 +1,10 @@
 "use client"
 
-import { useMemo, useRef, useState } from "react"
+import { useMemo, useRef } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
 
-import { PatronModal } from "~/components/common/PatronModal"
+import { usePatronModal } from "~/components/common/PatronModal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useTranslation } from "~/lib/i18n/client"
 import { noopArr } from "~/lib/noop"
@@ -32,7 +32,6 @@ export const ReactionTip = ({
 
   const account = useAccountState((s) => s.computed.account)
 
-  const [isTipOpen, setIsTipOpen] = useState(false)
   const tipRef = useRef<HTMLButtonElement>(null)
 
   const tips = useGetTips({
@@ -45,9 +44,11 @@ export const ReactionTip = ({
     characterId: account?.characterId || "0",
   })
 
+  const presentPatronModal = usePatronModal()
+
   const tip = () => {
     if (characterId && noteId) {
-      setIsTipOpen(true)
+      presentPatronModal(site, page)
     }
   }
 
@@ -63,6 +64,7 @@ export const ReactionTip = ({
         .map((mint) => ({
           images: mint.character?.metadata?.content?.avatars,
           name: mint.character?.metadata?.content?.name,
+          cid: mint.character?.characterId,
         })) || noopArr,
     [tips.data?.pages],
   )
@@ -111,12 +113,6 @@ export const ReactionTip = ({
           />
         )}
       </div>
-      <PatronModal
-        site={site}
-        open={isTipOpen}
-        setOpen={setIsTipOpen}
-        page={page}
-      />
     </>
   )
 }

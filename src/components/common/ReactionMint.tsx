@@ -1,12 +1,11 @@
 "use client"
 
 import confetti from "canvas-confetti"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { FC, useEffect, useMemo, useRef, useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
 
 import { CharacterList } from "~/components/common/CharacterList"
-import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
@@ -17,6 +16,7 @@ import { useCheckMint, useGetMints, useMintPage } from "~/queries/page"
 
 import { AvatarStack } from "../ui/AvatarStack"
 import { Button } from "../ui/Button"
+import { ModalContentProps, useModalStack } from "../ui/ModalStack"
 
 export const ReactionMint = ({
   size,
@@ -34,7 +34,6 @@ export const ReactionMint = ({
 
   const account = useAccountState((s) => s.computed.account)
 
-  const [isMintOpen, setIsMintOpen] = useState(false)
   const [isMintListOpen, setIsMintListOpen] = useState(false)
   const mintRef = useRef<HTMLButtonElement>(null)
 
@@ -47,11 +46,14 @@ export const ReactionMint = ({
     characterId,
     noteId,
   })
-
+  const presentMintModal = usePresentMintModal({
+    handle: account?.character?.handle || "",
+    transactionHash: isMint.data?.list?.[0]?.transactionHash || "",
+  })
   const mint = () => {
     if (characterId && noteId) {
       if (isMint.data?.count) {
-        setIsMintOpen(true)
+        presentMintModal()
       } else {
         mintPage.mutate({
           characterId,
@@ -100,6 +102,7 @@ export const ReactionMint = ({
         .map((mint) => ({
           images: mint.character?.metadata?.content?.avatars,
           name: mint.character?.metadata?.content?.name,
+          cid: mint.character.characterId,
         })) || noopArr,
     [mints],
   )
@@ -158,35 +161,7 @@ export const ReactionMint = ({
           />
         )}
       </div>
-      <Modal
-        open={isMintOpen}
-        setOpen={setIsMintOpen}
-        title={t("Mint successfully") || ""}
-      >
-        <div className="p-5">
-          <Trans i18nKey="mint stored" i18n={i18n}>
-            This post has been minted to NFT by you, view it on{" "}
-            <UniLink
-              className="text-accent"
-              href={`${CSB_XCHAR}/${account?.character?.handle}/collections`}
-            >
-              xChar
-            </UniLink>{" "}
-            or{" "}
-            <UniLink
-              className="text-accent"
-              href={`${CSB_SCAN}/tx/${isMint.data?.list?.[0]?.transactionHash}`}
-            >
-              Crossbell Scan
-            </UniLink>
-          </Trans>
-        </div>
-        <div className="h-16 border-t flex items-center px-5">
-          <Button isBlock onClick={() => setIsMintOpen(false)}>
-            {t("Got it, thanks!")}
-          </Button>
-        </div>
-      </Modal>
+
       {showAvatarStack && (
         <CharacterList
           open={isMintListOpen}
@@ -198,5 +173,57 @@ export const ReactionMint = ({
         ></CharacterList>
       )}
     </>
+  )
+}
+
+const usePresentMintModal = (props: MintModalProps) => {
+  const { present } = useModalStack()
+  const { t, i18n } = useTranslation("common")
+  return () => {
+    present({
+      title: t("Mint successfully") || "",
+      content: (rest) => <MintModal {...rest} {...props} />,
+    })
+  }
+}
+
+interface MintModalProps {
+  handle: string
+  transactionHash: string
+}
+
+const MintModal: FC<ModalContentProps<MintModalProps>> = ({
+  handle,
+  dismiss,
+  transactionHash,
+}) => {
+  const { t, i18n } = useTranslation("common")
+
+  return (
+    <div>
+      <div className="p-5">
+        <Trans i18nKey="mint stored" i18n={i18n}>
+          This post has been minted to NFT by you, view it on{" "}
+          <UniLink
+            className="text-accent"
+            href={`${CSB_XCHAR}/${handle}/collections`}
+          >
+            xChar
+          </UniLink>{" "}
+          or{" "}
+          <UniLink
+            className="text-accent"
+            href={`${CSB_SCAN}/tx/${transactionHash}`}
+          >
+            Crossbell Scan
+          </UniLink>
+        </Trans>
+      </div>
+      <div className="h-16 border-t flex items-center px-5">
+        <Button isBlock onClick={dismiss}>
+          {t("Got it, thanks!")}
+        </Button>
+      </div>
+    </div>
   )
 }

@@ -29,6 +29,7 @@ const CharacterListItem = ({
         >
           <CharacterFloatCard siteId={character?.handle}>
             <Avatar
+              cid={character?.characterId}
               className="align-middle border-2 border-white"
               images={character?.metadata?.content?.avatars || noopArr}
               name={character?.metadata?.content?.name || character?.handle}

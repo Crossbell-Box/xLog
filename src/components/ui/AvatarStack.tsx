@@ -9,6 +9,7 @@ interface AvatarStackProps {
   avatars: {
     name: string | null | undefined
     images: string[] | null | undefined
+    cid: number | null | undefined
   }[]
   count: number
 
@@ -28,6 +29,7 @@ export const AvatarStack: FC<AvatarStackProps> = (props) => {
         return (
           <li className="inline-block" key={avatar.name}>
             <Avatar
+              cid={avatar.cid}
               className="relative align-middle border-2 border-white"
               images={avatar.images || noopArr}
               name={avatar.name || ""}

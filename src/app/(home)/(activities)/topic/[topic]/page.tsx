@@ -1,8 +1,12 @@
 import { Metadata } from "next"
 
+import { Hydrate, dehydrate } from "@tanstack/react-query"
+
 import { HomeFeed } from "~/components/home/HomeFeed"
 import { APP_NAME } from "~/lib/env"
-import { useTranslation } from "~/lib/i18n"
+import { getTranslation } from "~/lib/i18n"
+import getQueryClient from "~/lib/query-client"
+import { prefetchGetFeed } from "~/queries/home.server"
 
 import topics from "../../../../../../data/topics.json"
 
@@ -26,12 +30,25 @@ export default async function Topic({
     topic: string
   }
 }) {
-  const { t } = await useTranslation("index")
+  const { t } = await getTranslation("index")
   params.topic = decodeURIComponent(params.topic)
   const info = topics.find((t) => t.name === params.topic)
 
+  const queryClient = getQueryClient()
+  await prefetchGetFeed(
+    {
+      type: "topic",
+      topicIncludeKeywords: info?.includeKeywords,
+      topicIncludeTags: info?.includeTags,
+      noteIds: info?.notes,
+    },
+    queryClient,
+  )
+
+  const dehydratedState = dehydrate(queryClient)
+
   return (
-    <>
+    <Hydrate state={dehydratedState}>
       <div className="border rounded-xl px-5 py-6 mb-4 space-y-2 relative bg-zinc-50">
         <div className="text-2xl flex items-center font-bold">
           <i className="icon-[mingcute--hashtag-fill]" />
@@ -47,7 +64,7 @@ export default async function Topic({
           {t("Participate in Topic")}
         </Button> */}
       </div>
-      <HomeFeed type="topic" noteIds={info?.notes} />
-    </>
+      <HomeFeed type="topic" />
+    </Hydrate>
   )
 }

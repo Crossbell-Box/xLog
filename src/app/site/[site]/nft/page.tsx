@@ -3,7 +3,7 @@ import Script from "next/script"
 
 import { UniLink } from "~/components/ui/UniLink"
 import { UniMedia } from "~/components/ui/UniMedia"
-import { useTranslation } from "~/lib/i18n"
+import { getTranslation } from "~/lib/i18n"
 import { toGateway } from "~/lib/ipfs-parser"
 import getQueryClient from "~/lib/query-client"
 import { fetchGetSite, getNFTs } from "~/queries/site.server"
@@ -36,19 +36,23 @@ export default async function SiteNFTPage({
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
-  const { t } = await useTranslation("common")
+  const { t } = await getTranslation("common")
 
-  let nfts = await getNFTs(site?.owner)
+  let nfts = (await getNFTs(site?.owner)) ?? []
 
+  const names = new Map<string, boolean>()
   nfts.forEach((chain: any) => {
-    chain.assets = []
-    chain.collection_assets.forEach((collection: any) => {
-      chain.assets = chain.assets.concat(collection.assets)
-    })
-    chain.assets = chain.assets.filter((asset: any) => asset.content_uri)
+    if (!names.get(chain.chain)) {
+      names.set(chain.chain, true)
+      chain.assets = []
+      chain.collection_assets.forEach((collection: any) => {
+        chain.assets = chain.assets.concat(collection.assets)
+      })
+      chain.assets = chain.assets.filter((asset: any) => asset.content_uri)
+    }
   })
   nfts = nfts
-    .filter((chain: any) => chain.assets.length)
+    .filter((chain: any) => chain.assets?.length)
     .sort((a: any, b: any) => b.assets.length - a.assets.length)
 
   const displayNames: Record<string, string> = {

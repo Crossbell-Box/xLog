@@ -69,8 +69,11 @@ export const CommentItem = ({
                 className="block align-middle mr-3"
               >
                 <Avatar
+                  cid={comment?.character?.characterId}
                   images={comment?.character?.metadata?.content?.avatars || []}
-                  name={comment?.character?.metadata?.content?.name}
+                  name={
+                    displayName || comment?.character?.metadata?.content?.name
+                  }
                   size={45}
                 />
               </UniLink>

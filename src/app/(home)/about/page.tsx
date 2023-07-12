@@ -9,10 +9,10 @@ import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
 import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { Trans, useTranslation } from "~/lib/i18n"
+import { Trans, getTranslation } from "~/lib/i18n"
 
 async function Home() {
-  const { t, i18n } = await useTranslation("index")
+  const { t, i18n } = await getTranslation("index")
 
   const EntranceButton = memo(function Button() {
     return (

@@ -119,7 +119,7 @@ export const getNFTs = async (address?: string) => {
 
   let cache
   try {
-    // cache = await redis?.get(redisKey)
+    cache = await redis?.get(redisKey)
   } catch (error) {}
   if (cache) {
     return JSON.parse(cache)

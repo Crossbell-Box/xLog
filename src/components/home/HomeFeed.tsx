@@ -13,14 +13,13 @@ import { Switch } from "@headlessui/react"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { Titles } from "~/components/common/Titles"
 import PostCover from "~/components/home/PostCover"
+import { Avatar } from "~/components/ui/Avatar"
 import { EmptyState } from "~/components/ui/EmptyState"
-import { Image } from "~/components/ui/Image"
 import { Skeleton } from "~/components/ui/Skeleton"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
-import { DEFAULT_AVATAR } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
@@ -62,11 +61,8 @@ const PostCard = ({
       )}
     >
       <PostCover
-        cover={
-          post.metadata?.content.cover ||
-          character?.metadata?.content?.avatars?.[0] ||
-          DEFAULT_AVATAR
-        }
+        cover={post.metadata?.content.cover}
+        title={post.metadata?.content?.title}
       />
       <div className="p-3 pt-2 sm:p-5 sm:pt-4 w-full min-w-0 h-[168px] sm:h-[204px] flex flex-col">
         <div className="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-4 text-xs sm:text-sm overflow-hidden">
@@ -83,14 +79,12 @@ const PostCard = ({
               }}
             >
               <span className="w-5 h-5 sm:w-6 sm:h-6 inline-block">
-                <Image
-                  className="rounded-full object-cover"
-                  src={
-                    character?.metadata?.content?.avatars?.[0] || DEFAULT_AVATAR
-                  }
-                  alt={character?.handle || ""}
-                  fill
-                ></Image>
+                <Avatar
+                  cid={character?.characterId}
+                  images={character?.metadata?.content?.avatars || []}
+                  size={24}
+                  name={character?.metadata?.content?.name}
+                ></Avatar>
               </span>
               <span className="font-medium truncate">
                 {character?.metadata?.content?.name || character?.handle}
@@ -203,13 +197,7 @@ const Post = ({ post, keyword }: { post: ExpandedNote; keyword?: string }) => {
 
 const MemoedPost = memo(Post)
 
-export const HomeFeed = ({
-  noteIds,
-  type,
-}: {
-  noteIds?: string[]
-  type?: FeedType
-}) => {
+export const HomeFeed = ({ type }: { type?: FeedType }) => {
   const { t } = useTranslation("common")
   const searchParams = useSearchParams()
 
@@ -230,21 +218,47 @@ export const HomeFeed = ({
     params.topic = decodeURIComponent(params.topic)
   }
 
-  const feed = useGetFeed({
+  let feedConfig: Parameters<typeof useGetFeed>[0] = {
     type,
-    characterId: currentCharacterId,
-    noteIds: noteIds,
-    daysInterval: hotInterval,
-    searchKeyword: searchParams?.get("q") || undefined,
-    searchType,
-    tag: decodeURIComponent(params?.tag),
-    topicIncludeKeywords: params.topic
-      ? topics.find((t) => t.name === params.topic)?.includeKeywords
-      : undefined,
-    topicIncludeTags: params.topic
-      ? topics.find((t) => t.name === params.topic)?.includeTags
-      : undefined,
-  })
+  }
+  switch (type) {
+    case "following":
+      feedConfig = {
+        type,
+        characterId: currentCharacterId,
+      }
+      break
+    case "topic":
+      const info = topics.find((t) => t.name === params.topic)
+      feedConfig = {
+        type,
+        topicIncludeKeywords: info?.includeKeywords,
+        topicIncludeTags: info?.includeTags,
+        noteIds: info?.notes,
+      }
+      break
+    case "hottest":
+      feedConfig = {
+        type,
+        daysInterval: hotInterval,
+      }
+      break
+    case "search":
+      feedConfig = {
+        type,
+        searchKeyword: searchParams?.get("q") || undefined,
+        searchType,
+      }
+      break
+    case "tag":
+      feedConfig = {
+        type,
+        tag: decodeURIComponent(params?.tag),
+      }
+      break
+  }
+
+  const feed = useGetFeed(feedConfig)
 
   const hasFiltering = type === "latest"
 
@@ -290,7 +304,9 @@ export const HomeFeed = ({
     },
   ]
 
-  const [feedInOne, setFeedInOne] = useState<ExpandedNote[]>([])
+  const [feedInOne, setFeedInOne] = useState<ExpandedNote[]>(
+    feed.data?.pages?.[0]?.list || [],
+  )
   useEffect(() => {
     if (feed.data?.pages?.length) {
       setFeedInOne(
@@ -300,6 +316,11 @@ export const HomeFeed = ({
           }, [] as ExpandedNote[])
           .filter((post) => {
             if (
+              new Date(post.metadata?.content?.date_published || "") >
+              new Date()
+            ) {
+              return false
+            } else if (
               aiFiltering &&
               post.metadata?.content?.score?.number !== undefined &&
               post.metadata.content.score.number <= 60
@@ -327,7 +348,7 @@ export const HomeFeed = ({
       <div className="space-y-10">
         {hasFiltering && (
           <div className="flex items-center text-zinc-500">
-            <i className="icon-[mingcute--android-2-line] mr-2 text-lg" />
+            <i className="icon-[mingcute--sparkles-line] mr-2 text-lg" />
             <span className="mr-1 cursor-default">
               {t("Enable AI Filtering")}
             </span>
@@ -371,8 +392,9 @@ export const HomeFeed = ({
         ) : !feed.data?.pages[0]?.count ? (
           <EmptyState />
         ) : (
-          <div className="xlog-posts my-8">
+          <div className="xlog-posts my-8 min-h-[1177px]">
             <VirtuosoGrid
+              initialItemCount={9}
               overscan={2604}
               endReached={() => feed.hasNextPage && feed.fetchNextPage()}
               useWindowScroll
@@ -416,7 +438,7 @@ const FeedSkeleton = () => {
   return (
     <Skeleton.Container
       count={9}
-      className="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3"
+      className="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3 my-8"
     >
       <div className="rounded-2xl border">
         <Skeleton.Rectangle className="h-auto rounded-t-2xl rounded-b-none w-full aspect-video border-b" />

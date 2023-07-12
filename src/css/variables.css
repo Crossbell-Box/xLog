@@ -38,10 +38,10 @@ html.dark {
   mix-blend-mode: normal;
 }
 
-.dark::view-transition-old(root){
+.dark::view-transition-old(root) {
   z-index: 9999;
 }
 
-.dark::view-transition-new(root){
+.dark::view-transition-new(root) {
   z-index: 1;
 }

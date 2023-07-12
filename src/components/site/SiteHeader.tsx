@@ -85,15 +85,14 @@ export const SiteHeader = async ({
                 : "",
             )}
           >
-            {site?.metadata?.content?.avatars?.[0] && (
-              <Avatar
-                className="xlog-site-icon max-w-[100px] max-h-[100px] sm:max-w-none sm:max-h-none"
-                images={site?.metadata?.content?.avatars}
-                size={150}
-                name={site?.metadata?.content?.name}
-                priority={true}
-              />
-            )}
+            <Avatar
+              cid={site?.characterId}
+              className="xlog-site-icon max-w-[100px] max-h-[100px] sm:max-w-none sm:max-h-none"
+              images={site?.metadata?.content?.avatars || []}
+              size={150}
+              name={site?.metadata?.content?.name}
+              priority={true}
+            />
             <div className="flex-1 min-w-0 relative">
               <div className="flex items-center justify-between">
                 <h1 className="xlog-site-name text-3xl sm:text-4xl font-bold text-zinc-900 leading-snug break-words min-w-0">

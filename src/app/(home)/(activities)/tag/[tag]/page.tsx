@@ -7,16 +7,32 @@ import { APP_NAME } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
 import { prefetchGetFeed } from "~/queries/home.server"
 
-export const metadata: Metadata = {
-  title: `Hottest Activities - ${APP_NAME}`,
+export function generateMetadata({
+  params,
+}: {
+  params: {
+    tag: string
+  }
+}): Metadata {
+  return {
+    title: `Tag: ${params.tag} - ${APP_NAME}`,
+  }
 }
 
-export default async function HottestActivities() {
+export default async function Tag({
+  params,
+}: {
+  params: {
+    tag: string
+  }
+}) {
+  params.tag = decodeURIComponent(params.tag)
+
   const queryClient = getQueryClient()
   await prefetchGetFeed(
     {
-      type: "hottest",
-      daysInterval: 7,
+      type: "tag",
+      tag: params.tag,
     },
     queryClient,
   )
@@ -25,7 +41,8 @@ export default async function HottestActivities() {
 
   return (
     <Hydrate state={dehydratedState}>
-      <HomeFeed type="hottest" />
+      <h2 className="text-3xl font-bold">Tag: {params.tag}</h2>
+      <HomeFeed type="tag" />
     </Hydrate>
   )
 }

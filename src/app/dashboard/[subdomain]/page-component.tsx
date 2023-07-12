@@ -203,9 +203,8 @@ export default function SubdomainIndex() {
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
               {pages.data?.pages[0]?.list.map((item) => (
                 <UniLink
-                  href={`${getSiteLink({ subdomain: "xlog" })}/${
-                    item.metadata?.content?.slug
-                  }`}
+                  href={`${getSiteLink({ subdomain: "xlog" })}/${item.metadata
+                    ?.content?.slug}`}
                   key={item.transactionHash}
                   className="bg-slate-100 rounded-lg flex flex-col py-4 px-6"
                 >

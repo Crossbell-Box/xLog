@@ -7,6 +7,7 @@ import dynamic from "next/dynamic"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import {
   ChangeEvent,
+  FC,
   memo,
   useCallback,
   useEffect,
@@ -25,12 +26,11 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import { PublishButton } from "~/components/dashboard/PublishButton"
 import { Button } from "~/components/ui/Button"
-import { CodeMirrorEditor } from "~/components/ui/CodeMirror"
 import { EditorToolbar } from "~/components/ui/EditorToolbar"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { Input } from "~/components/ui/Input"
-import { Modal } from "~/components/ui/Modal"
+import { ModalContentProps, useModalStack } from "~/components/ui/ModalStack"
 import { Switch } from "~/components/ui/Switch"
 import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
@@ -40,7 +40,7 @@ import {
   Values,
   initialEditorState,
   useEditorState,
-} from "~/hooks/useEdtiorState"
+} from "~/hooks/useEditorState"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
@@ -65,10 +65,27 @@ import {
 } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
+const DynamicCodeMirrorEditor = dynamic(
+  () => import("~/components/ui/CodeMirror"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex-1 h-12 flex items-center justify-center">
+        Loading...
+      </div>
+    ),
+  },
+)
+
 const DynamicPageContent = dynamic(
   () => import("~/components/common/PageContent"),
   {
     ssr: false,
+    loading: () => (
+      <div className="flex-1 h-12 flex items-center justify-center">
+        Loading...
+      </div>
+    ),
   },
 )
 
@@ -91,14 +108,14 @@ export default function SubdomainEditor() {
       let key
       if (!pageId) {
         const randomId = nanoid()
-        key = `draft-${site.data?.characterId}-local-${randomId}`
+        key = `draft-${site.data?.characterId}-!local-${randomId}`
         setDraftKey(key)
         queryClient.invalidateQueries([
           "getPagesBySite",
           site.data?.characterId,
         ])
         router.replace(
-          `/dashboard/${subdomain}/editor?id=local-${randomId}&type=${searchParams?.get(
+          `/dashboard/${subdomain}/editor?id=!local-${randomId}&type=${searchParams?.get(
             "type",
           )}`,
         )
@@ -108,7 +125,7 @@ export default function SubdomainEditor() {
       setDraftKey(key)
       setDefaultSlug(
         key
-          .replace(`draft-${site.data?.characterId}-local-`, "")
+          .replace(`draft-${site.data?.characterId}-!local-`, "")
           .replace(`draft-${site.data?.characterId}-`, ""),
       )
     }
@@ -258,7 +275,28 @@ export default function SubdomainEditor() {
     }
   }, [deleteP.isSuccess])
 
-  const [isCheersOpen, setIsCheersOpen] = useState(false)
+  const { present, dismiss } = useModalStack()
+
+  const postUrl = `${getSiteLink({
+    subdomain,
+    domain: site.data?.metadata?.content?.custom_domain,
+  })}/${encodeURIComponent(values.slug || defaultSlug)}`
+  const transactionUrl = `${CSB_SCAN}/tx/${
+    page.data?.updatedTransactionHash || page.data?.transactionHash
+  }`
+
+  const twitterShareUrl =
+    page.data && site.data
+      ? getTwitterShareUrl({
+          page: page.data,
+          site: site.data,
+          t,
+        })
+      : ""
+
+  const getPostUrl = useGetState(postUrl)
+  const getTransactionUrl = useGetState(transactionUrl)
+  const getTwitterShareUrl_ = useGetState(twitterShareUrl)
 
   useEffect(() => {
     if (createPage.isSuccess || updatePage.isSuccess) {
@@ -278,13 +316,24 @@ export default function SubdomainEditor() {
 
       if (createPage.data?.noteId) {
         router.replace(
-          `/dashboard/${subdomain}/editor?id=${
-            createPage.data?.noteId
-          }&type=${searchParams?.get("type")}`,
+          `/dashboard/${subdomain}/editor?id=${createPage.data
+            ?.noteId}&type=${searchParams?.get("type")}`,
         )
       }
+      const modalId = "publish-modal"
+      present({
+        title: `🎉 ${t("Published!")}`,
+        id: modalId,
+        content: (props) => (
+          <PublishedModal
+            postUrl={getPostUrl()}
+            transactionUrl={getTransactionUrl()}
+            twitterShareUrl={getTwitterShareUrl_()}
+            {...props}
+          />
+        ),
+      })
 
-      setIsCheersOpen(true)
       showConfetti()
 
       createPage.reset()
@@ -485,9 +534,7 @@ export default function SubdomainEditor() {
     )
   }, [draftKey, subdomain, site.data?.characterId])
 
-  const [isAdvancedOptionsOpen, setIsAdvancedOptionsOpen] =
-    useState<boolean>(false)
-
+  const presentAdvancedModal = useEditorAdvancedModal({ isPost })
   const extraProperties = (
     <EditorExtraProperties
       defaultSlug={defaultSlug}
@@ -495,7 +542,7 @@ export default function SubdomainEditor() {
       isPost={isPost}
       subdomain={subdomain}
       userTags={userTags.data?.list || []}
-      openAdvancedOptions={() => setIsAdvancedOptionsOpen(true)}
+      openAdvancedOptions={presentAdvancedModal}
     />
   )
 
@@ -628,7 +675,7 @@ export default function SubdomainEditor() {
                 </div>
                 <div className="mt-5 flex-1 min-h-0 flex relative items-center">
                   {!(isMobileLayout && isRendering) && (
-                    <CodeMirrorEditor
+                    <DynamicCodeMirrorEditor
                       value={initialContent}
                       placeholder={t("Start writing...") as string}
                       onChange={onChange}
@@ -681,75 +728,13 @@ export default function SubdomainEditor() {
                   isPost={isPost}
                   userTags={userTags.data?.list || []}
                   subdomain={subdomain}
-                  openAdvancedOptions={() => setIsAdvancedOptionsOpen(true)}
+                  openAdvancedOptions={presentAdvancedModal}
                 />
               )}
             </div>
           </>
         )}
       </DashboardMain>
-      <EditorAdvancedOptions
-        updateValue={updateValue}
-        isAdvancedOptionsOpen={isAdvancedOptionsOpen}
-        setIsAdvancedOptionsOpen={setIsAdvancedOptionsOpen}
-        isPost={isPost}
-      />
-      <Modal
-        open={isCheersOpen}
-        setOpen={setIsCheersOpen}
-        title={`🎉 ${t("Published!")}`}
-      >
-        <div className="p-5">
-          {t(
-            "Your post has been securely stored on the blockchain. Now you may want to",
-          )}
-          <ul className="list-disc pl-5 mt-2 space-y-1">
-            <li>
-              <UniLink
-                className="text-accent"
-                href={`${getSiteLink({
-                  subdomain,
-                  domain: site.data?.metadata?.content?.custom_domain,
-                })}/${encodeURIComponent(values.slug || defaultSlug)}`}
-              >
-                {t("View the post")}
-              </UniLink>
-            </li>
-            <li>
-              <UniLink
-                className="text-accent"
-                href={`${CSB_SCAN}/tx/${
-                  page.data?.updatedTransactionHash ||
-                  page.data?.transactionHash
-                }`}
-              >
-                {t("View the transaction")}
-              </UniLink>
-            </li>
-            <li>
-              <UniLink
-                className="text-accent"
-                href={
-                  page.data && site.data
-                    ? getTwitterShareUrl({
-                        page: page.data,
-                        site: site.data,
-                        t,
-                      })
-                    : ""
-                }
-              >
-                {t("Share to Twitter")}
-              </UniLink>
-            </li>
-          </ul>
-        </div>
-        <div className="h-16 border-t flex items-center px-5">
-          <Button isBlock onClick={() => setIsCheersOpen(false)}>
-            {t("Got it, thanks!")}
-          </Button>
-        </div>
-      </Modal>
     </>
   )
 }
@@ -896,93 +881,139 @@ const EditorExtraProperties = memo(
 
 EditorExtraProperties.displayName = "EditorExtraProperties"
 
-const EditorAdvancedOptions = memo(
-  ({
-    updateValue,
-    isAdvancedOptionsOpen,
-    setIsAdvancedOptionsOpen,
-    isPost,
-  }: {
-    updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
+const useEditorAdvancedModal = ({ isPost }: { isPost: boolean }) => {
+  const { t } = useTranslation("dashboard")
 
-    isAdvancedOptionsOpen: boolean
-    setIsAdvancedOptionsOpen: (state: boolean) => void
-    isPost: boolean
-  }) => {
-    const values = useEditorState(
-      (state) => pick(state, ["disableAISummary", "publishedAt"]),
-      shallow,
-    )
-    const { t } = useTranslation("dashboard")
+  const { present } = useModalStack()
 
-    return (
-      <Modal
-        open={isAdvancedOptionsOpen}
-        setOpen={setIsAdvancedOptionsOpen}
-        title={t("Advanced Settings")}
-      >
-        <div className="p-5 space-y-5">
-          <div>
-            <label className="form-label">
-              {t("Disable AI-generated summary")}
-            </label>
-            <Switch
-              label=""
-              checked={values.disableAISummary}
-              setChecked={(state) => updateValue("disableAISummary", state)}
-            />
-          </div>
-          <div>
-            <label className="form-label" htmlFor="publishAt">
-              {t("Publish at")}
-            </label>
-            <DateInput
-              className=""
-              allowDeselect
-              clearable
-              valueFormat="YYYY-MM-DD, h:mm a"
-              name="publishAt"
-              id="publishAt"
-              value={
-                values.publishedAt ? new Date(values.publishedAt) : undefined
-              }
-              onChange={(value: Date | null) => {
-                if (value) {
-                  updateValue("publishedAt", value.toISOString())
-                } else {
-                  updateValue("publishedAt", "")
-                }
-              }}
-              styles={{
-                input: {
-                  borderRadius: "0.5rem",
-                  borderColor: "var(--border-color)",
-                  height: "2.5rem",
-                  "&:focus-within": {
-                    borderColor: "var(--theme-color)",
-                  },
-                },
-              }}
-            />
-            <div className="text-xs text-gray-400 mt-1">
-              {t(
-                `This ${
-                  isPost ? "post" : "page"
-                } will be accessible from this time. Leave blank to use the current time.`,
-              )}
-            </div>
-            {values.publishedAt > new Date().toISOString() && (
-              <div className="text-xs mt-1 text-orange-500">
-                {t(
-                  "The post is currently not public as its publication date has been scheduled for a future time.",
-                )}
-              </div>
+  return () => {
+    present({
+      title: t("Advanced Settings"),
+      content: () => <EditorAdvancedModal isPost={isPost} />,
+    })
+  }
+}
+
+const EditorAdvancedModal: FC<{
+  isPost: boolean
+}> = ({ isPost }) => {
+  const { t } = useTranslation("dashboard")
+
+  const values = useEditorState(
+    (state) => pick(state, ["disableAISummary", "publishedAt"]),
+    shallow,
+  )
+  const updateValue = useEditorState.setState
+  return (
+    <div className="p-5 space-y-5">
+      <div>
+        <label className="form-label">
+          {t("Disable AI-generated summary")}
+        </label>
+        <Switch
+          label=""
+          checked={values.disableAISummary}
+          // setChecked={(state) => updateValue("disableAISummary", state)}
+          setChecked={(state) => {
+            updateValue({
+              disableAISummary: state,
+            })
+          }}
+        />
+      </div>
+      <div>
+        <label className="form-label" htmlFor="publishAt">
+          {t("Publish at")}
+        </label>
+        <DateInput
+          className="[&_input]:bg-slate-50 [&_input]:text-black/90"
+          allowDeselect
+          clearable
+          valueFormat="YYYY-MM-DD, h:mm a"
+          name="publishAt"
+          id="publishAt"
+          value={values.publishedAt ? new Date(values.publishedAt) : undefined}
+          onChange={(value: Date | null) => {
+            if (value) {
+              updateValue({
+                publishedAt: value.toISOString(),
+              })
+            } else {
+              updateValue({
+                publishedAt: "",
+              })
+            }
+          }}
+          styles={{
+            input: {
+              borderRadius: "0.5rem",
+              borderColor: "var(--border-color)",
+              height: "2.5rem",
+              "&:focus-within": {
+                borderColor: "var(--theme-color)",
+              },
+            },
+          }}
+        />
+        <div className="text-xs text-gray-400 mt-1">
+          {t(
+            `This ${
+              isPost ? "post" : "page"
+            } will be accessible from this time. Leave blank to use the current time.`,
+          )}
+        </div>
+        {values.publishedAt > new Date().toISOString() && (
+          <div className="text-xs mt-1 text-orange-500">
+            {t(
+              "The post is currently not public as its publication date has been scheduled for a future time.",
             )}
           </div>
-        </div>
-      </Modal>
-    )
-  },
-)
+        )}
+      </div>
+    </div>
+  )
+}
 
-EditorAdvancedOptions.displayName = "EditorAdvancedOptions"
+const PublishedModal = ({
+  dismiss,
+  postUrl,
+  transactionUrl,
+  twitterShareUrl,
+}: ModalContentProps<{
+  postUrl: string
+  transactionUrl: string
+  twitterShareUrl: string
+}>) => {
+  const { t } = useTranslation("dashboard")
+  return (
+    <>
+      <div className="p-5">
+        {t(
+          "Your post has been securely stored on the blockchain. Now you may want to",
+        )}
+        <ul className="list-disc pl-5 mt-2 space-y-1">
+          <li>
+            <UniLink className="text-accent" href={postUrl}>
+              {t("View the post")}
+            </UniLink>
+          </li>
+          <li>
+            <UniLink className="text-accent" href={transactionUrl}>
+              {t("View the transaction")}
+            </UniLink>
+          </li>
+          <li>
+            <UniLink className="text-accent" href={twitterShareUrl}>
+              {t("Share to Twitter")}
+            </UniLink>
+          </li>
+        </ul>
+      </div>
+      <div className="h-16 border-t flex items-center px-5">
+        <Button isBlock onClick={() => dismiss()}>
+          {t("Got it, thanks!")}
+        </Button>
+      </div>
+    </>
+  )
+}

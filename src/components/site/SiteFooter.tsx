@@ -3,7 +3,7 @@ import Script from "next/script"
 import { Logo } from "~/components/common/Logo"
 import { Platform } from "~/components/site/Platform"
 import { SITE_URL } from "~/lib/env"
-import { Trans, useTranslation } from "~/lib/i18n"
+import { Trans, getTranslation } from "~/lib/i18n"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
@@ -26,7 +26,7 @@ export default async function SiteFooter({
     )
   }
 
-  const { i18n } = await useTranslation("site")
+  const { i18n } = await getTranslation("site")
 
   return (
     <>

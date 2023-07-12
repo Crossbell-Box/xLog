@@ -52,7 +52,7 @@ export const Input = forwardRef(function Input<
           isBlock && `is-block`,
           className,
         ),
-      } as any),
+      }) as any,
     [className, hasAddon, hasPrefix, inputProps, isBlock, ref],
   )
 
