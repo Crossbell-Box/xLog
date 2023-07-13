@@ -8,8 +8,7 @@ import {
   NotificationModal,
   NotificationModalColorScheme,
 } from "@crossbell/notification"
-import { QueryClient } from "@tanstack/react-query"
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { ModalStackProvider } from "~/components/ui/ModalStack"
 // eslint-disable-next-line import/no-unresolved
@@ -19,7 +18,6 @@ import { useNProgress } from "~/hooks/useNProgress"
 import { APP_NAME, WALLET_CONNECT_V2_PROJECT_ID } from "~/lib/env"
 import { filterNotificationCharacter } from "~/lib/filter-character"
 import { toGateway } from "~/lib/ipfs-parser"
-import { createIDBPersister } from "~/lib/persister.client"
 import { urlComposer } from "~/lib/url-composer"
 import { LangProvider } from "~/providers/LangProvider"
 
@@ -28,8 +26,6 @@ const wagmiConfig = createWagmiConfig({
   // You can create or find it at https://cloud.walletconnect.com
   walletConnectV2ProjectId: WALLET_CONNECT_V2_PROJECT_ID,
 })
-
-const persister = createIDBPersister()
 
 const colorScheme: NotificationModalColorScheme = {
   text: `rgb(var(--tw-color-zinc-800))`,
@@ -49,36 +45,11 @@ export default function Providers({
   useMobileLayout()
   useNProgress()
 
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            cacheTime: 1000 * 60 * 60 * 24, // 24 hours
-          },
-        },
-      }),
-  )
+  const [queryClient] = useState(() => new QueryClient())
 
   return (
     <WagmiConfig config={wagmiConfig}>
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{
-          persister,
-          dehydrateOptions: {
-            shouldDehydrateQuery: (query) => {
-              const queryIsReadyForPersistance =
-                query.state.status === "success"
-              if (queryIsReadyForPersistance) {
-                return !((query.state?.data as any)?.pages?.length > 1)
-              } else {
-                return false
-              }
-            },
-          },
-        }}
-      >
+      <QueryClientProvider client={queryClient}>
         <ConnectKitProvider
           ipfsLinkToHttpLink={toGateway}
           urlComposer={urlComposer}
@@ -94,7 +65,7 @@ export default function Providers({
             filter={filterNotificationCharacter}
           />
         </ConnectKitProvider>
-      </PersistQueryClientProvider>
+      </QueryClientProvider>
     </WagmiConfig>
   )
 }
