@@ -69,6 +69,7 @@ async function getScore(cid: string) {
     key: ["summary_score", cid],
     allowEmpty: true,
     noUpdate: true,
+    noExpire: true,
     getValueFun: async () => {
       let resut
       await lock.acquire(cid, async () => {

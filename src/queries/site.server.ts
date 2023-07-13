@@ -4,7 +4,7 @@ import { QueryClient } from "@tanstack/react-query"
 
 import { getAverageColor } from "~/lib/fast-average-color-node"
 import { toGateway } from "~/lib/ipfs-parser"
-import { cacheGet, getRedis } from "~/lib/redis.server"
+import { cacheGet } from "~/lib/redis.server"
 import { ExpandedCharacter } from "~/lib/types"
 import * as siteModel from "~/models/site.model"
 
@@ -114,31 +114,24 @@ export const getNFTs = async (address?: string) => {
     return null
   }
 
-  const redis = await getRedis()
-  const redisKey = `nfts/${address}`
-
-  let cache
-  try {
-    cache = await redis?.get(redisKey)
-  } catch (error) {}
-  if (cache) {
-    return JSON.parse(cache)
-  } else {
-    const result = await (
-      await fetch(
-        `https://restapi.nftscan.com/api/v2/assets/chain/${address}?erc_type=&chain=eth;bnb;polygon;arbitrum;optimism;avax;cronos;platon;moonbeam;fantom;gnosis`,
-        {
-          headers: {
-            "X-API-KEY": NFTSCAN_API_KEY,
+  return cacheGet({
+    key: `nfts/${address}`,
+    noUpdate: true,
+    expireTime: 60 * 60 * 24,
+    getValueFun: async () => {
+      const result = await (
+        await fetch(
+          `https://restapi.nftscan.com/api/v2/assets/chain/${address}?erc_type=&chain=eth;bnb;polygon;arbitrum;optimism;avax;cronos;platon;moonbeam;fantom;gnosis`,
+          {
+            headers: {
+              "X-API-KEY": NFTSCAN_API_KEY,
+            },
           },
-        },
-      )
-    ).json()
-    if (result.data) {
-      redis?.set(redisKey, JSON.stringify(result.data), "EX", 60 * 60 * 24)
-    }
-    return result.data
-  }
+        )
+      ).json()
+      return result.data
+    },
+  })
 }
 
 export const getCharacterColors = async (character?: ExpandedCharacter) => {

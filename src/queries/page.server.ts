@@ -147,6 +147,7 @@ export async function getSummary({
     key: ["summary", cid, lang],
     allowEmpty: true,
     noUpdate: true,
+    noExpire: true,
     getValueFun: async () => {
       if (["en", "zh", "zh-TW", "ja"].includes(lang)) {
         let result

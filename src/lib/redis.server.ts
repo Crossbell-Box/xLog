@@ -35,6 +35,8 @@ export async function cacheGet(options: {
   key: string | (Record<string, any> | string | undefined | number)[]
   getValueFun: () => Promise<any>
   noUpdate?: boolean
+  noExpire?: boolean
+  expireTime?: number
   allowEmpty?: boolean
 }) {
   const redis = await redisPromise
@@ -52,7 +54,12 @@ export async function cacheGet(options: {
       if (!options.noUpdate) {
         options.getValueFun().then((value) => {
           if (value) {
-            redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+            redis.set(
+              redisKey,
+              JSON.stringify(value),
+              "EX",
+              options.expireTime || REDIS_EXPIRE,
+            )
           }
         })
       }
@@ -61,10 +68,15 @@ export async function cacheGet(options: {
       if (options.allowEmpty) {
         options.getValueFun().then((value) => {
           if (value) {
-            if (options.noUpdate) {
+            if (options.noExpire) {
               redis.set(redisKey, JSON.stringify(value))
             } else {
-              redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+              redis.set(
+                redisKey,
+                JSON.stringify(value),
+                "EX",
+                options.expireTime || REDIS_EXPIRE,
+              )
             }
           }
         })
@@ -72,10 +84,15 @@ export async function cacheGet(options: {
       } else {
         const value = await options.getValueFun()
         if (value) {
-          if (options.noUpdate) {
+          if (options.noExpire) {
             redis.set(redisKey, JSON.stringify(value))
           } else {
-            redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+            redis.set(
+              redisKey,
+              JSON.stringify(value),
+              "EX",
+              options.expireTime || REDIS_EXPIRE,
+            )
           }
         }
         return value

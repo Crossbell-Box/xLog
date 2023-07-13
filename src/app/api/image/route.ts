@@ -7,6 +7,7 @@ const getImage = async (src: string) => {
   return cacheGet({
     key: ["getImage", src],
     noUpdate: true,
+    noExpire: true,
     getValueFun: async () => {
       const buffer = await fetch(src).then(async (res) =>
         Buffer.from(await res.arrayBuffer()),
