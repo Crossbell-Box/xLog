@@ -88,6 +88,9 @@ export async function getFeed({
                   characterId: {
                     notIn: $filter
                   },
+                  deleted: {
+                    equals: false,
+                  },
                   metadata: {
                     content: {
                       path: "sources",
@@ -146,6 +149,9 @@ export async function getFeed({
                 where: {
                   characterId: {
                     notIn: $filter
+                  },
+                  deleted: {
+                    equals: false,
                   },
                   metadata: {
                     AND: [{
@@ -296,6 +302,9 @@ export async function getFeed({
                     characterId: {
                       notIn: $filter
                     },
+                    deleted: {
+                      equals: false,
+                    },
                     metadata: {
                       AND: [{
                         content: {
@@ -368,6 +377,9 @@ export async function getFeed({
                     characterId: {
                       notIn: $filter
                     },
+                    deleted: {
+                      equals: false,
+                    },
                     metadata: {
                       AND: [{
                         content: {
@@ -436,6 +448,9 @@ export async function getFeed({
                 where: {
                   characterId: {
                     notIn: $filter
+                  },
+                  deleted: {
+                    equals: false,
                   },
                   ${
                     time

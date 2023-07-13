@@ -1,6 +1,8 @@
 import type { NoteEntity } from "crossbell"
 import { redirect } from "next/navigation"
 
+import { gql } from "@urql/core"
+
 import { IS_DEV, IS_VERCEL_PREVIEW } from "~/lib/constants"
 import { getNoteSlug, getSiteLink } from "~/lib/helpers"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
@@ -8,53 +10,58 @@ import { checkDomainServer } from "~/models/site.model"
 import { client } from "~/queries/graphql"
 
 async function getOriginalNote(
-  characterId: string,
-  noteId: string,
+  characterId: number,
+  noteId: number,
 ): Promise<NoteEntity> {
   const result = await client
     .query(
-      `query getNote {
-    note(
-      where: {
-        note_characterId_noteId_unique: {
-          characterId: ${characterId},
-          noteId: ${noteId},
-        },
-      },
-    ) {
-      characterId
-      noteId
-      deleted
-      toNote {
-        characterId
-        noteId
-        deleted
-        toNote {
-          characterId
-          noteId
-          deleted
-          toNote {
+      gql`
+        query getNote($characterId: Int!, $noteId: Int!) {
+          note(
+            where: {
+              note_characterId_noteId_unique: {
+                characterId: $characterId
+                noteId: $noteId
+              }
+            }
+          ) {
             characterId
             noteId
             deleted
+            toNote {
+              characterId
+              noteId
+              deleted
+              toNote {
+                characterId
+                noteId
+                deleted
+                toNote {
+                  characterId
+                  noteId
+                  deleted
+                  metadata {
+                    content
+                  }
+                }
+                metadata {
+                  content
+                }
+              }
+              metadata {
+                content
+              }
+            }
             metadata {
               content
             }
           }
-          metadata {
-            content
-          }
         }
-        metadata {
-          content
-        }
-      }
-      metadata {
-        content
-      }
-    }
-  }`,
-      {},
+      `,
+      {
+        characterId,
+        noteId,
+      },
     )
     .toPromise()
   const note = result.data?.note
@@ -71,36 +78,38 @@ async function getOriginalNote(
 }
 
 export async function GET(req: Request): Promise<Response> {
-  let { characterId, noteId } = getQuery(req)
+  const query = getQuery(req)
+  let characterId = parseInt(query.characterId)
+  const noteId = parseInt(query.noteId)
 
   const res = new NextServerResponse()
-  if (!characterId || typeof characterId !== "string") {
+  if (!characterId) {
     return res.status(400).json({ error: "Missing characterId" })
   }
 
   let character
   let note
 
-  if (noteId && typeof noteId === "string") {
+  if (noteId) {
     note = await getOriginalNote(characterId, noteId)
-    characterId = note.characterId + ""
+    characterId = note.characterId
   }
 
   const result = await client
     .query(
-      `query getCharacter {
-    character(
-      where: {
-        characterId: ${characterId},
+      gql`
+        query getCharacter($characterId: Int!) {
+          character(where: { characterId: $characterId }) {
+            handle
+            metadata {
+              content
+            }
+          }
+        }
+      `,
+      {
+        characterId,
       },
-    ) {
-      handle
-      metadata {
-        content
-      }
-    }
-  }`,
-      {},
     )
     .toPromise()
   character = result.data?.character
@@ -121,7 +130,7 @@ export async function GET(req: Request): Promise<Response> {
 
     link += `/${encodeURIComponent(slug)}`
 
-    if (note.noteId + "" !== noteId) {
+    if (note.noteId !== noteId) {
       link += `#comments`
     }
   }

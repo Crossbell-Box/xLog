@@ -3,6 +3,7 @@ import type { Address } from "viem"
 
 import type { useContract } from "@crossbell/contract"
 import { indexer } from "@crossbell/indexer"
+import { gql } from "@urql/core"
 
 import { expandCrossbellCharacter } from "~/lib/expand-unit"
 import { client } from "~/queries/graphql"
@@ -32,19 +33,19 @@ export const getSubscriptionsFromList = async (
 ) => {
   const response = await client
     .query(
-      `
-    query getFollows($list: [Int!], $fromCharacterId: Int!) {
-      links(
-        where: {
-          linkType: { equals: "follow" },
-          fromCharacterId: { equals: $fromCharacterId },
-          toCharacterId: { in: $list }
-        },
-      ) {
-        toCharacterId
-      }
-    }
-  `,
+      gql`
+        query getFollows($list: [Int!], $fromCharacterId: Int!) {
+          links(
+            where: {
+              linkType: { equals: "follow" }
+              fromCharacterId: { equals: $fromCharacterId }
+              toCharacterId: { in: $list }
+            }
+          ) {
+            toCharacterId
+          }
+        }
+      `,
       {
         list,
         fromCharacterId,

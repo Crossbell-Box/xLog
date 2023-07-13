@@ -11,6 +11,7 @@ import type { Address } from "viem"
 import { GeneralAccount } from "@crossbell/connect-kit"
 import { indexer } from "@crossbell/indexer"
 import { extractCharacterAttribute } from "@crossbell/util-metadata"
+import { gql } from "@urql/core"
 
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { filterCommentCharacter } from "~/lib/filter-character"
@@ -320,115 +321,121 @@ export async function getPage<TRender extends boolean = false>(input: {
     if (!input.noteId) {
       const result = await client
         .query(
-          `
-        query getNotes {
-          notes(
-            where: {
-              characterId: {
-                equals: ${input.characterId},
-              },
-              deleted: {
-                equals: false,
-              },
-              metadata: {
-                AND: [
-                  {
+          gql`
+            query getNotes($characterId: Int!, $slug: JSON!) {
+              notes(
+                where: {
+                  characterId: {
+                    equals: $characterId,
+                  },
+                  deleted: {
+                    equals: false,
+                  },
+                  metadata: {
                     content: {
                       path: ["sources"],
                       array_contains: ["xlog"]
                     },
-                  },
-                  {
                     OR: [
                       {
                         content: {
                           path: ["attributes"],
                           array_contains: [{
                             trait_type: "xlog_slug",
-                            value: "${decodeURIComponent(input.slug!)}",
+                            value: $slug,
                           }]
                         }
                       },
                       {
                         content: {
                           path: ["title"],
-                          equals: "${decodeURIComponent(input.slug!)}"
+                          equals: $slug
                         },
                       }
                     ]
-                  }
-                ]
-              },
-            },
-            orderBy: [{ createdAt: desc }],
-            take: 1,
-          ) {
-            characterId
-            noteId
-            uri
-            metadata {
-              uri
-              content
+                  },
+                },
+                orderBy: [{ createdAt: desc }],
+                take: 1,
+              ) {
+                characterId
+                noteId
+                uri
+                metadata {
+                  uri
+                  content
+                }
+                owner
+                createdAt
+                updatedAt
+                publishedAt
+                transactionHash
+                blockNumber
+                updatedTransactionHash
+                updatedBlockNumber
+                ${
+                  input.useStat
+                    ? `
+                stat {
+                  viewDetailCount
+                }
+                `
+                    : ""
+                }
+              }
             }
-            owner
-            createdAt
-            updatedAt
-            publishedAt
-            transactionHash
-            blockNumber
-            updatedTransactionHash
-            updatedBlockNumber
-            ${
-              input.useStat
-                ? `stat {
-              viewDetailCount
-            }`
-                : ""
-            }
-          }
-        }`,
-          {},
+          `,
+          {
+            characterId: input.characterId,
+            slug: decodeURIComponent(input.slug!),
+          },
         )
         .toPromise()
       page = result.data.notes[0]
     } else {
       const result = await client
         .query(
-          `
-        query getNote {
-          note(
-            where: {
-              note_characterId_noteId_unique: {
-                characterId: ${input.characterId},
-                noteId: ${input.noteId},
-              },
-            },
-          ) {
-            characterId
-            noteId
-            uri
-            metadata {
-              uri
-              content
+          gql`
+            query getNote($characterId: Int!, $noteId: Int!) {
+              note(
+                where: {
+                  note_characterId_noteId_unique: {
+                    characterId: $characterId,
+                    noteId: $noteId,
+                  },
+                },
+              ) {
+                characterId
+                noteId
+                uri
+                metadata {
+                  uri
+                  content
+                }
+                owner
+                createdAt
+                updatedAt
+                publishedAt
+                transactionHash
+                blockNumber
+                updatedTransactionHash
+                updatedBlockNumber
+                ${
+                  input.useStat
+                    ? `
+                stat {
+                  viewDetailCount
+                }
+                `
+                    : ""
+                }
+              }
             }
-            owner
-            createdAt
-            updatedAt
-            publishedAt
-            transactionHash
-            blockNumber
-            updatedTransactionHash
-            updatedBlockNumber
-            ${
-              input.useStat
-                ? `stat {
-              viewDetailCount
-            }`
-                : ""
-            }
-          }
-        }`,
-          {},
+          `,
+          {
+            characterId: input.characterId,
+            noteId: input.noteId,
+          },
         )
         .toPromise()
       page = result.data.note
