@@ -412,7 +412,9 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
               }}
             ></VirtuosoGrid>
 
-            {feed.isFetching && feed.hasNextPage && !isServerSide && <Loader />}
+            {feed.isFetching && feed.hasNextPage && !isServerSide() && (
+              <Loader />
+            )}
           </div>
         )}
       </div>

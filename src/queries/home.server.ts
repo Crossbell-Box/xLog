@@ -24,12 +24,11 @@ export const prefetchGetFeed = async (
   })
 }
 
-export const prefetchGetShowcase = async (queryClient: QueryClient) => {
-  const key = ["getShowcase"]
-  await queryClient.fetchQuery(key, async () => {
-    return cacheGet({
-      key,
-      getValueFun: () => homeModel.getShowcase(),
-    })
-  })
+export const getShowcase = async () => {
+  return cacheGet({
+    key: "getShowcase",
+    noUpdate: true,
+    expireTime: 10 * 60,
+    getValueFun: () => homeModel.getShowcase(),
+  }) as Promise<ReturnType<typeof homeModel.getShowcase>>
 }

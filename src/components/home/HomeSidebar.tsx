@@ -1,22 +1,17 @@
-"use client"
-
-import { useState } from "react"
-
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { SearchInput } from "~/components/common/SearchInput"
 import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
-import { useGetShowcase } from "~/queries/home"
+import { getTranslation } from "~/lib/i18n"
+import { getShowcase } from "~/queries/home.server"
 
 import { FollowAllButton } from "../common/FollowAllButton"
+import ShowMoreContainer from "./ShowMoreContainer"
 
-export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
-  const showcaseSites = useGetShowcase()
-  const { t } = useTranslation("index")
-
-  const [showcaseMore, setShowcaseMore] = useState(false)
+export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
+  const showcaseSites = await getShowcase()
+  const { t } = await getTranslation("index")
 
   return (
     <div className="w-80 pl-10 hidden lg:block space-y-10">
@@ -25,60 +20,47 @@ export function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
         <div className="text-zinc-700 space-y-3">
           <p className="font-bold text-lg">{t("Suggested creators for you")}</p>
           <FollowAllButton
-            characterIds={showcaseSites.data
+            characterIds={showcaseSites
               ?.map((s: { characterId?: string }) => s.characterId)
               .filter(Boolean)
               .map(Number)}
-            siteIds={showcaseSites.data?.map(
-              (s: { handle: string }) => s.handle,
-            )}
+            siteIds={showcaseSites?.map((s: { handle: string }) => s.handle)}
           />
-          {showcaseSites.isLoading && <p>{t("Loading")}...</p>}
-          <ul
-            className={`overflow-y-clip relative text-left space-y-4 ${
-              showcaseMore ? "" : "max-h-[540px]"
-            }`}
-          >
-            <div
-              className={`absolute bottom-0 h-14 left-0 right-0 bg-gradient-to-t from-white via-white flex items-end justify-center font-bold cursor-pointer z-[1] text-sm ${
-                showcaseMore ? "hidden" : ""
-              }`}
-              onClick={() => setShowcaseMore(true)}
-            >
-              {t("Show more")}
-            </div>
-            {showcaseSites.data?.map((site) => (
-              <li className="flex align-middle" key={site.handle}>
-                <UniLink
-                  href={getSiteLink({
-                    subdomain: site.handle,
-                  })}
-                  className="inline-flex align-middle w-full"
-                >
-                  <CharacterFloatCard siteId={site.handle}>
-                    <span className="w-10 h-10 inline-block">
-                      <Avatar
-                        cid={site?.characterId}
-                        images={site?.metadata?.content?.avatars || []}
-                        size={40}
-                        name={site?.metadata?.content?.name}
-                      ></Avatar>
-                    </span>
-                  </CharacterFloatCard>
-                  <span className="ml-3 min-w-0 flex-1 justify-center inline-flex flex-col">
-                    <span className="truncate w-full inline-block font-medium">
-                      {site?.metadata?.content?.name}
-                    </span>
-                    {site?.metadata?.content?.bio && (
-                      <span className="text-gray-500 text-xs truncate w-full inline-block mt-1">
-                        {site.metadata.content?.bio}
+          <ShowMoreContainer>
+            <>
+              {showcaseSites?.map((site) => (
+                <li className="flex align-middle" key={site.handle}>
+                  <UniLink
+                    href={getSiteLink({
+                      subdomain: site.handle,
+                    })}
+                    className="inline-flex align-middle w-full"
+                  >
+                    <CharacterFloatCard siteId={site.handle}>
+                      <span className="w-10 h-10 inline-block">
+                        <Avatar
+                          cid={site?.characterId}
+                          images={site?.metadata?.content?.avatars || []}
+                          size={40}
+                          name={site?.metadata?.content?.name}
+                        ></Avatar>
                       </span>
-                    )}
-                  </span>
-                </UniLink>
-              </li>
-            ))}
-          </ul>
+                    </CharacterFloatCard>
+                    <span className="ml-3 min-w-0 flex-1 justify-center inline-flex flex-col">
+                      <span className="truncate w-full inline-block font-medium">
+                        {site?.metadata?.content?.name}
+                      </span>
+                      {site?.metadata?.content?.bio && (
+                        <span className="text-gray-500 text-xs truncate w-full inline-block mt-1">
+                          {site.metadata.content?.bio}
+                        </span>
+                      )}
+                    </span>
+                  </UniLink>
+                </li>
+              ))}
+            </>
+          </ShowMoreContainer>
         </div>
       </div>
     </div>
