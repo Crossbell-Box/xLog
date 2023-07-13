@@ -232,9 +232,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
       const info = topics.find((t) => t.name === params.topic)
       feedConfig = {
         type,
-        topicIncludeKeywords: info?.includeKeywords,
-        topicIncludeTags: info?.includeTags,
-        noteIds: info?.notes,
+        topic: params.topic,
       }
       break
     case "hottest":

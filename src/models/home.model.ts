@@ -8,6 +8,7 @@ import { ExpandedNote } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 import filter from "../../data/filter.json"
+import topics from "../../data/topics.json"
 
 export type FeedType =
   | "latest"
@@ -24,27 +25,23 @@ export async function getFeed({
   cursor,
   limit = 30,
   characterId,
-  noteIds,
   daysInterval,
   searchKeyword,
   searchType,
   tag,
   useHTML,
-  topicIncludeKeywords,
-  topicIncludeTags,
+  topic,
 }: {
   type?: FeedType
   cursor?: string
   limit?: number
   characterId?: number
-  noteIds?: string[]
   daysInterval?: number
   searchKeyword?: string
   searchType?: SearchType
   tag?: string
   useHTML?: boolean
-  topicIncludeKeywords?: string[]
-  topicIncludeTags?: string[]
+  topic?: string
 }) {
   if (type === "search" && !searchKeyword) {
     type = "latest"
@@ -265,7 +262,9 @@ export async function getFeed({
       }
     }
     case "topic": {
-      if (!topicIncludeKeywords && !topicIncludeTags && !noteIds) {
+      const info = topics.find((t) => t.name === topic)
+
+      if (!info) {
         return {
           list: [],
           cursor: "",
@@ -274,18 +273,18 @@ export async function getFeed({
       }
 
       const includeString = [
-        ...(topicIncludeKeywords?.map(
+        ...(info.includeKeywords?.map(
           (topicIncludeKeyword) =>
             `{ content: { path: "title", string_contains: "${topicIncludeKeyword}" } }, { content: { path: "content", string_contains: "${topicIncludeKeyword}" } }`,
         ) || []),
-        ...(topicIncludeTags?.map(
+        ...(info.includeTags?.map(
           (topicIncludeTag) =>
             `{ content: { path: "tags", array_contains: "${topicIncludeTag}" } },`,
         ) || []),
       ].join("\n")
 
-      if (noteIds) {
-        const orString = noteIds
+      if (info.notes) {
+        const orString = info.notes
           .map(
             (note) =>
               `{ noteId: { equals: ${

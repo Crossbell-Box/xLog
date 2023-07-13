@@ -38,9 +38,7 @@ export default async function Topic({
   await prefetchGetFeed(
     {
       type: "topic",
-      topicIncludeKeywords: info?.includeKeywords,
-      topicIncludeTags: info?.includeTags,
-      noteIds: info?.notes,
+      topic: params.topic,
     },
     queryClient,
   )

@@ -8,10 +8,16 @@ export const useGetFeed = (data?: Parameters<typeof homeModel.getFeed>[0]) => {
   return useInfiniteQuery({
     queryKey: ["getFeed", data],
     queryFn: async ({ pageParam }) => {
-      return homeModel.getFeed({
-        ...data,
-        cursor: pageParam,
-      })
+      const result: ReturnType<typeof homeModel.getFeed> = await (
+        await fetch(
+          "/api/feed?" +
+            new URLSearchParams({
+              ...data,
+              ...(pageParam && { cursor: pageParam }),
+            } as any),
+        )
+      ).json()
+      return result
     },
     getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
     refetchOnWindowFocus: false,
