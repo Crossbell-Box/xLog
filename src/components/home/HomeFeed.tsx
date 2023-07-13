@@ -24,7 +24,7 @@ import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
-import { cn, getStringLength, isServerSide } from "~/lib/utils"
+import { cn, getStringLength } from "~/lib/utils"
 import type { FeedType, SearchType } from "~/models/home.model"
 import { useGetFeed } from "~/queries/home"
 
@@ -341,6 +341,11 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
     }
   }, [feed.data?.pages, aiFiltering])
 
+  const [isMounted, setIsMounted] = useState(false)
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   return (
     <>
       <div className="space-y-10">
@@ -412,9 +417,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
               }}
             ></VirtuosoGrid>
 
-            {feed.isFetching && feed.hasNextPage && !isServerSide() && (
-              <Loader />
-            )}
+            {feed.isFetching && feed.hasNextPage && isMounted && <Loader />}
           </div>
         )}
       </div>
