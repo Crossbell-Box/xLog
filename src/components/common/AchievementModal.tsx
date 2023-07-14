@@ -53,6 +53,13 @@ export const AchievementModal = ({
     }
   }
 
+  const reversedItems = [...group.items].reverse()
+  const reversedIndex = reversedItems.findIndex(
+    (item) => item.status === "MINTED",
+  )
+  const targetIndex =
+    reversedIndex === -1 ? -1 : group.items.length - reversedIndex
+
   return (
     <Modal
       opened={opened}
@@ -152,9 +159,7 @@ export const AchievementModal = ({
         </div>
         <div className="mt-8 hidden sm:block h-24">
           <Stepper
-            active={
-              group.items.findLastIndex((item) => item.status === "MINTED") + 1
-            }
+            active={targetIndex}
             color="var(--theme-color)"
             size="sm"
             iconSize={42}
