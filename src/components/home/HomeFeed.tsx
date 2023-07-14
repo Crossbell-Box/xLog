@@ -64,11 +64,72 @@ const PostCard = ({
         cover={post.metadata?.content.cover}
         title={post.metadata?.content?.title}
       />
-      <div className="p-3 pt-2 sm:p-5 sm:pt-4 w-full min-w-0 h-[168px] sm:h-[204px] flex flex-col">
-        <div className="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-4 text-xs sm:text-sm overflow-hidden">
+      <div className="px-3 py-2 sm:px-5 sm:py-4 w-full min-w-0 h-[146px] sm:h-[164px] flex flex-col space-y-2 text-sm">
+        <div className="line-clamp-3 space-y-2 h-[74px]">
+          {comment && (
+            <div className="font-medium text-zinc-700 line-clamp-2">
+              <i className="icon-[mingcute--comment-fill] mr-2" />
+              {comment}
+            </div>
+          )}
+          <h2
+            className={cn(
+              "xlog-post-title font-bold text-base",
+              comment ? "text-zinc-500" : "text-zinc-700",
+            )}
+          >
+            {post.metadata?.content?.title}
+          </h2>
+          {!comment && (
+            <div
+              className="xlog-post-excerpt text-zinc-500"
+              style={{
+                wordBreak: "break-word",
+              }}
+            >
+              {keyword
+                ? reactStringReplace(
+                    post.metadata?.content?.summary || "",
+                    keyword,
+                    (match, i) => (
+                      <span key={i} className="bg-yellow-200">
+                        {match}
+                      </span>
+                    ),
+                  )
+                : post.metadata?.content?.summary}
+              {post.metadata?.content?.summary && "..."}
+            </div>
+          )}
+        </div>
+        {(!!post.metadata?.content?.tags?.[1] ||
+          post.stat?.viewDetailCount) && (
+          <div className="xlog-post-meta text-zinc-400 space-x-2 flex items-center">
+            {!!post.metadata?.content?.tags?.[1] && (
+              <span className="xlog-post-tags space-x-1 truncate min-w-0">
+                <span
+                  className="hover:text-zinc-600"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
+                  }}
+                >
+                  #{post.metadata?.content?.tags?.[1]}
+                </span>
+              </span>
+            )}
+            {!!post.stat?.viewDetailCount && (
+              <span className="xlog-post-views inline-flex items-center">
+                <i className="icon-[mingcute--eye-line] mr-[2px]" />
+                <span>{post.stat?.viewDetailCount}</span>
+              </span>
+            )}
+          </div>
+        )}
+        <div className="flex items-center space-x-1 text-xs sm:text-sm overflow-hidden">
           <CharacterFloatCard siteId={character?.handle}>
             <span
-              className="flex items-center space-x-2 cursor-pointer"
+              className="flex items-center cursor-pointer"
               onClick={(e) => {
                 e.preventDefault()
                 window.open(
@@ -78,15 +139,15 @@ const PostCard = ({
                 )
               }}
             >
-              <span className="w-5 h-5 sm:w-6 sm:h-6 inline-block">
+              <span className="w-5 h-5 inline-block mr-[6px]">
                 <Avatar
                   cid={character?.characterId}
                   images={character?.metadata?.content?.avatars || []}
-                  size={24}
+                  size={20}
                   name={character?.metadata?.content?.name}
                 ></Avatar>
               </span>
-              <span className="font-medium truncate">
+              <span className="font-medium truncate text-zinc-600">
                 {character?.metadata?.content?.name || character?.handle}
               </span>
             </span>
@@ -109,70 +170,6 @@ const PostCard = ({
             })}
           </time>
         </div>
-        {comment && (
-          <div className="font-medium text-zinc-700 mb-2 line-clamp-2">
-            <i className="icon-[mingcute--comment-fill] mr-2" />
-            {comment}
-          </div>
-        )}
-        <h2
-          className={cn(
-            "xlog-post-title font-bold line-clamp-2",
-            comment ? "text-zinc-500" : "text-zinc-700 sm:text-xl",
-          )}
-        >
-          {post.metadata?.content?.title}
-        </h2>
-        {(!!post.metadata?.content?.tags?.filter(
-          (tag) => tag !== "post" && tag !== "page",
-        ).length ||
-          post.stat?.viewDetailCount) && (
-          <div className="xlog-post-meta text-sm text-zinc-400 mt-1 space-x-4 flex items-center mr-8">
-            <span className="xlog-post-tags space-x-1 truncate min-w-0">
-              {post.metadata?.content?.tags
-                ?.filter((tag) => tag !== "post" && tag !== "page")
-                .map((tag, index) => (
-                  <span
-                    className="hover:text-zinc-600"
-                    key={tag + index}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      router.push(`/tag/${tag}`)
-                    }}
-                  >
-                    #{tag}
-                  </span>
-                ))}
-            </span>
-            {post.stat?.viewDetailCount && (
-              <span className="xlog-post-views inline-flex items-center">
-                <i className="icon-[mingcute--eye-line] mr-[2px]" />
-                <span>{post.stat?.viewDetailCount}</span>
-              </span>
-            )}
-          </div>
-        )}
-        {!comment && (
-          <div
-            className="xlog-post-excerpt mt-2 text-zinc-500 line-clamp-2 text-sm"
-            style={{
-              wordBreak: "break-word",
-            }}
-          >
-            {keyword
-              ? reactStringReplace(
-                  post.metadata?.content?.summary || "",
-                  keyword,
-                  (match, i) => (
-                    <span key={i} className="bg-yellow-200">
-                      {match}
-                    </span>
-                  ),
-                )
-              : post.metadata?.content?.summary}
-            {post.metadata?.content?.summary && "..."}
-          </div>
-        )}
       </div>
     </Link>
   )
