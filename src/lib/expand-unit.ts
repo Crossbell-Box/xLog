@@ -1,5 +1,6 @@
 import type { CharacterEntity, NoteEntity } from "crossbell"
 import { nanoid } from "nanoid"
+import removeMarkdown from "remove-markdown"
 
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
@@ -70,6 +71,13 @@ export const expandCrossbellNote = async ({
         (attribute) => attribute.trait_type === "xlog_disable_ai_summary",
       )?.value,
     )
+
+    expandedNote.metadata.content.readingTime = expandedNote.metadata.content
+      .content
+      ? Math.round(
+          removeMarkdown(expandedNote.metadata.content.content).length / 400,
+        ) // TODO
+      : 0
 
     if (useStat) {
       if ((note as any).stat?.viewDetailCount) {

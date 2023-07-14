@@ -102,30 +102,39 @@ const PostCard = ({
             </div>
           )}
         </div>
-        {(!!post.metadata?.content?.tags?.[1] ||
-          post.stat?.viewDetailCount) && (
-          <div className="xlog-post-meta text-zinc-400 space-x-2 flex items-center">
-            {!!post.metadata?.content?.tags?.[1] && (
-              <span className="xlog-post-tags space-x-1 truncate min-w-0">
-                <span
-                  className="hover:text-zinc-600"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
-                  }}
-                >
-                  #{post.metadata?.content?.tags?.[1]}
-                </span>
+        <div className="xlog-post-meta text-zinc-400 space-x-2 flex items-center">
+          {!!post.metadata?.content?.tags?.[1] && (
+            <span
+              className="xlog-post-tags hover:text-zinc-600 inline-flex items-center"
+              onClick={(e) => {
+                e.preventDefault()
+                router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
+              }}
+            >
+              <i className="icon-[mingcute--tag-line] mr-[2px]" />
+              {post.metadata?.content?.tags?.[1]}
+            </span>
+          )}
+          {!post.stat?.viewDetailCount && (
+            <span className="xlog-post-word-count inline-flex items-center">
+              <i className="icon-[mingcute--time-line] mr-[2px]" />
+              <span
+                style={{
+                  wordSpacing: "-.2ch",
+                }}
+              >
+                {post.metadata?.content?.readingTime}{" "}
+                {t(post.metadata?.content?.readingTime === 1 ? "min" : "mins")}
               </span>
-            )}
-            {!!post.stat?.viewDetailCount && (
-              <span className="xlog-post-views inline-flex items-center">
-                <i className="icon-[mingcute--eye-line] mr-[2px]" />
-                <span>{post.stat?.viewDetailCount}</span>
-              </span>
-            )}
-          </div>
-        )}
+            </span>
+          )}
+          {!!post.stat?.viewDetailCount && (
+            <span className="xlog-post-views inline-flex items-center">
+              <i className="icon-[mingcute--eye-line] mr-[2px]" />
+              <span>{post.stat?.viewDetailCount}</span>
+            </span>
+          )}
+        </div>
         <div className="flex items-center space-x-1 text-xs sm:text-sm overflow-hidden">
           <CharacterFloatCard siteId={character?.handle}>
             <span

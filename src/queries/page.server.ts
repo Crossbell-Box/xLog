@@ -118,10 +118,7 @@ const getOriginalSummary = async (cid: string, lang: string) => {
       }
 
       const res = await chain.call({
-        input_document: removeMarkdown(content, {
-          useImgAltText: true,
-          gfm: true,
-        }),
+        input_document: removeMarkdown(content),
       })
 
       console.timeEnd(`fetching summary ${cid}, ${lang}`)

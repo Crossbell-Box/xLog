@@ -72,13 +72,7 @@ export type MarkdownEnv = {
 export type Rendered = {
   contentHTML: string
   element?: ReactElement
-  excerpt: string
-  frontMatter: Record<string, any>
-  cover: string
-  audio: string
-  toc: TocResult | null
-  tree: Root | null
-}
+} & Omit<MarkdownEnv, "__internal">
 
 refractor.alias("html", ["svelte", "vue"])
 refractor.register(tsx)
