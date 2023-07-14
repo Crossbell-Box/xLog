@@ -27,7 +27,6 @@ export class NextServerResponse {
     const nextData = JSON.stringify(data)
 
     this.#headers.set("Content-Type", "application/json")
-    this.#headers.set("X-Time", new Date().toISOString())
 
     return new Response(nextData, this.makeResponseOptions())
   }
