@@ -2,7 +2,11 @@
 
 import { usePathname, useRouter } from "next/navigation"
 
-import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
+import {
+  useAccountState,
+  useConnectModal,
+  useConnectedAction,
+} from "@crossbell/connect-kit"
 
 import { Tabs } from "~/components/ui/Tabs"
 import { useTranslation } from "~/lib/i18n/client"
@@ -32,13 +36,7 @@ export const HomeActivitiesTabs = () => {
     },
     {
       text: "Following",
-      onClick: () => {
-        if (!currentCharacterId) {
-          connectModal.show()
-        } else {
-          router.push(`/following`)
-        }
-      },
+      onClick: useConnectedAction(() => router.push(`/following`)),
       active: pathname === "/following",
     },
     {

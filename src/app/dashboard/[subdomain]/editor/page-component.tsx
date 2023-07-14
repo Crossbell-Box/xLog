@@ -99,6 +99,7 @@ export default function SubdomainEditor() {
 
   let pageId = searchParams?.get("id") as string | undefined
   const isPost = searchParams?.get("type") === "post"
+  const defaultTag = searchParams?.get("tag")
 
   const site = useGetSite(subdomain)
 
@@ -117,7 +118,9 @@ export default function SubdomainEditor() {
         router.replace(
           `/dashboard/${subdomain}/editor?id=!local-${randomId}&type=${searchParams?.get(
             "type",
-          )}`,
+          )}${
+            searchParams?.get("tag") ? "&tag=" + searchParams?.get("tag") : ""
+          }`,
         )
       } else {
         key = `draft-${site.data?.characterId}-${pageId}`
@@ -159,7 +162,10 @@ export default function SubdomainEditor() {
 
   // reset editor state when page changes
   useBeforeMounted(() => {
-    useEditorState.setState(initialEditorState)
+    useEditorState.setState({
+      ...initialEditorState,
+      tags: defaultTag || "",
+    })
   })
 
   const values = useEditorState()

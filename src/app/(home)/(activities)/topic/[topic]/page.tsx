@@ -3,6 +3,7 @@ import { Metadata } from "next"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
+import ParticipateButton from "~/components/home/ParticipateButton"
 import { APP_NAME } from "~/lib/env"
 import { getTranslation } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
@@ -49,7 +50,7 @@ export default async function Topic({
     <Hydrate state={dehydratedState}>
       <div className="border rounded-xl px-5 py-6 mb-4 space-y-2 relative bg-zinc-50">
         <div className="text-2xl flex items-center font-bold">
-          <i className="icon-[mingcute--hashtag-fill]" />
+          <i className="icon-[mingcute--tag-line] mr-1" />
           {info?.includeTags[0]}
         </div>
         <p className="text-zinc-600">{t(info?.description || "")}</p>
@@ -58,9 +59,7 @@ export default async function Topic({
             {t("Topic Keywords")}: {info?.includeKeywords?.join(", ")}
           </p>
         ) : null}
-        {/* <Button className="absolute right-5 top-4">
-          {t("Participate in Topic")}
-        </Button> */}
+        <ParticipateButton tag={params.topic} />
       </div>
       <HomeFeed type="topic" />
     </Hydrate>
