@@ -64,7 +64,7 @@ const PostCard = ({
         cover={post.metadata?.content.cover}
         title={post.metadata?.content?.title}
       />
-      <div className="px-3 py-2 sm:px-5 sm:py-4 w-full min-w-0 h-[146px] sm:h-[164px] flex flex-col space-y-2 text-sm">
+      <div className="px-3 py-2 sm:px-5 sm:py-4 w-full min-w-0 h-[148px] sm:h-[166px] flex flex-col space-y-2 text-sm">
         <div className="line-clamp-3 space-y-2 h-[74px]">
           {comment && (
             <div className="font-medium text-zinc-700 line-clamp-2">
@@ -102,10 +102,10 @@ const PostCard = ({
             </div>
           )}
         </div>
-        <div className="xlog-post-meta text-zinc-400 space-x-2 flex items-center">
+        <div className="xlog-post-meta text-zinc-400 space-x-2 flex items-center text-[13px] h-[26px] truncate">
           {!!post.metadata?.content?.tags?.[1] && (
             <span
-              className="xlog-post-tags hover:text-zinc-600 inline-flex items-center"
+              className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[2px] truncate"
               onClick={(e) => {
                 e.preventDefault()
                 router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
@@ -115,19 +115,16 @@ const PostCard = ({
               {post.metadata?.content?.tags?.[1]}
             </span>
           )}
-          {!post.stat?.viewDetailCount && (
-            <span className="xlog-post-word-count inline-flex items-center">
-              <i className="icon-[mingcute--time-line] mr-[2px]" />
-              <span
-                style={{
-                  wordSpacing: "-.2ch",
-                }}
-              >
-                {post.metadata?.content?.readingTime}{" "}
-                {t(post.metadata?.content?.readingTime === 1 ? "min" : "mins")}
-              </span>
+          <span className="xlog-post-word-count inline-flex items-center">
+            <i className="icon-[mingcute--time-line] mr-[2px]" />
+            <span
+              style={{
+                wordSpacing: "-.2ch",
+              }}
+            >
+              {post.metadata?.content?.readingTime} {t("min")}
             </span>
-          )}
+          </span>
           {!!post.stat?.viewDetailCount && (
             <span className="xlog-post-views inline-flex items-center">
               <i className="icon-[mingcute--eye-line] mr-[2px]" />

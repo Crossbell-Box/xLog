@@ -4,6 +4,7 @@ import removeMarkdown from "remove-markdown"
 
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
+import readingTime from "~/lib/reading-time"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { getNoteSlug } from "./helpers"
@@ -75,8 +76,8 @@ export const expandCrossbellNote = async ({
     expandedNote.metadata.content.readingTime = expandedNote.metadata.content
       .content
       ? Math.round(
-          removeMarkdown(expandedNote.metadata.content.content).length / 400,
-        ) // TODO
+          readingTime(removeMarkdown(expandedNote.metadata.content.content)),
+        )
       : 0
 
     if (useStat) {
