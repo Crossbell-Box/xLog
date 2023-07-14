@@ -223,7 +223,7 @@ dependencies:
     version: 3.15.4
   plaiceholder:
     specifier: 3.0.0
-    version: 3.0.0(sharp@0.32.2)
+    version: 3.0.0(sharp@0.32.3)
   prismjs:
     specifier: 1.29.0
     version: 1.29.0
@@ -339,8 +339,8 @@ dependencies:
     specifier: 6.0.1
     version: 6.0.1
   sharp:
-    specifier: 0.32.2
-    version: 0.32.2
+    specifier: 0.32.3
+    version: 0.32.3
   sortablejs:
     specifier: 1.15.0
     version: 1.15.0
@@ -10660,12 +10660,12 @@ packages:
       find-up: 6.3.0
     dev: true
 
-  /plaiceholder@3.0.0(sharp@0.32.2):
+  /plaiceholder@3.0.0(sharp@0.32.3):
     resolution: {integrity: sha512-jwHxxHPnr1BwRzPCeZgEK2BMsEy2327sWynw3qb6XC/oGgGDUTPtR8pFxFQmNArhMBwhkUbUr5OPhhIJpCa8eQ==}
     peerDependencies:
       sharp: '>= 0.30.6'
     dependencies:
-      sharp: 0.32.2
+      sharp: 0.32.3
     dev: false
 
   /pngjs@5.0.0:
@@ -11855,8 +11855,8 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /sharp@0.32.2:
-    resolution: {integrity: sha512-e4hyWKtU7ks/rLmoPys476zhpQnLqPJopz4+5b6OPeyJfvCTInAp0pe5tGhstjsNdUvDLrUVGEwevewYdZM8Eg==}
+  /sharp@0.32.3:
+    resolution: {integrity: sha512-i1gFPiNqyqxC4ouVvCKj5G8WfPIMeeSxpKcMrjic6NY4e8zktW7bIdqHPc3FCG+pNKU/XCEabKA57hhvZi8UmQ==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
