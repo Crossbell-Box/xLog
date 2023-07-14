@@ -11,6 +11,7 @@ import { getAcceptLang } from "~/lib/accept-lang"
 import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN, SITE_URL } from "~/lib/env"
 import { getColorScheme } from "~/lib/get-color-scheme"
 
+import { ColorSchemeInjector } from "./ColorSchemeInjector"
 import Providers from "./providers"
 
 export const metadata: Metadata = {
@@ -95,7 +96,13 @@ export default function RootLayout({
   }
 
   return (
-    <html lang={lang} dir={dir(lang)} className={colorScheme}>
+    <html
+      lang={lang}
+      dir={dir(lang)}
+      className={colorScheme}
+      suppressHydrationWarning
+    >
+      <ColorSchemeInjector />
       <body>
         <Providers lang={lang}>
           {modal}

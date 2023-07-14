@@ -4,6 +4,7 @@ import { create } from "zustand"
 import {
   COLOR_SCHEME_DARK,
   COLOR_SCHEME_LIGHT,
+  DARK_MODE_STORAGE_KEY,
   DEFAULT_COLOR_SCHEME,
   IS_DEV,
 } from "~/lib/constants"
@@ -30,11 +31,9 @@ interface DarkModeConfig {
   classNameDark?: string // A className to set "dark mode". Default = "dark".
   classNameLight?: string // A className to set "light mode". Default = "light".
   element?: HTMLElement | undefined | null // The element to apply the className. Default = `document.body`.
-  storageKey?: string // Specify the `localStorage` key. Default = "darkMode". set to `undefined` to disable persistent storage.
   transition?: ViewTransition | undefined // Specify the `animate` when switching the mode. Only Chromium >= 111 etc.
 }
 
-const darkModeKey = "darkMode"
 const useDarkModeInternal = (
   initialState: boolean | undefined,
   options: DarkModeConfig,
@@ -42,7 +41,6 @@ const useDarkModeInternal = (
   const {
     classNameDark = COLOR_SCHEME_DARK,
     classNameLight = COLOR_SCHEME_LIGHT,
-    storageKey = darkModeKey,
     element,
     transition,
   } = options
@@ -51,29 +49,30 @@ const useDarkModeInternal = (
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
-    const presentedDarkMode = !isServerSide() && getStorage(storageKey)
+    const presentedDarkMode =
+      !isServerSide() && getStorage(DARK_MODE_STORAGE_KEY)
 
     if (presentedDarkMode !== undefined) {
       setDarkMode(presentedDarkMode === "true")
     } else if (typeof initialState === "undefined") {
       setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
     }
-  }, [storageKey])
+  }, [])
 
   useEffect(() => {
     const handler = (e: MediaQueryListEvent) => {
-      const storageValue = getStorage(storageKey)
+      const storageValue = getStorage(DARK_MODE_STORAGE_KEY)
       const parseStorageValueAsBool = storageValue === "true"
       setDarkMode(e.matches)
 
       // reset dark mode, follow system
       if (parseStorageValueAsBool === e.matches) {
-        delStorage(storageKey)
+        delStorage(DARK_MODE_STORAGE_KEY)
       }
     }
 
     const storageHandler = () => {
-      const storageValue = getStorage(storageKey, true)
+      const storageValue = getStorage(DARK_MODE_STORAGE_KEY, true)
       // if not storage color mode, switch to follow system
       if (storageValue === undefined) {
         setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
@@ -94,7 +93,7 @@ const useDarkModeInternal = (
         .matchMedia("(prefers-color-scheme: dark)")
         .removeEventListener("change", handler)
     }
-  }, [storageKey])
+  }, [])
 
   const getDarkMode = useGetState(darkMode)
   useEffect(() => {
@@ -104,7 +103,7 @@ const useDarkModeInternal = (
         window.matchMedia("(prefers-color-scheme: dark)").matches ===
         getDarkMode()
       ) {
-        delStorage(darkModeKey)
+        delStorage(DARK_MODE_STORAGE_KEY)
       }
     }
     window.addEventListener("beforeunload", handler)
@@ -166,8 +165,8 @@ const useDarkModeInternal = (
     value: darkMode,
     toggle: (e: MouseEvent) => {
       setDarkMode((d) => {
-        if (storageKey && !isServerSide()) {
-          setStorage(storageKey, String(!d))
+        if (DARK_MODE_STORAGE_KEY && !isServerSide()) {
+          setStorage(DARK_MODE_STORAGE_KEY, String(!d))
           setMousePosition({ x: e.clientX, y: e.clientY })
         }
         return !d
@@ -184,18 +183,20 @@ const mockElement = {
 }
 
 export const useDarkMode = () => {
-  const { toggle, value } = useDarkModeInternal(getStorage(darkModeKey), {
-    classNameDark: COLOR_SCHEME_DARK,
-    classNameLight: COLOR_SCHEME_LIGHT,
-    storageKey: darkModeKey,
-    element: (globalThis.document && document.documentElement) || mockElement,
-    transition:
-      !isServerSide() &&
-      !!document.startViewTransition &&
-      !window.matchMedia(`(prefers-reduced-motion: reduce)`).matches
-        ? document.startViewTransition()
-        : undefined,
-  })
+  const { toggle, value } = useDarkModeInternal(
+    getStorage(DARK_MODE_STORAGE_KEY),
+    {
+      classNameDark: COLOR_SCHEME_DARK,
+      classNameLight: COLOR_SCHEME_LIGHT,
+      element: (globalThis.document && document.documentElement) || mockElement,
+      transition:
+        !isServerSide() &&
+        !!document.startViewTransition &&
+        !window.matchMedia(`(prefers-reduced-motion: reduce)`).matches
+          ? document.startViewTransition()
+          : undefined,
+    },
+  )
 
   useEffect(() => {
     useMediaStore.setState({
