@@ -14,7 +14,7 @@ export const rehypeEmbed: Plugin<
   Root
 > =
   ({ transformers }) =>
-  (tree) => {
+  (tree: Root) => {
     visit(tree, { tagName: "a" }, (node, i, parent) => {
       if (
         !parent ||

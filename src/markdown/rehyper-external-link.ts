@@ -7,7 +7,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 const isExternLink = (url: string) => /^https?:\/\//.test(url)
 
 export const rehypeExternalLink: Plugin<Array<void>, Root> = () => {
-  return (tree) => {
+  return (tree: Root) => {
     visit(tree, { type: "element", tagName: "a" }, (node) => {
       if (!node.properties) return
 

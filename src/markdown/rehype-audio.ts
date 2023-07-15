@@ -9,7 +9,7 @@ import { MarkdownEnv } from "."
 export const rehypeAudio: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
   env,
 }) => {
-  return (tree) => {
+  return (tree: Root) => {
     let first = true
     visit(tree, { tagName: "audio" }, (node, i, parent) => {
       if (!node.properties) {

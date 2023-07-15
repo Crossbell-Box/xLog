@@ -9,7 +9,7 @@ import { MarkdownEnv } from "."
 export const rehypeVideo: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
   env,
 }) => {
-  return (tree) => {
+  return (tree: Root) => {
     let first = true
     visit(tree, { tagName: "video" }, (node, i, parent) => {
       if (!node.properties) {
