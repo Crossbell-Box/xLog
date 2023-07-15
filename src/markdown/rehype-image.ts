@@ -12,7 +12,7 @@ const isExternLink = (url: string) => /^https?:\/\//.test(url)
 export const rehypeImage: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
   env,
 }) => {
-  return (tree) => {
+  return (tree: Root) => {
     let first = true
     visit(tree, { tagName: "img" }, (node) => {
       if (!node.properties) return
