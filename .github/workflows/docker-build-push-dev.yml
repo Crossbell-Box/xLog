@@ -49,6 +49,7 @@ jobs:
             "NEXT_PUBLIC_GITHUB_LINK=${{ vars.NEXT_PUBLIC_GITHUB_LINK }}"
             "NEXT_PUBLIC_OUR_DOMAIN=${{ vars.NEXT_PUBLIC_OUR_DOMAIN }}"
             "NEXT_PUBLIC_TWITTER_LINK=${{ vars.NEXT_PUBLIC_TWITTER_LINK }}"
+            "NEXT_PUBLIC_WALLET_CONNECT_V2_PROJECT_ID=${{ vars.NEXT_PUBLIC_WALLET_CONNECT_V2_PROJECT_ID }}"
 
   deploy-dev:
     runs-on: ubuntu-latest
