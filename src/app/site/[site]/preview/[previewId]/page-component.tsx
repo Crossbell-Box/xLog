@@ -16,15 +16,15 @@ const DynamicPageContent = dynamic(
 
 export default function SitePreviewPage() {
   const params = useParams()
-  const site = useGetSite(params.site)
+  const site = useGetSite(params.site as string)
 
   const page = useGetPage({
     characterId: site.data?.characterId,
     noteId:
-      params.previewId && /\d+/.test(params.previewId)
+      params.previewId && /\d+/.test(params.previewId as string)
         ? +params.previewId
         : undefined,
-    slug: params.previewId,
+    slug: params.previewId as string,
     useStat: true,
   })
 

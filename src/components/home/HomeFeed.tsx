@@ -40,7 +40,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
 
   const params = useParams()
   if (params.topic) {
-    params.topic = decodeURIComponent(params.topic)
+    params.topic = decodeURIComponent(params.topic as string)
   }
 
   let feedConfig: Parameters<typeof useGetFeed>[0] = {
@@ -76,7 +76,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
     case "tag":
       feedConfig = {
         type,
-        tag: decodeURIComponent(params?.tag),
+        tag: decodeURIComponent(params?.tag as string),
       }
       break
   }
