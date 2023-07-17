@@ -138,7 +138,7 @@ export default async function SitePagePage({
   }
 
   return (
-    <>
+    <div className="max-w-screen-md mx-auto">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={addPageJsonLd()}
@@ -185,6 +185,6 @@ export default async function SitePagePage({
           {page?.metadata && <PostFooter page={page} site={site} />}
         </Hydrate>
       )}
-    </>
+    </div>
   )
 }

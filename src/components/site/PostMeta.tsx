@@ -36,7 +36,7 @@ export default function PostMeta({
         ) : null}
         <span className="xlog-post-views inline-flex items-center">
           <i className="icon-[mingcute--eye-line] mr-[2px]" />
-          <span>{page.metadata?.content?.views}</span>
+          <span>{page.stat?.viewDetailCount}</span>
         </span>
         <UniLink
           className="xlog-post-blockchain inline-flex items-center"

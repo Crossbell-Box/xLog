@@ -81,16 +81,13 @@ export const expandCrossbellNote = async ({
       : 0
 
     if (useStat) {
-      if ((note as any).stat?.viewDetailCount) {
-        expandedNote.metadata.content.views = (note as any).stat
-          ?.viewDetailCount
-      } else {
+      if (!expandedNote.stat) {
         const stat = await (
           await fetch(
             `https://indexer.crossbell.io/v1/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,
           )
         ).json()
-        expandedNote.metadata.content.views = stat.viewDetailCount
+        expandedNote.stat = stat
       }
     }
 

@@ -67,7 +67,7 @@ export const SiteHeader = async ({
           }
         })()}
       </div>
-      <div className="px-5 max-w-screen-md mx-auto h-full relative flex items-center flex-col">
+      <div className="px-5 max-w-screen-lg mx-auto h-full relative flex items-center flex-col">
         <div className="mb-auto"></div>
         <div className="flex py-12 w-full">
           <div

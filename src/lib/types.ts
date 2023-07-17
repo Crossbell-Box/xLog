@@ -80,7 +80,6 @@ export type ExpandedNote = NoteEntity & {
       cover?: string
       frontMatter?: Record<string, any>
       slug?: string
-      views?: number
       audio?: string
       score?: {
         number?: number

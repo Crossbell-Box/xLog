@@ -31,7 +31,7 @@ export default function SitePreviewPage() {
   const { t } = useTranslation("site")
 
   return (
-    <>
+    <div className="max-w-screen-md mx-auto">
       <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
         {t(
           "This address is in local editing preview mode and cannot be viewed by the public.",
@@ -55,6 +55,6 @@ export default function SitePreviewPage() {
           toc={true}
         ></DynamicPageContent>
       </article>
-    </>
+    </div>
   )
 }

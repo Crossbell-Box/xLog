@@ -12,6 +12,7 @@ import { EmptyState } from "~/components/ui/EmptyState"
 import { Skeleton } from "~/components/ui/Skeleton"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
+import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
@@ -170,6 +171,8 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
     setIsMounted(true)
   }, [])
 
+  const isMobileLayout = useIsMobileLayout()
+
   return (
     <>
       <div className="space-y-10">
@@ -236,6 +239,12 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
                     key={`${post.characterId}-${post.noteId}`}
                     post={post}
                     keyword={searchParams?.get("q") || undefined}
+                    linkPrefix={
+                      isMobileLayout
+                        ? `/site/${post?.character?.handle}`
+                        : `/post/${post?.character?.handle}`
+                    }
+                    isBlank={isMobileLayout}
                   />
                 )
               }}

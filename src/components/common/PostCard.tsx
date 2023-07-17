@@ -11,7 +11,6 @@ import { Titles } from "~/components/common/Titles"
 import PostCover from "~/components/home/PostCover"
 import { Avatar } from "~/components/ui/Avatar"
 import { useDate } from "~/hooks/useDate"
-import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
@@ -23,28 +22,29 @@ const Card = ({
   keyword,
   comment,
   createdAt,
+  isPinned,
+  linkPrefix,
+  isBlank,
 }: {
   character?: CharacterEntity
   post: ExpandedNote
   keyword?: string
   comment?: string
   createdAt?: string
+  isPinned?: boolean
+  linkPrefix?: string
+  isBlank?: boolean
 }) => {
   const router = useRouter()
   const { t } = useTranslation("common")
   const date = useDate()
-  const isMobileLayout = useIsMobileLayout()
 
   return (
     <Link
-      target={isMobileLayout ? "_blank" : undefined}
-      href={
-        isMobileLayout
-          ? `/site/${post?.character?.handle}/${post.metadata?.content?.slug}`
-          : `/post/${post?.character?.handle}/${post.metadata?.content?.slug}`
-      }
+      target={isBlank ? "_blank" : undefined}
+      href={`${linkPrefix || ""}/${post.metadata?.content?.slug}`}
       className={cn(
-        "xlog-post sm:hover:bg-hover transition-all rounded-2xl flex flex-col items-center hover:opacity-100 group border",
+        "xlog-post sm:hover:bg-hover transition-all rounded-2xl flex flex-col items-center hover:opacity-100 group border relative",
       )}
     >
       <PostCover
@@ -92,7 +92,7 @@ const Card = ({
         <div className="xlog-post-meta text-zinc-400 space-x-2 flex items-center text-[13px] h-[26px] truncate">
           {!!post.metadata?.content?.tags?.[1] && (
             <span
-              className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[2px] truncate"
+              className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate"
               onClick={(e) => {
                 e.preventDefault()
                 router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
@@ -120,33 +120,37 @@ const Card = ({
           )}
         </div>
         <div className="flex items-center space-x-1 text-xs sm:text-sm overflow-hidden">
-          <CharacterFloatCard siteId={character?.handle}>
-            <span
-              className="flex items-center cursor-pointer"
-              onClick={(e) => {
-                e.preventDefault()
-                window.open(
-                  `${getSiteLink({
-                    subdomain: character?.handle || "",
-                  })}`,
-                )
-              }}
-            >
-              <span className="w-5 h-5 inline-block mr-[6px]">
-                <Avatar
-                  cid={character?.characterId}
-                  images={character?.metadata?.content?.avatars || []}
-                  size={20}
-                  name={character?.metadata?.content?.name}
-                ></Avatar>
-              </span>
-              <span className="font-medium truncate text-zinc-600">
-                {character?.metadata?.content?.name || character?.handle}
-              </span>
-            </span>
-          </CharacterFloatCard>
-          <Titles characterId={character?.characterId} />
-          <span className="text-zinc-400 hidden sm:inline-block">·</span>
+          {character && (
+            <>
+              <CharacterFloatCard siteId={character?.handle}>
+                <span
+                  className="flex items-center cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    window.open(
+                      `${getSiteLink({
+                        subdomain: character?.handle || "",
+                      })}`,
+                    )
+                  }}
+                >
+                  <span className="w-5 h-5 inline-block mr-[6px]">
+                    <Avatar
+                      cid={character?.characterId}
+                      images={character?.metadata?.content?.avatars || []}
+                      size={20}
+                      name={character?.metadata?.content?.name}
+                    ></Avatar>
+                  </span>
+                  <span className="font-medium truncate text-zinc-600">
+                    {character?.metadata?.content?.name || character?.handle}
+                  </span>
+                </span>
+              </CharacterFloatCard>
+              <Titles characterId={character?.characterId} />
+              <span className="text-zinc-400 hidden sm:inline-block">·</span>
+            </>
+          )}
           <time
             dateTime={date.formatToISO(createdAt || post.createdAt)}
             className="xlog-post-date whitespace-nowrap text-zinc-400 hidden sm:inline-block"
@@ -164,11 +168,29 @@ const Card = ({
           </time>
         </div>
       </div>
+      {isPinned && (
+        <span className="absolute top-2 right-2 text-xs border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px]">
+          <i className="icon-[mingcute--pin-2-fill] mr-1" />
+          {t("Pinned")}
+        </span>
+      )}
     </Link>
   )
 }
 
-const Post = ({ post, keyword }: { post: ExpandedNote; keyword?: string }) => {
+const Post = ({
+  post,
+  keyword,
+  isPinned,
+  linkPrefix,
+  isBlank,
+}: {
+  post: ExpandedNote
+  keyword?: string
+  isPinned?: boolean
+  linkPrefix?: string
+  isBlank?: boolean
+}) => {
   let isComment
   if (post.metadata?.content?.tags?.includes("comment") && post.toNote) {
     isComment = true
@@ -181,6 +203,9 @@ const Post = ({ post, keyword }: { post: ExpandedNote; keyword?: string }) => {
       keyword={keyword}
       comment={isComment ? post.metadata?.content?.summary : undefined}
       createdAt={isComment ? post?.createdAt : post.toNote?.createdAt}
+      isPinned={isPinned}
+      linkPrefix={linkPrefix}
+      isBlank={isBlank}
     />
   )
 }
