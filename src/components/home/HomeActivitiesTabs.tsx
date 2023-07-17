@@ -2,11 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation"
 
-import {
-  useAccountState,
-  useConnectModal,
-  useConnectedAction,
-} from "@crossbell/connect-kit"
+import { useConnectedAction } from "@crossbell/connect-kit"
 
 import { Tabs } from "~/components/ui/Tabs"
 import { useTranslation } from "~/lib/i18n/client"
@@ -15,13 +11,8 @@ import topics from "../../../data/topics.json"
 
 export const HomeActivitiesTabs = () => {
   const pathname = usePathname()
-  const connectModal = useConnectModal()
   const router = useRouter()
   const { t } = useTranslation("index")
-
-  const currentCharacterId = useAccountState(
-    (s) => s.computed.account?.characterId,
-  )
 
   const tabs = [
     {
@@ -51,5 +42,5 @@ export const HomeActivitiesTabs = () => {
     })),
   ]
 
-  return <Tabs items={tabs} className="border-none"></Tabs>
+  return <Tabs items={tabs} className="border-none" />
 }

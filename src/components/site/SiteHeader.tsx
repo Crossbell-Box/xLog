@@ -14,7 +14,6 @@ import { SiteHeaderMenu } from "./SiteHeaderMenu"
 
 export const SiteHeader = async ({
   handle,
-  full,
   hideNavigation,
   hideSearch,
 }: {
@@ -45,10 +44,7 @@ export const SiteHeader = async ({
             case "image":
               return (
                 <NextImage
-                  className={cn(
-                    "object-cover",
-                    !full && "max-w-screen-md mx-auto",
-                  )}
+                  className="object-cover"
                   src={site?.metadata?.content?.banners?.[0]?.address}
                   alt="banner"
                   fill
@@ -58,10 +54,7 @@ export const SiteHeader = async ({
             case "video":
               return (
                 <video
-                  className={cn(
-                    "object-cover h-full w-full",
-                    !full && "max-w-screen-md mx-auto",
-                  )}
+                  className="object-cover h-full w-full"
                   src={site?.metadata?.content?.banners?.[0]?.address}
                   autoPlay
                   muted

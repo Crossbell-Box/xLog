@@ -59,7 +59,6 @@ export default async function SiteModal({
       <div className="pb-16">
         <SiteHeader
           handle={params.site}
-          full={true}
           hideNavigation={true}
           hideSearch={true}
         />
