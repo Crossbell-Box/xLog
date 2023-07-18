@@ -42,9 +42,10 @@ export async function generateMetadata({
   const title = `${page?.metadata?.content?.title} - ${
     site?.metadata?.content?.name || site?.handle
   }`
+
   const description = page?.metadata?.content?.summary
-  const siteImages =
-    site?.metadata?.content?.avatars?.[0] || `${SITE_URL}/assets/logo.svg`
+  const siteImages = `${SITE_URL}/api/og?noteId=${page?.noteId}&characterId=${site?.characterId}`
+
   const images = toGateway(page?.metadata?.content?.cover || siteImages)
   const useLargeOGImage = !!page?.metadata?.content?.cover
   const twitterCreator = site?.metadata?.content?.connected_accounts
