@@ -4,15 +4,13 @@ import uniqolor from "uniqolor"
 import { gql } from "@urql/core"
 
 import { toGateway } from "~/lib/ipfs-parser"
-import getQueryClient from "~/lib/query-client"
 import { client } from "~/queries/graphql"
 
 const fontNormal = fetch(
   "https://github.com/lxgw/LxgwWenKai/releases/download/v1.300/LXGWWenKai-Regular.ttf",
 ).then((res) => res.arrayBuffer())
 
-// stream api not supported in edge function
-// export const runtime = "edge"
+export const runtime = "edge"
 
 export const revalidate = 60 * 60 * 24 // 24 hours
 export const GET = async (req: NextRequest) => {
@@ -23,8 +21,6 @@ export const GET = async (req: NextRequest) => {
     const noteId = req.nextUrl.searchParams.get("noteId")
     const characterId = req.nextUrl.searchParams.get("characterId")
     const siteId = req.nextUrl.searchParams.get("site")
-
-    const queryClient = getQueryClient()
 
     if (!noteId || !characterId)
       return new Response(`Missing noteId or characterId`, { status: 400 })
