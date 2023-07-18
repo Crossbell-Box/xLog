@@ -1,3 +1,4 @@
+import createMiddleware from "next-intl/middleware"
 import { NextRequest, NextResponse } from "next/server"
 
 import { getClientIp } from "@supercharge/request-ip"
@@ -8,7 +9,21 @@ import { DISCORD_LINK } from "~/lib/env"
 // HTTPWhiteListPaths: White list of path for plain http request, no HTTPS redirect
 const HTTPWhitelistPaths = ["/api/healthcheck"]
 
-export default async function middleware(req: NextRequest) {
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales: ["en", "ja", "zh", "zh-TW"],
+
+  // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
+  defaultLocale: "en",
+})
+
+export const config = {
+  // Skip all paths that should not be internationalized. This example skips the
+  // folders "api", "_next" and all files with an extension (e.g. favicon.ico)
+  matcher: ["/((?!api|_next|.*\\..*).*)"],
+}
+
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   if (

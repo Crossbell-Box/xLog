@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useParams, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { VirtuosoGrid } from "react-virtuoso"
@@ -23,7 +24,7 @@ import { useGetFeed } from "~/queries/home"
 import topics from "../../../data/topics.json"
 
 export const HomeFeed = ({ type }: { type?: FeedType }) => {
-  const { t } = useTranslation("common")
+  const { t } = useTranslations()
   const searchParams = useSearchParams()
 
   const currentCharacterId = useAccountState(
