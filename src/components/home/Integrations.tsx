@@ -22,7 +22,7 @@ export function Integration() {
       url:
         getSiteLink({
           subdomain: "xlog",
-        }) + "/feed?format=xml",
+        }) + "/feed",
     },
     {
       name: "JSON Feed",

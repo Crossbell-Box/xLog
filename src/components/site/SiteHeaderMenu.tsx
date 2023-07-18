@@ -97,7 +97,7 @@ export const SiteHeaderMenu = ({
       icon: <RssIcon className="w-full h-full text-[#ee832f]" />,
       url: `${getSiteLink({
         subdomain: handle || "",
-      })}/feed?format=xml`,
+      })}/feed`,
       out: true,
     },
     ...(hideSearch
