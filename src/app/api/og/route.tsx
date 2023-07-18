@@ -1,32 +1,74 @@
-import type { NextRequest } from "next/server"
+import { ImageResponse, type NextRequest } from "next/server"
 import uniqolor from "uniqolor"
 
-import { ImageResponse } from "@vercel/og"
+import { gql } from "@urql/core"
+
+import { toGateway } from "~/lib/ipfs-parser"
+import getQueryClient from "~/lib/query-client"
+import { client } from "~/queries/graphql"
 
 const fontNormal = fetch(
   "https://github.com/lxgw/LxgwWenKai/releases/download/v1.300/LXGWWenKai-Regular.ttf",
 ).then((res) => res.arrayBuffer())
-export const runtime = "edge"
+
+// stream api not supported in edge function
+// export const runtime = "edge"
 
 export const revalidate = 60 * 60 * 24 // 24 hours
 export const GET = async (req: NextRequest) => {
   try {
     const fontData = await fontNormal
 
+    // api/og?characterId=52055&noteId=286&site=innei-4525
     const noteId = req.nextUrl.searchParams.get("noteId")
     const characterId = req.nextUrl.searchParams.get("characterId")
+    const siteId = req.nextUrl.searchParams.get("site")
 
-    if (!noteId && !characterId)
+    const queryClient = getQueryClient()
+
+    if (!noteId || !characterId)
       return new Response(`Missing noteId or characterId`, { status: 400 })
+    if (!siteId) return new Response(`Missing site`, { status: 400 })
 
-    // const note = await fetchNote(+characterId!, +noteId!)
-    // const title =  note?.metadata?.content?.title
+    const result = await client
+      .query(
+        gql`
+          query getNote($characterId: Int!, $noteId: Int!) {
+            note(
+              where: {
+                note_characterId_noteId_unique: {
+                  characterId: $characterId
+                  noteId: $noteId
+                }
+              }
+            ) {
+              metadata {
+                content
+              }
+              character {
+                handle
+                metadata {
+                  content
+                }
+              }
+            }
+          }
+        `,
+        {
+          characterId: parseInt(characterId),
+          noteId: parseInt(noteId),
+        },
+      )
+      .toPromise()
+    const title = result.data.note.metadata?.content?.title
+    const subtitle = result.data.note.metadata?.content?.summary?.slice(0, 15)
+    const avatar = toGateway(
+      result.data.note.character.metadata?.content?.avatars?.[0],
+    )
 
-    const siteName = "测试"
-    const avatar =
-      "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/949.jpg"
-    const title = "测试！！！"
-    const subtitle = "副标题"
+    const siteName =
+      result.data.note.character.metadata?.content?.site_name ||
+      result.data.note.character.metadata?.content?.name
 
     const bgAccent = uniqolor(title, {
       saturation: [30, 35],
@@ -42,6 +84,7 @@ export const GET = async (req: NextRequest) => {
       saturation: [30, 35],
       lightness: [95, 96],
     }).color
+
     return new ImageResponse(
       (
         <div
@@ -70,14 +113,16 @@ export const GET = async (req: NextRequest) => {
               justifyContent: "center",
             }}
           >
-            <img
-              src={avatar}
-              style={{
-                borderRadius: "50%",
-              }}
-              height={120}
-              width={120}
-            />
+            {avatar && (
+              <img
+                src={avatar}
+                style={{
+                  borderRadius: "50%",
+                }}
+                height={120}
+                width={120}
+              />
+            )}
 
             <span
               style={{
