@@ -86,7 +86,6 @@ export default async function middleware(req: NextRequest) {
   requestHeaders.set("x-xlog-search", req.nextUrl.search)
   requestHeaders.set("x-xlog-handle", tenant.subdomain || "")
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
-  requestHeaders.set("x-xlog-host", req.nextUrl.host)
 
   if (tenant?.subdomain) {
     const url = req.nextUrl.clone()

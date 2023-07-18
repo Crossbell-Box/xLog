@@ -20,11 +20,9 @@ export const GET = async (req: NextRequest) => {
     // api/og?characterId=52055&noteId=286&site=innei-4525
     const noteId = req.nextUrl.searchParams.get("noteId")
     const characterId = req.nextUrl.searchParams.get("characterId")
-    const siteId = req.nextUrl.searchParams.get("site")
 
     if (!noteId || !characterId)
       return new Response(`Missing noteId or characterId`, { status: 400 })
-    if (!siteId) return new Response(`Missing site`, { status: 400 })
 
     const result = await client
       .query(
