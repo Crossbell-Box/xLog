@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import serialize from "serialize-javascript"
 
@@ -38,13 +39,15 @@ export async function generateMetadata({
     },
     queryClient,
   )
-
+  const reqHost = headers().get("x-xlog-host")
   const title = `${page?.metadata?.content?.title} - ${
     site?.metadata?.content?.name || site?.handle
   }`
+
   const description = page?.metadata?.content?.summary
-  const siteImages =
-    site?.metadata?.content?.avatars?.[0] || `${SITE_URL}/assets/logo.svg`
+  const siteImages = reqHost
+    ? `${reqHost}/api/og?noteId=${page?.noteId}&characterId=${site?.characterId}`
+    : site?.metadata?.content?.avatars?.[0] || `${SITE_URL}/assets/logo.svg`
   const images = toGateway(page?.metadata?.content?.cover || siteImages)
   const useLargeOGImage = !!page?.metadata?.content?.cover
   const twitterCreator = site?.metadata?.content?.connected_accounts
