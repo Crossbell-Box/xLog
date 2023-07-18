@@ -383,8 +383,8 @@ dependencies:
 
 devDependencies:
   '@ducanh2912/next-pwa':
-    specifier: 9.2.1
-    version: 9.2.1(esbuild@0.18.13)(next@13.4.9)
+    specifier: 9.3.0
+    version: 9.3.0(esbuild@0.18.13)(next@13.4.9)(webpack@5.88.1)
   '@iconify/tailwind':
     specifier: 0.1.3
     version: 0.1.3
@@ -2584,10 +2584,11 @@ packages:
     resolution: {integrity: sha512-bhR5k5W+8GLzysjk8zTMVygQZsgvf7W1F0IlL4ZQ5ugjo5rCyiwGM5d8DYriXspytfu98tv59niang3/T+FoDw==}
     dev: false
 
-  /@ducanh2912/next-pwa@9.2.1(esbuild@0.18.13)(next@13.4.9):
-    resolution: {integrity: sha512-oucSNTBMIWorSgDPyffsckBxDCvn23buLFfwdSwtQlKQXjg+L3fNXhj6vNKDzDXHvEimoQNP3Pn8xrl1s+5cdw==}
+  /@ducanh2912/next-pwa@9.3.0(esbuild@0.18.13)(next@13.4.9)(webpack@5.88.1):
+    resolution: {integrity: sha512-/Jle/1ekuDhzMiU+C6dgjjAdiW5c4RpHEciyIO4ZaUFzAbRmWR+Wz6lrJjJKHQTWq25tj8HOIrlMYELt22RU6Q==}
     peerDependencies:
       next: '>=11.0.0'
+      webpack: '>=5.9.0'
     dependencies:
       clean-webpack-plugin: 4.0.0(webpack@5.88.1)
       fast-glob: 3.3.0
@@ -2605,7 +2606,6 @@ packages:
       - esbuild
       - supports-color
       - uglify-js
-      - webpack-cli
     dev: true
 
   /@emoji-mart/data@1.1.2:
