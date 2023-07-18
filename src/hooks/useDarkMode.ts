@@ -184,7 +184,9 @@ const mockElement = {
 
 export const useDarkMode = () => {
   const { toggle, value } = useDarkModeInternal(
-    getStorage(DARK_MODE_STORAGE_KEY),
+    getStorage(DARK_MODE_STORAGE_KEY) === undefined
+      ? undefined
+      : getStorage(DARK_MODE_STORAGE_KEY) === "true",
     {
       classNameDark: COLOR_SCHEME_DARK,
       classNameLight: COLOR_SCHEME_LIGHT,

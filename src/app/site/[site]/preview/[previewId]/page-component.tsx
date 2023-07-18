@@ -16,22 +16,22 @@ const DynamicPageContent = dynamic(
 
 export default function SitePreviewPage() {
   const params = useParams()
-  const site = useGetSite(params.site)
+  const site = useGetSite(params.site as string)
 
   const page = useGetPage({
     characterId: site.data?.characterId,
     noteId:
-      params.previewId && /\d+/.test(params.previewId)
+      params.previewId && /\d+/.test(params.previewId as string)
         ? +params.previewId
         : undefined,
-    slug: params.previewId,
+    slug: params.previewId as string,
     useStat: true,
   })
 
   const { t } = useTranslation("site")
 
   return (
-    <>
+    <div className="max-w-screen-md mx-auto">
       <div className="fixed top-0 left-0 w-full text-center text-red-500 bg-gray-100 py-2 opacity-80 text-sm z-10">
         {t(
           "This address is in local editing preview mode and cannot be viewed by the public.",
@@ -40,11 +40,11 @@ export default function SitePreviewPage() {
       <article>
         <div>
           {page.data?.metadata?.content?.tags?.includes("post") ? (
-            <h2 className="xlog-post-title text-4xl font-bold leading-tight">
+            <h2 className="xlog-post-title text-4xl font-bold leading-tight text-center">
               {page.data.metadata?.content?.title}
             </h2>
           ) : (
-            <h2 className="xlog-post-title text-xl font-bold page-title">
+            <h2 className="xlog-post-title text-xl font-bold page-title text-center">
               {page.data?.metadata?.content?.title}
             </h2>
           )}
@@ -55,6 +55,6 @@ export default function SitePreviewPage() {
           toc={true}
         ></DynamicPageContent>
       </article>
-    </>
+    </div>
   )
 }

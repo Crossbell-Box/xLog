@@ -34,6 +34,7 @@ const colorScheme: NotificationModalColorScheme = {
   border: `var(--border-color)`,
 }
 
+const createQueryClient = () => new QueryClient()
 export default function Providers({
   children,
   lang,
@@ -45,7 +46,7 @@ export default function Providers({
   useMobileLayout()
   useNProgress()
 
-  const [queryClient] = useState(() => new QueryClient())
+  const [queryClient] = useState(createQueryClient)
 
   return (
     <WagmiConfig config={wagmiConfig}>

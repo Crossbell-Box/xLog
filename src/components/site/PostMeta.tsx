@@ -21,7 +21,7 @@ export default function PostMeta({
 }) {
   return (
     <div className="xlog-post-meta">
-      <div className="text-zinc-400 mt-4 space-x-5 flex items-center">
+      <div className="text-zinc-400 mt-5 space-x-5 flex items-center justify-center">
         <Time isoString={page?.metadata?.content?.date_published} />
         {page.metadata?.content?.tags?.filter(
           (tag) => tag !== "post" && tag !== "page",
@@ -36,7 +36,7 @@ export default function PostMeta({
         ) : null}
         <span className="xlog-post-views inline-flex items-center">
           <i className="icon-[mingcute--eye-line] mr-[2px]" />
-          <span>{page.metadata?.content?.views}</span>
+          <span>{page.stat?.viewDetailCount}</span>
         </span>
         <UniLink
           className="xlog-post-blockchain inline-flex items-center"
@@ -51,7 +51,7 @@ export default function PostMeta({
         />
       </div>
       {summary && (
-        <div className="xlog-post-summary border rounded-xl mt-4 p-4 space-y-2">
+        <div className="xlog-post-summary border rounded-xl mt-5 p-4 space-y-2">
           <div className="font-bold text-zinc-700 flex items-center">
             <i className="icon-[mingcute--sparkles-line] mr-2 text-lg" />
             {translated?.["AI-generated summary"] || "AI-generated summary"}

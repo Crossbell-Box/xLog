@@ -165,7 +165,7 @@ export async function getPagesBySite(input: {
 
       await indexer.note.getMany({
         characterId: input.characterId,
-        limit: input.limit || 10,
+        limit: input.limit || 12,
         cursor: input.cursor,
         orderBy: "publishedAt",
         tags: [...(input.tags || []), input.type],

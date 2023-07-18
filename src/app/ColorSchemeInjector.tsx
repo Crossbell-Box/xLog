@@ -7,7 +7,6 @@ import {
   COLOR_SCHEME_LIGHT,
   DARK_MODE_STORAGE_KEY,
 } from "~/lib/constants"
-import { getStorage } from "~/lib/storage"
 
 export const ColorSchemeInjector = () => {
   useServerInsertedHTML(() => {
@@ -15,10 +14,17 @@ export const ColorSchemeInjector = () => {
       <script
         dangerouslySetInnerHTML={{
           __html: `(() => {
-var DARK_MODE_STORAGE_KEY = "${DARK_MODE_STORAGE_KEY}";
-var getStorage = ${getStorage.toString()};
-var COLOR_SCHEME_LIGHT = "${COLOR_SCHEME_LIGHT}";
-var COLOR_SCHEME_DARK = "${COLOR_SCHEME_DARK}";
+let DARK_MODE_STORAGE_KEY = "${DARK_MODE_STORAGE_KEY}";
+let namespace = "xlog"
+let getStorage = (key) => {
+  let data = {}
+  try {
+    data = JSON.parse(localStorage.getItem(namespace) || "{}")
+  } catch (error) {}
+  return data[key]
+}
+let COLOR_SCHEME_LIGHT = "${COLOR_SCHEME_LIGHT}";
+let COLOR_SCHEME_DARK = "${COLOR_SCHEME_DARK}";
 
 let data = {}
 const isDark = getStorage(DARK_MODE_STORAGE_KEY)
@@ -30,7 +36,7 @@ if (typeof isDark === "undefined") {
   document.documentElement.classList.add(currentColorScheme)
 } else {
   document.documentElement.classList.add(
-    isDark ? COLOR_SCHEME_DARK : COLOR_SCHEME_LIGHT,
+    isDark === "true" ? COLOR_SCHEME_DARK : COLOR_SCHEME_LIGHT,
   )
 }
 })();`,

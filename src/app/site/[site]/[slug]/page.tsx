@@ -139,20 +139,20 @@ export default async function SitePagePage({
   }
 
   return (
-    <>
+    <div className="max-w-screen-md mx-auto">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={addPageJsonLd()}
       />
       <article>
         {!onlyContent && (
-          <div>
+          <>
             {page?.metadata?.content?.tags?.includes("post") ? (
-              <h2 className="xlog-post-title text-4xl font-bold leading-tight">
+              <h2 className="xlog-post-title text-4xl font-bold leading-tight text-center">
                 {page.metadata?.content?.title}
               </h2>
             ) : (
-              <h2 className="xlog-post-title text-xl font-bold page-title">
+              <h2 className="xlog-post-title text-xl font-bold page-title text-center">
                 {page?.metadata?.content?.title}
               </h2>
             )}
@@ -166,7 +166,7 @@ export default async function SitePagePage({
                 }}
               />
             )}
-          </div>
+          </>
         )}
         <PageContent
           className="mt-10"
@@ -186,6 +186,6 @@ export default async function SitePagePage({
           {page?.metadata && <PostFooter page={page} site={site} />}
         </Hydrate>
       )}
-    </>
+    </div>
   )
 }

@@ -356,7 +356,7 @@ export default function SubdomainEditor() {
   }, [createPage.isError, updatePage.isSuccess])
 
   useEffect(() => {
-    if (!page.data || !draftKey) return
+    if (!page.data?.metadata?.content || !draftKey) return
     setInitialContent(page.data.metadata?.content?.content || "")
     useEditorState.setState({
       title: page.data.metadata?.content?.title || "",

@@ -72,11 +72,14 @@ export const getTwitterShareUrl = ({
 }
 
 export const getSiteRelativeUrl = (pathname: string, address: string) => {
+  if (address.match(/^https?:\/\//)) {
+    return address
+  }
   if (!address.startsWith("/")) {
     address = `/${address}`
   }
   const reg = /\/(site|post)\/([^/]*)/
-  if (address.match(reg) || address.match(/^https?:\/\//)) {
+  if (address.match(reg)) {
     return address
   } else {
     const match = pathname.match(reg)
