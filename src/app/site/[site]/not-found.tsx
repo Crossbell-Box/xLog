@@ -9,7 +9,7 @@ export default async function NotFound() {
     <>
       <article>
         <div>
-          <h2 className="xlog-post-title text-xl font-bold page-title">
+          <h2 className="xlog-post-title text-xl font-bold page-title text-center">
             {t("404 - Whoops, this page is gone.")}
           </h2>
         </div>
