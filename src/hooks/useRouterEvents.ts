@@ -1,11 +1,43 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
 import { pick } from "~/lib/utils"
+
+import { useRefValue } from "./useRefValue"
 
 interface RouterNavigationEvent {}
 
 type RouterEventFunction = (e: RouterNavigationEvent) => void
+
+const createRegister = () => {
+  const props = {
+    onStartQ: [] as RouterEventFunction[],
+    // onErrorQ: [] as RouterEventFunction[],
+    onCompleteQ: [] as RouterEventFunction[],
+  } as {
+    onStartQ: RouterEventFunction[]
+    // onErrorQ: RouterEventFunction[]
+    onCompleteQ: RouterEventFunction[]
+    onStart: (cb: RouterEventFunction) => () => void
+    // onError: (cb: RouterEventFunction) => () => void
+    onComplete: (cb: RouterEventFunction) => () => void
+  }
+  props.onStart = (cb: RouterEventFunction) => {
+    props.onStartQ.push(cb)
+    return () => {
+      props.onStartQ = props.onStartQ.filter(($) => $ !== cb)
+    }
+  }
+
+  props.onComplete = (cb: RouterEventFunction) => {
+    props.onCompleteQ.push(cb)
+    return () => {
+      props.onCompleteQ = props.onCompleteQ.filter(($) => $ !== cb)
+    }
+  }
+
+  return props
+}
 
 // TODO detect error event
 export const useAppRouterEventerListener = () => {
@@ -13,7 +45,7 @@ export const useAppRouterEventerListener = () => {
 
   const startChangeCallback = () => {
     setIsRouterComplete(false)
-    eventsRegisters.current.onStartQ.forEach(($) => $(buildEvent()))
+    eventsRegisters.onStartQ.forEach(($) => $(buildEvent()))
   }
   const router = useRouter()
   useEffect(() => {
@@ -48,26 +80,7 @@ export const useAppRouterEventerListener = () => {
     }
   }, [])
 
-  const eventsRegisters = useRef({
-    onStartQ: [] as RouterEventFunction[],
-    // onErrorQ: [] as RouterEventFunction[],
-    onCompleteQ: [] as RouterEventFunction[],
-    onStart(cb: RouterEventFunction) {
-      eventsRegisters.current.onStartQ.push(cb)
-      return () => {
-        eventsRegisters.current.onStartQ =
-          eventsRegisters.current.onStartQ.filter(($) => $ !== cb)
-      }
-    },
-
-    onComplete(cb: RouterEventFunction) {
-      eventsRegisters.current.onCompleteQ.push(cb)
-      return () => {
-        eventsRegisters.current.onCompleteQ =
-          eventsRegisters.current.onCompleteQ.filter(($) => $ !== cb)
-      }
-    },
-  })
+  const eventsRegisters = useRefValue(createRegister)
 
   const buildEvent = (): RouterNavigationEvent => {
     return {
@@ -78,7 +91,7 @@ export const useAppRouterEventerListener = () => {
   useEffect(() => {
     if (!isRouterComplete) return
 
-    eventsRegisters.current.onCompleteQ.forEach(($) => $(buildEvent()))
+    eventsRegisters.onCompleteQ.forEach(($) => $(buildEvent()))
   }, [isRouterComplete])
 
   const currentPathname = usePathname()
@@ -94,5 +107,5 @@ export const useAppRouterEventerListener = () => {
     }
   }, [currentPathname, searchParams])
 
-  return pick(eventsRegisters.current, ["onStart", "onComplete"])
+  return pick(eventsRegisters, ["onStart", "onComplete"])
 }

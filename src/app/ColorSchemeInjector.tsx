@@ -7,7 +7,6 @@ import {
   COLOR_SCHEME_LIGHT,
   DARK_MODE_STORAGE_KEY,
 } from "~/lib/constants"
-import { getStorage } from "~/lib/storage"
 
 export const ColorSchemeInjector = () => {
   useServerInsertedHTML(() => {
@@ -16,7 +15,14 @@ export const ColorSchemeInjector = () => {
         dangerouslySetInnerHTML={{
           __html: `(() => {
 var DARK_MODE_STORAGE_KEY = "${DARK_MODE_STORAGE_KEY}";
-var getStorage = ${getStorage.toString()};
+var namespace = "xlog"
+var getStorage = () => {
+  const data = {}
+  try {
+    data = JSON.parse(localStorage.getItem(namespace) || "{}")
+  } catch (error) {}
+  return data
+}
 var COLOR_SCHEME_LIGHT = "${COLOR_SCHEME_LIGHT}";
 var COLOR_SCHEME_DARK = "${COLOR_SCHEME_DARK}";
 
