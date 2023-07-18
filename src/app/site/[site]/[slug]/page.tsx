@@ -8,7 +8,6 @@ import PageContent from "~/components/common/PageContent"
 import { OIAButton } from "~/components/site/OIAButton"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
-import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { getTranslation } from "~/lib/i18n"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
@@ -44,9 +43,8 @@ export async function generateMetadata({
   }`
 
   const description = page?.metadata?.content?.summary
-  const siteImages = `${SITE_URL}/api/og?noteId=${page?.noteId}&characterId=${site?.characterId}`
 
-  const images = toGateway(page?.metadata?.content?.cover || siteImages)
+  const images = toGateway(page?.metadata?.content?.cover!)
   const useLargeOGImage = !!page?.metadata?.content?.cover
   const twitterCreator = site?.metadata?.content?.connected_accounts
     ?.find((account) => account?.endsWith?.("@twitter"))

@@ -54,7 +54,9 @@ export const expandCrossbellNote = async ({
       expandedNote.metadata.content.cover =
         expandedNote.metadata?.content?.attachments?.find(
           (attachment) => attachment.name === "cover",
-        )?.address || rendered.cover
+        )?.address ||
+        rendered.cover ||
+        `${SITE_URL}/api/og?noteId=${expandedNote.noteId}&characterId=${expandedNote.characterId}`
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
 

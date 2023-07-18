@@ -1,4 +1,5 @@
 import { ImageResponse, type NextRequest } from "next/server"
+import removeMarkdown from "remove-markdown"
 import uniqolor from "uniqolor"
 
 import { gql } from "@urql/core"
@@ -7,7 +8,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 import { client } from "~/queries/graphql"
 
 const fontNormal = fetch(
-  "https://github.com/lxgw/LxgwWenKai/releases/download/v1.300/LXGWWenKai-Regular.ttf",
+  "https://github.com/lxgw/LxgwWenKai-Screen/releases/download/v1.300/LXGWWenKaiScreenR.ttf",
 ).then((res) => res.arrayBuffer())
 
 export const runtime = "edge"
@@ -55,9 +56,12 @@ export const GET = async (req: NextRequest) => {
       )
       .toPromise()
     const title = result.data.note.metadata?.content?.title
-    const subtitle = result.data.note.metadata?.content?.summary?.slice(0, 15)
+    const subtitle =
+      result.data.note.metadata?.content?.summary ||
+      removeMarkdown(result.data.note.metadata.content.content)
     const avatar = toGateway(
-      result.data.note.character.metadata?.content?.avatars?.[0],
+      result.data.note.character.metadata?.content?.avatars?.[0] ||
+        `https://api.dicebear.com/6.x/bottts-neutral/svg?seed=${characterId}`,
     )
 
     const siteName =
@@ -82,78 +86,37 @@ export const GET = async (req: NextRequest) => {
     return new ImageResponse(
       (
         <div
+          tw="flex h-full w-full p-20 items-center justify-between flex-col"
           style={{
-            display: "flex",
-            height: "100%",
-            width: "100%",
-
             background: `linear-gradient(37deg, ${bgAccent} 27.82%, ${bgAccentLight} 79.68%, ${bgAccentUltraLight} 100%)`,
-
             fontFamily: "LXGW WenKai Screen R",
-
-            padding: "5rem",
-            alignItems: "flex-end",
-            justifyContent: "flex-end",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-
-              position: "absolute",
-              left: "5rem",
-              top: "5rem",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+          <div tw="flex items-center w-full -mb-20">
             {avatar && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
+                alt="avatar"
                 src={avatar}
-                style={{
-                  borderRadius: "50%",
-                }}
-                height={120}
-                width={120}
+                tw="rounded-full"
+                height={130}
+                width={130}
               />
             )}
-
-            <span
-              style={{
-                marginLeft: "3rem",
-                color: "#ffffff99",
-                fontSize: "2rem",
-              }}
-            >
+            <span tw="ml-10 text-zinc-100 text-7xl">
               <h3>{siteName}</h3>
             </span>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "flex-end",
-              flexDirection: "column",
-              textAlign: "right",
-            }}
-          >
-            <h1
-              style={{
-                color: "rgba(255, 255, 255, 0.92)",
-
-                fontSize: "4.2rem",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-                WebkitLineClamp: 1,
-                lineClamp: 1,
-              }}
-            >
-              {title?.slice(0, 20)}
-            </h1>
+          <h1 tw="text-white text-[9rem] font-bold line-clamp-2 overflow-hidden w-full text-center flex items-center justify-center">
+            <span tw="max-h-[350px]">{title}</span>
+          </h1>
+          <div tw="flex items-center justify-center w-full">
             <h2
+              tw="text-zinc-200 text-8xl"
               style={{
-                color: "rgba(230, 230, 230, 0.85)",
-                fontSize: "3rem",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
               }}
             >
               {subtitle}
@@ -162,8 +125,8 @@ export const GET = async (req: NextRequest) => {
         </div>
       ),
       {
-        width: 1200,
-        height: 600,
+        width: 1920,
+        height: 1080,
         fonts: [
           {
             name: "LXGW WenKai Screen R",
