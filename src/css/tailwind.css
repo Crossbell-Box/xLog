@@ -92,7 +92,7 @@ a {
   @apply justify-center;
   @apply h-9;
   @apply px-5;
-  @apply min-w-[100px];
+  @apply min-w-[120px];
   @apply whitespace-nowrap;
   @apply font-medium;
   @apply transition;
