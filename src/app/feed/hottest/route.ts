@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     ),
   }
 
-  const format = searchParams.get("format") === "xml" ? "xml" : "json"
+  const format = searchParams.get("format") === "json" ? "json" : "xml"
 
   const res = new NextServerResponse()
   return res.status(200).rss(data, format)

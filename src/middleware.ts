@@ -56,10 +56,7 @@ export async function middleware(req: NextRequest) {
     pathname === "/atom.xml" ||
     pathname === "/feed/xml"
   ) {
-    return NextResponse.redirect(
-      `https://${req.headers.get("host")}/feed?format=xml`,
-      301,
-    )
+    return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
   }
 
   console.log(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)

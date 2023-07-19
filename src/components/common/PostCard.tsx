@@ -48,7 +48,8 @@ const Card = ({
       )}
     >
       <PostCover
-        cover={post.metadata?.content.cover}
+        uniqueKey={`${post.characterId}-${post.noteId}`}
+        images={post.metadata?.content.images}
         title={post.metadata?.content?.title}
       />
       <div className="px-3 py-2 sm:px-5 sm:py-4 w-full min-w-0 h-[148px] sm:h-[166px] flex flex-col space-y-2 text-sm">
@@ -59,17 +60,19 @@ const Card = ({
               {comment}
             </div>
           )}
-          <h2
-            className={cn(
-              "xlog-post-title font-bold text-base",
-              comment ? "text-zinc-500" : "text-zinc-700",
-            )}
-          >
-            {post.metadata?.content?.title}
-          </h2>
+          {!!post.metadata?.content.images?.length && (
+            <h2
+              className={cn(
+                "xlog-post-title font-bold text-base",
+                comment ? "text-zinc-500" : "text-zinc-700",
+              )}
+            >
+              {post.metadata?.content?.title}
+            </h2>
+          )}
           {!comment && (
             <div
-              className="xlog-post-excerpt text-zinc-500"
+              className="xlog-post-excerpt text-zinc-500 line-clamp-3"
               style={{
                 wordBreak: "break-word",
               }}

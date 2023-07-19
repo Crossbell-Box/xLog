@@ -33,28 +33,34 @@ export const metadata: Metadata = {
   alternates: {
     types: {
       "application/rss+xml": [
-        { url: "/feed/latest?format=xml", title: "xLog Latest" },
-        { url: "/feed/hottest?interval=0&format=xml", title: "xLog Hottest" },
+        { url: "/feed/latest", title: "xLog Latest" },
+        { url: "/feed/hottest?interval=0", title: "xLog Hottest" },
         {
-          url: "/feed/hottest?interval=1&format=xml",
+          url: "/feed/hottest?interval=1",
           title: "xLog Hottest of the Day",
         },
         {
-          url: "/feed/hottest?interval=7&format=xml",
+          url: "/feed/hottest?interval=7",
           title: "xLog Hottest of the Week",
         },
         {
-          url: "/feed/hottest?interval=30&format=xml",
+          url: "/feed/hottest?interval=30",
           title: "xLog Hottest of the Month",
         },
       ],
       "application/feed+json": [
-        { url: "/feed/latest", title: "xLog Latest" },
-        { url: "/feed/hottest?interval=0", title: "xLog Hottest" },
-        { url: "/feed/hottest?interval=1", title: "xLog Hottest of the Day" },
-        { url: "/feed/hottest?interval=7", title: "xLog Hottest of the Week" },
+        { url: "/feed/latest?format=json", title: "xLog Latest" },
+        { url: "/feed/hottest?interval=0&format=json", title: "xLog Hottest" },
         {
-          url: "/feed/hottest?interval=30",
+          url: "/feed/hottest?interval=1&format=json",
+          title: "xLog Hottest of the Day",
+        },
+        {
+          url: "/feed/hottest?interval=7&format=json",
+          title: "xLog Hottest of the Week",
+        },
+        {
+          url: "/feed/hottest?interval=30&format=json",
           title: "xLog Hottest of the Month",
         },
       ],

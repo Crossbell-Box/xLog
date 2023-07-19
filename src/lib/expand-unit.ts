@@ -55,6 +55,20 @@ export const expandCrossbellNote = async ({
         expandedNote.metadata?.content?.attachments?.find(
           (attachment) => attachment.name === "cover",
         )?.address || rendered.cover
+
+      expandedNote.metadata.content.images = []
+      const cover = expandedNote.metadata?.content?.attachments?.find(
+        (attachment) => attachment.name === "cover",
+      )?.address
+      if (cover) {
+        expandedNote.metadata.content.images.push(cover)
+      }
+      expandedNote.metadata.content.images =
+        expandedNote.metadata.content.images.concat(rendered.images)
+      expandedNote.metadata.content.images = [
+        ...new Set(expandedNote.metadata.content.images),
+      ]
+
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
 

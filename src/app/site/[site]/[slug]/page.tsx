@@ -42,7 +42,9 @@ export async function generateMetadata({
   const title = `${page?.metadata?.content?.title} - ${
     site?.metadata?.content?.name || site?.handle
   }`
+
   const description = page?.metadata?.content?.summary
+
   const siteImages =
     site?.metadata?.content?.avatars?.[0] || `${SITE_URL}/assets/logo.svg`
   const images = toGateway(page?.metadata?.content?.cover || siteImages)

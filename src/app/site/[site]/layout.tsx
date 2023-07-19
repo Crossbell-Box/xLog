@@ -53,12 +53,12 @@ export async function generateMetadata({
     alternates: {
       types: {
         "application/rss+xml": [
-          { url: "/feed?format=xml", title },
-          { url: "/feed/comments?format=xml", title: `Comments on ${title}` },
-        ],
-        "application/feed+json": [
           { url: "/feed", title },
           { url: "/feed/comments", title: `Comments on ${title}` },
+        ],
+        "application/feed+json": [
+          { url: "/feed?format=json", title },
+          { url: "/feed/comments?format=json", title: `Comments on ${title}` },
         ],
       },
     },

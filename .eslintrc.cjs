@@ -20,5 +20,6 @@ module.exports = {
     "react-hooks/exhaustive-deps":
       process.env.NODE_ENV === "production" ? "off" : "warn",
     "import/no-named-as-default-member": "off",
+    "react/no-unknown-property": ['error', { ignore: ['tw'] }]
   },
 }

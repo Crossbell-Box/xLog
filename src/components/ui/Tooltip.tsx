@@ -20,7 +20,7 @@ import {
 import { cn } from "~/lib/utils"
 
 interface Props {
-  label: string
+  label: string | JSX.Element
   placement?: Placement
   children: JSX.Element
   className?: string

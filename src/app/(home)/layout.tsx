@@ -2,10 +2,11 @@ import { ConnectButton } from "~/components/common/ConnectButton"
 import { DarkModeSwitch } from "~/components/common/DarkModeSwitch"
 import { Logo } from "~/components/common/Logo"
 import HomeTabs from "~/components/home/HomeTabs"
+import PromotionLinks from "~/components/home/PromotionLinks"
 import { BackToTopFAB } from "~/components/site/BackToTopFAB"
 import { FABContainer } from "~/components/ui/FAB"
 import { UniLink } from "~/components/ui/UniLink"
-import { APP_NAME, DISCORD_LINK, GITHUB_LINK, TWITTER_LINK } from "~/lib/env"
+import { APP_NAME } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 
 export default async function HomeLayout({
@@ -15,7 +16,7 @@ export default async function HomeLayout({
 }) {
   return (
     <>
-      <header className="py-5 fixed w-full top-0 bg-white z-[1]">
+      <header className="py-5 fixed w-full top-0 bg-white z-[2]">
         <div className="max-w-screen-xl px-5 mx-auto flex justify-between items-center">
           <div className="space-x-14 flex">
             <UniLink
@@ -40,25 +41,9 @@ export default async function HomeLayout({
         <div className="max-w-screen-xl px-5 mx-auto flex">{children}</div>
       </section>
       <footer className="mt-10 font-medium border-t">
-        <div className="max-w-screen-xl px-5 py-14 mx-auto flex justify-between">
-          <span className="text-zinc-700 ml-2 inline-flex items-center space-x-5 align-middle">
-            {GITHUB_LINK && (
-              <UniLink className="flex items-center" href={GITHUB_LINK}>
-                <span className="inline-block icon-[mingcute--github-fill] text-2xl hover:text-accent"></span>
-              </UniLink>
-            )}
-            {DISCORD_LINK && (
-              <UniLink className="flex items-center" href={DISCORD_LINK}>
-                <span className="inline-block icon-[mingcute--discord-fill] text-2xl hover:text-accent"></span>
-              </UniLink>
-            )}
-            {TWITTER_LINK && (
-              <UniLink className="flex items-center" href={TWITTER_LINK}>
-                <span className="inline-block icon-[mingcute--twitter-fill] text-2xl hover:text-accent"></span>
-              </UniLink>
-            )}
-          </span>
-          <span className="inline-flex items-center space-x-4">
+        <div className="max-w-screen-xl px-5 py-14 mx-auto flex flex-col sm:flex-row justify-between">
+          <PromotionLinks className="w-full sm:w-72" />
+          <span className="inline-flex items-center space-x-4 mx-auto sm:mx-0 mt-10 sm:mt-0">
             <DarkModeSwitch />
             <span>
               &copy;{" "}

@@ -72,9 +72,9 @@ export async function GET(
   }
 
   const format =
-    new URLSearchParams(request.url.split("?")[1]).get("format") === "xml"
-      ? "xml"
-      : "json"
+    new URLSearchParams(request.url.split("?")[1]).get("format") === "json"
+      ? "json"
+      : "xml"
 
   const res = new NextServerResponse()
   return res.status(200).rss(data, format)
