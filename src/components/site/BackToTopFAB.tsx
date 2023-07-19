@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react"
 
 import { throttle } from "~/lib/utils"
@@ -7,7 +9,7 @@ import { FABBase } from "../ui/FAB"
 const isShouldShow = () =>
   document.documentElement.scrollTop > document.documentElement.clientHeight
 
-export const BackToTopFAB: React.FC<{}> = () => {
+export const BackToTopFAB = () => {
   const [shouldShow, setShouldShow] = useState(isShouldShow())
   useEffect(() => {
     const handler = throttle(() => {
@@ -23,6 +25,7 @@ export const BackToTopFAB: React.FC<{}> = () => {
   return (
     <FABBase
       id="to-top"
+      aria-label="Back to top"
       show={shouldShow}
       onClick={() => {
         window.scrollTo({

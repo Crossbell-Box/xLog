@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next"
 import { useState } from "react"
 
 import { Indicator } from "@mantine/core"
@@ -6,6 +5,7 @@ import { Indicator } from "@mantine/core"
 import { AchievementModal } from "~/components/common/AchievementModal"
 import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
+import { useTranslation } from "~/lib/i18n/client"
 import type { AchievementSection } from "~/models/site.model"
 
 export const Badge = ({
@@ -34,13 +34,19 @@ export const Badge = ({
   )
 }
 
-export const AchievementItem: React.FC<{
+export const AchievementItem = ({
+  group,
+  layoutId,
+  size,
+  characterId,
+  isOwner,
+}: {
   group: AchievementSection["groups"][number]
   layoutId: string
   size?: number
   characterId?: number
   isOwner: boolean
-}> = ({ group, layoutId, size, characterId, isOwner }) => {
+}) => {
   const date = useDate()
   const { t } = useTranslation("common")
 

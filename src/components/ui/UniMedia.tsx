@@ -1,12 +1,17 @@
+"use client"
+
 import React, { useState } from "react"
 
 import { Image } from "~/components/ui/Image"
 import { IPFS_GATEWAY } from "~/lib/env"
 
-export const UniMedia: React.FC<{
+export const UniMedia = ({
+  src,
+  mime_type,
+}: {
   src: string
   mime_type?: string
-}> = ({ src, mime_type }) => {
+}) => {
   const [errorHandled, setErrorHandled] = useState(false)
 
   const [type, setType] = useState(mime_type)
@@ -28,7 +33,7 @@ export const UniMedia: React.FC<{
   }
 
   return (
-    <div className="w-full h-0 pt-[100%] relative rounded overflow-hidden">
+    <div className="w-full aspect-[1] relative rounded overflow-hidden">
       <div className="absolute top-0 bottom-0 left-0 right-0">
         {(() => {
           switch (type?.split("/")[0]) {

@@ -1,0 +1,7 @@
+{
+  "intlDateTime": "{{val, datetime}}",
+  "ago": "{{time}} ago",
+  "joined ago": "Joined {{time}} ago",
+  "Share Modal": "Share to...",
+  "Share Message": "Hey, I found a treasure trove of articles {{title}}, come and have a look!"
+}

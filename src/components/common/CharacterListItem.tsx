@@ -11,10 +11,13 @@ import { Avatar } from "../ui/Avatar"
 import { UniLink } from "../ui/UniLink"
 import { FollowingButton } from "./FollowingButton"
 
-const CharacterListItem: React.FC<{
+const CharacterListItem = ({
+  character,
+  sub,
+}: {
   character: ExpandedCharacter
   sub: any
-}> = ({ character, sub }) => {
+}) => {
   return (
     <div className="py-3 flex items-center justify-between space-x-2 text-sm px-5">
       <div className="flex flex-1 overflow-hidden space-x-2">
@@ -26,6 +29,7 @@ const CharacterListItem: React.FC<{
         >
           <CharacterFloatCard siteId={character?.handle}>
             <Avatar
+              cid={character?.characterId}
               className="align-middle border-2 border-white"
               images={character?.metadata?.content?.avatars || noopArr}
               name={character?.metadata?.content?.name || character?.handle}

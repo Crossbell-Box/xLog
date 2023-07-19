@@ -1,33 +1,39 @@
+"use client"
+
 import confetti from "canvas-confetti"
-import { Trans, useTranslation } from "next-i18next"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { FC, useEffect, useMemo, useRef, useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
 
 import { CharacterList } from "~/components/common/CharacterList"
-import { MintIcon } from "~/components/icons/MintIcon"
-import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { noopArr } from "~/lib/noop"
 import { cn } from "~/lib/utils"
 import { useCheckMint, useGetMints, useMintPage } from "~/queries/page"
 
 import { AvatarStack } from "../ui/AvatarStack"
 import { Button } from "../ui/Button"
+import { ModalContentProps, useModalStack } from "../ui/ModalStack"
 
-export const ReactionMint: React.FC<{
+export const ReactionMint = ({
+  size,
+  noteId,
+  characterId,
+  vertical,
+}: {
   size?: "sm" | "base"
   noteId?: number
   characterId?: number
-}> = ({ size, noteId, characterId }) => {
+  vertical?: boolean
+}) => {
   const mintPage = useMintPage()
-  const { t } = useTranslation("common")
+  const { t, i18n } = useTranslation("common")
 
   const account = useAccountState((s) => s.computed.account)
 
-  const [isMintOpen, setIsMintOpen] = useState(false)
   const [isMintListOpen, setIsMintListOpen] = useState(false)
   const mintRef = useRef<HTMLButtonElement>(null)
 
@@ -40,11 +46,14 @@ export const ReactionMint: React.FC<{
     characterId,
     noteId,
   })
-
+  const presentMintModal = usePresentMintModal({
+    handle: account?.character?.handle || "",
+    transactionHash: isMint.data?.list?.[0]?.transactionHash || "",
+  })
   const mint = () => {
     if (characterId && noteId) {
       if (isMint.data?.count) {
-        setIsMintOpen(true)
+        presentMintModal()
       } else {
         mintPage.mutate({
           characterId,
@@ -81,6 +90,8 @@ export const ReactionMint: React.FC<{
     }
   }, [mintPage.isSuccess])
 
+  const showAvatarStack = size !== "sm" && !vertical
+
   const avatars = useMemo(
     () =>
       mints.data?.pages?.[0]?.list
@@ -91,6 +102,7 @@ export const ReactionMint: React.FC<{
         .map((mint) => ({
           images: mint.character?.metadata?.content?.avatars,
           name: mint.character?.metadata?.content?.name,
+          cid: mint.character.characterId,
         })) || noopArr,
     [mints],
   )
@@ -100,9 +112,14 @@ export const ReactionMint: React.FC<{
       <div className="xlog-reactions-mint flex items-center">
         <Button
           variant="collect"
-          className={`flex items-center mr-2 ${
-            isMint.isSuccess && isMint.data.count && "active"
-          }`}
+          variantColor={vertical ? "light" : undefined}
+          className={cn(
+            "flex items-center",
+            {
+              active: isMint.isSuccess && isMint.data.count,
+            },
+            vertical ? "!h-auto flex-col" : "mr-2",
+          )}
           isAutoWidth={true}
           onClick={mint}
           isLoading={mintPage.isLoading}
@@ -110,19 +127,33 @@ export const ReactionMint: React.FC<{
         >
           {(() => {
             const inner = (
-              <MintIcon className={cn(size === "sm" ? "w-3 h-3" : "w-8 h-8")} />
+              <i
+                className={cn(
+                  "icon-[mingcute--magic-1-fill]",
+                  size === "sm"
+                    ? "text-base"
+                    : vertical
+                    ? "text-[33px]"
+                    : "text-[38px]",
+                )}
+              ></i>
             )
             return size !== "sm" ? (
-              <Tooltip label={t("Mint to an NFT")} placement="top">
+              <Tooltip
+                label={t("Mint to an NFT")}
+                placement={vertical ? "right" : "top"}
+              >
                 {inner}
               </Tooltip>
             ) : (
               inner
             )
           })()}
-          <span className="ml-2">{mints.data?.pages?.[0]?.count || 0}</span>
+          <span className={cn("leading-snug", vertical ? "" : "ml-2")}>
+            {!mints.isLoading ? mints.data?.pages?.[0]?.count || 0 : "-"}
+          </span>
         </Button>
-        {size !== "sm" && (
+        {showAvatarStack && (
           <AvatarStack
             avatars={avatars}
             onClick={() => setIsMintListOpen(true)}
@@ -130,43 +161,69 @@ export const ReactionMint: React.FC<{
           />
         )}
       </div>
-      <Modal
-        open={isMintOpen}
-        setOpen={setIsMintOpen}
-        title={t("Mint successfully") || ""}
-      >
-        <div className="p-5">
-          <Trans i18nKey="mint stored">
-            This post has been minted to NFT by you, view it on{" "}
-            <UniLink
-              className="text-accent"
-              href={`${CSB_XCHAR}/${account?.character?.handle}/collections`}
-            >
-              xChar
-            </UniLink>{" "}
-            or{" "}
-            <UniLink
-              className="text-accent"
-              href={`${CSB_SCAN}/tx/${isMint.data?.list?.[0]?.transactionHash}`}
-            >
-              Crossbell Scan
-            </UniLink>
-          </Trans>
-        </div>
-        <div className="h-16 border-t flex items-center px-5">
-          <Button isBlock onClick={() => setIsMintOpen(false)}>
-            {t("Got it, thanks!")}
-          </Button>
-        </div>
-      </Modal>
-      <CharacterList
-        open={isMintListOpen}
-        setOpen={setIsMintListOpen}
-        title={t("Mint List")}
-        loadMore={mints.fetchNextPage}
-        hasMore={!!mints.hasNextPage}
-        list={mints.data?.pages || []}
-      ></CharacterList>
+
+      {showAvatarStack && (
+        <CharacterList
+          open={isMintListOpen}
+          setOpen={setIsMintListOpen}
+          title={t("Mint List")}
+          loadMore={mints.fetchNextPage}
+          hasMore={!!mints.hasNextPage}
+          list={mints.data?.pages || []}
+        ></CharacterList>
+      )}
     </>
+  )
+}
+
+const usePresentMintModal = (props: MintModalProps) => {
+  const { present } = useModalStack()
+  const { t, i18n } = useTranslation("common")
+  return () => {
+    present({
+      title: t("Mint successfully") || "",
+      content: (rest) => <MintModal {...rest} {...props} />,
+    })
+  }
+}
+
+interface MintModalProps {
+  handle: string
+  transactionHash: string
+}
+
+const MintModal: FC<ModalContentProps<MintModalProps>> = ({
+  handle,
+  dismiss,
+  transactionHash,
+}) => {
+  const { t, i18n } = useTranslation("common")
+
+  return (
+    <div>
+      <div className="p-5">
+        <Trans i18nKey="mint stored" i18n={i18n}>
+          This post has been minted to NFT by you, view it on{" "}
+          <UniLink
+            className="text-accent"
+            href={`${CSB_XCHAR}/${handle}/collections`}
+          >
+            xChar
+          </UniLink>{" "}
+          or{" "}
+          <UniLink
+            className="text-accent"
+            href={`${CSB_SCAN}/tx/${transactionHash}`}
+          >
+            Crossbell Scan
+          </UniLink>
+        </Trans>
+      </div>
+      <div className="h-16 border-t flex items-center px-5">
+        <Button isBlock onClick={dismiss}>
+          {t("Got it, thanks!")}
+        </Button>
+      </div>
+    </div>
   )
 }

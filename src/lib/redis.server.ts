@@ -1,6 +1,6 @@
 import Redis from "ioredis"
 
-import { REDIS_EXPIRE, REDIS_REFRESH, REDIS_URL } from "~/lib/env.server"
+import { REDIS_EXPIRE, REDIS_URL } from "~/lib/env.server"
 
 if (!REDIS_URL) {
   console.error("REDIS_URL not set")
@@ -35,6 +35,9 @@ export async function cacheGet(options: {
   key: string | (Record<string, any> | string | undefined | number)[]
   getValueFun: () => Promise<any>
   noUpdate?: boolean
+  noExpire?: boolean
+  expireTime?: number
+  allowEmpty?: boolean
 }) {
   const redis = await redisPromise
   if (redis && redis.status === "ready") {
@@ -49,25 +52,59 @@ export async function cacheGet(options: {
     const cacheValue = await redis.get(redisKey)
     if (cacheValue && cacheValue !== "undefined" && cacheValue !== "null") {
       if (!options.noUpdate) {
-        setTimeout(() => {
-          options.getValueFun().then((value) => {
-            redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
-          })
-        }, Math.random() * REDIS_REFRESH)
+        options.getValueFun().then((value) => {
+          if (value) {
+            redis.set(
+              redisKey,
+              JSON.stringify(value),
+              "EX",
+              options.expireTime || REDIS_EXPIRE,
+            )
+          }
+        })
       }
       return JSON.parse(cacheValue)
     } else {
-      const value = await options.getValueFun()
-      if (options.noUpdate) {
-        await redis.set(redisKey, JSON.stringify(value))
+      if (options.allowEmpty) {
+        options.getValueFun().then((value) => {
+          if (value) {
+            if (options.noExpire) {
+              redis.set(redisKey, JSON.stringify(value))
+            } else {
+              redis.set(
+                redisKey,
+                JSON.stringify(value),
+                "EX",
+                options.expireTime || REDIS_EXPIRE,
+              )
+            }
+          }
+        })
+        return null
       } else {
-        redis.set(redisKey, JSON.stringify(value), "EX", REDIS_EXPIRE)
+        const value = await options.getValueFun()
+        if (value) {
+          if (options.noExpire) {
+            redis.set(redisKey, JSON.stringify(value))
+          } else {
+            redis.set(
+              redisKey,
+              JSON.stringify(value),
+              "EX",
+              options.expireTime || REDIS_EXPIRE,
+            )
+          }
+        }
+        return value
       }
-      return value
     }
   } else {
     console.error("redis not ready")
-    return await options.getValueFun()
+    if (options.allowEmpty) {
+      return null
+    } else {
+      return await options.getValueFun()
+    }
   }
 }
 

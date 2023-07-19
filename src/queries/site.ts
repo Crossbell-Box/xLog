@@ -1,10 +1,16 @@
+"use client"
+
 import {
   useAccountState,
   useFollowCharacter,
   useFollowCharacters,
+  useTip,
   useUnfollowCharacter,
+  useUpdateCharacterHandle,
+  useUpdateCharacterMetadata,
 } from "@crossbell/connect-kit"
 import { useContract } from "@crossbell/contract"
+import { useRefCallback } from "@crossbell/util-hooks"
 import {
   useInfiniteQuery,
   useMutation,
@@ -12,9 +18,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 
+import { SiteNavigationItem } from "~/lib/types"
 import * as siteModel from "~/models/site.model"
-
-import { useUnidata } from "./unidata"
 
 export const useGetSite = (input?: string) => {
   return useQuery(["getSite", input], async () => {
@@ -83,21 +88,154 @@ export const useGetSiteToSubscriptions = (data: { characterId?: number }) => {
   })
 }
 
-export function useUpdateSite() {
-  const newbieToken = useAccountState((s) => s.email?.token)
-  const unidata = useUnidata()
+export function useUpdateHandle() {
   const queryClient = useQueryClient()
-  const mutation = useMutation(
-    async (payload: Parameters<typeof siteModel.updateSite>[0]) => {
-      return siteModel.updateSite(payload, unidata, newbieToken)
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getSite"])
-      },
+  const { mutateAsync: _, ...updateCharacterHandle } =
+    useUpdateCharacterHandle()
+
+  const mutate = useRefCallback(
+    (input: { characterId?: number; handle?: string }) => {
+      if (!input.characterId || !input.handle) {
+        throw new Error("characterId and handle are required")
+      }
+
+      return updateCharacterHandle.mutate(
+        {
+          characterId: input.characterId,
+          handle: input.handle,
+        },
+        {
+          onSuccess: (data, variables) => {
+            queryClient.invalidateQueries(["getSite"])
+          },
+        },
+      )
     },
   )
-  return mutation
+
+  return {
+    ...updateCharacterHandle,
+    mutate,
+  }
+}
+
+export function useUpdateSite() {
+  const queryClient = useQueryClient()
+  const { mutateAsync: _, ...updateCharacterMetadata } =
+    useUpdateCharacterMetadata()
+
+  const mutate = useRefCallback(
+    (input: {
+      characterId?: number
+      name?: string
+      site_name?: string
+      description?: string
+      icon?: string
+      navigation?: SiteNavigationItem[]
+      css?: string
+      ga?: string
+      ua?: string
+      uh?: string
+      custom_domain?: string
+      banner?: {
+        address: string
+        mime_type: string
+      }
+      connected_accounts?: {
+        identity: string
+        platform: string
+        url?: string | undefined
+      }[]
+    }) => {
+      if (!input.characterId) {
+        throw new Error("characterId are required")
+      }
+
+      return updateCharacterMetadata.mutate(
+        {
+          characterId: input.characterId,
+          edit(metadataDraft) {
+            if (input.name !== undefined) {
+              metadataDraft.name = input.name
+            }
+            if (input.description !== undefined) {
+              metadataDraft.bio = input.description
+            }
+            if (input.icon !== undefined) {
+              metadataDraft.avatars = [input.icon]
+            }
+            if (input.banner !== undefined) {
+              metadataDraft.banners = [input.banner]
+            }
+            if (input.connected_accounts !== undefined) {
+              metadataDraft.connected_accounts = input.connected_accounts.map(
+                (account) => {
+                  if (account.identity && account.platform) {
+                    return `csb://account:${
+                      account.identity
+                    }@${account.platform.toLowerCase()}`
+                  } else if (typeof account === "string") {
+                    return account
+                  } else {
+                    return ""
+                  }
+                },
+              )
+            }
+
+            // attributes
+            const setAttribute = (
+              inputKey: keyof typeof input,
+              typeKey: string,
+              needStringify: boolean = false,
+            ) => {
+              if (input[inputKey] !== undefined) {
+                // Initialize attributes
+                const newAttribute: {
+                  trait_type: string
+                  value: any
+                } = {
+                  trait_type: `xlog_${typeKey}`,
+                  value: needStringify
+                    ? JSON.stringify(input[inputKey])
+                    : input[inputKey],
+                }
+                if (!metadataDraft.attributes) {
+                  metadataDraft.attributes = [newAttribute]
+                } else {
+                  const oldAttribute = metadataDraft.attributes.find(
+                    (attr) => attr.trait_type === newAttribute.trait_type,
+                  )
+                  if (oldAttribute) {
+                    oldAttribute.value = newAttribute.value
+                  } else {
+                    metadataDraft.attributes.push(newAttribute)
+                  }
+                }
+              }
+            }
+            setAttribute("navigation", "navigation", true)
+            setAttribute("css", "css")
+            setAttribute("ga", "ga")
+            setAttribute("ua", "ua")
+            setAttribute("uh", "uh")
+            setAttribute("custom_domain", "custom_domain")
+            setAttribute("site_name", "site_name")
+          },
+        },
+        {
+          onSuccess: (data, variables) => {
+            queryClient.invalidateQueries(["getSite"])
+          },
+        },
+      )
+    },
+  )
+
+  return {
+    ...updateCharacterMetadata,
+    mutate,
+  }
 }
 
 export function useSubscribeToSite() {
@@ -117,9 +255,7 @@ export function useSubscribeToSite() {
         queryClient.invalidateQueries([
           "getSubscription",
           variables.characterId,
-          account?.type === "email"
-            ? account?.character?.handle
-            : account?.handle,
+          account?.characterId,
         ]),
       ])
     },
@@ -171,9 +307,7 @@ export function useUnsubscribeFromSite() {
         queryClient.invalidateQueries([
           "getSubscription",
           variables.characterId,
-          account?.type === "email"
-            ? account?.character?.handle
-            : account?.handle,
+          account?.characterId,
         ]),
       ])
     },
@@ -278,22 +412,6 @@ export function useRemoveOperator() {
   )
 }
 
-export const useGetNFTs = (address?: string) => {
-  return useQuery(["getNFTs", address], async () => {
-    if (!address) {
-      return null
-    }
-    return await (
-      await fetch(
-        "/api/nfts?" +
-          new URLSearchParams({
-            address,
-          } as any),
-      )
-    ).json()
-  })
-}
-
 export const useGetStat = (
   data: Partial<Parameters<typeof siteModel.getStat>[0]>,
 ) => {
@@ -309,23 +427,15 @@ export const useGetStat = (
 
 export function useTipCharacter() {
   const queryClient = useQueryClient()
-  const contract = useContract()
-  const mutation = useMutation(
-    async (payload: Parameters<typeof siteModel.tipCharacter>[0]) => {
-      return siteModel.tipCharacter(payload, contract)
+
+  return useTip({
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries([
+        "getTips",
+        { toCharacterId: variables.characterId },
+      ])
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "getTips",
-          {
-            toCharacterId: variables.toCharacterId,
-          },
-        ])
-      },
-    },
-  )
-  return mutation
+  })
 }
 
 export const useGetTips = (

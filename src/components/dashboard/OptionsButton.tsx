@@ -8,21 +8,11 @@ import { cn } from "~/lib/utils"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
-export const OptionsButton: React.FC<{
-  visibility: PageVisibilityEnum | undefined
-  previewPage: () => void
-  renderPage: Dispatch<SetStateAction<boolean>>
-  savePage: (published: boolean) => any
-  propertiesWidget: React.ReactNode
-  isRendering: boolean
-  published: boolean
-  isPost: boolean
-  isModified: boolean
-  discardChanges: () => void
-}> = ({
+export const OptionsButton = ({
   visibility,
   previewPage,
   savePage,
+  deletePage,
   isRendering,
   renderPage,
   published,
@@ -30,6 +20,18 @@ export const OptionsButton: React.FC<{
   isPost,
   isModified,
   discardChanges,
+}: {
+  visibility: PageVisibilityEnum | undefined
+  previewPage: () => void
+  renderPage: Dispatch<SetStateAction<boolean>>
+  savePage: () => any
+  deletePage: () => any
+  propertiesWidget: React.ReactNode
+  isRendering: boolean
+  published: boolean
+  isPost: boolean
+  isModified: boolean
+  discardChanges: () => void
 }) => {
   const { t } = useTranslation("dashboard")
 
@@ -43,21 +45,53 @@ export const OptionsButton: React.FC<{
         onClick={() => renderPage(!isRendering)}
       >
         {isRendering ? (
-          <i className="icon-[mingcute--eye-close-line] text-xl inline-block w-6 h-6" />
+          <i className="icon-[mingcute--eye-close-line] text-xl inline-block w-5 h-5" />
         ) : (
-          <i className="icon-[mingcute--eye-2-line] text-xl inline-block w-6 h-6" />
+          <i className="icon-[mingcute--eye-2-line] text-xl inline-block w-5 h-5" />
         )}
       </div>
+      <Popover className="relative">
+        {({ open, close }) => (
+          <div className="h-6">
+            <Popover.Button
+              className={`
+                group inline-flex items-center rounded-md  text-base font-medium   hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+              // onClick={() => {
+              //   setIsOpen(true)
+              // }}
+            >
+              <div className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex justify-center items-center">
+                <i className="icon-[mingcute--settings-6-line] text-xl inline-block w-5 h-5" />
+              </div>
+            </Popover.Button>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-200"
+              enterFrom="opacity-0 transform -translate-x-full"
+              enterTo="opacity-100 transform translate-x-0"
+              leave="transition ease-in duration-150"
+              leaveFrom="opacity-100 transform translate-x-0"
+              leaveTo="opacity-0 transform -translate-x-full"
+            >
+              <Popover.Panel className="fixed bg-slate-50 h-full left-0 top-0 z-30 transform sm:px-0 lg:max-w-3xl">
+                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 h-full">
+                  {propertiesWidget}
+                </div>
+              </Popover.Panel>
+            </Transition>
+          </div>
+        )}
+      </Popover>
       <Menu as="div" className="relative inline-block text-left h-6">
         {({ open, close }) => {
           return (
             <>
               <Menu.Button>
-                <div className="bg-accent rounded-full cursor-pointer text-white w-6 h-6">
+                <div className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex items-center justify-center">
                   {open ? (
-                    <i className="icon-[mingcute--up-line] text-2xl inline-block w-6 h-6" />
+                    <i className="icon-[mingcute--send-fill] text-2xl inline-block w-5 h-5" />
                   ) : (
-                    <i className="icon-[mingcute--down-line] text-2xl inline-block w-6 h-6" />
+                    <i className="icon-[mingcute--send-line] text-2xl inline-block w-5 h-5" />
                   )}
                 </div>
               </Menu.Button>
@@ -109,7 +143,7 @@ export const OptionsButton: React.FC<{
                           className={`${
                             active ? "bg-accent text-white" : "text-gray-900"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                          onClick={() => savePage(true)}
+                          onClick={() => savePage()}
                         >
                           {t(published ? "Update" : "Publish")}
                         </button>
@@ -152,7 +186,7 @@ export const OptionsButton: React.FC<{
                 open={deleteConfirmModalOpen}
                 setOpen={setDeleteConfirmModalOpen}
                 onConfirm={() => {
-                  savePage(false)
+                  deletePage()
                 }}
                 isPost={isPost}
               />
@@ -160,39 +194,6 @@ export const OptionsButton: React.FC<{
           )
         }}
       </Menu>
-
-      <Popover className="relative">
-        {({ open, close }) => (
-          <div className="h-6">
-            <Popover.Button
-              className={`
-                group inline-flex items-center rounded-md  text-base font-medium   hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
-              // onClick={() => {
-              //   setIsOpen(true)
-              // }}
-            >
-              <div className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex justify-center items-center">
-                <i className="icon-[mingcute--attachment-2-line] text-xl inline-block w-6 h-6" />
-              </div>
-            </Popover.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-200"
-              enterFrom="opacity-0 transform -translate-x-full"
-              enterTo="opacity-100 transform translate-x-0"
-              leave="transition ease-in duration-150"
-              leaveFrom="opacity-100 transform translate-x-0"
-              leaveTo="opacity-0 transform -translate-x-full"
-            >
-              <Popover.Panel className="fixed bg-slate-50 h-full left-0 top-0 z-30 transform sm:px-0 lg:max-w-3xl">
-                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 h-full">
-                  {propertiesWidget}
-                </div>
-              </Popover.Panel>
-            </Transition>
-          </div>
-        )}
-      </Popover>
     </>
   )
 }

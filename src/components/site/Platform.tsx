@@ -3,11 +3,12 @@ import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { cn } from "~/lib/utils"
 
-const syncMap: {
+export const PlatformsSyncMap: {
   [key: string]: {
     name: string
     icon: string
     url?: string
+    identityFormatTemplate?: string
   }
 } = {
   telegram: {
@@ -60,6 +61,11 @@ const syncMap: {
     icon: "/assets/social/bilibili.svg",
     url: "https://space.bilibili.com/{username}",
   },
+  zhihu: {
+    name: "zhihu",
+    icon: "/assets/social/zhihu.svg",
+    url: "https://www.zhihu.com/people/{username}",
+  },
   playstation: {
     name: "PlayStation",
     icon: "/assets/social/playstation.svg",
@@ -94,14 +100,70 @@ const syncMap: {
     icon: "/assets/social/keybase.png",
     url: "https://keybase.io/{username}",
   },
+  youtube: {
+    name: "Youtube",
+    icon: "/assets/social/youtube.svg",
+    url: "https://youtube.com/@{username}",
+  },
+  facebook: {
+    name: "Facebook",
+    icon: "/assets/social/facebook.svg",
+    url: "https://facebook.com/{username}",
+  },
+  whatsapp: {
+    name: "Whatsapp",
+    icon: "/assets/social/whatsapp.svg",
+    url: "https://wa.me/{username}",
+  },
+  mastodon: {
+    name: "Mastodon",
+    icon: "/assets/social/mastodon.svg",
+    url: "https://{instance}/@{username}",
+    identityFormatTemplate: "username@instance.ltd",
+  },
+  misskey: {
+    name: "Misskey",
+    icon: "/assets/social/misskey.png",
+    url: "https://{instance}/@{username}",
+    identityFormatTemplate: "username@instance.ltd",
+  },
+  pleroma: {
+    name: "Pleroma",
+    icon: "/assets/social/pleroma.svg",
+    url: "https://{instance}/users/{username}",
+    identityFormatTemplate: "username@instance.ltd",
+  },
+  douban: {
+    name: "douban",
+    icon: "/assets/social/douban.png",
+    url: "https://www.douban.com/people/{username}",
+  },
 }
 
-export const Platform: React.FC<{
+export const Platform = ({
+  platform,
+  username,
+  className,
+}: {
   platform: string
   username: string
   className?: string
-}> = ({ platform, username, className }) => {
+}) => {
   platform = platform.toLowerCase()
+  let link = PlatformsSyncMap[platform]?.url
+
+  switch (platform) {
+    case "mastodon":
+    case "misskey":
+    case "pleroma":
+      const [uname, instance] = username?.split("@")
+      link = link?.replace("{instance}", instance).replace("{username}", uname)
+      break
+    default:
+      link = link?.replace("{username}", username)
+      break
+  }
+
   return (
     <UniLink
       className={cn(
@@ -109,15 +171,18 @@ export const Platform: React.FC<{
         className,
       )}
       key={platform}
-      href={syncMap[platform]?.url?.replace("{username}", username)}
+      href={link}
     >
       <Tooltip
-        label={`${syncMap[platform]?.name || platform}: ${username}`}
-        className="capitalize"
+        label={`${PlatformsSyncMap[platform]?.name || platform}: ${username}`}
       >
         <span className="w-6 h-6 inline-block overflow-hidden">
-          {syncMap[platform]?.icon ? (
-            <Image fill src={syncMap[platform]?.icon} alt={platform} />
+          {PlatformsSyncMap[platform]?.icon ? (
+            <Image
+              src={PlatformsSyncMap[platform]?.icon}
+              alt={platform}
+              fill={true}
+            />
           ) : (
             <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300 w-6 h-6">
               <i className="icon-[mingcute--planet-line] text-xl" />

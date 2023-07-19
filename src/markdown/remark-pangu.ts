@@ -28,7 +28,7 @@ function format(value: string) {
 
 export const remarkPangu: Plugin<Array<Options>, Root> =
   (options = {}) =>
-  (tree, _) => {
+  (tree: Root) => {
     const settings = Object.assign({}, defaultOptions, options)
     const subset = (Object.keys(settings) as Array<keyof Options>).filter(
       (k) => settings[k],

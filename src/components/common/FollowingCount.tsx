@@ -1,17 +1,22 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
 import { useState } from "react"
 
 import { CharacterList } from "~/components/common/CharacterList"
 import { Button } from "~/components/ui/Button"
+import { useTranslation } from "~/lib/i18n/client"
 import {
   useGetSiteSubscriptions,
   useGetSiteToSubscriptions,
 } from "~/queries/site"
 
-export const FollowingCount: React.FC<{
+export const FollowingCount = ({
+  characterId,
+  disableList,
+}: {
   characterId?: number
   disableList?: boolean
-}> = ({ characterId, disableList }) => {
+}) => {
   let [isFollowListOpen, setIsFollowListOpen] = useState(false)
   let [isToFollowListOpen, setIsToFollowListOpen] = useState(false)
   const { t } = useTranslation("common")

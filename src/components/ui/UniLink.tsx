@@ -8,14 +8,14 @@ export type UniLinkProps = {
   target?: string
 }
 
-export const UniLink: React.FC<UniLinkProps> = ({
+export const UniLink = ({
   href,
   onClick,
   children,
   className,
   target,
   ...props
-}) => {
+}: UniLinkProps) => {
   if (onClick) {
     return (
       <button className={className} onClick={onClick} {...props}>
@@ -25,13 +25,21 @@ export const UniLink: React.FC<UniLinkProps> = ({
   }
 
   if (!href) {
-    return <span className={className}>{children}</span>
+    return (
+      <span className={className} {...props}>
+        {children}
+      </span>
+    )
   }
 
   const isExternal =
     href && (/^https?:\/\//.test(href) || href.startsWith("/feed"))
 
-  if (isExternal) {
+  const isInModal =
+    typeof window !== "undefined" &&
+    window.location.pathname.startsWith("/post/")
+
+  if (isExternal || isInModal) {
     return (
       <a
         {...props}

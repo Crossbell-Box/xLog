@@ -1,21 +1,14 @@
-import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
+
+import { useTranslation } from "~/lib/i18n/client"
 
 import { Button, ButtonGroup } from "../ui/Button"
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
-export const PublishButton: React.FC<{
-  save: (published: boolean) => void
-  published: boolean
-  isSaving: boolean
-  isDisabled: boolean
-  twitterShareUrl?: string
-  isPost: boolean
-  isModified: boolean
-  discardChanges: () => void
-}> = ({
-  save,
+export const PublishButton = ({
+  savePage,
+  deletePage,
   discardChanges,
   published,
   isSaving,
@@ -23,6 +16,16 @@ export const PublishButton: React.FC<{
   isModified,
   twitterShareUrl,
   isPost,
+}: {
+  savePage: () => void
+  deletePage: () => void
+  published: boolean
+  isSaving: boolean
+  isDisabled: boolean
+  twitterShareUrl?: string
+  isPost: boolean
+  isModified: boolean
+  discardChanges: () => void
 }) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
@@ -49,7 +52,7 @@ export const PublishButton: React.FC<{
         <Button
           isAutoWidth
           style={{ padding: "0 15px" }}
-          onClick={() => save(true)}
+          onClick={() => savePage()}
           isLoading={isSaving}
           isDisabled={isDisabled}
         >
@@ -70,7 +73,10 @@ export const PublishButton: React.FC<{
         )}
       </ButtonGroup>
       {showDropdown && (
-        <div className="absolute right-0 min-w-[200px] pt-2" ref={dropdownRef}>
+        <div
+          className="absolute right-0 min-w-[200px] pt-2 z-10"
+          ref={dropdownRef}
+        >
           <div className="bg-white py-2 rounded-lg shadow-modal">
             {published && (
               <div>
@@ -106,7 +112,7 @@ export const PublishButton: React.FC<{
         open={deleteConfirmModalOpen}
         setOpen={setDeleteConfirmModalOpen}
         onConfirm={() => {
-          save(false)
+          deletePage()
         }}
         isPost={isPost}
       />

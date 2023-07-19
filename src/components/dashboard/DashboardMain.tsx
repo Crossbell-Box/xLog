@@ -1,14 +1,18 @@
-import { useTranslation } from "next-i18next"
-
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
-export const DashboardMain: React.FC<{
+export const DashboardMain = ({
+  children,
+  fullWidth,
+  title,
+  className,
+}: {
   children: React.ReactNode
   fullWidth?: boolean
   title?: string
   className?: string
-}> = ({ children, fullWidth, title, className }) => {
+}) => {
   const { t } = useTranslation("dashboard")
   const isMobileLayout = useIsMobileLayout()
 

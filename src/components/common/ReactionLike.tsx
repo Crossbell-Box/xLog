@@ -1,12 +1,13 @@
+"use client"
+
 import confetti from "canvas-confetti"
-import { Trans, useTranslation } from "next-i18next"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { CharacterList } from "~/components/common/CharacterList"
-import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN } from "~/lib/env"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import {
   useCheckLike,
@@ -17,16 +18,22 @@ import {
 
 import { AvatarStack } from "../ui/AvatarStack"
 import { Button } from "../ui/Button"
+import { ModalContentProps, useModalStack } from "../ui/ModalStack"
 
-export const ReactionLike: React.FC<{
+export const ReactionLike = ({
+  size,
+  characterId,
+  noteId,
+  vertical,
+}: {
   size?: "sm" | "base"
   characterId?: number
   noteId?: number
-}> = ({ size, characterId, noteId }) => {
+  vertical?: boolean
+}) => {
   const toggleLikePage = useToggleLikePage()
   const { t } = useTranslation("common")
 
-  const [isLikeOpen, setIsLikeOpen] = useState(false)
   const [isLikeListOpen, setIsLikeListOpen] = useState(false)
   const likeRef = useRef<HTMLButtonElement>(null)
 
@@ -38,17 +45,42 @@ export const ReactionLike: React.FC<{
     characterId,
     noteId,
   })
-  const { data: likeCount = 0 } = useGetLikeCounts({
+  const likeCounts = useGetLikeCounts({
     characterId,
     noteId,
   })
 
-  const [isUnlikeOpen, setIsUnlikeOpen] = useState(false)
+  const { present } = useModalStack()
 
+  const presentUnlikeModal = () => {
+    if (characterId && noteId) {
+      present({
+        title: t("Confirm to revert"),
+        content: (props) => (
+          <UnLikeModal
+            {...props}
+            characterId={characterId}
+            noteId={noteId}
+            likeStatus={likeStatus}
+            toggleLikePage={toggleLikePage}
+          />
+        ),
+      })
+    }
+  }
   const like = () => {
     if (characterId && noteId) {
       if (likeStatus.isLiked) {
-        setIsLikeOpen(true)
+        present({
+          title: t("Like successfully") || "",
+          content: (props) => (
+            <LikeModal
+              {...props}
+              likeStatus={likeStatus}
+              presentUnlikeModal={presentUnlikeModal}
+            />
+          ),
+        })
       } else {
         toggleLikePage.mutate({
           characterId,
@@ -61,7 +93,7 @@ export const ReactionLike: React.FC<{
 
   const unlike = () => {
     if (characterId && noteId) {
-      setIsUnlikeOpen(false)
+      presentUnlikeModal()
       if (likeStatus.isLiked) {
         toggleLikePage.mutate({
           noteId,
@@ -92,6 +124,8 @@ export const ReactionLike: React.FC<{
     }
   }, [toggleLikePage.isSuccess])
 
+  const showAvatarStack = size !== "sm" && !vertical
+
   const avatars = useMemo(
     () =>
       likes
@@ -102,6 +136,7 @@ export const ReactionLike: React.FC<{
         .map(($) => ({
           images: $.character?.metadata?.content?.avatars,
           name: $.character?.metadata?.content?.name,
+          cid: $.characterId,
         })),
     [likes],
   )
@@ -110,7 +145,14 @@ export const ReactionLike: React.FC<{
       <div className={cn("xlog-reactions-like flex items-center sm:mb-0")}>
         <Button
           variant="like"
-          className={`flex items-center mr-2 ${likeStatus.isLiked && "active"}`}
+          variantColor={vertical ? "light" : undefined}
+          className={cn(
+            "flex items-center",
+            {
+              active: likeStatus.isLiked,
+            },
+            vertical ? "!h-auto flex-col" : "mr-2",
+          )}
           isAutoWidth={true}
           onClick={like}
           isLoading={toggleLikePage.isPending}
@@ -118,90 +160,140 @@ export const ReactionLike: React.FC<{
         >
           {(() => {
             const inner = (
-              <span
+              <i
                 className={cn(
-                  "icon-[mingcute--thumb-up-2-fill] mr-1",
-                  size === "sm" ? "text-base" : "text-[38px]",
+                  "icon-[mingcute--thumb-up-2-fill]",
+                  size === "sm"
+                    ? "text-base"
+                    : vertical
+                    ? "text-[33px]"
+                    : "text-[38px]",
+                  !vertical && "mr-1",
                 )}
-              ></span>
+              ></i>
             )
             return size !== "sm" ? (
-              <Tooltip label={t("Like")} placement="top">
+              <Tooltip label={t("Like")} placement={vertical ? "right" : "top"}>
                 {inner}
               </Tooltip>
             ) : (
               inner
             )
           })()}
-          <span>{likeCount}</span>
+          <span className="leading-snug">
+            {!likeCounts.isLoading ? likeCounts.data : "-"}
+          </span>
         </Button>
-        {size !== "sm" && (
+        {showAvatarStack && (
           <AvatarStack
             avatars={avatars}
-            count={likeCount}
+            count={likeCounts.data || 0}
             onClick={() => setIsLikeListOpen(true)}
           />
         )}
       </div>
-      <Modal
-        open={isLikeOpen}
-        setOpen={setIsLikeOpen}
-        title={t("Like successfully") || ""}
-      >
-        <div className="p-5">
-          <Trans i18nKey="like stored">
-            Your like has been stored on the blockchain, view it on{" "}
-            <UniLink
-              className="text-accent"
-              href={`${CSB_SCAN}/tx/${likeStatus.transactionHash}`}
-            >
-              Crossbell Scan
-            </UniLink>
-          </Trans>
-        </div>
-        <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
-          <Button isBlock onClick={() => setIsLikeOpen(false)}>
-            {t("Got it, thanks!")}
-          </Button>
-          <Button
-            variant="secondary"
-            isBlock
-            onClick={() => {
-              setIsUnlikeOpen(true)
-              setIsLikeOpen(false)
-            }}
+
+      {showAvatarStack && (
+        <CharacterList
+          open={isLikeListOpen}
+          setOpen={setIsLikeListOpen}
+          title={t("Like List")}
+          loadMore={likesMutation.fetchNextPage}
+          hasMore={!!likesMutation.hasNextPage}
+          list={likesMutation.data?.pages || []}
+        ></CharacterList>
+      )}
+    </>
+  )
+}
+
+const LikeModal = ({
+  dismiss,
+  likeStatus,
+
+  presentUnlikeModal,
+}: ModalContentProps<{
+  likeStatus: any
+
+  presentUnlikeModal: () => void
+}>) => {
+  const { t, i18n } = useTranslation("common")
+
+  return (
+    <>
+      <div className="p-5">
+        <Trans i18nKey="like stored" i18n={i18n}>
+          Your like has been stored on the blockchain, view it on{" "}
+          <UniLink
+            className="text-accent"
+            href={`${CSB_SCAN}/tx/${likeStatus.transactionHash}`}
           >
-            {t("Revert")}
-          </Button>
-        </div>
-      </Modal>
-      <Modal
-        open={isUnlikeOpen}
-        setOpen={setIsUnlikeOpen}
-        title={t("Confirm to revert")}
-      >
-        <div className="p-5">
-          <Trans i18nKey="like revert">
-            Do you really want to revert this like action?
-          </Trans>
-        </div>
-        <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
-          <Button isBlock onClick={() => setIsUnlikeOpen(false)}>
-            {t("Cancel")}
-          </Button>
-          <Button variant="secondary" isBlock onClick={() => unlike()}>
-            {t("Confirm")}
-          </Button>
-        </div>
-      </Modal>
-      <CharacterList
-        open={isLikeListOpen}
-        setOpen={setIsLikeListOpen}
-        title={t("Like List")}
-        loadMore={likesMutation.fetchNextPage}
-        hasMore={!!likesMutation.hasNextPage}
-        list={likesMutation.data?.pages || []}
-      ></CharacterList>
+            Crossbell Scan
+          </UniLink>
+        </Trans>
+      </div>
+      <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
+        <Button isBlock onClick={dismiss}>
+          {t("Got it, thanks!")}
+        </Button>
+        <Button
+          variant="secondary"
+          isBlock
+          onClick={() => {
+            presentUnlikeModal()
+            dismiss()
+          }}
+        >
+          {t("Revert")}
+        </Button>
+      </div>
+    </>
+  )
+}
+
+const UnLikeModal = ({
+  dismiss,
+  characterId,
+  noteId,
+  likeStatus,
+  toggleLikePage,
+}: ModalContentProps<{
+  characterId: number
+  noteId: number
+  likeStatus: any
+  toggleLikePage: ReturnType<typeof useToggleLikePage>
+}>) => {
+  const { t, i18n } = useTranslation("common")
+
+  const { present } = useModalStack()
+  const unlike = () => {
+    if (characterId && noteId) {
+      dismiss()
+      if (likeStatus.isLiked) {
+        toggleLikePage.mutate({
+          noteId,
+          characterId,
+          action: "unlink",
+        })
+      } // else do nothing
+    }
+  }
+
+  return (
+    <>
+      <div className="p-5">
+        <Trans i18nKey="like revert" i18n={i18n}>
+          Do you really want to revert this like action?
+        </Trans>
+      </div>
+      <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
+        <Button isBlock onClick={dismiss}>
+          {t("Cancel")}
+        </Button>
+        <Button variant="secondary" isBlock onClick={() => unlike()}>
+          {t("Confirm")}
+        </Button>
+      </div>
     </>
   )
 }

@@ -2,7 +2,6 @@ import { cn } from "~/lib/utils"
 
 import data from "../../../data/titles.json"
 import { Tooltip } from "../ui/Tooltip"
-import { UniLink } from "../ui/UniLink"
 
 const icons: {
   [key: string]: {
@@ -16,9 +15,7 @@ const icons: {
   },
 }
 
-export const Titles: React.FC<{
-  characterId?: number
-}> = ({ characterId }) => {
+export const Titles = ({ characterId }: { characterId?: number }) => {
   if (!characterId) {
     return null
   }
@@ -40,11 +37,17 @@ export const Titles: React.FC<{
             "inline-flex p-[1px] rounded-sm",
           )}
         >
-          <UniLink href={title.link} className="inline-flex">
+          <span
+            onClick={(e) => {
+              e.preventDefault()
+              window.open(title.link)
+            }}
+            className="inline-flex"
+          >
             <span className="text-white">
               <i className={cn(icons[title.name].icon, "text-[10px] block")} />
             </span>
-          </UniLink>
+          </span>
         </Tooltip>
       ))}
     </span>

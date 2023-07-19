@@ -1,39 +1,37 @@
-import { Trans } from "next-i18next"
 import Script from "next/script"
-import { useEffect, useState } from "react"
 
 import { Logo } from "~/components/common/Logo"
 import { Platform } from "~/components/site/Platform"
 import { SITE_URL } from "~/lib/env"
+import { Trans, getTranslation } from "~/lib/i18n"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
 import { UniLink } from "../ui/UniLink"
 
-export const SiteFooter: React.FC<{
+export default async function SiteFooter({
+  site,
+}: {
   site?: ExpandedCharacter
-}> = ({ site }) => {
-  const [logoType, setLogoType] = useState<"svg" | "png" | "lottie">("svg")
-
-  useEffect(() => {
-    setLogoType("lottie")
-  }, [])
-
+}) {
   const LogoWithLink = () => {
     return (
       <UniLink
+        aria-label="xLog"
         href={SITE_URL}
         className="inline-flex items-center align-text-top mx-1"
       >
-        <Logo type={logoType} width={20} height={20} autoplay={false} />
+        <Logo type="lottie" width={20} height={20} autoplay={false} />
       </UniLink>
     )
   }
 
+  const { i18n } = await getTranslation("site")
+
   return (
     <>
       <footer className="text-zinc-500 border-t">
-        <div className="max-w-screen-md mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5">
+        <div className="max-w-screen-lg mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5">
           <div className="font-medium text-base">
             <span>&copy; </span>
             <UniLink href="/" className="hover:text-accent">
@@ -41,6 +39,7 @@ export const SiteFooter: React.FC<{
             </UniLink>
             <span> · </span>
             <Trans
+              i18n={i18n}
               i18nKey="powered by"
               defaults={"<span>Powered by </span><name/>"}
               components={{
@@ -51,10 +50,29 @@ export const SiteFooter: React.FC<{
             />
           </div>
           {site?.metadata?.content?.connected_accounts && (
-            <div className="sm:-mr-5 sm:block inline-block align-middle mr-4">
+            <div className="xlog-social-platforms sm:-mr-5 sm:block inline-block align-middle mr-4">
               {site?.metadata?.content?.connected_accounts.map(
-                (account, index) => {
-                  const match = account.match(/:\/\/account:(.*)@(.*)/)
+                (
+                  account:
+                    | string
+                    | { uri: string }
+                    | { identity: string; platform: string }
+                    | any, // Otherwise type check will alarm
+                  index,
+                ) => {
+                  let match: RegExpMatchArray | null = null
+                  switch (typeof account) {
+                    case "string":
+                      match = account.match(/:\/\/account:(.*)@(.*)/)
+                      break
+                    case "object":
+                      if (account.uri) {
+                        match = account.uri.match(/:\/\/account:(.*)@(.*)/)
+                      } else if (account.identity && account.platform) {
+                        match = ["", account.identity, account.platform]
+                      }
+                      break
+                  }
                   if (match) {
                     return (
                       <Platform
@@ -90,15 +108,18 @@ export const SiteFooter: React.FC<{
         </div>
       )}
       {site?.metadata?.content?.ua && (
-        <div className="xlog-umami-analytics">
-          <Script
-            id="umami-analytics"
-            strategy="afterInteractive"
-            async
-            src="https://analytics.umami.is/script.js"
-            data-website-id={`${site.metadata?.content?.ua}`}
-          ></Script>
-        </div>
+        <Script
+          id="umami-analytics"
+          strategy="afterInteractive"
+          async
+          src="https://analytics.umami.is/script.js"
+          data-host-url={
+            site.metadata?.content?.uh
+              ? `https://${site.metadata?.content?.uh}`
+              : undefined
+          }
+          data-website-id={`${site.metadata?.content?.ua}`}
+        ></Script>
       )}
     </>
   )

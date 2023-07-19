@@ -4,7 +4,6 @@ import { visit } from "unist-util-visit"
 
 import { IS_PROD } from "~/lib/constants"
 import { toGateway } from "~/lib/ipfs-parser"
-import { getUserContentsUrl } from "~/lib/user-contents"
 
 import { MarkdownEnv } from "."
 
@@ -13,7 +12,7 @@ const isExternLink = (url: string) => /^https?:\/\//.test(url)
 export const rehypeImage: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
   env,
 }) => {
-  return (tree) => {
+  return (tree: Root) => {
     let first = true
     visit(tree, { tagName: "img" }, (node) => {
       if (!node.properties) return
@@ -32,6 +31,7 @@ export const rehypeImage: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
         env.cover = url
         first = false
       }
+      env.images.push(url)
 
       if (isExternLink(url)) {
         if (!url.startsWith("https:") && IS_PROD) {
@@ -41,7 +41,7 @@ export const rehypeImage: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
         return
       }
 
-      node.properties.src = getUserContentsUrl(url)
+      node.properties.src = url
     })
   }
 }

@@ -1,12 +1,13 @@
-import { CharacterEntity, NoteEntity } from "crossbell.js"
-import { useTranslation } from "next-i18next"
+"use client"
+
+import type { CharacterEntity, NoteEntity } from "crossbell"
 import { useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { CommentInput } from "~/components/common/CommentInput"
-import { PageContent } from "~/components/common/PageContent"
+import PageContent from "~/components/common/PageContent"
 import { ReactionLike } from "~/components/common/ReactionLike"
 import { Titles } from "~/components/common/Titles"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
@@ -16,9 +17,16 @@ import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
-export const CommentItem: React.FC<{
+export const CommentItem = ({
+  comment,
+  originalCharacterId,
+  originalNoteId,
+  depth,
+  className,
+}: {
   comment: NoteEntity & {
     character?: CharacterEntity | null
   }
@@ -26,7 +34,7 @@ export const CommentItem: React.FC<{
   originalNoteId?: number
   depth: number
   className?: string
-}> = ({ comment, originalCharacterId, originalNoteId, depth, className }) => {
+}) => {
   const [replyOpen, setReplyOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
 
@@ -38,6 +46,10 @@ export const CommentItem: React.FC<{
   if (!comment.metadata?.content?.content) {
     return null
   }
+
+  const displayName = comment?.metadata?.content?.attributes?.find(
+    (attribute) => attribute.trait_type === "xlog_sender_name",
+  )?.value as string | undefined
 
   return (
     <div
@@ -57,8 +69,15 @@ export const CommentItem: React.FC<{
                 className="block align-middle mr-3"
               >
                 <Avatar
-                  images={comment?.character?.metadata?.content?.avatars || []}
-                  name={comment?.character?.metadata?.content?.name}
+                  cid={displayName || comment?.character?.characterId}
+                  images={
+                    displayName
+                      ? []
+                      : comment?.character?.metadata?.content?.avatars || []
+                  }
+                  name={
+                    displayName || comment?.character?.metadata?.content?.name
+                  }
                   size={45}
                 />
               </UniLink>
@@ -76,7 +95,7 @@ export const CommentItem: React.FC<{
               }
               className="font-medium text-accent"
             >
-              {comment?.character?.metadata?.content?.name}
+              {displayName || comment?.character?.metadata?.content?.name}
             </UniLink>
             <Titles characterId={comment.characterId} />
             <span>·</span>
@@ -120,9 +139,11 @@ export const CommentItem: React.FC<{
                 onClick={() => setReplyOpen(!replyOpen)}
               >
                 {t(`${replyOpen ? "Cancel " : ""}Reply`)}
-                <span className="ml-1">
-                  {(comment as any)?.fromNotes?.count || 0}
-                </span>
+                {!replyOpen && (
+                  <span className="ml-1">
+                    {(comment as any)?.fromNotes?.count || 0}
+                  </span>
+                )}
               </Button>
             )}
             {comment.characterId === account?.characterId && (

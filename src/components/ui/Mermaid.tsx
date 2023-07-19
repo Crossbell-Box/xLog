@@ -1,15 +1,15 @@
+"use client"
+
 import { nanoid } from "nanoid"
-import { FC, memo, useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 
-import { ZoomedImage } from "./Image"
+import AdvancedImage from "./AdvancedImage"
 
-export const Mermaid: FC<{
-  children: [string]
-}> = memo(
-  function Mermaid(props) {
+const Mermaid = memo(
+  function Mermaid(props: { children: [string] }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [svg, setSvg] = useState("")
@@ -74,7 +74,7 @@ export const Mermaid: FC<{
       </div>
     ) : svg ? (
       <div>
-        <ZoomedImage
+        <AdvancedImage
           alt="mermaid"
           src={
             "data:image/svg+xml;base64," + Buffer.from(svg).toString("base64")
@@ -93,3 +93,5 @@ export const Mermaid: FC<{
     return prevProps.children?.[0] === nextProps.children?.[0]
   },
 )
+
+export default Mermaid

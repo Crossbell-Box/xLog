@@ -1,4 +1,5 @@
-import { Trans, useTranslation } from "next-i18next"
+"use client"
+
 import { useEffect } from "react"
 import { toast } from "react-hot-toast"
 
@@ -6,6 +7,7 @@ import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
 import { UniLink } from "~/components/ui/UniLink"
 import { SITE_URL } from "~/lib/env"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import {
@@ -14,16 +16,22 @@ import {
   useUnsubscribeFromSite,
 } from "~/queries/site"
 
-export const FollowingButton: React.FC<{
+export const FollowingButton = ({
+  site,
+  variant,
+  className,
+  size,
+  loadingStatusChange,
+}: {
   site?: ExpandedCharacter
   variant?: Variant
   className?: string
   size?: "sm" | "xl"
   loadingStatusChange?: (status: boolean) => void
-}> = ({ site, variant, className, size, loadingStatusChange }) => {
+}) => {
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
-  const { t } = useTranslation("common")
+  const { t, i18n } = useTranslation("common")
 
   const handleClickSubscribe = () => {
     if (site?.characterId) {
@@ -54,9 +62,9 @@ export const FollowingButton: React.FC<{
       subscribeToSite.reset()
       toast.success(
         <span>
-          <Trans i18nKey="Successfully followed" ns="common">
+          <Trans i18n={i18n} i18nKey="Successfully followed" ns="common">
             Hey there! You&apos;re all set to{" "}
-            <UniLink className="underline" href={`${SITE_URL}/activities`}>
+            <UniLink className="underline" href={`${SITE_URL}/`}>
               keep up with your followed blogger&apos;s latest buzz here
             </UniLink>
             .
@@ -81,6 +89,12 @@ export const FollowingButton: React.FC<{
     loadingStatusChange,
   ])
 
+  const isLoading = subscription.data
+    ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading
+    : unsubscribeFromSite.isLoading ||
+      subscribeToSite.isLoading ||
+      subscription.isLoading
+
   return (
     <Button
       variant={subscription.data ? "text" : variant}
@@ -93,13 +107,7 @@ export const FollowingButton: React.FC<{
           "opacity-60": subscription.data,
         },
       )}
-      isLoading={
-        subscription.data
-          ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading
-          : unsubscribeFromSite.isLoading ||
-            subscribeToSite.isLoading ||
-            subscription.isLoading
-      }
+      isLoading={isLoading}
       size={size}
       aria-label="follow"
       isAutoWidth
@@ -117,7 +125,9 @@ export const FollowingButton: React.FC<{
         </>
       ) : (
         <span className="inline-flex items-center">
-          <span className="icon-[mingcute--user-add-fill] inline-block sm:mr-2"></span>{" "}
+          {!isLoading && (
+            <span className="icon-[mingcute--user-add-fill] inline-block sm:mr-2"></span>
+          )}{" "}
           <span className="hidden sm:inline">{t("Follow")}</span>
         </span>
       )}

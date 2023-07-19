@@ -4,7 +4,7 @@ import { visit } from "unist-util-visit"
 
 const CALLOUT_RE = /^(TIP|WARN|SUCCESS|DANGER):(\n|$)/
 
-export const remarkCallout: Plugin<Array<void>, Root> = () => (tree) => {
+export const remarkCallout: Plugin<Array<void>, Root> = () => (tree: Root) => {
   visit(tree, { type: "blockquote" }, (node, index, parent) => {
     if (node.type !== "blockquote") return
 

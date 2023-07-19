@@ -1,21 +1,26 @@
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+import { useParams, usePathname } from "next/navigation"
 import React from "react"
 
 import { useXSettingsModal } from "@crossbell/connect-kit"
 
+import { useTranslation } from "~/lib/i18n/client"
+
 import { type TabItem, Tabs } from "../ui/Tabs"
 import { DashboardMain } from "./DashboardMain"
 
-export const SettingsLayout: React.FC<{
+export const SettingsLayout = ({
+  title,
+  children,
+}: {
   title: string
   children: React.ReactNode
-}> = ({ title, children }) => {
-  const router = useRouter()
+}) => {
   const { t } = useTranslation("dashboard")
   const xSettingsModal = useXSettingsModal()
 
-  const subdomain = router.query.subdomain as string
+  const pathname = usePathname()
+  const params = useParams()
+  const subdomain = params?.subdomain as string
   const tabItems: TabItem[] = [
     { text: "General", href: `/dashboard/${subdomain}/settings/general` },
     {
@@ -40,7 +45,7 @@ export const SettingsLayout: React.FC<{
       text: "Export data",
       href: `https://export.crossbell.io/?handle=${subdomain}`,
     },
-  ].map((item) => ({ ...item, active: router.asPath === item.href }))
+  ].map((item) => ({ ...item, active: pathname === item.href }))
 
   return (
     <DashboardMain>

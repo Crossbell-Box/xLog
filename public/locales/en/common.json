@@ -1,5 +1,0 @@
-{
-  "intlDateTime": "{{val, datetime}}",
-  "ago": "{{time}} ago",
-  "joined ago": "Joined {{time}} ago"
-}

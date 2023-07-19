@@ -1,4 +1,4 @@
-import { CharacterEntity, NoteEntity } from "crossbell.js"
+import type { CharacterEntity, NoteEntity } from "crossbell"
 
 export type Site = {
   id: string
@@ -78,14 +78,17 @@ export type ExpandedNote = NoteEntity & {
     content: {
       summary?: string
       cover?: string
+      images?: string[]
       frontMatter?: Record<string, any>
       slug?: string
-      views?: number
       audio?: string
       score?: {
         number?: number
         reason?: string
       }
+      contentHTML?: string
+      disableAISummary?: boolean
+      readingTime?: number
     }
   }
   stat?: {
@@ -102,7 +105,11 @@ export type ExpandedCharacter = CharacterEntity & {
       css?: string
       ga?: string
       ua?: string
+      uh?: string
       custom_domain?: string
+      site_name?: string
     }
   }
 }
+
+export type ColorScheme = "dark" | "light"

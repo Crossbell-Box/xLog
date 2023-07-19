@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next"
 import Tilt from "react-parallax-tilt"
 
 import { Modal, Stepper } from "@mantine/core"
@@ -8,18 +7,26 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import type { AchievementSection } from "~/models/site.model"
 import { useMintAchievement } from "~/queries/site"
 
-export const AchievementModal: React.FC<{
+export const AchievementModal = ({
+  opened,
+  setOpened,
+  group,
+  layoutId,
+  isOwner,
+  characterId,
+}: {
   opened: boolean
   setOpened: (value: boolean) => void
   group: AchievementSection["groups"][number]
   layoutId: string
   isOwner: boolean
   characterId?: number
-}> = ({ opened, setOpened, group, layoutId, isOwner, characterId }) => {
+}) => {
   const date = useDate()
   const { t } = useTranslation("common")
 
@@ -45,6 +52,13 @@ export const AchievementModal: React.FC<{
       })
     }
   }
+
+  const reversedItems = [...group.items].reverse()
+  const reversedIndex = reversedItems.findIndex(
+    (item) => item.status === "MINTED",
+  )
+  const targetIndex =
+    reversedIndex === -1 ? -1 : group.items.length - reversedIndex
 
   return (
     <Modal
@@ -145,9 +159,7 @@ export const AchievementModal: React.FC<{
         </div>
         <div className="mt-8 hidden sm:block h-24">
           <Stepper
-            active={
-              group.items.findLastIndex((item) => item.status === "MINTED") + 1
-            }
+            active={targetIndex}
             color="var(--theme-color)"
             size="sm"
             iconSize={42}

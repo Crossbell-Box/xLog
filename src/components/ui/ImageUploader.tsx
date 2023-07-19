@@ -4,6 +4,7 @@ import { XMarkIcon } from "@heroicons/react/20/solid"
 
 import { Image } from "~/components/ui/Image"
 import { useUploadFile } from "~/hooks/useUploadFile"
+import { useTranslation } from "~/lib/i18n/client"
 import { toGateway } from "~/lib/ipfs-parser"
 import { cn } from "~/lib/utils"
 
@@ -21,6 +22,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
     uploadEnd,
     withMimeType,
     hasClose,
+    accept,
     ...inputProps
   }: {
     className?: string
@@ -36,12 +38,14 @@ export const ImageUploader = forwardRef(function ImageUploader(
     ) => void
     withMimeType?: boolean
     hasClose?: boolean
+    accept?: string
   } & React.ComponentPropsWithRef<"input">,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
   const uploadFile = useUploadFile()
   const [imageUrl, setImageUrl] = useState<string>()
   const [loading, setLoading] = useState(false)
+  const { t } = useTranslation("common")
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files?.[0]) {
@@ -128,14 +132,15 @@ export const ImageUploader = forwardRef(function ImageUploader(
           />
         )}
       {!imageUrl && (
-        <div className="w-full h-full flex justify-center items-center text-zinc-500 text-center">
-          Click to select files
+        <div className="w-full h-full flex justify-center items-center text-zinc-500 text-center bg-white">
+          {t("Click to select files")}
         </div>
       )}
       <input
         onChange={handleChange}
         type="file"
         className="absolute top-0 bottom-0 left-0 right-0 opacity-0"
+        accept={accept}
       />
       {imageUrl && hasClose && (
         <div

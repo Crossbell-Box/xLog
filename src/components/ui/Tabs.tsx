@@ -1,7 +1,7 @@
-import { useTranslation } from "next-i18next"
 import React from "react"
 
 import { Tooltip } from "~/components/ui/Tooltip"
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 import { UniLink } from "./UniLink"
@@ -15,17 +15,20 @@ export type TabItem = {
   tooltip?: string
 }
 
-export const Tabs: React.FC<{ items: TabItem[]; className?: string }> = ({
+export const Tabs = ({
   items,
   className,
+}: {
+  items: TabItem[]
+  className?: string
 }) => {
-  const { t } = useTranslation(["dashboard"])
+  const { t } = useTranslation("dashboard")
 
   return (
     <div
       className={cn(
-        className,
         "flex border-b space-x-5 mb-8 overflow-x-auto scrollbar-hide",
+        className,
       )}
     >
       {items.map((item) => {

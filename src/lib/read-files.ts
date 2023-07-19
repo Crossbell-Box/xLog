@@ -1,5 +1,4 @@
 import { getDefaultSlug } from "~/lib/default-slug"
-import { renderPageContent } from "~/markdown"
 
 const makeArray = (value: any) => {
   if (Array.isArray(value)) {
@@ -11,8 +10,9 @@ const makeArray = (value: any) => {
   return [value]
 }
 
-export const readFiles = (files: FileList) => {
+export const readFiles = async (files: FileList) => {
   const promises = []
+  const { renderPageContent } = await import("~/markdown")
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
     promises.push(

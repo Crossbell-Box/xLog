@@ -2,7 +2,7 @@ import { Root } from "remark-gfm"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
-export const remarkMermaid: Plugin<Array<void>, Root> = () => (tree, file) => {
+export const remarkMermaid: Plugin<Array<void>, Root> = () => (tree: Root) => {
   visit(tree, (node) => {
     if (node.type === "code" && node.lang === "mermaid") {
       // @ts-ignore

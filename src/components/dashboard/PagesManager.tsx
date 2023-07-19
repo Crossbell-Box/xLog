@@ -1,19 +1,26 @@
+"use client"
+
 import { nanoid } from "nanoid"
-import { Trans, useTranslation } from "next-i18next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation"
 import { Fragment, useMemo, useState } from "react"
 
 import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { useDate } from "~/hooks/useDate"
+import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import { useGetPagesBySite } from "~/queries/page"
+import { useGetPagesBySite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 import { Button } from "../ui/Button"
@@ -25,28 +32,31 @@ import { DashboardMain } from "./DashboardMain"
 import { PagesManagerBatchSelectActionTab } from "./PagesManagerBatchSelectActionTab"
 import { PagesManagerMenu } from "./PagesManagerMenu"
 
-export const PagesManager: React.FC<{
-  isPost: boolean
-}> = ({ isPost }) => {
-  const router = useRouter()
-  const subdomain = router.query.subdomain as string
+export const PagesManager = ({ isPost }: { isPost: boolean }) => {
+  const params = useParams()
+  const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
+  const searchParams = useSearchParams()!
+  const router = useRouter()
+  const pathname = usePathname()
+  const pinnedPage = usePinnedPage({ characterId: site.data?.characterId })
 
   const visibility = useMemo<PageVisibilityEnum>(
     () =>
-      router.query.visibility
-        ? (router.query.visibility as PageVisibilityEnum)
+      searchParams?.get("visibility")
+        ? (searchParams?.get("visibility") as PageVisibilityEnum)
         : PageVisibilityEnum.All,
-    [router.query.visibility],
+    [searchParams],
   )
 
-  const { t } = useTranslation(["dashboard", "site"])
+  const { t, i18n } = useTranslation("dashboard")
+  const { t: siteT } = useTranslation("site")
   const date = useDate()
 
   const pages = useGetPagesBySite({
     type: isPost ? "post" : "page",
     characterId: site.data?.characterId,
-    limit: 100,
+    limit: 20,
     visibility,
     handle: subdomain,
   })
@@ -74,17 +84,14 @@ export const PagesManager: React.FC<{
   ].map((item) => ({
     text: item.text,
     onClick: () => {
-      const newQuery: Record<string, any> = {
-        ...router.query,
-        visibility: item.value,
-      }
+      // issue related: https://github.com/vercel/next.js/issues/49245
+      const newQuery = new URLSearchParams(searchParams.toString())
+      newQuery.set("visibility", item.value)
       if (item.value === PageVisibilityEnum.All) {
-        delete newQuery["visibility"]
+        newQuery.delete("visibility")
       }
-      const search = new URLSearchParams(newQuery).toString()
-      router.push({
-        search,
-      })
+      const search = newQuery.toString()
+      router.push(pathname + "?" + search)
     },
     active: item.value === visibility,
   }))
@@ -105,7 +112,7 @@ export const PagesManager: React.FC<{
       const file = (await readFiles(e.target?.files))?.[0]
       if (file) {
         const id = nanoid()
-        const key = `draft-${site.data?.characterId}-local-${id}`
+        const key = `draft-${site.data?.characterId}-!local-${id}`
         setStorage(key, {
           date: +new Date(),
           values: {
@@ -123,7 +130,7 @@ export const PagesManager: React.FC<{
           site.data?.characterId,
         ])
         router.push(
-          `/dashboard/${subdomain}/editor?id=local-${id}&type=${
+          `/dashboard/${subdomain}/editor?id=!local-${id}&type=${
             isPost ? "post" : "page"
           }`,
         )
@@ -136,7 +143,7 @@ export const PagesManager: React.FC<{
   const description = isPost ? (
     <>
       <p>
-        <Trans i18nKey="posts description" ns="dashboard">
+        <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
           Posts are entries listed in reverse chronological order on your site.
           Think of them as articles or updates that you share to offer up new
           content to your readers.{" "}
@@ -149,7 +156,7 @@ export const PagesManager: React.FC<{
   ) : (
     <>
       <p>
-        <Trans i18nKey="pages description" ns="dashboard">
+        <Trans i18n={i18n} i18nKey="pages description" ns="dashboard">
           Pages are static and are not affected by date. Think of them as more
           permanent fixtures of your site — an About page, and a Contact page
           are great examples of this.{" "}
@@ -162,7 +169,7 @@ export const PagesManager: React.FC<{
         </Trans>
       </p>
       <p>
-        <Trans i18nKey="pages add" ns="dashboard">
+        <Trans i18n={i18n} i18nKey="pages add" ns="dashboard">
           After you create a page, you can{" "}
           <UniLink
             className="underline"
@@ -218,7 +225,6 @@ export const PagesManager: React.FC<{
       {batchSelected.length > 0 ? (
         <PagesManagerBatchSelectActionTab
           isPost={isPost}
-          isNotxLogContent={false}
           pages={pages.data}
           batchSelected={batchSelected}
           setBatchSelected={setBatchSelected}
@@ -228,118 +234,131 @@ export const PagesManager: React.FC<{
       )}
 
       <div className="-mt-3">
-        {!pages.data?.pages?.[0].count && (
+        {pages.isLoading && <p className="py-3 px-3">{t("Loading")}...</p>}
+        {!pages.isLoading && !pages.data?.pages?.[0].count && (
           <EmptyState resource={isPost ? "posts" : "pages"} />
         )}
 
-        {pages.data?.pages.map((page) =>
-          page.list?.map((page) => {
-            currentLength++
-            return (
-              <Link
-                key={page.transactionHash}
-                href={getPageEditLink(page)}
-                className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex"
-              >
-                <div className="w-10 flex-shrink-0 flex self-center">
-                  <button
-                    className={cn(
-                      `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
-                      batchSelected.includes(page.noteId || page.draftKey || 0)
-                        ? "bg-gray-200"
-                        : `hover:bg-gray-200`,
-                    )}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      // Toggle selection
-                      if (
+        {pages.data?.pages.map(
+          (page) =>
+            page.list?.map((page) => {
+              currentLength++
+              return (
+                <Link
+                  key={page.transactionHash || page.draftKey}
+                  href={getPageEditLink(page)}
+                  className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex"
+                >
+                  <div className="w-10 flex-shrink-0 flex self-center">
+                    <button
+                      className={cn(
+                        `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
                         batchSelected.includes(
                           page.noteId || page.draftKey || 0,
                         )
-                      ) {
-                        // Deselect
-                        setBatchSelected(
-                          batchSelected.filter(
-                            (pageId) =>
-                              pageId !== page.noteId || page.draftKey || 0,
-                          ),
-                        )
-                      } else {
-                        // Do select
-                        setBatchSelected([
-                          ...batchSelected,
-                          page.noteId || page.draftKey || 0,
-                        ])
-                      }
-                    }}
-                  >
-                    <i
-                      className={`${
-                        batchSelected.includes(
-                          page.noteId || page.draftKey || 0,
-                        )
-                          ? "icon-[mingcute--check-line]"
-                          : isPost
-                          ? "icon-[mingcute--news-line]"
-                          : "icon-[mingcute--file-line]"
-                      } text-2xl`}
-                    />
-                  </button>
-                </div>
-                <div className="min-w-0">
-                  {page.metadata?.content?.title ? (
-                    <div className="flex items-center">
-                      <span>{page.metadata?.content?.title}</span>
-                    </div>
-                  ) : (
-                    <div className="text-zinc-500 text-xs mt-1 truncate">
-                      <span>{page.metadata?.content?.summary}</span>
-                    </div>
-                  )}
-                  <div className="text-zinc-400 text-xs mt-1">
-                    <span className="capitalize">
-                      {t(getPageVisibility(page))}
-                    </span>
-                    <span className="mx-2">·</span>
-                    <span>
-                      {getPageVisibility(page) === PageVisibilityEnum.Draft
-                        ? date.formatDate(page.updatedAt)
-                        : date.formatDate(
-                            page.metadata?.content?.date_published || "",
-                          )}
-                    </span>
+                          ? "bg-gray-200"
+                          : `hover:bg-gray-200`,
+                      )}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        // Toggle selection
+                        if (
+                          batchSelected.includes(
+                            page.noteId || page.draftKey || 0,
+                          )
+                        ) {
+                          // Deselect
+                          setBatchSelected(
+                            batchSelected.filter(
+                              (pageId) =>
+                                pageId !== page.noteId || page.draftKey || 0,
+                            ),
+                          )
+                        } else {
+                          // Do select
+                          setBatchSelected([
+                            ...batchSelected,
+                            page.noteId || page.draftKey || 0,
+                          ])
+                        }
+                      }}
+                    >
+                      <i
+                        className={`${
+                          batchSelected.includes(
+                            page.noteId || page.draftKey || 0,
+                          )
+                            ? "icon-[mingcute--check-line]"
+                            : isPost
+                            ? "icon-[mingcute--news-line]"
+                            : "icon-[mingcute--file-line]"
+                        } text-2xl`}
+                      />
+                    </button>
                   </div>
-                </div>
-                <div className="w-10 flex-shrink-0 flex self-center ml-auto">
-                  <Menu>
-                    {({ open, close }) => (
-                      <>
-                        <Menu.Button as={Fragment}>
-                          <button
-                            className={cn(
-                              `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
-                              open ? `bg-gray-200` : `hover:bg-gray-200`,
-                            )}
-                            onClick={(e) => {
-                              e.stopPropagation()
-                            }}
-                          >
-                            <i className="icon-[mingcute--more-1-line] text-2xl" />
-                          </button>
-                        </Menu.Button>
-
-                        <PagesManagerMenu
-                          isPost={isPost}
-                          page={page}
-                          onClick={close}
-                        />
-                      </>
+                  <div className="min-w-0">
+                    {page.metadata?.content?.title ? (
+                      <div className="flex items-center">
+                        <span>{page.metadata?.content?.title}</span>
+                      </div>
+                    ) : (
+                      <div className="text-zinc-500 text-xs mt-1 truncate">
+                        <span>{page.metadata?.content?.summary}</span>
+                      </div>
                     )}
-                  </Menu>
-                </div>
-              </Link>
-            )
-          }),
+                    <div className="text-zinc-400 text-xs mt-1">
+                      <span className="capitalize">
+                        {t(getPageVisibility(page))}
+                      </span>
+                      <span className="mx-2">·</span>
+                      <span>
+                        {getPageVisibility(page) === PageVisibilityEnum.Draft
+                          ? date.formatDate(page.updatedAt)
+                          : date.formatDate(
+                              page.metadata?.content?.date_published || "",
+                            )}
+                      </span>
+                      {pinnedPage.noteId === page.noteId && (
+                        <>
+                          <span className="mx-2">·</span>
+                          <span>
+                            <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
+                            {siteT("Pinned")}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="w-10 flex-shrink-0 flex self-center ml-auto">
+                    <Menu>
+                      {({ open, close }) => (
+                        <>
+                          <Menu.Button as={Fragment}>
+                            <button
+                              className={cn(
+                                `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
+                                open ? `bg-gray-200` : `hover:bg-gray-200`,
+                              )}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                              }}
+                            >
+                              <i className="icon-[mingcute--more-1-line] text-2xl" />
+                            </button>
+                          </Menu.Button>
+
+                          <PagesManagerMenu
+                            isPost={isPost}
+                            page={page}
+                            onClick={close}
+                          />
+                        </>
+                      )}
+                    </Menu>
+                  </div>
+                </Link>
+              )
+            }),
         )}
 
         {pages.hasNextPage && (
@@ -349,7 +368,7 @@ export const PagesManager: React.FC<{
             onClick={pages.fetchNextPage as () => void}
             isLoading={pages.isFetchingNextPage}
           >
-            {t("load more", {
+            {siteT("load more", {
               name: t(
                 isPost
                   ? "post"
@@ -359,7 +378,6 @@ export const PagesManager: React.FC<{
                         : ""),
               ),
               count: (pages.data?.pages?.[0].count || 0) - currentLength,
-              ns: "site",
             })}
           </Button>
         )}

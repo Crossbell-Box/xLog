@@ -1,0 +1,41 @@
+{
+	"applinks": {
+		"apps": [],
+		"details": [{
+				"appIDs": [
+					"9AYPRU93J4.com.crossbell.xlog.development",
+					"9AYPRU93J4.com.crossbell.xlog.test",
+					"9AYPRU93J4.com.crossbell.xlog"
+				],
+				"components": [{
+					"/": "/",
+					"comment": "Matches homepage only"
+				}, {
+					"/": "/notes/*",
+					"comment": "Matches any path under /notes/"
+				}]
+			},
+			{
+				"appID": "9AYPRU93J4.com.crossbell.xlog.development",
+				"paths": [
+					"/",
+					"/notes/*"
+				]
+			},
+			{
+				"appID": "9AYPRU93J4.com.crossbell.xlog.test",
+				"paths": [
+					"/",
+					"/notes/*"
+				]
+			},
+			{
+				"appID": "9AYPRU93J4.com.crossbell.xlog",
+				"paths": [
+					"/",
+					"/notes/*"
+				]
+			}
+		]
+	}
+}

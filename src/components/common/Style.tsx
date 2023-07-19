@@ -1,9 +1,14 @@
+import { memo } from "react"
+
 import { toGateway } from "~/lib/ipfs-parser"
 
-export const Style: React.FC<{
+const Style = memo(function Style({
+  content,
+  children,
+}: {
   content?: string
   children?: React.ReactNode[]
-}> = ({ content, children }) => {
+}) {
   let css = content
   if (!css && typeof children?.[0] === "string") {
     css = children[0].trim()
@@ -21,4 +26,6 @@ export const Style: React.FC<{
       }
     />
   )
-}
+})
+
+export default Style

@@ -1,10 +1,10 @@
-import { NoteEntity } from "crossbell.js"
+import type { NoteEntity } from "crossbell"
+import { TFunction } from "i18next"
 
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { IS_PROD, IS_VERCEL_PREVIEW } from "./constants"
 import { OUR_DOMAIN } from "./env"
-import { isServerSide } from "./utils"
 
 export const getSiteLink = ({
   domain,
@@ -15,7 +15,7 @@ export const getSiteLink = ({
   subdomain: string
   noProtocol?: boolean
 }) => {
-  if (IS_VERCEL_PREVIEW) return `/_site/${subdomain}`
+  if (IS_VERCEL_PREVIEW) return `/site/${subdomain}`
 
   if (domain) {
     return `https://${domain}`
@@ -27,28 +27,14 @@ export const getSiteLink = ({
   return `${IS_PROD ? "https" : "http"}://${subdomain}.${OUR_DOMAIN}`
 }
 
-export const getSlugUrl = (slug: string) => {
-  if (!isServerSide() && IS_VERCEL_PREVIEW) {
-    const pathArr = new URL(location.href).pathname.split("/").filter(($) => $)
-    const indicatorIndex = pathArr.findIndex(($) => $ === "_site")
-    if (-~indicatorIndex) {
-      const handle = pathArr[indicatorIndex + 1]
-
-      return `/_site/${handle}${slug}`
-    }
-  }
-
-  return slug
-}
-
 export const getNoteSlug = (note: NoteEntity) => {
-  return (
+  return encodeURIComponent(
     note.metadata?.content?.attributes?.find(
       (a) => a?.trait_type === "xlog_slug",
     )?.value ||
-    (note.metadata?.content as any)?._xlog_slug ||
-    (note.metadata?.content as any)?._crosslog_slug
-  )?.toLowerCase?.()
+      note.metadata?.content?.title ||
+      "",
+  )
 }
 
 export const getNoteSlugFromNote = (page: ExpandedNote) => {
@@ -64,7 +50,7 @@ export const getTwitterShareUrl = ({
 }: {
   page: ExpandedNote
   site: ExpandedCharacter
-  t: (key: string, options?: any) => string
+  t: TFunction<string, undefined>
 }) => {
   const slug = getNoteSlugFromNote(page)
 
@@ -83,4 +69,24 @@ export const getTwitterShareUrl = ({
       },
     ),
   )}`
+}
+
+export const getSiteRelativeUrl = (pathname: string, address: string) => {
+  if (address.match(/^https?:\/\//)) {
+    return address
+  }
+  if (!address.startsWith("/")) {
+    address = `/${address}`
+  }
+  const reg = /\/(site|post)\/([^/]*)/
+  if (address.match(reg)) {
+    return address
+  } else {
+    const match = pathname.match(reg)
+    if (match?.[2]) {
+      return `/site/${match[2]}${address === "/" ? "" : address}`
+    } else {
+      return address
+    }
+  }
 }

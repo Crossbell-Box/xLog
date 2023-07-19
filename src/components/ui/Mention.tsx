@@ -1,3 +1,5 @@
+"use client"
+
 import React, { memo } from "react"
 
 import { getSiteLink } from "~/lib/helpers"
@@ -18,11 +20,8 @@ const getSiteId = ({ id, children }: { id: string; children?: any }) => {
   }
 }
 
-export const Mention: React.FC<{
-  id: string
-  children?: any
-}> = memo(
-  function Mention({ id, children }) {
+const Mention = memo(
+  function Mention({ id, children }: { id: string; children?: any }) {
     let siteId = getSiteId({ id, children })
 
     const site = useGetSite(siteId)
@@ -48,3 +47,5 @@ export const Mention: React.FC<{
     return getSiteId(prevProps) === getSiteId(nextProps)
   },
 )
+
+export default Mention

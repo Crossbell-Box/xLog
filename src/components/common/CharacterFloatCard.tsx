@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 
 import {
@@ -17,10 +19,13 @@ import { CharacterCard } from "~/components/common/CharacterCard"
 
 import { Portal } from "./Portal"
 
-export const CharacterFloatCard: React.FC<{
+export const CharacterFloatCard = ({
+  siteId,
+  children,
+}: {
   siteId?: string
   children: JSX.Element
-}> = ({ siteId, children }) => {
+}) => {
   const [open, setOpen] = useState(false)
 
   const { x, y, refs, strategy, context } = useFloating({

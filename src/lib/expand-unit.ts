@@ -1,16 +1,27 @@
-import { CharacterEntity, NoteEntity } from "crossbell.js"
+import type { CharacterEntity, NoteEntity } from "crossbell"
 import { nanoid } from "nanoid"
+import removeMarkdown from "remove-markdown"
 
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
+import readingTime from "~/lib/reading-time"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
-export const expandCrossbellNote = async (
-  note: NoteEntity,
-  useStat?: boolean,
-  useScore?: boolean,
-  keyword?: string,
-) => {
+import { getNoteSlug } from "./helpers"
+
+export const expandCrossbellNote = async ({
+  note,
+  useStat,
+  useScore,
+  keyword,
+  useHTML,
+}: {
+  note: NoteEntity
+  useStat?: boolean
+  useScore?: boolean
+  keyword?: string
+  useHTML?: boolean
+}) => {
   const expandedNote: ExpandedNote = Object.assign(
     {
       metadata: {
@@ -40,23 +51,65 @@ export const expandCrossbellNote = async (
           expandedNote.metadata.content.summary = rendered.excerpt
         }
       }
-      expandedNote.metadata.content.cover = rendered.cover
+      expandedNote.metadata.content.cover =
+        expandedNote.metadata?.content?.attachments?.find(
+          (attachment) => attachment.name === "cover",
+        )?.address ||
+        rendered.cover ||
+        `${SITE_URL}/api/og?noteId=${expandedNote.noteId}&characterId=${expandedNote.characterId}`
+
+      expandedNote.metadata.content.images = []
+      const cover = expandedNote.metadata?.content?.attachments?.find(
+        (attachment) => attachment.name === "cover",
+      )?.address
+      if (cover) {
+        expandedNote.metadata.content.images.push(cover)
+      }
+      expandedNote.metadata.content.images =
+        expandedNote.metadata.content.images.concat(rendered.images)
+      if (!expandedNote.metadata.content.images.length) {
+        expandedNote.metadata.content.images.push(
+          `${SITE_URL}/api/og?noteId=${expandedNote.noteId}&characterId=${expandedNote.characterId}`,
+        )
+      }
+      expandedNote.metadata.content.images = [
+        ...new Set(expandedNote.metadata.content.images),
+      ]
+
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
+
+      if (useHTML) {
+        expandedNote.metadata.content.contentHTML = rendered.contentHTML
+      }
     }
-    expandedNote.metadata.content.slug = encodeURIComponent(
+    expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
+    if (!expandedNote.metadata.content.date_published && expandedNote.noteId) {
+      expandedNote.metadata.content.date_published = expandedNote.createdAt
+    }
+
+    expandedNote.metadata.content.disableAISummary = Boolean(
       expandedNote.metadata.content.attributes?.find(
-        (a) => a.trait_type === "xlog_slug",
-      )?.value || "",
+        (attribute) => attribute.trait_type === "xlog_disable_ai_summary",
+      )?.value,
     )
 
-    if (useStat) {
-      const stat = await (
-        await fetch(
-          `https://indexer.crossbell.io/v1/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,
+    expandedNote.metadata.content.readingTime = expandedNote.metadata.content
+      .content
+      ? Math.round(
+          readingTime(removeMarkdown(expandedNote.metadata.content.content)),
         )
-      ).json()
-      expandedNote.metadata.content.views = stat.viewDetailCount
+      : 0
+
+    if (useStat) {
+      if (!expandedNote.stat) {
+        const stat = await (
+          await fetch(
+            `https://indexer.crossbell.io/v1/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,
+          )
+        ).json()
+        expandedNote.stat = stat
+      }
     }
 
     if (useScore) {
@@ -110,24 +163,56 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
     (expandedCharacter.metadata?.content?.attributes?.find(
       (a: any) => a.trait_type === "xlog_ua",
     )?.value as string) || ""
+  expandedCharacter.metadata.content.uh =
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_uh",
+    )?.value as string) || ""
   expandedCharacter.metadata.content.custom_domain =
     (expandedCharacter.metadata?.content?.attributes?.find(
       (a: any) => a.trait_type === "xlog_custom_domain",
     )?.value as string) || ""
+  expandedCharacter.metadata.content.site_name =
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_site_name",
+    )?.value as string) || ""
   expandedCharacter.metadata.content.name =
     expandedCharacter.metadata.content.name || expandedCharacter.handle
 
-  if (expandedCharacter.metadata.content.avatars) {
+  if (expandedCharacter.metadata.content.avatars?.length) {
     expandedCharacter.metadata.content.avatars =
-      expandedCharacter.metadata.content.avatars.map((avatar) =>
-        toGateway(avatar),
-      )
+      expandedCharacter.metadata.content.avatars
+        .map((avatar) => toGateway(avatar))
+        .filter(Boolean)
+  } else {
+    expandedCharacter.metadata.content.avatars = [
+      `https://api.dicebear.com/6.x/bottts-neutral/svg?seed=${expandedCharacter.characterId}`,
+    ]
   }
+
   if (expandedCharacter.metadata.content.banners) {
-    expandedCharacter.metadata.content.banners.map((banner) => {
-      banner.address = toGateway(banner.address)
-      return banner
-    })
+    expandedCharacter.metadata.content.banners =
+      expandedCharacter.metadata.content.banners
+        .map((banner: { address: string; mime_type: string } | string) => {
+          let expandedBanner
+          switch (typeof banner) {
+            case "string":
+              expandedBanner = {
+                address: toGateway(banner),
+                mime_type: "image/jpeg",
+              }
+              break
+            case "object":
+              if (banner.address) {
+                expandedBanner = {
+                  ...banner,
+                  address: toGateway(banner.address),
+                }
+              }
+              break
+          }
+          return expandedBanner
+        })
+        .filter(Boolean) as { address: string; mime_type: string }[]
   }
 
   return expandedCharacter

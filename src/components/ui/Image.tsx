@@ -1,3 +1,5 @@
+"use client"
+
 import { ImageProps, default as NextImage } from "next/image"
 import React, { useEffect } from "react"
 
@@ -5,7 +7,7 @@ import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
 
-type TImageProps = {
+export type TImageProps = {
   className?: string
   src?: string
   width?: number | string
@@ -13,10 +15,12 @@ type TImageProps = {
   "original-src"?: string
   imageRef?: React.MutableRefObject<HTMLImageElement>
   zoom?: boolean
+  blurDataURL?: string
+  placeholder?: "blur"
 } & React.HTMLAttributes<HTMLImageElement> &
   ImageProps
 
-export const Image: React.FC<TImageProps> = ({
+export const Image = ({
   fill,
   className,
   alt,
@@ -25,8 +29,10 @@ export const Image: React.FC<TImageProps> = ({
   height,
   imageRef,
   zoom,
+  blurDataURL,
+  placeholder,
   ...props
-}) => {
+}: TImageProps) => {
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
   const [autoWidth, setAutoWidth] = React.useState(0)
@@ -62,7 +68,7 @@ export const Image: React.FC<TImageProps> = ({
           import("medium-zoom").then(({ default: mediumZoom }) => {
             mediumZoom($image, {
               margin: 10,
-              background: "rgb(var(--tw-colors-i-white))",
+              background: "rgb(var(--tw-color-white))",
               scrollOffset: 0,
             })
           })
@@ -135,6 +141,8 @@ export const Image: React.FC<TImageProps> = ({
           width={width}
           height={height}
           fill={fill || autoSize}
+          blurDataURL={blurDataURL}
+          placeholder={placeholder}
           onLoad={({ target }) => {
             if (autoSize) {
               const { naturalWidth, naturalHeight } = target as HTMLImageElement
@@ -145,15 +153,6 @@ export const Image: React.FC<TImageProps> = ({
           ref={imageRefInternal}
         />
       </span>
-    </span>
-  )
-}
-
-export const ZoomedImage: React.FC<TImageProps> = (props) => {
-  return (
-    <span className="text-center block">
-      {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <Image {...props} zoom />
     </span>
   )
 }

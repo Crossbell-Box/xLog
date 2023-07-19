@@ -1,21 +1,36 @@
-import { useTranslation } from "next-i18next"
+"use client"
+
+import { useState } from "react"
+// TODO
 import { Virtuoso } from "react-virtuoso"
 
 import { CommentInput } from "~/components/common/CommentInput"
 import { CommentItem } from "~/components/common/CommentItem"
+import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetComments } from "~/queries/page"
 
-export const Comment: React.FC<{
+const Comment = ({
+  page,
+  className,
+  fixHeight,
+}: {
   page?: ExpandedNote
   className?: string
-}> = ({ page, className }) => {
+  fixHeight?: boolean
+}) => {
   const comments = useGetComments({
     characterId: page?.characterId,
     noteId: page?.noteId,
   })
   const { t } = useTranslation("common")
+
+  const data = comments.data?.pages.filter(
+    (page) => (page?.list?.length ?? 0) > 0,
+  )
+
+  const [totalListHeight, setTotalListHeight] = useState(1)
 
   return (
     <div
@@ -42,11 +57,19 @@ export const Comment: React.FC<{
 
       <Virtuoso
         className="xlog-comment-list"
-        useWindowScroll
-        data={comments.data?.pages}
+        style={{
+          height: fixHeight ? totalListHeight : undefined,
+        }}
+        useWindowScroll={!fixHeight}
+        data={data}
         endReached={() => comments.hasNextPage && comments.fetchNextPage()}
         components={{
           Footer: comments.isLoading ? Loader : undefined,
+        }}
+        totalListHeightChanged={(height) => {
+          if (fixHeight && height > 0) {
+            setTotalListHeight(Math.min(height + 71, 900))
+          }
         }}
         itemContent={(_, p) =>
           p?.list?.map((comment, idx) => (
@@ -81,3 +104,5 @@ const Loader = () => {
     </div>
   )
 }
+
+export default Comment

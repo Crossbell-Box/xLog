@@ -1,19 +1,23 @@
-import { useTranslation } from "next-i18next"
+"use client"
 
 import { Disclosure } from "@headlessui/react"
 
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
+import { useTranslation } from "~/lib/i18n/client"
 import { toCid, toGateway, toIPFS } from "~/lib/ipfs-parser"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetGreenfieldId } from "~/queries/site"
 
-export const BlockchainInfo: React.FC<{
+export const BlockchainInfo = ({
+  site,
+  page,
+}: {
   site?: ExpandedCharacter
   page?: ExpandedNote
-}> = ({ site, page }) => {
-  const { t } = useTranslation(["common", "site"])
+}) => {
+  const { t } = useTranslation("common")
 
   const ipfs = (page ? page.metadata?.uri : site?.metadata?.uri) || ""
   const greenfieldId = useGetGreenfieldId(toCid(ipfs))
@@ -70,14 +74,14 @@ export const BlockchainInfo: React.FC<{
                       <>
                         <BlockchainInfoLink
                           href={`${CSB_SCAN}/tx/${page?.transactionHash}`}
-                          key={page?.transactionHash}
+                          key={`create_${page?.transactionHash}`}
                         >
                           {t("Creation")} {page?.transactionHash.slice(0, 10)}
                           ...{page?.transactionHash.slice(-10)}
                         </BlockchainInfoLink>
                         <BlockchainInfoLink
                           href={`${CSB_SCAN}/tx/${page?.updatedTransactionHash}`}
-                          key={page?.updatedTransactionHash}
+                          key={`update_${page?.updatedTransactionHash}`}
                         >
                           {t("Last Update")}{" "}
                           {page?.updatedTransactionHash.slice(0, 10)}...
@@ -88,14 +92,14 @@ export const BlockchainInfo: React.FC<{
                       <>
                         <BlockchainInfoLink
                           href={`${CSB_SCAN}/tx/${site?.transactionHash}`}
-                          key={site?.transactionHash}
+                          key={`create_${site?.transactionHash}`}
                         >
                           {t("Creation")} {site?.transactionHash.slice(0, 10)}
                           ...{site?.transactionHash.slice(-10)}
                         </BlockchainInfoLink>
                         <BlockchainInfoLink
                           href={`${CSB_SCAN}/tx/${site?.updatedTransactionHash}`}
-                          key={site?.updatedTransactionHash}
+                          key={`update_${site?.transactionHash}`}
                         >
                           {t("Last Update")}{" "}
                           {site?.updatedTransactionHash.slice(0, 10)}...

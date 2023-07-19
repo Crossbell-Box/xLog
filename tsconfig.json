@@ -18,8 +18,13 @@
     "skipLibCheck": true,
     "incremental": true,
     "module": "esnext",
-    "typeRoots": ["./types"]
+    "typeRoots": ["./types"],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

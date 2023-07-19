@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
+import { getClientIp } from "@supercharge/request-ip"
+
 import { IS_PROD } from "~/lib/constants"
 import { DISCORD_LINK } from "~/lib/env"
 
@@ -21,14 +23,16 @@ export default async function middleware(req: NextRequest) {
       ) {
         cfHttps = true
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
     if (!cfHttps) {
-      return NextResponse.redirect(
-        `https://${req.headers.get("host")}${req.nextUrl.pathname}${
-          req.nextUrl.search
-        }`,
-        301,
-      )
+      // return NextResponse.redirect(
+      //   `https://${req.headers.get("host")}${req.nextUrl.pathname}${
+      //     req.nextUrl.search
+      //   }`,
+      //   301,
+      // )
     }
   }
 
@@ -37,10 +41,7 @@ export default async function middleware(req: NextRequest) {
     pathname === "/atom.xml" ||
     pathname === "/feed/xml"
   ) {
-    return NextResponse.redirect(
-      `https://${req.headers.get("host")}/feed?format=xml`,
-      301,
-    )
+    return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
   }
 
   console.log(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
@@ -76,15 +77,30 @@ export default async function middleware(req: NextRequest) {
     )
   }
 
+  // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
+  const requestHeaders = new Headers(req.headers)
+  requestHeaders.set("x-xlog-pathname", req.nextUrl.pathname)
+  requestHeaders.set("x-xlog-search", req.nextUrl.search)
+  requestHeaders.set("x-xlog-handle", tenant.subdomain || "")
+  requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
+
   if (tenant?.subdomain) {
     const url = req.nextUrl.clone()
-    url.pathname = `/_site/${tenant?.subdomain}${url.pathname}`
-    return NextResponse.rewrite(url)
+    url.pathname = `/site/${tenant?.subdomain}${url.pathname}`
+    return NextResponse.rewrite(url, {
+      request: {
+        headers: requestHeaders,
+      },
+    })
   }
 
   if (DISCORD_LINK && pathname === "/discord") {
     return NextResponse.redirect(DISCORD_LINK)
   }
 
-  return NextResponse.next()
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
 }

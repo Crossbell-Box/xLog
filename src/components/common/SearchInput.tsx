@@ -1,20 +1,25 @@
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+"use client"
+
+import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
-export const SearchInput: React.FC<{
-  value?: string
+export const SearchInput = ({
+  noBorder,
+  onSubmit,
+}: {
   noBorder?: boolean
   onSubmit?: (value?: string) => void
-}> = ({ value, noBorder, onSubmit }) => {
+}) => {
   const router = useRouter()
-  const { t } = useTranslation(["common", "site"])
+  const searchParams = useSearchParams()
+  const { t } = useTranslation("common")
 
   const form = useForm({
     defaultValues: {
-      content: value || "",
+      content: searchParams?.get("q") || "",
     },
   })
 
@@ -24,7 +29,7 @@ export const SearchInput: React.FC<{
   })
 
   return (
-    <div className="xlog-comment-input flex">
+    <div className="xlog-search-input flex">
       <form className="w-full relative" onSubmit={handleSubmit}>
         <div
           className="absolute left-0 top-1/2 -translate-y-1/2 text-2xl text-zinc-500 h-11 ml-4 flex items-center justify-center cursor-pointer"

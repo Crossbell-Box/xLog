@@ -1,5 +1,4 @@
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+import { useParams } from "next/navigation"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
 
@@ -7,31 +6,39 @@ import type { InfiniteData } from "@tanstack/react-query"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { type TabItem, Tabs } from "~/components/ui/Tabs"
-import { APP_NAME } from "~/lib/env"
+import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
-import { useCreateOrUpdatePage, useDeletePage } from "~/queries/page"
+import { useDeletePage, useUpdatePage } from "~/queries/page"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
-export const PagesManagerBatchSelectActionTab: React.FC<{
+function getPageId(page: ExpandedNote) {
+  return page.noteId || page.draftKey || 0
+}
+
+export const PagesManagerBatchSelectActionTab = ({
+  isPost,
+  pages,
+  batchSelected,
+  setBatchSelected,
+}: {
   isPost: boolean
-  isNotxLogContent: boolean
   pages?: InfiniteData<{
     list: ExpandedNote[]
   }>
   batchSelected: (string | number)[]
-  setBatchSelected: (selected: string[]) => void
-}> = ({ isPost, isNotxLogContent, pages, batchSelected, setBatchSelected }) => {
-  const { t } = useTranslation(["dashboard", "site"])
+  setBatchSelected: (selected: (string | number)[]) => void
+}) => {
+  const { t } = useTranslation("dashboard")
 
-  const router = useRouter()
-  const subdomain = router.query.subdomain as string
+  const params = useParams()
+  const subdomain = params?.subdomain as string
 
   const queryClient = useQueryClient()
 
   // Convert or Delete page
-  const createOrUpdatePage = useCreateOrUpdatePage()
+  const updatePage = useUpdatePage()
   const deletePage = useDeletePage()
 
   const tabItems: TabItem[] = [
@@ -39,11 +46,12 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
       text: "Select All",
       onClick: () => {
         // Get all page IDs
-        const allIDs: string[] = []
-        pages?.pages.map((page) =>
-          page.list?.map((page) => {
-            allIDs.push(page.metadata?.content?.slug || "")
-          }),
+        const allIDs: (string | number)[] = []
+        pages?.pages.map(
+          (page) =>
+            page.list?.map((page) => {
+              allIDs.push(getPageId(page))
+            }),
         )
         setBatchSelected(allIDs)
       },
@@ -55,73 +63,42 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
       },
     },
     {
-      text:
-        "Convert to " +
-        (isNotxLogContent
-          ? `${APP_NAME} ${isPost ? "Post" : "Page"}`
-          : isPost
-          ? "Page"
-          : "Post"),
+      text: "Convert to " + (isPost ? "Page" : "Post"),
       onClick: async () => {
         // Start message
         const toastId = toast.loading("Converting...")
 
         // Find all selected
         const selectedPages: ExpandedNote[] = []
-        pages?.pages.map((page) =>
-          page.list?.map((page) => {
-            if (batchSelected.includes(page.metadata?.content?.slug || "")) {
-              selectedPages.push(page)
-            }
-          }),
+        pages?.pages.map(
+          (page) =>
+            page.list?.map((page) => {
+              if (batchSelected.includes(getPageId(page))) {
+                selectedPages.push(page)
+              }
+            }),
         )
 
         // Convert all // TODO: use multicall to optimize
         try {
           await Promise.all(
             selectedPages.map((page) => {
-              // Check again to ensure it's not
-              const isNotxLogContent =
-                !page.metadata?.content?.sources?.includes("xlog")
-
-              const targetNoteBase = {
-                published: true,
-                pageId: `${page.characterId}-${page.noteId}`,
-                siteId: subdomain,
-                tags: page.metadata?.content?.tags
-                  ?.filter((tag) => tag !== "post" && tag !== "page")
-                  ?.join(", "),
-                applications: page.metadata?.content?.sources,
-              }
-
-              if (isNotxLogContent) {
-                return createOrUpdatePage.mutateAsync({
-                  ...targetNoteBase,
-                  isPost: isPost, // Convert to xLog content
-                  characterId: page.characterId,
-                })
+              if (!page.noteId) {
+                // Is draft
+                const key = `draft-${page?.characterId}-${page.draftKey}`
+                const data = getStorage(key)
+                data.isPost = !isPost
+                setStorage(key, data)
               } else {
-                if (!page.noteId) {
-                  // Is draft
-                  const key = `draft-${page?.characterId}-${page.draftKey}`
-                  const data = getStorage(key)
-                  data.isPost = !isPost
-                  setStorage(key, data)
-                } else {
-                  // IsNote
-                  return createOrUpdatePage.mutateAsync({
-                    ...targetNoteBase,
-                    isPost: !isPost, // Change type
-                    characterId: page.characterId,
-                  })
-                }
+                // IsNote
+                return updatePage.mutate({
+                  characterId: page.characterId,
+                  noteId: page.noteId,
+                  isPost: !isPost, // Change type
+                })
               }
             }),
           )
-
-          toast.success(t("Converted!"), {
-            id: toastId,
-          })
         } catch (e) {
           // Some failed
           toast.error(t("Failed to convert."), {
@@ -160,12 +137,13 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
 
     // Find all selected
     const selectedPages: ExpandedNote[] = []
-    pages?.pages.map((page) =>
-      page.list?.map((page) => {
-        if (batchSelected.includes(page.noteId || page.draftKey || 0)) {
-          selectedPages.push(page)
-        }
-      }),
+    pages?.pages.map(
+      (page) =>
+        page.list?.map((page) => {
+          if (batchSelected.includes(page.noteId || page.draftKey || 0)) {
+            selectedPages.push(page)
+          }
+        }),
     )
 
     // Delete all // TODO: use multicall to optimize
@@ -177,9 +155,8 @@ export const PagesManagerBatchSelectActionTab: React.FC<{
             delStorage(`draft-${page?.characterId}-${page.draftKey}`)
           } else {
             // Is Note
-            return deletePage.mutateAsync({
-              site: subdomain,
-              id: `${page.characterId}-${page.noteId}`,
+            return deletePage.mutate({
+              noteId: page.noteId,
               characterId: page.characterId,
             })
           }

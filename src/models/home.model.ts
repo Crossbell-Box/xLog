@@ -1,55 +1,128 @@
 import dayjs from "dayjs"
 
 import { indexer } from "@crossbell/indexer"
-import { cacheExchange, createClient, fetchExchange } from "@urql/core"
+import { gql } from "@urql/core"
 
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { ExpandedNote } from "~/lib/types"
+import { client } from "~/queries/graphql"
 
 import filter from "../../data/filter.json"
+import topics from "../../data/topics.json"
 
-export type FeedType = "latest" | "following" | "topic" | "hot" | "search"
-export type SearchType = "latest" | "hot"
+export type FeedType =
+  | "latest"
+  | "following"
+  | "topic"
+  | "hottest"
+  | "search"
+  | "tag"
+  | "comments"
+export type SearchType = "latest" | "hottest"
 
 export async function getFeed({
   type,
   cursor,
-  limit = 10,
+  limit = 30,
   characterId,
-  noteIds,
   daysInterval,
   searchKeyword,
   searchType,
+  tag,
+  useHTML,
+  topic,
 }: {
   type?: FeedType
   cursor?: string
   limit?: number
   characterId?: number
-  noteIds?: string[]
   daysInterval?: number
   searchKeyword?: string
   searchType?: SearchType
+  tag?: string
+  useHTML?: boolean
+  topic?: string
 }) {
   if (type === "search" && !searchKeyword) {
     type = "latest"
   }
+
+  const cursorQuery = cursor
+    ? `
+    cursor: {
+      note_characterId_noteId_unique: {
+        characterId: ${cursor.split("_")[0]},
+        noteId: ${cursor.split("_")[1]}
+      },
+    },
+  `
+    : ""
+  const resultFields = `
+    characterId
+    noteId
+    character {
+      handle
+      characterId
+      metadata {
+        content
+      }
+    }
+    createdAt
+    metadata {
+      uri
+      content
+    }
+  `
+
   switch (type) {
     case "latest": {
-      let result = await indexer.getNotes({
-        sources: "xlog",
-        tags: ["post"],
-        limit,
-        cursor,
-        includeCharacter: true,
-      })
-
-      result.list = result.list.filter(
-        (note) => !filter.latest.includes(note.characterId),
-      )
+      const result = await client
+        .query(
+          gql`
+            query getNotes($filter: [Int!], $limit: Int) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  deleted: {
+                    equals: false,
+                  },
+                  metadata: {
+                    content: {
+                      path: "sources",
+                      array_contains: "xlog"
+                    },
+                    NOT: [{
+                      content: {
+                        path: "tags",
+                        array_starts_with: "comment"
+                      }
+                    }]
+                  },
+                },
+                orderBy: [{ createdAt: desc }],
+                take: $limit,
+                ${cursorQuery}
+              ) {
+                ${resultFields}
+              }
+            }
+          `,
+          {
+            filter: filter.latest,
+            limit,
+          },
+        )
+        .toPromise()
 
       const list = await Promise.all(
-        result.list.map(async (page: any) => {
-          const expand = await expandCrossbellNote(page, false, true)
+        result?.data?.notes.map(async (page: any) => {
+          const expand = await expandCrossbellNote({
+            note: page,
+            useScore: true,
+            useHTML,
+          })
           delete expand.metadata?.content.content
           return expand
         }),
@@ -57,8 +130,98 @@ export async function getFeed({
 
       return {
         list,
-        cursor: result.cursor,
-        count: result.count,
+        cursor: list?.length
+          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+              ?.noteId}`
+          : undefined,
+        count: list?.length || 0,
+      }
+    }
+    case "comments": {
+      const result = await client
+        .query(
+          gql`
+            query getNotes($filter: [Int!], $limit: Int) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  deleted: {
+                    equals: false,
+                  },
+                  metadata: {
+                    AND: [{
+                      content: {
+                        path: "sources",
+                        array_contains: "xlog"
+                      }
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_starts_with: "comment"
+                      }
+                    }]
+                  },
+                },
+                orderBy: [{ createdAt: desc }],
+                take: $limit,
+                ${cursorQuery}
+              ) {
+                ${resultFields}
+                toNote {
+                  characterId
+                  noteId
+                  character {
+                    handle
+                    metadata {
+                      content
+                    }
+                  }
+                  createdAt
+                  metadata {
+                    uri
+                    content
+                  }
+                }
+              }
+            }
+          `,
+          {
+            filter: filter.latest,
+            limit,
+          },
+        )
+        .toPromise()
+
+      const list = await Promise.all(
+        result?.data?.notes
+          .filter((page: any) => {
+            return !page.toNote?.metadata?.content?.tags?.includes("comment")
+          })
+          .map(async (page: any) => {
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            })
+            if (expand.toNote) {
+              expand.toNote = await expandCrossbellNote({
+                note: expand.toNote,
+                useHTML,
+              })
+            }
+            delete expand.metadata?.content.content
+            return expand
+          }),
+      )
+
+      return {
+        list,
+        cursor: list?.length
+          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+              ?.noteId}`
+          : undefined,
+        count: list?.length || 0,
       }
     }
     case "following": {
@@ -69,17 +232,23 @@ export async function getFeed({
           count: 0,
         }
       } else {
-        const result = await indexer.getNotesOfCharacterFollowing(characterId, {
-          sources: "xlog",
-          tags: ["post"],
-          limit: limit,
-          cursor,
-          includeCharacter: true,
-        })
+        const result = await indexer.note.getManyOfCharacterFollowing(
+          characterId,
+          {
+            sources: "xlog",
+            tags: ["post"],
+            limit: limit,
+            cursor,
+            includeCharacter: true,
+          },
+        )
 
         const list = await Promise.all(
           result.list.map(async (page: any) => {
-            const expand = await expandCrossbellNote(page)
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            })
             delete expand.metadata?.content.content
             return expand
           }),
@@ -93,78 +262,178 @@ export async function getFeed({
       }
     }
     case "topic": {
-      if (!noteIds) {
+      const info = topics.find((t) => t.name === topic)
+
+      if (!info) {
         return {
           list: [],
           cursor: "",
           count: 0,
         }
       }
-      const client = createClient({
-        url: "https://indexer.crossbell.io/v1/graphql",
-        exchanges: [cacheExchange, fetchExchange],
-      })
 
-      const orString = noteIds
-        .map(
-          (note) =>
-            `{ noteId: { equals: ${
-              note.split("-")[1]
-            } }, characterId: { equals: ${note.split("-")[0]}}},`,
-        )
-        .join("\n")
-      const result = await client
-        .query(
-          `
-              query getNotes {
+      const includeString = [
+        ...(info.includeKeywords?.map(
+          (topicIncludeKeyword) =>
+            `{ content: { path: "title", string_contains: "${topicIncludeKeyword}" } }, { content: { path: "content", string_contains: "${topicIncludeKeyword}" } }`,
+        ) || []),
+        ...(info.includeTags?.map(
+          (topicIncludeTag) =>
+            `{ content: { path: "tags", array_contains: "${topicIncludeTag}" } },`,
+        ) || []),
+      ].join("\n")
+
+      if (info.notes) {
+        const orString = info.notes
+          .map(
+            (note) =>
+              `{ noteId: { equals: ${
+                note.split("-")[1]
+              } }, characterId: { equals: ${note.split("-")[0]}}},`,
+          )
+          .join("\n")
+        const result = await client
+          .query(
+            gql`
+              query getNotes($filter: [Int!], $limit: Int) {
                 notes(
                   where: {
+                    characterId: {
+                      notIn: $filter
+                    },
+                    deleted: {
+                      equals: false,
+                    },
+                    metadata: {
+                      AND: [{
+                        content: {
+                          path: "sources",
+                          array_contains: "xlog"
+                        },
+                      }, {
+                        content: {
+                          path: "tags",
+                          array_contains: "post"
+                        }
+                      }]
+                    },
                     OR: [
-                      ${orString}
+                      {
+                        metadata: {
+                          OR: [
+                            ${includeString}
+                          ]
+                        }
+                      },
+                      {
+                        OR: [
+                          ${orString}
+                        ]
+                      }
                     ]
                   },
                   orderBy: [{ createdAt: desc }],
-                  take: 1000,
+                  take: $limit,
+                  ${cursorQuery}
                 ) {
-                  characterId
-                  noteId
-                  character {
-                    handle
-                    metadata {
-                      content
-                    }
-                  }
-                  createdAt
-                  metadata {
-                    uri
-                    content
-                  }
+                  ${resultFields}
                 }
-              }`,
-          {},
+              }
+            `,
+            {
+              filter: filter.latest,
+              limit,
+            },
+          )
+          .toPromise()
+
+        const list = await Promise.all(
+          result?.data?.notes.map(async (page: any) => {
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            })
+            delete expand.metadata?.content.content
+            return expand
+          }),
         )
-        .toPromise()
 
-      const list = await Promise.all(
-        result?.data?.notes.map(async (page: any) => {
-          const expand = await expandCrossbellNote(page)
-          delete expand.metadata?.content.content
-          return expand
-        }),
-      )
+        return {
+          list: list,
+          cursor: list?.length
+            ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+                ?.noteId}`
+            : undefined,
+          count: list?.length || 0,
+        }
+      } else {
+        const result = await client
+          .query(
+            gql`
+              query getNotes($filter: [Int!], $limit: Int) {
+                notes(
+                  where: {
+                    characterId: {
+                      notIn: $filter
+                    },
+                    deleted: {
+                      equals: false,
+                    },
+                    metadata: {
+                      AND: [{
+                        content: {
+                          path: "sources",
+                          array_contains: "xlog"
+                        },
+                      }, {
+                        content: {
+                          path: "tags",
+                          array_contains: "post"
+                        }
+                      }, {
+                        OR: [
+                          ${includeString}
+                        ]
+                      }]
+                    },
+                  },
+                  orderBy: [{ createdAt: desc }],
+                  take: $limit,
+                  ${cursorQuery}
+                ) {
+                  ${resultFields}
+                }
+              }
+            `,
+            {
+              filter: filter.latest,
+              limit,
+            },
+          )
+          .toPromise()
 
-      return {
-        list: list,
-        cursor: "",
-        count: list?.length || 0,
+        const list = await Promise.all(
+          result?.data?.notes.map(async (page: any) => {
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            })
+            delete expand.metadata?.content.content
+            return expand
+          }),
+        )
+
+        return {
+          list: list,
+          cursor: list?.length
+            ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+                ?.noteId}`
+            : undefined,
+          count: list?.length || 0,
+        }
       }
     }
-    case "hot": {
-      const client = createClient({
-        url: "https://indexer.crossbell.io/v1/graphql",
-        exchanges: [cacheExchange, fetchExchange],
-      })
-
+    case "hottest": {
       let time
       if (daysInterval) {
         time = dayjs().subtract(daysInterval, "day").toISOString()
@@ -172,36 +441,56 @@ export async function getFeed({
 
       const result = await client
         .query(
-          `
-              query getNotes {
-                notes(
-                  where: {
-                    ${time ? `createdAt: { gt: "${time}" },` : ``}
-                    stat: { viewDetailCount: { gt: 0 } },
-                    metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
+          gql`
+            query getNotes($filter: [Int!]) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
                   },
-                  orderBy: { stat: { viewDetailCount: desc } },
-                  take: 50,
-                ) {
-                  stat {
-                    viewDetailCount
+                  deleted: {
+                    equals: false,
+                  },
+                  ${
+                    time
+                      ? `
+                  createdAt: {
+                    gt: "${time}"
+                  },
+                  `
+                      : ``
                   }
-                  characterId
-                  noteId
-                  character {
-                    handle
-                    metadata {
-                      content
-                    }
-                  }
-                  createdAt
-                  metadata {
-                    uri
-                    content
-                  }
+                  stat: {
+                    viewDetailCount: {
+                      gt: 0
+                    },
+                  },
+                  metadata: {
+                    AND: [{
+                      content: {
+                        path: "sources",
+                        array_contains: "xlog"
+                      },
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_contains: "post"
+                      }
+                    }]
+                  },
+                },
+                take: 40,
+              ) {
+                stat {
+                  viewDetailCount
                 }
-              }`,
-          {},
+                ${resultFields}
+              }
+            }
+          `,
+          {
+            filter: filter.latest,
+          },
         )
         .toPromise()
 
@@ -213,20 +502,25 @@ export async function getFeed({
               page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
           }
 
-          const expand = await expandCrossbellNote(page)
+          const expand = await expandCrossbellNote({
+            note: page,
+            useHTML,
+          })
           delete expand.metadata?.content.content
           return expand
         }),
       )
 
       if (daysInterval) {
-        list = list.sort((a, b) => {
-          if (a.stat?.hotScore && b.stat?.hotScore) {
-            return b.stat.hotScore - a.stat.hotScore
-          } else {
-            return 0
-          }
-        })
+        list = list
+          .sort((a, b) => {
+            if (a.stat?.hotScore && b.stat?.hotScore) {
+              return b.stat.hotScore - a.stat.hotScore
+            } else {
+              return 0
+            }
+          })
+          .slice(0, 24)
       }
 
       return {
@@ -236,23 +530,61 @@ export async function getFeed({
       }
     }
     case "search": {
-      const result = await indexer.searchNotes(searchKeyword!, {
+      const result = await indexer.search.notes(searchKeyword!, {
         sources: ["xlog"],
         tags: ["post"],
         limit: limit,
         cursor,
         includeCharacterMetadata: true,
-        orderBy: searchType === "hot" ? "viewCount" : "createdAt",
+        orderBy: searchType === "hottest" ? "viewCount" : "createdAt",
       })
 
       const list = await Promise.all(
         result.list.map(async (page: any) => {
-          const expand = await expandCrossbellNote(
-            page,
-            false,
-            false,
-            searchKeyword,
-          )
+          const expand = await expandCrossbellNote({
+            note: page,
+            useStat: false,
+            useScore: false,
+            keyword: searchKeyword,
+            useHTML,
+          })
+          delete expand.metadata?.content.content
+          return expand
+        }),
+      )
+
+      return {
+        list,
+        cursor: result.cursor,
+        count: result.count,
+      }
+    }
+    case "tag": {
+      if (!tag) {
+        return {
+          list: [],
+          cursor: "",
+          count: 0,
+        }
+      }
+
+      let result = await indexer.note.getMany({
+        sources: "xlog",
+        tags: ["post", tag],
+        limit,
+        cursor,
+        includeCharacter: true,
+        excludeCharacterId: filter.latest,
+      } as any)
+
+      const list = await Promise.all(
+        result.list.map(async (page: any) => {
+          const expand = await expandCrossbellNote({
+            note: page,
+            useStat: false,
+            useScore: true,
+            useHTML,
+          })
           delete expand.metadata?.content.content
           return expand
         }),
@@ -268,27 +600,23 @@ export async function getFeed({
 }
 
 export const getShowcase = async () => {
-  const client = createClient({
-    url: "https://indexer.crossbell.io/v1/graphql",
-    exchanges: [cacheExchange, fetchExchange],
-  })
   const oneMonthAgo = dayjs().subtract(10, "day").toISOString()
 
   const listResponse = await client
     .query(
-      `
+      gql`
         query getCharacters($filter: [Int!]) {
           characters(
             where: {
-              characterId: {
-                notIn: $filter
-              }
+              characterId: { notIn: $filter }
               notes: {
                 some: {
-                  stat: { viewDetailCount: { gte: 100 } }
+                  stat: { viewDetailCount: { gte: 300 } }
                   metadata: {
-                    content: { path: "sources", array_contains: "xlog" }
-                    AND: { content: { path: "tags", array_contains: "post" } }
+                    AND: [
+                      { content: { path: "sources", array_contains: "xlog" } }
+                      { content: { path: "tags", array_contains: "post" } }
+                    ]
                   }
                 }
               }
@@ -296,7 +624,8 @@ export const getShowcase = async () => {
           ) {
             characterId
           }
-        }`,
+        }
+      `,
       {
         filter: filter.latest,
       },
@@ -308,9 +637,18 @@ export const getShowcase = async () => {
 
   const result = await client
     .query(
-      `
+      gql`
         query getCharacters($identities: [Int!]) {
-          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }] ) {
+          characters(
+            where: {
+              characterId: {
+                in: $identities
+              }
+            },
+            orderBy: [{
+              updatedAt: desc
+            }]
+          ) {
             handle
             characterId
             metadata {
@@ -318,11 +656,30 @@ export const getShowcase = async () => {
               content
             }
           }
-          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
+          notes(
+            where: {
+              characterId: {
+                in: $identities
+              },
+              createdAt: {
+                gt: "${oneMonthAgo}"
+              },
+              metadata: {
+                content: {
+                  path: "sources",
+                  array_contains: "xlog"
+                }
+              }
+            },
+            orderBy: [{
+              updatedAt: desc
+            }]
+          ) {
             characterId
             createdAt
           }
-        }`,
+        }
+      `,
       {
         identities: characterList,
       },
@@ -330,7 +687,7 @@ export const getShowcase = async () => {
     .toPromise()
 
   result.data?.characters?.forEach((site: any) => {
-    if (site.metadata.content) {
+    if (site.metadata?.content) {
       site.metadata.content.name = site.metadata?.content?.name || site.handle
     } else {
       site.metadata.content = {
@@ -366,7 +723,7 @@ export const getShowcase = async () => {
     .sort((a: any, b: any) => {
       return b.createdAt > a.createdAt ? 1 : -1
     })
-    .slice(0, 100)
+    .slice(0, 50)
 
   return list
 }

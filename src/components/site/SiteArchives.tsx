@@ -1,43 +1,45 @@
-import { useTranslation } from "next-i18next"
-import Link from "next/link"
-import { useMemo } from "react"
+"use client"
 
-import type { InfiniteData } from "@tanstack/react-query"
+import Link from "next/link"
+import { useParams, usePathname } from "next/navigation"
+import { useMemo } from "react"
 
 import { Button } from "~/components/ui/Button"
 import { useDate } from "~/hooks/useDate"
-import { ExpandedNote } from "~/lib/types"
+import { getSiteRelativeUrl } from "~/lib/helpers"
+import { useTranslation } from "~/lib/i18n/client"
+import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
+import { useGetPagesBySiteLite } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 import { EmptyState } from "../ui/EmptyState"
 import { UniLink } from "../ui/UniLink"
 
-export const SiteArchives: React.FC<{
-  title?: string
-  showTags?: boolean
-  posts?: InfiniteData<{
-    list: ExpandedNote[]
-    count: number
-  }>
-  fetchNextPage: () => void
-  hasNextPage?: boolean
-  isFetchingNextPage?: boolean
-}> = ({
-  title,
-  showTags,
-  posts,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-}) => {
+export const SiteArchives = () => {
   let currentLength = 0
   const date = useDate()
-  const { t } = useTranslation(["common", "site"])
+  const { t } = useTranslation("site")
+  const { t: commonT } = useTranslation("common")
+  const pathname = usePathname()
+  const params = useParams()
+  if (params?.tag) {
+    params.tag = decodeURIComponent(params.tag as string)
+  }
+
+  const site = useGetSite(params?.site as string)
+  const posts = useGetPagesBySiteLite({
+    characterId: site.data?.characterId,
+    limit: 100,
+    type: "post",
+    visibility: PageVisibilityEnum.Published,
+    ...(params?.tag && { tags: [params.tag as string] }),
+  })
 
   const groupedByYear = useMemo<Map<string, ExpandedNote[]>>(() => {
     const map = new Map()
 
-    if (posts?.pages?.length) {
-      for (const page of posts.pages) {
+    if (posts.data?.pages?.length) {
+      for (const page of posts.data.pages) {
         for (const post of page.list) {
           const year = date.formatDate(
             post.metadata?.content?.date_published || "",
@@ -51,13 +53,13 @@ export const SiteArchives: React.FC<{
     }
 
     return map
-  }, [posts?.pages, date])
+  }, [posts.data?.pages, date])
 
   const tags = useMemo<Map<string, number>>(() => {
     const result = new Map()
 
-    if (posts?.pages?.length) {
-      for (const page of posts.pages) {
+    if (posts.data?.pages?.length) {
+      for (const page of posts.data.pages) {
         for (const post of page.list) {
           post.metadata?.content?.tags?.forEach((tag) => {
             if (tag !== "post" && tag !== "page") {
@@ -73,30 +75,34 @@ export const SiteArchives: React.FC<{
     }
 
     return result
-  }, [posts?.pages])
+  }, [posts.data?.pages])
 
-  if (!posts?.pages?.length) return null
+  if (!posts.data?.pages?.length) return null
 
   return (
     <>
       <h2 className="text-xl font-bold page-title">
-        {title || t("Archives", { ns: "site" })}
+        {params?.tag || t("Archives")}
       </h2>
-      {!posts?.pages[0].count && (
+      {!posts.data?.pages[0].count && (
         <div className="mt-5">
           <EmptyState />
         </div>
       )}
-      {!!posts?.pages[0].count && (
+      {!!posts.data?.pages[0].count && (
         <>
-          {showTags && tags.size > 0 && (
+          {!params?.tag && tags.size > 0 && (
             <div className="mt-5">
               <h3 className="text-lg font-bold mb-1 text-zinc-700">
-                {t("Tags", { ns: "site" })}
+                {t("Tags")}
               </h3>
               <div className="pt-2">
                 {[...tags.keys()].map((tag) => (
-                  <UniLink key={tag} href={`/tag/${tag}`} className="mr-6">
+                  <UniLink
+                    key={tag}
+                    href={getSiteRelativeUrl(pathname, `/tag/${tag}`)}
+                    className="mr-6"
+                  >
                     <span className="align-middle">{tag}</span>
                     <span className="text-gray-400 text-sm ml-1 align-middle">
                       ({tags.get(tag)})
@@ -119,14 +125,17 @@ export const SiteArchives: React.FC<{
                     return (
                       <Link
                         key={post.transactionHash}
-                        href={`/${post.metadata?.content?.slug}`}
+                        href={getSiteRelativeUrl(
+                          pathname,
+                          `/${post.metadata?.content?.slug}`,
+                        )}
                         className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-hover"
                       >
                         <span className="text-zinc-700">
                           {post.metadata?.content?.title}
                         </span>
                         <span className="text-zinc-400 mr-3 whitespace-nowrap">
-                          {t("intlDateTime", {
+                          {commonT("intlDateTime", {
                             val: new Date(
                               post.metadata?.content?.date_published || "",
                             ),
@@ -144,18 +153,21 @@ export const SiteArchives: React.FC<{
                 </div>
               )
             })}
-            {hasNextPage && (
-              <Button
-                className="mt-8 w-full bg-zinc-50 text-sm"
-                variant="text"
-                onClick={fetchNextPage}
-                isLoading={isFetchingNextPage}
-                aria-label="load more"
-              >
-                There are {posts?.pages[0].count - currentLength} more post
-                {posts?.pages[0].count - currentLength > 1 ? "s" : ""}, click to
-                load more
-              </Button>
+            {posts.hasNextPage && (
+              <div className="text-center">
+                <Button
+                  className="mt-8 truncate max-w-full !inline-block"
+                  variant="outline"
+                  onClick={() => posts.fetchNextPage()}
+                  isLoading={posts.isFetchingNextPage}
+                  aria-label="load more"
+                >
+                  There are {posts.data?.pages[0].count - currentLength} more
+                  post
+                  {posts.data?.pages[0].count - currentLength > 1 ? "s" : ""},
+                  click to load more
+                </Button>
+              </div>
             )}
           </div>
         </>

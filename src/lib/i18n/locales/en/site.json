@@ -1,0 +1,5 @@
+{
+  "load more": "There are {{count}} more {{name}}, click to load more",
+  "signed and stored on the blockchain": "Ownership of this {{name}} data is guaranteed by blockchain and smart contracts to the creator alone.",
+  "Cancel Download": "Cancel"
+}
