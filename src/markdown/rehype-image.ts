@@ -31,6 +31,7 @@ export const rehypeImage: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
         env.cover = url
         first = false
       }
+      env.images.push(url)
 
       if (isExternLink(url)) {
         if (!url.startsWith("https:") && IS_PROD) {

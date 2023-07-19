@@ -16,7 +16,7 @@ export default async function HomeLayout({
 }) {
   return (
     <>
-      <header className="py-5 fixed w-full top-0 bg-white z-[1]">
+      <header className="py-5 fixed w-full top-0 bg-white z-[2]">
         <div className="max-w-screen-xl px-5 mx-auto flex justify-between items-center">
           <div className="space-x-14 flex">
             <UniLink

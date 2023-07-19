@@ -57,6 +57,25 @@ export const expandCrossbellNote = async ({
         )?.address ||
         rendered.cover ||
         `${SITE_URL}/api/og?noteId=${expandedNote.noteId}&characterId=${expandedNote.characterId}`
+
+      expandedNote.metadata.content.images = []
+      const cover = expandedNote.metadata?.content?.attachments?.find(
+        (attachment) => attachment.name === "cover",
+      )?.address
+      if (cover) {
+        expandedNote.metadata.content.images.push(cover)
+      }
+      expandedNote.metadata.content.images =
+        expandedNote.metadata.content.images.concat(rendered.images)
+      if (!expandedNote.metadata.content.images.length) {
+        expandedNote.metadata.content.images.push(
+          `${SITE_URL}/api/og?noteId=${expandedNote.noteId}&characterId=${expandedNote.characterId}`,
+        )
+      }
+      expandedNote.metadata.content.images = [
+        ...new Set(expandedNote.metadata.content.images),
+      ]
+
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
 

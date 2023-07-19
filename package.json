@@ -144,6 +144,7 @@
     "serialize-javascript": "6.0.1",
     "sharp": "0.32.3",
     "sortablejs": "1.15.0",
+    "swiper": "^10.0.4",
     "tailwind-merge": "1.14.0",
     "tailwind-scrollbar-hide": "1.1.7",
     "tailwindcss-animate": "1.0.6",

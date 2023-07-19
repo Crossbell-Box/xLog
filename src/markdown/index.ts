@@ -64,6 +64,7 @@ export type MarkdownEnv = {
   frontMatter: Record<string, any>
   __internal: Record<string, any>
   cover: string
+  images: string[]
   audio: string
   toc: TocResult | null
   tree: Root | null
@@ -91,6 +92,7 @@ export const renderPageContent = (
     __internal: {},
     frontMatter: {},
     cover: "",
+    images: [],
     audio: "",
     toc: null,
     tree: null,
@@ -251,6 +253,7 @@ export const renderPageContent = (
     excerpt: result?.data.meta.description,
     frontMatter: env.frontMatter,
     cover: env.cover,
+    images: env.images,
     audio: env.audio,
     toc: env.toc,
     tree: env.tree,

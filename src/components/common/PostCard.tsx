@@ -48,7 +48,10 @@ const Card = ({
       )}
     >
       <PostCover
-        cover={post.metadata?.content.cover}
+        uniqueKey={`${post.characterId}-${post.noteId}`}
+        images={
+          post.metadata?.content.images || [post.metadata?.content.cover as any]
+        }
         title={post.metadata?.content?.title}
       />
       <div className="px-3 py-2 sm:px-5 sm:py-4 w-full min-w-0 h-[148px] sm:h-[166px] flex flex-col space-y-2 text-sm">
