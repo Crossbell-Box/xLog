@@ -24,7 +24,7 @@ import { useGetFeed } from "~/queries/home"
 import topics from "../../../data/topics.json"
 
 export const HomeFeed = ({ type }: { type?: FeedType }) => {
-  const { t } = useTranslations()
+  const t = useTranslations()
   const searchParams = useSearchParams()
 
   const currentCharacterId = useAccountState(
@@ -185,7 +185,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
             </span>
             <Tooltip
               label={t(
-                "Filter out possible low-quality content based on AI ratings.",
+                "Filter out possible low-quality content based on AI ratings",
               )}
             >
               <i className="icon-[mingcute--question-line]" />

@@ -213,8 +213,8 @@ dependencies:
     specifier: 13.4.9
     version: 13.4.9(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)
   next-intl:
-    specifier: 3.0.0-beta.7
-    version: 3.0.0-beta.7(next@13.4.9)(react@18.2.0)
+    specifier: 3.0.0-beta.9
+    version: 3.0.0-beta.9(next@13.4.9)(react@18.2.0)
   node-id3:
     specifier: 0.2.6
     version: 0.2.6
@@ -10332,8 +10332,8 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  /next-intl@3.0.0-beta.7(next@13.4.9)(react@18.2.0):
-    resolution: {integrity: sha512-EMNBHP/xTni6Y/yT9ACytMU2RNsZkoa8ccEomRrTSWyOmSyYFj1vk7A8oSfecGWm6c0n//qKhfzdXzuik7+taQ==}
+  /next-intl@3.0.0-beta.9(next@13.4.9)(react@18.2.0):
+    resolution: {integrity: sha512-pLDcRFWNCGSlYE9Mbm8fD19EtAgRoe5Fg579kr9NYiVZK8FfpObhrDMQzz9gVnqOOOoFUIgVqyQRFtXxmuU2IQ==}
     engines: {node: '>=10'}
     peerDependencies:
       next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0

@@ -69,6 +69,7 @@ module.exports = withSentryConfig(
   withBundleAnalyzer(
     // @ts-ignore
     withPWA(
+      // @ts-ignore
       withNextIntl({
         output: "standalone",
         env: {

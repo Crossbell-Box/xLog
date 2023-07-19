@@ -1,11 +1,11 @@
 import { Metadata } from "next"
+import { useTranslations } from "next-intl"
 
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
 import ParticipateButton from "~/components/home/ParticipateButton"
 import { APP_NAME } from "~/lib/env"
-import { getTranslation } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
 import { prefetchGetFeed } from "~/queries/home.server"
 
@@ -31,7 +31,8 @@ export default async function Topic({
     topic: string
   }
 }) {
-  const { t } = await getTranslation("index")
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const t = useTranslations()
   params.topic = decodeURIComponent(params.topic)
   const info = topics.find((t) => t.name === params.topic)
 
