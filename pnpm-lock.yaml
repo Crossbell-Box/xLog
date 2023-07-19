@@ -189,8 +189,8 @@ dependencies:
     specifier: 0.16.8
     version: 0.16.8
   langchain:
-    specifier: 0.0.110
-    version: 0.0.110(ioredis@5.3.2)
+    specifier: 0.0.112
+    version: 0.0.112(ioredis@5.3.2)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -9079,8 +9079,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.110(ioredis@5.3.2):
-    resolution: {integrity: sha512-GM7j5jwLTg17206NJR8vI8VbPd9KOqR3XjX41S9rm814gAS2LsFR43CK3cQFVfM5DlEA+o5qOx9CUvWwFvxRMw==}
+  /langchain@0.0.112(ioredis@5.3.2):
+    resolution: {integrity: sha512-RWx/PepDayyMZipEh3UUeKjXiQpYjmErpRqw9ZbJr+5vUk1zSwuYW9SP8vRB5celY87QKzhbj5DgypcFytmYuA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0
@@ -9116,6 +9116,7 @@ packages:
       d3-dsv: ^2.0.0
       epub2: ^3.0.1
       faiss-node: ^0.2.1
+      firebase-admin: ^11.9.0
       google-auth-library: ^8.9.0
       hnswlib-node: ^1.4.2
       html-to-text: ^9.0.5
@@ -9132,7 +9133,7 @@ packages:
       playwright: ^1.32.1
       puppeteer: ^19.7.2
       redis: ^4.6.4
-      replicate: ^0.9.0
+      replicate: ^0.12.3
       sonix-speech-recognition: ^2.1.1
       srt-parser-2: ^1.2.2
       typeorm: ^0.3.12
@@ -9206,6 +9207,8 @@ packages:
         optional: true
       faiss-node:
         optional: true
+      firebase-admin:
+        optional: true
       google-auth-library:
         optional: true
       hnswlib-node:
@@ -9264,7 +9267,7 @@ packages:
       js-tiktoken: 1.0.7
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.0.5
+      langsmith: 0.0.9
       ml-distance: 4.0.1
       object-hash: 3.0.0
       openai: 3.3.0
@@ -9281,8 +9284,8 @@ packages:
       - supports-color
     dev: false
 
-  /langsmith@0.0.5:
-    resolution: {integrity: sha512-9XIm5jTwDbbmGR325VuOYwcTugna4fMM7eprKXRSm7LeCKSr4yy1YnIazcBInuvytAfGoULjxnJJpsnvFWyUkw==}
+  /langsmith@0.0.9:
+    resolution: {integrity: sha512-CSn2WjBKnLFaw52A3II9FSKMAkzazbas9mdZ9O0/OP1U2D1uTwyRHeUVh2g0deo0HfFWx9xo9rgPAyMKYqT1Ew==}
     hasBin: true
     dependencies:
       '@types/uuid': 9.0.2
