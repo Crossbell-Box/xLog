@@ -52,7 +52,7 @@ export const PlatformsSyncMap: {
     url: "https://github.com/{username}",
   },
   jike: {
-    name: "Jike",
+    name: "即刻",
     icon: "/assets/social/jike.png",
     url: "https://web.okjike.com/u/{username}",
   },
@@ -62,7 +62,7 @@ export const PlatformsSyncMap: {
     url: "https://space.bilibili.com/{username}",
   },
   zhihu: {
-    name: "zhihu",
+    name: "知乎",
     icon: "/assets/social/zhihu.svg",
     url: "https://www.zhihu.com/people/{username}",
   },
@@ -81,8 +81,8 @@ export const PlatformsSyncMap: {
     url: "https://discord.gg/{username}",
   },
   xiaoyuzhou: {
-    name: "xiaoyuzhou FM",
-    icon: "/assets/social/xiaoyuzhou.png",
+    name: "小宇宙播客",
+    icon: "/assets/social/xiaoyuzhou2.png",
     url: "https://www.xiaoyuzhoufm.com/podcast/{username}",
   },
   steam: {
@@ -134,7 +134,7 @@ export const PlatformsSyncMap: {
     identityFormatTemplate: "username@instance.ltd",
   },
   douban: {
-    name: "douban",
+    name: "豆瓣",
     icon: "/assets/social/douban.png",
     url: "https://www.douban.com/people/{username}",
   },
