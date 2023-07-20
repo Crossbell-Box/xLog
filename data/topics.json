@@ -118,5 +118,14 @@
       "Docker",
       "数据库"
     ]
+  },
+  {
+    "name": "Podcast",
+    "includeTags": ["Podcast", "FM", "咿呀能跑就行"],
+    "includeKeywords": [
+      "podcasters.spotify.com",
+      "podcasts.apple.com",
+      "xiaoyuzhoufm.com"
+    ]
   }
 ]
