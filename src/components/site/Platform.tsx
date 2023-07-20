@@ -167,24 +167,26 @@ export const Platform = ({
   return (
     <UniLink
       className={cn(
-        "inline-flex hover:scale-110 transition-transform ease align-middle",
+        "w-5 h-5 inline-flex hover:scale-110 ease align-middle mr-3 sm:mr-6 transition-transform",
         className,
       )}
-      key={platform}
+      key={platform + username}
       href={link}
     >
       <Tooltip
         label={`${PlatformsSyncMap[platform]?.name || platform}: ${username}`}
+        className="text-sm"
       >
-        <span className="w-6 h-6 inline-block overflow-hidden">
+        <span className="inline-flex items-center">
           {PlatformsSyncMap[platform]?.icon ? (
             <Image
               src={PlatformsSyncMap[platform]?.icon}
               alt={platform}
-              fill={true}
+              width={20}
+              height={20}
             />
           ) : (
-            <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300 w-6 h-6">
+            <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300">
               <i className="icon-[mingcute--planet-line] text-xl" />
             </span>
           )}

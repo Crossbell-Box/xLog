@@ -33,7 +33,7 @@ export const FollowingCount = ({
       <Button
         variant="text"
         className={
-          "xlog-site-followers align-middle text-zinc-500 -ml-2" +
+          "xlog-site-followers align-middle text-zinc-500 -ml-3" +
           (disableList ? "" : " cursor-pointer")
         }
         onClick={() => setIsFollowListOpen(true)}
