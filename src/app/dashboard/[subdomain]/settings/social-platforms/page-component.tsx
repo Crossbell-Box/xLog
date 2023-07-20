@@ -55,9 +55,10 @@ const SortableNavigationItem = ({
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           updateItem(item.id, { platform: e.target.value })
         }
+        options={Object.keys(PlatformsSyncMap)}
       />
       <Input
-        label="Identity"
+        label={t("ID")}
         required
         id={`${item.id}-identity`}
         type="text"
@@ -182,21 +183,9 @@ export default function SiteSettingsNavigationPage() {
             </Trans>
           </span>
         </p>
-        <p>
-          <span className="text-zinc-800">
-            <Trans i18n={i18n} ns="dashboard" i18nKey="social tips.p3">
-              You can also connect to Twitter, Telegram Channel, Medium,
-              Substack and more and automatically sync content on{" "}
-              <UniLink href="https://xsync.app/" className="underline">
-                xSync
-              </UniLink>
-              . When you have set up the sync there, it will also show here.
-            </Trans>
-          </span>
-        </p>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="bg-zinc-50 rounded-lg overflow-auto">
+        <div className="bg-zinc-50 rounded-lg">
           {items.length === 0 && (
             <div className="text-center text-zinc-500 p-5">
               No navigation items yet
