@@ -13,6 +13,10 @@ const icons: {
     bg: "bg-zinc-700 text-white",
     icon: "icon-[mingcute--terminal-line]",
   },
+  Organization: {
+    bg: "bg-sky-700 text-white",
+    icon: "icon-[mingcute--building-1-line]",
+  },
 }
 
 export const Titles = ({ characterId }: { characterId?: number }) => {
