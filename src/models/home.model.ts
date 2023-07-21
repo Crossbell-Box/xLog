@@ -8,6 +8,7 @@ import { ExpandedNote } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 import filter from "../../data/filter.json"
+import titles from "../../data/titles.json"
 import topics from "../../data/topics.json"
 
 export type FeedType =
@@ -18,12 +19,14 @@ export type FeedType =
   | "search"
   | "tag"
   | "comments"
+  | "featured"
+
 export type SearchType = "latest" | "hottest"
 
 export async function getFeed({
   type,
   cursor,
-  limit = 30,
+  limit = 12,
   characterId,
   daysInterval,
   searchKeyword,
@@ -480,9 +483,9 @@ export async function getFeed({
                   },
                 },
                 take: 40,
-                orderBy: { 
-                  stat: { 
-                    viewDetailCount: desc 
+                orderBy: {
+                  stat: {
+                    viewDetailCount: desc
                   }
                 },
               ) {
@@ -531,6 +534,102 @@ export async function getFeed({
       return {
         list: list,
         cursor: "",
+        count: list?.length || 0,
+      }
+    }
+    case "featured": {
+      const result = await client
+        .query(
+          gql`
+            query getNotes($filter: [Int!], $limit: Int, $whitelist: [Int!]) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  deleted: {
+                    equals: false,
+                  },
+                  metadata: {
+                    content: {
+                      path: "sources",
+                      array_contains: "xlog"
+                    },
+                    NOT: [{
+                      content: {
+                        path: "tags",
+                        array_starts_with: "comment"
+                      }
+                    }]
+                  },
+                  OR: [
+                    {
+                      stat: {
+                        viewDetailCount: {
+                          gt: 30
+                        },
+                      },
+                    },
+                    {
+                      characterId: {
+                        in: $whitelist
+                      },
+                    }
+                  ]
+                },
+                orderBy: [{ createdAt: desc }],
+                take: $limit,
+                ${cursorQuery}
+              ) {
+                stat {
+                  viewDetailCount
+                }
+                ${resultFields}
+              }
+            }
+          `,
+          {
+            filter: filter.latest,
+            limit,
+            whitelist: titles.reduce((acc, cur) => {
+              acc = acc.concat(cur.list)
+              return acc
+            }, [] as number[]),
+          },
+        )
+        .toPromise()
+
+      let list = await Promise.all(
+        result?.data?.notes.map(async (page: any) => {
+          const secondAgo = dayjs().diff(dayjs(page.createdAt), "second")
+          page.stat.hotScore =
+            page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
+
+          const expand = await expandCrossbellNote({
+            note: page,
+            useHTML,
+          })
+          delete expand.metadata?.content.content
+          return expand
+        }),
+      )
+
+      const cursor = list?.length
+        ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+            ?.noteId}`
+        : undefined
+
+      list = list.sort((a, b) => {
+        if (a.stat?.hotScore && b.stat?.hotScore) {
+          return b.stat.hotScore - a.stat.hotScore
+        } else {
+          return 0
+        }
+      })
+
+      return {
+        list,
+        cursor,
         count: list?.length || 0,
       }
     }
