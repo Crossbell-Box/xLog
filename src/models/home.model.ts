@@ -563,6 +563,7 @@ export async function getFeed({
                     }]
                   },
                   OR: [
+                    # With over 30 views
                     {
                       stat: {
                         viewDetailCount: {
@@ -570,10 +571,31 @@ export async function getFeed({
                         },
                       },
                     },
+                    # Or in the whitelist
                     {
                       characterId: {
                         in: $whitelist
                       },
+                    },
+                    # Or have received comments
+                    {
+                      fromNotes: {
+                        some: {
+                          deleted: {
+                            equals: false,
+                          }
+                        }
+                      }
+                    },
+                    # Or have received tips
+                    {
+                      receivedTips: {
+                        some: {
+                          blockNumber: {
+                            gt: 0
+                          }
+                        }
+                      }
                     }
                   ]
                 },
