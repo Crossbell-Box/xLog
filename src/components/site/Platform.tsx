@@ -90,6 +90,11 @@ export const PlatformsSyncMap: {
     icon: "/assets/social/steam.svg",
     url: "https://steamcommunity.com/id/{username}",
   },
+  steam_profiles: {
+    name: "Steam",
+    icon: "/assets/social/steam.svg",
+    url: "https://steamcommunity.com/profiles/{username}",
+  },
   gitlab: {
     name: "Gitlab",
     icon: "/assets/social/gitlab.svg",
