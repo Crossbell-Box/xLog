@@ -73,9 +73,6 @@ module.exports = withSentryConfig(
       },
       productionBrowserSourceMaps: true,
 
-      // disable swc due to a bug https://github.com/swc-project/swc/issues/7640
-      swcMinify: false,
-
       webpack(config) {
         config.resolve.fallback = { fs: false } // polyfill node-id3
 
