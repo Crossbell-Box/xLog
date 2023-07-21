@@ -94,6 +94,7 @@ export default function DashboardLayout({
     isActive: (ctx: { href: string; pathname: string | null }) => boolean
     icon: React.ReactNode
     text: string
+    lever?: number
   }[] = [
     {
       href: `/dashboard/${subdomain}`,
@@ -102,30 +103,23 @@ export default function DashboardLayout({
       text: "Dashboard",
     },
     {
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: "icon-[mingcute--add-circle-line]",
+      text: "Creation",
+    },
+    {
       href: `/dashboard/${subdomain}/posts`,
       isActive: ({ href, pathname }) => href === pathname,
       icon: "icon-[mingcute--news-line]",
       text: "Posts",
+      lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/pages`,
       isActive: ({ href, pathname }) => href === pathname,
       icon: "icon-[mingcute--file-line]",
       text: "Pages",
-    },
-    {
-      href: `/dashboard/${subdomain}/comments`,
-      isActive: ({ href, pathname }) => href === pathname,
-      icon: "icon-[mingcute--comment-line]",
-      text: "Comments",
-    },
-    {
-      onClick: showNotificationModal,
-      isActive: ({ href, pathname }) => href === pathname,
-      icon: isAllRead
-        ? "icon-[mingcute--notification-line]"
-        : "icon-[mingcute--notification-fill]",
-      text: isAllRead ? "Notifications" : "Unread notifications",
+      lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/import`,
@@ -133,6 +127,7 @@ export default function DashboardLayout({
         !!pathname?.startsWith(`/dashboard/${subdomain}/import`),
       icon: "icon-[mingcute--file-import-line]",
       text: "Import",
+      lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/events`,
@@ -141,12 +136,35 @@ export default function DashboardLayout({
         ? "icon-[mingcute--flag-4-line]"
         : "icon-[mingcute--flag-4-fill]",
       text: isEventsAllRead ? "Events" : "New Events",
+      lever: 2,
+    },
+    {
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: "icon-[mingcute--heartbeat-line]",
+      text: "Interaction",
+    },
+    {
+      onClick: showNotificationModal,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: isAllRead
+        ? "icon-[mingcute--notification-line]"
+        : "icon-[mingcute--notification-fill]",
+      text: isAllRead ? "Notifications" : "Unread notifications",
+      lever: 2,
+    },
+    {
+      href: `/dashboard/${subdomain}/comments`,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: "icon-[mingcute--comment-line]",
+      text: "Comments",
+      lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/achievements`,
       isActive: ({ href, pathname }) => href === pathname,
       icon: "icon-[mingcute--trophy-line]",
       text: "Achievements",
+      lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/tokens`,
@@ -325,12 +343,21 @@ export default function DashboardLayout({
                               `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
                               active
                                 ? `bg-slate-200 font-medium text-accent`
-                                : `hover:bg-slate-200 hover:bg-opacity-50`,
+                                : link.href || link.onClick
+                                ? "hover:bg-slate-200 hover:bg-opacity-50"
+                                : "opacity-80",
                               !isOpen && "justify-center",
                             )}
                             onClick={link.onClick}
                           >
-                            <span className={cn(link.icon, "text-xl")}></span>
+                            <span
+                              className={cn(link.icon, "text-xl")}
+                              style={{
+                                marginLeft: link.lever
+                                  ? (link.lever - 1) * 20
+                                  : 0,
+                              }}
+                            ></span>
                             {isOpen && <span>{t(link.text)}</span>}
                           </UniLink>
                         )
