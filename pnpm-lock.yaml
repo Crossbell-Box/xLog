@@ -111,8 +111,8 @@ dependencies:
     specifier: 4.21.7
     version: 4.21.7(@codemirror/view@6.15.3)
   '@urql/core':
-    specifier: 4.0.11
-    version: 4.0.11
+    specifier: 4.1.0
+    version: 4.1.0
   ahooks:
     specifier: 3.7.8
     version: 3.7.8(react@18.2.0)
@@ -4563,8 +4563,8 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: false
 
-  /@urql/core@4.0.11:
-    resolution: {integrity: sha512-FFdY97vF5xnUrElcGw9erOLvtu+KGMLfwrLNDfv4IPgdp2IBsiGe+Kb7Aypfd3kH//BETewVSLm3+y2sSzjX6A==}
+  /@urql/core@4.1.0:
+    resolution: {integrity: sha512-mQLO6RAOhITvq6oktFzsEuAngdVwJbTuS+XaZi6evUQu797MXhI0smldEkWg9osvn/I2dyO57oR3LpxpMr9nTg==}
     dependencies:
       '@0no-co/graphql.web': 1.0.4
       wonka: 6.3.2
