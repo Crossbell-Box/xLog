@@ -150,7 +150,7 @@ const Card = ({
                   </span>
                 </span>
               </CharacterFloatCard>
-              <Titles characterId={character?.characterId} />
+              <Titles characterId={+character?.characterId} />
               <span className="text-zinc-400 hidden sm:inline-block">·</span>
             </>
           )}
