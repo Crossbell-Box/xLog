@@ -480,6 +480,11 @@ export async function getFeed({
                   },
                 },
                 take: 40,
+                orderBy: { 
+                  stat: { 
+                    viewDetailCount: desc 
+                  }
+                },
               ) {
                 stat {
                   viewDetailCount
