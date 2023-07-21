@@ -143,6 +143,11 @@ export const PlatformsSyncMap: {
     icon: "/assets/social/douban.png",
     url: "https://www.douban.com/people/{username}",
   },
+  email: {
+    name: "Email",
+    icon: "/assets/social/email.png",
+    url: "mailto:{username}",
+  },
 }
 
 export const Platform = ({
