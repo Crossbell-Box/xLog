@@ -191,12 +191,12 @@ export const useDarkMode = () => {
       classNameDark: COLOR_SCHEME_DARK,
       classNameLight: COLOR_SCHEME_LIGHT,
       element: (globalThis.document && document.documentElement) || mockElement,
-      transition:
-        !isServerSide() &&
-        !!document.startViewTransition &&
-        !window.matchMedia(`(prefers-reduced-motion: reduce)`).matches
-          ? document.startViewTransition()
-          : undefined,
+      // transition:
+      //   !isServerSide() &&
+      //   !!document.startViewTransition &&
+      //   !window.matchMedia(`(prefers-reduced-motion: reduce)`).matches
+      //     ? document.startViewTransition()
+      //     : undefined,
     },
   )
 

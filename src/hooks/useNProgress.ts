@@ -19,7 +19,7 @@ export const useNProgress = () => {
         instance.current.start()
       }),
     )
-    // disposers.push(events.onComplete(() => instance.current.finish()))
+    disposers.push(events.onComplete(() => instance.current.finish()))
     return () => disposers.forEach((disposer) => disposer())
   }, [])
 }

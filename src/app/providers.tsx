@@ -14,7 +14,7 @@ import { ModalStackProvider } from "~/components/ui/ModalStack"
 // eslint-disable-next-line import/no-unresolved
 import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
-// import { useNProgress } from "~/hooks/useNProgress"
+import { useNProgress } from "~/hooks/useNProgress"
 import { APP_NAME, WALLET_CONNECT_V2_PROJECT_ID } from "~/lib/env"
 import { filterNotificationCharacter } from "~/lib/filter-character"
 import { toGateway } from "~/lib/ipfs-parser"
@@ -44,7 +44,7 @@ export default function Providers({
 }) {
   useDarkMode()
   useMobileLayout()
-  // useNProgress()
+  useNProgress()
 
   const [queryClient] = useState(createQueryClient)
 
