@@ -126,7 +126,7 @@ export const SiteHeader = async ({
         </div>
         {!hideNavigation && (
           <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
-            <div className="xlog-site-navigation flex items-center gap-1 mx-[-.5rem] min-w-0 text-sm sm:text-base overflow-x-auto">
+            <div className="xlog-site-navigation flex items-center sm:gap-2 mx-[-.5rem] min-w-0 text-sm sm:text-base overflow-x-auto">
               {leftLinks.map((link, i) => {
                 return <HeaderLink link={link} key={`${link.label}${i}`} />
               })}

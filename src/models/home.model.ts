@@ -308,17 +308,20 @@ export async function getFeed({
                       equals: false,
                     },
                     metadata: {
-                      AND: [{
-                        content: {
-                          path: "sources",
-                          array_contains: "xlog"
+                      AND: [
+                        {
+                          content: {
+                            path: "sources",
+                            array_contains: "xlog"
+                          },
                         },
-                      }, {
-                        content: {
-                          path: "tags",
-                          array_contains: "post"
+                        {
+                          content: {
+                            path: "tags",
+                            array_contains: "post"
+                          }
                         }
-                      }]
+                      ]
                     },
                     OR: [
                       {
@@ -370,6 +373,12 @@ export async function getFeed({
           count: list?.length || 0,
         }
       } else {
+        const excludeString = [
+          ...(info.excludeKeywords?.map(
+            (topicExcludeKeyword) =>
+              `{ NOT: { content: { path: "content", string_contains: "${topicExcludeKeyword}" } } },`,
+          ) || []),
+        ].join("\n")
         const result = await client
           .query(
             gql`
@@ -383,21 +392,26 @@ export async function getFeed({
                       equals: false,
                     },
                     metadata: {
-                      AND: [{
-                        content: {
-                          path: "sources",
-                          array_contains: "xlog"
+                      AND: [
+                        {
+                          content: {
+                            path: "sources",
+                            array_contains: "xlog"
+                          },
                         },
-                      }, {
-                        content: {
-                          path: "tags",
-                          array_contains: "post"
+                        {
+                          content: {
+                            path: "tags",
+                            array_contains: "post"
+                          }
+                        },
+                        ${excludeString},
+                        {
+                          OR: [
+                            ${includeString}
+                          ]
                         }
-                      }, {
-                        OR: [
-                          ${includeString}
-                        ]
-                      }]
+                      ]
                     },
                   },
                   orderBy: [{ createdAt: desc }],

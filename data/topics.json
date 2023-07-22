@@ -3,7 +3,8 @@
     "name": "xLog",
     "description": "Let's talk about xLog, whether to praise or criticize it.",
     "includeTags": ["xLog"],
-    "includeKeywords": ["xLog"]
+    "includeKeywords": ["xLog"],
+    "excludeKeywords": ["同步更新至 xLog"]
   },
   {
     "name": "Web3",
@@ -27,15 +28,15 @@
     ]
   },
   {
-    "name": "Artificial Intelligence",
+    "name": "AI",
     "description": "The world is undergoing changes, and we are at the center of it.",
     "includeTags": ["AI"],
     "includeKeywords": ["GPT", "Midjourney", "AIGC", " AI ", "OpenAI"]
   },
   {
-    "name": "Life Journal",
+    "name": "Journal",
     "description": "Discover new perspectives and insights in others' weekly, monthly, or yearly journal.",
-    "includeTags": ["Life", "生活"],
+    "includeTags": ["Journal", "日记"],
     "includeKeywords": [
       "Review",
       "Weekly",
