@@ -189,8 +189,8 @@ dependencies:
     specifier: 0.16.8
     version: 0.16.8
   langchain:
-    specifier: 0.0.114
-    version: 0.0.114(ioredis@5.3.2)
+    specifier: 0.0.116
+    version: 0.0.116(ioredis@5.3.2)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -9151,8 +9151,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.114(ioredis@5.3.2):
-    resolution: {integrity: sha512-GBnawSUlfBIrLfgnBWTfOAVkHZlf1YDbj0TEx28zJc6JaV+2+vmDN+ejXH6Ho681DGPNloJocqz7UPOxswHcWg==}
+  /langchain@0.0.116(ioredis@5.3.2):
+    resolution: {integrity: sha512-bFXj5MDWPKkSiQUhx//p6zDLrSo2aFZnewhmUwJYRKkSPkXE4MxTzPqxZa8E0hv9EqyOb6dA8RVcvh6xp1hUkw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0
