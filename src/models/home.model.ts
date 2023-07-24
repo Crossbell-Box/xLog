@@ -8,7 +8,6 @@ import { ExpandedNote } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 import filter from "../../data/filter.json"
-import titles from "../../data/titles.json"
 import topics from "../../data/topics.json"
 
 export type FeedType =
@@ -555,7 +554,7 @@ export async function getFeed({
       const result = await client
         .query(
           gql`
-            query getNotes($filter: [Int!], $limit: Int, $whitelist: [Int!]) {
+            query getNotes($filter: [Int!], $limit: Int) {
               notes(
                 where: {
                   characterId: {
@@ -583,12 +582,6 @@ export async function getFeed({
                         viewDetailCount: {
                           gt: 30
                         },
-                      },
-                    },
-                    # Or in the whitelist
-                    {
-                      characterId: {
-                        in: $whitelist
                       },
                     },
                     # Or have received comments
@@ -627,10 +620,6 @@ export async function getFeed({
           {
             filter: filter.latest,
             limit,
-            whitelist: titles.reduce((acc, cur) => {
-              acc = acc.concat(cur.list)
-              return acc
-            }, [] as number[]),
           },
         )
         .toPromise()
