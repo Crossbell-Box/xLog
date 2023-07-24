@@ -24,12 +24,12 @@ export const PlatformsSyncMap: {
   twitter: {
     name: "Twitter",
     icon: "/assets/social/twitter.svg",
-    url: "https://twitter.com/{username}",
+    url: "https://x.com/{username}",
   },
   twitter_id: {
     name: "Twitter",
     icon: "/assets/social/twitter.svg",
-    url: "https://twitter.com/i/user/{username}",
+    url: "https://x.com/i/user/{username}",
   },
   pixiv: {
     name: "Pixiv",
