@@ -188,7 +188,7 @@
     "esbuild": "0.18.15",
     "esbuild-register": "3.4.2",
     "eslint": "8.45.0",
-    "eslint-config-next": "13.4.11",
+    "eslint-config-next": "13.4.12",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-react": "7.33.0",
     "eslint-plugin-unused-imports": "3.0.0",
