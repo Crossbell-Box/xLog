@@ -35,7 +35,7 @@ const shareList = [
     ),
     onClick: (data: ShareData) => {
       window.open(
-        `https://x.com/intent/tweet?url=${data.url}&text=${data.text}&via=XLog`,
+        `https://x.com/intent/tweet?url=${data.url}&text=${data.text}&via=_xLog`,
       )
     },
   },
