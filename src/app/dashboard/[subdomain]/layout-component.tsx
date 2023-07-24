@@ -346,7 +346,7 @@ export default function DashboardLayout({
                                 : link.href || link.onClick
                                 ? "hover:bg-slate-200 hover:bg-opacity-50"
                                 : "opacity-80",
-                              !isOpen && "justify-center",
+                              !isOpen && "justify-center px-0",
                             )}
                             onClick={link.onClick}
                           >
