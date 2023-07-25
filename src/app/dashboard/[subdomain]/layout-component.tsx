@@ -241,13 +241,22 @@ export default function DashboardLayout({
                                 `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
                                 active
                                   ? `bg-slate-200 font-medium text-accent`
-                                  : `hover:bg-slate-200 hover:bg-opacity-50`,
+                                  : link.href || link.onClick
+                                  ? "hover:bg-slate-200 hover:bg-opacity-50"
+                                  : "opacity-80",
                                 !true && "justify-center",
                               )}
                               onClick={link.onClick}
                             >
-                              <span className={cn(link.icon, "text-xl")}></span>
-                              <span>{t(link.text)}</span>
+                              <i
+                                className={cn(link.icon, "text-xl")}
+                                style={{
+                                  marginLeft: link.lever
+                                    ? (link.lever - 1) * 20
+                                    : 0,
+                                }}
+                              ></i>
+                              <span className="truncate">{t(link.text)}</span>
                             </UniLink>
                           </div>
                         )
@@ -350,15 +359,17 @@ export default function DashboardLayout({
                             )}
                             onClick={link.onClick}
                           >
-                            <span
+                            <i
                               className={cn(link.icon, "text-xl")}
                               style={{
                                 marginLeft: link.lever
                                   ? (link.lever - 1) * 20
                                   : 0,
                               }}
-                            ></span>
-                            {isOpen && <span>{t(link.text)}</span>}
+                            ></i>
+                            {isOpen && (
+                              <span className="truncate">{t(link.text)}</span>
+                            )}
                           </UniLink>
                         )
                       })}
