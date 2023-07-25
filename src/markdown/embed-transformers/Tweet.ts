@@ -8,7 +8,10 @@ export const TweetTransformer: Transformer = {
   shouldTransform(url) {
     const { host, pathname } = url
 
-    return isHostIncludes("x.com", host) && pathname.includes("/status/")
+    return (
+      (isHostIncludes("x.com", host) || isHostIncludes("twitter.com", host)) &&
+      pathname.includes("/status/")
+    )
   },
   getHTML(url) {
     const { pathname } = url
