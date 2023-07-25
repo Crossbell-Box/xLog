@@ -1,8 +1,10 @@
+import type { NoteEntity } from "crossbell"
 import dayjs from "dayjs"
 
 import { indexer } from "@crossbell/indexer"
 import { gql } from "@urql/core"
 
+import countCharacters from "~/lib/character-count"
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { ExpandedNote } from "~/lib/types"
 import { client } from "~/queries/graphql"
@@ -76,6 +78,15 @@ export async function getFeed({
     }
   `
 
+  let resultAll: {
+    list: ExpandedNote[]
+    cursor?: string | null
+    count?: number
+  } = {
+    list: [],
+    count: 0,
+  }
+
   switch (type) {
     case "latest": {
       const result = await client
@@ -119,18 +130,16 @@ export async function getFeed({
         .toPromise()
 
       const list = await Promise.all(
-        result?.data?.notes.map(async (page: any) => {
-          const expand = await expandCrossbellNote({
+        result?.data?.notes.map((page: NoteEntity) =>
+          expandCrossbellNote({
             note: page,
             useScore: true,
             useHTML,
-          })
-          delete expand.metadata?.content.content
-          return expand
-        }),
+          }),
+        ),
       )
 
-      return {
+      resultAll = {
         list,
         cursor: list?.length
           ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
@@ -138,6 +147,7 @@ export async function getFeed({
           : undefined,
         count: list?.length || 0,
       }
+      break
     }
     case "comments": {
       const result = await client
@@ -198,10 +208,10 @@ export async function getFeed({
 
       const list = await Promise.all(
         result?.data?.notes
-          .filter((page: any) => {
+          .filter((page: NoteEntity) => {
             return !page.toNote?.metadata?.content?.tags?.includes("comment")
           })
-          .map(async (page: any) => {
+          .map(async (page: NoteEntity) => {
             const expand = await expandCrossbellNote({
               note: page,
               useHTML,
@@ -212,12 +222,11 @@ export async function getFeed({
                 useHTML,
               })
             }
-            delete expand.metadata?.content.content
             return expand
           }),
       )
 
-      return {
+      resultAll = {
         list,
         cursor: list?.length
           ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
@@ -225,6 +234,7 @@ export async function getFeed({
           : undefined,
         count: list?.length || 0,
       }
+      break
     }
     case "following": {
       if (!characterId) {
@@ -246,21 +256,20 @@ export async function getFeed({
         )
 
         const list = await Promise.all(
-          result.list.map(async (page: any) => {
-            const expand = await expandCrossbellNote({
+          result.list.map((page: NoteEntity) =>
+            expandCrossbellNote({
               note: page,
               useHTML,
-            })
-            delete expand.metadata?.content.content
-            return expand
-          }),
+            }),
+          ),
         )
 
-        return {
+        resultAll = {
           list,
           cursor: result.cursor,
           count: result.count,
         }
+        break
       }
     }
     case "topic": {
@@ -353,17 +362,15 @@ export async function getFeed({
           .toPromise()
 
         const list = await Promise.all(
-          result?.data?.notes.map(async (page: any) => {
-            const expand = await expandCrossbellNote({
+          result?.data?.notes.map((page: NoteEntity) =>
+            expandCrossbellNote({
               note: page,
               useHTML,
-            })
-            delete expand.metadata?.content.content
-            return expand
-          }),
+            }),
+          ),
         )
 
-        return {
+        resultAll = {
           list: list,
           cursor: list?.length
             ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
@@ -371,6 +378,7 @@ export async function getFeed({
             : undefined,
           count: list?.length || 0,
         }
+        break
       } else {
         const excludeString = [
           ...(info.excludeKeywords?.map(
@@ -429,17 +437,15 @@ export async function getFeed({
           .toPromise()
 
         const list = await Promise.all(
-          result?.data?.notes.map(async (page: any) => {
-            const expand = await expandCrossbellNote({
+          result?.data?.notes.map((page: NoteEntity) =>
+            expandCrossbellNote({
               note: page,
               useHTML,
-            })
-            delete expand.metadata?.content.content
-            return expand
-          }),
+            }),
+          ),
         )
 
-        return {
+        resultAll = {
           list: list,
           cursor: list?.length
             ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
@@ -447,6 +453,7 @@ export async function getFeed({
             : undefined,
           count: list?.length || 0,
         }
+        break
       }
     }
     case "hottest": {
@@ -516,20 +523,28 @@ export async function getFeed({
         .toPromise()
 
       let list: ExpandedNote[] = await Promise.all(
-        result?.data?.notes.map(async (page: any) => {
-          if (daysInterval) {
-            const secondAgo = dayjs().diff(dayjs(page.createdAt), "second")
-            page.stat.hotScore =
-              page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
-          }
+        result?.data?.notes.map(
+          async (
+            page: NoteEntity & {
+              stat: {
+                viewDetailCount: number
+                hotScore?: number
+              }
+            },
+          ) => {
+            if (daysInterval) {
+              const secondAgo = dayjs().diff(dayjs(page.createdAt), "second")
+              page.stat.hotScore =
+                page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
+            }
 
-          const expand = await expandCrossbellNote({
-            note: page,
-            useHTML,
-          })
-          delete expand.metadata?.content.content
-          return expand
-        }),
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            })
+            return expand
+          },
+        ),
       )
 
       if (daysInterval) {
@@ -544,11 +559,12 @@ export async function getFeed({
           .slice(0, 24)
       }
 
-      return {
+      resultAll = {
         list: list,
         cursor: "",
         count: list?.length || 0,
       }
+      break
     }
     case "featured": {
       const result = await client
@@ -625,18 +641,26 @@ export async function getFeed({
         .toPromise()
 
       let list = await Promise.all(
-        result?.data?.notes.map(async (page: any) => {
-          const secondAgo = dayjs().diff(dayjs(page.createdAt), "second")
-          page.stat.hotScore =
-            page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
+        result?.data?.notes.map(
+          async (
+            page: NoteEntity & {
+              stat: {
+                viewDetailCount: number
+                hotScore?: number
+              }
+            },
+          ) => {
+            const secondAgo = dayjs().diff(dayjs(page.createdAt), "second")
+            page.stat.hotScore =
+              page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
 
-          const expand = await expandCrossbellNote({
-            note: page,
-            useHTML,
-          })
-          delete expand.metadata?.content.content
-          return expand
-        }),
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            })
+            return expand
+          },
+        ),
       )
 
       const cursor = list?.length
@@ -652,11 +676,12 @@ export async function getFeed({
         }
       })
 
-      return {
+      resultAll = {
         list,
         cursor,
         count: list?.length || 0,
       }
+      break
     }
     case "search": {
       const result = await indexer.search.notes(searchKeyword!, {
@@ -669,32 +694,32 @@ export async function getFeed({
       })
 
       const list = await Promise.all(
-        result.list.map(async (page: any) => {
-          const expand = await expandCrossbellNote({
+        result.list.map((page: NoteEntity) =>
+          expandCrossbellNote({
             note: page,
             useStat: false,
             useScore: false,
             keyword: searchKeyword,
             useHTML,
-          })
-          delete expand.metadata?.content.content
-          return expand
-        }),
+          }),
+        ),
       )
 
-      return {
+      resultAll = {
         list,
         cursor: result.cursor,
         count: result.count,
       }
+      break
     }
     case "tag": {
       if (!tag) {
-        return {
+        resultAll = {
           list: [],
           cursor: "",
           count: 0,
         }
+        break
       }
 
       let result = await indexer.note.getMany({
@@ -707,25 +732,41 @@ export async function getFeed({
       } as any)
 
       const list = await Promise.all(
-        result.list.map(async (page: any) => {
-          const expand = await expandCrossbellNote({
+        result.list.map((page: NoteEntity) =>
+          expandCrossbellNote({
             note: page,
             useStat: false,
             useScore: true,
             useHTML,
-          })
-          delete expand.metadata?.content.content
-          return expand
-        }),
+          }),
+        ),
       )
 
-      return {
+      resultAll = {
         list,
         cursor: result.cursor,
         count: result.count,
       }
+      break
     }
   }
+
+  resultAll.list = resultAll.list
+    .filter(
+      (post) =>
+        countCharacters(post?.metadata?.content?.content || "") >
+          (post?.metadata?.content?.tags?.[0] === "comment" ? 6 : 300) &&
+        !(
+          new Date(post.metadata?.content?.date_published || "") > new Date()
+        ) &&
+        !post.toNote?.metadata?.content?.tags?.includes("comment"),
+    )
+    .map((post) => {
+      delete post.metadata?.content.content
+      return post
+    })
+
+  return resultAll
 }
 
 export const getShowcase = async () => {
