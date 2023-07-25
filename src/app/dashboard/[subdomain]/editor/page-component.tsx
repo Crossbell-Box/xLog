@@ -901,6 +901,9 @@ const useEditorAdvancedModal = ({ isPost }: { isPost: boolean }) => {
     present({
       title: t("Advanced Settings"),
       content: () => <EditorAdvancedModal isPost={isPost} />,
+      modalProps: {
+        withConfirm: true,
+      },
     })
   }
 }
