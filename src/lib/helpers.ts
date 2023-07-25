@@ -38,9 +38,12 @@ export const getNoteSlug = (note: NoteEntity) => {
 }
 
 export const getNoteSlugFromNote = (page: ExpandedNote) => {
-  return page.metadata?.content?.attributes?.find(
-    ($) => $.trait_type === "xlog_slug",
-  )?.value
+  return (
+    page.metadata?.content?.slug ||
+    page.metadata?.content?.attributes?.find(
+      ($) => $.trait_type === "xlog_slug",
+    )?.value
+  )
 }
 
 export const getTwitterShareUrl = ({
