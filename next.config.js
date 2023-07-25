@@ -62,6 +62,9 @@ module.exports = withSentryConfig(
       },
       productionBrowserSourceMaps: true,
 
+      // https://github.com/vercel/next.js/issues/38436
+      swcMinify: false,
+
       webpack(config) {
         config.resolve.fallback = { fs: false } // polyfill node-id3
 
