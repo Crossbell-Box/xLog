@@ -12,7 +12,7 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml prisma ./
 
-RUN pnpm i --frozen-lockfile
+RUN pnpm i --frozen-lockfile --no-optional
 
 ##### BUILD
 FROM deps as build
