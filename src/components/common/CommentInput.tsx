@@ -254,7 +254,6 @@ export const CommentInput = ({
                       })
 
                       requestAnimationFrame(() => {
-                        // console.log(view.state.doc.toString(), "statevalue")
                         form.setValue("content", view.state.doc.toString())
                       })
                     }}

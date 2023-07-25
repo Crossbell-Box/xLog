@@ -447,7 +447,7 @@ export async function fetchTenant(
   )
   const txt = await res.json()
   if (txt.Status === 5 && retries > 0) {
-    console.log("retrying", host, retries - 1)
+    console.warn("retrying", host, retries - 1)
     return await fetchTenant(host, retries - 1)
   } else {
     return txt?.Answer?.[0]?.data.replace(/^"|"$/g, "")

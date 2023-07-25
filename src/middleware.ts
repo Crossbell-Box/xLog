@@ -44,7 +44,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
   }
 
-  console.log(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
+  console.debug(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
 
   if (
     pathname.startsWith("/api/") ||
