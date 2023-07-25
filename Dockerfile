@@ -12,7 +12,9 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml prisma ./
 
-RUN pnpm i --frozen-lockfile --no-optional
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+
+RUN pnpm i --frozen-lockfile
 
 ##### BUILD
 FROM deps as build
