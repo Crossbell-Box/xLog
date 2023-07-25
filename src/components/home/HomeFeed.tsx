@@ -230,7 +230,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
               useWindowScroll
               data={feedInOne}
               totalCount={feed.data?.pages[0]?.count || 0}
-              listClassName="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3"
+              listClassName="grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-3"
               itemContent={(index) => {
                 const post = feedInOne[index]
                 if (!post) return null
@@ -274,7 +274,7 @@ const FeedSkeleton = () => {
   return (
     <Skeleton.Container
       count={9}
-      className="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3 my-8"
+      className="grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-3 my-8"
     >
       <div className="rounded-2xl border">
         <Skeleton.Rectangle className="h-auto rounded-t-2xl rounded-b-none w-full aspect-video border-b" />
