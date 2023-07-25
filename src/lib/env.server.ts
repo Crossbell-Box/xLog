@@ -2,7 +2,8 @@ import getConfig from "next/config"
 
 const config = getConfig() || {}
 
-export const REDIS_URL = config.ENV_REDIS_URL || process.env.REDIS_URL
+export const REDIS_URL =
+  config.ENV_REDIS_URL || process.env.KV_URL || process.env.REDIS_URL
 export const REDIS_EXPIRE =
   parseInt(config.ENV_REDIS_EXPIRE || process.env.REDIS_EXPIRE || "0") ||
   60 * 60 * 24 * 7 // 1 week
