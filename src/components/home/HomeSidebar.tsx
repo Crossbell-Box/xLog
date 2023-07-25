@@ -15,7 +15,7 @@ export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
   const { t } = await getTranslation("index")
 
   return (
-    <div className="w-80 pl-10 hidden lg:block space-y-10">
+    <>
       <PromotionLinks />
       {!hideSearch && <SearchInput />}
       <div className="text-center text-zinc-700 space-y-3">
@@ -63,6 +63,6 @@ export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
           </>
         </ShowMoreContainer>
       </div>
-    </div>
+    </>
   )
 }
