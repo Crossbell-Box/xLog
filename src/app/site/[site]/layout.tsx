@@ -200,9 +200,7 @@ export default async function SiteLayout({
           {children}
         </main>
         {site && !onlyContent && (
-          <section className="xlog-blockchain-info max-w-screen-lg mx-auto pt-12 pb-10">
-            <BlockchainInfo site={site} page={page || undefined} />
-          </section>
+          <BlockchainInfo site={site} page={page || undefined} />
         )}
         {!onlyContent && <SiteFooter site={site || undefined} />}
         <FABContainer>

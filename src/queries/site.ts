@@ -528,3 +528,9 @@ export const useGetCharacterCard = ({
     },
   )
 }
+
+export const useGetBlockNumber = () => {
+  return useQuery(["getBlockNumber"], async () => {
+    return siteModel.getBlockNumber()
+  })
+}

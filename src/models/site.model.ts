@@ -499,3 +499,21 @@ export async function checkDomain(domain: string, handle: string) {
 
   return check.data
 }
+
+export async function getBlockNumber() {
+  const result = await (
+    await fetch("https://scan.crossbell.io/api/eth-rpc", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        method: "eth_blockNumber",
+        params: [],
+        id: 0,
+      }),
+    })
+  ).json()
+  return BigInt(result.result)
+}
