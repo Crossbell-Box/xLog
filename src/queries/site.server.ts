@@ -135,12 +135,14 @@ export const getNFTs = async (address?: string) => {
 }
 
 export const getCharacterColors = async (character?: ExpandedCharacter) => {
-  const key = ["getThemeColors", character?.handle]
+  const key = ["getThemeColors", character?.metadata?.uri]
   if (!character) {
     return null
   }
   return cacheGet({
     key,
+    noExpire: true,
+    noUpdate: true,
     getValueFun: async () => {
       let colors = {}
 
