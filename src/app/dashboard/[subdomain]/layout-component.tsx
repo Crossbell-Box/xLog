@@ -12,7 +12,6 @@ import {
 
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { Logo } from "~/components/common/Logo"
-import { DashboardSidebar } from "~/components/dashboard/DashboardSidebar"
 import { DashboardTopbar } from "~/components/dashboard/DashboardTopbar"
 import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
@@ -198,7 +197,7 @@ export default function DashboardLayout({
             }
           />
         )}
-        <div className="flex h-screen">
+        <div className="flex h-screen bg-slate-100">
           {isMobileLayout ? (
             <DashboardTopbar
               userWidget={
@@ -238,13 +237,12 @@ export default function DashboardLayout({
                             <UniLink
                               href={link.href}
                               className={cn(
-                                `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
+                                `flex px-4 h-12 items-center rounded-xl space-x-2 w-full transition-colors`,
                                 active
-                                  ? `bg-slate-200 font-medium text-accent`
+                                  ? `bg-white font-medium text-accent drop-shadow-sm`
                                   : link.href || link.onClick
                                   ? "hover:bg-slate-200 hover:bg-opacity-50"
-                                  : "opacity-80",
-                                !true && "justify-center",
+                                  : "opacity-80 cursor-default",
                               )}
                               onClick={link.onClick}
                             >
@@ -274,7 +272,7 @@ export default function DashboardLayout({
                         href={getSiteLink({
                           subdomain,
                         })}
-                        className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center"
+                        className="space-x-2 border rounded-lg border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center bg-white drop-shadow-sm"
                       >
                         <span className="icon-[mingcute--home-1-line]"></span>
                         {<span>{t("View Site")}</span>}
@@ -287,121 +285,120 @@ export default function DashboardLayout({
               {(isOpen) => <div>233</div>}
             </DashboardTopbar>
           ) : (
-            <DashboardSidebar>
-              {(isOpen) => (
-                <>
-                  <div className="flex-1 min-h-0 flex flex-col">
-                    <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
-                      <div className="inline-block w-9 h-9 mr-3">
-                        <Logo
-                          type="lottie"
-                          width={36}
-                          height={36}
-                          autoplay={false}
-                        />
-                      </div>
-                      {isOpen && "xLog"}
-                    </div>
-                    {account?.character?.handle &&
-                      subdomain &&
-                      account?.character?.handle !== subdomain && (
-                        <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
-                          <div className="mb-2">
-                            {isOpen && "You are operating"}
-                          </div>
-                          <Avatar
-                            cid={site.data?.characterId}
-                            images={site.data?.metadata?.content?.avatars || []}
-                            size={isOpen ? 60 : 40}
-                            name={site.data?.metadata?.content?.name}
-                          />
-                          {isOpen && (
-                            <span className="flex flex-col justify-center">
-                              <span className="block">
-                                {site.data?.metadata?.content?.name}
-                              </span>
-                              <span className="block text-sm text-zinc-400">
-                                @{site.data?.handle}
-                              </span>
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    <div className="mb-2 px-2 pt-3 pb-2">
-                      <ConnectButton
-                        left={true}
-                        size="base"
-                        hideNotification={true}
-                        hideName={!isOpen}
+            <div
+              className={`w-sidebar transition-[width] relative flex-shrink-0`}
+            >
+              <div
+                className={`w-sidebar transition-[width] fixed h-full flex flex-col`}
+              >
+                <div className="flex-1 min-h-0 flex flex-col">
+                  <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
+                    <div className="inline-block w-9 h-9 mr-3">
+                      <Logo
+                        type="lottie"
+                        width={36}
+                        height={36}
+                        autoplay={false}
                       />
                     </div>
+                    xLog
+                  </div>
+                  {account?.character?.handle &&
+                    subdomain &&
+                    account?.character?.handle !== subdomain && (
+                      <div className="mb-2 px-5 pt-3 pb-2 bg-orange-50 text-center">
+                        <div className="mb-2">You are operating</div>
+                        <Avatar
+                          cid={site.data?.characterId}
+                          images={site.data?.metadata?.content?.avatars || []}
+                          size={60}
+                          name={site.data?.metadata?.content?.name}
+                        />
+                        <span className="flex flex-col justify-center">
+                          <span className="block">
+                            {site.data?.metadata?.content?.name}
+                          </span>
+                          <span className="block text-sm text-zinc-400">
+                            @{site.data?.handle}
+                          </span>
+                        </span>
+                      </div>
+                    )}
+                  <div className="mb-2 px-2 pt-3 pb-2">
+                    <ConnectButton
+                      left={true}
+                      size="base"
+                      hideNotification={true}
+                    />
+                  </div>
 
-                    <div className="px-3 space-y-[2px] text-zinc-500 flex-1 min-h-0 overflow-y-auto">
-                      {links.map((link) => {
-                        const active =
-                          link.href &&
-                          link.isActive({
-                            pathname: pathname,
-                            href: link.href,
-                          })
-                        return (
-                          <UniLink
-                            href={link.href}
-                            key={link.text}
-                            className={cn(
-                              `flex px-4 h-12 items-center rounded-md space-x-2 w-full transition-colors`,
-                              active
-                                ? `bg-slate-200 font-medium text-accent`
-                                : link.href || link.onClick
-                                ? "hover:bg-slate-200 hover:bg-opacity-50"
-                                : "opacity-80",
-                              !isOpen && "justify-center px-0",
-                            )}
-                            onClick={link.onClick}
-                          >
-                            <i
-                              className={cn(link.icon, "text-xl")}
-                              style={{
-                                marginLeft: link.lever
-                                  ? (link.lever - 1) * 20
-                                  : 0,
-                              }}
-                            ></i>
-                            {isOpen && (
-                              <span className="truncate">{t(link.text)}</span>
-                            )}
-                          </UniLink>
-                        )
-                      })}
-                    </div>
+                  <div className="px-3 space-y-[2px] text-zinc-500 flex-1 min-h-0 overflow-y-auto">
+                    {links.map((link) => {
+                      const active =
+                        link.href &&
+                        link.isActive({
+                          pathname: pathname,
+                          href: link.href,
+                        })
+                      return (
+                        <UniLink
+                          href={link.href}
+                          key={link.text}
+                          className={cn(
+                            `flex px-4 h-12 items-center rounded-xl space-x-2 w-full transition-colors`,
+                            active
+                              ? `bg-white font-medium text-accent drop-shadow-sm`
+                              : link.href || link.onClick
+                              ? "hover:bg-slate-200 hover:bg-opacity-50"
+                              : "opacity-80 cursor-default",
+                          )}
+                          onClick={link.onClick}
+                        >
+                          <i
+                            className={cn(link.icon, "text-xl")}
+                            style={{
+                              marginLeft: link.lever
+                                ? (link.lever - 1) * 20
+                                : 0,
+                            }}
+                          ></i>
+                          <span className="truncate">{t(link.text)}</span>
+                        </UniLink>
+                      )
+                    })}
                   </div>
-                  <div className="flex items-center px-4 flex-col pb-4">
-                    <UniLink
-                      href={DISCORD_LINK}
-                      className="space-x-1 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
-                    >
-                      <i className="icon-[mingcute--question-line] text-lg" />
-                      {isOpen && <span>{t("Need help?")}</span>}
-                    </UniLink>
-                    <UniLink
-                      href={getSiteLink({
-                        subdomain,
-                      })}
-                      className="space-x-2 border rounded-lg bg-slate-100 border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center"
-                    >
-                      <span className="icon-[mingcute--home-1-line]"></span>
-                      {isOpen && <span>{t("View Site")}</span>}
-                    </UniLink>
-                  </div>
-                </>
-              )}
-            </DashboardSidebar>
+                </div>
+                <div className="flex items-center px-4 flex-col pb-4">
+                  <UniLink
+                    href={DISCORD_LINK}
+                    className="space-x-1 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
+                  >
+                    <i className="icon-[mingcute--question-line] text-lg" />
+                    <span>{t("Need help?")}</span>
+                  </UniLink>
+                  <UniLink
+                    href={getSiteLink({
+                      subdomain,
+                    })}
+                    className="space-x-2 border rounded-lg border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center bg-white drop-shadow-sm"
+                  >
+                    <span className="icon-[mingcute--home-1-line]"></span>
+                    <span>{t("View Site")}</span>
+                  </UniLink>
+                </div>
+              </div>
+            </div>
           )}
 
-          <div
-            className={`${isMobileLayout ? "pt-16 flex-1" : "flex-1 min-w-0"}`}
-          >
-            {children}
+          <div className="sm:p-3 w-full h-full">
+            <div
+              className={cn(
+                `${isMobileLayout ? "pt-16 flex-1" : "flex-1 min-w-0"}`,
+                "bg-white w-full h-full sm:rounded-xl sm:drop-shadow overflow-y-auto",
+              )}
+            >
+              {children}
+            </div>
           </div>
         </div>
       </>
