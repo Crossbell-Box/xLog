@@ -123,16 +123,7 @@ async function Home() {
         </h2>
         <h3 className="mt-3 sm:mt-5 text-zinc-800 text-2xl sm:text-4xl font-light">
           <Trans i18n={i18n} i18nKey="description" ns="index">
-            <strong className="font-medium">xLog</strong> is the best{" "}
-            <a
-              target="_blank"
-              rel="nofollow noreferrer"
-              className="underline decoration-2 text-yellow-400 font-medium"
-              href={CSB_SCAN}
-            >
-              on-chain
-            </a>{" "}
-            and{" "}
+            An{" "}
             <a
               target="_blank"
               rel="nofollow noreferrer"
@@ -141,7 +132,16 @@ async function Home() {
             >
               open-source
             </a>{" "}
-            blogging community for everyone.
+            creative community written on the{" "}
+            <a
+              target="_blank"
+              rel="nofollow noreferrer"
+              className="underline decoration-2 text-yellow-400 font-medium"
+              href={CSB_SCAN}
+            >
+              blockchain
+            </a>
+            .
           </Trans>
         </h3>
         <div className="my-4 sm:my-12 flex items-center justify-center sm:flex-row flex-col">
