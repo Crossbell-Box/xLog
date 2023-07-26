@@ -19,7 +19,9 @@ export default async function ActivitiesLayout({
         <HomeActivitiesTabs />
         {children}
       </div>
-      <HomeSidebar />
+      <div className="w-80 pl-10 hidden lg:block space-y-10">
+        <HomeSidebar />
+      </div>
     </>
   )
 }

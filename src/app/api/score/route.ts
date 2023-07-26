@@ -1,5 +1,6 @@
 import AsyncLock from "async-lock"
 
+import countCharacters from "~/lib/character-count"
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
@@ -15,7 +16,7 @@ const getOriginalScore = async (cid: string) => {
       content = content.slice(0, 5000)
     }
 
-    if (content?.length > 200) {
+    if (countCharacters(content) > 300) {
       console.time(`fetching score ${cid}`)
 
       const prompt = `According to rule 1 not too short content, rule 2 good originality and innovation, and rule 3 good fun or logic, give this article a score in the range of 0-100 and explain the reason:

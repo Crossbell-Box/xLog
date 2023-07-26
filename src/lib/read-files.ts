@@ -41,7 +41,9 @@ export const readFiles = async (files: FileList) => {
                 pageContent.frontMatter.date || file.lastModified || Date.now(),
               ).toISOString(),
               slug:
-                pageContent.frontMatter.permalink || getDefaultSlug(file.name),
+                pageContent.frontMatter.permalink ||
+                pageContent.frontMatter.slug ||
+                getDefaultSlug(file.name),
               tags: makeArray(
                 pageContent.frontMatter.tags ||
                   pageContent.frontMatter.categories,

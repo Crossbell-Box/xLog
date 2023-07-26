@@ -52,7 +52,7 @@ import { getSiteLink, getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { delStorage, setStorage } from "~/lib/storage"
-import { PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { cn, pick } from "~/lib/utils"
 import { Rendered, renderPageContent } from "~/markdown"
 import { checkPageSlug } from "~/models/page.model"
@@ -283,27 +283,6 @@ export default function SubdomainEditor() {
 
   const { present, dismiss } = useModalStack()
 
-  const postUrl = `${getSiteLink({
-    subdomain,
-    domain: site.data?.metadata?.content?.custom_domain,
-  })}/${encodeURIComponent(values.slug || defaultSlug)}`
-  const transactionUrl = `${CSB_SCAN}/tx/${
-    page.data?.updatedTransactionHash || page.data?.transactionHash
-  }`
-
-  const twitterShareUrl =
-    page.data && site.data
-      ? getTwitterShareUrl({
-          page: page.data,
-          site: site.data,
-          t,
-        })
-      : ""
-
-  const getPostUrl = useGetState(postUrl)
-  const getTransactionUrl = useGetState(transactionUrl)
-  const getTwitterShareUrl_ = useGetState(twitterShareUrl)
-
   useEffect(() => {
     if (createPage.isSuccess || updatePage.isSuccess) {
       if (draftKey) {
@@ -326,15 +305,41 @@ export default function SubdomainEditor() {
             ?.noteId}&type=${searchParams?.get("type")}`,
         )
       }
+
+      const postUrl = `${getSiteLink({
+        subdomain,
+        domain: site.data?.metadata?.content?.custom_domain,
+      })}/${encodeURIComponent(values.slug || defaultSlug)}`
+
+      const transactionUrl = `${CSB_SCAN}/tx/${
+        page.data?.updatedTransactionHash || page.data?.transactionHash // TODO
+      }`
+
+      const twitterShareUrl =
+        page.data && site.data
+          ? getTwitterShareUrl({
+              page: {
+                metadata: {
+                  content: {
+                    slug: encodeURIComponent(values.slug || defaultSlug),
+                    title: values.title,
+                  },
+                },
+              } as ExpandedNote,
+              site: site.data,
+              t,
+            })
+          : ""
+
       const modalId = "publish-modal"
       present({
         title: `🎉 ${t("Published!")}`,
         id: modalId,
         content: (props) => (
           <PublishedModal
-            postUrl={getPostUrl()}
-            transactionUrl={getTransactionUrl()}
-            twitterShareUrl={getTwitterShareUrl_()}
+            postUrl={postUrl}
+            transactionUrl={transactionUrl}
+            twitterShareUrl={twitterShareUrl}
             {...props}
           />
         ),
@@ -896,6 +901,9 @@ const useEditorAdvancedModal = ({ isPost }: { isPost: boolean }) => {
     present({
       title: t("Advanced Settings"),
       content: () => <EditorAdvancedModal isPost={isPost} />,
+      modalProps: {
+        withConfirm: true,
+      },
     })
   }
 }

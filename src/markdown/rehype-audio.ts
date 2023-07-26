@@ -24,15 +24,19 @@ export const rehypeAudio: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
 
       node.properties.src = toGateway(src)
 
+      if (node.properties.cover && typeof node.properties.cover === "string") {
+        const coverIpfsUrl = toGateway(node.properties.cover)
+        node.properties.cover = coverIpfsUrl
+        env.images.push(coverIpfsUrl)
+      }
+
       if (first) {
         if (
           !env.cover &&
           node.properties.cover &&
           typeof node.properties.cover === "string"
         ) {
-          const coverIpfsUrl = toGateway(node.properties.cover)
-          node.properties.cover = coverIpfsUrl
-          env.cover = coverIpfsUrl
+          env.cover = node.properties.cover
         }
         env.audio = node.properties.src
         first = false

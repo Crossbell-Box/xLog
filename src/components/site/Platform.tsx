@@ -52,7 +52,7 @@ export const PlatformsSyncMap: {
     url: "https://github.com/{username}",
   },
   jike: {
-    name: "Jike",
+    name: "即刻",
     icon: "/assets/social/jike.png",
     url: "https://web.okjike.com/u/{username}",
   },
@@ -62,7 +62,7 @@ export const PlatformsSyncMap: {
     url: "https://space.bilibili.com/{username}",
   },
   zhihu: {
-    name: "zhihu",
+    name: "知乎",
     icon: "/assets/social/zhihu.svg",
     url: "https://www.zhihu.com/people/{username}",
   },
@@ -81,14 +81,19 @@ export const PlatformsSyncMap: {
     url: "https://discord.gg/{username}",
   },
   xiaoyuzhou: {
-    name: "xiaoyuzhou FM",
-    icon: "/assets/social/xiaoyuzhou.png",
+    name: "小宇宙播客",
+    icon: "/assets/social/xiaoyuzhou2.png",
     url: "https://www.xiaoyuzhoufm.com/podcast/{username}",
   },
   steam: {
     name: "Steam",
     icon: "/assets/social/steam.svg",
     url: "https://steamcommunity.com/id/{username}",
+  },
+  steam_profiles: {
+    name: "Steam",
+    icon: "/assets/social/steam.svg",
+    url: "https://steamcommunity.com/profiles/{username}",
   },
   gitlab: {
     name: "Gitlab",
@@ -134,9 +139,14 @@ export const PlatformsSyncMap: {
     identityFormatTemplate: "username@instance.ltd",
   },
   douban: {
-    name: "douban",
+    name: "豆瓣",
     icon: "/assets/social/douban.png",
     url: "https://www.douban.com/people/{username}",
+  },
+  email: {
+    name: "Email",
+    icon: "/assets/social/email.png",
+    url: "mailto:{username}",
   },
 }
 
@@ -167,24 +177,26 @@ export const Platform = ({
   return (
     <UniLink
       className={cn(
-        "inline-flex hover:scale-110 transition-transform ease align-middle",
+        "w-5 h-5 inline-flex hover:scale-110 ease align-middle mr-3 sm:mr-6 transition-transform",
         className,
       )}
-      key={platform}
+      key={platform + username}
       href={link}
     >
       <Tooltip
         label={`${PlatformsSyncMap[platform]?.name || platform}: ${username}`}
+        className="text-sm"
       >
-        <span className="w-6 h-6 inline-block overflow-hidden">
+        <span className="inline-flex items-center">
           {PlatformsSyncMap[platform]?.icon ? (
             <Image
               src={PlatformsSyncMap[platform]?.icon}
               alt={platform}
-              fill={true}
+              width={20}
+              height={20}
             />
           ) : (
-            <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300 w-6 h-6">
+            <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300">
               <i className="icon-[mingcute--planet-line] text-xl" />
             </span>
           )}

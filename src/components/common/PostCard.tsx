@@ -49,30 +49,30 @@ const Card = ({
     >
       <PostCover
         uniqueKey={`${post.characterId}-${post.noteId}`}
-        images={
-          post.metadata?.content.images || [post.metadata?.content.cover as any]
-        }
+        images={post.metadata?.content.images}
         title={post.metadata?.content?.title}
       />
       <div className="px-3 py-2 sm:px-5 sm:py-4 w-full min-w-0 h-[148px] sm:h-[166px] flex flex-col space-y-2 text-sm">
-        <div className="line-clamp-3 space-y-2 h-[74px]">
+        <div className="line-clamp-3 space-y-2 h-[76px]">
           {comment && (
             <div className="font-medium text-zinc-700 line-clamp-2">
               <i className="icon-[mingcute--comment-fill] mr-2" />
               {comment}
             </div>
           )}
-          <h2
-            className={cn(
-              "xlog-post-title font-bold text-base",
-              comment ? "text-zinc-500" : "text-zinc-700",
-            )}
-          >
-            {post.metadata?.content?.title}
-          </h2>
+          {!!post.metadata?.content.images?.length && (
+            <h2
+              className={cn(
+                "xlog-post-title font-bold text-base",
+                comment ? "text-zinc-500" : "text-zinc-700",
+              )}
+            >
+              {post.metadata?.content?.title}
+            </h2>
+          )}
           {!comment && (
             <div
-              className="xlog-post-excerpt text-zinc-500"
+              className="xlog-post-excerpt text-zinc-500 line-clamp-3"
               style={{
                 wordBreak: "break-word",
               }}
@@ -92,10 +92,10 @@ const Card = ({
             </div>
           )}
         </div>
-        <div className="xlog-post-meta text-zinc-400 space-x-2 flex items-center text-[13px] h-[26px] truncate">
+        <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate">
           {!!post.metadata?.content?.tags?.[1] && (
             <span
-              className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate"
+              className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2"
               onClick={(e) => {
                 e.preventDefault()
                 router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
@@ -105,7 +105,7 @@ const Card = ({
               {post.metadata?.content?.tags?.[1]}
             </span>
           )}
-          <span className="xlog-post-word-count inline-flex items-center">
+          <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
             <i className="icon-[mingcute--time-line] mr-[2px]" />
             <span
               style={{
@@ -150,7 +150,7 @@ const Card = ({
                   </span>
                 </span>
               </CharacterFloatCard>
-              <Titles characterId={character?.characterId} />
+              <Titles characterId={+character?.characterId} />
               <span className="text-zinc-400 hidden sm:inline-block">·</span>
             </>
           )}

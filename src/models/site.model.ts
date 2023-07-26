@@ -199,25 +199,49 @@ export async function removeOperator(
 
 export async function getStat({ characterId }: { characterId: number }) {
   if (characterId) {
-    const [stat, site, subscriptions, comments, notes] = await Promise.all([
-      (
-        await fetch(
-          `https://indexer.crossbell.io/v1/stat/characters/${characterId}`,
-        )
-      ).json(),
-      indexer.character.get(characterId),
-      indexer.link.getBacklinksOfCharacter(characterId, { limit: 0 }),
-      indexer.note.getMany({
-        limit: 0,
-        toCharacterId: characterId,
-      }),
-      indexer.note.getMany({
-        characterId,
-        sources: "xlog",
-        tags: ["post"],
-        limit: 0,
-      }),
-    ])
+    const [stat, site, subscriptions, comments, notes, likes, achievement] =
+      await Promise.all([
+        (
+          await fetch(
+            `https://indexer.crossbell.io/v1/stat/characters/${characterId}`,
+          )
+        ).json(),
+        indexer.character.get(characterId),
+        indexer.link.getBacklinksOfCharacter(characterId, {
+          limit: 0,
+          linkType: "follow",
+        }),
+        indexer.note.getMany({
+          limit: 0,
+          toCharacterId: characterId,
+        }),
+        indexer.note.getMany({
+          characterId,
+          sources: "xlog",
+          limit: 0,
+        }),
+        await client
+          .query(
+            gql`
+              query getLinklistCount($characterId: Int!) {
+                linkCount(
+                  where: {
+                    linkType: { equals: "like" }
+                    toCharacterId: { equals: $characterId }
+                  }
+                )
+              }
+            `,
+            {
+              characterId,
+            },
+          )
+          .toPromise(),
+        await indexer.achievement.getMany(characterId, {
+          status: ["MINTED"],
+        }),
+      ])
+
     return {
       viewsCount: stat.viewNoteCount,
       createdAt: site?.createdAt,
@@ -225,6 +249,10 @@ export async function getStat({ characterId }: { characterId: number }) {
       subscriptionCount: subscriptions?.count,
       commentsCount: comments?.count,
       notesCount: notes?.count,
+      likesCount: likes?.data?.linkCount,
+      achievements: achievement?.list.reduce((acc, cur) => {
+        return acc + cur.groups.length
+      }, 0),
     }
   }
 }
@@ -447,7 +475,7 @@ export async function fetchTenant(
   )
   const txt = await res.json()
   if (txt.Status === 5 && retries > 0) {
-    console.log("retrying", host, retries - 1)
+    console.warn("retrying", host, retries - 1)
     return await fetchTenant(host, retries - 1)
   } else {
     return txt?.Answer?.[0]?.data.replace(/^"|"$/g, "")
@@ -470,12 +498,4 @@ export async function checkDomain(domain: string, handle: string) {
   ).json()
 
   return check.data
-}
-
-export async function getGreenfieldId(cid: string) {
-  const result = await (
-    await fetch(`https://ipfs-relay.crossbell.io/map/ipfs2gnfd/${cid}`)
-  ).json()
-
-  return result
 }

@@ -69,7 +69,7 @@ export async function editorUpload(file: File, view: EditorView) {
         append: `
 <audio src="${key}" name="${name}" ${artist ? `artist="${artist}"` : ""} ${
           cover ? `cover="${cover}"` : ""
-        }><audio>
+        }></audio>
 `,
       })
     } else if (file.type.startsWith("video/")) {

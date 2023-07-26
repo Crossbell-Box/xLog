@@ -39,45 +39,59 @@ export default function SubdomainIndex() {
   const statMap = [
     {
       icon: "icon-[mingcute--news-line]",
-      name: "Published posts",
-      value: stat.data?.notesCount,
+      name: "Creation",
+      value: stat.data?.notesCount ?? "-",
       url: `/dashboard/${subdomain}/posts`,
     },
     {
       icon: "icon-[mingcute--comment-line]",
-      name: "Received comments",
-      value: stat.data?.commentsCount,
+      name: "Comments",
+      value: stat.data?.commentsCount ?? "-",
       url: `/dashboard/${subdomain}/comments`,
     },
     {
       icon: "icon-[mingcute--heart-line]",
-      name: "Received tips",
+      name: "Tips1",
       value: `${
         tips.data?.pages?.[0]?.list
           ?.map((i) => +i.amount)
-          .reduce((acr, cur) => acr + cur, 0) ?? 0
+          .reduce((acr, cur) => acr + cur, 0) ?? "-"
       } MIRA`,
       url: `/dashboard/${subdomain}/tokens`,
     },
     {
-      icon: "icon-[mingcute--user-follow-line]",
-      name: "Followers",
-      value: stat.data?.subscriptionCount,
+      icon: "icon-[mingcute--thumb-up-2-line]",
+      name: "Likes",
+      value: stat.data?.likesCount ?? "-",
       url: getSiteLink({
         subdomain,
       }),
     },
     {
+      icon: "icon-[mingcute--user-follow-line]",
+      name: "Followers",
+      value: stat.data?.subscriptionCount ?? "-",
+      url: getSiteLink({
+        subdomain,
+      }),
+    },
+    {
+      icon: "icon-[mingcute--trophy-line]",
+      name: "Achievements",
+      value: stat.data?.achievements ?? "-",
+      url: `/dashboard/${subdomain}/achievements`,
+    },
+    {
       icon: "icon-[mingcute--eye-line]",
       name: "Viewed",
-      value: stat.data?.viewsCount,
+      value: stat.data?.viewsCount ?? "-",
       url: getSiteLink({
         subdomain,
       }),
     },
     {
       icon: "icon-[mingcute--history-line]",
-      name: "Site Duration",
+      name: "Become xLogger for",
       value:
         date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day") +
         " " +

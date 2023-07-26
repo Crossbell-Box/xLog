@@ -8,12 +8,11 @@
   "Events": "活动",
   "New Events": "新活动",
   "Site Stats": "站点统计",
-  "Published posts": "发布的文章",
-  "Received comments": "收到的评论",
+  "Likes": "点赞",
+  "Tips1": "打赏",
   "Followers": "关注者",
   "Viewed": "浏览量",
-  "Received tips": "收到的打赏",
-  "Site Duration": "站点运行时间",
+  "Become xLogger for": "成为 xLogger",
   "days": "天",
   "Deleted!": "已删除！",
   "Fail to Deleted.": "删除失败",
@@ -102,12 +101,11 @@
   "Save": "保存",
   "Tips": "提示",
   "social tips": {
-    "p1": "这些社交平台将显示在你的 xLog 的右下角。",
-    "p2": "我们支持<2>这些平台</2>，自动显示其标志和链接。对于其他平台，将显示默认标志。如果你有其他需求，请随时向我们提交问题或PR，以支持更多的平台。",
-    "p3": "你还可以在 <2>xSync</2> 上连接到 Twitter、Telegram 频道、Medium、Substack 等平台，并自动同步内容。当你在那里设置同步后，它也会显示在这里。"
+    "p1": "这些社交平台将显示在你的 xLog 的顶部和底部。",
+    "p2": "我们支持<2>这些平台</2>，自动显示其标志和链接。对于其他平台，将显示默认标志。如果你有其他需求，请随时向我们提交问题或PR，以支持更多的平台。"
   },
   "Platform": "平台",
-  "Identity": "身份",
+  "ID": "ID",
   "Remove": "移除",
   "New Item": "新建项目",
   "xLog provides some out-of-the-box built-in pages": "xLog 提供了一些开箱即用的内置页面",
@@ -182,6 +180,7 @@
   "Subdomain Available.": "子域名可用。",
   "Subdomain Unavailable.": "子域名不可用。",
   "Recheck": "重新检查",
+  "Featured": "精选",
   "Hottest": "最热",
   "Latest": "最新",
   "Following": "关注",
@@ -215,5 +214,6 @@
   "Advanced Settings": "高级设置",
   "Disable AI-generated summary": "禁用 AI 生成的摘要",
   "Pin": "置顶",
-  "Unpin": "取消置顶"
+  "Unpin": "取消置顶",
+  "Interaction": "互动"
 }

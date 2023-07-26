@@ -11,9 +11,10 @@ export const parsePost = (post: ExpandedNote, withTwitter?: boolean) => {
   }
   return {
     id: `${post.characterId}-${post.noteId}`,
-    title: `${post.metadata?.content?.title}${
-      withTwitter && twitter ? ` by @${twitter}` : ""
-    }`,
+    title:
+      `${post.metadata?.content?.title}${
+        withTwitter && twitter ? ` by @${twitter}` : ""
+      }` || "Untitled",
     summary: post.metadata?.content?.summary,
     content_html: post.metadata?.content?.contentHTML,
     url: `${SITE_URL}/api/redirection?characterId=${post.characterId}&noteId=${post.noteId}`,

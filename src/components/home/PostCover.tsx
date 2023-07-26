@@ -4,7 +4,6 @@ import "swiper/css/navigation"
 import "swiper/css/pagination"
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
-import uniqolor from "uniqolor"
 
 import { Image } from "~/components/ui/Image"
 
@@ -17,44 +16,10 @@ export default function PostCover({
   title?: string
   uniqueKey?: string
 }) {
-  if (!images) {
-    if (title) {
-      const bgAccent = uniqolor(title, {
-        saturation: [30, 35],
-        lightness: [60, 70],
-      }).color
-
-      const bgAccentLight = uniqolor(title, {
-        saturation: [30, 35],
-        lightness: [80, 90],
-      }).color
-
-      const bgAccentUltraLight = uniqolor(title, {
-        saturation: [30, 35],
-        lightness: [95, 96],
-      }).color
-
-      return (
-        <>
-          <div
-            className="xlog-post-cover rounded-t-2xl overflow-hidden flex items-center justify-center text-center relative w-full aspect-video border-b p-2"
-            style={{
-              background: `linear-gradient(37deg, ${bgAccent} 27.82%, ${bgAccentLight} 79.68%, ${bgAccentUltraLight} 100%)`,
-            }}
-          >
-            <div className="text-white text-xl font-bold">{title}</div>
-          </div>
-        </>
-      )
-    } else {
-      return null
-    }
-  }
-
   return (
     <>
       <div className="xlog-post-cover rounded-t-2xl overflow-hidden flex items-center relative w-full aspect-video border-b">
-        {images.length > 1 ? (
+        {(images?.length || 0) > 1 ? (
           <>
             <Swiper
               pagination={{
@@ -76,7 +41,7 @@ export default function PostCover({
               modules={[EffectFade, Autoplay, Pagination, Navigation]}
               className="w-full h-full"
             >
-              {images.map((image) => (
+              {images?.map((image) => (
                 <SwiperSlide key={image}>
                   <Image
                     className="object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out"
@@ -101,7 +66,7 @@ export default function PostCover({
               <i className="icon-[mingcute--right-fill]" />
             </div>
           </>
-        ) : (
+        ) : images?.length === 1 ? (
           <Image
             className="object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out"
             alt="cover"
@@ -109,6 +74,14 @@ export default function PostCover({
             width={624}
             height={351}
           ></Image>
+        ) : (
+          <div className="xlog-post-cover rounded-t-2xl overflow-hidden flex items-center relative w-full aspect-video border-b">
+            <div className="sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out p-3 w-full h-full text-center flex items-center justify-center">
+              <div className="text-zinc-600 text-xl font-extrabold">
+                {title}
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </>

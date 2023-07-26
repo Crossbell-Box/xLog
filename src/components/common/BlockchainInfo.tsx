@@ -5,10 +5,9 @@ import { Disclosure } from "@headlessui/react"
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n/client"
-import { toCid, toGateway, toIPFS } from "~/lib/ipfs-parser"
+import { toGateway, toIPFS } from "~/lib/ipfs-parser"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import { useGetGreenfieldId } from "~/queries/site"
 
 export const BlockchainInfo = ({
   site,
@@ -20,7 +19,6 @@ export const BlockchainInfo = ({
   const { t } = useTranslation("common")
 
   const ipfs = (page ? page.metadata?.uri : site?.metadata?.uri) || ""
-  const greenfieldId = useGetGreenfieldId(toCid(ipfs))
 
   const type = page
     ? page?.metadata?.content?.tags?.includes("post")
@@ -117,25 +115,6 @@ export const BlockchainInfo = ({
                     </BlockchainInfoLink>
                   </div>
                 </li>
-                {greenfieldId.data?.greenfieldId && (
-                  <li>
-                    <div className="font-medium">
-                      {t("BNB Greenfield Address")}
-                    </div>
-                    <div>
-                      <BlockchainInfoLink
-                        href={
-                          "https://greenfieldscan.com/" +
-                          (greenfieldId.data?.transactionHash
-                            ? `txn/${greenfieldId.data?.transactionHash}`
-                            : "")
-                        }
-                      >
-                        {greenfieldId.data?.greenfieldId}
-                      </BlockchainInfoLink>
-                    </div>
-                  </li>
-                )}
               </ul>
             </Disclosure.Panel>
           </>

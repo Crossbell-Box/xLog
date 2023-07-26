@@ -10,21 +10,10 @@ const withPWA = require("@ducanh2912/next-pwa").default({
   disable: process.env.NODE_ENV === "development",
   dest: "public",
   publicExcludes: ["*"],
-  buildExcludes: [
-    /\.map$/,
-    /^manifest.*\.js$/,
-    /\/chunks\/app\/dashboard/,
-    /\/chunks\/app\/\(home\)/,
-  ],
+  buildExcludes: [/\.map$/, /^manifest.*\.js$/, /\/chunks\/app\/dashboard/],
   extendDefaultRuntimeCaching: true,
   workboxOptions: {
     runtimeCaching: [
-      {
-        urlPattern: ({ request }) => {
-          return request.headers.get("x-middleware-prefetch")
-        },
-        handler: "NetworkOnly",
-      },
       {
         urlPattern: ({ url }) => {
           return /\/ipfs\/([^/?#]+)$/.test(url.toString())
@@ -33,7 +22,7 @@ const withPWA = require("@ducanh2912/next-pwa").default({
         options: {
           cacheName: "next-ipfs",
           expiration: {
-            maxEntries: 64,
+            maxEntries: 200,
             maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
           },
           cacheableResponse: {
@@ -48,7 +37,7 @@ const withPWA = require("@ducanh2912/next-pwa").default({
         options: {
           cacheName: "next-ipfs",
           expiration: {
-            maxEntries: 64,
+            maxEntries: 200,
             maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
           },
         },
@@ -73,7 +62,7 @@ module.exports = withSentryConfig(
       },
       productionBrowserSourceMaps: true,
 
-      // disable swc due to a bug https://github.com/swc-project/swc/issues/7640
+      // https://github.com/vercel/next.js/issues/38436
       swcMinify: false,
 
       webpack(config) {

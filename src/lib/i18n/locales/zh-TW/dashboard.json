@@ -8,12 +8,11 @@
   "Events": "活動",
   "New Events": "新活動",
   "Site Stats": "網站統計",
-  "Published posts": "文章",
-  "Received comments": "留言",
+  "Likes": "讚",
+  "Tips1": "打賞",
   "Followers": "粉絲",
   "Viewed": "瀏覽量",
-  "Received tips": "Donate",
-  "Site Duration": "Blog 誕生",
+  "Become xLogger for": "成為 xLogger",
   "days": "天",
   "Deleted!": "刪掉了哦！",
   "Fail to Deleted.": "删除失败",
@@ -96,9 +95,8 @@
   "Save": "儲存",
   "Tips": "提示",
   "social tips": {
-    "p1": "這些社交平台會顯示在你的 xLog 的右下角。",
-    "p2": "我們支援<2>這些平台</2>，自動顯示其標誌和連結。對於其他平台，將顯示預設標誌。如果你有其他需求，請隨時向我們提交問題或PR，以支援更多的平台。",
-    "p3": "你還可以在 <2>xSync</2> 上連接到 Twitter、Telegram 頻道、Medium、Substack 等平台，並自動同步內容。當你在那裡設置同步後，它也會顯示在這裡。"
+    "p1": "這些社交平台會顯示在你的 xLog 的頂部和底部。",
+    "p2": "我們支援<2>這些平台</2>，自動顯示其標誌和連結。對於其他平台，將顯示預設標誌。如果你有其他需求，請隨時向我們提交問題或PR，以支援更多的平台。"
   },
   "Platform": "平台",
   "Identity": "身份",

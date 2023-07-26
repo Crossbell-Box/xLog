@@ -120,7 +120,7 @@ export const Image = ({
     />
   ) : (
     <span
-      className="inline-block w-full h-full overflow-hidden"
+      className="inline-flex justify-center w-full h-full overflow-hidden"
       style={
         autoSize
           ? {

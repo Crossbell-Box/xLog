@@ -16,9 +16,14 @@ export const HomeActivitiesTabs = () => {
 
   const tabs = [
     {
-      text: "Latest",
+      text: "Featured",
       href: "/",
       active: pathname === "/",
+    },
+    {
+      text: "Latest",
+      href: "/latest",
+      active: pathname === "/latest",
     },
     {
       text: "Hottest",

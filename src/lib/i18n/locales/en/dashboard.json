@@ -1,5 +1,9 @@
 {
+  "Tips1": "Tips",
   "link post-vs-page": "https://wordpress.com/zh-cn/support/post-vs-page/",
   "delete_confirmation_post": "Are you sure you want to DELETE this post?",
-  "delete_confirmation_page": "Are you sure you want to DELETE this page?"
+  "delete_confirmation_page": "Are you sure you want to DELETE this page?",
+  "social tips": {
+    "p1": "These social platforms will be displayed at the top and bottom of your xLog."
+  }
 }

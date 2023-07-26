@@ -20,7 +20,7 @@ export function generateMetadata({
   }
 }
 
-async function Search({
+export default async function Search({
   searchParams,
 }: {
   searchParams: {
@@ -49,4 +49,4 @@ async function Search({
   )
 }
 
-export default Search
+export const dynamic = "force-dynamic"

@@ -9,6 +9,7 @@ import { fetchGetSite } from "~/queries/site.server"
 
 import { ConnectButton } from "../common/ConnectButton"
 import { Avatar } from "../ui/Avatar"
+import ConnectedAccounts from "./ConnectedAccounts"
 import { HeaderLink, type HeaderLinkType } from "./SiteHeaderLink"
 import { SiteHeaderMenu } from "./SiteHeaderMenu"
 
@@ -74,7 +75,7 @@ export const SiteHeader = async ({
             className={cn(
               "xlog-site-info flex space-x-6 sm:space-x-8 items-center w-full",
               site?.metadata?.content?.banners?.[0]?.address
-                ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-xl p-4 sm:p-8 z-[1] border"
+                ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-3xl p-4 sm:p-8 z-[1] border"
                 : "",
             )}
           >
@@ -86,7 +87,7 @@ export const SiteHeader = async ({
               name={site?.metadata?.content?.name}
               priority={true}
             />
-            <div className="flex-1 min-w-0 relative">
+            <div className="flex-1 min-w-0 relative space-y-2 sm:space-y-3">
               <div className="flex items-center justify-between">
                 <h1 className="xlog-site-name text-3xl sm:text-4xl font-bold text-zinc-900 leading-snug break-words min-w-0">
                   {site?.metadata?.content?.site_name ||
@@ -104,7 +105,7 @@ export const SiteHeader = async ({
                 </div>
               </div>
               {site?.metadata?.content?.bio && (
-                <div className="xlog-site-description text-gray-500 leading-snug my-2 sm:my-3 text-sm sm:text-base line-clamp-4 whitespace-pre-wrap">
+                <div className="xlog-site-description text-gray-500 leading-snug text-sm sm:text-base line-clamp-4 whitespace-pre-wrap">
                   {site?.metadata?.content?.bio}
                 </div>
               )}
@@ -116,12 +117,16 @@ export const SiteHeader = async ({
                   <PatronButton site={site || undefined} />
                 </span>
               </div>
+              <ConnectedAccounts
+                className="hidden sm:block"
+                connectedAccounts={site?.metadata?.content?.connected_accounts}
+              />
             </div>
           </div>
         </div>
         {!hideNavigation && (
           <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
-            <div className="xlog-site-navigation flex items-center gap-1 mx-[-.5rem] min-w-0 text-sm sm:text-base overflow-x-auto">
+            <div className="xlog-site-navigation flex items-center sm:gap-2 mx-[-.5rem] min-w-0 text-sm sm:text-base overflow-x-auto">
               {leftLinks.map((link, i) => {
                 return <HeaderLink link={link} key={`${link.label}${i}`} />
               })}
