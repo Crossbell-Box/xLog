@@ -44,6 +44,7 @@ export default function PostList({
                   post={post}
                   isPinned={post.noteId === pinnedNoteId}
                   keyword={keyword}
+                  showPublishTime={true}
                 />
               )
             }),

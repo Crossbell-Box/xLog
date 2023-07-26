@@ -25,6 +25,7 @@ const Card = ({
   isPinned,
   linkPrefix,
   isBlank,
+  showPublishTime,
 }: {
   character?: CharacterEntity
   post: ExpandedNote
@@ -34,6 +35,7 @@ const Card = ({
   isPinned?: boolean
   linkPrefix?: string
   isBlank?: boolean
+  showPublishTime?: boolean
 }) => {
   const router = useRouter()
   const { t } = useTranslation("common")
@@ -155,14 +157,23 @@ const Card = ({
             </>
           )}
           <time
-            dateTime={date.formatToISO(createdAt || post.createdAt)}
+            dateTime={date.formatToISO(
+              (showPublishTime && post.metadata?.content?.date_published) ||
+                createdAt ||
+                post.createdAt,
+            )}
             className="xlog-post-date whitespace-nowrap text-zinc-400 hidden sm:inline-block"
           >
             {t("ago", {
               time: date.dayjs
                 .duration(
                   date
-                    .dayjs(createdAt || post?.createdAt)
+                    .dayjs(
+                      (showPublishTime &&
+                        post.metadata?.content?.date_published) ||
+                        createdAt ||
+                        post.createdAt,
+                    )
                     .diff(date.dayjs(), "minute"),
                   "minute",
                 )
@@ -187,12 +198,14 @@ const Post = ({
   isPinned,
   linkPrefix,
   isBlank,
+  showPublishTime,
 }: {
   post: ExpandedNote
   keyword?: string
   isPinned?: boolean
   linkPrefix?: string
   isBlank?: boolean
+  showPublishTime?: boolean
 }) => {
   let isComment
   if (post.metadata?.content?.tags?.includes("comment") && post.toNote) {
@@ -209,6 +222,7 @@ const Post = ({
       isPinned={isPinned}
       linkPrefix={linkPrefix}
       isBlank={isBlank}
+      showPublishTime={showPublishTime}
     />
   )
 }
