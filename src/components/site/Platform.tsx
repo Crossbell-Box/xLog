@@ -21,15 +21,15 @@ export const PlatformsSyncMap: {
     icon: "/assets/social/telegram.svg",
     url: "https://t.me/{username}",
   },
-  twitter: {
-    name: "Twitter",
-    icon: "/assets/social/twitter.svg",
-    url: "https://twitter.com/{username}",
+  x: {
+    name: "X",
+    icon: "/assets/social/x.svg",
+    url: "https://x.com/{username}",
   },
-  twitter_id: {
-    name: "Twitter",
-    icon: "/assets/social/twitter.svg",
-    url: "https://twitter.com/i/user/{username}",
+  x_id: {
+    name: "X",
+    icon: "/assets/social/x.svg",
+    url: "https://x.com/i/user/{username}",
   },
   pixiv: {
     name: "Pixiv",
