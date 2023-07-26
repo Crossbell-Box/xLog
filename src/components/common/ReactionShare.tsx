@@ -24,18 +24,18 @@ interface ShareData {
 
 const shareList = [
   {
-    name: "Twitter",
+    name: "X",
     icon: (
       <Image
         width={16}
         height={16}
-        src="/assets/social/twitter.svg"
-        alt="twitter"
+        src="/assets/social/x.svg"
+        alt="x"
       />
     ),
     onClick: (data: ShareData) => {
       window.open(
-        `https://twitter.com/intent/tweet?url=${data.url}&text=${data.text}&via=_xLog`,
+        `https://x.com/intent/tweet?url=${data.url}&text=${data.text}&via=_xLog`,
       )
     },
   },
