@@ -27,7 +27,7 @@ export const BlockchainInfo = ({
       : "page"
     : "blog"
 
-  const [realBlockNumber, setRealBlockNumber] = useState<bigint | null>(null)
+  const [realBlockNumber, setRealBlockNumber] = useState<number | null>(null)
   const { data: blockNumber } = useGetBlockNumber()
 
   useEffect(() => {
@@ -38,7 +38,12 @@ export const BlockchainInfo = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setRealBlockNumber((prevCount) => (prevCount || BigInt(0)) + BigInt(1))
+      setRealBlockNumber((prevCount) => {
+        if (prevCount) {
+          return prevCount + 1
+        }
+        return null
+      })
     }, 1000)
 
     return () => clearInterval(interval)
@@ -81,7 +86,7 @@ export const BlockchainInfo = ({
                     `(${t("Confirmed by {{blockNumber}} blocks", {
                       blockNumber:
                         realBlockNumber -
-                        BigInt(page?.blockNumber || site?.blockNumber || 0),
+                        (page?.blockNumber || site?.blockNumber || 0),
                     })})`}
                 </span>
               </BlockchainInfoLink>

@@ -515,5 +515,5 @@ export async function getBlockNumber() {
       }),
     })
   ).json()
-  return BigInt(result.result)
+  return Number(BigInt(result.result))
 }

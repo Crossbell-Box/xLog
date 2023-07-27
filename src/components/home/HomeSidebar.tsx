@@ -1,22 +1,48 @@
+import { Hydrate, dehydrate } from "@tanstack/react-query"
+
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { SearchInput } from "~/components/common/SearchInput"
 import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
-import { getTranslation } from "~/lib/i18n"
+import { Trans, getTranslation } from "~/lib/i18n"
+import getQueryClient from "~/lib/query-client"
 import { getShowcase } from "~/queries/home.server"
+import { getBlockNumber } from "~/queries/site.server"
 
 import { FollowAllButton } from "../common/FollowAllButton"
+import { BlockNumber } from "./BlockNumber"
 import PromotionLinks from "./PromotionLinks"
 import ShowMoreContainer from "./ShowMoreContainer"
 
 export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
   const showcaseSites = await getShowcase()
-  const { t } = await getTranslation("index")
+  const { t, i18n } = await getTranslation("index")
+  const queryClient = getQueryClient()
+  await getBlockNumber(queryClient)
+
+  const dehydratedState = dehydrate(queryClient)
 
   return (
-    <>
+    <Hydrate state={dehydratedState}>
       <PromotionLinks />
+      <UniLink
+        href="/about"
+        className="text-zinc-800 text-center block space-y-4"
+      >
+        <Trans i18n={i18n} i18nKey="description" ns="index">
+          An{" "}
+          <span className="underline decoration-2 text-green-400 font-medium">
+            open-source
+          </span>{" "}
+          creative community written on the{" "}
+          <span className="underline decoration-2 text-yellow-400 font-medium">
+            blockchain
+          </span>
+          .
+        </Trans>
+        <BlockNumber />
+      </UniLink>
       {!hideSearch && <SearchInput />}
       <div className="text-center text-zinc-700 space-y-3">
         <p className="font-bold text-lg">{t("Suggested creators for you")}</p>
@@ -63,6 +89,6 @@ export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
           </>
         </ShowMoreContainer>
       </div>
-    </>
+    </Hydrate>
   )
 }

@@ -96,5 +96,6 @@
   "min": "分钟",
   "Pinned": "置顶",
   "Blockchain ID": "区块链标识",
-  "Confirmed by {{blockNumber}} blocks": "已被 {{blockNumber}} 个区块确认"
+  "Confirmed by {{blockNumber}} blocks": "已被 {{blockNumber}} 个区块确认",
+  "Current Block Height": "当前区块高度"
 }

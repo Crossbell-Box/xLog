@@ -219,3 +219,15 @@ export const getCharacterColors = async (character?: ExpandedCharacter) => {
     }
   }>
 }
+
+export const getBlockNumber = async (queryClient: QueryClient) => {
+  const key = ["getBlockNumber"]
+  await queryClient.prefetchQuery(key, async () => {
+    return cacheGet({
+      key: key,
+      getValueFun: async () => {
+        return siteModel.getBlockNumber()
+      },
+    })
+  })
+}
