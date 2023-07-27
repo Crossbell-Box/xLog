@@ -168,7 +168,7 @@
     "@types/cookie": "0.5.1",
     "@types/hast": "3.0.0",
     "@types/js-yaml": "4.0.5",
-    "@types/katex": "0.16.1",
+    "@types/katex": "0.16.2",
     "@types/mdast": "4.0.0",
     "@types/mjml": "4.7.1",
     "@types/node": "20.4.5",
