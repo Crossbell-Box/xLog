@@ -186,14 +186,32 @@ export async function getFeed({
                   noteId
                   character {
                     handle
-                    metadata {
-                      content
-                    }
                   }
-                  createdAt
                   metadata {
                     uri
                     content
+                  }
+                  toNote {
+                    characterId
+                    noteId
+                    character {
+                      handle
+                    }
+                    metadata {
+                      uri
+                      content
+                    }
+                    toNote {
+                      characterId
+                      noteId
+                      character {
+                        handle
+                      }
+                      metadata {
+                        uri
+                        content
+                      }
+                    }
                   }
                 }
               }
@@ -207,23 +225,31 @@ export async function getFeed({
         .toPromise()
 
       const list = await Promise.all(
-        result?.data?.notes
-          .filter((page: NoteEntity) => {
-            return !page.toNote?.metadata?.content?.tags?.includes("comment")
+        result?.data?.notes.map(async (page: NoteEntity) => {
+          const expand = await expandCrossbellNote({
+            note: page,
+            useHTML,
           })
-          .map(async (page: NoteEntity) => {
-            const expand = await expandCrossbellNote({
-              note: page,
+          if (expand.toNote) {
+            if (expand.toNote.toNote) {
+              if (expand.toNote.toNote.toNote) {
+                expand.toNote = expand.toNote.toNote.toNote
+              } else {
+                expand.toNote = expand.toNote.toNote
+              }
+            } else {
+              expand.toNote = expand.toNote
+            }
+          }
+          if (expand.toNote) {
+            expand.toNote = await expandCrossbellNote({
+              note: expand.toNote,
               useHTML,
             })
-            if (expand.toNote) {
-              expand.toNote = await expandCrossbellNote({
-                note: expand.toNote,
-                useHTML,
-              })
-            }
-            return expand
-          }),
+            delete expand.toNote.toNote
+          }
+          return expand
+        }),
       )
 
       resultAll = {
@@ -756,10 +782,7 @@ export async function getFeed({
       (post) =>
         countCharacters(post?.metadata?.content?.content || "") >
           (post?.metadata?.content?.tags?.[0] === "comment" ? 6 : 300) &&
-        !(
-          new Date(post.metadata?.content?.date_published || "") > new Date()
-        ) &&
-        !post.toNote?.metadata?.content?.tags?.includes("comment"),
+        !(new Date(post.metadata?.content?.date_published || "") > new Date()),
     )
     .map((post) => {
       delete post.metadata?.content.content

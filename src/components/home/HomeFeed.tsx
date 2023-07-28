@@ -226,8 +226,14 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
                     keyword={searchParams?.get("q") || undefined}
                     linkPrefix={
                       isMobileLayout
-                        ? `/site/${post?.character?.handle}`
-                        : `/post/${post?.character?.handle}`
+                        ? `/site/${
+                            post.toNote?.character?.handle ||
+                            post?.character?.handle
+                          }`
+                        : `/post/${
+                            post.toNote?.character?.handle ||
+                            post?.character?.handle
+                          }`
                     }
                     isBlank={isMobileLayout}
                   />
