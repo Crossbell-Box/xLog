@@ -6,19 +6,27 @@ import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 import { Image } from "~/components/ui/Image"
+import { cn } from "~/lib/utils"
 
 export default function PostCover({
   images,
   title,
   uniqueKey,
+  className,
 }: {
   images?: string[]
   title?: string
   uniqueKey?: string
+  className?: string
 }) {
   return (
     <>
-      <div className="xlog-post-cover rounded-t-2xl overflow-hidden flex items-center relative w-full aspect-video border-b">
+      <div
+        className={cn(
+          "xlog-post-cover rounded-t-2xl overflow-hidden flex items-center relative w-full aspect-video border-b",
+          className,
+        )}
+      >
         {(images?.length || 0) > 1 ? (
           <>
             <Swiper
