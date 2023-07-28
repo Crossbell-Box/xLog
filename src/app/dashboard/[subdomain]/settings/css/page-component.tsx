@@ -1,13 +1,15 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 
 import { MonacoEditor } from "~/components/common/Monaco"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { FieldLabel } from "~/components/ui/FieldLabel"
+import { useGetState } from "~/hooks/useGetState"
+import { IS_DEV } from "~/lib/constants"
 import { useTranslation } from "~/lib/i18n/client"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
@@ -18,7 +20,6 @@ export default function SettingsCSSPage() {
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
   const { t } = useTranslation("dashboard")
-
   const [css, setCss] = useState("")
   const handleSubmit = (e: any) => {
     e.preventDefault()
@@ -106,12 +107,100 @@ export default function SettingsCSSPage() {
             }}
           />
         </div>
-        <div className="mt-5">
+        <div className="mt-5 space-x-2">
+          <PreviewButton css={css} subdomain={subdomain} />
           <Button type="submit" isLoading={updateSite.isLoading}>
             {t("Save")}
           </Button>
         </div>
       </form>
     </SettingsLayout>
+  )
+}
+
+const PreviewButton: FC<{
+  css: string
+  subdomain: string
+}> = ({ css, subdomain }) => {
+  const { t } = useTranslation("dashboard")
+
+  const datasetRef = useRef({
+    previewWindowOrigin: "",
+    previewWindow: null as null | Window,
+  }).current
+  const [isInPreview, setIsPreview] = useState(false)
+
+  const handlePreview = () => {
+    let url: URL
+
+    if (IS_DEV) {
+      url = new URL(`http://${subdomain}.localhost:2222/`)
+    } else {
+      url = new URL(location.href)
+      // TODO
+    }
+
+    url.searchParams.set("origin", location.origin)
+    url.searchParams.set("css-preview", "true")
+
+    const finalUrl = url.toString()
+
+    const forkWindow = window.open(finalUrl)
+    if (!forkWindow) {
+      toast.error("Failed to open preview window")
+      return
+    }
+
+    datasetRef.previewWindowOrigin = url.origin
+    datasetRef.previewWindow = forkWindow
+    setIsPreview(true)
+  }
+
+  const getCSS = useGetState(css)
+
+  useEffect(() => {
+    if (!isInPreview) return
+
+    const handler = (e: MessageEvent<any>): void => {
+      const { previewWindowOrigin, previewWindow } = datasetRef
+
+      if (!isInPreview) return
+      if (e.origin !== previewWindowOrigin) return
+
+      if (!previewWindow) return
+      previewWindow.postMessage(
+        JSON.stringify({
+          type: "preview",
+          data: { css: getCSS() },
+        }),
+        previewWindowOrigin,
+      )
+    }
+    window.addEventListener("message", handler)
+
+    return () => {
+      window.removeEventListener("message", handler)
+    }
+  }, [isInPreview])
+
+  const getIsPreview = useGetState(isInPreview)
+  useEffect(() => {
+    if (!getIsPreview()) return
+
+    if (!datasetRef.previewWindow) return
+
+    datasetRef.previewWindow.postMessage(
+      JSON.stringify({
+        type: "preview",
+        data: { css: getCSS() },
+      }),
+      datasetRef.previewWindowOrigin,
+    )
+  }, [css])
+
+  return (
+    <Button variant="secondary" onClick={handlePreview}>
+      {t("Preview")}
+    </Button>
   )
 }
