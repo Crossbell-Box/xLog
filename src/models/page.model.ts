@@ -143,6 +143,7 @@ export async function getPagesBySite(input: {
   useHTML?: boolean
   keepBody?: boolean
   handle?: string // In order to be compatible with old drafts
+  skipExpansion?: boolean
 }) {
   if (!input.characterId) {
     return {
@@ -185,12 +186,14 @@ export async function getPagesBySite(input: {
       pinnedNoteId: pinnedNote?.noteId,
       list: await Promise.all(
         list.map(async (note) => {
-          const expanded = await expandCrossbellNote({
-            note,
-            useStat: input.useStat,
-            useHTML: input.useHTML,
-            useScore: false,
-          })
+          const expanded = input.skipExpansion
+            ? (note as ExpandedNote)
+            : await expandCrossbellNote({
+                note,
+                useStat: input.useStat,
+                useHTML: input.useHTML,
+                useScore: false,
+              })
 
           if (!input.keepBody) {
             delete expanded.metadata?.content?.content
