@@ -6,8 +6,8 @@ import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { SitePlayerContainer } from "~/components/common/SitePlayer"
-import Style from "~/components/common/Style"
 import { BackToTopFAB } from "~/components/site/BackToTopFAB"
+import { CustomSiteStyle } from "~/components/site/CustomSiteStyle"
 import SiteFooter from "~/components/site/SiteFooter"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { FABContainer } from "~/components/ui/FAB"
@@ -169,7 +169,7 @@ export default async function SiteLayout({
       <div
         className={`xlog-page xlog-page-${type} xlog-user xlog-deprecated-class`}
       >
-        <Style content={site?.metadata?.content?.css} />
+        <CustomSiteStyle content={site.metadata?.content?.css || ""} />
         {colors?.light && colors?.dark && (
           <style>
             {`.light {

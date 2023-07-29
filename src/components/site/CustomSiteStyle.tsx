@@ -1,24 +1,33 @@
 "use client"
 
-import { startTransition, useEffect, useState } from "react"
+import { FC, startTransition, useEffect, useState } from "react"
+
+import { IS_DEV } from "~/lib/constants"
+import { SITE_URL } from "~/lib/env"
 
 import Style from "../common/Style"
 
-export const CSSPreviewConnect = () => {
-  const [css, setCss] = useState("")
+export const CustomSiteStyle: FC<{
+  content: string
+}> = (props) => {
+  const { content } = props
+  const [currentStyle, setCurrentStyle] = useState(content)
+
+  useEffect(() => {
+    setCurrentStyle(content)
+  }, [content])
 
   useEffect(() => {
     const search = location.search
     const searchParams = new URLSearchParams(search)
 
-    let targinOrigin = searchParams.get("origin")
+    const targinOrigin = IS_DEV ? "http://localhost:2222" : SITE_URL
 
     const isCSSPreview = searchParams.get("css-preview")
 
     if (!targinOrigin || !isCSSPreview) {
       return
     }
-    targinOrigin = decodeURIComponent(targinOrigin)
     window.opener.postMessage("Preview Ready", targinOrigin)
 
     const handler = (e: MessageEvent) => {
@@ -32,7 +41,7 @@ export const CSSPreviewConnect = () => {
         const { css } = parsedData.data
 
         startTransition(() => {
-          setCss(css)
+          setCurrentStyle(css)
         })
       }
     }
@@ -43,5 +52,5 @@ export const CSSPreviewConnect = () => {
     }
   }, [])
 
-  return <Style content={css} />
+  return <Style content={currentStyle} />
 }

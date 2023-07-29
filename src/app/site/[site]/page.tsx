@@ -1,6 +1,5 @@
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
-import { CSSPreviewConnect } from "~/components/site/CSSPreviewConnect"
 import SiteHome from "~/components/site/SiteHome"
 import getQueryClient from "~/lib/query-client"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -31,7 +30,6 @@ async function SiteIndexPage({
 
   return (
     <Hydrate state={dehydratedState}>
-      <CSSPreviewConnect />
       <SiteHome handle={params.site} />
     </Hydrate>
   )

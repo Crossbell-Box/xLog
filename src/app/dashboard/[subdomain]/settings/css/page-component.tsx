@@ -4,12 +4,14 @@ import { useParams } from "next/navigation"
 import { FC, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 
+import { useQuery } from "@tanstack/react-query"
+
 import { MonacoEditor } from "~/components/common/Monaco"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { useGetState } from "~/hooks/useGetState"
-import { IS_DEV } from "~/lib/constants"
+import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
@@ -108,7 +110,11 @@ export default function SettingsCSSPage() {
           />
         </div>
         <div className="mt-5 space-x-2">
-          <PreviewButton css={css} subdomain={subdomain} />
+          <PreviewButton
+            css={css}
+            subdomain={subdomain}
+            handle={site.data?.handle!}
+          />
           <Button type="submit" isLoading={updateSite.isLoading}>
             {t("Save")}
           </Button>
@@ -121,8 +127,20 @@ export default function SettingsCSSPage() {
 const PreviewButton: FC<{
   css: string
   subdomain: string
-}> = ({ css, subdomain }) => {
+  custom_domain?: string
+}> = ({ css, subdomain, custom_domain }) => {
   const { t } = useTranslation("dashboard")
+
+  const { data: siteLink } = useQuery({
+    queryKey: ["site_link", subdomain],
+
+    queryFn: async () => {
+      return getSiteLink({
+        subdomain,
+        domain: custom_domain,
+      })
+    },
+  })
 
   const datasetRef = useRef({
     previewWindowOrigin: "",
@@ -131,14 +149,10 @@ const PreviewButton: FC<{
   const [isInPreview, setIsPreview] = useState(false)
 
   const handlePreview = () => {
-    let url: URL
-
-    if (IS_DEV) {
-      url = new URL(`http://${subdomain}.localhost:2222/`)
-    } else {
-      url = new URL(location.href)
-      // TODO
+    if (!siteLink) {
+      return
     }
+    let url: URL = new URL(siteLink)
 
     url.searchParams.set("origin", location.origin)
     url.searchParams.set("css-preview", "true")

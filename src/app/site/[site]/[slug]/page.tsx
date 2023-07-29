@@ -5,7 +5,6 @@ import serialize from "serialize-javascript"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import PageContent from "~/components/common/PageContent"
-import { CSSPreviewConnect } from "~/components/site/CSSPreviewConnect"
 import { OIAButton } from "~/components/site/OIAButton"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
@@ -188,7 +187,6 @@ export default async function SitePagePage({
           {page?.metadata && <PostFooter page={page} site={site} />}
         </Hydrate>
       )}
-      <CSSPreviewConnect />
     </div>
   )
 }
