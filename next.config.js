@@ -84,7 +84,7 @@ module.exports = withSentryConfig(
 
         // https://github.com/kkomelin/isomorphic-dompurify/issues/54
         // Fix isomorphic-dompurify in app router
-        config.externals = [...config.externals, "canvas", "jsdom", "sharp"]
+        config.externals = [...config.externals, "jsdom", "sharp"]
 
         return config
       },
