@@ -2,7 +2,7 @@
 
 import { CharacterEntity } from "crossbell"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { memo } from "react"
 import reactStringReplace from "react-string-replace"
 
@@ -40,11 +40,15 @@ const Card = ({
   const router = useRouter()
   const { t } = useTranslation("common")
   const date = useDate()
+  const searchParams = useSearchParams()
+
+  let queryString = searchParams.toString()
+  queryString = queryString ? `?${queryString}` : ""
 
   return (
     <Link
       target={isBlank ? "_blank" : undefined}
-      href={`${linkPrefix || ""}/${post.metadata?.content?.slug}`}
+      href={`${linkPrefix || ""}/${post.metadata?.content?.slug}${queryString}`}
       className={cn(
         "xlog-post sm:hover:bg-hover transition-all rounded-2xl flex flex-col items-center hover:opacity-100 group border relative",
       )}
