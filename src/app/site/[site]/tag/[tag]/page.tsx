@@ -48,6 +48,7 @@ export default async function SiteTagPage({
       type: "post",
       visibility: PageVisibilityEnum.Published,
       limit: 100,
+      skipExpansion: true,
       tags: [params.tag],
     },
     queryClient,

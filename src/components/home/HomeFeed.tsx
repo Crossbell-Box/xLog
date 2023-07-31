@@ -16,7 +16,6 @@ import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote } from "~/lib/types"
-import { getStringLength } from "~/lib/utils"
 import type { FeedType, SearchType } from "~/models/home.model"
 import { useGetFeed } from "~/queries/home"
 
@@ -139,23 +138,9 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
           }, [] as ExpandedNote[])
           .filter((post) => {
             if (
-              new Date(post.metadata?.content?.date_published || "") >
-              new Date()
-            ) {
-              return false
-            } else if (
               aiFiltering &&
               post.metadata?.content?.score?.number !== undefined &&
               post.metadata.content.score.number <= 60
-            ) {
-              return false
-            } else if (
-              post.toNote?.metadata?.content?.tags?.includes("comment")
-            ) {
-              return false
-            } else if (
-              !post.metadata?.content?.summary ||
-              getStringLength(post.metadata.content.summary) < 6
             ) {
               return false
             } else {
@@ -230,7 +215,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
               useWindowScroll
               data={feedInOne}
               totalCount={feed.data?.pages[0]?.count || 0}
-              listClassName="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3"
+              listClassName="grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-3"
               itemContent={(index) => {
                 const post = feedInOne[index]
                 if (!post) return null
@@ -241,8 +226,14 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
                     keyword={searchParams?.get("q") || undefined}
                     linkPrefix={
                       isMobileLayout
-                        ? `/site/${post?.character?.handle}`
-                        : `/post/${post?.character?.handle}`
+                        ? `/site/${
+                            post.toNote?.character?.handle ||
+                            post?.character?.handle
+                          }`
+                        : `/post/${
+                            post.toNote?.character?.handle ||
+                            post?.character?.handle
+                          }`
                     }
                     isBlank={isMobileLayout}
                   />
@@ -274,7 +265,7 @@ const FeedSkeleton = () => {
   return (
     <Skeleton.Container
       count={9}
-      className="grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3 my-8"
+      className="grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-3 my-8"
     >
       <div className="rounded-2xl border">
         <Skeleton.Rectangle className="h-auto rounded-t-2xl rounded-b-none w-full aspect-video border-b" />

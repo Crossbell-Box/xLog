@@ -13,6 +13,7 @@ import { Fragment, useMemo, useState } from "react"
 import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
+import PostCover from "~/components/home/PostCover"
 import { useDate } from "~/hooks/useDate"
 import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
@@ -59,6 +60,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
     limit: 20,
     visibility,
     handle: subdomain,
+    useStat: true,
   })
 
   // Batch selections
@@ -187,35 +189,35 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
 
   return (
     <DashboardMain className="max-w-screen-lg">
-      <header className="mb-8">
-        <div className="flex justify-between items-center mb-4">
+      <header className="mb-4 space-y-4">
+        <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">{t(title)}</h2>
-          <div className="flex justify-center items-center space-x-4">
-            <Button
-              className={cn(`space-x-2 inline-flex`)}
-              onClick={() =>
-                router.push(
-                  `/dashboard/${subdomain}/editor?type=${
-                    isPost ? "post" : "page"
-                  }`,
-                )
-              }
+        </div>
+        <div className="space-x-4">
+          <Button
+            className={cn(`space-x-2 inline-flex`)}
+            onClick={() =>
+              router.push(
+                `/dashboard/${subdomain}/editor?type=${
+                  isPost ? "post" : "page"
+                }`,
+              )
+            }
+          >
+            <span className="icon-[mingcute--add-line] inline-block"></span>
+            <span>{t(`New ${isPost ? "Post" : "Page"}`)}</span>
+          </Button>
+          <span className="hidden sm:inline-flex">
+            <Tooltip
+              label={t("Import markdown file with front matter supported")}
+              placement="bottom"
             >
-              <span className="icon-[mingcute--add-line] inline-block"></span>
-              <span>{t(`New ${isPost ? "Post" : "Page"}`)}</span>
-            </Button>
-            <span className="hidden sm:inline-flex">
-              <Tooltip
-                label={t("Import markdown file with front matter supported")}
-                placement="bottom"
-              >
-                <Button className={cn(`space-x-2`)} onClick={importFile}>
-                  <span className="icon-[mingcute--file-import-line] inline-block"></span>
-                  <span>{t("Import")}</span>
-                </Button>
-              </Tooltip>
-            </span>
-          </div>
+              <Button className={cn(`space-x-2`)} onClick={importFile}>
+                <span className="icon-[mingcute--file-import-line] inline-block"></span>
+                <span>{t("Import")}</span>
+              </Button>
+            </Tooltip>
+          </span>
         </div>
         <div className="text-sm text-zinc-500 leading-relaxed">
           {description}
@@ -234,7 +236,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
       )}
 
       <div className="-mt-3">
-        {pages.isLoading && <p className="py-3 px-3">{t("Loading")}...</p>}
+        {pages.isLoading && <p className="py-4 px-3">{t("Loading")}...</p>}
         {!pages.isLoading && !pages.data?.pages?.[0].count && (
           <EmptyState resource={isPost ? "posts" : "pages"} />
         )}
@@ -247,9 +249,75 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
                 <Link
                   key={page.transactionHash || page.draftKey}
                   href={getPageEditLink(page)}
-                  className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex"
+                  className="group relative hover:bg-zinc-100 rounded-lg py-4 px-3 transition-colors -mx-3 flex space-x-4"
                 >
-                  <div className="w-10 flex-shrink-0 flex self-center">
+                  <PostCover
+                    uniqueKey={`${page.characterId}-${page.noteId}`}
+                    images={page.metadata?.content.images}
+                    title={page.metadata?.content?.title}
+                    className="rounded-lg w-48"
+                  />
+                  <div className="min-w-0 flex-1 flex flex-col justify-between">
+                    <div className="xlog-post-title font-bold text-base text-zinc-700">
+                      <span>{page.metadata?.content?.title}</span>
+                    </div>
+                    <div
+                      className="xlog-post-excerpt text-zinc-500 line-clamp-1 text-sm"
+                      style={{
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {page.metadata?.content?.summary}
+                      {page.metadata?.content?.summary && "..."}
+                    </div>
+                    <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate">
+                      {!!page.metadata?.content?.tags?.[1] && (
+                        <span className="xlog-post-tags border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2">
+                          <i className="icon-[mingcute--tag-line] mr-[2px]" />
+                          {page.metadata?.content?.tags?.[1]}
+                        </span>
+                      )}
+                      <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
+                        <i className="icon-[mingcute--time-line] mr-[2px]" />
+                        <span
+                          style={{
+                            wordSpacing: "-.2ch",
+                          }}
+                        >
+                          {page.metadata?.content?.readingTime} {t("min")}
+                        </span>
+                      </span>
+                      {!!page.stat?.viewDetailCount && (
+                        <span className="xlog-post-views inline-flex items-center">
+                          <i className="icon-[mingcute--eye-line] mr-[2px]" />
+                          <span>{page.stat?.viewDetailCount}</span>
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-zinc-400 text-sm">
+                      <span className="capitalize">
+                        {t(getPageVisibility(page))}
+                      </span>
+                      <span className="mx-2">·</span>
+                      <span>
+                        {getPageVisibility(page) === PageVisibilityEnum.Draft
+                          ? date.formatDate(page.updatedAt)
+                          : date.formatDate(
+                              page.metadata?.content?.date_published || "",
+                            )}
+                      </span>
+                      {pinnedPage.noteId === page.noteId && (
+                        <>
+                          <span className="mx-2">·</span>
+                          <span>
+                            <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
+                            {siteT("Pinned")}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex-shrink-0 flex self-center">
                     <button
                       className={cn(
                         `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
@@ -288,46 +356,11 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
                           batchSelected.includes(
                             page.noteId || page.draftKey || 0,
                           )
-                            ? "icon-[mingcute--check-line]"
-                            : isPost
-                            ? "icon-[mingcute--news-line]"
-                            : "icon-[mingcute--file-line]"
-                        } text-2xl`}
+                            ? "icon-[mingcute--check-fill]"
+                            : "icon-[mingcute--add-line]"
+                        } text-lg`}
                       />
                     </button>
-                  </div>
-                  <div className="min-w-0">
-                    {page.metadata?.content?.title ? (
-                      <div className="flex items-center">
-                        <span>{page.metadata?.content?.title}</span>
-                      </div>
-                    ) : (
-                      <div className="text-zinc-500 text-xs mt-1 truncate">
-                        <span>{page.metadata?.content?.summary}</span>
-                      </div>
-                    )}
-                    <div className="text-zinc-400 text-xs mt-1">
-                      <span className="capitalize">
-                        {t(getPageVisibility(page))}
-                      </span>
-                      <span className="mx-2">·</span>
-                      <span>
-                        {getPageVisibility(page) === PageVisibilityEnum.Draft
-                          ? date.formatDate(page.updatedAt)
-                          : date.formatDate(
-                              page.metadata?.content?.date_published || "",
-                            )}
-                      </span>
-                      {pinnedPage.noteId === page.noteId && (
-                        <>
-                          <span className="mx-2">·</span>
-                          <span>
-                            <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
-                            {siteT("Pinned")}
-                          </span>
-                        </>
-                      )}
-                    </div>
                   </div>
                   <div className="w-10 flex-shrink-0 flex self-center ml-auto">
                     <Menu>

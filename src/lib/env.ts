@@ -10,7 +10,7 @@ export const DOCS_DOMAIN = `docs.${OUR_DOMAIN}`
 export const SITE_URL = `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}`
 export const APP_DESCRIPTION =
   process.env.APP_DESCRIPTION ||
-  "xLog, the best on-chain and open-source blogging community for everyone."
+  "An open-source creative community written on the blockchain."
 export const DISCORD_LINK = process.env.NEXT_PUBLIC_DISCORD_LINK
 export const GITHUB_LINK = process.env.NEXT_PUBLIC_GITHUB_LINK
 export const TWITTER_LINK = process.env.NEXT_PUBLIC_TWITTER_LINK

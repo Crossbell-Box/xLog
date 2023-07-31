@@ -12,6 +12,7 @@ export async function GET(req: Request) {
     limit: query.limit ? parseInt(query.limit as string) : undefined,
     cursor: query.cursor as string,
     useStat: true,
+    skipExpansion: query.skipExpansion === "true",
     ...(query.tags && {
       tags: Array.isArray(query.tags)
         ? (query.tags as string[])

@@ -46,7 +46,7 @@ export async function GET(
     }),
     items: pages.list?.map((page) => ({
       id: page.characterId + "-" + page.noteId,
-      title: page.metadata?.content?.title,
+      title: page.metadata?.content?.title || "Untitled",
       summary: page.metadata?.content?.summary,
       content_html: page.metadata?.content?.contentHTML,
       url: `${SITE_URL}/api/redirection?characterId=${page.characterId}&noteId=${page.noteId}`,

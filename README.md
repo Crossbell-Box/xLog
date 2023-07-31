@@ -3,7 +3,7 @@
 </p>
 <h1 align="center">xLog</h1>
 
-> 🪽 The best on-chain and open-source blogging community for everyone.
+> 🪽 An open-source creative community written on the blockchain.
 
 [![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) [![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) [![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
 

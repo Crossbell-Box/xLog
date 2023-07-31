@@ -34,7 +34,7 @@ export default function PostList({
     <>
       {!posts.data.pages[0].count && <EmptyState />}
       {!!posts.data.pages[0].count && (
-        <div className="xlog-posts grid gap-3 sm:gap-6 grid-cols-2 sm:grid-cols-3">
+        <div className="xlog-posts grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-3">
           {posts.data.pages.map((posts, listIndex) =>
             posts.list.map((post, postIndex) => {
               currentLength++
@@ -44,6 +44,7 @@ export default function PostList({
                   post={post}
                   isPinned={post.noteId === pinnedNoteId}
                   keyword={keyword}
+                  showPublishTime={true}
                 />
               )
             }),

@@ -16,7 +16,7 @@ import { Skeleton } from "../ui/Skeleton"
 const key = ["PostFooterInView"]
 
 const CommentSkeleton = () => (
-  <div className="xlog-comment comment" id="comments" data-hide-print>
+  <div className="xlog-comment comment mb-10" id="comments" data-hide-print>
     <Skeleton.Container>
       <>
         <div className="xlog-comment-count border-b pb-2 mb-6">
@@ -89,7 +89,7 @@ export const PostFooter = ({
         <ReactionShare noteId={page?.noteId} />
       </div>
       {inited || isInView ? (
-        <DynamicComment page={page} fixHeight={fixHeight} />
+        <DynamicComment page={page} fixHeight={fixHeight} className="mb-10" />
       ) : (
         <CommentSkeleton />
       )}

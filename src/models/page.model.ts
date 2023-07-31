@@ -15,6 +15,7 @@ import { gql } from "@urql/core"
 
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { filterCommentCharacter } from "~/lib/filter-character"
+import { getNoteSlug } from "~/lib/helpers"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
@@ -143,6 +144,7 @@ export async function getPagesBySite(input: {
   useHTML?: boolean
   keepBody?: boolean
   handle?: string // In order to be compatible with old drafts
+  skipExpansion?: boolean
 }) {
   if (!input.characterId) {
     return {
@@ -185,12 +187,17 @@ export async function getPagesBySite(input: {
       pinnedNoteId: pinnedNote?.noteId,
       list: await Promise.all(
         list.map(async (note) => {
-          const expanded = await expandCrossbellNote({
-            note,
-            useStat: input.useStat,
-            useHTML: input.useHTML,
-            useScore: false,
-          })
+          let expanded = note as ExpandedNote
+          if (input.skipExpansion) {
+            expanded.metadata.content.slug = getNoteSlug(expanded)
+          } else {
+            expanded = await expandCrossbellNote({
+              note,
+              useStat: input.useStat,
+              useHTML: input.useHTML,
+              useScore: false,
+            })
+          }
 
           if (!input.keepBody) {
             delete expanded.metadata?.content?.content

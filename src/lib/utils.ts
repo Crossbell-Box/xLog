@@ -72,19 +72,6 @@ export const scrollTo = (hash: string, notUserContent?: boolean) => {
   })
 }
 
-export function getStringLength(str: string) {
-  let len = 0
-  for (let i = 0; i < str.length; i++) {
-    const code = str.charCodeAt(i)
-    if (code >= 0 && code <= 128) {
-      len += 1
-    } else {
-      len += 2
-    }
-  }
-  return len
-}
-
 export const isMobileDevice = () => {
   if (isServerSide()) {
     return false

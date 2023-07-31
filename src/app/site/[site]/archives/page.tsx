@@ -42,6 +42,7 @@ export default async function SiteArchivesPage({
       type: "post",
       visibility: PageVisibilityEnum.Published,
       limit: 100,
+      skipExpansion: true,
     },
     queryClient,
   )

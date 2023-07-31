@@ -29,9 +29,10 @@ export const SiteArchives = () => {
   const site = useGetSite(params?.site as string)
   const posts = useGetPagesBySiteLite({
     characterId: site.data?.characterId,
-    limit: 100,
     type: "post",
     visibility: PageVisibilityEnum.Published,
+    limit: 100,
+    skipExpansion: true,
     ...(params?.tag && { tags: [params.tag as string] }),
   })
 
