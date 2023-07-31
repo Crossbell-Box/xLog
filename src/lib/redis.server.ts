@@ -65,7 +65,11 @@ export async function cacheGet(options: {
           })
         }, Math.random() * REDIS_REFRESH)
       }
-      return JSON.parse(cacheValue)
+      try {
+        return JSON.parse(cacheValue)
+      } catch (error) {
+        return cacheValue
+      }
     } else {
       if (options.allowEmpty) {
         options.getValueFun().then((value) => {
