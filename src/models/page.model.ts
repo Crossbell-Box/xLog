@@ -18,7 +18,7 @@ import { filterCommentCharacter } from "~/lib/filter-character"
 import { getNoteSlug } from "~/lib/helpers"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
-import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, NoteType, PageVisibilityEnum } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 export const PINNED_PAGE_KEY = "xlog_pinned_page"
@@ -65,14 +65,19 @@ export async function postNotes(
 
 const getLocalPages = (input: {
   characterId: number
-  isPost?: boolean
+  isPost?: boolean // In order to be compatible with old drafts
+  type?: NoteType
   handle?: string
 }) => {
   const pages: ExpandedNote[] = []
   getKeys([`draft-${input.characterId}-`, `draft-${input.handle}-`]).forEach(
     (key) => {
       const page = getStorage(key)
-      if (input.isPost === undefined || page.isPost === input.isPost) {
+      if (
+        page.isPost === input.isPost ||
+        page.type === input.type ||
+        input.type === undefined
+      ) {
         const note: ExpandedNote = {
           characterId: input.characterId,
           noteId: 0,
@@ -113,7 +118,7 @@ const getLocalPages = (input: {
               date_published: page.values?.publishedAt,
               summary: page.values?.excerpt,
               tags: [
-                page.isPost ? "post" : "page",
+                input.type,
                 ...(page.values?.tags
                   ?.split(",")
                   .map((tag: string) => tag.trim())
@@ -135,7 +140,7 @@ const getLocalPages = (input: {
 
 export async function getPagesBySite(input: {
   characterId?: number
-  type: "post" | "page"
+  type: NoteType
   visibility?: PageVisibilityEnum
   limit?: number
   cursor?: string
@@ -211,7 +216,8 @@ export async function getPagesBySite(input: {
 
   const local = getLocalPages({
     characterId: input.characterId,
-    isPost: input.type === "post",
+    isPost: input.type === "post", // In order to be compatible with old drafts
+    type: input.type,
     handle: input.handle,
   })
 

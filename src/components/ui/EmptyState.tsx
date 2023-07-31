@@ -4,7 +4,7 @@ export const EmptyState = ({ resource }: { resource?: string }) => {
       <span className="icon-[mingcute--ghost-line] text-5xl mb-2"></span>
       <div className="">
         {" "}
-        No <span className="capitalize">{resource || "posts"}</span> Yet.
+        No <span className="capitalize">{resource || "post"}</span> Yet.
       </div>
     </div>
   )

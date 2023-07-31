@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 
 import { Menu, Popover, Transition } from "@headlessui/react"
 
-import { PageVisibilityEnum } from "~/lib/types"
+import { NoteType, PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
@@ -17,7 +17,7 @@ export const OptionsButton = ({
   renderPage,
   published,
   propertiesWidget,
-  isPost,
+  type,
   isModified,
   discardChanges,
 }: {
@@ -29,7 +29,7 @@ export const OptionsButton = ({
   propertiesWidget: React.ReactNode
   isRendering: boolean
   published: boolean
-  isPost: boolean
+  type: NoteType
   isModified: boolean
   discardChanges: () => void
 }) => {
@@ -188,7 +188,7 @@ export const OptionsButton = ({
                 onConfirm={() => {
                   deletePage()
                 }}
-                isPost={isPost}
+                type={type}
               />
             </>
           )

@@ -19,7 +19,7 @@ import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
-import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, NoteType, PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetPagesBySite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
@@ -33,7 +33,7 @@ import { DashboardMain } from "./DashboardMain"
 import { PagesManagerBatchSelectActionTab } from "./PagesManagerBatchSelectActionTab"
 import { PagesManagerMenu } from "./PagesManagerMenu"
 
-export const PagesManager = ({ isPost }: { isPost: boolean }) => {
+export const PagesManager = ({ type }: { type: NoteType }) => {
   const params = useParams()
   const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
@@ -55,7 +55,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
   const date = useDate()
 
   const pages = useGetPagesBySite({
-    type: isPost ? "post" : "page",
+    type,
     characterId: site.data?.characterId,
     limit: 20,
     visibility,
@@ -69,7 +69,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
   const tabItems: TabItem[] = [
     {
       value: PageVisibilityEnum.All,
-      text: `All ${isPost ? "Posts" : "Pages"}`,
+      text: `All ${type.charAt(0).toUpperCase() + type.slice(1)}s`,
     },
     {
       value: PageVisibilityEnum.Published,
@@ -101,7 +101,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
   const getPageEditLink = (page: ExpandedNote) => {
     return `/dashboard/${subdomain}/editor?id=${
       page.noteId || page.draftKey
-    }&type=${isPost ? "post" : "page"}`
+    }&type=${type}`
   }
 
   const queryClient = useQueryClient()
@@ -125,65 +125,70 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
             tags: file.tags?.join?.(", "),
             title: file.title,
           },
-          isPost: isPost,
+          type,
         })
         queryClient.invalidateQueries([
           "getPagesBySite",
           site.data?.characterId,
         ])
         router.push(
-          `/dashboard/${subdomain}/editor?id=!local-${id}&type=${
-            isPost ? "post" : "page"
-          }`,
+          `/dashboard/${subdomain}/editor?id=!local-${id}&type=${type}`,
         )
       }
     })
     input.click()
   }
 
-  const title = isPost ? "Posts" : "Pages"
-  const description = isPost ? (
-    <>
-      <p>
-        <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
-          Posts are entries listed in reverse chronological order on your site.
-          Think of them as articles or updates that you share to offer up new
-          content to your readers.{" "}
-          <UniLink className="underline" href={t("link post-vs-page") || ""}>
-            Post vs. Page
-          </UniLink>
-        </Trans>
-      </p>
-    </>
-  ) : (
-    <>
-      <p>
-        <Trans i18n={i18n} i18nKey="pages description" ns="dashboard">
-          Pages are static and are not affected by date. Think of them as more
-          permanent fixtures of your site — an About page, and a Contact page
-          are great examples of this.{" "}
-          <UniLink
-            className="underline"
-            href="https://wordpress.com/support/post-vs-page/"
-          >
-            Post vs. Page
-          </UniLink>
-        </Trans>
-      </p>
-      <p>
-        <Trans i18n={i18n} i18nKey="pages add" ns="dashboard">
-          After you create a page, you can{" "}
-          <UniLink
-            className="underline"
-            href={`/dashboard/${subdomain}/settings/navigation`}
-          >
-            add it to your site&apos;s navigation menu
-          </UniLink>{" "}
-          so your visitors can find it.
-        </Trans>
-      </p>
-    </>
-  )
+  let description = null
+  switch (type) {
+    case "post":
+      description = (
+        <p>
+          <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
+            Posts are entries listed in reverse chronological order on your
+            site. Think of them as articles or updates that you share to offer
+            up new content to your readers.{" "}
+            <UniLink className="underline" href={t("link post-vs-page") || ""}>
+              Post vs. Page
+            </UniLink>
+          </Trans>
+        </p>
+      )
+      break
+    case "page":
+      description = (
+        <>
+          <p>
+            <Trans i18n={i18n} i18nKey="pages description" ns="dashboard">
+              Pages are static and are not affected by date. Think of them as
+              more permanent fixtures of your site — an About page, and a
+              Contact page are great examples of this.{" "}
+              <UniLink
+                className="underline"
+                href="https://wordpress.com/support/post-vs-page/"
+              >
+                Post vs. Page
+              </UniLink>
+            </Trans>
+          </p>
+          <p>
+            <Trans i18n={i18n} i18nKey="pages add" ns="dashboard">
+              After you create a page, you can{" "}
+              <UniLink
+                className="underline"
+                href={`/dashboard/${subdomain}/settings/navigation`}
+              >
+                add it to your site&apos;s navigation menu
+              </UniLink>{" "}
+              so your visitors can find it.
+            </Trans>
+          </p>
+        </>
+      )
+      break
+    case "portfolio": // TODO
+      description = <></>
+  }
 
   let currentLength = 0
 
@@ -191,21 +196,21 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
     <DashboardMain className="max-w-screen-lg">
       <header className="mb-4 space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold">{t(title)}</h2>
+          <h2 className="text-2xl font-bold">
+            {t(`${type.charAt(0).toUpperCase() + type.slice(1)}s`)}
+          </h2>
         </div>
         <div className="space-x-4">
           <Button
             className={cn(`space-x-2 inline-flex`)}
             onClick={() =>
-              router.push(
-                `/dashboard/${subdomain}/editor?type=${
-                  isPost ? "post" : "page"
-                }`,
-              )
+              router.push(`/dashboard/${subdomain}/editor?type=${type}`)
             }
           >
             <span className="icon-[mingcute--add-line] inline-block"></span>
-            <span>{t(`New ${isPost ? "Post" : "Page"}`)}</span>
+            <span>
+              {t(`New ${type.charAt(0).toUpperCase() + type.slice(1)}`)}
+            </span>
           </Button>
           <span className="hidden sm:inline-flex">
             <Tooltip
@@ -226,7 +231,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
 
       {batchSelected.length > 0 ? (
         <PagesManagerBatchSelectActionTab
-          isPost={isPost}
+          type={type}
           pages={pages.data}
           batchSelected={batchSelected}
           setBatchSelected={setBatchSelected}
@@ -238,7 +243,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
       <div className="-mt-3">
         {pages.isLoading && <p className="py-4 px-3">{t("Loading")}...</p>}
         {!pages.isLoading && !pages.data?.pages?.[0].count && (
-          <EmptyState resource={isPost ? "posts" : "pages"} />
+          <EmptyState resource={type} />
         )}
 
         {pages.data?.pages.map(
@@ -381,7 +386,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
                           </Menu.Button>
 
                           <PagesManagerMenu
-                            isPost={isPost}
+                            type={type}
                             page={page}
                             onClick={close}
                           />
@@ -403,12 +408,10 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
           >
             {siteT("load more", {
               name: t(
-                isPost
-                  ? "post"
-                  : "page" +
-                      ((pages.data?.pages?.[0].count || 0) - currentLength > 1
-                        ? "s"
-                        : ""),
+                type +
+                  ((pages.data?.pages?.[0].count || 0) - currentLength > 1
+                    ? "s"
+                    : ""),
               ),
               count: (pages.data?.pages?.[0].count || 0) - currentLength,
             })}

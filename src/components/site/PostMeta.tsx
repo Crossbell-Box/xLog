@@ -4,7 +4,7 @@ import { EditButton } from "~/components/site/EditButton"
 import PostTag from "~/components/site/PostTag"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN } from "~/lib/env"
-import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote, NoteType } from "~/lib/types"
 
 export default function PostMeta({
   page,
@@ -47,7 +47,7 @@ export default function PostMeta({
         <EditButton
           handle={site?.handle}
           noteId={page.noteId}
-          isPost={page.metadata?.content?.tags?.includes("post")}
+          type={page.metadata?.content?.tags?.[0] as NoteType}
         />
       </div>
       {summary && (

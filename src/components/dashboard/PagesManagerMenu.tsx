@@ -9,19 +9,17 @@ import { useGetState } from "~/hooks/useGetState"
 import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
-import { ExpandedNote } from "~/lib/types"
+import { ExpandedNote, NoteType } from "~/lib/types"
 import { useDeletePage, usePinPage, useUpdatePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
-const usePageEditLink = (page: ExpandedNote, isPost: boolean) => {
+const usePageEditLink = (page: ExpandedNote, type: NoteType) => {
   const params = useParams()
   const subdomain = params?.subdomain as string
 
-  return `/dashboard/${subdomain}/editor?id=${page.noteId}&type=${
-    isPost ? "post" : "page"
-  }`
+  return `/dashboard/${subdomain}/editor?id=${page.noteId}&type=${type}`
 }
 
 interface Item {
@@ -30,11 +28,11 @@ interface Item {
   onClick: () => void
 }
 export const PagesManagerMenu = ({
-  isPost,
+  type,
   page,
   onClick: onClose,
 }: {
-  isPost: boolean
+  type: NoteType
   page: ExpandedNote
   onClick: () => void
 }) => {
@@ -45,7 +43,7 @@ export const PagesManagerMenu = ({
   const subdomain = params?.subdomain as string
   const updatePage = useUpdatePage()
 
-  const editLink = usePageEditLink(page, isPost)
+  const editLink = usePageEditLink(page, type)
   const queryClient = useQueryClient()
   const deletePage = useDeletePage()
   const pinPage = usePinPage(page)
@@ -105,7 +103,7 @@ export const PagesManagerMenu = ({
       onClick: pinPage.togglePin,
     },
     {
-      text: "Convert to " + (isPost ? "Page" : "Post"),
+      text: "Convert to " + (type === "post" ? "Page" : "Post"),
       icon: (
         <span className="icon-[mingcute--transfer-3-line] inline-block"></span>
       ),
@@ -116,7 +114,7 @@ export const PagesManagerMenu = ({
           const data = getStorage(
             `draft-${site.data?.characterId}-${page.draftKey}`,
           )
-          data.isPost = !isPost
+          data.type = data.type === "post" ? "page" : "post"
           setStorage(`draft-${site.data?.characterId}-${page.draftKey}`, data)
           queryClient.invalidateQueries([
             "getPagesBySite",
@@ -129,7 +127,7 @@ export const PagesManagerMenu = ({
         } else {
           setConvertToastId(toastId)
           updatePage.mutate({
-            isPost: !isPost,
+            type,
             characterId: page.characterId,
             noteId: page.noteId,
           })
@@ -231,7 +229,7 @@ export const PagesManagerMenu = ({
         open={deleteConfirmModalOpen}
         setOpen={setDeleteConfirmModalOpen}
         onConfirm={onDelete}
-        isPost={isPost}
+        type={type}
       />
     </>
   )

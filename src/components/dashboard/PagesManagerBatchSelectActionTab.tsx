@@ -1,4 +1,3 @@
-import { useParams } from "next/navigation"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
 
@@ -8,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { type TabItem, Tabs } from "~/components/ui/Tabs"
 import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
-import { ExpandedNote } from "~/lib/types"
+import { ExpandedNote, NoteType } from "~/lib/types"
 import { useDeletePage, useUpdatePage } from "~/queries/page"
 
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
@@ -18,12 +17,12 @@ function getPageId(page: ExpandedNote) {
 }
 
 export const PagesManagerBatchSelectActionTab = ({
-  isPost,
+  type,
   pages,
   batchSelected,
   setBatchSelected,
 }: {
-  isPost: boolean
+  type: NoteType
   pages?: InfiniteData<{
     list: ExpandedNote[]
   }>
@@ -31,9 +30,6 @@ export const PagesManagerBatchSelectActionTab = ({
   setBatchSelected: (selected: (string | number)[]) => void
 }) => {
   const { t } = useTranslation("dashboard")
-
-  const params = useParams()
-  const subdomain = params?.subdomain as string
 
   const queryClient = useQueryClient()
 
@@ -63,7 +59,7 @@ export const PagesManagerBatchSelectActionTab = ({
       },
     },
     {
-      text: "Convert to " + (isPost ? "Page" : "Post"),
+      text: "Convert to " + (type === "post" ? "Page" : "Post"),
       onClick: async () => {
         // Start message
         const toastId = toast.loading("Converting...")
@@ -87,14 +83,14 @@ export const PagesManagerBatchSelectActionTab = ({
                 // Is draft
                 const key = `draft-${page?.characterId}-${page.draftKey}`
                 const data = getStorage(key)
-                data.isPost = !isPost
+                data.type = data.type === "post" ? "page" : "post"
                 setStorage(key, data)
               } else {
                 // IsNote
                 return updatePage.mutate({
                   characterId: page.characterId,
                   noteId: page.noteId,
-                  isPost: !isPost, // Change type
+                  type: type === "post" ? "page" : "post",
                 })
               }
             }),
@@ -195,7 +191,7 @@ export const PagesManagerBatchSelectActionTab = ({
         open={deleteConfirmModalOpen}
         setOpen={setDeleteConfirmModalOpen}
         onConfirm={onDelete}
-        isPost={isPost}
+        type={type}
       />
     </>
   )

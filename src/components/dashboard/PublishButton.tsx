@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
 
 import { useTranslation } from "~/lib/i18n/client"
+import { NoteType } from "~/lib/types"
 
 import { Button, ButtonGroup } from "../ui/Button"
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
@@ -15,7 +16,7 @@ export const PublishButton = ({
   isDisabled,
   isModified,
   twitterShareUrl,
-  isPost,
+  type,
 }: {
   savePage: () => void
   deletePage: () => void
@@ -23,7 +24,7 @@ export const PublishButton = ({
   isSaving: boolean
   isDisabled: boolean
   twitterShareUrl?: string
-  isPost: boolean
+  type: NoteType
   isModified: boolean
   discardChanges: () => void
 }) => {
@@ -114,7 +115,7 @@ export const PublishButton = ({
         onConfirm={() => {
           deletePage()
         }}
-        isPost={isPost}
+        type={type}
       />
     </div>
   )

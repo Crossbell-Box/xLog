@@ -25,6 +25,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 
+import { NoteType } from "~/lib/types"
 import * as pageModel from "~/models/page.model"
 
 export const useGetPagesBySiteLite = (
@@ -220,7 +221,7 @@ export function useCreatePage() {
       content?: string
       publishedAt?: string
       excerpt?: string
-      isPost?: boolean
+      type?: NoteType
       cover?: {
         address?: string
         mime_type?: string
@@ -240,7 +241,7 @@ export function useCreatePage() {
             date_published: input.publishedAt || new Date().toISOString(),
             summary: input.excerpt,
             tags: [
-              input.isPost ? "post" : "page",
+              input.type,
               ...(input.tags
                 ?.split(",")
                 .map((tag) => tag.trim())
@@ -306,7 +307,7 @@ export function useUpdatePage() {
       content?: string
       publishedAt?: string
       excerpt?: string
-      isPost?: boolean
+      type?: NoteType
       cover?: {
         address?: string
         mime_type?: string
@@ -341,8 +342,8 @@ export function useUpdatePage() {
             if (!metadataDraft.tags) {
               metadataDraft.tags = []
             }
-            if (input.isPost !== undefined) {
-              metadataDraft.tags[0] = input.isPost ? "post" : "page"
+            if (input.type !== undefined) {
+              metadataDraft.tags[0] = input.type
             }
             if (input.tags !== undefined) {
               metadataDraft.tags = [
