@@ -168,7 +168,7 @@ export async function getPagesBySite(input: {
     cursor: string | null
   }> => {
     const [pinnedNote, notes] = await Promise.all([
-      !input.cursor ? getPinnedPage(input) : null,
+      !input.cursor && input.type === "post" ? getPinnedPage(input) : null,
 
       await indexer.note.getMany({
         characterId: input.characterId,
