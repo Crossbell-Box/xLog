@@ -4,8 +4,6 @@ import { useParams } from "next/navigation"
 import { FC, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 
-import { useQuery } from "@tanstack/react-query"
-
 import { MonacoEditor } from "~/components/common/Monaco"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
@@ -113,7 +111,7 @@ export default function SettingsCSSPage() {
           <PreviewButton
             css={css}
             subdomain={subdomain}
-            handle={site.data?.handle!}
+            custom_domain={site.data?.metadata.content.custom_domain}
           />
           <Button type="submit" isLoading={updateSite.isLoading}>
             {t("Save")}
@@ -131,17 +129,6 @@ const PreviewButton: FC<{
 }> = ({ css, subdomain, custom_domain }) => {
   const { t } = useTranslation("dashboard")
 
-  const { data: siteLink } = useQuery({
-    queryKey: ["site_link", subdomain],
-
-    queryFn: async () => {
-      return getSiteLink({
-        subdomain,
-        domain: custom_domain,
-      })
-    },
-  })
-
   const datasetRef = useRef({
     previewWindowOrigin: "",
     previewWindow: null as null | Window,
@@ -149,12 +136,13 @@ const PreviewButton: FC<{
   const [isInPreview, setIsPreview] = useState(false)
 
   const handlePreview = () => {
-    if (!siteLink) {
-      return
-    }
-    let url: URL = new URL(siteLink)
+    let url: URL = new URL(
+      getSiteLink({
+        subdomain,
+        domain: custom_domain,
+      }),
+    )
 
-    url.searchParams.set("origin", location.origin)
     url.searchParams.set("css-preview", "true")
 
     const finalUrl = url.toString()

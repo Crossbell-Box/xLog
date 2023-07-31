@@ -2,7 +2,6 @@
 
 import { FC, startTransition, useEffect, useState } from "react"
 
-import { IS_DEV } from "~/lib/constants"
 import { SITE_URL } from "~/lib/env"
 
 import Style from "../common/Style"
@@ -21,17 +20,15 @@ export const CustomSiteStyle: FC<{
     const search = location.search
     const searchParams = new URLSearchParams(search)
 
-    const targinOrigin = IS_DEV ? "http://localhost:2222" : SITE_URL
-
     const isCSSPreview = searchParams.get("css-preview")
 
-    if (!targinOrigin || !isCSSPreview) {
+    if (!SITE_URL || !isCSSPreview) {
       return
     }
-    window.opener.postMessage("Preview Ready", targinOrigin)
+    window.opener.postMessage("Preview Ready", SITE_URL)
 
     const handler = (e: MessageEvent) => {
-      if (e.origin !== targinOrigin) {
+      if (e.origin !== SITE_URL) {
         return
       }
 
