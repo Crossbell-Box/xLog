@@ -64,7 +64,7 @@
     "@supercharge/request-ip": "1.2.0",
     "@tanstack/react-query": "4.32.0",
     "@tanstack/react-query-devtools": "4.32.0",
-    "@uiw/codemirror-extensions-events": "4.21.8",
+    "@uiw/codemirror-extensions-events": "4.21.9",
     "@urql/core": "4.1.0",
     "ahooks": "3.7.8",
     "aplayer": "^1.10.1",
