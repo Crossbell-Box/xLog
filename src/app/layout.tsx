@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast"
 
 import "@crossbell/connect-kit/colors.css"
 import { updateIndexerFetchOptions } from "@crossbell/indexer"
+import { Analytics } from "@vercel/analytics/react"
 
 import "~/css/main.css"
 import { getAcceptLang } from "~/lib/accept-lang"
@@ -113,6 +114,7 @@ export default function RootLayout({
         <Providers lang={lang}>
           {modal}
           {children}
+          <Analytics />
         </Providers>
         <Toaster />
       </body>

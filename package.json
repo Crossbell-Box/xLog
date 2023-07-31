@@ -66,6 +66,7 @@
     "@tanstack/react-query-devtools": "4.32.0",
     "@uiw/codemirror-extensions-events": "4.21.8",
     "@urql/core": "4.1.0",
+    "@vercel/analytics": "^1.0.1",
     "@vercel/kv": "^0.2.2",
     "ahooks": "3.7.8",
     "aplayer": "^1.10.1",

@@ -113,6 +113,9 @@ dependencies:
   '@urql/core':
     specifier: 4.1.0
     version: 4.1.0
+  '@vercel/analytics':
+    specifier: ^1.0.1
+    version: 1.0.1
   '@vercel/kv':
     specifier: ^0.2.2
     version: 0.2.2
@@ -3490,6 +3493,10 @@ packages:
       wonka: 6.3.3
     transitivePeerDependencies:
       - graphql
+    dev: false
+
+  /@vercel/analytics@1.0.1:
+    resolution: {integrity: sha512-Ux0c9qUfkcPqng3vrR0GTrlQdqNJ2JREn/2ydrVuKwM3RtMfF2mWX31Ijqo1opSjNAq6rK76PwtANw6kl6TAow==}
     dev: false
 
   /@vercel/kv@0.2.2:
