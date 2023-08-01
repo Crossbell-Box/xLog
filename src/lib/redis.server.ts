@@ -49,7 +49,12 @@ export async function cacheGet(options: {
     } else {
       redisKey = options.key
     }
-    const cacheValue = await redis.get(redisKey)
+    let cacheValue
+    try {
+      cacheValue = await redis.get(redisKey)
+    } catch (error) {
+      console.error("Redis get error: ", error)
+    }
     if (cacheValue && cacheValue !== "undefined" && cacheValue !== "null") {
       if (!options.noUpdate) {
         setTimeout(() => {
@@ -71,6 +76,7 @@ export async function cacheGet(options: {
         return cacheValue
       }
     } else {
+      console.debug("cache miss", redisKey)
       if (options.allowEmpty) {
         options.getValueFun().then((value) => {
           if (value) {

@@ -44,7 +44,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
   }
 
-  console.debug(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
+  console.debug(`${req.method} ${req.nextUrl}`)
 
   if (
     pathname.startsWith("/api/") ||
@@ -54,7 +54,9 @@ export default async function middleware(req: NextRequest) {
     pathname.startsWith("/locales/") ||
     pathname.match(/^\/(workbox|worker|fallback)-\w+\.js(\.map)?$/) ||
     pathname === "/sw.js" ||
-    pathname === "/sw.js.map"
+    pathname === "/sw.js.map" ||
+    pathname === "/monitoring" ||
+    pathname === "favicon.ico"
   ) {
     return NextResponse.next()
   }
