@@ -345,8 +345,8 @@ dependencies:
     specifier: 1.15.0
     version: 1.15.0
   swiper:
-    specifier: ^10.0.4
-    version: 10.0.4
+    specifier: ^10.1.0
+    version: 10.1.0
   tailwind-merge:
     specifier: 1.14.0
     version: 1.14.0
@@ -12394,8 +12394,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /swiper@10.0.4:
-    resolution: {integrity: sha512-DlNR3KiaVkPep6RraZ2tNr7lvyuzELuR+4NZr4wO42t0UworIO3DxDlz8b5Q3uUioh7cJad99EdRJLkPF+r8Ag==}
+  /swiper@10.1.0:
+    resolution: {integrity: sha512-E+wh+hcSbwlRfXuwBTclcOOikOjNdSF0a2Sdg3J4cIWtHO64A7SaLRfezfrJ67CW3GEc15AduYU2YKlElsjqsQ==}
     engines: {node: '>= 4.7.0'}
     dev: false
 
