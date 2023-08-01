@@ -227,6 +227,7 @@ export function useCreatePage() {
         mime_type?: string
       }
       disableAISummary?: boolean
+      externalUrl?: string
     }) => {
       if (!input.characterId) {
         throw new Error("characterId is required")
@@ -273,6 +274,7 @@ export function useCreatePage() {
                   ]
                 : []),
             ],
+            external_urls: [input.externalUrl],
           } as NoteMetadata & {
             summary?: string
           },
@@ -313,6 +315,7 @@ export function useUpdatePage() {
         mime_type?: string
       }
       disableAISummary?: boolean
+      externalUrl?: string
     }) => {
       if (!input.characterId || !input.noteId) {
         throw new Error("characterId and noteId are required")
@@ -406,6 +409,13 @@ export function useUpdatePage() {
                   mime_type: input.cover.mime_type,
                 })
               }
+            }
+
+            if (input.externalUrl) {
+              if (!metadataDraft.external_urls) {
+                metadataDraft.external_urls = []
+              }
+              metadataDraft.external_urls[0] = input.externalUrl
             }
           },
         },

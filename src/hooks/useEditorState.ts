@@ -13,6 +13,7 @@ export const initialEditorState = {
     mime_type: "",
   },
   disableAISummary: false,
+  externalUrl: "",
 }
 export type Values = {
   title: string
@@ -27,6 +28,7 @@ export type Values = {
     mime_type?: string
   }
   disableAISummary: boolean
+  externalUrl: string
 }
 
 export const useEditorState = create<

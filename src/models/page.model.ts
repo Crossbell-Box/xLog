@@ -118,7 +118,7 @@ const getLocalPages = (input: {
               date_published: page.values?.publishedAt,
               summary: page.values?.excerpt,
               tags: [
-                input.type,
+                page.type,
                 ...(page.values?.tags
                   ?.split(",")
                   .map((tag: string) => tag.trim())
@@ -127,6 +127,22 @@ const getLocalPages = (input: {
               slug: page.values?.slug,
               sources: ["xlog"],
               disableAISummary: page.values?.disableAISummary,
+              external_urls: page.values?.external_url
+                ? [page.values?.external_url]
+                : undefined,
+              cover: page.values?.cover?.address,
+              images: [page.values?.cover?.address],
+              attachments: [
+                ...(page.values?.cover?.address
+                  ? [
+                      {
+                        name: "cover",
+                        address: page.values?.cover.address,
+                        mime_type: page.values?.cover.mime_type,
+                      },
+                    ]
+                  : []),
+              ],
             },
           },
           local: true,

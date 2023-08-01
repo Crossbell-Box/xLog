@@ -32,12 +32,10 @@ export const expandCrossbellNote = async ({
   )
 
   if (expandedNote.metadata?.content) {
+    let rendered
     if (expandedNote.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
-      const rendered = renderPageContent(
-        expandedNote.metadata.content.content,
-        true,
-      )
+      rendered = renderPageContent(expandedNote.metadata.content.content, true)
       if (keyword) {
         const position = expandedNote.metadata.content.content
           .toLowerCase()
@@ -51,23 +49,6 @@ export const expandCrossbellNote = async ({
           expandedNote.metadata.content.summary = rendered.excerpt
         }
       }
-      expandedNote.metadata.content.cover =
-        expandedNote.metadata?.content?.attachments?.find(
-          (attachment) => attachment.name === "cover",
-        )?.address || rendered.cover
-
-      expandedNote.metadata.content.images = []
-      const cover = expandedNote.metadata?.content?.attachments?.find(
-        (attachment) => attachment.name === "cover",
-      )?.address
-      if (cover) {
-        expandedNote.metadata.content.images.push(cover)
-      }
-      expandedNote.metadata.content.images =
-        expandedNote.metadata.content.images.concat(rendered.images)
-      expandedNote.metadata.content.images = [
-        ...new Set(expandedNote.metadata.content.images),
-      ]
 
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
@@ -76,6 +57,24 @@ export const expandCrossbellNote = async ({
         expandedNote.metadata.content.contentHTML = rendered.contentHTML
       }
     }
+    expandedNote.metadata.content.cover =
+      expandedNote.metadata?.content?.attachments?.find(
+        (attachment) => attachment.name === "cover",
+      )?.address || rendered?.cover
+
+    expandedNote.metadata.content.images = []
+    const cover = expandedNote.metadata?.content?.attachments?.find(
+      (attachment) => attachment.name === "cover",
+    )?.address
+    if (cover) {
+      expandedNote.metadata.content.images.push(cover)
+    }
+    expandedNote.metadata.content.images =
+      expandedNote.metadata.content.images.concat(rendered?.images || [])
+    expandedNote.metadata.content.images = [
+      ...new Set(expandedNote.metadata.content.images),
+    ]
+
     expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
     if (!expandedNote.metadata.content.date_published && expandedNote.noteId) {
       expandedNote.metadata.content.date_published = expandedNote.createdAt

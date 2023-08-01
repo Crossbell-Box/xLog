@@ -89,7 +89,7 @@ const DynamicPageContent = dynamic(
   },
 )
 
-export default function SubdomainEditor() {
+export default function PostEditor() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { t } = useTranslation("dashboard")
@@ -940,7 +940,7 @@ const EditorAdvancedModal: FC<{
           {t("Publish at")}
         </label>
         <DateInput
-          className="[&_input]:bg-slate-50 [&_input]:text-black/90"
+          className="[&_input]:text-black/90"
           allowDeselect
           clearable
           valueFormat="YYYY-MM-DD, h:mm a"
