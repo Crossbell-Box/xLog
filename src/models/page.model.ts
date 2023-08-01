@@ -13,6 +13,7 @@ import { indexer } from "@crossbell/indexer"
 import { extractCharacterAttribute } from "@crossbell/util-metadata"
 import { gql } from "@urql/core"
 
+import { RESERVED_TAGS } from "~/lib/constants"
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { filterCommentCharacter } from "~/lib/filter-character"
 import { getNoteSlug } from "~/lib/helpers"
@@ -736,9 +737,7 @@ export const getDistinctNoteTagsOfCharacter = async (characterId: number) => {
   const result = await indexer.note.getDistinctTagsOfCharacter(characterId, {
     sources: "xlog",
   })
-  result.list = result.list.filter(
-    (tag) => ["post", "comment", "page"].findIndex((t) => t === tag) === -1,
-  )
+  result.list = result.list.filter((tag) => !RESERVED_TAGS.includes(tag))
 
   return result
 }

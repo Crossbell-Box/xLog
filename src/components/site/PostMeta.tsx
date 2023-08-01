@@ -3,6 +3,7 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { EditButton } from "~/components/site/EditButton"
 import PostTag from "~/components/site/PostTag"
 import { UniLink } from "~/components/ui/UniLink"
+import { RESERVED_TAGS } from "~/lib/constants"
 import { CSB_SCAN } from "~/lib/env"
 import { ExpandedCharacter, ExpandedNote, NoteType } from "~/lib/types"
 
@@ -24,12 +25,12 @@ export default function PostMeta({
       <div className="text-zinc-400 mt-5 space-x-5 flex items-center justify-center">
         <Time isoString={page?.metadata?.content?.date_published} />
         {page.metadata?.content?.tags?.filter(
-          (tag) => tag !== "post" && tag !== "page",
+          (tag) => !RESERVED_TAGS.includes(tag),
         ).length ? (
           <>
             <span className="xlog-post-tags space-x-1 truncate min-w-0">
               {page.metadata?.content?.tags
-                ?.filter((tag) => tag !== "post" && tag !== "page")
+                ?.filter((tag) => !RESERVED_TAGS.includes(tag))
                 .map((tag) => <PostTag key={tag} tag={tag} />)}
             </span>
           </>

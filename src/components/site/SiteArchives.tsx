@@ -6,6 +6,7 @@ import { useMemo } from "react"
 
 import { Button } from "~/components/ui/Button"
 import { useDate } from "~/hooks/useDate"
+import { RESERVED_TAGS } from "~/lib/constants"
 import { getSiteRelativeUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
@@ -63,7 +64,7 @@ export const SiteArchives = () => {
       for (const page of posts.data.pages) {
         for (const post of page.list) {
           post.metadata?.content?.tags?.forEach((tag) => {
-            if (tag !== "post" && tag !== "page") {
+            if (!RESERVED_TAGS.includes(tag)) {
               if (result.has(tag)) {
                 result.set(tag, result.get(tag) + 1)
               } else {

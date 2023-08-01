@@ -46,6 +46,7 @@ import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { showConfetti } from "~/lib/confetti"
+import { RESERVED_TAGS } from "~/lib/constants"
 import { getDefaultSlug } from "~/lib/default-slug"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink, getTwitterShareUrl } from "~/lib/helpers"
@@ -371,7 +372,7 @@ export default function PostEditor() {
       slug: page.data.metadata?.content?.slug || "",
       tags:
         page.data.metadata?.content?.tags
-          ?.filter((tag) => tag !== "post" && tag !== "page")
+          ?.filter((tag) => !RESERVED_TAGS.includes(tag))
           ?.join(", ") || "",
       content: page.data.metadata?.content?.content || "",
       cover: page.data.metadata?.content?.attachments?.find(
