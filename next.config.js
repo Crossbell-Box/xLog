@@ -128,6 +128,31 @@ module.exports = withSentryConfig(
         ]
       },
       staticPageGenerationTimeout: 3600,
+
+      async redirects() {
+        return [
+          {
+            source: "/sitemap.txt",
+            destination: "/sitemap.xml",
+            permanent: true,
+          },
+          {
+            source: "/sitemap.xml.gz",
+            destination: "/sitemap.xml",
+            permanent: true,
+          },
+          {
+            source: "/sitemap_index.xml",
+            destination: "/sitemap.xml",
+            permanent: true,
+          },
+          {
+            source: "/sitemaps.xml",
+            destination: "/sitemap.xml",
+            permanent: true,
+          },
+        ]
+      },
     }),
   ),
   {
