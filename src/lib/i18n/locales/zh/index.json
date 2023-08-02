@@ -39,7 +39,7 @@
   "Safe": "安全",
   "Safe text": "所有博客数据，包括配置、文章、订阅、评论等，都由你自己签名并安全地存储在<strong>区块链</strong>上，只有你持有的<strong>私钥</strong>才能进行控制和访问。包括 xLog 在内的任何人都无法进行更改。",
   "Fast": "快速",
-  "Fast text": "区块链并不总意味着低效率。xLog通过其高效的缓存机制和众多优化，可以达到最佳性能。站点还支持<strong>PWA</strong>用于本地安装和使用。",
+  "Fast text": "区块链并不总意味着低效率。xLog通过其高效的缓存机制和众多优化，可以达到最佳性能。",
   "Customizable": "可定制",
   "Customizable text": "你可以自由地使用<strong>自己的域名</strong>、自定义网站并按自己的喜好进行<strong>设计</strong>。这是你的网站，没有任何限制。xLog 鼓励并将提供丰富的<strong>主题和插件</strong>系统，以帮助你进行自定义。",
   "Open": "开放",
