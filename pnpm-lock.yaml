@@ -186,8 +186,8 @@ dependencies:
     specifier: 0.16.8
     version: 0.16.8
   langchain:
-    specifier: 0.0.120
-    version: 0.0.120(ioredis@5.3.2)
+    specifier: 0.0.121
+    version: 0.0.121(ioredis@5.3.2)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -9054,8 +9054,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.120(ioredis@5.3.2):
-    resolution: {integrity: sha512-QDtoluHiyZnOWsweb3b7rW9ULj2HzGJqgWhxaGviwnA3SrE1om9BMKCY5eI0NMIL/dd5MutenGGlD+VGL0MVWA==}
+  /langchain@0.0.121(ioredis@5.3.2):
+    resolution: {integrity: sha512-3zhrBZTONTcNuReeVzq2SPns+B8ZtXdagwyUvoy9h0jtMmBH5PTM+IIGjw9qM3fjkO06DbZPwuelqmVNmdQHKg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0
@@ -9254,7 +9254,7 @@ packages:
       js-tiktoken: 1.0.7
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.0.15
+      langsmith: 0.0.17
       ml-distance: 4.0.1
       object-hash: 3.0.0
       openai: 3.3.0
@@ -9271,8 +9271,8 @@ packages:
       - supports-color
     dev: false
 
-  /langsmith@0.0.15:
-    resolution: {integrity: sha512-SVLJEm94aK9mmqE3z2wlpzLjPNodnPJHp1MZdmXG2ysUWSFsRVuGkd6A/GTzlEZ6OofyJSOg6tcNFJSFOi13QQ==}
+  /langsmith@0.0.17:
+    resolution: {integrity: sha512-K9AmQSd84Uvbdej1pIzxiybTN4cGZkSpDuR3RK1QqkWA2sFpN169AkhQsxUMPP6gnJZ3ThwFLFQqClJi1PcX2A==}
     hasBin: true
     dependencies:
       '@types/uuid': 9.0.2
