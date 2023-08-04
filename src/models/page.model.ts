@@ -128,8 +128,8 @@ const getLocalPages = (input: {
               slug: page.values?.slug,
               sources: ["xlog"],
               disableAISummary: page.values?.disableAISummary,
-              external_urls: page.values?.external_url
-                ? [page.values?.external_url]
+              external_urls: page.values?.externalUrl
+                ? [page.values?.externalUrl]
                 : undefined,
               cover: page.values?.cover?.address,
               images: [page.values?.cover?.address],
