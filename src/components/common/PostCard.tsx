@@ -118,19 +118,16 @@ const Card = ({
                 label={`${platform?.name || platform}`}
                 className="text-sm"
               >
-                <span className="inline-flex items-center">
-                  {platform?.icon ? (
+                <span className="inline-flex items-center space-x-1">
+                  {platform?.icon && (
                     <Image
                       src={platform?.icon}
                       alt={platform?.name}
                       width={20}
                       height={20}
                     />
-                  ) : (
-                    <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300">
-                      <i className="icon-[mingcute--planet-line] text-xl" />
-                    </span>
                   )}
+                  <span>{t("Portfolio")}</span>
                 </span>
               </Tooltip>
             </>
