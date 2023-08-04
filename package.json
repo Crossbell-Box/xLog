@@ -92,7 +92,7 @@
     "katex": "0.16.8",
     "langchain": "0.0.122",
     "lottie-react": "2.4.0",
-    "mdast-util-to-hast": "12.3.0",
+    "mdast-util-to-hast": "13.0.0",
     "mdast-util-toc": "7.0.0",
     "medium-zoom": "1.0.8",
     "mermaid": "10.3.0",
