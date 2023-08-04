@@ -274,13 +274,6 @@ export async function getPagesBySite(input: {
           ) {
             characterId
             noteId
-            character {
-              handle
-              characterId
-              metadata {
-                content
-              }
-            }
             createdAt
             metadata {
               uri
