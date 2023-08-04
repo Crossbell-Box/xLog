@@ -67,7 +67,7 @@ export async function postNotes(
 const getLocalPages = (input: {
   characterId: number
   isPost?: boolean // In order to be compatible with old drafts
-  type?: NoteType
+  type?: NoteType[]
   handle?: string
 }) => {
   const pages: ExpandedNote[] = []
@@ -76,7 +76,7 @@ const getLocalPages = (input: {
       const page = getStorage(key)
       if (
         page.isPost === input.isPost ||
-        page.type === input.type ||
+        input.type?.includes(page.type) ||
         input.type === undefined
       ) {
         const note: ExpandedNote = {
@@ -341,7 +341,7 @@ export async function getPagesBySite(input: {
 
   const local = getLocalPages({
     characterId: input.characterId,
-    isPost: input.type === "post", // In order to be compatible with old drafts
+    isPost: input.type[0] === "post", // In order to be compatible with old drafts
     type: input.type,
     handle: input.handle,
   })
