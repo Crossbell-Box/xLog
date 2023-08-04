@@ -95,6 +95,10 @@ export async function GET(req: Request): Promise<Response> {
     characterId = note.characterId
   }
 
+  if (note?.metadata?.content?.tags?.[0] === "portfolio") {
+    return redirect(note.metadata?.content?.external_urls?.[0] || "/")
+  }
+
   const result = await client
     .query(
       gql`
