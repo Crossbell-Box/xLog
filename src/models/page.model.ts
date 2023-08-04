@@ -157,7 +157,7 @@ const getLocalPages = (input: {
 
 export async function getPagesBySite(input: {
   characterId?: number
-  type: NoteType
+  type: NoteType | NoteType[]
   visibility?: PageVisibilityEnum
   limit?: number
   cursor?: string
@@ -180,7 +180,7 @@ export async function getPagesBySite(input: {
 
   let pinnedNote: NoteEntity | null = null
   let pinnedNoteId: number | null = null
-  if (input.type === "post") {
+  if (input.type === "post" || input.type.includes("post")) {
     if (!input.cursor) {
       pinnedNote = await getPinnedPage(input)
       pinnedNoteId = pinnedNote?.noteId || null
@@ -199,14 +199,18 @@ export async function getPagesBySite(input: {
     },
   `
     : ""
-  const tagsQuery = [...(input.tags || []), input.type]
-    .map(
+
+  if (typeof input.type === "string") {
+    input.type = [input.type]
+  }
+  const typesQuery = input.type
+    ?.map(
       (tag) => `{
-    content: {
-      path: "tags",
-      array_contains: "${tag}"
-    }
-  }`,
+      content: {
+        path: "tags",
+        array_contains: ["${tag}"]
+      }
+    }`,
     )
     .join(", ")
   const whereQuery = `
@@ -223,11 +227,31 @@ export async function getPagesBySite(input: {
         equals: false,
       },
       metadata: {
-        content: {
-          path: "sources",
-          array_contains: "xlog"
-        },
-        AND: [${tagsQuery}]
+        AND: [
+          {
+            content: {
+              path: "sources",
+              array_contains: "xlog"
+            },
+          },
+          ${
+            input.tags
+              ? `
+          {
+            content: {
+              path: "tags",
+              array_contains: ${JSON.stringify(input.tags)}
+            }
+          },
+          `
+              : ""
+          }
+          {
+            OR: [
+              ${typesQuery}
+            ]
+          }
+        ],
       },
     }
   `

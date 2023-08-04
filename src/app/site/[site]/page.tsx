@@ -19,7 +19,7 @@ async function SiteIndexPage({
   await prefetchGetPagesBySite(
     {
       characterId: site?.characterId,
-      type: "post",
+      type: ["post", "portfolio"],
       visibility: PageVisibilityEnum.Published,
       useStat: true,
     },

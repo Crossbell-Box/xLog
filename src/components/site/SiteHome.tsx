@@ -9,7 +9,7 @@ export default function SiteHome({ handle }: { handle: string }) {
   const site = useGetSite(handle)
   const posts = useGetPagesBySiteLite({
     characterId: site.data?.characterId,
-    type: "post",
+    type: ["post", "portfolio"],
     visibility: PageVisibilityEnum.Published,
     useStat: true,
   })

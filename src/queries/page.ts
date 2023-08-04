@@ -25,6 +25,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 
+import createSearchParams from "~/lib/search-params"
 import { NoteType } from "~/lib/types"
 import * as pageModel from "~/models/page.model"
 
@@ -37,10 +38,10 @@ export const useGetPagesBySiteLite = (
       const result: ReturnType<typeof pageModel.getPagesBySite> = await (
         await fetch(
           "/api/pages?" +
-            new URLSearchParams({
+            createSearchParams({
               ...input,
               ...(pageParam && { cursor: pageParam }),
-            } as any),
+            }),
         )
       ).json()
       return result
