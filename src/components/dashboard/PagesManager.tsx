@@ -14,6 +14,7 @@ import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
 import PostCover from "~/components/home/PostCover"
+import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
 import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
@@ -24,6 +25,7 @@ import { cn } from "~/lib/utils"
 import { useGetPagesBySite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
+import { PlatformsSyncMap } from "../site/Platform"
 import { Button } from "../ui/Button"
 import { EmptyState } from "../ui/EmptyState"
 import { TabItem, Tabs } from "../ui/Tabs"
@@ -187,7 +189,18 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
       )
       break
     case "portfolio": // TODO
-      description = <></>
+      description = (
+        <>
+          <p>
+            <Trans i18n={i18n} i18nKey="portfolios description" ns="dashboard">
+              The portfolio is a collection of works outside of xLog, such as
+              your YouTube videos and GitHub projects. They will be displayed in
+              the list on the homepage like posts. The difference is that the
+              portfolio directly links to external URLs.
+            </Trans>
+          </p>
+        </>
+      )
   }
 
   let currentLength = 0
@@ -212,17 +225,19 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
               {t(`New ${type.charAt(0).toUpperCase() + type.slice(1)}`)}
             </span>
           </Button>
-          <span className="hidden sm:inline-flex">
-            <Tooltip
-              label={t("Import markdown file with front matter supported")}
-              placement="bottom"
-            >
-              <Button className={cn(`space-x-2`)} onClick={importFile}>
-                <span className="icon-[mingcute--file-import-line] inline-block"></span>
-                <span>{t("Import")}</span>
-              </Button>
-            </Tooltip>
-          </span>
+          {type !== "portfolio" && (
+            <span className="hidden sm:inline-flex">
+              <Tooltip
+                label={t("Import markdown file with front matter supported")}
+                placement="bottom"
+              >
+                <Button className={cn(`space-x-2`)} onClick={importFile}>
+                  <span className="icon-[mingcute--file-import-line] inline-block"></span>
+                  <span>{t("Import")}</span>
+                </Button>
+              </Tooltip>
+            </span>
+          )}
         </div>
         <div className="text-sm text-zinc-500 leading-relaxed">
           {description}
@@ -250,6 +265,15 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
           (page) =>
             page.list?.map((page) => {
               currentLength++
+              const isPortfolio =
+                page.metadata?.content?.tags?.[0] === "portfolio"
+              const externalLink = page.metadata?.content?.external_urls?.[0]
+              const platform = Object.values(PlatformsSyncMap).find(
+                (p) =>
+                  p.portfolioDomain &&
+                  externalLink?.startsWith(p.portfolioDomain),
+              )
+
               return (
                 <Link
                   key={page.transactionHash || page.draftKey}
@@ -276,27 +300,50 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                       {page.metadata?.content?.summary && "..."}
                     </div>
                     <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate">
-                      {!!page.metadata?.content?.tags?.[1] && (
-                        <span className="xlog-post-tags border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2">
-                          <i className="icon-[mingcute--tag-line] mr-[2px]" />
-                          {page.metadata?.content?.tags?.[1]}
-                        </span>
-                      )}
-                      <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
-                        <i className="icon-[mingcute--time-line] mr-[2px]" />
-                        <span
-                          style={{
-                            wordSpacing: "-.2ch",
-                          }}
-                        >
-                          {page.metadata?.content?.readingTime} {t("min")}
-                        </span>
-                      </span>
-                      {!!page.stat?.viewDetailCount && (
-                        <span className="xlog-post-views inline-flex items-center">
-                          <i className="icon-[mingcute--eye-line] mr-[2px]" />
-                          <span>{page.stat?.viewDetailCount}</span>
-                        </span>
+                      {isPortfolio ? (
+                        <>
+                          <Tooltip
+                            label={`${platform?.name || platform}`}
+                            className="text-sm"
+                          >
+                            <span className="inline-flex items-center space-x-1">
+                              {platform?.icon && (
+                                <Image
+                                  src={platform?.icon}
+                                  alt={platform?.name}
+                                  width={20}
+                                  height={20}
+                                />
+                              )}
+                              <span>{t("Portfolio")}</span>
+                            </span>
+                          </Tooltip>
+                        </>
+                      ) : (
+                        <>
+                          {!!page.metadata?.content?.tags?.[1] && (
+                            <span className="xlog-post-tags border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2">
+                              <i className="icon-[mingcute--tag-line] mr-[2px]" />
+                              {page.metadata?.content?.tags?.[1]}
+                            </span>
+                          )}
+                          <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
+                            <i className="icon-[mingcute--time-line] mr-[2px]" />
+                            <span
+                              style={{
+                                wordSpacing: "-.2ch",
+                              }}
+                            >
+                              {page.metadata?.content?.readingTime} {t("min")}
+                            </span>
+                          </span>
+                          {!!page.stat?.viewDetailCount && (
+                            <span className="xlog-post-views inline-flex items-center">
+                              <i className="icon-[mingcute--eye-line] mr-[2px]" />
+                              <span>{page.stat?.viewDetailCount}</span>
+                            </span>
+                          )}
+                        </>
                       )}
                     </div>
                     <div className="text-zinc-400 text-sm">
