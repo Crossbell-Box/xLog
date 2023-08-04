@@ -38,7 +38,7 @@
     "@codemirror/language-data": "6.3.1",
     "@codemirror/state": "6.2.1",
     "@codemirror/theme-one-dark": "6.1.2",
-    "@codemirror/view": "6.15.3",
+    "@codemirror/view": "6.16.0",
     "@crossbell/connect-kit": "1.5.6",
     "@crossbell/contract": "1.5.6",
     "@crossbell/indexer": "1.5.6",
