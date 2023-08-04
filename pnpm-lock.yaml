@@ -93,8 +93,8 @@ dependencies:
     specifier: 2.11.8
     version: 2.11.8
   '@prisma/client':
-    specifier: 5.0.0
-    version: 5.0.0(prisma@5.1.1)
+    specifier: 5.1.1
+    version: 5.1.1(prisma@5.1.1)
   '@sentry/nextjs':
     specifier: ^7.61.0
     version: 7.61.0(next@13.4.12)(react@18.2.0)(webpack@5.88.2)
@@ -2546,8 +2546,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@prisma/client@5.0.0(prisma@5.1.1):
-    resolution: {integrity: sha512-XlO5ELNAQ7rV4cXIDJUNBEgdLwX3pjtt9Q/RHqDpGf43szpNJx2hJnggfFs7TKNx0cOFsl6KJCSfqr5duEU/bQ==}
+  /@prisma/client@5.1.1(prisma@5.1.1):
+    resolution: {integrity: sha512-fxcCeK5pMQGcgCqCrWsi+I2rpIbk0rAhdrN+ke7f34tIrgPwA68ensrpin+9+fZvuV2OtzHmuipwduSY6HswdA==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
@@ -2556,12 +2556,12 @@ packages:
       prisma:
         optional: true
     dependencies:
-      '@prisma/engines-version': 4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
+      '@prisma/engines-version': 5.1.1-1.6a3747c37ff169c90047725a05a6ef02e32ac97e
       prisma: 5.1.1
     dev: false
 
-  /@prisma/engines-version@4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584:
-    resolution: {integrity: sha512-HHiUF6NixsldsP3JROq07TYBLEjXFKr6PdH8H4gK/XAoTmIplOJBCgrIUMrsRAnEuGyRoRLXKXWUb943+PFoKQ==}
+  /@prisma/engines-version@5.1.1-1.6a3747c37ff169c90047725a05a6ef02e32ac97e:
+    resolution: {integrity: sha512-owZqbY/wucbr65bXJ/ljrHPgQU5xXTSkmcE/JcbqE1kusuAXV/TLN3/exmz21SZ5rJ7WDkyk70J2G/n68iogbQ==}
     dev: false
 
   /@prisma/engines@5.1.1:
