@@ -9,7 +9,10 @@ import reactStringReplace from "react-string-replace"
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { Titles } from "~/components/common/Titles"
 import PostCover from "~/components/home/PostCover"
+import { PlatformsSyncMap } from "~/components/site/Platform"
 import { Avatar } from "~/components/ui/Avatar"
+import { Image } from "~/components/ui/Image"
+import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
@@ -45,10 +48,20 @@ const Card = ({
   let queryString = searchParams.toString()
   queryString = queryString ? `?${queryString}` : ""
 
+  const isPortfolio = post.metadata?.content?.tags?.[0] === "portfolio"
+  const externalLink = post.metadata?.content?.external_urls?.[0]
+  const platform = Object.values(PlatformsSyncMap).find(
+    (p) => p.portfolioDomain && externalLink?.startsWith(p.portfolioDomain),
+  )
+
   return (
     <Link
-      target={isBlank ? "_blank" : undefined}
-      href={`${linkPrefix || ""}/${post.metadata?.content?.slug}${queryString}`}
+      target={isBlank || isPortfolio ? "_blank" : undefined}
+      href={
+        isPortfolio
+          ? externalLink || ""
+          : `${linkPrefix || ""}/${post.metadata?.content?.slug}${queryString}`
+      }
       className={cn(
         "xlog-post sm:hover:bg-hover transition-all rounded-2xl flex flex-col items-center hover:opacity-100 group border relative",
       )}
@@ -99,33 +112,59 @@ const Card = ({
           )}
         </div>
         <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate">
-          {!!post.metadata?.content?.tags?.[1] && (
-            <span
-              className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2"
-              onClick={(e) => {
-                e.preventDefault()
-                router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
-              }}
-            >
-              <i className="icon-[mingcute--tag-line] mr-[2px]" />
-              {post.metadata?.content?.tags?.[1]}
-            </span>
-          )}
-          <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
-            <i className="icon-[mingcute--time-line] mr-[2px]" />
-            <span
-              style={{
-                wordSpacing: "-.2ch",
-              }}
-            >
-              {post.metadata?.content?.readingTime} {t("min")}
-            </span>
-          </span>
-          {!!post.stat?.viewDetailCount && (
-            <span className="xlog-post-views inline-flex items-center">
-              <i className="icon-[mingcute--eye-line] mr-[2px]" />
-              <span>{post.stat?.viewDetailCount}</span>
-            </span>
+          {isPortfolio ? (
+            <>
+              <Tooltip
+                label={`${platform?.name || platform}`}
+                className="text-sm"
+              >
+                <span className="inline-flex items-center">
+                  {platform?.icon ? (
+                    <Image
+                      src={platform?.icon}
+                      alt={platform?.name}
+                      width={20}
+                      height={20}
+                    />
+                  ) : (
+                    <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300">
+                      <i className="icon-[mingcute--planet-line] text-xl" />
+                    </span>
+                  )}
+                </span>
+              </Tooltip>
+            </>
+          ) : (
+            <>
+              {!!post.metadata?.content?.tags?.[1] && (
+                <span
+                  className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
+                  }}
+                >
+                  <i className="icon-[mingcute--tag-line] mr-[2px]" />
+                  {post.metadata?.content?.tags?.[1]}
+                </span>
+              )}
+              <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
+                <i className="icon-[mingcute--time-line] mr-[2px]" />
+                <span
+                  style={{
+                    wordSpacing: "-.2ch",
+                  }}
+                >
+                  {post.metadata?.content?.readingTime} {t("min")}
+                </span>
+              </span>
+              {!!post.stat?.viewDetailCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--eye-line] mr-[2px]" />
+                  <span>{post.stat?.viewDetailCount}</span>
+                </span>
+              )}
+            </>
           )}
         </div>
         <div className="flex items-center space-x-1 text-xs sm:text-sm overflow-hidden">

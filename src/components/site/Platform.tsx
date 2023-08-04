@@ -9,6 +9,7 @@ export const PlatformsSyncMap: {
     icon: string
     url?: string
     identityFormatTemplate?: string
+    portfolioDomain?: string
   }
 } = {
   telegram: {
@@ -25,6 +26,7 @@ export const PlatformsSyncMap: {
     name: "Twitter",
     icon: "/assets/social/twitter.svg",
     url: "https://twitter.com/{username}",
+    portfolioDomain: `https://twitter.com/`,
   },
   twitter_id: {
     name: "Twitter",
@@ -35,6 +37,7 @@ export const PlatformsSyncMap: {
     name: "Pixiv",
     icon: "/assets/social/pixiv.ico",
     url: "https://www.pixiv.net/users/{username}",
+    portfolioDomain: `https://www.pixiv.net/`,
   },
   substack: {
     name: "Substack",
@@ -50,6 +53,7 @@ export const PlatformsSyncMap: {
     name: "GitHub",
     icon: "/assets/social/github.svg",
     url: "https://github.com/{username}",
+    portfolioDomain: `https://github.com/`,
   },
   jike: {
     name: "即刻",
@@ -60,6 +64,7 @@ export const PlatformsSyncMap: {
     name: "bilibili",
     icon: "/assets/social/bilibili.svg",
     url: "https://space.bilibili.com/{username}",
+    portfolioDomain: `https://www.bilibili.com/`,
   },
   zhihu: {
     name: "知乎",
@@ -84,6 +89,7 @@ export const PlatformsSyncMap: {
     name: "小宇宙播客",
     icon: "/assets/social/xiaoyuzhou2.png",
     url: "https://www.xiaoyuzhoufm.com/podcast/{username}",
+    portfolioDomain: `https://www.xiaoyuzhoufm.com/`,
   },
   steam: {
     name: "Steam",
@@ -109,6 +115,7 @@ export const PlatformsSyncMap: {
     name: "Youtube",
     icon: "/assets/social/youtube.svg",
     url: "https://youtube.com/@{username}",
+    portfolioDomain: `https://youtube.com/`,
   },
   facebook: {
     name: "Facebook",
