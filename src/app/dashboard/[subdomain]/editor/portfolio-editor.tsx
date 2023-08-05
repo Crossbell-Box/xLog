@@ -270,7 +270,7 @@ export default function PortfolioEditor() {
           ) : (
             <>
               <div className={`pt-10 flex w-full min-w-[840px] px-5`}>
-                <EditorExtraProperties updateValue={updateValue} />
+                <EditorExtraProperties />
               </div>
               <div
                 className={`flex justify-between px-5 h-14 items-center text-sm`}
@@ -332,17 +332,22 @@ const EditorExtraProperties = memo(() => {
   const [filling, setFilling] = useState(false)
   const autofill = async () => {
     setFilling(true)
-    const { result } = await (
+    const result = await (
       await fetch(`/api/open-graph?url=${values.externalUrl}`)
     ).json()
+    const time =
+      result?.articlePublishedTime || result?.publishedTime || result?.ogDate
+
     updateValue({
-      cover: {
-        address: result?.ogImage?.[0]?.url,
-        mime_type: result?.ogImage?.[0]?.type || "image/png",
-      },
+      cover: result?.ogImage?.[0]
+        ? {
+            address: result?.ogImage?.[0]?.url,
+            mime_type: result?.ogImage?.[0]?.type,
+          }
+        : undefined,
       title: result?.ogTitle,
       excerpt: result?.ogDescription,
-      publishedAt: result?.articlePublishedTime || result?.publishedTime,
+      publishedAt: time ? new Date(time).toISOString() : undefined,
     })
     setFilling(false)
   }
