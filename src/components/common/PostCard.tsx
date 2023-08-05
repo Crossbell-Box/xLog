@@ -118,13 +118,13 @@ const Card = ({
                 label={`${platform?.name || platform}`}
                 className="text-sm"
               >
-                <span className="inline-flex items-center space-x-1">
+                <span className="inline-flex items-center space-x-2">
                   {platform?.icon && (
                     <Image
                       src={platform?.icon}
                       alt={platform?.name}
-                      width={20}
-                      height={20}
+                      width={18}
+                      height={18}
                     />
                   )}
                   <span>{t("Portfolio")}</span>

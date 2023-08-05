@@ -265,7 +265,7 @@ export async function getPagesBySite(input: {
           notes(
             where: ${whereQuery},
             orderBy: [{
-              publishedAt: { 
+              publishedAt: {
                 sort: desc
               }
             }],

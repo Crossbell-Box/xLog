@@ -12,6 +12,7 @@ export default function SiteHome({ handle }: { handle: string }) {
     type: ["post", "portfolio"],
     visibility: PageVisibilityEnum.Published,
     useStat: true,
+    limit: 18,
   })
   const pinnedPage = usePinnedPage({ characterId: site.data?.characterId })
 

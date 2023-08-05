@@ -22,6 +22,7 @@ async function SiteIndexPage({
       type: ["post", "portfolio"],
       visibility: PageVisibilityEnum.Published,
       useStat: true,
+      limit: 18,
     },
     queryClient,
   )
