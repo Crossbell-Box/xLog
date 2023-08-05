@@ -110,6 +110,7 @@ export default function PortfolioEditor() {
 
   const updateValue = useCallback(
     <K extends keyof Values>(key: K, value: Values[K]) => {
+      console.log("updateValue", key, value)
       if (visibility !== PageVisibilityEnum.Draft) {
         setVisibility(PageVisibilityEnum.Modified)
       }
@@ -129,6 +130,7 @@ export default function PortfolioEditor() {
         ])
       }
       useEditorState.setState(newValues)
+      console.log("newValues", newValues)
     },
     [type, queryClient, subdomain, visibility],
   )
@@ -322,125 +324,151 @@ export default function PortfolioEditor() {
   )
 }
 
-const EditorExtraProperties = memo(
-  ({
-    updateValue,
-  }: {
-    updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
-  }) => {
-    const values = useEditorState()
-    const { t } = useTranslation("dashboard")
+const EditorExtraProperties = memo(() => {
+  const values = useEditorState()
+  const { t } = useTranslation("dashboard")
+  const updateValue = useEditorState.setState
 
-    return (
-      <div className="w-full space-y-5">
-        <div>
-          <Input
-            label={t("External Url") || ""}
-            isBlock
-            name="externalUrl"
-            id="externalUrl"
-            value={values.externalUrl}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              updateValue("externalUrl", e.target.value)
-            }}
-          />
-        </div>
-        <div>
-          <FieldLabel label={t("Cover Image")} />
-          <ImageUploader
-            id="icon"
-            className="aspect-video rounded-lg w-[480px]"
-            value={values.cover as any}
-            hasClose={true}
-            withMimeType={true}
-            uploadEnd={(key) => {
-              const { address, mime_type } = key as {
-                address?: string
-                mime_type?: string
-              }
-              updateValue("cover", {
+  const [filling, setFilling] = useState(false)
+  const autofill = async () => {
+    setFilling(true)
+    const { result } = await (
+      await fetch(`/api/open-graph?url=${values.externalUrl}`)
+    ).json()
+    updateValue({
+      cover: {
+        address: result?.ogImage?.[0]?.url,
+        mime_type: result?.ogImage?.[0]?.type || "image/png",
+      },
+      title: result?.ogTitle,
+      excerpt: result?.ogDescription,
+      publishedAt: result?.articlePublishedTime || result?.publishedTime,
+    })
+    setFilling(false)
+  }
+
+  return (
+    <div className="w-full space-y-5">
+      <div>
+        <Input
+          label={t("External Url") || ""}
+          isBlock
+          name="externalUrl"
+          id="externalUrl"
+          value={values.externalUrl}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            updateValue({
+              externalUrl: e.target.value,
+            })
+          }}
+        />
+      </div>
+      <Button onClick={autofill} isLoading={filling}>
+        {t("Autofill")}
+      </Button>
+      <div>
+        <FieldLabel label={t("Cover Image")} />
+        <ImageUploader
+          id="icon"
+          className="aspect-video rounded-lg w-[480px]"
+          value={values.cover as any}
+          hasClose={true}
+          withMimeType={true}
+          uploadEnd={(key) => {
+            const { address, mime_type } = key as {
+              address?: string
+              mime_type?: string
+            }
+            updateValue({
+              cover: {
                 address,
                 mime_type,
-              })
-            }}
-            accept="image/*"
-          />
-        </div>
-        <div>
-          <Input
-            label={t("Title") || ""}
-            isBlock
-            name="title"
-            id="title"
-            value={values.title}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              updateValue("title", e.target.value)
-            }}
-          />
-        </div>
-        <div>
-          <Input
-            label={t("Excerpt") || ""}
-            isBlock
-            name="excerpt"
-            id="excerpt"
-            value={values.excerpt}
-            multiline
-            rows={4}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-              updateValue("excerpt", e.target.value)
-            }}
-          />
-        </div>
-        <div>
-          <label className="form-label" htmlFor="publishAt">
-            {t("Publish at")}
-          </label>
-          <DateInput
-            className="[&_input]:text-black/90"
-            allowDeselect
-            clearable
-            valueFormat="YYYY-MM-DD, h:mm a"
-            name="publishAt"
-            id="publishAt"
-            value={
-              values.publishedAt ? new Date(values.publishedAt) : undefined
-            }
-            onChange={(value: Date | null) => {
-              if (value) {
-                updateValue("publishedAt", value.toISOString())
-              } else {
-                updateValue("publishedAt", "")
-              }
-            }}
-            styles={{
-              input: {
-                borderRadius: "0.5rem",
-                borderColor: "var(--border-color)",
-                height: "2.5rem",
-                "&:focus-within": {
-                  borderColor: "var(--theme-color)",
-                },
               },
-            }}
-          />
-          <div className="text-xs text-gray-400 mt-1">
-            {t(
-              `This portfolio will be accessible from this time. Leave blank to use the current time.`,
-            )}
-          </div>
-          {values.publishedAt > new Date().toISOString() && (
-            <div className="text-xs mt-1 text-orange-500">
-              {t(
-                "The post is currently not public as its publication date has been scheduled for a future time.",
-              )}
-            </div>
+            })
+          }}
+          accept="image/*"
+        />
+      </div>
+      <div>
+        <Input
+          label={t("Title") || ""}
+          isBlock
+          name="title"
+          id="title"
+          value={values.title}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            updateValue({
+              title: e.target.value,
+            })
+          }}
+        />
+      </div>
+      <div>
+        <Input
+          label={t("Excerpt") || ""}
+          isBlock
+          name="excerpt"
+          id="excerpt"
+          value={values.excerpt}
+          multiline
+          rows={4}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+            updateValue({
+              excerpt: e.target.value,
+            })
+          }}
+        />
+      </div>
+      <div>
+        <label className="form-label" htmlFor="publishAt">
+          {t("Publish at")}
+        </label>
+        <DateInput
+          className="[&_input]:text-black/90"
+          allowDeselect
+          clearable
+          valueFormat="YYYY-MM-DD, h:mm a"
+          name="publishAt"
+          id="publishAt"
+          value={values.publishedAt ? new Date(values.publishedAt) : undefined}
+          onChange={(value: Date | null) => {
+            if (value) {
+              updateValue({
+                publishedAt: value.toISOString(),
+              })
+            } else {
+              updateValue({
+                publishedAt: "",
+              })
+            }
+          }}
+          styles={{
+            input: {
+              borderRadius: "0.5rem",
+              borderColor: "var(--border-color)",
+              height: "2.5rem",
+              "&:focus-within": {
+                borderColor: "var(--theme-color)",
+              },
+            },
+          }}
+        />
+        <div className="text-xs text-gray-400 mt-1">
+          {t(
+            `This portfolio will be accessible from this time. Leave blank to use the current time.`,
           )}
         </div>
+        {values.publishedAt > new Date().toISOString() && (
+          <div className="text-xs mt-1 text-orange-500">
+            {t(
+              "The post is currently not public as its publication date has been scheduled for a future time.",
+            )}
+          </div>
+        )}
       </div>
-    )
-  },
-)
+    </div>
+  )
+})
 
 EditorExtraProperties.displayName = "EditorExtraProperties"
 

@@ -223,5 +223,7 @@
   "Pin": "置顶",
   "Unpin": "取消置顶",
   "Interaction": "互动",
-  "External Url": "外部链接"
+  "External Url": "外部链接",
+  "Autofill": "自动填充",
+  "Title": "标题"
 }

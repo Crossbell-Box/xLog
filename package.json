@@ -98,6 +98,7 @@
     "nanoid": "4.0.2",
     "next": "13.4.12",
     "node-id3": "0.2.6",
+    "open-graph-scraper": "^6.2.2",
     "pangu": "4.0.7",
     "path-to-regexp": "6.2.1",
     "pinyin-pro": "3.16.2",
