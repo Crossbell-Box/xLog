@@ -306,13 +306,13 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                             label={`${platform?.name || platform}`}
                             className="text-sm"
                           >
-                            <span className="inline-flex items-center space-x-1">
+                            <span className="inline-flex items-center space-x-[6px]">
                               {platform?.icon && (
                                 <Image
                                   src={platform?.icon}
                                   alt={platform?.name}
-                                  width={20}
-                                  height={20}
+                                  width={16}
+                                  height={16}
                                 />
                               )}
                               <span>{t("Portfolio")}</span>
