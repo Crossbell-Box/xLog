@@ -109,6 +109,10 @@ export default async function SiteNFTPage({
                         nft.content_uri?.startsWith?.("http") ||
                         nft.content_uri?.startsWith?.("data:")
                           ? nft.content_uri
+                          : nft.content_uri?.startsWith?.("<svg")
+                          ? `data:image/svg+xml,${encodeURIComponent(
+                              nft.content_uri,
+                            )}` || ""
                           : toGateway(`ipfs://${nft.content_uri}`) || ""
                       }
                       mime_type={nft.content_type}
