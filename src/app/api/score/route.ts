@@ -10,7 +10,16 @@ const lock = new AsyncLock()
 
 const getOriginalScore = async (cid: string) => {
   try {
-    let { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
+    let { content, tags } = await (
+      await fetch(toGateway(`ipfs://${cid}`))
+    ).json()
+
+    if (tags?.[0] === "portfolio") {
+      return {
+        number: 100,
+        reason: "Portfolio",
+      }
+    }
 
     if (content?.length > 5000) {
       content = content.slice(0, 5000)

@@ -781,7 +781,11 @@ export async function getFeed({
     .filter(
       (post) =>
         countCharacters(post?.metadata?.content?.content || "") >
-          (post?.metadata?.content?.tags?.[0] === "comment" ? 6 : 300) &&
+          (post?.metadata?.content?.tags?.[0] === "comment"
+            ? 6
+            : post?.metadata?.content?.tags?.[0] === "portfolio"
+            ? -1
+            : 300) &&
         !(new Date(post.metadata?.content?.date_published || "") > new Date()),
     )
     .map((post) => {
