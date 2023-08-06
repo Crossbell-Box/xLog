@@ -4,7 +4,7 @@ module.exports = {
       instances: 2,
       name: "xlog",
       script: "./server.js",
-      max_memory_restart: "4G",
+      max_memory_restart: "3G",
     },
   ],
 }
