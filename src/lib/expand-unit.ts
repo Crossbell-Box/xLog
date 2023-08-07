@@ -5,7 +5,7 @@ import removeMarkdown from "remove-markdown"
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import readingTime from "~/lib/reading-time"
-import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote, PortfolioStats } from "~/lib/types"
 
 import { getNoteSlug } from "./helpers"
 
@@ -94,7 +94,18 @@ export const expandCrossbellNote = async ({
       : 0
 
     if (useStat) {
-      if (!expandedNote.stat) {
+      if (expandedNote.metadata?.content?.tags?.[0] === "portfolio") {
+        const stat = (await (
+          await fetch(
+            `${SITE_URL}/api/portfolio-stats?url=${encodeURIComponent(
+              expandedNote.metadata?.content?.external_urls?.[0] || "",
+            )}`,
+          )
+        ).json()) as PortfolioStats
+        expandedNote.stat = {
+          portfolio: stat,
+        }
+      } else if (!expandedNote.stat) {
         const stat = await (
           await fetch(
             `https://indexer.crossbell.io/v1/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,

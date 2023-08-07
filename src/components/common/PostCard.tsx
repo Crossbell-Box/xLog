@@ -111,7 +111,7 @@ const Card = ({
             </div>
           )}
         </div>
-        <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate">
+        <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate space-x-2">
           {isPortfolio ? (
             <>
               <Tooltip
@@ -130,12 +130,42 @@ const Card = ({
                   <span>{t("Portfolio")}</span>
                 </span>
               </Tooltip>
+              {!!post.stat?.portfolio?.videoViewsCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--youtube-line] mr-[2px] text-base" />
+                  <span>{post.stat.portfolio.videoViewsCount}</span>
+                </span>
+              )}
+              {!!post.stat?.portfolio?.audoListensCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--headphone-line] mr-[2px] text-base" />
+                  <span>{post.stat.portfolio.audoListensCount}</span>
+                </span>
+              )}
+              {!!post.stat?.portfolio?.projectStarsCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--star-line] mr-[2px] text-base" />
+                  <span>{post.stat.portfolio.projectStarsCount}</span>
+                </span>
+              )}
+              {!!post.stat?.portfolio?.textViewsCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
+                  <span>{post.stat.portfolio.textViewsCount}</span>
+                </span>
+              )}
+              {!!post.stat?.portfolio?.commentsCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
+                  <span>{post.stat.portfolio.commentsCount}</span>
+                </span>
+              )}
             </>
           ) : (
             <>
               {!!post.metadata?.content?.tags?.[1] && (
                 <span
-                  className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2"
+                  className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px]"
                   onClick={(e) => {
                     e.preventDefault()
                     router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
@@ -145,8 +175,14 @@ const Card = ({
                   {post.metadata?.content?.tags?.[1]}
                 </span>
               )}
-              <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
-                <i className="icon-[mingcute--time-line] mr-[2px]" />
+              {!!post.stat?.viewDetailCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
+                  <span>{post.stat?.viewDetailCount}</span>
+                </span>
+              )}
+              <span className="xlog-post-word-count sm:inline-flex items-center hidden">
+                <i className="icon-[mingcute--sandglass-line] mr-[2px] text-sm" />
                 <span
                   style={{
                     wordSpacing: "-.2ch",
@@ -155,12 +191,6 @@ const Card = ({
                   {post.metadata?.content?.readingTime} {t("min")}
                 </span>
               </span>
-              {!!post.stat?.viewDetailCount && (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--eye-line] mr-[2px]" />
-                  <span>{post.stat?.viewDetailCount}</span>
-                </span>
-              )}
             </>
           )}
         </div>

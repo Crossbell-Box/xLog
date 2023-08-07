@@ -70,6 +70,7 @@
     "aplayer": "^1.10.1",
     "async-lock": "1.4.0",
     "canvas-confetti": "1.6.0",
+    "cheerio": "1.0.0-rc.12",
     "chroma-js": "2.4.2",
     "clsx": "2.0.0",
     "crossbell": "1.5.5",
