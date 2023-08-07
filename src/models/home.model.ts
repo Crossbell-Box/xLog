@@ -538,6 +538,9 @@ export async function getFeed({
                 stat {
                   viewDetailCount
                 }
+                _count {
+                  fromNotes
+                }
                 ${resultFields}
               }
             }
@@ -567,6 +570,7 @@ export async function getFeed({
             const expand = await expandCrossbellNote({
               note: page,
               useHTML,
+              useStat: true,
             })
             return expand
           },
@@ -655,6 +659,9 @@ export async function getFeed({
                 stat {
                   viewDetailCount
                 }
+                _count {
+                  fromNotes
+                }
                 ${resultFields}
               }
             }
@@ -683,6 +690,7 @@ export async function getFeed({
             const expand = await expandCrossbellNote({
               note: page,
               useHTML,
+              useStat: true,
             })
             return expand
           },

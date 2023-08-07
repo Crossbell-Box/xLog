@@ -285,6 +285,9 @@ export async function getPagesBySite(input: {
             stat {
               viewDetailCount
             }
+            _count {
+              fromNotes
+            }
             `
                 : ""
             }

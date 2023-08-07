@@ -112,6 +112,8 @@ export const expandCrossbellNote = async ({
           )
         ).json()
         expandedNote.stat = stat
+      } else if ((expandedNote as any)._count?.fromNotes) {
+        expandedNote.stat.commentsCount = (expandedNote as any)._count.fromNotes
       }
     }
 

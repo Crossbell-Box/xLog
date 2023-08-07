@@ -103,6 +103,7 @@ export type ExpandedNote = NoteEntity & {
     viewDetailCount?: number
     hotScore?: number
     portfolio?: PortfolioStats
+    commentsCount?: number
   }
   local?: boolean
 }

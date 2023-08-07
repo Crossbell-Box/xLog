@@ -181,16 +181,23 @@ const Card = ({
                   <span>{post.stat?.viewDetailCount}</span>
                 </span>
               )}
-              <span className="xlog-post-word-count sm:inline-flex items-center hidden">
-                <i className="icon-[mingcute--sandglass-line] mr-[2px] text-sm" />
-                <span
-                  style={{
-                    wordSpacing: "-.2ch",
-                  }}
-                >
-                  {post.metadata?.content?.readingTime} {t("min")}
+              {post.stat?.commentsCount ? (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
+                  <span>{post.stat.commentsCount}</span>
                 </span>
-              </span>
+              ) : (
+                <span className="xlog-post-word-count sm:inline-flex items-center hidden">
+                  <i className="icon-[mingcute--sandglass-line] mr-[2px] text-sm" />
+                  <span
+                    style={{
+                      wordSpacing: "-.2ch",
+                    }}
+                  >
+                    {post.metadata?.content?.readingTime} {t("min")}
+                  </span>
+                </span>
+              )}
             </>
           )}
         </div>
