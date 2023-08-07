@@ -1,3 +1,5 @@
+import { Metadata } from "next"
+
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import SiteHome from "~/components/site/SiteHome"
@@ -6,7 +8,25 @@ import { PageVisibilityEnum } from "~/lib/types"
 import { prefetchGetPagesBySite } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
-async function SiteIndexPage({
+export async function generateMetadata({
+  params,
+}: {
+  params: {
+    site: string
+  }
+}): Promise<Metadata> {
+  const queryClient = getQueryClient()
+
+  const site = await fetchGetSite(params.site, queryClient)
+
+  const title = `Portfolios - ${site?.metadata?.content?.name || site?.handle}`
+
+  return {
+    title,
+  }
+}
+
+async function SitePortfoliosPage({
   params,
 }: {
   params: {
@@ -36,4 +56,4 @@ async function SiteIndexPage({
   )
 }
 
-export default SiteIndexPage
+export default SitePortfoliosPage
