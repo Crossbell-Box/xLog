@@ -118,6 +118,27 @@ export async function GET(req: Request) {
             }
           }
         }
+
+        // https://twitter.com/DIYgod/status/1411724986977456131
+        case "twitter.com": {
+          const id = url.pathname.split("/")[3]
+          const data = await (
+            await fetch(
+              `https://cdn.syndication.twimg.com/tweet-result?id=${id}`,
+              {
+                headers: {
+                  "User-Agent": ua,
+                  Referer: "https://twitter.com/",
+                },
+              },
+            )
+          ).json()
+          if (data.conversation_count) {
+            result = {
+              commentsCount: data.conversation_count,
+            }
+          }
+        }
       }
       return result
     },
