@@ -98,7 +98,7 @@ export default async function SiteLayout({
   let pathname = headers().get("x-xlog-pathname")
   const onlyContent = isOnlyContent()
 
-  if (pathname?.startsWith("/site/")) {
+  if (pathname && /^(\/site(?!\/.*\/preview\/).*)/.test(pathname)) {
     redirect(
       `${getSiteLink({
         subdomain: params.site,
