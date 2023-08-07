@@ -1,15 +1,21 @@
 "use client"
 
 import PostList from "~/components/site/PostList"
-import { PageVisibilityEnum } from "~/lib/types"
+import { NoteType, PageVisibilityEnum } from "~/lib/types"
 import { useGetPagesBySiteLite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
-export default function SiteHome({ handle }: { handle: string }) {
+export default function SiteHome({
+  handle,
+  type,
+}: {
+  handle: string
+  type?: NoteType
+}) {
   const site = useGetSite(handle)
   const posts = useGetPagesBySiteLite({
     characterId: site.data?.characterId,
-    type: ["post", "portfolio"],
+    type: type || ["post", "portfolio"],
     visibility: PageVisibilityEnum.Published,
     useStat: true,
     limit: 18,
