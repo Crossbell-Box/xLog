@@ -7,6 +7,7 @@ import { memo } from "react"
 import reactStringReplace from "react-string-replace"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import { FormattedNumber } from "~/components/common/FormattedNumber"
 import { Titles } from "~/components/common/Titles"
 import PostCover from "~/components/home/PostCover"
 import { PlatformsSyncMap } from "~/components/site/Platform"
@@ -133,31 +134,37 @@ const Card = ({
               {!!post.stat?.portfolio?.videoViewsCount && (
                 <span className="xlog-post-views inline-flex items-center">
                   <i className="icon-[mingcute--youtube-line] mr-[2px] text-base" />
-                  <span>{post.stat.portfolio.videoViewsCount}</span>
+                  <FormattedNumber
+                    value={post.stat.portfolio.videoViewsCount}
+                  />
                 </span>
               )}
               {!!post.stat?.portfolio?.audoListensCount && (
                 <span className="xlog-post-views inline-flex items-center">
                   <i className="icon-[mingcute--headphone-line] mr-[2px] text-base" />
-                  <span>{post.stat.portfolio.audoListensCount}</span>
+                  <FormattedNumber
+                    value={post.stat.portfolio.audoListensCount}
+                  />
                 </span>
               )}
               {!!post.stat?.portfolio?.projectStarsCount && (
                 <span className="xlog-post-views inline-flex items-center">
                   <i className="icon-[mingcute--star-line] mr-[2px] text-base" />
-                  <span>{post.stat.portfolio.projectStarsCount}</span>
+                  <FormattedNumber
+                    value={post.stat.portfolio.projectStarsCount}
+                  />
                 </span>
               )}
               {!!post.stat?.portfolio?.textViewsCount && (
                 <span className="xlog-post-views inline-flex items-center">
                   <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
-                  <span>{post.stat.portfolio.textViewsCount}</span>
+                  <FormattedNumber value={post.stat.portfolio.textViewsCount} />
                 </span>
               )}
               {!!post.stat?.portfolio?.commentsCount && (
                 <span className="xlog-post-views inline-flex items-center">
                   <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
-                  <span>{post.stat.portfolio.commentsCount}</span>
+                  <FormattedNumber value={post.stat.portfolio.commentsCount} />
                 </span>
               )}
             </>
@@ -178,13 +185,13 @@ const Card = ({
               {!!post.stat?.viewDetailCount && (
                 <span className="xlog-post-views inline-flex items-center">
                   <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
-                  <span>{post.stat?.viewDetailCount}</span>
+                  <FormattedNumber value={post.stat?.viewDetailCount} />
                 </span>
               )}
               {post.stat?.commentsCount ? (
                 <span className="xlog-post-views inline-flex items-center">
                   <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
-                  <span>{post.stat.commentsCount}</span>
+                  <FormattedNumber value={post.stat.commentsCount} />
                 </span>
               ) : (
                 <span className="xlog-post-word-count sm:inline-flex items-center hidden">

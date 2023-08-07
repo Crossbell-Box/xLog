@@ -38,7 +38,7 @@ export const FollowingCount = ({
         }
         onClick={() => setIsFollowListOpen(true)}
       >
-        <span className="font-medium text-zinc-700 pr-[2px]">
+        <span className="font-medium text-zinc-700 pr-[3px]">
           {subscriptions.data?.pages?.[0]?.count || 0}
         </span>{" "}
         {t("Followers")}
@@ -46,7 +46,7 @@ export const FollowingCount = ({
       <Button
         variant="text"
         className={
-          "xlog-site-followings align-middle text-zinc-500 sm:ml-3" +
+          "xlog-site-followings align-middle text-zinc-500 sm:ml-3 !hidden sm:!inline-flex" +
           (disableList ? "" : " cursor-pointer")
         }
         onClick={() => setIsToFollowListOpen(true)}
