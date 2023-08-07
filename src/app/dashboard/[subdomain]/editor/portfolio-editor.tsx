@@ -16,19 +16,14 @@ import { ImageUploader } from "~/components/ui/ImageUploader"
 import { Input } from "~/components/ui/Input"
 import { ModalContentProps, useModalStack } from "~/components/ui/ModalStack"
 import { UniLink } from "~/components/ui/UniLink"
-import {
-  Values,
-  initialEditorState,
-  useEditorState,
-} from "~/hooks/useEditorState"
-import { useGetState } from "~/hooks/useGetState"
+import { initialEditorState, useEditorState } from "~/hooks/useEditorState"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { showConfetti } from "~/lib/confetti"
 import { CSB_SCAN } from "~/lib/env"
 import { getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
-import { delStorage, setStorage } from "~/lib/storage"
+import { delStorage } from "~/lib/storage"
 import { PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import {
@@ -104,36 +99,6 @@ export default function PortfolioEditor() {
   })
 
   const values = useEditorState()
-
-  const getValues = useGetState(values)
-  const getDraftKey = useGetState(draftKey)
-
-  const updateValue = useCallback(
-    <K extends keyof Values>(key: K, value: Values[K]) => {
-      console.log("updateValue", key, value)
-      if (visibility !== PageVisibilityEnum.Draft) {
-        setVisibility(PageVisibilityEnum.Modified)
-      }
-
-      const values = getValues()
-      const draftKey = getDraftKey()
-      const newValues = { ...values, [key]: value }
-      if (draftKey) {
-        setStorage(draftKey, {
-          date: +new Date(),
-          values: newValues,
-          type,
-        })
-        queryClient.invalidateQueries([
-          "getPagesBySite",
-          site.data?.characterId,
-        ])
-      }
-      useEditorState.setState(newValues)
-      console.log("newValues", newValues)
-    },
-    [type, queryClient, subdomain, visibility],
-  )
 
   const createPage = useCreatePage()
   const updatePage = useUpdatePage()
@@ -294,10 +259,7 @@ export default function PortfolioEditor() {
                       updatePage.isLoading ||
                       deleteP.isLoading
                     }
-                    isDisabled={
-                      visibility !== PageVisibilityEnum.Modified &&
-                      visibility !== PageVisibilityEnum.Draft
-                    }
+                    isDisabled={false}
                     type={type}
                     isModified={visibility === PageVisibilityEnum.Modified}
                     discardChanges={discardChanges}
