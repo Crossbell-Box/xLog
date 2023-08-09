@@ -186,8 +186,8 @@ dependencies:
     specifier: 0.16.8
     version: 0.16.8
   langchain:
-    specifier: 0.0.122
-    version: 0.0.122(cheerio@1.0.0-rc.12)(ioredis@5.3.2)
+    specifier: 0.0.125
+    version: 0.0.125(cheerio@1.0.0-rc.12)(ioredis@5.3.2)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -7846,8 +7846,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.122(cheerio@1.0.0-rc.12)(ioredis@5.3.2):
-    resolution: {integrity: sha512-M/w6CZH+Y12jrts5ENFLpQF3ZzwI6bluubeL0wjyqz/btd8puXsHyyyt58bKg8bIMZF02Y2Tjr1qyqKQKTaJ0Q==}
+  /langchain@0.0.125(cheerio@1.0.0-rc.12)(ioredis@5.3.2):
+    resolution: {integrity: sha512-LyrdyxOUBOTD6PN4aBP+yZ+y00u4mTbZa+rWJiihl6M6v+O0FfyVhlw6vSJ2rZsg8kSI2unGd6+/o8UZ4UbZcA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0
@@ -7910,6 +7910,7 @@ packages:
       srt-parser-2: ^1.2.2
       typeorm: ^0.3.12
       typesense: ^1.5.3
+      usearch: ^1.1.1
       vectordb: ^0.1.4
       weaviate-ts-client: ^1.0.0
     peerDependenciesMeta:
@@ -8032,6 +8033,8 @@ packages:
       typeorm:
         optional: true
       typesense:
+        optional: true
+      usearch:
         optional: true
       vectordb:
         optional: true
