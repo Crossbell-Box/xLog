@@ -391,7 +391,7 @@ const EditorExtraProperties = memo(() => {
           {t("Publish at")}
         </label>
         <DateInput
-          className="[&_input]:text-black/90"
+          className="[&_input]:text-black/90 [&_input]:bg-white"
           allowDeselect
           clearable
           valueFormat="YYYY-MM-DD, h:mm a"
