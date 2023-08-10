@@ -126,7 +126,7 @@ export const PagesManagerMenu = ({
         } else {
           setConvertToastId(toastId)
           updatePage.mutate({
-            type,
+            type: type === "post" ? "page" : "post",
             characterId: page.characterId,
             noteId: page.noteId,
           })
