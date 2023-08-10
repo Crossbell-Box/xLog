@@ -445,26 +445,3 @@ textarea.input {
 .swiper-button {
   @apply absolute top-1/2 -translate-y-1/2 bg-white rounded-full z-[1] w-6 h-6 flex items-center justify-center opacity-80;
 }
-
-.swiper .swiper-pagination-bullet {
-  @apply bg-zinc-100 opacity-50 w-[7px] h-[7px];
-}
-
-.swiper .swiper-pagination-bullet-active {
-  @apply opacity-100;
-}
-
-.swiper .swiper-pagination-bullets {
-  @apply leading-3;
-}
-
-.swiper .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
-  @apply bg-accent;
-  transition-duration: 5000ms !important;
-  transition-timing-function: linear;
-  transform: translate3d(0px, 0px, 0px) scaleX(0) scaleY(1);
-}
-
-.swiper .swiper-pagination-progressbar.swiper-pagination-horizontal {
-  @apply h-[2px] bg-transparent;
-}
