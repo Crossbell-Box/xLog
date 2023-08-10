@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio"
 
+import { PORTFOLIO_GITHUB_TOKEN } from "~/lib/env.server"
 import { cacheGet } from "~/lib/redis.server"
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
 import { PortfolioStats } from "~/lib/types"
@@ -81,6 +82,13 @@ export async function GET(req: Request) {
               `https://api.github.com/repos/${url.pathname.split("/")[1]}/${
                 url.pathname.split("/")[2]
               }`,
+              PORTFOLIO_GITHUB_TOKEN
+                ? {
+                    headers: {
+                      Authorization: `Bearer ${PORTFOLIO_GITHUB_TOKEN}`,
+                    },
+                  }
+                : undefined,
             )
           ).json()
           const issuesData = await (
@@ -88,12 +96,19 @@ export async function GET(req: Request) {
               `https://api.github.com/repos/${url.pathname.split("/")[1]}/${
                 url.pathname.split("/")[2]
               }/issues`,
+              PORTFOLIO_GITHUB_TOKEN
+                ? {
+                    headers: {
+                      Authorization: `Bearer ${PORTFOLIO_GITHUB_TOKEN}`,
+                    },
+                  }
+                : undefined,
             )
           ).json()
           if (repoData?.stargazers_count || issuesData?.[0]?.number) {
             result = {
-              projectStarsCount: repoData.stargazers_count,
-              commentsCount: issuesData[0].number,
+              projectStarsCount: repoData?.stargazers_count,
+              commentsCount: issuesData?.[0]?.number,
             }
           }
           break

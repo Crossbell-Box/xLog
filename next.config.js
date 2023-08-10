@@ -70,6 +70,7 @@ module.exports = withSentryConfig(
       ENV_OPENAI_API_KEY: process.env.OPENAI_API_KEY,
       ENV_ANONYMOUS_ACCOUNT_PRIVATEKEY:
         process.env.ANONYMOUS_ACCOUNT_PRIVATEKEY,
+      ENV_PORTFOLIO_GITHUB_TOKEN: process.env.PORTFOLIO_GITHUB_TOKEN,
     },
 
     async headers() {
