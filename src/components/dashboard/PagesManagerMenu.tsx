@@ -5,6 +5,7 @@ import toast from "react-hot-toast"
 import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
+import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
 import { useGetState } from "~/hooks/useGetState"
 import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
@@ -12,8 +13,6 @@ import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote, NoteType } from "~/lib/types"
 import { useDeletePage, usePinPage, useUpdatePage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
-
-import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 const usePageEditLink = (page: ExpandedNote, type: NoteType) => {
   const params = useParams()

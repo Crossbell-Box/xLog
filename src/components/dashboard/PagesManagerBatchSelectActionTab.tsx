@@ -4,13 +4,12 @@ import toast from "react-hot-toast"
 import type { InfiniteData } from "@tanstack/react-query"
 import { useQueryClient } from "@tanstack/react-query"
 
+import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
 import { type TabItem, Tabs } from "~/components/ui/Tabs"
 import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote, NoteType } from "~/lib/types"
 import { useDeletePage, useUpdatePage } from "~/queries/page"
-
-import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 function getPageId(page: ExpandedNote) {
   return page.noteId || page.draftKey || 0

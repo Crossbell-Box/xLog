@@ -14,7 +14,7 @@ export const DeleteConfirmationModal = ({
   onConfirm: () => void
   type?: string
 }) => {
-  const { t } = useTranslation("dashboard")
+  const { t } = useTranslation("common")
 
   return (
     <Modal open={open} setOpen={setOpen}>

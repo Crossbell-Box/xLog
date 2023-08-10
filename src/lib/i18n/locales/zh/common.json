@@ -101,5 +101,10 @@
   "Blockchain ID": "区块链标识",
   "Confirmed by {{blockNumber}} blocks": "已被 {{blockNumber}} 个区块确认",
   "Current Block Height": "当前区块高度",
-  "Portfolio": "作品"
+  "Portfolio": "作品",
+  "Delete": "删除",
+  "delete_confirmation_post": "你确定要删除这篇文章吗？",
+  "delete_confirmation_page": "你确定要删除这个页面吗？",
+  "delete_confirmation_comment": "你确定要删除这个评论吗？",
+  "delete_confirmation_portfolio": "你确定要删除这个作品吗？"
 }

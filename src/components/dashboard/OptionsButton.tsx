@@ -3,10 +3,9 @@ import { useTranslation } from "react-i18next"
 
 import { Menu, Popover, Transition } from "@headlessui/react"
 
+import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
 import { NoteType, PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
-
-import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 export const OptionsButton = ({
   visibility,

@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
 
+import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
 import { useTranslation } from "~/lib/i18n/client"
 import { NoteType } from "~/lib/types"
 
 import { Button, ButtonGroup } from "../ui/Button"
-import { DeleteConfirmationModal } from "./DeleteConfirmationModal"
 
 export const PublishButton = ({
   savePage,
