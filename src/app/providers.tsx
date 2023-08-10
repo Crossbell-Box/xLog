@@ -56,7 +56,6 @@ export default function Providers({
           urlComposer={urlComposer}
           signInStrategy="simple"
           ignoreWalletDisconnectEvent={true}
-          disableOPSign={true}
         >
           <LangProvider lang={lang}>
             <ModalStackProvider>{children}</ModalStackProvider>
