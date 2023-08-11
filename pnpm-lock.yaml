@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@birdgg/react-github':
     specifier: 0.2.3
@@ -182,8 +186,8 @@ dependencies:
     specifier: 0.16.8
     version: 0.16.8
   langchain:
-    specifier: 0.0.125
-    version: 0.0.125(cheerio@1.0.0-rc.12)(ioredis@5.3.2)
+    specifier: 0.0.126
+    version: 0.0.126(cheerio@1.0.0-rc.12)(ioredis@5.3.2)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -8182,8 +8186,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.125(cheerio@1.0.0-rc.12)(ioredis@5.3.2):
-    resolution: {integrity: sha512-LyrdyxOUBOTD6PN4aBP+yZ+y00u4mTbZa+rWJiihl6M6v+O0FfyVhlw6vSJ2rZsg8kSI2unGd6+/o8UZ4UbZcA==}
+  /langchain@0.0.126(cheerio@1.0.0-rc.12)(ioredis@5.3.2):
+    resolution: {integrity: sha512-Z57WjAwLN+ZbJ9D4h2oTN7iDt1Aa67mcXhKYVCQFRu4w8PIPH5k0VBvmrzKyRj2iFIWdUaqVsHch/jz5+1mGnA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0
@@ -8248,7 +8252,7 @@ packages:
       typesense: ^1.5.3
       usearch: ^1.1.1
       vectordb: ^0.1.4
-      weaviate-ts-client: ^1.0.0
+      weaviate-ts-client: ^1.4.0
     peerDependenciesMeta:
       '@aws-sdk/client-dynamodb':
         optional: true
@@ -12622,7 +12626,3 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
