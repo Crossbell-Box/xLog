@@ -5,6 +5,7 @@ pre {
   background-color: var(--code-bg);
   color: var(--code-fg);
   @apply text-sm;
+  @apply scrollbar-hide overflow-y-auto max-h-[30.5em];
 }
 
 :not(pre) > code {
