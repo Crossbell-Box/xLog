@@ -15,7 +15,6 @@ export const getSite = async (input: string) => {
   if (result) {
     return expandCrossbellCharacter(result)
   }
-  return null
 }
 
 export const getSiteByAddress = async (input: string) => {
