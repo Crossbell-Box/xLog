@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 
 import { Image } from "~/components/ui/Image"
-import { IPFS_GATEWAY } from "~/lib/env"
+import { IPFS_GATEWAY, IPFS_GATEWAY_FALLBACK } from "~/lib/env"
 
 export const UniMedia = ({
   src,
@@ -21,7 +21,7 @@ export const UniMedia = ({
     if (src && !errorHandled) {
       try {
         const response = await fetch(
-          src.replace(IPFS_GATEWAY, "https://gateway.ipfs.io/ipfs/"),
+          src.replace(IPFS_GATEWAY, IPFS_GATEWAY_FALLBACK),
           {
             method: "HEAD",
           },

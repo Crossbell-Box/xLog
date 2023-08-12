@@ -6,6 +6,8 @@ export const APP_SLOGAN =
 export const OUR_DOMAIN =
   process.env.NEXT_PUBLIC_OUR_DOMAIN || process.env.NEXT_PUBLIC_VERCEL_URL
 export const SCORE_API_DOMAIN = process.env.NEXT_PUBLIC_SCORE_API_DOMAIN
+export const IMAGE_PROXY_DOMAIN =
+  process.env.NEXT_PUBLIC_IMAGE_PROXY_DOMAIN || "xlog.app"
 export const DOCS_DOMAIN = `docs.${OUR_DOMAIN}`
 export const SITE_URL = `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}`
 export const APP_DESCRIPTION =
@@ -23,6 +25,9 @@ export const CSB_XCHAR =
   process.env.NEXT_PUBLIC_CSB_XCHAR || "https://xchar.app"
 export const IPFS_GATEWAY =
   process.env.NEXT_PUBLIC_IPFS_GATEWAY || "https://ipfs.4everland.xyz/ipfs/"
+export const IPFS_GATEWAY_FALLBACK =
+  process.env.NEXT_PUBLIC_IPFS_GATEWAY_FALLBACK ||
+  "https://gateway.ipfs.io/ipfs/"
 export const MIRA_LINK =
   process.env.NEXT_PUBLIC_MIRA_LINK || "https://mira.crossbell.io"
 export const WALLET_CONNECT_V2_PROJECT_ID =
