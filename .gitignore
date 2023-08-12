@@ -23,6 +23,3 @@ public/sw.js.map
 public/workbox-*.js
 public/workbox-*.js.map
 public/worker-*.js
-
-# Sentry Auth Token
-.sentryclirc

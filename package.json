@@ -60,7 +60,6 @@
     "@monaco-editor/react": "4.5.1",
     "@popperjs/core": "2.11.8",
     "@prisma/client": "5.1.1",
-    "@sentry/nextjs": "^7.63.0",
     "@supercharge/request-ip": "1.2.0",
     "@tanstack/react-query": "4.32.6",
     "@tanstack/react-query-devtools": "4.32.6",
