@@ -4,7 +4,7 @@ import { getAvailableLanguages } from "~/lib/i18n/client"
 
 import { Menu } from "../ui/Menu"
 
-export default function LanguageSwitch() {
+export function LanguageSwitch() {
   const languages = getAvailableLanguages()
 
   const changeLanguage = (language: string) => {

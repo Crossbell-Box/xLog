@@ -1,6 +1,6 @@
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { DarkModeSwitch } from "~/components/common/DarkModeSwitch"
-import LanguageSwitch from "~/components/common/LanguageSwitch"
+import { LanguageSwitch } from "~/components/common/LanguageSwitch"
 import { Logo } from "~/components/common/Logo"
 import HomeTabs from "~/components/home/HomeTabs"
 import PromotionLinks from "~/components/home/PromotionLinks"
