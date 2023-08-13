@@ -1,5 +1,6 @@
 import { ConnectButton } from "~/components/common/ConnectButton"
 import { DarkModeSwitch } from "~/components/common/DarkModeSwitch"
+import LanguageSwitch from "~/components/common/LanguageSwitch"
 import { Logo } from "~/components/common/Logo"
 import HomeTabs from "~/components/home/HomeTabs"
 import PromotionLinks from "~/components/home/PromotionLinks"
@@ -44,6 +45,7 @@ export default async function HomeLayout({
         <div className="max-w-screen-xl px-5 py-14 mx-auto flex flex-col sm:flex-row justify-between">
           <PromotionLinks className="w-full sm:w-72" />
           <span className="inline-flex items-center space-x-4 mx-auto sm:mx-0 mt-10 sm:mt-0">
+            <LanguageSwitch />
             <DarkModeSwitch />
             <span>
               &copy;{" "}

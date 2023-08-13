@@ -33,3 +33,10 @@ export function useTranslation(ns: string = defaultNS) {
 }
 
 export const Trans = TransW
+
+export function getAvailableLanguages() {
+  const supportedLngs = i18next.options.supportedLngs
+  return typeof supportedLngs === "object"
+    ? supportedLngs.filter((i) => i !== "cimode")
+    : []
+}
