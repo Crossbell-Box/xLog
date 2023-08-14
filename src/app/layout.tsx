@@ -108,7 +108,9 @@ export default function RootLayout({
       className={colorScheme}
       suppressHydrationWarning
     >
-      <ColorSchemeInjector />
+      <head>
+        <ColorSchemeInjector />
+      </head>
       <body>
         <Providers lang={lang}>
           {modal}

@@ -1,33 +1,16 @@
 "use client"
 
-import { useServerInsertedHTML } from "next/navigation"
-
-import {
-  COLOR_SCHEME_DARK,
-  COLOR_SCHEME_LIGHT,
-  DARK_MODE_STORAGE_KEY,
-} from "~/lib/constants"
+import { DARK_MODE_STORAGE_KEY } from "~/lib/constants"
 
 export const ColorSchemeInjector = () => {
-  useServerInsertedHTML(() => {
-    return (
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(() => {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `(() => {
 let DARK_MODE_STORAGE_KEY = "${DARK_MODE_STORAGE_KEY}";
-let namespace = "xlog"
-let getStorage = (key) => {
-  let data = {}
-  try {
-    data = JSON.parse(localStorage.getItem(namespace) || "{}")
-  } catch (error) {}
-  return data[key]
-}
-let COLOR_SCHEME_LIGHT = "${COLOR_SCHEME_LIGHT}";
-let COLOR_SCHEME_DARK = "${COLOR_SCHEME_DARK}";
 
 let data = {}
-const isDark = getStorage(DARK_MODE_STORAGE_KEY)
+const isDark = localStorage.getItem(DARK_MODE_STORAGE_KEY)
 if (typeof isDark === "undefined") {
   const currentColorScheme = window.matchMedia("(prefers-color-scheme: dark)")
     .matches
@@ -40,9 +23,7 @@ if (typeof isDark === "undefined") {
   )
 }
 })();`,
-        }}
-      ></script>
-    )
-  })
-  return null
+      }}
+    ></script>
+  )
 }
