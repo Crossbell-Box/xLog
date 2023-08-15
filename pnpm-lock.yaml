@@ -386,8 +386,8 @@ devDependencies:
     specifier: 0.1.3
     version: 0.1.3
   '@next/bundle-analyzer':
-    specifier: 13.4.13
-    version: 13.4.13
+    specifier: 13.4.16
+    version: 13.4.16
   '@trivago/prettier-plugin-sort-imports':
     specifier: 4.2.0
     version: 4.2.0(prettier@3.0.1)
@@ -2502,8 +2502,8 @@ packages:
       tslib: 2.6.1
     dev: false
 
-  /@next/bundle-analyzer@13.4.13:
-    resolution: {integrity: sha512-XygyFn3V61vF9LkU1zM6GlAMp8h7FbApaLA40anMGhZtQt/0S1tGSNImv9T/Z3ZTbWIQTcbYxyHIM6Fv/uSGrA==}
+  /@next/bundle-analyzer@13.4.16:
+    resolution: {integrity: sha512-9YO6o7YeWAn7j5zlYE5oVKYxpP/3aCnh7q4niwOBeHmafmWjhkVrxi0g0t2ds19vnsBm73hNcyeXzTi/T2hE+Q==}
     dependencies:
       webpack-bundle-analyzer: 4.7.0
     transitivePeerDependencies:
