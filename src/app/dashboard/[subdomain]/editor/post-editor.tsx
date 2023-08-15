@@ -188,7 +188,7 @@ export default function PostEditor() {
       if (key === "title") {
         setDefaultSlug(
           getDefaultSlug(
-            value as string,
+            value as string[],
             draftKey.replace(`draft-${site.data?.characterId}-`, ""),
           ),
         )
@@ -385,7 +385,7 @@ export default function PostEditor() {
     })
     setDefaultSlug(
       getDefaultSlug(
-        page.data.metadata?.content?.title || "",
+        (page.data.metadata?.content?.title as unknown as string[]) || [],
         draftKey.replace(`draft-${site.data?.characterId}-`, ""),
       ),
     )

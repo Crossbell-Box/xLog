@@ -1,19 +1,28 @@
 import { pinyin } from "pinyin-pro"
 
-export const getDefaultSlug = (title: string, id?: string) => {
-  let generated =
-    pinyin(title, {
-      toneType: "none",
-      type: "array",
-      nonZh: "consecutive",
-    })
-      ?.map((word) => word.trim())
+export const getDefaultSlug = (titleArray: string[], id?: string) => {
+  const title = titleArray[0]
+
+  const pinyinArray = pinyin(title, {
+    toneType: "none",
+    type: "array",
+    nonZh: "consecutive",
+  })
+
+  const generated =
+    pinyinArray
+      ?.map((word) => word[0].trim())
       ?.filter((word) => word)
       ?.join("-")
       ?.replace(/\s+/g, "-") ||
     id?.replace(`!local-`, "")?.replace(`local-`, "") ||
     ""
-  generated = generated.replace(/[^a-zA-Z0-9\s-_]/g, "")
 
-  return generated
+  const cleanedGenerated = generated.replace(/[^a-zA-Z0-9\s-_]/g, "")
+
+  if (cleanedGenerated && cleanedGenerated.split("-").length === 1) {
+    return cleanedGenerated + "-"
+  }
+
+  return cleanedGenerated
 }
