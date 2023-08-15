@@ -44,7 +44,7 @@
     "@crossbell/indexer": "1.5.6",
     "@crossbell/notification": "1.5.7",
     "@crossbell/ui": "1.5.6",
-    "@crossbell/util-hooks": "1.5.6",
+    "@crossbell/util-hooks": "1.5.8",
     "@crossbell/util-metadata": "1.5.6",
     "@ddietr/codemirror-themes": "1.4.2",
     "@dqbd/tiktoken": "1.0.7",
