@@ -1,14 +1,20 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: xlog
   namespace: crossbell
 spec:
+  progressDeadlineSeconds: 600
   replicas: 1
-  serviceName: "xlog-lb"
+  revisionHistoryLimit: 5
   selector:
     matchLabels:
       app: xlog
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -32,6 +38,11 @@ spec:
         - image: $IMAGE_TAG_RELEASE
           imagePullPolicy: Always
           name: xlog
+          args:
+            - "start"
+            - "-i"
+            - "1"
+            - "ecosystem.config.js"
           envFrom:
             - secretRef:
                 name: xlog
@@ -40,10 +51,10 @@ spec:
               protocol: TCP
           resources:
             requests:
-              memory: "6000Mi"
+              memory: "1000Mi"
               cpu: "300m"
             limits:
-              memory: "10000Mi"
+              memory: "3000Mi"
               cpu: "2000m"
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
@@ -58,14 +69,38 @@ spec:
               port: 3000
             initialDelaySeconds: 40
             periodSeconds: 20
-          volumeMounts:
-            - name: data
-              mountPath: "/app/.next/cache/images"
-              subPath: images
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xlog-caddy
+  namespace: crossbell
+spec:
+  selector:
+    matchLabels:
+      app: xlog-caddy
+  template:
+    metadata:
+      labels:
+        app: xlog-caddy
+    spec:
+      containers:
         - name: caddy
           image: kindjeff/caddy-tlsredis-docker
           imagePullPolicy: Always
           command: ["caddy", "run", "-config", "/app/Caddyfile"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           envFrom:
             - secretRef:
                 name: xlog-caddy
@@ -81,6 +116,13 @@ spec:
           image: python
           command: ["/bin/sh", "-c"]
           args: ["pip install flask requests; flask --app=app run"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           ports:
             - containerPort: 5000
               name: http
@@ -88,11 +130,6 @@ spec:
             - name: validator
               mountPath: /app.py
               subPath: app.py
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
       volumes:
         - name: caddyfile
           configMap:
@@ -100,12 +137,3 @@ spec:
         - name: validator
           configMap:
             name: xlog-caddy-validator
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: "alicloud-disk-ssd"
-        resources:
-          requests:
-            storage: 20Gi

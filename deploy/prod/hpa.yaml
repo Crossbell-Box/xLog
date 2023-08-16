@@ -1,13 +1,19 @@
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: xlog
   namespace: crossbell
 spec:
   maxReplicas: 11
-  minReplicas: 8
+  minReplicas: 7
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: xlog
-  targetCPUUtilizationPercentage: 70
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
