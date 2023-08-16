@@ -53,4 +53,5 @@ COPY --from=build /app/.next/static /app/.next/static
 COPY --from=build /app/prisma /app/prisma
 COPY --from=build /app/ecosystem.config.js /app/ecosystem.config.js
 
-CMD ["pm2-runtime", "start", "-i", "2", "ecosystem.config.js"]
+ENTRYPOINT [ "pm2-runtime" ]
+CMD ["start", "-i", "2", "ecosystem.config.js"]
