@@ -2,7 +2,7 @@ import { pinyin } from "pinyin-pro"
 
 export const getDefaultSlug = (title: string, id?: string) => {
   let generated =
-    pinyin(title, {
+    pinyin(String(title), {
       toneType: "none",
       type: "array",
       nonZh: "consecutive",
