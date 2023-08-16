@@ -35,4 +35,6 @@ export const WALLET_CONNECT_V2_PROJECT_ID =
 export const DEFAULT_AVATAR =
   "ipfs://bafkreiabgixxp63pg64moxnsydz7hewmpdkxxi3kdsa4oqv4pb6qvwnmxa"
 export const UMAMI_ID =
-  process.env.NEXT_PUBLIC_UMAMI_ID || "4f03105b-1d0d-4e49-823b-0342861c51de"
+  process.env.NEXT_PUBLIC_UMAMI_ID || "c2a15ccb-dba8-4763-b4a7-0e0edf5a8857"
+export const UMAMI_SCRIPT =
+  process.env.NEXT_PUBLIC_UMAMI_SCRIPT || "https://umami.rss3.io/umami"
