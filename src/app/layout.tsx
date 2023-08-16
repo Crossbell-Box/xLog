@@ -15,6 +15,7 @@ import {
   APP_SLOGAN,
   SITE_URL,
   UMAMI_ID,
+  UMAMI_SCRIPT,
 } from "~/lib/env"
 import { getColorScheme } from "~/lib/get-color-scheme"
 
@@ -115,7 +116,9 @@ export default function RootLayout({
       className={colorScheme}
       suppressHydrationWarning
     >
-      <ColorSchemeInjector />
+      <head>
+        <ColorSchemeInjector />
+      </head>
       <body>
         <Providers lang={lang}>
           {modal}
@@ -126,7 +129,7 @@ export default function RootLayout({
           id="xlog-umami-analytics"
           strategy="afterInteractive"
           async
-          src="https://analytics.umami.is/script.js?xlog"
+          src={UMAMI_SCRIPT}
           data-website-id={UMAMI_ID}
         ></Script>
       </body>
