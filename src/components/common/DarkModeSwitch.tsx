@@ -4,9 +4,10 @@ import { useTheme } from "next-themes"
 import { MouseEvent } from "react"
 
 import { useIsClient } from "~/hooks/useClient"
+import { cn } from "~/lib/utils"
 
 const styles = {
-  base: " rounded-inherit inline-flex h-[32px] w-[32px] items-center justify-center border-0 text-current",
+  base: " rounded-inherit inline-flex h-[24px] w-[24px] items-center justify-center border-0 text-current",
 }
 
 const ThemeIndicator = () => {
@@ -18,10 +19,14 @@ const ThemeIndicator = () => {
   if (!theme) return null
   return (
     <div
-      className="absolute top-[3px] z-[-1] h-[32px] w-[32px] rounded-full bg-zinc-200/80 shadow-[0_1px_2px_0_rgba(127.5,127.5,127.5,.2),_0_1px_3px_0_rgba(127.5,127.5,127.5,.1)] duration-200 bg-blend-multiply transition-[left]"
-      style={{
-        left: { light: 4, system: 36, dark: 68 }[theme],
-      }}
+      className={cn(
+        "absolute top-[3px] bottom-[3px] aspect-square rounded-full bg-white shadow duration-200 transition-[left]",
+        {
+          "left-[3px]": theme === "light",
+          "left-[27px]": theme === "system",
+          "left-[51px]": theme === "dark",
+        },
+      )}
     />
   )
 }
@@ -84,7 +89,7 @@ const ThemeSwitcher = () => {
   return (
     <div
       role="radiogroup"
-      className="w-fit-content inline-flex rounded-full border border-slate-200 p-[3px]"
+      className="w-fit-content inline-flex rounded-full p-[3px] bg-zinc-200/80 text-xs"
     >
       <button
         aria-label="Switch to light theme"
@@ -94,7 +99,7 @@ const ThemeSwitcher = () => {
           buildThemeTransition(e, "light")
         }}
       >
-        <i className="icon-[mingcute--sun-line] scale-75" />
+        <i className="icon-[mingcute--sun-line]" />
       </button>
       <button
         aria-label="Switch to system theme"
@@ -104,7 +109,7 @@ const ThemeSwitcher = () => {
           buildThemeTransition(e, "system")
         }}
       >
-        <i className="icon-[mingcute--computer-line] scale-75" />
+        <i className="icon-[mingcute--computer-line]" />
       </button>
       <button
         aria-label="Switch to dark theme"
@@ -114,7 +119,7 @@ const ThemeSwitcher = () => {
           buildThemeTransition(e, "dark")
         }}
       >
-        <i className="icon-[mingcute--moon-line] scale-75" />
+        <i className="icon-[mingcute--moon-line]" />
       </button>
     </div>
   )
@@ -123,8 +128,8 @@ const ThemeSwitcher = () => {
 export const DarkModeSwitch = () => {
   return (
     <div className="relative">
-      <ThemeSwitcher />
       <ThemeIndicator />
+      <ThemeSwitcher />
     </div>
   )
 }
