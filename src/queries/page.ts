@@ -234,6 +234,10 @@ export function useCreatePage() {
         throw new Error("characterId is required")
       }
 
+      if (!postNote.mutate) {
+        throw new Error("postNote.mutate is required")
+      }
+
       return postNote.mutate(
         {
           characterId: input.characterId,
