@@ -46,6 +46,7 @@ export default async function HomeLayout({
           <PromotionLinks className="w-full sm:w-72" />
           <span className="inline-flex items-center space-y-4 sm:space-y-0 sm:space-x-4 mx-auto sm:mx-0 mt-10 sm:mt-0 flex-col sm:flex-row">
             <DarkModeSwitch />
+            <LanguageSwitch />
             <span>
               &copy;{" "}
               <UniLink
