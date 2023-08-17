@@ -6,6 +6,7 @@ import { Trans, getTranslation } from "~/lib/i18n"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
+import { LanguageSwitch } from "../common/LanguageSwitch"
 import { UniLink } from "../ui/UniLink"
 import ConnectedAccounts from "./ConnectedAccounts"
 
@@ -52,7 +53,10 @@ export default async function SiteFooter({
           <ConnectedAccounts
             connectedAccounts={site?.metadata?.content?.connected_accounts}
           />
-          <DarkModeSwitch />
+          <div className="flex gap-x-2 items-center">
+            <LanguageSwitch />
+            <DarkModeSwitch />
+          </div>
         </div>
       </footer>
       {site?.metadata?.content?.ga && (

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import React, { Fragment } from "react"
 
-import { autoUpdate, shift, useFloating } from "@floating-ui/react"
+import { Placement, autoUpdate, shift, useFloating } from "@floating-ui/react"
 import { Menu as HeadlessUiMenu } from "@headlessui/react"
 
 import { cn } from "~/lib/utils"
@@ -19,7 +19,7 @@ export function Menu({
 }: React.PropsWithChildren<{
   target: JSX.Element
   dropdown: React.ReactNode
-  placement?: "bottom-start" | "bottom-end"
+  placement?: Placement
 }>) {
   const { refs, floatingStyles } = useFloating({
     placement,
