@@ -22,11 +22,11 @@ export function LanguageSwitch() {
               onClick={() => {
                 changeLanguage(language.code)
               }}
-              className="mx-auto text-center"
+              className="mx-auto"
             >
               <span>{language.name}</span>
               {language.active && (
-                <span className="ml-2 icon-[mingcute--check-line] mr-2"></span>
+                <span className="ml-2 icon-[mingcute--check-line]"></span>
               )}
             </Menu.Item>
           ))}
