@@ -172,7 +172,7 @@ export default function SiteSettingsNavigationPage() {
             <Trans i18n={i18n} ns="dashboard" i18nKey="social tips.p2">
               We support{" "}
               <UniLink
-                href="https://github.com/Crossbell-Box/xLog/blob/dev/src/components/site/Platform.tsx#L7"
+                href="https://github.com/Crossbell-Box/xLog/blob/dev/src/components/site/Platform.tsx#L11"
                 className="underline"
               >
                 these platforms

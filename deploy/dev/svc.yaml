@@ -9,7 +9,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: xlog
+    app: xlog-caddy
   ports:
     - name: http
       protocol: TCP
@@ -19,3 +19,18 @@ spec:
       protocol: TCP
       port: 443
       targetPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xlog-internal
+  namespace: crossbell
+spec:
+  type: ClusterIP
+  selector:
+    app: xlog
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

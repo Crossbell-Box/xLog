@@ -32,7 +32,7 @@ export default async function SiteFooter({
   return (
     <>
       <footer className="text-zinc-500 border-t">
-        <div className="max-w-screen-lg mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5">
+        <div className="max-w-screen-lg mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5 sm:items-center">
           <div className="font-medium text-base">
             <span>&copy; </span>
             <UniLink href="/" className="hover:text-accent">
