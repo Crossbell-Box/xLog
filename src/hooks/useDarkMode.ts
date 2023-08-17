@@ -18,10 +18,10 @@ export const useDarkModeListener = () => {
     const isDarkMode = theme === "dark"
     const colorScheme = isDarkMode ? COLOR_SCHEME_DARK : COLOR_SCHEME_LIGHT
     const date = new Date()
-    date.setMonth(date.getMonth() + 1)
+    date.setFullYear(date.getFullYear() + 10)
     document.cookie = IS_DEV
       ? `color_scheme=${colorScheme};`
-      : `color_scheme=${colorScheme}; Domain=.${OUR_DOMAIN}; Path=/; Secure; expires=${date.toUTCString()}`
+      : `color_scheme=${colorScheme}; Domain=.${OUR_DOMAIN}; Path=/; expires=${date.toUTCString()}`
   }, [theme, systemTheme])
 }
 

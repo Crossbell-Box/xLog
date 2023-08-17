@@ -11,6 +11,8 @@ import { Trans as TransW } from "react-i18next/TransWithoutContext"
 
 import { useLang } from "~/hooks/useLang"
 
+import { IS_DEV } from "../constants"
+import { OUR_DOMAIN } from "../env"
 import { defaultNS, getOptions, languageNames, languages } from "./settings"
 
 i18next
@@ -40,12 +42,17 @@ export function isLanguageAuto() {
 }
 
 export function changeLanguage(language: string) {
+  let date
   if (language === "auto") {
-    document.cookie =
-      "preferred_language=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    language = ""
+    date = new Date("Thu, 01 Jan 1970 00:00:00 UTC")
   } else {
-    document.cookie = `preferred_language=${language};`
+    date = new Date()
+    date.setFullYear(date.getFullYear() + 10)
   }
+  document.cookie = IS_DEV
+    ? `preferred_language=${language};`
+    : `preferred_language=${language}; Domain=.${OUR_DOMAIN}; Path=/; expires=${date.toUTCString()}`
   window.location.reload()
 }
 
