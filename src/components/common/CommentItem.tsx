@@ -46,7 +46,9 @@ export const CommentItem = ({
   ) => void
 }) => {
   const [replyOpen, setReplyOpen] = useState(false)
-  const [pinned, setPinned] = useState(comment?.metadata?.content?.pinned)
+  const [pinned, setPinned] = useState(
+    comment?.metadata?.content?.pinned ?? false,
+  )
   const [editOpen, setEditOpen] = useState(false)
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false)
 

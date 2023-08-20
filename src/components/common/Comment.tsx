@@ -53,12 +53,12 @@ const Comment = ({
   const handlePin = (comment: any, pinned: any) => {
     if (comment.noteId) {
       updateComment.mutate({
+        content: comment.metadata?.content?.content,
         characterId: page?.characterId,
         noteId: comment.noteId,
-        content: comment.metadata?.content?.content,
+        pinned: !pinned,
         originalCharacterId: page?.characterId,
         originalNoteId: page?.noteId,
-        pinned: !pinned,
       })
     }
   }
