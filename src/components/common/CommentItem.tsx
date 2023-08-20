@@ -29,6 +29,7 @@ export const CommentItem = ({
   originalNoteId,
   depth,
   className,
+  onPin,
 }: {
   comment: NoteEntity & {
     character?: CharacterEntity | null
@@ -37,8 +38,15 @@ export const CommentItem = ({
   originalNoteId?: number
   depth: number
   className?: string
+  onPin?: (
+    comment: NoteEntity & {
+      character?: CharacterEntity | null
+    },
+    pinned: boolean,
+  ) => void
 }) => {
   const [replyOpen, setReplyOpen] = useState(false)
+  const [pinned, setPinned] = useState(comment?.metadata?.content?.pinned)
   const [editOpen, setEditOpen] = useState(false)
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false)
 
@@ -158,6 +166,20 @@ export const CommentItem = ({
                     {(comment as any)?.fromNotes?.count || 0}
                   </span>
                 )}
+              </Button>
+            )}
+            {depth == 0 && account?.characterId && (
+              <Button
+                className="text-gray-500 text-[13px] ml-1 mt-[-1px]"
+                variant="text"
+                onClick={() => {
+                  setPinned(!pinned)
+                  if (onPin) {
+                    onPin(comment, pinned)
+                  }
+                }}
+              >
+                {t(`${pinned ? "Cancel " : ""}Pin`)}
               </Button>
             )}
             {comment.characterId === account?.characterId && (

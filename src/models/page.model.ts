@@ -815,10 +815,12 @@ export async function updateComment(
     content,
     characterId,
     noteId,
+    pinned = false,
   }: {
     content: string
     characterId: number
     noteId: number
+    pinned?: boolean
   },
   contract: Contract,
 ) {
@@ -829,6 +831,7 @@ export async function updateComment(
       content,
       tags: ["comment"],
       sources: ["xlog"],
+      pinned,
     },
   })
 }
