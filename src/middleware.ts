@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getClientIp } from "@supercharge/request-ip"
 
 import { IS_PROD } from "~/lib/constants"
-import { DISCORD_LINK } from "~/lib/env"
+import { DISCORD_LINK, SITE_URL } from "~/lib/env"
 
 // HTTPWhiteListPaths: White list of path for plain http request, no HTTPS redirect
 const HTTPWhitelistPaths = ["/api/healthcheck"]
@@ -47,7 +47,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(`https://${realHost}/feed`, 301)
   }
 
-  console.debug(`${req.method} ${realHost}/${pathname}`)
+  console.debug(`${req.method} ${realHost}${pathname}`)
 
   if (
     pathname.startsWith("/api/") ||
@@ -70,7 +70,7 @@ export default async function middleware(req: NextRequest) {
   } = {}
   try {
     tenant = await (
-      await fetch(new URL(`/api/host2handle?host=${realHost}`, req.url))
+      await fetch(`${SITE_URL}/api/host2handle?host=${realHost}`)
     ).json()
   } catch (error) {}
 
