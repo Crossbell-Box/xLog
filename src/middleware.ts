@@ -45,9 +45,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   console.debug(
-    `${req.method} ${req.nextUrl} ${req.url} ${req.headers} ${req.headers.get(
-      "x-forwarded-host",
-    )}`,
+    `${req.method} ${req.headers.get("X-Forwarded-Host")}/${pathname}`,
   )
 
   if (
