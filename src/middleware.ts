@@ -91,13 +91,14 @@ export default async function middleware(req: NextRequest) {
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
   if (tenant?.subdomain) {
-    const url = req.nextUrl.clone()
-    url.pathname = `/site/${tenant?.subdomain}${url.pathname}`
-    return NextResponse.rewrite(url, {
-      request: {
-        headers: requestHeaders,
+    return NextResponse.rewrite(
+      `${SITE_URL}/site/${tenant?.subdomain}${pathname}`,
+      {
+        request: {
+          headers: requestHeaders,
+        },
       },
-    })
+    )
   }
 
   if (DISCORD_LINK && pathname === "/discord") {
