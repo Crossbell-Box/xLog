@@ -15,5 +15,7 @@ Disallow: /dashboard/
 Disallow: /preview/
 Disallow: /api/
 
-Sitemap: https://${req.headers.get("host")}/sitemap.xml`)
+Sitemap: https://${
+    req.headers.get("X-Forwarded-Host") || req.headers.get("host")
+  }/sitemap.xml`)
 }

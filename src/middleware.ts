@@ -10,6 +10,9 @@ const HTTPWhitelistPaths = ["/api/healthcheck"]
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
+  const host = (
+    req.headers.get("X-Forwarded-Host") || req.headers.get("Host")
+  )?.replace(/\/$/, "")
 
   if (
     IS_PROD &&
@@ -28,7 +31,7 @@ export default async function middleware(req: NextRequest) {
     }
     if (!cfHttps) {
       // return NextResponse.redirect(
-      //   `https://${req.headers.get("host")}${req.nextUrl.pathname}${
+      //   `https://${req.headers.get("X-Forwarded-Host")}${req.nextUrl.pathname}${
       //     req.nextUrl.search
       //   }`,
       //   301,
@@ -41,12 +44,10 @@ export default async function middleware(req: NextRequest) {
     pathname === "/atom.xml" ||
     pathname === "/feed/xml"
   ) {
-    return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
+    return NextResponse.redirect(`https://${host}/feed`, 301)
   }
 
-  console.debug(
-    `${req.method} ${req.headers.get("X-Forwarded-Host")}/${pathname}`,
-  )
+  console.debug(`${req.method} ${host}/${pathname}`)
 
   if (
     pathname.startsWith("/api/") ||
@@ -69,9 +70,7 @@ export default async function middleware(req: NextRequest) {
   } = {}
   try {
     tenant = await (
-      await fetch(
-        new URL(`/api/host2handle?host=${req.headers.get("host")}`, req.url),
-      )
+      await fetch(new URL(`/api/host2handle?host=${host}`, req.url))
     ).json()
   } catch (error) {}
 
