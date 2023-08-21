@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getClientIp } from "@supercharge/request-ip"
 
 import { IS_PROD } from "~/lib/constants"
-import { DISCORD_LINK, SITE_URL } from "~/lib/env"
+import { DISCORD_LINK, OUR_DOMAIN, SITE_URL } from "~/lib/env"
 
 // HTTPWhiteListPaths: White list of path for plain http request, no HTTPS redirect
 const HTTPWhitelistPaths = ["/api/healthcheck"]
@@ -91,7 +91,7 @@ export default async function middleware(req: NextRequest) {
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
   if (tenant?.subdomain) {
-    requestHeaders.set("X-Forwarded-Host", "")
+    requestHeaders.set("X-Forwarded-Host", OUR_DOMAIN)
     return NextResponse.rewrite(
       new URL(
         `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,

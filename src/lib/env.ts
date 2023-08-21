@@ -4,7 +4,9 @@ export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "xLog"
 export const APP_SLOGAN =
   process.env.NEXT_PUBLIC_APP_SLOGAN || "Write. Own. Earn."
 export const OUR_DOMAIN =
-  process.env.NEXT_PUBLIC_OUR_DOMAIN || process.env.NEXT_PUBLIC_VERCEL_URL
+  process.env.NEXT_PUBLIC_OUR_DOMAIN ||
+  process.env.NEXT_PUBLIC_VERCEL_URL ||
+  "localhost:2222"
 export const SCORE_API_DOMAIN = process.env.NEXT_PUBLIC_SCORE_API_DOMAIN
 export const IMAGE_PROXY_DOMAIN =
   process.env.NEXT_PUBLIC_IMAGE_PROXY_DOMAIN || "xlog.app"
