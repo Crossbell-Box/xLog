@@ -10,14 +10,17 @@ const HTTPWhitelistPaths = ["/api/healthcheck"]
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
-  const realHost = (
-    req.headers.get("X-Forwarded-Host") || req.headers.get("Host")
-  )?.replace(/\/+$/, "")
+
+  const forwardedHost = req.headers.get("X-Forwarded-Host")
+  if (forwardedHost) {
+    req.headers.set("host", forwardedHost)
+    req.nextUrl.host = forwardedHost
+  }
 
   if (
     IS_PROD &&
     req.headers.get("x-forwarded-proto") !== "https" &&
-    !HTTPWhitelistPaths.includes(req.nextUrl.pathname)
+    !HTTPWhitelistPaths.includes(pathname)
   ) {
     let cfHttps = false
     try {
@@ -44,10 +47,10 @@ export default async function middleware(req: NextRequest) {
     pathname === "/atom.xml" ||
     pathname === "/feed/xml"
   ) {
-    return NextResponse.redirect(`https://${realHost}/feed`, 301)
+    return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
   }
 
-  console.debug(`${req.method} ${realHost}${pathname}`)
+  console.debug(`${req.method} ${req.headers.get("host")}${pathname}`)
 
   if (
     pathname.startsWith("/api/") ||
@@ -70,7 +73,7 @@ export default async function middleware(req: NextRequest) {
   } = {}
   try {
     tenant = await (
-      await fetch(`${SITE_URL}/api/host2handle?host=${realHost}`)
+      await fetch(`${SITE_URL}/api/host2handle?host=${req.headers.get("host")}`)
     ).json()
   } catch (error) {}
 
