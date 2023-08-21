@@ -94,7 +94,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.rewrite(
       new URL(
         `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
-        req.url,
+        req.url.replace("https://", "http://"),
       ),
       {
         request: {
