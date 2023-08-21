@@ -92,7 +92,10 @@ export default async function middleware(req: NextRequest) {
 
   if (tenant?.subdomain) {
     return NextResponse.rewrite(
-      new URL(`/site/${tenant?.subdomain}${pathname}`, req.url),
+      new URL(
+        `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
+        req.url,
+      ),
       {
         request: {
           headers: requestHeaders,
