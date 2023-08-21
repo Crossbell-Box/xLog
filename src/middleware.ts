@@ -91,6 +91,7 @@ export default async function middleware(req: NextRequest) {
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
   if (tenant?.subdomain) {
+    requestHeaders.set("X-Forwarded-Host", "")
     return NextResponse.rewrite(
       new URL(
         `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
