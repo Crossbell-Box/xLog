@@ -85,14 +85,14 @@ export default async function middleware(req: NextRequest) {
 
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   const requestHeaders = new Headers(req.headers)
-  requestHeaders.set("x-xlog-pathname", req.nextUrl.pathname)
+  requestHeaders.set("x-xlog-pathname", pathname)
   requestHeaders.set("x-xlog-search", req.nextUrl.search)
   requestHeaders.set("x-xlog-handle", tenant.subdomain || "")
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
   if (tenant?.subdomain) {
     return NextResponse.rewrite(
-      `${SITE_URL}/site/${tenant?.subdomain}${pathname}`,
+      new URL(`/site/${tenant?.subdomain}${pathname}`, req.url),
       {
         request: {
           headers: requestHeaders,
