@@ -50,7 +50,9 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
   }
 
-  console.debug(`${req.method} ${req.headers.get("host")}${pathname}`)
+  console.debug(
+    `${req.method} ${req.headers.get("host")}${pathname}, ${req.url}`,
+  )
 
   if (
     pathname.startsWith("/api/") ||
@@ -95,7 +97,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.rewrite(
       new URL(
         `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
-        req.url.replace("https://", "http://"),
+        req.url,
       ),
       {
         request: {
