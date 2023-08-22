@@ -13,8 +13,8 @@ import { getSiteLink } from "~/lib/helpers"
 import { getTranslation } from "~/lib/i18n"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
+import { isOnlyContent } from "~/lib/is-only-client"
 import getQueryClient from "~/lib/query-client"
-import { isOnlyContent } from "~/lib/search-parser"
 import { fetchGetPage, getSummary } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
@@ -103,7 +103,7 @@ export default async function SitePagePage({
   }
 
   const dehydratedState = dehydrate(queryClient)
-  const onlyContent = isOnlyContent()
+  const onlyContent = await isOnlyContent()
 
   function addPageJsonLd() {
     return {
