@@ -25,8 +25,6 @@ import {
   prefetchGetSiteToSubscriptions,
 } from "~/queries/site.server"
 
-export const dynamic = "force-static"
-
 export async function generateMetadata({
   params,
 }: {

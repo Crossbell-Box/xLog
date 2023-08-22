@@ -6,8 +6,6 @@ import { PageVisibilityEnum } from "~/lib/types"
 import { prefetchGetPagesBySite } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
-export const dynamic = "force-static"
-
 async function SiteIndexPage({
   params,
 }: {
