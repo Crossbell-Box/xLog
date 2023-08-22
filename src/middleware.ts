@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getClientIp } from "@supercharge/request-ip"
 
 import { IS_PROD } from "~/lib/constants"
-import { DISCORD_LINK, OUR_DOMAIN, SITE_URL } from "~/lib/env"
+import { DISCORD_LINK } from "~/lib/env"
 
 // HTTPWhiteListPaths: White list of path for plain http request, no HTTPS redirect
 const HTTPWhitelistPaths = ["/api/healthcheck"]
@@ -13,12 +13,6 @@ export default async function middleware(req: NextRequest) {
 
   for (const [key, value] of req.headers.entries()) {
     console.debug(`${key}: ${value}`)
-  }
-
-  const forwardedHost = req.headers.get("X-Forwarded-Host")
-  if (forwardedHost) {
-    req.headers.set("host", forwardedHost)
-    req.nextUrl.host = forwardedHost
   }
 
   if (
@@ -38,7 +32,7 @@ export default async function middleware(req: NextRequest) {
     }
     if (!cfHttps) {
       // return NextResponse.redirect(
-      //   `https://${req.headers.get("X-Forwarded-Host")}${req.nextUrl.pathname}${
+      //   `https://${req.headers.get("host")}${req.nextUrl.pathname}${
       //     req.nextUrl.search
       //   }`,
       //   301,
@@ -54,9 +48,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
   }
 
-  console.debug(
-    `${req.method} ${req.headers.get("host")}${pathname}, ${req.url}`,
-  )
+  console.debug(`${req.method} ${req.nextUrl}`)
 
   if (
     pathname.startsWith("/api/") ||
@@ -79,12 +71,13 @@ export default async function middleware(req: NextRequest) {
   } = {}
   try {
     tenant = await (
-      await fetch(`${SITE_URL}/api/host2handle?host=${req.headers.get("host")}`)
+      await fetch(
+        new URL(`/api/host2handle?host=${req.headers.get("host")}`, req.url),
+      )
     ).json()
   } catch (error) {
     console.error(error)
   }
-  console.debug("tenant", tenant)
 
   if (tenant?.redirect && IS_PROD && !pathname.startsWith("/feed")) {
     return NextResponse.redirect(
@@ -100,7 +93,6 @@ export default async function middleware(req: NextRequest) {
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
   if (tenant?.subdomain) {
-    requestHeaders.set("X-Forwarded-Host", OUR_DOMAIN)
     return NextResponse.rewrite(
       new URL(
         `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
