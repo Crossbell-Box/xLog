@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 
-if (!process.env.POSTGRES_PRISMA_URL) {
-  console.warn("POSTGRES_PRISMA_URL not set")
+if (!process.env.DATABASE_PRISMA_URL) {
+  console.warn("DATABASE_PRISMA_URL not set")
 }
 
 let prisma: PrismaClient

@@ -54,8 +54,6 @@ module.exports = withBundleAnalyzer({
       { protocol: "https", hostname: "pbs.twimg.com" },
       { protocol: "https", hostname: "abs.twimg.com" },
     ],
-    loader: "custom",
-    loaderFile: "./image-loader.js",
   },
 
   async generateBuildId() {

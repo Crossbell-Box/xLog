@@ -11,10 +11,6 @@ const HTTPWhitelistPaths = ["/api/healthcheck"]
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  for (const [key, value] of req.headers.entries()) {
-    console.debug(`${key}: ${value}`)
-  }
-
   if (
     IS_PROD &&
     req.headers.get("x-forwarded-proto") !== "https" &&
