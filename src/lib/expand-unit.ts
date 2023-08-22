@@ -5,7 +5,7 @@ import removeMarkdown from "remove-markdown"
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import readingTime from "~/lib/reading-time"
-import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote, PortfolioStats } from "~/lib/types"
 
 import { getNoteSlug } from "./helpers"
 
@@ -32,12 +32,10 @@ export const expandCrossbellNote = async ({
   )
 
   if (expandedNote.metadata?.content) {
+    let rendered
     if (expandedNote.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
-      const rendered = renderPageContent(
-        expandedNote.metadata.content.content,
-        true,
-      )
+      rendered = renderPageContent(expandedNote.metadata.content.content, true)
       if (keyword) {
         const position = expandedNote.metadata.content.content
           .toLowerCase()
@@ -51,23 +49,6 @@ export const expandCrossbellNote = async ({
           expandedNote.metadata.content.summary = rendered.excerpt
         }
       }
-      expandedNote.metadata.content.cover =
-        expandedNote.metadata?.content?.attachments?.find(
-          (attachment) => attachment.name === "cover",
-        )?.address || rendered.cover
-
-      expandedNote.metadata.content.images = []
-      const cover = expandedNote.metadata?.content?.attachments?.find(
-        (attachment) => attachment.name === "cover",
-      )?.address
-      if (cover) {
-        expandedNote.metadata.content.images.push(cover)
-      }
-      expandedNote.metadata.content.images =
-        expandedNote.metadata.content.images.concat(rendered.images)
-      expandedNote.metadata.content.images = [
-        ...new Set(expandedNote.metadata.content.images),
-      ]
 
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
@@ -76,6 +57,24 @@ export const expandCrossbellNote = async ({
         expandedNote.metadata.content.contentHTML = rendered.contentHTML
       }
     }
+    expandedNote.metadata.content.cover =
+      expandedNote.metadata?.content?.attachments?.find(
+        (attachment) => attachment.name === "cover",
+      )?.address || rendered?.cover
+
+    expandedNote.metadata.content.images = []
+    const cover = expandedNote.metadata?.content?.attachments?.find(
+      (attachment) => attachment.name === "cover",
+    )?.address
+    if (cover) {
+      expandedNote.metadata.content.images.push(cover)
+    }
+    expandedNote.metadata.content.images =
+      expandedNote.metadata.content.images.concat(rendered?.images || [])
+    expandedNote.metadata.content.images = [
+      ...new Set(expandedNote.metadata.content.images),
+    ]
+
     expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
     if (!expandedNote.metadata.content.date_published && expandedNote.noteId) {
       expandedNote.metadata.content.date_published = expandedNote.createdAt
@@ -95,13 +94,26 @@ export const expandCrossbellNote = async ({
       : 0
 
     if (useStat) {
-      if (!expandedNote.stat) {
+      if (expandedNote.metadata?.content?.tags?.[0] === "portfolio") {
+        const stat = (await (
+          await fetch(
+            `${SITE_URL}/api/portfolio-stats?url=${encodeURIComponent(
+              expandedNote.metadata?.content?.external_urls?.[0] || "",
+            )}`,
+          )
+        ).json()) as PortfolioStats
+        expandedNote.stat = {
+          portfolio: stat,
+        }
+      } else if (!expandedNote.stat) {
         const stat = await (
           await fetch(
             `https://indexer.crossbell.io/v1/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,
           )
         ).json()
         expandedNote.stat = stat
+      } else if ((expandedNote as any)._count?.fromNotes) {
+        expandedNote.stat.commentsCount = (expandedNote as any)._count.fromNotes
       }
     }
 

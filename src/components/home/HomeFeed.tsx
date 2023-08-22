@@ -19,8 +19,6 @@ import { ExpandedNote } from "~/lib/types"
 import type { FeedType, SearchType } from "~/models/home.model"
 import { useGetFeed } from "~/queries/home"
 
-import topics from "../../../data/topics.json"
-
 export const HomeFeed = ({ type }: { type?: FeedType }) => {
   const { t } = useTranslation("common")
   const searchParams = useSearchParams()
@@ -53,7 +51,6 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
       }
       break
     case "topic":
-      const info = topics.find((t) => t.name === params.topic)
       feedConfig = {
         type,
         topic: params.topic,

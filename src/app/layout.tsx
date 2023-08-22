@@ -1,6 +1,7 @@
 import { dir } from "i18next"
 import { Metadata } from "next"
 import { headers } from "next/headers"
+import Script from "next/script"
 import { Toaster } from "react-hot-toast"
 
 import "@crossbell/connect-kit/colors.css"
@@ -9,7 +10,14 @@ import { Analytics } from "@vercel/analytics/react"
 
 import "~/css/main.css"
 import { getAcceptLang } from "~/lib/accept-lang"
-import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN, SITE_URL } from "~/lib/env"
+import {
+  APP_DESCRIPTION,
+  APP_NAME,
+  APP_SLOGAN,
+  SITE_URL,
+  UMAMI_ID,
+  UMAMI_SCRIPT,
+} from "~/lib/env"
 import { getColorScheme } from "~/lib/get-color-scheme"
 
 import { ColorSchemeInjector } from "./ColorSchemeInjector"
@@ -109,7 +117,9 @@ export default function RootLayout({
       className={colorScheme}
       suppressHydrationWarning
     >
-      <ColorSchemeInjector />
+      <head>
+        <ColorSchemeInjector />
+      </head>
       <body>
         <Providers lang={lang}>
           {modal}
@@ -117,6 +127,13 @@ export default function RootLayout({
           <Analytics />
         </Providers>
         <Toaster />
+        <Script
+          id="xlog-umami-analytics"
+          strategy="afterInteractive"
+          async
+          src={UMAMI_SCRIPT}
+          data-website-id={UMAMI_ID}
+        ></Script>
       </body>
     </html>
   )

@@ -17,7 +17,7 @@ export const getSiteLink = ({
 }) => {
   if (IS_VERCEL_PREVIEW) return `/site/${subdomain}`
 
-  if (domain) {
+  if (domain && IS_PROD) {
     return `https://${domain}`
   }
   if (noProtocol) {

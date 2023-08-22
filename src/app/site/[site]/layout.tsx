@@ -1,17 +1,18 @@
 import { Metadata } from "next"
 import { headers } from "next/headers"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { SitePlayerContainer } from "~/components/common/SitePlayer"
-import Style from "~/components/common/Style"
 import { BackToTopFAB } from "~/components/site/BackToTopFAB"
+import { CustomSiteStyle } from "~/components/site/CustomSiteStyle"
 import SiteFooter from "~/components/site/SiteFooter"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { FABContainer } from "~/components/ui/FAB"
 import { SITE_URL } from "~/lib/env"
+import { getSiteLink } from "~/lib/helpers"
 import getQueryClient from "~/lib/query-client"
 import { isOnlyContent } from "~/lib/search-parser"
 import { ExpandedNote } from "~/lib/types"
@@ -92,15 +93,17 @@ export default async function SiteLayout({
 }) {
   const queryClient = getQueryClient()
 
-  const site = await fetchGetSite(params.site, queryClient)
-
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   // Issue: The type will not be updated when the page is redirected.
   let pathname = headers().get("x-xlog-pathname")
   const onlyContent = isOnlyContent()
 
-  if (pathname?.startsWith("/site/")) {
-    pathname = pathname.replace(/^\/site\/[^/]*/, "")
+  if (pathname && /^(\/site(?!\/.*\/preview\/).*)/.test(pathname)) {
+    redirect(
+      `${getSiteLink({
+        subdomain: params.site,
+      })}/${pathname.replace(/\/site\/(.*)\//, "")}`,
+    )
   }
 
   let type: string
@@ -124,6 +127,8 @@ export default async function SiteLayout({
         type = "post"
       }
   }
+
+  const site = await fetchGetSite(params.site, queryClient)
 
   let page: ExpandedNote | undefined | null
   if (site?.characterId) {
@@ -169,7 +174,7 @@ export default async function SiteLayout({
       <div
         className={`xlog-page xlog-page-${type} xlog-user xlog-deprecated-class`}
       >
-        <Style content={site?.metadata?.content?.css} />
+        <CustomSiteStyle content={site.metadata?.content?.css || ""} />
         {colors?.light && colors?.dark && (
           <style>
             {`.light {

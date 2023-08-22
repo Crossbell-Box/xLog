@@ -6,6 +6,7 @@ import { Trans, getTranslation } from "~/lib/i18n"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
+import { LanguageSwitch } from "../common/LanguageSwitch"
 import { UniLink } from "../ui/UniLink"
 import ConnectedAccounts from "./ConnectedAccounts"
 
@@ -31,7 +32,7 @@ export default async function SiteFooter({
   return (
     <>
       <footer className="text-zinc-500 border-t">
-        <div className="max-w-screen-lg mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5">
+        <div className="max-w-screen-lg mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5 sm:items-center">
           <div className="font-medium text-base">
             <span>&copy; </span>
             <UniLink href="/" className="hover:text-accent">
@@ -52,7 +53,10 @@ export default async function SiteFooter({
           <ConnectedAccounts
             connectedAccounts={site?.metadata?.content?.connected_accounts}
           />
-          <DarkModeSwitch />
+          <div className="flex gap-x-2 items-center">
+            <LanguageSwitch />
+            <DarkModeSwitch />
+          </div>
         </div>
       </footer>
       {site?.metadata?.content?.ga && (

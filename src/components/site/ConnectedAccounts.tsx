@@ -18,7 +18,7 @@ export default function ConnectedAccounts({
       {!!connectedAccounts?.length && (
         <div
           className={cn(
-            "xlog-social-platforms align-middle inline-flex items-center pt-1",
+            "xlog-social-platforms align-middle inline-flex items-center",
             className,
           )}
         >

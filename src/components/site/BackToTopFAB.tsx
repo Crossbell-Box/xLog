@@ -33,6 +33,7 @@ export const BackToTopFAB = () => {
           behavior: "smooth",
         })
       }}
+      className="xlog-back-to-top"
     >
       <i className="icon-[mingcute--arow-to-up-line]"></i>
     </FABBase>

@@ -51,7 +51,7 @@ export default function PostList({
           )}
         </div>
       )}
-      {posts.hasNextPage && (
+      {posts.hasNextPage && posts.data?.pages[0].count - currentLength > 0 && (
         <div className="text-center">
           <Button
             className="mt-8 truncate max-w-full !inline-block"

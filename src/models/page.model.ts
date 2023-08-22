@@ -13,12 +13,13 @@ import { indexer } from "@crossbell/indexer"
 import { extractCharacterAttribute } from "@crossbell/util-metadata"
 import { gql } from "@urql/core"
 
+import { RESERVED_TAGS } from "~/lib/constants"
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { filterCommentCharacter } from "~/lib/filter-character"
 import { getNoteSlug } from "~/lib/helpers"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
-import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, NoteType, PageVisibilityEnum } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 export const PINNED_PAGE_KEY = "xlog_pinned_page"
@@ -65,14 +66,19 @@ export async function postNotes(
 
 const getLocalPages = (input: {
   characterId: number
-  isPost?: boolean
+  isPost?: boolean // In order to be compatible with old drafts
+  type?: NoteType[]
   handle?: string
 }) => {
   const pages: ExpandedNote[] = []
   getKeys([`draft-${input.characterId}-`, `draft-${input.handle}-`]).forEach(
     (key) => {
       const page = getStorage(key)
-      if (input.isPost === undefined || page.isPost === input.isPost) {
+      if (
+        page.isPost === input.isPost ||
+        input.type?.includes(page.type) ||
+        input.type === undefined
+      ) {
         const note: ExpandedNote = {
           characterId: input.characterId,
           noteId: 0,
@@ -113,7 +119,7 @@ const getLocalPages = (input: {
               date_published: page.values?.publishedAt,
               summary: page.values?.excerpt,
               tags: [
-                page.isPost ? "post" : "page",
+                page.type,
                 ...(page.values?.tags
                   ?.split(",")
                   .map((tag: string) => tag.trim())
@@ -122,6 +128,22 @@ const getLocalPages = (input: {
               slug: page.values?.slug,
               sources: ["xlog"],
               disableAISummary: page.values?.disableAISummary,
+              external_urls: page.values?.externalUrl
+                ? [page.values?.externalUrl]
+                : undefined,
+              cover: page.values?.cover?.address,
+              images: [page.values?.cover?.address],
+              attachments: [
+                ...(page.values?.cover?.address
+                  ? [
+                      {
+                        name: "cover",
+                        address: page.values?.cover.address,
+                        mime_type: page.values?.cover.mime_type,
+                      },
+                    ]
+                  : []),
+              ],
             },
           },
           local: true,
@@ -135,7 +157,7 @@ const getLocalPages = (input: {
 
 export async function getPagesBySite(input: {
   characterId?: number
-  type: "post" | "page"
+  type: NoteType | NoteType[]
   visibility?: PageVisibilityEnum
   limit?: number
   cursor?: string
@@ -156,62 +178,174 @@ export async function getPagesBySite(input: {
 
   const visibility = input.visibility || PageVisibilityEnum.All
 
-  const expandedNotes = await (async (): Promise<{
-    list: ExpandedNote[]
-    pinnedNoteId?: number
-    count: number
-    cursor: string | null
-  }> => {
-    const [pinnedNote, notes] = await Promise.all([
-      !input.cursor ? getPinnedPage(input) : null,
-
-      await indexer.note.getMany({
-        characterId: input.characterId,
-        limit: input.limit || 12,
-        cursor: input.cursor,
-        orderBy: "publishedAt",
-        tags: [...(input.tags || []), input.type],
-        sources: "xlog",
-      }),
-    ])
-
-    const list: NoteEntity[] = pinnedNote
-      ? [
-          pinnedNote,
-          ...notes.list.filter((note) => note.noteId !== pinnedNote.noteId),
-        ]
-      : notes.list
-
-    return {
-      ...notes,
-      pinnedNoteId: pinnedNote?.noteId,
-      list: await Promise.all(
-        list.map(async (note) => {
-          let expanded = note as ExpandedNote
-          if (input.skipExpansion) {
-            expanded.metadata.content.slug = getNoteSlug(expanded)
-          } else {
-            expanded = await expandCrossbellNote({
-              note,
-              useStat: input.useStat,
-              useHTML: input.useHTML,
-              useScore: false,
-            })
-          }
-
-          if (!input.keepBody) {
-            delete expanded.metadata?.content?.content
-          }
-
-          return expanded
-        }),
-      ),
+  let pinnedNote: NoteEntity | null = null
+  let pinnedNoteId: number | null = null
+  if (input.type === "post" || input.type.includes("post")) {
+    if (!input.cursor) {
+      pinnedNote = await getPinnedPage(input)
+      pinnedNoteId = pinnedNote?.noteId || null
+    } else {
+      pinnedNoteId = await getPinnedPageId(input)
     }
-  })()
+  }
+
+  const cursorQuery = input.cursor
+    ? `
+    cursor: {
+      note_characterId_noteId_unique: {
+        characterId: ${input.cursor.split("_")[0]},
+        noteId: ${input.cursor.split("_")[1]}
+      },
+    },
+  `
+    : ""
+
+  if (typeof input.type === "string") {
+    input.type = [input.type]
+  }
+  const typesQuery = input.type
+    ?.map(
+      (tag) => `{
+      content: {
+        path: "tags",
+        array_contains: ["${tag}"]
+      }
+    }`,
+    )
+    .join(", ")
+  const whereQuery = `
+    {
+      characterId: {
+        equals: $characterId
+      },
+      noteId: {
+        not: {
+          equals: $filter
+        }
+      },
+      deleted: {
+        equals: false,
+      },
+      metadata: {
+        AND: [
+          {
+            content: {
+              path: "sources",
+              array_contains: "xlog"
+            },
+          },
+          ${
+            input.tags
+              ? `
+          {
+            content: {
+              path: "tags",
+              array_contains: ${JSON.stringify(input.tags)}
+            }
+          },
+          `
+              : ""
+          }
+          {
+            OR: [
+              ${typesQuery}
+            ]
+          }
+        ],
+      },
+    }
+  `
+  const limit = (input.limit || 12) - (pinnedNote ? 1 : 0)
+
+  const { data } = await client
+    .query(
+      gql`
+        query getNotes($characterId: Int, $filter: Int, $limit: Int) {
+          noteCount(where: ${whereQuery}),
+          notes(
+            where: ${whereQuery},
+            orderBy: [{
+              publishedAt: {
+                sort: desc
+              }
+            }],
+            take: $limit,
+            ${cursorQuery}
+          ) {
+            characterId
+            noteId
+            createdAt
+            metadata {
+              uri
+              content
+            }
+            ${
+              input.useStat
+                ? `
+            stat {
+              viewDetailCount
+            }
+            _count {
+              fromNotes
+            }
+            `
+                : ""
+            }
+          }
+        }
+      `,
+      {
+        characterId: input.characterId,
+        filter: pinnedNoteId || undefined,
+        limit,
+      },
+    )
+    .toPromise()
+  if (pinnedNote) {
+    data?.notes.unshift(pinnedNote)
+  }
+  if (pinnedNoteId) {
+    data.noteCount += 1
+  }
+  const notes = {
+    list: data?.notes || [],
+    count: data?.noteCount || 0,
+    cursor:
+      data?.notes?.length < limit
+        ? null
+        : `${input.characterId}_${data?.notes?.[data?.notes?.length - 1]
+            ?.noteId}`,
+  }
+
+  const expandedNotes = {
+    ...notes,
+    pinnedNoteId: pinnedNote?.noteId,
+    list: await Promise.all(
+      notes.list.map(async (note: ExpandedNote) => {
+        if (input.skipExpansion) {
+          note.metadata.content.slug = getNoteSlug(note)
+        } else {
+          note = await expandCrossbellNote({
+            note,
+            useStat: input.useStat,
+            useHTML: input.useHTML,
+            useScore: false,
+          })
+        }
+
+        if (!input.keepBody) {
+          delete note.metadata?.content?.content
+        }
+
+        return note
+      }),
+    ),
+  }
 
   const local = getLocalPages({
     characterId: input.characterId,
-    isPost: input.type === "post",
+    isPost: input.type[0] === "post", // In order to be compatible with old drafts
+    type: input.type,
     handle: input.handle,
   })
 
@@ -714,14 +848,16 @@ export const getDistinctNoteTagsOfCharacter = async (characterId: number) => {
   const result = await indexer.note.getDistinctTagsOfCharacter(characterId, {
     sources: "xlog",
   })
-  result.list = result.list.filter(
-    (tag) => ["post", "comment", "page"].findIndex((t) => t === tag) === -1,
-  )
+  result.list = result.list.filter((tag) => !RESERVED_TAGS.includes(tag))
 
   return result
 }
 
-export async function getPinnedPage({ characterId }: { characterId?: number }) {
+export async function getPinnedPageId({
+  characterId,
+}: {
+  characterId?: number
+}) {
   if (!characterId) return null
 
   const character = await indexer.character.get(characterId)
@@ -729,5 +865,15 @@ export async function getPinnedPage({ characterId }: { characterId?: number }) {
 
   if (!character || !noteId || typeof noteId !== "number") return null
 
-  return indexer.note.get(character.characterId, noteId)
+  return noteId
+}
+
+export async function getPinnedPage({ characterId }: { characterId?: number }) {
+  const noteId = await getPinnedPageId({ characterId })
+
+  if (noteId && characterId) {
+    return indexer.note.get(characterId, noteId)
+  } else {
+    return null
+  }
 }

@@ -153,6 +153,10 @@ export default function SiteSettingsNavigationPage() {
           <span className="text-zinc-900">- {t("NFT Showcase page")}:</span>{" "}
           <span className="bg-zinc-200 rounded-lg px-2">/nft</span>
         </p>
+        <p>
+          <span className="text-zinc-900">- {t("Portfolios page")}:</span>{" "}
+          <span className="bg-zinc-200 rounded-lg px-2">/portfolios</span>
+        </p>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="bg-zinc-50 rounded-lg overflow-hidden">

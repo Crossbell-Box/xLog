@@ -16,12 +16,16 @@ const getTimeValueInSeconds = (timeValue: string) => {
 }
 
 const getBilibiliIFrameSrc = (url: URL) => {
-  const match = url.pathname.match(/\/video\/([A-Za-z0-9]+)\//)
+  const match = url.pathname.match(/\/video\/([A-Za-z0-9]+)\/?/)
   if (!match || match.length < 1) return
   const bvid = match[1]
 
+  const page = url.searchParams.get("p")
+  const pageParam = page ? `&page=${page}` : ""
+
   const embedUrl = new URL(
-    `https://player.bilibili.com/player.html?bvid=${bvid}&autoplay=false`,
+    `https://player.bilibili.com/player.html?bvid=${bvid}&autoplay=false` +
+      pageParam,
   )
 
   return embedUrl.toString()

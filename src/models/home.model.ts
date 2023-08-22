@@ -538,6 +538,9 @@ export async function getFeed({
                 stat {
                   viewDetailCount
                 }
+                _count {
+                  fromNotes
+                }
                 ${resultFields}
               }
             }
@@ -567,6 +570,7 @@ export async function getFeed({
             const expand = await expandCrossbellNote({
               note: page,
               useHTML,
+              useStat: true,
             })
             return expand
           },
@@ -655,6 +659,9 @@ export async function getFeed({
                 stat {
                   viewDetailCount
                 }
+                _count {
+                  fromNotes
+                }
                 ${resultFields}
               }
             }
@@ -683,6 +690,7 @@ export async function getFeed({
             const expand = await expandCrossbellNote({
               note: page,
               useHTML,
+              useStat: true,
             })
             return expand
           },
@@ -777,17 +785,48 @@ export async function getFeed({
     }
   }
 
+  let isFiltered = false
   resultAll.list = resultAll.list
-    .filter(
-      (post) =>
-        countCharacters(post?.metadata?.content?.content || "") >
-          (post?.metadata?.content?.tags?.[0] === "comment" ? 6 : 300) &&
-        !(new Date(post.metadata?.content?.date_published || "") > new Date()),
-    )
+    .filter((post) => {
+      let limit = 300
+      switch (post?.metadata?.content?.tags?.[0]) {
+        case "comment":
+          limit = 6
+          break
+        case "portfolio":
+          limit = -1
+          break
+      }
+      const pass =
+        countCharacters(post?.metadata?.content?.content || "") > limit &&
+        !(new Date(post.metadata?.content?.date_published || "") > new Date())
+      if (!pass) {
+        isFiltered = true
+      }
+      return pass
+    })
     .map((post) => {
       delete post.metadata?.content.content
       return post
     })
+
+  if (isFiltered && resultAll.list.length < limit && resultAll.cursor) {
+    const next = await getFeed({
+      type,
+      cursor: resultAll.cursor,
+      limit: limit - resultAll.list.length,
+      characterId,
+      daysInterval,
+      searchKeyword,
+      searchType,
+      tag,
+      useHTML,
+      topic,
+    })
+    resultAll.list = resultAll.list.concat(next.list)
+    resultAll.cursor = next.cursor
+    resultAll.count = next.count
+  }
 
   return resultAll
 }

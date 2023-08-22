@@ -46,13 +46,14 @@ import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { showConfetti } from "~/lib/confetti"
+import { RESERVED_TAGS } from "~/lib/constants"
 import { getDefaultSlug } from "~/lib/default-slug"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink, getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { delStorage, setStorage } from "~/lib/storage"
-import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, NoteType, PageVisibilityEnum } from "~/lib/types"
 import { cn, pick } from "~/lib/utils"
 import { Rendered, renderPageContent } from "~/markdown"
 import { checkPageSlug } from "~/models/page.model"
@@ -89,7 +90,7 @@ const DynamicPageContent = dynamic(
   },
 )
 
-export default function SubdomainEditor() {
+export default function PostEditor() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { t } = useTranslation("dashboard")
@@ -98,7 +99,7 @@ export default function SubdomainEditor() {
   const searchParams = useSearchParams()
 
   let pageId = searchParams?.get("id") as string | undefined
-  const isPost = searchParams?.get("type") === "post"
+  const type = (searchParams?.get("type") || "post") as NoteType
   const defaultTag = searchParams?.get("tag")
 
   const site = useGetSite(subdomain)
@@ -206,7 +207,7 @@ export default function SubdomainEditor() {
         setStorage(draftKey, {
           date: +new Date(),
           values: newValues,
-          isPost: isPost,
+          type,
         })
         queryClient.invalidateQueries([
           "getPagesBySite",
@@ -215,7 +216,7 @@ export default function SubdomainEditor() {
       }
       useEditorState.setState(newValues)
     },
-    [isPost, queryClient, subdomain, visibility],
+    [type, queryClient, subdomain, visibility],
   )
 
   const createPage = useCreatePage()
@@ -246,7 +247,7 @@ export default function SubdomainEditor() {
       if (visibility === PageVisibilityEnum.Draft) {
         createPage.mutate({
           ...baseValues,
-          isPost: isPost,
+          type,
         })
       } else {
         updatePage.mutate({
@@ -371,7 +372,7 @@ export default function SubdomainEditor() {
       slug: page.data.metadata?.content?.slug || "",
       tags:
         page.data.metadata?.content?.tags
-          ?.filter((tag) => tag !== "post" && tag !== "page")
+          ?.filter((tag) => !RESERVED_TAGS.includes(tag))
           ?.join(", ") || "",
       content: page.data.metadata?.content?.content || "",
       cover: page.data.metadata?.content?.attachments?.find(
@@ -545,12 +546,12 @@ export default function SubdomainEditor() {
     )
   }, [draftKey, subdomain, site.data?.characterId])
 
-  const presentAdvancedModal = useEditorAdvancedModal({ isPost })
+  const presentAdvancedModal = useEditorAdvancedModal({ type })
   const extraProperties = (
     <EditorExtraProperties
       defaultSlug={defaultSlug}
       updateValue={updateValue}
-      isPost={isPost}
+      type={type}
       subdomain={subdomain}
       userTags={userTags.data?.list || []}
       openAdvancedOptions={presentAdvancedModal}
@@ -610,7 +611,7 @@ export default function SubdomainEditor() {
                     renderPage={setIsRendering}
                     propertiesWidget={extraProperties}
                     previewPage={onPreviewButtonClick}
-                    isPost={isPost}
+                    type={type}
                     isModified={visibility === PageVisibilityEnum.Modified}
                     discardChanges={discardChanges}
                   />
@@ -654,7 +655,7 @@ export default function SubdomainEditor() {
                       visibility !== PageVisibilityEnum.Modified &&
                       visibility !== PageVisibilityEnum.Draft
                     }
-                    isPost={isPost}
+                    type={type}
                     isModified={visibility === PageVisibilityEnum.Modified}
                     discardChanges={discardChanges}
                   />
@@ -736,7 +737,7 @@ export default function SubdomainEditor() {
                 <EditorExtraProperties
                   defaultSlug={defaultSlug}
                   updateValue={updateValue}
-                  isPost={isPost}
+                  type={type}
                   userTags={userTags.data?.list || []}
                   subdomain={subdomain}
                   openAdvancedOptions={presentAdvancedModal}
@@ -752,7 +753,7 @@ export default function SubdomainEditor() {
 
 const EditorExtraProperties = memo(
   ({
-    isPost,
+    type,
     updateValue,
     subdomain,
     defaultSlug,
@@ -760,7 +761,7 @@ const EditorExtraProperties = memo(
     openAdvancedOptions,
   }: {
     updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
-    isPost: boolean
+    type: NoteType
 
     subdomain: string
     defaultSlug: string
@@ -823,7 +824,9 @@ const EditorExtraProperties = memo(
             name="slug"
             value={values.slug}
             placeholder={defaultSlug}
-            label={t(`${isPost ? "Post" : "Page"} slug`) || ""}
+            label={
+              t(`${type.charAt(0).toUpperCase() + type.slice(1)} slug`) || ""
+            }
             id="slug"
             isBlock
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -833,9 +836,7 @@ const EditorExtraProperties = memo(
               <>
                 {(values.slug || defaultSlug) && (
                   <>
-                    {t(
-                      `This ${isPost ? "post" : "page"} will be accessible at`,
-                    )}{" "}
+                    {t(`This ${type} will be accessible at`)}{" "}
                     <UniLink
                       href={`${getSiteLink({
                         subdomain,
@@ -892,7 +893,7 @@ const EditorExtraProperties = memo(
 
 EditorExtraProperties.displayName = "EditorExtraProperties"
 
-const useEditorAdvancedModal = ({ isPost }: { isPost: boolean }) => {
+const useEditorAdvancedModal = ({ type }: { type: NoteType }) => {
   const { t } = useTranslation("dashboard")
 
   const { present } = useModalStack()
@@ -900,7 +901,7 @@ const useEditorAdvancedModal = ({ isPost }: { isPost: boolean }) => {
   return () => {
     present({
       title: t("Advanced Settings"),
-      content: () => <EditorAdvancedModal isPost={isPost} />,
+      content: () => <EditorAdvancedModal type={type} />,
       modalProps: {
         withConfirm: true,
       },
@@ -909,8 +910,8 @@ const useEditorAdvancedModal = ({ isPost }: { isPost: boolean }) => {
 }
 
 const EditorAdvancedModal: FC<{
-  isPost: boolean
-}> = ({ isPost }) => {
+  type: NoteType
+}> = ({ type }) => {
   const { t } = useTranslation("dashboard")
 
   const values = useEditorState(
@@ -940,7 +941,7 @@ const EditorAdvancedModal: FC<{
           {t("Publish at")}
         </label>
         <DateInput
-          className="[&_input]:bg-slate-50 [&_input]:text-black/90"
+          className="[&_input]:text-black/90 [&_input]:bg-white"
           allowDeselect
           clearable
           valueFormat="YYYY-MM-DD, h:mm a"
@@ -971,9 +972,7 @@ const EditorAdvancedModal: FC<{
         />
         <div className="text-xs text-gray-400 mt-1">
           {t(
-            `This ${
-              isPost ? "post" : "page"
-            } will be accessible from this time. Leave blank to use the current time.`,
+            `This ${type} will be accessible from this time. Leave blank to use the current time.`,
           )}
         </div>
         {values.publishedAt > new Date().toISOString() && (

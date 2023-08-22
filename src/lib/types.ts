@@ -72,6 +72,14 @@ export type SiteNavigationItem = {
   url: string
 }
 
+export type PortfolioStats = {
+  videoViewsCount?: number
+  audoListensCount?: number
+  projectStarsCount?: number
+  textViewsCount?: number
+  commentsCount?: number
+}
+
 export type ExpandedNote = NoteEntity & {
   draftKey?: string
   metadata: {
@@ -92,8 +100,10 @@ export type ExpandedNote = NoteEntity & {
     }
   }
   stat?: {
-    viewDetailCount: number
+    viewDetailCount?: number
     hotScore?: number
+    portfolio?: PortfolioStats
+    commentsCount?: number
   }
   local?: boolean
 }
@@ -113,3 +123,5 @@ export type ExpandedCharacter = CharacterEntity & {
 }
 
 export type ColorScheme = "dark" | "light"
+
+export type NoteType = "post" | "page" | "portfolio"

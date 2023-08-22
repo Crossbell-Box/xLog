@@ -1,55 +1,61 @@
+"use client"
+
+import { useEffect, useState } from "react"
+
 import { Image } from "~/components/ui/Image"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { cn } from "~/lib/utils"
 
+const iconCDN = "https://cdn.simpleicons.org"
+
+// There is no need to set this icon if it is available by default `https://cdn.simpleicons.org/${platform}`
 export const PlatformsSyncMap: {
   [key: string]: {
     name: string
-    icon: string
+    icon?: string
     url?: string
     identityFormatTemplate?: string
+    portfolioDomain?: string
   }
 } = {
   telegram: {
     name: "Telegram",
-    icon: "/assets/social/telegram.svg",
     url: "https://t.me/{username}",
   },
   tg_channel: {
     name: "Telegram Channel",
-    icon: "/assets/social/telegram.svg",
+    icon: `${iconCDN}/telegram`,
     url: "https://t.me/{username}",
   },
   twitter: {
     name: "Twitter",
-    icon: "/assets/social/twitter.svg",
     url: "https://twitter.com/{username}",
+    portfolioDomain: `https://twitter.com/`,
   },
   twitter_id: {
     name: "Twitter",
-    icon: "/assets/social/twitter.svg",
+    icon: `${iconCDN}/twitter`,
     url: "https://twitter.com/i/user/{username}",
   },
   pixiv: {
     name: "Pixiv",
-    icon: "/assets/social/pixiv.ico",
     url: "https://www.pixiv.net/users/{username}",
+    portfolioDomain: `https://www.pixiv.net/`,
   },
   substack: {
     name: "Substack",
-    icon: "/assets/social/substack.svg",
     url: "https://{username}.substack.com/",
   },
   medium: {
     name: "Medium",
-    icon: "/assets/social/medium.svg",
     url: "https://medium.com/@{username}",
   },
   github: {
     name: "GitHub",
-    icon: "/assets/social/github.svg",
+    icon: `${iconCDN}/github/_/fff`,
     url: "https://github.com/{username}",
+    portfolioDomain: `https://github.com/`,
   },
   jike: {
     name: "即刻",
@@ -60,81 +66,73 @@ export const PlatformsSyncMap: {
     name: "bilibili",
     icon: "/assets/social/bilibili.svg",
     url: "https://space.bilibili.com/{username}",
+    portfolioDomain: `https://www.bilibili.com/`,
   },
   zhihu: {
     name: "知乎",
-    icon: "/assets/social/zhihu.svg",
     url: "https://www.zhihu.com/people/{username}",
   },
   playstation: {
     name: "PlayStation",
-    icon: "/assets/social/playstation.svg",
     url: "https://psnprofiles.com/{username}",
   },
   "nintendo switch": {
     name: "Nintendo Switch",
-    icon: "/assets/social/nintendo_switch.svg",
+    icon: `${iconCDN}/nintendoswitch`,
   },
   "discord server": {
     name: "Discord Server",
-    icon: "/assets/social/discord.svg",
+    icon: `${iconCDN}/discord`,
     url: "https://discord.gg/{username}",
   },
   xiaoyuzhou: {
     name: "小宇宙播客",
     icon: "/assets/social/xiaoyuzhou2.png",
     url: "https://www.xiaoyuzhoufm.com/podcast/{username}",
+    portfolioDomain: `https://www.xiaoyuzhoufm.com/`,
   },
   steam: {
     name: "Steam",
-    icon: "/assets/social/steam.svg",
     url: "https://steamcommunity.com/id/{username}",
   },
   steam_profiles: {
     name: "Steam",
-    icon: "/assets/social/steam.svg",
+    icon: `${iconCDN}/steam`,
     url: "https://steamcommunity.com/profiles/{username}",
   },
   gitlab: {
     name: "Gitlab",
-    icon: "/assets/social/gitlab.svg",
     url: "https://gitlab.com/{username}",
   },
   keybase: {
     name: "Keybase",
-    icon: "/assets/social/keybase.png",
     url: "https://keybase.io/{username}",
   },
   youtube: {
     name: "Youtube",
-    icon: "/assets/social/youtube.svg",
     url: "https://youtube.com/@{username}",
+    portfolioDomain: `https://youtube.com/`,
   },
   facebook: {
     name: "Facebook",
-    icon: "/assets/social/facebook.svg",
     url: "https://facebook.com/{username}",
   },
   whatsapp: {
     name: "Whatsapp",
-    icon: "/assets/social/whatsapp.svg",
     url: "https://wa.me/{username}",
   },
   mastodon: {
     name: "Mastodon",
-    icon: "/assets/social/mastodon.svg",
     url: "https://{instance}/@{username}",
     identityFormatTemplate: "username@instance.ltd",
   },
   misskey: {
     name: "Misskey",
-    icon: "/assets/social/misskey.png",
     url: "https://{instance}/@{username}",
     identityFormatTemplate: "username@instance.ltd",
   },
   pleroma: {
     name: "Pleroma",
-    icon: "/assets/social/pleroma.svg",
     url: "https://{instance}/users/{username}",
     identityFormatTemplate: "username@instance.ltd",
   },
@@ -174,6 +172,12 @@ export const Platform = ({
       break
   }
 
+  const [showImg, setShowImg] = useState(false)
+
+  useEffect(() => {
+    setShowImg(true)
+  }, [platform])
+
   return (
     <UniLink
       className={cn(
@@ -188,9 +192,9 @@ export const Platform = ({
         className="text-sm"
       >
         <span className="inline-flex items-center">
-          {PlatformsSyncMap[platform]?.icon ? (
+          {showImg ? (
             <Image
-              src={PlatformsSyncMap[platform]?.icon}
+              src={PlatformsSyncMap[platform]?.icon || `${iconCDN}/${platform}`}
               alt={platform}
               width={20}
               height={20}

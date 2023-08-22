@@ -104,7 +104,7 @@ export default function DashboardLayout({
     {
       isActive: ({ href, pathname }) => href === pathname,
       icon: "icon-[mingcute--add-circle-line]",
-      text: "Creation",
+      text: "Publishing",
     },
     {
       href: `/dashboard/${subdomain}/posts`,
@@ -118,6 +118,13 @@ export default function DashboardLayout({
       isActive: ({ href, pathname }) => href === pathname,
       icon: "icon-[mingcute--file-line]",
       text: "Pages",
+      lever: 2,
+    },
+    {
+      href: `/dashboard/${subdomain}/portfolios`,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: "icon-[mingcute--cloud-line]",
+      text: "Portfolios",
       lever: 2,
     },
     {

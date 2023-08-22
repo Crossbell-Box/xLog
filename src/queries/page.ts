@@ -25,6 +25,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 
+import createSearchParams from "~/lib/search-params"
+import { NoteType } from "~/lib/types"
 import * as pageModel from "~/models/page.model"
 
 export const useGetPagesBySiteLite = (
@@ -36,10 +38,10 @@ export const useGetPagesBySiteLite = (
       const result: ReturnType<typeof pageModel.getPagesBySite> = await (
         await fetch(
           "/api/pages?" +
-            new URLSearchParams({
+            createSearchParams({
               ...input,
               ...(pageParam && { cursor: pageParam }),
-            } as any),
+            }),
         )
       ).json()
       return result
@@ -220,12 +222,13 @@ export function useCreatePage() {
       content?: string
       publishedAt?: string
       excerpt?: string
-      isPost?: boolean
+      type?: NoteType
       cover?: {
         address?: string
         mime_type?: string
       }
       disableAISummary?: boolean
+      externalUrl?: string
     }) => {
       if (!input.characterId) {
         throw new Error("characterId is required")
@@ -240,7 +243,7 @@ export function useCreatePage() {
             date_published: input.publishedAt || new Date().toISOString(),
             summary: input.excerpt,
             tags: [
-              input.isPost ? "post" : "page",
+              input.type,
               ...(input.tags
                 ?.split(",")
                 .map((tag) => tag.trim())
@@ -272,6 +275,7 @@ export function useCreatePage() {
                   ]
                 : []),
             ],
+            external_urls: [input.externalUrl],
           } as NoteMetadata & {
             summary?: string
           },
@@ -306,12 +310,13 @@ export function useUpdatePage() {
       content?: string
       publishedAt?: string
       excerpt?: string
-      isPost?: boolean
+      type?: NoteType
       cover?: {
         address?: string
         mime_type?: string
       }
       disableAISummary?: boolean
+      externalUrl?: string
     }) => {
       if (!input.characterId || !input.noteId) {
         throw new Error("characterId and noteId are required")
@@ -341,8 +346,8 @@ export function useUpdatePage() {
             if (!metadataDraft.tags) {
               metadataDraft.tags = []
             }
-            if (input.isPost !== undefined) {
-              metadataDraft.tags[0] = input.isPost ? "post" : "page"
+            if (input.type !== undefined) {
+              metadataDraft.tags[0] = input.type
             }
             if (input.tags !== undefined) {
               metadataDraft.tags = [
@@ -405,6 +410,13 @@ export function useUpdatePage() {
                   mime_type: input.cover.mime_type,
                 })
               }
+            }
+
+            if (input.externalUrl) {
+              if (!metadataDraft.external_urls) {
+                metadataDraft.external_urls = []
+              }
+              metadataDraft.external_urls[0] = input.externalUrl
             }
           },
         },

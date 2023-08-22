@@ -22,7 +22,12 @@ export async function cacheGet(options: {
   } else {
     redisKey = options.key
   }
-  const cacheValue = await kv.get(redisKey)
+  let cacheValue
+  try {
+    cacheValue = await kv.get(redisKey)
+  } catch (error) {
+    console.error("Redis get error: ", error)
+  }
   if (cacheValue && cacheValue !== "undefined" && cacheValue !== "null") {
     if (!options.noUpdate) {
       setTimeout(() => {
@@ -36,7 +41,11 @@ export async function cacheGet(options: {
       }, Math.random() * REDIS_REFRESH)
     }
     if (typeof cacheValue === "string") {
-      return JSON.parse(cacheValue)
+      try {
+        return JSON.parse(cacheValue)
+      } catch (error) {
+        return cacheValue
+      }
     } else {
       return cacheValue
     }

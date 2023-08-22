@@ -10,7 +10,16 @@ const lock = new AsyncLock()
 
 const getOriginalScore = async (cid: string) => {
   try {
-    let { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
+    let { content, tags } = await (
+      await fetch(toGateway(`ipfs://${cid}`))
+    ).json()
+
+    if (tags?.[0] === "portfolio") {
+      return {
+        number: 100,
+        reason: "Portfolio",
+      }
+    }
 
     if (content?.length > 5000) {
       content = content.slice(0, 5000)
@@ -72,7 +81,7 @@ async function getScore(cid: string) {
     noUpdate: true,
     noExpire: true,
     getValueFun: async () => {
-      let resut
+      let result
       await lock.acquire(cid, async () => {
         const meta = await prisma.metadata.findFirst({
           where: {
@@ -81,7 +90,7 @@ async function getScore(cid: string) {
         })
         if (meta) {
           if (meta?.ai_score !== null) {
-            resut = {
+            result = {
               number: meta.ai_score,
               reason: meta.ai_score_reason,
             }
@@ -98,7 +107,7 @@ async function getScore(cid: string) {
                 },
               })
 
-              resut = score
+              result = score
             }
           }
         } else {
@@ -112,11 +121,11 @@ async function getScore(cid: string) {
               },
             })
 
-            resut = score
+            result = score
           }
         }
       })
-      return resut
+      return result
     },
   })
 

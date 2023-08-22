@@ -39,7 +39,7 @@ export default async function SiteArchivesPage({
   await prefetchGetPagesBySite(
     {
       characterId: site?.characterId,
-      type: "post",
+      type: ["post", "portfolio"],
       visibility: PageVisibilityEnum.Published,
       limit: 100,
       skipExpansion: true,

@@ -7,7 +7,7 @@ export async function GET(req: Request) {
 
   const result = await getPagesBySite({
     characterId: +(query.characterId || 0) as number,
-    type: query.type as "post" | "page",
+    type: query.type,
     visibility: query.visibility as PageVisibilityEnum,
     limit: query.limit ? parseInt(query.limit as string) : undefined,
     cursor: query.cursor as string,

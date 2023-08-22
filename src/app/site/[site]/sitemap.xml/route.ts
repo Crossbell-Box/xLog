@@ -37,6 +37,7 @@ export const GET = async (req: NextRequest) => {
       type: "post",
       visibility: PageVisibilityEnum.Published,
       limit: 1000,
+      skipExpansion: true,
     },
     queryClient,
   )

@@ -1,4 +1,4 @@
-import { SITE_URL } from "~/lib/env"
+import { IPFS_GATEWAY_FALLBACK, SITE_URL } from "~/lib/env"
 import { parsePost } from "~/lib/json-feed"
 import { NextServerResponse } from "~/lib/server-helper"
 import { ExpandedNote } from "~/lib/types"
@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   const data = {
     version: "https://jsonfeed.org/version/1",
     title: "xLog Latest",
-    icon: "https://ipfs.4everland.xyz/ipfs/bafkreigxdnr5lvtjxqin5upquomrti2s77hlgtjy5zaeu43uhpny75rbga",
+    icon: `${IPFS_GATEWAY_FALLBACK}bafkreigxdnr5lvtjxqin5upquomrti2s77hlgtjy5zaeu43uhpny75rbga`,
     home_page_url: `${SITE_URL}/`,
     feed_url: `${SITE_URL}/feed/latest`,
     items: feed?.list?.map((post: ExpandedNote) =>

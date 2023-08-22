@@ -11,10 +11,14 @@ const HTTPWhitelistPaths = ["/api/healthcheck"]
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
+  for (const [key, value] of req.headers.entries()) {
+    console.debug(`${key}: ${value}`)
+  }
+
   if (
     IS_PROD &&
     req.headers.get("x-forwarded-proto") !== "https" &&
-    !HTTPWhitelistPaths.includes(req.nextUrl.pathname)
+    !HTTPWhitelistPaths.includes(pathname)
   ) {
     let cfHttps = false
     try {
@@ -44,7 +48,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
   }
 
-  console.debug(`${req.method} ${req.nextUrl.pathname}${req.nextUrl.search}`)
+  console.debug(`${req.method} ${req.nextUrl}`)
 
   if (
     pathname.startsWith("/api/") ||
@@ -54,7 +58,9 @@ export default async function middleware(req: NextRequest) {
     pathname.startsWith("/locales/") ||
     pathname.match(/^\/(workbox|worker|fallback)-\w+\.js(\.map)?$/) ||
     pathname === "/sw.js" ||
-    pathname === "/sw.js.map"
+    pathname === "/sw.js.map" ||
+    pathname === "/monitoring" ||
+    pathname === "favicon.ico"
   ) {
     return NextResponse.next()
   }
@@ -69,7 +75,9 @@ export default async function middleware(req: NextRequest) {
         new URL(`/api/host2handle?host=${req.headers.get("host")}`, req.url),
       )
     ).json()
-  } catch (error) {}
+  } catch (error) {
+    console.error(error)
+  }
 
   if (tenant?.redirect && IS_PROD && !pathname.startsWith("/feed")) {
     return NextResponse.redirect(
@@ -79,19 +87,23 @@ export default async function middleware(req: NextRequest) {
 
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   const requestHeaders = new Headers(req.headers)
-  requestHeaders.set("x-xlog-pathname", req.nextUrl.pathname)
+  requestHeaders.set("x-xlog-pathname", pathname)
   requestHeaders.set("x-xlog-search", req.nextUrl.search)
   requestHeaders.set("x-xlog-handle", tenant.subdomain || "")
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
   if (tenant?.subdomain) {
-    const url = req.nextUrl.clone()
-    url.pathname = `/site/${tenant?.subdomain}${url.pathname}`
-    return NextResponse.rewrite(url, {
-      request: {
-        headers: requestHeaders,
+    return NextResponse.rewrite(
+      new URL(
+        `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
+        req.url,
+      ),
+      {
+        request: {
+          headers: requestHeaders,
+        },
       },
-    })
+    )
   }
 
   if (DISCORD_LINK && pathname === "/discord") {
