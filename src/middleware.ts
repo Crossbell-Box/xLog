@@ -11,6 +11,10 @@ const HTTPWhitelistPaths = ["/api/healthcheck"]
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
+  for (const [key, value] of req.headers.entries()) {
+    console.debug(`${key}: ${value}`)
+  }
+
   const forwardedHost = req.headers.get("X-Forwarded-Host")
   if (forwardedHost) {
     req.headers.set("host", forwardedHost)
@@ -77,7 +81,10 @@ export default async function middleware(req: NextRequest) {
     tenant = await (
       await fetch(`${SITE_URL}/api/host2handle?host=${req.headers.get("host")}`)
     ).json()
-  } catch (error) {}
+  } catch (error) {
+    console.error(error)
+  }
+  console.debug("tenant", tenant)
 
   if (tenant?.redirect && IS_PROD && !pathname.startsWith("/feed")) {
     return NextResponse.redirect(
