@@ -83,6 +83,15 @@ module.exports = withBundleAnalyzer({
           },
         ],
       },
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "s-maxage=1, stale-while-revalidate",
+          },
+        ],
+      },
     ]
   },
   staticPageGenerationTimeout: 3600,
