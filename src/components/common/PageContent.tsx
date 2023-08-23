@@ -51,11 +51,7 @@ const PageContent = memo(async function PageContent({
       onMouseEnter={onMouseEnter}
     >
       <>
-        <div
-          className="xlog-post-content prose"
-          ref={inputRef}
-          suppressHydrationWarning
-        >
+        <div className="xlog-post-content prose" ref={inputRef}>
           {inParsedContent?.element}
         </div>
         {!onlyContent && toc && inParsedContent?.toc && (
