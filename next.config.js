@@ -91,26 +91,10 @@ module.exports = withBundleAnalyzer({
         ],
       },
       {
-        source: "/",
+        source: "^/(?!api/|_next/).*$",
         headers: [
           {
-            key: "Cache-Control",
-            value: "s-maxage=1, stale-while-revalidate",
-          },
-        ],
-      },
-      {
-        source: "/:path*",
-        has: [
-          {
-            type: "header",
-            key: "X-Matched-Path",
-            value: "/site/[site]",
-          },
-        ],
-        headers: [
-          {
-            key: "Cache-Control",
+            key: "CDN-Cache-Control",
             value: "s-maxage=1, stale-while-revalidate",
           },
         ],
