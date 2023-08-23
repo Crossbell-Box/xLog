@@ -20,6 +20,7 @@ data:
     	}
 
     	reverse_proxy xlog-internal.crossbell.svc:3000 {
+        header_up host {host}
         header_up x-forwarded-proto http
       }
     }
@@ -34,6 +35,7 @@ data:
     	}
 
     	reverse_proxy xlog-internal.crossbell.svc:3000 {
+        header_up host {host}
         header_up x-forwarded-proto http
       }
     }
