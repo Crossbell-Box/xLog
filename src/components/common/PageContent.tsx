@@ -2,13 +2,14 @@ import { type MutableRefObject, memo } from "react"
 
 import PostActions from "~/components/site/PostActions"
 import PostToc from "~/components/site/PostToc"
+import { isOnlyContent } from "~/lib/is-only-client"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
 import { PageContentContainer } from "./PageContentContainer"
 
-const PageContent = memo(function PageContent({
+const PageContent = memo(async function PageContent({
   className,
   content,
   toc,
@@ -40,6 +41,8 @@ const PageContent = memo(function PageContent({
     inParsedContent = renderPageContent(content, false, isComment)
   }
 
+  const onlyContent = await isOnlyContent()
+
   return (
     <PageContentContainer
       className={cn("relative", className)}
@@ -48,15 +51,13 @@ const PageContent = memo(function PageContent({
       onMouseEnter={onMouseEnter}
     >
       <>
-        <div
-          className="xlog-post-content prose"
-          ref={inputRef}
-          suppressHydrationWarning
-        >
+        <div className="xlog-post-content prose" ref={inputRef}>
           {inParsedContent?.element}
         </div>
-        {toc && inParsedContent?.toc && <PostToc data={inParsedContent?.toc} />}
-        {withActions && <PostActions page={page} site={site} />}
+        {!onlyContent && toc && inParsedContent?.toc && (
+          <PostToc data={inParsedContent?.toc} />
+        )}
+        {!onlyContent && withActions && <PostActions page={page} site={site} />}
       </>
     </PageContentContainer>
   )

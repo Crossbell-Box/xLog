@@ -41,7 +41,12 @@ export default async function middleware(req: NextRequest) {
     pathname === "/atom.xml" ||
     pathname === "/feed/xml"
   ) {
-    return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
+    return NextResponse.redirect(
+      `https://${
+        req.headers.get("x-forwarded-host") || req.headers.get("host")
+      }/feed`,
+      301,
+    )
   }
 
   console.debug(`${req.method} ${req.nextUrl}`)
@@ -52,6 +57,7 @@ export default async function middleware(req: NextRequest) {
     pathname.startsWith("/_next/") ||
     pathname.startsWith("/assets/") ||
     pathname.startsWith("/locales/") ||
+    pathname.startsWith("/site/") ||
     pathname.match(/^\/(workbox|worker|fallback)-\w+\.js(\.map)?$/) ||
     pathname === "/sw.js" ||
     pathname === "/sw.js.map" ||
@@ -68,7 +74,12 @@ export default async function middleware(req: NextRequest) {
   try {
     tenant = await (
       await fetch(
-        new URL(`/api/host2handle?host=${req.headers.get("host")}`, req.url),
+        new URL(
+          `/api/host2handle?host=${
+            req.headers.get("x-forwarded-host") || req.headers.get("host")
+          }`,
+          req.url,
+        ),
       )
     ).json()
   } catch (error) {
@@ -91,7 +102,9 @@ export default async function middleware(req: NextRequest) {
   if (tenant?.subdomain) {
     return NextResponse.rewrite(
       new URL(
-        `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
+        `/site/${tenant?.subdomain}${pathname === "/" ? "" : pathname}${
+          req.nextUrl.search
+        }`,
         req.url,
       ),
       {
