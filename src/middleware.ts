@@ -45,7 +45,10 @@ export default async function middleware(req: NextRequest) {
     pathname === "/atom.xml" ||
     pathname === "/feed/xml"
   ) {
-    return NextResponse.redirect(`https://${req.headers.get("host")}/feed`, 301)
+    return NextResponse.redirect(
+      `https://${req.headers.get("x-forwarded-host")}/feed`,
+      301,
+    )
   }
 
   console.debug(`${req.method} ${req.nextUrl}`)
@@ -72,7 +75,10 @@ export default async function middleware(req: NextRequest) {
   try {
     tenant = await (
       await fetch(
-        new URL(`/api/host2handle?host=${req.headers.get("host")}`, req.url),
+        new URL(
+          `/api/host2handle?host=${req.headers.get("x-forwarded-host")}`,
+          req.url,
+        ),
       )
     ).json()
   } catch (error) {
