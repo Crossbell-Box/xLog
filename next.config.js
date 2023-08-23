@@ -91,12 +91,21 @@ module.exports = withBundleAnalyzer({
         ],
       },
       {
+        source: "/",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "s-maxage=1, stale-while-revalidate",
+          },
+        ],
+      },
+      {
         source: "/:path*",
         has: [
           {
             type: "header",
-            key: "Cache-Control",
-            value: "private, no-cache, no-store, max-age=0, must-revalidate",
+            key: "X-Matched-Path",
+            value: "/site/[site]",
           },
         ],
         headers: [
