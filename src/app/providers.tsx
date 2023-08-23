@@ -1,6 +1,6 @@
 "use client"
 
-import { ThemeProvider } from "next-themes"
+import dynamic from "next/dynamic"
 import { useState } from "react"
 import { WagmiConfig } from "wagmi"
 
@@ -22,6 +22,12 @@ import { filterNotificationCharacter } from "~/lib/filter-character"
 import { toGateway } from "~/lib/ipfs-parser"
 import { urlComposer } from "~/lib/url-composer"
 import { LangProvider } from "~/providers/LangProvider"
+
+// https://github.com/vercel/next.js/discussions/22388#discussioncomment-6329930
+const ThemeProvider = dynamic(
+  () => import("~/components/common/ThemeProvider"),
+  { ssr: false },
+)
 
 const wagmiConfig = createWagmiConfig({
   appName: APP_NAME,

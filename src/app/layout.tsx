@@ -1,6 +1,7 @@
 import { dir } from "i18next"
 import { Metadata } from "next"
 import { headers } from "next/headers"
+import Script from "next/script"
 import { Toaster } from "react-hot-toast"
 
 import "@crossbell/connect-kit/colors.css"
@@ -8,9 +9,17 @@ import { updateIndexerFetchOptions } from "@crossbell/indexer"
 
 import "~/css/main.css"
 import { getAcceptLang } from "~/lib/accept-lang"
-import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN, SITE_URL } from "~/lib/env"
+import {
+  APP_DESCRIPTION,
+  APP_NAME,
+  APP_SLOGAN,
+  SITE_URL,
+  UMAMI_ID,
+  UMAMI_SCRIPT,
+} from "~/lib/env"
 import { getColorScheme } from "~/lib/get-color-scheme"
 
+import { ColorSchemeInjector } from "./ColorSchemeInjector"
 import Providers from "./providers"
 
 export const metadata: Metadata = {
@@ -102,20 +111,22 @@ export default function RootLayout({
 
   return (
     <html lang={lang} dir={dir(lang)} className={colorScheme}>
-      <head>{/* <ColorSchemeInjector /> */}</head>
+      <head>
+        <ColorSchemeInjector />
+      </head>
       <body>
         <Providers lang={lang}>
           {modal}
           {children}
         </Providers>
         <Toaster />
-        {/* <Script
+        <Script
           id="xlog-umami-analytics"
           strategy="afterInteractive"
           async
           src={UMAMI_SCRIPT}
           data-website-id={UMAMI_ID}
-        ></Script> */}
+        ></Script>
       </body>
     </html>
   )
