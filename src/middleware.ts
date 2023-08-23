@@ -106,13 +106,17 @@ export default async function middleware(req: NextRequest) {
   if (tenant?.subdomain) {
     console.debug(
       `Rewrite to ${new URL(
-        `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
+        `/site/${tenant?.subdomain}${pathname === "/" ? "" : pathname}${
+          req.nextUrl.search
+        }`,
         req.url,
       )}`,
     )
     return NextResponse.rewrite(
       new URL(
-        `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
+        `/site/${tenant?.subdomain}${pathname === "/" ? "" : pathname}${
+          req.nextUrl.search
+        }`,
         req.url,
       ),
       {
