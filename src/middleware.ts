@@ -46,7 +46,9 @@ export default async function middleware(req: NextRequest) {
     pathname === "/feed/xml"
   ) {
     return NextResponse.redirect(
-      `https://${req.headers.get("x-forwarded-host")}/feed`,
+      `https://${
+        req.headers.get("x-forwarded-host") || req.headers.get("host")
+      }/feed`,
       301,
     )
   }
@@ -77,7 +79,9 @@ export default async function middleware(req: NextRequest) {
     tenant = await (
       await fetch(
         new URL(
-          `/api/host2handle?host=${req.headers.get("x-forwarded-host")}`,
+          `/api/host2handle?host=${
+            req.headers.get("x-forwarded-host") || req.headers.get("host")
+          }`,
           req.url,
         ),
       )
@@ -100,6 +104,12 @@ export default async function middleware(req: NextRequest) {
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
   if (tenant?.subdomain) {
+    console.debug(
+      `Rewrite to ${new URL(
+        `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
+        req.url,
+      )}`,
+    )
     return NextResponse.rewrite(
       new URL(
         `/site/${tenant?.subdomain}${pathname}${req.nextUrl.search}`,
