@@ -110,12 +110,7 @@ export default function RootLayout({
   }
 
   return (
-    <html
-      lang={lang}
-      dir={dir(lang)}
-      className={colorScheme}
-      suppressHydrationWarning
-    >
+    <html lang={lang} dir={dir(lang)} className={colorScheme}>
       <head>
         <ColorSchemeInjector />
       </head>
