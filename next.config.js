@@ -90,6 +90,22 @@ module.exports = withBundleAnalyzer({
           },
         ],
       },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "header",
+            key: "Cache-Control",
+            value: "private, no-cache, no-store, max-age=0, must-revalidate",
+          },
+        ],
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "s-maxage=1, stale-while-revalidate",
+          },
+        ],
+      },
     ]
   },
   staticPageGenerationTimeout: 3600,
