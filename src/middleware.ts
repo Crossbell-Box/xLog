@@ -11,6 +11,12 @@ const HTTPWhitelistPaths = ["/api/healthcheck"]
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
+  // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
+  const requestHeaders = new Headers(req.headers)
+  requestHeaders.set("x-xlog-pathname", pathname)
+  requestHeaders.set("x-xlog-search", req.nextUrl.search)
+  requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
+
   if (
     IS_PROD &&
     req.headers.get("x-forwarded-proto") !== "https" &&
@@ -64,7 +70,11 @@ export default async function middleware(req: NextRequest) {
     pathname === "/monitoring" ||
     pathname === "favicon.ico"
   ) {
-    return NextResponse.next()
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    })
   }
 
   let tenant: {
@@ -92,12 +102,7 @@ export default async function middleware(req: NextRequest) {
     )
   }
 
-  // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
-  const requestHeaders = new Headers(req.headers)
-  requestHeaders.set("x-xlog-pathname", pathname)
-  requestHeaders.set("x-xlog-search", req.nextUrl.search)
   requestHeaders.set("x-xlog-handle", tenant.subdomain || "")
-  requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
   if (tenant?.subdomain) {
     return NextResponse.rewrite(
