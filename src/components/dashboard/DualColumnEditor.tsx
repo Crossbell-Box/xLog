@@ -5,8 +5,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { EditorView } from "@codemirror/view"
 
-import { toolbarShortcuts } from "~/editor"
-import { editorUpload } from "~/editor/Multimedia"
+import { toolbarShortcuts } from "~/components/dashboard/toolbars"
+import { editorUpload } from "~/components/dashboard/toolbars/Multimedia"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { useTranslation } from "~/lib/i18n/client"

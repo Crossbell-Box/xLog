@@ -8,9 +8,9 @@ import { EditorView } from "@codemirror/view"
 import { useAccountState } from "@crossbell/connect-kit"
 import { Popover } from "@headlessui/react"
 
+import { editorUpload } from "~/components/dashboard/toolbars/Multimedia"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
-import { editorUpload } from "~/editor/Multimedia"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { useTranslation } from "~/lib/i18n/client"
 import {

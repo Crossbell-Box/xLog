@@ -12,11 +12,11 @@ import { useQueryClient } from "@tanstack/react-query"
 
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import DualColumnEditor from "~/components/dashboard/DualColumnEditor"
+import { EditorToolbar } from "~/components/dashboard/EditorToolbar"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import { PublishButton } from "~/components/dashboard/PublishButton"
 import PublishedModal from "~/components/dashboard/PublishedModal"
 import { Button } from "~/components/ui/Button"
-import { EditorToolbar } from "~/components/ui/EditorToolbar"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { Input } from "~/components/ui/Input"
@@ -24,7 +24,6 @@ import { useModalStack } from "~/components/ui/ModalStack"
 import { Switch } from "~/components/ui/Switch"
 import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
-import { toolbars } from "~/editor"
 import {
   Values,
   initialEditorState,
@@ -418,7 +417,7 @@ export default function PostEditor() {
                   isMobileLayout ? "flex-1" : undefined
                 }`}
               >
-                <EditorToolbar view={view} toolbars={toolbars}></EditorToolbar>
+                <EditorToolbar view={view}></EditorToolbar>
               </div>
               {isMobileLayout ? (
                 <div className="flex items-center space-x-3 w-auto pl-5">

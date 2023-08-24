@@ -5,21 +5,11 @@ import { usePopper } from "react-popper"
 import { EditorView } from "@codemirror/view"
 import { Popover } from "@headlessui/react"
 
-import type { ICommand } from "~/editor"
+import { Tooltip } from "~/components/ui/Tooltip"
 import { useTranslation } from "~/lib/i18n/client"
 import { isMacOS } from "~/lib/utils"
 
-import { Tooltip } from "./Tooltip"
-
-export interface EditorToolbarProps {
-  view?: EditorView
-  toolbars: ICommand[]
-}
-
-enum ToolbarMode {
-  Normal,
-  Preview,
-}
+import { type ICommand, toolbars } from "./toolbars"
 
 type IToolbarItemProps = ICommand<any> & { view?: EditorView }
 
@@ -91,56 +81,54 @@ const ToolbarItemWithPopover = ({
   )
 }
 
-export const EditorToolbar = memo(({ view, toolbars }: EditorToolbarProps) => {
+export const EditorToolbar = memo(({ view }: { view?: EditorView }) => {
   const { t } = useTranslation("dashboard")
   const renderToolbar = useCallback(
-    (mode: ToolbarMode) =>
-      // eslint-disable-next-line react/display-name
-      ({ name, icon, label, execute, ui, shortcut }: ICommand) => {
-        return ui ? (
-          <ToolbarItemWithPopover
+    ({ name, icon, label, execute, ui, shortcut }: ICommand) => {
+      return ui ? (
+        <ToolbarItemWithPopover
+          key={name}
+          name={name}
+          icon={icon}
+          label={label}
+          execute={execute}
+          ui={ui}
+          view={view}
+          shortcut={shortcut}
+        />
+      ) : (
+        <Tooltip
+          key={name}
+          label={`${t(label)}${keyDisplay(shortcut)}`}
+          placement="bottom"
+        >
+          <button
             key={name}
-            name={name}
-            icon={icon}
-            label={label}
-            execute={execute}
-            ui={ui}
-            view={view}
-            shortcut={shortcut}
-          />
-        ) : (
-          <Tooltip
-            key={name}
-            label={`${t(label)}${keyDisplay(shortcut)}`}
-            placement="bottom"
+            title={name}
+            type="button"
+            className={
+              "w-9 h-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
+            }
+            onClick={() => {
+              view &&
+                execute({
+                  view,
+                  options: { container: view.dom },
+                })
+            }}
           >
-            <button
-              key={name}
-              title={name}
-              type="button"
-              className={
-                "w-9 h-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
-              }
-              onClick={() => {
-                view &&
-                  execute({
-                    view,
-                    options: { container: view.dom },
-                  })
-              }}
-            >
-              <span className={icon}></span>
-            </button>
-          </Tooltip>
-        )
-      },
+            <span className={icon}></span>
+          </button>
+        </Tooltip>
+      )
+    },
     [view, t],
   )
 
   return (
     <div className="flex group">
       <div className="flex-1 flex space-x-1">
-        {toolbars?.map(renderToolbar(ToolbarMode.Normal))}
+        {toolbars?.map(renderToolbar)}
       </div>
     </div>
   )

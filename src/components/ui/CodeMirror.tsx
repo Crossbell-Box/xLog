@@ -39,7 +39,7 @@ import {
 import { tags } from "@lezer/highlight"
 import { scroll } from "@uiw/codemirror-extensions-events"
 
-import { mentionAutocompletion } from "~/editor/mention-autocompletion"
+import { mentionAutocompletion } from "~/components/dashboard/toolbars/mention-autocompletion"
 import {
   codemirrorReconfigureExtension,
   monospaceFonts,
