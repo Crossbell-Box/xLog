@@ -136,15 +136,6 @@ module.exports = withBundleAnalyzer({
   },
   staticPageGenerationTimeout: 3600,
 
-  async rewrites() {
-    return [
-      {
-        source: "/api/indexer/:path*",
-        destination: "https://indexer.crossbell.io/v1/:path*",
-      },
-    ]
-  },
-
   async redirects() {
     return [
       {
