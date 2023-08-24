@@ -2,7 +2,7 @@
 
 import { nanoid } from "nanoid"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
-import { ChangeEvent, FC, memo, useCallback, useEffect, useState } from "react"
+import { ChangeEvent, memo, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { shallow } from "zustand/shallow"
 
@@ -180,12 +180,12 @@ export default function PostEditor() {
     [type, queryClient, subdomain, visibility],
   )
 
-  const createPage = useCreatePage()
-  const updatePage = useUpdatePage()
-
   const isMobileLayout = useIsMobileLayout()
   const [isRendering, setIsRendering] = useState(!isMobileLayout)
 
+  // Save
+  const createPage = useCreatePage()
+  const updatePage = useUpdatePage()
   const savePage = async () => {
     const check = await checkPageSlug({
       slug: values.slug || defaultSlug,
@@ -219,31 +219,7 @@ export default function PostEditor() {
     }
   }
 
-  const deleteP = useDeletePage()
-  const deletePage = async () => {
-    if (page.data) {
-      if (!page.data?.noteId) {
-        // Is draft
-        delStorage(`draft-${page.data.characterId}-${page.data.draftKey}`)
-      } else {
-        // Is Note
-        return deleteP.mutate({
-          noteId: page.data.noteId,
-          characterId: page.data.characterId,
-        })
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (deleteP.isSuccess) {
-      toast.success(t("Deleted!"))
-      deleteP.reset()
-      router.push(`/dashboard/${subdomain}/${searchParams?.get("type")}s`)
-    }
-  }, [deleteP.isSuccess])
-
-  const { present, dismiss } = useModalStack()
+  const { present } = useModalStack()
 
   useEffect(() => {
     if (createPage.isSuccess || updatePage.isSuccess) {
@@ -322,6 +298,32 @@ export default function PostEditor() {
     }
   }, [createPage.isError, updatePage.isSuccess])
 
+  // Delete
+  const deleteP = useDeletePage()
+  const deletePage = async () => {
+    if (page.data) {
+      if (!page.data?.noteId) {
+        // Is draft
+        delStorage(`draft-${page.data.characterId}-${page.data.draftKey}`)
+      } else {
+        // Is Note
+        return deleteP.mutate({
+          noteId: page.data.noteId,
+          characterId: page.data.characterId,
+        })
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (deleteP.isSuccess) {
+      toast.success(t("Deleted!"))
+      deleteP.reset()
+      router.push(`/dashboard/${subdomain}/${searchParams?.get("type")}s`)
+    }
+  }, [deleteP.isSuccess])
+
+  // Init
   useEffect(() => {
     if (!page.data?.metadata?.content || !draftKey) return
     setInitialContent(page.data.metadata?.content?.content || "")
@@ -378,7 +380,6 @@ export default function PostEditor() {
     )
   }, [draftKey, subdomain, site.data?.characterId])
 
-  const presentAdvancedModal = useEditorAdvancedModal({ type })
   const extraProperties = (
     <EditorExtraProperties
       defaultSlug={defaultSlug}
@@ -386,7 +387,6 @@ export default function PostEditor() {
       type={type}
       subdomain={subdomain}
       userTags={userTags.data?.list || []}
-      openAdvancedOptions={presentAdvancedModal}
     />
   )
 
@@ -513,16 +513,7 @@ export default function PostEditor() {
                   />
                 </div>
               </div>
-              {!isMobileLayout && (
-                <EditorExtraProperties
-                  defaultSlug={defaultSlug}
-                  updateValue={updateValue}
-                  type={type}
-                  userTags={userTags.data?.list || []}
-                  subdomain={subdomain}
-                  openAdvancedOptions={presentAdvancedModal}
-                />
-              )}
+              {!isMobileLayout && extraProperties}
             </div>
           </>
         )}
@@ -538,16 +529,12 @@ const EditorExtraProperties = memo(
     subdomain,
     defaultSlug,
     userTags,
-    openAdvancedOptions,
   }: {
     updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
     type: NoteType
-
     subdomain: string
     defaultSlug: string
     userTags: string[]
-
-    openAdvancedOptions: () => void
   }) => {
     const values = useEditorState(
       (state) =>
@@ -556,6 +543,19 @@ const EditorExtraProperties = memo(
     )
     const { t } = useTranslation("dashboard")
     const site = useGetSite(subdomain)
+
+    const { present } = useModalStack()
+    const openAdvancedOptions = () => {
+      present({
+        title: t("Advanced Settings"),
+        content: () => (
+          <EditorAdvancedModal type={type} updateValue={updateValue} />
+        ),
+        modalProps: {
+          withConfirm: true,
+        },
+      })
+    }
 
     return (
       <div className="h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
@@ -673,32 +673,20 @@ const EditorExtraProperties = memo(
 
 EditorExtraProperties.displayName = "EditorExtraProperties"
 
-const useEditorAdvancedModal = ({ type }: { type: NoteType }) => {
-  const { t } = useTranslation("dashboard")
-
-  const { present } = useModalStack()
-
-  return () => {
-    present({
-      title: t("Advanced Settings"),
-      content: () => <EditorAdvancedModal type={type} />,
-      modalProps: {
-        withConfirm: true,
-      },
-    })
-  }
-}
-
-const EditorAdvancedModal: FC<{
+const EditorAdvancedModal = ({
+  type,
+  updateValue,
+}: {
   type: NoteType
-}> = ({ type }) => {
+  updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
+}) => {
   const { t } = useTranslation("dashboard")
 
   const values = useEditorState(
     (state) => pick(state, ["disableAISummary", "publishedAt"]),
     shallow,
   )
-  const updateValue = useEditorState.setState
+
   return (
     <div className="p-5 space-y-5">
       <div>
@@ -708,12 +696,7 @@ const EditorAdvancedModal: FC<{
         <Switch
           label=""
           checked={values.disableAISummary}
-          // setChecked={(state) => updateValue("disableAISummary", state)}
-          setChecked={(state) => {
-            updateValue({
-              disableAISummary: state,
-            })
-          }}
+          setChecked={(state) => updateValue("disableAISummary", state)}
         />
       </div>
       <div>
@@ -730,13 +713,9 @@ const EditorAdvancedModal: FC<{
           value={values.publishedAt ? new Date(values.publishedAt) : undefined}
           onChange={(value: Date | null) => {
             if (value) {
-              updateValue({
-                publishedAt: value.toISOString(),
-              })
+              updateValue("publishedAt", value.toISOString())
             } else {
-              updateValue({
-                publishedAt: "",
-              })
+              updateValue("publishedAt", "")
             }
           }}
           styles={{
