@@ -2,7 +2,7 @@ import type { CharacterEntity, NoteEntity } from "crossbell"
 import { nanoid } from "nanoid"
 import removeMarkdown from "remove-markdown"
 
-import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
+import { API_URL, SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import readingTime from "~/lib/reading-time"
 import { ExpandedCharacter, ExpandedNote, PortfolioStats } from "~/lib/types"
@@ -108,7 +108,7 @@ export const expandCrossbellNote = async ({
       } else if (!expandedNote.stat) {
         const stat = await (
           await fetch(
-            `https://indexer.crossbell.io/v1/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,
+            `${API_URL}/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,
           )
         ).json()
         expandedNote.stat = stat
