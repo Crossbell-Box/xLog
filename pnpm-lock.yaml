@@ -183,8 +183,8 @@ dependencies:
     specifier: 0.16.8
     version: 0.16.8
   langchain:
-    specifier: 0.0.132
-    version: 0.0.132(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@22.1.0)
+    specifier: 0.0.133
+    version: 0.0.133(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@22.1.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -7692,8 +7692,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.132(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@22.1.0):
-    resolution: {integrity: sha512-gXnuiAhsQQqXheKQiaSmFa9s3S/Yhkkb9OCytu04OE0ecttvVvfjjqIoNVS9vor8V7kRUgYPKHJsMz2UFDoJNw==}
+  /langchain@0.0.133(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@22.1.0):
+    resolution: {integrity: sha512-AVieepmeOso+32+bdGPX02qpHRh3Eff7r+gVe6GkR8KyMsl+FW7JFvXLhBTpO5pdzFQoNL/UtCBQkvHxEdmW3Q==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.0.0
