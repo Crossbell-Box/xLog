@@ -1,20 +1,8 @@
 "use client"
 
-import { useDebounceEffect } from "ahooks"
-import type { Root } from "mdast"
 import { nanoid } from "nanoid"
-import dynamic from "next/dynamic"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
-import {
-  ChangeEvent,
-  FC,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import { ChangeEvent, FC, memo, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { shallow } from "zustand/shallow"
 
@@ -23,6 +11,7 @@ import { DateInput } from "@mantine/dates"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
+import DualColumnEditor from "~/components/dashboard/DualColumnEditor"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import { PublishButton } from "~/components/dashboard/PublishButton"
 import PublishedModal from "~/components/dashboard/PublishedModal"
@@ -35,8 +24,7 @@ import { useModalStack } from "~/components/ui/ModalStack"
 import { Switch } from "~/components/ui/Switch"
 import { TagInput } from "~/components/ui/TagInput"
 import { UniLink } from "~/components/ui/UniLink"
-import { toolbarShortcuts, toolbars } from "~/editor"
-import { editorUpload } from "~/editor/Multimedia"
+import { toolbars } from "~/editor"
 import {
   Values,
   initialEditorState,
@@ -45,7 +33,6 @@ import {
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
-import { useUploadFile } from "~/hooks/useUploadFile"
 import { showConfetti } from "~/lib/confetti"
 import { RESERVED_TAGS } from "~/lib/constants"
 import { getDefaultSlug } from "~/lib/default-slug"
@@ -56,7 +43,6 @@ import { getPageVisibility } from "~/lib/page-helpers"
 import { delStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote, NoteType, PageVisibilityEnum } from "~/lib/types"
 import { cn, pick } from "~/lib/utils"
-import { Rendered, renderPageContent } from "~/markdown"
 import { checkPageSlug } from "~/models/page.model"
 import {
   useCreatePage,
@@ -66,30 +52,6 @@ import {
   useUpdatePage,
 } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
-
-const DynamicCodeMirrorEditor = dynamic(
-  () => import("~/components/ui/CodeMirror"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex-1 h-12 flex items-center justify-center">
-        Loading...
-      </div>
-    ),
-  },
-)
-
-const DynamicPageContent = dynamic(
-  () => import("~/components/common/PageContent"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex-1 h-12 flex items-center justify-center">
-        Loading...
-      </div>
-    ),
-  },
-)
 
 export default function PostEditor() {
   const router = useRouter()
@@ -159,8 +121,6 @@ export default function PostEditor() {
       setVisibility(getPageVisibility(page.data || undefined))
     }
   }, [page.isSuccess, page.data])
-
-  const uploadFile = useUploadFile()
 
   // reset editor state when page changes
   useBeforeMounted(() => {
@@ -392,27 +352,7 @@ export default function PostEditor() {
     )
   }, [page.data, subdomain, draftKey, site.data?.characterId])
 
-  const [currentScrollArea, setCurrentScrollArea] = useState<string>("")
   const [view, setView] = useState<EditorView>()
-  const [tree, setTree] = useState<Root | null>()
-
-  // preview
-
-  const [parsedContent, setParsedContent] = useState<Rendered | undefined>()
-
-  useDebounceEffect(
-    () => {
-      const result = renderPageContent(values.content)
-      setTree(result.tree)
-      setParsedContent(result)
-    },
-    [values.content],
-    {
-      wait: 500,
-    },
-  )
-
-  const previewRef = useRef<HTMLDivElement>(null)
 
   // editor
   const onCreateEditor = useCallback(
@@ -427,115 +367,6 @@ export default function PostEditor() {
       updateValue("content", value)
     },
     [updateValue],
-  )
-
-  const handleDropFile = useCallback(
-    async (file: File) => {
-      if (view) {
-        editorUpload(file, view)
-      }
-    },
-    [uploadFile, view],
-  )
-
-  const computedPosition = useCallback(() => {
-    let previewChildNodes = previewRef.current?.childNodes[0]?.childNodes
-    const editorElementList: number[] = []
-    const previewElementList: number[] = []
-    if (view?.state && previewChildNodes) {
-      tree?.children.forEach((child, index) => {
-        if (
-          child.position &&
-          previewChildNodes?.[index] &&
-          (child as any).tagName !== "style"
-        ) {
-          if (child.position.start.line > view.state.doc.lines) return
-          const line = view.state?.doc.line(child.position.start.line)
-          const block = view.lineBlockAt(line.from)
-          if (block) {
-            editorElementList.push(block.top)
-            previewElementList.push(
-              (previewChildNodes[index] as HTMLElement).offsetTop,
-            )
-          }
-        }
-      })
-    }
-    return {
-      editorElementList,
-      previewElementList,
-    }
-  }, [view, tree])
-
-  const onScroll = useCallback(
-    (scrollTop: number, area: string) => {
-      if (
-        currentScrollArea === area &&
-        previewRef.current?.parentElement &&
-        view
-      ) {
-        const position = computedPosition()
-
-        let selfElement
-        let selfPosition
-        let targetElement
-        let targetPosition
-        if (area === "preview") {
-          selfElement = previewRef.current.parentElement
-          selfPosition = position.previewElementList
-          targetElement = view.scrollDOM
-          targetPosition = position.editorElementList
-        } else {
-          selfElement = view.scrollDOM
-          selfPosition = position.editorElementList
-          targetElement = previewRef.current.parentElement
-          targetPosition = position.previewElementList
-        }
-
-        let scrollElementIndex = 0
-        for (let i = 0; i < selfPosition.length; i++) {
-          if (scrollTop < selfPosition[i]) {
-            scrollElementIndex = i - 1
-            break
-          }
-        }
-
-        // scroll to bottom
-        if (scrollTop >= selfElement.scrollHeight - selfElement.clientHeight) {
-          targetElement.scrollTop =
-            targetElement.scrollHeight - targetElement.clientHeight
-          return
-        }
-
-        // scroll to position
-        if (scrollElementIndex >= 0) {
-          let ratio =
-            (scrollTop - selfPosition[scrollElementIndex]) /
-            (selfPosition[scrollElementIndex + 1] -
-              selfPosition[scrollElementIndex])
-          targetElement.scrollTop =
-            ratio *
-              (targetPosition[scrollElementIndex + 1] -
-                targetPosition[scrollElementIndex]) +
-            targetPosition[scrollElementIndex]
-        }
-      }
-    },
-    [view, computedPosition, currentScrollArea],
-  )
-
-  const onEditorScroll = useCallback(
-    (scrollTop: number) => {
-      onScroll(scrollTop, "editor")
-    },
-    [onScroll],
-  )
-
-  const onPreviewScroll = useCallback(
-    (scrollTop: number) => {
-      onScroll(scrollTop, "preview")
-    },
-    [onScroll],
   )
 
   const onPreviewButtonClick = useCallback(() => {
@@ -567,18 +398,6 @@ export default function PostEditor() {
       page.refetch()
     }
   }, [draftKey, site.data?.characterId])
-
-  const cmStyle = useMemo(
-    () => ({
-      ".cm-scroller": {
-        padding: "0 1.25rem",
-      },
-      ".cm-content": {
-        paddingBottom: "600px",
-      },
-    }),
-    [],
-  )
 
   return (
     <>
@@ -686,52 +505,12 @@ export default function PostEditor() {
                     placeholder={t("Title goes here...") || ""}
                   />
                 </div>
-                <div className="mt-5 flex-1 min-h-0 flex relative items-center">
-                  {!(isMobileLayout && isRendering) && (
-                    <DynamicCodeMirrorEditor
-                      value={initialContent}
-                      placeholder={t("Start writing...") as string}
-                      onChange={onChange}
-                      handleDropFile={handleDropFile}
-                      onScroll={onEditorScroll}
-                      cmStyle={cmStyle}
-                      onCreateEditor={onCreateEditor}
-                      onMouseEnter={() => {
-                        setCurrentScrollArea("editor")
-                      }}
-                      className={cn(
-                        "h-full flex-1",
-                        isRendering ? "border-r" : "",
-                      )}
-                      shortcuts={toolbarShortcuts}
-                    />
-                  )}
-                  {!isMobileLayout && (
-                    <div className="z-10 w-[1px]">
-                      <div
-                        aria-label="Toggle preview view"
-                        className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 -translate-x-1/2"
-                        onClick={() => setIsRendering(!isRendering)}
-                      >
-                        {isRendering ? (
-                          <i className="icon-[mingcute--right-line] text-2xl inline-block w-6 h-6" />
-                        ) : (
-                          <i className="icon-[mingcute--left-line] text-2xl inline-block w-6 h-6" />
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  {isRendering && (
-                    <DynamicPageContent
-                      className="bg-white px-5 overflow-scroll pb-[200px] h-full flex-1"
-                      parsedContent={parsedContent}
-                      inputRef={previewRef}
-                      onScroll={onPreviewScroll}
-                      onMouseEnter={() => {
-                        setCurrentScrollArea("preview")
-                      }}
-                    />
-                  )}
+                <div className="mt-5 flex-1 min-h-0">
+                  <DualColumnEditor
+                    initialContent={initialContent}
+                    onChange={onChange}
+                    onCreateEditor={onCreateEditor}
+                  />
                 </div>
               </div>
               {!isMobileLayout && (
