@@ -13,7 +13,7 @@ import { getSiteLink } from "~/lib/helpers"
 import { getTranslation } from "~/lib/i18n"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
-import { isOnlyContent } from "~/lib/is-only-client"
+import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
 import { fetchGetPage, getSummary } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
@@ -103,7 +103,7 @@ export default async function SitePagePage({
   }
 
   const dehydratedState = dehydrate(queryClient)
-  const onlyContent = await isOnlyContent()
+  const onlyContent = isOnlyContent()
 
   function addPageJsonLd() {
     return {
@@ -176,6 +176,7 @@ export default async function SitePagePage({
           page={page}
           site={site}
           withActions={true}
+          onlyContent={onlyContent}
         />
         <OIAButton
           isInRN={!!inRN}

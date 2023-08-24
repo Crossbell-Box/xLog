@@ -2,14 +2,13 @@ import { type MutableRefObject, memo } from "react"
 
 import PostActions from "~/components/site/PostActions"
 import PostToc from "~/components/site/PostToc"
-import { isOnlyContent } from "~/lib/is-only-client"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
 import { PageContentContainer } from "./PageContentContainer"
 
-const PageContent = memo(async function PageContent({
+const PageContent = memo(function PageContent({
   className,
   content,
   toc,
@@ -21,6 +20,7 @@ const PageContent = memo(async function PageContent({
   page,
   site,
   withActions,
+  onlyContent,
 }: {
   content?: string
   className?: string
@@ -33,6 +33,7 @@ const PageContent = memo(async function PageContent({
   page?: ExpandedNote
   site?: ExpandedCharacter
   withActions?: boolean
+  onlyContent?: boolean
 }) {
   let inParsedContent
   if (parsedContent) {
@@ -40,8 +41,6 @@ const PageContent = memo(async function PageContent({
   } else if (content) {
     inParsedContent = renderPageContent(content, false, isComment)
   }
-
-  const onlyContent = await isOnlyContent()
 
   return (
     <PageContentContainer

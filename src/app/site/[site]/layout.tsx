@@ -13,7 +13,7 @@ import { SiteHeader } from "~/components/site/SiteHeader"
 import { FABContainer } from "~/components/ui/FAB"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { isOnlyContent, searchParser } from "~/lib/is-only-client"
+import { isOnlyContent, searchParser } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
@@ -93,11 +93,11 @@ export default async function SiteLayout({
 }) {
   const queryClient = getQueryClient()
 
-  const search = await searchParser()
+  const search = searchParser()
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   // Issue: The type will not be updated when the page is redirected.
   let pathname = headers().get("x-xlog-pathname")
-  const onlyContent = await isOnlyContent()
+  const onlyContent = isOnlyContent()
 
   if (pathname && /^(\/site(?!\/.*\/preview\/).*)/.test(pathname)) {
     const targetPath = `${getSiteLink({
