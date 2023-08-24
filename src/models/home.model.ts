@@ -843,7 +843,7 @@ export const getShowcase = async () => {
               characterId: { notIn: $filter }
               notes: {
                 some: {
-                  stat: { viewDetailCount: { gte: 300 } }
+                  stat: { viewDetailCount: { gte: 400 } }
                   metadata: {
                     AND: [
                       { content: { path: "sources", array_contains: "xlog" } }

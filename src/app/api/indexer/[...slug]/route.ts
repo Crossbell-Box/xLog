@@ -33,6 +33,8 @@ export async function POST(
     }
   },
 ) {
+  const body = await req.text()
+  console.warn("unexpected POST request", req.url, body)
   const searchParams = new URL(req.url).searchParams
   const result = await (
     await fetch(
@@ -41,7 +43,7 @@ export async function POST(
       }`,
       {
         method: "POST",
-        body: await req.text(),
+        body,
         headers: {
           "content-type": "application/json",
         },
