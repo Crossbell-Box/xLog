@@ -10,12 +10,12 @@ import { useQueryClient } from "@tanstack/react-query"
 
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { PublishButton } from "~/components/dashboard/PublishButton"
+import PublishedModal from "~/components/dashboard/PublishedModal"
 import { Button } from "~/components/ui/Button"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { Input } from "~/components/ui/Input"
-import { ModalContentProps, useModalStack } from "~/components/ui/ModalStack"
-import { UniLink } from "~/components/ui/UniLink"
+import { useModalStack } from "~/components/ui/ModalStack"
 import { initialEditorState, useEditorState } from "~/hooks/useEditorState"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { showConfetti } from "~/lib/confetti"
@@ -433,33 +433,3 @@ const EditorExtraProperties = memo(() => {
 })
 
 EditorExtraProperties.displayName = "EditorExtraProperties"
-
-const PublishedModal = ({
-  dismiss,
-  transactionUrl,
-}: ModalContentProps<{
-  transactionUrl: string
-}>) => {
-  const { t } = useTranslation("dashboard")
-  return (
-    <>
-      <div className="p-5">
-        {t(
-          "Your post has been securely stored on the blockchain. Now you may want to",
-        )}
-        <ul className="list-disc pl-5 mt-2 space-y-1">
-          <li>
-            <UniLink className="text-accent" href={transactionUrl}>
-              {t("View the transaction")}
-            </UniLink>
-          </li>
-        </ul>
-      </div>
-      <div className="h-16 border-t flex items-center px-5">
-        <Button isBlock onClick={() => dismiss()}>
-          {t("Got it, thanks!")}
-        </Button>
-      </div>
-    </>
-  )
-}
