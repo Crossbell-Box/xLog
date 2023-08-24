@@ -79,7 +79,7 @@ module.exports = withBundleAnalyzer({
         ],
       },
       {
-        source: "/api/indexer/:path*",
+        source: "/api/:path*",
         headers: [
           {
             key: "Cache-Control",
@@ -88,46 +88,10 @@ module.exports = withBundleAnalyzer({
         ],
       },
       {
-        source: "/api/host2handle",
+        source: "^/(?!api/|_next/).*$",
         headers: [
           {
-            key: "Cache-Control",
-            value: "s-maxage=1, stale-while-revalidate",
-          },
-        ],
-      },
-      {
-        source: "/api/portfolio-stats",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "s-maxage=1, stale-while-revalidate",
-          },
-        ],
-      },
-      {
-        source: "/api/image",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "s-maxage=1, stale-while-revalidate",
-          },
-        ],
-      },
-      {
-        source: "/api/score",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "s-maxage=1, stale-while-revalidate",
-          },
-        ],
-      },
-      {
-        source: "/api/tweet",
-        headers: [
-          {
-            key: "Cache-Control",
+            key: "CDN-Cache-Control",
             value: "s-maxage=1, stale-while-revalidate",
           },
         ],
@@ -135,15 +99,6 @@ module.exports = withBundleAnalyzer({
     ]
   },
   staticPageGenerationTimeout: 3600,
-
-  async rewrites() {
-    return [
-      {
-        source: "/api/indexer/:path*",
-        destination: "https://indexer.crossbell.io/v1/:path*",
-      },
-    ]
-  },
 
   async redirects() {
     return [

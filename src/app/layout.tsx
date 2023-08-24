@@ -5,16 +5,12 @@ import Script from "next/script"
 import { Toaster } from "react-hot-toast"
 
 import "@crossbell/connect-kit/colors.css"
-import {
-  updateIndexerEndpoint,
-  updateIndexerFetchOptions,
-} from "@crossbell/indexer"
+import { updateIndexerFetchOptions } from "@crossbell/indexer"
 import { Analytics } from "@vercel/analytics/react"
 
 import "~/css/main.css"
 import { getAcceptLang } from "~/lib/accept-lang"
 import {
-  API_URL,
   APP_DESCRIPTION,
   APP_NAME,
   APP_SLOGAN,
@@ -26,8 +22,6 @@ import { getColorScheme } from "~/lib/get-color-scheme"
 
 import { ColorSchemeInjector } from "./ColorSchemeInjector"
 import Providers from "./providers"
-
-updateIndexerEndpoint(API_URL)
 
 export const metadata: Metadata = {
   title: `${APP_NAME} - ${APP_SLOGAN}`,

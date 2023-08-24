@@ -12,10 +12,6 @@ export const IMAGE_PROXY_DOMAIN =
   process.env.NEXT_PUBLIC_IMAGE_PROXY_DOMAIN || "xlog.app"
 export const DOCS_DOMAIN = `docs.${OUR_DOMAIN}`
 export const SITE_URL = `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}`
-export const API_URL =
-  typeof window === "undefined"
-    ? `${SITE_URL}/api/indexer`
-    : "https://indexer.crossbell.io/v1"
 export const APP_DESCRIPTION =
   process.env.APP_DESCRIPTION ||
   "An open-source creative community written on the blockchain."
