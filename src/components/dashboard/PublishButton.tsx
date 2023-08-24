@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from "react"
-import useOnClickOutside from "use-onclickoutside"
+import { useState } from "react"
 
+import { Placement } from "@floating-ui/react"
+
+import { Menu } from "~/components//ui/Menu"
 import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
 import { useTranslation } from "~/lib/i18n/client"
 import { NoteType } from "~/lib/types"
@@ -17,6 +19,7 @@ export const PublishButton = ({
   isModified,
   twitterShareUrl,
   type,
+  placement = "bottom-end",
 }: {
   savePage: () => void
   deletePage: () => void
@@ -27,22 +30,9 @@ export const PublishButton = ({
   type: NoteType
   isModified: boolean
   discardChanges: () => void
+  placement?: Placement
 }) => {
-  const [showDropdown, setShowDropdown] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement | null>(null)
-  const triggerRef = useRef<HTMLButtonElement | null>(null)
   const { t } = useTranslation("dashboard")
-
-  useOnClickOutside(dropdownRef, (e) => {
-    if (triggerRef.current?.contains(e.target as any)) return
-    setShowDropdown(false)
-  })
-
-  useEffect(() => {
-    if (isSaving) {
-      setShowDropdown(false)
-    }
-  }, [isSaving])
 
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
     useState<boolean>(false)
@@ -60,26 +50,19 @@ export const PublishButton = ({
           {t(published ? "Update" : "Publish")}
         </Button>
         {published && (
-          <Button
-            isAutoWidth
-            style={{ padding: "0 8px" }}
-            onClick={() => {
-              setShowDropdown(!showDropdown)
-            }}
-            ref={triggerRef}
-            isDisabled={isSaving}
-          >
-            <i className="icon-[mingcute--down-line]" />
-          </Button>
-        )}
-      </ButtonGroup>
-      {showDropdown && (
-        <div
-          className="absolute right-0 min-w-[200px] pt-2 z-10"
-          ref={dropdownRef}
-        >
-          <div className="bg-white py-2 rounded-lg shadow-modal">
-            {published && (
+          <Menu
+            placement={placement}
+            target={
+              <Button
+                isAutoWidth
+                style={{ padding: "0 8px" }}
+                isDisabled={isSaving}
+                className="!rounded-r-full"
+              >
+                <i className="icon-[mingcute--down-line]" />
+              </Button>
+            }
+            dropdown={
               <div>
                 <button
                   className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
@@ -105,10 +88,10 @@ export const PublishButton = ({
                   {t("Delete")}
                 </button>
               </div>
-            )}
-          </div>
-        </div>
-      )}
+            }
+          />
+        )}
+      </ButtonGroup>
       <DeleteConfirmationModal
         open={deleteConfirmModalOpen}
         setOpen={setDeleteConfirmModalOpen}

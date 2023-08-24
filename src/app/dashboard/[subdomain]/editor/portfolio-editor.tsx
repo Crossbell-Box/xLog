@@ -226,61 +226,56 @@ export default function PortfolioEditor() {
 
   return (
     <>
-      <DashboardMain fullWidth>
-        <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-8">
-          {page.isLoading ? (
-            <div className="flex justify-center items-center min-h-[300px]">
-              {t("Loading")}...
+      <DashboardMain className="max-w-screen-lg" title="Edit portfolio">
+        {page.isLoading ? (
+          <div className="flex justify-center items-center min-h-[300px]">
+            {t("Loading")}...
+          </div>
+        ) : (
+          <>
+            <EditorExtraProperties />
+            <div className="flex justify-between h-14 items-center text-sm mt-8">
+              <div className="flex items-center space-x-3 flex-shrink-0">
+                <PublishButton
+                  savePage={savePage}
+                  deletePage={deletePage}
+                  twitterShareUrl={
+                    page.data && site.data
+                      ? getTwitterShareUrl({
+                          page: page.data,
+                          site: site.data,
+                          t,
+                        })
+                      : ""
+                  }
+                  published={visibility !== PageVisibilityEnum.Draft}
+                  isSaving={
+                    createPage.isLoading ||
+                    updatePage.isLoading ||
+                    deleteP.isLoading
+                  }
+                  isDisabled={false}
+                  type={type}
+                  isModified={visibility === PageVisibilityEnum.Modified}
+                  discardChanges={discardChanges}
+                  placement="top-start"
+                />
+                <span
+                  className={cn(
+                    `text-sm capitalize`,
+                    visibility === PageVisibilityEnum.Draft
+                      ? `text-zinc-300`
+                      : visibility === PageVisibilityEnum.Modified
+                      ? "text-orange-600"
+                      : "text-green-600",
+                  )}
+                >
+                  {t(visibility as string)}
+                </span>
+              </div>
             </div>
-          ) : (
-            <>
-              <div className={`pt-10 flex w-full min-w-[840px] px-5`}>
-                <EditorExtraProperties />
-              </div>
-              <div
-                className={`flex justify-between px-5 h-14 items-center text-sm`}
-              >
-                <div className="flex items-center space-x-3 flex-shrink-0">
-                  <PublishButton
-                    savePage={savePage}
-                    deletePage={deletePage}
-                    twitterShareUrl={
-                      page.data && site.data
-                        ? getTwitterShareUrl({
-                            page: page.data,
-                            site: site.data,
-                            t,
-                          })
-                        : ""
-                    }
-                    published={visibility !== PageVisibilityEnum.Draft}
-                    isSaving={
-                      createPage.isLoading ||
-                      updatePage.isLoading ||
-                      deleteP.isLoading
-                    }
-                    isDisabled={false}
-                    type={type}
-                    isModified={visibility === PageVisibilityEnum.Modified}
-                    discardChanges={discardChanges}
-                  />
-                  <span
-                    className={cn(
-                      `text-sm capitalize`,
-                      visibility === PageVisibilityEnum.Draft
-                        ? `text-zinc-300`
-                        : visibility === PageVisibilityEnum.Modified
-                        ? "text-orange-600"
-                        : "text-green-600",
-                    )}
-                  >
-                    {t(visibility as string)}
-                  </span>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
+          </>
+        )}
       </DashboardMain>
     </>
   )

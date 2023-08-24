@@ -368,9 +368,6 @@ dependencies:
   unist-util-visit:
     specifier: 5.0.0
     version: 5.0.0
-  use-onclickoutside:
-    specifier: 0.4.1
-    version: 0.4.1(@types/react@18.2.21)(react@18.2.0)
   uuid:
     specifier: 9.0.0
     version: 9.0.0
@@ -4135,10 +4132,6 @@ packages:
       balloon-css: 0.5.2
       promise-polyfill: 7.1.0
       smoothscroll: 0.4.0
-    dev: false
-
-  /are-passive-events-supported@1.1.1:
-    resolution: {integrity: sha512-5wnvlvB/dTbfrCvJ027Y4L4gW/6Mwoy1uFSavney0YO++GU+0e/flnjiBBwH+1kh7xNCgCOGvmJC3s32joYbww==}
     dev: false
 
   /arg@5.0.2:
@@ -11454,18 +11447,6 @@ packages:
       '@types/react': 18.2.21
       react: 18.2.0
       use-isomorphic-layout-effect: 1.1.2(@types/react@18.2.21)(react@18.2.0)
-    dev: false
-
-  /use-onclickoutside@0.4.1(@types/react@18.2.21)(react@18.2.0):
-    resolution: {integrity: sha512-hAo1viJ9D2mPffUig4EWCwE4as7fq84HANk3MCkY3rhXk5oMl0mjLCLF/OhzWIhTaITcAcDDcnaxRdMHPq+sww==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      are-passive-events-supported: 1.1.1
-      react: 18.2.0
-      use-latest: 1.2.1(@types/react@18.2.21)(react@18.2.0)
-    transitivePeerDependencies:
-      - '@types/react'
     dev: false
 
   /use-sidecar@1.1.2(@types/react@18.2.21)(react@18.2.0):
