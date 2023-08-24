@@ -14,7 +14,7 @@ export const DOCS_DOMAIN = `docs.${OUR_DOMAIN}`
 export const SITE_URL = `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}`
 export const API_URL =
   typeof window === "undefined"
-    ? `${SITE_URL}/api/indexer`
+    ? process.env.API_URL || "https://indexer.crossbell.io/v1"
     : "https://indexer.crossbell.io/v1"
 export const APP_DESCRIPTION =
   process.env.APP_DESCRIPTION ||
