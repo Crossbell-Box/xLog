@@ -1,6 +1,8 @@
 import { createClient, fetchExchange } from "@urql/core"
 
+import { API_URL } from "~/lib/env"
+
 export const client = createClient({
-  url: "https://indexer.crossbell.io/v1/graphql",
+  url: `${API_URL}/graphql`,
   exchanges: [fetchExchange],
 })

@@ -5,6 +5,7 @@ import type { useContract } from "@crossbell/contract"
 import { indexer } from "@crossbell/indexer"
 import { gql } from "@urql/core"
 
+import { API_URL } from "~/lib/env"
 import { expandCrossbellCharacter } from "~/lib/expand-unit"
 import { client } from "~/queries/graphql"
 
@@ -201,11 +202,7 @@ export async function getStat({ characterId }: { characterId: number }) {
   if (characterId) {
     const [stat, site, subscriptions, comments, notes, likes, achievement] =
       await Promise.all([
-        (
-          await fetch(
-            `https://indexer.crossbell.io/v1/stat/characters/${characterId}`,
-          )
-        ).json(),
+        (await fetch(`${API_URL}/stat/characters/${characterId}`)).json(),
         indexer.character.get(characterId),
         indexer.link.getBacklinksOfCharacter(characterId, {
           limit: 0,
