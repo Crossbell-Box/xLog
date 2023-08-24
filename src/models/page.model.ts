@@ -257,6 +257,7 @@ export async function getPagesBySite(input: {
   `
   const limit = (input.limit || 12) - (pinnedNote ? 1 : 0)
 
+  console.time("client getPagesBySite")
   const { data } = await client
     .query(
       gql`
@@ -301,6 +302,7 @@ export async function getPagesBySite(input: {
       },
     )
     .toPromise()
+  console.timeEnd("client getPagesBySite")
   if (pinnedNote) {
     data?.notes.unshift(pinnedNote)
   }
@@ -317,6 +319,7 @@ export async function getPagesBySite(input: {
             ?.noteId}`,
   }
 
+  console.time("client expandCrossbellNote")
   const expandedNotes = {
     ...notes,
     pinnedNoteId: pinnedNote?.noteId,
@@ -341,6 +344,7 @@ export async function getPagesBySite(input: {
       }),
     ),
   }
+  console.timeEnd("client expandCrossbellNote")
 
   const local = getLocalPages({
     characterId: input.characterId,

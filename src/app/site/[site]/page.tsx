@@ -15,7 +15,10 @@ async function SiteIndexPage({
 }) {
   const queryClient = getQueryClient()
 
+  console.time("1fetchGetSite")
   const site = await fetchGetSite(params.site, queryClient)
+  console.timeEnd("1fetchGetSite")
+  console.time("1prefetchGetPagesBySite")
   await prefetchGetPagesBySite(
     {
       characterId: site?.characterId,
@@ -26,6 +29,7 @@ async function SiteIndexPage({
     },
     queryClient,
   )
+  console.timeEnd("1prefetchGetPagesBySite")
 
   const dehydratedState = dehydrate(queryClient)
 

@@ -132,8 +132,11 @@ export default async function SiteLayout({
       }
   }
 
+  console.time("fetchGetSite")
   const site = await fetchGetSite(params.site, queryClient)
+  console.timeEnd("fetchGetSite")
 
+  console.time("prefetchGetSiteSubscriptions")
   let page: ExpandedNote | undefined | null
   if (site?.characterId) {
     await Promise.all([
@@ -168,10 +171,13 @@ export default async function SiteLayout({
   } else {
     notFound()
   }
+  console.timeEnd("prefetchGetSiteSubscriptions")
 
   const dehydratedState = dehydrate(queryClient)
 
+  console.time("getCharacterColors")
   const colors = await getCharacterColors(site)
+  console.timeEnd("getCharacterColors")
 
   return (
     <Hydrate state={dehydratedState}>

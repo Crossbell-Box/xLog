@@ -67,6 +67,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
+  console.time("host2handle")
   let tenant: {
     subdomain?: string
     redirect?: string
@@ -85,6 +86,7 @@ export default async function middleware(req: NextRequest) {
   } catch (error) {
     console.error(error)
   }
+  console.timeEnd("host2handle")
 
   if (tenant?.redirect && IS_PROD && !pathname.startsWith("/feed")) {
     return NextResponse.redirect(

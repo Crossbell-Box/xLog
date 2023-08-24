@@ -95,6 +95,11 @@ export const expandCrossbellNote = async ({
 
     if (useStat) {
       if (expandedNote.metadata?.content?.tags?.[0] === "portfolio") {
+        console.time(
+          `fetching portfolio stats ${`${SITE_URL}/api/portfolio-stats?url=${encodeURIComponent(
+            expandedNote.metadata?.content?.external_urls?.[0] || "",
+          )}`}`,
+        )
         const stat = (await (
           await fetch(
             `${SITE_URL}/api/portfolio-stats?url=${encodeURIComponent(
@@ -102,15 +107,26 @@ export const expandCrossbellNote = async ({
             )}`,
           )
         ).json()) as PortfolioStats
+        console.timeEnd(
+          `fetching portfolio stats ${`${SITE_URL}/api/portfolio-stats?url=${encodeURIComponent(
+            expandedNote.metadata?.content?.external_urls?.[0] || "",
+          )}`}`,
+        )
         expandedNote.stat = {
           portfolio: stat,
         }
       } else if (!expandedNote.stat) {
+        console.time(
+          `fetching note stats ${`${API_URL}/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`}`,
+        )
         const stat = await (
           await fetch(
             `${API_URL}/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,
           )
         ).json()
+        console.timeEnd(
+          `fetching note stats ${`${API_URL}/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`}`,
+        )
         expandedNote.stat = stat
       } else if ((expandedNote as any)._count?.fromNotes) {
         expandedNote.stat.commentsCount = (expandedNote as any)._count.fromNotes
@@ -119,6 +135,11 @@ export const expandCrossbellNote = async ({
 
     if (useScore) {
       try {
+        console.time(
+          `fetching note score ${`${
+            SCORE_API_DOMAIN || SITE_URL
+          }/api/score?cid=${toCid(expandedNote.metadata?.uri || "")}`}`,
+        )
         const score = (
           await (
             await fetch(
@@ -128,6 +149,11 @@ export const expandCrossbellNote = async ({
             )
           ).json()
         ).data
+        console.timeEnd(
+          `fetching note score ${`${
+            SCORE_API_DOMAIN || SITE_URL
+          }/api/score?cid=${toCid(expandedNote.metadata?.uri || "")}`}`,
+        )
         expandedNote.metadata.content.score = score
       } catch (e) {
         // do nothing
