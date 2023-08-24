@@ -41,13 +41,16 @@ export default function DualColumnEditor({
   initialContent,
   onChange,
   onCreateEditor,
+  isRendering,
+  setIsRendering,
 }: {
   initialContent: string
   onChange: (value: string) => void
   onCreateEditor: (view: EditorView) => void
+  isRendering: boolean
+  setIsRendering: (value: boolean) => void
 }) {
   const isMobileLayout = useIsMobileLayout()
-  const [isRendering, setIsRendering] = useState(!isMobileLayout)
   const { t } = useTranslation("dashboard")
   const uploadFile = useUploadFile()
 

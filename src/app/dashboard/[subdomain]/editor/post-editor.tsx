@@ -510,6 +510,8 @@ export default function PostEditor() {
                     initialContent={initialContent}
                     onChange={onChange}
                     onCreateEditor={onCreateEditor}
+                    isRendering={isRendering}
+                    setIsRendering={setIsRendering}
                   />
                 </div>
               </div>

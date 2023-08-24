@@ -397,11 +397,11 @@ export default function DashboardLayout({
             </div>
           )}
 
-          <div className="sm:p-3 w-full h-full">
+          <div className="lg:p-3 w-full h-full">
             <div
               className={cn(
                 `${isMobileLayout ? "pt-16 flex-1" : "flex-1 min-w-0"}`,
-                "bg-white w-full h-full sm:rounded-xl sm:drop-shadow overflow-y-auto",
+                "bg-white w-full h-full lg:rounded-xl lg:drop-shadow overflow-y-auto",
               )}
             >
               {children}
