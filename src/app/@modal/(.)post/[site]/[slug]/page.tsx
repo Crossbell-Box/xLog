@@ -9,6 +9,7 @@ import PostMeta from "~/components/site/PostMeta"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { getTranslation } from "~/lib/i18n"
 import { toCid } from "~/lib/ipfs-parser"
+import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
 import { cn } from "~/lib/utils"
 import { fetchGetPage, getSummary } from "~/queries/page.server"
@@ -53,6 +54,7 @@ export default async function SiteModal({
       lang: i18n.resolvedLanguage,
     })
   }
+  const onlyContent = isOnlyContent()
 
   return (
     <PostModal handle={site?.handle}>
@@ -97,6 +99,7 @@ export default async function SiteModal({
               page={page}
               site={site}
               withActions={false}
+              onlyContent={onlyContent}
             />
           </article>
           <Hydrate state={dehydratedState}>

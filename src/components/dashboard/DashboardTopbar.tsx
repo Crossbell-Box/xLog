@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react"
+import { Fragment } from "react"
 
 import { Popover, Transition } from "@headlessui/react"
 import { Bars3Icon } from "@heroicons/react/24/outline"
@@ -14,8 +14,6 @@ export const DashboardTopbar = ({
   userWidget: React.ReactNode
   drawerWidget: (close: any) => React.ReactNode
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
-
   return (
     <div className="w-full top-0 h-16 bg-slate-50 z-20 transition-all flex flex-row fixed px-5 md:px-10 items-center">
       <Popover className="relative">
@@ -32,13 +30,7 @@ export const DashboardTopbar = ({
             >
               <Popover.Overlay className="fixed inset-0 bg-black opacity-10" />
             </Transition>
-            <Popover.Button
-              className={`
-                group inline-flex items-center rounded-md  text-base font-medium   hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
-              onClick={() => {
-                setIsOpen(true)
-              }}
-            >
+            <Popover.Button className="group inline-flex items-center rounded-md text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <Bars3Icon className="h-6 w-6" />
             </Popover.Button>
             <Transition

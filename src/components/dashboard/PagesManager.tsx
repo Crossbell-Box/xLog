@@ -225,7 +225,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
               {t(`New ${type.charAt(0).toUpperCase() + type.slice(1)}`)}
             </span>
           </Button>
-          {type !== "portfolio" && (
+          {(type === "post" || type === "page") && (
             <span className="hidden sm:inline-flex">
               <Tooltip
                 label={t("Import markdown file with front matter supported")}

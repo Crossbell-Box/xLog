@@ -19,7 +19,9 @@ export const DashboardMain = ({
   return (
     <div
       className={cn(
-        fullWidth ? "relative" : "min-w-[270px] relative px-5 py-5 md:px-10",
+        fullWidth
+          ? "relative"
+          : "min-w-[270px] relative px-5 py-5 md:px-10 md:py-8",
         className,
         isMobileLayout ? "max-w-[100vw]" : "",
         "min-h-full flex flex-col",
