@@ -2,28 +2,34 @@
 
 import { nanoid } from "nanoid"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
-import { ChangeEvent, memo, useCallback, useEffect, useState } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
-import { DateInput } from "@mantine/dates"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { PublishButton } from "~/components/dashboard/PublishButton"
 import PublishedModal from "~/components/dashboard/PublishedModal"
-import { Button } from "~/components/ui/Button"
-import { FieldLabel } from "~/components/ui/FieldLabel"
-import { ImageUploader } from "~/components/ui/ImageUploader"
-import { Input } from "~/components/ui/Input"
+import EditorAutofill from "~/components/dashboard/editor-properties/EditorAutofill"
+import EditorCover from "~/components/dashboard/editor-properties/EditorCover"
+import EditorExcerpt from "~/components/dashboard/editor-properties/EditorExcerpt"
+import EditorExternalUrl from "~/components/dashboard/editor-properties/EditorExternalUrl"
+import EditorPublishAt from "~/components/dashboard/editor-properties/EditorPublishAt"
+import EditorTitle from "~/components/dashboard/editor-properties/EditorTitle"
 import { useModalStack } from "~/components/ui/ModalStack"
-import { initialEditorState, useEditorState } from "~/hooks/useEditorState"
+import {
+  Values,
+  initialEditorState,
+  useEditorState,
+} from "~/hooks/useEditorState"
+import { useGetState } from "~/hooks/useGetState"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { showConfetti } from "~/lib/confetti"
 import { CSB_SCAN } from "~/lib/env"
 import { getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
-import { delStorage } from "~/lib/storage"
+import { delStorage, setStorage } from "~/lib/storage"
 import { PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import {
@@ -99,6 +105,31 @@ export default function PortfolioEditor() {
   })
 
   const values = useEditorState()
+
+  const getValues = useGetState(values)
+  const updateValue = useCallback(
+    (val: Partial<Values>) => {
+      if (visibility !== PageVisibilityEnum.Draft) {
+        setVisibility(PageVisibilityEnum.Modified)
+      }
+
+      const values = getValues()
+      const newValues = { ...values, ...val }
+      if (draftKey) {
+        setStorage(draftKey, {
+          date: +new Date(),
+          values: newValues,
+          type,
+        })
+        queryClient.invalidateQueries([
+          "getPagesBySite",
+          site.data?.characterId,
+        ])
+      }
+      useEditorState.setState(newValues)
+    },
+    [visibility],
+  )
 
   const createPage = useCreatePage()
   const updatePage = useUpdatePage()
@@ -233,7 +264,7 @@ export default function PortfolioEditor() {
           </div>
         ) : (
           <>
-            <EditorExtraProperties />
+            <EditorExtraProperties updateValue={updateValue} />
             <div className="flex justify-between h-14 items-center text-sm mt-8">
               <div className="flex items-center space-x-3 flex-shrink-0">
                 <PublishButton
@@ -281,155 +312,28 @@ export default function PortfolioEditor() {
   )
 }
 
-const EditorExtraProperties = memo(() => {
-  const values = useEditorState()
-  const { t } = useTranslation("dashboard")
-  const updateValue = useEditorState.setState
+const EditorExtraProperties = memo(
+  ({ updateValue }: { updateValue: (val: Partial<Values>) => void }) => {
+    const { t } = useTranslation("dashboard")
 
-  const [filling, setFilling] = useState(false)
-  const autofill = async () => {
-    setFilling(true)
-    const result = await (
-      await fetch(`/api/open-graph?url=${values.externalUrl}`)
-    ).json()
-    const time =
-      result?.articlePublishedTime || result?.publishedTime || result?.ogDate
-
-    updateValue({
-      cover: result?.ogImage?.[0]
-        ? {
-            address: result?.ogImage?.[0]?.url,
-            mime_type: result?.ogImage?.[0]?.type,
-          }
-        : undefined,
-      title: result?.ogTitle,
-      excerpt: result?.ogDescription,
-      publishedAt: time ? new Date(time).toISOString() : undefined,
-    })
-    setFilling(false)
-  }
-
-  return (
-    <div className="w-full space-y-5">
-      <div>
-        <Input
-          label={t("External Url") || ""}
-          isBlock
-          name="externalUrl"
-          id="externalUrl"
-          value={values.externalUrl}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            updateValue({
-              externalUrl: e.target.value,
-            })
-          }}
-        />
-      </div>
-      <Button onClick={autofill} isLoading={filling}>
-        {t("Autofill")}
-      </Button>
-      <div>
-        <FieldLabel label={t("Cover Image")} />
-        <ImageUploader
-          id="icon"
-          className="aspect-video rounded-lg w-[480px]"
-          value={values.cover as any}
-          hasClose={true}
-          withMimeType={true}
-          uploadEnd={(key) => {
-            const { address, mime_type } = key as {
-              address?: string
-              mime_type?: string
-            }
-            updateValue({
-              cover: {
-                address,
-                mime_type,
-              },
-            })
-          }}
-          accept="image/*"
-        />
-      </div>
-      <div>
-        <Input
-          label={t("Title") || ""}
-          isBlock
-          name="title"
-          id="title"
-          value={values.title}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            updateValue({
-              title: e.target.value,
-            })
-          }}
-        />
-      </div>
-      <div>
-        <Input
-          label={t("Excerpt") || ""}
-          isBlock
-          name="excerpt"
-          id="excerpt"
-          value={values.excerpt}
-          multiline
-          rows={4}
-          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-            updateValue({
-              excerpt: e.target.value,
-            })
-          }}
-        />
-      </div>
-      <div>
-        <label className="form-label" htmlFor="publishAt">
-          {t("Publish at")}
-        </label>
-        <DateInput
-          className="[&_input]:text-black/90 [&_input]:bg-white"
-          allowDeselect
-          clearable
-          valueFormat="YYYY-MM-DD, h:mm a"
-          name="publishAt"
-          id="publishAt"
-          value={values.publishedAt ? new Date(values.publishedAt) : undefined}
-          onChange={(value: Date | null) => {
-            if (value) {
-              updateValue({
-                publishedAt: value.toISOString(),
-              })
-            } else {
-              updateValue({
-                publishedAt: "",
-              })
-            }
-          }}
-          styles={{
-            input: {
-              borderRadius: "0.5rem",
-              borderColor: "var(--border-color)",
-              height: "2.5rem",
-              "&:focus-within": {
-                borderColor: "var(--theme-color)",
-              },
-            },
-          }}
-        />
-        <div className="text-xs text-gray-400 mt-1">
-          {t(
-            `This portfolio will be accessible from this time. Leave blank to use the current time.`,
-          )}
+    return (
+      <div className="w-full space-y-5">
+        <EditorExternalUrl updateValue={updateValue} />
+        <EditorAutofill updateValue={updateValue} />
+        <div className="w-[480px]">
+          <EditorCover updateValue={updateValue} />
         </div>
-        {values.publishedAt > new Date().toISOString() && (
-          <div className="text-xs mt-1 text-orange-500">
-            {t(
-              "The post is currently not public as its publication date has been scheduled for a future time.",
-            )}
-          </div>
-        )}
+        <EditorTitle updateValue={updateValue} />
+        <EditorExcerpt updateValue={updateValue} />
+        <EditorPublishAt
+          updateValue={updateValue}
+          prompt={t(
+            "This portfolio will be accessible from this time. Leave blank to use the current time.",
+          )}
+        />
       </div>
-    </div>
-  )
-})
+    )
+  },
+)
 
 EditorExtraProperties.displayName = "EditorExtraProperties"

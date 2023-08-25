@@ -2,12 +2,10 @@
 
 import { nanoid } from "nanoid"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
-import { ChangeEvent, memo, useCallback, useEffect, useState } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import { shallow } from "zustand/shallow"
 
 import type { EditorView } from "@codemirror/view"
-import { DateInput } from "@mantine/dates"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
@@ -16,14 +14,14 @@ import { EditorToolbar } from "~/components/dashboard/EditorToolbar"
 import { OptionsButton } from "~/components/dashboard/OptionsButton"
 import { PublishButton } from "~/components/dashboard/PublishButton"
 import PublishedModal from "~/components/dashboard/PublishedModal"
+import EditorCover from "~/components/dashboard/editor-properties/EditorCover"
+import EditorDisableAISummary from "~/components/dashboard/editor-properties/EditorDisableAISummary"
+import EditorExcerpt from "~/components/dashboard/editor-properties/EditorExcerpt"
+import EditorPublishAt from "~/components/dashboard/editor-properties/EditorPublishAt"
+import EditorSlug from "~/components/dashboard/editor-properties/EditorSlug"
+import EditorTags from "~/components/dashboard/editor-properties/EditorTags"
 import { Button } from "~/components/ui/Button"
-import { FieldLabel } from "~/components/ui/FieldLabel"
-import { ImageUploader } from "~/components/ui/ImageUploader"
-import { Input } from "~/components/ui/Input"
 import { useModalStack } from "~/components/ui/ModalStack"
-import { Switch } from "~/components/ui/Switch"
-import { TagInput } from "~/components/ui/TagInput"
-import { UniLink } from "~/components/ui/UniLink"
 import {
   Values,
   initialEditorState,
@@ -41,12 +39,11 @@ import { useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { delStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote, NoteType, PageVisibilityEnum } from "~/lib/types"
-import { cn, pick } from "~/lib/utils"
+import { cn } from "~/lib/utils"
 import { checkPageSlug } from "~/models/page.model"
 import {
   useCreatePage,
   useDeletePage,
-  useGetDistinctNoteTagsOfCharacter,
   useGetPage,
   useUpdatePage,
 } from "~/queries/page"
@@ -111,8 +108,6 @@ export default function PostEditor() {
     handle: subdomain,
   })
 
-  const userTags = useGetDistinctNoteTagsOfCharacter(site.data?.characterId)
-
   const [visibility, setVisibility] = useState<PageVisibilityEnum>()
 
   useEffect(() => {
@@ -138,31 +133,31 @@ export default function PostEditor() {
   const getDraftKey = useGetState(draftKey)
 
   const updateValue = useCallback(
-    <K extends keyof Values>(key: K, value: Values[K]) => {
+    (val: Partial<Values>) => {
       if (visibility !== PageVisibilityEnum.Draft) {
         setVisibility(PageVisibilityEnum.Modified)
       }
 
       const values = getValues()
       const draftKey = getDraftKey()
-      if (key === "title") {
+      if (val.title) {
         setDefaultSlug(
           getDefaultSlug(
-            value as string,
+            val.title,
             draftKey.replace(`draft-${site.data?.characterId}-`, ""),
           ),
         )
       }
-      if (key === "slug" && !/^[a-zA-Z0-9\-_]*$/.test(value as string)) {
+      if (val.slug && !/^[a-zA-Z0-9\-_]*$/.test(val.slug)) {
         // Replace all invalid chars
-        ;(value as string) = (value as string).replace(/[^\w\-]/g, "-")
+        val.slug = val.slug.replace(/[^\w\-]/g, "-")
         toast.error(
           t(
             "Slug can only contain letters, numbers, hyphens, and underscores.",
           ),
         )
       }
-      const newValues = { ...values, [key]: value }
+      const newValues = { ...values, ...val }
       if (draftKey) {
         setStorage(draftKey, {
           date: +new Date(),
@@ -365,7 +360,9 @@ export default function PostEditor() {
 
   const onChange = useCallback(
     (value: string) => {
-      updateValue("content", value)
+      updateValue({
+        content: value,
+      })
     },
     [updateValue],
   )
@@ -384,8 +381,11 @@ export default function PostEditor() {
       defaultSlug={defaultSlug}
       updateValue={updateValue}
       type={type}
-      subdomain={subdomain}
-      userTags={userTags.data?.list || []}
+      characterId={site.data?.characterId}
+      siteLink={getSiteLink({
+        subdomain,
+        domain: site.data?.metadata?.content?.custom_domain,
+      })}
     />
   )
 
@@ -499,7 +499,11 @@ export default function PostEditor() {
                         view?.focus()
                       }
                     }}
-                    onChange={(e) => updateValue("title", e.target.value)}
+                    onChange={(e) =>
+                      updateValue({
+                        title: e.target.value,
+                      })
+                    }
                     className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none bg-white"
                     placeholder={t("Title goes here...") || ""}
                   />
@@ -527,30 +531,32 @@ const EditorExtraProperties = memo(
   ({
     type,
     updateValue,
-    subdomain,
     defaultSlug,
-    userTags,
+    characterId,
+    siteLink,
   }: {
-    updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
+    updateValue: (val: Partial<Values>) => void
     type: NoteType
-    subdomain: string
     defaultSlug: string
-    userTags: string[]
+    characterId?: number
+    siteLink?: string
   }) => {
-    const values = useEditorState(
-      (state) =>
-        pick(state, ["publishedAt", "slug", "excerpt", "tags", "cover"]),
-      shallow,
-    )
     const { t } = useTranslation("dashboard")
-    const site = useGetSite(subdomain)
 
     const { present } = useModalStack()
     const openAdvancedOptions = () => {
       present({
         title: t("Advanced Settings"),
         content: () => (
-          <EditorAdvancedModal type={type} updateValue={updateValue} />
+          <div className="p-5 space-y-5">
+            <EditorDisableAISummary updateValue={updateValue} />
+            <EditorPublishAt
+              updateValue={updateValue}
+              prompt={t(
+                `This ${type} will be accessible from this time. Leave blank to use the current time.`,
+              )}
+            />
+          </div>
         ),
         modalProps: {
           withConfirm: true,
@@ -560,99 +566,21 @@ const EditorExtraProperties = memo(
 
     return (
       <div className="h-full overflow-auto w-[280px] border-l bg-zinc-50 p-5 space-y-5">
-        <div>
-          <FieldLabel label={t("Cover Image")} />
-          <ImageUploader
-            id="icon"
-            className="aspect-video rounded-lg"
-            value={values.cover as any}
-            hasClose={true}
-            withMimeType={true}
-            uploadEnd={(key) => {
-              const { address, mime_type } = key as {
-                address?: string
-                mime_type?: string
-              }
-              updateValue("cover", {
-                address,
-                mime_type,
-              })
-            }}
-            accept="image/*"
-          />
-          <div className="text-xs text-gray-400 mt-1">
-            {t("Leave blank to use the first image in the post")}
-          </div>
-        </div>
-        <div>
-          <Input
-            name="tags"
-            value={values.tags}
-            label={t("Tags") || ""}
-            id="tags"
-            isBlock
-            renderInput={(props) => (
-              <TagInput
-                {...props}
-                userTags={userTags}
-                onTagChange={(value: string) => updateValue("tags", value)}
-              />
-            )}
-          />
-        </div>
-        <div>
-          <Input
-            name="slug"
-            value={values.slug}
-            placeholder={defaultSlug}
-            label={
-              t(`${type.charAt(0).toUpperCase() + type.slice(1)} slug`) || ""
-            }
-            id="slug"
-            isBlock
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              updateValue("slug", e.target.value)
-            }
-            help={
-              <>
-                {(values.slug || defaultSlug) && (
-                  <>
-                    {t(`This ${type} will be accessible at`)}{" "}
-                    <UniLink
-                      href={`${getSiteLink({
-                        subdomain,
-                        domain: site.data?.metadata?.content?.custom_domain,
-                      })}/${encodeURIComponent(values.slug || defaultSlug)}`}
-                      className="hover:underline"
-                    >
-                      {getSiteLink({
-                        subdomain,
-                        domain: site.data?.metadata?.content?.custom_domain,
-                        noProtocol: true,
-                      })}
-                      /{encodeURIComponent(values.slug || defaultSlug)}
-                    </UniLink>
-                  </>
-                )}
-              </>
-            }
-          />
-        </div>
-        <div>
-          <Input
-            label={t("Excerpt") || ""}
-            isBlock
-            name="excerpt"
-            id="excerpt"
-            value={values.excerpt}
-            multiline
-            rows={4}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-              updateValue("excerpt", e.target.value)
-            }}
-            help={t("Leave it blank to use auto-generated excerpt")}
-          />
-        </div>
+        <EditorCover
+          updateValue={updateValue}
+          prompt={t("Leave blank to use the first image in the post")}
+        />
+        <EditorTags updateValue={updateValue} characterId={characterId} />
+        <EditorSlug
+          updateValue={updateValue}
+          defaultValue={defaultSlug}
+          type={type}
+          siteLink={siteLink}
+        />
+        <EditorExcerpt
+          updateValue={updateValue}
+          prompt={t("Leave it blank to use auto-generated excerpt")}
+        />
         <div>
           <Button
             variant="secondary"
@@ -673,76 +601,3 @@ const EditorExtraProperties = memo(
 )
 
 EditorExtraProperties.displayName = "EditorExtraProperties"
-
-const EditorAdvancedModal = ({
-  type,
-  updateValue,
-}: {
-  type: NoteType
-  updateValue: <K extends keyof Values>(key: K, value: Values[K]) => void
-}) => {
-  const { t } = useTranslation("dashboard")
-
-  const values = useEditorState(
-    (state) => pick(state, ["disableAISummary", "publishedAt"]),
-    shallow,
-  )
-
-  return (
-    <div className="p-5 space-y-5">
-      <div>
-        <label className="form-label">
-          {t("Disable AI-generated summary")}
-        </label>
-        <Switch
-          label=""
-          checked={values.disableAISummary}
-          setChecked={(state) => updateValue("disableAISummary", state)}
-        />
-      </div>
-      <div>
-        <label className="form-label" htmlFor="publishAt">
-          {t("Publish at")}
-        </label>
-        <DateInput
-          className="[&_input]:text-black/90 [&_input]:bg-white"
-          allowDeselect
-          clearable
-          valueFormat="YYYY-MM-DD, h:mm a"
-          name="publishAt"
-          id="publishAt"
-          value={values.publishedAt ? new Date(values.publishedAt) : undefined}
-          onChange={(value: Date | null) => {
-            if (value) {
-              updateValue("publishedAt", value.toISOString())
-            } else {
-              updateValue("publishedAt", "")
-            }
-          }}
-          styles={{
-            input: {
-              borderRadius: "0.5rem",
-              borderColor: "var(--border-color)",
-              height: "2.5rem",
-              "&:focus-within": {
-                borderColor: "var(--theme-color)",
-              },
-            },
-          }}
-        />
-        <div className="text-xs text-gray-400 mt-1">
-          {t(
-            `This ${type} will be accessible from this time. Leave blank to use the current time.`,
-          )}
-        </div>
-        {values.publishedAt > new Date().toISOString() && (
-          <div className="text-xs mt-1 text-orange-500">
-            {t(
-              "The post is currently not public as its publication date has been scheduled for a future time.",
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
