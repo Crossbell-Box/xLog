@@ -15,20 +15,17 @@ import EditorImages from "~/components/dashboard/editor-properties/EditorImages"
 import EditorPublishAt from "~/components/dashboard/editor-properties/EditorPublishAt"
 import EditorTitle from "~/components/dashboard/editor-properties/EditorTitle"
 import { useModalStack } from "~/components/ui/ModalStack"
-import {
-  Values,
-  initialEditorState,
-  useEditorState,
-} from "~/hooks/useEditorState"
+import { initialEditorState, useEditorState } from "~/hooks/useEditorState"
 import { useGetState } from "~/hooks/useGetState"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { showConfetti } from "~/lib/confetti"
+import { crossbell2Editor } from "~/lib/editor-converter"
 import { CSB_SCAN } from "~/lib/env"
 import { getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { delStorage, setStorage } from "~/lib/storage"
-import { PageVisibilityEnum } from "~/lib/types"
+import { EditorValues, PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import {
   useCreatePage,
@@ -105,7 +102,7 @@ export default function ShortEditor() {
 
   const getValues = useGetState(values)
   const updateValue = useCallback(
-    (val: Partial<Values>) => {
+    (val: Partial<EditorValues>) => {
       if (visibility !== PageVisibilityEnum.Draft) {
         setVisibility(PageVisibilityEnum.Modified)
       }
@@ -230,16 +227,7 @@ export default function ShortEditor() {
   // Init
   useEffect(() => {
     if (!page.data?.metadata || !draftKey) return
-    useEditorState.setState({
-      published: !!page.data.noteId,
-      title: page.data.metadata?.content?.title || "",
-      publishedAt: page.data.metadata?.content?.date_published,
-      content: page.data.metadata?.content?.content || "",
-      images:
-        page.data.metadata?.content?.attachments?.filter(
-          (attachment) => attachment.name === "image",
-        ) || [],
-    })
+    useEditorState.setState(crossbell2Editor(page.data))
   }, [page.data, subdomain, draftKey, site.data?.characterId])
 
   // Reset
@@ -310,7 +298,7 @@ export default function ShortEditor() {
 }
 
 const EditorExtraProperties = memo(
-  ({ updateValue }: { updateValue: (val: Partial<Values>) => void }) => {
+  ({ updateValue }: { updateValue: (val: Partial<EditorValues>) => void }) => {
     const { t } = useTranslation("dashboard")
 
     return (

@@ -2,8 +2,9 @@ import { ChangeEvent } from "react"
 
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
-import { Values, useEditorState } from "~/hooks/useEditorState"
+import { useEditorState } from "~/hooks/useEditorState"
 import { useTranslation } from "~/lib/i18n/client"
+import { EditorValues } from "~/lib/types"
 
 export default function EditorSlug({
   updateValue,
@@ -11,7 +12,7 @@ export default function EditorSlug({
   type,
   siteLink,
 }: {
-  updateValue: (val: Partial<Values>) => void
+  updateValue: (val: Partial<EditorValues>) => void
   defaultValue?: string
   type: string
   siteLink?: string

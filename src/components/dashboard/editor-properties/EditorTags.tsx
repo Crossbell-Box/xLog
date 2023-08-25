@@ -1,14 +1,15 @@
 import { Input } from "~/components/ui/Input"
 import { TagInput } from "~/components/ui/TagInput"
-import { Values, useEditorState } from "~/hooks/useEditorState"
+import { useEditorState } from "~/hooks/useEditorState"
 import { useTranslation } from "~/lib/i18n/client"
+import { EditorValues } from "~/lib/types"
 import { useGetDistinctNoteTagsOfCharacter } from "~/queries/page"
 
 export default function EditorTags({
   updateValue,
   characterId,
 }: {
-  updateValue: (val: Partial<Values>) => void
+  updateValue: (val: Partial<EditorValues>) => void
   characterId?: number
 }) {
   const { t } = useTranslation("dashboard")

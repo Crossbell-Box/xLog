@@ -125,3 +125,23 @@ export type ExpandedCharacter = CharacterEntity & {
 export type ColorScheme = "dark" | "light"
 
 export type NoteType = "post" | "page" | "portfolio" | "short"
+
+export type EditorValues = {
+  title: string
+  publishedAt: string
+  published: boolean
+  excerpt: string
+  slug: string
+  tags: string
+  content: string
+  cover: {
+    address?: string
+    mime_type?: string
+  }
+  disableAISummary: boolean
+  externalUrl: string
+  images: {
+    address?: string
+    mime_type?: string
+  }[]
+}

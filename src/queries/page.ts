@@ -1,7 +1,6 @@
 "use client"
 
-import type { NoteEntity, NoteMetadata } from "crossbell"
-import { nanoid } from "nanoid"
+import type { NoteEntity } from "crossbell"
 
 import {
   useAccountState,
@@ -25,9 +24,9 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 
-import { type Values } from "~/hooks/useEditorState"
+import { editor2Crossbell } from "~/lib/editor-converter"
 import createSearchParams from "~/lib/search-params"
-import { NoteType } from "~/lib/types"
+import { EditorValues, NoteType } from "~/lib/types"
 import * as pageModel from "~/models/page.model"
 
 export const useGetPagesBySiteLite = (
@@ -219,7 +218,7 @@ export function useCreatePage() {
       input: {
         characterId?: number
         type?: NoteType
-      } & Values,
+      } & EditorValues,
     ) => {
       if (!input.characterId) {
         throw new Error("characterId is required")
@@ -228,55 +227,11 @@ export function useCreatePage() {
       return postNote.mutate(
         {
           characterId: input.characterId,
-          metadata: {
-            title: input.title,
-            content: input.content,
-            date_published: input.publishedAt || new Date().toISOString(),
-            summary: input.excerpt,
-            tags: [
-              input.type,
-              ...(input.tags
-                ?.split(",")
-                .map((tag) => tag.trim())
-                .filter((tag) => tag) || []),
-            ],
-            sources: ["xlog"],
-            attributes: [
-              {
-                trait_type: "xlog_slug",
-                value: input.slug || nanoid(),
-              },
-              ...(input.disableAISummary
-                ? [
-                    {
-                      trait_type: "xlog_disable_ai_summary",
-                      value: input.disableAISummary,
-                    },
-                  ]
-                : []),
-            ],
-            attachments: [
-              ...(input.cover?.address
-                ? [
-                    {
-                      name: "cover",
-                      address: input.cover.address,
-                      mime_type: input.cover.mime_type,
-                    },
-                  ]
-                : []),
-              ...(input.images?.length
-                ? input.images?.map((image) => ({
-                    name: "image",
-                    address: image.address,
-                    mime_type: image.mime_type,
-                  }))
-                : []),
-            ],
-            external_urls: [input.externalUrl],
-          } as NoteMetadata & {
-            summary?: string
-          },
+          metadata: editor2Crossbell({
+            values: input,
+            autofill: true,
+            type: input.type || "post",
+          }).metadata.content,
         },
         {
           onSuccess: (data, variables) => {
@@ -304,7 +259,7 @@ export function useUpdatePage() {
         noteId?: number
         characterId?: number
         type?: NoteType
-      } & Values,
+      } & EditorValues,
     ) => {
       if (!input.characterId || !input.noteId) {
         throw new Error("characterId and noteId are required")

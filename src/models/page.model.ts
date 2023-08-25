@@ -6,7 +6,7 @@ import type {
   NoteEntity,
   NoteMetadata,
 } from "crossbell"
-import type { Address } from "viem"
+import { type Address } from "viem"
 
 import { GeneralAccount } from "@crossbell/connect-kit"
 import { indexer } from "@crossbell/indexer"
@@ -14,6 +14,7 @@ import { extractCharacterAttribute } from "@crossbell/util-metadata"
 import { gql } from "@urql/core"
 
 import { RESERVED_TAGS } from "~/lib/constants"
+import { editor2Crossbell } from "~/lib/editor-converter"
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { filterCommentCharacter } from "~/lib/filter-character"
 import { getNoteSlug } from "~/lib/helpers"
@@ -64,102 +65,47 @@ export async function postNotes(
   })
 }
 
-const getLocalPages = (input: {
+const getLocalPages = async (input: {
   characterId: number
   isPost?: boolean // In order to be compatible with old drafts
   type?: NoteType[]
   handle?: string
 }) => {
-  const pages: ExpandedNote[] = []
-  getKeys([`draft-${input.characterId}-`, `draft-${input.handle}-`]).forEach(
-    (key) => {
-      const page = getStorage(key)
-      if (
-        page.isPost === input.isPost ||
-        input.type?.includes(page.type) ||
-        input.type === undefined
-      ) {
-        const note: ExpandedNote = {
-          characterId: input.characterId,
-          noteId: 0,
-          draftKey: key
-            .replace(`draft-${input.characterId}-`, "")
-            .replace(`draft-${input.handle}-${input.characterId}-`, ""), // In order to be compatible with old drafts
-          linkItemType: null,
-          linkKey: "",
-          toCharacterId: null,
-          toAddress: null,
-          toNoteId: null,
-          toHeadCharacterId: null,
-          toHeadNoteId: null,
-          toContractAddress: null,
-          toTokenId: null,
-          toLinklistId: null,
-          toUri: null,
-          deleted: false,
-          locked: false,
-          contractAddress: null,
-          uri: null,
-          operator: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
-          owner: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
-          createdAt: new Date(page.date).toISOString(),
-          publishedAt: new Date(page.date).toISOString(),
-          updatedAt: new Date(page.date).toISOString(),
-          deletedAt: null,
-          transactionHash: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
-          blockNumber: 0,
-          logIndex: 0,
-          updatedTransactionHash: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
-          updatedBlockNumber: 0,
-          updatedLogIndex: 0,
-          metadata: {
-            content: {
-              title: page.values?.title,
-              content: page.values?.content,
-              date_published: page.values?.publishedAt,
-              summary: page.values?.excerpt,
-              tags: [
-                page.type,
-                ...(page.values?.tags
-                  ?.split(",")
-                  .map((tag: string) => tag.trim())
-                  .filter((tag: string) => tag) || []),
-              ],
-              slug: page.values?.slug,
-              sources: ["xlog"],
-              disableAISummary: page.values?.disableAISummary,
-              external_urls: page.values?.externalUrl
-                ? [page.values?.externalUrl]
-                : undefined,
-              cover: page.values?.cover?.address,
-              images: [page.values?.cover?.address],
-              attachments: [
-                ...(page.values?.cover?.address
-                  ? [
-                      {
-                        name: "cover",
-                        address: page.values?.cover.address,
-                        mime_type: page.values?.cover.mime_type,
-                      },
-                    ]
-                  : []),
-                ...(page.values.images?.length
-                  ? page.values.images?.map((image: any) => ({
-                      name: "image",
-                      address: image?.address,
-                      mime_type: image?.mime_type,
-                    }))
-                  : []),
-              ],
-            },
-          },
-          local: true,
-        }
-        pages.push(note)
-      }
-    },
-  )
-  return pages
+  return (
+    await Promise.all(
+      getKeys([`draft-${input.characterId}-`, `draft-${input.handle}-`]).map(
+        async (key) => {
+          const page = getStorage(key)
+          if (
+            page.isPost === input.isPost ||
+            input.type?.includes(page.type) ||
+            input.type === undefined
+          ) {
+            const note: ExpandedNote = Object.assign(
+              await expandCrossbellNote({
+                note: editor2Crossbell({
+                  values: page.values,
+                  type: page.type,
+                }),
+                disableAutofill: true,
+              }),
+              {
+                draftKey: key
+                  .replace(`draft-${input.characterId}-`, "")
+                  .replace(`draft-${input.handle}-${input.characterId}-`, ""), // In order to be compatible with old drafts
+                local: true,
+                characterId: input.characterId,
+                createdAt: new Date(page.date).toISOString(),
+                publishedAt: new Date(page.date).toISOString(),
+                updatedAt: new Date(page.date).toISOString(),
+              },
+            )
+            return note
+          }
+        },
+      ),
+    )
+  ).filter((item): item is ExpandedNote => !!item)
 }
 
 export async function getPagesBySite(input: {
@@ -349,7 +295,7 @@ export async function getPagesBySite(input: {
     ),
   }
 
-  const local = getLocalPages({
+  const local = await getLocalPages({
     characterId: input.characterId,
     isPost: input.type[0] === "post", // In order to be compatible with old drafts
     type: input.type,
@@ -363,7 +309,10 @@ export async function getPagesBySite(input: {
     if (index !== -1) {
       if (
         new Date(localPage.updatedAt) >
-        new Date(expandedNotes.list[index].updatedAt)
+        new Date(
+          expandedNotes.list[index].updatedAt ||
+            expandedNotes.list[index].createdAt,
+        )
       ) {
         expandedNotes.list[index] = {
           ...expandedNotes.list[index],
@@ -591,7 +540,7 @@ export async function getPage<TRender extends boolean = false>(input: {
   }
 
   // local page
-  const local = getLocalPages({
+  const local = await getLocalPages({
     characterId: input.characterId,
     handle: input.handle,
   })

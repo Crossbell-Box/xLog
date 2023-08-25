@@ -2,14 +2,15 @@ import { useState } from "react"
 
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { ImageUploader } from "~/components/ui/ImageUploader"
-import { Values, useEditorState } from "~/hooks/useEditorState"
+import { useEditorState } from "~/hooks/useEditorState"
 import { useTranslation } from "~/lib/i18n/client"
+import { EditorValues } from "~/lib/types"
 
 export default function EditorImages({
   updateValue,
   prompt,
 }: {
-  updateValue: (val: Partial<Values>) => void
+  updateValue: (val: Partial<EditorValues>) => void
   prompt?: string
 }) {
   const { t } = useTranslation("dashboard")

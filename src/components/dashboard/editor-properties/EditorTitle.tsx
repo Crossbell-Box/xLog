@@ -1,13 +1,14 @@
 import { ChangeEvent } from "react"
 
 import { Input } from "~/components/ui/Input"
-import { Values, useEditorState } from "~/hooks/useEditorState"
+import { useEditorState } from "~/hooks/useEditorState"
 import { useTranslation } from "~/lib/i18n/client"
+import { EditorValues } from "~/lib/types"
 
 export default function EditorTitle({
   updateValue,
 }: {
-  updateValue: (val: Partial<Values>) => void
+  updateValue: (val: Partial<EditorValues>) => void
 }) {
   const { t } = useTranslation("dashboard")
   const value = useEditorState((state) => state.title)

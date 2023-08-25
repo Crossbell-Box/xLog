@@ -15,12 +15,20 @@ export const expandCrossbellNote = async ({
   useScore,
   keyword,
   useHTML,
+  disableAutofill,
 }: {
-  note: NoteEntity
+  note: NoteEntity & {
+    metadata?: {
+      content?: {
+        summary?: string
+      } | null
+    } | null
+  }
   useStat?: boolean
   useScore?: boolean
   keyword?: string
   useHTML?: boolean
+  disableAutofill?: boolean
 }) => {
   const expandedNote: ExpandedNote = Object.assign(
     {
@@ -45,7 +53,7 @@ export const expandCrossbellNote = async ({
           position + 100,
         )}`
       } else {
-        if (!expandedNote.metadata.content.summary) {
+        if (!expandedNote.metadata.content.summary && !disableAutofill) {
           expandedNote.metadata.content.summary = rendered.excerpt
         }
       }
@@ -60,7 +68,7 @@ export const expandCrossbellNote = async ({
     expandedNote.metadata.content.cover =
       expandedNote.metadata?.content?.attachments?.find(
         (attachment) => attachment.name === "cover",
-      )?.address || rendered?.cover
+      )?.address || (disableAutofill ? "" : rendered?.cover)
 
     expandedNote.metadata.content.images = []
 
@@ -86,8 +94,14 @@ export const expandCrossbellNote = async ({
       ...new Set(expandedNote.metadata.content.images),
     ]
 
-    expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
-    if (!expandedNote.metadata.content.date_published && expandedNote.noteId) {
+    if (!disableAutofill) {
+      expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
+    }
+    if (
+      !expandedNote.metadata.content.date_published &&
+      expandedNote.noteId &&
+      !disableAutofill
+    ) {
       expandedNote.metadata.content.date_published = expandedNote.createdAt
     }
 

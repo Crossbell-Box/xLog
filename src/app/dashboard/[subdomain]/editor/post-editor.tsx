@@ -22,23 +22,24 @@ import EditorSlug from "~/components/dashboard/editor-properties/EditorSlug"
 import EditorTags from "~/components/dashboard/editor-properties/EditorTags"
 import { Button } from "~/components/ui/Button"
 import { useModalStack } from "~/components/ui/ModalStack"
-import {
-  Values,
-  initialEditorState,
-  useEditorState,
-} from "~/hooks/useEditorState"
+import { initialEditorState, useEditorState } from "~/hooks/useEditorState"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { showConfetti } from "~/lib/confetti"
-import { RESERVED_TAGS } from "~/lib/constants"
 import { getDefaultSlug } from "~/lib/default-slug"
+import { crossbell2Editor } from "~/lib/editor-converter"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink, getTwitterShareUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { delStorage, setStorage } from "~/lib/storage"
-import { ExpandedNote, NoteType, PageVisibilityEnum } from "~/lib/types"
+import {
+  EditorValues,
+  ExpandedNote,
+  NoteType,
+  PageVisibilityEnum,
+} from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { checkPageSlug } from "~/models/page.model"
 import {
@@ -132,7 +133,7 @@ export default function PostEditor() {
   const getDraftKey = useGetState(draftKey)
 
   const updateValue = useCallback(
-    (val: Partial<Values>) => {
+    (val: Partial<EditorValues>) => {
       if (visibility !== PageVisibilityEnum.Draft) {
         setVisibility(PageVisibilityEnum.Modified)
       }
@@ -318,25 +319,7 @@ export default function PostEditor() {
   useEffect(() => {
     if (!page.data?.metadata?.content || !draftKey) return
     setInitialContent(page.data.metadata?.content?.content || "")
-    useEditorState.setState({
-      title: page.data.metadata?.content?.title || "",
-      publishedAt: page.data.metadata?.content?.date_published,
-      published: !!page.data.noteId,
-      excerpt: page.data.metadata?.content?.summary || "",
-      slug: page.data.metadata?.content?.slug || "",
-      tags:
-        page.data.metadata?.content?.tags
-          ?.filter((tag) => !RESERVED_TAGS.includes(tag))
-          ?.join(", ") || "",
-      content: page.data.metadata?.content?.content || "",
-      cover: page.data.metadata?.content?.attachments?.find(
-        (attachment) => attachment.name === "cover",
-      ) || {
-        address: "",
-        mime_type: "",
-      },
-      disableAISummary: page.data.metadata?.content?.disableAISummary,
-    })
+    useEditorState.setState(crossbell2Editor(page.data))
     setDefaultSlug(
       getDefaultSlug(
         page.data.metadata?.content?.title || "",
@@ -533,7 +516,7 @@ const EditorExtraProperties = memo(
     characterId,
     siteLink,
   }: {
-    updateValue: (val: Partial<Values>) => void
+    updateValue: (val: Partial<EditorValues>) => void
     type: NoteType
     defaultSlug: string
     characterId?: number

@@ -1,13 +1,14 @@
 import { useState } from "react"
 
 import { Button } from "~/components/ui/Button"
-import { Values, useEditorState } from "~/hooks/useEditorState"
+import { useEditorState } from "~/hooks/useEditorState"
 import { useTranslation } from "~/lib/i18n/client"
+import { EditorValues } from "~/lib/types"
 
 export default function EditorAutofill({
   updateValue,
 }: {
-  updateValue: (val: Partial<Values>) => void
+  updateValue: (val: Partial<EditorValues>) => void
 }) {
   const { t } = useTranslation("dashboard")
   const externalUrl = useEditorState((state) => state.externalUrl)
