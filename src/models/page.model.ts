@@ -143,6 +143,13 @@ const getLocalPages = (input: {
                       },
                     ]
                   : []),
+                ...(page.values.images?.length
+                  ? page.values.images?.map((image: any) => ({
+                      name: "image",
+                      address: image?.address,
+                      mime_type: image?.mime_type,
+                    }))
+                  : []),
               ],
             },
           },

@@ -14,7 +14,9 @@ export const initialEditorState = {
   },
   disableAISummary: false,
   externalUrl: "",
+  images: [],
 }
+
 export type Values = {
   title: string
   publishedAt: string
@@ -29,6 +31,10 @@ export type Values = {
   }
   disableAISummary: boolean
   externalUrl: string
+  images: {
+    address?: string
+    mime_type?: string
+  }[]
 }
 
 export const useEditorState = create<

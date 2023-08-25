@@ -23,6 +23,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
     withMimeType,
     hasClose,
     accept,
+    disablePreview,
     ...inputProps
   }: {
     className?: string
@@ -30,6 +31,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
     uploadStart?: () => void
     hasClose?: boolean
     accept?: string
+    disablePreview?: boolean
   } & (
     | {
         withMimeType?: false
@@ -55,9 +57,11 @@ export const ImageUploader = forwardRef(function ImageUploader(
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files?.[0]) {
-      getBase64(event.target.files[0], (url) => {
-        setImageUrl(url)
-      })
+      if (!disablePreview) {
+        getBase64(event.target.files[0], (url) => {
+          setImageUrl(url)
+        })
+      }
 
       setLoading(true)
       uploadStart?.()

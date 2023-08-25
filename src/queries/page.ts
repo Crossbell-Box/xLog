@@ -25,6 +25,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 
+import { type Values } from "~/hooks/useEditorState"
 import createSearchParams from "~/lib/search-params"
 import { NoteType } from "~/lib/types"
 import * as pageModel from "~/models/page.model"
@@ -214,22 +215,12 @@ export function useCreatePage() {
   const { mutateAsync: _, ...postNote } = usePostNote()
 
   const mutate = useRefCallback(
-    (input: {
-      characterId?: number
-      slug?: string
-      tags?: string
-      title?: string
-      content?: string
-      publishedAt?: string
-      excerpt?: string
-      type?: NoteType
-      cover?: {
-        address?: string
-        mime_type?: string
-      }
-      disableAISummary?: boolean
-      externalUrl?: string
-    }) => {
+    (
+      input: {
+        characterId?: number
+        type?: NoteType
+      } & Values,
+    ) => {
       if (!input.characterId) {
         throw new Error("characterId is required")
       }
@@ -274,6 +265,13 @@ export function useCreatePage() {
                     },
                   ]
                 : []),
+              ...(input.images?.length
+                ? input.images?.map((image) => ({
+                    name: "image",
+                    address: image.address,
+                    mime_type: image.mime_type,
+                  }))
+                : []),
             ],
             external_urls: [input.externalUrl],
           } as NoteMetadata & {
@@ -301,23 +299,13 @@ export function useUpdatePage() {
   const { mutateAsync: _, ...updateNote } = useUpdateNote()
 
   const mutate = useRefCallback(
-    (input: {
-      noteId?: number
-      characterId?: number
-      slug?: string
-      tags?: string
-      title?: string
-      content?: string
-      publishedAt?: string
-      excerpt?: string
-      type?: NoteType
-      cover?: {
-        address?: string
-        mime_type?: string
-      }
-      disableAISummary?: boolean
-      externalUrl?: string
-    }) => {
+    (
+      input: {
+        noteId?: number
+        characterId?: number
+        type?: NoteType
+      } & Values,
+    ) => {
       if (!input.characterId || !input.noteId) {
         throw new Error("characterId and noteId are required")
       }
@@ -410,6 +398,21 @@ export function useUpdatePage() {
                   mime_type: input.cover.mime_type,
                 })
               }
+            }
+
+            if (input.images?.length) {
+              if (!metadataDraft.attachments) {
+                metadataDraft.attachments = []
+              }
+              metadataDraft.attachments = metadataDraft.attachments
+                ?.filter((attr) => attr.name !== "image")
+                .concat(
+                  input.images?.map((image) => ({
+                    name: "image",
+                    address: image.address,
+                    mime_type: image.mime_type,
+                  })),
+                )
             }
 
             if (input.externalUrl) {

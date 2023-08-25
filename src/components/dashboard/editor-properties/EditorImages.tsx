@@ -1,0 +1,71 @@
+import { useState } from "react"
+
+import { FieldLabel } from "~/components/ui/FieldLabel"
+import { ImageUploader } from "~/components/ui/ImageUploader"
+import { Values, useEditorState } from "~/hooks/useEditorState"
+import { useTranslation } from "~/lib/i18n/client"
+
+export default function EditorImages({
+  updateValue,
+  prompt,
+}: {
+  updateValue: (val: Partial<Values>) => void
+  prompt?: string
+}) {
+  const { t } = useTranslation("dashboard")
+  const value = useEditorState((state) => state.images)
+  const [extraValue, setExtraValue] = useState(undefined)
+
+  return (
+    <div>
+      <FieldLabel label={t("Images")} />
+      <div className="grid grid-cols-4 gap-2">
+        {value.map((image, index) => (
+          <ImageUploader
+            key={image.address}
+            className="aspect-video rounded-lg"
+            value={image}
+            hasClose={true}
+            withMimeType={true}
+            uploadEnd={(key) => {
+              const tmpValue = [...value]
+              if (key) {
+                tmpValue[index] = key
+              } else {
+                tmpValue.splice(index, 1)
+              }
+              updateValue({
+                images: tmpValue,
+              })
+            }}
+            accept="image/*"
+          />
+        ))}
+        <ImageUploader
+          key={"image"}
+          className="aspect-video rounded-lg"
+          withMimeType={true}
+          value={extraValue}
+          disablePreview={true}
+          uploadEnd={(key) => {
+            if (key) {
+              const tmpValue = [
+                ...value,
+                {
+                  address: key.address,
+                  mime_type: key.mime_type,
+                },
+              ]
+              updateValue({
+                images: tmpValue,
+              })
+            }
+            setExtraValue(undefined)
+          }}
+          accept="image/*"
+        />
+      </div>
+      {prompt && <div className="text-xs text-gray-400 mt-1">{prompt}</div>}
+    </div>
+  )
+}

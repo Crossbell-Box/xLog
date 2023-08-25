@@ -121,6 +121,13 @@ export default function DashboardLayout({
       lever: 2,
     },
     {
+      href: `/dashboard/${subdomain}/shorts`,
+      isActive: ({ href, pathname }) => href === pathname,
+      icon: "icon-[mingcute--ins-line]",
+      text: "Shorts",
+      lever: 2,
+    },
+    {
       href: `/dashboard/${subdomain}/portfolios`,
       isActive: ({ href, pathname }) => href === pathname,
       icon: "icon-[mingcute--cloud-line]",

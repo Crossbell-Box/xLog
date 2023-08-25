@@ -124,4 +124,4 @@ export type ExpandedCharacter = CharacterEntity & {
 
 export type ColorScheme = "dark" | "light"
 
-export type NoteType = "post" | "page" | "portfolio"
+export type NoteType = "post" | "page" | "portfolio" | "short"
