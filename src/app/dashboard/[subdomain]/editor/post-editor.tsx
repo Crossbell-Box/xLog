@@ -70,7 +70,6 @@ export default function PostEditor() {
       if (!pageId) {
         const randomId = nanoid()
         key = `draft-${site.data?.characterId}-!local-${randomId}`
-        setDraftKey(key)
         queryClient.invalidateQueries([
           "getPagesBySite",
           site.data?.characterId,
@@ -348,9 +347,19 @@ export default function PostEditor() {
     )
   }, [page.data, subdomain, draftKey, site.data?.characterId])
 
-  const [view, setView] = useState<EditorView>()
+  // Reset
+  const discardChanges = useCallback(() => {
+    if (draftKey) {
+      delStorage(draftKey)
+      queryClient.invalidateQueries(["getPagesBySite", site.data?.characterId])
+      page.remove()
+      page.refetch()
+    }
+  }, [draftKey, site.data?.characterId])
 
   // editor
+  const [view, setView] = useState<EditorView>()
+
   const onCreateEditor = useCallback(
     (view: EditorView) => {
       setView?.(view)
@@ -388,15 +397,6 @@ export default function PostEditor() {
       })}
     />
   )
-
-  const discardChanges = useCallback(() => {
-    if (draftKey) {
-      delStorage(draftKey)
-      queryClient.invalidateQueries(["getPagesBySite", site.data?.characterId])
-      page.remove()
-      page.refetch()
-    }
-  }, [draftKey, site.data?.characterId])
 
   return (
     <>

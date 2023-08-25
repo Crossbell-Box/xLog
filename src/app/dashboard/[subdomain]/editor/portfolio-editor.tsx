@@ -60,7 +60,6 @@ export default function PortfolioEditor() {
       if (!pageId) {
         const randomId = nanoid()
         key = `draft-${site.data?.characterId}-!local-${randomId}`
-        setDraftKey(key)
         queryClient.invalidateQueries([
           "getPagesBySite",
           site.data?.characterId,
@@ -131,6 +130,7 @@ export default function PortfolioEditor() {
     [visibility],
   )
 
+  // Save
   const createPage = useCreatePage()
   const updatePage = useUpdatePage()
 
@@ -152,30 +152,6 @@ export default function PortfolioEditor() {
       })
     }
   }
-
-  const deleteP = useDeletePage()
-  const deletePage = async () => {
-    if (page.data) {
-      if (!page.data?.noteId) {
-        // Is draft
-        delStorage(`draft-${page.data.characterId}-${page.data.draftKey}`)
-      } else {
-        // Is Note
-        return deleteP.mutate({
-          noteId: page.data.noteId,
-          characterId: page.data.characterId,
-        })
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (deleteP.isSuccess) {
-      toast.success(t("Deleted!"))
-      deleteP.reset()
-      router.push(`/dashboard/${subdomain}/${type}s`)
-    }
-  }, [deleteP.isSuccess])
 
   const { present } = useModalStack()
 
@@ -229,6 +205,32 @@ export default function PortfolioEditor() {
     }
   }, [createPage.isError, updatePage.isSuccess])
 
+  // Delete
+  const deleteP = useDeletePage()
+  const deletePage = async () => {
+    if (page.data) {
+      if (!page.data?.noteId) {
+        // Is draft
+        delStorage(`draft-${page.data.characterId}-${page.data.draftKey}`)
+      } else {
+        // Is Note
+        return deleteP.mutate({
+          noteId: page.data.noteId,
+          characterId: page.data.characterId,
+        })
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (deleteP.isSuccess) {
+      toast.success(t("Deleted!"))
+      deleteP.reset()
+      router.push(`/dashboard/${subdomain}/${type}s`)
+    }
+  }, [deleteP.isSuccess])
+
+  // Init
   useEffect(() => {
     if (!page.data?.metadata || !draftKey) return
     useEditorState.setState({
@@ -246,6 +248,7 @@ export default function PortfolioEditor() {
     })
   }, [page.data, subdomain, draftKey, site.data?.characterId])
 
+  // Reset
   const discardChanges = useCallback(() => {
     if (draftKey) {
       delStorage(draftKey)
