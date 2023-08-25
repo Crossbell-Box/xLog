@@ -195,8 +195,6 @@ export default function PostEditor() {
         tags: uniqueTags,
         slug: values.slug || defaultSlug,
         characterId: site.data?.characterId,
-        cover: values.cover,
-        disableAISummary: values.disableAISummary,
       }
       if (visibility === PageVisibilityEnum.Draft) {
         createPage.mutate({

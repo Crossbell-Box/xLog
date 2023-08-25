@@ -33,7 +33,7 @@ export default function SiteSettingsGeneralPage() {
       ua: "",
       uh: "",
     } as {
-      icon: string
+      icon?: string
       banner?: {
         address: string
         mime_type: string
@@ -118,13 +118,12 @@ export default function SiteSettingsGeneralPage() {
             control={form.control}
             render={({ field }) => (
               <ImageUploader
-                id="icon"
                 className="w-24 h-24 rounded-full"
                 uploadStart={() => {
                   setIconUploading(true)
                 }}
                 uploadEnd={(key) => {
-                  form.setValue("icon", key as string)
+                  form.setValue("icon", key)
                   setIconUploading(false)
                 }}
                 accept="image/*"
@@ -142,22 +141,18 @@ export default function SiteSettingsGeneralPage() {
             control={form.control}
             render={({ field }) => (
               <ImageUploader
-                id="banner"
                 className="max-w-screen-md h-[220px]"
                 uploadStart={() => {
                   setBannerUploading(true)
                 }}
                 uploadEnd={(key) => {
-                  form.setValue(
-                    "banner",
-                    key as { address: string; mime_type: string },
-                  )
+                  form.setValue("banner", key)
                   setBannerUploading(false)
                 }}
                 withMimeType={true}
                 hasClose={true}
                 accept="image/*,video/*"
-                {...(field as any)}
+                {...field}
               />
             )}
           />

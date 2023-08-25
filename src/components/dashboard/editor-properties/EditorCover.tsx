@@ -17,18 +17,13 @@ export default function EditorCover({
     <div>
       <FieldLabel label={t("Cover Image")} />
       <ImageUploader
-        id="icon"
         className="aspect-video rounded-lg"
-        value={value as any}
+        value={value}
         hasClose={true}
         withMimeType={true}
         uploadEnd={(key) => {
-          const { address, mime_type } = key as Values["cover"]
           updateValue({
-            cover: {
-              address,
-              mime_type,
-            },
+            cover: key,
           })
         }}
         accept="image/*"

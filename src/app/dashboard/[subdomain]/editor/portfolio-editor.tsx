@@ -138,7 +138,6 @@ export default function PortfolioEditor() {
     const baseValues = {
       ...values,
       characterId: site.data?.characterId,
-      cover: values.cover,
     }
     if (visibility === PageVisibilityEnum.Draft) {
       createPage.mutate({

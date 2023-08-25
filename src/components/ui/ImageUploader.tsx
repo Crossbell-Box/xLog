@@ -28,18 +28,24 @@ export const ImageUploader = forwardRef(function ImageUploader(
     className?: string
     image?: string
     uploadStart?: () => void
-    uploadEnd?: (
-      key:
-        | string
-        | {
-            address?: string
-            mime_type?: string
-          },
-    ) => void
-    withMimeType?: boolean
     hasClose?: boolean
     accept?: string
-  } & React.ComponentPropsWithRef<"input">,
+  } & (
+    | {
+        withMimeType?: false
+        value?: string
+        uploadEnd?: (key?: string) => void
+      }
+    | {
+        withMimeType: true
+        value?: {
+          address?: string
+          mime_type?: string
+        }
+        uploadEnd?: (key?: { address: string; mime_type: string }) => void
+      }
+  ) &
+    Omit<React.ComponentPropsWithRef<"input">, "value">,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
   const uploadFile = useUploadFile()
@@ -56,32 +62,30 @@ export const ImageUploader = forwardRef(function ImageUploader(
       setLoading(true)
       uploadStart?.()
       const key = (await uploadFile(event.target.files[0])).key
-      uploadEnd?.(
-        withMimeType
-          ? {
-              address: key,
-              mime_type: event.target.files[0].type,
-            }
-          : key,
-      )
+      if (withMimeType) {
+        uploadEnd?.({
+          address: key,
+          mime_type: event.target.files[0].type,
+        })
+      } else {
+        uploadEnd?.(key)
+      }
       setLoading(false)
-    } else if (event.target.value) {
-      setImageUrl(event.target.value)
     }
   }
 
   const clear = () => {
     setImageUrl(undefined)
-    uploadEnd?.(withMimeType ? {} : "")
+    uploadEnd?.(undefined)
   }
 
   useEffect(() => {
     if (!imageUrl) {
-      setImageUrl(
-        ((withMimeType
-          ? (inputProps.value as any)?.address
-          : inputProps.value) as string) || "",
-      )
+      if (typeof inputProps.value === "object") {
+        setImageUrl(inputProps.value.address)
+      } else {
+        setImageUrl(inputProps.value)
+      }
     }
   }, [inputProps.value])
 
@@ -92,37 +96,9 @@ export const ImageUploader = forwardRef(function ImageUploader(
         className,
       )}
     >
-      <input
-        {...(withMimeType
-          ? {
-              value: (inputProps.value as any)?.address,
-              ...inputProps,
-            }
-          : inputProps)}
-        onChange={handleChange}
-        className="hidden"
-      />
-      {imageUrl && !withMimeType && (
-        <Image
-          className="mx-auto object-cover"
-          src={toGateway(imageUrl)}
-          alt="banner"
-          fill
-        />
-      )}
       {imageUrl &&
-        withMimeType &&
-        (inputProps.value as any)?.mime_type?.split("/")[0] === "image" && (
-          <Image
-            className="mx-auto object-cover"
-            src={toGateway(imageUrl)}
-            alt="banner"
-            fill
-          />
-        )}
-      {imageUrl &&
-        withMimeType &&
-        (inputProps.value as any)?.mime_type?.split("/")[0] === "video" && (
+        (typeof inputProps.value === "object" &&
+        inputProps.value.mime_type?.split("/")[0] === "video" ? (
           <video
             className="max-w-screen-md mx-auto object-cover h-full w-full"
             src={toGateway(imageUrl)}
@@ -130,7 +106,14 @@ export const ImageUploader = forwardRef(function ImageUploader(
             muted
             playsInline
           />
-        )}
+        ) : (
+          <Image
+            className="mx-auto object-cover"
+            src={toGateway(imageUrl)}
+            alt="banner"
+            fill
+          />
+        ))}
       {!imageUrl && (
         <div className="w-full h-full flex justify-center items-center text-zinc-500 text-center bg-white">
           {t("Click to select files")}
