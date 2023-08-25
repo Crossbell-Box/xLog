@@ -183,8 +183,8 @@ dependencies:
     specifier: 0.16.8
     version: 0.16.8
   langchain:
-    specifier: 0.0.133
-    version: 0.0.133(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@22.1.0)
+    specifier: 0.0.134
+    version: 0.0.134(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@22.1.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -7685,8 +7685,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.133(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@22.1.0):
-    resolution: {integrity: sha512-AVieepmeOso+32+bdGPX02qpHRh3Eff7r+gVe6GkR8KyMsl+FW7JFvXLhBTpO5pdzFQoNL/UtCBQkvHxEdmW3Q==}
+  /langchain@0.0.134(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@22.1.0):
+    resolution: {integrity: sha512-hKszH/C0+PFYvwJ4VhBGovsu3H55iA8d0Bv1XRZ9rTF9btlhOnW+Mxo6P92tfWmVQIAEz2NETFOFVswzcQhzsQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.0.0
@@ -7715,6 +7715,8 @@ packages:
       '@planetscale/database': ^1.8.0
       '@qdrant/js-client-rest': ^1.2.0
       '@raycast/api': ^1.55.2
+      '@smithy/eventstream-codec': ^2.0.5
+      '@smithy/util-utf8': ^2.0.0
       '@supabase/postgrest-js': ^1.1.1
       '@supabase/supabase-js': ^2.10.0
       '@tensorflow-models/universal-sentence-encoder': '*'
@@ -7739,6 +7741,7 @@ packages:
       ignore: ^5.2.0
       ioredis: ^5.3.2
       jsdom: '*'
+      langchainhub: ~0.0.3
       mammoth: '*'
       mongodb: ^5.2.0
       mysql2: ^3.3.3
@@ -7814,6 +7817,10 @@ packages:
         optional: true
       '@raycast/api':
         optional: true
+      '@smithy/eventstream-codec':
+        optional: true
+      '@smithy/util-utf8':
+        optional: true
       '@supabase/postgrest-js':
         optional: true
       '@supabase/supabase-js':
@@ -7861,6 +7868,8 @@ packages:
       ioredis:
         optional: true
       jsdom:
+        optional: true
+      langchainhub:
         optional: true
       mammoth:
         optional: true
