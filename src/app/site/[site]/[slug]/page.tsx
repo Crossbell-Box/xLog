@@ -5,6 +5,7 @@ import serialize from "serialize-javascript"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
 import PageContent from "~/components/common/PageContent"
+import PostCover from "~/components/home/PostCover"
 import { OIAButton } from "~/components/site/OIAButton"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
@@ -139,6 +140,12 @@ export default async function SitePagePage({
     })
   }
 
+  const type = page?.metadata?.content?.tags?.[0]
+  const images = page.metadata?.content?.attachments
+    ?.filter((attachment) => attachment.name === "image")
+    .map((img) => img.address || "")
+    .filter(Boolean)
+
   return (
     <div className="max-w-screen-md mx-auto">
       <script
@@ -146,38 +153,60 @@ export default async function SitePagePage({
         dangerouslySetInnerHTML={addPageJsonLd()}
       />
       <article>
-        {!onlyContent && (
-          <>
-            {page?.metadata?.content?.tags?.includes("post") ? (
-              <h2 className="xlog-post-title text-4xl font-bold leading-tight text-center">
-                {page.metadata?.content?.title}
-              </h2>
-            ) : (
+        {type === "short" ? (
+          <div className="space-y-3">
+            <PostCover
+              uniqueKey={`short-${page.characterId}-${page.noteId}`}
+              images={images}
+              title={page.metadata?.content?.title}
+              className="rounded-lg w-full"
+            />
+            {page?.metadata?.content?.title && (
               <h2 className="xlog-post-title text-xl font-bold page-title text-center">
                 {page?.metadata?.content?.title}
               </h2>
             )}
-            {page?.metadata?.content?.tags?.includes("post") && (
-              <PostMeta
-                page={page}
-                site={site}
-                summary={summary}
-                translated={{
-                  "AI-generated summary": t("AI-generated summary"),
-                }}
-              />
+            <div className="xlog-post-content prose">
+              {page?.metadata?.content?.content}
+            </div>
+          </div>
+        ) : (
+          <>
+            {!onlyContent && (
+              <>
+                {page?.metadata?.content?.tags?.includes("post") ? (
+                  <h2 className="xlog-post-title text-4xl font-bold leading-tight text-center">
+                    {page.metadata?.content?.title}
+                  </h2>
+                ) : (
+                  <h2 className="xlog-post-title text-xl font-bold page-title text-center">
+                    {page?.metadata?.content?.title}
+                  </h2>
+                )}
+                {page?.metadata?.content?.tags?.includes("post") && (
+                  <PostMeta
+                    page={page}
+                    site={site}
+                    summary={summary}
+                    translated={{
+                      "AI-generated summary": t("AI-generated summary"),
+                    }}
+                  />
+                )}
+              </>
             )}
+            <PageContent
+              className="mt-10"
+              content={page?.metadata?.content?.content}
+              toc={true}
+              page={page}
+              site={site}
+              withActions={true}
+              onlyContent={onlyContent}
+            />
           </>
         )}
-        <PageContent
-          className="mt-10"
-          content={page?.metadata?.content?.content}
-          toc={true}
-          page={page}
-          site={site}
-          withActions={true}
-          onlyContent={onlyContent}
-        />
+
         <OIAButton
           isInRN={!!inRN}
           link={`/notes/${page?.noteId}/${page?.characterId}`}
