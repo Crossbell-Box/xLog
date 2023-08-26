@@ -94,9 +94,10 @@ export const expandCrossbellNote = async ({
       ...new Set(expandedNote.metadata.content.images),
     ]
 
-    if (!disableAutofill) {
-      expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
-    }
+    expandedNote.metadata.content.slug = getNoteSlug(
+      expandedNote,
+      disableAutofill,
+    )
     if (
       !expandedNote.metadata.content.date_published &&
       expandedNote.noteId &&

@@ -27,13 +27,11 @@ export const getSiteLink = ({
   return `${IS_PROD ? "https" : "http"}://${subdomain}.${OUR_DOMAIN}`
 }
 
-export const getNoteSlug = (note: NoteEntity) => {
+export const getNoteSlug = (note: NoteEntity, disableAutofill?: boolean) => {
   return encodeURIComponent(
     note.metadata?.content?.attributes?.find(
       (a) => a?.trait_type === "xlog_slug",
-    )?.value ||
-      note.metadata?.content?.title ||
-      "",
+    )?.value || (disableAutofill ? "" : note.metadata?.content?.title || ""),
   )
 }
 
