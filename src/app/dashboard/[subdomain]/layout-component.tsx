@@ -1,6 +1,11 @@
 "use client"
 
-import { useParams, usePathname } from "next/navigation"
+import {
+  type ReadonlyURLSearchParams,
+  useParams,
+  usePathname,
+  useSearchParams,
+} from "next/navigation"
 import React, { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -31,6 +36,7 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const params = useParams()
+  const searchParams = useSearchParams()
   const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
 
@@ -90,7 +96,11 @@ export default function DashboardLayout({
   const links: {
     href?: string
     onClick?: () => void
-    isActive: (ctx: { href: string; pathname: string | null }) => boolean
+    isActive: (ctx: {
+      href: string
+      pathname: string | null
+      searchParams?: ReadonlyURLSearchParams
+    }) => boolean
     icon: React.ReactNode
     text: string
     lever?: number
@@ -108,28 +118,32 @@ export default function DashboardLayout({
     },
     {
       href: `/dashboard/${subdomain}/posts`,
-      isActive: ({ href, pathname }) => href === pathname,
+      isActive: ({ href, pathname, searchParams }) =>
+        href === pathname || searchParams?.get("type") === "post",
       icon: "icon-[mingcute--news-line]",
       text: "Posts",
       lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/pages`,
-      isActive: ({ href, pathname }) => href === pathname,
+      isActive: ({ href, pathname, searchParams }) =>
+        href === pathname || searchParams?.get("type") === "page",
       icon: "icon-[mingcute--file-line]",
       text: "Pages",
       lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/shorts`,
-      isActive: ({ href, pathname }) => href === pathname,
+      isActive: ({ href, pathname, searchParams }) =>
+        href === pathname || searchParams?.get("type") === "short",
       icon: "icon-[mingcute--ins-line]",
       text: "Shorts",
       lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/portfolios`,
-      isActive: ({ href, pathname }) => href === pathname,
+      isActive: ({ href, pathname, searchParams }) =>
+        href === pathname || searchParams?.get("type") === "portfolio",
       icon: "icon-[mingcute--cloud-line]",
       text: "Portfolios",
       lever: 2,
@@ -351,8 +365,9 @@ export default function DashboardLayout({
                       const active =
                         link.href &&
                         link.isActive({
-                          pathname: pathname,
+                          pathname,
                           href: link.href,
+                          searchParams,
                         })
                       return (
                         <UniLink
