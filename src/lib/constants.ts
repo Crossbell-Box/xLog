@@ -18,4 +18,4 @@ export const COLOR_SCHEME_LIGHT = "light"
 export const DEFAULT_COLOR_SCHEME: ColorScheme = "light"
 export const DARK_MODE_STORAGE_KEY = "darkMode"
 
-export const RESERVED_TAGS = ["page", "post", "portfolio", "comment"]
+export const RESERVED_TAGS = ["page", "post", "portfolio", "comment", "short"]

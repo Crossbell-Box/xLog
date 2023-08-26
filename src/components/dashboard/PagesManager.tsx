@@ -16,6 +16,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import PostCover from "~/components/home/PostCover"
 import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
+import { getSiteLink } from "~/lib/helpers"
 import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
@@ -145,16 +146,26 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
   switch (type) {
     case "post":
       description = (
-        <p>
-          <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
-            Posts are entries listed in reverse chronological order on your
-            site. Think of them as articles or updates that you share to offer
-            up new content to your readers.{" "}
-            <UniLink className="underline" href={t("link post-vs-page") || ""}>
-              Post vs. Page
-            </UniLink>
-          </Trans>
-        </p>
+        <>
+          <p>
+            <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
+              Posts are entries listed in reverse chronological order on your
+              site. Think of them as articles or updates that you share to offer
+              up new content to your readers.{" "}
+              <UniLink
+                className="underline"
+                href={t("link post-vs-page") || ""}
+              >
+                Post vs. Page
+              </UniLink>
+            </Trans>
+          </p>
+          <p>
+            <Trans i18n={i18n} i18nKey="posts add" ns="dashboard">
+              Visitors can view the posts you have posted at homepage.
+            </Trans>
+          </p>
+        </>
       )
       break
     case "page":
@@ -175,12 +186,12 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
           </p>
           <p>
             <Trans i18n={i18n} i18nKey="pages add" ns="dashboard">
-              After you create a page, you can{" "}
+              Visitors can only access your page through its link, you can{" "}
               <UniLink
                 className="underline"
                 href={`/dashboard/${subdomain}/settings/navigation`}
               >
-                add it to your site&apos;s navigation menu
+                add it to navigation menu
               </UniLink>{" "}
               so your visitors can find it.
             </Trans>
@@ -188,7 +199,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
         </>
       )
       break
-    case "portfolio": // TODO
+    case "portfolio":
       description = (
         <>
           <p>
@@ -199,8 +210,74 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
               portfolio directly links to external URLs.
             </Trans>
           </p>
+          <p>
+            <Trans i18n={i18n} i18nKey="portfolios add" ns="dashboard">
+              Visitors can view the portfolios you have posted at homepage and{" "}
+              <UniLink
+                className="underline"
+                href={`${getSiteLink({
+                  subdomain,
+                })}/portfolios`}
+              >
+                /portfolios
+              </UniLink>
+              , you can{" "}
+              <UniLink
+                className="underline"
+                href={`/dashboard/${subdomain}/settings/navigation`}
+              >
+                add it to navigation menu
+              </UniLink>{" "}
+              so your visitors can find it.
+            </Trans>
+          </p>
         </>
       )
+      break
+    case "short":
+      description = (
+        <>
+          <p>
+            <Trans i18n={i18n} i18nKey="shots description" ns="dashboard">
+              Shorts is a dedicated section for displaying pictures and short
+              texts. The content primarily consists of pictures, with the
+              accompanying text limited to 1000 characters or less. They will
+              not be displayed on the homepage, but on a separate page{" "}
+              <UniLink
+                className="underline"
+                href={`${getSiteLink({
+                  subdomain,
+                })}/shorts`}
+              >
+                /shorts
+              </UniLink>
+              .
+            </Trans>
+          </p>
+          <p>
+            <Trans i18n={i18n} i18nKey="shots add" ns="dashboard">
+              Visitors can view the shots you have posted at{" "}
+              <UniLink
+                className="underline"
+                href={`${getSiteLink({
+                  subdomain,
+                })}/shorts`}
+              >
+                /shorts
+              </UniLink>
+              , you can{" "}
+              <UniLink
+                className="underline"
+                href={`/dashboard/${subdomain}/settings/navigation`}
+              >
+                add it to navigation menu
+              </UniLink>{" "}
+              so your visitors can find it.
+            </Trans>
+          </p>
+        </>
+      )
+      break
   }
 
   let currentLength = 0
@@ -239,7 +316,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
             </span>
           )}
         </div>
-        <div className="text-sm text-zinc-500 leading-relaxed">
+        <div className="text-sm text-zinc-500 leading-relaxed space-y-1">
           {description}
         </div>
       </header>
