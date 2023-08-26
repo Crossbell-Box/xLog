@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import { Image } from "~/components/ui/Image"
 import { Tooltip } from "~/components/ui/Tooltip"
@@ -172,11 +172,7 @@ export const Platform = ({
       break
   }
 
-  const [showImg, setShowImg] = useState(false)
-
-  useEffect(() => {
-    setShowImg(true)
-  }, [platform])
+  const [showImg, setShowImg] = useState(true)
 
   return (
     <UniLink
@@ -198,6 +194,7 @@ export const Platform = ({
               alt={platform}
               width={20}
               height={20}
+              onError={() => setShowImg(false)}
             />
           ) : (
             <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300">
