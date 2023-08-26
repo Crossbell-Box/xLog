@@ -111,6 +111,11 @@ export async function getFeed({
                         path: "tags",
                         array_starts_with: "comment"
                       }
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_starts_with: "short" # TODO: remove this
+                      }
                     }]
                   },
                 },
@@ -618,6 +623,11 @@ export async function getFeed({
                       content: {
                         path: "tags",
                         array_starts_with: "comment"
+                      }
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_starts_with: "short" # TODO: remove this
                       }
                     }]
                   },
