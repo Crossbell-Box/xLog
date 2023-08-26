@@ -93,6 +93,7 @@ export const useGetPage = (
       noteId: input.noteId,
       useStat: input.useStat,
       handle: input.handle,
+      disableAutofill: input.disableAutofill,
     })
   })
 }

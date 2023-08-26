@@ -81,6 +81,7 @@ export default function ShortEditor() {
     noteId: pageId && /\d+/.test(pageId) ? +pageId : undefined,
     slug: pageId || draftKey.replace(`draft-${site.data?.characterId}-`, ""),
     handle: subdomain,
+    disableAutofill: true,
   })
 
   const [visibility, setVisibility] = useState<PageVisibilityEnum>()
