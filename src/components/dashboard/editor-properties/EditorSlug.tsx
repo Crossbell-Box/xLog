@@ -12,7 +12,7 @@ export default function EditorSlug({
   type,
   siteLink,
 }: {
-  updateValue: (val: Partial<EditorValues>) => void
+  updateValue: (val: EditorValues) => void
   defaultValue?: string
   type: string
   siteLink?: string

@@ -6,7 +6,7 @@ import { EditorValues } from "~/lib/types"
 export default function EditorDisableAISummary({
   updateValue,
 }: {
-  updateValue: (val: Partial<EditorValues>) => void
+  updateValue: (val: EditorValues) => void
 }) {
   const { t } = useTranslation("dashboard")
   const value = useEditorState((state) => state.disableAISummary)
@@ -16,7 +16,7 @@ export default function EditorDisableAISummary({
       <label className="form-label">{t("Disable AI-generated summary")}</label>
       <Switch
         label=""
-        checked={value}
+        checked={value || false}
         setChecked={(state) =>
           updateValue({
             disableAISummary: state,

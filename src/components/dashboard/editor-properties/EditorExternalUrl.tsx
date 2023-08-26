@@ -8,7 +8,7 @@ import { EditorValues } from "~/lib/types"
 export default function EditorExternalUrl({
   updateValue,
 }: {
-  updateValue: (val: Partial<EditorValues>) => void
+  updateValue: (val: EditorValues) => void
 }) {
   const { t } = useTranslation("dashboard")
   const value = useEditorState((state) => state.externalUrl)

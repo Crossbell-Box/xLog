@@ -103,7 +103,7 @@ export default function ShortEditor() {
 
   const getValues = useGetState(values)
   const updateValue = useCallback(
-    (val: Partial<EditorValues>) => {
+    (val: EditorValues) => {
       if (visibility !== PageVisibilityEnum.Draft) {
         setVisibility(PageVisibilityEnum.Modified)
       }
@@ -299,7 +299,7 @@ export default function ShortEditor() {
 }
 
 const EditorExtraProperties = memo(
-  ({ updateValue }: { updateValue: (val: Partial<EditorValues>) => void }) => {
+  ({ updateValue }: { updateValue: (val: EditorValues) => void }) => {
     const { t } = useTranslation("dashboard")
 
     return (

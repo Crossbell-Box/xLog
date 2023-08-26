@@ -8,7 +8,7 @@ export default function EditorCover({
   updateValue,
   prompt,
 }: {
-  updateValue: (val: Partial<EditorValues>) => void
+  updateValue: (val: EditorValues) => void
   prompt?: string
 }) {
   const { t } = useTranslation("dashboard")

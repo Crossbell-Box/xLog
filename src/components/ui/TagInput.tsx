@@ -23,7 +23,7 @@ export function TagInput({
 }: Props) {
   const [query, setQuery] = useState("")
 
-  const { editorTags, setValues } = useEditorState(
+  const { editorTags = [], setValues } = useEditorState(
     (state) => ({
       editorTags: state.tags === "" ? [] : state.tags?.split(","),
       setValues: state.setValues,

@@ -9,7 +9,7 @@ export default function EditorTags({
   updateValue,
   characterId,
 }: {
-  updateValue: (val: Partial<EditorValues>) => void
+  updateValue: (val: EditorValues) => void
   characterId?: number
 }) {
   const { t } = useTranslation("dashboard")

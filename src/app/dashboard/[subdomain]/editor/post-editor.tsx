@@ -134,7 +134,7 @@ export default function PostEditor() {
   const getDraftKey = useGetState(draftKey)
 
   const updateValue = useCallback(
-    (val: Partial<EditorValues>) => {
+    (val: EditorValues) => {
       if (visibility !== PageVisibilityEnum.Draft) {
         setVisibility(PageVisibilityEnum.Modified)
       }
@@ -190,7 +190,7 @@ export default function PostEditor() {
     if (check) {
       toast.error(check)
     } else {
-      const uniqueTags = Array.from(new Set(values.tags.split(","))).join(",")
+      const uniqueTags = Array.from(new Set(values.tags?.split(","))).join(",")
 
       const baseValues = {
         ...values,
@@ -517,7 +517,7 @@ const EditorExtraProperties = memo(
     characterId,
     siteLink,
   }: {
-    updateValue: (val: Partial<EditorValues>) => void
+    updateValue: (val: EditorValues) => void
     type: NoteType
     defaultSlug: string
     characterId?: number

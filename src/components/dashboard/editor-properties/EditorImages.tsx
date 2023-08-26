@@ -10,7 +10,7 @@ export default function EditorImages({
   updateValue,
   prompt,
 }: {
-  updateValue: (val: Partial<EditorValues>) => void
+  updateValue: (val: EditorValues) => void
   prompt?: string
 }) {
   const { t } = useTranslation("dashboard")
@@ -21,7 +21,7 @@ export default function EditorImages({
     <div>
       <FieldLabel label={t("Images")} />
       <div className="grid grid-cols-4 gap-2">
-        {value.map((image, index) => (
+        {value?.map((image, index) => (
           <ImageUploader
             key={image.address}
             className="aspect-video rounded-lg"
@@ -51,7 +51,7 @@ export default function EditorImages({
           uploadEnd={(key) => {
             if (key) {
               const tmpValue = [
-                ...value,
+                ...(value || []),
                 {
                   address: key.address,
                   mime_type: key.mime_type,
