@@ -7,9 +7,11 @@ import { EditorValues } from "~/lib/types"
 export default function EditorCover({
   updateValue,
   prompt,
+  enableGlobalEvents,
 }: {
   updateValue: (val: EditorValues) => void
   prompt?: string
+  enableGlobalEvents?: boolean
 }) {
   const { t } = useTranslation("dashboard")
   const value = useEditorState((state) => state.cover)
@@ -28,6 +30,7 @@ export default function EditorCover({
           })
         }}
         accept="image/*"
+        enableGlobalEvents={enableGlobalEvents}
       />
       {prompt && <div className="text-xs text-gray-400 mt-1">{prompt}</div>}
     </div>

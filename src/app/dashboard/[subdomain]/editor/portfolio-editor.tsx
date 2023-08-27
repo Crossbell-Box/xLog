@@ -309,7 +309,7 @@ const EditorExtraProperties = memo(
         <EditorExternalUrl updateValue={updateValue} />
         <EditorAutofill updateValue={updateValue} />
         <div className="w-[480px]">
-          <EditorCover updateValue={updateValue} />
+          <EditorCover updateValue={updateValue} enableGlobalEvents={true} />
         </div>
         <EditorTitle updateValue={updateValue} />
         <EditorExcerpt updateValue={updateValue} />

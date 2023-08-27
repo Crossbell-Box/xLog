@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { ImageUploader } from "~/components/ui/ImageUploader"
@@ -16,6 +16,25 @@ export default function EditorImages({
   const { t } = useTranslation("dashboard")
   const value = useEditorState((state) => state.images)
   const [extraValue, setExtraValue] = useState(undefined)
+
+  const handleAddImage = useCallback(
+    (key?: { address: string; mime_type: string }) => {
+      if (key) {
+        const tmpValue = [
+          ...(value || []),
+          {
+            address: key.address,
+            mime_type: key.mime_type,
+          },
+        ]
+        updateValue({
+          images: tmpValue,
+        })
+      }
+      setExtraValue(undefined)
+    },
+    [value, updateValue],
+  )
 
   return (
     <div>
@@ -48,21 +67,8 @@ export default function EditorImages({
           withMimeType={true}
           value={extraValue}
           disablePreview={true}
-          uploadEnd={(key) => {
-            if (key) {
-              const tmpValue = [
-                ...(value || []),
-                {
-                  address: key.address,
-                  mime_type: key.mime_type,
-                },
-              ]
-              updateValue({
-                images: tmpValue,
-              })
-            }
-            setExtraValue(undefined)
-          }}
+          enableGlobalEvents={true}
+          uploadEnd={handleAddImage}
           accept="image/*"
         />
       </div>

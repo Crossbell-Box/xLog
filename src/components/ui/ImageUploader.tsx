@@ -1,4 +1,10 @@
-import React, { ChangeEvent, forwardRef, useEffect, useState } from "react"
+import React, {
+  ChangeEvent,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
 
 import { XMarkIcon } from "@heroicons/react/20/solid"
 
@@ -24,6 +30,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
     hasClose,
     accept,
     disablePreview,
+    enableGlobalEvents,
     ...inputProps
   }: {
     className?: string
@@ -32,6 +39,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
     hasClose?: boolean
     accept?: string
     disablePreview?: boolean
+    enableGlobalEvents?: boolean
   } & (
     | {
         withMimeType?: false
@@ -55,28 +63,81 @@ export const ImageUploader = forwardRef(function ImageUploader(
   const [loading, setLoading] = useState(false)
   const { t } = useTranslation("common")
 
-  const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files?.[0]) {
-      if (!disablePreview) {
-        getBase64(event.target.files[0], (url) => {
-          setImageUrl(url)
-        })
-      }
+  const handleFile = useCallback(
+    async (file?: File) => {
+      if (file) {
+        if (!disablePreview) {
+          getBase64(file, (url) => {
+            setImageUrl(url)
+          })
+        }
 
-      setLoading(true)
-      uploadStart?.()
-      const key = (await uploadFile(event.target.files[0])).key
-      if (withMimeType) {
-        uploadEnd?.({
-          address: key,
-          mime_type: event.target.files[0].type,
-        })
-      } else {
-        uploadEnd?.(key)
+        setLoading(true)
+        uploadStart?.()
+        const key = (await uploadFile(file)).key
+        if (withMimeType) {
+          uploadEnd?.({
+            address: key,
+            mime_type: file.type,
+          })
+        } else {
+          uploadEnd?.(key)
+        }
+        setLoading(false)
       }
-      setLoading(false)
-    }
+    },
+    [disablePreview, uploadEnd, uploadFile, uploadStart, withMimeType],
+  )
+
+  const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    handleFile(event.target.files?.[0])
   }
+
+  const handlePaste = useCallback(
+    async (event: ClipboardEvent) => {
+      if (event.clipboardData?.items) {
+        let items = event.clipboardData.items
+        let blob = null
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf("image") !== -1) {
+            blob = items[i].getAsFile()
+            break
+          }
+        }
+        if (blob !== null) {
+          handleFile(blob)
+        }
+      }
+    },
+    [handleFile],
+  )
+
+  const handleDrop = useCallback(
+    (e: DragEvent) => {
+      e.preventDefault()
+      let files = e.dataTransfer?.files
+      if (
+        files &&
+        files.length === 1 &&
+        files[0].type.indexOf("image") !== -1
+      ) {
+        handleFile(files[0])
+      }
+    },
+    [handleFile],
+  )
+
+  useEffect(() => {
+    if (enableGlobalEvents) {
+      document.addEventListener("paste", handlePaste)
+      document.addEventListener("drop", handleDrop)
+
+      return () => {
+        document.removeEventListener("paste", handlePaste)
+        document.removeEventListener("drop", handleDrop)
+      }
+    }
+  }, [handleDrop, handlePaste, enableGlobalEvents])
 
   const clear = () => {
     setImageUrl(undefined)
