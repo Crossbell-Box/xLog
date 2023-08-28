@@ -26,7 +26,11 @@ export default function SiteHome({
 
   return (
     <>
-      <PostList posts={posts} pinnedNoteId={pinnedPage.noteId} />
+      <PostList
+        posts={posts}
+        pinnedNoteId={pinnedPage.noteId}
+        isShorts={type === "short"}
+      />
     </>
   )
 }

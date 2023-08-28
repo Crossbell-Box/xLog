@@ -30,6 +30,7 @@ const Card = ({
   linkPrefix,
   isBlank,
   showPublishTime,
+  isShort,
 }: {
   character?: CharacterEntity
   post: ExpandedNote
@@ -40,6 +41,7 @@ const Card = ({
   linkPrefix?: string
   isBlank?: boolean
   showPublishTime?: boolean
+  isShort?: boolean
 }) => {
   const router = useRouter()
   const { t } = useTranslation("common")
@@ -54,6 +56,7 @@ const Card = ({
   const platform = Object.values(PlatformsSyncMap).find(
     (p) => p.portfolioDomain && externalLink?.startsWith(p.portfolioDomain),
   )
+  console.log(post.stat)
 
   return (
     <Link
@@ -72,27 +75,43 @@ const Card = ({
         images={post.metadata?.content.images}
         title={post.metadata?.content?.title}
       />
-      <div className="px-3 py-2 sm:px-5 sm:py-4 w-full min-w-0 h-[148px] sm:h-[166px] flex flex-col space-y-2 text-sm">
-        <div className="line-clamp-3 space-y-2 h-[76px]">
+      <div
+        className={cn(
+          "px-3 py-2 w-full min-w-0 flex flex-col text-sm",
+          isShort
+            ? "sm:px-4 sm:py-3 h-[92px] sm:h-[120px]"
+            : "space-y-2 sm:px-5 sm:py-4 h-[148px] sm:h-[166px]",
+        )}
+      >
+        <div
+          className={cn(
+            "space-y-2",
+            isShort ? "line-clamp-2 h-10" : "line-clamp-3 h-[76px]",
+          )}
+        >
           {comment && (
             <div className="font-medium text-zinc-700 line-clamp-2">
               <i className="icon-[mingcute--comment-fill] mr-2" />
               {comment}
             </div>
           )}
-          {!!post.metadata?.content.images?.length && (
-            <h2
-              className={cn(
-                "xlog-post-title font-bold text-base",
-                comment ? "text-zinc-500" : "text-zinc-700",
-              )}
-            >
-              {post.metadata?.content?.title}
-            </h2>
-          )}
+          {!!post.metadata?.content.images?.length &&
+            post.metadata?.content?.title && (
+              <h2
+                className={cn(
+                  "xlog-post-title font-bold",
+                  comment ? "text-zinc-500" : "text-zinc-700",
+                )}
+              >
+                {post.metadata?.content?.title}
+              </h2>
+            )}
           {!comment && (
             <div
-              className="xlog-post-excerpt text-zinc-500 line-clamp-3"
+              className={cn(
+                "xlog-post-excerpt text-zinc-500",
+                isShort ? "line-clamp-2" : "line-clamp-3",
+              )}
               style={{
                 wordBreak: "break-word",
               }}
@@ -182,7 +201,13 @@ const Card = ({
                   {post.metadata?.content?.tags?.[1]}
                 </span>
               )}
-              {!!post.stat?.viewDetailCount && (
+              {isShort && !!post.stat?.viewCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
+                  <FormattedNumber value={post.stat?.viewCount} />
+                </span>
+              )}
+              {!isShort && !!post.stat?.viewDetailCount && (
                 <span className="xlog-post-views inline-flex items-center">
                   <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
                   <FormattedNumber value={post.stat?.viewDetailCount} />
@@ -283,6 +308,7 @@ const Post = ({
   linkPrefix,
   isBlank,
   showPublishTime,
+  isShort,
 }: {
   post: ExpandedNote
   keyword?: string
@@ -290,6 +316,7 @@ const Post = ({
   linkPrefix?: string
   isBlank?: boolean
   showPublishTime?: boolean
+  isShort?: boolean
 }) => {
   let isComment
   if (post.metadata?.content?.tags?.includes("comment") && post.toNote) {
@@ -307,6 +334,7 @@ const Post = ({
       linkPrefix={linkPrefix}
       isBlank={isBlank}
       showPublishTime={showPublishTime}
+      isShort={isShort}
     />
   )
 }

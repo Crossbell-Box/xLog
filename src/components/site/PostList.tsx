@@ -7,11 +7,13 @@ import { Button } from "~/components/ui/Button"
 import { EmptyState } from "~/components/ui/EmptyState"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
+import { cn } from "~/lib/utils"
 
 export default function PostList({
   posts,
   pinnedNoteId,
   keyword,
+  isShorts,
 }: {
   posts: UseInfiniteQueryResult<
     {
@@ -23,6 +25,7 @@ export default function PostList({
   >
   pinnedNoteId?: number | null
   keyword?: string
+  isShorts?: boolean
 }) {
   const { t } = useTranslation("site")
 
@@ -34,7 +37,12 @@ export default function PostList({
     <>
       {!posts.data.pages[0].count && <EmptyState />}
       {!!posts.data.pages[0].count && (
-        <div className="xlog-posts grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-3">
+        <div
+          className={cn(
+            "xlog-posts grid gap-3 sm:gap-6 grid-cols-1",
+            isShorts ? "sm:grid-cols-4" : "sm:grid-cols-3",
+          )}
+        >
           {posts.data.pages.map((posts, listIndex) =>
             posts.list.map((post, postIndex) => {
               currentLength++
@@ -45,6 +53,7 @@ export default function PostList({
                   isPinned={post.noteId === pinnedNoteId}
                   keyword={keyword}
                   showPublishTime={true}
+                  isShort={isShorts}
                 />
               )
             }),

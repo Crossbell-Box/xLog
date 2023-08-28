@@ -237,6 +237,7 @@ export async function getPagesBySite(input: {
                 ? `
             stat {
               viewDetailCount
+              viewCount
             }
             _count {
               fromNotes
