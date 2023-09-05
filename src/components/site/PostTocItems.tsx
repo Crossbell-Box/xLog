@@ -1,7 +1,7 @@
 "use client"
 
 import type { Result as TocResult } from "mdast-util-toc"
-import { createElement, useEffect, useState } from "react"
+import { createElement, useEffect, useRef, useState } from "react"
 
 import { scrollTo } from "~/lib/utils"
 
@@ -63,45 +63,69 @@ function useActiveId(itemIds: string[]) {
 
 function Items(props: ItemsProps) {
   const { items, activeId, prefix = "" } = props
+  const [maxWidth, setMaxWidth] = useState(0)
+  const anchorRef = useRef<HTMLLIElement>(null)
+  useEffect(() => {
+    const handler = () => {
+      if (!anchorRef.current) return
+      const $anchor = anchorRef.current
+      const pos = $anchor.getBoundingClientRect()
+      const maxWidth = window.innerWidth - pos.x - 20
+      setMaxWidth(maxWidth)
+    }
+
+    handler()
+    window.addEventListener("resize", handler)
+    return () => {
+      window.removeEventListener("resize", handler)
+    }
+  }, [])
   return (
     <ol className={prefix ? "pl-5" : ""}>
-      {items?.children?.map((item, index) => (
-        <li key={index}>
-          {item.children.map((child: any, i) => {
-            const content = `${prefix}${index + 1}. ${child.content}`
+      <li ref={anchorRef} />
+      {maxWidth > 0 &&
+        items?.children?.map((item, index) => (
+          <li
+            key={index}
+            style={{
+              maxWidth: maxWidth + "px",
+            }}
+          >
+            {item.children.map((child: any, i) => {
+              const content = `${prefix}${index + 1}. ${child.content}`
 
-            return (
-              <span key={index + "-" + i}>
-                {child.type === "paragraph" && child.children?.[0]?.url && (
-                  <span
-                    data-url={child.children[0].url}
-                    onClick={() => scrollTo(child.children[0].url)}
-                    title={content}
-                    className={
-                      (`#${activeId}` === child.children[0].url
-                        ? "text-accent font-bold"
-                        : "text-zinc-400 font-medium") +
-                      " truncate inline-block max-w-full align-bottom hover:text-accent cursor-pointer"
-                    }
-                  >
+              return (
+                <span key={index + "-" + i}>
+                  {child.type === "paragraph" && child.children?.[0]?.url && (
                     <span
-                      dangerouslySetInnerHTML={{
-                        __html: content,
-                      }}
-                    />
-                  </span>
-                )}
-                {child.type === "list" &&
-                  createElement(Items, {
-                    items: child,
-                    activeId,
-                    prefix: `${prefix}${index + 1}.`,
-                  })}
-              </span>
-            )
-          })}
-        </li>
-      ))}
+                      data-url={child.children[0].url}
+                      onClick={() => scrollTo(child.children[0].url)}
+                      title={content}
+                      className={
+                        (`#${activeId}` === child.children[0].url
+                          ? "text-accent font-bold"
+                          : "text-zinc-400 font-medium") +
+                        " truncate inline-block max-w-full align-bottom hover:text-accent cursor-pointer"
+                      }
+                    >
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: content,
+                        }}
+                      />
+                    </span>
+                  )}
+                  {child.type === "list" &&
+                    createElement(Items, {
+                      items: child,
+                      activeId,
+                      prefix: `${prefix}${index + 1}.`,
+                    })}
+                </span>
+              )
+            })}
+          </li>
+        ))}
     </ol>
   )
 }
