@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: docker meta
         id: meta
         uses: docker/metadata-action@v4
@@ -59,7 +59,7 @@ jobs:
     needs: build
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set K8s context
         uses: aliyun/ack-set-context@v1
         with:
