@@ -8,6 +8,7 @@ import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { Switch } from "@headlessui/react"
 
 import PostCard from "~/components/common/PostCard"
+import { Button } from "~/components/ui/Button"
 import { EmptyState } from "~/components/ui/EmptyState"
 import { Skeleton } from "~/components/ui/Skeleton"
 import { Tabs } from "~/components/ui/Tabs"
@@ -208,7 +209,6 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
             <VirtuosoGrid
               initialItemCount={9}
               overscan={2604}
-              endReached={() => feed.hasNextPage && feed.fetchNextPage()}
               useWindowScroll
               data={feedInOne}
               totalCount={feed.data?.pages[0]?.count || 0}
@@ -238,7 +238,14 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
               }}
             ></VirtuosoGrid>
 
-            {feed.isFetching && feed.hasNextPage && isMounted && <Loader />}
+            {feed.hasNextPage && isMounted && (
+              <LoadMore
+                isLoading={feed.isFetching}
+                onClick={() => {
+                  feed.fetchNextPage()
+                }}
+              />
+            )}
           </div>
         )}
       </div>
@@ -246,14 +253,22 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
   )
 }
 
-const Loader = () => {
+const LoadMore = ({
+  onClick,
+  isLoading,
+}: {
+  isLoading: boolean
+  onClick: () => void
+}) => {
   const { t } = useTranslation("common")
   return (
     <div
-      className="relative w-full text-sm text-center py-4 mt-12"
-      key={"loading"}
+      className="relative w-full text-sm text-center mt-12"
+      key={"load-more"}
     >
-      {t("Loading")} ...
+      <Button onClick={onClick} isLoading={isLoading}>
+        {isLoading ? t("Loading") : t("Load more")}
+      </Button>
     </div>
   )
 }
