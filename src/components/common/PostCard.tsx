@@ -56,7 +56,6 @@ const Card = ({
   const platform = Object.values(PlatformsSyncMap).find(
     (p) => p.portfolioDomain && externalLink?.startsWith(p.portfolioDomain),
   )
-  console.log(post.stat)
 
   return (
     <Link
@@ -101,6 +100,7 @@ const Card = ({
                 className={cn(
                   "xlog-post-title font-bold",
                   comment ? "text-zinc-500" : "text-zinc-700",
+                  isShort ? "" : "text-base",
                 )}
               >
                 {post.metadata?.content?.title}
