@@ -5,7 +5,7 @@ metadata:
   namespace: crossbell
 spec:
   progressDeadlineSeconds: 600
-  replicas: 10
+  replicas: 15
   revisionHistoryLimit: 5
   selector:
     matchLabels:
