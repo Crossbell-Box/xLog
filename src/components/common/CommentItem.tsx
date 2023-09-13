@@ -64,6 +64,9 @@ export const CommentItem = ({
   const displayName = comment?.metadata?.content?.attributes?.find(
     (attribute) => attribute.trait_type === "xlog_sender_name",
   )?.value as string | undefined
+  const displayUrl = comment?.metadata?.content?.attributes?.find(
+    (attribute) => attribute.trait_type === "xlog_sender_url",
+  )?.value as string | undefined
 
   return (
     <div
@@ -75,10 +78,11 @@ export const CommentItem = ({
             <div>
               <UniLink
                 href={
-                  comment?.character?.handle &&
-                  getSiteLink({
-                    subdomain: comment.character.handle,
-                  })
+                  displayUrl ||
+                  (comment?.character?.handle &&
+                    getSiteLink({
+                      subdomain: comment.character.handle,
+                    }))
                 }
                 className="block align-middle mr-3"
               >
@@ -102,10 +106,11 @@ export const CommentItem = ({
           <div className="mb-1 text-sm flex items-center space-x-1">
             <UniLink
               href={
-                comment?.character?.handle &&
-                getSiteLink({
-                  subdomain: comment.character.handle,
-                })
+                displayUrl ||
+                (comment?.character?.handle &&
+                  getSiteLink({
+                    subdomain: comment.character.handle,
+                  }))
               }
               className="font-medium text-accent"
             >

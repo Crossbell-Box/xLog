@@ -72,9 +72,11 @@ export const CommentInput = ({
     defaultValues: {
       name: "",
       email: "",
+      url: "",
     } as {
       name: string
       email: string
+      url: string
     },
   })
 
@@ -105,6 +107,7 @@ export const CommentInput = ({
               content: values.content,
               name: anonymousForm.getValues("name"),
               email: anonymousForm.getValues("email"),
+              url: anonymousForm.getValues("url"),
               originalCharacterId,
               originalNoteId,
             })
@@ -192,6 +195,7 @@ export const CommentInput = ({
   let submitDisabled = false
   const name = anonymousForm.watch("name").trim()
   const email = anonymousForm.watch("email").trim()
+  const url = anonymousForm.watch("url").trim()
   if (account?.character) {
     if (!inputContent || inputContent === comment?.metadata?.content?.content) {
       submitDisabled = true
@@ -299,6 +303,11 @@ export const CommentInput = ({
                       label={t("Email") || ""}
                       id="email"
                       {...anonymousForm.register("email")}
+                    />
+                    <Input
+                      label={t("URL (Optional)") || ""}
+                      id="url"
+                      {...anonymousForm.register("url")}
                     />
                   </div>
                 )}

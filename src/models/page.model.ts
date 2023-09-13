@@ -753,6 +753,7 @@ export async function anonymousComment(input: {
   content: string
   name: string
   email: string
+  url?: string
 }) {
   return await fetch("/api/anonymous/comment", {
     method: "POST",
@@ -765,6 +766,7 @@ export async function anonymousComment(input: {
       content: input.content,
       name: input.name,
       email: input.email,
+      url: input.url,
     }),
   })
 }
