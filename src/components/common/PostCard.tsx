@@ -274,7 +274,7 @@ const Card = ({
               <span className="text-zinc-400 hidden sm:inline-block">·</span>
             </>
           )}
-          {!!post.stat?.viewCount && (
+          {isShort && !!post.stat?.viewCount && (
             <span className="xlog-post-meta text-zinc-400 flex items-center text-[13px] truncate space-x-2">
               <span className="xlog-post-views inline-flex items-center">
                 <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
