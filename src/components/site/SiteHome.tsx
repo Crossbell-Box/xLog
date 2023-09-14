@@ -18,7 +18,7 @@ export default function SiteHome({
     type: type || ["post", "portfolio"],
     visibility: PageVisibilityEnum.Published,
     useStat: true,
-    limit: 18,
+    limit: type === "short" ? 20 : 18,
   })
   const pinnedPage = usePinnedPage({ characterId: site.data?.characterId })
 

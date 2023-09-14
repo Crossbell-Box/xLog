@@ -66,26 +66,29 @@ const Card = ({
           : `${linkPrefix || ""}/${post.metadata?.content?.slug}${queryString}`
       }
       className={cn(
-        "xlog-post sm:hover:bg-hover transition-all rounded-2xl flex flex-col items-center hover:opacity-100 group border relative",
+        "xlog-post rounded-2xl flex flex-col items-center group relative",
+        isShort
+          ? "xlog-short"
+          : "border sm:hover:bg-hover transition-all hover:opacity-100",
       )}
     >
       <PostCover
         uniqueKey={`${post.characterId}-${post.noteId}`}
         images={post.metadata?.content.images}
         title={post.metadata?.content?.title}
+        className={isShort ? "rounded-b-2xl aspect-square" : ""}
       />
       <div
         className={cn(
           "px-3 py-2 w-full min-w-0 flex flex-col text-sm",
           isShort
-            ? "sm:px-4 sm:py-3 h-[92px] sm:h-[120px]"
-            : "space-y-2 sm:px-5 sm:py-4 h-[148px] sm:h-[166px]",
+            ? "h-auto sm:h-[82px]"
+            : "space-y-2 sm:px-5 sm:py-4 h-auto sm:h-[166px]",
         )}
       >
         <div
           className={cn(
-            "space-y-2",
-            isShort ? "line-clamp-2 h-10" : "line-clamp-3 h-[76px]",
+            isShort ? "line-clamp-2" : "space-y-2 line-clamp-3 h-[76px]",
           )}
         >
           {comment && (
@@ -127,7 +130,6 @@ const Card = ({
                     ),
                   )
                 : post.metadata?.content?.summary}
-              {post.metadata?.content?.summary && "..."}
             </div>
           )}
         </div>
@@ -219,16 +221,18 @@ const Card = ({
                   <FormattedNumber value={post.stat.commentsCount} />
                 </span>
               ) : (
-                <span className="xlog-post-word-count sm:inline-flex items-center hidden">
-                  <i className="icon-[mingcute--sandglass-line] mr-[2px] text-sm" />
-                  <span
-                    style={{
-                      wordSpacing: "-.2ch",
-                    }}
-                  >
-                    {post.metadata?.content?.readingTime} {t("min")}
+                !isShort && (
+                  <span className="xlog-post-word-count sm:inline-flex items-center hidden">
+                    <i className="icon-[mingcute--sandglass-line] mr-[2px] text-sm" />
+                    <span
+                      style={{
+                        wordSpacing: "-.2ch",
+                      }}
+                    >
+                      {post.metadata?.content?.readingTime} {t("min")}
+                    </span>
                   </span>
-                </span>
+                )
               )}
             </>
           )}
@@ -265,30 +269,32 @@ const Card = ({
               <span className="text-zinc-400 hidden sm:inline-block">·</span>
             </>
           )}
-          <time
-            dateTime={date.formatToISO(
-              (showPublishTime && post.metadata?.content?.date_published) ||
-                createdAt ||
-                post.createdAt,
-            )}
-            className="xlog-post-date whitespace-nowrap text-zinc-400 hidden sm:inline-block"
-          >
-            {t("ago", {
-              time: date.dayjs
-                .duration(
-                  date
-                    .dayjs(
-                      (showPublishTime &&
-                        post.metadata?.content?.date_published) ||
-                        createdAt ||
-                        post.createdAt,
-                    )
-                    .diff(date.dayjs(), "minute"),
-                  "minute",
-                )
-                .humanize(),
-            })}
-          </time>
+          {!isShort && (
+            <time
+              dateTime={date.formatToISO(
+                (showPublishTime && post.metadata?.content?.date_published) ||
+                  createdAt ||
+                  post.createdAt,
+              )}
+              className="xlog-post-date whitespace-nowrap text-zinc-400 hidden sm:inline-block"
+            >
+              {t("ago", {
+                time: date.dayjs
+                  .duration(
+                    date
+                      .dayjs(
+                        (showPublishTime &&
+                          post.metadata?.content?.date_published) ||
+                          createdAt ||
+                          post.createdAt,
+                      )
+                      .diff(date.dayjs(), "minute"),
+                    "minute",
+                  )
+                  .humanize(),
+              })}
+            </time>
+          )}
         </div>
       </div>
       {isPinned && (

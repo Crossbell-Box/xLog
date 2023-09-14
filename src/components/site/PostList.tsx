@@ -39,8 +39,8 @@ export default function PostList({
       {!!posts.data.pages[0].count && (
         <div
           className={cn(
-            "xlog-posts grid gap-3 sm:gap-6 grid-cols-1",
-            isShorts ? "sm:grid-cols-4" : "sm:grid-cols-3",
+            "xlog-posts grid gap-3 grid-cols-1",
+            isShorts ? "sm:grid-cols-4" : "sm:grid-cols-3 sm:gap-6",
           )}
         >
           {posts.data.pages.map((posts, listIndex) =>
