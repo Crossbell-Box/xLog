@@ -233,6 +233,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
                           }`
                     }
                     isBlank={isMobileLayout}
+                    isShort={type === "shorts"}
                   />
                 )
               }}

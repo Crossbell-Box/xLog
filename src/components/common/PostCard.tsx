@@ -82,13 +82,15 @@ const Card = ({
         className={cn(
           "px-3 py-2 w-full min-w-0 flex flex-col text-sm",
           isShort
-            ? "h-auto sm:h-[82px]"
-            : "space-y-2 sm:px-5 sm:py-4 h-auto sm:h-[166px]",
+            ? "space-y-2 h-auto sm:h-[84px]" // 8 * 2 + 8 + 40 + 20
+            : "space-y-2 sm:px-5 sm:py-4 h-auto sm:h-[163px]", // 16 * 2 + 8 * 2 + 75 + 20 + 20
         )}
       >
         <div
           className={cn(
-            isShort ? "line-clamp-2" : "space-y-2 line-clamp-3 h-[76px]",
+            isShort
+              ? "line-clamp-2 max-h-10"
+              : "space-y-2 line-clamp-3 h-[75px]",
           )}
         >
           {comment && (
@@ -133,95 +135,93 @@ const Card = ({
             </div>
           )}
         </div>
-        <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate space-x-2">
-          {isPortfolio ? (
-            <>
-              <Tooltip
-                label={`${platform?.name || platform}`}
-                className="text-sm"
-              >
-                <span className="inline-flex items-center space-x-[6px]">
-                  {platform?.icon && (
-                    <Image
-                      src={platform?.icon}
-                      alt={platform?.name}
-                      width={16}
-                      height={16}
-                    />
-                  )}
-                  <span>{t("Portfolio")}</span>
-                </span>
-              </Tooltip>
-              {!!post.stat?.portfolio?.videoViewsCount && (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--youtube-line] mr-[2px] text-base" />
-                  <FormattedNumber
-                    value={post.stat.portfolio.videoViewsCount}
-                  />
-                </span>
-              )}
-              {!!post.stat?.portfolio?.audoListensCount && (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--headphone-line] mr-[2px] text-base" />
-                  <FormattedNumber
-                    value={post.stat.portfolio.audoListensCount}
-                  />
-                </span>
-              )}
-              {!!post.stat?.portfolio?.projectStarsCount && (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--star-line] mr-[2px] text-base" />
-                  <FormattedNumber
-                    value={post.stat.portfolio.projectStarsCount}
-                  />
-                </span>
-              )}
-              {!!post.stat?.portfolio?.textViewsCount && (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
-                  <FormattedNumber value={post.stat.portfolio.textViewsCount} />
-                </span>
-              )}
-              {!!post.stat?.portfolio?.commentsCount && (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
-                  <FormattedNumber value={post.stat.portfolio.commentsCount} />
-                </span>
-              )}
-            </>
-          ) : (
-            <>
-              {!!post.metadata?.content?.tags?.[1] && (
-                <span
-                  className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px]"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
-                  }}
+        {!isShort && (
+          <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] truncate space-x-2">
+            {isPortfolio ? (
+              <>
+                <Tooltip
+                  label={`${platform?.name || platform}`}
+                  className="text-sm"
                 >
-                  <i className="icon-[mingcute--tag-line] mr-[2px]" />
-                  {post.metadata?.content?.tags?.[1]}
-                </span>
-              )}
-              {isShort && !!post.stat?.viewCount && (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
-                  <FormattedNumber value={post.stat?.viewCount} />
-                </span>
-              )}
-              {!isShort && !!post.stat?.viewDetailCount && (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
-                  <FormattedNumber value={post.stat?.viewDetailCount} />
-                </span>
-              )}
-              {post.stat?.commentsCount ? (
-                <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
-                  <FormattedNumber value={post.stat.commentsCount} />
-                </span>
-              ) : (
-                !isShort && (
+                  <span className="inline-flex items-center space-x-[6px]">
+                    {platform?.icon && (
+                      <Image
+                        src={platform?.icon}
+                        alt={platform?.name}
+                        width={16}
+                        height={16}
+                      />
+                    )}
+                    <span>{t("Portfolio")}</span>
+                  </span>
+                </Tooltip>
+                {!!post.stat?.portfolio?.videoViewsCount && (
+                  <span className="xlog-post-views inline-flex items-center">
+                    <i className="icon-[mingcute--youtube-line] mr-[2px] text-base" />
+                    <FormattedNumber
+                      value={post.stat.portfolio.videoViewsCount}
+                    />
+                  </span>
+                )}
+                {!!post.stat?.portfolio?.audoListensCount && (
+                  <span className="xlog-post-views inline-flex items-center">
+                    <i className="icon-[mingcute--headphone-line] mr-[2px] text-base" />
+                    <FormattedNumber
+                      value={post.stat.portfolio.audoListensCount}
+                    />
+                  </span>
+                )}
+                {!!post.stat?.portfolio?.projectStarsCount && (
+                  <span className="xlog-post-views inline-flex items-center">
+                    <i className="icon-[mingcute--star-line] mr-[2px] text-base" />
+                    <FormattedNumber
+                      value={post.stat.portfolio.projectStarsCount}
+                    />
+                  </span>
+                )}
+                {!!post.stat?.portfolio?.textViewsCount && (
+                  <span className="xlog-post-views inline-flex items-center">
+                    <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
+                    <FormattedNumber
+                      value={post.stat.portfolio.textViewsCount}
+                    />
+                  </span>
+                )}
+                {!!post.stat?.portfolio?.commentsCount && (
+                  <span className="xlog-post-views inline-flex items-center">
+                    <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
+                    <FormattedNumber
+                      value={post.stat.portfolio.commentsCount}
+                    />
+                  </span>
+                )}
+              </>
+            ) : (
+              <>
+                {!!post.metadata?.content?.tags?.[1] && (
+                  <span
+                    className="xlog-post-tags hover:text-zinc-600 hover:bg-zinc-200 border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] h-5"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
+                    }}
+                  >
+                    <i className="icon-[mingcute--tag-line] mr-[2px]" />
+                    {post.metadata?.content?.tags?.[1]}
+                  </span>
+                )}
+                {!isShort && !!post.stat?.viewDetailCount && (
+                  <span className="xlog-post-views inline-flex items-center">
+                    <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
+                    <FormattedNumber value={post.stat?.viewDetailCount} />
+                  </span>
+                )}
+                {post.stat?.commentsCount ? (
+                  <span className="xlog-post-views inline-flex items-center">
+                    <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
+                    <FormattedNumber value={post.stat.commentsCount} />
+                  </span>
+                ) : (
                   <span className="xlog-post-word-count sm:inline-flex items-center hidden">
                     <i className="icon-[mingcute--sandglass-line] mr-[2px] text-sm" />
                     <span
@@ -232,12 +232,17 @@ const Card = ({
                       {post.metadata?.content?.readingTime} {t("min")}
                     </span>
                   </span>
-                )
-              )}
-            </>
+                )}
+              </>
+            )}
+          </div>
+        )}
+        <div
+          className={cn(
+            "flex items-center space-x-1 text-xs sm:text-sm overflow-hidden",
+            isShort && !character && "!mt-1",
           )}
-        </div>
-        <div className="flex items-center space-x-1 text-xs sm:text-sm overflow-hidden">
+        >
           {character && (
             <>
               <CharacterFloatCard siteId={character?.handle}>
@@ -268,6 +273,14 @@ const Card = ({
               <Titles characterId={+character?.characterId} />
               <span className="text-zinc-400 hidden sm:inline-block">·</span>
             </>
+          )}
+          {!!post.stat?.viewCount && (
+            <span className="xlog-post-meta text-zinc-400 flex items-center text-[13px] truncate space-x-2">
+              <span className="xlog-post-views inline-flex items-center">
+                <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
+                <FormattedNumber value={post.stat?.viewCount} />
+              </span>
+            </span>
           )}
           {!isShort && (
             <time

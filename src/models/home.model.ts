@@ -21,6 +21,7 @@ export type FeedType =
   | "tag"
   | "comments"
   | "featured"
+  | "shorts"
 
 export type SearchType = "latest" | "hottest"
 
@@ -255,6 +256,71 @@ export async function getFeed({
           }
           return expand
         }),
+      )
+
+      resultAll = {
+        list,
+        cursor: list?.length
+          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+              ?.noteId}`
+          : undefined,
+        count: list?.length || 0,
+      }
+      break
+    }
+    case "shorts": {
+      const result = await client
+        .query(
+          gql`
+            query getNotes($filter: [Int!], $limit: Int) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  deleted: {
+                    equals: false,
+                  },
+                  metadata: {
+                    AND: [{
+                      content: {
+                        path: "sources",
+                        array_contains: "xlog"
+                      }
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_starts_with: "short"
+                      }
+                    }]
+                  },
+                },
+                orderBy: [{ createdAt: desc }],
+                take: $limit,
+                ${cursorQuery}
+              ) {
+                ${resultFields}
+                stat {
+                  viewCount
+                }
+              }
+            }
+          `,
+          {
+            filter: filter.latest,
+            limit,
+          },
+        )
+        .toPromise()
+
+      const list = await Promise.all(
+        result?.data?.notes.map((page: NoteEntity) =>
+          expandCrossbellNote({
+            note: page,
+            useScore: true,
+            useHTML,
+          }),
+        ),
       )
 
       resultAll = {
@@ -806,6 +872,9 @@ export async function getFeed({
         case "portfolio":
           limit = -1
           break
+        case "short":
+          limit = -1
+          break
       }
       const pass =
         countCharacters(post?.metadata?.content?.content || "") > limit &&
@@ -835,7 +904,7 @@ export async function getFeed({
     })
     resultAll.list = resultAll.list.concat(next.list)
     resultAll.cursor = next.cursor
-    resultAll.count = next.count
+    resultAll.count = resultAll.list.length
   }
 
   return resultAll

@@ -21,6 +21,11 @@ export const HomeActivitiesTabs = () => {
       active: pathname === "/",
     },
     {
+      text: "Shorts",
+      href: "/shorts",
+      active: pathname === "/shorts",
+    },
+    {
       text: "Latest",
       href: "/latest",
       active: pathname === "/latest",
