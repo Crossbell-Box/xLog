@@ -136,6 +136,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
           .filter((post) => {
             if (
               aiFiltering &&
+              hasFiltering &&
               post.metadata?.content?.score?.number !== undefined &&
               post.metadata.content.score.number <= 60
             ) {
@@ -146,7 +147,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
           }),
       )
     }
-  }, [feed.data?.pages, aiFiltering])
+  }, [feed.data?.pages, aiFiltering, hasFiltering])
 
   const [isMounted, setIsMounted] = useState(false)
   useEffect(() => {

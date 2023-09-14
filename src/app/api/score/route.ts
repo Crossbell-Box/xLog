@@ -14,10 +14,10 @@ const getOriginalScore = async (cid: string) => {
       await fetch(toGateway(`ipfs://${cid}`))
     ).json()
 
-    if (tags?.[0] === "portfolio") {
+    if (tags?.[0] === "portfolio" || tags?.[0] === "short") {
       return {
         number: 100,
-        reason: "Portfolio",
+        reason: "Whitelist content",
       }
     }
 
