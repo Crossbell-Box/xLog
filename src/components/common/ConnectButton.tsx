@@ -24,6 +24,7 @@ import {
   BellIcon,
   FaceFrownIcon,
   FaceSmileIcon,
+  PlusCircleIcon,
 } from "@heroicons/react/24/outline"
 import { BellAlertIcon } from "@heroicons/react/24/solid"
 
@@ -194,6 +195,29 @@ export const ConnectButton = ({
     },
   ]
 
+  const addDropdownLinks: HeaderLinkType[] = [
+    {
+      icon: "icon-[mingcute--news-line]",
+      label: t("New Post") || "",
+      href: `${SITE_URL}/dashboard/${account?.character?.handle}/editor?type=post`,
+    },
+    {
+      icon: "icon-[mingcute--file-line]",
+      label: t("New Page") || "",
+      href: `${SITE_URL}/dashboard/${account?.character?.handle}/editor?type=page`,
+    },
+    {
+      icon: "icon-[mingcute--ins-line]",
+      label: t("New Short") || "",
+      href: `${SITE_URL}/dashboard/${account?.character?.handle}/editor?type=short`,
+    },
+    {
+      icon: "icon-[mingcute--cloud-line]",
+      label: t("New Portfolio") || "",
+      href: `${SITE_URL}/dashboard/${account?.character?.handle}/editor?type=portfolio`,
+    },
+  ]
+
   return (
     <div
       {...(!ssrReady && {
@@ -229,19 +253,57 @@ export const ConnectButton = ({
                 {isAllRead ? (
                   <BellIcon
                     className={`${
-                      size === "base" ? "w-7 h-7" : "w-6 h-6"
+                      size === "base" ? "w-6 h-6" : "w-5 h-5"
                     } text-zinc-500 cursor-pointer sm:hover:animate-buzz-out`}
                     onClick={showNotificationModal}
                   />
                 ) : (
                   <BellAlertIcon
                     className={`${
-                      size === "base" ? "w-7 h-7" : "w-6 h-6"
+                      size === "base" ? "w-6 h-6" : "w-5 h-5"
                     } text-accent cursor-pointer sm:hover:animate-buzz-out`}
                     onClick={showNotificationModal}
                   />
                 )}
-                <div className="h-full w-[2px] py-1 ml-3">
+                <Menu
+                  placement="bottom"
+                  target={
+                    <PlusCircleIcon
+                      className={`${
+                        size === "base" ? "w-6 h-6 ml-2" : "w-5 h-5 ml-1"
+                      } text-zinc-500 cursor-pointer`}
+                    />
+                  }
+                  dropdown={
+                    <div
+                      className={`min-w-[140px] ${
+                        size === "base" ? "text-base" : "text-sm"
+                      }`}
+                    >
+                      {addDropdownLinks.map((link, i) => (
+                        <Menu.Item
+                          key={i}
+                          icon={<i className={cn(link.icon, "text-base")} />}
+                          className={`${
+                            size === "base" ? "pl-5 pr-6 h-11" : "pl-4 pr-5 h-9"
+                          } whitespace-nowrap`}
+                          {...("href" in link
+                            ? {
+                                type: "link",
+                                href: link.href,
+                              }
+                            : {
+                                type: "button",
+                                onClick: link.onClick,
+                              })}
+                        >
+                          {link.label}
+                        </Menu.Item>
+                      ))}
+                    </div>
+                  }
+                />
+                <div className="h-full w-[2px] py-1 ml-2">
                   <div className="w-full h-full bg-zinc-200 rounded-full"></div>
                 </div>
               </>
@@ -250,7 +312,7 @@ export const ConnectButton = ({
               placement="bottom-end"
               target={
                 <button
-                  className="flex items-center w-full hover:bg-hover transition-colors py-1 px-2 rounded-lg ml-1 focus-visible:outline focus-visible:outline-accent focus-visible:outline-offset-1"
+                  className="flex items-center hover:bg-hover transition-colors py-1 px-2 rounded-lg ml-1 focus-visible:outline focus-visible:outline-accent focus-visible:outline-offset-1"
                   type="button"
                   aria-label="connector"
                 >

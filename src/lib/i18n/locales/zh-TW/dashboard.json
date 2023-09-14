@@ -31,8 +31,6 @@
   "posts description": "文章是按時間倒序在你的網站上列出的條目。可以將它們看作是更新，以提供新內容給讀者。<2>文章與頁面</2>。",
   "pages description": "頁面是靜態的，不受日期影響。它們更像是你網站上的永久元素，比如“關於我們”、“聯繫我們”等。 <2>文章與頁面</2>。",
   "pages add": "創建頁面後，你可以將其<2>添加到你網站的導航菜單中</2>，以便瀏覽者可以找到它。",
-  "New Post": "新建文章",
-  "New Page": "新建頁面",
   "Import": "匯入",
   "Import markdown file with front matter supported": "匯入 Markdown 文件(支持 Front Matter)",
   "View Site": "查看網站",

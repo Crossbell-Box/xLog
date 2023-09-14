@@ -55,6 +55,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
 
   const { t, i18n } = useTranslation("dashboard")
   const { t: siteT } = useTranslation("site")
+  const { t: commonT } = useTranslation("common")
   const date = useDate()
 
   const pages = useGetPagesBySite({
@@ -299,7 +300,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
           >
             <span className="icon-[mingcute--add-line] inline-block"></span>
             <span>
-              {t(`New ${type.charAt(0).toUpperCase() + type.slice(1)}`)}
+              {commonT(`New ${type.charAt(0).toUpperCase() + type.slice(1)}`)}
             </span>
           </Button>
           {(type === "post" || type === "page") && (

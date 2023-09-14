@@ -42,7 +42,7 @@ async function SiteShortsPage({
       type: "short",
       visibility: PageVisibilityEnum.Published,
       useStat: true,
-      limit: 18,
+      limit: 20,
     },
     queryClient,
   )
