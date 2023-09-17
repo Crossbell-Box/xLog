@@ -1,9 +1,13 @@
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 
+import ShortPreviewList from "~/components/site/ShortPreviewList"
 import SiteHome from "~/components/site/SiteHome"
 import getQueryClient from "~/lib/query-client"
 import { PageVisibilityEnum } from "~/lib/types"
-import { prefetchGetPagesBySite } from "~/queries/page.server"
+import {
+  fetchGetPagesBySite,
+  prefetchGetPagesBySite,
+} from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
 async function SiteIndexPage({
@@ -26,13 +30,26 @@ async function SiteIndexPage({
     },
     queryClient,
   )
+  const shorts = await fetchGetPagesBySite(
+    {
+      characterId: site?.characterId,
+      type: "short",
+      visibility: PageVisibilityEnum.Published,
+      useStat: true,
+      limit: 8,
+    },
+    queryClient,
+  )
 
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <SiteHome handle={params.site} />
-    </Hydrate>
+    <div className="space-y-12">
+      {!!shorts?.count && <ShortPreviewList shorts={shorts} />}
+      <Hydrate state={dehydratedState}>
+        <SiteHome handle={params.site} />
+      </Hydrate>
+    </div>
   )
 }
 
