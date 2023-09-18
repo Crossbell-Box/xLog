@@ -44,12 +44,12 @@ async function SiteIndexPage({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <div className="space-y-12">
+    <>
       {!!shorts?.count && <ShortPreviewList shorts={shorts} />}
       <Hydrate state={dehydratedState}>
         <SiteHome handle={params.site} />
       </Hydrate>
-    </div>
+    </>
   )
 }
 
