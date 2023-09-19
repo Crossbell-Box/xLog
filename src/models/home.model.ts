@@ -300,9 +300,6 @@ export async function getFeed({
                 ${cursorQuery}
               ) {
                 ${resultFields}
-                stat {
-                  viewCount
-                }
               }
             }
           `,

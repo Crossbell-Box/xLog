@@ -216,12 +216,13 @@ const Card = ({
                     <FormattedNumber value={post.stat?.viewDetailCount} />
                   </span>
                 )}
-                {post.stat?.commentsCount ? (
+                {!!post.stat?.commentsCount && (
                   <span className="xlog-post-views inline-flex items-center">
                     <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
                     <FormattedNumber value={post.stat.commentsCount} />
                   </span>
-                ) : (
+                )}
+                {!post.stat?.commentsCount && (
                   <span className="xlog-post-word-count sm:inline-flex items-center hidden">
                     <i className="icon-[mingcute--sandglass-line] mr-[2px] text-sm" />
                     <span
@@ -274,12 +275,20 @@ const Card = ({
               <span className="text-zinc-400 hidden sm:inline-block">·</span>
             </>
           )}
-          {isShort && !!post.stat?.viewCount && (
+          {isShort && (
             <span className="xlog-post-meta text-zinc-400 flex items-center text-[13px] truncate space-x-2">
-              <span className="xlog-post-views inline-flex items-center">
-                <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
-                <FormattedNumber value={post.stat?.viewCount} />
-              </span>
+              {!!post.stat?.likesCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--thumb-up-2-line] mr-[2px] text-base" />
+                  <FormattedNumber value={post.stat?.likesCount} />
+                </span>
+              )}
+              {!!post.stat?.commentsCount && (
+                <span className="xlog-post-views inline-flex items-center">
+                  <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
+                  <FormattedNumber value={post.stat?.commentsCount} />
+                </span>
+              )}
             </span>
           )}
           {!isShort && (
