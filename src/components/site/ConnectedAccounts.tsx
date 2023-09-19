@@ -16,12 +16,7 @@ export default function ConnectedAccounts({
   return (
     <>
       {!!connectedAccounts?.length && (
-        <div
-          className={cn(
-            "xlog-social-platforms align-middle inline-flex items-center",
-            className,
-          )}
-        >
+        <div className={cn("xlog-social-platforms align-middle", className)}>
           {connectedAccounts.map((account) => {
             let match: RegExpMatchArray | null = null
             switch (typeof account) {
@@ -42,6 +37,7 @@ export default function ConnectedAccounts({
                   key={match[2] + match[1]}
                   platform={match[2]}
                   username={match[1]}
+                  className="w-4 h-4 sm:w-5 sm:h-5"
                 ></Platform>
               )
             }

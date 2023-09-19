@@ -73,9 +73,9 @@ export const SiteHeader = async ({
         <div className="flex py-12 w-full">
           <div
             className={cn(
-              "xlog-site-info flex space-x-6 sm:space-x-8 items-center w-full",
+              "xlog-site-info flex space-x-6 sm:space-x-8 w-full",
               site?.metadata?.content?.banners?.[0]?.address
-                ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-3xl p-4 sm:p-8 z-[1] border"
+                ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-3xl p-4 pb-[52px] sm:p-8 sm:pb-8 z-[1] border"
                 : "",
             )}
           >
@@ -87,13 +87,13 @@ export const SiteHeader = async ({
               name={site?.metadata?.content?.name}
               priority={true}
             />
-            <div className="flex-1 min-w-0 relative space-y-2 sm:space-y-3">
+            <div className="flex-1 min-w-0 relative space-y-2 sm:space-y-3 min-h-[108px]">
               <div className="flex items-center justify-between">
                 <h1 className="xlog-site-name text-3xl sm:text-4xl font-bold text-zinc-900 leading-snug break-words min-w-0">
                   {site?.metadata?.content?.site_name ||
                     site?.metadata?.content?.name}
                 </h1>
-                <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-0 right-0">
+                <div className="ml-0 sm:ml-8 space-x-3 sm:space-x-4 flex items-center sm:static absolute -bottom-9 right-0">
                   <SiteHeaderMenu
                     handle={site?.handle}
                     owner={site?.owner}
@@ -109,16 +109,16 @@ export const SiteHeader = async ({
                   {site?.metadata?.content?.bio}
                 </div>
               )}
-              <div className="flex space-x-0 sm:space-x-5 space-y-2 sm:space-y-0 flex-col sm:flex-row text-sm sm:text-base">
-                <span className="xlog-site-follow-count block sm:inline-block whitespace-nowrap">
+              <div className="flex space-x-0 sm:space-x-3 flex-col sm:flex-row text-sm sm:text-base">
+                <span className="xlog-site-follow-count block sm:inline-block whitespace-nowrap absolute -bottom-9 sm:static">
                   <FollowingCount characterId={site?.characterId} />
                 </span>
-                <span className="xlog-site-patron">
+                <span className="xlog-site-patron absolute -bottom-9 right-[calc(100%+50px)] sm:static">
                   <PatronButton site={site || undefined} />
                 </span>
               </div>
               <ConnectedAccounts
-                className="hidden sm:block"
+                className="!mb-4 sm:!mb-0"
                 connectedAccounts={site?.metadata?.content?.connected_accounts}
               />
             </div>

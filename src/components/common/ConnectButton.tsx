@@ -271,7 +271,7 @@ export const ConnectButton = ({
                     <PlusCircleIcon
                       className={`${
                         size === "base" ? "w-6 h-6 ml-2" : "w-5 h-5 ml-1"
-                      } text-zinc-500 cursor-pointer`}
+                      } text-zinc-500 cursor-pointer hidden sm:block`}
                     />
                   }
                   dropdown={
