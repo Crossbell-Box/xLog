@@ -156,22 +156,22 @@ export default async function SitePagePage({
       />
       <article>
         {type === "short" ? (
-          <div className="space-y-3">
+          <>
             <PostCover
               uniqueKey={`short-${page.characterId}-${page.noteId}`}
               images={images}
               title={page.metadata?.content?.title}
-              className="rounded-lg w-full"
+              className="rounded-lg w-full aspect-auto mb-4 border-b-0"
             />
             {page?.metadata?.content?.title && (
-              <h2 className="xlog-post-title text-xl font-bold page-title text-center">
+              <h2 className="xlog-post-title text-xl font-bold page-title text-center mb-2">
                 {page?.metadata?.content?.title}
               </h2>
             )}
             <div className="xlog-post-content prose">
               {page?.metadata?.content?.content}
             </div>
-          </div>
+          </>
         ) : (
           <>
             {!onlyContent && (

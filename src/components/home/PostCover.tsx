@@ -44,13 +44,15 @@ export default function PostCover({
             >
               {images?.map((image) => (
                 <SwiperSlide key={image}>
-                  <Image
-                    className="object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out bg-white"
-                    alt="cover"
-                    src={image}
-                    width={624}
-                    height={351}
-                  ></Image>
+                  <div className="text-[0px] w-full h-full">
+                    <Image
+                      className="object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out bg-white"
+                      alt="cover"
+                      src={image}
+                      width={624}
+                      height={351}
+                    ></Image>
+                  </div>
                 </SwiperSlide>
               ))}
             </Swiper>

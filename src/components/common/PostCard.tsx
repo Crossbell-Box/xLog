@@ -76,7 +76,7 @@ const Card = ({
         uniqueKey={`${post.characterId}-${post.noteId}`}
         images={post.metadata?.content.images}
         title={post.metadata?.content?.title}
-        className={isShort ? "rounded-b-2xl aspect-square" : ""}
+        className={isShort ? "rounded-b-2xl aspect-square border-b-0" : ""}
       />
       <div
         className={cn(
