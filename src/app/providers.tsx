@@ -9,6 +9,7 @@ import {
   NotificationModal,
   NotificationModalColorScheme,
 } from "@crossbell/notification"
+import { createTheme } from "@mantine/core"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { ModalStackProvider } from "~/components/ui/ModalStack"
@@ -35,6 +36,10 @@ const colorScheme: NotificationModalColorScheme = {
   background: `rgb(var(--tw-color-white))`,
   border: `var(--border-color)`,
 }
+
+export const mantineTheme = createTheme({
+  fontFamily: "var(--font-fans)",
+})
 
 const createQueryClient = () => new QueryClient()
 export default function Providers({

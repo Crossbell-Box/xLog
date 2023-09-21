@@ -1,4 +1,5 @@
 import { DateInput } from "@mantine/dates"
+import "@mantine/dates/styles.css"
 
 import { useEditorState } from "~/hooks/useEditorState"
 import { useTranslation } from "~/lib/i18n/client"
@@ -20,7 +21,7 @@ export default function EditorPublishAt({
         {t("Publish at")}
       </label>
       <DateInput
-        className="[&_input]:text-black/90 [&_input]:bg-white"
+        className="[&_input]:text-black/90 [&_input]:bg-white [&_input:focus-within]:!border-accent [&_input]:rounded-lg [&_input]:h-10"
         allowDeselect
         clearable
         valueFormat="YYYY-MM-DD, h:mm a"
@@ -37,16 +38,6 @@ export default function EditorPublishAt({
               publishedAt: "",
             })
           }
-        }}
-        styles={{
-          input: {
-            borderRadius: "0.5rem",
-            borderColor: "var(--border-color)",
-            height: "2.5rem",
-            "&:focus-within": {
-              borderColor: "var(--theme-color)",
-            },
-          },
         }}
       />
       {prompt && <div className="text-xs text-gray-400 mt-1">{prompt}</div>}

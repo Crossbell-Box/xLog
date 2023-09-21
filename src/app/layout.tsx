@@ -6,6 +6,8 @@ import { Toaster } from "react-hot-toast"
 
 import "@crossbell/connect-kit/colors.css"
 import { updateIndexerFetchOptions } from "@crossbell/indexer"
+import { ColorSchemeScript, MantineProvider } from "@mantine/core"
+import "@mantine/core/styles.css"
 
 import "~/css/main.css"
 import { getAcceptLang } from "~/lib/accept-lang"
@@ -20,7 +22,7 @@ import {
 import { getColorScheme } from "~/lib/get-color-scheme"
 
 import { ColorSchemeInjector } from "./ColorSchemeInjector"
-import Providers from "./providers"
+import Providers, { mantineTheme } from "./providers"
 
 export const metadata: Metadata = {
   title: `${APP_NAME} - ${APP_SLOGAN}`,
@@ -113,12 +115,15 @@ export default function RootLayout({
     <html lang={lang} dir={dir(lang)} className={colorScheme}>
       <head>
         <ColorSchemeInjector />
+        <ColorSchemeScript />
       </head>
       <body>
-        <Providers lang={lang}>
-          {modal}
-          {children}
-        </Providers>
+        <MantineProvider theme={mantineTheme}>
+          <Providers lang={lang}>
+            {modal}
+            {children}
+          </Providers>
+        </MantineProvider>
         <Toaster />
         <Script
           id="xlog-umami-analytics"

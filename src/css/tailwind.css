@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  html {
+  body {
     @apply text-zinc-800;
     @apply fill-zinc-800;
     font-family: var(--font-fans);

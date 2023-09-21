@@ -103,11 +103,11 @@ export const AchievementItem = ({
               position="middle-start"
               color="red"
               className="inline-flex max-w-full justify-center items-center"
-              styles={() => ({
+              styles={{
                 indicator: {
-                  "z-index": "1",
+                  zIndex: "1",
                 },
-              })}
+              }}
             >
               <span className="capitalize text-xs font-medium truncate max-w-full inline-block">
                 {group.info.title}
