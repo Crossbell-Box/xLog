@@ -22,7 +22,7 @@ import {
 import { getColorScheme } from "~/lib/get-color-scheme"
 
 import { ColorSchemeInjector } from "./ColorSchemeInjector"
-import Providers, { mantineTheme } from "./providers"
+import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
 
 export const metadata: Metadata = {
   title: `${APP_NAME} - ${APP_SLOGAN}`,
@@ -118,7 +118,10 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider theme={mantineTheme}>
+        <MantineProvider
+          theme={mantineTheme}
+          defaultColorScheme={mantineDefaultColorScheme}
+        >
           <Providers lang={lang}>
             {modal}
             {children}

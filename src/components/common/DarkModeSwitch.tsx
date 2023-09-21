@@ -3,6 +3,8 @@
 import { useTheme } from "next-themes"
 import { MouseEvent } from "react"
 
+import { useMantineColorScheme } from "@mantine/core"
+
 import { useIsClient } from "~/hooks/useClient"
 import { cn } from "~/lib/utils"
 
@@ -33,11 +35,13 @@ const ThemeIndicator = () => {
 
 const ThemeSwitcher = () => {
   const { setTheme } = useTheme()
+  const { setColorScheme } = useMantineColorScheme()
 
   const buildThemeTransition = (
     e: MouseEvent,
     theme: "light" | "dark" | "system",
   ) => {
+    setColorScheme(theme === "system" ? "auto" : theme)
     return setTheme(theme)
     // disable in https://github.com/Crossbell-Box/xLog/commit/06713c901e90b57de6f5f5a0252d2c9dd874335f
     if (

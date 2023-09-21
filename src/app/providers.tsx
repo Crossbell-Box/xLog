@@ -41,6 +41,17 @@ export const mantineTheme = createTheme({
   fontFamily: "var(--font-fans)",
 })
 
+let mantineDefaultColorSchemeT = "auto"
+if (localStorage.getItem(DARK_MODE_STORAGE_KEY) === "light") {
+  mantineDefaultColorSchemeT = "light"
+} else if (localStorage.getItem(DARK_MODE_STORAGE_KEY) === "dark") {
+  mantineDefaultColorSchemeT = "dark"
+}
+export const mantineDefaultColorScheme = mantineDefaultColorSchemeT as
+  | "auto"
+  | "light"
+  | "dark"
+
 const createQueryClient = () => new QueryClient()
 export default function Providers({
   children,
