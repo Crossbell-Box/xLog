@@ -13,10 +13,10 @@ import { createTheme } from "@mantine/core"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { ModalStackProvider } from "~/components/ui/ModalStack"
-// import { useDarkModeListener } from "~/hooks/useDarkMode"
+import { useDarkModeListener } from "~/hooks/useDarkMode"
 // eslint-disable-next-line import/no-unresolved
-// import { useMobileLayout } from "~/hooks/useMobileLayout"
-// import { useNProgress } from "~/hooks/useNProgress"
+import { useMobileLayout } from "~/hooks/useMobileLayout"
+import { useNProgress } from "~/hooks/useNProgress"
 import { DARK_MODE_STORAGE_KEY } from "~/lib/constants"
 import { APP_NAME, WALLET_CONNECT_V2_PROJECT_ID } from "~/lib/env"
 import { filterNotificationCharacter } from "~/lib/filter-character"
@@ -61,9 +61,9 @@ export default function Providers({
   children: React.ReactNode
   lang: string
 }) {
-  // useMobileLayout()
-  // useNProgress()
-  // useDarkModeListener()
+  useMobileLayout()
+  useNProgress()
+  useDarkModeListener()
 
   const [queryClient] = useState(() => new QueryClient())
 
