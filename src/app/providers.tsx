@@ -54,7 +54,6 @@ export const mantineDefaultColorScheme = mantineDefaultColorSchemeT as
   | "light"
   | "dark"
 
-const createQueryClient = () => new QueryClient()
 export default function Providers({
   children,
   lang,
@@ -66,7 +65,7 @@ export default function Providers({
   useNProgress()
   useDarkModeListener()
 
-  const [queryClient] = useState(createQueryClient)
+  const [queryClient] = useState(() => new QueryClient())
 
   return (
     <ThemeProvider
