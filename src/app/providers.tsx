@@ -42,10 +42,12 @@ export const mantineTheme = createTheme({
 })
 
 let mantineDefaultColorSchemeT = "auto"
-if (localStorage.getItem(DARK_MODE_STORAGE_KEY) === "light") {
-  mantineDefaultColorSchemeT = "light"
-} else if (localStorage.getItem(DARK_MODE_STORAGE_KEY) === "dark") {
-  mantineDefaultColorSchemeT = "dark"
+if (typeof localStorage !== "undefined") {
+  if (localStorage.getItem(DARK_MODE_STORAGE_KEY) === "light") {
+    mantineDefaultColorSchemeT = "light"
+  } else if (localStorage.getItem(DARK_MODE_STORAGE_KEY) === "dark") {
+    mantineDefaultColorSchemeT = "dark"
+  }
 }
 export const mantineDefaultColorScheme = mantineDefaultColorSchemeT as
   | "auto"
