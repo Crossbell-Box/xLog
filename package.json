@@ -120,7 +120,7 @@
     "react-tweet": "3.1.1",
     "react-virtuoso": "4.6.0",
     "refractor": "4.8.1",
-    "rehype-autolink-headings": "6.1.1",
+    "rehype-autolink-headings": "7.0.0",
     "rehype-infer-description-meta": "1.1.0",
     "rehype-katex": "6.0.3",
     "rehype-prism-plus": "1.6.3",
