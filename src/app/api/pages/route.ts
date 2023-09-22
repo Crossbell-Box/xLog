@@ -1,5 +1,5 @@
 import { NextServerResponse, getQuery } from "~/lib/server-helper"
-import { PageVisibilityEnum } from "~/lib/types"
+import { PageVisibilityEnum, PagesSortTypes } from "~/lib/types"
 import { getPagesBySite } from "~/models/page.model"
 
 export async function GET(req: Request) {
@@ -13,6 +13,7 @@ export async function GET(req: Request) {
     cursor: query.cursor as string,
     useStat: true,
     skipExpansion: query.skipExpansion === "true",
+    sortType: query.sortType as PagesSortTypes,
     ...(query.tags && {
       tags: Array.isArray(query.tags)
         ? (query.tags as string[])

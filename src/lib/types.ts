@@ -27,6 +27,8 @@ export enum PageVisibilityEnum {
   Modified = "published and local modified",
 }
 
+export type PagesSortTypes = "latest" | "hottest" | "commented"
+
 export type PostOnSiteHome = {
   id: string
   title: string

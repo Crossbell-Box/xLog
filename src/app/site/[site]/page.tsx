@@ -27,6 +27,7 @@ async function SiteIndexPage({
       visibility: PageVisibilityEnum.Published,
       useStat: true,
       limit: 18,
+      sortType: "latest",
     },
     queryClient,
   )

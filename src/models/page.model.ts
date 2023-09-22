@@ -20,7 +20,12 @@ import { filterCommentCharacter } from "~/lib/filter-character"
 import { getNoteSlug } from "~/lib/helpers"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
-import { ExpandedNote, NoteType, PageVisibilityEnum } from "~/lib/types"
+import {
+  ExpandedNote,
+  NoteType,
+  PageVisibilityEnum,
+  PagesSortTypes,
+} from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 export const PINNED_PAGE_KEY = "xlog_pinned_page"
@@ -120,6 +125,7 @@ export async function getPagesBySite(input: {
   keepBody?: boolean
   handle?: string // In order to be compatible with old drafts
   skipExpansion?: boolean
+  sortType?: PagesSortTypes
 }) {
   if (!input.characterId) {
     return {
@@ -210,6 +216,31 @@ export async function getPagesBySite(input: {
   `
   const limit = (input.limit || 12) - (pinnedNote ? 1 : 0)
 
+  let orderBy
+  switch (input.sortType) {
+    case "hottest":
+      orderBy = `{
+        stat: {
+          viewDetailCount:desc
+        }
+      }`
+      break
+    case "commented":
+      orderBy = `{
+        fromNotes: {
+          _count: desc
+        }
+      }`
+      break
+    default:
+      orderBy = `{
+        publishedAt: {
+          sort: desc
+        }
+      }`
+      break
+  }
+
   const { data } = await client
     .query(
       gql`
@@ -217,11 +248,7 @@ export async function getPagesBySite(input: {
           noteCount(where: ${whereQuery}),
           notes(
             where: ${whereQuery},
-            orderBy: [{
-              publishedAt: {
-                sort: desc
-              }
-            }],
+            orderBy: [${orderBy}],
             take: $limit,
             ${cursorQuery}
           ) {
@@ -350,25 +377,6 @@ export async function getPagesBySite(input: {
       )
       break
   }
-
-  expandedNotes.list.sort((a, b) => {
-    if (
-      !a.metadata?.content?.date_published ||
-      a.noteId === expandedNotes.pinnedNoteId
-    ) {
-      return -1
-    } else if (
-      !b.metadata?.content?.date_published ||
-      b.noteId === expandedNotes.pinnedNoteId
-    ) {
-      return 1
-    } else {
-      return (
-        +new Date(b.metadata?.content?.date_published) -
-        +new Date(a.metadata?.content?.date_published)
-      )
-    }
-  })
 
   return expandedNotes
 }
