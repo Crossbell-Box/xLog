@@ -300,6 +300,10 @@ export async function getFeed({
                 ${cursorQuery}
               ) {
                 ${resultFields}
+                _count {
+                  fromNotes
+                  links
+                }
               }
             }
           `,
@@ -315,6 +319,7 @@ export async function getFeed({
           expandCrossbellNote({
             note: page,
             useScore: true,
+            useStat: true,
             useHTML,
           }),
         ),

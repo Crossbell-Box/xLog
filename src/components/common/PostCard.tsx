@@ -272,11 +272,13 @@ const Card = ({
                 </span>
               </CharacterFloatCard>
               <Titles characterId={+character?.characterId} />
-              <span className="text-zinc-400 hidden sm:inline-block">·</span>
+              {!isShort && (
+                <span className="text-zinc-400 hidden sm:inline-block">·</span>
+              )}
             </>
           )}
           {isShort && (
-            <span className="xlog-post-meta text-zinc-400 flex items-center text-[13px] truncate space-x-2">
+            <span className="xlog-post-meta text-zinc-400 flex items-center text-[13px] truncate space-x-2 !ml-2">
               {!!post.stat?.likesCount && (
                 <span className="xlog-post-views inline-flex items-center">
                   <i className="icon-[mingcute--thumb-up-2-line] mr-[2px] text-base" />
