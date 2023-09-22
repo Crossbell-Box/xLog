@@ -148,7 +148,7 @@
     "tailwind-merge": "1.14.0",
     "tailwind-scrollbar-hide": "1.1.7",
     "tailwindcss-animate": "1.0.7",
-    "unified": "10.1.2",
+    "unified": "11.0.3",
     "unist-builder": "4.0.0",
     "unist-util-visit": "5.0.0",
     "uuid": "9.0.1",
