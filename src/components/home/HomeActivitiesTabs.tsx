@@ -18,22 +18,18 @@ export const HomeActivitiesTabs = () => {
     {
       text: "Featured",
       href: "/",
-      active: pathname === "/",
     },
     {
       text: "Shorts",
       href: "/shorts",
-      active: pathname === "/shorts",
     },
     {
       text: "Latest",
       href: "/latest",
-      active: pathname === "/latest",
     },
     {
       text: "Hottest",
       href: "/hottest",
-      active: pathname === "/hottest",
     },
     {
       text: "Following",
@@ -43,7 +39,6 @@ export const HomeActivitiesTabs = () => {
     ...topics.map((topic) => ({
       text: t(topic.name),
       href: `/topic/${encodeURIComponent(topic.name)}`,
-      active: pathname === `/topic/${encodeURIComponent(topic.name)}`,
     })),
   ]
 

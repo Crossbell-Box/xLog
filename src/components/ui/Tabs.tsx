@@ -1,3 +1,6 @@
+"use client"
+
+import { usePathname } from "next/navigation"
 import React from "react"
 
 import { Tooltip } from "~/components/ui/Tooltip"
@@ -23,6 +26,14 @@ export const Tabs = ({
   className?: string
 }) => {
   const { t } = useTranslation("dashboard")
+  const pathname = usePathname()
+
+  items = items.map((item) => {
+    if (item.href) {
+      item.active = pathname === item.href
+    }
+    return item
+  })
 
   return (
     <div
@@ -40,10 +51,11 @@ export const Tabs = ({
             onClick={item.onClick}
             key={item.text}
             className={cn(
-              `border-b-2 inline-flex items-center h-10 whitespace-nowrap cursor-pointer`,
+              "inline-flex items-center h-10 whitespace-nowrap cursor-pointer transition-colors focus-ring relative",
+              "after:absolute after:h-[2px] after:transition-[left,right] after:bottom-0",
               item.active
-                ? `border-accent text-black font-medium`
-                : `text-gray-500  border-transparent hover:border-gray-300`,
+                ? "text-black font-medium after:left-0 after:right-0 after:bg-accent"
+                : "text-gray-500 hover:text-gray-700 after:left-1/2 after:right-1/2 hover:after:left-0 hover:after:right-0 after:bg-gray-700",
             )}
           >
             {item.tooltip ? (

@@ -1,4 +1,4 @@
-import { useParams, usePathname } from "next/navigation"
+import { useParams } from "next/navigation"
 import React from "react"
 
 import { useXSettingsModal } from "@crossbell/connect-kit"
@@ -18,7 +18,6 @@ export const SettingsLayout = ({
   const { t } = useTranslation("dashboard")
   const xSettingsModal = useXSettingsModal()
 
-  const pathname = usePathname()
   const params = useParams()
   const subdomain = params?.subdomain as string
   const tabItems: TabItem[] = [
@@ -45,7 +44,7 @@ export const SettingsLayout = ({
       text: "Export data",
       href: `https://export.crossbell.io/?handle=${subdomain}`,
     },
-  ].map((item) => ({ ...item, active: pathname === item.href }))
+  ]
 
   return (
     <DashboardMain>

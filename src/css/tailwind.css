@@ -414,25 +414,6 @@ textarea.input {
   line-height: unset;
 }
 
-.xlog-site-navigation-item {
-  @apply h-10 px-2 flex items-center space-x-1 transition-colors focus-ring;
-  @apply hover:text-gray-700;
-
-  /* The underline */
-  @apply relative;
-  @apply after:absolute after:block after:content-[''] after:h-[2px] after:transition-[left,right] after:bottom-0 after:left-1/2 after:right-1/2 after:bg-gray-700;
-  @apply hover:after:left-2 hover:after:right-2;
-}
-
-/* TODO-Doma */
-/* Maybe use CSS nested syntax */
-.xlog-site-navigation-item-active {
-  @apply text-accent hover:text-accent;
-
-  /* The underline */
-  @apply after:left-2 after:right-2 after:bg-accent;
-}
-
 /* For users to use within posts */
 .center {
   @apply flex justify-center;

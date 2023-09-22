@@ -3,6 +3,7 @@ import NextImage from "next/image"
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import { PatronButton } from "~/components/common/PatronButton"
+import { type TabItem, Tabs } from "~/components/ui/Tabs"
 import getQueryClient from "~/lib/query-client"
 import { cn } from "~/lib/utils"
 import { fetchGetSite } from "~/queries/site.server"
@@ -10,7 +11,6 @@ import { fetchGetSite } from "~/queries/site.server"
 import { ConnectButton } from "../common/ConnectButton"
 import { Avatar } from "../ui/Avatar"
 import ConnectedAccounts from "./ConnectedAccounts"
-import { HeaderLink, type HeaderLinkType } from "./SiteHeaderLink"
 import { SiteHeaderMenu } from "./SiteHeaderMenu"
 
 export const SiteHeader = async ({
@@ -26,14 +26,17 @@ export const SiteHeader = async ({
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(handle, queryClient)
-  const leftLinks: HeaderLinkType[] = site?.metadata?.content?.navigation?.find(
-    (nav) => nav.url === "/",
-  )
-    ? site.metadata?.content?.navigation
-    : [
-        { label: "Home", url: "/" },
-        ...(site?.metadata?.content?.navigation || []),
-      ]
+  const leftLinks: TabItem[] = (
+    site?.metadata?.content?.navigation?.find((nav) => nav.url === "/")
+      ? site.metadata?.content?.navigation
+      : [
+          { label: "Home", url: "/" },
+          ...(site?.metadata?.content?.navigation || []),
+        ]
+  ).map((tab) => ({
+    text: tab.label,
+    href: tab.url,
+  }))
 
   return (
     <header className="xlog-header border-b border-zinc-100 relative">
@@ -126,11 +129,10 @@ export const SiteHeader = async ({
         </div>
         {!hideNavigation && (
           <div className="text-gray-500 flex items-center justify-between w-full mt-auto">
-            <div className="xlog-site-navigation flex items-center sm:gap-2 mx-[-.5rem] min-w-0 text-sm sm:text-base overflow-x-auto">
-              {leftLinks.map((link, i) => {
-                return <HeaderLink link={link} key={`${link.label}${i}`} />
-              })}
-            </div>
+            <Tabs
+              items={leftLinks}
+              className="xlog-site-navigation border-none mb-0"
+            />
             <div className="xlog-site-connect pl-1">
               <ConnectButton variant="text" mobileSimplification={true} />
             </div>
