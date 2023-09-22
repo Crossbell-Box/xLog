@@ -164,11 +164,11 @@ export default async function SitePagePage({
               className="rounded-lg w-full aspect-auto mb-4 border-b-0"
             />
             {page?.metadata?.content?.title && (
-              <h2 className="xlog-post-title text-xl font-bold page-title text-center mb-2">
+              <h2 className="xlog-short-title font-bold mb-2 text-lg">
                 {page?.metadata?.content?.title}
               </h2>
             )}
-            <div className="xlog-post-content prose">
+            <div className="xlog-short-content prose">
               {page?.metadata?.content?.content}
             </div>
           </>
