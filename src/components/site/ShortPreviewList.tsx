@@ -1,26 +1,41 @@
+"use client"
+
 import Link from "next/link"
 
 import { Image } from "~/components/ui/Image"
 import { Tooltip } from "~/components/ui/Tooltip"
-import { getTranslation } from "~/lib/i18n"
+import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
+import { cn } from "~/lib/utils"
 
-export default async function ShortList({
+export default function ShortList({
   shorts,
+  className,
+  isHome,
 }: {
   shorts: {
     list: ExpandedNote[]
-    count: number
-    cursor: string | null
+    count?: number
+    cursor?: string | null
   }
+  className?: string
+  isHome?: boolean
 }) {
-  const { t } = await getTranslation("site")
+  const { t } = useTranslation("site")
+
+  const isMobileLayout = useIsMobileLayout()
 
   if (!shorts) return null
 
   return (
     <>
-      <div className="xlog-shorts-preview space-y-2 border-b border-zinc-100 pb-6 mb-6">
+      <div
+        className={cn(
+          "xlog-shorts-preview space-y-3 border-b border-zinc-100 pb-6 mb-6",
+          className,
+        )}
+      >
         <Link href="/shorts">
           <h2 className="flex items-center font-bold text-lg">
             <i className="icon-[mingcute--ins-line] mr-1" />
@@ -40,7 +55,19 @@ export default async function ShortList({
               childrenClassName="aspect-square"
             >
               <Link
-                href={`/${post.metadata?.content?.slug}`}
+                href={
+                  (isHome
+                    ? isMobileLayout
+                      ? `/site/${
+                          post.toNote?.character?.handle ||
+                          post?.character?.handle
+                        }`
+                      : `/post/${
+                          post.toNote?.character?.handle ||
+                          post?.character?.handle
+                        }`
+                    : "") + `/${post.metadata?.content?.slug}`
+                }
                 className="inline-block w-full h-full rounded-2xl overflow-hidden"
               >
                 <Image
