@@ -20,7 +20,7 @@ export default async function ShortList({
 
   return (
     <>
-      <div className="xlog-shorts-preview space-y-2 border-b border-zinc-100 pb-8 mb-8 -mt-6">
+      <div className="xlog-shorts-preview space-y-2 border-b border-zinc-100 pb-6 mb-6">
         <Link href="/shorts">
           <h2 className="flex items-center font-bold text-lg">
             <i className="icon-[mingcute--ins-line] mr-1" />

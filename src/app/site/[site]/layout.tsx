@@ -205,7 +205,7 @@ export default async function SiteLayout({
         <main
           className={cn(
             `xlog-post-id-${page?.characterId}-${page?.noteId}`,
-            "xlog-deprecated-class xlog-post-area max-w-screen-lg mx-auto px-5 pt-12 relative",
+            "xlog-deprecated-class xlog-post-area max-w-screen-lg mx-auto px-5 pt-6 relative",
           )}
         >
           {children}

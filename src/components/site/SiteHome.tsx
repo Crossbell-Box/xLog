@@ -69,7 +69,7 @@ export default function SiteHome({
 
   return (
     <>
-      <Tabs items={tabs} className="border-none mb-4 -mt-3" />
+      <Tabs items={tabs} className="mb-6" type="rounded" />
       {!posts.data?.pages?.length && posts.isLoading && <>Loading...</>}
       <PostList
         posts={posts}
