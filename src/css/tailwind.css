@@ -318,6 +318,11 @@ a {
   @apply border-accent;
 }
 
+.monaco-inputbox .input:focus {
+  @apply shadow-none;
+  --tw-ring-shadow: none;
+}
+
 .input.is-block {
   @apply w-full;
 }
