@@ -25,6 +25,7 @@ i18next
   )
   .init({
     ...getOptions(),
+    preload: typeof window === "undefined" ? languages : [],
   })
 
 export function useTranslation(ns: string = defaultNS) {
