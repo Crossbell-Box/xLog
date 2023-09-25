@@ -100,7 +100,8 @@ a {
   @apply focus-ring focus-within:ring-offset-1;
 }
 
-.button.is-auto-width {
+.button.is-auto-width,
+.button.codicon {
   @apply min-w-[auto];
 }
 
