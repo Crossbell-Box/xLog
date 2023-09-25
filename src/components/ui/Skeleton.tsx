@@ -50,9 +50,9 @@ function Container({
     <div role="status" className={cn("animate-pulse", className)}>
       {Array.from(new Array(count)).map((_, index) => (
         <React.Fragment key={index}>
-          {childrenArray.map((child) =>
+          {childrenArray.map((child, i) =>
             React.cloneElement(child as React.ReactElement<any>, {
-              key: index,
+              key: `child-${index}-${i}`,
             }),
           )}
         </React.Fragment>
