@@ -1,4 +1,4 @@
-import { Root } from "rehype-raw"
+import type { Root } from "hast"
 import { Plugin } from "unified"
 import { u } from "unist-builder"
 import { visit } from "unist-util-visit"

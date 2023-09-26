@@ -1,5 +1,5 @@
+import type { Root } from "hast"
 import { fromHtml } from "hast-util-from-html"
-import { Root } from "rehype-raw"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 

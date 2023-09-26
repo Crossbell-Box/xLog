@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic"
 import { type DPlayerProps } from "rc-dplayer"
-import { ReactElement } from "rehype-react/lib"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
@@ -14,12 +13,14 @@ const DPlayer = function DPlayer({
   ...props
 }: {
   src?: string
-  children?: ReactElement[]
+  children?: JSX.Element[] | JSX.Element
 } & DPlayerProps) {
-  const sources = children?.filter(
-    (child) =>
-      child && typeof child.type === "string" && child.type === "source",
-  )
+  const sources = Array.isArray(children)
+    ? children?.filter(
+        (child) =>
+          child && typeof child.type === "string" && child.type === "source",
+      )
+    : []
 
   if (!src) {
     src = (sources?.[0]?.props as DPlayerProps)?.src as string

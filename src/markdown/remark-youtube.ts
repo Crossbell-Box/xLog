@@ -1,10 +1,10 @@
-import { Root } from "remark-gfm"
-import { Plugin } from "unified"
+import type { Root } from "mdast"
+import type { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
-export const remarkYoutube: Plugin<Array<void>, Root> =
+export const remarkYoutube: Plugin<[], Root> =
   () => (tree: Root, file: any) => {
-    visit(tree, (node) => {
+    visit(tree, (node: any) => {
       if (
         node.type === "textDirective" ||
         node.type === "leafDirective" ||
