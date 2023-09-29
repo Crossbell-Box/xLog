@@ -10,6 +10,7 @@ import { Cloud } from "./Cloud"
 import { Code } from "./Code"
 import { CodeBlock } from "./CodeBlock"
 import { Emoji } from "./Emoji"
+import { Focus } from "./Focus"
 import { Formula } from "./Formula"
 import { Heading } from "./Heading"
 import { Help } from "./Help"
@@ -29,6 +30,10 @@ export type ICommand<P = any> = {
   label: string
   execute: (_: {
     view: EditorView
+    router?: {
+      searchParams: URLSearchParams
+      updateSearchParams: (name: string, value: string) => void
+    }
     options?: {
       setPreviewVisible?: Dispatch<SetStateAction<boolean>>
       container?: HTMLElement | null
@@ -105,6 +110,7 @@ export const toolbars: ICommand[] = [
   Formula,
   Emoji,
   Cloud,
+  Focus,
   Help,
 ]
 

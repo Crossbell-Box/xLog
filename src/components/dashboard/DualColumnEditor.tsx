@@ -253,7 +253,7 @@ export default function DualColumnEditor({
       )}
       {isRendering && (
         <DynamicPageContent
-          className="bg-white px-5 overflow-scroll pb-[200px] h-full flex-1"
+          className="bg-white px-5 overflow-auto pb-[200px] h-full flex-1"
           parsedContent={parsedContent}
           inputRef={previewRef}
           onScroll={onPreviewScroll}

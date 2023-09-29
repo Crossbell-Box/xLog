@@ -57,6 +57,7 @@ export default function PostEditor() {
   const params = useParams()
   const subdomain = params?.subdomain as string
   const searchParams = useSearchParams()
+  const isFocus = searchParams?.get("focus") === "true"
 
   let pageId = searchParams?.get("id") as string | undefined
   const type = (searchParams?.get("type") || "post") as NoteType
@@ -500,7 +501,7 @@ export default function PostEditor() {
                   />
                 </div>
               </div>
-              {!isMobileLayout && extraProperties}
+              {!isMobileLayout && !isFocus && extraProperties}
             </div>
           </>
         )}
