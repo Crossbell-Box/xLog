@@ -24,6 +24,7 @@ import { Button } from "~/components/ui/Button"
 import { useModalStack } from "~/components/ui/ModalStack"
 import { initialEditorState, useEditorState } from "~/hooks/useEditorState"
 import { useGetState } from "~/hooks/useGetState"
+import { useIsFullscreen } from "~/hooks/useIsFullscreen"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { showConfetti } from "~/lib/confetti"
@@ -64,16 +65,7 @@ export default function PostEditor() {
 
   const site = useGetSite(subdomain)
 
-  const [isFullscreen, setIsFullscreen] = useState(false)
-  useEffect(() => {
-    const handler = () => {
-      setIsFullscreen(!!document.fullscreenElement)
-    }
-    document.addEventListener("fullscreenchange", handler)
-    return () => {
-      document.removeEventListener("fullscreenchange", handler)
-    }
-  }, [])
+  const isFullscreen = useIsFullscreen()
 
   const [draftKey, setDraftKey] = useState<string>("")
   useEffect(() => {

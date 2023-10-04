@@ -83,7 +83,6 @@ const ToolbarItemWithPopover = ({
 
 export const EditorToolbar = memo(({ view }: { view?: EditorView }) => {
   const { t } = useTranslation("dashboard")
-
   const renderToolbar = useCallback(
     ({ name, icon, label, execute, ui, shortcut }: ICommand) => {
       return ui ? (
