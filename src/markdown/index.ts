@@ -29,6 +29,9 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
+// @ts-expect-error
+import remarkCalloutDirectives from "@microflash/remark-callout-directives"
+
 import AdvancedImage from "~/components/ui/AdvancedImage"
 
 import { transformers } from "./embed-transformers"
@@ -44,7 +47,6 @@ import { rehypeTable } from "./rehype-table"
 import { rehypeVideo } from "./rehype-video"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
-import { remarkCallout } from "./remark-callout"
 import { remarkMermaid } from "./remark-mermaid"
 import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
@@ -121,9 +123,9 @@ export const renderPageContent = (
       .use(remarkGfm, {
         singleTilde: false,
       })
-      .use(remarkCallout)
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
+      .use(remarkCalloutDirectives)
       .use(remarkYoutube)
       .use(remarkMermaid)
       .use(remarkMath, {

@@ -136,20 +136,93 @@
 }
 
 .prose .callout {
-  @apply border border-zinc-100 bg-zinc-50 text-accent rounded-xl p-5 md:p-8 font-normal;
-  @apply -mx-5 md:-mx-8 my-10;
+  --callout-color: hsl(207, 14%, 62%);
+  --callout-background: ;
+  --callout-border: hsl(205, 15%, 33%);
+  --callout-radius: 8px;
+  --callout-padding: 2ch;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--callout-border);
+  border-radius: var(--callout-radius);
+  background: var(--callout-background);
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+
+.prose .callout code,
+.prose .callout pre {
+  background-color: hsl(0, 0%, 100%, 0.1);
+  border: none;
+}
+
+.prose .callout-content {
+  padding: var(--callout-padding);
+}
+
+.prose .callout-content:first-child,
+.prose .callout-content:only-child {
+  margin-block-start: 0;
+}
+
+.prose .callout-content:last-child,
+.prose .callout-content:only-child {
+  margin-block-end: 0;
+}
+
+.prose .callout-indicator {
+  display: flex;
+  align-items: center;
+  padding: var(--callout-padding) var(--callout-padding) 0;
+}
+
+.prose .callout-hint {
+  margin-inline-end: calc(var(--callout-padding) / 4);
+  color: var(--callout-color);
+}
+
+.prose .callout-title {
+  margin-inline-start: calc(var(--callout-padding) / 4);
+  color: var(--callout-color);
+  font-size: 0.9em;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+}
+
+.prose .callout-note {
+  --callout-background: hsla(0, 0%, 0%, 0.05);
+  --callout-color: hsl(0, 0%, 43%);
+  --callout-border: hsl(0, 0%, 0%, 0.25);
+}
+
+:root.dark .prose .callout-note {
+  --callout-background: hsl(0, 0%, 100%, 0.05);
+  --callout-color: hsl(0, 0%, 43%);
+  --callout-border: hsl(0, 0%, 100%, 0.25);
+}
+
+.prose .callout-commend {
+  --callout-background: hsl(153, 47%, 49%, 0.05);
+  --callout-color: hsl(153, 62%, 54%);
+  --callout-border: hsl(153, 47%, 49%, 0.25);
 }
 
 .prose .callout-warn {
-  @apply border-orange-200  bg-orange-100 text-orange-700;
+  --callout-background: hsl(45, 100%, 55%, 0.05);
+  --callout-color: hsl(45, 97%, 66%);
+  --callout-border: hsl(45, 100%, 55%, 0.25);
 }
 
-.prose .callout-success {
-  @apply border-green-200  bg-green-100 text-green-700;
+.prose .callout-deter {
+  --callout-background: hsl(353, 83%, 58%, 0.05);
+  --callout-color: hsl(341, 89%, 63%);
+  --callout-border: hsl(353, 83%, 58%, 0.25);
 }
 
-.prose .callout-danger {
-  @apply border-red-200  bg-red-100 text-red-700;
+.prose .callout-assert {
+  --callout-background: rgba(47, 131, 157, 0.05);
+  --callout-color: hsl(201, 89%, 63%);
+  --callout-border: hsl(195, 61%, 56%, 0.25);
 }
 
 .prose .code-wrapper {
