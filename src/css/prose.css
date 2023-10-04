@@ -157,7 +157,8 @@
 }
 
 .prose .callout-content {
-  padding: var(--callout-padding);
+  padding-left: var(--callout-padding);
+  padding-right: var(--callout-padding);
 }
 
 .prose .callout-content:first-child,
