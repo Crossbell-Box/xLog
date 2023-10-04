@@ -30,10 +30,6 @@ export type ICommand<P = any> = {
   label: string
   execute: (_: {
     view: EditorView
-    router?: {
-      searchParams: URLSearchParams
-      updateSearchParams: (name: string, value: string) => void
-    }
     options?: {
       setPreviewVisible?: Dispatch<SetStateAction<boolean>>
       container?: HTMLElement | null

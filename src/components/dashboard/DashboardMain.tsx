@@ -24,8 +24,9 @@ export const DashboardMain = ({
           : "min-w-[270px] relative px-5 py-5 md:px-10 md:py-8",
         className,
         isMobileLayout ? "max-w-[100vw]" : "",
-        "min-h-full flex flex-col",
+        "min-h-full flex flex-col bg-white",
       )}
+      id="dashboard-main"
     >
       {title && <p className="text-2xl font-bold mb-8">{t(title)}</p>}
       {children}

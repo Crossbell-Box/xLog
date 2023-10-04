@@ -57,13 +57,23 @@ export default function PostEditor() {
   const params = useParams()
   const subdomain = params?.subdomain as string
   const searchParams = useSearchParams()
-  const isFocus = searchParams?.get("focus") === "true"
 
   let pageId = searchParams?.get("id") as string | undefined
   const type = (searchParams?.get("type") || "post") as NoteType
   const defaultTag = searchParams?.get("tag")
 
   const site = useGetSite(subdomain)
+
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  useEffect(() => {
+    const handler = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+    document.addEventListener("fullscreenchange", handler)
+    return () => {
+      document.removeEventListener("fullscreenchange", handler)
+    }
+  }, [])
 
   const [draftKey, setDraftKey] = useState<string>("")
   useEffect(() => {
@@ -501,7 +511,7 @@ export default function PostEditor() {
                   />
                 </div>
               </div>
-              {!isMobileLayout && !isFocus && extraProperties}
+              {!isMobileLayout && !isFullscreen && extraProperties}
             </div>
           </>
         )}

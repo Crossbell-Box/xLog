@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { memo, useCallback, useState } from "react"
 import { usePopper } from "react-popper"
 
@@ -85,18 +84,6 @@ const ToolbarItemWithPopover = ({
 export const EditorToolbar = memo(({ view }: { view?: EditorView }) => {
   const { t } = useTranslation("dashboard")
 
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams)
-      params.set(name, value)
-      return params.toString()
-    },
-    [searchParams],
-  )
-
   const renderToolbar = useCallback(
     ({ name, icon, label, execute, ui, shortcut }: ICommand) => {
       return ui ? (
@@ -128,14 +115,6 @@ export const EditorToolbar = memo(({ view }: { view?: EditorView }) => {
                 execute({
                   view,
                   options: { container: view.dom },
-                  router: {
-                    searchParams,
-                    updateSearchParams: (name, value) => {
-                      router.replace(
-                        pathname + "?" + createQueryString(name, value),
-                      )
-                    },
-                  },
                 })
             }}
           >
@@ -144,7 +123,7 @@ export const EditorToolbar = memo(({ view }: { view?: EditorView }) => {
         </Tooltip>
       )
     },
-    [view, t, searchParams, pathname, createQueryString, router],
+    [view, t],
   )
 
   return (
