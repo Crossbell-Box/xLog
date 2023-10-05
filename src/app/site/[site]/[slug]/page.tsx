@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import serialize from "serialize-javascript"
 
-import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import PageContent from "~/components/common/PageContent"
 import PostCover from "~/components/home/PostCover"

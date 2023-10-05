@@ -1,6 +1,6 @@
 import { type EditorView } from "@codemirror/view"
 
-import { type ICommand, wrapExecute } from "."
+import { wrapExecute, type ICommand } from "."
 
 const action = (view: EditorView) => {
   wrapExecute({ view, prepend: "<u>", append: "</u>" })

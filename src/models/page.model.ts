@@ -23,8 +23,8 @@ import { getKeys, getStorage } from "~/lib/storage"
 import {
   ExpandedNote,
   NoteType,
-  PageVisibilityEnum,
   PagesSortTypes,
+  PageVisibilityEnum,
 } from "~/lib/types"
 import { client } from "~/queries/graphql"
 

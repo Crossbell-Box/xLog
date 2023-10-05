@@ -1,5 +1,5 @@
-import type { GetServerSidePropsContext } from "next"
 import url from "url"
+import type { GetServerSidePropsContext } from "next"
 
 export const languageDetector = (ctx: GetServerSidePropsContext) => {
   const queryLang = url.parse(ctx.req.url!, true).query.lang as string

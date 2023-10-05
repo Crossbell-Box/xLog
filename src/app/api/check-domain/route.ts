@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
 import { checkDomainServer } from "~/models/site.model"
 
 // /api/check-domain?handle=innei-4525&domain=blog.innei.ren
