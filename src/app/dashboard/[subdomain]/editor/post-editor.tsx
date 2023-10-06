@@ -24,6 +24,7 @@ import { Button } from "~/components/ui/Button"
 import { useModalStack } from "~/components/ui/ModalStack"
 import { initialEditorState, useEditorState } from "~/hooks/useEditorState"
 import { useGetState } from "~/hooks/useGetState"
+import { useIsFullscreen } from "~/hooks/useIsFullscreen"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useBeforeMounted } from "~/hooks/useSyncOnce"
 import { showConfetti } from "~/lib/confetti"
@@ -63,6 +64,8 @@ export default function PostEditor() {
   const defaultTag = searchParams?.get("tag")
 
   const site = useGetSite(subdomain)
+
+  const isFullscreen = useIsFullscreen()
 
   const [draftKey, setDraftKey] = useState<string>("")
   useEffect(() => {
@@ -401,67 +404,68 @@ export default function PostEditor() {
               >
                 <EditorToolbar view={view}></EditorToolbar>
               </div>
-              {isMobileLayout ? (
-                <div className="flex items-center space-x-3 w-auto pl-5">
-                  <OptionsButton
-                    visibility={visibility}
-                    savePage={savePage}
-                    deletePage={deletePage}
-                    published={visibility !== PageVisibilityEnum.Draft}
-                    isRendering={isRendering}
-                    renderPage={setIsRendering}
-                    propertiesWidget={extraProperties}
-                    previewPage={onPreviewButtonClick}
-                    type={type}
-                    isModified={visibility === PageVisibilityEnum.Modified}
-                    discardChanges={discardChanges}
-                  />
-                </div>
-              ) : (
-                <div className="flex items-center space-x-3 flex-shrink-0">
-                  <span
-                    className={cn(
-                      `text-sm capitalize`,
-                      visibility === PageVisibilityEnum.Draft
-                        ? `text-zinc-300`
-                        : visibility === PageVisibilityEnum.Modified
-                        ? "text-orange-600"
-                        : "text-green-600",
-                    )}
-                  >
-                    {t(visibility as string)}
-                  </span>
-                  <Button isAutoWidth onClick={onPreviewButtonClick}>
-                    {t("Preview")}
-                  </Button>
-                  <PublishButton
-                    savePage={savePage}
-                    deletePage={deletePage}
-                    twitterShareUrl={
-                      page.data && site.data
-                        ? getTwitterShareUrl({
-                            page: page.data,
-                            site: site.data,
-                            t,
-                          })
-                        : ""
-                    }
-                    published={visibility !== PageVisibilityEnum.Draft}
-                    isSaving={
-                      createPage.isLoading ||
-                      updatePage.isLoading ||
-                      deleteP.isLoading
-                    }
-                    isDisabled={
-                      visibility !== PageVisibilityEnum.Modified &&
-                      visibility !== PageVisibilityEnum.Draft
-                    }
-                    type={type}
-                    isModified={visibility === PageVisibilityEnum.Modified}
-                    discardChanges={discardChanges}
-                  />
-                </div>
-              )}
+              {!isFullscreen &&
+                (isMobileLayout ? (
+                  <div className="flex items-center space-x-3 w-auto pl-5">
+                    <OptionsButton
+                      visibility={visibility}
+                      savePage={savePage}
+                      deletePage={deletePage}
+                      published={visibility !== PageVisibilityEnum.Draft}
+                      isRendering={isRendering}
+                      renderPage={setIsRendering}
+                      propertiesWidget={extraProperties}
+                      previewPage={onPreviewButtonClick}
+                      type={type}
+                      isModified={visibility === PageVisibilityEnum.Modified}
+                      discardChanges={discardChanges}
+                    />
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-3 flex-shrink-0">
+                    <span
+                      className={cn(
+                        `text-sm capitalize`,
+                        visibility === PageVisibilityEnum.Draft
+                          ? `text-zinc-300`
+                          : visibility === PageVisibilityEnum.Modified
+                          ? "text-orange-600"
+                          : "text-green-600",
+                      )}
+                    >
+                      {t(visibility as string)}
+                    </span>
+                    <Button isAutoWidth onClick={onPreviewButtonClick}>
+                      {t("Preview")}
+                    </Button>
+                    <PublishButton
+                      savePage={savePage}
+                      deletePage={deletePage}
+                      twitterShareUrl={
+                        page.data && site.data
+                          ? getTwitterShareUrl({
+                              page: page.data,
+                              site: site.data,
+                              t,
+                            })
+                          : ""
+                      }
+                      published={visibility !== PageVisibilityEnum.Draft}
+                      isSaving={
+                        createPage.isLoading ||
+                        updatePage.isLoading ||
+                        deleteP.isLoading
+                      }
+                      isDisabled={
+                        visibility !== PageVisibilityEnum.Modified &&
+                        visibility !== PageVisibilityEnum.Draft
+                      }
+                      type={type}
+                      isModified={visibility === PageVisibilityEnum.Modified}
+                      discardChanges={discardChanges}
+                    />
+                  </div>
+                ))}
             </header>
             <div
               className={`pt-14 flex w-full ${
@@ -500,7 +504,7 @@ export default function PostEditor() {
                   />
                 </div>
               </div>
-              {!isMobileLayout && extraProperties}
+              {!isMobileLayout && !isFullscreen && extraProperties}
             </div>
           </>
         )}
