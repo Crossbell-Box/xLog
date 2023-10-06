@@ -131,6 +131,10 @@ export default function ShortEditor() {
   const updatePage = useUpdatePage()
 
   const savePage = async () => {
+    if (!values.images?.length) {
+      toast.error(t("Please upload at least one image."))
+      return
+    }
     const baseValues = {
       ...values,
       characterId: site.data?.characterId,
