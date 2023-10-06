@@ -1,6 +1,6 @@
 import ogs from "open-graph-scraper"
 
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
 
 export async function GET(req: Request) {
   const query = getQuery(req)

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import React, { Fragment } from "react"
 
-import { Placement, autoUpdate, shift, useFloating } from "@floating-ui/react"
+import { autoUpdate, Placement, shift, useFloating } from "@floating-ui/react"
 import { Menu as HeadlessUiMenu } from "@headlessui/react"
 
 import { cn } from "~/lib/utils"

@@ -2,7 +2,7 @@ import * as cheerio from "cheerio"
 
 import { PORTFOLIO_GITHUB_TOKEN } from "~/lib/env.server"
 import { cacheGet } from "~/lib/redis.server"
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
 import { PortfolioStats } from "~/lib/types"
 
 export async function GET(req: Request) {

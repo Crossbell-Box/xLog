@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { headers } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 
-import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { SitePlayerContainer } from "~/components/common/SitePlayer"

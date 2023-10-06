@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
 import { APP_NAME } from "~/lib/env"

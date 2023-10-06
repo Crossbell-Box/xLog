@@ -2,7 +2,7 @@ import Script from "next/script"
 
 import { Logo } from "~/components/common/Logo"
 import { SITE_URL } from "~/lib/env"
-import { Trans, getTranslation } from "~/lib/i18n"
+import { getTranslation, Trans } from "~/lib/i18n"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"

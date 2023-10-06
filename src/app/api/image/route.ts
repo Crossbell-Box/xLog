@@ -1,7 +1,7 @@
 import { getPlaiceholder } from "plaiceholder"
 
 import { cacheGet } from "~/lib/redis.server"
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
 
 const getImage = async (src: string) => {
   return cacheGet({

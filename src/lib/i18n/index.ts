@@ -1,7 +1,7 @@
 import { createInstance } from "i18next"
 import resourcesToBackend from "i18next-resources-to-backend"
-import { Trans as TransW } from "react-i18next/TransWithoutContext"
 import { initReactI18next } from "react-i18next/initReactI18next"
+import { Trans as TransW } from "react-i18next/TransWithoutContext"
 
 import { getAcceptLang } from "~/lib/accept-lang"
 

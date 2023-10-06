@@ -1,6 +1,6 @@
 import { type CharacterEntity } from "crossbell"
 
-import { type Completion, autocompletion } from "@codemirror/autocomplete"
+import { autocompletion, type Completion } from "@codemirror/autocomplete"
 import { indexer } from "@crossbell/indexer"
 import { getDefaultAvatarIpfsUrl } from "@crossbell/ui"
 import {

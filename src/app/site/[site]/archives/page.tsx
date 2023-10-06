@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import { SiteArchives } from "~/components/site/SiteArchives"
 import getQueryClient from "~/lib/query-client"

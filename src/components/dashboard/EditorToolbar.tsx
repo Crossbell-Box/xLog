@@ -9,7 +9,7 @@ import { Tooltip } from "~/components/ui/Tooltip"
 import { useTranslation } from "~/lib/i18n/client"
 import { isMacOS } from "~/lib/utils"
 
-import { type ICommand, toolbars } from "./toolbars"
+import { toolbars, type ICommand } from "./toolbars"
 
 type IToolbarItemProps = ICommand<any> & { view?: EditorView }
 

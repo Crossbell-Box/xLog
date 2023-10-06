@@ -1,5 +1,5 @@
 import i18next from "i18next"
-import { ReactNode, createContext } from "react"
+import { createContext, ReactNode } from "react"
 
 import { languages } from "~/lib/i18n/settings"
 

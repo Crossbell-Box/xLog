@@ -5,7 +5,7 @@ import { gql } from "@urql/core"
 
 import { IS_DEV, IS_VERCEL_PREVIEW } from "~/lib/constants"
 import { getNoteSlug, getSiteLink } from "~/lib/helpers"
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
 import { checkDomainServer } from "~/models/site.model"
 import { client } from "~/queries/graphql"
 

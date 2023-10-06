@@ -5,7 +5,7 @@ import type { InfiniteData } from "@tanstack/react-query"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
-import { type TabItem, Tabs } from "~/components/ui/Tabs"
+import { Tabs, type TabItem } from "~/components/ui/Tabs"
 import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote, NoteType } from "~/lib/types"

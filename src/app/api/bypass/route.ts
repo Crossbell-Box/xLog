@@ -1,6 +1,6 @@
 // This API is used to bypass the restriction that the Cloudflare Image Resizing service's onerror=redirect can only be used in current domain
 import { redirect } from "next/navigation"
-import { type NextRequest, NextResponse } from "next/server"
+import { NextResponse, type NextRequest } from "next/server"
 
 import { getQuery } from "~/lib/server-helper"
 

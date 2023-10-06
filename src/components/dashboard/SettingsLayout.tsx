@@ -5,7 +5,7 @@ import { useXSettingsModal } from "@crossbell/connect-kit"
 
 import { useTranslation } from "~/lib/i18n/client"
 
-import { type TabItem, Tabs } from "../ui/Tabs"
+import { Tabs, type TabItem } from "../ui/Tabs"
 import { DashboardMain } from "./DashboardMain"
 
 export const SettingsLayout = ({

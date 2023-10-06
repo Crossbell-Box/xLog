@@ -1,7 +1,7 @@
-import { Tweet, getTweet } from "react-tweet/api"
+import { getTweet, Tweet } from "react-tweet/api"
 
 import { cacheGet } from "~/lib/redis.server"
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
 
 export async function GET(req: Request): Promise<Response> {
   let { id: tweetId } = getQuery(req)
