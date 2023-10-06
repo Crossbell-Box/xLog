@@ -7,6 +7,18 @@ import { default as alwaysColor } from "tailwindcss/colors"
 
 import { addDynamicIconSelectors } from "@iconify/tailwind"
 
+const deprecatedColors = [
+  "lightBlue",
+  "warmGray",
+  "trueGray",
+  "coolGray",
+  "blueGray",
+] as const
+
+deprecatedColors.forEach((color) => {
+  delete alwaysColor[color]
+})
+
 const config: Config = {
   content: ["./src/**/*.tsx"],
   safelist: ["icon-[mingcute--link-line]", "icon-[mingcute--copy-2-line]"],
