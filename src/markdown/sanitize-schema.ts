@@ -1,7 +1,5 @@
 import { defaultSchema } from "rehype-sanitize"
 
-import { allowedBlockquoteAttrs } from "./remark-callout"
-
 const scheme = {
   ...defaultSchema,
   tagNames: [
@@ -16,11 +14,12 @@ const scheme = {
     "audio",
     "source",
     "mermaid",
+    "aside",
+    ...["svg", "path", "circle"],
   ],
   attributes: {
     ...defaultSchema.attributes,
     "*": [...(defaultSchema.attributes?.["*"] || []), "className", "style"],
-    blockquote: allowedBlockquoteAttrs,
     video: ["src", "controls", "loop", "muted", "autoPlay", "playsInline"],
     audio: [
       "src",
@@ -35,6 +34,19 @@ const scheme = {
     ],
     source: ["src", "type"],
     iframe: ["src", "allowFullScreen", "frameborder", "allow"],
+    svg: [
+      "xmlns",
+      "width",
+      "height",
+      "viewBox",
+      "fill",
+      "stroke",
+      "strokeLineCap",
+      "strokeLineJoin",
+      "strokeWidth",
+    ],
+    path: ["d", "fill"],
+    circle: ["cx", "cy", "r", "fill"],
   },
 }
 
