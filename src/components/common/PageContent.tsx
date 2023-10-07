@@ -1,4 +1,4 @@
-import { type MutableRefObject, memo } from "react"
+import { memo, type MutableRefObject } from "react"
 
 import PostActions from "~/components/site/PostActions"
 import PostToc from "~/components/site/PostToc"

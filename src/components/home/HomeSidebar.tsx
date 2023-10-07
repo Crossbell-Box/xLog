@@ -1,11 +1,11 @@
-import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { SearchInput } from "~/components/common/SearchInput"
 import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
-import { Trans, getTranslation } from "~/lib/i18n"
+import { getTranslation, Trans } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
 import { getShowcase } from "~/queries/home.server"
 import { getBlockNumber } from "~/queries/site.server"

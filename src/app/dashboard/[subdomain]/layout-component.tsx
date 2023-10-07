@@ -1,10 +1,10 @@
 "use client"
 
 import {
-  type ReadonlyURLSearchParams,
   useParams,
   usePathname,
   useSearchParams,
+  type ReadonlyURLSearchParams,
 } from "next/navigation"
 import React, { useEffect } from "react"
 import { useTranslation } from "react-i18next"

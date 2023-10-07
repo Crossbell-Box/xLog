@@ -20,11 +20,12 @@ const getBilibiliIFrameSrc = (url: URL) => {
   if (!match || match.length < 1) return
   const bvid = match[1]
 
-  const page = url.searchParams.get('p')
-  const pageParam = (page) ? `&page=${page}` : ''
+  const page = url.searchParams.get("p")
+  const pageParam = page ? `&page=${page}` : ""
 
   const embedUrl = new URL(
-    `https://player.bilibili.com/player.html?bvid=${bvid}&autoplay=false` + pageParam,
+    `https://player.bilibili.com/player.html?bvid=${bvid}&autoplay=false` +
+      pageParam,
   )
 
   return embedUrl.toString()

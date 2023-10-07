@@ -3,8 +3,8 @@
 import { useState } from "react"
 
 import PostList from "~/components/site/PostList"
-import { type TabItem, Tabs } from "~/components/ui/Tabs"
-import { NoteType, PageVisibilityEnum, PagesSortTypes } from "~/lib/types"
+import { Tabs, type TabItem } from "~/components/ui/Tabs"
+import { NoteType, PagesSortTypes, PageVisibilityEnum } from "~/lib/types"
 import { useGetPagesBySiteLite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 

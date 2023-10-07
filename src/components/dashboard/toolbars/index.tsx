@@ -10,6 +10,7 @@ import { Cloud } from "./Cloud"
 import { Code } from "./Code"
 import { CodeBlock } from "./CodeBlock"
 import { Emoji } from "./Emoji"
+import { Focus } from "./Focus"
 import { Formula } from "./Formula"
 import { Heading } from "./Heading"
 import { Help } from "./Help"
@@ -105,6 +106,7 @@ export const toolbars: ICommand[] = [
   Formula,
   Emoji,
   Cloud,
+  Focus,
   Help,
 ]
 

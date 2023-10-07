@@ -1,5 +1,5 @@
 import { getDefaultSlug } from "~/lib/default-slug"
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
 
 export async function GET(req: Request) {
   const { address } = getQuery(req)

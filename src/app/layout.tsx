@@ -4,12 +4,9 @@ import { headers } from "next/headers"
 import Script from "next/script"
 import { Toaster } from "react-hot-toast"
 
-import "@crossbell/connect-kit/colors.css"
 import { updateIndexerFetchOptions } from "@crossbell/indexer"
 import { ColorSchemeScript, MantineProvider } from "@mantine/core"
-import "@mantine/core/styles.css"
 
-import "~/css/main.css"
 import { getAcceptLang } from "~/lib/accept-lang"
 import {
   APP_DESCRIPTION,
@@ -23,6 +20,10 @@ import { getColorScheme } from "~/lib/get-color-scheme"
 
 import { ColorSchemeInjector } from "./ColorSchemeInjector"
 import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
+
+import "@crossbell/connect-kit/colors.css"
+import "@mantine/core/styles.css"
+import "~/css/main.css"
 
 export const metadata: Metadata = {
   title: `${APP_NAME} - ${APP_SLOGAN}`,
