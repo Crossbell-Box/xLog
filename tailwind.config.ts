@@ -1,30 +1,18 @@
 import { Config } from "tailwindcss"
 import {
   createVariableColors,
+  getDefaultColors,
   variableColorsPlugin,
 } from "tailwindcss-variable-colors"
-import { default as alwaysColor } from "tailwindcss/colors"
 
 import { addDynamicIconSelectors } from "@iconify/tailwind"
-
-const deprecatedColors = [
-  "lightBlue",
-  "warmGray",
-  "trueGray",
-  "coolGray",
-  "blueGray",
-] as const
-
-deprecatedColors.forEach((color) => {
-  delete alwaysColor[color]
-})
 
 const config: Config = {
   content: ["./src/**/*.tsx"],
   safelist: ["icon-[mingcute--link-line]", "icon-[mingcute--copy-2-line]"],
   darkMode: ["class", "html.dark"],
   theme: {
-    colors: createVariableColors(alwaysColor),
+    colors: createVariableColors(),
     extend: {
       boxShadow: {
         modal: `rgb(0 0 0 / 20%) 0px 0px 1px, rgb(0 0 0 / 20%) 0px 20px 40px`,
@@ -36,7 +24,7 @@ const config: Config = {
         border: "var(--border-color)",
         accent: "var(--theme-color)",
         hover: "var(--hover-color)",
-        always: alwaysColor as any,
+        always: getDefaultColors() as any,
       },
       spacing: {
         sidebar: `240px`,
@@ -92,7 +80,7 @@ const config: Config = {
     require("tailwindcss-animate"),
     require("tailwind-scrollbar-hide"),
     addDynamicIconSelectors(),
-    variableColorsPlugin(alwaysColor),
+    variableColorsPlugin(),
   ],
 }
 

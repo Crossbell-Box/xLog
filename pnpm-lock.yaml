@@ -518,8 +518,8 @@ devDependencies:
     specifier: 3.3.3
     version: 3.3.3
   tailwindcss-variable-colors:
-    specifier: 0.0.1
-    version: 0.0.1(tailwindcss@3.3.3)
+    specifier: 0.0.2
+    version: 0.0.2(tailwindcss@3.3.3)
   typescript:
     specifier: 5.2.2
     version: 5.2.2
@@ -11150,8 +11150,8 @@ packages:
       tailwindcss: 3.3.3
     dev: false
 
-  /tailwindcss-variable-colors@0.0.1(tailwindcss@3.3.3):
-    resolution: {integrity: sha512-LcEwheZC0uCKDQk2nLMpxc9BL8HRtU0TBhXbGU+nasmXXTQXWO5YXCm/XyoRBzUYkRwkIbRiP3NH0jhOUoDwDA==}
+  /tailwindcss-variable-colors@0.0.2(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-Cr5A2sNM4KgRF2FINv3gDoAP1jh/2UAh69DkVX/ri8OMvvT9zahGghqybMheVgsJ9IoHLF4xuZVb0ZuK+edsog==}
     peerDependencies:
       tailwindcss: '>=3.3.0'
     dependencies:
