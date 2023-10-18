@@ -74,7 +74,7 @@ const Card = ({
     >
       <PostCover
         uniqueKey={`${post.characterId}-${post.noteId}`}
-        images={post.metadata?.content.images}
+        images={post.metadata?.content?.images}
         title={post.metadata?.content?.title}
         className={isShort ? "rounded-b-2xl aspect-square border-b-0" : ""}
       />
@@ -99,7 +99,7 @@ const Card = ({
               {comment}
             </div>
           )}
-          {!!post.metadata?.content.images?.length &&
+          {!!post.metadata?.content?.images?.length &&
             post.metadata?.content?.title && (
               <h2
                 className={cn(
