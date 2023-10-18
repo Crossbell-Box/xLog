@@ -50,11 +50,9 @@ export const CommentItem = ({
   const account = useAccountState(({ computed }) => computed.account)
 
   useEffect(() => {
-    queryClient.refetchQueries([
-      "getComments",
-      originalCharacterId,
-      originalNoteId,
-    ])
+    queryClient.refetchQueries({
+      queryKey: ["getComments", originalCharacterId, originalNoteId],
+    })
   }, [deletePage.isSuccess, originalCharacterId, originalNoteId, queryClient])
 
   if (!comment.metadata?.content?.content) {
@@ -182,7 +180,7 @@ export const CommentItem = ({
                     className="text-gray-500 text-[13px] mt-[-1px]"
                     variant="text"
                     onClick={() => setDeleteConfirmModalOpen(true)}
-                    isLoading={deletePage.isLoading}
+                    isLoading={deletePage.isPending}
                   >
                     <i className="icon-[mingcute--delete-2-line] mx-1" />{" "}
                     {t("Delete")}

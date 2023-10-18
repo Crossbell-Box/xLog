@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation"
 
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import PageContent from "~/components/common/PageContent"
 import PostCover from "~/components/home/PostCover"
@@ -11,7 +15,6 @@ import { SiteHeader } from "~/components/site/SiteHeader"
 import { getTranslation } from "~/lib/i18n"
 import { toCid } from "~/lib/ipfs-parser"
 import { isOnlyContent } from "~/lib/is-only-content"
-import getQueryClient from "~/lib/query-client"
 import { cn } from "~/lib/utils"
 import { fetchGetPage, getSummary } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
@@ -24,7 +27,7 @@ export default async function SiteModal({
     slug: string
   }
 }) {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
 
@@ -130,11 +133,11 @@ export default async function SiteModal({
               </>
             )}
           </article>
-          <Hydrate state={dehydratedState}>
+          <HydrationBoundary state={dehydratedState}>
             {page?.metadata && (
               <PostFooter page={page} site={site} fixHeight={true} />
             )}
-          </Hydrate>
+          </HydrationBoundary>
         </main>
       </div>
     </PostModal>

@@ -1,9 +1,12 @@
 import { Metadata } from "next"
 
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import SiteHome from "~/components/site/SiteHome"
-import getQueryClient from "~/lib/query-client"
 import { PageVisibilityEnum } from "~/lib/types"
 import { prefetchGetPagesBySite } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
@@ -15,7 +18,7 @@ export async function generateMetadata({
     site: string
   }
 }): Promise<Metadata> {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
 
@@ -33,7 +36,7 @@ async function SiteShortsPage({
     site: string
   }
 }) {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
   await prefetchGetPagesBySite(
@@ -50,9 +53,9 @@ async function SiteShortsPage({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
+    <HydrationBoundary state={dehydratedState}>
       <SiteHome handle={params.site} type="short" />
-    </Hydrate>
+    </HydrationBoundary>
   )
 }
 

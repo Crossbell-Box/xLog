@@ -115,11 +115,12 @@ export const PagesManagerMenu = ({
           )
           data.type = data.type === "post" ? "page" : "post"
           setStorage(`draft-${site.data?.characterId}-${page.draftKey}`, data)
-          queryClient.invalidateQueries([
-            "getPagesBySite",
-            site.data?.characterId,
-          ])
-          queryClient.invalidateQueries(["getPage", page.characterId])
+          queryClient.invalidateQueries({
+            queryKey: ["getPagesBySite", site.data?.characterId],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ["getPage", page.characterId],
+          })
           toast.success("Converted!", {
             id: toastId,
           })
@@ -186,8 +187,12 @@ export const PagesManagerMenu = ({
       const toastId = toast.loading("Deleting...")
       delStorage(`draft-${site.data?.characterId}-${page.draftKey}`)
       Promise.all([
-        queryClient.refetchQueries(["getPagesBySite", site.data?.characterId]),
-        queryClient.refetchQueries(["getPage", page.characterId]),
+        queryClient.refetchQueries({
+          queryKey: ["getPagesBySite", site.data?.characterId],
+        }),
+        queryClient.refetchQueries({
+          queryKey: ["getPage", page.characterId],
+        }),
       ]).then(() => {
         toast.success("Deleted!", {
           id: toastId,

@@ -34,6 +34,7 @@ export const useGetPagesBySiteLite = (
 ) => {
   return useInfiniteQuery({
     queryKey: ["getPagesBySite", input.characterId, input],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       const result: ReturnType<typeof pageModel.getPagesBySite> = await (
         await fetch(
@@ -55,6 +56,7 @@ export const useGetPagesBySite = (
 ) => {
   return useInfiniteQuery({
     queryKey: ["getPagesBySite", input.characterId, input],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       return pageModel.getPagesBySite({
         ...input,
@@ -70,6 +72,7 @@ export const useGetSearchPagesBySite = (
 ) => {
   return useInfiniteQuery({
     queryKey: ["getSearchPagesBySite", input.characterId, input],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       return pageModel.getSearchPagesBySite({
         ...input,
@@ -83,18 +86,21 @@ export const useGetSearchPagesBySite = (
 export const useGetPage = (
   input: Partial<Parameters<typeof pageModel.getPage>[0]>,
 ) => {
-  return useQuery(["getPage", input.characterId, input], async () => {
-    if (!input.characterId || (!input.slug && !input.noteId)) {
-      return null
-    }
-    return pageModel.getPage({
-      characterId: input.characterId,
-      slug: input.slug,
-      noteId: input.noteId,
-      useStat: input.useStat,
-      handle: input.handle,
-      disableAutofill: input.disableAutofill,
-    })
+  return useQuery({
+    queryKey: ["getPage", input.characterId, input],
+    queryFn: async () => {
+      if (!input.characterId || (!input.slug && !input.noteId)) {
+        return null
+      }
+      return pageModel.getPage({
+        characterId: input.characterId,
+        slug: input.slug,
+        noteId: input.noteId,
+        useStat: input.useStat,
+        handle: input.handle,
+        disableAutofill: input.disableAutofill,
+      })
+    },
   })
 }
 
@@ -144,6 +150,7 @@ export const useGetMints = (input: {
 }) => {
   return useInfiniteQuery({
     queryKey: ["getMints", input.characterId, input.noteId, input],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       if (!input.characterId || !input.noteId) {
         return {
@@ -172,16 +179,19 @@ export const useCheckMint = ({
 }) => {
   const address = useAccountState((s) => s.wallet?.address)
 
-  return useQuery(["checkMint", characterId, noteId, address], async () => {
-    if (!characterId || !noteId || !address) {
-      return { count: 0, list: [] }
-    }
+  return useQuery({
+    queryKey: ["checkMint", characterId, noteId, address],
+    queryFn: async () => {
+      if (!characterId || !noteId || !address) {
+        return { count: 0, list: [] }
+      }
 
-    return pageModel.checkMint({
-      noteCharacterId: characterId,
-      noteId: noteId,
-      address,
-    })
+      return pageModel.checkMint({
+        noteCharacterId: characterId,
+        noteId: noteId,
+        address,
+      })
+    },
   })
 }
 
@@ -194,9 +204,9 @@ export const useCheckComment = ({
 }) => {
   const account = useAccountState((s) => s.computed.account)
 
-  return useQuery(
-    ["checkMint", noteCharacterId, noteId, account?.characterId],
-    async () => {
+  return useQuery({
+    queryKey: ["checkMint", noteCharacterId, noteId, account?.characterId],
+    queryFn: async () => {
       if (!noteCharacterId || !noteId || !account?.characterId) {
         return { count: 0, list: [] }
       }
@@ -207,7 +217,7 @@ export const useCheckComment = ({
         noteId: noteId,
       })
     },
-  )
+  })
 }
 
 export function useCreatePage() {
@@ -236,8 +246,12 @@ export function useCreatePage() {
         },
         {
           onSuccess: (data, variables) => {
-            queryClient.invalidateQueries(["getPagesBySite", input.characterId])
-            queryClient.invalidateQueries(["getPage", input.characterId])
+            queryClient.invalidateQueries({
+              queryKey: ["getPagesBySite", input.characterId],
+            })
+            queryClient.invalidateQueries({
+              queryKey: ["getPage", input.characterId],
+            })
           },
         },
       )
@@ -381,8 +395,12 @@ export function useUpdatePage() {
         },
         {
           onSuccess: (data, variables) => {
-            queryClient.invalidateQueries(["getPagesBySite", input.characterId])
-            queryClient.invalidateQueries(["getPage", input.characterId])
+            queryClient.invalidateQueries({
+              queryKey: ["getPagesBySite", input.characterId],
+            })
+            queryClient.invalidateQueries({
+              queryKey: ["getPage", input.characterId],
+            })
           },
         },
       )
@@ -398,16 +416,16 @@ export function useUpdatePage() {
 export function usePostNotes() {
   const queryClient = useQueryClient()
   const contract = useContract()
-  const mutation = useMutation(
-    async (payload: Parameters<typeof pageModel.postNotes>[0]) => {
+  const mutation = useMutation({
+    mutationFn: async (payload: Parameters<typeof pageModel.postNotes>[0]) => {
       return pageModel.postNotes(payload, contract)
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getPagesBySite", variables.characterId])
-      },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getPagesBySite", variables.characterId],
+      })
     },
-  )
+  })
   return mutation
 }
 
@@ -428,11 +446,12 @@ export function useDeletePage() {
         },
         {
           onSuccess: (data, variables) => {
-            queryClient.invalidateQueries([
-              "getPagesBySite",
-              variables.characterId,
-            ])
-            queryClient.invalidateQueries(["getPage", variables.characterId])
+            queryClient.invalidateQueries({
+              queryKey: ["getPagesBySite", variables.characterId],
+            })
+            queryClient.invalidateQueries({
+              queryKey: ["getPage", variables.characterId],
+            })
           },
         },
       )
@@ -454,17 +473,17 @@ export function useMintPage() {
   return useMintNote({
     onSuccess: (_, variables) => {
       return Promise.all([
-        queryClient.invalidateQueries([
-          "checkMint",
-          variables.characterId,
-          variables.noteId,
-          address,
-        ]),
-        queryClient.invalidateQueries([
-          "getMints",
-          variables.characterId,
-          variables.noteId,
-        ]),
+        queryClient.invalidateQueries({
+          queryKey: [
+            "checkMint",
+            variables.characterId,
+            variables.noteId,
+            address,
+          ],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["getMints", variables.characterId, variables.noteId],
+        }),
       ])
     },
   })
@@ -504,11 +523,13 @@ export function useCommentPage() {
         },
         {
           onSuccess(data, variables) {
-            queryClient.invalidateQueries([
-              "getComments",
-              originalCharacterId || characterId,
-              originalNoteId || noteId,
-            ])
+            queryClient.invalidateQueries({
+              queryKey: [
+                "getComments",
+                originalCharacterId || characterId,
+                originalNoteId || noteId,
+              ],
+            })
           },
         },
       )
@@ -524,8 +545,8 @@ export function useCommentPage() {
 export function useAnonymousComment() {
   const queryClient = useQueryClient()
 
-  return useMutation(
-    async (
+  return useMutation({
+    mutationFn: async (
       payload: Parameters<typeof pageModel.anonymousComment>[0] & {
         originalNoteId?: number
         originalCharacterId?: number
@@ -533,24 +554,24 @@ export function useAnonymousComment() {
     ) => {
       return pageModel.anonymousComment(payload)
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [
           "getComments",
           variables.originalCharacterId || variables.targetCharacterId,
           variables.originalNoteId || variables.targetNoteId,
-        ])
-      },
+        ],
+      })
     },
-  )
+  })
 }
 
 export function useUpdateComment() {
   const queryClient = useQueryClient()
   const contract = useContract()
 
-  return useMutation(
-    async (
+  return useMutation({
+    mutationFn: async (
       payload: Parameters<typeof pageModel.updateComment>[0] & {
         originalNoteId?: number
         originalCharacterId?: number
@@ -558,16 +579,16 @@ export function useUpdateComment() {
     ) => {
       return pageModel.updateComment(payload, contract)
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [
           "getComments",
           variables.originalCharacterId || variables.characterId,
           variables.originalNoteId || variables.noteId,
-        ])
-      },
+        ],
+      })
     },
-  )
+  })
 }
 
 export function useGetComments(
@@ -575,6 +596,7 @@ export function useGetComments(
 ) {
   return useInfiniteQuery({
     queryKey: ["getComments", input.characterId, input.noteId],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       if (!input.characterId || !input.noteId) {
         return null
@@ -590,62 +612,71 @@ export function useGetComments(
 }
 
 export function useGetMirrorXyz(input: { address?: string }) {
-  return useQuery(["getMirror", input.address], async () => {
-    if (!input.address) {
-      return null
-    }
-    const response = await (
-      await fetch(
-        "/api/import/mirror.xyz?" +
-          new URLSearchParams({
-            ...input,
-          } as any),
-      )
-    ).json()
+  return useQuery({
+    queryKey: ["getMirror", input.address],
+    queryFn: async () => {
+      if (!input.address) {
+        return null
+      }
+      const response = await (
+        await fetch(
+          "/api/import/mirror.xyz?" +
+            new URLSearchParams({
+              ...input,
+            } as any),
+        )
+      ).json()
 
-    return response?.data?.projectFeed?.posts as {
-      title: string
-      type: string
-      size: number
-      date_published: string
-      slug: string
-      tags: string[]
-      content: string
-      external_urls: string[]
-    }[]
+      return response?.data?.projectFeed?.posts as {
+        title: string
+        type: string
+        size: number
+        date_published: string
+        slug: string
+        tags: string[]
+        content: string
+        external_urls: string[]
+      }[]
+    },
   })
 }
 
 export function useCheckMirror(characterId?: number) {
-  return useQuery(["checkMirror", characterId], async () => {
-    if (!characterId) {
-      return
-    }
-    return pageModel.checkMirror(characterId)
+  return useQuery({
+    queryKey: ["checkMirror", characterId],
+    queryFn: async () => {
+      if (!characterId) {
+        return
+      }
+      return pageModel.checkMirror(characterId)
+    },
   })
 }
 
 export function useGetImageInfo(src?: string) {
-  return useQuery(["getImageInfo", src], async () => {
-    if (!src) {
-      return
-    }
-    return (await (await fetch(`/api/image?url=${src}`)).json()) as {
-      size: {
-        width: number
-        height: number
+  return useQuery({
+    queryKey: ["getImageInfo", src],
+    queryFn: async () => {
+      if (!src) {
+        return
       }
-      base64: string
-    }
+      return (await (await fetch(`/api/image?url=${src}`)).json()) as {
+        size: {
+          width: number
+          height: number
+        }
+        base64: string
+      }
+    },
   })
 }
 
 export const useReportStats = (
   input: Partial<Parameters<typeof pageModel.reportStats>[0]>,
 ) => {
-  return useQuery(
-    ["reportStats", input.characterId, input.noteId],
-    async () => {
+  return useQuery({
+    queryKey: ["reportStats", input.characterId, input.noteId],
+    queryFn: async () => {
       if (!input.characterId || !input.noteId) {
         return null
       }
@@ -654,17 +685,20 @@ export const useReportStats = (
         noteId: input.noteId,
       })
     },
-  )
+  })
 }
 
 export const useGetDistinctNoteTagsOfCharacter = (characterId?: number) => {
-  return useQuery(["getDistinctNoteTagsOfCharacter", characterId], async () => {
-    if (!characterId) {
-      return {
-        list: [],
+  return useQuery({
+    queryKey: ["getDistinctNoteTagsOfCharacter", characterId],
+    queryFn: async () => {
+      if (!characterId) {
+        return {
+          list: [],
+        }
       }
-    }
-    return pageModel.getDistinctNoteTagsOfCharacter(characterId)
+      return pageModel.getDistinctNoteTagsOfCharacter(characterId)
+    },
   })
 }
 
@@ -680,7 +714,9 @@ export const usePinPage = ({
     },
     {
       onSuccess() {
-        return queryClient.invalidateQueries(["getPagesBySite", characterId])
+        return queryClient.invalidateQueries({
+          queryKey: ["getPagesBySite", characterId],
+        })
       },
     },
   )

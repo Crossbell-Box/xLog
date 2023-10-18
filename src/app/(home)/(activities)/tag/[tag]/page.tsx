@@ -1,11 +1,14 @@
 import { Metadata } from "next"
 
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
 import ParticipateButton from "~/components/home/ParticipateButton"
 import { APP_NAME } from "~/lib/env"
-import getQueryClient from "~/lib/query-client"
 import { prefetchGetFeed } from "~/queries/home.server"
 
 export function generateMetadata({
@@ -29,7 +32,7 @@ export default async function Tag({
 }) {
   params.tag = decodeURIComponent(params.tag)
 
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
   await prefetchGetFeed(
     {
       type: "tag",
@@ -41,7 +44,7 @@ export default async function Tag({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
+    <HydrationBoundary state={dehydratedState}>
       <div className="border rounded-xl px-5 py-6 mb-4 space-y-2 relative bg-zinc-50">
         <div className="text-2xl flex items-center font-bold">
           <i className="icon-[mingcute--tag-line] mr-1" />
@@ -50,6 +53,6 @@ export default async function Tag({
         <ParticipateButton tag={params.tag} />
       </div>
       <HomeFeed type="tag" />
-    </Hydrate>
+    </HydrationBoundary>
   )
 }

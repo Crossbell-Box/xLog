@@ -15,11 +15,14 @@ export const prefetchGetSite = async (
   queryClient: QueryClient,
 ) => {
   const key = ["getSite", input]
-  await queryClient.prefetchQuery(key, async () => {
-    return cacheGet({
-      key,
-      getValueFun: () => siteModel.getSite(input),
-    })
+  await queryClient.prefetchQuery({
+    queryKey: key,
+    queryFn: async () => {
+      return cacheGet({
+        key,
+        getValueFun: () => siteModel.getSite(input),
+      })
+    },
   })
 }
 
@@ -36,11 +39,14 @@ export const fetchGetSite = async (
   // Remove this temporary solution once https://github.com/vercel/next.js/issues/49501 has been resolved.
   return JSON.parse(
     JSON.stringify(
-      await queryClient.fetchQuery(key, async () => {
-        return cacheGet({
-          key,
-          getValueFun: () => siteModel.getSite(input),
-        })
+      await queryClient.fetchQuery({
+        queryKey: key,
+        queryFn: async () => {
+          return cacheGet({
+            key,
+            getValueFun: () => siteModel.getSite(input),
+          })
+        },
       }),
     ),
   )
@@ -53,6 +59,7 @@ export const prefetchGetSiteSubscriptions = async (
   const key = ["getSiteSubscriptions", input]
   await queryClient.prefetchInfiniteQuery({
     queryKey: key,
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       return cacheGet({
         key,
@@ -64,7 +71,9 @@ export const prefetchGetSiteSubscriptions = async (
         },
       })
     },
-    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
+    getNextPageParam: (
+      lastPage: Awaited<ReturnType<typeof siteModel.getSiteSubscriptions>>,
+    ) => lastPage?.cursor || undefined,
   })
 }
 
@@ -75,6 +84,7 @@ export const prefetchGetSiteToSubscriptions = async (
   const key = ["getSiteToSubscriptions", input]
   await queryClient.prefetchInfiniteQuery({
     queryKey: key,
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       return cacheGet({
         key,
@@ -86,7 +96,9 @@ export const prefetchGetSiteToSubscriptions = async (
         },
       })
     },
-    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
+    getNextPageParam: (
+      lastPage: Awaited<ReturnType<typeof siteModel.getSiteToSubscriptions>>,
+    ) => lastPage?.cursor || undefined,
   })
 }
 
@@ -98,14 +110,17 @@ export const fetchGetComments = async (
   if (!data.characterId) {
     return null
   }
-  return await queryClient.fetchQuery(key, async () => {
-    return cacheGet({
-      key,
-      getValueFun: () =>
-        siteModel.getCommentsBySite({
-          characterId: data.characterId,
-        }),
-    }) as Promise<ReturnType<typeof siteModel.getCommentsBySite>>
+  return await queryClient.fetchQuery({
+    queryKey: key,
+    queryFn: async () => {
+      return cacheGet({
+        key,
+        getValueFun: () =>
+          siteModel.getCommentsBySite({
+            characterId: data.characterId,
+          }),
+      }) as Promise<ReturnType<typeof siteModel.getCommentsBySite>>
+    },
   })
 }
 
@@ -222,12 +237,15 @@ export const getCharacterColors = async (character?: ExpandedCharacter) => {
 
 export const getBlockNumber = async (queryClient: QueryClient) => {
   const key = ["getBlockNumber"]
-  await queryClient.prefetchQuery(key, async () => {
-    return cacheGet({
-      key: key,
-      getValueFun: async () => {
-        return siteModel.getBlockNumber()
-      },
-    })
+  await queryClient.prefetchQuery({
+    queryKey: key,
+    queryFn: async () => {
+      return cacheGet({
+        key: key,
+        getValueFun: async () => {
+          return siteModel.getBlockNumber()
+        },
+      })
+    },
   })
 }

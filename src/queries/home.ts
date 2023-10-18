@@ -7,6 +7,7 @@ import * as homeModel from "~/models/home.model"
 export const useGetFeed = (data?: Parameters<typeof homeModel.getFeed>[0]) => {
   return useInfiniteQuery({
     queryKey: ["getFeed", data],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       const result: ReturnType<typeof homeModel.getFeed> = await (
         await fetch(
@@ -25,7 +26,10 @@ export const useGetFeed = (data?: Parameters<typeof homeModel.getFeed>[0]) => {
 }
 
 export const useGetShowcase = () => {
-  return useQuery(["getShowcase"], async () => {
-    return homeModel.getShowcase()
+  return useQuery({
+    queryKey: ["getShowcase"],
+    queryFn: async () => {
+      return homeModel.getShowcase()
+    },
   })
 }

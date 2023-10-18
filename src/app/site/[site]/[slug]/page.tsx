@@ -2,7 +2,11 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import serialize from "serialize-javascript"
 
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import PageContent from "~/components/common/PageContent"
 import PostCover from "~/components/home/PostCover"
@@ -15,7 +19,6 @@ import { getTranslation } from "~/lib/i18n"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent } from "~/lib/is-only-content"
-import getQueryClient from "~/lib/query-client"
 import { fetchGetPage, getSummary } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
@@ -27,7 +30,7 @@ export async function generateMetadata({
     slug: string
   }
 }): Promise<Metadata> {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
 
@@ -83,7 +86,7 @@ export default async function SitePagePage({
     slug: string
   }
 }) {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const { inRN } = isInRN()
 
@@ -215,9 +218,9 @@ export default async function SitePagePage({
         />
       </article>
       {!onlyContent && (
-        <Hydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
           {page?.metadata && <PostFooter page={page} site={site} />}
-        </Hydrate>
+        </HydrationBoundary>
       )}
     </div>
   )

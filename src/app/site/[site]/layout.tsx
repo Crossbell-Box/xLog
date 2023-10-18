@@ -2,7 +2,11 @@ import { Metadata } from "next"
 import { headers } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import { BlockchainInfo } from "~/components/common/BlockchainInfo"
 import { SitePlayerContainer } from "~/components/common/SitePlayer"
@@ -15,7 +19,6 @@ import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent, searchParser } from "~/lib/is-only-content"
-import getQueryClient from "~/lib/query-client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { fetchGetPage } from "~/queries/page.server"
@@ -33,7 +36,7 @@ export async function generateMetadata({
     site: string
   }
 }): Promise<Metadata> {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
 
@@ -92,7 +95,7 @@ export default async function SiteLayout({
     tag?: string
   }
 }) {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const { inRN } = isInRN()
   const search = searchParser()
@@ -176,7 +179,7 @@ export default async function SiteLayout({
   const colors = await getCharacterColors(site)
 
   return (
-    <Hydrate state={dehydratedState}>
+    <HydrationBoundary state={dehydratedState}>
       <div
         className={`xlog-page xlog-page-${type} xlog-user xlog-deprecated-class`}
       >
@@ -220,6 +223,6 @@ export default async function SiteLayout({
       </div>
 
       <SitePlayerContainer />
-    </Hydrate>
+    </HydrationBoundary>
   )
 }

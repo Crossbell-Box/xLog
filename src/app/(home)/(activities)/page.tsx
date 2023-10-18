@@ -1,11 +1,14 @@
 import { Metadata } from "next"
 
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
 import ShortPreviewList from "~/components/site/ShortPreviewList"
 import { APP_NAME, APP_SLOGAN } from "~/lib/env"
-import getQueryClient from "~/lib/query-client"
 import { getPreviewShort, prefetchGetFeed } from "~/queries/home.server"
 
 export const metadata: Metadata = {
@@ -13,7 +16,7 @@ export const metadata: Metadata = {
 }
 
 export default async function HomeActivities() {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
   await prefetchGetFeed(
     {
       type: "featured",
@@ -25,13 +28,13 @@ export default async function HomeActivities() {
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
+    <HydrationBoundary state={dehydratedState}>
       <ShortPreviewList
         shorts={shorts}
         className="pb-8 mb-8 space-y-4"
         isHome={true}
       />
       <HomeFeed type="featured" />
-    </Hydrate>
+    </HydrationBoundary>
   )
 }

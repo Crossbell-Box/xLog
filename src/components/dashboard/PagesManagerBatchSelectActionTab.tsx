@@ -103,12 +103,13 @@ export const PagesManagerBatchSelectActionTab = ({
 
         // Invalidate site data refresh
         await Promise.all([
-          queryClient.invalidateQueries([
-            "getPagesBySite",
-            selectedPages[0]?.characterId,
-          ]),
+          queryClient.invalidateQueries({
+            queryKey: ["getPagesBySite", selectedPages[0]?.characterId],
+          }),
           ...selectedPages.map((page) =>
-            queryClient.invalidateQueries(["getPage", page?.characterId]),
+            queryClient.invalidateQueries({
+              queryKey: ["getPage", page?.characterId],
+            }),
           ),
         ])
 
@@ -170,12 +171,13 @@ export const PagesManagerBatchSelectActionTab = ({
 
     // Refresh site data
     await Promise.all([
-      queryClient.refetchQueries([
-        "getPagesBySite",
-        selectedPages[0]?.characterId,
-      ]),
+      queryClient.refetchQueries({
+        queryKey: ["getPagesBySite", selectedPages[0]?.characterId],
+      }),
       ...selectedPages.map((page) =>
-        queryClient.refetchQueries(["getPage", page.characterId]),
+        queryClient.refetchQueries({
+          queryKey: ["getPage", page.characterId],
+        }),
       ),
     ])
 

@@ -55,10 +55,9 @@ export default function ShortEditor() {
       if (!pageId) {
         const randomId = nanoid()
         key = `draft-${site.data?.characterId}-!local-${randomId}`
-        queryClient.invalidateQueries([
-          "getPagesBySite",
-          site.data?.characterId,
-        ])
+        queryClient.invalidateQueries({
+          queryKey: ["getPagesBySite", site.data?.characterId],
+        })
         router.replace(
           `/dashboard/${subdomain}/editor?id=!local-${randomId}&type=${type}`,
         )
@@ -116,10 +115,9 @@ export default function ShortEditor() {
           values: newValues,
           type,
         })
-        queryClient.invalidateQueries([
-          "getPagesBySite",
-          site.data?.characterId,
-        ])
+        queryClient.invalidateQueries({
+          queryKey: ["getPagesBySite", site.data?.characterId],
+        })
       }
       useEditorState.setState(newValues)
     },
@@ -158,16 +156,19 @@ export default function ShortEditor() {
     if (createPage.isSuccess || updatePage.isSuccess) {
       if (draftKey) {
         delStorage(draftKey)
-        queryClient.invalidateQueries([
-          "getPagesBySite",
-          site.data?.characterId,
-        ])
-        queryClient.invalidateQueries([
-          "getPage",
-          draftKey.replace(`draft-${site.data?.characterId}-`, ""),
-        ])
+        queryClient.invalidateQueries({
+          queryKey: ["getPagesBySite", site.data?.characterId],
+        })
+        queryClient.invalidateQueries({
+          queryKey: [
+            "getPage",
+            draftKey.replace(`draft-${site.data?.characterId}-`, ""),
+          ],
+        })
       } else {
-        queryClient.invalidateQueries(["getPage", pageId])
+        queryClient.invalidateQueries({
+          queryKey: ["getPage", pageId],
+        })
       }
 
       if (createPage.data?.noteId) {
@@ -239,8 +240,9 @@ export default function ShortEditor() {
   const discardChanges = useCallback(() => {
     if (draftKey) {
       delStorage(draftKey)
-      queryClient.invalidateQueries(["getPagesBySite", site.data?.characterId])
-      page.remove()
+      queryClient.invalidateQueries({
+        queryKey: ["getPagesBySite", site.data?.characterId],
+      })
       page.refetch()
     }
   }, [draftKey, site.data?.characterId])
@@ -271,9 +273,9 @@ export default function ShortEditor() {
                   }
                   published={visibility !== PageVisibilityEnum.Draft}
                   isSaving={
-                    createPage.isLoading ||
-                    updatePage.isLoading ||
-                    deleteP.isLoading
+                    createPage.isPending ||
+                    updatePage.isPending ||
+                    deleteP.isPending
                   }
                   isDisabled={false}
                   type={type}

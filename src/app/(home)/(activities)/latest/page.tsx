@@ -1,10 +1,13 @@
 import { Metadata } from "next"
 
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
 import { APP_NAME } from "~/lib/env"
-import getQueryClient from "~/lib/query-client"
 import { prefetchGetFeed } from "~/queries/home.server"
 
 export const metadata: Metadata = {
@@ -12,7 +15,7 @@ export const metadata: Metadata = {
 }
 
 export default async function LatestActivities() {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
   await prefetchGetFeed(
     {
       type: "latest",
@@ -23,8 +26,8 @@ export default async function LatestActivities() {
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
+    <HydrationBoundary state={dehydratedState}>
       <HomeFeed type="latest" />
-    </Hydrate>
+    </HydrationBoundary>
   )
 }

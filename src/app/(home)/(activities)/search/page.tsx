@@ -1,11 +1,14 @@
 import { Metadata } from "next"
 
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import { SearchInput } from "~/components/common/SearchInput"
 import { HomeFeed } from "~/components/home/HomeFeed"
 import { APP_NAME } from "~/lib/env"
-import getQueryClient from "~/lib/query-client"
 import { prefetchGetFeed } from "~/queries/home.server"
 
 export function generateMetadata({
@@ -27,7 +30,7 @@ export default async function Search({
     [key: string]: string | undefined
   }
 }) {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
   await prefetchGetFeed(
     {
       type: "search",
@@ -40,12 +43,12 @@ export default async function Search({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
+    <HydrationBoundary state={dehydratedState}>
       <SearchInput />
       <div className="mt-10">
         <HomeFeed type="search" />
       </div>
-    </Hydrate>
+    </HydrationBoundary>
   )
 }
 

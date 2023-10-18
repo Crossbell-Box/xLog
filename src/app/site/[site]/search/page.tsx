@@ -1,8 +1,9 @@
 import { Metadata } from "next"
 
+import { QueryClient } from "@tanstack/react-query"
+
 import { SearchInput } from "~/components/common/SearchInput"
 import { SiteSearch } from "~/components/site/SiteSearch"
-import getQueryClient from "~/lib/query-client"
 import { fetchGetSite } from "~/queries/site.server"
 
 export async function generateMetadata({
@@ -16,7 +17,7 @@ export async function generateMetadata({
     [key: string]: string | string[] | undefined
   }
 }): Promise<Metadata> {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
 

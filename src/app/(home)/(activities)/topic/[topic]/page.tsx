@@ -1,12 +1,15 @@
 import { Metadata } from "next"
 
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import { HomeFeed } from "~/components/home/HomeFeed"
 import ParticipateButton from "~/components/home/ParticipateButton"
 import { APP_NAME } from "~/lib/env"
 import { getTranslation } from "~/lib/i18n"
-import getQueryClient from "~/lib/query-client"
 import { prefetchGetFeed } from "~/queries/home.server"
 
 import topics from "../../../../../../data/topics.json"
@@ -35,7 +38,7 @@ export default async function Topic({
   params.topic = decodeURIComponent(params.topic)
   const info = topics.find((t) => t.name === params.topic)
 
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
   await prefetchGetFeed(
     {
       type: "topic",
@@ -47,7 +50,7 @@ export default async function Topic({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
+    <HydrationBoundary state={dehydratedState}>
       <div className="border rounded-xl px-5 py-6 mb-4 space-y-2 relative bg-zinc-50">
         <div className="text-2xl flex items-center font-bold">
           <i className="icon-[mingcute--tag-line] mr-1" />
@@ -62,6 +65,6 @@ export default async function Topic({
         <ParticipateButton tag={params.topic} />
       </div>
       <HomeFeed type="topic" />
-    </Hydrate>
+    </HydrationBoundary>
   )
 }

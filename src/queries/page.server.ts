@@ -17,21 +17,24 @@ export const fetchGetPage = async (
   queryClient: QueryClient,
 ) => {
   const key = ["getPage", input.characterId, input]
-  return await queryClient.fetchQuery(key, async () => {
-    if (!input.characterId || !input.slug) {
-      return null
-    }
-    return cacheGet({
-      key,
-      getValueFun: () =>
-        pageModel.getPage({
-          slug: input.slug,
-          characterId: input.characterId!,
-          useStat: input.useStat,
-          noteId: input.noteId,
-          handle: input.handle,
-        }),
-    }) as Promise<ReturnType<typeof pageModel.getPage>>
+  return await queryClient.fetchQuery({
+    queryKey: key,
+    queryFn: async () => {
+      if (!input.characterId || !input.slug) {
+        return null
+      }
+      return cacheGet({
+        key,
+        getValueFun: () =>
+          pageModel.getPage({
+            slug: input.slug,
+            characterId: input.characterId!,
+            useStat: input.useStat,
+            noteId: input.noteId,
+            handle: input.handle,
+          }),
+      }) as Promise<ReturnType<typeof pageModel.getPage>>
+    },
   })
 }
 
@@ -42,6 +45,7 @@ export const prefetchGetPagesBySite = async (
   const key = ["getPagesBySite", input.characterId, input]
   await queryClient.prefetchInfiniteQuery({
     queryKey: key,
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       return cacheGet({
         key,
@@ -52,7 +56,9 @@ export const prefetchGetPagesBySite = async (
           }),
       })
     },
-    getNextPageParam: (lastPage) => lastPage.cursor || undefined,
+    getNextPageParam: (
+      lastPage: Awaited<ReturnType<typeof pageModel.getPagesBySite>>,
+    ) => lastPage.cursor || undefined,
   })
 }
 
@@ -61,11 +67,14 @@ export const fetchGetPagesBySite = async (
   queryClient: QueryClient,
 ) => {
   const key = ["getPagesBySite", input.characterId, input]
-  return await queryClient.fetchQuery(key, async () => {
-    return cacheGet({
-      key,
-      getValueFun: () => pageModel.getPagesBySite(input),
-    }) as Promise<ReturnType<typeof pageModel.getPagesBySite>>
+  return await queryClient.fetchQuery({
+    queryKey: key,
+    queryFn: async () => {
+      return cacheGet({
+        key,
+        getValueFun: () => pageModel.getPagesBySite(input),
+      }) as Promise<ReturnType<typeof pageModel.getPagesBySite>>
+    },
   })
 }
 

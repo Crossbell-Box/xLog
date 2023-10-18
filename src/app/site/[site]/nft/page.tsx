@@ -1,11 +1,12 @@
 import { Metadata } from "next"
 import Script from "next/script"
 
+import { QueryClient } from "@tanstack/react-query"
+
 import { UniLink } from "~/components/ui/UniLink"
 import { UniMedia } from "~/components/ui/UniMedia"
 import { getTranslation } from "~/lib/i18n"
 import { toGateway } from "~/lib/ipfs-parser"
-import getQueryClient from "~/lib/query-client"
 import { fetchGetSite, getNFTs } from "~/queries/site.server"
 
 export async function generateMetadata({
@@ -15,7 +16,7 @@ export async function generateMetadata({
     site: string
   }
 }): Promise<Metadata> {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
 
@@ -33,7 +34,7 @@ export default async function SiteNFTPage({
     site: string
   }
 }) {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
   const { t } = await getTranslation("common")

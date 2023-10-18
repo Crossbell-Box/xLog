@@ -1,5 +1,5 @@
 export default function createSearchParams(
-  params: Record<string, string | string[]>,
+  params: Record<string, string | string[] | number | boolean>,
 ) {
   const searchParams = new URLSearchParams()
   Object.entries(params).forEach(([key, values]) => {
@@ -8,7 +8,7 @@ export default function createSearchParams(
         searchParams.append(key, value)
       })
     } else {
-      searchParams.append(key, values)
+      searchParams.append(key, values + "")
     }
   })
   return searchParams

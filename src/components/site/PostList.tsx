@@ -1,13 +1,11 @@
 "use client"
 
-import { UseInfiniteQueryResult } from "@tanstack/react-query"
-
 import PostCard from "~/components/common/PostCard"
 import { Button } from "~/components/ui/Button"
 import { EmptyState } from "~/components/ui/EmptyState"
 import { useTranslation } from "~/lib/i18n/client"
-import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
+import { type useGetSearchPagesBySite } from "~/queries/page"
 
 export default function PostList({
   posts,
@@ -15,14 +13,7 @@ export default function PostList({
   keyword,
   isShorts,
 }: {
-  posts: UseInfiniteQueryResult<
-    {
-      list: ExpandedNote[]
-      count: number
-      cursor: string | null
-    },
-    unknown
-  >
+  posts: ReturnType<typeof useGetSearchPagesBySite>
   pinnedNoteId?: number | null
   keyword?: string
   isShorts?: boolean

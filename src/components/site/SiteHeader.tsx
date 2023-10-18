@@ -1,10 +1,11 @@
 import NextImage from "next/image"
 
+import { QueryClient } from "@tanstack/react-query"
+
 import { FollowingButton } from "~/components/common/FollowingButton"
 import { FollowingCount } from "~/components/common/FollowingCount"
 import { PatronButton } from "~/components/common/PatronButton"
 import { Tabs, type TabItem } from "~/components/ui/Tabs"
-import getQueryClient from "~/lib/query-client"
 import { cn } from "~/lib/utils"
 import { fetchGetSite } from "~/queries/site.server"
 
@@ -23,7 +24,7 @@ export const SiteHeader = async ({
   hideNavigation?: boolean
   hideSearch?: boolean
 }) => {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
 
   const site = await fetchGetSite(handle, queryClient)
   const leftLinks: TabItem[] = (

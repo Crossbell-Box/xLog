@@ -22,20 +22,23 @@ import { SiteNavigationItem } from "~/lib/types"
 import * as siteModel from "~/models/site.model"
 
 export const useGetSite = (input?: string) => {
-  return useQuery(["getSite", input], async () => {
-    if (!input) {
-      return null
-    }
-    return siteModel.getSite(input)
+  return useQuery({
+    queryKey: ["getSite", input],
+    queryFn: async () => {
+      if (!input) {
+        return null
+      }
+      return siteModel.getSite(input)
+    },
   })
 }
 
 export const useGetSubscription = (toCharacterId?: number) => {
   const account = useAccountState((s) => s.computed.account)
 
-  return useQuery(
-    ["getSubscription", toCharacterId, account?.characterId],
-    async () => {
+  return useQuery({
+    queryKey: ["getSubscription", toCharacterId, account?.characterId],
+    queryFn: async () => {
       if (!account?.characterId || !toCharacterId) {
         return false
       }
@@ -45,12 +48,13 @@ export const useGetSubscription = (toCharacterId?: number) => {
         toCharacterId: toCharacterId,
       })
     },
-  )
+  })
 }
 
 export const useGetSiteSubscriptions = (data: { characterId?: number }) => {
   return useInfiniteQuery({
     queryKey: ["getSiteSubscriptions", data],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       if (!data.characterId) {
         return {
@@ -71,6 +75,7 @@ export const useGetSiteSubscriptions = (data: { characterId?: number }) => {
 export const useGetSiteToSubscriptions = (data: { characterId?: number }) => {
   return useInfiniteQuery({
     queryKey: ["getSiteToSubscriptions", data],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       if (!data.characterId) {
         return {
@@ -106,7 +111,9 @@ export function useUpdateHandle() {
         },
         {
           onSuccess: (data, variables) => {
-            queryClient.invalidateQueries(["getSite"])
+            queryClient.invalidateQueries({
+              queryKey: ["getSite"],
+            })
           },
         },
       )
@@ -225,7 +232,9 @@ export function useUpdateSite() {
         },
         {
           onSuccess: (data, variables) => {
-            queryClient.invalidateQueries(["getSite"])
+            queryClient.invalidateQueries({
+              queryKey: ["getSite"],
+            })
           },
         },
       )
@@ -245,18 +254,22 @@ export function useSubscribeToSite() {
   return useFollowCharacter({
     onSuccess: (data, variables: any) => {
       return Promise.all([
-        queryClient.invalidateQueries([
-          "getSiteSubscriptions",
-          {
-            characterId: variables.characterId,
-          },
-        ]),
+        queryClient.invalidateQueries({
+          queryKey: [
+            "getSiteSubscriptions",
+            {
+              characterId: variables.characterId,
+            },
+          ],
+        }),
 
-        queryClient.invalidateQueries([
-          "getSubscription",
-          variables.characterId,
-          account?.characterId,
-        ]),
+        queryClient.invalidateQueries({
+          queryKey: [
+            "getSubscription",
+            variables.characterId,
+            account?.characterId,
+          ],
+        }),
       ])
     },
   })
@@ -273,18 +286,18 @@ export function useSubscribeToSites() {
       Promise.all(
         variables.siteIds.flatMap((characterId: number) => {
           return [
-            queryClient.invalidateQueries([
-              "getSiteSubscriptions",
-              {
-                characterId,
-              },
-            ]),
+            queryClient.invalidateQueries({
+              queryKey: [
+                "getSiteSubscriptions",
+                {
+                  characterId,
+                },
+              ],
+            }),
 
-            queryClient.invalidateQueries([
-              "getSubscription",
-              characterId,
-              currentCharacterId,
-            ]),
+            queryClient.invalidateQueries({
+              queryKey: ["getSubscription", characterId, currentCharacterId],
+            }),
           ]
         }),
       ),
@@ -298,17 +311,21 @@ export function useUnsubscribeFromSite() {
   return useUnfollowCharacter({
     onSuccess: (data, variables: any) => {
       return Promise.all([
-        queryClient.invalidateQueries([
-          "getSiteSubscriptions",
-          {
-            siteId: variables.characterId,
-          },
-        ]),
-        queryClient.invalidateQueries([
-          "getSubscription",
-          variables.characterId,
-          account?.characterId,
-        ]),
+        queryClient.invalidateQueries({
+          queryKey: [
+            "getSiteSubscriptions",
+            {
+              siteId: variables.characterId,
+            },
+          ],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [
+            "getSubscription",
+            variables.characterId,
+            account?.characterId,
+          ],
+        }),
       ])
     },
   })
@@ -319,6 +336,7 @@ export const useGetCommentsBySite = (
 ) => {
   return useInfiniteQuery({
     queryKey: ["getCommentsBySite", data],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       if (!data.characterId) {
         return {
@@ -339,54 +357,64 @@ export const useGetCommentsBySite = (
 export const useGetOperators = (
   data: Parameters<typeof siteModel.getOperators>[0],
 ) => {
-  return useQuery(["getOperators", data], async () => {
-    if (!data.characterId) {
-      return null
-    }
-    return siteModel.getOperators(data)
+  return useQuery({
+    queryKey: ["getOperators", data],
+    queryFn: async () => {
+      if (!data.characterId) {
+        return null
+      }
+      return siteModel.getOperators(data)
+    },
   })
 }
 
 export const useIsOperators = (
   data: Partial<Parameters<typeof siteModel.isOperators>[0]>,
 ) => {
-  return useQuery(["isOperators", data], async () => {
-    if (!data.characterId || !data.operator) {
-      return null
-    }
-    return siteModel.isOperators({
-      characterId: data.characterId,
-      operator: data.operator,
-    })
+  return useQuery({
+    queryKey: ["isOperators", data],
+    queryFn: async () => {
+      if (!data.characterId || !data.operator) {
+        return null
+      }
+      return siteModel.isOperators({
+        characterId: data.characterId,
+        operator: data.operator,
+      })
+    },
   })
 }
 
 export function useAddOperator() {
   const contract = useContract()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (input: Parameters<typeof siteModel.addOperator>[0]) => {
+  return useMutation({
+    mutationFn: async (input: Parameters<typeof siteModel.addOperator>[0]) => {
       return siteModel.addOperator(input, contract)
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [
           "getOperators",
           {
             characterId: variables.characterId,
           },
-        ])
-        queryClient.invalidateQueries(["isOperators", variables])
-      },
+        ],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ["isOperators", variables],
+      })
     },
-  )
+  })
 }
 
 export function useRemoveOperator() {
   const contract = useContract()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (input: Partial<Parameters<typeof siteModel.removeOperator>[0]>) => {
+  return useMutation({
+    mutationFn: async (
+      input: Partial<Parameters<typeof siteModel.removeOperator>[0]>,
+    ) => {
       if (!input.operator || !input.characterId) {
         return null
       }
@@ -398,30 +426,35 @@ export function useRemoveOperator() {
         contract,
       )
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [
           "getOperators",
           {
             characterId: variables.characterId,
           },
-        ])
-        queryClient.invalidateQueries(["isOperators", variables])
-      },
+        ],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ["isOperators", variables],
+      })
     },
-  )
+  })
 }
 
 export const useGetStat = (
   data: Partial<Parameters<typeof siteModel.getStat>[0]>,
 ) => {
-  return useQuery(["getStat", data.characterId], async () => {
-    if (!data.characterId) {
-      return null
-    }
-    return siteModel.getStat({
-      characterId: data.characterId,
-    })
+  return useQuery({
+    queryKey: ["getStat", data.characterId],
+    queryFn: async () => {
+      if (!data.characterId) {
+        return null
+      }
+      return siteModel.getStat({
+        characterId: data.characterId,
+      })
+    },
   })
 }
 
@@ -430,10 +463,9 @@ export function useTipCharacter() {
 
   return useTip({
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries([
-        "getTips",
-        { toCharacterId: variables.characterId },
-      ])
+      queryClient.invalidateQueries({
+        queryKey: ["getTips", { toCharacterId: variables.characterId }],
+      })
     },
   })
 }
@@ -444,6 +476,7 @@ export const useGetTips = (
   const contract = useContract()
   return useInfiniteQuery({
     queryKey: ["getTips", data],
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       if (!data.toCharacterId || data.characterId === "0") {
         return {
@@ -466,40 +499,45 @@ export const useGetTips = (
 }
 
 export const useGetAchievements = (characterId?: number) => {
-  return useQuery(["getAchievements", characterId], async () => {
-    if (!characterId) {
-      return null
-    }
-    return siteModel.getAchievements(characterId)
+  return useQuery({
+    queryKey: ["getAchievements", characterId],
+    queryFn: async () => {
+      if (!characterId) {
+        return null
+      }
+      return siteModel.getAchievements(characterId)
+    },
   })
 }
 
 export const useMintAchievement = () => {
   const queryClient = useQueryClient()
-  return useMutation(
-    async (input: Parameters<typeof siteModel.mintAchievement>[0]) => {
+  return useMutation({
+    mutationFn: async (
+      input: Parameters<typeof siteModel.mintAchievement>[0],
+    ) => {
       return siteModel.mintAchievement(input)
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "getAchievements",
-          variables.characterId,
-        ])
-      },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAchievements", variables.characterId],
+      })
     },
-  )
+  })
 }
 
 export const useGetMiraBalance = (characterId?: number) => {
   const contract = useContract()
-  return useQuery(["getMiraBalance", characterId], async () => {
-    if (!characterId) {
-      return {
-        data: "Loading...",
+  return useQuery({
+    queryKey: ["getMiraBalance", characterId],
+    queryFn: async () => {
+      if (!characterId) {
+        return {
+          data: "Loading...",
+        }
       }
-    }
-    return siteModel.getMiraBalance(characterId, contract)
+      return siteModel.getMiraBalance(characterId, contract)
+    },
   })
 }
 
@@ -512,9 +550,9 @@ export const useGetCharacterCard = ({
   address?: string
   enabled: boolean
 }) => {
-  return useQuery(
-    ["useGetCharacterCard", { siteId, address }],
-    async () => {
+  return useQuery({
+    queryKey: ["useGetCharacterCard", { siteId, address }],
+    queryFn: async () => {
       if (siteId) {
         return siteModel.getSite(siteId)
       } else if (address) {
@@ -523,14 +561,15 @@ export const useGetCharacterCard = ({
         return null
       }
     },
-    {
-      enabled,
-    },
-  )
+    enabled,
+  })
 }
 
 export const useGetBlockNumber = () => {
-  return useQuery(["getBlockNumber"], async () => {
-    return siteModel.getBlockNumber()
+  return useQuery({
+    queryKey: ["getBlockNumber"],
+    queryFn: async () => {
+      return siteModel.getBlockNumber()
+    },
   })
 }

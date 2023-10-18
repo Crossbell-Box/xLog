@@ -131,10 +131,9 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
           },
           type,
         })
-        queryClient.invalidateQueries([
-          "getPagesBySite",
-          site.data?.characterId,
-        ])
+        queryClient.invalidateQueries({
+          queryKey: ["getPagesBySite", site.data?.characterId],
+        })
         router.push(
           `/dashboard/${subdomain}/editor?id=!local-${id}&type=${type}`,
         )

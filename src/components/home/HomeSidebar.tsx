@@ -1,4 +1,8 @@
-import { dehydrate, Hydrate } from "@tanstack/react-query"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { SearchInput } from "~/components/common/SearchInput"
@@ -6,7 +10,6 @@ import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
 import { getTranslation, Trans } from "~/lib/i18n"
-import getQueryClient from "~/lib/query-client"
 import { getShowcase } from "~/queries/home.server"
 import { getBlockNumber } from "~/queries/site.server"
 
@@ -18,13 +21,13 @@ import ShowMoreContainer from "./ShowMoreContainer"
 export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
   const showcaseSites = await getShowcase()
   const { t, i18n } = await getTranslation("index")
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
   await getBlockNumber(queryClient)
 
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
+    <HydrationBoundary state={dehydratedState}>
       <PromotionLinks />
       <UniLink
         href="/about"
@@ -89,6 +92,6 @@ export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
           </>
         </ShowMoreContainer>
       </div>
-    </Hydrate>
+    </HydrationBoundary>
   )
 }

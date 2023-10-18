@@ -10,6 +10,7 @@ export const prefetchGetFeed = async (
   const key = ["getFeed", data]
   await queryClient.prefetchInfiniteQuery({
     queryKey: key,
+    initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       return cacheGet({
         key,
@@ -20,7 +21,9 @@ export const prefetchGetFeed = async (
           }),
       })
     },
-    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
+    getNextPageParam: (
+      lastPage: Awaited<ReturnType<typeof homeModel.getFeed>>,
+    ) => lastPage?.cursor || undefined,
   })
 }
 
