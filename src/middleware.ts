@@ -17,11 +17,6 @@ export default async function middleware(req: NextRequest) {
   requestHeaders.set("x-xlog-search", req.nextUrl.search)
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
 
-  console.log(
-    `x-forwarded-proto: ${req.headers.get(
-      "x-forwarded-proto",
-    )}, cf-visitor: ${req.headers.get("cf-visitor")}`,
-  )
   if (
     IS_PROD &&
     req.headers.get("x-forwarded-proto") !== "https" &&
@@ -60,7 +55,11 @@ export default async function middleware(req: NextRequest) {
     )
   }
 
-  console.debug(`${req.method} ${req.nextUrl}`)
+  console.debug(
+    `${req.method} ${req.nextUrl}, x-forwarded-proto: ${req.headers.get(
+      "x-forwarded-proto",
+    )}, cf-visitor: ${req.headers.get("cf-visitor")}`,
+  )
 
   if (
     pathname.startsWith("/api/") ||
