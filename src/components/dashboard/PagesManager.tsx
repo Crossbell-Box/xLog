@@ -14,7 +14,6 @@ import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
 import PostCover from "~/components/home/PostCover"
-import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
 import { getSiteLink } from "~/lib/helpers"
 import { Trans, useTranslation } from "~/lib/i18n/client"
@@ -386,7 +385,8 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                           >
                             <span className="inline-flex items-center space-x-[6px]">
                               {platform?.icon && (
-                                <Image
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
                                   src={platform?.icon}
                                   alt={platform?.name}
                                   width={16}

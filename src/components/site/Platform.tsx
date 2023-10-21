@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 
-import { Image } from "~/components/ui/Image"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { cn } from "~/lib/utils"
@@ -37,6 +36,17 @@ export const PlatformsSyncMap: {
     name: "Twitter",
     icon: `${iconCDN}/twitter`,
     url: "https://twitter.com/i/user/{username}",
+  },
+  x: {
+    name: "X",
+    icon: `${iconCDN}/x/_/fff`,
+    url: "https://x.com/{username}",
+    portfolioDomain: `https://x.com/`,
+  },
+  x_id: {
+    name: "X",
+    icon: `${iconCDN}/x_/fff`,
+    url: "https://x.com/i/user/{username}",
   },
   pixiv: {
     name: "Pixiv",
@@ -189,7 +199,8 @@ export const Platform = ({
       >
         <span className="inline-flex items-center">
           {showImg ? (
-            <Image
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={PlatformsSyncMap[platform]?.icon || `${iconCDN}/${platform}`}
               alt={platform}
               width={20}
