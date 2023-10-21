@@ -1,8 +1,8 @@
 import jsYaml from "js-yaml"
 import type { Root } from "mdast"
-import { Result as TocResult, toc } from "mdast-util-toc"
+import { toc, Result as TocResult } from "mdast-util-toc"
 import dynamic from "next/dynamic"
-import { ReactElement, createElement } from "react"
+import { createElement, ReactElement } from "react"
 import { toast } from "react-hot-toast"
 import { refractor } from "refractor"
 import jsx from "refractor/lang/jsx"
@@ -29,6 +29,9 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
+// @ts-expect-error
+import remarkCalloutDirectives from "@microflash/remark-callout-directives"
+
 import AdvancedImage from "~/components/ui/AdvancedImage"
 
 import { transformers } from "./embed-transformers"
@@ -44,7 +47,6 @@ import { rehypeTable } from "./rehype-table"
 import { rehypeVideo } from "./rehype-video"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
-import { remarkCallout } from "./remark-callout"
 import { remarkMermaid } from "./remark-mermaid"
 import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
@@ -53,7 +55,6 @@ import sanitizeScheme from "./sanitize-schema"
 const Style = dynamic(() => import("~/components/common/Style"))
 const Mention = dynamic(() => import("~/components/ui/Mention"))
 const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
-const Tweet = dynamic(() => import("~/components/ui/Tweet"))
 const GithubRepo = dynamic(() => import("~/components/ui/GithubRepo"))
 const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 
@@ -121,9 +122,9 @@ export const renderPageContent = (
       .use(remarkGfm, {
         singleTilde: false,
       })
-      .use(remarkCallout)
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
+      .use(remarkCalloutDirectives)
       .use(remarkYoutube)
       .use(remarkMermaid)
       .use(remarkMath, {
@@ -228,7 +229,6 @@ export const renderPageContent = (
           mermaid: Mermaid,
           audio: APlayer,
           video: DPlayer,
-          tweet: Tweet,
           "github-repo": GithubRepo,
           style: Style,
         } as any,

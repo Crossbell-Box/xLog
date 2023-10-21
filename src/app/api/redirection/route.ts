@@ -5,7 +5,7 @@ import { gql } from "@urql/core"
 
 import { IS_DEV, IS_VERCEL_PREVIEW } from "~/lib/constants"
 import { getNoteSlug, getSiteLink } from "~/lib/helpers"
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
 import { checkDomainServer } from "~/models/site.model"
 import { client } from "~/queries/graphql"
 
@@ -93,6 +93,10 @@ export async function GET(req: Request): Promise<Response> {
   if (noteId) {
     note = await getOriginalNote(characterId, noteId)
     characterId = note.characterId
+  }
+
+  if (note?.metadata?.content?.tags?.[0] === "portfolio") {
+    return redirect(note.metadata?.content?.external_urls?.[0] || "/")
   }
 
   const result = await client

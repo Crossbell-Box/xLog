@@ -1,6 +1,6 @@
 import {
-  CSSProperties,
   createElement,
+  CSSProperties,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -27,19 +27,19 @@ import {
 import { languages } from "@codemirror/language-data"
 import { Annotation, EditorState } from "@codemirror/state"
 import {
-  EditorView,
-  KeyBinding,
-  ViewUpdate,
   crosshairCursor,
   drawSelection,
   dropCursor,
+  EditorView,
+  KeyBinding,
   keymap,
   placeholder,
+  ViewUpdate,
 } from "@codemirror/view"
 import { tags } from "@lezer/highlight"
 import { scroll } from "@uiw/codemirror-extensions-events"
 
-import { mentionAutocompletion } from "~/editor/mention-autocompletion"
+import { mentionAutocompletion } from "~/components/dashboard/toolbars/mention-autocompletion"
 import {
   codemirrorReconfigureExtension,
   monospaceFonts,

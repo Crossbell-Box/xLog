@@ -1,21 +1,31 @@
 import AsyncLock from "async-lock"
 
+import countCharacters from "~/lib/character-count"
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
 
 const lock = new AsyncLock()
 
 const getOriginalScore = async (cid: string) => {
   try {
-    let { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
+    let { content, tags } = await (
+      await fetch(toGateway(`ipfs://${cid}`))
+    ).json()
+
+    if (tags?.[0] === "portfolio" || tags?.[0] === "short") {
+      return {
+        number: 100,
+        reason: "Whitelist content",
+      }
+    }
 
     if (content?.length > 5000) {
       content = content.slice(0, 5000)
     }
 
-    if (content?.length > 200) {
+    if (countCharacters(content) > 300) {
       console.time(`fetching score ${cid}`)
 
       const prompt = `According to rule 1 not too short content, rule 2 good originality and innovation, and rule 3 good fun or logic, give this article a score in the range of 0-100 and explain the reason:
@@ -71,7 +81,7 @@ async function getScore(cid: string) {
     noUpdate: true,
     noExpire: true,
     getValueFun: async () => {
-      let resut
+      let result
       await lock.acquire(cid, async () => {
         const meta = await prisma.metadata.findFirst({
           where: {
@@ -80,7 +90,7 @@ async function getScore(cid: string) {
         })
         if (meta) {
           if (meta?.ai_score !== null) {
-            resut = {
+            result = {
               number: meta.ai_score,
               reason: meta.ai_score_reason,
             }
@@ -97,7 +107,7 @@ async function getScore(cid: string) {
                 },
               })
 
-              resut = score
+              result = score
             }
           }
         } else {
@@ -111,11 +121,11 @@ async function getScore(cid: string) {
               },
             })
 
-            resut = score
+            result = score
           }
         }
       })
-      return resut
+      return result
     },
   })
 

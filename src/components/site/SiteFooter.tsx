@@ -1,13 +1,14 @@
 import Script from "next/script"
 
 import { Logo } from "~/components/common/Logo"
-import { Platform } from "~/components/site/Platform"
 import { SITE_URL } from "~/lib/env"
-import { Trans, getTranslation } from "~/lib/i18n"
+import { getTranslation, Trans } from "~/lib/i18n"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
+import { LanguageSwitch } from "../common/LanguageSwitch"
 import { UniLink } from "../ui/UniLink"
+import ConnectedAccounts from "./ConnectedAccounts"
 
 export default async function SiteFooter({
   site,
@@ -31,7 +32,7 @@ export default async function SiteFooter({
   return (
     <>
       <footer className="text-zinc-500 border-t">
-        <div className="max-w-screen-lg mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5">
+        <div className="max-w-screen-lg mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5 sm:items-center">
           <div className="font-medium text-base">
             <span>&copy; </span>
             <UniLink href="/" className="hover:text-accent">
@@ -49,45 +50,13 @@ export default async function SiteFooter({
               ns="site"
             />
           </div>
-          {site?.metadata?.content?.connected_accounts && (
-            <div className="xlog-social-platforms sm:-mr-5 sm:block inline-block align-middle mr-4">
-              {site?.metadata?.content?.connected_accounts.map(
-                (
-                  account:
-                    | string
-                    | { uri: string }
-                    | { identity: string; platform: string }
-                    | any, // Otherwise type check will alarm
-                  index,
-                ) => {
-                  let match: RegExpMatchArray | null = null
-                  switch (typeof account) {
-                    case "string":
-                      match = account.match(/:\/\/account:(.*)@(.*)/)
-                      break
-                    case "object":
-                      if (account.uri) {
-                        match = account.uri.match(/:\/\/account:(.*)@(.*)/)
-                      } else if (account.identity && account.platform) {
-                        match = ["", account.identity, account.platform]
-                      }
-                      break
-                  }
-                  if (match) {
-                    return (
-                      <Platform
-                        key={account}
-                        platform={match[2]}
-                        username={match[1]}
-                        className="mr-2 sm:mr-5"
-                      ></Platform>
-                    )
-                  }
-                },
-              )}
-            </div>
-          )}
-          <DarkModeSwitch />
+          <ConnectedAccounts
+            connectedAccounts={site?.metadata?.content?.connected_accounts}
+          />
+          <div className="flex gap-x-2 items-center">
+            <LanguageSwitch />
+            <DarkModeSwitch />
+          </div>
         </div>
       </footer>
       {site?.metadata?.content?.ga && (

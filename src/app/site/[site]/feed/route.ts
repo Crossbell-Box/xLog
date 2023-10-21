@@ -18,7 +18,7 @@ export async function GET(
   const site = await getSite(params.site)
   const pages = await getPagesBySite({
     characterId: site?.characterId,
-    type: "post",
+    type: ["post", "portfolio"],
     visibility: PageVisibilityEnum.Published,
     keepBody: true,
     useHTML: true,
@@ -26,6 +26,14 @@ export async function GET(
 
   const hasAudio = pages.list?.find((page) => page.metadata?.content?.audio)
 
+  const email = site?.metadata?.content?.connected_accounts
+    ?.map((account) => {
+      const match = account.match(/:\/\/account:(.*)@email/)
+      if (match) {
+        return match[1]
+      }
+    })
+    .find((email) => email)
   const link = getSiteLink({
     subdomain: site?.handle || "",
     domain: site?.metadata?.content?.custom_domain,
@@ -40,13 +48,18 @@ export async function GET(
     ...(hasAudio && {
       _itunes: {
         image: site?.metadata?.content?.avatars?.[0],
-        author: site?.metadata?.content?.name,
+        author:
+          site?.metadata?.content?.site_name || site?.metadata?.content?.name,
         summary: site?.metadata?.content?.bio,
+        owner: {
+          email: email,
+          name: site?.metadata?.content?.name,
+        },
       },
     }),
     items: pages.list?.map((page) => ({
       id: page.characterId + "-" + page.noteId,
-      title: page.metadata?.content?.title,
+      title: page.metadata?.content?.title || "Untitled",
       summary: page.metadata?.content?.summary,
       content_html: page.metadata?.content?.contentHTML,
       url: `${SITE_URL}/api/redirection?characterId=${page.characterId}&noteId=${page.noteId}`,

@@ -27,7 +27,7 @@ export const PatronButton = ({
         variant="text"
         aria-label={"Patron"}
         key={t("Patron")}
-        className={cn(className, "-mx-2 text-red-400")}
+        className={cn(className, "-mx-3 sm:mx-0 text-red-400")}
         onClick={() => presentPatronModal(site)}
       >
         <span className="inline-flex items-center">

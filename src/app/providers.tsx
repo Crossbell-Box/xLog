@@ -1,5 +1,6 @@
 "use client"
 
+import { ThemeProvider } from "next-themes"
 import { useState } from "react"
 import { WagmiConfig } from "wagmi"
 
@@ -8,13 +9,15 @@ import {
   NotificationModal,
   NotificationModalColorScheme,
 } from "@crossbell/notification"
+import { createTheme } from "@mantine/core"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { ModalStackProvider } from "~/components/ui/ModalStack"
+import { useDarkModeListener } from "~/hooks/useDarkMode"
 // eslint-disable-next-line import/no-unresolved
-import { useDarkMode } from "~/hooks/useDarkMode"
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { useNProgress } from "~/hooks/useNProgress"
+import { DARK_MODE_STORAGE_KEY } from "~/lib/constants"
 import { APP_NAME, WALLET_CONNECT_V2_PROJECT_ID } from "~/lib/env"
 import { filterNotificationCharacter } from "~/lib/filter-character"
 import { toGateway } from "~/lib/ipfs-parser"
@@ -34,7 +37,23 @@ const colorScheme: NotificationModalColorScheme = {
   border: `var(--border-color)`,
 }
 
-const createQueryClient = () => new QueryClient()
+export const mantineTheme = createTheme({
+  fontFamily: "var(--font-fans)",
+})
+
+let mantineDefaultColorSchemeT = "auto"
+if (typeof localStorage !== "undefined") {
+  if (localStorage.getItem(DARK_MODE_STORAGE_KEY) === "light") {
+    mantineDefaultColorSchemeT = "light"
+  } else if (localStorage.getItem(DARK_MODE_STORAGE_KEY) === "dark") {
+    mantineDefaultColorSchemeT = "dark"
+  }
+}
+export const mantineDefaultColorScheme = mantineDefaultColorSchemeT as
+  | "auto"
+  | "light"
+  | "dark"
+
 export default function Providers({
   children,
   lang,
@@ -42,31 +61,37 @@ export default function Providers({
   children: React.ReactNode
   lang: string
 }) {
-  useDarkMode()
   useMobileLayout()
   useNProgress()
+  useDarkModeListener()
 
-  const [queryClient] = useState(createQueryClient)
+  const [queryClient] = useState(() => new QueryClient())
 
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider
-          ipfsLinkToHttpLink={toGateway}
-          urlComposer={urlComposer}
-          signInStrategy="simple"
-          ignoreWalletDisconnectEvent={true}
-        >
-          <LangProvider lang={lang}>
-            <ModalStackProvider>{children}</ModalStackProvider>
-          </LangProvider>
+    <ThemeProvider
+      disableTransitionOnChange
+      storageKey={DARK_MODE_STORAGE_KEY}
+      attribute="class"
+    >
+      <WagmiConfig config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <ConnectKitProvider
+            ipfsLinkToHttpLink={toGateway}
+            urlComposer={urlComposer}
+            signInStrategy="simple"
+            ignoreWalletDisconnectEvent={true}
+          >
+            <LangProvider lang={lang}>
+              <ModalStackProvider>{children}</ModalStackProvider>
+            </LangProvider>
 
-          <NotificationModal
-            colorScheme={colorScheme}
-            filter={filterNotificationCharacter}
-          />
-        </ConnectKitProvider>
-      </QueryClientProvider>
-    </WagmiConfig>
+            <NotificationModal
+              colorScheme={colorScheme}
+              filter={filterNotificationCharacter}
+            />
+          </ConnectKitProvider>
+        </QueryClientProvider>
+      </WagmiConfig>
+    </ThemeProvider>
   )
 }

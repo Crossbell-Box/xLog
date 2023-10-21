@@ -24,6 +24,17 @@ export const prefetchGetFeed = async (
   })
 }
 
+export const getPreviewShort = async () => {
+  return cacheGet({
+    key: "getPreviewShort",
+    getValueFun: () =>
+      homeModel.getFeed({
+        type: "shorts",
+        limit: 8,
+      }),
+  }) as Promise<ReturnType<typeof homeModel.getFeed>>
+}
+
 export const getShowcase = async () => {
   return cacheGet({
     key: "getShowcase",

@@ -1,10 +1,13 @@
 "use client"
 
-import React, { Fragment, forwardRef } from "react"
+import React, { forwardRef, Fragment } from "react"
 
 import { Dialog, Transition } from "@headlessui/react"
 
+import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
+
+import { Button } from "./Button"
 
 export interface ModalProps {
   open: boolean
@@ -17,6 +20,7 @@ export interface ModalProps {
   panelClassName?: string
   boxClassName?: string
   afterLeave?: () => void
+  withConfirm?: boolean
 }
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
@@ -32,9 +36,12 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       panelClassName,
       boxClassName,
       afterLeave,
+      withConfirm,
     },
     ref,
   ) => {
+    const { t } = useTranslation("common")
+
     return (
       <Transition appear show={open} as={Fragment} afterLeave={afterLeave}>
         <Dialog
@@ -102,6 +109,14 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                   </Dialog.Title>
                 )}
                 {children}
+                {withConfirm && (
+                  <Button
+                    className="mb-5 mx-auto"
+                    onClick={() => setOpen(false)}
+                  >
+                    {t("Confirm")}
+                  </Button>
+                )}
               </Dialog.Panel>
             </Transition.Child>
           </div>

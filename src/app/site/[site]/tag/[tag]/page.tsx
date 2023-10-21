@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import { SiteArchives } from "~/components/site/SiteArchives"
 import getQueryClient from "~/lib/query-client"
@@ -48,6 +48,7 @@ export default async function SiteTagPage({
       type: "post",
       visibility: PageVisibilityEnum.Published,
       limit: 100,
+      skipExpansion: true,
       tags: [params.tag],
     },
     queryClient,

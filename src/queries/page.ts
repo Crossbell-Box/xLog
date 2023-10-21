@@ -1,7 +1,6 @@
 "use client"
 
-import type { NoteEntity, NoteMetadata } from "crossbell"
-import { nanoid } from "nanoid"
+import type { NoteEntity } from "crossbell"
 
 import {
   useAccountState,
@@ -25,6 +24,9 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 
+import { editor2Crossbell } from "~/lib/editor-converter"
+import createSearchParams from "~/lib/search-params"
+import { EditorValues, NoteType } from "~/lib/types"
 import * as pageModel from "~/models/page.model"
 
 export const useGetPagesBySiteLite = (
@@ -36,10 +38,10 @@ export const useGetPagesBySiteLite = (
       const result: ReturnType<typeof pageModel.getPagesBySite> = await (
         await fetch(
           "/api/pages?" +
-            new URLSearchParams({
+            createSearchParams({
               ...input,
               ...(pageParam && { cursor: pageParam }),
-            } as any),
+            }),
         )
       ).json()
       return result
@@ -91,6 +93,7 @@ export const useGetPage = (
       noteId: input.noteId,
       useStat: input.useStat,
       handle: input.handle,
+      disableAutofill: input.disableAutofill,
     })
   })
 }
@@ -212,21 +215,12 @@ export function useCreatePage() {
   const { mutateAsync: _, ...postNote } = usePostNote()
 
   const mutate = useRefCallback(
-    (input: {
-      characterId?: number
-      slug?: string
-      tags?: string
-      title?: string
-      content?: string
-      publishedAt?: string
-      excerpt?: string
-      isPost?: boolean
-      cover?: {
-        address?: string
-        mime_type?: string
-      }
-      disableAISummary?: boolean
-    }) => {
+    (
+      input: {
+        characterId?: number
+        type?: NoteType
+      } & EditorValues,
+    ) => {
       if (!input.characterId) {
         throw new Error("characterId is required")
       }
@@ -234,47 +228,11 @@ export function useCreatePage() {
       return postNote.mutate(
         {
           characterId: input.characterId,
-          metadata: {
-            title: input.title,
-            content: input.content,
-            date_published: input.publishedAt || new Date().toISOString(),
-            summary: input.excerpt,
-            tags: [
-              input.isPost ? "post" : "page",
-              ...(input.tags
-                ?.split(",")
-                .map((tag) => tag.trim())
-                .filter((tag) => tag) || []),
-            ],
-            sources: ["xlog"],
-            attributes: [
-              {
-                trait_type: "xlog_slug",
-                value: input.slug || nanoid(),
-              },
-              ...(input.disableAISummary
-                ? [
-                    {
-                      trait_type: "xlog_disable_ai_summary",
-                      value: input.disableAISummary,
-                    },
-                  ]
-                : []),
-            ],
-            attachments: [
-              ...(input.cover?.address
-                ? [
-                    {
-                      name: "cover",
-                      address: input.cover.address,
-                      mime_type: input.cover.mime_type,
-                    },
-                  ]
-                : []),
-            ],
-          } as NoteMetadata & {
-            summary?: string
-          },
+          metadata: editor2Crossbell({
+            values: input,
+            autofill: true,
+            type: input.type || "post",
+          }).metadata.content,
         },
         {
           onSuccess: (data, variables) => {
@@ -297,22 +255,13 @@ export function useUpdatePage() {
   const { mutateAsync: _, ...updateNote } = useUpdateNote()
 
   const mutate = useRefCallback(
-    (input: {
-      noteId?: number
-      characterId?: number
-      slug?: string
-      tags?: string
-      title?: string
-      content?: string
-      publishedAt?: string
-      excerpt?: string
-      isPost?: boolean
-      cover?: {
-        address?: string
-        mime_type?: string
-      }
-      disableAISummary?: boolean
-    }) => {
+    (
+      input: {
+        noteId?: number
+        characterId?: number
+        type?: NoteType
+      } & EditorValues,
+    ) => {
       if (!input.characterId || !input.noteId) {
         throw new Error("characterId and noteId are required")
       }
@@ -341,8 +290,8 @@ export function useUpdatePage() {
             if (!metadataDraft.tags) {
               metadataDraft.tags = []
             }
-            if (input.isPost !== undefined) {
-              metadataDraft.tags[0] = input.isPost ? "post" : "page"
+            if (input.type !== undefined) {
+              metadataDraft.tags[0] = input.type
             }
             if (input.tags !== undefined) {
               metadataDraft.tags = [
@@ -405,6 +354,28 @@ export function useUpdatePage() {
                   mime_type: input.cover.mime_type,
                 })
               }
+            }
+
+            if (input.images?.length) {
+              if (!metadataDraft.attachments) {
+                metadataDraft.attachments = []
+              }
+              metadataDraft.attachments = metadataDraft.attachments
+                ?.filter((attr) => attr.name !== "image")
+                .concat(
+                  input.images?.map((image) => ({
+                    name: "image",
+                    address: image.address,
+                    mime_type: image.mime_type,
+                  })),
+                )
+            }
+
+            if (input.externalUrl) {
+              if (!metadataDraft.external_urls) {
+                metadataDraft.external_urls = []
+              }
+              metadataDraft.external_urls[0] = input.externalUrl
             }
           },
         },

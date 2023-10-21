@@ -13,16 +13,19 @@ import { Fragment, useMemo, useState } from "react"
 import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
+import PostCover from "~/components/home/PostCover"
 import { useDate } from "~/hooks/useDate"
+import { getSiteLink } from "~/lib/helpers"
 import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
-import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, NoteType, PageVisibilityEnum } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetPagesBySite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
+import { PlatformsSyncMap } from "../site/Platform"
 import { Button } from "../ui/Button"
 import { EmptyState } from "../ui/EmptyState"
 import { TabItem, Tabs } from "../ui/Tabs"
@@ -32,7 +35,7 @@ import { DashboardMain } from "./DashboardMain"
 import { PagesManagerBatchSelectActionTab } from "./PagesManagerBatchSelectActionTab"
 import { PagesManagerMenu } from "./PagesManagerMenu"
 
-export const PagesManager = ({ isPost }: { isPost: boolean }) => {
+export const PagesManager = ({ type }: { type: NoteType }) => {
   const params = useParams()
   const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
@@ -51,14 +54,16 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
 
   const { t, i18n } = useTranslation("dashboard")
   const { t: siteT } = useTranslation("site")
+  const { t: commonT } = useTranslation("common")
   const date = useDate()
 
   const pages = useGetPagesBySite({
-    type: isPost ? "post" : "page",
+    type,
     characterId: site.data?.characterId,
     limit: 20,
     visibility,
     handle: subdomain,
+    useStat: true,
   })
 
   // Batch selections
@@ -67,7 +72,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
   const tabItems: TabItem[] = [
     {
       value: PageVisibilityEnum.All,
-      text: `All ${isPost ? "Posts" : "Pages"}`,
+      text: `All ${type.charAt(0).toUpperCase() + type.slice(1)}s`,
     },
     {
       value: PageVisibilityEnum.Published,
@@ -99,7 +104,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
   const getPageEditLink = (page: ExpandedNote) => {
     return `/dashboard/${subdomain}/editor?id=${
       page.noteId || page.draftKey
-    }&type=${isPost ? "post" : "page"}`
+    }&type=${type}`
   }
 
   const queryClient = useQueryClient()
@@ -123,87 +128,181 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
             tags: file.tags?.join?.(", "),
             title: file.title,
           },
-          isPost: isPost,
+          type,
         })
         queryClient.invalidateQueries([
           "getPagesBySite",
           site.data?.characterId,
         ])
         router.push(
-          `/dashboard/${subdomain}/editor?id=!local-${id}&type=${
-            isPost ? "post" : "page"
-          }`,
+          `/dashboard/${subdomain}/editor?id=!local-${id}&type=${type}`,
         )
       }
     })
     input.click()
   }
 
-  const title = isPost ? "Posts" : "Pages"
-  const description = isPost ? (
-    <>
-      <p>
-        <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
-          Posts are entries listed in reverse chronological order on your site.
-          Think of them as articles or updates that you share to offer up new
-          content to your readers.{" "}
-          <UniLink className="underline" href={t("link post-vs-page") || ""}>
-            Post vs. Page
-          </UniLink>
-        </Trans>
-      </p>
-    </>
-  ) : (
-    <>
-      <p>
-        <Trans i18n={i18n} i18nKey="pages description" ns="dashboard">
-          Pages are static and are not affected by date. Think of them as more
-          permanent fixtures of your site — an About page, and a Contact page
-          are great examples of this.{" "}
-          <UniLink
-            className="underline"
-            href="https://wordpress.com/support/post-vs-page/"
-          >
-            Post vs. Page
-          </UniLink>
-        </Trans>
-      </p>
-      <p>
-        <Trans i18n={i18n} i18nKey="pages add" ns="dashboard">
-          After you create a page, you can{" "}
-          <UniLink
-            className="underline"
-            href={`/dashboard/${subdomain}/settings/navigation`}
-          >
-            add it to your site&apos;s navigation menu
-          </UniLink>{" "}
-          so your visitors can find it.
-        </Trans>
-      </p>
-    </>
-  )
+  let description = null
+  switch (type) {
+    case "post":
+      description = (
+        <>
+          <p>
+            <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
+              Posts are entries listed in reverse chronological order on your
+              site. Think of them as articles or updates that you share to offer
+              up new content to your readers.{" "}
+              <UniLink
+                className="underline"
+                href={t("link post-vs-page") || ""}
+              >
+                Post vs. Page
+              </UniLink>
+            </Trans>
+          </p>
+          <p>
+            <Trans i18n={i18n} i18nKey="posts add" ns="dashboard">
+              Visitors can view the posts you have posted at homepage.
+            </Trans>
+          </p>
+        </>
+      )
+      break
+    case "page":
+      description = (
+        <>
+          <p>
+            <Trans i18n={i18n} i18nKey="pages description" ns="dashboard">
+              Pages are static and are not affected by date. Think of them as
+              more permanent fixtures of your site — an About page, and a
+              Contact page are great examples of this.{" "}
+              <UniLink
+                className="underline"
+                href="https://wordpress.com/support/post-vs-page/"
+              >
+                Post vs. Page
+              </UniLink>
+            </Trans>
+          </p>
+          <p>
+            <Trans i18n={i18n} i18nKey="pages add" ns="dashboard">
+              Visitors can only access your page through its link, you can{" "}
+              <UniLink
+                className="underline"
+                href={`/dashboard/${subdomain}/settings/navigation`}
+              >
+                add it to navigation menu
+              </UniLink>{" "}
+              so your visitors can find it.
+            </Trans>
+          </p>
+        </>
+      )
+      break
+    case "portfolio":
+      description = (
+        <>
+          <p>
+            <Trans i18n={i18n} i18nKey="portfolios description" ns="dashboard">
+              The portfolio is a collection of works outside of xLog, such as
+              your YouTube videos and GitHub projects. They will be displayed in
+              the list on the homepage like posts. The difference is that the
+              portfolio directly links to external URLs.
+            </Trans>
+          </p>
+          <p>
+            <Trans i18n={i18n} i18nKey="portfolios add" ns="dashboard">
+              Visitors can view the portfolios you have posted at homepage and{" "}
+              <UniLink
+                className="underline"
+                href={`${getSiteLink({
+                  subdomain,
+                })}/portfolios`}
+              >
+                /portfolios
+              </UniLink>
+              , you can{" "}
+              <UniLink
+                className="underline"
+                href={`/dashboard/${subdomain}/settings/navigation`}
+              >
+                add it to navigation menu
+              </UniLink>{" "}
+              so your visitors can find it.
+            </Trans>
+          </p>
+        </>
+      )
+      break
+    case "short":
+      description = (
+        <>
+          <p>
+            <Trans i18n={i18n} i18nKey="shots description" ns="dashboard">
+              Shorts is a dedicated section for displaying pictures and short
+              texts. The content primarily consists of pictures, with the
+              accompanying text limited to 1000 characters or less. They will
+              not be displayed on the homepage, but on a separate page{" "}
+              <UniLink
+                className="underline"
+                href={`${getSiteLink({
+                  subdomain,
+                })}/shorts`}
+              >
+                /shorts
+              </UniLink>
+              .
+            </Trans>
+          </p>
+          <p>
+            <Trans i18n={i18n} i18nKey="shots add" ns="dashboard">
+              Visitors can view the shots you have posted at{" "}
+              <UniLink
+                className="underline"
+                href={`${getSiteLink({
+                  subdomain,
+                })}/shorts`}
+              >
+                /shorts
+              </UniLink>
+              , you can{" "}
+              <UniLink
+                className="underline"
+                href={`/dashboard/${subdomain}/settings/navigation`}
+              >
+                add it to navigation menu
+              </UniLink>{" "}
+              so your visitors can find it.
+            </Trans>
+          </p>
+        </>
+      )
+      break
+  }
 
   let currentLength = 0
 
   return (
     <DashboardMain className="max-w-screen-lg">
-      <header className="mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">{t(title)}</h2>
-          <div className="flex justify-center items-center space-x-4">
-            <Button
-              className={cn(`space-x-2 inline-flex`)}
-              onClick={() =>
-                router.push(
-                  `/dashboard/${subdomain}/editor?type=${
-                    isPost ? "post" : "page"
-                  }`,
-                )
-              }
-            >
-              <span className="icon-[mingcute--add-line] inline-block"></span>
-              <span>{t(`New ${isPost ? "Post" : "Page"}`)}</span>
-            </Button>
+      <header className="mb-4 space-y-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">
+            {t(`${type.charAt(0).toUpperCase() + type.slice(1)}s`)}
+          </h2>
+        </div>
+        <div className="space-x-4">
+          <Button
+            className={cn(`space-x-2 inline-flex`)}
+            onClick={() =>
+              router.push(`/dashboard/${subdomain}/editor?type=${type}`)
+            }
+          >
+            <span className="icon-[mingcute--add-line] inline-block"></span>
+            <span>
+              {commonT(`New ${type.charAt(0).toUpperCase() + type.slice(1)}`)}
+            </span>
+          </Button>
+          {(type === "post" || type === "page") && (
             <span className="hidden sm:inline-flex">
               <Tooltip
                 label={t("Import markdown file with front matter supported")}
@@ -215,16 +314,16 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
                 </Button>
               </Tooltip>
             </span>
-          </div>
+          )}
         </div>
-        <div className="text-sm text-zinc-500 leading-relaxed">
+        <div className="text-sm text-zinc-500 leading-relaxed space-y-1">
           {description}
         </div>
       </header>
 
       {batchSelected.length > 0 ? (
         <PagesManagerBatchSelectActionTab
-          isPost={isPost}
+          type={type}
           pages={pages.data}
           batchSelected={batchSelected}
           setBatchSelected={setBatchSelected}
@@ -234,22 +333,121 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
       )}
 
       <div className="-mt-3">
-        {pages.isLoading && <p className="py-3 px-3">{t("Loading")}...</p>}
+        {pages.isLoading && <p className="py-4 px-3">{t("Loading")}...</p>}
         {!pages.isLoading && !pages.data?.pages?.[0].count && (
-          <EmptyState resource={isPost ? "posts" : "pages"} />
+          <EmptyState resource={type} />
         )}
 
         {pages.data?.pages.map(
           (page) =>
             page.list?.map((page) => {
               currentLength++
+              const isPortfolio =
+                page.metadata?.content?.tags?.[0] === "portfolio"
+              const externalLink = page.metadata?.content?.external_urls?.[0]
+              const platform = Object.values(PlatformsSyncMap).find(
+                (p) =>
+                  p.portfolioDomain &&
+                  externalLink?.startsWith(p.portfolioDomain),
+              )
+
               return (
                 <Link
                   key={page.transactionHash || page.draftKey}
                   href={getPageEditLink(page)}
-                  className="group relative hover:bg-zinc-100 rounded-lg py-3 px-3 transition-colors -mx-3 flex"
+                  className="group relative hover:bg-zinc-100 rounded-lg py-4 px-3 transition-colors -mx-3 flex space-x-4"
                 >
-                  <div className="w-10 flex-shrink-0 flex self-center">
+                  <PostCover
+                    uniqueKey={`${page.characterId}-${page.noteId}`}
+                    images={page.metadata?.content.images}
+                    title={page.metadata?.content?.title}
+                    className="rounded-lg w-48"
+                  />
+                  <div className="min-w-0 flex-1 flex flex-col justify-between">
+                    <div className="xlog-post-title font-bold text-base text-zinc-700">
+                      <span>{page.metadata?.content?.title}</span>
+                    </div>
+                    <div
+                      className="xlog-post-excerpt text-zinc-500 line-clamp-1 text-sm"
+                      style={{
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {page.metadata?.content?.summary}
+                      {page.metadata?.content?.summary && "..."}
+                    </div>
+                    <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate">
+                      {isPortfolio ? (
+                        <>
+                          <Tooltip
+                            label={`${platform?.name || platform}`}
+                            className="text-sm"
+                          >
+                            <span className="inline-flex items-center space-x-[6px]">
+                              {platform?.icon && (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={platform?.icon}
+                                  alt={platform?.name}
+                                  width={16}
+                                  height={16}
+                                />
+                              )}
+                              <span>{t("Portfolio")}</span>
+                            </span>
+                          </Tooltip>
+                        </>
+                      ) : (
+                        <>
+                          {!!page.metadata?.content?.tags?.[1] && (
+                            <span className="xlog-post-tags border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2">
+                              <i className="icon-[mingcute--tag-line] mr-[2px]" />
+                              {page.metadata?.content?.tags?.[1]}
+                            </span>
+                          )}
+                          <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
+                            <i className="icon-[mingcute--time-line] mr-[2px]" />
+                            <span
+                              style={{
+                                wordSpacing: "-.2ch",
+                              }}
+                            >
+                              {page.metadata?.content?.readingTime} {t("min")}
+                            </span>
+                          </span>
+                          {!!page.stat?.viewDetailCount && (
+                            <span className="xlog-post-views inline-flex items-center">
+                              <i className="icon-[mingcute--eye-line] mr-[2px]" />
+                              <span>{page.stat?.viewDetailCount}</span>
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </div>
+                    <div className="text-zinc-400 text-sm">
+                      <span className="capitalize">
+                        {t(getPageVisibility(page))}
+                      </span>
+                      <span className="mx-2">·</span>
+                      <span>
+                        {getPageVisibility(page) === PageVisibilityEnum.Draft
+                          ? date.formatDate(page.updatedAt)
+                          : date.formatDate(
+                              page.metadata?.content?.date_published || "",
+                            )}
+                      </span>
+                      {pinnedPage.noteId === page.noteId && (
+                        <>
+                          <span className="mx-2">·</span>
+                          <span>
+                            <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
+                            {siteT("Pinned")}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex-shrink-0 flex self-center">
                     <button
                       className={cn(
                         `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
@@ -288,46 +486,11 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
                           batchSelected.includes(
                             page.noteId || page.draftKey || 0,
                           )
-                            ? "icon-[mingcute--check-line]"
-                            : isPost
-                            ? "icon-[mingcute--news-line]"
-                            : "icon-[mingcute--file-line]"
-                        } text-2xl`}
+                            ? "icon-[mingcute--check-fill]"
+                            : "icon-[mingcute--add-line]"
+                        } text-lg`}
                       />
                     </button>
-                  </div>
-                  <div className="min-w-0">
-                    {page.metadata?.content?.title ? (
-                      <div className="flex items-center">
-                        <span>{page.metadata?.content?.title}</span>
-                      </div>
-                    ) : (
-                      <div className="text-zinc-500 text-xs mt-1 truncate">
-                        <span>{page.metadata?.content?.summary}</span>
-                      </div>
-                    )}
-                    <div className="text-zinc-400 text-xs mt-1">
-                      <span className="capitalize">
-                        {t(getPageVisibility(page))}
-                      </span>
-                      <span className="mx-2">·</span>
-                      <span>
-                        {getPageVisibility(page) === PageVisibilityEnum.Draft
-                          ? date.formatDate(page.updatedAt)
-                          : date.formatDate(
-                              page.metadata?.content?.date_published || "",
-                            )}
-                      </span>
-                      {pinnedPage.noteId === page.noteId && (
-                        <>
-                          <span className="mx-2">·</span>
-                          <span>
-                            <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
-                            {siteT("Pinned")}
-                          </span>
-                        </>
-                      )}
-                    </div>
                   </div>
                   <div className="w-10 flex-shrink-0 flex self-center ml-auto">
                     <Menu>
@@ -348,7 +511,7 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
                           </Menu.Button>
 
                           <PagesManagerMenu
-                            isPost={isPost}
+                            type={type}
                             page={page}
                             onClick={close}
                           />
@@ -370,12 +533,10 @@ export const PagesManager = ({ isPost }: { isPost: boolean }) => {
           >
             {siteT("load more", {
               name: t(
-                isPost
-                  ? "post"
-                  : "page" +
-                      ((pages.data?.pages?.[0].count || 0) - currentLength > 1
-                        ? "s"
-                        : ""),
+                type +
+                  ((pages.data?.pages?.[0].count || 0) - currentLength > 1
+                    ? "s"
+                    : ""),
               ),
               count: (pages.data?.pages?.[0].count || 0) - currentLength,
             })}

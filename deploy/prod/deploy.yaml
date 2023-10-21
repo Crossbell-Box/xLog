@@ -5,7 +5,7 @@ metadata:
   namespace: crossbell
 spec:
   progressDeadlineSeconds: 600
-  replicas: 8
+  replicas: 10
   revisionHistoryLimit: 5
   selector:
     matchLabels:
@@ -25,8 +25,6 @@ spec:
         prometheus.io/scrape: "true"
     spec:
       enableServiceLinks: false
-      nodeSelector:
-        rss3.io/usage: csb-others
       tolerations:
         - key: "rss3.io/usage"
           operator: "Equal"
@@ -53,16 +51,13 @@ spec:
               protocol: TCP
           resources:
             requests:
-              memory: "1500Mi"
-              cpu: "200m"
+              memory: "3500Mi"
+              cpu: "300m"
             limits:
-              memory: "10000Mi"
+              memory: "5000Mi"
               cpu: "2000m"
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
-          volumeMounts:
-            - name: xlog-image
-              mountPath: /app/.next/cache/images
           readinessProbe:
             httpGet:
               path: /api/healthcheck
@@ -74,10 +69,43 @@ spec:
               port: 3000
             initialDelaySeconds: 40
             periodSeconds: 20
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xlog-caddy
+  namespace: crossbell
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: xlog-caddy
+  template:
+    metadata:
+      labels:
+        app: xlog-caddy
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+    spec:
+      containers:
         - name: caddy
           image: kindjeff/caddy-tlsredis-docker
           imagePullPolicy: Always
           command: ["caddy", "run", "-config", "/app/Caddyfile"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           envFrom:
             - secretRef:
                 name: xlog-caddy
@@ -93,6 +121,13 @@ spec:
           image: python
           command: ["/bin/sh", "-c"]
           args: ["pip install flask requests; flask --app=app run"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           ports:
             - containerPort: 5000
               name: http
@@ -100,11 +135,6 @@ spec:
             - name: validator
               mountPath: /app.py
               subPath: app.py
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
       volumes:
         - name: caddyfile
           configMap:
@@ -112,6 +142,3 @@ spec:
         - name: validator
           configMap:
             name: xlog-caddy-validator
-        - name: xlog-image
-          persistentVolumeClaim:
-            claimName: xlog-image # OSS PVC created manually in the ACK console

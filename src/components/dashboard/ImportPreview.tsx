@@ -3,6 +3,7 @@ import dynamic from "next/dynamic"
 import { useState } from "react"
 
 import { useDate } from "~/hooks/useDate"
+import { RESERVED_TAGS } from "~/lib/constants"
 import { useTranslation } from "~/lib/i18n/client"
 
 const DynamicPageContent = dynamic(() => import("../common/PageContent"), {
@@ -26,11 +27,10 @@ export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
         >
           {date.formatDate(note.date_published!, undefined)}
         </time>
-        {!!note.tags?.filter((tag) => tag !== "post" && tag !== "page")
-          .length && (
+        {!!note.tags?.filter((tag) => !RESERVED_TAGS.includes(tag)).length && (
           <span className="xlog-post-tags space-x-1 truncate min-w-0">
             {note.tags
-              ?.filter((tag) => tag !== "post" && tag !== "page")
+              ?.filter((tag) => !RESERVED_TAGS.includes(tag))
               .map((tag) => (
                 <span className="hover:text-zinc-600" key={tag}>
                   #{tag}

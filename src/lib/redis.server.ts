@@ -1,6 +1,6 @@
 import Redis from "ioredis"
 
-import { REDIS_EXPIRE, REDIS_URL } from "~/lib/env.server"
+import { REDIS_EXPIRE, REDIS_REFRESH, REDIS_URL } from "~/lib/env.server"
 
 if (!REDIS_URL) {
   console.error("REDIS_URL not set")
@@ -49,22 +49,34 @@ export async function cacheGet(options: {
     } else {
       redisKey = options.key
     }
-    const cacheValue = await redis.get(redisKey)
+    let cacheValue
+    try {
+      cacheValue = await redis.get(redisKey)
+    } catch (error) {
+      console.error("Redis get error: ", error)
+    }
     if (cacheValue && cacheValue !== "undefined" && cacheValue !== "null") {
       if (!options.noUpdate) {
-        options.getValueFun().then((value) => {
-          if (value) {
-            redis.set(
-              redisKey,
-              JSON.stringify(value),
-              "EX",
-              options.expireTime || REDIS_EXPIRE,
-            )
-          }
-        })
+        setTimeout(() => {
+          options.getValueFun().then((value) => {
+            if (value) {
+              redis.set(
+                redisKey,
+                JSON.stringify(value),
+                "EX",
+                options.expireTime || REDIS_EXPIRE,
+              )
+            }
+          })
+        }, Math.random() * REDIS_REFRESH)
       }
-      return JSON.parse(cacheValue)
+      try {
+        return JSON.parse(cacheValue)
+      } catch (error) {
+        return cacheValue
+      }
     } else {
+      console.debug("cache miss", redisKey)
       if (options.allowEmpty) {
         options.getValueFun().then((value) => {
           if (value) {

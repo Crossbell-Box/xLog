@@ -163,7 +163,7 @@ export const AchievementModal = ({
             color="var(--theme-color)"
             size="sm"
             iconSize={42}
-            styles={(theme) => ({
+            styles={{
               stepLabel: {
                 color: "#fff",
                 textTransform: "capitalize",
@@ -185,7 +185,7 @@ export const AchievementModal = ({
               stepIcon: {
                 border: "none",
               },
-            })}
+            }}
           >
             {group.items.map((item) => {
               const icon = (

@@ -5,7 +5,7 @@ import removeMarkdown from "remove-markdown"
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import readingTime from "~/lib/reading-time"
-import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
+import { ExpandedCharacter, ExpandedNote, PortfolioStats } from "~/lib/types"
 
 import { getNoteSlug } from "./helpers"
 
@@ -15,12 +15,20 @@ export const expandCrossbellNote = async ({
   useScore,
   keyword,
   useHTML,
+  disableAutofill,
 }: {
-  note: NoteEntity
+  note: NoteEntity & {
+    metadata?: {
+      content?: {
+        summary?: string
+      } | null
+    } | null
+  }
   useStat?: boolean
   useScore?: boolean
   keyword?: string
   useHTML?: boolean
+  disableAutofill?: boolean
 }) => {
   const expandedNote: ExpandedNote = Object.assign(
     {
@@ -32,12 +40,10 @@ export const expandCrossbellNote = async ({
   )
 
   if (expandedNote.metadata?.content) {
+    let rendered
     if (expandedNote.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
-      const rendered = renderPageContent(
-        expandedNote.metadata.content.content,
-        true,
-      )
+      rendered = renderPageContent(expandedNote.metadata.content.content, true)
       if (keyword) {
         const position = expandedNote.metadata.content.content
           .toLowerCase()
@@ -47,27 +53,10 @@ export const expandCrossbellNote = async ({
           position + 100,
         )}`
       } else {
-        if (!expandedNote.metadata.content.summary) {
+        if (!expandedNote.metadata.content.summary && !disableAutofill) {
           expandedNote.metadata.content.summary = rendered.excerpt
         }
       }
-      expandedNote.metadata.content.cover =
-        expandedNote.metadata?.content?.attachments?.find(
-          (attachment) => attachment.name === "cover",
-        )?.address || rendered.cover
-
-      expandedNote.metadata.content.images = []
-      const cover = expandedNote.metadata?.content?.attachments?.find(
-        (attachment) => attachment.name === "cover",
-      )?.address
-      if (cover) {
-        expandedNote.metadata.content.images.push(cover)
-      }
-      expandedNote.metadata.content.images =
-        expandedNote.metadata.content.images.concat(rendered.images)
-      expandedNote.metadata.content.images = [
-        ...new Set(expandedNote.metadata.content.images),
-      ]
 
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter
@@ -76,8 +65,44 @@ export const expandCrossbellNote = async ({
         expandedNote.metadata.content.contentHTML = rendered.contentHTML
       }
     }
-    expandedNote.metadata.content.slug = getNoteSlug(expandedNote)
-    if (!expandedNote.metadata.content.date_published && expandedNote.noteId) {
+    expandedNote.metadata.content.cover =
+      expandedNote.metadata?.content?.attachments?.find(
+        (attachment) => attachment.name === "cover",
+      )?.address || (disableAutofill ? "" : rendered?.cover)
+
+    expandedNote.metadata.content.images = []
+
+    const cover = expandedNote.metadata?.content?.attachments?.find(
+      (attachment) => attachment.name === "cover",
+    )?.address
+    if (cover) {
+      expandedNote.metadata.content.images.push(cover)
+    }
+
+    const attachmentsImages = expandedNote.metadata?.content?.attachments
+      ?.filter(
+        (attachment) => attachment.name === "image" && attachment.address,
+      )
+      .map((attachment) => attachment.address!)
+    expandedNote.metadata.content.images =
+      expandedNote.metadata.content.images.concat(attachmentsImages || [])
+
+    expandedNote.metadata.content.images =
+      expandedNote.metadata.content.images.concat(rendered?.images || [])
+
+    expandedNote.metadata.content.images = [
+      ...new Set(expandedNote.metadata.content.images),
+    ]
+
+    expandedNote.metadata.content.slug = getNoteSlug(
+      expandedNote,
+      disableAutofill,
+    )
+    if (
+      !expandedNote.metadata.content.date_published &&
+      expandedNote.noteId &&
+      !disableAutofill
+    ) {
       expandedNote.metadata.content.date_published = expandedNote.createdAt
     }
 
@@ -95,13 +120,31 @@ export const expandCrossbellNote = async ({
       : 0
 
     if (useStat) {
-      if (!expandedNote.stat) {
+      if (expandedNote.metadata?.content?.tags?.[0] === "portfolio") {
+        const stat = (await (
+          await fetch(
+            `${SITE_URL}/api/portfolio-stats?url=${encodeURIComponent(
+              expandedNote.metadata?.content?.external_urls?.[0] || "",
+            )}`,
+          )
+        ).json()) as PortfolioStats
+        expandedNote.stat = {
+          portfolio: stat,
+        }
+      } else if (!expandedNote.stat) {
         const stat = await (
           await fetch(
             `https://indexer.crossbell.io/v1/stat/notes/${expandedNote.characterId}/${expandedNote.noteId}`,
           )
         ).json()
         expandedNote.stat = stat
+      }
+      if ((expandedNote as any)._count) {
+        if (!expandedNote.stat) {
+          expandedNote.stat = {}
+        }
+        expandedNote.stat.commentsCount = (expandedNote as any)._count.fromNotes
+        expandedNote.stat.likesCount = (expandedNote as any)._count.links
       }
     }
 

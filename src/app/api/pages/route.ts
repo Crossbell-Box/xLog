@@ -1,5 +1,5 @@
-import { NextServerResponse, getQuery } from "~/lib/server-helper"
-import { PageVisibilityEnum } from "~/lib/types"
+import { getQuery, NextServerResponse } from "~/lib/server-helper"
+import { PagesSortTypes, PageVisibilityEnum } from "~/lib/types"
 import { getPagesBySite } from "~/models/page.model"
 
 export async function GET(req: Request) {
@@ -7,11 +7,13 @@ export async function GET(req: Request) {
 
   const result = await getPagesBySite({
     characterId: +(query.characterId || 0) as number,
-    type: query.type as "post" | "page",
+    type: query.type,
     visibility: query.visibility as PageVisibilityEnum,
     limit: query.limit ? parseInt(query.limit as string) : undefined,
     cursor: query.cursor as string,
     useStat: true,
+    skipExpansion: query.skipExpansion === "true",
+    sortType: query.sortType as PagesSortTypes,
     ...(query.tags && {
       tags: Array.isArray(query.tags)
         ? (query.tags as string[])

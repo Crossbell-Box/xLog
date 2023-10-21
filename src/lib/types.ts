@@ -27,6 +27,8 @@ export enum PageVisibilityEnum {
   Modified = "published and local modified",
 }
 
+export type PagesSortTypes = "latest" | "hottest" | "commented"
+
 export type PostOnSiteHome = {
   id: string
   title: string
@@ -72,6 +74,14 @@ export type SiteNavigationItem = {
   url: string
 }
 
+export type PortfolioStats = {
+  videoViewsCount?: number
+  audoListensCount?: number
+  projectStarsCount?: number
+  textViewsCount?: number
+  commentsCount?: number
+}
+
 export type ExpandedNote = NoteEntity & {
   draftKey?: string
   metadata: {
@@ -92,8 +102,11 @@ export type ExpandedNote = NoteEntity & {
     }
   }
   stat?: {
-    viewDetailCount: number
+    viewDetailCount?: number
     hotScore?: number
+    portfolio?: PortfolioStats
+    commentsCount?: number
+    likesCount?: number
   }
   local?: boolean
 }
@@ -113,3 +126,25 @@ export type ExpandedCharacter = CharacterEntity & {
 }
 
 export type ColorScheme = "dark" | "light"
+
+export type NoteType = "post" | "page" | "portfolio" | "short"
+
+export type EditorValues = {
+  title?: string
+  publishedAt?: string
+  published?: boolean
+  excerpt?: string
+  slug?: string
+  tags?: string
+  content?: string
+  cover?: {
+    address?: string
+    mime_type?: string
+  }
+  disableAISummary?: boolean
+  externalUrl?: string
+  images?: {
+    address?: string
+    mime_type?: string
+  }[]
+}

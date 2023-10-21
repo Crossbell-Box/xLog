@@ -16,29 +16,29 @@ export const HomeActivitiesTabs = () => {
 
   const tabs = [
     {
-      text: "Latest",
+      text: "Featured",
       href: "/",
-      active: pathname === "/",
+    },
+    {
+      text: "Shorts",
+      href: "/shorts",
+    },
+    {
+      text: "Latest",
+      href: "/latest",
     },
     {
       text: "Hottest",
       href: "/hottest",
-      active: pathname === "/hottest",
     },
     {
       text: "Following",
       onClick: useConnectedAction(() => router.push(`/following`)),
       active: pathname === "/following",
     },
-    {
-      text: "Comments",
-      href: "/comments",
-      active: pathname === "/comments",
-    },
     ...topics.map((topic) => ({
       text: t(topic.name),
       href: `/topic/${encodeURIComponent(topic.name)}`,
-      active: pathname === `/topic/${encodeURIComponent(topic.name)}`,
     })),
   ]
 

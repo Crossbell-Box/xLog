@@ -1,4 +1,4 @@
-import { type MutableRefObject, memo } from "react"
+import { memo, type MutableRefObject } from "react"
 
 import PostActions from "~/components/site/PostActions"
 import PostToc from "~/components/site/PostToc"
@@ -20,6 +20,7 @@ const PageContent = memo(function PageContent({
   page,
   site,
   withActions,
+  onlyContent,
 }: {
   content?: string
   className?: string
@@ -32,6 +33,7 @@ const PageContent = memo(function PageContent({
   page?: ExpandedNote
   site?: ExpandedCharacter
   withActions?: boolean
+  onlyContent?: boolean
 }) {
   let inParsedContent
   if (parsedContent) {
@@ -48,15 +50,13 @@ const PageContent = memo(function PageContent({
       onMouseEnter={onMouseEnter}
     >
       <>
-        <div
-          className="xlog-post-content prose"
-          ref={inputRef}
-          suppressHydrationWarning
-        >
+        <div className="xlog-post-content prose" ref={inputRef}>
           {inParsedContent?.element}
         </div>
-        {toc && inParsedContent?.toc && <PostToc data={inParsedContent?.toc} />}
-        {withActions && <PostActions page={page} site={site} />}
+        {!onlyContent && toc && inParsedContent?.toc && (
+          <PostToc data={inParsedContent?.toc} />
+        )}
+        {!onlyContent && withActions && <PostActions page={page} site={site} />}
       </>
     </PageContentContainer>
   )

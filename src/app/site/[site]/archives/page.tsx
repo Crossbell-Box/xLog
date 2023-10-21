@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import { SiteArchives } from "~/components/site/SiteArchives"
 import getQueryClient from "~/lib/query-client"
@@ -39,9 +39,10 @@ export default async function SiteArchivesPage({
   await prefetchGetPagesBySite(
     {
       characterId: site?.characterId,
-      type: "post",
+      type: ["post", "portfolio"],
       visibility: PageVisibilityEnum.Published,
       limit: 100,
+      skipExpansion: true,
     },
     queryClient,
   )

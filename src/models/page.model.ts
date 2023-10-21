@@ -6,18 +6,26 @@ import type {
   NoteEntity,
   NoteMetadata,
 } from "crossbell"
-import type { Address } from "viem"
+import { type Address } from "viem"
 
 import { GeneralAccount } from "@crossbell/connect-kit"
 import { indexer } from "@crossbell/indexer"
 import { extractCharacterAttribute } from "@crossbell/util-metadata"
 import { gql } from "@urql/core"
 
+import { RESERVED_TAGS } from "~/lib/constants"
+import { editor2Crossbell } from "~/lib/editor-converter"
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { filterCommentCharacter } from "~/lib/filter-character"
+import { getNoteSlug } from "~/lib/helpers"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
-import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
+import {
+  ExpandedNote,
+  NoteType,
+  PagesSortTypes,
+  PageVisibilityEnum,
+} from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 export const PINNED_PAGE_KEY = "xlog_pinned_page"
@@ -62,79 +70,52 @@ export async function postNotes(
   })
 }
 
-const getLocalPages = (input: {
+const getLocalPages = async (input: {
   characterId: number
-  isPost?: boolean
+  isPost?: boolean // In order to be compatible with old drafts
+  type?: NoteType[]
   handle?: string
 }) => {
-  const pages: ExpandedNote[] = []
-  getKeys([`draft-${input.characterId}-`, `draft-${input.handle}-`]).forEach(
-    (key) => {
-      const page = getStorage(key)
-      if (input.isPost === undefined || page.isPost === input.isPost) {
-        const note: ExpandedNote = {
-          characterId: input.characterId,
-          noteId: 0,
-          draftKey: key
-            .replace(`draft-${input.characterId}-`, "")
-            .replace(`draft-${input.handle}-${input.characterId}-`, ""), // In order to be compatible with old drafts
-          linkItemType: null,
-          linkKey: "",
-          toCharacterId: null,
-          toAddress: null,
-          toNoteId: null,
-          toHeadCharacterId: null,
-          toHeadNoteId: null,
-          toContractAddress: null,
-          toTokenId: null,
-          toLinklistId: null,
-          toUri: null,
-          deleted: false,
-          locked: false,
-          contractAddress: null,
-          uri: null,
-          operator: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
-          owner: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
-          createdAt: new Date(page.date).toISOString(),
-          publishedAt: new Date(page.date).toISOString(),
-          updatedAt: new Date(page.date).toISOString(),
-          deletedAt: null,
-          transactionHash: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
-          blockNumber: 0,
-          logIndex: 0,
-          updatedTransactionHash: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
-          updatedBlockNumber: 0,
-          updatedLogIndex: 0,
-          metadata: {
-            content: {
-              title: page.values?.title,
-              content: page.values?.content,
-              date_published: page.values?.publishedAt,
-              summary: page.values?.excerpt,
-              tags: [
-                page.isPost ? "post" : "page",
-                ...(page.values?.tags
-                  ?.split(",")
-                  .map((tag: string) => tag.trim())
-                  .filter((tag: string) => tag) || []),
-              ],
-              slug: page.values?.slug,
-              sources: ["xlog"],
-              disableAISummary: page.values?.disableAISummary,
-            },
-          },
-          local: true,
-        }
-        pages.push(note)
-      }
-    },
-  )
-  return pages
+  return (
+    await Promise.all(
+      getKeys([`draft-${input.characterId}-`, `draft-${input.handle}-`]).map(
+        async (key) => {
+          const page = getStorage(key)
+          if (
+            page.isPost === input.isPost ||
+            input.type?.includes(page.type) ||
+            input.type === undefined
+          ) {
+            const note: ExpandedNote = Object.assign(
+              await expandCrossbellNote({
+                note: editor2Crossbell({
+                  values: page.values,
+                  type: page.type,
+                }),
+                disableAutofill: true,
+              }),
+              {
+                draftKey: key
+                  .replace(`draft-${input.characterId}-`, "")
+                  .replace(`draft-${input.handle}-${input.characterId}-`, ""), // In order to be compatible with old drafts
+                local: true,
+                characterId: input.characterId,
+                createdAt: new Date(page.date).toISOString(),
+                publishedAt: new Date(page.date).toISOString(),
+                updatedAt: new Date(page.date).toISOString(),
+              },
+            )
+            return note
+          }
+        },
+      ),
+    )
+  ).filter((item): item is ExpandedNote => !!item)
 }
 
 export async function getPagesBySite(input: {
   characterId?: number
-  type: "post" | "page"
+  type: NoteType | NoteType[]
   visibility?: PageVisibilityEnum
   limit?: number
   cursor?: string
@@ -143,6 +124,8 @@ export async function getPagesBySite(input: {
   useHTML?: boolean
   keepBody?: boolean
   handle?: string // In order to be compatible with old drafts
+  skipExpansion?: boolean
+  sortType?: PagesSortTypes
 }) {
   if (!input.characterId) {
     return {
@@ -154,57 +137,196 @@ export async function getPagesBySite(input: {
 
   const visibility = input.visibility || PageVisibilityEnum.All
 
-  const expandedNotes = await (async (): Promise<{
-    list: ExpandedNote[]
-    pinnedNoteId?: number
-    count: number
-    cursor: string | null
-  }> => {
-    const [pinnedNote, notes] = await Promise.all([
-      !input.cursor ? getPinnedPage(input) : null,
+  let pinnedNote: NoteEntity | null = null
+  let pinnedNoteId: number | null = null
+  if (input.type === "post" || input.type.includes("post")) {
+    if (!input.cursor) {
+      pinnedNote = await getPinnedPage(input)
+      pinnedNoteId = pinnedNote?.noteId || null
+    } else {
+      pinnedNoteId = await getPinnedPageId(input)
+    }
+  }
 
-      await indexer.note.getMany({
+  const cursorQuery = input.cursor
+    ? `
+    cursor: {
+      note_characterId_noteId_unique: {
+        characterId: ${input.cursor.split("_")[0]},
+        noteId: ${input.cursor.split("_")[1]}
+      },
+    },
+  `
+    : ""
+
+  if (typeof input.type === "string") {
+    input.type = [input.type]
+  }
+  const typesQuery = input.type
+    ?.map(
+      (tag) => `{
+      content: {
+        path: "tags",
+        array_contains: ["${tag}"]
+      }
+    }`,
+    )
+    .join(", ")
+  const whereQuery = `
+    {
+      characterId: {
+        equals: $characterId
+      },
+      noteId: {
+        not: {
+          equals: $filter
+        }
+      },
+      deleted: {
+        equals: false,
+      },
+      metadata: {
+        AND: [
+          {
+            content: {
+              path: "sources",
+              array_contains: "xlog"
+            },
+          },
+          ${
+            input.tags
+              ? `
+          {
+            content: {
+              path: "tags",
+              array_contains: ${JSON.stringify(input.tags)}
+            }
+          },
+          `
+              : ""
+          }
+          {
+            OR: [
+              ${typesQuery}
+            ]
+          }
+        ],
+      },
+    }
+  `
+  const limit = (input.limit || 12) - (pinnedNote ? 1 : 0)
+
+  let orderBy
+  switch (input.sortType) {
+    case "hottest":
+      orderBy = `{
+        stat: {
+          viewDetailCount:desc
+        }
+      }`
+      break
+    case "commented":
+      orderBy = `{
+        fromNotes: {
+          _count: desc
+        }
+      }`
+      break
+    default:
+      orderBy = `{
+        publishedAt: {
+          sort: desc
+        }
+      }`
+      break
+  }
+
+  const { data } = await client
+    .query(
+      gql`
+        query getNotes($characterId: Int, $filter: Int, $limit: Int) {
+          noteCount(where: ${whereQuery}),
+          notes(
+            where: ${whereQuery},
+            orderBy: [${orderBy}],
+            take: $limit,
+            ${cursorQuery}
+          ) {
+            characterId
+            noteId
+            createdAt
+            metadata {
+              uri
+              content
+            }
+            ${
+              input.useStat
+                ? `
+            stat {
+              viewDetailCount
+            }
+            _count {
+              fromNotes
+              links
+            }
+            `
+                : ""
+            }
+          }
+        }
+      `,
+      {
         characterId: input.characterId,
-        limit: input.limit || 12,
-        cursor: input.cursor,
-        orderBy: "publishedAt",
-        tags: [...(input.tags || []), input.type],
-        sources: "xlog",
-      }),
-    ])
+        filter: pinnedNoteId || undefined,
+        limit,
+      },
+    )
+    .toPromise()
+  if (pinnedNote) {
+    data?.notes.unshift(pinnedNote)
+  }
+  if (pinnedNoteId) {
+    data.noteCount += 1
+  }
+  const notes = {
+    list: data?.notes || [],
+    count: data?.noteCount || 0,
+    cursor:
+      data?.notes?.length < limit
+        ? null
+        : `${input.characterId}_${data?.notes?.[data?.notes?.length - 1]
+            ?.noteId}`,
+  }
 
-    const list: NoteEntity[] = pinnedNote
-      ? [
-          pinnedNote,
-          ...notes.list.filter((note) => note.noteId !== pinnedNote.noteId),
-        ]
-      : notes.list
-
-    return {
-      ...notes,
-      pinnedNoteId: pinnedNote?.noteId,
-      list: await Promise.all(
-        list.map(async (note) => {
-          const expanded = await expandCrossbellNote({
+  const expandedNotes = {
+    ...notes,
+    pinnedNoteId: pinnedNote?.noteId,
+    list: await Promise.all(
+      notes.list.map(async (note: ExpandedNote) => {
+        if (input.skipExpansion) {
+          note.metadata.content.slug = getNoteSlug(note)
+        } else {
+          note = await expandCrossbellNote({
             note,
             useStat: input.useStat,
             useHTML: input.useHTML,
             useScore: false,
           })
+        }
 
-          if (!input.keepBody) {
-            delete expanded.metadata?.content?.content
-          }
+        if (!input.keepBody) {
+          delete note.metadata?.content?.content
+        }
 
-          return expanded
-        }),
-      ),
-    }
-  })()
+        return note
+      }),
+    ),
+  }
 
-  const local = getLocalPages({
+  const local = await getLocalPages({
     characterId: input.characterId,
-    isPost: input.type === "post",
+    isPost: input.type[0] === "post", // In order to be compatible with old drafts
+    type: input.type,
     handle: input.handle,
   })
 
@@ -215,7 +337,10 @@ export async function getPagesBySite(input: {
     if (index !== -1) {
       if (
         new Date(localPage.updatedAt) >
-        new Date(expandedNotes.list[index].updatedAt)
+        new Date(
+          expandedNotes.list[index].updatedAt ||
+            expandedNotes.list[index].createdAt,
+        )
       ) {
         expandedNotes.list[index] = {
           ...expandedNotes.list[index],
@@ -252,25 +377,6 @@ export async function getPagesBySite(input: {
       )
       break
   }
-
-  expandedNotes.list.sort((a, b) => {
-    if (
-      !a.metadata?.content?.date_published ||
-      a.noteId === expandedNotes.pinnedNoteId
-    ) {
-      return -1
-    } else if (
-      !b.metadata?.content?.date_published ||
-      b.noteId === expandedNotes.pinnedNoteId
-    ) {
-      return 1
-    } else {
-      return (
-        +new Date(b.metadata?.content?.date_published) -
-        +new Date(a.metadata?.content?.date_published)
-      )
-    }
-  })
 
   return expandedNotes
 }
@@ -312,6 +418,7 @@ export async function getPage<TRender extends boolean = false>(input: {
   useStat?: boolean
   noteId?: number
   handle?: string // In order to be compatible with old drafts
+  disableAutofill?: boolean
 }) {
   const mustLocal = input.slug?.startsWith("!local-") && !input.noteId
 
@@ -443,7 +550,7 @@ export async function getPage<TRender extends boolean = false>(input: {
   }
 
   // local page
-  const local = getLocalPages({
+  const local = await getLocalPages({
     characterId: input.characterId,
     handle: input.handle,
   })
@@ -462,6 +569,7 @@ export async function getPage<TRender extends boolean = false>(input: {
     expandedNote = await expandCrossbellNote({
       note: page,
       useStat: input.useStat,
+      disableAutofill: input.disableAutofill,
     })
   }
 
@@ -653,6 +761,7 @@ export async function anonymousComment(input: {
   content: string
   name: string
   email: string
+  url?: string
 }) {
   return await fetch("/api/anonymous/comment", {
     method: "POST",
@@ -665,6 +774,7 @@ export async function anonymousComment(input: {
       content: input.content,
       name: input.name,
       email: input.email,
+      url: input.url,
     }),
   })
 }
@@ -707,14 +817,16 @@ export const getDistinctNoteTagsOfCharacter = async (characterId: number) => {
   const result = await indexer.note.getDistinctTagsOfCharacter(characterId, {
     sources: "xlog",
   })
-  result.list = result.list.filter(
-    (tag) => ["post", "comment", "page"].findIndex((t) => t === tag) === -1,
-  )
+  result.list = result.list.filter((tag) => !RESERVED_TAGS.includes(tag))
 
   return result
 }
 
-export async function getPinnedPage({ characterId }: { characterId?: number }) {
+export async function getPinnedPageId({
+  characterId,
+}: {
+  characterId?: number
+}) {
   if (!characterId) return null
 
   const character = await indexer.character.get(characterId)
@@ -722,5 +834,15 @@ export async function getPinnedPage({ characterId }: { characterId?: number }) {
 
   if (!character || !noteId || typeof noteId !== "number") return null
 
-  return indexer.note.get(character.characterId, noteId)
+  return noteId
+}
+
+export async function getPinnedPage({ characterId }: { characterId?: number }) {
+  const noteId = await getPinnedPageId({ characterId })
+
+  if (noteId && characterId) {
+    return indexer.note.get(characterId, noteId)
+  } else {
+    return null
+  }
 }

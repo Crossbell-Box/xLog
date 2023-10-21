@@ -1,55 +1,59 @@
+"use client"
+
 import "swiper/css"
-import "swiper/css/effect-fade"
 import "swiper/css/navigation"
-import "swiper/css/pagination"
-import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules"
+import "swiper/css/scrollbar"
+
+import { Navigation, Scrollbar } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 import { Image } from "~/components/ui/Image"
+import { cn } from "~/lib/utils"
 
 export default function PostCover({
   images,
   title,
   uniqueKey,
+  className,
 }: {
   images?: string[]
   title?: string
   uniqueKey?: string
+  className?: string
 }) {
   return (
     <>
-      <div className="xlog-post-cover rounded-t-2xl overflow-hidden flex items-center relative w-full aspect-video border-b">
+      <div
+        className={cn(
+          "xlog-post-cover rounded-t-2xl overflow-hidden flex items-center relative w-full aspect-video border-b",
+          className,
+        )}
+      >
         {(images?.length || 0) > 1 ? (
           <>
             <Swiper
-              pagination={{
-                type: "progressbar",
-              }}
               loop={true}
               navigation={{
                 prevEl: `#swiper-button-prev-${uniqueKey}`,
                 nextEl: `#swiper-button-next-${uniqueKey}`,
               }}
-              autoplay={{
-                delay: 5000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-                waitForTransition: false,
+              scrollbar={{
+                hide: true,
               }}
-              effect={"fade"}
-              speed={1000}
-              modules={[EffectFade, Autoplay, Pagination, Navigation]}
+              modules={[Navigation, Scrollbar]}
               className="w-full h-full"
             >
               {images?.map((image) => (
                 <SwiperSlide key={image}>
-                  <Image
-                    className="object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out"
-                    alt="cover"
-                    src={image}
-                    width={624}
-                    height={351}
-                  ></Image>
+                  <div className="text-[0px] w-full h-full">
+                    <Image
+                      className="object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out bg-white"
+                      alt="cover"
+                      src={image}
+                      width={624}
+                      height={351}
+                    ></Image>
+                  </div>
                 </SwiperSlide>
               ))}
             </Swiper>

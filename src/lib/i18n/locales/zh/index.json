@@ -4,7 +4,7 @@
   "Earn": "赚取",
   ".": "。",
   "Look at others'": "看看其他人的",
-  "description": "<0>xLog</0> 是面向所有人的最棒 <3>链上</3> <7>开源</7> 博客社区。",
+  "description": "书写在 <6>区块链</6> 上的 <2>开源</2> 创作社区。",
   "Get my xLog in 5 minutes": "5 分钟拥有自己的 xLog",
   "Explore the xLog way": "探索 xLog 之路",
   "features": {
@@ -39,7 +39,7 @@
   "Safe": "安全",
   "Safe text": "所有博客数据，包括配置、文章、订阅、评论等，都由你自己签名并安全地存储在<strong>区块链</strong>上，只有你持有的<strong>私钥</strong>才能进行控制和访问。包括 xLog 在内的任何人都无法进行更改。",
   "Fast": "快速",
-  "Fast text": "区块链并不总意味着低效率。xLog通过其高效的缓存机制和众多优化，可以达到最佳性能。站点还支持<strong>PWA</strong>用于本地安装和使用。",
+  "Fast text": "区块链并不总意味着低效率。xLog通过其高效的缓存机制和众多优化，可以达到最佳性能。",
   "Customizable": "可定制",
   "Customizable text": "你可以自由地使用<strong>自己的域名</strong>、自定义网站并按自己的喜好进行<strong>设计</strong>。这是你的网站，没有任何限制。xLog 鼓励并将提供丰富的<strong>主题和插件</strong>系统，以帮助你进行自定义。",
   "Open": "开放",
@@ -62,12 +62,12 @@
   "Topic Keywords": "话题关键词",
   "Topic Tags": "话题标签",
   "Let's talk about xLog, whether to praise or criticize it.": "让我们来谈谈 xLog，无论赞美和批评。",
-  "Artificial Intelligence": "人工智能",
   "The world is undergoing changes, and we are at the center of it.": "世界正在发生变革，而我们正处其中心。",
-  "Life Journal": "生活日记",
+  "Journal": "日记",
   "Discover new perspectives and insights in others' weekly, monthly, or yearly journal.": "在别人的周月年记中发现新观点和见解。",
-  "Fiction": "虚构小说",
+  "Fiction": "小说",
   "Experience a world of imagination through these fiction stories.": "体验一个充满想象力的虚构世界。",
   "Coding": "编程",
+  "Podcast": "播客",
   "Participate in Topic": "参与话题"
 }

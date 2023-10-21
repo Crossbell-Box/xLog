@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    @apply text-zinc-800;
-    @apply fill-zinc-800;
+  body {
+    @apply !text-zinc-800;
+    @apply !fill-zinc-800;
     font-family: var(--font-fans);
   }
 
@@ -100,7 +100,8 @@ a {
   @apply focus-ring focus-within:ring-offset-1;
 }
 
-.button.is-auto-width {
+.button.is-auto-width,
+.button.codicon {
   @apply min-w-[auto];
 }
 
@@ -317,6 +318,11 @@ a {
   @apply border-accent;
 }
 
+.monaco-inputbox .input:focus {
+  @apply shadow-none;
+  --tw-ring-shadow: none;
+}
+
 .input.is-block {
   @apply w-full;
 }
@@ -392,94 +398,6 @@ textarea.input {
   background-color: var(--banner-bg-color);
 }
 
-/* Fancy blur effect */
-#qprogress .peg {
-  display: block;
-  position: absolute;
-  right: 0px;
-  width: 100px;
-  height: 100%;
-  opacity: 1;
-
-  -webkit-transform: rotate(3deg) translate(0px, -4px);
-  -ms-transform: rotate(3deg) translate(0px, -4px);
-  transform: rotate(3deg) translate(0px, -4px);
-}
-
-.qprogress-custom-parent {
-  overflow: hidden;
-  position: relative;
-}
-
-.qprogress-custom-parent #qprogress .bar {
-  position: absolute;
-}
-
-/* Colorful effect */
-#qprogress .colorful-bar {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    from(#1890ff),
-    color-stop(#13c2c2),
-    color-stop(#52c41a),
-    color-stop(#fa8c16),
-    color-stop(#fa541c),
-    color-stop(#f5222d),
-    to(#1890ff)
-  );
-  background: -webkit-linear-gradient(
-    left,
-    #1890ff,
-    #13c2c2,
-    #52c41a,
-    #fa8c16,
-    #fa541c,
-    #f5222d,
-    #1890ff
-  );
-  background: linear-gradient(
-    to right,
-    #1890ff,
-    #13c2c2,
-    #52c41a,
-    #fa8c16,
-    #fa541c,
-    #f5222d,
-    #1890ff
-  );
-
-  -webkit-animation: 2s linear infinite ins;
-  animation: 2s linear infinite ins;
-
-  -webkit-transition: opacity 0.2s ease-in-out;
-  transition: opacity 0.2s ease-in-out;
-
-  -webkit-transform-origin: left;
-  transform-origin: left;
-
-  background-size: 500%;
-}
-
-@-webkit-keyframes ins {
-  0% {
-    background-position: 0% 0;
-  }
-  to {
-    background-position: 125% 0;
-  }
-}
-
-@keyframes ins {
-  0% {
-    background-position: 0% 0;
-  }
-  to {
-    background-position: 125% 0;
-  }
-}
-
 .loading:before {
   height: 1rem;
   width: 1rem;
@@ -502,25 +420,6 @@ textarea.input {
   line-height: unset;
 }
 
-.xlog-site-navigation-item {
-  @apply h-10 px-2 flex items-center space-x-1 transition-colors focus-ring;
-  @apply hover:text-gray-700;
-
-  /* The underline */
-  @apply relative;
-  @apply after:absolute after:block after:content-[''] after:h-[2px] after:transition-[left,right] after:bottom-0 after:left-1/2 after:right-1/2 after:bg-gray-700;
-  @apply hover:after:left-2 hover:after:right-2;
-}
-
-/* TODO-Doma */
-/* Maybe use CSS nested syntax */
-.xlog-site-navigation-item-active {
-  @apply text-accent hover:text-accent;
-
-  /* The underline */
-  @apply after:left-2 after:right-2 after:bg-accent;
-}
-
 /* For users to use within posts */
 .center {
   @apply flex justify-center;
@@ -530,29 +429,14 @@ textarea.input {
   @apply flex justify-end;
 }
 
+.swiper {
+  @apply bg-zinc-50;
+}
+
 .swiper-button {
   @apply absolute top-1/2 -translate-y-1/2 bg-white rounded-full z-[1] w-6 h-6 flex items-center justify-center opacity-80;
 }
 
-.swiper .swiper-pagination-bullet {
-  @apply bg-zinc-100 opacity-50 w-[7px] h-[7px];
-}
-
-.swiper .swiper-pagination-bullet-active {
-  @apply opacity-100;
-}
-
-.swiper .swiper-pagination-bullets {
-  @apply leading-3;
-}
-
-.swiper .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
-  @apply bg-accent;
-  transition-duration: 5000ms !important;
-  transition-timing-function: linear;
-  transform: translate3d(0px, 0px, 0px) scaleX(0) scaleY(1);
-}
-
-.swiper .swiper-pagination-progressbar.swiper-pagination-horizontal {
-  @apply h-[2px] bg-transparent;
+.swiper-wrapper {
+  @apply flex items-center;
 }

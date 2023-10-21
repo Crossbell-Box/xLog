@@ -21,10 +21,9 @@ export function TagInput({
   onTagChange,
   ...restProps
 }: Props) {
-  const [selected, setSelected] = useState("")
   const [query, setQuery] = useState("")
 
-  const { editorTags, setValues } = useEditorState(
+  const { editorTags = [], setValues } = useEditorState(
     (state) => ({
       editorTags: state.tags === "" ? [] : state.tags?.split(","),
       setValues: state.setValues,
@@ -79,7 +78,7 @@ export function TagInput({
           </div>
         ))}
       </div>
-      <Combobox value={selected} onChange={onComboboxChange}>
+      <Combobox onChange={onComboboxChange}>
         <div className="relative mt-1">
           <div className="relative flex w-full cursor-default overflow-hidden rounded-lg bg-white text-left sm:text-sm">
             <Combobox.Input

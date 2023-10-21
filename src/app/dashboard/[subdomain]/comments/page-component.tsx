@@ -42,7 +42,7 @@ export default function CommentsPage() {
 
   return (
     <DashboardMain title="Comments">
-      <div className="min-w-[270px] max-w-screen-lg">
+      <div className="min-w-[270px] max-w-screen-lg flex-1 flex flex-col">
         <div className="text-sm text-zinc-500 leading-relaxed">
           <p>
             {t(
@@ -56,11 +56,10 @@ export default function CommentsPage() {
             </UniLink>
           </p>
         </div>
-        <div className="xlog-comment">
-          <div className="prose space-y-4 pt-4">
+        <div className="xlog-comment flex-1 flex">
+          <div className="prose space-y-4 pt-4 flex-1">
             <Virtuoso
               className="xlog-comment-list"
-              useWindowScroll
               data={data}
               endReached={() =>
                 comments.hasNextPage && comments.fetchNextPage()

@@ -1,11 +1,11 @@
 "use client"
 
-import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
 import { useMemo } from "react"
 
 import { Button } from "~/components/ui/Button"
 import { useDate } from "~/hooks/useDate"
+import { RESERVED_TAGS } from "~/lib/constants"
 import { getSiteRelativeUrl } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
@@ -29,9 +29,10 @@ export const SiteArchives = () => {
   const site = useGetSite(params?.site as string)
   const posts = useGetPagesBySiteLite({
     characterId: site.data?.characterId,
-    limit: 100,
-    type: "post",
+    type: ["post", "portfolio"],
     visibility: PageVisibilityEnum.Published,
+    limit: 100,
+    skipExpansion: true,
     ...(params?.tag && { tags: [params.tag as string] }),
   })
 
@@ -61,8 +62,8 @@ export const SiteArchives = () => {
     if (posts.data?.pages?.length) {
       for (const page of posts.data.pages) {
         for (const post of page.list) {
-          post.metadata?.content?.tags?.forEach((tag) => {
-            if (tag !== "post" && tag !== "page") {
+          post.metadata?.content?.tags?.forEach((tag: string) => {
+            if (!RESERVED_TAGS.includes(tag)) {
               if (result.has(tag)) {
                 result.set(tag, result.get(tag) + 1)
               } else {
@@ -122,12 +123,18 @@ export const SiteArchives = () => {
                   </h3>
                   {posts.map((post) => {
                     currentLength++
+                    const isPortfolio =
+                      post.metadata?.content?.tags?.[0] === "portfolio"
+                    const externalLink =
+                      post.metadata?.content?.external_urls?.[0] || ""
                     return (
-                      <Link
+                      <UniLink
                         key={post.transactionHash}
                         href={getSiteRelativeUrl(
                           pathname,
-                          `/${post.metadata?.content?.slug}`,
+                          isPortfolio
+                            ? externalLink
+                            : `/${post.metadata?.content?.slug}`,
                         )}
                         className="flex justify-between items-center p-2 rounded-lg -mx-2 hover:bg-hover"
                       >
@@ -147,7 +154,7 @@ export const SiteArchives = () => {
                             },
                           })}
                         </span>
-                      </Link>
+                      </UniLink>
                     )
                   })}
                 </div>

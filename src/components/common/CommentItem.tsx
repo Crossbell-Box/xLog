@@ -1,12 +1,14 @@
 "use client"
 
 import type { CharacterEntity, NoteEntity } from "crossbell"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
+import { useQueryClient } from "@tanstack/react-query"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
 import { CommentInput } from "~/components/common/CommentInput"
+import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
 import PageContent from "~/components/common/PageContent"
 import { ReactionLike } from "~/components/common/ReactionLike"
 import { Titles } from "~/components/common/Titles"
@@ -19,6 +21,7 @@ import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
+import { useDeletePage } from "~/queries/page"
 
 export const CommentItem = ({
   comment,
@@ -37,11 +40,22 @@ export const CommentItem = ({
 }) => {
   const [replyOpen, setReplyOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false)
 
   const { t } = useTranslation("common")
   const date = useDate()
+  const queryClient = useQueryClient()
+  const deletePage = useDeletePage()
 
   const account = useAccountState(({ computed }) => computed.account)
+
+  useEffect(() => {
+    queryClient.refetchQueries([
+      "getComments",
+      originalCharacterId,
+      originalNoteId,
+    ])
+  }, [deletePage.isSuccess, originalCharacterId, originalNoteId, queryClient])
 
   if (!comment.metadata?.content?.content) {
     return null
@@ -49,6 +63,9 @@ export const CommentItem = ({
 
   const displayName = comment?.metadata?.content?.attributes?.find(
     (attribute) => attribute.trait_type === "xlog_sender_name",
+  )?.value as string | undefined
+  const displayUrl = comment?.metadata?.content?.attributes?.find(
+    (attribute) => attribute.trait_type === "xlog_sender_url",
   )?.value as string | undefined
 
   return (
@@ -61,10 +78,11 @@ export const CommentItem = ({
             <div>
               <UniLink
                 href={
-                  comment?.character?.handle &&
-                  getSiteLink({
-                    subdomain: comment.character.handle,
-                  })
+                  displayUrl ||
+                  (comment?.character?.handle &&
+                    getSiteLink({
+                      subdomain: comment.character.handle,
+                    }))
                 }
                 className="block align-middle mr-3"
               >
@@ -88,10 +106,11 @@ export const CommentItem = ({
           <div className="mb-1 text-sm flex items-center space-x-1">
             <UniLink
               href={
-                comment?.character?.handle &&
-                getSiteLink({
-                  subdomain: comment.character.handle,
-                })
+                displayUrl ||
+                (comment?.character?.handle &&
+                  getSiteLink({
+                    subdomain: comment.character.handle,
+                  }))
               }
               className="font-medium text-accent"
             >
@@ -156,6 +175,31 @@ export const CommentItem = ({
                 {t(`${editOpen ? "Cancel " : ""}Edit`)}
               </Button>
             )}
+            {comment.characterId === account?.characterId &&
+              !(comment as any)?.fromNotes?.list?.length && (
+                <>
+                  <Button
+                    className="text-gray-500 text-[13px] mt-[-1px]"
+                    variant="text"
+                    onClick={() => setDeleteConfirmModalOpen(true)}
+                    isLoading={deletePage.isLoading}
+                  >
+                    <i className="icon-[mingcute--delete-2-line] mx-1" />{" "}
+                    {t("Delete")}
+                  </Button>
+                  <DeleteConfirmationModal
+                    open={deleteConfirmModalOpen}
+                    setOpen={setDeleteConfirmModalOpen}
+                    onConfirm={() =>
+                      deletePage.mutate({
+                        noteId: comment.noteId,
+                        characterId: comment.characterId,
+                      })
+                    }
+                    type="comment"
+                  />
+                </>
+              )}
           </div>
           {replyOpen && (
             <div className="pt-6">

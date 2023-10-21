@@ -71,10 +71,15 @@ const Comment = ({
             setTotalListHeight(Math.min(height + 71, 900))
           }
         }}
-        itemContent={(_, p) =>
+        itemContent={(index, p) =>
           p?.list?.map((comment, idx) => (
             <CommentItem
-              className="mt-6"
+              className={cn("mt-6", {
+                "border-b-0":
+                  data &&
+                  index === data.length - 1 &&
+                  idx === p.list?.length - 1,
+              })}
               originalCharacterId={page?.characterId}
               originalNoteId={page?.noteId}
               comment={comment}

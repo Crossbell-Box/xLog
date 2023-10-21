@@ -12,6 +12,8 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml prisma ./
 
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+
 RUN pnpm i --frozen-lockfile
 
 ##### BUILD
@@ -32,8 +34,8 @@ ARG NEXT_PUBLIC_TWITTER_LINK
 ENV NEXT_PUBLIC_TWITTER_LINK=${NEXT_PUBLIC_TWITTER_LINK}
 ARG NEXT_PUBLIC_WALLET_CONNECT_V2_PROJECT_ID
 ENV NEXT_PUBLIC_WALLET_CONNECT_V2_PROJECT_ID=${NEXT_PUBLIC_WALLET_CONNECT_V2_PROJECT_ID}
-ARG NEXT_PUBLIC_SENTRY_DSN
-ENV NEXT_PUBLIC_SENTRY_DSN=${NEXT_PUBLIC_SENTRY_DSN}
+ARG NEXT_PUBLIC_IPFS_GATEWAY
+ENV NEXT_PUBLIC_IPFS_GATEWAY=${NEXT_PUBLIC_IPFS_GATEWAY}
 
 RUN pnpm build
 
@@ -49,4 +51,5 @@ COPY --from=build /app/.next/static /app/.next/static
 COPY --from=build /app/prisma /app/prisma
 COPY --from=build /app/ecosystem.config.js /app/ecosystem.config.js
 
-CMD ["pm2-runtime", "start", "-i", "2", "ecosystem.config.js"]
+ENTRYPOINT [ "pm2-runtime" ]
+CMD ["start", "-i", "2", "ecosystem.config.js"]

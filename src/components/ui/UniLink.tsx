@@ -33,7 +33,8 @@ export const UniLink = ({
   }
 
   const isExternal =
-    href && (/^https?:\/\//.test(href) || href.startsWith("/feed"))
+    (href && (/^https?:\/\//.test(href) || href.startsWith("/feed"))) ||
+    href.startsWith("mailto:")
 
   const isInModal =
     typeof window !== "undefined" &&

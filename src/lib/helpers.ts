@@ -17,7 +17,7 @@ export const getSiteLink = ({
 }) => {
   if (IS_VERCEL_PREVIEW) return `/site/${subdomain}`
 
-  if (domain) {
+  if (domain && IS_PROD) {
     return `https://${domain}`
   }
   if (noProtocol) {
@@ -27,20 +27,21 @@ export const getSiteLink = ({
   return `${IS_PROD ? "https" : "http"}://${subdomain}.${OUR_DOMAIN}`
 }
 
-export const getNoteSlug = (note: NoteEntity) => {
+export const getNoteSlug = (note: NoteEntity, disableAutofill?: boolean) => {
   return encodeURIComponent(
     note.metadata?.content?.attributes?.find(
       (a) => a?.trait_type === "xlog_slug",
-    )?.value ||
-      note.metadata?.content?.title ||
-      "",
+    )?.value || (disableAutofill ? "" : note.metadata?.content?.title || ""),
   )
 }
 
 export const getNoteSlugFromNote = (page: ExpandedNote) => {
-  return page.metadata?.content?.attributes?.find(
-    ($) => $.trait_type === "xlog_slug",
-  )?.value
+  return (
+    page.metadata?.content?.slug ||
+    page.metadata?.content?.attributes?.find(
+      ($) => $.trait_type === "xlog_slug",
+    )?.value
+  )
 }
 
 export const getTwitterShareUrl = ({

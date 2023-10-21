@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import { SearchInput } from "~/components/common/SearchInput"
 import { HomeFeed } from "~/components/home/HomeFeed"
@@ -20,7 +20,7 @@ export function generateMetadata({
   }
 }
 
-async function Search({
+export default async function Search({
   searchParams,
 }: {
   searchParams: {
@@ -49,4 +49,4 @@ async function Search({
   )
 }
 
-export default Search
+export const dynamic = "force-dynamic"

@@ -6,15 +6,16 @@ import { UniLink } from "~/components/ui/UniLink"
 import { useUserRole } from "~/hooks/useUserRole"
 import { SITE_URL } from "~/lib/env"
 import { useTranslation } from "~/lib/i18n/client"
+import { NoteType } from "~/lib/types"
 
 export const EditButton = ({
   handle,
   noteId,
-  isPost,
+  type,
 }: {
   handle?: string
   noteId?: number
-  isPost?: boolean
+  type?: NoteType
 }) => {
   const { t } = useTranslation("common")
   const [showEdit, setShowEdit] = useState(false)
@@ -30,9 +31,7 @@ export const EditButton = ({
       {showEdit && (
         <UniLink
           className="xlog-post-editor inline-flex items-center"
-          href={`${SITE_URL}/dashboard/${handle}/editor?id=${noteId}&type=${
-            isPost ? "post" : "page"
-          }`}
+          href={`${SITE_URL}/dashboard/${handle}/editor?id=${noteId}&type=${type}`}
         >
           <i className="icon-[mingcute--edit-line] mx-1" /> {t("Edit")}
         </UniLink>

@@ -249,7 +249,7 @@ const PatronModal = ({
                   tooltip: t("Coming soon") || "",
                 },
               ]}
-              className="justify-center"
+              className="justify-center overflow-visible"
             ></Tabs>
           </div>
           <div>

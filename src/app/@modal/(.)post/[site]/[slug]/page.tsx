@@ -1,14 +1,16 @@
 import { notFound } from "next/navigation"
 
-import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import PageContent from "~/components/common/PageContent"
+import PostCover from "~/components/home/PostCover"
 import PostModal from "~/components/home/PostModal"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { getTranslation } from "~/lib/i18n"
 import { toCid } from "~/lib/ipfs-parser"
+import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
 import { cn } from "~/lib/utils"
 import { fetchGetPage, getSummary } from "~/queries/page.server"
@@ -53,6 +55,13 @@ export default async function SiteModal({
       lang: i18n.resolvedLanguage,
     })
   }
+  const onlyContent = isOnlyContent()
+
+  const type = page?.metadata?.content?.tags?.[0]
+  const images = page.metadata?.content?.attachments
+    ?.filter((attachment) => attachment.name === "image")
+    .map((img) => img.address || "")
+    .filter(Boolean)
 
   return (
     <PostModal handle={site?.handle}>
@@ -69,35 +78,57 @@ export default async function SiteModal({
           )}
         >
           <article>
-            <div>
-              {page?.metadata?.content?.tags?.includes("post") ? (
-                <h2 className="xlog-post-title text-4xl font-bold leading-tight text-center">
-                  {page.metadata?.content?.title}
-                </h2>
-              ) : (
-                <h2 className="xlog-post-title text-xl font-bold page-title text-center">
-                  {page?.metadata?.content?.title}
-                </h2>
-              )}
-              {page?.metadata?.content?.tags?.includes("post") && (
-                <PostMeta
+            {type === "short" ? (
+              <>
+                <PostCover
+                  uniqueKey={`short-${page.characterId}-${page.noteId}`}
+                  images={images}
+                  title={page.metadata?.content?.title}
+                  className="rounded-lg w-full aspect-auto mb-4 border-b-0"
+                />
+                {page?.metadata?.content?.title && (
+                  <h2 className="xlog-short-title font-bold mb-2 text-lg">
+                    {page?.metadata?.content?.title}
+                  </h2>
+                )}
+                <div className="xlog-short-content prose">
+                  {page?.metadata?.content?.content}
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  {page?.metadata?.content?.tags?.includes("post") ? (
+                    <h2 className="xlog-post-title text-4xl font-bold leading-tight text-center">
+                      {page.metadata?.content?.title}
+                    </h2>
+                  ) : (
+                    <h2 className="xlog-post-title text-xl font-bold page-title text-center">
+                      {page?.metadata?.content?.title}
+                    </h2>
+                  )}
+                  {page?.metadata?.content?.tags?.includes("post") && (
+                    <PostMeta
+                      page={page}
+                      site={site}
+                      summary={summary}
+                      translated={{
+                        "AI-generated summary": t("AI-generated summary"),
+                      }}
+                    />
+                  )}
+                </div>
+                <PageContent
+                  className="mt-10"
+                  content={page?.metadata?.content?.content}
+                  toc={false}
                   page={page}
                   site={site}
-                  summary={summary}
-                  translated={{
-                    "AI-generated summary": t("AI-generated summary"),
-                  }}
+                  withActions={false}
+                  onlyContent={onlyContent}
                 />
-              )}
-            </div>
-            <PageContent
-              className="mt-10"
-              content={page?.metadata?.content?.content}
-              toc={false}
-              page={page}
-              site={site}
-              withActions={false}
-            />
+              </>
+            )}
           </article>
           <Hydrate state={dehydratedState}>
             {page?.metadata && (

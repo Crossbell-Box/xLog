@@ -8,7 +8,7 @@ const contract = createContract(ANONYMOUS_ACCOUNT_PRIVATEKEY)
 
 // /api/anonymous/comment
 export async function POST(req: Request): Promise<Response> {
-  const { targetCharacterId, targetNoteId, content, name, email } =
+  const { targetCharacterId, targetNoteId, content, name, email, url } =
     await req.json()
 
   if (!targetCharacterId || !targetNoteId || !content || !name || !email) {
@@ -32,6 +32,10 @@ export async function POST(req: Request): Promise<Response> {
         {
           trait_type: "xlog_sender_email",
           value: email,
+        },
+        {
+          trait_type: "xlog_sender_url",
+          value: url,
         },
       ],
     },

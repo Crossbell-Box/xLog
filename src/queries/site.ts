@@ -503,15 +503,6 @@ export const useGetMiraBalance = (characterId?: number) => {
   })
 }
 
-export const useGetGreenfieldId = (cid?: string) => {
-  return useQuery(["getGreenfieldId", cid], async () => {
-    if (!cid) {
-      return null
-    }
-    return siteModel.getGreenfieldId(cid)
-  })
-}
-
 export const useGetCharacterCard = ({
   siteId,
   address,
@@ -536,4 +527,10 @@ export const useGetCharacterCard = ({
       enabled,
     },
   )
+}
+
+export const useGetBlockNumber = () => {
+  return useQuery(["getBlockNumber"], async () => {
+    return siteModel.getBlockNumber()
+  })
 }

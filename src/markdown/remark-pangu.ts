@@ -1,5 +1,5 @@
+import type { Root } from "mdast"
 import pangu from "pangu"
-import type { Root } from "remark-gfm"
 import type { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
@@ -26,7 +26,7 @@ function format(value: string) {
   return pangu.spacing(value)
 }
 
-export const remarkPangu: Plugin<Array<Options>, Root> =
+export const remarkPangu: Plugin<[], Root> =
   (options = {}) =>
   (tree: Root) => {
     const settings = Object.assign({}, defaultOptions, options)

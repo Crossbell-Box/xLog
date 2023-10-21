@@ -3,10 +3,7 @@ module.exports = {
   semi: false,
   trailingComma: "all",
   endOfLine: "lf",
-  plugins: [
-    require.resolve("prettier-package-json"),
-    require.resolve("@trivago/prettier-plugin-sort-imports"),
-  ],
+  plugins: ["prettier-package-json", "@ianvs/prettier-plugin-sort-imports"],
 
   importOrderParserPlugins: [
     "classProperties",
@@ -16,11 +13,13 @@ module.exports = {
   ],
   importOrder: [
     "<THIRD_PARTY_MODULES>",
+    "",
     "^@(.*)/(.*)$",
+    "",
     "^~/(.*)$",
+    "",
     "^@/(.*)$",
+    "",
     "^[./]",
   ],
-  importOrderSeparation: true,
-  importOrderSortSpecifiers: true,
 }

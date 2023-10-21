@@ -11,7 +11,6 @@ import { Image } from "~/components/ui/Image"
 import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { CSB_SCAN, CSB_XCHAR, CSB_XFEED } from "~/lib/env"
-import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 
 import { Button } from "../ui/Button"
@@ -95,9 +94,7 @@ export const SiteHeaderMenu = ({
     {
       text: "Subscribe to RSS",
       icon: <RssIcon className="w-full h-full text-[#ee832f]" />,
-      url: `${getSiteLink({
-        subdomain: handle || "",
-      })}/feed`,
+      url: "/feed",
       out: true,
     },
     ...(hideSearch

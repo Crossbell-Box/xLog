@@ -1,5 +1,7 @@
 import { create } from "zustand"
 
+import { EditorValues } from "~/lib/types"
+
 export const initialEditorState = {
   title: "",
   publishedAt: "",
@@ -13,24 +15,12 @@ export const initialEditorState = {
     mime_type: "",
   },
   disableAISummary: false,
-}
-export type Values = {
-  title: string
-  publishedAt: string
-  published: boolean
-  excerpt: string
-  slug: string
-  tags: string
-  content: string
-  cover: {
-    address?: string
-    mime_type?: string
-  }
-  disableAISummary: boolean
+  externalUrl: "",
+  images: [],
 }
 
 export const useEditorState = create<
-  Values & {
+  EditorValues & {
     setValues: (values: Partial<typeof initialEditorState>) => void
   }
 >((set) => ({
