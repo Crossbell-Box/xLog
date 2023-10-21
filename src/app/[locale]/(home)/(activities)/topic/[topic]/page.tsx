@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { useTranslations } from "next-intl"
+import { getTranslator } from "next-intl/server"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
@@ -9,7 +9,7 @@ import { APP_NAME } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
 import { prefetchGetFeed } from "~/queries/home.server"
 
-import topics from "../../../../../../data/topics.json"
+import topics from "../../../../../../../data/topics.json"
 
 export function generateMetadata({
   params,
@@ -29,10 +29,10 @@ export default async function Topic({
 }: {
   params: {
     topic: string
+    locale: string
   }
 }) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const t = useTranslations()
+  const t = await getTranslator(params.locale)
   params.topic = decodeURIComponent(params.topic)
   const info = topics.find((t) => t.name === params.topic)
 

@@ -9,23 +9,21 @@ import { DISCORD_LINK } from "~/lib/env"
 // HTTPWhiteListPaths: White list of path for plain http request, no HTTPS redirect
 const HTTPWhitelistPaths = ["/api/healthcheck"]
 
-export default createMiddleware({
-  // A list of all locales that are supported
-  locales: ["en", "ja", "zh", "zh-TW"],
-
-  // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
-  defaultLocale: "en",
-
-  localePrefix: "never",
-})
-
 export const config = {
   // Skip all paths that should not be internationalized. This example skips the
   // folders "api", "_next" and all files with an extension (e.g. favicon.ico)
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 }
 
 export async function middleware(req: NextRequest) {
+  const defaultLocale = req.headers.get("x-default-locale") || "en"
+
+  const handleI18nRouting = createMiddleware({
+    locales: ["en", "ja", "zh", "zh-TW"],
+    defaultLocale: "en",
+    localePrefix: "never",
+  })
+
   const { pathname } = req.nextUrl
 
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
@@ -78,6 +76,9 @@ export async function middleware(req: NextRequest) {
     )}, cf-visitor: ${req.headers.get("cf-visitor")}`,
   )
 
+  const response = handleI18nRouting(req)
+  response.headers.set("x-default-locale", defaultLocale)
+
   if (
     pathname.startsWith("/api/") ||
     pathname.startsWith("/dashboard") ||
@@ -91,11 +92,12 @@ export async function middleware(req: NextRequest) {
     pathname === "/monitoring" ||
     pathname === "favicon.ico"
   ) {
-    return NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    })
+    // return NextResponse.next({
+    //   request: {
+    //     headers: requestHeaders,
+    //   },
+    // })
+    return response
   }
 
   let tenant: {
@@ -145,9 +147,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(DISCORD_LINK)
   }
 
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  })
+  // return NextResponse.next({
+  //   request: {
+  //     headers: requestHeaders,
+  //   },
+  // })
+  return response
 }

@@ -5,11 +5,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 })
 const execSync = require("child_process").execSync
 
-// @ts-ignore
-const withNextIntl = require("next-intl/plugin")(
-  // This is the default (also the `src` folder is supported out of the box)
-  "./src/i18n.ts",
-)
+const withNextIntl = require("next-intl/plugin")()
 
 const lastCommitCommand = "git rev-parse HEAD"
 

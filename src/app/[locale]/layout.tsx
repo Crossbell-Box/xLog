@@ -1,14 +1,14 @@
-import { dir } from "i18next"
 import { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
+import { unstable_setRequestLocale } from "next-intl/server"
 import { headers } from "next/headers"
+import { notFound } from "next/navigation"
 import Script from "next/script"
 import { Toaster } from "react-hot-toast"
 
 import { updateIndexerFetchOptions } from "@crossbell/indexer"
 import { ColorSchemeScript, MantineProvider } from "@mantine/core"
 
-import { getAcceptLang } from "~/lib/accept-lang"
 import {
   APP_DESCRIPTION,
   APP_NAME,
@@ -18,6 +18,7 @@ import {
   UMAMI_SCRIPT,
 } from "~/lib/env"
 import { getColorScheme } from "~/lib/get-color-scheme"
+import { languages } from "~/lib/i18n/settings"
 
 import { ColorSchemeInjector } from "./ColorSchemeInjector"
 import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
@@ -25,6 +26,14 @@ import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
 import "@crossbell/connect-kit/colors.css"
 import "@mantine/core/styles.css"
 import "~/css/main.css"
+
+async function getMessages(locale: string) {
+  try {
+    return (await import(`../../messages/${locale}.json`)).default
+  } catch (error) {
+    notFound()
+  }
+}
 
 export const metadata: Metadata = {
   title: `${APP_NAME} - ${APP_SLOGAN}`,
@@ -93,14 +102,22 @@ export const metadata: Metadata = {
   },
 }
 
+export function generateStaticParams() {
+  return languages.map((locale) => ({ locale }))
+}
+
 export default async function RootLayout({
   children,
   modal,
+  params: { locale },
 }: {
   children: React.ReactNode
   modal: React.ReactNode
+  params: {
+    locale: string
+  }
 }) {
-  const lang = getAcceptLang()
+  // const lang = getAcceptLang()
   const colorScheme = getColorScheme()
 
   // For viewing statistics
@@ -113,25 +130,22 @@ export default async function RootLayout({
     })
   }
 
-  let messages
-  try {
-    messages = (await import(`../messages/${lang}.json`)).default
-  } catch (error) {}
-  console.log("messages", messages)
+  const messages = await getMessages(locale)
+  unstable_setRequestLocale(locale)
 
   return (
-    <html lang={lang} dir={dir(lang)} className={colorScheme}>
+    <html lang={locale} className={colorScheme}>
       <head>
         <ColorSchemeInjector />
         <ColorSchemeScript />
       </head>
       <body>
-        <NextIntlClientProvider locale={lang} messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <MantineProvider
             theme={mantineTheme}
             defaultColorScheme={mantineDefaultColorScheme}
           >
-            <Providers lang={lang}>
+            <Providers lang={locale}>
               {modal}
               {children}
             </Providers>
