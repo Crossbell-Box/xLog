@@ -19,7 +19,9 @@ data:
     		dns cloudflare {env.CF_API_TOKEN}
     	}
 
-    	reverse_proxy xlog-internal.crossbell.svc:3000
+    	reverse_proxy xlog-internal.crossbell.svc:3000 {
+        header_up x-forwarded-proto http
+      }
     }
 
     :8080 {
@@ -31,7 +33,9 @@ data:
     		on_demand
     	}
 
-    	reverse_proxy xlog-internal.crossbell.svc:3000
+    	reverse_proxy xlog-internal.crossbell.svc:3000 {
+        header_up x-forwarded-proto http
+      }
     }
 ---
 apiVersion: v1
