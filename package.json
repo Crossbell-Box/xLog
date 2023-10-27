@@ -84,6 +84,7 @@
     "hast-util-to-html": "9.0.0",
     "i18next": "23.5.1",
     "i18next-resources-to-backend": "1.1.4",
+    "image-size": "^1.0.2",
     "immer": "10.0.3",
     "ioredis": "5.3.2",
     "isomorphic-dompurify": "1.9.0",
@@ -156,6 +157,7 @@
     "uuid": "9.0.1",
     "viem": "1.16.4",
     "wagmi": "1.4.3",
+    "xregexp": "^5.1.1",
     "zustand": "4.4.3"
   },
   "devDependencies": {

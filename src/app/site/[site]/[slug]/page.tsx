@@ -17,8 +17,8 @@ import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
 import {
+  decoratePageWithTranslation,
   fetchGetPage,
-  getTranslation as getAITranslation,
   getSummary,
   Lang,
 } from "~/queries/page.server"
@@ -33,7 +33,6 @@ export async function generateMetadata({
   }
 }): Promise<Metadata> {
   const queryClient = getQueryClient()
-
   const site = await fetchGetSite(params.site, queryClient)
 
   const page = await fetchGetPage(
@@ -44,6 +43,8 @@ export async function generateMetadata({
     },
     queryClient,
   )
+
+  await decoratePageWithTranslation(page)
 
   const title = `${
     page?.metadata?.content?.title || page?.metadata?.content?.content
@@ -139,22 +140,15 @@ export default async function SitePagePage({
 
   const { i18n } = await getTranslation()
   const { t } = await getTranslation("common")
+
+  await decoratePageWithTranslation(page)
+
   let summary: string | undefined
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
       cid: toCid(page.metadata?.uri || ""),
       lang: i18n.resolvedLanguage as Lang,
     })
-  }
-
-  let translatedContent = await getAITranslation({
-    cid: toCid(page.metadata?.uri || ""),
-    lang: i18n.resolvedLanguage as Lang,
-  })
-
-  if (translatedContent && page?.metadata?.content) {
-    page.metadata.content.content = translatedContent.content
-    page.metadata.content.title = translatedContent.title
   }
 
   const type = page?.metadata?.content?.tags?.[0]

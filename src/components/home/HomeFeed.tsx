@@ -43,6 +43,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
   let feedConfig: Parameters<typeof useGetFeed>[0] = {
     type,
   }
+
   switch (type) {
     case "following":
       feedConfig = {
@@ -217,6 +218,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
               itemContent={(index) => {
                 const post = feedInOne[index]
                 if (!post) return null
+
                 return (
                   <PostCard
                     key={`${post.characterId}-${post.noteId}`}

@@ -1,4 +1,7 @@
+import https from "https"
+import url from "url"
 import AsyncLock from "async-lock"
+import sizeOf from "image-size"
 import {
   AnalyzeDocumentChain,
   LLMChain,
@@ -11,13 +14,17 @@ import removeMarkdown from "remove-markdown"
 import { Metadata } from "@prisma/client"
 import { QueryClient } from "@tanstack/react-query"
 
-import { toGateway } from "~/lib/ipfs-parser"
+import { detectLanguage } from "~/lib/detect-lang"
+import { getTranslation as getTranslationWithI18n } from "~/lib/i18n"
+import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { llmModelSwitcherByTextLength } from "~/lib/llm-model-switcher-by-text-length"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
 import * as pageModel from "~/models/page.model"
 
-const supportedLangs = ["en", "zh", "zh-TW", "ja"] as const
+const asyncLock = new AsyncLock()
+
+export const supportedLangs = ["en", "zh", "zh-TW", "ja"] as const
 
 export type Lang = (typeof supportedLangs)[number]
 
@@ -78,6 +85,122 @@ export const fetchGetPagesBySite = async (
   })
 }
 
+const getImageDimensionByUri = async (
+  uri: string,
+): Promise<{
+  width: number
+  height: number
+}> => {
+  return new Promise<{ width: number; height: number }>((resolve, reject) => {
+    const options = url.parse(uri)
+
+    https.get(options, function (response) {
+      const chunks: Buffer[] = []
+      response
+        .on("data", function (chunk) {
+          chunks.push(chunk)
+        })
+        .on("end", function () {
+          try {
+            const buffer = Buffer.concat(chunks)
+            const dimension = sizeOf(buffer)
+            const { width, height } = dimension
+            if (width && height) {
+              resolve({ width, height })
+            }
+          } catch (e) {
+            reject(e)
+          }
+        })
+    })
+  })
+}
+
+export const cacheCoverDimensions = async ({
+  cid,
+  uris,
+}: {
+  cid: string
+  uris: string[]
+}) => {
+  if (!uris.length) return
+
+  const dimensions = (await cacheGet({
+    key: ["coverDimensions", cid],
+    allowEmpty: true,
+    noUpdate: true,
+    noExpire: true,
+    getValueFun: async () => {
+      let result
+
+      await asyncLock.acquire(cid, async () => {
+        const meta = await prisma.metadata.findFirst({
+          where: {
+            uri: `ipfs://${cid}`,
+          },
+        })
+
+        const key: keyof Metadata = "image_dimensions"
+        const dimensions = meta?.image_dimensions
+
+        if (dimensions) {
+          result = dimensions
+        } else {
+          const newDimensions: Record<
+            string,
+            { width: number; height: number }
+          > = {}
+
+          console.time(`get image dimensions ${cid}`)
+          for (const uri of uris) {
+            const dimension = await getImageDimensionByUri(toGateway(uri))
+            if (dimension) {
+              newDimensions[uri] = dimension
+            }
+          }
+          console.timeEnd(`get image dimensions ${cid}`)
+
+          if (meta) {
+            await prisma.metadata.update({
+              where: { uri: `ipfs://${cid}` },
+              data: {
+                [key]: newDimensions,
+              },
+            })
+          } else {
+            await prisma.metadata.create({
+              data: {
+                uri: `ipfs://${cid}`,
+                [key]: newDimensions,
+              },
+            })
+          }
+          result = newDimensions
+        }
+      })
+
+      return result
+    },
+  })) as Record<string, { width: number; height: number }> | undefined
+
+  return dimensions
+}
+
+export const decoratePageForImageDimensions = async (
+  page?: Awaited<ReturnType<typeof pageModel.getPage>> | null,
+) => {
+  if (!page) return
+
+  const dimensions = await cacheCoverDimensions({
+    cid: toCid(page?.metadata?.uri || ""),
+    uris: page?.metadata?.content?.images || [],
+  })
+
+  if (dimensions && Object.keys(dimensions).length && page?.metadata?.content) {
+    page.metadata.content["imageDimensions"] = dimensions
+  }
+}
+
 // Content translation
 
 type ContentTranslation = {
@@ -114,23 +237,37 @@ const getOriginalTranslation = async (
       await fetch(toGateway(`ipfs://${cid}`))
     ).json()
 
-    console.time(`fetching translation ${cid}, ${lang}`)
+    // Remove code blocks and markdown syntax
+    const processedContent = removeMarkdown(content.replace(/```[^]+?```/g, ""))
 
+    const detectedLang = detectLanguage(processedContent)
+    // If the detected language is the same as the target language, return the original content
+    if (detectedLang === lang) {
+      console.error(
+        `|__ Error: Detected language is the same as the target language, return the original content: ${cid}, ${lang}`,
+      )
+      return
+    }
+
+    console.time(`fetching translation ${cid}, ${lang}`)
     const { modelSize, tokens } = llmModelSwitcherByTextLength(content, {
       includeResponse: { lang },
     })
 
     if (!modelSize) {
-      throw new Error(
-        `No model size found for ${cid}, ${lang}. (Tokens: ${tokens})`,
+      console.error(
+        `|__ Error: Content too long for translation: ${cid}, ${lang}. (Tokens: ${tokens})`,
       )
+      return
     }
 
     let chain = translationChains.get(`${modelSize}_${lang}`)
 
     if (!chain) {
       const prompt = new PromptTemplate({
-        template: `Translate this JSON into "${lang}" language as original structure: "{text}"`,
+        template: `Translate the following text into "${lang}" language: 
+        {text}
+        Translation:`,
         inputVariables: ["text"],
       })
 
@@ -142,22 +279,22 @@ const getOriginalTranslation = async (
       translationChains.set(`${modelSize}_${lang}`, chain)
     }
 
-    const result = await chain.call({
-      text: JSON.stringify({ title, content }),
-    })
+    const t = await chain.call({ text: title })
+    const c = await chain.call({ text: content })
 
     console.timeEnd(`fetching translation ${cid}, ${lang}`)
 
-    return JSON.parse(result.text) as ContentTranslation
+    return {
+      title: t.text,
+      content: c.text,
+    }
   } catch (error) {
     console.error(error)
     console.timeEnd(`fetching translation ${cid}, ${lang}`)
   }
 }
 
-const translationLock = new AsyncLock()
-
-export async function getTranslation({
+async function getTranslation({
   cid,
   lang = "en",
 }: {
@@ -172,7 +309,7 @@ export async function getTranslation({
     getValueFun: async () => {
       let result
 
-      await translationLock.acquire(cid, async () => {
+      await asyncLock.acquire(cid, async () => {
         const meta = await prisma.metadata.findFirst({
           where: {
             uri: `ipfs://${cid}`,
@@ -238,6 +375,25 @@ export async function getTranslation({
   return translatedContent
 }
 
+// Modify page content with translation
+export async function decoratePageWithTranslation(
+  page?: Awaited<ReturnType<typeof pageModel.getPage>> | null,
+) {
+  if (!page) return
+
+  const { i18n } = await getTranslationWithI18n()
+
+  let translatedContent = await getTranslation({
+    cid: toCid(page?.metadata?.uri || ""),
+    lang: i18n.resolvedLanguage as Lang,
+  })
+
+  if (translatedContent && page?.metadata?.content) {
+    page.metadata.content.content = translatedContent.content
+    page.metadata.content.title = translatedContent.title
+  }
+}
+
 // Post summary
 
 let summarizingModel: OpenAI | undefined
@@ -300,8 +456,6 @@ const getOriginalSummary = async (cid: string, lang: string) => {
   }
 }
 
-const summarizingLock = new AsyncLock()
-
 export async function getSummary({
   cid,
   lang = "en",
@@ -317,7 +471,7 @@ export async function getSummary({
     getValueFun: async () => {
       if (supportedLangs.includes(lang)) {
         let result
-        await summarizingLock.acquire(cid, async () => {
+        await asyncLock.acquire(cid, async () => {
           const meta = await prisma.metadata.findFirst({
             where: {
               uri: `ipfs://${cid}`,

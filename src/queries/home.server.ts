@@ -8,6 +8,7 @@ export const prefetchGetFeed = async (
   queryClient: QueryClient,
 ) => {
   const key = ["getFeed", data]
+
   await queryClient.prefetchInfiniteQuery({
     queryKey: key,
     queryFn: async ({ pageParam }) => {

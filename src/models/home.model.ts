@@ -770,6 +770,7 @@ export async function getFeed({
               useHTML,
               useStat: true,
             })
+
             return expand
           },
         ),
