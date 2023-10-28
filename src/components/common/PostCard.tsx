@@ -12,7 +12,6 @@ import { Titles } from "~/components/common/Titles"
 import PostCover from "~/components/home/PostCover"
 import { PlatformsSyncMap } from "~/components/site/Platform"
 import { Avatar } from "~/components/ui/Avatar"
-import { Image } from "~/components/ui/Image"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
 import { getSiteLink } from "~/lib/helpers"
@@ -145,7 +144,8 @@ const Card = ({
                 >
                   <span className="inline-flex items-center space-x-[6px]">
                     {platform?.icon && (
-                      <Image
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
                         src={platform?.icon}
                         alt={platform?.name}
                         width={16}
