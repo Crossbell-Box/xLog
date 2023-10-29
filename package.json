@@ -158,6 +158,8 @@
     "viem": "1.16.6",
     "wagmi": "1.4.5",
     "xregexp": "^5.1.1",
+    "@formatjs/intl-localematcher": "^0.2.32",
+    "negotiator": "^0.6.3",
     "zustand": "4.4.4"
   },
   "devDependencies": {
@@ -167,6 +169,7 @@
     "@types/async-lock": "1.4.1",
     "@types/canvas-confetti": "1.6.2",
     "@types/chroma-js": "2.4.2",
+    "@types/negotiator": "^0.6.1",
     "@types/cookie": "0.5.3",
     "@types/hast": "3.0.2",
     "@types/js-yaml": "4.0.8",

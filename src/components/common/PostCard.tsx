@@ -13,9 +13,11 @@ import PostCover from "~/components/home/PostCover"
 import { PlatformsSyncMap } from "~/components/site/Platform"
 import { Avatar } from "~/components/ui/Avatar"
 import { Tooltip } from "~/components/ui/Tooltip"
+import { useCurrentLocale } from "~/hooks/useCurrentLocale"
 import { useDate } from "~/hooks/useDate"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
+import { withLocale } from "~/lib/i18n/with-locale"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
@@ -46,6 +48,7 @@ const Card = ({
   const { t } = useTranslation("common")
   const date = useDate()
   const searchParams = useSearchParams()
+  const locale = useCurrentLocale()
 
   let queryString = searchParams.toString()
   queryString = queryString ? `?${queryString}` : ""
@@ -62,7 +65,11 @@ const Card = ({
       href={
         isPortfolio
           ? externalLink || ""
-          : `${linkPrefix || ""}/${post.metadata?.content?.slug}${queryString}`
+          : withLocale(
+              `${linkPrefix || ""}/${post.metadata?.content
+                ?.slug}${queryString}`,
+              { pathLocale: locale },
+            )
       }
       className={cn(
         "xlog-post rounded-2xl flex flex-col items-center group relative",

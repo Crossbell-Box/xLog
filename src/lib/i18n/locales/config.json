@@ -1,0 +1,42 @@
+[
+    {
+        "code": "en",
+        "localName": "English",
+        "name": "English",
+        "langDir": "ltr",
+        "dateFormat": "MM.DD.YYYY",
+        "hrefLang": "en-GB",
+        "enabled": true,
+        "default": true
+    },
+    {
+        "code": "ja",
+        "localName": "日本語",
+        "name": "Japanese",
+        "langDir": "ltr",
+        "dateFormat": "YYYY.MM.DD",
+        "hrefLang": "ja",
+        "enabled": true,
+        "default": false
+    },
+    {
+        "code": "zh",
+        "localName": "简体中文",
+        "name": "Simplified Chinese",
+        "langDir": "ltr",
+        "dateFormat": "YYYY/MM/DD",
+        "hrefLang": "zh-Hans",
+        "enabled": true,
+        "default": false
+    },
+    {
+        "code": "zh-TW",
+        "localName": "繁體中文",
+        "name": "Traditional Chinese",
+        "langDir": "ltr",
+        "dateFormat": "YYYY/MM/DD",
+        "hrefLang": "zh-Hant",
+        "enabled": true,
+        "default": false
+    }
+]

@@ -7,7 +7,6 @@ import { Toaster } from "react-hot-toast"
 import { updateIndexerFetchOptions } from "@crossbell/indexer"
 import { ColorSchemeScript, MantineProvider } from "@mantine/core"
 
-import { getAcceptLang } from "~/lib/accept-lang"
 import {
   APP_DESCRIPTION,
   APP_NAME,
@@ -24,6 +23,11 @@ import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
 import "@crossbell/connect-kit/colors.css"
 import "@mantine/core/styles.css"
 import "~/css/main.css"
+
+import { PropsWithChildren } from "react"
+import { NextServerPageBaseParams } from "types/next"
+
+import { Languages } from "~/lib/i18n/settings"
 
 export const metadata: Metadata = {
   title: `${APP_NAME} - ${APP_SLOGAN}`,
@@ -94,12 +98,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params,
   modal,
-}: {
-  children: React.ReactNode
-  modal: React.ReactNode
-}) {
-  const lang = getAcceptLang()
+}: NextServerPageBaseParams<
+  {},
+  PropsWithChildren<{
+    modal: React.ReactNode
+  }>
+>) {
+  const lang = params.locale as Languages
   const colorScheme = getColorScheme()
 
   // For viewing statistics

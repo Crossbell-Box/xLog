@@ -25,8 +25,6 @@ export async function GET(req: Request) {
   for (const item of result.list) {
     await decoratePageForImageDimensions(item)
     await decoratePageWithTranslation(item)
-
-    console.log(item?.metadata?.content?.imageDimensions, "=======")
   }
 
   const res = new NextServerResponse()

@@ -16,6 +16,7 @@ import { QueryClient } from "@tanstack/react-query"
 
 import { detectLanguage } from "~/lib/detect-lang"
 import { getTranslation as getTranslationWithI18n } from "~/lib/i18n"
+import { Languages, languages } from "~/lib/i18n/settings"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { llmModelSwitcherByTextLength } from "~/lib/llm-model-switcher-by-text-length"
 import prisma from "~/lib/prisma.server"
@@ -23,10 +24,6 @@ import { cacheGet } from "~/lib/redis.server"
 import * as pageModel from "~/models/page.model"
 
 const asyncLock = new AsyncLock()
-
-export const supportedLangs = ["en", "zh", "zh-TW", "ja"] as const
-
-export type Lang = (typeof supportedLangs)[number]
 
 export const fetchGetPage = async (
   input: Partial<Parameters<typeof pageModel.getPage>[0]>,
@@ -85,35 +82,58 @@ export const fetchGetPagesBySite = async (
   })
 }
 
-const getImageDimensionByUri = async (
-  uri: string,
-): Promise<{
-  width: number
-  height: number
-}> => {
-  return new Promise<{ width: number; height: number }>((resolve, reject) => {
-    const options = url.parse(uri)
+export const getImageDimensionByUri = async (uri: string) => {
+  return new Promise<{ width: number; height: number; uri: string }>(
+    (resolve, reject) => {
+      const options = url.parse(uri)
 
-    https.get(options, function (response) {
-      const chunks: Buffer[] = []
-      response
-        .on("data", function (chunk) {
-          chunks.push(chunk)
-        })
-        .on("end", function () {
-          try {
-            const buffer = Buffer.concat(chunks)
-            const dimension = sizeOf(buffer)
-            const { width, height } = dimension
-            if (width && height) {
-              resolve({ width, height })
+      https.get(options, function (response) {
+        const chunks: Buffer[] = []
+        let totalLength = 0
+        const MAX_BUFFER_LENGTH = 10240
+
+        response
+          .on("data", function (chunk) {
+            chunks.push(chunk)
+            totalLength += chunk.length
+
+            if (totalLength > MAX_BUFFER_LENGTH) {
+              response.destroy()
+              const buffer = Buffer.concat(chunks)
+              try {
+                const dimension = sizeOf(buffer)
+                if (dimension.width && dimension.height) {
+                  resolve({
+                    width: dimension.width,
+                    height: dimension.height,
+                    uri,
+                  })
+                }
+              } catch (e) {
+                reject("Not enough data for image size detection.")
+              }
             }
-          } catch (e) {
-            reject(e)
-          }
-        })
-    })
-  })
+          })
+          .on("end", function () {
+            if (totalLength <= MAX_BUFFER_LENGTH) {
+              const buffer = Buffer.concat(chunks)
+              try {
+                const dimension = sizeOf(buffer)
+                if (dimension.width && dimension.height) {
+                  resolve({
+                    width: dimension.width,
+                    height: dimension.height,
+                    uri,
+                  })
+                }
+              } catch (e) {
+                reject(e)
+              }
+            }
+          })
+      })
+    },
+  )
 }
 
 export const cacheCoverDimensions = async ({
@@ -223,12 +243,12 @@ if (process.env.OPENAI_API_KEY) {
   })
 }
 
-type ChainKeyType = `${4 | 16}k_${Lang}` // "4k_en" | "4k_zh" | "4k_zh-TW" | "4k_ja" | "16k_en" | "16k_zh" | "16k_zh-TW" | "16k_ja"
+type ChainKeyType = `${4 | 16}k_${Languages}` // e.g. "4k_en" | "4k_zh" | "4k_zh-TW" | "4k_ja" | "16k_en" | "16k_zh" | "16k_zh-TW" | "16k_ja"
 const translationChains = new Map<ChainKeyType, LLMChain>()
 
 const getOriginalTranslation = async (
   cid: string,
-  lang: Lang,
+  lang: Languages,
 ): Promise<ContentTranslation | undefined> => {
   if (!translationModel4K || !translationModel16K) return
 
@@ -243,8 +263,8 @@ const getOriginalTranslation = async (
     const detectedLang = detectLanguage(processedContent)
     // If the detected language is the same as the target language, return the original content
     if (detectedLang === lang) {
-      console.error(
-        `|__ Error: Detected language is the same as the target language, return the original content: ${cid}, ${lang}`,
+      console.warn(
+        `|__ Warn: Detected language is the same as the target language, return the original content: ${cid}, ${lang}`,
       )
       return
     }
@@ -299,7 +319,7 @@ async function getTranslation({
   lang = "en",
 }: {
   cid: string
-  lang?: Lang
+  lang?: Languages
 }) {
   const translatedContent = (await cacheGet({
     key: ["translation", cid, lang],
@@ -385,7 +405,7 @@ export async function decoratePageWithTranslation(
 
   let translatedContent = await getTranslation({
     cid: toCid(page?.metadata?.uri || ""),
-    lang: i18n.resolvedLanguage as Lang,
+    lang: i18n.resolvedLanguage as Languages,
   })
 
   if (translatedContent && page?.metadata?.content) {
@@ -461,7 +481,7 @@ export async function getSummary({
   lang = "en",
 }: {
   cid: string
-  lang?: Lang
+  lang?: Languages
 }) {
   const summary = (await cacheGet({
     key: ["summary", cid, lang],
@@ -469,7 +489,7 @@ export async function getSummary({
     noUpdate: true,
     noExpire: true,
     getValueFun: async () => {
-      if (supportedLangs.includes(lang)) {
+      if (languages.includes(lang)) {
         let result
         await asyncLock.acquire(cid, async () => {
           const meta = await prisma.metadata.findFirst({

@@ -1,8 +1,8 @@
 import XRegExp from "xregexp"
 
-import { Lang } from "~/queries/page.server"
+import { Languages } from "./i18n/settings"
 
-type Thresholds = Partial<Record<Lang, number>>
+type Thresholds = Partial<Record<Languages, number>>
 
 const _thresholds: Thresholds = {
   en: 0.8,

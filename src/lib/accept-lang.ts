@@ -1,6 +1,6 @@
 import { cookies, headers } from "next/headers"
 
-import { fallbackLng } from "~/lib/i18n/settings"
+import { fallbackLng, Languages } from "~/lib/i18n/settings"
 
 export function getAcceptLang() {
   let lng = fallbackLng
@@ -21,5 +21,5 @@ export function getAcceptLang() {
     lng = preferLang
   }
 
-  return lng
+  return lng as Languages
 }

@@ -1,6 +1,6 @@
 import { NextPage } from "next"
 import { AppProps } from "next/app"
-import { ReactElement, ReactNode } from "react"
+import { PropsWithChildren, ReactElement, ReactNode } from "react"
 
 import { DehydratedState } from "@tanstack/react-query"
 
@@ -16,3 +16,12 @@ export type NextPageWithLayout<
 > = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
+
+export type NextServerPageBaseParams<
+  I extends {} = {},
+  P extends PropsWithChildren<any> = PropsWithChildren<{}>,
+> = {
+  params: {
+    locale: string
+  } & I
+} & P

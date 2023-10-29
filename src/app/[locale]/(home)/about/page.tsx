@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { memo } from "react"
+import { NextServerPageBaseParams } from "types/next"
 
 import { Logo } from "~/components/common/Logo"
 import { BlockNumber } from "~/components/home/BlockNumber"
@@ -11,8 +12,9 @@ import { Image } from "~/components/ui/Image"
 import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { getTranslation, Trans } from "~/lib/i18n"
+import { withLocale } from "~/lib/i18n/with-locale"
 
-async function Home() {
+const Home = async (props: NextServerPageBaseParams) => {
   const { t, i18n } = await getTranslation("index")
 
   const EntranceButton = memo(function Button() {
@@ -153,7 +155,10 @@ async function Home() {
             variant="outline"
             variantColor="gradient"
           >
-            <Link className="h-full flex items-center" href="/">
+            <Link
+              className="h-full flex items-center"
+              href={withLocale("/", { pathLocale: props.params.locale })}
+            >
               {t("Look at others'")}
             </Link>
           </Button>

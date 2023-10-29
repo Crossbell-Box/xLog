@@ -1,17 +1,17 @@
 import i18next from "i18next"
 import { createContext, ReactNode } from "react"
 
-import { languages } from "~/lib/i18n/settings"
+import { Languages, languages } from "~/lib/i18n/settings"
 
 export interface LangContextType {
-  lang: string
+  lang: Languages
 }
 
 export const LangContext = createContext<LangContextType | undefined>(undefined)
 
 interface LangProviderProps {
   children: ReactNode
-  lang: string
+  lang: Languages
 }
 
 export function LangProvider({ children, lang }: LangProviderProps) {

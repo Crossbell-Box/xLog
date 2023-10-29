@@ -20,6 +20,7 @@ import { useNProgress } from "~/hooks/useNProgress"
 import { DARK_MODE_STORAGE_KEY } from "~/lib/constants"
 import { APP_NAME, WALLET_CONNECT_V2_PROJECT_ID } from "~/lib/env"
 import { filterNotificationCharacter } from "~/lib/filter-character"
+import { Languages } from "~/lib/i18n/settings"
 import { toGateway } from "~/lib/ipfs-parser"
 import { urlComposer } from "~/lib/url-composer"
 import { LangProvider } from "~/providers/LangProvider"
@@ -59,7 +60,7 @@ export default function Providers({
   lang,
 }: {
   children: React.ReactNode
-  lang: string
+  lang: Languages
 }) {
   useMobileLayout()
   useNProgress()

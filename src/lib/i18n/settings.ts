@@ -1,5 +1,10 @@
+import { availableLocales } from "../../../next.i18n"
+
 export const fallbackLng = "en"
-export const languages = ["en", "zh", "zh-TW", "ja"]
+export const languages = (availableLocales as Array<any>).map(
+  (locale) => locale.code,
+) as ["en", "zh", "zh-TW", "ja"]
+export type Languages = (typeof languages)[number]
 export const languageNames = {
   en: "English",
   zh: "中文",

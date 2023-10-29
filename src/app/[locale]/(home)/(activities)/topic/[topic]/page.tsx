@@ -9,7 +9,7 @@ import { getTranslation } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
 import { prefetchGetFeed } from "~/queries/home.server"
 
-import topics from "../../../../../../data/topics.json"
+import topics from "../../../../../../../data/topics.json"
 
 export function generateMetadata({
   params,

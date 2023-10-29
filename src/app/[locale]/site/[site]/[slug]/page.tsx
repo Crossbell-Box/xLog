@@ -12,6 +12,7 @@ import PostMeta from "~/components/site/PostMeta"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { getTranslation } from "~/lib/i18n"
+import { Languages } from "~/lib/i18n/settings"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent } from "~/lib/is-only-content"
@@ -20,7 +21,6 @@ import {
   decoratePageWithTranslation,
   fetchGetPage,
   getSummary,
-  Lang,
 } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
@@ -147,7 +147,7 @@ export default async function SitePagePage({
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
       cid: toCid(page.metadata?.uri || ""),
-      lang: i18n.resolvedLanguage as Lang,
+      lang: i18n.resolvedLanguage as Languages,
     })
   }
 

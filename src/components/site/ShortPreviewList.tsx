@@ -4,8 +4,10 @@ import Link from "next/link"
 
 import { Image } from "~/components/ui/Image"
 import { Tooltip } from "~/components/ui/Tooltip"
+import { useCurrentLocale } from "~/hooks/useCurrentLocale"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useTranslation } from "~/lib/i18n/client"
+import { withLocaleFactory } from "~/lib/i18n/with-locale"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
@@ -22,8 +24,9 @@ export default function ShortList({
   className?: string
   isHome?: boolean
 }) {
+  const locale = useCurrentLocale()
   const { t } = useTranslation("site")
-
+  const withLocale = withLocaleFactory({ pathLocale: locale })
   const isMobileLayout = useIsMobileLayout()
 
   if (!shorts) return null
@@ -36,7 +39,7 @@ export default function ShortList({
           className,
         )}
       >
-        <Link href="/shorts">
+        <Link href={withLocale("/shorts")}>
           <h2 className="flex items-center font-bold text-lg">
             <i className="icon-[mingcute--ins-line] mr-1" />
             {t("Shorts")}
@@ -55,7 +58,7 @@ export default function ShortList({
               childrenClassName="aspect-square"
             >
               <Link
-                href={
+                href={withLocale(
                   (isHome
                     ? isMobileLayout
                       ? `/site/${
@@ -66,8 +69,8 @@ export default function ShortList({
                           post.toNote?.character?.handle ||
                           post?.character?.handle
                         }`
-                    : "") + `/${post.metadata?.content?.slug}`
-                }
+                    : "") + `/${post.metadata?.content?.slug}`,
+                )}
                 className="inline-block w-full h-full rounded-2xl overflow-hidden"
               >
                 <Image
@@ -86,7 +89,7 @@ export default function ShortList({
             childrenClassName="absolute top-1/2 -translate-y-1/2 right-2"
           >
             <Link
-              href="/shorts"
+              href={withLocale("/shorts")}
               className="bg-white rounded-full z-[1] w-8 h-8 flex items-center justify-center"
             >
               <i className="icon-[mingcute--right-fill]" />

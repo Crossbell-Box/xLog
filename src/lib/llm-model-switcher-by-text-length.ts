@@ -1,6 +1,5 @@
-import { Lang } from "~/queries/page.server"
-
 import { calculateTokens } from "./calculate-tokens"
+import { Languages } from "./i18n/settings"
 
 function getTolerantCount(textLength: "4k" | "16k"): number {
   const ratio = 0.8
@@ -17,7 +16,7 @@ export function llmModelSwitcherByTextLength(
   text: string,
   options: {
     // If true, include the response in the text length calculation with the specified language
-    includeResponse?: { lang: Lang }
+    includeResponse?: { lang: Languages }
   } = {},
 ): {
   modelSize: "4k" | "16k" | undefined
@@ -26,7 +25,7 @@ export function llmModelSwitcherByTextLength(
   const { includeResponse } = options
   const tokens = calculateTokens(text)
 
-  const langRatioMapping: { [key in Lang]: number } = {
+  const langRatioMapping: { [key in Languages]: number } = {
     en: 1.6,
     ja: 1.25,
     zh: 1,
