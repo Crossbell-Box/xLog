@@ -14,7 +14,6 @@ module.exports = {
   rules: {
     "unused-imports/no-unused-imports": "error",
     "import/named": "off",
-    "import/no-unresolved": "off",
     "import/no-anonymous-default-export": "off",
     "import/no-named-as-default": "off",
     "react/react-in-jsx-scope": "off",

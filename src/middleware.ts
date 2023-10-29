@@ -71,7 +71,7 @@ export default async function middleware(req: NextRequest) {
     )
   }
 
-  // Intercepts some paths.
+  // Intercepts some paths that do not need the locale prefix
   const interceptorResponse = interceptor(pathname, requestHeaders)
   if (interceptorResponse) return interceptorResponse
 
