@@ -13,7 +13,7 @@ type Contract = ReturnType<typeof useContract>
 export const getSite = async (input: string) => {
   const result = await indexer.character.getByHandle(input)
   if (result) {
-    return expandCrossbellCharacter(result)
+    return await expandCrossbellCharacter(result)
   }
 }
 
@@ -23,7 +23,7 @@ export const getSiteByAddress = async (input: string) => {
   })
 
   if (result?.list?.[0]) {
-    return expandCrossbellCharacter(result.list[0])
+    return await expandCrossbellCharacter(result.list[0])
   }
 }
 

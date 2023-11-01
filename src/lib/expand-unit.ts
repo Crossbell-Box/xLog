@@ -30,6 +30,12 @@ export const expandCrossbellNote = async ({
   useHTML?: boolean
   disableAutofill?: boolean
 }) => {
+  if (note.metadata?.uri && !note.metadata?.content) {
+    note.metadata.content = await (
+      await fetch(toGateway(note.metadata.uri))
+    ).json()
+  }
+
   const expandedNote: ExpandedNote = Object.assign(
     {
       metadata: {
@@ -169,7 +175,13 @@ export const expandCrossbellNote = async ({
   return expandedNote
 }
 
-export const expandCrossbellCharacter = (site: CharacterEntity) => {
+export const expandCrossbellCharacter = async (site: CharacterEntity) => {
+  if (site.metadata?.uri && !site.metadata?.content) {
+    site.metadata.content = await (
+      await fetch(toGateway(site.metadata.uri))
+    ).json()
+  }
+
   const expandedCharacter: ExpandedCharacter = Object.assign(
     {
       metadata: {
