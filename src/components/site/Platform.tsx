@@ -156,7 +156,7 @@ export const PlatformsSyncMap: {
     icon: "/assets/social/email.png",
     url: "mailto:{username}",
   },
-  500px: {
+  "500px": {
     name: "500px",
     url: "https://500px.com/p/{username}",
   },
