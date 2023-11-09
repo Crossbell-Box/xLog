@@ -9,7 +9,7 @@ import { CommentItem } from "~/components/common/CommentItem"
 import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
-import { useGetComments } from "~/queries/page"
+import { useGetComments, useUpdateComment } from "~/queries/page"
 
 const Comment = ({
   page,
@@ -24,13 +24,44 @@ const Comment = ({
     characterId: page?.characterId,
     noteId: page?.noteId,
   })
+
   const { t } = useTranslation("common")
 
   const data = comments.data?.pages.filter(
     (page) => (page?.list?.length ?? 0) > 0,
   )
+  const sortedData = data?.map((item) => {
+    if (!item.list) return item
+
+    const sortedList = [...item.list].sort((a, b) => {
+      const aIsPinned: any = a.metadata?.content?.pinned === true ? 1 : 0
+      const bIsPinned: any = b.metadata?.content?.pinned === true ? 1 : 0
+      if (aIsPinned !== bIsPinned) {
+        return bIsPinned - aIsPinned
+      }
+      const aDate = new Date(a.updatedAt)
+      const bDate = new Date(b.updatedAt)
+      return bDate.getTime() - aDate.getTime()
+    })
+    return { ...item, list: sortedList }
+  })
 
   const [totalListHeight, setTotalListHeight] = useState(1)
+
+  const updateComment = useUpdateComment()
+
+  const handlePin = (comment: any, pinned: any) => {
+    if (comment.noteId) {
+      updateComment.mutate({
+        content: comment.metadata?.content?.content,
+        characterId: page?.characterId,
+        noteId: comment.noteId,
+        pinned: !pinned,
+        originalCharacterId: page?.characterId,
+        originalNoteId: page?.noteId,
+      })
+    }
+  }
 
   return (
     <div
@@ -61,7 +92,7 @@ const Comment = ({
           height: fixHeight ? totalListHeight : undefined,
         }}
         useWindowScroll={!fixHeight}
-        data={data}
+        data={sortedData}
         endReached={() => comments.hasNextPage && comments.fetchNextPage()}
         components={{
           Footer: comments.isLoading ? Loader : undefined,
@@ -85,6 +116,7 @@ const Comment = ({
               comment={comment}
               key={comment.transactionHash}
               depth={0}
+              onPin={handlePin}
             />
           ))
         }
