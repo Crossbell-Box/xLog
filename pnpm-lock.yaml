@@ -398,8 +398,8 @@ devDependencies:
     specifier: 1.4.2
     version: 1.4.2
   '@types/canvas-confetti':
-    specifier: 1.6.3
-    version: 1.6.3
+    specifier: 1.6.2
+    version: 1.6.2
   '@types/chroma-js':
     specifier: 2.4.3
     version: 2.4.3
@@ -3325,8 +3325,8 @@ packages:
     resolution: {integrity: sha512-HlZ6Dcr205BmNhwkdXqrg2vkFMN2PluI7Lgr8In3B3wE5PiQHhjRqtW/lGdVU9gw+sM0JcIDx2AN+cW8oSWIcw==}
     dev: true
 
-  /@types/canvas-confetti@1.6.3:
-    resolution: {integrity: sha512-yKVMDzWJ6g0s8TDI3VERfLMCOh0oHqZUnfK+o3VVjR2mFsLynUgb2lR+3IRaEJMza3BKbV9pkoirmM23YhKozA==}
+  /@types/canvas-confetti@1.6.2:
+    resolution: {integrity: sha512-ozy7d+7AmYnPEgzdGwwAIA0/yLHnT9YBUQAOm5Ucu+P2ptxq2P464SZDVzYp71wD10ZPYckyeC665bPxQM78kw==}
     dev: true
 
   /@types/chroma-js@2.4.3:
