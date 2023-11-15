@@ -33,26 +33,26 @@ dependencies:
     specifier: 6.22.0
     version: 6.22.0
   '@crossbell/connect-kit':
-    specifier: 1.5.14
-    version: 1.5.14(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(@wagmi/core@1.4.6)(react-dom@18.2.0)(typescript@5.2.2)(wagmi@1.4.6)(zod@3.22.4)
+    specifier: 1.5.17
+    version: 1.5.17(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(@wagmi/core@1.4.6)(react-dom@18.2.0)(typescript@5.2.2)(wagmi@1.4.6)(zod@3.22.4)
   '@crossbell/contract':
-    specifier: 1.5.13
-    version: 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+    specifier: 1.5.17
+    version: 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
   '@crossbell/indexer':
-    specifier: 1.5.13
-    version: 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+    specifier: 1.5.17
+    version: 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
   '@crossbell/notification':
-    specifier: 1.5.13
-    version: 1.5.13(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(wagmi@1.4.6)(zod@3.22.4)
+    specifier: 1.5.17
+    version: 1.5.17(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(wagmi@1.4.6)(zod@3.22.4)
   '@crossbell/ui':
-    specifier: 1.5.13
-    version: 1.5.13(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+    specifier: 1.5.17
+    version: 1.5.17(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
   '@crossbell/util-hooks':
-    specifier: 1.5.13
-    version: 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+    specifier: 1.5.17
+    version: 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
   '@crossbell/util-metadata':
-    specifier: 1.5.13
-    version: 1.5.13(typescript@5.2.2)(zod@3.22.4)
+    specifier: 1.5.17
+    version: 1.5.17(typescript@5.2.2)(zod@3.22.4)
   '@ddietr/codemirror-themes':
     specifier: 1.4.2
     version: 1.4.2
@@ -207,11 +207,11 @@ dependencies:
     specifier: 5.0.3
     version: 5.0.3
   next:
-    specifier: 14.0.2
-    version: 14.0.2(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 14.0.1
+    version: 14.0.1(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
   next-themes:
     specifier: 0.2.1
-    version: 0.2.1(next@14.0.2)(react-dom@18.2.0)(react@18.2.0)
+    version: 0.2.1(next@14.0.1)(react-dom@18.2.0)(react@18.2.0)
   node-id3:
     specifier: 0.2.6
     version: 0.2.6
@@ -1172,19 +1172,19 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit@1.5.14(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(@wagmi/core@1.4.6)(react-dom@18.2.0)(typescript@5.2.2)(wagmi@1.4.6)(zod@3.22.4):
-    resolution: {integrity: sha512-2SupeMJQODE6i1xbmAI293Y8RoR4F8lO+lta10DrpO0SS5HGj3/ZCTlHZPbqPVK7NsqkuM8ZtyOY5R72pgmWNg==}
+  /@crossbell/connect-kit@1.5.17(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(@wagmi/core@1.4.6)(react-dom@18.2.0)(typescript@5.2.2)(wagmi@1.4.6)(zod@3.22.4):
+    resolution: {integrity: sha512-vVleXrt128SBqNZsfONCH5o0nWOn32yI+lg7+LP42AI5QoZx2V84VQ03imuQ1vf8tOpIHK9oZICKIwfttd/hgg==}
     peerDependencies:
       '@tanstack/react-query': ^4
       wagmi: ^1.0.0
     dependencies:
-      '@crossbell/contract': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
-      '@crossbell/indexer': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/contract': 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
       '@crossbell/react-account': 1.5.17(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(react-dom@18.2.0)(typescript@5.2.2)(zod@3.22.4)
-      '@crossbell/ui': 1.5.13(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/ui': 1.5.17(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
       '@crossbell/util-ethers': 1.5.17
-      '@crossbell/util-hooks': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
-      '@crossbell/util-metadata': 1.5.13(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.17(typescript@5.2.2)(zod@3.22.4)
       '@emotion/react': 11.11.1(@types/react@18.2.37)(react@18.2.0)
       '@mantine/core': 6.0.21(@emotion/react@11.11.1)(@mantine/hooks@6.0.21)(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks': 6.0.21(react@18.2.0)
@@ -1234,24 +1234,6 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/contract@1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4):
-    resolution: {integrity: sha512-EMpTt9broItWI2a0z3Fh/nGlbKnYq4G9LExM3vFCI5b+iYNiDAd4RMEB6wioBrKzwjWM9B0JvWRDutyZmZg+Zw==}
-    peerDependencies:
-      react: ^18
-    dependencies:
-      '@crossbell/util-hooks': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
-      crossbell: 1.9.0(typescript@5.2.2)(zod@3.22.4)
-      react: 18.2.0
-      viem: 1.19.1(typescript@5.2.2)(zod@3.22.4)
-    transitivePeerDependencies:
-      - bufferutil
-      - react-dom
-      - react-native
-      - typescript
-      - utf-8-validate
-      - zod
-    dev: false
-
   /@crossbell/contract@1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-HXjkH24A4yBnpr7bWYo2NOOnoLKmIC54EW3sMy8qg4jOkGBiqAVv1j61Pu3arLPgNaSbJcAOh4zbw+OoefuOdQ==}
     peerDependencies:
@@ -1263,25 +1245,6 @@ packages:
       viem: 1.19.1(typescript@5.2.2)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
-      - react-dom
-      - react-native
-      - typescript
-      - utf-8-validate
-      - zod
-    dev: false
-
-  /@crossbell/indexer@1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4):
-    resolution: {integrity: sha512-L3yMY1NevNxWP5yBPCyXJgWIZzijjge7KkGF6hDra98qjle0rY1vmzX5fP+hdaN9yHZ/hkgQEf8cEPiXFtM+OQ==}
-    dependencies:
-      '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.9.0(typescript@5.2.2)(zod@3.22.4)
-      dayjs: 1.11.10
-      lodash.compact: 3.0.1
-      lru-cache: 10.0.1
-      viem: 1.19.1(typescript@5.2.2)(zod@3.22.4)
-    transitivePeerDependencies:
-      - bufferutil
-      - react
       - react-dom
       - react-native
       - typescript
@@ -1312,18 +1275,18 @@ packages:
     resolution: {integrity: sha512-0Yf9+MMTSD+JJkFbNaK/s+kl3CXhr4oq2yj3K0dvheB+e8uykcpM7yomxHie/sr0ushw3G7Ppf5NXYkfH0eiSw==}
     dev: false
 
-  /@crossbell/notification@1.5.13(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(wagmi@1.4.6)(zod@3.22.4):
-    resolution: {integrity: sha512-lVltsWBqojTooiTVgRJfDf9cfMy3U/iI6kD1uRsfApdN1ZG/aa2aenqPhQ9iKVS0dSumpyoL7KNhEV8nsThFYg==}
+  /@crossbell/notification@1.5.17(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(wagmi@1.4.6)(zod@3.22.4):
+    resolution: {integrity: sha512-XuoT3lBQC2vKDd6j0KfoimzXFATV6lAwHq/wmcdHdxvKFd2i9kdxH8vO0xzj0hlnq6Ki+Rrhd5+qx2gv+QFwoQ==}
     peerDependencies:
       '@tanstack/react-query': ^4
       react: ^18
       wagmi: ^1.0.0
     dependencies:
-      '@crossbell/indexer': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
       '@crossbell/react-account': 1.5.17(@tanstack/react-query@4.36.1)(@types/react@18.2.37)(react-dom@18.2.0)(typescript@5.2.2)(zod@3.22.4)
-      '@crossbell/ui': 1.5.13(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
-      '@crossbell/util-hooks': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
-      '@crossbell/util-metadata': 1.5.13(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/ui': 1.5.17(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.17(typescript@5.2.2)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       dayjs: 1.11.10
@@ -1374,15 +1337,15 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/ui@1.5.13(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4):
-    resolution: {integrity: sha512-C3yh2i3FYwDwaqTDwE/n/5jouGp8zzfylF0kxCLmSWkDCp5QKNFwTdY8P3iFH0wq+p+KQRpQFn1t8+wdhQlBKQ==}
+  /@crossbell/ui@1.5.17(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4):
+    resolution: {integrity: sha512-Sc3bb8H/r1m9fRSpQ+e0TzlS1j00kOrl5Px+PudOlcfaHew/JMc6NLM7BeTTQrQkKiij0wVyQW8UOEgJcX1aOg==}
     peerDependencies:
       react: ^18
       react-dom: ^18
     dependencies:
-      '@crossbell/indexer': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
-      '@crossbell/util-hooks': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
-      '@crossbell/util-metadata': 1.5.13(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.17(typescript@5.2.2)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       crossbell: 1.9.0(typescript@5.2.2)(zod@3.22.4)
@@ -1406,23 +1369,6 @@ packages:
     resolution: {integrity: sha512-o9ifjLS7mRJ3QNtv9CX5ZGib/cw9KVVYrVZ1HOOOzU6R1vizZY6KtCkMBKTbuIOlbv3e4qq1Zf6ZLwwRg6siSw==}
     dev: false
 
-  /@crossbell/util-hooks@1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4):
-    resolution: {integrity: sha512-s1QWyo0AH6jBDWLBqebIt/QF7GB2Gl1mr6VDRIhZfkxmeF4aYMj73lNAfuujtYXfaXo/LU+/qDi0jO219MdfpA==}
-    peerDependencies:
-      react: ^18
-    dependencies:
-      '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.9.0(typescript@5.2.2)(zod@3.22.4)
-      react: 18.2.0
-    transitivePeerDependencies:
-      - bufferutil
-      - react-dom
-      - react-native
-      - typescript
-      - utf-8-validate
-      - zod
-    dev: false
-
   /@crossbell/util-hooks@1.5.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-MC/zr7W8o/gr8M8w1LYvszbnkWUQ2+WciuhXMvvFMn5+IEwi3P+rmifRk8etMpc8SOkA/7xT+NsJP9I05YtepQ==}
     peerDependencies:
@@ -1435,19 +1381,6 @@ packages:
       - bufferutil
       - react-dom
       - react-native
-      - typescript
-      - utf-8-validate
-      - zod
-    dev: false
-
-  /@crossbell/util-metadata@1.5.13(typescript@5.2.2)(zod@3.22.4):
-    resolution: {integrity: sha512-9Sx5Hb2RSnjQnuZMGXb3n3SvS2dN5rs1h5JztqnjKeDbFabeIZsWEewE/h+C0fSgZc++naL4YNBrwIe8Eaii/w==}
-    dependencies:
-      '@crossbell/util-ethers': 1.5.17
-      '@fastify/deepmerge': 1.3.0
-      crossbell: 1.9.0(typescript@5.2.2)(zod@3.22.4)
-    transitivePeerDependencies:
-      - bufferutil
       - typescript
       - utf-8-validate
       - zod
@@ -2671,8 +2604,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@next/env@14.0.2:
-    resolution: {integrity: sha512-HAW1sljizEaduEOes/m84oUqeIDAUYBR1CDwu2tobNlNDFP3cSm9d6QsOsGeNlIppU1p/p1+bWbYCbvwjFiceA==}
+  /@next/env@14.0.1:
+    resolution: {integrity: sha512-Ms8ZswqY65/YfcjrlcIwMPD7Rg/dVjdLapMcSHG26W6O67EJDF435ShW4H4LXi1xKO1oRc97tLXUpx8jpLe86A==}
     dev: false
 
   /@next/eslint-plugin-next@14.0.2:
@@ -2681,8 +2614,8 @@ packages:
       glob: 7.1.7
     dev: true
 
-  /@next/swc-darwin-arm64@14.0.2:
-    resolution: {integrity: sha512-i+jQY0fOb8L5gvGvojWyZMfQoQtDVB2kYe7fufOEiST6sicvzI2W5/EXo4lX5bLUjapHKe+nFxuVv7BA+Pd7LQ==}
+  /@next/swc-darwin-arm64@14.0.1:
+    resolution: {integrity: sha512-JyxnGCS4qT67hdOKQ0CkgFTp+PXub5W1wsGvIq98TNbF3YEIN7iDekYhYsZzc8Ov0pWEsghQt+tANdidITCLaw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -2690,8 +2623,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-darwin-x64@14.0.2:
-    resolution: {integrity: sha512-zRCAO0d2hW6gBEa4wJaLn+gY8qtIqD3gYd9NjruuN98OCI6YyelmhWVVLlREjS7RYrm9OUQIp/iVJFeB6kP1hg==}
+  /@next/swc-darwin-x64@14.0.1:
+    resolution: {integrity: sha512-625Z7bb5AyIzswF9hvfZWa+HTwFZw+Jn3lOBNZB87lUS0iuCYDHqk3ujuHCkiyPtSC0xFBtYDLcrZ11mF/ap3w==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -2699,8 +2632,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-arm64-gnu@14.0.2:
-    resolution: {integrity: sha512-tSJmiaon8YaKsVhi7GgRizZoV0N1Sx5+i+hFTrCKKQN7s3tuqW0Rov+RYdPhAv/pJl4qiG+XfSX4eJXqpNg3dA==}
+  /@next/swc-linux-arm64-gnu@14.0.1:
+    resolution: {integrity: sha512-iVpn3KG3DprFXzVHM09kvb//4CNNXBQ9NB/pTm8LO+vnnnaObnzFdS5KM+w1okwa32xH0g8EvZIhoB3fI3mS1g==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -2708,8 +2641,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-arm64-musl@14.0.2:
-    resolution: {integrity: sha512-dXJLMSEOwqJKcag1BeX1C+ekdPPJ9yXbWIt3nAadhbLx5CjACoB2NQj9Xcqu2tmdr5L6m34fR+fjGPs+ZVPLzA==}
+  /@next/swc-linux-arm64-musl@14.0.1:
+    resolution: {integrity: sha512-mVsGyMxTLWZXyD5sen6kGOTYVOO67lZjLApIj/JsTEEohDDt1im2nkspzfV5MvhfS7diDw6Rp/xvAQaWZTv1Ww==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -2717,8 +2650,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-x64-gnu@14.0.2:
-    resolution: {integrity: sha512-WC9KAPSowj6as76P3vf1J3mf2QTm3Wv3FBzQi7UJ+dxWjK3MhHVWsWUo24AnmHx9qDcEtHM58okgZkXVqeLB+Q==}
+  /@next/swc-linux-x64-gnu@14.0.1:
+    resolution: {integrity: sha512-wMqf90uDWN001NqCM/auRl3+qVVeKfjJdT9XW+RMIOf+rhUzadmYJu++tp2y+hUbb6GTRhT+VjQzcgg/QTD9NQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -2726,8 +2659,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-x64-musl@14.0.2:
-    resolution: {integrity: sha512-KSSAwvUcjtdZY4zJFa2f5VNJIwuEVnOSlqYqbQIawREJA+gUI6egeiRu290pXioQXnQHYYdXmnVNZ4M+VMB7KQ==}
+  /@next/swc-linux-x64-musl@14.0.1:
+    resolution: {integrity: sha512-ol1X1e24w4j4QwdeNjfX0f+Nza25n+ymY0T2frTyalVczUmzkVD7QGgPTZMHfR1aLrO69hBs0G3QBYaj22J5GQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -2735,8 +2668,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-win32-arm64-msvc@14.0.2:
-    resolution: {integrity: sha512-2/O0F1SqJ0bD3zqNuYge0ok7OEWCQwk55RPheDYD0va5ij7kYwrFkq5ycCRN0TLjLfxSF6xI5NM6nC5ux7svEQ==}
+  /@next/swc-win32-arm64-msvc@14.0.1:
+    resolution: {integrity: sha512-WEmTEeWs6yRUEnUlahTgvZteh5RJc4sEjCQIodJlZZ5/VJwVP8p2L7l6VhzQhT4h7KvLx/Ed4UViBdne6zpIsw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -2744,8 +2677,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-win32-ia32-msvc@14.0.2:
-    resolution: {integrity: sha512-vJI/x70Id0oN4Bq/R6byBqV1/NS5Dl31zC+lowO8SDu1fHmUxoAdILZR5X/sKbiJpuvKcCrwbYgJU8FF/Gh50Q==}
+  /@next/swc-win32-ia32-msvc@14.0.1:
+    resolution: {integrity: sha512-oFpHphN4ygAgZUKjzga7SoH2VGbEJXZa/KL8bHCAwCjDWle6R1SpiGOdUdA8EJ9YsG1TYWpzY6FTbUA+iAJeww==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
@@ -2753,8 +2686,8 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-win32-x64-msvc@14.0.2:
-    resolution: {integrity: sha512-Ut4LXIUvC5m8pHTe2j0vq/YDnTEyq6RSR9vHYPqnELrDapPhLNz9Od/L5Ow3J8RNDWpEnfCiQXuVdfjlNEJ7ug==}
+  /@next/swc-win32-x64-msvc@14.0.1:
+    resolution: {integrity: sha512-FFp3nOJ/5qSpeWT0BZQ+YE1pSMk4IMpkME/1DwKBwhg4mJLB9L+6EXuJi4JEwaJdl5iN+UUlmUD3IsR1kx5fAg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -9836,20 +9769,20 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /next-themes@0.2.1(next@14.0.2)(react-dom@18.2.0)(react@18.2.0):
+  /next-themes@0.2.1(next@14.0.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
     peerDependencies:
       next: '*'
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 14.0.2(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
+      next: 14.0.1(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /next@14.0.2(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-jsAU2CkYS40GaQYOiLl9m93RTv2DA/tTJ0NRlmZIBIL87YwQ/xR8k796z7IqgM3jydI8G25dXvyYMC9VDIevIg==}
+  /next@14.0.1(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-s4YaLpE4b0gmb3ggtmpmV+wt+lPRuGtANzojMQ2+gmBpgX9w5fTbjsy6dXByBuENsdCX5pukZH/GxdFgO62+pA==}
     engines: {node: '>=18.17.0'}
     hasBin: true
     peerDependencies:
@@ -9863,7 +9796,7 @@ packages:
       sass:
         optional: true
     dependencies:
-      '@next/env': 14.0.2
+      '@next/env': 14.0.1
       '@swc/helpers': 0.5.2
       busboy: 1.6.0
       caniuse-lite: 1.0.30001561
@@ -9873,15 +9806,15 @@ packages:
       styled-jsx: 5.1.1(@babel/core@7.23.3)(react@18.2.0)
       watchpack: 2.4.0
     optionalDependencies:
-      '@next/swc-darwin-arm64': 14.0.2
-      '@next/swc-darwin-x64': 14.0.2
-      '@next/swc-linux-arm64-gnu': 14.0.2
-      '@next/swc-linux-arm64-musl': 14.0.2
-      '@next/swc-linux-x64-gnu': 14.0.2
-      '@next/swc-linux-x64-musl': 14.0.2
-      '@next/swc-win32-arm64-msvc': 14.0.2
-      '@next/swc-win32-ia32-msvc': 14.0.2
-      '@next/swc-win32-x64-msvc': 14.0.2
+      '@next/swc-darwin-arm64': 14.0.1
+      '@next/swc-darwin-x64': 14.0.1
+      '@next/swc-linux-arm64-gnu': 14.0.1
+      '@next/swc-linux-arm64-musl': 14.0.1
+      '@next/swc-linux-x64-gnu': 14.0.1
+      '@next/swc-linux-x64-musl': 14.0.1
+      '@next/swc-win32-arm64-msvc': 14.0.1
+      '@next/swc-win32-ia32-msvc': 14.0.1
+      '@next/swc-win32-x64-msvc': 14.0.1
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
