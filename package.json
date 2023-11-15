@@ -162,7 +162,7 @@
     "@iconify/tailwind": "0.1.3",
     "@next/bundle-analyzer": "14.0.2",
     "@types/async-lock": "1.4.2",
-    "@types/canvas-confetti": "1.6.2",
+    "@types/canvas-confetti": "1.6.3",
     "@types/chroma-js": "2.4.3",
     "@types/cookie": "0.5.4",
     "@types/hast": "3.0.3",
