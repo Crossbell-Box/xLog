@@ -14,9 +14,8 @@ import removeMarkdown from "remove-markdown"
 import { Metadata } from "@prisma/client"
 import { QueryClient } from "@tanstack/react-query"
 
-import { detectLanguage } from "~/lib/detect-lang"
 import { getTranslation as getTranslationWithI18n } from "~/lib/i18n"
-import { Languages, languages } from "~/lib/i18n/settings"
+import { languageNames, Languages, languages } from "~/lib/i18n/settings"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { llmModelSwitcherByTextLength } from "~/lib/llm-model-switcher-by-text-length"
 import prisma from "~/lib/prisma.server"
@@ -153,7 +152,7 @@ export const cacheCoverDimensions = async ({
     getValueFun: async () => {
       let result
 
-      await asyncLock.acquire(cid, async () => {
+      await asyncLock.acquire(`coverDimensions_${cid}`, async () => {
         const meta = await prisma.metadata.findFirst({
           where: {
             uri: `ipfs://${cid}`,
@@ -224,8 +223,8 @@ export const decoratePageForImageDimensions = async (
 // Content translation
 
 type ContentTranslation = {
-  title: string
-  content: string
+  title?: string
+  content?: string
 }
 
 let translationModel4K: OpenAI | undefined
@@ -248,7 +247,8 @@ const translationChains = new Map<ChainKeyType, LLMChain>()
 
 const getOriginalTranslation = async (
   cid: string,
-  lang: Languages,
+  targetLang: Languages,
+  originalLang?: Languages,
 ): Promise<ContentTranslation | undefined> => {
   if (!translationModel4K || !translationModel16K) return
 
@@ -257,35 +257,31 @@ const getOriginalTranslation = async (
       await fetch(toGateway(`ipfs://${cid}`))
     ).json()
 
-    // Remove code blocks and markdown syntax
-    const processedContent = removeMarkdown(content.replace(/```[^]+?```/g, ""))
-
-    const detectedLang = detectLanguage(processedContent)
     // If the detected language is the same as the target language, return the original content
-    if (detectedLang === lang) {
+    if (originalLang === targetLang) {
       console.warn(
-        `|__ Warn: Detected language is the same as the target language, return the original content: ${cid}, ${lang}`,
+        `|__ Warn: Detected language is the same as the target language, return the original content: ${cid}, ${targetLang}`,
       )
       return
     }
 
-    console.time(`fetching translation ${cid}, ${lang}`)
+    console.time(`fetching translation ${cid}, ${targetLang}`)
     const { modelSize, tokens } = llmModelSwitcherByTextLength(content, {
-      includeResponse: { lang },
+      includeResponse: { lang: targetLang },
     })
 
     if (!modelSize) {
       console.error(
-        `|__ Error: Content too long for translation: ${cid}, ${lang}. (Tokens: ${tokens})`,
+        `|__ Error: Content too long for translation: ${cid}, ${targetLang}. (Tokens: ${tokens})`,
       )
       return
     }
 
-    let chain = translationChains.get(`${modelSize}_${lang}`)
+    let chain = translationChains.get(`${modelSize}_${targetLang}`)
 
     if (!chain) {
       const prompt = new PromptTemplate({
-        template: `Translate the following text into "${lang}" language: 
+        template: `Translate the following text into "${languageNames[targetLang]}" language: 
         {text}
         Translation:`,
         inputVariables: ["text"],
@@ -296,13 +292,13 @@ const getOriginalTranslation = async (
 
       chain = new LLMChain({ llm: translateModel, prompt })
 
-      translationChains.set(`${modelSize}_${lang}`, chain)
+      translationChains.set(`${modelSize}_${targetLang}`, chain)
     }
 
     const t = await chain.call({ text: title })
     const c = await chain.call({ text: content })
 
-    console.timeEnd(`fetching translation ${cid}, ${lang}`)
+    console.timeEnd(`fetching translation ${cid}, ${targetLang}`)
 
     return {
       title: t.text,
@@ -310,7 +306,7 @@ const getOriginalTranslation = async (
     }
   } catch (error) {
     console.error(error)
-    console.timeEnd(`fetching translation ${cid}, ${lang}`)
+    console.timeEnd(`fetching translation ${cid}, ${targetLang}`)
   }
 }
 
@@ -329,7 +325,7 @@ async function getTranslation({
     getValueFun: async () => {
       let result
 
-      await asyncLock.acquire(cid, async () => {
+      await asyncLock.acquire(`translation_${cid}`, async () => {
         const meta = await prisma.metadata.findFirst({
           where: {
             uri: `ipfs://${cid}`,
@@ -388,6 +384,7 @@ async function getTranslation({
           }
         }
       })
+
       return result
     },
   })) as ContentTranslation | undefined
@@ -400,17 +397,23 @@ export async function decoratePageWithTranslation(
   page?: Awaited<ReturnType<typeof pageModel.getPage>> | null,
 ) {
   if (!page) return
-
+  const cid = toCid(page?.metadata?.uri || "")
   const { i18n } = await getTranslationWithI18n()
+  const targetLanguage = i18n.resolvedLanguage as Languages
+  const originalLanguage = page?.metadata?.content?.originalLanguage
 
-  let translatedContent = await getTranslation({
-    cid: toCid(page?.metadata?.uri || ""),
-    lang: i18n.resolvedLanguage as Languages,
+  if (originalLanguage === targetLanguage) {
+    return
+  }
+
+  const translatedContent = await getTranslation({
+    cid,
+    lang: targetLanguage,
   })
 
   if (translatedContent && page?.metadata?.content) {
-    page.metadata.content.content = translatedContent.content
-    page.metadata.content.title = translatedContent.title
+    page.metadata.content["content"] = translatedContent.content
+    page.metadata.content["title"] = translatedContent.title
   }
 }
 
@@ -491,7 +494,7 @@ export async function getSummary({
     getValueFun: async () => {
       if (languages.includes(lang)) {
         let result
-        await asyncLock.acquire(cid, async () => {
+        await asyncLock.acquire(`summary_${cid}`, async () => {
           const meta = await prisma.metadata.findFirst({
             where: {
               uri: `ipfs://${cid}`,

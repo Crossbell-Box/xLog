@@ -40,7 +40,9 @@ export async function handleTenantRedirectionOrRewrite(
     (!pathname.startsWith(withLocale("/feed")) ||
       !pathname.startsWith(withLocale("/feed", { prefixDefault: true })))
   ) {
-    return NextResponse.redirect(`${tenant.redirect}${pathname}${search}`)
+    return NextResponse.redirect(`${tenant.redirect}${pathname}${search}`, {
+      headers: requestHeaders,
+    })
   }
 
   requestHeaders.set("x-xlog-handle", tenant.subdomain || "")
@@ -53,7 +55,7 @@ export async function handleTenantRedirectionOrRewrite(
     // The prefix subpath(/en,/zh...) shouldn't be omitted by `prefixDefault` options.
     return NextResponse.rewrite(
       new URL(
-        withLocale(`/site/${tenant?.subdomain}${_pathname}${search}`, {
+        withLocale(`/site/${tenant?.subdomain}${_pathname}`, {
           prefixDefault: true,
         }),
         req.url,

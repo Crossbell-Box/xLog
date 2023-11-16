@@ -13,7 +13,7 @@ const _thresholds: Thresholds = {
 export function detectLanguage(
   text: string,
   thresholds: Thresholds = _thresholds,
-): string | null {
+): Languages {
   // Pre-process the text
   text = text.replace(/[\d\s\p{P}]/gu, "") // Remove numbers, whitespace, and punctuation
 
@@ -40,7 +40,7 @@ export function detectLanguage(
     { k: {}, max: null },
   )
 
-  return result.max
+  return result.max as Languages
 
   function detect(text: string, thresholds: Thresholds): string | null {
     const scores: Record<string, number> = {}

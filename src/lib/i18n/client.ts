@@ -13,7 +13,13 @@ import { useLang } from "~/hooks/useLang"
 
 import { IS_DEV } from "../constants"
 import { OUR_DOMAIN } from "../env"
-import { defaultNS, getOptions, languageNames, languages } from "./settings"
+import {
+  defaultNS,
+  getOptions,
+  languageNames,
+  Languages,
+  languages,
+} from "./settings"
 
 i18next
   .use(initReactI18next)
@@ -42,7 +48,7 @@ export function isLanguageAuto() {
   return !window.document.cookie.includes("preferred_language")
 }
 
-export function changeLanguage(language: string) {
+export function changeLanguage(language: Languages | "auto" | "") {
   let date
   if (language === "auto") {
     language = ""
@@ -54,6 +60,7 @@ export function changeLanguage(language: string) {
   document.cookie = IS_DEV
     ? `preferred_language=${language};`
     : `preferred_language=${language}; Domain=.${OUR_DOMAIN}; Path=/; expires=${date.toUTCString()}`
+
   window.location.reload()
 }
 
@@ -79,7 +86,7 @@ export function useAvailableLanguages() {
 
   return languages.concat("auto").map((lang) => {
     return {
-      code: lang,
+      code: lang as Languages | "auto",
       name: languageNames[lang as keyof typeof languageNames],
       active: lang === currentLng,
     }

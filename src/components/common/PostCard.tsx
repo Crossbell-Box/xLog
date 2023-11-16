@@ -13,8 +13,8 @@ import PostCover from "~/components/home/PostCover"
 import { PlatformsSyncMap } from "~/components/site/Platform"
 import { Avatar } from "~/components/ui/Avatar"
 import { Tooltip } from "~/components/ui/Tooltip"
-import { useCurrentLocale } from "~/hooks/useCurrentLocale"
 import { useDate } from "~/hooks/useDate"
+import { useLang } from "~/hooks/useLang"
 import { getSiteLink } from "~/lib/helpers"
 import { useTranslation } from "~/lib/i18n/client"
 import { withLocale } from "~/lib/i18n/with-locale"
@@ -48,7 +48,7 @@ const Card = ({
   const { t } = useTranslation("common")
   const date = useDate()
   const searchParams = useSearchParams()
-  const locale = useCurrentLocale()
+  const { lang: locale } = useLang()
 
   let queryString = searchParams.toString()
   queryString = queryString ? `?${queryString}` : ""
@@ -59,6 +59,9 @@ const Card = ({
     (p) => p.portfolioDomain && externalLink?.startsWith(p.portfolioDomain),
   )
 
+  const originalLng = post?.metadata?.content?.originalLanguage
+  const pathLocale = locale
+
   return (
     <Link
       target={isBlank || isPortfolio ? "_blank" : undefined}
@@ -68,7 +71,11 @@ const Card = ({
           : withLocale(
               `${linkPrefix || ""}/${post.metadata?.content
                 ?.slug}${queryString}`,
-              { pathLocale: locale },
+              {
+                pathLocale,
+                defaultLocale: originalLng,
+                prefixDefault: true,
+              },
             )
       }
       className={cn(

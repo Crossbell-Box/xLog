@@ -158,8 +158,6 @@
     "viem": "1.16.6",
     "wagmi": "1.4.5",
     "xregexp": "^5.1.1",
-    "@formatjs/intl-localematcher": "^0.2.32",
-    "negotiator": "^0.6.3",
     "zustand": "4.4.4"
   },
   "devDependencies": {

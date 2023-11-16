@@ -1,23 +1,28 @@
 import { i18nConfig } from "./config"
+import { Languages } from "./settings"
 
 export const withLocale = (
   path: string,
   options: {
+    defaultLocale?: Languages // The default locale.
     prefixDefault?: boolean // Whether to prefix the default locale.
-    pathLocale?: string // The locale from the path.
+    pathLocale?: Languages // The locale from the path.
   },
 ) => {
-  const { prefixDefault = false, pathLocale = i18nConfig.defaultLocale } =
-    options
+  const {
+    prefixDefault = false,
+    pathLocale,
+    defaultLocale = i18nConfig.defaultLocale,
+  } = options
 
-  if (i18nConfig.defaultLocale === pathLocale) {
+  if (pathLocale === defaultLocale) {
     if (prefixDefault) {
-      return `/${i18nConfig.defaultLocale}${path}`
+      return `/${pathLocale}${path}`
     } else {
       return path
     }
   } else {
-    return `/${pathLocale}${path}`
+    return `/${pathLocale || defaultLocale}${path}`
   }
 }
 

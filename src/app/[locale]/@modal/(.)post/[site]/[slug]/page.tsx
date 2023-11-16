@@ -9,6 +9,7 @@ import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SiteHeader } from "~/components/site/SiteHeader"
 import { getTranslation } from "~/lib/i18n"
+import { Languages } from "~/lib/i18n/settings"
 import { toCid } from "~/lib/ipfs-parser"
 import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
@@ -25,7 +26,6 @@ export default async function SiteModal({
   }
 }) {
   const queryClient = getQueryClient()
-
   const site = await fetchGetSite(params.site, queryClient)
 
   const page = await fetchGetPage(
@@ -52,7 +52,7 @@ export default async function SiteModal({
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
       cid: toCid(page.metadata?.uri || ""),
-      lang: i18n.resolvedLanguage,
+      lang: i18n.resolvedLanguage as Languages,
     })
   }
   const onlyContent = isOnlyContent()

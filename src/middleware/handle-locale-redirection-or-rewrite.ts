@@ -1,27 +1,20 @@
 import { NextRequest, NextResponse } from "next/server"
 
+import { getAcceptLang } from "~/lib/accept-lang"
 import { i18nConfig } from "~/lib/i18n/config"
+import { Languages } from "~/lib/i18n/settings"
 
-const {
-  basePath,
-  localeCookie,
-  localeDetector,
-  defaultLocale,
-  locales,
-  prefixDefault,
-} = i18nConfig
+const { basePath, localeCookie, defaultLocale, locales } = i18nConfig
 
 export function handleLocaleRedirectionOrRewrite(
   req: NextRequest,
   options: {
     pathLocale?: string
-    pathname?: string
-  } = {
-    pathLocale: "",
-    pathname: "",
+    pathname: string
+    requestHeaders: Headers
   },
 ) {
-  const { pathLocale = "", pathname = "" } = options
+  const { requestHeaders, pathLocale, pathname } = options
 
   const basePathTrailingSlash = basePath?.endsWith("/")
 
@@ -32,7 +25,7 @@ export function handleLocaleRedirectionOrRewrite(
 
     // check cookie for locale
     if (localeCookie) {
-      const cookieValue = req.cookies.get(localeCookie)?.value
+      const cookieValue = req.cookies.get(localeCookie)?.value as Languages
 
       if (cookieValue && i18nConfig.locales.includes(cookieValue)) {
         locale = cookieValue
@@ -41,16 +34,12 @@ export function handleLocaleRedirectionOrRewrite(
 
     // if no cookie, detect locale with localeDetector
     if (!locale) {
-      if (localeDetector === false) {
-        locale = defaultLocale
-      } else {
-        locale = localeDetector?.(req, i18nConfig)
-      }
+      locale = getAcceptLang()
     }
 
-    if (!locales.includes(locale!)) {
+    if (!locales.includes(locale as Languages)) {
       console.warn(
-        "The localeDetector callback must return a locale included in your locales array. Reverting to using defaultLocale.",
+        "The localeDetector callback must return a locale included in the locales array. Reverting to using defaultLocale.",
       )
 
       locale = defaultLocale
@@ -64,15 +53,11 @@ export function handleLocaleRedirectionOrRewrite(
       newPath += search
     }
 
-    // redirect to prefixed path
-    if (prefixDefault || locale !== defaultLocale) {
-      return NextResponse.redirect(new URL(newPath, req.url))
-    }
-
-    // If we get here, we're using the defaultLocale.
-    if (!prefixDefault) {
-      return NextResponse.rewrite(new URL(newPath, req.url))
-    }
+    // If the target path does not include the locale code, rewrite to the new path with the detected locale code.
+    // E.g. /about -> /en/about, /post -> /en/post
+    return NextResponse.rewrite(new URL(newPath, req.url), {
+      request: { headers: requestHeaders },
+    })
   } else {
     let pathWithoutLocale = pathname.slice(`/${defaultLocale}`.length) || "/"
 
@@ -84,10 +69,12 @@ export function handleLocaleRedirectionOrRewrite(
       pathWithoutLocale += search
     }
 
-    // If /default, redirect to /
-    if (!prefixDefault && pathLocale === defaultLocale) {
+    // If the target path includes the default locale code, redirect to the new path without the default locale code.
+    // E.g. The current locale is en-US, /en-US/about -> /about, /en-US/post -> /post
+    if (pathLocale === defaultLocale) {
       return NextResponse.redirect(
         new URL(`${basePath}${pathWithoutLocale}`, req.url),
+        { headers: requestHeaders },
       )
     }
   }

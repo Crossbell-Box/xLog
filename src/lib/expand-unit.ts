@@ -7,6 +7,7 @@ import { toCid, toGateway } from "~/lib/ipfs-parser"
 import readingTime from "~/lib/reading-time"
 import { ExpandedCharacter, ExpandedNote, PortfolioStats } from "~/lib/types"
 
+import { detectLanguage } from "./detect-lang"
 import { getNoteSlug } from "./helpers"
 
 export const expandCrossbellNote = async ({
@@ -43,12 +44,11 @@ export const expandCrossbellNote = async ({
     let rendered
     if (expandedNote.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
-      rendered = renderPageContent(expandedNote.metadata.content.content, true)
+      const content = expandedNote.metadata.content.content
+      rendered = renderPageContent(content, true)
       if (keyword) {
-        const position = expandedNote.metadata.content.content
-          .toLowerCase()
-          .indexOf(keyword.toLowerCase())
-        expandedNote.metadata.content.summary = `...${expandedNote.metadata.content.content.slice(
+        const position = content.toLowerCase().indexOf(keyword.toLowerCase())
+        expandedNote.metadata.content.summary = `...${content.slice(
           position - 10,
           position + 100,
         )}`
@@ -57,6 +57,12 @@ export const expandCrossbellNote = async ({
           expandedNote.metadata.content.summary = rendered.excerpt
         }
       }
+
+      const processedContent = removeMarkdown(
+        content.replace(/```[^]+?```/g, ""),
+      )
+      const detectedLang = detectLanguage(processedContent)
+      expandedNote.metadata.content.originalLanguage = detectedLang
 
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter

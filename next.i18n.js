@@ -21,7 +21,6 @@ const i18nConfig = {
   // Next.js will detect the browser language automatically
   // https://nextjs.org/docs/pages/building-your-application/routing/internationalization#automatic-locale-detection
   defaultLocale: "en",
-  prefixDefault: false,
   basePath: "/",
 }
 

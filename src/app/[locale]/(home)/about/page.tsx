@@ -157,7 +157,9 @@ const Home = async (props: NextServerPageBaseParams) => {
           >
             <Link
               className="h-full flex items-center"
-              href={withLocale("/", { pathLocale: props.params.locale })}
+              href={withLocale("/", {
+                pathLocale: props.params.locale,
+              })}
             >
               {t("Look at others'")}
             </Link>

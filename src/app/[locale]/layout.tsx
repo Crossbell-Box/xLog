@@ -27,6 +27,7 @@ import "~/css/main.css"
 import { PropsWithChildren } from "react"
 import { NextServerPageBaseParams } from "types/next"
 
+import { getAcceptLang } from "~/lib/accept-lang"
 import { Languages } from "~/lib/i18n/settings"
 
 export const metadata: Metadata = {
@@ -106,7 +107,7 @@ export default function RootLayout({
     modal: React.ReactNode
   }>
 >) {
-  const lang = params.locale as Languages
+  const lang = (params?.locale as Languages) ?? getAcceptLang()
   const colorScheme = getColorScheme()
 
   // For viewing statistics

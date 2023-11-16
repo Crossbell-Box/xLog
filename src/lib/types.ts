@@ -1,5 +1,7 @@
 import type { CharacterEntity, NoteEntity } from "crossbell"
 
+import { Languages } from "./i18n/settings"
+
 export type Site = {
   id: string
   name: string
@@ -90,6 +92,7 @@ export type ExpandedNote = NoteEntity & {
       cover?: string
       images?: string[]
       imageDimensions?: Record<string, { width: number; height: number }>
+      originalLanguage?: Languages
       frontMatter?: Record<string, any>
       slug?: string
       audio?: string

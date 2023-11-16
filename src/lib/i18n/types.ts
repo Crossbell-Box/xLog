@@ -1,10 +1,8 @@
-import { NextRequest } from "next/server"
+import { Languages } from "./settings"
 
 export interface Config {
-  locales: string[]
+  locales: Languages[]
   defaultLocale: string
   localeCookie?: string
-  localeDetector?: ((request: NextRequest, config: Config) => string) | false
-  prefixDefault?: boolean
   basePath?: string
 }

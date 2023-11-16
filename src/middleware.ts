@@ -5,21 +5,20 @@ import { getClientIp } from "@supercharge/request-ip"
 import { IS_PROD } from "~/lib/constants"
 import { DISCORD_LINK } from "~/lib/env"
 
+import { getAcceptLang } from "./lib/accept-lang"
 import { i18nConfig } from "./lib/i18n/config"
-import { validateConfig } from "./lib/i18n/validate-config"
 import { withLocaleFactory } from "./lib/i18n/with-locale"
 import { handleLocaleRedirectionOrRewrite } from "./middleware/handle-locale-redirection-or-rewrite"
+import { handlePostRedirection } from "./middleware/handle-post-redirection"
 import { handleTenantRedirectionOrRewrite } from "./middleware/handle-tenant-redirection-or-rewrite"
 import { interceptor } from "./middleware/interceptor"
 
 // HTTPWhiteListPaths: White list of path for plain http request, no HTTPS redirect
 const HTTPWhitelistPaths = ["/api/healthcheck"]
 
-validateConfig(i18nConfig)
-
 export default async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl
-  const { locales, prefixDefault, defaultLocale } = i18nConfig
+  const { locales } = i18nConfig
 
   const pathLocale = locales.find(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
@@ -30,10 +29,12 @@ export default async function middleware(req: NextRequest) {
   requestHeaders.set("x-xlog-pathname", pathname)
   requestHeaders.set("x-xlog-search", search)
   requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
-  requestHeaders.set("x-next-i18n-router-locale", pathLocale || defaultLocale)
 
   // Generate withLocale function with default options.
-  const withLocale = withLocaleFactory({ pathLocale })
+  const withLocale = withLocaleFactory({
+    pathLocale,
+    defaultLocale: getAcceptLang(),
+  })
 
   if (
     IS_PROD &&
@@ -75,6 +76,13 @@ export default async function middleware(req: NextRequest) {
   const interceptorResponse = interceptor(pathname, requestHeaders)
   if (interceptorResponse) return interceptorResponse
 
+  // Handle post redirection
+  const responseWithHandledPost = handlePostRedirection(
+    pathname,
+    requestHeaders,
+  )
+  if (responseWithHandledPost) return responseWithHandledPost
+
   // Handle tenant redirection or rewrite
   const responseWithHandledTenant = await handleTenantRedirectionOrRewrite(
     req,
@@ -91,6 +99,7 @@ export default async function middleware(req: NextRequest) {
   const responseWithHandledLocale = handleLocaleRedirectionOrRewrite(req, {
     pathLocale,
     pathname,
+    requestHeaders,
   })
   if (responseWithHandledLocale) return responseWithHandledLocale
 

@@ -4,6 +4,8 @@ import { PropsWithChildren, ReactElement, ReactNode } from "react"
 
 import { DehydratedState } from "@tanstack/react-query"
 
+import { Languages } from "~/lib/i18n/settings"
+
 export type AppPropsWithLayout = AppProps<{
   dehydratedState: DehydratedState
 }> & {
@@ -22,6 +24,6 @@ export type NextServerPageBaseParams<
   P extends PropsWithChildren<any> = PropsWithChildren<{}>,
 > = {
   params: {
-    locale: string
+    locale: Languages
   } & I
 } & P

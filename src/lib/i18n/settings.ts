@@ -5,7 +5,7 @@ export const languages = (availableLocales as Array<any>).map(
   (locale) => locale.code,
 ) as ["en", "zh", "zh-TW", "ja"]
 export type Languages = (typeof languages)[number]
-export const languageNames = {
+export const languageNames: Record<Languages | "auto", string> = {
   en: "English",
   zh: "中文",
   "zh-TW": "中文（繁體）",

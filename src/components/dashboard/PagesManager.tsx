@@ -14,11 +14,9 @@ import { Menu } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
 import PostCover from "~/components/home/PostCover"
-import { useCurrentLocale } from "~/hooks/useCurrentLocale"
 import { useDate } from "~/hooks/useDate"
 import { getSiteLink } from "~/lib/helpers"
 import { Trans, useTranslation } from "~/lib/i18n/client"
-import { withLocale } from "~/lib/i18n/with-locale"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
@@ -45,7 +43,6 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
   const router = useRouter()
   const pathname = usePathname()
   const pinnedPage = usePinnedPage({ characterId: site.data?.characterId })
-  const locale = useCurrentLocale()
 
   const visibility = useMemo<PageVisibilityEnum>(
     () =>
@@ -105,14 +102,9 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
   }))
 
   const getPageEditLink = (page: ExpandedNote) => {
-    return withLocale(
-      `/dashboard/${subdomain}/editor?id=${
-        page.noteId || page.draftKey
-      }&type=${type}`,
-      {
-        pathLocale: locale,
-      },
-    )
+    return `/dashboard/${subdomain}/editor?id=${
+      page.noteId || page.draftKey
+    }&type=${type}`
   }
 
   const queryClient = useQueryClient()
