@@ -1,10 +1,18 @@
 import AsyncLock from "async-lock"
+import OpenAI from "openai"
 
 import countCharacters from "~/lib/character-count"
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
 import { getQuery, NextServerResponse } from "~/lib/server-helper"
+
+let openai: OpenAI | undefined
+if (process.env.OPENAI_API_KEY) {
+  openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+}
 
 const lock = new AsyncLock()
 
@@ -26,41 +34,51 @@ const getOriginalScore = async (cid: string) => {
     }
 
     if (countCharacters(content) > 300) {
+      if (!openai) {
+        return {
+          number: 100,
+          reason: "OpenAI not configured",
+        }
+      }
+
       console.time(`fetching score ${cid}`)
 
-      const prompt = `According to rule 1 not too short content, rule 2 good originality and innovation, and rule 3 good fun or logic, give this article a score in the range of 0-100 and explain the reason:
-      "${content}"
-      Score:`
-      const response = await (
-        await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      const completion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: "user",
+            content: `You are an expert in scoring blog posts, you will evaluate this article based on three rules: 
+1. Content length should not be too short.
+2. Originality and innovation should be good.
+3. The article should provide either good fun or logical reasoning.
+
+Based on these criteria, you will assign a score to the article on a scale of 0-100 and provide an explanation for your decision. The evaluation should be presented in JSON format, following the structure: { "score": number, "reason": string }.
+
+Below you find the post content:
+--------
+${content}
+--------`,
           },
-          body: JSON.stringify({
-            model: "gpt-4",
-            temperature: 0,
-            messages: [
-              {
-                role: "user",
-                content: prompt,
-              },
-            ],
-          }),
-        })
-      ).json()
+        ],
+        model: "gpt-4-1106-preview",
+        temperature: 0,
+        response_format: { type: "json_object" },
+      })
+
+      let evaluate
+      try {
+        if (completion.choices?.[0]?.message?.content) {
+          evaluate = JSON.parse(completion.choices?.[0]?.message?.content)
+        }
+      } catch (error) {}
 
       console.timeEnd(`fetching score ${cid}`)
 
-      return {
-        number: parseInt(response.choices?.[0]?.message?.content?.trim()),
-        reason: response.choices?.[0]?.message?.content
-          ?.trim()
-          .replace(/^\d+([,.\s]*)/, "")
-          .trim()
-          .replace(/^Reason:/, "")
-          .trim(),
+      if (evaluate.reason) {
+        return {
+          number: evaluate.score,
+          reason: evaluate.reason,
+        }
       }
     } else {
       return {
