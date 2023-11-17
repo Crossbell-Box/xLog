@@ -14,6 +14,9 @@ export const withLocale = (
     pathLocale,
     defaultLocale = i18nConfig.defaultLocale,
   } = options
+  // { pathLocale: undefined, defaultLocale: 'en', prefixDefault: true }
+
+  console.log("======options", path, options)
 
   if (pathLocale === defaultLocale) {
     if (prefixDefault) {

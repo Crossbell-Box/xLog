@@ -4,7 +4,7 @@ import { TFunction } from "i18next"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
 import { IS_PROD, IS_VERCEL_PREVIEW } from "./constants"
-import { OUR_DOMAIN } from "./env"
+import { OUR_DOMAIN, PROTOCOL } from "./env"
 
 export const getSiteLink = ({
   domain,
@@ -24,7 +24,7 @@ export const getSiteLink = ({
     return `${subdomain}.${OUR_DOMAIN}`
   }
 
-  return `${IS_PROD ? "https" : "http"}://${subdomain}.${OUR_DOMAIN}`
+  return `${PROTOCOL}://${subdomain}.${OUR_DOMAIN}`
 }
 
 export const getNoteSlug = (note: NoteEntity, disableAutofill?: boolean) => {

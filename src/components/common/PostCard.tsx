@@ -60,7 +60,6 @@ const Card = ({
   )
 
   const originalLng = post?.metadata?.content?.originalLanguage
-  const pathLocale = locale
 
   return (
     <Link
@@ -72,7 +71,7 @@ const Card = ({
               `${linkPrefix || ""}/${post.metadata?.content
                 ?.slug}${queryString}`,
               {
-                pathLocale,
+                pathLocale: locale,
                 defaultLocale: originalLng,
                 prefixDefault: true,
               },

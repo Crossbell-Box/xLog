@@ -57,6 +57,7 @@ export function changeLanguage(language: Languages | "auto" | "") {
     date = new Date()
     date.setFullYear(date.getFullYear() + 10)
   }
+
   document.cookie = IS_DEV
     ? `preferred_language=${language};`
     : `preferred_language=${language}; Domain=.${OUR_DOMAIN}; Path=/; expires=${date.toUTCString()}`

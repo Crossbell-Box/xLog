@@ -51,6 +51,17 @@ export async function handleTenantRedirectionOrRewrite(
     const _pathname =
       pathname === "/" ? "" : `/${pathname.split("/").slice(-1)}`
 
+    console.log(
+      pathname,
+      new URL(
+        withLocale(`/site/${tenant?.subdomain}${_pathname}`, {
+          prefixDefault: true,
+        }),
+        req.url,
+      ).toString(),
+      "=====tos",
+    )
+
     // We should use the full URL here, such as `/en/site/xxx`.
     // The prefix subpath(/en,/zh...) shouldn't be omitted by `prefixDefault` options.
     return NextResponse.rewrite(

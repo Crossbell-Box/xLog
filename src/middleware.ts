@@ -9,7 +9,6 @@ import { getAcceptLang } from "./lib/accept-lang"
 import { i18nConfig } from "./lib/i18n/config"
 import { withLocaleFactory } from "./lib/i18n/with-locale"
 import { handleLocaleRedirectionOrRewrite } from "./middleware/handle-locale-redirection-or-rewrite"
-import { handlePostRedirection } from "./middleware/handle-post-redirection"
 import { handleTenantRedirectionOrRewrite } from "./middleware/handle-tenant-redirection-or-rewrite"
 import { interceptor } from "./middleware/interceptor"
 
@@ -32,6 +31,14 @@ export default async function middleware(req: NextRequest) {
 
   // Generate withLocale function with default options.
   const withLocale = withLocaleFactory({
+    pathLocale,
+    defaultLocale: getAcceptLang(),
+  })
+
+  console.log("=====！！！！！！", {
+    req,
+    pathname,
+    ppppp: req.cookies.get("locale"),
     pathLocale,
     defaultLocale: getAcceptLang(),
   })
@@ -74,14 +81,9 @@ export default async function middleware(req: NextRequest) {
 
   // Intercepts some paths that do not need the locale prefix
   const interceptorResponse = interceptor(pathname, requestHeaders)
-  if (interceptorResponse) return interceptorResponse
-
-  // Handle post redirection
-  const responseWithHandledPost = handlePostRedirection(
-    pathname,
-    requestHeaders,
-  )
-  if (responseWithHandledPost) return responseWithHandledPost
+  if (interceptorResponse) {
+    return interceptorResponse
+  }
 
   // Handle tenant redirection or rewrite
   const responseWithHandledTenant = await handleTenantRedirectionOrRewrite(

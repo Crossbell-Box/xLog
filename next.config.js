@@ -18,9 +18,6 @@ module.exports = withBundleAnalyzer({
   },
   productionBrowserSourceMaps: true,
 
-  // Temporary fix for EmojiPicker loading issue
-  swcMinify: false,
-
   webpack(config) {
     config.resolve.fallback = { fs: false } // polyfill node-id3
 

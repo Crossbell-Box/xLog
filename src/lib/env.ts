@@ -9,7 +9,8 @@ export const OUR_DOMAIN =
   "localhost:2222"
 export const SCORE_API_DOMAIN = process.env.NEXT_PUBLIC_SCORE_API_DOMAIN
 export const DOCS_DOMAIN = `docs.${OUR_DOMAIN}`
-export const SITE_URL = `${IS_PROD ? "https" : "http"}://${OUR_DOMAIN}`
+export const PROTOCOL = IS_PROD ? "https" : "http"
+export const SITE_URL = `${PROTOCOL}://${OUR_DOMAIN}`
 export const APP_DESCRIPTION =
   process.env.APP_DESCRIPTION ||
   "An open-source creative community written on the blockchain."

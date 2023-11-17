@@ -6,8 +6,8 @@ export function getAcceptLang() {
   let lng = fallbackLng
 
   const preferLang = cookies().get("preferred_language")?.value
-
   let acceptLang = headers().get("accept-language")?.split(",")[0]
+
   if (acceptLang === "zh-HK" || acceptLang === "zh-TW") {
     acceptLang = "zh-TW"
   } else {
