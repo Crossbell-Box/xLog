@@ -5,6 +5,7 @@ import React, { useEffect } from "react"
 
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
+import { IPFS_GATEWAY } from "~/lib/env"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
 
 export type TImageProps = {
@@ -151,6 +152,25 @@ export const Image = ({
             }
           }}
           ref={imageRefInternal}
+          loader={
+            src.startsWith("ipfs://") &&
+            IPFS_GATEWAY === "https://ipfs.crossbell.io/ipfs/"
+              ? ({ src, width, quality }) => {
+                  // https://docs.filebase.com/ipfs/about-ipfs/ipfs-gateways#filebase-ipfs-image-optimization
+                  try {
+                    const urlObj = new URL(src)
+                    urlObj.searchParams.set("img-quality", (quality || 75) + "")
+                    urlObj.searchParams.set("img-format", "auto")
+                    if (width) {
+                      urlObj.searchParams.set("img-width", width + "")
+                    }
+                    return urlObj.toString()
+                  } catch (error) {
+                    return src
+                  }
+                }
+              : undefined
+          }
         />
       </span>
     </span>
