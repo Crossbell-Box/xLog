@@ -65,7 +65,7 @@ export default async function SiteModal({
 
   return (
     <PostModal handle={site?.handle}>
-      <div className="pb-16">
+      <div className="pb-16 overflow-x-hidden overflow-y-scroll">
         <SiteHeader
           handle={params.site}
           hideNavigation={true}
