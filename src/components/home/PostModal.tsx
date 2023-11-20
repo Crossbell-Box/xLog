@@ -49,7 +49,7 @@ export default function PostModal({
           <i className="icon-[mingcute--user-3-line]" />
         </UniLink>
       </div>
-      <div className="h-full overflow-y-auto rounded-xl">{children}</div>
+      <div className="overflow-hidden rounded-xl flex flex-col">{children}</div>
     </Modal>
   )
 }
