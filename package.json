@@ -133,7 +133,7 @@
     "rehype-slug": "5.1.0",
     "rehype-stringify": "9.0.4",
     "remark-breaks": "3.0.3",
-    "remark-directive": "2.0.1",
+    "remark-directive": "3.0.0",
     "remark-directive-rehype": "0.4.2",
     "remark-emoji": "4.0.0",
     "remark-frontmatter": "4.0.1",
