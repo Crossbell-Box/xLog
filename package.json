@@ -128,7 +128,7 @@
     "rehype-prism-plus": "1.6.3",
     "rehype-raw": "6.1.1",
     "rehype-react": "7.2.0",
-    "rehype-rewrite": "3.0.6",
+    "rehype-rewrite": "4.0.0",
     "rehype-sanitize": "5.0.1",
     "rehype-slug": "5.1.0",
     "rehype-stringify": "9.0.4",
