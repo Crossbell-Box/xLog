@@ -10,8 +10,8 @@ export const REDIS_REFRESH =
   parseInt(config.ENV_REDIS_REFRESH || process.env.REDIS_REFRESH || "0") ||
   5 * 1000 // 5 seconds
 
-export const NFTSCAN_API_KEY =
-  config.ENV_NFTSCAN_API_KEY || process.env.NFTSCAN_API_KEY
+export const SIMPLEHASH_API_KEY =
+  config.ENV_SIMPLEHASH_API_KEY || process.env.SIMPLEHASH_API_KEY
 export const OPENAI_API_KEY =
   config.ENV_OPENAI_API_KEY || process.env.OPENAI_API_KEY
 export const ANONYMOUS_ACCOUNT_PRIVATEKEY =

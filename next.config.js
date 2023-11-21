@@ -21,9 +21,6 @@ module.exports = withBundleAnalyzer(
     },
     productionBrowserSourceMaps: true,
 
-    // Temporary fix for EmojiPicker loading issue
-    swcMinify: false,
-
     webpack(config) {
       config.resolve.fallback = { fs: false } // polyfill node-id3
 
@@ -67,7 +64,7 @@ module.exports = withBundleAnalyzer(
       ENV_REDIS_URL: process.env.REDIS_URL,
       ENV_REDIS_EXPIRE: process.env.REDIS_EXPIRE,
       ENV_REDIS_REFRESH: process.env.REDIS_REFRESH,
-      ENV_NFTSCAN_API_KEY: process.env.NFTSCAN_API_KEY,
+      ENV_SIMPLEHASH_API_KEY: process.env.SIMPLEHASH_API_KEY,
       ENV_OPENAI_API_KEY: process.env.OPENAI_API_KEY,
       ENV_ANONYMOUS_ACCOUNT_PRIVATEKEY:
         process.env.ANONYMOUS_ACCOUNT_PRIVATEKEY,

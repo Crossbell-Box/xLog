@@ -6,20 +6,22 @@ metadata:
 data:
   Caddyfile: |
     {
-    	storage redis {
-    	}
+      storage redis {
+      }
 
-    	on_demand_tls {
-    		ask http://localhost:5000/
-    	}
+      on_demand_tls {
+        ask http://localhost:5000/
+      }
     }
 
     xlog.app, *.xlog.app {
-    	tls jeff@rss3.io {
-    		dns cloudflare {env.CF_API_TOKEN}
-    	}
+      tls jeff@rss3.io {
+        dns cloudflare {env.CF_API_TOKEN}
+      }
 
-    	reverse_proxy xlog-internal.crossbell.svc:3000
+      reverse_proxy xlog-internal.crossbell.svc:3000 {
+        header_up x-forwarded-proto http
+      }
     }
 
     :8080 {
@@ -27,11 +29,13 @@ data:
     }
 
     :80, :443 {
-    	tls jeff@rss3.io {
-    		on_demand
-    	}
+      tls jeff@rss3.io {
+        on_demand
+      }
 
-    	reverse_proxy xlog-internal.crossbell.svc:3000
+      reverse_proxy xlog-internal.crossbell.svc:3000 {
+        header_up x-forwarded-proto http
+      }
     }
 ---
 apiVersion: v1

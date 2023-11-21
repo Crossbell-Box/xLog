@@ -70,11 +70,7 @@ export async function middleware(req: NextRequest) {
     )
   }
 
-  console.debug(
-    `${req.method} ${req.nextUrl}, x-forwarded-proto: ${req.headers.get(
-      "x-forwarded-proto",
-    )}, cf-visitor: ${req.headers.get("cf-visitor")}`,
-  )
+  console.debug(`${req.method} ${req.nextUrl}`)
 
   const response = handleI18nRouting(req)
   response.headers.set("x-default-locale", defaultLocale)

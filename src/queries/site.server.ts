@@ -8,7 +8,7 @@ import { cacheGet } from "~/lib/redis.server"
 import { ExpandedCharacter } from "~/lib/types"
 import * as siteModel from "~/models/site.model"
 
-import { NFTSCAN_API_KEY } from "../lib/env.server"
+import { SIMPLEHASH_API_KEY } from "../lib/env.server"
 
 export const prefetchGetSite = async (
   input: string,
@@ -110,7 +110,7 @@ export const fetchGetComments = async (
 }
 
 export const getNFTs = async (address?: string) => {
-  if (!NFTSCAN_API_KEY || !address) {
+  if (!SIMPLEHASH_API_KEY || !address) {
     return null
   }
 
@@ -119,19 +119,84 @@ export const getNFTs = async (address?: string) => {
     noUpdate: true,
     expireTime: 60 * 60 * 24,
     getValueFun: async () => {
+      const chains = (
+        (await (
+          await fetch("https://api.simplehash.com/api/v0/chains", {
+            headers: {
+              "X-API-KEY": SIMPLEHASH_API_KEY,
+              accept: "application/json",
+            },
+          })
+        ).json()) as {
+          chain: string
+          is_testnet: boolean
+        }[]
+      )
+        .filter((item) => !item.is_testnet)
+        .map((item) => item.chain)
+        .join(",")
       const result = await (
         await fetch(
-          `https://restapi.nftscan.com/api/v2/assets/chain/${address}?erc_type=&chain=eth;bnb;polygon;arbitrum;optimism;avax;cronos;platon;moonbeam;fantom;gnosis`,
+          `https://api.simplehash.com/api/v0/nfts/owners_v2?${new URLSearchParams(
+            {
+              chains: chains,
+              wallet_addresses: address,
+              filters: "spam_score__lte=90",
+              order_by: "floor_price__desc",
+            },
+          ).toString()}`,
           {
             headers: {
-              "X-API-KEY": NFTSCAN_API_KEY,
+              "X-API-KEY": SIMPLEHASH_API_KEY,
+              accept: "application/json",
             },
           },
         )
       ).json()
-      return result.data
+      while (result.next && result.nfts.length < 1000) {
+        const next = await (
+          await fetch(result.next, {
+            headers: {
+              "X-API-KEY": SIMPLEHASH_API_KEY,
+              accept: "application/json",
+            },
+          })
+        ).json()
+        result.nfts = result.nfts.concat(next.nfts)
+        result.next = next.next
+      }
+      return {
+        nfts: result.nfts,
+        chains: chains.split(","),
+      }
     },
-  })
+  }) as Promise<{
+    nfts: {
+      nft_id: string
+      chain: string
+      contract_address: string
+      token_id: string
+      name: string
+      description: string
+      previews: {
+        image_small_url: string
+        image_medium_url: string
+        image_large_url: string
+        image_opengraph_url: string
+        blurhash: string
+        predominant_color: string
+      }
+      external_url?: string
+      collection?: {
+        external_url?: string
+        marketplace_pages?: {
+          nft_url?: string
+          collection_url?: string
+        }[]
+      }
+    }[]
+    chains: string[]
+  }>
 }
 
 export const getCharacterColors = async (character?: ExpandedCharacter) => {
