@@ -136,7 +136,7 @@
     "remark-directive": "2.0.1",
     "remark-directive-rehype": "0.4.2",
     "remark-emoji": "4.0.0",
-    "remark-frontmatter": "4.0.1",
+    "remark-frontmatter": "5.0.0",
     "remark-gfm": "3.0.1",
     "remark-math": "5.1.1",
     "remark-parse": "10.0.2",
