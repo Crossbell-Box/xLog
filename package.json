@@ -138,7 +138,7 @@
     "remark-emoji": "4.0.0",
     "remark-frontmatter": "4.0.1",
     "remark-gfm": "3.0.1",
-    "remark-math": "5.1.1",
+    "remark-math": "6.0.0",
     "remark-parse": "10.0.2",
     "remark-rehype": "10.1.0",
     "remark-stringify": "10.0.3",
