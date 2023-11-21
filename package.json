@@ -141,7 +141,7 @@
     "remark-math": "5.1.1",
     "remark-parse": "10.0.2",
     "remark-rehype": "10.1.0",
-    "remark-stringify": "10.0.3",
+    "remark-stringify": "11.0.0",
     "remove-markdown": "0.5.0",
     "serialize-javascript": "6.0.1",
     "sharp": "0.32.6",
