@@ -179,7 +179,7 @@
     "@types/react-infinite-scroller": "1.2.5",
     "@types/remove-markdown": "0.3.4",
     "@types/serialize-javascript": "5.0.4",
-    "@types/sortablejs": "1.15.6",
+    "@types/sortablejs": "1.15.7",
     "@types/ua-parser-js": "0.7.39",
     "@types/uuid": "9.0.7",
     "autoprefixer": "10.4.16",
