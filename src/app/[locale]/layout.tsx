@@ -109,14 +109,18 @@ export function generateStaticParams() {
 export default async function RootLayout({
   children,
   modal,
-  params: { locale },
+  params,
 }: {
   children: React.ReactNode
   modal: React.ReactNode
-  params: {
+  params?: {
     locale: string
   }
 }) {
+  if (!params?.locale) {
+    return notFound()
+  }
+
   // const lang = getAcceptLang()
   const colorScheme = getColorScheme()
 
@@ -130,22 +134,22 @@ export default async function RootLayout({
     })
   }
 
-  const messages = await getMessages(locale)
-  unstable_setRequestLocale(locale)
+  const messages = await getMessages(params.locale)
+  unstable_setRequestLocale(params.locale)
 
   return (
-    <html lang={locale} className={colorScheme}>
+    <html lang={params.locale} className={colorScheme}>
       <head>
         <ColorSchemeInjector />
         <ColorSchemeScript />
       </head>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider locale={params.locale} messages={messages}>
           <MantineProvider
             theme={mantineTheme}
             defaultColorScheme={mantineDefaultColorScheme}
           >
-            <Providers lang={locale}>
+            <Providers lang={params.locale}>
               {modal}
               {children}
             </Providers>
