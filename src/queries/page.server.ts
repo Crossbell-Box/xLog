@@ -1,4 +1,7 @@
+import https from "https"
+import url from "url"
 import AsyncLock from "async-lock"
+import sizeOf from "image-size"
 import { AnalyzeDocumentChain, loadSummarizationChain } from "langchain/chains"
 import { OpenAI } from "langchain/llms/openai"
 import { PromptTemplate } from "langchain/prompts"
@@ -7,7 +10,7 @@ import removeMarkdown from "remove-markdown"
 import { Metadata } from "@prisma/client"
 import { QueryClient } from "@tanstack/react-query"
 
-import { toGateway } from "~/lib/ipfs-parser"
+import { toCid, toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
 import * as pageModel from "~/models/page.model"
@@ -33,6 +36,145 @@ export const fetchGetPage = async (
         }),
     }) as Promise<ReturnType<typeof pageModel.getPage>>
   })
+}
+
+export const getImageDimensionByUri = async (uri: string) => {
+  return new Promise<{ width: number; height: number; uri: string }>(
+    (resolve, reject) => {
+      const options = url.parse(uri)
+
+      https.get(options, function (response) {
+        const chunks: Buffer[] = []
+        let totalLength = 0
+        const MAX_BUFFER_LENGTH = 10240
+
+        response
+          .on("data", function (chunk) {
+            chunks.push(chunk)
+            totalLength += chunk.length
+
+            if (totalLength > MAX_BUFFER_LENGTH) {
+              response.destroy()
+              const buffer = Buffer.concat(chunks)
+              try {
+                const dimension = sizeOf(buffer)
+                if (dimension.width && dimension.height) {
+                  resolve({
+                    width: dimension.width,
+                    height: dimension.height,
+                    uri,
+                  })
+                }
+              } catch (e) {
+                reject("Not enough data for image size detection.")
+              }
+            }
+          })
+          .on("end", function () {
+            if (totalLength <= MAX_BUFFER_LENGTH) {
+              const buffer = Buffer.concat(chunks)
+              try {
+                const dimension = sizeOf(buffer)
+                if (dimension.width && dimension.height) {
+                  resolve({
+                    width: dimension.width,
+                    height: dimension.height,
+                    uri,
+                  })
+                }
+              } catch (e) {
+                reject(e)
+              }
+            }
+          })
+      })
+    },
+  )
+}
+
+export const cacheCoverDimensions = async ({
+  cid,
+  uris,
+}: {
+  cid: string
+  uris: string[]
+}) => {
+  if (!uris.length) return
+
+  const dimensions = (await cacheGet({
+    key: ["coverDimensions", cid],
+    allowEmpty: true,
+    noUpdate: true,
+    noExpire: true,
+    getValueFun: async () => {
+      let result
+
+      await lock.acquire(`coverDimensions_${cid}`, async () => {
+        const meta = await prisma.metadata.findFirst({
+          where: {
+            uri: `ipfs://${cid}`,
+          },
+        })
+
+        const key: keyof Metadata = "image_dimensions"
+        const dimensions = meta?.image_dimensions
+
+        if (dimensions) {
+          result = dimensions
+        } else {
+          const newDimensions: Record<
+            string,
+            { width: number; height: number }
+          > = {}
+
+          console.time(`get image dimensions ${cid}`)
+          for (const uri of uris) {
+            const dimension = await getImageDimensionByUri(toGateway(uri))
+            if (dimension) {
+              newDimensions[uri] = dimension
+            }
+          }
+          console.timeEnd(`get image dimensions ${cid}`)
+
+          if (meta) {
+            await prisma.metadata.update({
+              where: { uri: `ipfs://${cid}` },
+              data: {
+                [key]: newDimensions,
+              },
+            })
+          } else {
+            await prisma.metadata.create({
+              data: {
+                uri: `ipfs://${cid}`,
+                [key]: newDimensions,
+              },
+            })
+          }
+          result = newDimensions
+        }
+      })
+
+      return result
+    },
+  })) as Record<string, { width: number; height: number }> | undefined
+
+  return dimensions
+}
+
+export const decoratePageForImageDimensions = async (
+  page?: Awaited<ReturnType<typeof pageModel.getPage>> | null,
+) => {
+  if (!page) return
+
+  const dimensions = await cacheCoverDimensions({
+    cid: toCid(page?.metadata?.uri || ""),
+    uris: page?.metadata?.content?.images || [],
+  })
+
+  if (dimensions && Object.keys(dimensions).length && page?.metadata?.content) {
+    page.metadata.content["imageDimensions"] = dimensions
+  }
 }
 
 export const prefetchGetPagesBySite = async (

@@ -83,6 +83,7 @@
     "hast-util-to-html": "9.0.0",
     "i18next": "23.7.6",
     "i18next-resources-to-backend": "1.2.0",
+    "image-size": "^1.0.2",
     "immer": "10.0.3",
     "ioredis": "5.3.2",
     "isomorphic-dompurify": "1.9.0",

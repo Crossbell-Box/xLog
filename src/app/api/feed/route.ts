@@ -1,5 +1,6 @@
 import { getQuery, NextServerResponse } from "~/lib/server-helper"
 import { getFeed } from "~/models/home.model"
+import { decoratePageForImageDimensions } from "~/queries/page.server"
 
 export async function GET(req: Request) {
   const query = getQuery(req)
@@ -16,6 +17,11 @@ export async function GET(req: Request) {
     useHTML: false,
     topic: query.topic,
   })
+
+  for (const item of result.list) {
+    await decoratePageForImageDimensions(item)
+  }
+
   const res = new NextServerResponse()
   return res.status(200).json(result)
 }
