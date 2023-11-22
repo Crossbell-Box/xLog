@@ -1,5 +1,8 @@
+import { Language } from "../types"
+
 export const fallbackLng = "en"
-export const languages = ["en", "zh", "zh-TW", "ja"]
+export const languages: Language[] = ["en", "zh", "zh-TW", "ja"]
+
 export const languageNames = {
   en: "English",
   zh: "中文",

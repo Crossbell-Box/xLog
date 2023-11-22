@@ -16,7 +16,11 @@ import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
-import { fetchGetPage, getSummary } from "~/queries/page.server"
+import {
+  decoratePageWithTranslation,
+  fetchGetPage,
+  getSummary,
+} from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
 export async function generateMetadata({
@@ -39,6 +43,8 @@ export async function generateMetadata({
     },
     queryClient,
   )
+
+  await decoratePageWithTranslation(page)
 
   const title = `${
     page?.metadata?.content?.title || page?.metadata?.content?.content
@@ -134,6 +140,8 @@ export default async function SitePagePage({
 
   const { i18n } = await getTranslation()
   const { t } = await getTranslation("common")
+  await decoratePageWithTranslation(page)
+
   let summary: string | undefined
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
