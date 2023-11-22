@@ -425,8 +425,8 @@ devDependencies:
     specifier: 4.7.4
     version: 4.7.4
   '@types/node':
-    specifier: 20.9.3
-    version: 20.9.3
+    specifier: 20.9.4
+    version: 20.9.4
   '@types/pangu':
     specifier: 4.0.2
     version: 4.0.2
@@ -3241,7 +3241,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 20.9.3
+      '@types/node': 20.9.4
     dev: false
 
   /@types/cookie@0.5.4:
@@ -3354,7 +3354,7 @@ packages:
   /@types/node-fetch@2.6.9:
     resolution: {integrity: sha512-bQVlnMLFJ2d35DkPNjEPmd9ueO/rh5EiaZt2bhqiSarPjZIuIV6bPQVqcrEyvNo+AfTrRGVazle1tl597w3gfA==}
     dependencies:
-      '@types/node': 20.9.3
+      '@types/node': 20.9.4
       form-data: 4.0.0
     dev: false
 
@@ -3368,8 +3368,8 @@ packages:
       undici-types: 5.26.5
     dev: false
 
-  /@types/node@20.9.3:
-    resolution: {integrity: sha512-nk5wXLAXGBKfrhLB0cyHGbSqopS+nz0BUgZkUQqSHSSgdee0kssp1IAqlQOu333bW+gMNs2QREx7iynm19Abxw==}
+  /@types/node@20.9.4:
+    resolution: {integrity: sha512-wmyg8HUhcn6ACjsn8oKYjkN/zUzQeNtMy44weTJSM6p4MMzEOuKbA3OjJ267uPCOW7Xex9dyrNTful8XTQYoDA==}
     dependencies:
       undici-types: 5.26.5
 
@@ -3456,7 +3456,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 20.9.3
+      '@types/node': 20.9.4
     dev: false
 
   /@typescript-eslint/parser@6.12.0(eslint@8.54.0)(typescript@5.3.2):
@@ -7982,7 +7982,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.9.3
+      '@types/node': 20.9.4
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
