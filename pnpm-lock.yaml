@@ -268,7 +268,7 @@ dependencies:
     version: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0)
   react-sortablejs:
     specifier: 6.1.4
-    version: 6.1.4(@types/sortablejs@1.15.6)(react-dom@18.2.0)(react@18.2.0)(sortablejs@1.15.0)
+    version: 6.1.4(@types/sortablejs@1.15.7)(react-dom@18.2.0)(react@18.2.0)(sortablejs@1.15.0)
   react-string-replace:
     specifier: 1.1.1
     version: 1.1.1
@@ -449,8 +449,8 @@ devDependencies:
     specifier: 5.0.4
     version: 5.0.4
   '@types/sortablejs':
-    specifier: 1.15.6
-    version: 1.15.6
+    specifier: 1.15.7
+    version: 1.15.7
   '@types/ua-parser-js':
     specifier: 0.7.39
     version: 0.7.39
@@ -2710,6 +2710,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -3427,8 +3428,8 @@ packages:
     resolution: {integrity: sha512-Z2R7UKFuNWCP8eoa2o9e5rkD3hmWxx/1L0CYz0k2BZzGh0PhEVMp9kfGiqEml/0IglwNERXZ2hwNzIrSz/KHTA==}
     dev: true
 
-  /@types/sortablejs@1.15.6:
-    resolution: {integrity: sha512-/G23qmK63iBjke89C1KvyFGMC7sooH4OKPuhOhLZUttZJ49dw7y7oimqICFe2PHCdQ4Cfb9tsF/Xy8kYr1/nIg==}
+  /@types/sortablejs@1.15.7:
+    resolution: {integrity: sha512-PvgWCx1Lbgm88FdQ6S7OGvLIjWS66mudKPlfdrWil0TjsO5zmoZmzoKiiwRShs1dwPgrlkr0N4ewuy0/+QUXYQ==}
 
   /@types/trusted-types@2.0.7:
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
@@ -9537,6 +9538,10 @@ packages:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
     dev: false
 
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: false
+
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
@@ -10622,7 +10627,7 @@ packages:
       use-sidecar: 1.1.2(@types/react@18.2.38)(react@18.2.0)
     dev: false
 
-  /react-sortablejs@6.1.4(@types/sortablejs@1.15.6)(react-dom@18.2.0)(react@18.2.0)(sortablejs@1.15.0):
+  /react-sortablejs@6.1.4(@types/sortablejs@1.15.7)(react-dom@18.2.0)(react@18.2.0)(sortablejs@1.15.0):
     resolution: {integrity: sha512-fc7cBosfhnbh53Mbm6a45W+F735jwZ1UFIYSrIqcO/gRIFoDyZeMtgKlpV4DdyQfbCzdh5LoALLTDRxhMpTyXQ==}
     peerDependencies:
       '@types/sortablejs': '1'
@@ -10630,7 +10635,7 @@ packages:
       react-dom: '>=16.9.0'
       sortablejs: '1'
     dependencies:
-      '@types/sortablejs': 1.15.6
+      '@types/sortablejs': 1.15.7
       classnames: 2.3.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
