@@ -182,7 +182,7 @@
   "Pin": "固定する",
   "Unpin": "固定を解除する",
   "Blog Free": "自由に創作する",
-  "description": "<6>ブロックチェーン</6>上に書かれた<2>オープンソース</2>の創作コミュニティ。",
+  "description": "<blockchainLink>ブロックチェーン</blockchainLink>上に書かれた<opensourceLink>オープンソース</opensourceLink>の創作コミュニティ。",
   "Get my xLog in 5 minutes": "5分で自分のxLogを手に入れよう",
   "Features": "特徴",
   "Integration": "統合",

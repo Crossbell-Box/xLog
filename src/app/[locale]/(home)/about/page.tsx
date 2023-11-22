@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server"
 import Link from "next/link"
 import { memo } from "react"
 
@@ -10,10 +11,9 @@ import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
 import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { getTranslation, Trans } from "~/lib/i18n"
 
 async function Home() {
-  const { t, i18n } = await getTranslation("index")
+  const t = await getTranslations()
 
   const EntranceButton = memo(function Button() {
     return (
@@ -123,27 +123,28 @@ async function Home() {
           ))}
         </h2>
         <h3 className="mt-3 sm:mt-5 text-zinc-800 text-2xl sm:text-4xl font-light">
-          <Trans i18n={i18n} i18nKey="description" ns="index">
-            An{" "}
-            <a
-              target="_blank"
-              rel="nofollow noreferrer"
-              className="underline decoration-2 text-green-400 font-medium"
-              href={GITHUB_LINK}
-            >
-              open-source
-            </a>{" "}
-            creative community written on the{" "}
-            <a
-              target="_blank"
-              rel="nofollow noreferrer"
-              className="underline decoration-2 text-yellow-400 font-medium"
-              href={CSB_SCAN}
-            >
-              blockchain
-            </a>
-            .
-          </Trans>
+          {t.rich("description", {
+            opensourceLink: (chunks) => (
+              <a
+                target="_blank"
+                rel="nofollow noreferrer"
+                className="underline decoration-2 text-green-400 font-medium"
+                href={GITHUB_LINK}
+              >
+                {chunks}
+              </a>
+            ),
+            blockchainLink: (chunks) => (
+              <a
+                target="_blank"
+                rel="nofollow noreferrer"
+                className="underline decoration-2 text-yellow-400 font-medium"
+                href={CSB_SCAN}
+              >
+                {chunks}
+              </a>
+            ),
+          })}
         </h3>
         <div className="my-4 sm:my-12 flex items-center justify-center sm:flex-row flex-col">
           <EntranceButton />
@@ -193,23 +194,18 @@ async function Home() {
                   {t(`features.${feature.title}.subtitle`)}
                 </h4>
                 <p className="mt-6 text-zinc-500">
-                  <Trans
-                    i18n={i18n}
-                    i18nKey={`features.${feature.title}.description`}
-                    components={{
-                      aown: (
-                        <a
-                          target="_blank"
-                          rel="nofollow noreferrer"
-                          className="underline"
-                          href="https://github.com/Crossbell-Box/Crossbell-Contracts/wiki"
-                        >
-                          .
-                        </a>
-                      ),
-                    }}
-                    ns="index"
-                  />
+                  {t.rich(`features.${feature.title}.description`, {
+                    aown: (chunks) => (
+                      <a
+                        target="_blank"
+                        rel="nofollow noreferrer"
+                        className="underline"
+                        href="https://github.com/Crossbell-Box/Crossbell-Contracts/wiki"
+                      >
+                        {chunks}
+                      </a>
+                    ),
+                  })}
                 </p>
               </div>
               <ul className="pt-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -237,38 +233,35 @@ async function Home() {
                       </span>
                     </p>
                     <p className="text-base font-light mt-3 mb-4 leading-normal px-5 text-left">
-                      <Trans
-                        i18n={i18n}
-                        i18nKey={`${item.title} text`}
-                        components={{
-                          strong: <strong className="font-bold" />,
-                          axfm: (
-                            <a
-                              target="_blank"
-                              rel="nofollow noreferrer"
-                              className="underline"
-                              href={`${getSiteLink({
-                                subdomain: "xlog",
-                              })}/xfm`}
-                            >
-                              .
-                            </a>
-                          ),
-                          aincentive: (
-                            <a
-                              target="_blank"
-                              rel="nofollow noreferrer"
-                              className="underline"
-                              href={`${getSiteLink({
-                                subdomain: "xlog",
-                              })}/creator-incentive-plan`}
-                            >
-                              .
-                            </a>
-                          ),
-                        }}
-                        ns="index"
-                      />
+                      {t.rich(`${item.title} text`, {
+                        strong: (chunks) => (
+                          <strong className="font-bold">{chunks}</strong>
+                        ),
+                        axfm: (chunks) => (
+                          <a
+                            target="_blank"
+                            rel="nofollow noreferrer"
+                            className="underline"
+                            href={`${getSiteLink({
+                              subdomain: "xlog",
+                            })}/xfm`}
+                          >
+                            {chunks}
+                          </a>
+                        ),
+                        aincentive: (chunks) => (
+                          <a
+                            target="_blank"
+                            rel="nofollow noreferrer"
+                            className="underline"
+                            href={`${getSiteLink({
+                              subdomain: "xlog",
+                            })}/creator-incentive-plan`}
+                          >
+                            {chunks}
+                          </a>
+                        ),
+                      })}
                     </p>
                   </li>
                 ))}

@@ -29,10 +29,9 @@ export default async function Topic({
 }: {
   params: {
     topic: string
-    locale: string
   }
 }) {
-  const t = await getTranslations(params.locale)
+  const t = await getTranslations()
   params.topic = decodeURIComponent(params.topic)
   const info = topics.find((t) => t.name === params.topic)
 

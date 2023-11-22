@@ -19,7 +19,7 @@ export default function PublishedModal({
     <>
       <div className="p-5">
         {t(
-          "Your publication has been securely stored on the blockchain. Now you may want to",
+          "Your publication has been securely stored on the blockchain Now you may want to",
         )}
         <ul className="list-disc pl-5 mt-2 space-y-1">
           {postUrl && (

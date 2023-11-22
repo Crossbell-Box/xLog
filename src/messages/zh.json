@@ -252,7 +252,7 @@
   "More": "更多",
   "Meet New Friends": "认识新朋友",
   "Need help?": "需要帮助？",
-  "Your publication has been securely stored on the blockchain. Now you may want to": "你的发布已经安全地存储在区块链上。现在你可能想要",
+  "Your publication has been securely stored on the blockchain Now you may want to": "你的发布已经安全地存储在区块链上。现在你可能想要",
   "View the post": "查看文章",
   "View the transaction": "查看交易",
   "Share to Twitter": "分享到 Twitter",
@@ -344,7 +344,7 @@
   "Earn": "赚取",
   "comma": "。",
   "Look at others'": "看看其他人的",
-  "description": "书写在 <6>区块链</6> 上的 <2>开源</2> 创作社区。",
+  "description": "书写在 <blockchainLink>区块链</blockchainLink> 上的 <opensourceLink>开源</opensourceLink> 创作社区。",
   "Get my xLog in 5 minutes": "5 分钟拥有自己的 xLog",
   "Explore the xLog way": "探索 xLog 之路",
   "features": {

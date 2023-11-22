@@ -18,7 +18,6 @@ import {
   UMAMI_SCRIPT,
 } from "~/lib/env"
 import { getColorScheme } from "~/lib/get-color-scheme"
-import { languages } from "~/lib/i18n/settings"
 
 import { ColorSchemeInjector } from "./ColorSchemeInjector"
 import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
@@ -100,10 +99,6 @@ export const metadata: Metadata = {
     site: "@_xLog",
     creator: "@_xLog",
   },
-}
-
-export function generateStaticParams() {
-  return languages.map((locale) => ({ locale }))
 }
 
 export default async function RootLayout({
