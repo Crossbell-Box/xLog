@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { getTranslator } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
@@ -32,7 +32,7 @@ export default async function Topic({
     locale: string
   }
 }) {
-  const t = await getTranslator(params.locale)
+  const t = await getTranslations(params.locale)
   params.topic = decodeURIComponent(params.topic)
   const info = topics.find((t) => t.name === params.topic)
 
