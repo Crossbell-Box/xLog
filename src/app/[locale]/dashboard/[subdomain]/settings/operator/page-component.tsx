@@ -215,7 +215,7 @@ export default function SettingsOperatorPage() {
             {!isEmailAccount && userRole.data !== "operator" && (
               <span>
                 {t(
-                  "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site.",
+                  "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site",
                 )}
               </span>
             )}

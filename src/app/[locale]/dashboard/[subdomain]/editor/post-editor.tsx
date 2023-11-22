@@ -156,9 +156,7 @@ export default function PostEditor() {
         // Replace all invalid chars
         val.slug = val.slug.replace(/[^\w\-]/g, "-")
         toast.error(
-          t(
-            "Slug can only contain letters, numbers, hyphens, and underscores.",
-          ),
+          t("Slug can only contain letters, numbers, hyphens, and underscores"),
         )
       }
       const newValues = { ...values, ...val }
@@ -429,8 +427,8 @@ export default function PostEditor() {
                         visibility === PageVisibilityEnum.Draft
                           ? `text-zinc-300`
                           : visibility === PageVisibilityEnum.Modified
-                          ? "text-orange-600"
-                          : "text-green-600",
+                            ? "text-orange-600"
+                            : "text-green-600",
                       )}
                     >
                       {t(visibility as string)}
@@ -491,7 +489,7 @@ export default function PostEditor() {
                       })
                     }
                     className="h-12 ml-1 inline-flex items-center border-none text-3xl font-bold w-full focus:outline-none bg-white"
-                    placeholder={t("Title goes here...") || ""}
+                    placeholder={t("Title goes here") || ""}
                   />
                 </div>
                 <div className="mt-5 flex-1 min-h-0">
@@ -539,7 +537,7 @@ const EditorExtraProperties = memo(
             <EditorPublishAt
               updateValue={updateValue}
               prompt={t(
-                `This ${type} will be accessible from this time. Leave blank to use the current time.`,
+                `This ${type} will be accessible from this time Leave blank to use the current time`,
               )}
             />
           </div>

@@ -157,7 +157,7 @@ export default function SiteSettingsGeneralPage() {
             )}
           />
           <div className="text-xs text-gray-400 mt-1">
-            {t("Supports both pictures and videos.")}
+            {t("Supports both pictures and videos")}
           </div>
         </div>
         <div className="mt-5">
@@ -175,7 +175,7 @@ export default function SiteSettingsGeneralPage() {
             placeholder={form.getValues("name")}
             {...form.register("site_name")}
             help={t(
-              "It will appear in the page title and site header, using the character name by default.",
+              "It will appear in the page title and site header, using the character name by default",
             )}
           />
         </div>

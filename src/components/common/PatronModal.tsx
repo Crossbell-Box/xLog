@@ -229,8 +229,8 @@ const PatronModal = ({
             ) : (
               t(
                 page
-                  ? "You are here to be the first tipper."
-                  : "You are here to be the first patron.",
+                  ? "You are here to be the first tipper"
+                  : "You are here to be the first patron",
               )
             )}
           </div>

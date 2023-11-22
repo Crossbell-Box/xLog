@@ -81,7 +81,7 @@ export default function ImportMarkdownPage() {
             accept=".md"
             multiple={true}
             help={t(
-              "Please select .md files, multiple files are supported, and front matter is supported.",
+              "Please select md files, multiple files are supported, and front matter is supported",
             )}
             {...form.register("files", {})}
           />

@@ -55,12 +55,12 @@ export default function SettingsCSSPage() {
             <p className="text-zinc-800 text-sm font-bold">{t("Tips")}:</p>
             <p>
               {t(
-                "Scope: These styles will be applied to your entire blog, including this dashboard.",
+                "Scope: These styles will be applied to your entire blog, including this dashboard",
               )}
             </p>
             <p>
               {t(
-                "Using a browser plugin that can modify page styles, such as Stylebot, can help with debugging.",
+                "Using a browser plugin that can modify page styles, such as Stylebot, can help with debugging",
               )}
             </p>
             <p>

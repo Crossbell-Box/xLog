@@ -96,7 +96,7 @@ export const PagesManagerBatchSelectActionTab = ({
           )
         } catch (e) {
           // Some failed
-          toast.error(t("Failed to convert."), {
+          toast.error(t("Failed to convert"), {
             id: toastId,
           })
         }
@@ -162,7 +162,7 @@ export const PagesManagerBatchSelectActionTab = ({
         id: toastId,
       })
     } catch (e) {
-      toast.error(t("Fail to Deleted."), {
+      toast.error(t("Fail to Deleted"), {
         // It should be "Failed to delete.", but the translation key is that so :shrug:
         id: toastId,
       })

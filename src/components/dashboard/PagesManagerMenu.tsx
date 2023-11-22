@@ -64,7 +64,7 @@ export const PagesManagerMenu = ({
 
   useEffect(() => {
     if (deletePage.isError) {
-      toast.error(t("Fail to Deleted."), {
+      toast.error(t("Fail to Deleted"), {
         id: getDeleteToastId(),
       })
     }
@@ -78,7 +78,7 @@ export const PagesManagerMenu = ({
       })
       updatePage.reset()
     } else if (updatePage.isError) {
-      toast.error(t("Failed to convert."), {
+      toast.error(t("Failed to convert"), {
         id: getCurrentToastId(),
       })
       updatePage.reset()

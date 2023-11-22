@@ -285,8 +285,8 @@ export default function PortfolioEditor() {
                     visibility === PageVisibilityEnum.Draft
                       ? `text-zinc-300`
                       : visibility === PageVisibilityEnum.Modified
-                      ? "text-orange-600"
-                      : "text-green-600",
+                        ? "text-orange-600"
+                        : "text-green-600",
                   )}
                 >
                   {t(visibility as string)}
@@ -316,7 +316,7 @@ const EditorExtraProperties = memo(
         <EditorPublishAt
           updateValue={updateValue}
           prompt={t(
-            "This portfolio will be accessible from this time. Leave blank to use the current time.",
+            "This portfolio will be accessible from this time Leave blank to use the current time",
           )}
         />
       </div>

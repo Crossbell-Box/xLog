@@ -132,7 +132,7 @@ export default function ShortEditor() {
 
   const savePage = async () => {
     if (!values.images?.length) {
-      toast.error(t("Please upload at least one image."))
+      toast.error(t("Please upload at least one image"))
       return
     }
     const baseValues = {
@@ -287,8 +287,8 @@ export default function ShortEditor() {
                     visibility === PageVisibilityEnum.Draft
                       ? `text-zinc-300`
                       : visibility === PageVisibilityEnum.Modified
-                      ? "text-orange-600"
-                      : "text-green-600",
+                        ? "text-orange-600"
+                        : "text-green-600",
                   )}
                 >
                   {t(visibility as string)}
@@ -314,7 +314,7 @@ const EditorExtraProperties = memo(
         <EditorPublishAt
           updateValue={updateValue}
           prompt={t(
-            "This short will be accessible from this time. Leave blank to use the current time.",
+            "This short will be accessible from this time Leave blank to use the current time",
           )}
         />
       </div>

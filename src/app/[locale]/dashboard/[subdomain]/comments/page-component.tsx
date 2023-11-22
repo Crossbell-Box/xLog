@@ -46,7 +46,7 @@ export default function CommentsPage() {
         <div className="text-sm text-zinc-500 leading-relaxed">
           <p>
             {t(
-              "You can subscribe to comments through an RSS reader to receive timely reminders.",
+              "You can subscribe to comments through an RSS reader to receive timely reminders",
             )}
           </p>
           <p>

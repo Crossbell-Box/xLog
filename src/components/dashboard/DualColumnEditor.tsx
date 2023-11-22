@@ -223,7 +223,7 @@ export default function DualColumnEditor({
       {!(isMobileLayout && isRendering) && (
         <DynamicCodeMirrorEditor
           value={initialContent}
-          placeholder={t("Start writing...") as string}
+          placeholder={t("Start writing") as string}
           onChange={onChangeInside}
           handleDropFile={handleDropFile}
           onScroll={onEditorScroll}

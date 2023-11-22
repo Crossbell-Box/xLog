@@ -38,11 +38,11 @@ export default function TokensPage() {
         <>
           <p>
             {t(
-              "$MIRA is a valuable token in the Crossbell world, and can be easily exchanged on the Crosschain Bridge and Uniswap.",
+              "$MIRA is a valuable token in the Crossbell world, and can be easily exchanged on the Crosschain Bridge and Uniswap",
             )}
           </p>
           <p>
-            {t("In the early stage, xLog will use $MIRA to motivate creators.")}
+            {t("In the early stage, xLog will use $MIRA to motivate creators")}
           </p>
           <p>{t("You can obtain $MIRA through the following ways:")}</p>
           <ul className="ml-2">
@@ -54,7 +54,7 @@ export default function TokensPage() {
                   subdomain: "xlog",
                 })}/creator-incentive-plan`}
               >
-                {t("Creator incentive program.")}
+                {t("Creator incentive program")}
               </UniLink>
             </li>
             <li>
@@ -63,16 +63,16 @@ export default function TokensPage() {
                 className="underline"
                 href={`/dashboard/${subdomain}/events`}
               >
-                {t("Participate in events.")}
+                {t("Participate in events")}
               </UniLink>
             </li>
             <li>
               3.{" "}
               <UniLink className="underline" href={MIRA_LINK}>
-                {t("Swap from USDC.")}
+                {t("Swap from USDC")}
               </UniLink>
             </li>
-            <li>4. {t("Received tips and sponsorships from readers.")}</li>
+            <li>4. {t("Received tips and sponsorships from readers")}</li>
           </ul>
         </>
       ),
@@ -96,7 +96,7 @@ export default function TokensPage() {
       description: (
         <>
           {t(
-            "This is a token used for interaction on the Crossbell blockchain, which can be claimed for free from the faucet, so there's no need to worry about its balance.",
+            "This is a token used for interaction on the Crossbell blockchain, which can be claimed for free from the faucet, so there's no need to worry about its balance",
           )}
         </>
       ),
@@ -114,7 +114,7 @@ export default function TokensPage() {
     {
       name: "XLOG",
       description: t(
-        "$XLOG is related to xLog DAO, but it's too early now, please stay tuned.",
+        "$XLOG is related to xLog DAO, but it's too early now, please stay tuned",
       ),
       balance: t("Stay tuned"),
     },

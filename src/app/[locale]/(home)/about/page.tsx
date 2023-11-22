@@ -118,7 +118,7 @@ async function Home() {
               className={`text-feature text-feature-${feature.title.toLocaleLowerCase()} inline-block sm:mr-1`}
             >
               {t(feature.title)}
-              {t(".")}
+              {t("comma")}
             </span>
           ))}
         </h2>
@@ -319,7 +319,7 @@ async function Home() {
           <div className="my-10 text-zinc-700">
             <p className="text-xl">
               {t(
-                "xLog's open design allows it to integrate with many other open protocols and applications without friction.",
+                "xLog's open design allows it to integrate with many other open protocols and applications without friction",
               )}
             </p>
             <ul className="mt-14 grid grid-cols-3 sm:grid-cols-5 gap-y-14 gap-x-2">

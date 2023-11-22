@@ -3,5 +3,8 @@
   "ago": "{{time}} ago",
   "joined ago": "Joined {{time}} ago",
   "Share Modal": "Share to...",
-  "Share Message": "Hey, I found a treasure trove of articles {{title}}, come and have a look!"
+  "Share Message": "Hey, I found a treasure trove of articles {{title}}, come and have a look!",
+  "You are here to be the first patron": "You are here to be the first patron.",
+  "You are here to be the first tipper": "You are here to be the first tipper.",
+  "Filter out possible low-quality content based on AI ratings": "Filter out possible low-quality content based on AI ratings."
 }

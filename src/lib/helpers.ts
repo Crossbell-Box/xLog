@@ -64,7 +64,7 @@ export const getTwitterShareUrl = ({
     domain: site.metadata?.content?.custom_domain,
   })}/${encodeURIComponent(slug)}&via=_xLog&text=${encodeURIComponent(
     t(
-      `Published a new post on my blockchain blog: {{title}}. Check it out now!`,
+      `Published a new post on my blockchain blog: {{title}} Check it out now!`,
       {
         title: page.metadata?.content?.title,
       },

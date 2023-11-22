@@ -62,13 +62,13 @@ export default function ImportMirrorPage() {
   }, [postNotes.isSuccess, form])
 
   return (
-    <DashboardMain title="Import from Mirror.xyz">
+    <DashboardMain title="Import from Mirrorxyz">
       {checkMirror?.data ? (
         <form onSubmit={handleSubmit}>
           <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-4">
             <div>
               <div className="form-label">
-                {t("Preview your Mirror.xyz entries")}
+                {t("Preview your Mirrorxyz entries")}
               </div>
               {notes?.length ? (
                 notes?.map((note: NoteMetadata) => (

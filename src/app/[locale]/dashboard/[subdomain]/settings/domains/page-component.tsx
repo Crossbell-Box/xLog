@@ -194,8 +194,8 @@ export default function SettingsDomainsPage() {
                 >
                   {t(
                     subdomainCheckResult.data
-                      ? "Subdomain Available."
-                      : subdomainCheckResult.error || "Subdomain Unavailable.",
+                      ? "Subdomain Available"
+                      : subdomainCheckResult.error || "Subdomain Unavailable",
                   )}
                 </span>
               )}
@@ -274,12 +274,12 @@ export default function SettingsDomainsPage() {
                   <span>{t("DNS Checking")}...</span>
                 ) : domainCheckResult.data ? (
                   <span className="text-green-600">
-                    {t("DNS check passed.")}
+                    {t("DNS check passed")}
                   </span>
                 ) : (
                   <span>
                     <span className="text-red-600">
-                      {t("DNS check failed.")}
+                      {t("DNS check failed")}
                     </span>
                     <Button
                       className="ml-4 font-media"

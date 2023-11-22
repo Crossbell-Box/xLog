@@ -76,7 +76,7 @@ export const CharacterList = ({
       ) : (
         <div className="px-5 overflow-auto flex-1">
           <div className="py-3 text-center text-zinc-300">
-            {t("No Content Yet.")}
+            {t("No Content Yet")}
           </div>
         </div>
       )}
