@@ -10,5 +10,5 @@
   "Pull down to open the app": "ダウンロード済みですか？アプリを開くために引き下げてく",
   "Write a comment on the blockchain": "ブロックチェーンでコメントする",
   "Open in App": "アプリで開く",
-  "powered by": "<span>このサイトは　</span><name/><span> によって作動します</span>"
+  "powered by": "<span>このサイトは　</span><name></name><span> によって作動します</span>"
 }

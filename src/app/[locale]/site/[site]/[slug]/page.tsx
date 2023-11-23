@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import serialize from "serialize-javascript"
 
@@ -11,7 +12,6 @@ import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { getTranslation } from "~/lib/i18n"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent } from "~/lib/is-only-content"
@@ -81,6 +81,7 @@ export default async function SitePagePage({
   params: {
     site: string
     slug: string
+    locale: string
   }
 }) {
   const queryClient = getQueryClient()
@@ -132,13 +133,12 @@ export default async function SitePagePage({
     }
   }
 
-  const { i18n } = await getTranslation()
-  const { t } = await getTranslation("common")
+  const t = await getTranslations()
   let summary: string | undefined
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
       cid: toCid(page.metadata?.uri || ""),
-      lang: i18n.resolvedLanguage,
+      lang: params.locale,
     })
   }
 

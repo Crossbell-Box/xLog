@@ -1,9 +1,10 @@
+import { getTranslations } from "next-intl/server"
+
 import { Image } from "~/components/ui/Image"
 import { SITE_URL } from "~/lib/env"
-import { getTranslation } from "~/lib/i18n"
 
 export default async function NotFound() {
-  const { t } = await getTranslation("site")
+  const t = await getTranslations()
 
   return (
     <>

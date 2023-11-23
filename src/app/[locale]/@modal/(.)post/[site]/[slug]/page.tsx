@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
@@ -8,7 +9,6 @@ import PostModal from "~/components/home/PostModal"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import { SiteHeader } from "~/components/site/SiteHeader"
-import { getTranslation } from "~/lib/i18n"
 import { toCid } from "~/lib/ipfs-parser"
 import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
@@ -22,6 +22,7 @@ export default async function SiteModal({
   params: {
     site: string
     slug: string
+    locale: string
   }
 }) {
   const queryClient = getQueryClient()
@@ -46,13 +47,12 @@ export default async function SiteModal({
 
   const dehydratedState = dehydrate(queryClient)
 
-  const { i18n } = await getTranslation()
-  const { t } = await getTranslation("common")
+  const t = await getTranslations()
   let summary: string | undefined
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
       cid: toCid(page.metadata?.uri || ""),
-      lang: i18n.resolvedLanguage,
+      lang: params.locale,
     })
   }
   const onlyContent = isOnlyContent()

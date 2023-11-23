@@ -1,8 +1,8 @@
 import { Metadata } from "next"
+import { getTranslations } from "next-intl/server"
 
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
-import { getTranslation } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
 import { fetchGetSite, getNFTs } from "~/queries/site.server"
 
@@ -34,7 +34,7 @@ export default async function SiteNFTPage({
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
-  const { t } = await getTranslation("common")
+  const t = await getTranslations()
 
   let nfts = (await getNFTs(site?.owner)) ?? {
     nfts: [],
