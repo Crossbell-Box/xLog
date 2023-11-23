@@ -101,7 +101,7 @@
     "next-themes": "0.2.1",
     "node-id3": "0.2.6",
     "open-graph-scraper": "^6.3.2",
-    "openai": "^4.19.1",
+    "openai": "^4.20.0",
     "pangu": "4.0.7",
     "path-to-regexp": "6.2.1",
     "pinyin-pro": "3.18.2",

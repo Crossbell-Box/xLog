@@ -219,8 +219,8 @@ dependencies:
     specifier: ^6.3.2
     version: 6.3.2
   openai:
-    specifier: ^4.19.1
-    version: 4.19.1
+    specifier: ^4.20.0
+    version: 4.20.0
   pangu:
     specifier: 4.0.7
     version: 4.0.7
@@ -8513,7 +8513,7 @@ packages:
       langchainhub: 0.0.6
       langsmith: 0.0.48
       ml-distance: 4.0.1
-      openai: 4.19.1
+      openai: 4.20.0
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 9.0.1
@@ -9797,8 +9797,8 @@ packages:
       validator: 13.11.0
     dev: false
 
-  /openai@4.19.1:
-    resolution: {integrity: sha512-9TddzuZBn2xxhghGGTHLZ4EeNBGTLs3xVzh266NiSJvtUsCsZQ5yVV6H5NhnhyAkKK8uUiZOUUlUAk3HdV+4xg==}
+  /openai@4.20.0:
+    resolution: {integrity: sha512-VbAYerNZFfIIeESS+OL9vgDkK8Mnri55n+jN0UN/HZeuM0ghGh6nDN6UGRZxslNgyJ7XmY/Ca9DO4YYyvrszGA==}
     hasBin: true
     dependencies:
       '@types/node': 18.18.11
