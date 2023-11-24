@@ -1,8 +1,9 @@
 "use client"
 
+import { useTranslations } from "next-intl"
+
 import { usePatronModal } from "~/components/common/PatronModal"
 import { Button } from "~/components/ui/Button"
-import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
@@ -17,7 +18,7 @@ export const PatronButton = ({
   size?: "sm" | "xl"
   loadingStatusChange?: (status: boolean) => void
 }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const presentPatronModal = usePatronModal()
 

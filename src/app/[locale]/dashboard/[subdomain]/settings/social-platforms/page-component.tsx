@@ -2,6 +2,7 @@
 
 import equal from "fast-deep-equal"
 import { nanoid } from "nanoid"
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
 import toast from "react-hot-toast"
@@ -12,7 +13,6 @@ import { Platform, PlatformsSyncMap } from "~/components/site/Platform"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
-import { Trans, useTranslation } from "~/lib/i18n/client"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
 type Item = {
@@ -36,7 +36,7 @@ const SortableNavigationItem = ({
   updateItem: UpdateItem
   removeItem: RemoveItem
 }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   return (
     <div className="flex space-x-5 border-b p-5 bg-zinc-50 last:border-0">
       <div>
@@ -86,7 +86,7 @@ export default function SiteSettingsNavigationPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
-  const { t, i18n } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const [items, setItems] = useState<Item[]>([])
 
@@ -169,18 +169,16 @@ export default function SiteSettingsNavigationPage() {
         </p>
         <p>
           <span className="text-zinc-800">
-            <Trans i18n={i18n} ns="dashboard" i18nKey="social tips.p2">
-              We support{" "}
-              <UniLink
-                href="https://github.com/Crossbell-Box/xLog/blob/dev/src/components/site/Platform.tsx#L11"
-                className="underline"
-              >
-                these platforms
-              </UniLink>{" "}
-              with automatic display of logos and links, other platforms will
-              display a default logo. Please feel free to submit an issue or pr
-              to us to support more platforms.
-            </Trans>
+            {t.rich("social tips.p2", {
+              link: (chunks) => (
+                <UniLink
+                  href="https://github.com/Crossbell-Box/xLog/blob/dev/src/components/site/Platform.tsx#L11"
+                  className="underline"
+                >
+                  (chunks)
+                </UniLink>
+              ),
+            })}
           </span>
         </p>
       </div>

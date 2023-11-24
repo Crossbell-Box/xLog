@@ -79,7 +79,7 @@
   "Supports both pictures and videos": "画像と動画の両方に対応しています。",
   "Name": "名前",
   "Description": "説明",
-  "Integrate Google Analytics": "Google Analytics と紐付けします。Measurement ID の検索方法については、<2>こちらの文章</2>をご覧ください。",
+  "Integrate Google Analytics": "Google Analytics と紐付けします。Measurement ID の検索方法については、<link>こちらの文章</link>をご覧ください。",
   "Integrate Umami Cloud Analytics": "Umami Cloud Analytics と紐付けします。Website ID の検索方法については、<2>こちらの文章</2>をご覧ください。",
   "Integrate Umami Cloud Analytics (set url)": "空欄にして、<2>Umami Cloud</2>を使用してください。",
   "Save": "保存",

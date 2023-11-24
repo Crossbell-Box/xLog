@@ -1,6 +1,7 @@
 "use client"
 
 import { nanoid } from "nanoid"
+import { useTranslations } from "next-intl"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { memo, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
@@ -32,7 +33,6 @@ import { getDefaultSlug } from "~/lib/default-slug"
 import { crossbell2Editor } from "~/lib/editor-converter"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink, getTwitterShareUrl } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { delStorage, setStorage } from "~/lib/storage"
 import {
@@ -54,7 +54,7 @@ import { useGetSite } from "~/queries/site"
 export default function PostEditor() {
   const router = useRouter()
   const queryClient = useQueryClient()
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const params = useParams()
   const subdomain = params?.subdomain as string
   const searchParams = useSearchParams()
@@ -525,7 +525,7 @@ const EditorExtraProperties = memo(
     characterId?: number
     siteLink?: string
   }) => {
-    const { t } = useTranslation("dashboard")
+    const t = useTranslations()
 
     const { present } = useModalStack()
     const openAdvancedOptions = () => {

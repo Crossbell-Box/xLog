@@ -1,6 +1,7 @@
 "use client"
 
 import type { NoteMetadata } from "crossbell"
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -10,7 +11,6 @@ import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { ImportPreview } from "~/components/dashboard/ImportPreview"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { useTranslation } from "~/lib/i18n/client"
 import { readFiles } from "~/lib/read-files"
 import { usePostNotes } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
@@ -19,7 +19,7 @@ export default function ImportMarkdownPage() {
   const params = useParams()
   const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const form = useForm({
     defaultValues: {
       type: "post",

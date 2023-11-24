@@ -1,12 +1,12 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useCallback, useEffect } from "react"
 
 import { Image } from "~/components/ui/Image"
-import { useTranslation } from "~/lib/i18n/client"
 
 function OIAPage() {
-  const { t } = useTranslation("site")
+  const t = useTranslations()
 
   useEffect(() => {
     document.body.style.backgroundColor = "#fb9148"

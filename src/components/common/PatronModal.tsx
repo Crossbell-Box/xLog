@@ -1,4 +1,5 @@
 import confetti from "canvas-confetti"
+import { useTranslations } from "next-intl"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "react-hot-toast"
 
@@ -9,7 +10,6 @@ import { BoxRadio } from "~/components/ui/BoxRadio"
 import { Button } from "~/components/ui/Button"
 import { CSB_SCAN, MIRA_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { useGetTips, useTipCharacter } from "~/queries/site"
 
@@ -20,14 +20,14 @@ import { CharacterFloatCard } from "./CharacterFloatCard"
 
 export const usePatronModal = () => {
   const { present } = useModalStack()
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   return (site?: ExpandedCharacter, page?: ExpandedNote) => {
     const title =
       (page
-        ? t("Tip the post: {{name}}", {
+        ? t("Tip the post: {name}", {
             name: page.metadata?.content?.title,
           })
-        : t("Become a patron of {{name}}", {
+        : t("Become a patron of {name}", {
             name: site?.metadata?.content?.name,
           })) || ""
 
@@ -55,7 +55,7 @@ const PatronModal = ({
   site?: ExpandedCharacter
   page?: ExpandedNote
 }>) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   const tipCharacter = useTipCharacter()
   const tips = useGetTips(
     page
@@ -142,10 +142,10 @@ const PatronModal = ({
 
   const title =
     (page
-      ? t("Tip the post: {{name}}", {
+      ? t("Tip the post: {name}", {
           name: page.metadata?.content?.title,
         })
-      : t("Become a patron of {{name}}", {
+      : t("Become a patron of {name}", {
           name: site?.metadata?.content?.name,
         })) || ""
 

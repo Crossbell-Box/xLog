@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 
 import {
@@ -13,13 +14,11 @@ import { Button } from "~/components/ui/Button"
 import { UniLink } from "~/components/ui/UniLink"
 import { MIRA_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { useGetMiraBalance, useGetSite } from "~/queries/site"
 
 export default function TokensPage() {
   const params = useParams()
-  const { t } = useTranslation("dashboard")
-  const { t: indexT } = useTranslation("index")
+  const t = useTranslations()
   const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
 
@@ -124,7 +123,7 @@ export default function TokensPage() {
     <DashboardMain title="Tokens">
       <div className="min-w-[270px] max-w-screen-lg flex flex-col space-y-8">
         <div className="text-sm text-zinc-500 leading-relaxed">
-          {indexT("features.Earn.description")}
+          {t("features.Earn.description")}
         </div>
         {tokens.map((token) => {
           return (

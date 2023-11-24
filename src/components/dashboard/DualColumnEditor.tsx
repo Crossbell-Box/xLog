@@ -1,5 +1,6 @@
 import { useDebounceEffect } from "ahooks"
 import type { Root } from "mdast"
+import { useTranslations } from "next-intl"
 import dynamic from "next/dynamic"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
@@ -9,7 +10,6 @@ import { toolbarShortcuts } from "~/components/dashboard/toolbars"
 import { editorUpload } from "~/components/dashboard/toolbars/Multimedia"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useUploadFile } from "~/hooks/useUploadFile"
-import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import { Rendered, renderPageContent } from "~/markdown"
 
@@ -51,7 +51,7 @@ export default function DualColumnEditor({
   setIsRendering: (value: boolean) => void
 }) {
   const isMobileLayout = useIsMobileLayout()
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const uploadFile = useUploadFile()
 
   const [currentScrollArea, setCurrentScrollArea] = useState<string>("")

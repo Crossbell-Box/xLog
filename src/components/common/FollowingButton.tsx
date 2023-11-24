@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useEffect } from "react"
 import { toast } from "react-hot-toast"
 
@@ -7,7 +8,6 @@ import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
 import { UniLink } from "~/components/ui/UniLink"
 import { SITE_URL } from "~/lib/env"
-import { Trans, useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import {
@@ -31,7 +31,7 @@ export const FollowingButton = ({
 }) => {
   const subscribeToSite = useSubscribeToSite()
   const unsubscribeFromSite = useUnsubscribeFromSite()
-  const { t, i18n } = useTranslation("common")
+  const t = useTranslations()
 
   const handleClickSubscribe = () => {
     if (site?.characterId) {
@@ -62,13 +62,13 @@ export const FollowingButton = ({
       subscribeToSite.reset()
       toast.success(
         <span>
-          <Trans i18n={i18n} i18nKey="Successfully followed" ns="common">
-            Hey there! You&apos;re all set to{" "}
-            <UniLink className="underline" href={`${SITE_URL}/`}>
-              keep up with your followed blogger&apos;s latest buzz here
-            </UniLink>
-            .
-          </Trans>
+          {t.rich("Successfully followed", {
+            link: (chunks) => (
+              <UniLink className="underline" href={`${SITE_URL}/`}>
+                {chunks}
+              </UniLink>
+            ),
+          })}
         </span>,
         {
           duration: 5000,

@@ -1,10 +1,10 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 
 import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { CSB_SCAN, SITE_URL } from "~/lib/env"
-import { useTranslation } from "~/lib/i18n/client"
 import { toGateway, toIPFS } from "~/lib/ipfs-parser"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
@@ -17,7 +17,7 @@ export const BlockchainInfo = ({
   site?: ExpandedCharacter
   page?: ExpandedNote
 }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const ipfs = (page ? page.metadata?.uri : site?.metadata?.uri) || ""
 
@@ -83,7 +83,7 @@ export const BlockchainInfo = ({
                 <span className="ml-2">
                   {!!blockNumber &&
                     !!realBlockNumber &&
-                    `(${t("Confirmed by {{blockNumber}} blocks", {
+                    `(${t("Confirmed by {blockNumber} blocks", {
                       blockNumber:
                         realBlockNumber -
                         (page?.blockNumber || site?.blockNumber || 0),

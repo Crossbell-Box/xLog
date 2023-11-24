@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
@@ -17,7 +18,6 @@ import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
 import { useUserRole } from "~/hooks/useUserRole"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import {
   useAddOperator,
   useGetOperators,
@@ -38,7 +38,7 @@ const SortableNavigationItem = ({
   isLoading: boolean
   disabled?: boolean
 }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   return (
     <div className="flex space-x-5 border-b p-5 bg-zinc-50 last:border-0 items-center">
       <div className="text-sm space-y-4">
@@ -82,7 +82,7 @@ export default function SettingsOperatorPage() {
   )
   const upgradeAccountModal = useUpgradeEmailAccountModal()
   const userRole = useUserRole(subdomain)
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const [items, setItems] = useState<string[]>([])
 

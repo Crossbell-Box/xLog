@@ -33,6 +33,6 @@
   "DNS check failed": "DNS check failed.",
   "Subdomain Available": "Subdomain Available.",
   "Subdomain Unavailable": "Subdomain Unavailable.",
-  "Published a new post on my blockchain blog: {{title}} Check it out now!": "Published a new post on my blockchain blog: {{title}}. Check it out now!",
+  "Published a new post on my blockchain blog: {title} Check it out now!": "Published a new post on my blockchain blog: {title}. Check it out now!",
   "Please upload at least one image" : "Please upload at least one image."
 }

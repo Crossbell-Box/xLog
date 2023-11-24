@@ -1,6 +1,7 @@
 "use client"
 
 import type { NoteMetadata } from "crossbell"
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
@@ -9,7 +10,6 @@ import { toast } from "react-hot-toast"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { ImportPreview } from "~/components/dashboard/ImportPreview"
 import { Button } from "~/components/ui/Button"
-import { useTranslation } from "~/lib/i18n/client"
 import { useCheckMirror, useGetMirrorXyz, usePostNotes } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
@@ -17,7 +17,7 @@ export default function ImportMirrorPage() {
   const params = useParams()
   const subdomain = params?.subdomain as string
   const site = useGetSite(subdomain)
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const form = useForm({
     defaultValues: {
       type: "post",

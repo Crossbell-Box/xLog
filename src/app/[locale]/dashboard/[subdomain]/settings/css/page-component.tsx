@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import { FC, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
@@ -10,7 +11,6 @@ import { Button } from "~/components/ui/Button"
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { useGetState } from "~/hooks/useGetState"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
 export default function SettingsCSSPage() {
@@ -19,7 +19,7 @@ export default function SettingsCSSPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const [css, setCss] = useState("")
   const handleSubmit = (e: any) => {
     e.preventDefault()
@@ -127,7 +127,7 @@ const PreviewButton: FC<{
   subdomain: string
   custom_domain?: string
 }> = ({ css, subdomain, custom_domain }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const datasetRef = useRef({
     previewWindowOrigin: "",

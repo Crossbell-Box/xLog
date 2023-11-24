@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import { useEffect } from "react"
 import { Virtuoso } from "react-virtuoso"
@@ -8,13 +9,12 @@ import { CommentItem } from "~/components/common/CommentItem"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
-import { Trans, useTranslation } from "~/lib/i18n/client"
 import { useGetCommentsBySite, useGetSite } from "~/queries/site"
 
 export default function CommentsPage() {
   const params = useParams()
   const subdomain = params?.subdomain as string
-  const { t, i18n } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const site = useGetSite(subdomain)
 
@@ -95,28 +95,18 @@ export default function CommentsPage() {
                     <div key={comment.transactionHash} className="mt-6">
                       <div>
                         {name}{" "}
-                        <Trans
-                          i18n={i18n}
-                          i18nKey="comment on your"
-                          values={{
-                            type: t(type || "", {
-                              ns: "common",
-                            }),
-                            toTitle,
-                          }}
-                          defaults="commented on your {{type}} <tolink>{{toTitle}}</tolink>"
-                          components={{
-                            tolink: (
-                              <UniLink
-                                href={`/api/redirection?characterId=${comment.characterId}&noteId=${comment.noteId}`}
-                                target="_blank"
-                              >
-                                .
-                              </UniLink>
-                            ),
-                          }}
-                          ns="dashboard"
-                        />
+                        {t.rich("comment on your", {
+                          tolink: (chunks) => (
+                            <UniLink
+                              href={`/api/redirection?characterId=${comment.characterId}&noteId=${comment.noteId}`}
+                              target="_blank"
+                            >
+                              {chunks}
+                            </UniLink>
+                          ),
+                          type: t(type),
+                          toTitle,
+                        })}
                         :
                       </div>
                       <CommentItem
@@ -137,7 +127,7 @@ export default function CommentsPage() {
 }
 
 const Loader = () => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   return (
     <div
       className="relative mt-4 w-full text-sm text-center py-4"

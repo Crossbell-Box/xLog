@@ -1,6 +1,7 @@
 "use client"
 
 import type { CharacterEntity, NoteEntity } from "crossbell"
+import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
@@ -19,7 +20,6 @@ import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import { useDeletePage } from "~/queries/page"
 
@@ -42,7 +42,7 @@ export const CommentItem = ({
   const [editOpen, setEditOpen] = useState(false)
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false)
 
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   const date = useDate()
   const queryClient = useQueryClient()
   const deletePage = useDeletePage()

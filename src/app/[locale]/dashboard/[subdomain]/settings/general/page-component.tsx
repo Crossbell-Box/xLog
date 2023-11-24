@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -10,7 +11,6 @@ import { Button } from "~/components/ui/Button"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
-import { Trans, useTranslation } from "~/lib/i18n/client"
 import { toIPFS } from "~/lib/ipfs-parser"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
@@ -20,7 +20,7 @@ export default function SiteSettingsGeneralPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
-  const { t, i18n } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const form = useForm({
     defaultValues: {
@@ -199,21 +199,16 @@ export default function SiteSettingsGeneralPage() {
             label="Google Analytics"
             help={
               <p>
-                <Trans
-                  i18n={i18n}
-                  i18nKey="Integrate Google Analytics"
-                  ns="dashboard"
-                >
-                  Integrate Google Analytics into your site. You can follow the
-                  instructions{" "}
-                  <UniLink
-                    className="underline"
-                    href="https://support.google.com/analytics/answer/9539598"
-                  >
-                    here
-                  </UniLink>{" "}
-                  to find your Measurement ID.
-                </Trans>
+                {t.rich("Integrate Google Analytics", {
+                  link: (chunks) => (
+                    <UniLink
+                      className="underline"
+                      href="https://support.google.com/analytics/answer/9539598"
+                    >
+                      {chunks}
+                    </UniLink>
+                  ),
+                })}
               </p>
             }
           />
@@ -227,16 +222,16 @@ export default function SiteSettingsGeneralPage() {
             label="Umami Cloud Analytics"
             help={
               <p>
-                <Trans
-                  i18nKey="Integrate Umami Cloud Analytics (set url)"
-                  ns="dashboard"
-                >
-                  Leave blank to use{" "}
-                  <UniLink className="underline" href="https://cloud.umami.is">
-                    the Umami Cloud
-                  </UniLink>
-                  .
-                </Trans>
+                {t.rich("Integrate Umami Cloud Analytics (set url)", {
+                  link: (chunks) => (
+                    <UniLink
+                      className="underline"
+                      href="https://cloud.umami.is"
+                    >
+                      {chunks}
+                    </UniLink>
+                  ),
+                })}
               </p>
             }
           />
@@ -247,21 +242,16 @@ export default function SiteSettingsGeneralPage() {
             placeholder="xxxxxxxx-xxxx-..."
             help={
               <p>
-                <Trans
-                  i18n={i18n}
-                  i18nKey="Integrate Umami Cloud Analytics"
-                  ns="dashboard"
-                >
-                  Integrate Umami Cloud Analytics into your site. You can follow
-                  the instructions{" "}
-                  <UniLink
-                    className="underline"
-                    href="https://umami.is/docs/collect-data"
-                  >
-                    here
-                  </UniLink>{" "}
-                  to find your Website ID.
-                </Trans>
+                {t.rich("Integrate Umami Cloud Analytics", {
+                  link: (chunks) => (
+                    <UniLink
+                      className="underline"
+                      href="https://umami.is/docs/collect-data"
+                    >
+                      {chunks}
+                    </UniLink>
+                  ),
+                })}
               </p>
             }
           />

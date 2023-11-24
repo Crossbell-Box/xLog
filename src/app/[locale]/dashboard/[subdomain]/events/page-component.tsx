@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
@@ -9,7 +10,6 @@ import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
 import { cn } from "~/lib/utils"
 import { useGetPagesBySite } from "~/queries/page"
@@ -39,7 +39,7 @@ function SiteAvatar({ siteId }: { siteId: string }) {
 
 export default function EventsPage() {
   const date = useDate()
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const pages = useGetPagesBySite({
     type: "post",
     characterId: 50153,

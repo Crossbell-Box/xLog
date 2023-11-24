@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -18,7 +19,6 @@ import { UniLink } from "~/components/ui/UniLink"
 import { useUserRole } from "~/hooks/useUserRole"
 import { OUR_DOMAIN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { checkDomain } from "~/models/site.model"
 import { useGetSite, useUpdateHandle, useUpdateSite } from "~/queries/site"
 
@@ -30,7 +30,7 @@ export default function SettingsDomainsPage() {
   const updateHandle = useUpdateHandle()
   const site = useGetSite(subdomain)
   const userRole = useUserRole(subdomain)
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const router = useRouter()
 
   const isEmailAccount = useAccountState(

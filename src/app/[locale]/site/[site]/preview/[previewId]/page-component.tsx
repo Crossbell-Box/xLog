@@ -1,9 +1,9 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import dynamic from "next/dynamic"
 import { useParams } from "next/navigation"
 
-import { useTranslation } from "~/lib/i18n/client"
 import { useGetPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
@@ -28,7 +28,7 @@ export default function SitePreviewPage() {
     useStat: true,
   })
 
-  const { t } = useTranslation("site")
+  const t = useTranslations()
 
   return (
     <div className="max-w-screen-md mx-auto">

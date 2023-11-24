@@ -1,15 +1,15 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
 
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
-import { useTranslation } from "~/lib/i18n/client"
 
 export default function ImportPage() {
   const pathname = usePathname()
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const options = [
     {

@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
@@ -15,7 +16,6 @@ import {
   TWITTER_LINK,
 } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { Trans, useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import { useGetShowcase } from "~/queries/home"
 import { useGetPagesBySite } from "~/queries/page"
@@ -30,7 +30,7 @@ export default function SubdomainIndex() {
     characterId,
   })
   const date = useDate()
-  const { t, i18n } = useTranslation("dashboard")
+  const t = useTranslations()
   const tips = useGetTips({
     toCharacterId: characterId,
     limit: 1000,
@@ -133,15 +133,9 @@ export default function SubdomainIndex() {
             ))}
           </div>
           <div className="prose p-6 bg-slate-50 rounded-lg relative">
-            <Trans
-              i18n={i18n}
-              i18nKey="hello.welcome"
-              defaults="<p>👋 Hello there,</p><p>Welcome to use xLog!</p><p>Here are some useful links to get started:</p>"
-              components={{
-                p: <p />,
-              }}
-              ns="dashboard"
-            />
+            {t.rich("hello.welcome", {
+              p: (chunks) => <p>{chunks}</p>,
+            })}
             <ul>
               <li>
                 <UniLink
@@ -163,15 +157,9 @@ export default function SubdomainIndex() {
                 </UniLink>
               </li>
             </ul>
-            <Trans
-              i18n={i18n}
-              i18nKey="hello.community"
-              defaults="<p>Join the community to meet friends or build xLog together:</p>"
-              components={{
-                p: <p />,
-              }}
-              ns="dashboard"
-            />
+            {t.rich("hello.tips", {
+              p: (chunks) => <p>{chunks}</p>,
+            })}
             <ul
               style={{
                 marginBottom: 0,

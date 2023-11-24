@@ -2,6 +2,7 @@
 
 import equal from "fast-deep-equal"
 import { nanoid } from "nanoid"
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
 import toast from "react-hot-toast"
@@ -10,7 +11,6 @@ import { ReactSortable } from "react-sortablejs"
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
 import { Input } from "~/components/ui/Input"
-import { useTranslation } from "~/lib/i18n/client"
 import { SiteNavigationItem } from "~/lib/types"
 import { useGetSite, useUpdateSite } from "~/queries/site"
 
@@ -27,7 +27,7 @@ const SortableNavigationItem = ({
   updateItem: UpdateItem
   removeItem: RemoveItem
 }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   return (
     <div className="flex space-x-5 border-b p-5 bg-zinc-50 last:border-0">
       <div>
@@ -74,7 +74,7 @@ export default function SiteSettingsNavigationPage() {
 
   const updateSite = useUpdateSite()
   const site = useGetSite(subdomain)
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const [items, setItems] = useState<SiteNavigationItem[]>([])
 

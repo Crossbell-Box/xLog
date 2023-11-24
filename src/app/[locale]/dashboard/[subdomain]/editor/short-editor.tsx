@@ -1,6 +1,7 @@
 "use client"
 
 import { nanoid } from "nanoid"
+import { useTranslations } from "next-intl"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { memo, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
@@ -22,7 +23,6 @@ import { showConfetti } from "~/lib/confetti"
 import { crossbell2Editor } from "~/lib/editor-converter"
 import { CSB_SCAN } from "~/lib/env"
 import { getTwitterShareUrl } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { delStorage, setStorage } from "~/lib/storage"
 import { EditorValues, PageVisibilityEnum } from "~/lib/types"
@@ -38,7 +38,7 @@ import { useGetSite } from "~/queries/site"
 export default function ShortEditor() {
   const router = useRouter()
   const queryClient = useQueryClient()
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const params = useParams()
   const subdomain = params?.subdomain as string
   const searchParams = useSearchParams()
@@ -304,7 +304,7 @@ export default function ShortEditor() {
 
 const EditorExtraProperties = memo(
   ({ updateValue }: { updateValue: (val: EditorValues) => void }) => {
-    const { t } = useTranslation("dashboard")
+    const t = useTranslations()
 
     return (
       <div className="w-full space-y-5">

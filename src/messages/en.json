@@ -1,9 +1,9 @@
 {
-  "intlDateTime": "{{val, datetime}}",
-  "ago": "{{time}} ago",
-  "joined ago": "Joined {{time}} ago",
+  "intlDateTime": "{val, datetime}",
+  "ago": "{time} ago",
+  "joined ago": "Joined {time} ago",
   "Share Modal": "Share to...",
-  "Share Message": "Hey, I found a treasure trove of articles {{title}}, come and have a look!",
+  "Share Message": "Hey, I found a treasure trove of articles {title}, come and have a look!",
   "You are here to be the first patron": "You are here to be the first patron.",
   "You are here to be the first tipper": "You are here to be the first tipper.",
   "Filter out possible low-quality content based on AI ratings": "Filter out possible low-quality content based on AI ratings.",
@@ -39,12 +39,13 @@
   "Open text": "xLog offers import and export tools, as well as rich <strong>APIs</strong> and third-party <strong>integrations</strong>. All code is <strong>open source</strong> on GitHub, and all data is <strong>transparent</strong> on the blockchain. xLog has nothing to hide.",
   "Creator Incentives text": "In the early stages, xLog provides <aincentive>incentives</aincentive> in <strong>MIRA</strong>. We are actively constructing the tokenomics to ensure xLog remain the best place to publish high-quality content.",
   "DAO text": "An xLog DAO will be in place, where creators vote with <strong>tokens</strong>.",
-  "load more": "There are {{count}} more {{name}}, click to load more",
-  "signed and stored on the blockchain": "Ownership of this {{name}} data is guaranteed by blockchain and smart contracts to the creator alone.",
+  "load more": "There are {count} more {name}, click to load more",
+  "signed and stored on the blockchain": "Ownership of this {name} data is guaranteed by blockchain and smart contracts to the creator alone.",
   "Cancel Download": "Cancel",
   "Tips1": "Tips",
   "social tips": {
-    "p1": "These social platforms will be displayed at the top and bottom of your xLog."
+    "p1": "These social platforms will be displayed at the top and bottom of your xLog.",
+    "p2": "We support <link>these platforms</link> with automatic display of logos and links, other platforms will display a default logo. Please feel free to submit an issue or pr to us to support more platforms."
   },
   "Fail to Deleted": "Fail to Deleted.",
   "Failed to convert": "Failed to convert.",
@@ -73,7 +74,7 @@
   "DNS check failed": "DNS check failed.",
   "Subdomain Available": "Subdomain Available.",
   "Subdomain Unavailable": "Subdomain Unavailable.",
-  "Published a new post on my blockchain blog: {{title}} Check it out now!": "Published a new post on my blockchain blog: {{title}}. Check it out now!",
+  "Published a new post on my blockchain blog: {title} Check it out now!": "Published a new post on my blockchain blog: {title}. Check it out now!",
   "Please upload at least one image" : "Please upload at least one image.",
   "comma": ".",
   "xLog's open design allows it to integrate with many other open protocols and applications without friction": "xLog's open design allows it to integrate with many other open protocols and applications without friction.",
@@ -89,5 +90,17 @@
   "Using a browser plugin that can modify page styles, such as Stylebot, can help with debugging": "Using a browser plugin that can modify page styles, such as Stylebot, can help with debugging.",
   "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site": "Operators have permissions to enter your dashboard, change your settings(excluding xLog subdomain) and post, modify, delete contents on your site.",
   "Your post has been securely stored on the blockchain Now you may want to": "Your post has been securely stored on the blockchain. Now you may want to",
-  "You can subscribe to comments through an RSS reader to receive timely reminders": "You can subscribe to comments through an RSS reader to receive timely reminders."
+  "You can subscribe to comments through an RSS reader to receive timely reminders": "You can subscribe to comments through an RSS reader to receive timely reminders.",
+  "hello": {
+    "welcome": "<p>👋 Hello there,</p><p>Welcome to use xLog!</p><p>Here are some useful links to get started:</p>",
+    "community": "<p>Join the community to meet friends or build xLog together:</p>"
+  },
+  "comment on your": "commented on your {type} <tolink>{toTitle}</tolink>",
+  "Integrate Google Analytics": "Integrate Google Analytics into your site. You can follow the instructions <link>here</link> to find your Measurement ID.",
+  "Integrate Umami Cloud Analytics": "Integrate Umami Cloud Analytics into your site. You can follow the instructions <link>here</link> to find your Website ID.",
+  "Integrate Umami Cloud Analytics (set url)": "Leave blank to use <link>the Umami Cloud</link>.",
+  "Successfully followed": "Hey there! You're all set to <link>keep up with your followed blogger's latest buzz here</link>.",
+  "like stored": "Your like has been stored on the blockchain, view it on <link>Crossbell Scan</link>",
+  "mint stored": "This post has been minted to NFT by you, view it on <link1>xChar</link1> or <link2>Crossbell Scan</link2>",
+  "like revert": "Do you really want to revert this like action?"
 }

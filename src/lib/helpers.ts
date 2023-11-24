@@ -1,5 +1,5 @@
 import type { NoteEntity } from "crossbell"
-import { TFunction } from "i18next"
+import { useTranslations } from "next-intl"
 
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 
@@ -51,7 +51,7 @@ export const getTwitterShareUrl = ({
 }: {
   page: ExpandedNote
   site: ExpandedCharacter
-  t: TFunction<string, undefined>
+  t: ReturnType<typeof useTranslations<string>>
 }) => {
   const slug = getNoteSlugFromNote(page)
 
@@ -63,12 +63,9 @@ export const getTwitterShareUrl = ({
     subdomain: site.handle!,
     domain: site.metadata?.content?.custom_domain,
   })}/${encodeURIComponent(slug)}&via=_xLog&text=${encodeURIComponent(
-    t(
-      `Published a new post on my blockchain blog: {{title}} Check it out now!`,
-      {
-        title: page.metadata?.content?.title,
-      },
-    ),
+    t(`Published a new post on my blockchain blog: {title} Check it out now!`, {
+      title: page.metadata?.content?.title,
+    }),
   )}`
 }
 
