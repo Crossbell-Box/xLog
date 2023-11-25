@@ -5,6 +5,8 @@ import { getClientIp } from "@supercharge/request-ip"
 
 import { IS_PROD } from "~/lib/constants"
 
+import { defaultLocale, locales } from "./i18n"
+
 // HTTPWhiteListPaths: White list of path for plain http request, no HTTPS redirect
 const HTTPWhitelistPaths = ["/api/healthcheck"]
 
@@ -16,8 +18,8 @@ export const config = {
 
 export async function middleware(req: NextRequest) {
   const handleI18nRouting = createMiddleware({
-    locales: ["en", "ja", "zh", "zh-TW"],
-    defaultLocale: "en",
+    locales,
+    defaultLocale,
     localePrefix: "never",
   })
 

@@ -1,11 +1,20 @@
 "use client"
 
-import { changeLanguage, useAvailableLanguages } from "~/lib/i18n/client"
+import { useParams } from "next/navigation"
+
+import { locales } from "~/i18n"
 
 import { Menu } from "../ui/Menu"
 
 export function LanguageSwitch() {
-  const languages = useAvailableLanguages()
+  const params = useParams()
+
+  const nameMap: Record<string, string> = {
+    en: "English",
+    zh: "简体中文",
+    "zh-TW": "繁體中文",
+    ja: "日本語",
+  }
 
   return (
     <Menu
@@ -15,17 +24,18 @@ export function LanguageSwitch() {
       }
       dropdown={
         <>
-          {languages.map((language, i) => (
+          {locales.map((locale, i) => (
             <Menu.Item
               key={i}
               type="button"
               onClick={() => {
-                changeLanguage(language.code)
+                document.cookie = `NEXT_LOCALE=${locale};`
+                window.location.reload()
               }}
               className="mx-auto"
             >
-              <span>{language.name}</span>
-              {language.active && (
+              <span>{nameMap[locale]}</span>
+              {params.locale === locale && (
                 <span className="ml-2 icon-[mingcute--check-line]"></span>
               )}
             </Menu.Item>

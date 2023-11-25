@@ -7,6 +7,7 @@ import removeMarkdown from "remove-markdown"
 import { Metadata } from "@prisma/client"
 import { QueryClient } from "@tanstack/react-query"
 
+import { defaultLocale, locales } from "~/i18n"
 import { toGateway } from "~/lib/ipfs-parser"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
@@ -135,7 +136,7 @@ const lock = new AsyncLock()
 
 export async function getSummary({
   cid,
-  lang = "en",
+  lang = defaultLocale,
 }: {
   cid: string
   lang?: string
@@ -146,7 +147,7 @@ export async function getSummary({
     noUpdate: true,
     noExpire: true,
     getValueFun: async () => {
-      if (["en", "zh", "zh-TW", "ja"].includes(lang)) {
+      if (locales.includes(lang)) {
         let result
         await lock.acquire(cid, async () => {
           const meta = await prisma.metadata.findFirst({
