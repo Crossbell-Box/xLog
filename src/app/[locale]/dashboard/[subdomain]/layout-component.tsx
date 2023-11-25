@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import {
   useParams,
   usePathname,
@@ -7,7 +8,6 @@ import {
   type ReadonlyURLSearchParams,
 } from "next/navigation"
 import React, { useEffect } from "react"
-import { useTranslation } from "react-i18next"
 
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import {
@@ -48,7 +48,7 @@ export default function DashboardLayout({
   const connectModal = useConnectModal()
   const [ready, setReady] = React.useState(false)
   const [hasPermission, setHasPermission] = React.useState(false)
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const isMobileLayout = useIsMobileLayout()
   const pathname = usePathname()
@@ -269,8 +269,8 @@ export default function DashboardLayout({
                                 active
                                   ? `bg-white font-medium text-accent drop-shadow-sm`
                                   : link.href || link.onClick
-                                  ? "hover:bg-slate-200 hover:bg-opacity-50"
-                                  : "opacity-80 cursor-default",
+                                    ? "hover:bg-slate-200 hover:bg-opacity-50"
+                                    : "opacity-80 cursor-default",
                               )}
                               onClick={link.onClick}
                             >
@@ -378,8 +378,8 @@ export default function DashboardLayout({
                             active
                               ? `bg-white font-medium text-accent drop-shadow-sm`
                               : link.href || link.onClick
-                              ? "hover:bg-slate-200 hover:bg-opacity-50"
-                              : "opacity-80 cursor-default",
+                                ? "hover:bg-slate-200 hover:bg-opacity-50"
+                                : "opacity-80 cursor-default",
                           )}
                           onClick={link.onClick}
                         >
