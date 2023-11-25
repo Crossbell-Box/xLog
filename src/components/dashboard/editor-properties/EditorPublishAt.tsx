@@ -2,8 +2,9 @@ import { DateInput } from "@mantine/dates"
 
 import "@mantine/dates/styles.css"
 
+import { useTranslations } from "next-intl"
+
 import { useEditorState } from "~/hooks/useEditorState"
-import { useTranslation } from "~/lib/i18n/client"
 import { EditorValues } from "~/lib/types"
 
 export default function EditorPublishAt({
@@ -13,7 +14,7 @@ export default function EditorPublishAt({
   updateValue: (val: EditorValues) => void
   prompt?: string
 }) {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const value = useEditorState((state) => state.publishedAt)
 
   return (

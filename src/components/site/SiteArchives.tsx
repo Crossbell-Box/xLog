@@ -1,5 +1,6 @@
 "use client"
 
+import { useFormatter, useTranslations } from "next-intl"
 import { useParams, usePathname } from "next/navigation"
 import { useMemo } from "react"
 
@@ -7,7 +8,6 @@ import { Button } from "~/components/ui/Button"
 import { useDate } from "~/hooks/useDate"
 import { RESERVED_TAGS } from "~/lib/constants"
 import { getSiteRelativeUrl } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { useGetPagesBySiteLite } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
@@ -18,8 +18,8 @@ import { UniLink } from "../ui/UniLink"
 export const SiteArchives = () => {
   let currentLength = 0
   const date = useDate()
-  const { t } = useTranslation("site")
-  const { t: commonT } = useTranslation("common")
+  const t = useTranslations()
+  const format = useFormatter()
   const pathname = usePathname()
   const params = useParams()
   if (params?.tag) {
@@ -142,17 +142,15 @@ export const SiteArchives = () => {
                           {post.metadata?.content?.title}
                         </span>
                         <span className="text-zinc-400 mr-3 whitespace-nowrap">
-                          {commonT("intlDateTime", {
-                            val: new Date(
+                          {format.dateTime(
+                            new Date(
                               post.metadata?.content?.date_published || "",
                             ),
-                            formatParams: {
-                              val: {
-                                month: "short",
-                                day: "numeric",
-                              },
+                            {
+                              month: "short",
+                              day: "numeric",
                             },
-                          })}
+                          )}
                         </span>
                       </UniLink>
                     )

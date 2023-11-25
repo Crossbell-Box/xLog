@@ -1,10 +1,10 @@
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 
 import { Placement } from "@floating-ui/react"
 
 import { Menu } from "~/components//ui/Menu"
 import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
-import { useTranslation } from "~/lib/i18n/client"
 import { NoteType } from "~/lib/types"
 
 import { Button, ButtonGroup } from "../ui/Button"
@@ -32,7 +32,7 @@ export const PublishButton = ({
   discardChanges: () => void
   placement?: Placement
 }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
     useState<boolean>(false)

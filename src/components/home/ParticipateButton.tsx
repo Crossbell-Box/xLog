@@ -1,12 +1,13 @@
 "use client"
 
+import { useTranslations } from "next-intl"
+
 import { useAccountState, useConnectedAction } from "@crossbell/connect-kit"
 
 import { Button } from "~/components/ui/Button"
-import { useTranslation } from "~/lib/i18n/client"
 
 export default function ParticipateButton({ tag }: { tag: string }) {
-  const { t } = useTranslation("index")
+  const t = useTranslations()
 
   const handleClick = useConnectedAction(() => {
     const handle =

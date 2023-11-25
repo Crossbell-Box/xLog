@@ -1,5 +1,4 @@
 {
-  "intlDateTime": "{val, datetime}",
   "ago": "{time} ago",
   "joined ago": "Joined {time} ago",
   "Share Modal": "Share to...",
@@ -102,5 +101,13 @@
   "Successfully followed": "Hey there! You're all set to <link>keep up with your followed blogger's latest buzz here</link>.",
   "like stored": "Your like has been stored on the blockchain, view it on <link>Crossbell Scan</link>",
   "mint stored": "This post has been minted to NFT by you, view it on <link1>xChar</link1> or <link2>Crossbell Scan</link2>",
-  "like revert": "Do you really want to revert this like action?"
+  "like revert": "Do you really want to revert this like action?",
+  "posts description": "Posts are entries listed in reverse chronological order on your site. Think of them as articles or updates that you share to offer up new content to your readers. <link>Post vs. Page</link>",
+  "pages description": "Pages are static and are not affected by date. Think of them as more permanent fixtures of your site — an About page, and a Contact page are great examples of this. <link>Post vs. Page</link>",
+  "portfolios description": "The portfolio is a collection of works outside of xLog, such as your YouTube videos and GitHub projects. They will be displayed in the list on the homepage like posts. The difference is that the portfolio directly links to external URLs.",
+  "shots description": "Shorts is a dedicated section for displaying pictures and short texts. The content primarily consists of pictures, with the accompanying text limited to 1000 characters or less. They will not be displayed on the homepage, but on a separate page <link>/shorts</link>.",
+  "posts add": "Visitors can view the posts you have posted at homepage.",
+  "shots add": "Visitors can view the shots you have posted at <link1>/shorts</link1>, you can <link2>add it to navigation menu</link2> so your visitors can find it.",
+  "pages add": "Visitors can only access your page through its link, you can <link>add it to navigation menu</link> so your visitors can find it.",
+  "portfolios add": "Visitors can view the portfolios you have posted at homepage and <link1>/portfolios</link1>, you can <link2>add it to navigation menu</link2> so your visitors can find it."
 }

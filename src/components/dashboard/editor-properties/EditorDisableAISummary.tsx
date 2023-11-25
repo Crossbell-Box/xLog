@@ -1,6 +1,7 @@
+import { useTranslations } from "next-intl"
+
 import { Switch } from "~/components/ui/Switch"
 import { useEditorState } from "~/hooks/useEditorState"
-import { useTranslation } from "~/lib/i18n/client"
 import { EditorValues } from "~/lib/types"
 
 export default function EditorDisableAISummary({
@@ -8,7 +9,7 @@ export default function EditorDisableAISummary({
 }: {
   updateValue: (val: EditorValues) => void
 }) {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const value = useEditorState((state) => state.disableAISummary)
 
   return (

@@ -22,7 +22,6 @@ import { APP_NAME, WALLET_CONNECT_V2_PROJECT_ID } from "~/lib/env"
 import { filterNotificationCharacter } from "~/lib/filter-character"
 import { toGateway } from "~/lib/ipfs-parser"
 import { urlComposer } from "~/lib/url-composer"
-import { LangProvider } from "~/providers/LangProvider"
 
 const wagmiConfig = createWagmiConfig({
   appName: APP_NAME,
@@ -81,10 +80,7 @@ export default function Providers({
             signInStrategy="simple"
             ignoreWalletDisconnectEvent={true}
           >
-            <LangProvider lang={lang}>
-              <ModalStackProvider>{children}</ModalStackProvider>
-            </LangProvider>
-
+            <ModalStackProvider>{children}</ModalStackProvider>
             <NotificationModal
               colorScheme={colorScheme}
               filter={filterNotificationCharacter}

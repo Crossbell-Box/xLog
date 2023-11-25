@@ -1,10 +1,10 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import React, { forwardRef, Fragment } from "react"
 
 import { Dialog, Transition } from "@headlessui/react"
 
-import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 import { Button } from "./Button"
@@ -40,7 +40,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     },
     ref,
   ) => {
-    const { t } = useTranslation("common")
+    const t = useTranslations()
 
     return (
       <Transition appear show={open} as={Fragment} afterLeave={afterLeave}>
@@ -89,8 +89,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                   size === "md"
                     ? `max-w-md`
                     : size === "lg"
-                    ? `max-w-lg`
-                    : `max-w-sm`,
+                      ? `max-w-lg`
+                      : `max-w-sm`,
                   panelClassName,
                 )}
               >

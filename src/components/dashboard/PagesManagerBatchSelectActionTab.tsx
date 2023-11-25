@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
 
@@ -6,7 +7,6 @@ import { useQueryClient } from "@tanstack/react-query"
 
 import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
 import { Tabs, type TabItem } from "~/components/ui/Tabs"
-import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote, NoteType } from "~/lib/types"
 import { useDeletePage, useUpdatePage } from "~/queries/page"
@@ -28,7 +28,7 @@ export const PagesManagerBatchSelectActionTab = ({
   batchSelected: (string | number)[]
   setBatchSelected: (selected: (string | number)[]) => void
 }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const queryClient = useQueryClient()
 
