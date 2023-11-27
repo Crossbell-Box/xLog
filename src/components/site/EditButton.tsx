@@ -1,11 +1,11 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 
 import { UniLink } from "~/components/ui/UniLink"
 import { useUserRole } from "~/hooks/useUserRole"
 import { SITE_URL } from "~/lib/env"
-import { useTranslation } from "~/lib/i18n/client"
 import { NoteType } from "~/lib/types"
 
 export const EditButton = ({
@@ -17,7 +17,7 @@ export const EditButton = ({
   noteId?: number
   type?: NoteType
 }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   const [showEdit, setShowEdit] = useState(false)
   const userRole = useUserRole(handle)
   useEffect(() => {

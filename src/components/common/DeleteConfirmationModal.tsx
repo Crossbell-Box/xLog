@@ -1,4 +1,4 @@
-import { useTranslation } from "~/lib/i18n/client"
+import { useTranslations } from "next-intl"
 
 import { Button } from "../ui/Button"
 import { Modal } from "../ui/Modal"
@@ -14,7 +14,7 @@ export const DeleteConfirmationModal = ({
   onConfirm: () => void
   type?: string
 }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   return (
     <Modal open={open} setOpen={setOpen}>

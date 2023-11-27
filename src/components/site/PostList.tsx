@@ -1,11 +1,12 @@
 "use client"
 
+import { useTranslations } from "next-intl"
+
 import { UseInfiniteQueryResult } from "@tanstack/react-query"
 
 import PostCard from "~/components/common/PostCard"
 import { Button } from "~/components/ui/Button"
 import { EmptyState } from "~/components/ui/EmptyState"
-import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
@@ -27,7 +28,7 @@ export default function PostList({
   keyword?: string
   isShorts?: boolean
 }) {
-  const { t } = useTranslation("site")
+  const t = useTranslations()
 
   if (!posts.data?.pages?.length) return null
 

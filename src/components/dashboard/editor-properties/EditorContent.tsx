@@ -1,8 +1,8 @@
+import { useTranslations } from "next-intl"
 import { ChangeEvent } from "react"
 
 import { Input } from "~/components/ui/Input"
 import { useEditorState } from "~/hooks/useEditorState"
-import { useTranslation } from "~/lib/i18n/client"
 import { EditorValues } from "~/lib/types"
 
 export default function EditorContent({
@@ -12,7 +12,7 @@ export default function EditorContent({
   updateValue: (val: EditorValues) => void
   prompt?: string
 }) {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const value = useEditorState((state) => state.content)
 
   return (

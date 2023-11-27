@@ -1,5 +1,6 @@
 import type { CharacterEntity, NoteEntity } from "crossbell"
 import { nanoid } from "nanoid"
+import { useTranslations } from "next-intl"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -12,7 +13,6 @@ import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import CodeMirrorEditor from "~/components/ui/CodeMirror"
 import { useUploadFile } from "~/hooks/useUploadFile"
-import { useTranslation } from "~/lib/i18n/client"
 import {
   useAnonymousComment,
   useCommentPage,
@@ -44,7 +44,7 @@ export const CommentInput = ({
   const account = useAccountState((s) => s.computed.account)
   const commentPage = useCommentPage()
   const updateComment = useUpdateComment()
-  const { t } = useTranslation("site")
+  const t = useTranslations()
   const anonymousComment = useAnonymousComment()
   const [anonymous, setAnonymous] = useState(false)
 

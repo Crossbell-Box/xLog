@@ -1,6 +1,7 @@
 "use client"
 
 import confetti from "canvas-confetti"
+import { useTranslations } from "next-intl"
 import { FC, useEffect, useMemo, useRef, useState } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
@@ -9,7 +10,6 @@ import { CharacterList } from "~/components/common/CharacterList"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN, CSB_XCHAR } from "~/lib/env"
-import { Trans, useTranslation } from "~/lib/i18n/client"
 import { noopArr } from "~/lib/noop"
 import { cn } from "~/lib/utils"
 import { useCheckMint, useGetMints, useMintPage } from "~/queries/page"
@@ -30,7 +30,7 @@ export const ReactionMint = ({
   vertical?: boolean
 }) => {
   const mintPage = useMintPage()
-  const { t, i18n } = useTranslation("common")
+  const t = useTranslations()
 
   const account = useAccountState((s) => s.computed.account)
 
@@ -133,8 +133,8 @@ export const ReactionMint = ({
                   size === "sm"
                     ? "text-base"
                     : vertical
-                    ? "text-[33px]"
-                    : "text-[38px]",
+                      ? "text-[33px]"
+                      : "text-[38px]",
                 )}
               ></i>
             )
@@ -178,7 +178,7 @@ export const ReactionMint = ({
 
 const usePresentMintModal = (props: MintModalProps) => {
   const { present } = useModalStack()
-  const { t, i18n } = useTranslation("common")
+  const t = useTranslations()
   return () => {
     present({
       title: t("Mint successfully") || "",
@@ -197,27 +197,29 @@ const MintModal: FC<ModalContentProps<MintModalProps>> = ({
   dismiss,
   transactionHash,
 }) => {
-  const { t, i18n } = useTranslation("common")
+  const t = useTranslations()
 
   return (
     <div>
       <div className="p-5">
-        <Trans i18nKey="mint stored" i18n={i18n}>
-          This post has been minted to NFT by you, view it on{" "}
-          <UniLink
-            className="text-accent"
-            href={`${CSB_XCHAR}/${handle}/collections`}
-          >
-            xChar
-          </UniLink>{" "}
-          or{" "}
-          <UniLink
-            className="text-accent"
-            href={`${CSB_SCAN}/tx/${transactionHash}`}
-          >
-            Crossbell Scan
-          </UniLink>
-        </Trans>
+        {t.rich("mint stored", {
+          link1: (chunks) => (
+            <UniLink
+              className="text-accent"
+              href={`${CSB_XCHAR}/${handle}/collections`}
+            >
+              {chunks}
+            </UniLink>
+          ),
+          link2: (chunks) => (
+            <UniLink
+              className="text-accent"
+              href={`${CSB_SCAN}/tx/${transactionHash}`}
+            >
+              Crossbell Scan
+            </UniLink>
+          ),
+        })}
       </div>
       <div className="h-16 border-t flex items-center px-5">
         <Button isBlock onClick={dismiss}>

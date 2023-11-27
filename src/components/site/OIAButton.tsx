@@ -1,8 +1,8 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import React, { useCallback, useEffect, useState } from "react"
 
-import { useTranslation } from "~/lib/i18n/client"
 import { isMobileDevice } from "~/lib/utils"
 
 export const OIAButton = ({
@@ -12,7 +12,7 @@ export const OIAButton = ({
   link: `/${string}`
   isInRN: boolean
 }) => {
-  const { t } = useTranslation("site")
+  const t = useTranslations()
   const [isVisible, setIsVisible] = useState(true)
 
   const oia = useCallback(() => {

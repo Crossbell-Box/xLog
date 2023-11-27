@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server"
+
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
@@ -5,7 +7,6 @@ import { SearchInput } from "~/components/common/SearchInput"
 import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
-import { getTranslation, Trans } from "~/lib/i18n"
 import getQueryClient from "~/lib/query-client"
 import { getShowcase } from "~/queries/home.server"
 import { getBlockNumber } from "~/queries/site.server"
@@ -17,7 +18,7 @@ import ShowMoreContainer from "./ShowMoreContainer"
 
 export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
   const showcaseSites = await getShowcase()
-  const { t, i18n } = await getTranslation("index")
+  const t = await getTranslations()
   const queryClient = getQueryClient()
   await getBlockNumber(queryClient)
 
@@ -30,17 +31,18 @@ export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
         href="/about"
         className="text-zinc-800 text-center block space-y-4"
       >
-        <Trans i18n={i18n} i18nKey="description" ns="index">
-          An{" "}
-          <span className="underline decoration-2 text-green-400 font-medium">
-            open-source
-          </span>{" "}
-          creative community written on the{" "}
-          <span className="underline decoration-2 text-yellow-400 font-medium">
-            blockchain
-          </span>
-          .
-        </Trans>
+        {t.rich("description", {
+          opensourceLink: (chunks) => (
+            <span className="underline decoration-2 text-green-400 font-medium">
+              {chunks}
+            </span>
+          ),
+          blockchainLink: (chunks) => (
+            <span className="underline decoration-2 text-yellow-400 font-medium">
+              {chunks}
+            </span>
+          ),
+        })}
         <BlockNumber />
       </UniLink>
       {!hideSearch && <SearchInput />}

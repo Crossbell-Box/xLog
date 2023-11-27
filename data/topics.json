@@ -1,7 +1,7 @@
 [
   {
     "name": "xLog",
-    "description": "Let's talk about xLog, whether to praise or criticize it.",
+    "description": "Let's talk about xLog, whether to praise or criticize it",
     "includeTags": ["xLog"],
     "includeKeywords": ["xLog"],
     "excludeKeywords": ["同步更新至 xLog"]
@@ -29,13 +29,13 @@
   },
   {
     "name": "AI",
-    "description": "The world is undergoing changes, and we are at the center of it.",
+    "description": "The world is undergoing changes, and we are at the center of it",
     "includeTags": ["AI"],
     "includeKeywords": ["GPT", "Midjourney", "AIGC", " AI ", "OpenAI"]
   },
   {
     "name": "Journal",
-    "description": "Discover new perspectives and insights in others' weekly, monthly, or yearly journal.",
+    "description": "Discover new perspectives and insights in others' weekly, monthly, or yearly journal",
     "includeTags": ["Journal", "日记"],
     "includeKeywords": [
       "Review",
@@ -49,7 +49,7 @@
   },
   {
     "name": "Fiction",
-    "description": "Experience a world of imagination through these fiction stories.",
+    "description": "Experience a world of imagination through these fiction stories",
     "includeTags": ["Fiction", "小说"],
     "notes": [
       "55405-3",

@@ -1,5 +1,6 @@
+import { useTranslations } from "next-intl"
+
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
-import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 export const DashboardMain = ({
@@ -13,7 +14,7 @@ export const DashboardMain = ({
   title?: string
   className?: string
 }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const isMobileLayout = useIsMobileLayout()
 
   return (

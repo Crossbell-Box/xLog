@@ -1,8 +1,8 @@
+import { useTranslations } from "next-intl"
 import React, { useCallback, useState } from "react"
 import { Virtuoso } from "react-virtuoso"
 
 import { Modal } from "~/components/ui/Modal"
-import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { Button } from "../ui/Button"
@@ -26,7 +26,7 @@ export const CharacterList = ({
   } | null)[]
   title: string
 }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   const flattenList = list?.reduce(
     (acc, cur) => acc.concat(cur?.list || []),
     [] as any[],
@@ -76,7 +76,7 @@ export const CharacterList = ({
       ) : (
         <div className="px-5 overflow-auto flex-1">
           <div className="py-3 text-center text-zinc-300">
-            {t("No Content Yet.")}
+            {t("No Content Yet")}
           </div>
         </div>
       )}
@@ -91,7 +91,7 @@ export const CharacterList = ({
 }
 
 const Loader = () => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   return (
     <div className="text-sm py-3 text-center" key={0}>
       {t("Loading")} ...
