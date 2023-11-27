@@ -85,7 +85,7 @@
     "ioredis": "5.3.2",
     "isomorphic-dompurify": "1.9.0",
     "js-yaml": "4.1.0",
-    "jsdom": "22.1.0",
+    "jsdom": "23.0.0",
     "jsonfeed-to-rss": "3.0.7",
     "katex": "0.16.9",
     "langchain": "0.0.196",
