@@ -75,8 +75,8 @@ dependencies:
     specifier: 2.0.18
     version: 2.0.18(react@18.2.0)
   '@iconify-json/mingcute':
-    specifier: 1.1.11
-    version: 1.1.11
+    specifier: 1.1.12
+    version: 1.1.12
   '@lezer/highlight':
     specifier: 1.2.0
     version: 1.2.0
@@ -2099,8 +2099,8 @@ packages:
       - supports-color
     dev: true
 
-  /@iconify-json/mingcute@1.1.11:
-    resolution: {integrity: sha512-LHPhOVVWgC3QzTfkifWAzn/fdw6VM3V8R9XtQ+pl2+znKto5PUKDeTsO8V8rtxXaaSUcuEd5LePIC6J5eqMarA==}
+  /@iconify-json/mingcute@1.1.12:
+    resolution: {integrity: sha512-hsY0PNfcFHZrHQDvfGiwK5V6GkNaOwyfxarQAGpfF0rJl58QFz4tdwK7E0HuxaWDt0JqH+CRDRKHzs14EHBhtQ==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
