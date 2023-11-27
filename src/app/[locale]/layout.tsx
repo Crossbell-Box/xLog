@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
-import { getMessages } from "next-intl/server"
+import { getMessages, unstable_setRequestLocale } from "next-intl/server"
 import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import Script from "next/script"
@@ -121,6 +121,7 @@ export default async function RootLayout({
     })
   }
 
+  unstable_setRequestLocale(params.locale)
   const messages = await getMessages()
 
   return (
