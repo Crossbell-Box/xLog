@@ -135,8 +135,8 @@ dependencies:
     specifier: 2.0.0
     version: 2.0.0
   crossbell:
-    specifier: 1.9.0
-    version: 1.9.0(typescript@5.3.2)(zod@3.22.4)
+    specifier: 1.10.0
+    version: 1.10.0(typescript@5.3.2)(zod@3.22.4)
   dayjs:
     specifier: 1.11.10
     version: 1.11.10
@@ -1104,7 +1104,7 @@ packages:
       canvas-confetti: 1.9.1
       check-password-strength: 2.0.7
       classnames: 2.3.2
-      crossbell: 1.9.0(typescript@5.3.2)(zod@3.22.4)
+      crossbell: 1.10.0(typescript@5.3.2)(zod@3.22.4)
       embla-carousel-react: 7.1.0(react@18.2.0)
       immer: 10.0.3
       lodash.compact: 3.0.1
@@ -1140,7 +1140,7 @@ packages:
       react: ^18
     dependencies:
       '@crossbell/util-hooks': 1.5.18(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.2)(zod@3.22.4)
-      crossbell: 1.9.0(typescript@5.3.2)(zod@3.22.4)
+      crossbell: 1.10.0(typescript@5.3.2)(zod@3.22.4)
       react: 18.2.0
       viem: 1.19.6(typescript@5.3.2)(zod@3.22.4)
     transitivePeerDependencies:
@@ -1156,7 +1156,7 @@ packages:
     resolution: {integrity: sha512-egIrLN71ieaanHsZOGM5CTuKojfAlsoSVgzciC4vobhp/Ix1ROyCgUb69tBF6Q18/vN52vuxZSU3Q22/8qDOSQ==}
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.9.0(typescript@5.3.2)(zod@3.22.4)
+      crossbell: 1.10.0(typescript@5.3.2)(zod@3.22.4)
       dayjs: 1.11.10
       lodash.compact: 3.0.1
       lru-cache: 10.0.3
@@ -1171,8 +1171,8 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/ipfs-fetch@0.0.19:
-    resolution: {integrity: sha512-0Yf9+MMTSD+JJkFbNaK/s+kl3CXhr4oq2yj3K0dvheB+e8uykcpM7yomxHie/sr0ushw3G7Ppf5NXYkfH0eiSw==}
+  /@crossbell/ipfs-fetch@0.0.21:
+    resolution: {integrity: sha512-wPNLptEPy64/7WMz7bhS5QVYfjproCr3ACgeQoJzmNKvH2FNDlF6FjMB9XNwV0spAczGb/SueNzW8p6BBLXHnw==}
     dev: false
 
   /@crossbell/notification@1.5.18(@tanstack/react-query@4.36.1)(@types/react@18.2.38)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.2)(wagmi@1.4.7)(zod@3.22.4):
@@ -1218,7 +1218,7 @@ packages:
       '@crossbell/util-metadata': 1.5.18(typescript@5.3.2)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       check-password-strength: 2.0.7
-      crossbell: 1.9.0(typescript@5.3.2)(zod@3.22.4)
+      crossbell: 1.10.0(typescript@5.3.2)(zod@3.22.4)
       immer: 10.0.3
       lodash.debounce: 4.0.8
       react: 18.2.0
@@ -1248,7 +1248,7 @@ packages:
       '@crossbell/util-metadata': 1.5.18(typescript@5.3.2)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
-      crossbell: 1.9.0(typescript@5.3.2)(zod@3.22.4)
+      crossbell: 1.10.0(typescript@5.3.2)(zod@3.22.4)
       facepaint: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -1275,7 +1275,7 @@ packages:
       react: ^18
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.9.0(typescript@5.3.2)(zod@3.22.4)
+      crossbell: 1.10.0(typescript@5.3.2)(zod@3.22.4)
       react: 18.2.0
     transitivePeerDependencies:
       - bufferutil
@@ -1291,7 +1291,7 @@ packages:
     dependencies:
       '@crossbell/util-ethers': 1.5.18
       '@fastify/deepmerge': 1.3.0
-      crossbell: 1.9.0(typescript@5.3.2)(zod@3.22.4)
+      crossbell: 1.10.0(typescript@5.3.2)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -5051,17 +5051,17 @@ packages:
       which: 2.0.2
     dev: true
 
-  /crossbell@1.9.0(typescript@5.3.2)(zod@3.22.4):
-    resolution: {integrity: sha512-3iSEiLq/QUL3c9atMxuRGwwopp337hVtDsW5Nwdgx7Pc97Hb/tZQvWpy34GOr8NZPqchqjx7eAM2uWEjyDEotA==}
+  /crossbell@1.10.0(typescript@5.3.2)(zod@3.22.4):
+    resolution: {integrity: sha512-u1/6HdvlkDIT3IphAk/iHP4BRjIsZpylzbcSjP1hmuVmNcGA4JWv8o72zSd40EMVvNCpkABP0DYyfaD4GHg8aw==}
     engines: {node: '>=16.14.0'}
     dependencies:
-      '@crossbell/ipfs-fetch': 0.0.19
+      '@crossbell/ipfs-fetch': 0.0.21
       async-cache-dedupe: 2.0.0
       async-retry: 1.3.3
       eip1193-types: 0.2.1
       exponential-backoff: 3.1.1
       p-limit: 3.1.0
-      viem: 2.0.0-alpha.17(typescript@5.3.2)(zod@3.22.4)
+      viem: 2.0.0-beta.6(typescript@5.3.2)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -12145,8 +12145,8 @@ packages:
       - zod
     dev: false
 
-  /viem@2.0.0-alpha.17(typescript@5.3.2)(zod@3.22.4):
-    resolution: {integrity: sha512-oxC8mWdrcBMDHQHAzCGIPwOJ4ceyInbojj1aDxfEfITI+IVhDq6VxtxCJuM4DbcKq74uogs6GkXkyOlcPIovbg==}
+  /viem@2.0.0-beta.6(typescript@5.3.2)(zod@3.22.4):
+    resolution: {integrity: sha512-HpRP1r30PwfWVYg2/GKy7BUPruxCxj60RVi49Mdz9QakRGTFXmlT75jMX04EjmCTMAkYUrLB9j+2S2N/fHAhsA==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
