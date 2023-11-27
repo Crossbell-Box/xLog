@@ -12,8 +12,8 @@ dependencies:
     specifier: ^6.11.0
     version: 6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.1.1)
   '@codemirror/commands':
-    specifier: 6.3.0
-    version: 6.3.0
+    specifier: 6.3.1
+    version: 6.3.1
   '@codemirror/lang-markdown':
     specifier: 6.2.2
     version: 6.2.2
@@ -791,8 +791,8 @@ packages:
       '@lezer/common': 1.1.1
     dev: false
 
-  /@codemirror/commands@6.3.0:
-    resolution: {integrity: sha512-tFfcxRIlOWiQDFhjBSWJ10MxcvbCIsRr6V64SgrcaY0MwNk32cUOcCuNlWo8VjV4qRQCgNgUAnIeo0svkk4R5Q==}
+  /@codemirror/commands@6.3.1:
+    resolution: {integrity: sha512-mgVour3mg9pnZUp53LzWQLPTRIBI3aZcoMJiJu6R0FadsLrydmMFxq/HMcI1zkElWWXcjaIZXemyog5IMKVIIA==}
     dependencies:
       '@codemirror/language': 6.9.2
       '@codemirror/state': 6.3.1
