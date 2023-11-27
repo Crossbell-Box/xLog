@@ -1,5 +1,11 @@
 "use client"
 
+import {
+  IntlError,
+  IntlErrorCode,
+  NextIntlClientProvider,
+  useMessages,
+} from "next-intl"
 import { ThemeProvider } from "next-themes"
 import { useState } from "react"
 import { WagmiConfig } from "wagmi"
@@ -55,10 +61,10 @@ export const mantineDefaultColorScheme = mantineDefaultColorSchemeT as
 
 export default function Providers({
   children,
-  lang,
+  locale,
 }: {
   children: React.ReactNode
-  lang: string
+  locale: string
 }) {
   useMobileLayout()
   useNProgress()
@@ -66,28 +72,41 @@ export default function Providers({
 
   const [queryClient] = useState(() => new QueryClient())
 
+  const messages = useMessages()
+  const onIntlError = (error: IntlError) => {
+    if (error.code !== IntlErrorCode.MISSING_MESSAGE) {
+      console.log(`Intl error`, error)
+    }
+  }
+
   return (
-    <ThemeProvider
-      disableTransitionOnChange
-      storageKey={DARK_MODE_STORAGE_KEY}
-      attribute="class"
+    <NextIntlClientProvider
+      onError={onIntlError}
+      locale={locale}
+      messages={messages}
     >
-      <WagmiConfig config={wagmiConfig}>
-        <QueryClientProvider client={queryClient}>
-          <ConnectKitProvider
-            ipfsLinkToHttpLink={toGateway}
-            urlComposer={urlComposer}
-            signInStrategy="simple"
-            ignoreWalletDisconnectEvent={true}
-          >
-            <ModalStackProvider>{children}</ModalStackProvider>
-            <NotificationModal
-              colorScheme={colorScheme}
-              filter={filterNotificationCharacter}
-            />
-          </ConnectKitProvider>
-        </QueryClientProvider>
-      </WagmiConfig>
-    </ThemeProvider>
+      <ThemeProvider
+        disableTransitionOnChange
+        storageKey={DARK_MODE_STORAGE_KEY}
+        attribute="class"
+      >
+        <WagmiConfig config={wagmiConfig}>
+          <QueryClientProvider client={queryClient}>
+            <ConnectKitProvider
+              ipfsLinkToHttpLink={toGateway}
+              urlComposer={urlComposer}
+              signInStrategy="simple"
+              ignoreWalletDisconnectEvent={true}
+            >
+              <ModalStackProvider>{children}</ModalStackProvider>
+              <NotificationModal
+                colorScheme={colorScheme}
+                filter={filterNotificationCharacter}
+              />
+            </ConnectKitProvider>
+          </QueryClientProvider>
+        </WagmiConfig>
+      </ThemeProvider>
+    </NextIntlClientProvider>
   )
 }

@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
-import { unstable_setRequestLocale } from "next-intl/server"
+import { getMessages } from "next-intl/server"
 import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import Script from "next/script"
@@ -25,14 +25,6 @@ import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
 import "@crossbell/connect-kit/colors.css"
 import "@mantine/core/styles.css"
 import "~/css/main.css"
-
-async function getMessages(locale: string) {
-  try {
-    return (await import(`../../messages/${locale}.json`)).default
-  } catch (error) {
-    notFound()
-  }
-}
 
 export const metadata: Metadata = {
   title: `${APP_NAME} - ${APP_SLOGAN}`,
@@ -129,8 +121,7 @@ export default async function RootLayout({
     })
   }
 
-  const messages = await getMessages(params.locale)
-  unstable_setRequestLocale(params.locale)
+  const messages = await getMessages()
 
   return (
     <html lang={params.locale} className={colorScheme}>
@@ -139,12 +130,12 @@ export default async function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <NextIntlClientProvider locale={params.locale} messages={messages}>
+        <NextIntlClientProvider messages={messages}>
           <MantineProvider
             theme={mantineTheme}
             defaultColorScheme={mantineDefaultColorScheme}
           >
-            <Providers lang={params.locale}>
+            <Providers locale={params.locale}>
               {modal}
               {children}
             </Providers>
