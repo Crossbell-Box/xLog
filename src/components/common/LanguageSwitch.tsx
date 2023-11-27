@@ -1,13 +1,13 @@
 "use client"
 
-import { useParams } from "next/navigation"
+import { useLocale } from "next-intl"
 
 import { locales } from "~/i18n"
 
 import { Menu } from "../ui/Menu"
 
 export function LanguageSwitch() {
-  const params = useParams()
+  const locale = useLocale()
 
   const nameMap: Record<string, string> = {
     en: "English",
@@ -24,18 +24,18 @@ export function LanguageSwitch() {
       }
       dropdown={
         <>
-          {locales.map((locale, i) => (
+          {locales.map((lo, i) => (
             <Menu.Item
               key={i}
               type="button"
               onClick={() => {
-                document.cookie = `NEXT_LOCALE=${locale};`
+                document.cookie = `NEXT_LOCALE=${lo};`
                 window.location.reload()
               }}
               className="mx-auto"
             >
-              <span>{nameMap[locale]}</span>
-              {params.locale === locale && (
+              <span>{nameMap[lo]}</span>
+              {locale === lo && (
                 <span className="ml-2 icon-[mingcute--check-line]"></span>
               )}
             </Menu.Item>

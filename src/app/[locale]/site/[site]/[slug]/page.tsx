@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import serialize from "serialize-javascript"
 
@@ -81,7 +81,6 @@ export default async function SitePagePage({
   params: {
     site: string
     slug: string
-    locale: string
   }
 }) {
   const queryClient = getQueryClient()
@@ -133,12 +132,13 @@ export default async function SitePagePage({
     }
   }
 
+  const locale = await getLocale()
   const t = await getTranslations()
   let summary: string | undefined
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
       cid: toCid(page.metadata?.uri || ""),
-      lang: params.locale,
+      lang: locale,
     })
   }
 

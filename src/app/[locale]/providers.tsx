@@ -4,7 +4,9 @@ import {
   IntlError,
   IntlErrorCode,
   NextIntlClientProvider,
+  useLocale,
   useMessages,
+  useTimeZone,
 } from "next-intl"
 import { ThemeProvider } from "next-themes"
 import { useState } from "react"
@@ -59,13 +61,7 @@ export const mantineDefaultColorScheme = mantineDefaultColorSchemeT as
   | "light"
   | "dark"
 
-export default function Providers({
-  children,
-  locale,
-}: {
-  children: React.ReactNode
-  locale: string
-}) {
+export default function Providers({ children }: { children: React.ReactNode }) {
   useMobileLayout()
   useNProgress()
   useDarkModeListener()
@@ -73,6 +69,8 @@ export default function Providers({
   const [queryClient] = useState(() => new QueryClient())
 
   const messages = useMessages()
+  const locale = useLocale()
+  const timeZone = useTimeZone()
   const onIntlError = (error: IntlError) => {
     if (error.code !== IntlErrorCode.MISSING_MESSAGE) {
       console.log(`Intl error`, error)
@@ -84,6 +82,7 @@ export default function Providers({
       onError={onIntlError}
       locale={locale}
       messages={messages}
+      timeZone={timeZone}
     >
       <ThemeProvider
         disableTransitionOnChange

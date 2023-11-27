@@ -135,7 +135,7 @@ export default async function RootLayout({
             theme={mantineTheme}
             defaultColorScheme={mantineDefaultColorScheme}
           >
-            <Providers locale={params.locale}>
+            <Providers>
               {modal}
               {children}
             </Providers>

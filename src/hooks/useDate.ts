@@ -10,7 +10,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat"
 import relativeTime from "dayjs/plugin/relativeTime"
 import tz from "dayjs/plugin/timezone"
 import utc from "dayjs/plugin/utc"
-import { useParams } from "next/navigation"
+import { useLocale } from "next-intl"
 import { useMemo } from "react"
 
 dayjs.extend(localizedFormat)
@@ -20,10 +20,10 @@ dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
 export function useDate() {
-  const params = useParams()
+  const locale = useLocale()
 
   const memoizedDateUtils = useMemo(() => {
-    dayjs.locale(params.locale as string)
+    dayjs.locale(locale)
 
     return {
       dayjs,
@@ -34,7 +34,7 @@ export function useDate() {
         return dayjs(date || undefined).toISOString()
       },
     }
-  }, [params.locale])
+  }, [locale])
 
   return memoizedDateUtils
 }

@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
@@ -22,7 +22,6 @@ export default async function SiteModal({
   params: {
     site: string
     slug: string
-    locale: string
   }
 }) {
   const queryClient = getQueryClient()
@@ -47,12 +46,13 @@ export default async function SiteModal({
 
   const dehydratedState = dehydrate(queryClient)
 
+  const locale = await getLocale()
   const t = await getTranslations()
   let summary: string | undefined
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
       cid: toCid(page.metadata?.uri || ""),
-      lang: params.locale,
+      lang: locale,
     })
   }
   const onlyContent = isOnlyContent()
