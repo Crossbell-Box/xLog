@@ -40,8 +40,9 @@ export async function generateMetadata({
   const title =
     site?.metadata?.content?.site_name || site?.metadata?.content?.name
   const description = site?.metadata?.content?.bio
-  const images =
-    site?.metadata?.content?.avatars || `${SITE_URL}/assets/logo.svg`
+  const images = site?.metadata?.content?.avatars || [
+    `${SITE_URL}/assets/logo.svg`,
+  ]
   const twitterCreator =
     "@" +
     site?.metadata?.content?.connected_accounts
@@ -74,7 +75,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images,
+      images: images.reverse(),
       site: "@_xLog",
       creator: twitterCreator,
     },

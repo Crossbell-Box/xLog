@@ -68,7 +68,7 @@ export async function generateMetadata({
       card: useLargeOGImage ? "summary_large_image" : "summary",
       title,
       description,
-      images,
+      images: images.reverse(),
       site: "@_xLog",
       creator: twitterCreator ? `@${twitterCreator}` : undefined,
     },
