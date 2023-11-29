@@ -181,7 +181,7 @@ dependencies:
     version: 0.16.9
   langchain:
     specifier: 0.0.196
-    version: 0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@7.5.9)
+    version: 0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@8.13.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -204,8 +204,8 @@ dependencies:
     specifier: 14.0.1
     version: 14.0.1(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
   next-intl:
-    specifier: ^3.1.4
-    version: 3.1.4(next@14.0.1)(react@18.2.0)
+    specifier: ^3.2.0
+    version: 3.2.0(next@14.0.1)(react@18.2.0)
   next-themes:
     specifier: 0.2.1
     version: 0.2.1(next@14.0.1)(react-dom@18.2.0)(react@18.2.0)
@@ -3445,12 +3445,6 @@ packages:
     resolution: {integrity: sha512-D0WfRmU9TQ8I9PFx9Yc+EBHw+vSpIub4IDvQivcp26PtPrdMGAq5SDcpXEo/epqa/DXotVpekHiLNTg3iaKXBQ==}
     dependencies:
       undici-types: 5.26.5
-
-  /@types/node@20.9.4:
-    resolution: {integrity: sha512-wmyg8HUhcn6ACjsn8oKYjkN/zUzQeNtMy44weTJSM6p4MMzEOuKbA3OjJ267uPCOW7Xex9dyrNTful8XTQYoDA==}
-    dependencies:
-      undici-types: 5.26.5
-    dev: true
 
   /@types/pangu@4.0.2:
     resolution: {integrity: sha512-rVwVCkOFTWpmBjZuxTiVhLE8cwIKff3jWEKjs+DDg6bMkQwjp9Bp03pNanHQTtTzP53SDHJutb/kfGFHNhOJaQ==}
@@ -7958,7 +7952,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.9.4
+      '@types/node': 20.10.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
@@ -8207,7 +8201,7 @@ packages:
       uuid: 9.0.1
     dev: false
 
-  /langchain@0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@7.5.9):
+  /langchain@0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@8.13.0):
     resolution: {integrity: sha512-kt17GGTDFWHNv3jJOIXymsQxfa+h9UQ6hrHbhur+V2pV6RBKO5E+RRCvnCqBzbnOPtrlkENF6Wl3Ezmsfo21dg==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -8525,7 +8519,7 @@ packages:
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 9.0.1
-      ws: 7.5.9
+      ws: 8.13.0
       yaml: 2.3.4
       zod: 3.22.4
       zod-to-json-schema: 3.20.3(zod@3.22.4)
@@ -9486,8 +9480,8 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /next-intl@3.1.4(next@14.0.1)(react@18.2.0):
-    resolution: {integrity: sha512-/mewUryIPdoZT7j+8ipN2rfWuuNGdl+xiwxWxYkYko0kGY/a2IlcgqaMBKwue5V5M17Vk9bwiydv/2wySJXG8w==}
+  /next-intl@3.2.0(next@14.0.1)(react@18.2.0):
+    resolution: {integrity: sha512-vKGokJvQOdvZG9qGNCIh2bLeoLwPzNXuER5kj1ZWK2Rg1w3vHmBMALS7WOfy7cNkk5rFOa68CYqBE2cjBGapWg==}
     peerDependencies:
       next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9496,7 +9490,7 @@ packages:
       negotiator: 0.6.3
       next: 14.0.1(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
-      use-intl: 3.1.4(react@18.2.0)
+      use-intl: 3.2.0(react@18.2.0)
     dev: false
 
   /next-themes@0.2.1(next@14.0.1)(react-dom@18.2.0)(react@18.2.0):
@@ -12195,8 +12189,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /use-intl@3.1.4(react@18.2.0):
-    resolution: {integrity: sha512-iBIHPetLeEdAuIhAXRI9ukfjjvadP2EWoAEl6IvbWojrwYgcP52A6Al1nyzIwZD7iWBU1T3Ri3Hg4HsV7cWlVA==}
+  /use-intl@3.2.0(react@18.2.0):
+    resolution: {integrity: sha512-7Ut3kQTL1WYEgpzJa9jRBaHnnJ0CPRxzNF/U8fNhi05aCBSuhJ3lwQGv9XBpOhDlprnAQUWsCXkvFKV4kLiHEA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
