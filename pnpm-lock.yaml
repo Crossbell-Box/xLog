@@ -181,7 +181,7 @@ dependencies:
     version: 0.16.9
   langchain:
     specifier: 0.0.196
-    version: 0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@7.5.9)
+    version: 0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@8.13.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -225,8 +225,8 @@ dependencies:
     specifier: 6.2.1
     version: 6.2.1
   pinyin-pro:
-    specifier: 3.18.2
-    version: 3.18.2
+    specifier: 3.18.3
+    version: 3.18.3
   plaiceholder:
     specifier: 3.0.0
     version: 3.0.0(sharp@0.32.6)
@@ -3445,12 +3445,6 @@ packages:
     resolution: {integrity: sha512-D0WfRmU9TQ8I9PFx9Yc+EBHw+vSpIub4IDvQivcp26PtPrdMGAq5SDcpXEo/epqa/DXotVpekHiLNTg3iaKXBQ==}
     dependencies:
       undici-types: 5.26.5
-
-  /@types/node@20.9.4:
-    resolution: {integrity: sha512-wmyg8HUhcn6ACjsn8oKYjkN/zUzQeNtMy44weTJSM6p4MMzEOuKbA3OjJ267uPCOW7Xex9dyrNTful8XTQYoDA==}
-    dependencies:
-      undici-types: 5.26.5
-    dev: true
 
   /@types/pangu@4.0.2:
     resolution: {integrity: sha512-rVwVCkOFTWpmBjZuxTiVhLE8cwIKff3jWEKjs+DDg6bMkQwjp9Bp03pNanHQTtTzP53SDHJutb/kfGFHNhOJaQ==}
@@ -7958,7 +7952,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.9.4
+      '@types/node': 20.10.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
@@ -8207,7 +8201,7 @@ packages:
       uuid: 9.0.1
     dev: false
 
-  /langchain@0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@7.5.9):
+  /langchain@0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@8.13.0):
     resolution: {integrity: sha512-kt17GGTDFWHNv3jJOIXymsQxfa+h9UQ6hrHbhur+V2pV6RBKO5E+RRCvnCqBzbnOPtrlkENF6Wl3Ezmsfo21dg==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -8525,7 +8519,7 @@ packages:
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 9.0.1
-      ws: 7.5.9
+      ws: 8.13.0
       yaml: 2.3.4
       zod: 3.22.4
       zod-to-json-schema: 3.20.3(zod@3.22.4)
@@ -10019,8 +10013,8 @@ packages:
       thread-stream: 0.15.2
     dev: false
 
-  /pinyin-pro@3.18.2:
-    resolution: {integrity: sha512-syJcc1Fc5a6mek365wRNKrU4DSYtnUZSbEHK6LN371mJXwSwTYx6Pmq5YYnkXUNihwWBdxBmfH8uCCKmQeU2VA==}
+  /pinyin-pro@3.18.3:
+    resolution: {integrity: sha512-YkY/n+T2DoRZxmZk+ReuNeSl2SowIMVDdagydILlPI0qNsbH7K5IKAQFihKl1JNiXLqwQT6kkVwVDsUek7AIqg==}
     dev: false
 
   /pirates@4.0.6:
