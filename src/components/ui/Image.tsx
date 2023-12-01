@@ -161,6 +161,7 @@ export const Image = ({
                     const urlObj = new URL(src)
                     urlObj.searchParams.set("img-quality", (quality || 75) + "")
                     urlObj.searchParams.set("img-format", "auto")
+                    urlObj.searchParams.set("img-onerror", "redirect")
                     if (width) {
                       urlObj.searchParams.set("img-width", width + "")
                     }

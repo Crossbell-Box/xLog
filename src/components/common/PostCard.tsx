@@ -1,6 +1,7 @@
 "use client"
 
 import { CharacterEntity } from "crossbell"
+import { useTranslations } from "next-intl"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { memo } from "react"
@@ -15,7 +16,6 @@ import { Avatar } from "~/components/ui/Avatar"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useDate } from "~/hooks/useDate"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
@@ -43,7 +43,7 @@ const Card = ({
   isShort?: boolean
 }) => {
   const router = useRouter()
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   const date = useDate()
   const searchParams = useSearchParams()
 

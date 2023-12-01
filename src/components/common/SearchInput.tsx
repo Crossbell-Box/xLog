@@ -1,9 +1,9 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 
-import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 export const SearchInput = ({
@@ -15,7 +15,7 @@ export const SearchInput = ({
 }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const form = useForm({
     defaultValues: {

@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useTranslations } from "next-intl"
 import { memo, useCallback, useState } from "react"
 import { usePopper } from "react-popper"
 
@@ -6,7 +7,6 @@ import { EditorView } from "@codemirror/view"
 import { Popover } from "@headlessui/react"
 
 import { Tooltip } from "~/components/ui/Tooltip"
-import { useTranslation } from "~/lib/i18n/client"
 import { isMacOS } from "~/lib/utils"
 
 import { toolbars, type ICommand } from "./toolbars"
@@ -28,7 +28,7 @@ const ToolbarItemWithPopover = ({
   view,
   shortcut,
 }: IToolbarItemProps) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   let [popoverButtonRef, setPopoverButtonRef] =
     useState<HTMLButtonElement | null>(null)
   let [popoverPanelRef, setPopoverPanelRef] = useState<HTMLDivElement | null>(
@@ -82,7 +82,7 @@ const ToolbarItemWithPopover = ({
 }
 
 export const EditorToolbar = memo(({ view }: { view?: EditorView }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const renderToolbar = useCallback(
     ({ name, icon, label, execute, ui, shortcut }: ICommand) => {
       return ui ? (

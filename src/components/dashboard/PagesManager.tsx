@@ -1,6 +1,7 @@
 "use client"
 
 import { nanoid } from "nanoid"
+import { useTranslations } from "next-intl"
 import Link from "next/link"
 import {
   useParams,
@@ -16,7 +17,6 @@ import { useQueryClient } from "@tanstack/react-query"
 import PostCover from "~/components/home/PostCover"
 import { useDate } from "~/hooks/useDate"
 import { getSiteLink } from "~/lib/helpers"
-import { Trans, useTranslation } from "~/lib/i18n/client"
 import { getPageVisibility } from "~/lib/page-helpers"
 import { readFiles } from "~/lib/read-files"
 import { setStorage } from "~/lib/storage"
@@ -52,9 +52,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
     [searchParams],
   )
 
-  const { t, i18n } = useTranslation("dashboard")
-  const { t: siteT } = useTranslation("site")
-  const { t: commonT } = useTranslation("common")
+  const t = useTranslations()
   const date = useDate()
 
   const pages = useGetPagesBySite({
@@ -148,23 +146,18 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
       description = (
         <>
           <p>
-            <Trans i18n={i18n} i18nKey="posts description" ns="dashboard">
-              Posts are entries listed in reverse chronological order on your
-              site. Think of them as articles or updates that you share to offer
-              up new content to your readers.{" "}
-              <UniLink
-                className="underline"
-                href={t("link post-vs-page") || ""}
-              >
-                Post vs. Page
-              </UniLink>
-            </Trans>
+            {t.rich("posts description", {
+              link: (chunks) => (
+                <UniLink
+                  className="underline"
+                  href={t("link post-vs-page") || ""}
+                >
+                  {chunks}
+                </UniLink>
+              ),
+            })}
           </p>
-          <p>
-            <Trans i18n={i18n} i18nKey="posts add" ns="dashboard">
-              Visitors can view the posts you have posted at homepage.
-            </Trans>
-          </p>
+          <p>{t("posts add")}</p>
         </>
       )
       break
@@ -172,29 +165,28 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
       description = (
         <>
           <p>
-            <Trans i18n={i18n} i18nKey="pages description" ns="dashboard">
-              Pages are static and are not affected by date. Think of them as
-              more permanent fixtures of your site — an About page, and a
-              Contact page are great examples of this.{" "}
-              <UniLink
-                className="underline"
-                href="https://wordpress.com/support/post-vs-page/"
-              >
-                Post vs. Page
-              </UniLink>
-            </Trans>
+            {t.rich("pages description", {
+              link: (chunks) => (
+                <UniLink
+                  className="underline"
+                  href="https://wordpress.com/support/post-vs-page/"
+                >
+                  {chunks}
+                </UniLink>
+              ),
+            })}
           </p>
           <p>
-            <Trans i18n={i18n} i18nKey="pages add" ns="dashboard">
-              Visitors can only access your page through its link, you can{" "}
-              <UniLink
-                className="underline"
-                href={`/dashboard/${subdomain}/settings/navigation`}
-              >
-                add it to navigation menu
-              </UniLink>{" "}
-              so your visitors can find it.
-            </Trans>
+            {t.rich("pages add", {
+              link: (chunks) => (
+                <UniLink
+                  className="underline"
+                  href={`/dashboard/${subdomain}/settings/navigation`}
+                >
+                  {chunks}
+                </UniLink>
+              ),
+            })}
           </p>
         </>
       )
@@ -202,34 +194,28 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
     case "portfolio":
       description = (
         <>
+          <p>{t("portfolios description")}</p>
           <p>
-            <Trans i18n={i18n} i18nKey="portfolios description" ns="dashboard">
-              The portfolio is a collection of works outside of xLog, such as
-              your YouTube videos and GitHub projects. They will be displayed in
-              the list on the homepage like posts. The difference is that the
-              portfolio directly links to external URLs.
-            </Trans>
-          </p>
-          <p>
-            <Trans i18n={i18n} i18nKey="portfolios add" ns="dashboard">
-              Visitors can view the portfolios you have posted at homepage and{" "}
-              <UniLink
-                className="underline"
-                href={`${getSiteLink({
-                  subdomain,
-                })}/portfolios`}
-              >
-                /portfolios
-              </UniLink>
-              , you can{" "}
-              <UniLink
-                className="underline"
-                href={`/dashboard/${subdomain}/settings/navigation`}
-              >
-                add it to navigation menu
-              </UniLink>{" "}
-              so your visitors can find it.
-            </Trans>
+            {t.rich("portfolios add", {
+              link1: (chunks) => (
+                <UniLink
+                  className="underline"
+                  href={`${getSiteLink({
+                    subdomain,
+                  })}/portfolios`}
+                >
+                  {chunks}
+                </UniLink>
+              ),
+              link2: (chunks) => (
+                <UniLink
+                  className="underline"
+                  href={`/dashboard/${subdomain}/settings/navigation`}
+                >
+                  {chunks}
+                </UniLink>
+              ),
+            })}
           </p>
         </>
       )
@@ -238,42 +224,40 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
       description = (
         <>
           <p>
-            <Trans i18n={i18n} i18nKey="shots description" ns="dashboard">
-              Shorts is a dedicated section for displaying pictures and short
-              texts. The content primarily consists of pictures, with the
-              accompanying text limited to 1000 characters or less. They will
-              not be displayed on the homepage, but on a separate page{" "}
-              <UniLink
-                className="underline"
-                href={`${getSiteLink({
-                  subdomain,
-                })}/shorts`}
-              >
-                /shorts
-              </UniLink>
-              .
-            </Trans>
+            {t.rich("shots description", {
+              link: (chunks) => (
+                <UniLink
+                  className="underline"
+                  href={`${getSiteLink({
+                    subdomain,
+                  })}/shorts`}
+                >
+                  {chunks}
+                </UniLink>
+              ),
+            })}
           </p>
           <p>
-            <Trans i18n={i18n} i18nKey="shots add" ns="dashboard">
-              Visitors can view the shots you have posted at{" "}
-              <UniLink
-                className="underline"
-                href={`${getSiteLink({
-                  subdomain,
-                })}/shorts`}
-              >
-                /shorts
-              </UniLink>
-              , you can{" "}
-              <UniLink
-                className="underline"
-                href={`/dashboard/${subdomain}/settings/navigation`}
-              >
-                add it to navigation menu
-              </UniLink>{" "}
-              so your visitors can find it.
-            </Trans>
+            {t.rich("shots add", {
+              link1: (chunks) => (
+                <UniLink
+                  className="underline"
+                  href={`${getSiteLink({
+                    subdomain,
+                  })}/shorts`}
+                >
+                  {chunks}
+                </UniLink>
+              ),
+              link2: (chunks) => (
+                <UniLink
+                  className="underline"
+                  href={`/dashboard/${subdomain}/settings/navigation`}
+                >
+                  {chunks}
+                </UniLink>
+              ),
+            })}
           </p>
         </>
       )
@@ -299,7 +283,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
           >
             <span className="icon-[mingcute--add-line] inline-block"></span>
             <span>
-              {commonT(`New ${type.charAt(0).toUpperCase() + type.slice(1)}`)}
+              {t(`New ${type.charAt(0).toUpperCase() + type.slice(1)}`)}
             </span>
           </Button>
           {(type === "post" || type === "page") && (
@@ -441,7 +425,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                           <span className="mx-2">·</span>
                           <span>
                             <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
-                            {siteT("Pinned")}
+                            {t("Pinned")}
                           </span>
                         </>
                       )}
@@ -531,7 +515,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
             onClick={pages.fetchNextPage as () => void}
             isLoading={pages.isFetchingNextPage}
           >
-            {siteT("load more", {
+            {t("load more", {
               name: t(
                 type +
                   ((pages.data?.pages?.[0].count || 0) - currentLength > 1

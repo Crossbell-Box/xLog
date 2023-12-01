@@ -24,6 +24,7 @@ import remarkDirectiveRehype from "remark-directive-rehype"
 import emoji from "remark-emoji"
 import remarkFrontmatter from "remark-frontmatter"
 import remarkGfm from "remark-gfm"
+import remarkGithubAlerts from "remark-github-alerts"
 import remarkMath from "remark-math"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
@@ -104,6 +105,8 @@ export const renderPageContent = (
   try {
     let pipeline = unified()
       .use(remarkParse)
+      // make sure this is before remarkBreaks
+      .use(remarkGithubAlerts)
       .use(remarkBreaks)
       .use(remarkFrontmatter, ["yaml"])
       .use(() => (tree: Root) => {

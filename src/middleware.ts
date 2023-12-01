@@ -1,21 +1,29 @@
+import createMiddleware from "next-intl/middleware"
 import { NextRequest, NextResponse } from "next/server"
 
 import { getClientIp } from "@supercharge/request-ip"
 
 import { IS_PROD } from "~/lib/constants"
-import { DISCORD_LINK } from "~/lib/env"
+
+import { defaultLocale, locales } from "./i18n"
 
 // HTTPWhiteListPaths: White list of path for plain http request, no HTTPS redirect
 const HTTPWhitelistPaths = ["/api/healthcheck"]
 
-export default async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl
+export const config = {
+  // Skip all paths that should not be internationalized. This example skips the
+  // folders "api", "_next" and all files with an extension (e.g. favicon.ico)
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+}
 
-  // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
-  const requestHeaders = new Headers(req.headers)
-  requestHeaders.set("x-xlog-pathname", pathname)
-  requestHeaders.set("x-xlog-search", req.nextUrl.search)
-  requestHeaders.set("x-xlog-ip", getClientIp(req) || "")
+export async function middleware(req: NextRequest) {
+  const handleI18nRouting = createMiddleware({
+    locales,
+    defaultLocale,
+    localePrefix: "never",
+  })
+
+  const { pathname } = req.nextUrl
 
   if (
     IS_PROD &&
@@ -57,6 +65,13 @@ export default async function middleware(req: NextRequest) {
 
   console.debug(`${req.method} ${req.nextUrl}`)
 
+  const response = handleI18nRouting(req)
+
+  // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
+  response.headers.set("x-xlog-pathname", pathname)
+  response.headers.set("x-xlog-search", req.nextUrl.search)
+  response.headers.set("x-xlog-ip", getClientIp(req) || "")
+
   if (
     pathname.startsWith("/api/") ||
     pathname.startsWith("/dashboard") ||
@@ -70,11 +85,7 @@ export default async function middleware(req: NextRequest) {
     pathname === "/monitoring" ||
     pathname === "favicon.ico"
   ) {
-    return NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    })
+    return response
   }
 
   let tenant: {
@@ -102,31 +113,25 @@ export default async function middleware(req: NextRequest) {
     )
   }
 
-  requestHeaders.set("x-xlog-handle", tenant.subdomain || "")
+  response.headers.set("x-xlog-handle", tenant.subdomain || "")
 
   if (tenant?.subdomain) {
-    return NextResponse.rewrite(
+    const newResponse = NextResponse.rewrite(
       new URL(
-        `/site/${tenant?.subdomain}${pathname === "/" ? "" : pathname}${
+        `${response.headers.get(
+          "x-middleware-request-x-next-intl-locale",
+        )}/site/${tenant?.subdomain}${pathname === "/" ? "" : pathname}${
           req.nextUrl.search
         }`,
         req.url,
       ),
-      {
-        request: {
-          headers: requestHeaders,
-        },
-      },
     )
+    const setCookie = response.headers.get("Set-Cookie")
+    if (setCookie) {
+      newResponse.headers.set("Set-Cookie", setCookie)
+    }
+    return newResponse
   }
 
-  if (DISCORD_LINK && pathname === "/discord") {
-    return NextResponse.redirect(DISCORD_LINK)
-  }
-
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  })
+  return response
 }

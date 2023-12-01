@@ -1,18 +1,18 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { usePathname, useRouter } from "next/navigation"
 
 import { useConnectedAction } from "@crossbell/connect-kit"
 
 import { Tabs } from "~/components/ui/Tabs"
-import { useTranslation } from "~/lib/i18n/client"
 
 import topics from "../../../data/topics.json"
 
 export const HomeActivitiesTabs = () => {
   const pathname = usePathname()
   const router = useRouter()
-  const { t } = useTranslation("index")
+  const t = useTranslations()
 
   const tabs = [
     {

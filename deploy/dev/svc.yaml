@@ -6,8 +6,12 @@ metadata:
   annotations:
     service.beta.kubernetes.io/alibaba-cloud-loadbalancer-name: "xlog-dev"
     service.beta.kubernetes.io/alibaba-cloud-loadbalancer-spec: "slb.s1.small"
+    service.beta.kubernetes.io/alibaba-cloud-loadbalancer-acl-id: acl-7go649a51gt3cw7qgsvls
+    service.beta.kubernetes.io/alibaba-cloud-loadbalancer-acl-status: "on"
+    service.beta.kubernetes.io/alibaba-cloud-loadbalancer-acl-type: black
 spec:
   type: LoadBalancer
+  externalTrafficPolicy: Local
   selector:
     app: xlog-caddy
   ports:

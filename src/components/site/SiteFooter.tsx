@@ -1,8 +1,8 @@
+import { getTranslations } from "next-intl/server"
 import Script from "next/script"
 
 import { Logo } from "~/components/common/Logo"
 import { SITE_URL } from "~/lib/env"
-import { getTranslation, Trans } from "~/lib/i18n"
 import { ExpandedCharacter } from "~/lib/types"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
@@ -27,7 +27,7 @@ export default async function SiteFooter({
     )
   }
 
-  const { i18n } = await getTranslation("site")
+  const t = await getTranslations()
 
   return (
     <>
@@ -39,16 +39,10 @@ export default async function SiteFooter({
               <span>{site?.metadata?.content?.name}</span>
             </UniLink>
             <span> · </span>
-            <Trans
-              i18n={i18n}
-              i18nKey="powered by"
-              defaults={"<span>Powered by </span><name/>"}
-              components={{
-                name: <LogoWithLink />,
-                span: <span />,
-              }}
-              ns="site"
-            />
+            {t.rich("powered by", {
+              name: () => <LogoWithLink />,
+              span: (chunks) => <span>{chunks}</span>,
+            })}
           </div>
           <ConnectedAccounts
             connectedAccounts={site?.metadata?.content?.connected_accounts}

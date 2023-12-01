@@ -6,13 +6,13 @@ import {
 } from "langchain/chains"
 import { OpenAI } from "langchain/llms/openai"
 import { PromptTemplate } from "langchain/prompts"
+import { getLocale } from "next-intl/server"
 import removeMarkdown from "remove-markdown"
 
 import { Metadata } from "@prisma/client"
 import { QueryClient } from "@tanstack/react-query"
 
-import { getTranslation as getTranslationWithI18n } from "~/lib/i18n"
-import { languageNames } from "~/lib/i18n/settings"
+import { defaultLocale, languageNames, locales } from "~/i18n"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { llmModelSwitcherByTextLength } from "~/lib/llm-model-switcher-by-text-length"
 import prisma from "~/lib/prisma.server"
@@ -255,8 +255,8 @@ export async function decoratePageWithTranslation(
 ) {
   if (!page) return
   const cid = toCid(page?.metadata?.uri || "")
-  const { i18n } = await getTranslationWithI18n()
-  const targetLanguage = i18n.resolvedLanguage as Language
+
+  const targetLanguage = (await getLocale()) as Language
   const originalLanguage = page?.metadata?.content?.originalLanguage
 
   if (originalLanguage === targetLanguage) {
@@ -340,7 +340,7 @@ const lock = new AsyncLock()
 
 export async function getSummary({
   cid,
-  lang = "en",
+  lang = defaultLocale,
 }: {
   cid: string
   lang?: string
@@ -351,7 +351,7 @@ export async function getSummary({
     noUpdate: true,
     noExpire: true,
     getValueFun: async () => {
-      if (["en", "zh", "zh-TW", "ja"].includes(lang)) {
+      if (locales.includes(lang as Language)) {
         let result
         await lock.acquire(cid, async () => {
           const meta = await prisma.metadata.findFirst({

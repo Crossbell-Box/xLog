@@ -1,10 +1,10 @@
+import { useTranslations } from "next-intl"
 import dynamic from "next/dynamic"
 import Image from "next/image"
 import { FC } from "react"
 import { toast } from "react-hot-toast"
 
 import { useIsClient } from "~/hooks/useClient"
-import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 import { Button } from "../ui/Button"
@@ -75,7 +75,7 @@ export const ReactionShare: FC<{
   vertical?: boolean
   size?: "sm" | "base"
 }> = ({ vertical, size }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const isClient = useIsClient()
 
@@ -117,8 +117,8 @@ export const ReactionShare: FC<{
                   size === "sm"
                     ? "text-base"
                     : vertical
-                    ? "text-[33px]"
-                    : "text-[38px]",
+                      ? "text-[33px]"
+                      : "text-[38px]",
                   !vertical && "mr-1",
                 )}
               ></i>
@@ -142,7 +142,7 @@ export const ReactionShare: FC<{
 
 const usePresentShareModal = () => {
   const { present } = useModalStack()
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   return (props: ShareModalProps) => {
     present({
       title: t("Share Modal") || "",

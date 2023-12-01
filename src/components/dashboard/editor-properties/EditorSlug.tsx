@@ -1,9 +1,9 @@
+import { useTranslations } from "next-intl"
 import { ChangeEvent } from "react"
 
 import { Input } from "~/components/ui/Input"
 import { UniLink } from "~/components/ui/UniLink"
 import { useEditorState } from "~/hooks/useEditorState"
-import { useTranslation } from "~/lib/i18n/client"
 import { EditorValues } from "~/lib/types"
 
 export default function EditorSlug({
@@ -17,7 +17,7 @@ export default function EditorSlug({
   type: string
   siteLink?: string
 }) {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const value = useEditorState((state) => state.slug)
 
   return (

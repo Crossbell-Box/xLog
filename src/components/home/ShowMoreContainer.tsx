@@ -1,8 +1,7 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useState } from "react"
-
-import { useTranslation } from "~/lib/i18n/client"
 
 export default function ShowMoreContainer({
   children,
@@ -10,7 +9,7 @@ export default function ShowMoreContainer({
   children: JSX.Element
 }) {
   const [showcaseMore, setShowcaseMore] = useState(false)
-  const { t } = useTranslation("index")
+  const t = useTranslations()
 
   return (
     <ul
