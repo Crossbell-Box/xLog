@@ -35,6 +35,7 @@ export async function getFeed({
   searchType,
   tag,
   useHTML,
+  useImageDimensions,
   topic,
 }: {
   type?: FeedType
@@ -46,6 +47,7 @@ export async function getFeed({
   searchType?: SearchType
   tag?: string
   useHTML?: boolean
+  useImageDimensions?: boolean
   topic?: string
 }) {
   if (type === "search" && !searchKeyword) {
@@ -141,6 +143,7 @@ export async function getFeed({
             note: page,
             useScore: true,
             useHTML,
+            useImageDimensions,
           }),
         ),
       )
@@ -235,6 +238,7 @@ export async function getFeed({
           const expand = await expandCrossbellNote({
             note: page,
             useHTML,
+            useImageDimensions,
           })
           if (expand.toNote) {
             if (expand.toNote.toNote) {
@@ -251,6 +255,7 @@ export async function getFeed({
             expand.toNote = await expandCrossbellNote({
               note: expand.toNote,
               useHTML,
+              useImageDimensions,
             })
             delete expand.toNote.toNote
           }
@@ -321,6 +326,7 @@ export async function getFeed({
             useScore: true,
             useStat: true,
             useHTML,
+            useImageDimensions,
           }),
         ),
       )
@@ -359,6 +365,7 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              useImageDimensions,
             }),
           ),
         )
@@ -465,6 +472,7 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              useImageDimensions,
             }),
           ),
         )
@@ -540,6 +548,7 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              useImageDimensions,
             }),
           ),
         )
@@ -644,6 +653,7 @@ export async function getFeed({
               note: page,
               useHTML,
               useStat: true,
+              useImageDimensions,
             })
             return expand
           },
@@ -769,6 +779,7 @@ export async function getFeed({
               note: page,
               useHTML,
               useStat: true,
+              useImageDimensions,
             })
             return expand
           },
@@ -813,6 +824,7 @@ export async function getFeed({
             useScore: false,
             keyword: searchKeyword,
             useHTML,
+            useImageDimensions,
           }),
         ),
       )
@@ -850,6 +862,7 @@ export async function getFeed({
             useStat: false,
             useScore: true,
             useHTML,
+            useImageDimensions,
           }),
         ),
       )
