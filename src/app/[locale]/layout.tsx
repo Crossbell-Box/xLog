@@ -24,6 +24,9 @@ import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
 
 import "@crossbell/connect-kit/colors.css"
 import "@mantine/core/styles.css"
+import "remark-github-alerts/styles/github-colors-light.css"
+import "remark-github-alerts/styles/github-colors-dark-class.css"
+import "remark-github-alerts/styles/github-base.css"
 import "~/css/main.css"
 
 export const metadata: Metadata = {
@@ -125,7 +128,7 @@ export default async function RootLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={params.locale} className={colorScheme}>
+    <html lang={params.locale} className={colorScheme} suppressHydrationWarning>
       <head>
         <ColorSchemeInjector />
         <ColorSchemeScript />
