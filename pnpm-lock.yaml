@@ -171,8 +171,8 @@ dependencies:
     specifier: 4.1.0
     version: 4.1.0
   jsdom:
-    specifier: 23.0.0
-    version: 23.0.0
+    specifier: 23.0.1
+    version: 23.0.1
   jsonfeed-to-rss:
     specifier: 3.0.7
     version: 3.0.7
@@ -181,7 +181,7 @@ dependencies:
     version: 0.16.9
   langchain:
     specifier: 0.0.196
-    version: 0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@8.13.0)
+    version: 0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -8021,11 +8021,11 @@ packages:
       - utf-8-validate
     dev: false
 
-  /jsdom@23.0.0:
-    resolution: {integrity: sha512-cbL/UCtohJguhFC7c2/hgW6BeZCNvP7URQGnx9tSJRYKCdnfbfWOrtuLTMfiB2VxKsx5wPHVsh/J0aBy9lIIhQ==}
+  /jsdom@23.0.1:
+    resolution: {integrity: sha512-2i27vgvlUsGEBO9+/kJQRbtqtm+191b5zAZrU/UezVmnC2dlDAFLgDYJvAEi94T4kjsRKkezEtLQTgsNEsW2lQ==}
     engines: {node: '>=18'}
     peerDependencies:
-      canvas: ^3.0.0
+      canvas: ^2.11.2
     peerDependenciesMeta:
       canvas:
         optional: true
@@ -8204,7 +8204,7 @@ packages:
       uuid: 9.0.1
     dev: false
 
-  /langchain@0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.0)(ws@8.13.0):
+  /langchain@0.0.196(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0):
     resolution: {integrity: sha512-kt17GGTDFWHNv3jJOIXymsQxfa+h9UQ6hrHbhur+V2pV6RBKO5E+RRCvnCqBzbnOPtrlkENF6Wl3Ezmsfo21dg==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -8512,7 +8512,7 @@ packages:
       ioredis: 5.3.2
       js-tiktoken: 1.0.7
       js-yaml: 4.1.0
-      jsdom: 23.0.0
+      jsdom: 23.0.1
       jsonpointer: 5.0.1
       langchain-core: 0.0.1
       langchainhub: 0.0.6
@@ -10258,15 +10258,9 @@ packages:
       once: 1.4.0
     dev: false
 
-  /punycode@2.3.0:
-    resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
-    engines: {node: '>=6'}
-    dev: true
-
   /punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
-    dev: false
 
   /qier-progress@1.0.4:
     resolution: {integrity: sha512-gCxgoM2wxW7GCo/iEpOlaunVo2cf+/AJfG6wtYIbYz18GXtUhFjgZjX2s+otWh/P8ppVgGULASkWtXfZQEd2FQ==}
@@ -12170,7 +12164,7 @@ packages:
   /uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
-      punycode: 2.3.0
+      punycode: 2.3.1
     dev: true
 
   /url-parse@1.5.10:
