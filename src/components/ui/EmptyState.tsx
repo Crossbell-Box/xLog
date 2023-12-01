@@ -1,9 +1,9 @@
 "use client"
 
-import { useTranslation } from "~/lib/i18n/client"
+import { useTranslations } from "next-intl"
 
 export const EmptyState = ({ resource = "post" }: { resource?: string }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   return (
     <div className="text-center py-10 mb-10 text-2xl text-zinc-300 font-medium flex justify-center flex-col items-center">

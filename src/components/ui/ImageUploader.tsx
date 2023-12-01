@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import React, {
   ChangeEvent,
   forwardRef,
@@ -10,7 +11,6 @@ import { XMarkIcon } from "@heroicons/react/20/solid"
 
 import { Image } from "~/components/ui/Image"
 import { useUploadFile } from "~/hooks/useUploadFile"
-import { useTranslation } from "~/lib/i18n/client"
 import { toGateway } from "~/lib/ipfs-parser"
 import { cn } from "~/lib/utils"
 
@@ -61,7 +61,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
   const uploadFile = useUploadFile()
   const [imageUrl, setImageUrl] = useState<string>()
   const [loading, setLoading] = useState(false)
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const handleFile = useCallback(
     async (file?: File) => {

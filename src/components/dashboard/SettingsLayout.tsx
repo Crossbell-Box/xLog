@@ -1,9 +1,8 @@
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import React from "react"
 
 import { useXSettingsModal } from "@crossbell/connect-kit"
-
-import { useTranslation } from "~/lib/i18n/client"
 
 import { Tabs, type TabItem } from "../ui/Tabs"
 import { DashboardMain } from "./DashboardMain"
@@ -15,7 +14,7 @@ export const SettingsLayout = ({
   title: string
   children: React.ReactNode
 }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const xSettingsModal = useXSettingsModal()
 
   const params = useParams()

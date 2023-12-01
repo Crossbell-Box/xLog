@@ -1,10 +1,10 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
 
 import { Image } from "~/components/ui/Image"
 import { GITHUB_LINK } from "~/lib/env"
-import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 import { UniLink } from "../ui/UniLink"
@@ -32,7 +32,7 @@ const tabs = [
 
 export default function HomeTabs() {
   const pathname = usePathname()
-  const { t } = useTranslation("index")
+  const t = useTranslations()
 
   return (
     <>

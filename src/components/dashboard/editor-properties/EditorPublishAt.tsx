@@ -2,8 +2,9 @@ import { DateInput } from "@mantine/dates"
 
 import "@mantine/dates/styles.css"
 
+import { useTranslations } from "next-intl"
+
 import { useEditorState } from "~/hooks/useEditorState"
-import { useTranslation } from "~/lib/i18n/client"
 import { EditorValues } from "~/lib/types"
 
 export default function EditorPublishAt({
@@ -13,7 +14,7 @@ export default function EditorPublishAt({
   updateValue: (val: EditorValues) => void
   prompt?: string
 }) {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const value = useEditorState((state) => state.publishedAt)
 
   return (
@@ -45,7 +46,7 @@ export default function EditorPublishAt({
       {value && value > new Date().toISOString() && (
         <div className="text-xs mt-1 text-orange-500">
           {t(
-            "The post is currently not public as its publication date has been scheduled for a future time.",
+            "The post is currently not public as its publication date has been scheduled for a future time",
           )}
         </div>
       )}

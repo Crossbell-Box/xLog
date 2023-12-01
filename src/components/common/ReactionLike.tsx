@@ -1,13 +1,13 @@
 "use client"
 
 import confetti from "canvas-confetti"
+import { useTranslations } from "next-intl"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { CharacterList } from "~/components/common/CharacterList"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { CSB_SCAN } from "~/lib/env"
-import { Trans, useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import {
   useCheckLike,
@@ -32,7 +32,7 @@ export const ReactionLike = ({
   vertical?: boolean
 }) => {
   const toggleLikePage = useToggleLikePage()
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const [isLikeListOpen, setIsLikeListOpen] = useState(false)
   const likeRef = useRef<HTMLButtonElement>(null)
@@ -166,8 +166,8 @@ export const ReactionLike = ({
                   size === "sm"
                     ? "text-base"
                     : vertical
-                    ? "text-[33px]"
-                    : "text-[38px]",
+                      ? "text-[33px]"
+                      : "text-[38px]",
                   !vertical && "mr-1",
                 )}
               ></i>
@@ -217,20 +217,21 @@ const LikeModal = ({
 
   presentUnlikeModal: () => void
 }>) => {
-  const { t, i18n } = useTranslation("common")
+  const t = useTranslations()
 
   return (
     <>
       <div className="p-5">
-        <Trans i18nKey="like stored" i18n={i18n}>
-          Your like has been stored on the blockchain, view it on{" "}
-          <UniLink
-            className="text-accent"
-            href={`${CSB_SCAN}/tx/${likeStatus.transactionHash}`}
-          >
-            Crossbell Scan
-          </UniLink>
-        </Trans>
+        {t.rich("like stored", {
+          link: (chunks) => (
+            <UniLink
+              className="text-accent"
+              href={`${CSB_SCAN}/tx/${likeStatus.transactionHash}`}
+            >
+              {chunks}
+            </UniLink>
+          ),
+        })}
       </div>
       <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
         <Button isBlock onClick={dismiss}>
@@ -263,9 +264,8 @@ const UnLikeModal = ({
   likeStatus: any
   toggleLikePage: ReturnType<typeof useToggleLikePage>
 }>) => {
-  const { t, i18n } = useTranslation("common")
+  const t = useTranslations()
 
-  const { present } = useModalStack()
   const unlike = () => {
     if (characterId && noteId) {
       dismiss()
@@ -281,11 +281,7 @@ const UnLikeModal = ({
 
   return (
     <>
-      <div className="p-5">
-        <Trans i18nKey="like revert" i18n={i18n}>
-          Do you really want to revert this like action?
-        </Trans>
-      </div>
+      <div className="p-5">{t("like revert")}</div>
       <div className="border-t flex flex-col md:flex-row gap-4 items-center px-5 py-4">
         <Button isBlock onClick={dismiss}>
           {t("Cancel")}

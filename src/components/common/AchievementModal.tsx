@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import Tilt from "react-parallax-tilt"
 
 import { Modal, Stepper } from "@mantine/core"
@@ -7,7 +8,6 @@ import { BlockchainIcon } from "~/components/icons/BlockchainIcon"
 import { Button } from "~/components/ui/Button"
 import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
-import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 import type { AchievementSection } from "~/models/site.model"
 import { useMintAchievement } from "~/queries/site"
@@ -28,7 +28,7 @@ export const AchievementModal = ({
   characterId?: number
 }) => {
   const date = useDate()
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const achievement = group.items
     .filter((item) => item.status === "MINTED")

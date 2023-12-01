@@ -1,7 +1,8 @@
 "use client"
 
+import { useTranslations } from "next-intl"
+
 import { Tooltip } from "~/components/ui/Tooltip"
-import { useTranslation } from "~/lib/i18n/client"
 import { cn, scrollTo } from "~/lib/utils"
 import { useCheckComment, useGetComments } from "~/queries/page"
 
@@ -14,7 +15,7 @@ export const ReactionComment = ({
   characterId?: number
   noteId?: number
 }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const comments = useGetComments({
     characterId: characterId,

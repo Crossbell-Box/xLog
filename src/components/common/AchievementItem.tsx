@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 
 import { Indicator } from "@mantine/core"
@@ -5,7 +6,6 @@ import { Indicator } from "@mantine/core"
 import { AchievementModal } from "~/components/common/AchievementModal"
 import { Image } from "~/components/ui/Image"
 import { useDate } from "~/hooks/useDate"
-import { useTranslation } from "~/lib/i18n/client"
 import type { AchievementSection } from "~/models/site.model"
 
 export const Badge = ({
@@ -48,7 +48,7 @@ export const AchievementItem = ({
   isOwner: boolean
 }) => {
   const date = useDate()
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const achievement = group.items
     .filter((item) => item.status === "MINTED")

@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
@@ -8,13 +9,12 @@ import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { DEFAULT_AVATAR } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { useGetShowcase } from "~/queries/home"
 
 export function ShowCase() {
   const showcaseSites = useGetShowcase()
   const [showcaseMore, setShowcaseMore] = useState(false)
-  const { t } = useTranslation("index")
+  const t = useTranslations()
 
   return (
     <>

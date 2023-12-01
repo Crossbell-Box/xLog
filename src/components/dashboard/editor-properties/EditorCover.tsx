@@ -1,7 +1,8 @@
+import { useTranslations } from "next-intl"
+
 import { FieldLabel } from "~/components/ui/FieldLabel"
 import { ImageUploader } from "~/components/ui/ImageUploader"
 import { useEditorState } from "~/hooks/useEditorState"
-import { useTranslation } from "~/lib/i18n/client"
 import { EditorValues } from "~/lib/types"
 
 export default function EditorCover({
@@ -13,7 +14,7 @@ export default function EditorCover({
   prompt?: string
   enableGlobalEvents?: boolean
 }) {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const value = useEditorState((state) => state.cover)
 
   return (

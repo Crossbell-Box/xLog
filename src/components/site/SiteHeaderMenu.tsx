@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 
 import { XCharLogo, XFeedLogo } from "@crossbell/ui"
@@ -11,7 +12,6 @@ import { Image } from "~/components/ui/Image"
 import { Modal } from "~/components/ui/Modal"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { CSB_SCAN, CSB_XCHAR, CSB_XFEED } from "~/lib/env"
-import { useTranslation } from "~/lib/i18n/client"
 
 import { Button } from "../ui/Button"
 import { Menu } from "../ui/Menu"
@@ -42,7 +42,7 @@ export const SiteHeaderMenu = ({
   owner?: string
   hideSearch?: boolean
 }) => {
-  const { t } = useTranslation("site")
+  const t = useTranslations()
   const [searchOpen, setSearchOpen] = useState(false)
 
   const moreMenuItems = [

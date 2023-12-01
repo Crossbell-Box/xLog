@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { memo } from "react"
 
@@ -8,7 +9,6 @@ import {
   sitePlayerPlayNow,
 } from "~/components/common/SitePlayer"
 import { Tooltip } from "~/components/ui/Tooltip"
-import { useTranslation } from "~/lib/i18n/client"
 import { toGateway } from "~/lib/ipfs-parser"
 
 const APlayer = memo(function APlayer({
@@ -26,7 +26,7 @@ const APlayer = memo(function APlayer({
   cover?: string
   lrc?: string
 } & React.AudioHTMLAttributes<HTMLAudioElement>) {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   if (!src) return null
 

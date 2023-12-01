@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
@@ -8,7 +9,6 @@ import { useQueryClient } from "@tanstack/react-query"
 import { DeleteConfirmationModal } from "~/components/common/DeleteConfirmationModal"
 import { useGetState } from "~/hooks/useGetState"
 import { getNoteSlugFromNote, getTwitterShareUrl } from "~/lib/helpers"
-import { useTranslation } from "~/lib/i18n/client"
 import { delStorage, getStorage, setStorage } from "~/lib/storage"
 import { ExpandedNote, NoteType } from "~/lib/types"
 import { useDeletePage, usePinPage, useUpdatePage } from "~/queries/page"
@@ -35,7 +35,7 @@ export const PagesManagerMenu = ({
   page: ExpandedNote
   onClick: () => void
 }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const router = useRouter()
   const params = useParams()
@@ -64,7 +64,7 @@ export const PagesManagerMenu = ({
 
   useEffect(() => {
     if (deletePage.isError) {
-      toast.error(t("Fail to Deleted."), {
+      toast.error(t("Fail to Deleted"), {
         id: getDeleteToastId(),
       })
     }
@@ -78,7 +78,7 @@ export const PagesManagerMenu = ({
       })
       updatePage.reset()
     } else if (updatePage.isError) {
-      toast.error(t("Failed to convert."), {
+      toast.error(t("Failed to convert"), {
         id: getCurrentToastId(),
       })
       updatePage.reset()

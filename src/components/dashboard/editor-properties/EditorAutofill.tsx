@@ -1,8 +1,8 @@
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 
 import { Button } from "~/components/ui/Button"
 import { useEditorState } from "~/hooks/useEditorState"
-import { useTranslation } from "~/lib/i18n/client"
 import { EditorValues } from "~/lib/types"
 
 export default function EditorAutofill({
@@ -10,7 +10,7 @@ export default function EditorAutofill({
 }: {
   updateValue: (val: EditorValues) => void
 }) {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const externalUrl = useEditorState((state) => state.externalUrl)
 
   const [filling, setFilling] = useState(false)

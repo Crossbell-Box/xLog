@@ -1,12 +1,12 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useMemo, useRef } from "react"
 
 import { useAccountState } from "@crossbell/connect-kit"
 
 import { usePatronModal } from "~/components/common/PatronModal"
 import { Tooltip } from "~/components/ui/Tooltip"
-import { useTranslation } from "~/lib/i18n/client"
 import { noopArr } from "~/lib/noop"
 import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
@@ -28,7 +28,7 @@ export const ReactionTip = ({
   page?: ExpandedNote
   vertical?: boolean
 }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const account = useAccountState((s) => s.computed.account)
 
