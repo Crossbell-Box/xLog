@@ -5,7 +5,12 @@ import removeMarkdown from "remove-markdown"
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import readingTime from "~/lib/reading-time"
-import { ExpandedCharacter, ExpandedNote, PortfolioStats } from "~/lib/types"
+import {
+  ExpandedCharacter,
+  ExpandedNote,
+  Language,
+  PortfolioStats,
+} from "~/lib/types"
 
 import { detectLanguage } from "./detect-lang"
 import { getNoteSlug } from "./helpers"
@@ -17,6 +22,7 @@ export const expandCrossbellNote = async ({
   keyword,
   useHTML,
   disableAutofill,
+  translateTo,
 }: {
   note: NoteEntity & {
     metadata?: {
@@ -30,6 +36,7 @@ export const expandCrossbellNote = async ({
   keyword?: string
   useHTML?: boolean
   disableAutofill?: boolean
+  translateTo?: Language
 }) => {
   if (note.metadata?.uri && !note.metadata?.content) {
     note.metadata.content = await (
@@ -50,11 +57,41 @@ export const expandCrossbellNote = async ({
     let rendered
     if (expandedNote.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
-      const content = expandedNote.metadata.content.content
-      rendered = renderPageContent(content, true)
+
+      const processedContent = removeMarkdown(
+        expandedNote.metadata.content.content.replace(/```[^]+?```/g, ""),
+      )
+      const detectedLang = detectLanguage(processedContent)
+      expandedNote.metadata.content.originalLanguage = detectedLang
+
+      if (translateTo) {
+        try {
+          const translation = await (
+            await fetch(
+              `${SITE_URL}/api/translate-note?` +
+                new URLSearchParams({
+                  cid: toCid(expandedNote.metadata.uri || ""),
+                  fromLang: expandedNote.metadata.content.originalLanguage,
+                  toLang: translateTo,
+                } as any),
+            )
+          ).json()
+
+          if (translation.data) {
+            expandedNote.metadata.content.content = translation.data.content
+            expandedNote.metadata.content.title = translation.data.title
+          }
+        } catch (e) {
+          // do nothing
+        }
+      }
+
+      rendered = renderPageContent(expandedNote.metadata.content.content!, true)
       if (keyword) {
-        const position = content.toLowerCase().indexOf(keyword.toLowerCase())
-        expandedNote.metadata.content.summary = `...${content.slice(
+        const position = expandedNote.metadata.content
+          .content!.toLowerCase()
+          .indexOf(keyword.toLowerCase())
+        expandedNote.metadata.content.summary = `...${expandedNote.metadata.content.content!.slice(
           position - 10,
           position + 100,
         )}`
@@ -63,12 +100,6 @@ export const expandCrossbellNote = async ({
           expandedNote.metadata.content.summary = rendered.excerpt
         }
       }
-
-      const processedContent = removeMarkdown(
-        content.replace(/```[^]+?```/g, ""),
-      )
-      const detectedLang = detectLanguage(processedContent)
-      expandedNote.metadata.content.originalLanguage = detectedLang
 
       expandedNote.metadata.content.audio = rendered.audio
       expandedNote.metadata.content.frontMatter = rendered.frontMatter

@@ -1,6 +1,5 @@
 import { getQuery, NextServerResponse } from "~/lib/server-helper"
 import { getFeed } from "~/models/home.model"
-import { decoratePageWithTranslation } from "~/queries/page.server"
 
 export async function GET(req: Request) {
   const query = getQuery(req)
@@ -16,11 +15,8 @@ export async function GET(req: Request) {
     tag: query.tag,
     useHTML: false,
     topic: query.topic,
+    translateTo: query.translateTo,
   })
-
-  for (const item of result.list) {
-    await decoratePageWithTranslation(item)
-  }
 
   const res = new NextServerResponse()
   return res.status(200).json(result)
