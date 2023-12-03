@@ -10,7 +10,7 @@ import { getQuery, NextServerResponse } from "~/lib/server-helper"
 
 const lock = new AsyncLock()
 
-export const getImageDimensionByUri = async (
+const getImageDimensionByUri = async (
   uri: string,
   useFullSize = false,
 ): Promise<{ width: number; height: number; uri: string } | null> => {
@@ -43,7 +43,7 @@ export const getImageDimensionByUri = async (
   }
 }
 
-export const getCoverDimensions = async ({
+const getCoverDimensions = async ({
   cid,
   uris,
 }: {
