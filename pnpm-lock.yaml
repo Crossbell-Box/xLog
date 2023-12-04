@@ -324,8 +324,8 @@ dependencies:
     specifier: 3.0.1
     version: 3.0.1
   remark-github-alerts:
-    specifier: ^0.0.2
-    version: 0.0.2(@types/mdast@4.0.3)(unified@10.1.2)
+    specifier: ^0.0.4
+    version: 0.0.4(@types/mdast@4.0.3)(unified@10.1.2)
   remark-math:
     specifier: 5.1.1
     version: 5.1.1
@@ -10889,11 +10889,11 @@ packages:
       - supports-color
     dev: false
 
-  /remark-github-alerts@0.0.2(@types/mdast@4.0.3)(unified@10.1.2):
-    resolution: {integrity: sha512-Sg12BXLjOSeyG4Td6nY514DFyccx3GU5Rq9ITfm0BlfM9JHPRwDYhkFzwNQwugXaykyjqhSw11lDBws1FXz5Ow==}
+  /remark-github-alerts@0.0.4(@types/mdast@4.0.3)(unified@10.1.2):
+    resolution: {integrity: sha512-cGO8CrGb4Vvawn71inAv6VNRL8CKkHYwKpI91ZvbuLhW8W5EkLReQOjqsnj18Hw99X5u44hKyYssOzXLlZdGHQ==}
     peerDependencies:
-      '@types/mdast': ^4.0.3
-      unified: ^11.0.4
+      '@types/mdast': ^4.0.0
+      unified: ^11.0.0
     dependencies:
       '@types/mdast': 4.0.3
       unified: 10.1.2
