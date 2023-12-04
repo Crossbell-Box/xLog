@@ -102,23 +102,6 @@ export const expandCrossbellNote = async ({
       ...new Set(expandedNote.metadata.content.images),
     ]
 
-    if (useScore) {
-      try {
-        const score = (
-          await (
-            await fetch(
-              `${SCORE_API_DOMAIN || SITE_URL}/api/score?cid=${toCid(
-                expandedNote.metadata?.uri || "",
-              )}`,
-            )
-          ).json()
-        ).data
-        expandedNote.metadata.content.score = score
-      } catch (e) {
-        // do nothing
-      }
-    }
-
     if (useImageDimensions) {
       try {
         const imageDimensions = await (
