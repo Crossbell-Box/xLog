@@ -58,28 +58,32 @@ export const expandCrossbellNote = async ({
     if (expandedNote.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
 
-      const processedContent = removeMarkdown(
-        expandedNote.metadata.content.content.replace(/```[^]+?```/g, ""),
-      )
-      const detectedLang = detectLanguage(processedContent)
-      expandedNote.metadata.content.originalLanguage = detectedLang
-
       if (translateTo) {
         try {
+          const processedContent = removeMarkdown(
+            expandedNote.metadata.content.content.replace(/```[^]+?```/g, ""),
+          )
+          const detectedLang = detectLanguage(processedContent)
+
           const translation = await (
             await fetch(
               `${SITE_URL}/api/translate-note?` +
                 new URLSearchParams({
                   cid: toCid(expandedNote.metadata.uri || ""),
-                  fromLang: expandedNote.metadata.content.originalLanguage,
+                  fromLang: detectedLang,
                   toLang: translateTo,
                 } as any),
             )
           ).json()
 
-          if (translation.data) {
-            expandedNote.metadata.content.content = translation.data.content
-            expandedNote.metadata.content.title = translation.data.title
+          if (translation.data.content) {
+            expandedNote.metadata.content.content = translation.data
+              .content as string
+          }
+
+          if (translation.data.title) {
+            expandedNote.metadata.content.title = translation.data
+              .title as string
           }
         } catch (e) {
           // do nothing
@@ -88,8 +92,8 @@ export const expandCrossbellNote = async ({
 
       rendered = renderPageContent(expandedNote.metadata.content.content!, true)
       if (keyword) {
-        const position = expandedNote.metadata.content
-          .content!.toLowerCase()
+        const position = expandedNote.metadata.content.content
+          .toLowerCase()
           .indexOf(keyword.toLowerCase())
         expandedNote.metadata.content.summary = `...${expandedNote.metadata.content.content!.slice(
           position - 10,
