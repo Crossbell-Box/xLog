@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { getLocale } from "next-intl/server"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
@@ -6,6 +7,7 @@ import { HomeFeed } from "~/components/home/HomeFeed"
 import ParticipateButton from "~/components/home/ParticipateButton"
 import { APP_NAME } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
+import { Language } from "~/lib/types"
 import { prefetchGetFeed } from "~/queries/home.server"
 
 export function generateMetadata({
@@ -30,10 +32,12 @@ export default async function Tag({
   params.tag = decodeURIComponent(params.tag)
 
   const queryClient = getQueryClient()
+  const locale = (await getLocale()) as Language
   await prefetchGetFeed(
     {
       type: "tag",
       tag: params.tag,
+      translateTo: locale,
     },
     queryClient,
   )
