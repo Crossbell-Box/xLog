@@ -161,9 +161,6 @@ dependencies:
   hast-util-to-html:
     specifier: 9.0.0
     version: 9.0.0
-  i18next-resources-to-backend:
-    specifier: 1.2.0
-    version: 1.2.0
   image-size:
     specifier: ^1.0.2
     version: 1.0.2
@@ -7508,12 +7505,6 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
     dev: true
-
-  /i18next-resources-to-backend@1.2.0:
-    resolution: {integrity: sha512-8f1l03s+QxDmCfpSXCh9V+AFcxAwIp0UaroWuyOx+hmmv8484GcELHs+lnu54FrNij8cDBEXvEwhzZoXsKcVpg==}
-    dependencies:
-      '@babel/runtime': 7.23.4
-    dev: false
 
   /iconv-lite@0.6.2:
     resolution: {integrity: sha512-2y91h5OpQlolefMPmUlivelittSWy0rP+oYVpn6A7GwVHNE8AWzoYOBNmlwks3LobaJxgHCYZAnyNo2GgpNRNQ==}
