@@ -5,8 +5,14 @@ import removeMarkdown from "remove-markdown"
 import { SCORE_API_DOMAIN, SITE_URL } from "~/lib/env"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import readingTime from "~/lib/reading-time"
-import { ExpandedCharacter, ExpandedNote, PortfolioStats } from "~/lib/types"
+import {
+  ExpandedCharacter,
+  ExpandedNote,
+  Language,
+  PortfolioStats,
+} from "~/lib/types"
 
+import { detectLanguage } from "./detect-lang"
 import { getNoteSlug } from "./helpers"
 
 export const expandCrossbellNote = async ({
@@ -16,6 +22,7 @@ export const expandCrossbellNote = async ({
   keyword,
   useHTML,
   disableAutofill,
+  translateTo,
 }: {
   note: NoteEntity & {
     metadata?: {
@@ -29,6 +36,7 @@ export const expandCrossbellNote = async ({
   keyword?: string
   useHTML?: boolean
   disableAutofill?: boolean
+  translateTo?: Language
 }) => {
   if (note.metadata?.uri && !note.metadata?.content) {
     note.metadata.content = await (
@@ -49,12 +57,45 @@ export const expandCrossbellNote = async ({
     let rendered
     if (expandedNote.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
-      rendered = renderPageContent(expandedNote.metadata.content.content, true)
+
+      if (translateTo) {
+        try {
+          const processedContent = removeMarkdown(
+            expandedNote.metadata.content.content.replace(/```[^]+?```/g, ""),
+          )
+          const detectedLang = detectLanguage(processedContent)
+
+          const translation = await (
+            await fetch(
+              `${SITE_URL}/api/translate-note?` +
+                new URLSearchParams({
+                  cid: toCid(expandedNote.metadata.uri || ""),
+                  fromLang: detectedLang,
+                  toLang: translateTo,
+                } as any),
+            )
+          ).json()
+
+          if (translation.data.content) {
+            expandedNote.metadata.content.content = translation.data
+              .content as string
+          }
+
+          if (translation.data.title) {
+            expandedNote.metadata.content.title = translation.data
+              .title as string
+          }
+        } catch (e) {
+          // do nothing
+        }
+      }
+
+      rendered = renderPageContent(expandedNote.metadata.content.content!, true)
       if (keyword) {
         const position = expandedNote.metadata.content.content
           .toLowerCase()
           .indexOf(keyword.toLowerCase())
-        expandedNote.metadata.content.summary = `...${expandedNote.metadata.content.content.slice(
+        expandedNote.metadata.content.summary = `...${expandedNote.metadata.content.content!.slice(
           position - 10,
           position + 100,
         )}`

@@ -1,6 +1,6 @@
 "use client"
 
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { useParams, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { VirtuosoGrid } from "react-virtuoso"
@@ -15,13 +15,14 @@ import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { getStorage, setStorage } from "~/lib/storage"
-import { ExpandedNote } from "~/lib/types"
+import { ExpandedNote, Language } from "~/lib/types"
 import type { FeedType, SearchType } from "~/models/home.model"
 import { useGetFeed } from "~/queries/home"
 
 export const HomeFeed = ({ type }: { type?: FeedType }) => {
   const t = useTranslations()
   const searchParams = useSearchParams()
+  const locale = useLocale() as Language
 
   const currentCharacterId = useAccountState(
     (s) => s.computed.account?.characterId,
@@ -43,6 +44,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
   let feedConfig: Parameters<typeof useGetFeed>[0] = {
     type,
   }
+
   switch (type) {
     case "following":
       feedConfig = {
@@ -77,7 +79,10 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
       break
   }
 
-  const feed = useGetFeed(feedConfig)
+  const feed = useGetFeed({
+    ...feedConfig,
+    translateTo: locale,
+  })
 
   const hasFiltering = type === "latest"
 

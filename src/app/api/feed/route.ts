@@ -15,7 +15,9 @@ export async function GET(req: Request) {
     tag: query.tag,
     useHTML: false,
     topic: query.topic,
+    translateTo: query.translateTo,
   })
+
   const res = new NextServerResponse()
   return res.status(200).json(result)
 }

@@ -16,6 +16,7 @@ import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
+import { Language } from "~/lib/types"
 import { fetchGetPage, getSummary } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
@@ -28,7 +29,7 @@ export async function generateMetadata({
   }
 }): Promise<Metadata> {
   const queryClient = getQueryClient()
-
+  const locale = (await getLocale()) as Language
   const site = await fetchGetSite(params.site, queryClient)
 
   const page = await fetchGetPage(
@@ -36,6 +37,7 @@ export async function generateMetadata({
       characterId: site?.characterId,
       slug: params.slug,
       useStat: true,
+      translateTo: locale,
     },
     queryClient,
   )

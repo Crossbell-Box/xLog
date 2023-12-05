@@ -6,7 +6,7 @@ import { gql } from "@urql/core"
 
 import countCharacters from "~/lib/character-count"
 import { expandCrossbellNote } from "~/lib/expand-unit"
-import { ExpandedNote } from "~/lib/types"
+import { ExpandedNote, Language } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 import filter from "../../data/filter.json"
@@ -36,6 +36,7 @@ export async function getFeed({
   tag,
   useHTML,
   topic,
+  translateTo,
 }: {
   type?: FeedType
   cursor?: string
@@ -47,6 +48,7 @@ export async function getFeed({
   tag?: string
   useHTML?: boolean
   topic?: string
+  translateTo?: Language
 }) {
   if (type === "search" && !searchKeyword) {
     type = "latest"
@@ -141,6 +143,7 @@ export async function getFeed({
             note: page,
             useScore: true,
             useHTML,
+            translateTo,
           }),
         ),
       )
@@ -235,6 +238,7 @@ export async function getFeed({
           const expand = await expandCrossbellNote({
             note: page,
             useHTML,
+            translateTo,
           })
           if (expand.toNote) {
             if (expand.toNote.toNote) {
@@ -251,6 +255,7 @@ export async function getFeed({
             expand.toNote = await expandCrossbellNote({
               note: expand.toNote,
               useHTML,
+              translateTo,
             })
             delete expand.toNote.toNote
           }
@@ -321,6 +326,7 @@ export async function getFeed({
             useScore: true,
             useStat: true,
             useHTML,
+            translateTo,
           }),
         ),
       )
@@ -359,6 +365,7 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              translateTo,
             }),
           ),
         )
@@ -465,6 +472,7 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              translateTo,
             }),
           ),
         )
@@ -540,6 +548,7 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              translateTo,
             }),
           ),
         )
@@ -644,6 +653,7 @@ export async function getFeed({
               note: page,
               useHTML,
               useStat: true,
+              translateTo,
             })
             return expand
           },
@@ -769,6 +779,7 @@ export async function getFeed({
               note: page,
               useHTML,
               useStat: true,
+              translateTo,
             })
             return expand
           },
@@ -813,6 +824,7 @@ export async function getFeed({
             useScore: false,
             keyword: searchKeyword,
             useHTML,
+            translateTo,
           }),
         ),
       )
@@ -850,6 +862,7 @@ export async function getFeed({
             useStat: false,
             useScore: true,
             useHTML,
+            translateTo,
           }),
         ),
       )
