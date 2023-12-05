@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
@@ -7,6 +7,7 @@ import { HomeFeed } from "~/components/home/HomeFeed"
 import ParticipateButton from "~/components/home/ParticipateButton"
 import { APP_NAME } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
+import { Language } from "~/lib/types"
 import { prefetchGetFeed } from "~/queries/home.server"
 
 import topics from "../../../../../../../data/topics.json"
@@ -36,10 +37,12 @@ export default async function Topic({
   const info = topics.find((t) => t.name === params.topic)
 
   const queryClient = getQueryClient()
+  const locale = (await getLocale()) as Language
   await prefetchGetFeed(
     {
       type: "topic",
       topic: params.topic,
+      translateTo: locale,
     },
     queryClient,
   )

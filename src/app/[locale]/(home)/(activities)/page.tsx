@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { getLocale } from "next-intl/server"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
@@ -6,6 +7,7 @@ import { HomeFeed } from "~/components/home/HomeFeed"
 import ShortPreviewList from "~/components/site/ShortPreviewList"
 import { APP_NAME, APP_SLOGAN } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
+import { Language } from "~/lib/types"
 import { getPreviewShort, prefetchGetFeed } from "~/queries/home.server"
 
 export const metadata: Metadata = {
@@ -14,9 +16,11 @@ export const metadata: Metadata = {
 
 export default async function HomeActivities() {
   const queryClient = getQueryClient()
+  const locale = (await getLocale()) as Language
   await prefetchGetFeed(
     {
       type: "featured",
+      translateTo: locale,
     },
     queryClient,
   )
