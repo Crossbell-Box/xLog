@@ -35,6 +35,7 @@ export async function getFeed({
   searchType,
   tag,
   useHTML,
+  useImageDimensions,
   topic,
   translateTo,
 }: {
@@ -47,6 +48,7 @@ export async function getFeed({
   searchType?: SearchType
   tag?: string
   useHTML?: boolean
+  useImageDimensions?: boolean
   topic?: string
   translateTo?: Language
 }) {
@@ -143,6 +145,7 @@ export async function getFeed({
             note: page,
             useScore: true,
             useHTML,
+            useImageDimensions,
             translateTo,
           }),
         ),
@@ -238,6 +241,7 @@ export async function getFeed({
           const expand = await expandCrossbellNote({
             note: page,
             useHTML,
+            useImageDimensions,
             translateTo,
           })
           if (expand.toNote) {
@@ -255,6 +259,7 @@ export async function getFeed({
             expand.toNote = await expandCrossbellNote({
               note: expand.toNote,
               useHTML,
+              useImageDimensions,
               translateTo,
             })
             delete expand.toNote.toNote
@@ -326,6 +331,7 @@ export async function getFeed({
             useScore: true,
             useStat: true,
             useHTML,
+            useImageDimensions,
             translateTo,
           }),
         ),
@@ -365,6 +371,7 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              useImageDimensions,
               translateTo,
             }),
           ),
@@ -472,6 +479,7 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              useImageDimensions,
               translateTo,
             }),
           ),
@@ -548,6 +556,7 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              useImageDimensions,
               translateTo,
             }),
           ),
@@ -653,6 +662,7 @@ export async function getFeed({
               note: page,
               useHTML,
               useStat: true,
+              useImageDimensions,
               translateTo,
             })
             return expand
@@ -779,6 +789,7 @@ export async function getFeed({
               note: page,
               useHTML,
               useStat: true,
+              useImageDimensions,
               translateTo,
             })
             return expand
@@ -824,6 +835,7 @@ export async function getFeed({
             useScore: false,
             keyword: searchKeyword,
             useHTML,
+            useImageDimensions,
             translateTo,
           }),
         ),
@@ -862,6 +874,7 @@ export async function getFeed({
             useStat: false,
             useScore: true,
             useHTML,
+            useImageDimensions,
             translateTo,
           }),
         ),

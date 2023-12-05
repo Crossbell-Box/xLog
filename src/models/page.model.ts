@@ -123,6 +123,7 @@ export async function getPagesBySite(input: {
   tags?: string[]
   useStat?: boolean
   useHTML?: boolean
+  useImageDimensions?: boolean
   keepBody?: boolean
   handle?: string // In order to be compatible with old drafts
   skipExpansion?: boolean
@@ -312,6 +313,7 @@ export async function getPagesBySite(input: {
             useStat: input.useStat,
             useHTML: input.useHTML,
             useScore: false,
+            useImageDimensions: input.useImageDimensions,
           })
         }
 

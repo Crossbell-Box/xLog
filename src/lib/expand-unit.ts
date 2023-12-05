@@ -19,6 +19,7 @@ export const expandCrossbellNote = async ({
   note,
   useStat,
   useScore,
+  useImageDimensions,
   keyword,
   useHTML,
   disableAutofill,
@@ -33,6 +34,7 @@ export const expandCrossbellNote = async ({
   }
   useStat?: boolean
   useScore?: boolean
+  useImageDimensions?: boolean
   keyword?: string
   useHTML?: boolean
   disableAutofill?: boolean
@@ -140,6 +142,23 @@ export const expandCrossbellNote = async ({
     expandedNote.metadata.content.images = [
       ...new Set(expandedNote.metadata.content.images),
     ]
+
+    if (useImageDimensions) {
+      try {
+        const imageDimensions = await (
+          await fetch(
+            `${SITE_URL}/api/image-dimensions?` +
+              new URLSearchParams({
+                cid: toCid(expandedNote.metadata.uri || ""),
+                uris: expandedNote.metadata.content.images || [],
+              } as any),
+          )
+        ).json()
+        expandedNote.metadata.content.imageDimensions = imageDimensions.data
+      } catch (e) {
+        // do nothing
+      }
+    }
 
     expandedNote.metadata.content.slug = getNoteSlug(
       expandedNote,
