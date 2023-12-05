@@ -83,6 +83,7 @@ export default async function SitePagePage({
   params: {
     site: string
     slug: string
+    locale: Language
   }
 }) {
   const queryClient = getQueryClient()
@@ -96,6 +97,7 @@ export default async function SitePagePage({
       characterId: site?.characterId,
       slug: params.slug,
       useStat: true,
+      translateTo: params.locale,
     },
     queryClient,
   )
@@ -134,13 +136,12 @@ export default async function SitePagePage({
     }
   }
 
-  const locale = await getLocale()
   const t = await getTranslations()
   let summary: string | undefined
   if (!page.metadata.content.disableAISummary) {
     summary = await getSummary({
       cid: toCid(page.metadata?.uri || ""),
-      lang: locale,
+      lang: params.locale,
     })
   }
 
