@@ -6,7 +6,7 @@ import { gql } from "@urql/core"
 
 import countCharacters from "~/lib/character-count"
 import { expandCrossbellNote } from "~/lib/expand-unit"
-import { ExpandedNote } from "~/lib/types"
+import { ExpandedNote, Language } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 import filter from "../../data/filter.json"
@@ -37,6 +37,7 @@ export async function getFeed({
   useHTML,
   useImageDimensions,
   topic,
+  translateTo,
 }: {
   type?: FeedType
   cursor?: string
@@ -49,6 +50,7 @@ export async function getFeed({
   useHTML?: boolean
   useImageDimensions?: boolean
   topic?: string
+  translateTo?: Language
 }) {
   if (type === "search" && !searchKeyword) {
     type = "latest"
@@ -144,6 +146,7 @@ export async function getFeed({
             useScore: true,
             useHTML,
             useImageDimensions,
+            translateTo,
           }),
         ),
       )
@@ -239,6 +242,7 @@ export async function getFeed({
             note: page,
             useHTML,
             useImageDimensions,
+            translateTo,
           })
           if (expand.toNote) {
             if (expand.toNote.toNote) {
@@ -256,6 +260,7 @@ export async function getFeed({
               note: expand.toNote,
               useHTML,
               useImageDimensions,
+              translateTo,
             })
             delete expand.toNote.toNote
           }
@@ -327,6 +332,7 @@ export async function getFeed({
             useStat: true,
             useHTML,
             useImageDimensions,
+            translateTo,
           }),
         ),
       )
@@ -366,6 +372,7 @@ export async function getFeed({
               note: page,
               useHTML,
               useImageDimensions,
+              translateTo,
             }),
           ),
         )
@@ -473,6 +480,7 @@ export async function getFeed({
               note: page,
               useHTML,
               useImageDimensions,
+              translateTo,
             }),
           ),
         )
@@ -549,6 +557,7 @@ export async function getFeed({
               note: page,
               useHTML,
               useImageDimensions,
+              translateTo,
             }),
           ),
         )
@@ -654,6 +663,7 @@ export async function getFeed({
               useHTML,
               useStat: true,
               useImageDimensions,
+              translateTo,
             })
             return expand
           },
@@ -780,6 +790,7 @@ export async function getFeed({
               useHTML,
               useStat: true,
               useImageDimensions,
+              translateTo,
             })
             return expand
           },
@@ -825,6 +836,7 @@ export async function getFeed({
             keyword: searchKeyword,
             useHTML,
             useImageDimensions,
+            translateTo,
           }),
         ),
       )
@@ -863,6 +875,7 @@ export async function getFeed({
             useScore: true,
             useHTML,
             useImageDimensions,
+            translateTo,
           }),
         ),
       )

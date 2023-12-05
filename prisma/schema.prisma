@@ -27,6 +27,19 @@ model Metadata {
   //   ...
   // }
   image_dimensions Json?
+  // Expected JSON structure for the translation field:
+  // {
+  //   "zh": {
+  //     "title": "string",
+  //     "content": "string",
+  //   },
+  //   "jp": {
+  //     "title": "string",
+  //     "content": "string",
+  //   },
+  //   ...
+  // } 
+  ai_translation   Json?
   @@id([uri])
   @@index([uri])
 }

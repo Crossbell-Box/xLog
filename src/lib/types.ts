@@ -1,5 +1,7 @@
 import type { CharacterEntity, NoteEntity } from "crossbell"
 
+export type Language = "en" | "zh" | "zh-TW" | "ja"
+
 export type Site = {
   id: string
   name: string

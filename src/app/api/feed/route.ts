@@ -16,6 +16,7 @@ export async function GET(req: Request) {
     useHTML: false,
     useImageDimensions: query.useImageDimensions === "true",
     topic: query.topic,
+    translateTo: query.translateTo,
   })
 
   const res = new NextServerResponse()
