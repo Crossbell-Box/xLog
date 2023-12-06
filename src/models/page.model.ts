@@ -22,6 +22,7 @@ import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
 import {
   ExpandedNote,
+  Language,
   NoteType,
   PagesSortTypes,
   PageVisibilityEnum,
@@ -122,6 +123,7 @@ export async function getPagesBySite(input: {
   tags?: string[]
   useStat?: boolean
   useHTML?: boolean
+  useImageDimensions?: boolean
   keepBody?: boolean
   handle?: string // In order to be compatible with old drafts
   skipExpansion?: boolean
@@ -311,6 +313,7 @@ export async function getPagesBySite(input: {
             useStat: input.useStat,
             useHTML: input.useHTML,
             useScore: false,
+            useImageDimensions: input.useImageDimensions,
           })
         }
 
@@ -419,6 +422,7 @@ export async function getPage<TRender extends boolean = false>(input: {
   noteId?: number
   handle?: string // In order to be compatible with old drafts
   disableAutofill?: boolean
+  translateTo?: Language
 }) {
   const mustLocal = input.slug?.startsWith("!local-") && !input.noteId
 
@@ -570,6 +574,7 @@ export async function getPage<TRender extends boolean = false>(input: {
       note: page,
       useStat: input.useStat,
       disableAutofill: input.disableAutofill,
+      translateTo: input.translateTo,
     })
   }
 

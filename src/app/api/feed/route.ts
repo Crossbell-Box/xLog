@@ -14,8 +14,11 @@ export async function GET(req: Request) {
     searchType: query.searchType,
     tag: query.tag,
     useHTML: false,
+    useImageDimensions: query.useImageDimensions === "true",
     topic: query.topic,
+    translateTo: query.translateTo,
   })
+
   const res = new NextServerResponse()
   return res.status(200).json(result)
 }

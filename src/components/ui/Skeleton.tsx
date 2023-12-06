@@ -1,8 +1,8 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import React, { PropsWithChildren, useMemo } from "react"
 
-import { useTranslation } from "~/lib/i18n/client"
 import { cn } from "~/lib/utils"
 
 interface Props {
@@ -43,7 +43,7 @@ function Container({
   className,
   children,
 }: PropsWithChildren<{ count?: number; className?: string }>) {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   const childrenArray = React.Children.toArray(children)
 
   return (

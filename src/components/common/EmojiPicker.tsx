@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl"
 import { useEffect, useRef } from "react"
-import { useTranslation } from "react-i18next"
 
 import { useIsDark } from "~/hooks/useDarkMode"
 
@@ -26,7 +26,7 @@ export const EmojiPicker = ({
     })
   }, [])
 
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   return (
     <div

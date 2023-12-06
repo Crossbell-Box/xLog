@@ -1,7 +1,8 @@
+import { useTranslations } from "next-intl"
+
 import { Button } from "~/components/ui/Button"
 import { ModalContentProps } from "~/components/ui/ModalStack"
 import { UniLink } from "~/components/ui/UniLink"
-import { useTranslation } from "~/lib/i18n/client"
 
 export default function PublishedModal({
   dismiss,
@@ -13,13 +14,13 @@ export default function PublishedModal({
   transactionUrl: string
   twitterShareUrl?: string
 }>) {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   return (
     <>
       <div className="p-5">
         {t(
-          "Your publication has been securely stored on the blockchain. Now you may want to",
+          "Your publication has been securely stored on the blockchain Now you may want to",
         )}
         <ul className="list-disc pl-5 mt-2 space-y-1">
           {postUrl && (

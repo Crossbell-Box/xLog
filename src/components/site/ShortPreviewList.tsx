@@ -1,11 +1,11 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import Link from "next/link"
 
 import { Image } from "~/components/ui/Image"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
-import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
@@ -22,7 +22,7 @@ export default function ShortList({
   className?: string
   isHome?: boolean
 }) {
-  const { t } = useTranslation("site")
+  const t = useTranslations()
 
   const isMobileLayout = useIsMobileLayout()
 

@@ -1,8 +1,8 @@
+import { useTranslations } from "next-intl"
 import { ChangeEvent } from "react"
 
 import { Input } from "~/components/ui/Input"
 import { useEditorState } from "~/hooks/useEditorState"
-import { useTranslation } from "~/lib/i18n/client"
 import { EditorValues } from "~/lib/types"
 
 export default function EditorTitle({
@@ -10,7 +10,7 @@ export default function EditorTitle({
 }: {
   updateValue: (val: EditorValues) => void
 }) {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
   const value = useEditorState((state) => state.title)
 
   return (

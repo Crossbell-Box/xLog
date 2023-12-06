@@ -1,5 +1,6 @@
 "use client"
 
+import { useLocale, useTranslations } from "next-intl"
 import { useParams, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { VirtuosoGrid } from "react-virtuoso"
@@ -13,15 +14,15 @@ import { Skeleton } from "~/components/ui/Skeleton"
 import { Tabs } from "~/components/ui/Tabs"
 import { Tooltip } from "~/components/ui/Tooltip"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
-import { useTranslation } from "~/lib/i18n/client"
 import { getStorage, setStorage } from "~/lib/storage"
-import { ExpandedNote } from "~/lib/types"
+import { ExpandedNote, Language } from "~/lib/types"
 import type { FeedType, SearchType } from "~/models/home.model"
 import { useGetFeed } from "~/queries/home"
 
 export const HomeFeed = ({ type }: { type?: FeedType }) => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   const searchParams = useSearchParams()
+  const locale = useLocale() as Language
 
   const currentCharacterId = useAccountState(
     (s) => s.computed.account?.characterId,
@@ -43,6 +44,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
   let feedConfig: Parameters<typeof useGetFeed>[0] = {
     type,
   }
+
   switch (type) {
     case "following":
       feedConfig = {
@@ -77,7 +79,10 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
       break
   }
 
-  const feed = useGetFeed(feedConfig)
+  const feed = useGetFeed({
+    ...feedConfig,
+    translateTo: locale,
+  })
 
   const hasFiltering = type === "latest"
 
@@ -167,7 +172,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
             </span>
             <Tooltip
               label={t(
-                "Filter out possible low-quality content based on AI ratings.",
+                "Filter out possible low-quality content based on AI ratings",
               )}
             >
               <i className="icon-[mingcute--question-line]" />
@@ -249,7 +254,7 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
 }
 
 const Loader = () => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   return (
     <div
       className="relative w-full text-sm text-center py-4 mt-12"

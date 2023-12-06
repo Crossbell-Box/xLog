@@ -12,6 +12,7 @@ export async function GET(req: Request) {
     limit: query.limit ? parseInt(query.limit as string) : undefined,
     cursor: query.cursor as string,
     useStat: true,
+    useImageDimensions: query.useImageDimensions === "true",
     skipExpansion: query.skipExpansion === "true",
     sortType: query.sortType as PagesSortTypes,
     ...(query.tags && {
@@ -20,6 +21,7 @@ export async function GET(req: Request) {
         : [query.tags as string],
     }),
   })
+
   const res = new NextServerResponse()
   return res.status(200).json(result)
 }

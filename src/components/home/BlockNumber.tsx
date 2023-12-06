@@ -1,13 +1,13 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 
 import AnimatedNumber from "~/components/common/AnimatedNumber"
-import { useTranslation } from "~/lib/i18n/client"
 import { useGetBlockNumber } from "~/queries/site"
 
 export const BlockNumber = () => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const [realBlockNumber, setRealBlockNumber] = useState<number | null>(null)
   const { data: blockNumber } = useGetBlockNumber()

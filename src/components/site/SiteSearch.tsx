@@ -1,14 +1,14 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useParams, useSearchParams } from "next/navigation"
 
 import PostList from "~/components/site/PostList"
-import { useTranslation } from "~/lib/i18n/client"
 import { useGetSearchPagesBySite } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
 export const SiteSearch = () => {
-  const { t } = useTranslation("site")
+  const t = useTranslations()
 
   const searchParams = useSearchParams()
   const params = useParams()

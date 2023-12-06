@@ -6,7 +6,7 @@ import { gql } from "@urql/core"
 
 import countCharacters from "~/lib/character-count"
 import { expandCrossbellNote } from "~/lib/expand-unit"
-import { ExpandedNote } from "~/lib/types"
+import { ExpandedNote, Language } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
 import filter from "../../data/filter.json"
@@ -35,7 +35,9 @@ export async function getFeed({
   searchType,
   tag,
   useHTML,
+  useImageDimensions,
   topic,
+  translateTo,
 }: {
   type?: FeedType
   cursor?: string
@@ -46,7 +48,9 @@ export async function getFeed({
   searchType?: SearchType
   tag?: string
   useHTML?: boolean
+  useImageDimensions?: boolean
   topic?: string
+  translateTo?: Language
 }) {
   if (type === "search" && !searchKeyword) {
     type = "latest"
@@ -141,6 +145,8 @@ export async function getFeed({
             note: page,
             useScore: true,
             useHTML,
+            useImageDimensions,
+            translateTo,
           }),
         ),
       )
@@ -235,6 +241,8 @@ export async function getFeed({
           const expand = await expandCrossbellNote({
             note: page,
             useHTML,
+            useImageDimensions,
+            translateTo,
           })
           if (expand.toNote) {
             if (expand.toNote.toNote) {
@@ -251,6 +259,8 @@ export async function getFeed({
             expand.toNote = await expandCrossbellNote({
               note: expand.toNote,
               useHTML,
+              useImageDimensions,
+              translateTo,
             })
             delete expand.toNote.toNote
           }
@@ -321,6 +331,8 @@ export async function getFeed({
             useScore: true,
             useStat: true,
             useHTML,
+            useImageDimensions,
+            translateTo,
           }),
         ),
       )
@@ -359,6 +371,8 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              useImageDimensions,
+              translateTo,
             }),
           ),
         )
@@ -465,6 +479,8 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              useImageDimensions,
+              translateTo,
             }),
           ),
         )
@@ -540,6 +556,8 @@ export async function getFeed({
             expandCrossbellNote({
               note: page,
               useHTML,
+              useImageDimensions,
+              translateTo,
             }),
           ),
         )
@@ -644,6 +662,8 @@ export async function getFeed({
               note: page,
               useHTML,
               useStat: true,
+              useImageDimensions,
+              translateTo,
             })
             return expand
           },
@@ -769,6 +789,8 @@ export async function getFeed({
               note: page,
               useHTML,
               useStat: true,
+              useImageDimensions,
+              translateTo,
             })
             return expand
           },
@@ -813,6 +835,8 @@ export async function getFeed({
             useScore: false,
             keyword: searchKeyword,
             useHTML,
+            useImageDimensions,
+            translateTo,
           }),
         ),
       )
@@ -850,6 +874,8 @@ export async function getFeed({
             useStat: false,
             useScore: true,
             useHTML,
+            useImageDimensions,
+            translateTo,
           }),
         ),
       )

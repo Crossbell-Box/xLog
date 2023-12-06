@@ -1,10 +1,10 @@
 import type { NoteMetadata } from "crossbell"
+import { useTranslations } from "next-intl"
 import dynamic from "next/dynamic"
 import { useState } from "react"
 
 import { useDate } from "~/hooks/useDate"
 import { RESERVED_TAGS } from "~/lib/constants"
-import { useTranslation } from "~/lib/i18n/client"
 
 const DynamicPageContent = dynamic(() => import("../common/PageContent"), {
   ssr: false,
@@ -13,7 +13,7 @@ const DynamicPageContent = dynamic(() => import("../common/PageContent"), {
 export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
   const date = useDate()
   const [showcaseMore, setShowcaseMore] = useState(false)
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   return (
     <article className="border rounded-xl p-6 mt-4">

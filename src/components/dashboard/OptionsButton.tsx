@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl"
 import { Dispatch, Fragment, SetStateAction, useState } from "react"
-import { useTranslation } from "react-i18next"
 
 import { Menu, Popover, Transition } from "@headlessui/react"
 
@@ -32,7 +32,7 @@ export const OptionsButton = ({
   isModified: boolean
   discardChanges: () => void
 }) => {
-  const { t } = useTranslation("dashboard")
+  const t = useTranslations()
 
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] =
     useState<boolean>(false)
@@ -114,8 +114,8 @@ export const OptionsButton = ({
                             visibility === PageVisibilityEnum.Draft
                               ? `text-zinc-300`
                               : visibility === PageVisibilityEnum.Modified
-                              ? "text-orange-600"
-                              : "text-green-600",
+                                ? "text-orange-600"
+                                : "text-green-600",
                           )} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                         >
                           {t(visibility as string)}

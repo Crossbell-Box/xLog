@@ -1,10 +1,10 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 
 import { CharacterList } from "~/components/common/CharacterList"
 import { Button } from "~/components/ui/Button"
-import { useTranslation } from "~/lib/i18n/client"
 import {
   useGetSiteSubscriptions,
   useGetSiteToSubscriptions,
@@ -19,7 +19,7 @@ export const FollowingCount = ({
 }) => {
   let [isFollowListOpen, setIsFollowListOpen] = useState(false)
   let [isToFollowListOpen, setIsToFollowListOpen] = useState(false)
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const subscriptions = useGetSiteSubscriptions({
     characterId,

@@ -1,12 +1,12 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 // TODO
 import { Virtuoso } from "react-virtuoso"
 
 import { CommentInput } from "~/components/common/CommentInput"
 import { CommentItem } from "~/components/common/CommentItem"
-import { useTranslation } from "~/lib/i18n/client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetComments } from "~/queries/page"
@@ -24,7 +24,7 @@ const Comment = ({
     characterId: page?.characterId,
     noteId: page?.noteId,
   })
-  const { t } = useTranslation("common")
+  const t = useTranslations()
 
   const data = comments.data?.pages.filter(
     (page) => (page?.list?.length ?? 0) > 0,
@@ -99,7 +99,7 @@ const Comment = ({
 }
 
 const Loader = () => {
-  const { t } = useTranslation("common")
+  const t = useTranslations()
   return (
     <div
       className="relative mt-4 w-full text-sm text-center py-4"
