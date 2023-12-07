@@ -118,7 +118,7 @@ export async function middleware(req: NextRequest) {
   if (tenant?.subdomain) {
     const newResponse = NextResponse.rewrite(
       new URL(
-        `${response.headers.get(
+        `/${response.headers.get(
           "x-middleware-request-x-next-intl-locale",
         )}/site/${tenant?.subdomain}${pathname === "/" ? "" : pathname}${
           req.nextUrl.search
@@ -126,10 +126,11 @@ export async function middleware(req: NextRequest) {
         req.url,
       ),
     )
-    const setCookie = response.headers.get("Set-Cookie")
-    if (setCookie) {
-      newResponse.headers.set("Set-Cookie", setCookie)
-    }
+    response.headers.forEach((value, key) => {
+      if (key !== "x-middleware-rewrite") {
+        newResponse.headers.set(key, value)
+      }
+    })
     return newResponse
   }
 
