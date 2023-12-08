@@ -59,7 +59,7 @@ export function TagInput({
     query === ""
       ? userTags
       : Array.from(new Set([query, ...userTags])).filter((tag) =>
-          tag
+          (tag ?? '')
             .toString()
             .toLowerCase()
             .replace(/\s+/g, "")
