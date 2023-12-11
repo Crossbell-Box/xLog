@@ -61,7 +61,7 @@ export const Input = forwardRef(function Input<
     [className, hasAddon, hasPrefix, inputProps, isBlock, ref],
   )
 
-  const [selected, setSelected] = useState()
+  const [selected, setSelected] = useState(inputComponentProps?.value)
   const [query, setQuery] = useState("")
   const filteredOptions = options
     ? query === ""
