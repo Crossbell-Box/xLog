@@ -88,8 +88,15 @@ const getOriginalTranslation = async (
       translationChains.set(`${modelSize}_${targetLang}`, chain)
     }
 
-    const t = await chain.call({ text: title })
-    const c = await chain.call({ text: content })
+    const t =
+      String(title).trim().length === 0
+        ? { text: "" }
+        : await chain.call({ text: title })
+
+    const c =
+      String(content).trim().length === 0
+        ? { text: "" }
+        : await chain.call({ text: content })
 
     console.timeEnd(`fetching translation ${cid}, ${targetLang}`)
 
