@@ -64,6 +64,7 @@ const Card = ({
           ? externalLink || ""
           : `${linkPrefix || ""}/${post.metadata?.content?.slug}${queryString}`
       }
+      scroll={false}
       className={cn(
         "xlog-post rounded-2xl flex flex-col items-center group relative",
         isShort
