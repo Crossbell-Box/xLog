@@ -7,7 +7,9 @@ import { RESERVED_TAGS } from "~/lib/constants"
 import { CSB_SCAN } from "~/lib/env"
 import { ExpandedCharacter, ExpandedNote, NoteType } from "~/lib/types"
 
-export default function PostMeta({
+import TranslationInfo from "./TranslationInfo"
+
+export default async function PostMeta({
   page,
   site,
   summary,
@@ -51,6 +53,7 @@ export default function PostMeta({
           type={page.metadata?.content?.tags?.[0] as NoteType}
         />
       </div>
+      <TranslationInfo page={page} />
       {summary && (
         <div className="xlog-post-summary border rounded-xl mt-5 p-4 space-y-2">
           <div className="font-bold text-zinc-700 flex items-center">

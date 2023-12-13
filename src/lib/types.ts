@@ -102,6 +102,8 @@ export type ExpandedNote = NoteEntity & {
       contentHTML?: string
       disableAISummary?: boolean
       readingTime?: number
+      translatedFrom?: Language
+      translatedTo?: Language
     }
   }
   stat?: {

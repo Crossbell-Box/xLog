@@ -10,6 +10,7 @@ import PostCover from "~/components/home/PostCover"
 import { OIAButton } from "~/components/site/OIAButton"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
+import TranslationInfo from "~/components/site/TranslationInfo"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
@@ -160,6 +161,7 @@ export default async function SitePagePage({
       <article>
         {type === "short" ? (
           <>
+            <TranslationInfo page={page} className="mb-4 mt-2" />
             <PostCover
               uniqueKey={`short-${page.characterId}-${page.noteId}`}
               images={images}

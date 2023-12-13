@@ -87,6 +87,9 @@ export const expandCrossbellNote = async ({
             expandedNote.metadata.content.title = translation.data
               .title as string
           }
+
+          expandedNote.metadata.content.translatedFrom = detectedLang
+          expandedNote.metadata.content.translatedTo = translateTo
         } catch (e) {
           // do nothing
         }

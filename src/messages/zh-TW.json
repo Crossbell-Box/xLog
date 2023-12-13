@@ -372,5 +372,10 @@
   "Pull down to open the app": "已下載？下拉開啟應用程式",
   "Back to Home": "回到首頁",
   "Open in App": "在 App 中開啟",
-  "Search Posts": "搜尋文章"
+  "Search Posts": "搜尋文章",
+  "Translated by": "這篇文章透過AI由<from></from>翻譯成<to></to>。",
+  "en": "英文",
+  "ja": "日文",
+  "zh": "中文",
+  "zh-TW": "繁體中文"
 }
