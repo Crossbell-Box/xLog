@@ -90,7 +90,7 @@
     "jsdom": "23.0.0",
     "jsonfeed-to-rss": "3.0.7",
     "katex": "0.16.9",
-    "langchain": "0.0.196",
+    "langchain": "0.0.206",
     "lottie-react": "2.4.0",
     "mdast-util-to-hast": "13.0.2",
     "mdast-util-toc": "7.0.0",
