@@ -3,6 +3,8 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 
+import ViewOriginal from "./ViewOriginal"
+
 export default async function TranslationInfo({
   page,
   className,
@@ -35,6 +37,7 @@ export default async function TranslationInfo({
               to: () => <span>{t(page.metadata.content.translatedTo)}</span>,
             })}
           </span>
+          <ViewOriginal page={page} />
         </span>
       </div>
     )
