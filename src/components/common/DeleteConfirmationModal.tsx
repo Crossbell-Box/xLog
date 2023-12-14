@@ -19,7 +19,7 @@ export const DeleteConfirmationModal = ({
   return (
     <Modal open={open} setOpen={setOpen}>
       <div className="px-5 py-4 space-y-4">
-        <p>{t("delete_confirmation", { context: type })}</p>
+        <p>{t("delete_confirmation", { context: t(type) })}</p>
         <div className="flex justify-end space-x-2">
           <Button variant="secondary" onClick={() => setOpen(false)}>
             <span className="truncate">{t("Cancel")}</span>
