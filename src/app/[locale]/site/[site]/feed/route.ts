@@ -18,7 +18,7 @@ export async function GET(
   const site = await getSite(params.site)
   const pages = await getPagesBySite({
     characterId: site?.characterId,
-    type: ["post", "portfolio"],
+    type: "post",
     visibility: PageVisibilityEnum.Published,
     keepBody: true,
     useHTML: true,
