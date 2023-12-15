@@ -13,7 +13,7 @@ const HTTPWhitelistPaths = ["/api/healthcheck"]
 export const config = {
   // Skip all paths that should not be internationalized. This example skips the
   // folders "api", "_next", "_vercel"
-  matcher: ["/((?!api|_next|_vercel).*)"],
+  matcher: ["/((?!api|_next|_vercel|assets).*)"],
 }
 
 export async function middleware(req: NextRequest) {
@@ -80,9 +80,6 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/locales/") ||
     pathname.startsWith("/site/") ||
     pathname.match(/^\/(workbox|worker|fallback)-\w+\.js(\.map)?$/) ||
-    pathname === "/sw.js" ||
-    pathname === "/sw.js.map" ||
-    pathname === "/monitoring" ||
     pathname === "favicon.ico"
   ) {
     return response
