@@ -6,7 +6,7 @@ import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
 import { cn } from "~/lib/utils"
 
-const iconCDN = "https://cdn.simpleicons.org"
+const iconCDN = "https://icons.ly"
 
 // There is no need to set this icon if it is available by default `https://cdn.simpleicons.org/${platform}`
 export const PlatformsSyncMap: {
