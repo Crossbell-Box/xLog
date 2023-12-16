@@ -390,8 +390,8 @@ dependencies:
     specifier: ^5.1.1
     version: 5.1.1
   zustand:
-    specifier: 4.4.6
-    version: 4.4.6(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
+    specifier: 4.4.7
+    version: 4.4.7(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
 
 devDependencies:
   '@egoist/tailwindcss-icons':
@@ -1252,7 +1252,7 @@ packages:
       ts-essentials: 9.4.1(typescript@5.3.2)
       viem: 1.19.9(typescript@5.3.2)(zod@3.22.4)
       wagmi: 1.4.7(@types/react@18.2.38)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.2)(viem@1.19.9)(zod@3.22.4)
-      zustand: 4.4.6(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
+      zustand: 4.4.7(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@types/react'
@@ -1328,7 +1328,7 @@ packages:
       react-intersection-observer: 9.5.2(react@18.2.0)
       viem: 1.19.9(typescript@5.3.2)(zod@3.22.4)
       wagmi: 1.4.7(@types/react@18.2.38)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.2)(viem@1.19.9)(zod@3.22.4)
-      zustand: 4.4.6(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
+      zustand: 4.4.7(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -1360,7 +1360,7 @@ packages:
       ts-essentials: 9.4.1(typescript@5.3.2)
       valtio: 1.12.0(@types/react@18.2.38)(react@18.2.0)
       viem: 1.19.9(typescript@5.3.2)(zod@3.22.4)
-      zustand: 4.4.6(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
+      zustand: 4.4.7(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -3677,7 +3677,7 @@ packages:
       eventemitter3: 4.0.7
       typescript: 5.3.2
       viem: 1.19.9(typescript@5.3.2)(zod@3.22.4)
-      zustand: 4.4.6(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
+      zustand: 4.4.7(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@types/react'
@@ -12974,8 +12974,8 @@ packages:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: false
 
-  /zustand@4.4.6(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0):
-    resolution: {integrity: sha512-Rb16eW55gqL4W2XZpJh0fnrATxYEG3Apl2gfHTyDSE965x/zxslTikpNch0JgNjJA9zK6gEFW8Fl6d1rTZaqgg==}
+  /zustand@4.4.7(@types/react@18.2.38)(immer@10.0.3)(react@18.2.0):
+    resolution: {integrity: sha512-QFJWJMdlETcI69paJwhSMJz7PPWjVP8Sjhclxmxmxv/RYI7ZOvR5BHX+ktH0we9gTWQMxcne8q1OY8xxz604gw==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       '@types/react': '>=16.8'
