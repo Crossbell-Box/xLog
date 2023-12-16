@@ -226,7 +226,7 @@ export const CommentInput = ({
             {({ open }: { open: boolean }) => (
               <>
                 <Popover.Button className="group items-center rounded-md px-2 text-xl text-zinc-400 hover:text-zinc-500 hidden sm:inline-flex">
-                  <span className="icon-[mingcute--emoji-2-line] text-2xl"></span>
+                  <span className="i-mingcute-emoji-2-line text-2xl"></span>
                 </Popover.Button>
                 <Popover.Panel className="absolute left-0 top-full z-10">
                   <EmojiPicker
@@ -276,7 +276,7 @@ export const CommentInput = ({
                       )}
                       childrenClassName="hidden sm:inline-flex ml-1"
                     >
-                      <i className="icon-[mingcute--question-line]" />
+                      <i className="i-mingcute-question-line" />
                     </Tooltip>
                   </label>
                 </div>

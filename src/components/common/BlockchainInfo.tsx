@@ -66,7 +66,7 @@ export const BlockchainInfo = ({
             rel="noreferrer"
             href={`${SITE_URL}/about`}
           >
-            <i className="icon-[mingcute--question-line]" />
+            <i className="i-mingcute-question-line" />
           </a>
         </span>
         <ul className="space-y-2 text-[13px] text-gray-500 overflow-hidden">

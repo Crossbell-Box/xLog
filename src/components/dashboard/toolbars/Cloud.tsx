@@ -53,7 +53,7 @@ const uploadResources = async (text: string) => {
 export const Cloud: ICommand = {
   name: "cloud",
   label: "Upload All Images to IPFS",
-  icon: "icon-[mingcute--upload-3-line]",
+  icon: "i-mingcute-upload-3-line",
   execute: async ({ view }) => {
     const docJson = view.state.doc.toJSON()
     const newDocJson = await Promise.all(

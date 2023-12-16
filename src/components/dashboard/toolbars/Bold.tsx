@@ -9,7 +9,7 @@ const action = (view: EditorView) => {
 export const Bold: ICommand = {
   name: "bold",
   label: "Bold",
-  icon: "icon-[mingcute--bold-line]",
+  icon: "i-mingcute-bold-line",
   execute({ view }) {
     action(view)
   },

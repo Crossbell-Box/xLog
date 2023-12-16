@@ -129,7 +129,7 @@ export const ReactionMint = ({
             const inner = (
               <i
                 className={cn(
-                  "icon-[mingcute--magic-1-fill]",
+                  "i-mingcute-magic-1-fill",
                   size === "sm"
                     ? "text-base"
                     : vertical

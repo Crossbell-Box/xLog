@@ -36,7 +36,7 @@ export const BackToTopFAB = () => {
       }}
       className="xlog-back-to-top"
     >
-      <i className="icon-[mingcute--arow-to-up-line]"></i>
+      <i className="i-mingcute-arow-to-up-line"></i>
     </FABBase>
   )
 }

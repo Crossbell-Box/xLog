@@ -5,11 +5,11 @@ import {
   variableColorsPlugin,
 } from "tailwindcss-variable-colors"
 
-import { addDynamicIconSelectors } from "@iconify/tailwind"
+import { iconsPlugin } from "@egoist/tailwindcss-icons"
 
 const config: Config = {
   content: ["./src/**/*.tsx"],
-  safelist: ["icon-[mingcute--link-line]", "icon-[mingcute--copy-2-line]"],
+  safelist: ["i-mingcute-link-line", "i-mingcute-copy-2-line"],
   darkMode: ["class", "html.dark"],
   theme: {
     colors: createVariableColors(),
@@ -79,7 +79,7 @@ const config: Config = {
   plugins: [
     require("tailwindcss-animate"),
     require("tailwind-scrollbar-hide"),
-    addDynamicIconSelectors(),
+    iconsPlugin(),
     variableColorsPlugin(),
   ],
 }

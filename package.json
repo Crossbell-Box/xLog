@@ -161,8 +161,8 @@
     "zustand": "4.4.6"
   },
   "devDependencies": {
+    "@egoist/tailwindcss-icons": "1.7.0",
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
-    "@iconify/tailwind": "0.1.4",
     "@next/bundle-analyzer": "14.0.3",
     "@types/async-lock": "1.4.2",
     "@types/canvas-confetti": "1.6.4",

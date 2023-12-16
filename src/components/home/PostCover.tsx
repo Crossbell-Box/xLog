@@ -61,13 +61,13 @@ export default function PostCover({
               id={`swiper-button-prev-${uniqueKey}`}
               className="swiper-button left-2"
             >
-              <i className="icon-[mingcute--left-fill]" />
+              <i className="i-mingcute-left-fill" />
             </div>
             <div
               id={`swiper-button-next-${uniqueKey}`}
               className="swiper-button right-2"
             >
-              <i className="icon-[mingcute--right-fill]" />
+              <i className="i-mingcute-right-fill" />
             </div>
           </>
         ) : images?.length === 1 ? (

@@ -20,7 +20,7 @@ async function Home() {
       <OriginEntranceButton
         connectedContent={
           <>
-            <span className="icon-[mingcute--grid-line] text-xl mr-2 inline-block"></span>
+            <span className="i-mingcute-grid-line text-xl mr-2 inline-block"></span>
             <span>{t("Dashboard")}</span>
           </>
         }
@@ -163,7 +163,7 @@ async function Home() {
           <span className="mb-1 sm:mb-3">{t("Explore the xLog way")}</span>
           <Link
             href="#features"
-            className="cursor-pointer inline-block icon-[mingcute--down-line] text-3xl"
+            className="cursor-pointer inline-block i-mingcute-down-line text-3xl"
           ></Link>
         </div>
       </div>
@@ -318,7 +318,7 @@ async function Home() {
             <ul className="mt-14 grid grid-cols-3 sm:grid-cols-5 gap-y-14 gap-x-2">
               <Integration />
               <li className="flex items-center justify-center">
-                <i className="icon-[mingcute--more-1-line] text-5xl" />
+                <i className="i-mingcute-more-1-line text-5xl" />
               </li>
             </ul>
           </div>

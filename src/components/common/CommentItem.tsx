@@ -171,7 +171,7 @@ export const CommentItem = ({
                 variant="text"
                 onClick={() => setEditOpen(!editOpen)}
               >
-                <i className="icon-[mingcute--edit-line] mx-1" />{" "}
+                <i className="i-mingcute-edit-line mx-1" />{" "}
                 {t(`${editOpen ? "Cancel " : ""}Edit`)}
               </Button>
             )}
@@ -184,7 +184,7 @@ export const CommentItem = ({
                     onClick={() => setDeleteConfirmModalOpen(true)}
                     isLoading={deletePage.isLoading}
                   >
-                    <i className="icon-[mingcute--delete-2-line] mx-1" />{" "}
+                    <i className="i-mingcute-delete-2-line mx-1" />{" "}
                     {t("Delete")}
                   </Button>
                   <DeleteConfirmationModal

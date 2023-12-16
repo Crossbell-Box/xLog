@@ -117,24 +117,24 @@ export const ConnectButton = ({
   const dropdownLinks: HeaderLinkType[] = [
     account?.character
       ? {
-          icon: "icon-[mingcute--home-1-line]",
+          icon: "i-mingcute-home-1-line",
           label: t("My xLog") || "",
           href: getSiteLink({
             subdomain: account?.character?.handle || "",
           }),
         }
       : {
-          icon: "icon-[mingcute--home-1-line]",
+          icon: "i-mingcute-home-1-line",
           label: t("My xLog") || "",
           onClick: () => walletMintNewCharacterModal.show(),
         },
     {
-      icon: "icon-[mingcute--grid-line]",
+      icon: "i-mingcute-grid-line",
       label: t("Dashboard") || "",
       href: `${SITE_URL}/dashboard`,
     },
     {
-      icon: "icon-[mingcute--copy-2-line]",
+      icon: "i-mingcute-copy-2-line",
       label: t(copyLabelDisplay) || "",
       onClick: (e) => {
         e.preventDefault()
@@ -144,7 +144,7 @@ export const ConnectButton = ({
     ...(account?.type === "wallet"
       ? [
           {
-            icon: "icon-[mingcute--seal-line]",
+            icon: "i-mingcute-seal-line",
             label: (
               <>
                 {t("Operator Sign")} (
@@ -165,7 +165,7 @@ export const ConnectButton = ({
             },
           },
           {
-            icon: "icon-[mingcute--currency-euro-line]",
+            icon: "i-mingcute-currency-euro-line",
             label: (
               <span className={InsufficientBalance ? "text-red-400" : ""}>
                 {balance?.formatted.replace(/\.(\d{5})\d*$/, ".$1") ||
@@ -176,20 +176,20 @@ export const ConnectButton = ({
             onClick: csbDetailModal.show,
           },
           {
-            icon: "icon-[mingcute--repeat-line]",
+            icon: "i-mingcute-repeat-line",
             label: t("Switch Characters") || "",
             onClick: selectCharactersModal.show,
           },
         ]
       : [
           {
-            icon: "icon-[mingcute--vip-2-line]",
+            icon: "i-mingcute-vip-2-line",
             label: t("Upgrade to Wallet") || "",
             onClick: upgradeAccountModal.show,
           },
         ]),
     {
-      icon: "icon-[mingcute--exit-line]",
+      icon: "i-mingcute-exit-line",
       label: t("Disconnect") || "",
       onClick: disconnect,
     },
@@ -197,22 +197,22 @@ export const ConnectButton = ({
 
   const addDropdownLinks: HeaderLinkType[] = [
     {
-      icon: "icon-[mingcute--news-line]",
+      icon: "i-mingcute-news-line",
       label: t("New Post") || "",
       href: `${SITE_URL}/dashboard/${account?.character?.handle}/editor?type=post`,
     },
     {
-      icon: "icon-[mingcute--file-line]",
+      icon: "i-mingcute-file-line",
       label: t("New Page") || "",
       href: `${SITE_URL}/dashboard/${account?.character?.handle}/editor?type=page`,
     },
     {
-      icon: "icon-[mingcute--ins-line]",
+      icon: "i-mingcute-ins-line",
       label: t("New Short") || "",
       href: `${SITE_URL}/dashboard/${account?.character?.handle}/editor?type=short`,
     },
     {
-      icon: "icon-[mingcute--cloud-line]",
+      icon: "i-mingcute-cloud-line",
       label: t("New Portfolio") || "",
       href: `${SITE_URL}/dashboard/${account?.character?.handle}/editor?type=portfolio`,
     },
@@ -356,7 +356,7 @@ export const ConnectButton = ({
                           </span>
                         )}
                       </div>
-                      <i className="icon-[mingcute--down-line] text-xl ml-[2px]" />
+                      <i className="i-mingcute-down-line text-xl ml-[2px]" />
                     </>
                   )}
                 </button>

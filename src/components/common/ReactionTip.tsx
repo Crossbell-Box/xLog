@@ -90,7 +90,7 @@ export const ReactionTip = ({
             const inner = (
               <i
                 className={cn(
-                  "icon-[mingcute--heart-fill]",
+                  "i-mingcute-heart-fill",
                   vertical ? "text-[33px]" : "text-[38px]",
                 )}
               />

@@ -103,7 +103,7 @@ const ThemeSwitcher = () => {
           buildThemeTransition(e, "light")
         }}
       >
-        <i className="icon-[mingcute--sun-line]" />
+        <i className="i-mingcute-sun-line" />
       </button>
       <button
         aria-label="Switch to system theme"
@@ -113,7 +113,7 @@ const ThemeSwitcher = () => {
           buildThemeTransition(e, "system")
         }}
       >
-        <i className="icon-[mingcute--computer-line]" />
+        <i className="i-mingcute-computer-line" />
       </button>
       <button
         aria-label="Switch to dark theme"
@@ -123,7 +123,7 @@ const ThemeSwitcher = () => {
           buildThemeTransition(e, "dark")
         }}
       >
-        <i className="icon-[mingcute--moon-line]" />
+        <i className="i-mingcute-moon-line" />
       </button>
     </div>
   )

@@ -44,7 +44,7 @@ const SortableNavigationItem = ({
           type="button"
           className="drag-handle cursor-grab -mt-1 text-zinc-400 rounded-lg h-8 w-6 flex items-center justify-center hover:text-zinc-800 hover:bg-zinc-200"
         >
-          <i className="icon-[mingcute--dot-grid-fill]" />
+          <i className="i-mingcute-dot-grid-fill" />
         </button>
       </div>
       <Input

@@ -213,7 +213,7 @@ export const Platform = ({
             />
           ) : (
             <span className="rounded-md inline-flex text-white justify-center items-center bg-zinc-300">
-              <i className="icon-[mingcute--planet-line] text-xl" />
+              <i className="i-mingcute-planet-line text-xl" />
             </span>
           )}
         </span>

@@ -38,7 +38,7 @@ export default function ShortList({
       >
         <Link href="/shorts">
           <h2 className="flex items-center font-bold text-lg">
-            <i className="icon-[mingcute--ins-line] mr-1" />
+            <i className="i-mingcute-ins-line mr-1" />
             {t("Shorts")}
           </h2>
         </Link>
@@ -89,7 +89,7 @@ export default function ShortList({
               href="/shorts"
               className="bg-white rounded-full z-[1] w-8 h-8 flex items-center justify-center"
             >
-              <i className="icon-[mingcute--right-fill]" />
+              <i className="i-mingcute-right-fill" />
             </Link>
           </Tooltip>
         </div>

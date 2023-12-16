@@ -162,7 +162,7 @@ export const ReactionLike = ({
             const inner = (
               <i
                 className={cn(
-                  "icon-[mingcute--thumb-up-2-fill]",
+                  "i-mingcute-thumb-up-2-fill",
                   size === "sm"
                     ? "text-base"
                     : vertical
