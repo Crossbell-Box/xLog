@@ -42,7 +42,7 @@ export const Avatar = ({
     <span
       {...props}
       className={cn(
-        `inline-flex text-zinc-500 flex-shrink-0 items-center justify-center text-xl font-medium uppercase overflow-hidden text-[0px] max-w-full max-h-full`,
+        `inline-flex text-zinc-500 shrink-0 items-center justify-center font-medium uppercase overflow-hidden text-[0px] max-w-full max-h-full`,
         borderRadius,
         className,
       )}

@@ -30,7 +30,7 @@ export const DashboardTopbar = ({
             >
               <Popover.Overlay className="fixed inset-0 bg-black opacity-10" />
             </Transition>
-            <Popover.Button className="group inline-flex items-center rounded-md text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+            <Popover.Button className="group inline-flex items-center rounded-md text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
               <Bars3Icon className="h-6 w-6" />
             </Popover.Button>
             <Transition
@@ -42,8 +42,8 @@ export const DashboardTopbar = ({
               leaveFrom="opacity-100 transform translate-x-0"
               leaveTo="opacity-0 transform -translate-x-full"
             >
-              <Popover.Panel className="fixed bg-slate-50 h-full left-0 top-0 z-20 w-sidebar transform sm:px-0 lg:max-w-3xl">
-                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 h-full">
+              <Popover.Panel className="fixed bg-slate-50 h-full left-0 top-0 z-20 w-sidebar sm:px-0 lg:max-w-3xl">
+                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5 h-full">
                   {drawerWidget(close)}
                 </div>
               </Popover.Panel>

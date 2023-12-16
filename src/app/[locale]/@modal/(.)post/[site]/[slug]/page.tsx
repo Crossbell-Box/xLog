@@ -74,6 +74,7 @@ export default async function SiteModal({
           hideSearch={true}
         />
         <main
+          // eslint-disable-next-line tailwindcss/no-custom-classname
           className={cn(
             `xlog-post-id-${page?.characterId}-${page?.noteId}`,
             "xlog-deprecated-class xlog-post-area max-w-screen-md mx-auto px-5 pt-12 relative",

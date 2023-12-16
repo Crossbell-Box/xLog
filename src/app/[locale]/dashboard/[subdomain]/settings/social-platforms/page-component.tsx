@@ -71,7 +71,7 @@ const SortableNavigationItem = ({
       <div className="flex items-end pb-2">
         <Platform platform={item.platform} username={item.identity}></Platform>
       </div>
-      <div className="flex items-end relative -top-[5px]">
+      <div className="flex items-end relative top-[-5px]">
         <Button onClick={() => removeItem(item.id)} variantColor="red">
           {t("Remove")}
         </Button>

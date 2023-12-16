@@ -127,7 +127,7 @@ export const FABContainer = (props: {
   return (
     <div
       className={cn(
-        "z-[9] right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] fixed font-lg flex flex-col xlog-fab",
+        "z-[9] right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] fixed text-lg flex flex-col xlog-fab",
       )}
     >
       {fabConfig.map((config) => {

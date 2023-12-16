@@ -54,7 +54,7 @@ export const OptionsButton = ({
           <div className="h-6">
             <Popover.Button
               className={`
-                group inline-flex items-center rounded-md  text-base font-medium   hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+                group inline-flex items-center rounded-md  text-base font-medium   hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
               // onClick={() => {
               //   setIsOpen(true)
               // }}
@@ -72,8 +72,8 @@ export const OptionsButton = ({
               leaveFrom="opacity-100 transform translate-x-0"
               leaveTo="opacity-0 transform -translate-x-full"
             >
-              <Popover.Panel className="fixed bg-slate-50 h-full left-0 top-0 z-30 transform sm:px-0 lg:max-w-3xl">
-                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 h-full">
+              <Popover.Panel className="fixed bg-slate-50 h-full left-0 top-0 z-30 sm:px-0 lg:max-w-3xl">
+                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5 h-full">
                   {propertiesWidget}
                 </div>
               </Popover.Panel>
@@ -104,8 +104,8 @@ export const OptionsButton = ({
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 mt-2 z-30 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="px-1 py-1 ">
+                <Menu.Items className="absolute right-0 mt-2 z-30 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                  <div className="p-1 ">
                     <Menu.Item disabled>
                       {({ active }) => (
                         <button
@@ -116,20 +116,20 @@ export const OptionsButton = ({
                               : visibility === PageVisibilityEnum.Modified
                                 ? "text-orange-600"
                                 : "text-green-600",
-                          )} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          )} group flex w-full items-center rounded-md p-2 text-sm`}
                         >
                           {t(visibility as string)}
                         </button>
                       )}
                     </Menu.Item>
                   </div>
-                  <div className="px-1 py-1 ">
+                  <div className="p-1 ">
                     <Menu.Item>
                       {({ active }) => (
                         <button
                           className={`${
                             active ? "bg-accent text-white" : "text-gray-900"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          } group flex w-full items-center rounded-md p-2 text-sm`}
                           onClick={previewPage}
                         >
                           {t("Preview")}
@@ -141,7 +141,7 @@ export const OptionsButton = ({
                         <button
                           className={`${
                             active ? "bg-accent text-white" : "text-gray-900"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          } group flex w-full items-center rounded-md p-2 text-sm`}
                           onClick={() => savePage()}
                         >
                           {t(published ? "Update" : "Publish")}
@@ -154,7 +154,7 @@ export const OptionsButton = ({
                           <button
                             className={`${
                               active ? "bg-accent text-white" : "text-gray-900"
-                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            } group flex w-full items-center rounded-md p-2 text-sm`}
                             onClick={discardChanges}
                           >
                             {t("Discard Changes")}
@@ -170,7 +170,7 @@ export const OptionsButton = ({
                               active
                                 ? "bg-red-600 text-white"
                                 : "text-red-600 bg-white"
-                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            } group flex w-full items-center rounded-md p-2 text-sm`}
                             onClick={() => setDeleteConfirmModalOpen(true)}
                           >
                             {t("Delete")}

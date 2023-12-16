@@ -431,7 +431,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                       )}
                     </div>
                   </div>
-                  <div className="flex-shrink-0 flex self-center">
+                  <div className="shrink-0 flex self-center">
                     <button
                       className={cn(
                         `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
@@ -476,7 +476,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                       />
                     </button>
                   </div>
-                  <div className="w-10 flex-shrink-0 flex self-center ml-auto">
+                  <div className="w-10 shrink-0 flex self-center ml-auto">
                     <Menu>
                       {({ open, close }) => (
                         <>

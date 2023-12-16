@@ -70,6 +70,7 @@ export const Button = memo(
         ref={ref}
         type={type || "button"}
         disabled={isDisabled || isLoading}
+        // eslint-disable-next-line tailwindcss/no-custom-classname
         className={cn(
           className,
           "button",

@@ -59,7 +59,7 @@ const SortableNavigationItem = ({
           updateItem(item.id, { url: e.target.value })
         }
       />
-      <div className="flex items-end relative -top-[5px]">
+      <div className="flex items-end relative top-[-5px]">
         <Button onClick={() => removeItem(item.id)} variantColor="red">
           {t("Remove")}
         </Button>

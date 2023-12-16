@@ -187,7 +187,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
       <input
         onChange={handleChange}
         type="file"
-        className="absolute top-0 bottom-0 left-0 right-0 opacity-0"
+        className="absolute inset-0 opacity-0"
         accept={accept}
       />
       {imageUrl && hasClose && (
@@ -199,7 +199,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
         </div>
       )}
       {loading && (
-        <div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center bg-gray-500 opacity-50">
+        <div className="absolute inset-0 flex justify-center items-center bg-gray-500 opacity-50">
           <div className="loading flex justify-center items-center relative text-white"></div>
         </div>
       )}

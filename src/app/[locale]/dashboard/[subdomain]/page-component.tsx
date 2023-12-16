@@ -193,7 +193,7 @@ export default function SubdomainIndex() {
           <div className="p-6 bg-slate-50 rounded-lg relative">
             <UniLink
               href={getSiteLink({ subdomain: "xlog" })}
-              className="absolute right-0 left-0 top-0 h-16 cursor-pointer"
+              className="absolute inset-x-0 top-0 h-16 cursor-pointer"
             >
               <div className="absolute right-5 top-5 text-sm font-bold">
                 {t("More")}

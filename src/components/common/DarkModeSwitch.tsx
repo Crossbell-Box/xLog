@@ -22,7 +22,7 @@ const ThemeIndicator = () => {
   return (
     <div
       className={cn(
-        "absolute top-[3px] bottom-[3px] aspect-square rounded-full bg-white shadow duration-200 transition-[left]",
+        "absolute inset-y-[3px] aspect-square rounded-full bg-white shadow duration-200 transition-[left]",
         {
           "left-[3px]": theme === "light",
           "left-[27px]": theme === "system",
@@ -93,7 +93,7 @@ const ThemeSwitcher = () => {
   return (
     <div
       role="radiogroup"
-      className="w-fit-content inline-flex rounded-full p-[3px] bg-zinc-200/80 text-xs"
+      className="w-fit inline-flex rounded-full p-[3px] bg-zinc-200/80 text-xs"
     >
       <button
         aria-label="Switch to light theme"

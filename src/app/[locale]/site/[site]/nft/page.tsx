@@ -44,7 +44,7 @@ export default async function SiteNFTPage({
   return (
     <>
       <h2 className="page-title">NFT {t("Showcase")}</h2>
-      <div className="mt-8 text-zinc-500 text-sm mb-8">
+      <div className="my-8 text-zinc-500 text-sm">
         <span className="font-medium">Supported chains:</span>{" "}
         {nfts.chains.join(", ")}
       </div>
@@ -65,7 +65,7 @@ export default async function SiteNFTPage({
               data-name={nft.name}
             >
               <div className="w-full aspect-[1] relative rounded overflow-hidden">
-                <div className="absolute top-0 bottom-0 left-0 right-0">
+                <div className="absolute inset-0">
                   <Image
                     className="object-cover no-optimization w-full h-full rounded-2xl"
                     alt={"nft"}

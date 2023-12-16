@@ -45,7 +45,7 @@ export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
         }`}
       >
         <div
-          className={`absolute bottom-0 h-20 left-0 right-0 bg-gradient-to-t from-white via-white z-40 flex items-end justify-center font-bold cursor-pointer ${
+          className={`absolute bottom-0 h-20 inset-x-0 bg-gradient-to-t from-white via-white z-40 flex items-end justify-center font-bold cursor-pointer${
             showcaseMore ? "hidden" : ""
           }`}
           onClick={() => setShowcaseMore(true)}

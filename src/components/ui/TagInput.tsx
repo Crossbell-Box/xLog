@@ -59,7 +59,7 @@ export function TagInput({
     query === ""
       ? userTags
       : Array.from(new Set([query, ...userTags])).filter((tag) =>
-          (tag ?? '')
+          (tag ?? "")
             .toString()
             .toLowerCase()
             .replace(/\s+/g, "")
@@ -101,7 +101,7 @@ export function TagInput({
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="absolute max-h-60 w-full overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 sm:text-sm">
+            <Combobox.Options className="absolute max-h-60 w-full overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black/5 sm:text-sm">
               {filteredTags.map((tag) => (
                 <Combobox.Option
                   key={tag}

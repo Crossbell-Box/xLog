@@ -48,13 +48,13 @@ function OIAPage() {
         {t("Pull down to open the app")}
       </div>
       <button
-        className="absolute left-1/2 transform -translate-x-1/2 bottom-[15%] text-accent px-4 py-2 rounded-[25px] w-[56.5%] bg-[white]"
+        className="absolute left-1/2 -translate-x-1/2 bottom-[15%] text-accent px-4 py-2 rounded-[25px] w-[56.5%] bg-[white]"
         onClick={download}
       >
         {t("Download")}
       </button>
       <button
-        className="absolute left-1/2 transform -translate-x-1/2 translate-y-[150%] bottom-[15%] text-[white] px-4 py-2 rounded-[25px] w-[56.5%]"
+        className="absolute left-1/2 -translate-x-1/2 translate-y-[150%] bottom-[15%] text-[white] px-4 py-2 rounded-[25px] w-[56.5%]"
         onClick={goBack}
       >
         {t("Cancel Download")}

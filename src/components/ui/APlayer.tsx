@@ -57,7 +57,7 @@ const APlayer = memo(function APlayer({
   return (
     <div className="border border-[var(--border-color)] rounded-lg outline-2 outline-transparent flex flex-row gap-4">
       {/*Info*/}
-      <div className="flex flex-row flex-grow gap-4">
+      <div className="flex flex-row grow gap-4">
         {/*Cover*/}
         <div className="shrink-0">
           <Image
@@ -72,7 +72,7 @@ const APlayer = memo(function APlayer({
         {/*Name & Artist*/}
         <div className="flex flex-col justify-center items-center">
           {/*Name*/}
-          <div className="text-md font-semibold">{audioInfo.name}</div>
+          <div className="font-semibold">{audioInfo.name}</div>
 
           {/*Artist*/}
           <div className="text-sm">{audioInfo.artist}</div>
