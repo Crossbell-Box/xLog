@@ -9,6 +9,7 @@ import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { DEFAULT_AVATAR } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { cn } from "~/lib/utils"
 import { useGetShowcase } from "~/queries/home"
 
 export function ShowCase() {
@@ -34,9 +35,10 @@ export function ShowCase() {
         }`}
       >
         <div
-          className={`absolute bottom-0 h-20 left-0 right-0 bg-gradient-to-t from-white via-white flex items-end justify-center font-bold cursor-pointer ${
-            showcaseMore ? "hidden" : ""
-          }`}
+          className={cn(
+            "absolute bottom-0 h-20 inset-x-0 bg-gradient-to-t from-white via-white flex items-end justify-center font-bold cursor-pointer",
+            showcaseMore && "hidden",
+          )}
           onClick={() => setShowcaseMore(true)}
         >
           {t("Show more")}

@@ -61,7 +61,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             leaveTo="opacity-0"
           >
             <div
-              className="fixed inset-0 bg-black bg-opacity-25 z-40"
+              className="fixed inset-0 bg-black/25 z-40"
               aria-hidden={true}
             />
           </Transition.Child>

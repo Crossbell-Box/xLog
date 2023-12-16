@@ -46,7 +46,7 @@ const PostToc = ({ data }: { data: TocResult }) => {
   return (
     <div className="xlog-post-toc absolute left-full pl-14 h-full top-0 lg:block hidden">
       <div
-        className="sticky top-14 text-sm leading-loose whitespace-nowrap text-ellipsis max-h-[calc(100vh-theme('spacing.28'))] truncate"
+        className="sticky top-14 text-sm leading-loose whitespace-nowrap max-h-[calc(100vh-theme('spacing.28'))] truncate"
         style={{
           overflowY: "auto",
         }}

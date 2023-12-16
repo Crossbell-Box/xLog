@@ -269,7 +269,7 @@ export default function DashboardLayout({
                                 active
                                   ? `bg-white font-medium text-accent drop-shadow-sm`
                                   : link.href || link.onClick
-                                    ? "hover:bg-slate-200 hover:bg-opacity-50"
+                                    ? "hover:bg-slate-200/50"
                                     : "opacity-80 cursor-default",
                               )}
                               onClick={link.onClick}
@@ -313,9 +313,7 @@ export default function DashboardLayout({
               {(isOpen) => <div>233</div>}
             </DashboardTopbar>
           ) : (
-            <div
-              className={`w-sidebar transition-[width] relative flex-shrink-0`}
-            >
+            <div className={`w-sidebar transition-[width] relative shrink-0`}>
               <div
                 className={`w-sidebar transition-[width] fixed h-full flex flex-col`}
               >
@@ -378,7 +376,7 @@ export default function DashboardLayout({
                             active
                               ? `bg-white font-medium text-accent drop-shadow-sm`
                               : link.href || link.onClick
-                                ? "hover:bg-slate-200 hover:bg-opacity-50"
+                                ? "hover:bg-slate-200/50"
                                 : "opacity-80 cursor-default",
                           )}
                           onClick={link.onClick}

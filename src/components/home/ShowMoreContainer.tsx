@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl"
 import { useState } from "react"
 
+import { cn } from "~/lib/utils"
+
 export default function ShowMoreContainer({
   children,
 }: {
@@ -18,9 +20,10 @@ export default function ShowMoreContainer({
       }`}
     >
       <div
-        className={`absolute bottom-0 h-14 left-0 right-0 bg-gradient-to-t from-white via-white flex items-end justify-center font-bold cursor-pointer z-[1] text-sm ${
-          showcaseMore ? "hidden" : ""
-        }`}
+        className={cn(
+          "absolute bottom-0 h-14 inset-x-0 bg-gradient-to-t from-white via-white flex items-end justify-center font-bold cursor-pointer z-[1] text-sm",
+          showcaseMore && "hidden",
+        )}
         onClick={() => setShowcaseMore(true)}
       >
         {t("Show more")}

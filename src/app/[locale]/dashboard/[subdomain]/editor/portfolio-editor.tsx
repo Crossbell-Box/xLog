@@ -254,7 +254,7 @@ export default function PortfolioEditor() {
           <>
             <EditorExtraProperties updateValue={updateValue} />
             <div className="flex justify-between h-14 items-center text-sm mt-8">
-              <div className="flex items-center space-x-3 flex-shrink-0">
+              <div className="flex items-center space-x-3 shrink-0">
                 <PublishButton
                   savePage={savePage}
                   deletePage={deletePage}

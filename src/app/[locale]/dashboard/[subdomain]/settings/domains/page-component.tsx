@@ -282,7 +282,7 @@ export default function SettingsDomainsPage() {
                       {t("DNS check failed")}
                     </span>
                     <Button
-                      className="ml-4 font-media"
+                      className="ml-4 font-medium"
                       variant="secondary"
                       onClick={() => toCheckDomain(customDomain)}
                     >

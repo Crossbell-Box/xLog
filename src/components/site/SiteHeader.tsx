@@ -40,7 +40,7 @@ export const SiteHeader = async ({
 
   return (
     <header className="xlog-header border-b border-zinc-100 relative">
-      <div className="xlog-banner absolute top-0 bottom-0 left-0 right-0 -z-10 overflow-hidden">
+      <div className="xlog-banner absolute inset-0 -z-10 overflow-hidden">
         {(() => {
           switch (
             site?.metadata?.content?.banners?.[0]?.mime_type?.split("/")[0]
@@ -78,7 +78,7 @@ export const SiteHeader = async ({
             className={cn(
               "xlog-site-info flex space-x-6 sm:space-x-8 w-full",
               site?.metadata?.content?.banners?.[0]?.address
-                ? "bg-white bg-opacity-50 backdrop-blur-sm rounded-3xl p-4 pb-[52px] sm:p-8 sm:pb-8 z-[1] border"
+                ? "bg-white/50 backdrop-blur-sm rounded-3xl p-4 pb-[52px] sm:p-8 z-[1] border"
                 : "",
             )}
           >

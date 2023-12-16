@@ -53,7 +53,7 @@ const SortableNavigationItem = ({
           style="flat"
         />
       </div>
-      <div className="flex items-end relative -top-[5px]">
+      <div className="flex items-end relative top-[-5px]">
         <Button
           onClick={() => removeItem(item)}
           variantColor="red"

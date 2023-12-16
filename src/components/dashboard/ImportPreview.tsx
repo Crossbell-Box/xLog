@@ -5,6 +5,7 @@ import { useState } from "react"
 
 import { useDate } from "~/hooks/useDate"
 import { RESERVED_TAGS } from "~/lib/constants"
+import { cn } from "~/lib/utils"
 
 const DynamicPageContent = dynamic(() => import("../common/PageContent"), {
   ssr: false,
@@ -45,9 +46,10 @@ export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
         }`}
       >
         <div
-          className={`absolute bottom-0 h-20 left-0 right-0 bg-gradient-to-t from-white via-white z-40 flex items-end justify-center font-bold cursor-pointer ${
-            showcaseMore ? "hidden" : ""
-          }`}
+          className={cn(
+            "absolute bottom-0 h-20 inset-x-0 bg-gradient-to-t from-white via-white z-40 flex items-end justify-center font-bold cursor-pointer",
+            showcaseMore && "hidden",
+          )}
           onClick={() => setShowcaseMore(true)}
         >
           {t("Show more")}
