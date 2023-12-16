@@ -11,11 +11,11 @@ const icons: {
 } = {
   "xLog contributor": {
     bg: "bg-zinc-700 text-white",
-    icon: "icon-[mingcute--terminal-line]",
+    icon: "i-mingcute-terminal-line",
   },
   Organization: {
     bg: "bg-sky-700 text-white",
-    icon: "icon-[mingcute--building-1-line]",
+    icon: "i-mingcute-building-1-line",
   },
 }
 

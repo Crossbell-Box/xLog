@@ -48,7 +48,7 @@ export default async function Tag({
     <Hydrate state={dehydratedState}>
       <div className="border rounded-xl px-5 py-6 mb-4 space-y-2 relative bg-zinc-50">
         <div className="text-2xl flex items-center font-bold">
-          <i className="icon-[mingcute--tag-line] mr-1" />
+          <i className="i-mingcute-tag-line mr-1" />
           {params.tag}
         </div>
         <ParticipateButton tag={params.tag} />

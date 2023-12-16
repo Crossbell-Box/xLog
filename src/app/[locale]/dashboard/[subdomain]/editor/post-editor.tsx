@@ -574,7 +574,7 @@ const EditorExtraProperties = memo(
             onClick={openAdvancedOptions}
           >
             <span className="inline-flex items-center">
-              <i className="icon-[mingcute--settings-4-fill] inline-block mr-2" />
+              <i className="i-mingcute-settings-4-fill inline-block mr-2" />
               <span>{t("Advanced Settings")}</span>
             </span>
           </Button>

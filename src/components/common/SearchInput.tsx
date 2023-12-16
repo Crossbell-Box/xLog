@@ -35,7 +35,7 @@ export const SearchInput = ({
           className="absolute left-0 top-1/2 -translate-y-1/2 text-2xl text-zinc-500 h-11 ml-4 flex items-center justify-center cursor-pointer"
           onClick={handleSubmit}
         >
-          <i className="icon-[mingcute--search-line] block" />
+          <i className="i-mingcute-search-line block" />
         </div>
         <input
           id="content"

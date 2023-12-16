@@ -38,7 +38,7 @@ export default async function PostMeta({
           </>
         ) : null}
         <span className="xlog-post-views inline-flex items-center">
-          <i className="icon-[mingcute--eye-line] mr-[2px]" />
+          <i className="i-mingcute-eye-line mr-[2px]" />
           <span>{page.stat?.viewDetailCount}</span>
         </span>
         <UniLink
@@ -57,7 +57,7 @@ export default async function PostMeta({
       {summary && (
         <div className="xlog-post-summary border rounded-xl mt-5 p-4 space-y-2">
           <div className="font-bold text-zinc-700 flex items-center">
-            <i className="icon-[mingcute--sparkles-line] mr-2 text-lg" />
+            <i className="i-mingcute-sparkles-line mr-2 text-lg" />
             {translated?.["AI-generated summary"] || "AI-generated summary"}
           </div>
           <div className="text-zinc-500 leading-loose text-sm">{summary}</div>

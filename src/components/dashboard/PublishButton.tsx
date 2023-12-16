@@ -59,7 +59,7 @@ export const PublishButton = ({
                 isDisabled={isSaving}
                 className="!rounded-r-full"
               >
-                <i className="icon-[mingcute--down-line]" />
+                <i className="i-mingcute-down-line" />
               </Button>
             }
             dropdown={
@@ -68,7 +68,7 @@ export const PublishButton = ({
                   className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
                   onClick={() => window.open(twitterShareUrl)}
                 >
-                  <i className="icon-[mingcute--twitter-line] mr-1"></i>
+                  <i className="i-mingcute-twitter-line mr-1"></i>
                   {t("Share to Twitter")}
                 </button>
                 {isModified && (
@@ -76,7 +76,7 @@ export const PublishButton = ({
                     className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
                     onClick={discardChanges}
                   >
-                    <i className="icon-[mingcute--delete-back-line] mr-1"></i>
+                    <i className="i-mingcute-delete-back-line mr-1"></i>
                     {t("Discard Changes")}
                   </button>
                 )}
@@ -84,7 +84,7 @@ export const PublishButton = ({
                   className="flex w-full h-8 hover:bg-zinc-100 items-center px-5"
                   onClick={() => setDeleteConfirmModalOpen(true)}
                 >
-                  <i className="icon-[mingcute--delete-2-line] mr-1"></i>
+                  <i className="i-mingcute-delete-2-line mr-1"></i>
                   {t("Delete")}
                 </button>
               </div>

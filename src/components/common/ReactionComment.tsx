@@ -45,9 +45,7 @@ export const ReactionComment = ({
         >
           {(() => {
             const inner = (
-              <i
-                className={cn("icon-[mingcute--comment-fill]", "text-[33px]")}
-              />
+              <i className={cn("i-mingcute-comment-fill", "text-[33px]")} />
             )
             return (
               <Tooltip label={t("Comments")} placement="right">

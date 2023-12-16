@@ -28,7 +28,7 @@ export default async function TranslationInfo({
         )}
       >
         <span className="xlog-post-views inline-flex items-center">
-          <i className="icon-[mingcute--translate-2-line] mr-[2px]" />
+          <i className="i-mingcute-translate-2-line mr-[2px]" />
           <span>
             {t.rich("Translated by", {
               from: () => (

@@ -9,7 +9,7 @@ const action = (view: EditorView) => {
 export const Link: ICommand = {
   name: "link",
   label: "Link",
-  icon: "icon-[mingcute--link-2-line]",
+  icon: "i-mingcute-link-2-line",
   execute({ view }) {
     action(view)
   },

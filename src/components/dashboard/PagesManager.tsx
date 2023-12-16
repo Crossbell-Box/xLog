@@ -281,7 +281,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
               router.push(`/dashboard/${subdomain}/editor?type=${type}`)
             }
           >
-            <span className="icon-[mingcute--add-line] inline-block"></span>
+            <span className="i-mingcute-add-line inline-block"></span>
             <span>
               {t(`New ${type.charAt(0).toUpperCase() + type.slice(1)}`)}
             </span>
@@ -293,7 +293,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                 placement="bottom"
               >
                 <Button className={cn(`space-x-2`)} onClick={importFile}>
-                  <span className="icon-[mingcute--file-import-line] inline-block"></span>
+                  <span className="i-mingcute-file-import-line inline-block"></span>
                   <span>{t("Import")}</span>
                 </Button>
               </Tooltip>
@@ -385,12 +385,12 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                         <>
                           {!!page.metadata?.content?.tags?.[1] && (
                             <span className="xlog-post-tags border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2">
-                              <i className="icon-[mingcute--tag-line] mr-[2px]" />
+                              <i className="i-mingcute-tag-line mr-[2px]" />
                               {page.metadata?.content?.tags?.[1]}
                             </span>
                           )}
                           <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
-                            <i className="icon-[mingcute--time-line] mr-[2px]" />
+                            <i className="i-mingcute-time-line mr-[2px]" />
                             <span
                               style={{
                                 wordSpacing: "-.2ch",
@@ -401,7 +401,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                           </span>
                           {!!page.stat?.viewDetailCount && (
                             <span className="xlog-post-views inline-flex items-center">
-                              <i className="icon-[mingcute--eye-line] mr-[2px]" />
+                              <i className="i-mingcute-eye-line mr-[2px]" />
                               <span>{page.stat?.viewDetailCount}</span>
                             </span>
                           )}
@@ -424,7 +424,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                         <>
                           <span className="mx-2">·</span>
                           <span>
-                            <i className="icon-[mingcute--pin-2-fill] translate-y-[18%]" />{" "}
+                            <i className="i-mingcute-pin-2-fill translate-y-[18%]" />{" "}
                             {t("Pinned")}
                           </span>
                         </>
@@ -470,8 +470,8 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                           batchSelected.includes(
                             page.noteId || page.draftKey || 0,
                           )
-                            ? "icon-[mingcute--check-fill]"
-                            : "icon-[mingcute--add-line]"
+                            ? "i-mingcute-check-fill"
+                            : "i-mingcute-add-line"
                         } text-lg`}
                       />
                     </button>
@@ -490,7 +490,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                                 e.stopPropagation()
                               }}
                             >
-                              <i className="icon-[mingcute--more-1-line] text-2xl" />
+                              <i className="i-mingcute-more-1-line text-2xl" />
                             </button>
                           </Menu.Button>
 

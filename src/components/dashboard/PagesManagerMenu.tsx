@@ -91,21 +91,19 @@ export const PagesManagerMenu = ({
   const items: Item[] = [
     {
       text: "Edit",
-      icon: <span className="icon-[mingcute--edit-line] inline-block"></span>,
+      icon: <span className="i-mingcute-edit-line inline-block"></span>,
       onClick() {
         router.push(editLink)
       },
     },
     {
       text: pinPage.isPinned ? "Unpin" : "Pin",
-      icon: <span className="icon-[mingcute--pin-2-line] inline-block"></span>,
+      icon: <span className="i-mingcute-pin-2-line inline-block"></span>,
       onClick: pinPage.togglePin,
     },
     {
       text: "Convert to " + (type === "post" ? "Page" : "Post"),
-      icon: (
-        <span className="icon-[mingcute--transfer-3-line] inline-block"></span>
-      ),
+      icon: <span className="i-mingcute-transfer-3-line inline-block"></span>,
       onClick() {
         const toastId = toast.loading("Converting...")
 
@@ -135,7 +133,7 @@ export const PagesManagerMenu = ({
     },
     {
       text: "Preview",
-      icon: <span className="icon-[mingcute--eye-line] inline-block"></span>,
+      icon: <span className="i-mingcute-eye-line inline-block"></span>,
       onClick() {
         const slug = getNoteSlugFromNote(page)
         if (!slug) return
@@ -144,9 +142,7 @@ export const PagesManagerMenu = ({
     },
     {
       text: "Share to Twitter",
-      icon: (
-        <span className="icon-[mingcute--twitter-line] inline-block"></span>
-      ),
+      icon: <span className="i-mingcute-twitter-line inline-block"></span>,
       onClick() {
         if (site.data) {
           const twitterShareUrl = getTwitterShareUrl({
@@ -160,9 +156,7 @@ export const PagesManagerMenu = ({
     },
     {
       text: "Delete",
-      icon: (
-        <span className="icon-[mingcute--delete-2-line] inline-block"></span>
-      ),
+      icon: <span className="i-mingcute-delete-2-line inline-block"></span>,
       onClick() {
         setDeleteConfirmModalOpen(true)
       },

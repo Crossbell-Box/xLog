@@ -37,7 +37,7 @@ export default function PostModal({
         }}
       >
         <UniLink className="block" href={window.location.href} target="_blank">
-          <i className="icon-[mingcute--expand-player-line]" />
+          <i className="i-mingcute-expand-player-line" />
         </UniLink>
         <UniLink
           className="block"
@@ -46,7 +46,7 @@ export default function PostModal({
           })}
           target="_blank"
         >
-          <i className="icon-[mingcute--user-3-line]" />
+          <i className="i-mingcute-user-3-line" />
         </UniLink>
       </div>
       <div className="overflow-hidden rounded-xl flex flex-col">{children}</div>

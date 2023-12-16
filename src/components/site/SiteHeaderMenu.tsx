@@ -25,7 +25,7 @@ function MoreActions({ children }: React.PropsWithChildren<{}>) {
           aria-label="more"
           className="-mx-2 text-zinc-600"
         >
-          <i className="icon-[mingcute--more-1-line] text-2xl" />
+          <i className="i-mingcute-more-1-line text-2xl" />
         </Button>
       }
       dropdown={<div className="text-sm">{children}</div>}
@@ -104,7 +104,7 @@ export const SiteHeaderMenu = ({
             text: "Search on this site",
             icon: (
               <span className="text-stone-400">
-                <i className="icon-[mingcute--search-line] block" />
+                <i className="i-mingcute-search-line block" />
               </span>
             ),
             onClick: () => setSearchOpen(true),

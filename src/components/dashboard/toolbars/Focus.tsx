@@ -3,7 +3,7 @@ import { ICommand } from "."
 export const Focus: ICommand = {
   name: "focus",
   label: "Toggle Focus Mode",
-  icon: "icon-[mingcute--fullscreen-line]",
+  icon: "i-mingcute-fullscreen-line",
   execute: () => {
     let elem = document.getElementById("dashboard-main")
     if (!elem) {

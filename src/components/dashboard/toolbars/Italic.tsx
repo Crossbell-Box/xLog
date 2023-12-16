@@ -9,7 +9,7 @@ const action = (view: EditorView) => {
 export const Italic: ICommand = {
   name: "italic",
   label: "Italic",
-  icon: "icon-[mingcute--italic-line]",
+  icon: "i-mingcute-italic-line",
   execute({ view }) {
     action(view)
   },

@@ -244,9 +244,9 @@ export default function DualColumnEditor({
             onClick={() => setIsRendering(!isRendering)}
           >
             {isRendering ? (
-              <i className="icon-[mingcute--right-line] text-2xl inline-block w-6 h-6" />
+              <i className="i-mingcute-right-line text-2xl inline-block w-6 h-6" />
             ) : (
-              <i className="icon-[mingcute--left-line] text-2xl inline-block w-6 h-6" />
+              <i className="i-mingcute-left-line text-2xl inline-block w-6 h-6" />
             )}
           </div>
         </div>

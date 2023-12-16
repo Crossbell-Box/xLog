@@ -95,7 +95,7 @@ const Card = ({
         >
           {comment && (
             <div className="font-medium text-zinc-700 line-clamp-2">
-              <i className="icon-[mingcute--comment-fill] mr-2" />
+              <i className="i-mingcute-comment-fill mr-2" />
               {comment}
             </div>
           )}
@@ -158,7 +158,7 @@ const Card = ({
                 </Tooltip>
                 {!!post.stat?.portfolio?.videoViewsCount && (
                   <span className="xlog-post-views inline-flex items-center">
-                    <i className="icon-[mingcute--youtube-line] mr-[2px] text-base" />
+                    <i className="i-mingcute-youtube-line mr-[2px] text-base" />
                     <FormattedNumber
                       value={post.stat.portfolio.videoViewsCount}
                     />
@@ -166,7 +166,7 @@ const Card = ({
                 )}
                 {!!post.stat?.portfolio?.audoListensCount && (
                   <span className="xlog-post-views inline-flex items-center">
-                    <i className="icon-[mingcute--headphone-line] mr-[2px] text-base" />
+                    <i className="i-mingcute-headphone-line mr-[2px] text-base" />
                     <FormattedNumber
                       value={post.stat.portfolio.audoListensCount}
                     />
@@ -174,7 +174,7 @@ const Card = ({
                 )}
                 {!!post.stat?.portfolio?.projectStarsCount && (
                   <span className="xlog-post-views inline-flex items-center">
-                    <i className="icon-[mingcute--star-line] mr-[2px] text-base" />
+                    <i className="i-mingcute-star-line mr-[2px] text-base" />
                     <FormattedNumber
                       value={post.stat.portfolio.projectStarsCount}
                     />
@@ -182,7 +182,7 @@ const Card = ({
                 )}
                 {!!post.stat?.portfolio?.textViewsCount && (
                   <span className="xlog-post-views inline-flex items-center">
-                    <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
+                    <i className="i-mingcute-eye-line mr-[2px] text-base" />
                     <FormattedNumber
                       value={post.stat.portfolio.textViewsCount}
                     />
@@ -190,7 +190,7 @@ const Card = ({
                 )}
                 {!!post.stat?.portfolio?.commentsCount && (
                   <span className="xlog-post-views inline-flex items-center">
-                    <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
+                    <i className="i-mingcute-comment-line mr-[2px] text-base" />
                     <FormattedNumber
                       value={post.stat.portfolio.commentsCount}
                     />
@@ -207,25 +207,25 @@ const Card = ({
                       router.push(`/tag/${post.metadata?.content?.tags?.[1]}`)
                     }}
                   >
-                    <i className="icon-[mingcute--tag-line] mr-[2px]" />
+                    <i className="i-mingcute-tag-line mr-[2px]" />
                     {post.metadata?.content?.tags?.[1]}
                   </span>
                 )}
                 {!isShort && !!post.stat?.viewDetailCount && (
                   <span className="xlog-post-views inline-flex items-center">
-                    <i className="icon-[mingcute--eye-line] mr-[2px] text-base" />
+                    <i className="i-mingcute-eye-line mr-[2px] text-base" />
                     <FormattedNumber value={post.stat?.viewDetailCount} />
                   </span>
                 )}
                 {!!post.stat?.commentsCount && (
                   <span className="xlog-post-views inline-flex items-center">
-                    <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
+                    <i className="i-mingcute-comment-line mr-[2px] text-base" />
                     <FormattedNumber value={post.stat.commentsCount} />
                   </span>
                 )}
                 {!post.stat?.commentsCount && (
                   <span className="xlog-post-word-count sm:inline-flex items-center hidden">
-                    <i className="icon-[mingcute--sandglass-line] mr-[2px] text-sm" />
+                    <i className="i-mingcute-sandglass-line mr-[2px] text-sm" />
                     <span
                       style={{
                         wordSpacing: "-.2ch",
@@ -282,13 +282,13 @@ const Card = ({
             <span className="xlog-post-meta text-zinc-400 flex items-center text-[13px] truncate space-x-2 !ml-2">
               {!!post.stat?.likesCount && (
                 <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--thumb-up-2-line] mr-[2px] text-base" />
+                  <i className="i-mingcute-thumb-up-2-line mr-[2px] text-base" />
                   <FormattedNumber value={post.stat?.likesCount} />
                 </span>
               )}
               {!!post.stat?.commentsCount && (
                 <span className="xlog-post-views inline-flex items-center">
-                  <i className="icon-[mingcute--comment-line] mr-[2px] text-base" />
+                  <i className="i-mingcute-comment-line mr-[2px] text-base" />
                   <FormattedNumber value={post.stat?.commentsCount} />
                 </span>
               )}
@@ -324,7 +324,7 @@ const Card = ({
       </div>
       {isPinned && (
         <span className="absolute top-2 right-2 text-xs border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px]">
-          <i className="icon-[mingcute--pin-2-fill] mr-1" />
+          <i className="i-mingcute-pin-2-fill mr-1" />
           {t("Pinned")}
         </span>
       )}

@@ -101,7 +101,7 @@ export async function editorUpload(file: File, view: EditorView) {
 export const Multimedia: ICommand = {
   name: "upload-multimedia",
   label: "Upload Image, Audio or Video",
-  icon: "icon-[mingcute--photo-album-line]",
+  icon: "i-mingcute-photo-album-line",
   execute: ({ view }) => {
     const input = document.createElement("input")
     input.type = "file"

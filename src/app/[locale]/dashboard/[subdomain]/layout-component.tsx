@@ -108,19 +108,19 @@ export default function DashboardLayout({
     {
       href: `/dashboard/${subdomain}`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "icon-[mingcute--grid-line]",
+      icon: "i-mingcute-grid-line",
       text: "Dashboard",
     },
     {
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "icon-[mingcute--add-circle-line]",
+      icon: "i-mingcute-add-circle-line",
       text: "Publishing",
     },
     {
       href: `/dashboard/${subdomain}/posts`,
       isActive: ({ href, pathname, searchParams }) =>
         href === pathname || searchParams?.get("type") === "post",
-      icon: "icon-[mingcute--news-line]",
+      icon: "i-mingcute-news-line",
       text: "Posts",
       lever: 2,
     },
@@ -128,7 +128,7 @@ export default function DashboardLayout({
       href: `/dashboard/${subdomain}/pages`,
       isActive: ({ href, pathname, searchParams }) =>
         href === pathname || searchParams?.get("type") === "page",
-      icon: "icon-[mingcute--file-line]",
+      icon: "i-mingcute-file-line",
       text: "Pages",
       lever: 2,
     },
@@ -136,7 +136,7 @@ export default function DashboardLayout({
       href: `/dashboard/${subdomain}/shorts`,
       isActive: ({ href, pathname, searchParams }) =>
         href === pathname || searchParams?.get("type") === "short",
-      icon: "icon-[mingcute--ins-line]",
+      icon: "i-mingcute-ins-line",
       text: "Shorts",
       lever: 2,
     },
@@ -144,7 +144,7 @@ export default function DashboardLayout({
       href: `/dashboard/${subdomain}/portfolios`,
       isActive: ({ href, pathname, searchParams }) =>
         href === pathname || searchParams?.get("type") === "portfolio",
-      icon: "icon-[mingcute--cloud-line]",
+      icon: "i-mingcute-cloud-line",
       text: "Portfolios",
       lever: 2,
     },
@@ -152,7 +152,7 @@ export default function DashboardLayout({
       href: `/dashboard/${subdomain}/import`,
       isActive: ({ pathname }) =>
         !!pathname?.startsWith(`/dashboard/${subdomain}/import`),
-      icon: "icon-[mingcute--file-import-line]",
+      icon: "i-mingcute-file-import-line",
       text: "Import",
       lever: 2,
     },
@@ -160,50 +160,50 @@ export default function DashboardLayout({
       href: `/dashboard/${subdomain}/events`,
       isActive: ({ href, pathname }) => href === pathname,
       icon: isEventsAllRead
-        ? "icon-[mingcute--flag-4-line]"
-        : "icon-[mingcute--flag-4-fill]",
+        ? "i-mingcute-flag-4-line"
+        : "i-mingcute-flag-4-fill",
       text: isEventsAllRead ? "Events" : "New Events",
       lever: 2,
     },
     {
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "icon-[mingcute--heartbeat-line]",
+      icon: "i-mingcute-heartbeat-line",
       text: "Interaction",
     },
     {
       onClick: showNotificationModal,
       isActive: ({ href, pathname }) => href === pathname,
       icon: isAllRead
-        ? "icon-[mingcute--notification-line]"
-        : "icon-[mingcute--notification-fill]",
+        ? "i-mingcute-notification-line"
+        : "i-mingcute-notification-fill",
       text: isAllRead ? "Notifications" : "Unread notifications",
       lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/comments`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "icon-[mingcute--comment-line]",
+      icon: "i-mingcute-comment-line",
       text: "Comments",
       lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/achievements`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "icon-[mingcute--trophy-line]",
+      icon: "i-mingcute-trophy-line",
       text: "Achievements",
       lever: 2,
     },
     {
       href: `/dashboard/${subdomain}/tokens`,
       isActive: ({ href, pathname }) => href === pathname,
-      icon: "icon-[mingcute--pig-money-line]",
+      icon: "i-mingcute-pig-money-line",
       text: "Tokens",
     },
     {
       href: `/dashboard/${subdomain}/settings/general`,
       isActive: ({ pathname }) =>
         !!pathname?.startsWith(`/dashboard/${subdomain}/settings`),
-      icon: "icon-[mingcute--settings-3-line]",
+      icon: "i-mingcute-settings-3-line",
       text: "Settings",
     },
   ]
@@ -293,7 +293,7 @@ export default function DashboardLayout({
                         href={DISCORD_LINK}
                         className="space-x-1 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
                       >
-                        <i className="icon-[mingcute--question-line] text-lg" />
+                        <i className="i-mingcute-question-line text-lg" />
                         {<span>{t("Need help?")}</span>}
                       </UniLink>
                       <UniLink
@@ -302,7 +302,7 @@ export default function DashboardLayout({
                         })}
                         className="space-x-2 border rounded-lg border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center bg-white drop-shadow-sm"
                       >
-                        <span className="icon-[mingcute--home-1-line]"></span>
+                        <span className="i-mingcute-home-1-line"></span>
                         {<span>{t("View Site")}</span>}
                       </UniLink>
                     </div>
@@ -402,7 +402,7 @@ export default function DashboardLayout({
                     href={DISCORD_LINK}
                     className="space-x-1 text-zinc-500 hover:text-zinc-800 flex w-full h-12 items-center justify-center transition-colors mb-2"
                   >
-                    <i className="icon-[mingcute--question-line] text-lg" />
+                    <i className="i-mingcute-question-line text-lg" />
                     <span>{t("Need help?")}</span>
                   </UniLink>
                   <UniLink
@@ -411,7 +411,7 @@ export default function DashboardLayout({
                     })}
                     className="space-x-2 border rounded-lg border-slate-200 text-accent hover:scale-105 transition-transform flex w-full h-12 items-center justify-center bg-white drop-shadow-sm"
                   >
-                    <span className="icon-[mingcute--home-1-line]"></span>
+                    <span className="i-mingcute-home-1-line"></span>
                     <span>{t("View Site")}</span>
                   </UniLink>
                 </div>

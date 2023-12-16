@@ -33,7 +33,7 @@ export const EditButton = ({
           className="xlog-post-editor inline-flex items-center"
           href={`${SITE_URL}/dashboard/${handle}/editor?id=${noteId}&type=${type}`}
         >
-          <i className="icon-[mingcute--edit-line] mx-1" /> {t("Edit")}
+          <i className="i-mingcute-edit-line mx-1" /> {t("Edit")}
         </UniLink>
       )}
     </>

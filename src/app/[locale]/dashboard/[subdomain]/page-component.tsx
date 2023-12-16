@@ -38,19 +38,19 @@ export default function SubdomainIndex() {
 
   const statMap = [
     {
-      icon: "icon-[mingcute--news-line]",
+      icon: "i-mingcute-news-line",
       name: "Creation",
       value: stat.data?.notesCount ?? "-",
       url: `/dashboard/${subdomain}/posts`,
     },
     {
-      icon: "icon-[mingcute--comment-line]",
+      icon: "i-mingcute-comment-line",
       name: "Comments",
       value: stat.data?.commentsCount ?? "-",
       url: `/dashboard/${subdomain}/comments`,
     },
     {
-      icon: "icon-[mingcute--heart-line]",
+      icon: "i-mingcute-heart-line",
       name: "Tips1",
       value: `${
         tips.data?.pages?.[0]?.list
@@ -60,7 +60,7 @@ export default function SubdomainIndex() {
       url: `/dashboard/${subdomain}/tokens`,
     },
     {
-      icon: "icon-[mingcute--thumb-up-2-line]",
+      icon: "i-mingcute-thumb-up-2-line",
       name: "Likes",
       value: stat.data?.likesCount ?? "-",
       url: getSiteLink({
@@ -68,7 +68,7 @@ export default function SubdomainIndex() {
       }),
     },
     {
-      icon: "icon-[mingcute--user-follow-line]",
+      icon: "i-mingcute-user-follow-line",
       name: "Followers",
       value: stat.data?.subscriptionCount ?? "-",
       url: getSiteLink({
@@ -76,13 +76,13 @@ export default function SubdomainIndex() {
       }),
     },
     {
-      icon: "icon-[mingcute--trophy-line]",
+      icon: "i-mingcute-trophy-line",
       name: "Achievements",
       value: stat.data?.achievements ?? "-",
       url: `/dashboard/${subdomain}/achievements`,
     },
     {
-      icon: "icon-[mingcute--eye-line]",
+      icon: "i-mingcute-eye-line",
       name: "Viewed",
       value: stat.data?.viewsCount ?? "-",
       url: getSiteLink({
@@ -90,7 +90,7 @@ export default function SubdomainIndex() {
       }),
     },
     {
-      icon: "icon-[mingcute--history-line]",
+      icon: "i-mingcute-history-line",
       name: "Become xLogger for",
       value:
         date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day") +

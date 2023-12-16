@@ -60,7 +60,7 @@ const shareList = [
 
   {
     name: "Copy",
-    icon: <i className="icon-[mingcute--copy-fill]" />,
+    icon: <i className="i-mingcute-copy-fill" />,
     onClick: (data: ShareData) => {
       navigator.clipboard.writeText(data.url)
       toast.success("Copied to clipboard", {
@@ -113,7 +113,7 @@ export const ReactionShare: FC<{
             const inner = (
               <i
                 className={cn(
-                  "icon-[mingcute--share-forward-fill]",
+                  "i-mingcute-share-forward-fill",
                   size === "sm"
                     ? "text-base"
                     : vertical

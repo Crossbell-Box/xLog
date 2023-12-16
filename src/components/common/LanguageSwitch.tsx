@@ -20,7 +20,7 @@ export function LanguageSwitch() {
     <Menu
       placement="top"
       target={
-        <button className="inline-block icon-[mingcute--translate-2-line] text-2xl"></button>
+        <button className="inline-block i-mingcute-translate-2-line text-2xl"></button>
       }
       dropdown={
         <>
@@ -36,7 +36,7 @@ export function LanguageSwitch() {
             >
               <span>{nameMap[lo]}</span>
               {locale === lo && (
-                <span className="ml-2 icon-[mingcute--check-line]"></span>
+                <span className="ml-2 i-mingcute-check-line"></span>
               )}
             </Menu.Item>
           ))}

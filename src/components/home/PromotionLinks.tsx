@@ -21,7 +21,7 @@ export default async function PromotionLinks({
           subdomain: "xlog",
         })}/xlog-rss`}
       >
-        <span className="inline-block icon-[mingcute--rss-2-fill] text-2xl"></span>
+        <span className="inline-block i-mingcute-rss-2-fill text-2xl"></span>
       </UniLink>
       <Tooltip
         className="z-10 bg-white"
@@ -45,7 +45,7 @@ export default async function PromotionLinks({
           className="flex-1 flex justify-center text-[#181717]"
           href={GITHUB_LINK}
         >
-          <span className="inline-block icon-[mingcute--github-fill] text-2xl"></span>
+          <span className="inline-block i-mingcute-github-fill text-2xl"></span>
         </UniLink>
       )}
       {DISCORD_LINK && (
@@ -53,7 +53,7 @@ export default async function PromotionLinks({
           className="flex-1 flex justify-center text-[#7289da]"
           href={DISCORD_LINK}
         >
-          <span className="inline-block icon-[mingcute--discord-fill] text-2xl"></span>
+          <span className="inline-block i-mingcute-discord-fill text-2xl"></span>
         </UniLink>
       )}
       {TWITTER_LINK && (
@@ -61,7 +61,7 @@ export default async function PromotionLinks({
           className="flex-1 flex justify-center text-[#1DA1F2]"
           href={TWITTER_LINK}
         >
-          <span className="inline-block icon-[mingcute--twitter-fill] text-2xl"></span>
+          <span className="inline-block i-mingcute-twitter-fill text-2xl"></span>
         </UniLink>
       )}
     </div>

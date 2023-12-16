@@ -9,7 +9,7 @@ const action = (view: EditorView) => {
 export const Underline: ICommand = {
   name: "underline",
   label: "Underline",
-  icon: "icon-[mingcute--underline-line]",
+  icon: "i-mingcute-underline-line",
   execute: ({ view }) => {
     action(view)
   },

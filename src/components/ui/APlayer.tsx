@@ -88,7 +88,7 @@ const APlayer = memo(function APlayer({
               onClick={playNow}
               className="p-2 rounded-full bg-accent opacity-90 hover:opacity-100 transition-opacity"
             >
-              <i className="icon-[mingcute--play-fill] block text-4xl text-white" />
+              <i className="i-mingcute-play-fill block text-4xl text-white" />
             </button>
           </Tooltip>
         </div>
@@ -100,7 +100,7 @@ const APlayer = memo(function APlayer({
               onClick={addToList}
               className="p-2 rounded-full bg-gray-50 hover:bg-gray-100"
             >
-              <i className="icon-[mingcute--calendar-add-line] block text-2xl" />
+              <i className="i-mingcute-calendar-add-line block text-2xl" />
             </button>
           </Tooltip>
         </div>
