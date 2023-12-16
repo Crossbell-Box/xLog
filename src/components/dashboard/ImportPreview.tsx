@@ -48,7 +48,7 @@ export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
         <div
           className={cn(
             "absolute bottom-0 h-20 inset-x-0 bg-gradient-to-t from-white via-white z-40 flex items-end justify-center font-bold cursor-pointer",
-            showcaseMore ? "hidden" : "",
+            showcaseMore && "hidden",
           )}
           onClick={() => setShowcaseMore(true)}
         >

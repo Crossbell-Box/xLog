@@ -391,9 +391,10 @@ export default function PostEditor() {
         ) : (
           <>
             <header
-              className={`flex justify-between absolute top-0 inset-x-0 z-[25] px-5 h-14 border-b items-center text-sm${
-                isMobileLayout ? "w-screen" : undefined
-              }`}
+              className={cn(
+                "flex justify-between absolute top-0 inset-x-0 z-[25] px-5 h-14 border-b items-center text-sm",
+                isMobileLayout && "w-screen",
+              )}
             >
               <div
                 className={`flex items-center overflow-x-auto scrollbar-hide ${
