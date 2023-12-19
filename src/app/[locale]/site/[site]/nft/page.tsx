@@ -1,18 +1,16 @@
-import { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import getQueryClient from "~/lib/query-client"
+import { withHrefLang } from "~/lib/with-hreflang"
 import { fetchGetSite, getNFTs } from "~/queries/site.server"
 
-export async function generateMetadata({
-  params,
-}: {
+export const generateMetadata = withHrefLang<{
   params: {
     site: string
   }
-}): Promise<Metadata> {
+}>(async ({ params }) => {
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
@@ -22,7 +20,7 @@ export async function generateMetadata({
   return {
     title,
   }
-}
+})
 
 export default async function SiteNFTPage({
   params,

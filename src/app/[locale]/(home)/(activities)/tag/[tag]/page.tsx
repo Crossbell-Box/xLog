@@ -1,4 +1,3 @@
-import { Metadata } from "next"
 import { getLocale } from "next-intl/server"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
@@ -8,19 +7,16 @@ import ParticipateButton from "~/components/home/ParticipateButton"
 import { APP_NAME } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
 import { Language } from "~/lib/types"
+import { withHrefLang } from "~/lib/with-hreflang"
 import { prefetchGetFeed } from "~/queries/home.server"
 
-export function generateMetadata({
-  params,
-}: {
+export const generateMetadata = withHrefLang<{
   params: {
     tag: string
   }
-}): Metadata {
-  return {
-    title: `Tag: ${params.tag} - ${APP_NAME}`,
-  }
-}
+}>(async ({ params }) => ({
+  title: `Tag: ${params.tag} - ${APP_NAME}`,
+}))
 
 export default async function Tag({
   params,

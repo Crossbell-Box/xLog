@@ -1,12 +1,11 @@
-import { Metadata } from "next"
-
 import { HomeActivitiesTabs } from "~/components/home/HomeActivitiesTabs"
 import { HomeSidebar } from "~/components/home/HomeSidebar"
 import { APP_NAME } from "~/lib/env"
+import { withHrefLang } from "~/lib/with-hreflang"
 
-export const metadata: Metadata = {
+export const generateMetadata = withHrefLang(async () => ({
   title: `Activities - ${APP_NAME}`,
-}
+}))
 
 export default async function ActivitiesLayout({
   children,
