@@ -11,8 +11,17 @@ import { useGetSite } from "~/queries/site"
 import { Time } from "../common/Time"
 import PostCover from "../home/PostCover"
 import { Avatar } from "./Avatar"
+import { UniLink } from "./UniLink"
 
-const XLogShorts: FC<{ slug: string; handle: string }> = ({ slug, handle }) => {
+interface Props {
+  slug: string
+  handle: string
+  url: string
+}
+
+const XLogShorts: FC<Props> = ({ slug, handle, url }) => {
+  const [isExpanded, setIsExpanded] = React.useState(false)
+
   const locale = useLocale() as Language
   // https://xlog.app/site/lca/JOoXQKAtZYYFrnzntDlJ6?content_type=shorts
   const site = useGetSite(handle)
@@ -30,21 +39,31 @@ const XLogShorts: FC<{ slug: string; handle: string }> = ({ slug, handle }) => {
     .filter(Boolean)
 
   const isMobile = isMobileDevice()
-  const [isExpanded, setIsExpanded] = React.useState(false)
+  const isShort = !!page.data?.metadata?.content?.tags?.includes("short")
 
-  const toggleExpand = useCallback(() => {
-    setIsExpanded((prev) => !prev)
-  }, [])
+  const toggleExpand = useCallback(
+    (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      e.stopPropagation()
+      setIsExpanded((prev) => !prev)
+    },
+    [],
+  )
+
+  const handleRedirect = useCallback(() => {
+    window.open(url, "_blank")
+  }, [url])
 
   if (page.isLoading) return <div>Loading...</div>
 
+  if (!isShort) return <UniLink href={url}>{url}</UniLink>
+
   return (
     <div
-      onClick={toggleExpand}
+      onClick={handleRedirect}
       className={cn(
         "flex flex-col md:flex-row w-full bg-zinc-50 rounded-xl p-4 gap-x-4 hover:cursor-pointer",
         isExpanded ? "sm:h-[350px]" : "sm:h-[150px]",
-        "transition-height duration-500 ease-in-out",
+        "transition-all duration-500 ease-in-out",
       )}
     >
       <div
@@ -52,7 +71,7 @@ const XLogShorts: FC<{ slug: string; handle: string }> = ({ slug, handle }) => {
         className={cn(
           "w-full h-full mb-2 sm:mb-0 align-middle flex items-center justify-center",
           isExpanded ? "sm:w-[350px]" : "sm:w-[150px]",
-          "transition-width duration-500 ease-in-out",
+          "transition-all duration-500 ease-in-out",
         )}
       >
         <PostCover
@@ -71,7 +90,11 @@ const XLogShorts: FC<{ slug: string; handle: string }> = ({ slug, handle }) => {
             </div>
           )}
           <div className="prose overflow-y-auto">
-            <p className={`line-clamp-${isExpanded || isMobile ? 6 : 1}`}>
+            <p
+              className={
+                isExpanded || isMobile ? "line-clamp-6" : "line-clamp-1"
+              }
+            >
               {page.data?.metadata?.content?.content}
             </p>
           </div>
@@ -111,11 +134,12 @@ const XLogShorts: FC<{ slug: string; handle: string }> = ({ slug, handle }) => {
 
             <i
               className={cn(
-                "i-mingcute-arrows-down-line text-xl ml-[2px] text-accent",
+                "i-mingcute-arrows-down-line text-xl ml-[2px] text-accent hover:cursor-pointer",
                 isExpanded ? "rotate-180" : "rotate-0",
                 "transition-transform duration-500 ease-in-out",
                 "hidden sm:inline-block",
               )}
+              onClick={toggleExpand}
             />
           </span>
         </div>
