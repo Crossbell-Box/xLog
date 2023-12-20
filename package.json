@@ -39,13 +39,13 @@
     "@codemirror/state": "6.3.2",
     "@codemirror/theme-one-dark": "6.1.2",
     "@codemirror/view": "6.22.1",
-    "@crossbell/connect-kit": "1.5.18",
-    "@crossbell/contract": "1.5.18",
-    "@crossbell/indexer": "1.5.18",
-    "@crossbell/notification": "1.5.18",
-    "@crossbell/ui": "1.5.18",
-    "@crossbell/util-hooks": "1.5.18",
-    "@crossbell/util-metadata": "1.5.18",
+    "@crossbell/connect-kit": "1.5.20",
+    "@crossbell/contract": "1.5.20",
+    "@crossbell/indexer": "1.5.20",
+    "@crossbell/notification": "1.5.20",
+    "@crossbell/ui": "1.5.20",
+    "@crossbell/util-hooks": "1.5.20",
+    "@crossbell/util-metadata": "1.5.20",
     "@ddietr/codemirror-themes": "1.4.2",
     "@dqbd/tiktoken": "1.0.7",
     "@emoji-mart/data": "1.1.2",
@@ -73,7 +73,7 @@
     "cheerio": "1.0.0-rc.12",
     "chroma-js": "2.4.2",
     "clsx": "2.0.0",
-    "crossbell": "1.10.0",
+    "crossbell": "1.10.1",
     "dayjs": "1.11.10",
     "dotenv": "16.3.1",
     "emoji-mart": "5.5.2",
@@ -155,10 +155,10 @@
     "unist-builder": "4.0.0",
     "unist-util-visit": "5.0.0",
     "uuid": "9.0.1",
-    "viem": "1.19.9",
-    "wagmi": "1.4.7",
+    "viem": "1.20.2",
+    "wagmi": "1.4.12",
     "xregexp": "^5.1.1",
-    "zustand": "4.4.6"
+    "zustand": "4.4.7"
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "1.7.0",
@@ -176,8 +176,8 @@
     "@types/node": "20.10.0",
     "@types/pangu": "4.0.2",
     "@types/prismjs": "1.26.3",
-    "@types/react": "18.2.38",
-    "@types/react-dom": "18.2.17",
+    "@types/react": "18.2.45",
+    "@types/react-dom": "18.2.18",
     "@types/react-infinite-scroller": "1.2.5",
     "@types/remove-markdown": "0.3.4",
     "@types/serialize-javascript": "5.0.4",
@@ -207,7 +207,7 @@
     "prisma": "5.6.0",
     "tailwindcss": "3.3.5",
     "tailwindcss-variable-colors": "0.0.2",
-    "typescript": "5.3.2"
+    "typescript": "5.3.3"
   },
   "engines": {
     "node": ">=15"
