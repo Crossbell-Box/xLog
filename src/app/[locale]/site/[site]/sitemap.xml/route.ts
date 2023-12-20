@@ -3,7 +3,7 @@ import { NextRequest } from "next/server"
 
 import { QueryClient } from "@tanstack/react-query"
 
-import { defaultLocale, locales } from "~/i18n"
+import { locales } from "~/i18n"
 import { getSiteLink } from "~/lib/helpers"
 import { NextServerResponse } from "~/lib/server-helper"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
@@ -69,7 +69,7 @@ export const GET = async (req: NextRequest) => {
       return `  <url>
       <loc>${location}</loc>
       ${hreflangLinks}
-      <xhtml:link rel="alternate" hreflang="x-default" href="${location}?locale=${defaultLocale}"/>
+      <xhtml:link rel="alternate" hreflang="x-default" href="${location}"/>
       <lastmod>${dayjs(page.updatedAt).format("YYYY-MM-DD")}</lastmod>
     </url>`
     })

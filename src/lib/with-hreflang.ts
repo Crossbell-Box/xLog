@@ -61,7 +61,7 @@ export function withHrefLang<T extends BaseProps>(
           },
           {} as Record<string, string>,
         ),
-        "x-default": redirectedPathName("en"),
+        "x-default": path,
       }
     }
 
