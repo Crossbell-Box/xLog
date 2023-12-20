@@ -3,9 +3,10 @@ import { NextRequest } from "next/server"
 
 import { QueryClient } from "@tanstack/react-query"
 
+import { defaultLocale, locales } from "~/i18n"
 import { getSiteLink } from "~/lib/helpers"
 import { NextServerResponse } from "~/lib/server-helper"
-import { PageVisibilityEnum } from "~/lib/types"
+import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"
 import { fetchGetPagesBySite } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
@@ -46,18 +47,32 @@ export const GET = async (req: NextRequest) => {
     subdomain: site?.handle || "",
     domain: site?.metadata?.content?.custom_domain,
   })
+
   return response.headers({
-    "Content-Type": "text/xml",
+    // https://stackoverflow.com/questions/3272534/what-content-type-value-should-i-send-for-my-xml-sitemap
+    "Content-Type": "application/xml",
     "Access-Control-Allow-Methods": "GET",
     "Access-Control-Allow-Origin": "*",
   }).text(`<?xml version="1.0" encoding="UTF-8"?>
-  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${pages.list?.map((page) => {
-    return `  <url>
-      <loc>${link}/${page.metadata.content.slug}</loc>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  ${pages.list
+    ?.map((page: ExpandedNote) => {
+      const location = `${link}/${page.metadata.content.slug}`
+
+      // https://developers.google.com/search/docs/specialty/international/localized-versions#example_2
+      const hreflangLinks = locales
+        .map((locale) => {
+          return `<xhtml:link rel="alternate" hreflang="${locale}" href="${location}?locale=${locale}"/>`
+        })
+        .join("\n")
+
+      return `  <url>
+      <loc>${location}</loc>
+      ${hreflangLinks}
+      <xhtml:link rel="alternate" hreflang="x-default" href="${location}?locale=${defaultLocale}"/>
       <lastmod>${dayjs(page.updatedAt).format("YYYY-MM-DD")}</lastmod>
     </url>`
-  }).join(`
-  `)}
+    })
+    .join("\n")}
   </urlset>`)
 }
