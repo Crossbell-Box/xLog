@@ -1,4 +1,3 @@
-import { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages, unstable_setRequestLocale } from "next-intl/server"
 import { headers } from "next/headers"
@@ -29,7 +28,9 @@ import "remark-github-alerts/styles/github-colors-dark-class.css"
 import "remark-github-alerts/styles/github-base.css"
 import "~/css/main.css"
 
-export const metadata: Metadata = {
+import { withHrefLang } from "~/lib/with-hreflang"
+
+export const generateMetadata = withHrefLang(async () => ({
   title: `${APP_NAME} - ${APP_SLOGAN}`,
   description: APP_DESCRIPTION,
   applicationName: APP_NAME,
@@ -94,7 +95,7 @@ export const metadata: Metadata = {
     site: "@_xLog",
     creator: "@_xLog",
   },
-}
+}))
 
 export default async function RootLayout({
   children,

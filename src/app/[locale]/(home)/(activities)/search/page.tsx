@@ -1,4 +1,3 @@
-import { Metadata } from "next"
 import { getLocale } from "next-intl/server"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
@@ -8,19 +7,12 @@ import { HomeFeed } from "~/components/home/HomeFeed"
 import { APP_NAME } from "~/lib/env"
 import getQueryClient from "~/lib/query-client"
 import { Language } from "~/lib/types"
+import { withHrefLang } from "~/lib/with-hreflang"
 import { prefetchGetFeed } from "~/queries/home.server"
 
-export function generateMetadata({
-  searchParams,
-}: {
-  searchParams: {
-    [key: string]: string | string[] | undefined
-  }
-}): Metadata {
-  return {
-    title: `Search: ${searchParams.q} - ${APP_NAME}`,
-  }
-}
+export const generateMetadata = withHrefLang(async ({ searchParams }) => ({
+  title: `Search: ${searchParams?.q} - ${APP_NAME}`,
+}))
 
 export default async function Search({
   searchParams,

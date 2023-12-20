@@ -1,20 +1,17 @@
-import { Metadata } from "next"
-
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
 import SiteHome from "~/components/site/SiteHome"
 import getQueryClient from "~/lib/query-client"
 import { PageVisibilityEnum } from "~/lib/types"
+import { withHrefLang } from "~/lib/with-hreflang"
 import { prefetchGetPagesBySite } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
-export async function generateMetadata({
-  params,
-}: {
+export const generateMetadata = withHrefLang<{
   params: {
     site: string
   }
-}): Promise<Metadata> {
+}>(async ({ params }) => {
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
@@ -24,7 +21,7 @@ export async function generateMetadata({
   return {
     title,
   }
-}
+})
 
 async function SitePortfoliosPage({
   params,

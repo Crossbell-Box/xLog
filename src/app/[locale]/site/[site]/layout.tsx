@@ -1,4 +1,3 @@
-import { Metadata } from "next"
 import { headers } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 
@@ -18,6 +17,7 @@ import { isOnlyContent, searchParser } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
 import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
+import { withHrefLang } from "~/lib/with-hreflang"
 import { fetchGetPage } from "~/queries/page.server"
 import {
   fetchGetSite,
@@ -26,13 +26,11 @@ import {
   prefetchGetSiteToSubscriptions,
 } from "~/queries/site.server"
 
-export async function generateMetadata({
-  params,
-}: {
+export const generateMetadata = withHrefLang<{
   params: {
     site: string
   }
-}): Promise<Metadata> {
+}>(async ({ params }) => {
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
@@ -80,7 +78,7 @@ export async function generateMetadata({
       creator: twitterCreator,
     },
   }
-}
+})
 
 export default async function SiteLayout({
   children,

@@ -1,6 +1,8 @@
 import { getRequestConfig } from "next-intl/server"
 
-export const locales = ["en", "ja", "zh", "zh-TW"] as const
+import { Language } from "./lib/types"
+
+export const locales: Language[] = ["en", "ja", "zh", "zh-TW"]
 export const languageNames: Record<(typeof locales)[number], string> = {
   en: "English",
   ja: "Japanese",

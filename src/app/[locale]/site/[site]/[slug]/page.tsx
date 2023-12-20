@@ -1,4 +1,3 @@
-import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import serialize from "serialize-javascript"
@@ -18,17 +17,16 @@ import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
 import { Language } from "~/lib/types"
+import { withHrefLang } from "~/lib/with-hreflang"
 import { fetchGetPage, getSummary } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
-export async function generateMetadata({
-  params,
-}: {
+export const generateMetadata = withHrefLang<{
   params: {
     site: string
     slug: string
   }
-}): Promise<Metadata> {
+}>(async ({ params }) => {
   const queryClient = getQueryClient()
   const locale = (await getLocale()) as Language
   const site = await fetchGetSite(params.site, queryClient)
@@ -76,7 +74,7 @@ export async function generateMetadata({
       creator: twitterCreator ? `@${twitterCreator}` : undefined,
     },
   }
-}
+})
 
 export default async function SitePagePage({
   params,
