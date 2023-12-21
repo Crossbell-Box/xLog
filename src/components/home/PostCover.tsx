@@ -15,11 +15,13 @@ export default function PostCover({
   title,
   uniqueKey,
   className,
+  imgClassName,
 }: {
   images?: string[]
   title?: string
   uniqueKey?: string
   className?: string
+  imgClassName?: string
 }) {
   return (
     <>
@@ -47,7 +49,10 @@ export default function PostCover({
                 <SwiperSlide key={image}>
                   <div className="text-[0px] w-full h-full">
                     <Image
-                      className="object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out bg-white"
+                      className={cn(
+                        "object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out bg-white",
+                        imgClassName,
+                      )}
                       alt="cover"
                       src={image}
                       width={624}
