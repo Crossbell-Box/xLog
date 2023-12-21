@@ -186,8 +186,8 @@ dependencies:
     specifier: 0.16.9
     version: 0.16.9
   langchain:
-    specifier: 0.0.210
-    version: 0.0.210(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0)
+    specifier: 0.0.211
+    version: 0.0.211(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -8981,8 +8981,8 @@ packages:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
 
-  /langchain@0.0.210(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0):
-    resolution: {integrity: sha512-5DTf3VlsTVV+I4aQ8sj6DPYaHjT1cgYYlXNMVrQ7/2oG2b3CFBUbH4svn+LVc0aoZx5yneIY71PGaMVh4nYJHA==}
+  /langchain@0.0.211(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0):
+    resolution: {integrity: sha512-vSuFAcgnj5uwh3ARpX2JiaywQSpK4IdwbkJTYC1xS3Gd79iUYiF8pyC1iuh0lMLmsjIimOQBNXI2kwtwa9gy7g==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
@@ -9016,7 +9016,7 @@ packages:
       ignore: ^5.2.0
       ioredis: ^5.3.2
       jsdom: '*'
-      mammoth: '*'
+      mammoth: ^1.6.0
       mongodb: ^5.2.0
       node-llama-cpp: '*'
       notion-to-md: ^3.1.0
