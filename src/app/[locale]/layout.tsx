@@ -1,3 +1,11 @@
+import "@crossbell/connect-kit/colors.css"
+import "@mantine/core/styles.css"
+import "remark-github-alerts/styles/github-colors-light.css"
+import "remark-github-alerts/styles/github-colors-dark-class.css"
+import "remark-github-alerts/styles/github-base.css"
+import "~/css/main.css"
+
+import { Viewport } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages, unstable_setRequestLocale } from "next-intl/server"
 import { headers } from "next/headers"
@@ -17,18 +25,14 @@ import {
   UMAMI_SCRIPT,
 } from "~/lib/env"
 import { getColorScheme } from "~/lib/get-color-scheme"
+import { withHrefLang } from "~/lib/with-hreflang"
 
 import { ColorSchemeInjector } from "./ColorSchemeInjector"
 import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
 
-import "@crossbell/connect-kit/colors.css"
-import "@mantine/core/styles.css"
-import "remark-github-alerts/styles/github-colors-light.css"
-import "remark-github-alerts/styles/github-colors-dark-class.css"
-import "remark-github-alerts/styles/github-base.css"
-import "~/css/main.css"
-
-import { withHrefLang } from "~/lib/with-hreflang"
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+}
 
 export const generateMetadata = withHrefLang(async () => ({
   title: `${APP_NAME} - ${APP_SLOGAN}`,
@@ -44,7 +48,6 @@ export const generateMetadata = withHrefLang(async () => ({
     "dapp",
     "crypto",
   ],
-  themeColor: "#ffffff",
   alternates: {
     types: {
       "application/rss+xml": [
