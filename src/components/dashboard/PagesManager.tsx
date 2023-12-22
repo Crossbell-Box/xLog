@@ -25,6 +25,7 @@ import { cn } from "~/lib/utils"
 import { useGetPagesBySite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
+import { Loading } from "../common/Loading"
 import { PlatformsSyncMap } from "../site/Platform"
 import { Button } from "../ui/Button"
 import { EmptyState } from "../ui/EmptyState"
@@ -317,7 +318,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
       )}
 
       <div className="-mt-3">
-        {pages.isLoading && <p className="py-4 px-3">{t("Loading")}...</p>}
+        {pages.isLoading && <Loading />}
         {!pages.isLoading && !pages.data?.pages?.[0].count && (
           <EmptyState resource={type} />
         )}

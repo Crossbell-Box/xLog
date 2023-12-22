@@ -8,6 +8,8 @@ import { NoteType, PagesSortTypes, PageVisibilityEnum } from "~/lib/types"
 import { useGetPagesBySiteLite, usePinnedPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
+import { Loading } from "../common/Loading"
+
 export default function SiteHome({
   handle,
   type,
@@ -70,7 +72,7 @@ export default function SiteHome({
   return (
     <>
       <Tabs items={tabs} className="mb-6" type="rounded" />
-      {!posts.data?.pages?.length && posts.isLoading && <>Loading...</>}
+      {!posts.data?.pages?.length && posts.isLoading && <Loading />}
       <PostList
         posts={posts}
         pinnedNoteId={pinnedPage.noteId}

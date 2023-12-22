@@ -50,13 +50,7 @@ import { useIsDark } from "~/hooks/useDarkMode"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
 
-const LoadingHolder = () => {
-  return (
-    <div className="flex-1 h-12 flex items-center justify-center">
-      Loading...
-    </div>
-  )
-}
+import { Loading } from "../common/Loading"
 
 interface XLogCodeMirrorEditorProps {
   value?: string
@@ -229,7 +223,7 @@ const CodeMirrorEditor = forwardRef<
         (props.LoadingComponent ? (
           createElement(props.LoadingComponent)
         ) : (
-          <LoadingHolder />
+          <Loading className="flex-1 h-12" />
         ))}
     </>
   )
