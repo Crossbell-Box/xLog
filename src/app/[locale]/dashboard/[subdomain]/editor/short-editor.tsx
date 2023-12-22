@@ -8,6 +8,7 @@ import toast from "react-hot-toast"
 
 import { useQueryClient } from "@tanstack/react-query"
 
+import { Loading } from "~/components/common/Loading"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import EditorContent from "~/components/dashboard/editor-properties/EditorContent"
 import EditorImages from "~/components/dashboard/editor-properties/EditorImages"
@@ -249,9 +250,7 @@ export default function ShortEditor() {
     <>
       <DashboardMain className="max-w-screen-lg" title="Edit short">
         {page.isLoading ? (
-          <div className="flex justify-center items-center min-h-[300px]">
-            {t("Loading")}...
-          </div>
+          <Loading className="min-h-[300px]" />
         ) : (
           <>
             <EditorExtraProperties updateValue={updateValue} />

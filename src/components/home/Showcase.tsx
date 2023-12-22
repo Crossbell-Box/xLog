@@ -12,6 +12,8 @@ import { getSiteLink } from "~/lib/helpers"
 import { cn } from "~/lib/utils"
 import { useGetShowcase } from "~/queries/home"
 
+import { Loading } from "../common/Loading"
+
 export function ShowCase() {
   const showcaseSites = useGetShowcase()
   const [showcaseMore, setShowcaseMore] = useState(false)
@@ -28,7 +30,7 @@ export function ShowCase() {
           .map(Number)}
         siteIds={showcaseSites.data?.map((s: { handle: string }) => s.handle)}
       />
-      {showcaseSites.isLoading && <p className="mt-10">{t("Loading")}...</p>}
+      {showcaseSites.isLoading && <Loading className="mt-10" />}
       <ul
         className={`pt-10 grid grid-cols-2 md:grid-cols-3 gap-10 overflow-y-hidden relative text-left ${
           showcaseMore ? "" : "max-h-[540px]"

@@ -9,6 +9,7 @@ import toast from "react-hot-toast"
 import type { EditorView } from "@codemirror/view"
 import { useQueryClient } from "@tanstack/react-query"
 
+import { Loading } from "~/components/common/Loading"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import DualColumnEditor from "~/components/dashboard/DualColumnEditor"
 import EditorCover from "~/components/dashboard/editor-properties/EditorCover"
@@ -385,9 +386,7 @@ export default function PostEditor() {
     <>
       <DashboardMain fullWidth>
         {page.isLoading ? (
-          <div className="flex justify-center items-center min-h-[300px]">
-            {t("Loading")}...
-          </div>
+          <Loading className="min-h-[300px]" />
         ) : (
           <>
             <header

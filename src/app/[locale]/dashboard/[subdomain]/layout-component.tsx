@@ -16,6 +16,7 @@ import {
 } from "@crossbell/notification"
 
 import { ConnectButton } from "~/components/common/ConnectButton"
+import { Loading } from "~/components/common/Loading"
 import { Logo } from "~/components/common/Logo"
 import { DashboardTopbar } from "~/components/dashboard/DashboardTopbar"
 import { Avatar } from "~/components/ui/Avatar"
@@ -444,8 +445,6 @@ export default function DashboardLayout({
       </div>
     )
   ) : (
-    <div className="w-screen h-screen flex justify-center items-center">
-      Loading...
-    </div>
+    <Loading className="w-screen h-screen" />
   )
 }

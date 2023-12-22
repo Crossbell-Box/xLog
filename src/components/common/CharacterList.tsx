@@ -7,6 +7,7 @@ import { ExpandedCharacter } from "~/lib/types"
 
 import { Button } from "../ui/Button"
 import CharacterListItem from "./CharacterListItem"
+import { Loading } from "./Loading"
 import { PortalProvider } from "./Portal"
 
 export const CharacterList = ({
@@ -57,7 +58,7 @@ export const CharacterList = ({
             className="max-h-screen"
             endReached={() => hasMore && loadMore()}
             components={{
-              Footer: hasMore ? Loader : undefined,
+              Footer: hasMore ? Loading : undefined,
             }}
             data={flattenList}
             itemContent={(index, sub) => {
@@ -87,14 +88,5 @@ export const CharacterList = ({
         </Button>
       </div>
     </Modal>
-  )
-}
-
-const Loader = () => {
-  const t = useTranslations()
-  return (
-    <div className="text-sm py-3 text-center" key={0}>
-      {t("Loading")} ...
-    </div>
   )
 }

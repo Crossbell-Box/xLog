@@ -13,15 +13,13 @@ import { useUploadFile } from "~/hooks/useUploadFile"
 import { cn } from "~/lib/utils"
 import { Rendered, renderPageContent } from "~/markdown"
 
+import { Loading } from "../common/Loading"
+
 const DynamicCodeMirrorEditor = dynamic(
   () => import("~/components/ui/CodeMirror"),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex-1 h-12 flex items-center justify-center">
-        Loading...
-      </div>
-    ),
+    loading: () => <Loading className="flex-1 h-12" />,
   },
 )
 
@@ -29,11 +27,7 @@ const DynamicPageContent = dynamic(
   () => import("~/components/common/PageContent"),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex-1 h-12 flex items-center justify-center">
-        Loading...
-      </div>
-    ),
+    loading: () => <Loading className="flex-1 h-12" />,
   },
 )
 

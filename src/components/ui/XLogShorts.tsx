@@ -8,6 +8,7 @@ import { cn, isMobileDevice } from "~/lib/utils"
 import { useGetPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
+import { Loading } from "../common/Loading"
 import { Time } from "../common/Time"
 import PostCover from "../home/PostCover"
 import { Avatar } from "./Avatar"
@@ -53,7 +54,7 @@ const XLogShorts: FC<Props> = ({ slug, handle, url }) => {
     window.open(url, "_blank")
   }, [url])
 
-  if (page.isLoading) return <div>Loading...</div>
+  if (page.isLoading) return <Loading />
 
   if (!isShort) return <UniLink href={url}>{url}</UniLink>
 
