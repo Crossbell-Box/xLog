@@ -12,7 +12,6 @@ import { Loading } from "../common/Loading"
 import { Time } from "../common/Time"
 import PostCover from "../home/PostCover"
 import { Avatar } from "./Avatar"
-import { UniLink } from "./UniLink"
 
 interface Props {
   slug: string
@@ -20,7 +19,7 @@ interface Props {
   url: string
 }
 
-const XLogShorts: FC<Props> = ({ slug, handle, url }) => {
+const XLogPost: FC<Props> = ({ slug, handle, url }) => {
   const [isExpanded, setIsExpanded] = React.useState(false)
 
   const locale = useLocale() as Language
@@ -37,6 +36,7 @@ const XLogShorts: FC<Props> = ({ slug, handle, url }) => {
   const images = page.data?.metadata?.content?.attachments
     ?.filter((attachment) => attachment.name === "image")
     .map((img) => img.address || "")
+    .concat(page.data.metadata.content.images ?? [])
     .filter(Boolean)
 
   const isMobile = isMobileDevice()
@@ -56,13 +56,11 @@ const XLogShorts: FC<Props> = ({ slug, handle, url }) => {
 
   if (page.isLoading) return <Loading />
 
-  if (!isShort) return <UniLink href={url}>{url}</UniLink>
-
   return (
     <div
       onClick={handleRedirect}
       className={cn(
-        "flex flex-col md:flex-row w-full bg-zinc-50 rounded-xl p-4 gap-x-4 hover:cursor-pointer",
+        "flex flex-col md:flex-row w-full bg-zinc-50 rounded-xl p-4 gap-x-4 hover:cursor-pointer my-2",
         isExpanded ? "sm:h-[350px]" : "sm:h-[150px]",
         "transition-all duration-500 ease-in-out",
       )}
@@ -96,7 +94,9 @@ const XLogShorts: FC<Props> = ({ slug, handle, url }) => {
                 isExpanded || isMobile ? "line-clamp-6" : "line-clamp-1"
               }
             >
-              {page.data?.metadata?.content?.content}
+              {isShort
+                ? page.data?.metadata?.content?.content
+                : page.data?.metadata?.content?.summary}
             </p>
           </div>
         </div>
@@ -149,4 +149,4 @@ const XLogShorts: FC<Props> = ({ slug, handle, url }) => {
   )
 }
 
-export default XLogShorts
+export default XLogPost

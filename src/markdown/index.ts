@@ -57,7 +57,7 @@ const Style = dynamic(() => import("~/components/common/Style"))
 const Mention = dynamic(() => import("~/components/ui/Mention"))
 const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
 const GithubRepo = dynamic(() => import("~/components/ui/GithubRepo"))
-const XLogShorts = dynamic(() => import("~/components/ui/XLogShorts"))
+const XLogPost = dynamic(() => import("~/components/ui/XLogPost"))
 const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"))
@@ -234,7 +234,7 @@ export const renderPageContent = (
           audio: APlayer,
           video: DPlayer,
           "github-repo": GithubRepo,
-          "xlog-shorts": XLogShorts,
+          "xlog-post": XLogPost,
           style: Style,
         } as any,
       })
