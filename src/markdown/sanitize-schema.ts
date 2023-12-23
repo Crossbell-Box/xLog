@@ -47,7 +47,7 @@ const scheme = deepmerge(defaultSchema, {
     circle: ["cx", "cy", "r", "fill"],
   },
   protocols: {
-    href: ["magnet"],
+    href: ["magnet", "ed2k"],
   },
 })
 
