@@ -28,7 +28,7 @@ function getParamsFromShortsURL(url: URL) {
   return { slug, handle }
 }
 
-export const XLogShortsTransformer: Transformer = {
+export const XLogPostTransformer: Transformer = {
   name: "XLogShorts",
   shouldTransform(url) {
     return !!getParamsFromShortsURL(url)
@@ -36,6 +36,6 @@ export const XLogShortsTransformer: Transformer = {
   getHTML(url) {
     const { slug, handle } = getParamsFromShortsURL(url)!
 
-    return `<xlog-shorts slug="${slug}" handle="${handle}" url="${url.toString()}"/>`
+    return `<xlog-post slug="${slug}" handle="${handle}" url="${url.toString()}"/>`
   },
 }
