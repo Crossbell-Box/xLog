@@ -2,7 +2,6 @@ import deepmerge from "deepmerge"
 import { defaultSchema } from "rehype-sanitize"
 
 const scheme = deepmerge(defaultSchema, {
-  ...defaultSchema,
   tagNames: [
     "video",
     "iframe",
