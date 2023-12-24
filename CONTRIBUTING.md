@@ -10,7 +10,7 @@ https://docs.github.com/en/get-started/quickstart/fork-a-repo
 
 ## Requirements
 
-- [Node.js](https://nodejs.org). Version needs to be >=15.
+- [Node.js](https://nodejs.org) 18.17 or later.
 - [pnpm](https://pnpm.io/) package manager.
 - [Docker](https://www.docker.com/) for running the cache database.
 
