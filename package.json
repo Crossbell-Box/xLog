@@ -211,7 +211,7 @@
     "typescript": "5.3.3"
   },
   "engines": {
-    "node": ">=15"
+    "node": ">=18.17.0"
   },
   "nextBundleAnalysis": {
     "budget": 358400,
