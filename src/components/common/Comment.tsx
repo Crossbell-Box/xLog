@@ -11,6 +11,8 @@ import { ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { useGetComments } from "~/queries/page"
 
+import { Loading } from "./Loading"
+
 const Comment = ({
   page,
   className,
@@ -64,7 +66,7 @@ const Comment = ({
         data={data}
         endReached={() => comments.hasNextPage && comments.fetchNextPage()}
         components={{
-          Footer: comments.isLoading ? Loader : undefined,
+          Footer: comments.isLoading ? Loading : undefined,
         }}
         totalListHeightChanged={(height) => {
           if (fixHeight && height > 0) {
@@ -89,23 +91,7 @@ const Comment = ({
           ))
         }
       ></Virtuoso>
-      {comments.isLoading && (
-        <div className="relative mt-4 w-full text-sm text-center py-4">
-          {t("Loading")}...
-        </div>
-      )}
-    </div>
-  )
-}
-
-const Loader = () => {
-  const t = useTranslations()
-  return (
-    <div
-      className="relative mt-4 w-full text-sm text-center py-4"
-      key={"loading"}
-    >
-      {t("Loading")}...
+      {comments.isLoading && <Loading />}
     </div>
   )
 }

@@ -7,6 +7,8 @@ import PostList from "~/components/site/PostList"
 import { useGetSearchPagesBySite } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
+import { Loading } from "../common/Loading"
+
 export const SiteSearch = () => {
   const t = useTranslations()
 
@@ -24,7 +26,7 @@ export const SiteSearch = () => {
       <h2 className="mb-8 mt-5 text-zinc-500">
         {posts.data?.pages?.[0].count || "0"} {t("results")}
       </h2>
-      {posts.isLoading && <>{t("Loading")}...</>}
+      {posts.isLoading && <Loading />}
       <PostList posts={posts} keyword={keyword} />
     </>
   )

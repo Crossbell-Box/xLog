@@ -8,6 +8,7 @@ import { VirtuosoGrid } from "react-virtuoso"
 import { useAccountState, useConnectModal } from "@crossbell/connect-kit"
 import { Switch } from "@headlessui/react"
 
+import { Loading } from "~/components/common/Loading"
 import PostCard from "~/components/common/PostCard"
 import { EmptyState } from "~/components/ui/EmptyState"
 import { Skeleton } from "~/components/ui/Skeleton"
@@ -245,23 +246,11 @@ export const HomeFeed = ({ type }: { type?: FeedType }) => {
               }}
             ></VirtuosoGrid>
 
-            {feed.isFetching && feed.hasNextPage && isMounted && <Loader />}
+            {feed.isFetching && feed.hasNextPage && isMounted && <Loading />}
           </div>
         )}
       </div>
     </>
-  )
-}
-
-const Loader = () => {
-  const t = useTranslations()
-  return (
-    <div
-      className="relative w-full text-sm text-center py-4 mt-12"
-      key={"loading"}
-    >
-      {t("Loading")} ...
-    </div>
   )
 }
 

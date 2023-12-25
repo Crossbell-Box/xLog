@@ -157,7 +157,7 @@ export default function SubdomainIndex() {
                 </UniLink>
               </li>
             </ul>
-            {t.rich("hello.tips", {
+            {t.rich("hello.community", {
               p: (chunks) => <p>{chunks}</p>,
             })}
             <ul

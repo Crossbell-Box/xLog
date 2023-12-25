@@ -6,6 +6,7 @@ import { useEffect } from "react"
 import { Virtuoso } from "react-virtuoso"
 
 import { CommentItem } from "~/components/common/CommentItem"
+import { Loading } from "~/components/common/Loading"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { UniLink } from "~/components/ui/UniLink"
 import { getSiteLink } from "~/lib/helpers"
@@ -65,7 +66,7 @@ export default function CommentsPage() {
                 comments.hasNextPage && comments.fetchNextPage()
               }
               components={{
-                Footer: comments.isLoading ? Loader : undefined,
+                Footer: comments.isLoading ? Loading : undefined,
               }}
               itemContent={(_, p) =>
                 p?.list?.map((comment, idx) => {
@@ -123,17 +124,5 @@ export default function CommentsPage() {
         </div>
       </div>
     </DashboardMain>
-  )
-}
-
-const Loader = () => {
-  const t = useTranslations()
-  return (
-    <div
-      className="relative mt-4 w-full text-sm text-center py-4"
-      key={"loading"}
-    >
-      {t("Loading")}...
-    </div>
   )
 }

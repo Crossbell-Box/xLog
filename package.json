@@ -75,6 +75,7 @@
     "clsx": "2.0.0",
     "crossbell": "1.10.1",
     "dayjs": "1.11.10",
+    "deepmerge": "^4.3.1",
     "dotenv": "16.3.1",
     "emoji-mart": "5.5.2",
     "fast-average-color": "9.4.0",
@@ -210,7 +211,7 @@
     "typescript": "5.3.3"
   },
   "engines": {
-    "node": ">=15"
+    "node": ">=18.17.0"
   },
   "nextBundleAnalysis": {
     "budget": 358400,

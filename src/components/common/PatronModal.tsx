@@ -17,6 +17,7 @@ import { ModalContentProps, useModalStack } from "../ui/ModalStack"
 import { Tabs } from "../ui/Tabs"
 import { UniLink } from "../ui/UniLink"
 import { CharacterFloatCard } from "./CharacterFloatCard"
+import { Loading } from "./Loading"
 
 export const usePatronModal = () => {
   const { present } = useModalStack()
@@ -179,7 +180,7 @@ const PatronModal = ({
           </div>
           <div className="text-zinc-500 text-sm mt-2">
             {tips.isLoading ? (
-              "Loading..."
+              <Loading />
             ) : tips.data?.pages?.[0]?.list?.length ? (
               <>
                 <ul className="flex items-center justify-center">

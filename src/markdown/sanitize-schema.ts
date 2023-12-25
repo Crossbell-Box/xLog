@@ -1,9 +1,8 @@
+import deepmerge from "deepmerge"
 import { defaultSchema } from "rehype-sanitize"
 
-const scheme = {
-  ...defaultSchema,
+const scheme = deepmerge(defaultSchema, {
   tagNames: [
-    ...(defaultSchema.tagNames || []),
     "video",
     "iframe",
     "style",
@@ -18,8 +17,7 @@ const scheme = {
     ...["svg", "path", "circle"],
   ],
   attributes: {
-    ...defaultSchema.attributes,
-    "*": [...(defaultSchema.attributes?.["*"] || []), "className", "style"],
+    "*": ["className", "style"],
     video: ["src", "controls", "loop", "muted", "autoPlay", "playsInline"],
     audio: [
       "src",
@@ -48,6 +46,9 @@ const scheme = {
     path: ["d", "fill"],
     circle: ["cx", "cy", "r", "fill"],
   },
-}
+  protocols: {
+    href: ["magnet", "ed2k"],
+  },
+})
 
 export default scheme
