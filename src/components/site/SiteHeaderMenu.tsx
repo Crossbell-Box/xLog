@@ -89,7 +89,7 @@ export const SiteHeaderMenu = ({
           />
         </div>
       ),
-      url: `/feed`,
+      url: "/feed?format=json",
     },
     {
       text: "Subscribe to RSS",
