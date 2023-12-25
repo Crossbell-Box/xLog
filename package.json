@@ -156,7 +156,7 @@
     "unist-builder": "4.0.0",
     "unist-util-visit": "5.0.0",
     "uuid": "9.0.1",
-    "viem": "1.20.3",
+    "viem": "1.21.0",
     "wagmi": "1.4.12",
     "xregexp": "^5.1.1",
     "zustand": "4.4.7"
