@@ -41,7 +41,6 @@ const translationChains = new Map<ChainKeyType, LLMChain>()
 const getOriginalTranslation = async (
   cid: string,
   targetLang: Language,
-  originalLang?: Language,
 ): Promise<ContentTranslation | undefined> => {
   if (!translationModel4K || !translationModel16K) return
 
@@ -49,14 +48,6 @@ const getOriginalTranslation = async (
     const { title, content } = await (
       await fetch(toGateway(`ipfs://${cid}`))
     ).json()
-
-    // If the detected language is the same as the target language, return the original content
-    if (originalLang === targetLang) {
-      console.warn(
-        `|__ Warn: Detected language is the same as the target language, return the original content: ${cid}, ${targetLang}`,
-      )
-      return
-    }
 
     console.time(`fetching translation ${cid}, ${targetLang}`)
     const { modelSize, tokens } = llmModelSwitcherByTextLength(content, {
@@ -74,13 +65,25 @@ const getOriginalTranslation = async (
 
     if (!chain) {
       const template = `
-Translate the following text and don't translate the Markdown syntax or tags.
+You are a Markdown translation expert. During the translation process, you need to pay special attention to maintaining the integrity of all Markdown syntax and tags, and not changing the function of HTML tags, to ensure that the translated content does not affect the rendering of any syntax or tags. Please follow the following rules to translate:
 
-Original text:
+1. Identify and translate text content: Only identify and translate plain text content in Markdown, including text in headings, paragraphs, and list items.
+
+2. Retain tags and attributes: When encountering HTML tags (such as <img>, <video>, <a>, etc.), please only translate the user-visible text in the tags (such as the text in the alt attribute), and retain all tags, attribute names and link addresses unchanged.
+
+3. Special syntax processing: For Markdown-specific syntax (such as link, image tag ![alt text](link)), only translate the descriptive text part (such as alt text) without changing the link or syntax structure.
+
+4. Keep the format unchanged: Ensure that all Markdown formatting (such as bold, italics, code blocks) remains unchanged during translation.
+
+5. Your task is to ensure that the translated content is both accurate and does not break the original Markdown structure and the function of HTML tags. Please check carefully during translation to ensure the correct rendering of syntax and tags.
+
+6. You are only allowed to return the translated text and nothing else. 
+
+IMPORTANT: ONLY RETURN TRANSLATED TEXT AND NOTHING ELSE.
+
+Translate the following text to ${languageNames[targetLang]} language:
 
 {text}
-
-${languageNames[targetLang]} translation:
 `
 
       const prompt = new PromptTemplate({
