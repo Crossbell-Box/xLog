@@ -14,6 +14,8 @@ export const getSite = async (input: string) => {
   const result = await indexer.character.getByHandle(input)
   if (result) {
     return await expandCrossbellCharacter(result)
+  } else {
+    return null
   }
 }
 
