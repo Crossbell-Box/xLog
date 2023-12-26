@@ -41,6 +41,7 @@ export default async function SiteModal({
   )
 
   if (
+    !site ||
     !page ||
     new Date(page!.metadata?.content?.date_published || "") > new Date()
   ) {
