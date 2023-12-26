@@ -73,10 +73,18 @@ const getOriginalTranslation = async (
     let chain = translationChains.get(`${modelSize}_${targetLang}`)
 
     if (!chain) {
+      const template = `
+Translate the following text and don't translate the Markdown syntax or tags.
+
+Original text:
+
+{text}
+
+${languageNames[targetLang]} translation:
+`
+
       const prompt = new PromptTemplate({
-        template: `Translate the following text into "${languageNames[targetLang]}" language: 
-        {text}
-        Translation:`,
+        template,
         inputVariables: ["text"],
       })
 
