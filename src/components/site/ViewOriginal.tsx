@@ -11,6 +11,11 @@ export default function ViewOriginal({ page }: { page: ExpandedNote }) {
     <span
       className="ml-1 underline cursor-pointer"
       onClick={() => {
+        // remove the locale search param
+        const url = new URL(window.location.href)
+        url.searchParams.delete("locale")
+        window.history.replaceState({}, "", url.toString())
+
         document.cookie = `NEXT_LOCALE=${page?.metadata?.content?.translatedFrom};`
         window.location.reload()
       }}
