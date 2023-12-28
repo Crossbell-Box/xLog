@@ -173,13 +173,13 @@ export const Input = forwardRef(function Input<
       {label && <FieldLabel label={label} id={inputProps.id} />}
       <div className="flex items-center">
         {prefix && (
-          <span className="flex items-center px-3 text-gray-600 bg-gray-50 h-10 border border-r-0 rounded-l-lg relative -z-10">
+          <span className="flex items-center px-3 text-gray-600 bg-gray-50 h-10 border border-r-0 rounded-l-lg relative">
             {prefix}
           </span>
         )}
         {renderInputComponent()}
         {addon && (
-          <span className="flex items-center px-3 text-gray-600 bg-gray-50 h-10 border border-l-0 rounded-r-lg relative -z-10">
+          <span className="flex items-center px-3 text-gray-600 bg-gray-50 h-10 border border-l-0 rounded-r-lg relative">
             {addon}
           </span>
         )}
