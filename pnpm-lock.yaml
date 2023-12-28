@@ -120,8 +120,8 @@ dependencies:
     specifier: ^1.10.1
     version: 1.10.1
   async-lock:
-    specifier: 1.4.0
-    version: 1.4.0
+    specifier: 1.4.1
+    version: 1.4.1
   canvas-confetti:
     specifier: 1.9.2
     version: 1.9.2
@@ -135,8 +135,8 @@ dependencies:
     specifier: 2.0.0
     version: 2.0.0
   crossbell:
-    specifier: 1.10.1
-    version: 1.10.1(typescript@5.3.3)(zod@3.22.4)
+    specifier: 1.11.2
+    version: 1.11.2(typescript@5.3.3)(zod@3.22.4)
   dayjs:
     specifier: 1.11.10
     version: 1.11.10
@@ -165,8 +165,8 @@ dependencies:
     specifier: 9.0.0
     version: 9.0.0
   image-size:
-    specifier: ^1.0.2
-    version: 1.0.2
+    specifier: ^1.1.0
+    version: 1.1.0
   immer:
     specifier: 10.0.3
     version: 10.0.3
@@ -174,8 +174,8 @@ dependencies:
     specifier: 5.3.2
     version: 5.3.2
   isomorphic-dompurify:
-    specifier: 1.13.0
-    version: 1.13.0
+    specifier: 2.0.0
+    version: 2.0.0
   js-yaml:
     specifier: 4.1.0
     version: 4.1.0
@@ -189,8 +189,8 @@ dependencies:
     specifier: 0.16.9
     version: 0.16.9
   langchain:
-    specifier: 0.0.210
-    version: 0.0.210(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0)
+    specifier: 0.0.212
+    version: 0.0.212(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@7.5.9)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -213,8 +213,8 @@ dependencies:
     specifier: 14.0.1
     version: 14.0.1(@babel/core@7.23.6)(react-dom@18.2.0)(react@18.2.0)
   next-intl:
-    specifier: ^3.3.2
-    version: 3.3.2(next@14.0.1)(react@18.2.0)
+    specifier: ^3.4.0
+    version: 3.4.0(next@14.0.1)(react@18.2.0)
   next-themes:
     specifier: 0.2.1
     version: 0.2.1(next@14.0.1)(react-dom@18.2.0)(react@18.2.0)
@@ -225,8 +225,8 @@ dependencies:
     specifier: ^6.3.2
     version: 6.3.2
   openai:
-    specifier: ^4.24.0
-    version: 4.24.0
+    specifier: ^4.24.1
+    version: 4.24.1
   pangu:
     specifier: 4.0.7
     version: 4.0.7
@@ -264,8 +264,8 @@ dependencies:
     specifier: 2.4.1
     version: 2.4.1(csstype@3.1.3)(react-dom@18.2.0)(react@18.2.0)
   react-parallax-tilt:
-    specifier: 1.7.177
-    version: 1.7.177(react-dom@18.2.0)(react@18.2.0)
+    specifier: 1.7.179
+    version: 1.7.179(react-dom@18.2.0)(react@18.2.0)
   react-popper:
     specifier: 2.3.0
     version: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0)
@@ -363,8 +363,8 @@ dependencies:
     specifier: ^11.0.5
     version: 11.0.5
   tailwind-merge:
-    specifier: 2.1.0
-    version: 2.1.0
+    specifier: 2.2.0
+    version: 2.2.0
   tailwind-scrollbar-hide:
     specifier: 1.1.7
     version: 1.1.7
@@ -384,11 +384,11 @@ dependencies:
     specifier: 9.0.1
     version: 9.0.1
   viem:
-    specifier: 1.20.3
-    version: 1.20.3(typescript@5.3.3)(zod@3.22.4)
+    specifier: 1.21.1
+    version: 1.21.1(typescript@5.3.3)(zod@3.22.4)
   wagmi:
     specifier: 1.4.12
-    version: 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4)
+    version: 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
   xregexp:
     specifier: ^5.1.1
     version: 5.1.1
@@ -473,8 +473,8 @@ devDependencies:
     specifier: 9.1.3
     version: 9.1.3(@babel/core@7.23.6)(webpack@5.89.0)
   cspell:
-    specifier: 8.2.0
-    version: 8.2.0
+    specifier: 8.2.4
+    version: 8.2.4
   esbuild:
     specifier: 0.19.10
     version: 0.19.10
@@ -512,8 +512,8 @@ devDependencies:
     specifier: 15.1.0
     version: 15.1.0(postcss@8.4.32)
   postcss-preset-mantine:
-    specifier: ^1.12.0
-    version: 1.12.0(postcss@8.4.32)
+    specifier: ^1.12.2
+    version: 1.12.2(postcss@8.4.32)
   postcss-prune-var:
     specifier: 1.1.1
     version: 1.1.1
@@ -585,7 +585,7 @@ packages:
     resolution: {integrity: sha512-wa1meQ2WSfoY8Uor3EdrJq0jTiZJoKoSii2ZVWRY1oN4Tlr5s59pADg9T79FTbPe1/se5c3pBeZgJL63wmuoBA==}
     dependencies:
       '@types/node': 18.19.3
-      '@types/node-fetch': 2.6.9
+      '@types/node-fetch': 2.6.10
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
       digest-fetch: 1.3.0
@@ -1265,12 +1265,12 @@ packages:
       '@mantine/hooks': 6.0.21(react@18.2.0)
       '@mantine/notifications': 6.0.21(@mantine/core@6.0.21)(@mantine/hooks@6.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      '@wagmi/connectors': 3.1.10(@types/react@18.2.45)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4)
-      '@web3modal/ethereum': 2.7.1(@wagmi/core@1.4.12)(viem@1.20.3)
+      '@wagmi/connectors': 3.1.10(@types/react@18.2.45)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
+      '@web3modal/ethereum': 2.7.1(@wagmi/core@1.4.12)(viem@1.21.1)
       canvas-confetti: 1.9.2
       check-password-strength: 2.0.7
       classnames: 2.3.2
-      crossbell: 1.10.1(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.2(typescript@5.3.3)(zod@3.22.4)
       embla-carousel-react: 7.1.0(react@18.2.0)
       immer: 10.0.3
       lodash.compact: 3.0.1
@@ -1282,8 +1282,8 @@ packages:
       react-google-recaptcha: 3.1.0(react@18.2.0)
       rxjs: 7.8.1
       ts-essentials: 9.4.1(typescript@5.3.3)
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
-      wagmi: 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      wagmi: 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       zustand: 4.4.7(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -1316,9 +1316,9 @@ packages:
       react: ^18
     dependencies:
       '@crossbell/util-hooks': 1.5.20(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      crossbell: 1.10.1(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.2(typescript@5.3.3)(zod@3.22.4)
       react: 18.2.0
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - react-dom
@@ -1332,11 +1332,11 @@ packages:
     resolution: {integrity: sha512-V6xhMvSRjjQXIZlJRzYVfTbM/4N14k3rHQwGJmtiYXi1TO9+7RdJbzhwUxf80pp2Su9JW7mM3AjRhqU9qCimPA==}
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.10.1(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.2(typescript@5.3.3)(zod@3.22.4)
       dayjs: 1.11.10
       lodash.compact: 3.0.1
       lru-cache: 10.1.0
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - react
@@ -1368,8 +1368,8 @@ packages:
       dayjs: 1.11.10
       react: 18.2.0
       react-intersection-observer: 9.5.3(react@18.2.0)
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
-      wagmi: 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      wagmi: 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       zustand: 4.4.7(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -1394,14 +1394,14 @@ packages:
       '@crossbell/util-metadata': 1.5.20(typescript@5.3.3)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       check-password-strength: 2.0.7
-      crossbell: 1.10.1(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.2(typescript@5.3.3)(zod@3.22.4)
       immer: 10.0.3
       lodash.debounce: 4.0.8
       react: 18.2.0
       rxjs: 7.8.1
       ts-essentials: 9.4.1(typescript@5.3.3)
       valtio: 1.12.1(@types/react@18.2.45)(react@18.2.0)
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
       zustand: 4.4.7(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -1424,7 +1424,7 @@ packages:
       '@crossbell/util-metadata': 1.5.20(typescript@5.3.3)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
-      crossbell: 1.10.1(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.2(typescript@5.3.3)(zod@3.22.4)
       facepaint: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -1451,7 +1451,7 @@ packages:
       react: ^18
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.10.1(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.2(typescript@5.3.3)(zod@3.22.4)
       react: 18.2.0
     transitivePeerDependencies:
       - bufferutil
@@ -1467,7 +1467,7 @@ packages:
     dependencies:
       '@crossbell/util-ethers': 1.5.20
       '@fastify/deepmerge': 1.3.0
-      crossbell: 1.10.1(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.2(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -1475,14 +1475,14 @@ packages:
       - zod
     dev: false
 
-  /@cspell/cspell-bundled-dicts@8.2.0:
-    resolution: {integrity: sha512-48MZbQXRJgwNtyUMVs7UfoTRtc/TBGDIG33NIm3nBOpzD/VyUQsNKJOUPdTwWIR3zfM7MZWS72ojjoc0XXmZjA==}
+  /@cspell/cspell-bundled-dicts@8.2.4:
+    resolution: {integrity: sha512-HASk7BBR9p2Q1+2mD/WHwOEORkECfwYNbCVzFMJYzw37fTMDClZABypGe1Y5AqFcY9JKlR9YvwlYVzg09vllXg==}
     engines: {node: '>=18'}
     dependencies:
       '@cspell/dict-ada': 4.0.2
-      '@cspell/dict-aws': 4.0.0
+      '@cspell/dict-aws': 4.0.1
       '@cspell/dict-bash': 4.1.3
-      '@cspell/dict-companies': 3.0.28
+      '@cspell/dict-companies': 3.0.29
       '@cspell/dict-cpp': 5.0.10
       '@cspell/dict-cryptocurrencies': 4.0.0
       '@cspell/dict-csharp': 4.0.2
@@ -1500,7 +1500,7 @@ packages:
       '@cspell/dict-fsharp': 1.0.1
       '@cspell/dict-fullstack': 3.1.5
       '@cspell/dict-gaming-terms': 1.0.4
-      '@cspell/dict-git': 2.0.0
+      '@cspell/dict-git': 3.0.0
       '@cspell/dict-golang': 6.0.5
       '@cspell/dict-haskell': 4.0.1
       '@cspell/dict-html': 4.0.5
@@ -1513,48 +1513,48 @@ packages:
       '@cspell/dict-makefile': 1.0.0
       '@cspell/dict-node': 4.0.3
       '@cspell/dict-npm': 5.0.14
-      '@cspell/dict-php': 4.0.4
+      '@cspell/dict-php': 4.0.5
       '@cspell/dict-powershell': 5.0.3
       '@cspell/dict-public-licenses': 2.0.5
-      '@cspell/dict-python': 4.1.10
+      '@cspell/dict-python': 4.1.11
       '@cspell/dict-r': 2.0.1
-      '@cspell/dict-ruby': 5.0.1
+      '@cspell/dict-ruby': 5.0.2
       '@cspell/dict-rust': 4.0.1
       '@cspell/dict-scala': 5.0.0
-      '@cspell/dict-software-terms': 3.3.13
-      '@cspell/dict-sql': 2.1.2
+      '@cspell/dict-software-terms': 3.3.15
+      '@cspell/dict-sql': 2.1.3
       '@cspell/dict-svelte': 1.0.2
       '@cspell/dict-swift': 2.0.1
       '@cspell/dict-typescript': 3.1.2
       '@cspell/dict-vue': 3.0.0
     dev: true
 
-  /@cspell/cspell-json-reporter@8.2.0:
-    resolution: {integrity: sha512-4KQSXZQ1k4YRDtVKljt9nr9HDUO5W737Fmz1ss6Y3LrmJtAk3sEDu5OTqT5NxxoCZ1LRIrY8ghjcuEA5AnAFRg==}
+  /@cspell/cspell-json-reporter@8.2.4:
+    resolution: {integrity: sha512-aFOoIQqlmIzO+/7sQSVIK23gKUHQl2HNRBpIr+8+BKkKvLXxpQfJoXMc9YzkL3+Tfhd4yN4WK1OLtmMMAKJY8w==}
     engines: {node: '>=18'}
     dependencies:
-      '@cspell/cspell-types': 8.2.0
+      '@cspell/cspell-types': 8.2.4
     dev: true
 
-  /@cspell/cspell-pipe@8.2.0:
-    resolution: {integrity: sha512-1nAyh4q/6DXe6FTOm7O94i8dK4dnzh5Oa+glNDQ8rEkJPOg4VydhlQFJZfwccQecs44u84cWfbgUwD4yVxOb4w==}
+  /@cspell/cspell-pipe@8.2.4:
+    resolution: {integrity: sha512-s3LcmpqFHE0L4UHbFe+i9WknInBeWkTcMrwuI8Cf6AioOHfOZS8ch1SmwPIPQ703uuoER100AEyNoex+92G/6g==}
     engines: {node: '>=18'}
     dev: true
 
-  /@cspell/cspell-resolver@8.2.0:
-    resolution: {integrity: sha512-osZbXD1VbOBT9CazcPaAd9MzAvAaOqiXgPr7kqS9sbvzYKOk5vmVTTjLLboEh1WN5j6ACS2ZEcKlj1BqX5WNIw==}
+  /@cspell/cspell-resolver@8.2.4:
+    resolution: {integrity: sha512-0CI180FKFiSuZElbA45XUtBqTXcQ9wrKwl4x9SraTGZkI7Z1EaZR/saCGwE5JEcHvfQOQK8C1dB40d5XlB0RlQ==}
     engines: {node: '>=18'}
     dependencies:
       global-directory: 4.0.1
     dev: true
 
-  /@cspell/cspell-service-bus@8.2.0:
-    resolution: {integrity: sha512-FO8HdVk7qVq2dXeUgO/gwkzzbv81J0YGTAUU+2J8FfZFcQhwy4Ni3MpgrsDZMFaVPyWjjpuYjMZNpYHUBuz56A==}
+  /@cspell/cspell-service-bus@8.2.4:
+    resolution: {integrity: sha512-rdpFR88m4Pes49ADO6YAUU3xKkRDjSzZdKAgsLgXTMWzC3xbN8IFBGXd7ChPgBf6TTHjQsYggt29NVJQIAh21g==}
     engines: {node: '>=18'}
     dev: true
 
-  /@cspell/cspell-types@8.2.0:
-    resolution: {integrity: sha512-thC5L6tYvvYKPTlYLy2+vZlJRhsO8Jr3dOV3uQyowD0/5ghKBTbptyhuC9vUoL/Ts3MpYAXnwNfgxUhgsTsQDA==}
+  /@cspell/cspell-types@8.2.4:
+    resolution: {integrity: sha512-dq/T10oJx7XdLQkfzZOuLCGJwd3Apzf7O+KlFnxZd/BZ0gCuCynxOZ7GTK23d07EObJg986yhWTjXWgfmLMEVw==}
     engines: {node: '>=18'}
     dev: true
 
@@ -1562,16 +1562,16 @@ packages:
     resolution: {integrity: sha512-0kENOWQeHjUlfyId/aCM/mKXtkEgV0Zu2RhUXCBr4hHo9F9vph+Uu8Ww2b0i5a4ZixoIkudGA+eJvyxrG1jUpA==}
     dev: true
 
-  /@cspell/dict-aws@4.0.0:
-    resolution: {integrity: sha512-1YkCMWuna/EGIDN/zKkW+j98/55mxigftrSFgsehXhPld+ZMJM5J9UuBA88YfL7+/ETvBdd7mwW6IwWsC+/ltQ==}
+  /@cspell/dict-aws@4.0.1:
+    resolution: {integrity: sha512-NXO+kTPQGqaaJKa4kO92NAXoqS+i99dQzf3/L1BxxWVSBS3/k1f3uhmqIh7Crb/n22W793lOm0D9x952BFga3Q==}
     dev: true
 
   /@cspell/dict-bash@4.1.3:
     resolution: {integrity: sha512-tOdI3QVJDbQSwPjUkOiQFhYcu2eedmX/PtEpVWg0aFps/r6AyjUQINtTgpqMYnYuq8O1QUIQqnpx21aovcgZCw==}
     dev: true
 
-  /@cspell/dict-companies@3.0.28:
-    resolution: {integrity: sha512-UinHkMYB/1pUkLKm1PGIm9PBFYxeAa6YvbB1Rq/RAAlrs0WDwiDBr3BAYdxydukG1IqqwT5z9WtU+8D/yV/5lw==}
+  /@cspell/dict-companies@3.0.29:
+    resolution: {integrity: sha512-F/8XnkqjU7jmSDAcD3LSSX+WxCVUWPssqlO4lzGMIK3MNIUt+d48eSIt3pFAIB/Z9y0ojoLHUtWX9HJ1ZtGrXQ==}
     dev: true
 
   /@cspell/dict-cpp@5.0.10:
@@ -1646,8 +1646,8 @@ packages:
     resolution: {integrity: sha512-hbDduNXlk4AOY0wFxcDMWBPpm34rpqJBeqaySeoUH70eKxpxm+dvjpoRLJgyu0TmymEICCQSl6lAHTHSDiWKZg==}
     dev: true
 
-  /@cspell/dict-git@2.0.0:
-    resolution: {integrity: sha512-n1AxyX5Kgxij/sZFkxFJlzn3K9y/sCcgVPg/vz4WNJ4K9YeTsUmyGLA2OQI7d10GJeiuAo2AP1iZf2A8j9aj2w==}
+  /@cspell/dict-git@3.0.0:
+    resolution: {integrity: sha512-simGS/lIiXbEaqJu9E2VPoYW1OTC2xrwPPXNXFMa2uo/50av56qOuaxDrZ5eH1LidFXwoc8HROCHYeKoNrDLSw==}
     dev: true
 
   /@cspell/dict-golang@6.0.5:
@@ -1698,8 +1698,8 @@ packages:
     resolution: {integrity: sha512-k0kC7/W2qG5YII+SW6s+JtvKrkZg651vizi5dv/5G2HmJaeLNgDqBVeeDk/uV+ntBorM66XG4BPMjSxoaIlC5w==}
     dev: true
 
-  /@cspell/dict-php@4.0.4:
-    resolution: {integrity: sha512-fRlLV730fJbulDsLIouZxXoxHt3KIH6hcLFwxaupHL+iTXDg0lo7neRpbqD5MScr/J3idEr7i9G8XWzIikKFug==}
+  /@cspell/dict-php@4.0.5:
+    resolution: {integrity: sha512-9r8ao7Z/mH9Z8pSB7yLtyvcCJWw+/MnQpj7xGVYzIV7V2ZWDRjXZAMgteHMJ37m8oYz64q5d4tiipD300QSetQ==}
     dev: true
 
   /@cspell/dict-powershell@5.0.3:
@@ -1710,8 +1710,8 @@ packages:
     resolution: {integrity: sha512-91HK4dSRri/HqzAypHgduRMarJAleOX5NugoI8SjDLPzWYkwZ1ftuCXSk+fy8DLc3wK7iOaFcZAvbjmnLhVs4A==}
     dev: true
 
-  /@cspell/dict-python@4.1.10:
-    resolution: {integrity: sha512-ErF/Ohcu6Xk4QVNzFgo8p7CxkxvAKAmFszvso41qOOhu8CVpB35ikBRpGVDw9gsCUtZzi15Yl0izi4do6WcLkA==}
+  /@cspell/dict-python@4.1.11:
+    resolution: {integrity: sha512-XG+v3PumfzUW38huSbfT15Vqt3ihNb462ulfXifpQllPok5OWynhszCLCRQjQReV+dgz784ST4ggRxW452/kVg==}
     dependencies:
       '@cspell/dict-data-science': 1.0.11
     dev: true
@@ -1720,8 +1720,8 @@ packages:
     resolution: {integrity: sha512-KCmKaeYMLm2Ip79mlYPc8p+B2uzwBp4KMkzeLd5E6jUlCL93Y5Nvq68wV5fRLDRTf7N1LvofkVFWfDcednFOgA==}
     dev: true
 
-  /@cspell/dict-ruby@5.0.1:
-    resolution: {integrity: sha512-rruTm7Emhty/BSYavSm8ZxRuVw0OBqzJkwIFXcV0cX7To8D1qbmS9HFHRuRg8IL11+/nJvtdDz+lMFBSmPUagQ==}
+  /@cspell/dict-ruby@5.0.2:
+    resolution: {integrity: sha512-cIh8KTjpldzFzKGgrqUX4bFyav5lC52hXDKo4LbRuMVncs3zg4hcSf4HtURY+f2AfEZzN6ZKzXafQpThq3dl2g==}
     dev: true
 
   /@cspell/dict-rust@4.0.1:
@@ -1732,12 +1732,12 @@ packages:
     resolution: {integrity: sha512-ph0twaRoV+ylui022clEO1dZ35QbeEQaKTaV2sPOsdwIokABPIiK09oWwGK9qg7jRGQwVaRPEq0Vp+IG1GpqSQ==}
     dev: true
 
-  /@cspell/dict-software-terms@3.3.13:
-    resolution: {integrity: sha512-+TeFLJnzsxJqovY4ZNbNivQ5KgIZex1f/w62WmfpKNl4yWaexVEdVp6vi38TR+uyYagkJASaBnjlbVW3aVTpFg==}
+  /@cspell/dict-software-terms@3.3.15:
+    resolution: {integrity: sha512-1qqMGFi1TUNq9gQj4FTLPTlqVzQLXrj80MsKoXVpysr+823kMWesQAjqHiPg+MYsQ3DlTcpGWcjq/EbYonqueQ==}
     dev: true
 
-  /@cspell/dict-sql@2.1.2:
-    resolution: {integrity: sha512-Pi0hAcvsSGtZZeyyAN1VfGtQJbrXos5x2QjJU0niAQKhmITSOrXU/1II1Gogk+FYDjWyV9wP2De0U2f7EWs6oQ==}
+  /@cspell/dict-sql@2.1.3:
+    resolution: {integrity: sha512-SEyTNKJrjqD6PAzZ9WpdSu6P7wgdNtGV2RV8Kpuw1x6bV+YsSptuClYG+JSdRExBTE6LwIe1bTklejUp3ZP8TQ==}
     dev: true
 
   /@cspell/dict-svelte@1.0.2:
@@ -1756,15 +1756,15 @@ packages:
     resolution: {integrity: sha512-niiEMPWPV9IeRBRzZ0TBZmNnkK3olkOPYxC1Ny2AX4TGlYRajcW0WUtoSHmvvjZNfWLSg2L6ruiBeuPSbjnG6A==}
     dev: true
 
-  /@cspell/dynamic-import@8.2.0:
-    resolution: {integrity: sha512-HlB05MiEmv6ExREhXx/7dq6Funn+oxua2GTID5ys2zCjHVDHKGbP0k0GNq+skvQ7JDsdMsO3BboUt9hfVjZq3Q==}
+  /@cspell/dynamic-import@8.2.4:
+    resolution: {integrity: sha512-j8ZedGPPDrWBDdJd4IQuDF6XDqVhGpXjQtiERWm2IhnoDl2XcgwkrU0ojqwwEEyRjbTBsH6RyNP8FO9wMmDaxQ==}
     engines: {node: '>=18.0'}
     dependencies:
       import-meta-resolve: 4.0.0
     dev: true
 
-  /@cspell/strong-weak-map@8.2.0:
-    resolution: {integrity: sha512-tMMa0/DUzEQw7kkEsav5fI8U+INT1/HKiwqPAeL/Bt6KMPeuBqLyRQB9pk2gIJqhFF7WFB7Wilqh9Z45Emmomw==}
+  /@cspell/strong-weak-map@8.2.4:
+    resolution: {integrity: sha512-o0kEAG+EyMGMsfEX/fzAeQMP/7sX3XJ5suiRcgAknaHNAohK63ZtLYLOkX2lNOI0S2b9INrQ2J0+H513rN0EQQ==}
     engines: {node: '>=18'}
     dev: true
 
@@ -2409,8 +2409,8 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /@langchain/community@0.0.8(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0):
-    resolution: {integrity: sha512-nBJiEQgAFy1Wovyoxcl48rK8LC0L1HC/gN5kplf8tVSBQEpMjHsGAWBN3PlXMhJj+JNX/4wcqcfMsyCLkgC2wg==}
+  /@langchain/community@0.0.11(ioredis@5.3.2)(jsdom@23.0.1)(ws@7.5.9):
+    resolution: {integrity: sha512-8L19AyzBueHrRtawxU4JstRtmzqsHK2jDJtSg/bv9ivto0kDKlILnauIDijcb09V/4mql2XolaS9r7eGe99yGA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.0.0
@@ -2423,6 +2423,7 @@ packages:
       '@aws-sdk/credential-provider-node': ^3.388.0
       '@clickhouse/client': ^0.2.5
       '@cloudflare/ai': ^1.0.12
+      '@datastax/astra-db-ts': 0.1.2
       '@elastic/elasticsearch': ^8.4.0
       '@getmetal/metal-sdk': '*'
       '@getzep/zep-js': ^0.9.0
@@ -2510,6 +2511,8 @@ packages:
       '@clickhouse/client':
         optional: true
       '@cloudflare/ai':
+        optional: true
+      '@datastax/astra-db-ts':
         optional: true
       '@elastic/elasticsearch':
         optional: true
@@ -2646,28 +2649,28 @@ packages:
       ws:
         optional: true
     dependencies:
-      '@langchain/core': 0.1.3
-      '@langchain/openai': 0.0.7
+      '@langchain/core': 0.1.4
+      '@langchain/openai': 0.0.8
       flat: 5.0.2
       ioredis: 5.3.2
       jsdom: 23.0.1
-      langsmith: 0.0.52
+      langsmith: 0.0.53
       uuid: 9.0.1
-      ws: 8.13.0
+      ws: 7.5.9
       zod: 3.22.4
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@langchain/core@0.1.3:
-    resolution: {integrity: sha512-nsQbakY0P0ErBSzlFf1HsgNXSAxQNYLfzNkcqpEEr4kCH0PMw5lmyROYN9LMds+JXhM2/AOE/VP4HYN3WlxaJA==}
+  /@langchain/core@0.1.4:
+    resolution: {integrity: sha512-Y3/mQLEiQ78ZbsTGYvPRj5bpvrhpTAcsbdyEtlYEvjMLbehEADfjQ41G9zc7U/emkrGtHRmxWO1ISmoeXeDmyQ==}
     engines: {node: '>=18'}
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.8
-      langsmith: 0.0.52
+      langsmith: 0.0.53
       ml-distance: 4.0.1
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -2675,13 +2678,13 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@langchain/openai@0.0.7:
-    resolution: {integrity: sha512-m/UjOf9SdIZhoR3RALgUS78+v4r/RJQhyQbvGLbaCcAwbCFjUohmESW6Y1n5dIhwk5rVazprG2oL0O1ZSAwrgw==}
+  /@langchain/openai@0.0.8:
+    resolution: {integrity: sha512-F8DD6vs5BvMAHiDprINWCVf7jyNaYHp2zAqHwYij3+YAKsgIORm2EQvI6YtT3qPnGghpE3qz8H3DKjTNPywIzQ==}
     engines: {node: '>=18'}
     dependencies:
-      '@langchain/core': 0.1.3
+      '@langchain/core': 0.1.4
       js-tiktoken: 1.0.8
-      openai: 4.24.0
+      openai: 4.24.1
       zod: 3.22.4
       zod-to-json-schema: 3.20.3(zod@3.22.4)
     transitivePeerDependencies:
@@ -3510,7 +3513,7 @@ packages:
     resolution: {integrity: sha512-XJbEPuaVc7b9n23MqlF6c+ToYIS3f7P2Sel8f3cSBQ9WORE4xrSuvhMpK9fDSFqJ7by/brc+rmJR/5HViRr0/w==}
     dependencies:
       '@safe-global/safe-gateway-typescript-sdk': 3.13.3
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -3918,8 +3921,8 @@ packages:
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
     dev: false
 
-  /@types/node-fetch@2.6.9:
-    resolution: {integrity: sha512-bQVlnMLFJ2d35DkPNjEPmd9ueO/rh5EiaZt2bhqiSarPjZIuIV6bPQVqcrEyvNo+AfTrRGVazle1tl597w3gfA==}
+  /@types/node-fetch@2.6.10:
+    resolution: {integrity: sha512-PPpPK6F9ALFTn59Ka3BaL+qGuipRfxNE8qVgkp0bVixeiR2c2/L+IVOiBdu9JhhT22sWnQEp6YyHGI2b2+CMcA==}
     dependencies:
       '@types/node': 20.10.5
       form-data: 4.0.0
@@ -4109,7 +4112,7 @@ packages:
       - graphql
     dev: false
 
-  /@wagmi/connectors@3.1.10(@types/react@18.2.45)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4):
+  /@wagmi/connectors@3.1.10(@types/react@18.2.45)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4):
     resolution: {integrity: sha512-ZLJC1QaeiZarkF07Cr9mOlVjPO1Lf5TBx+JKBms2y5fUIXlKrxCfQgO/gDCureboI+Us2X3IRI659+XacSGpbA==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4128,7 +4131,7 @@ packages:
       abitype: 0.8.7(typescript@5.3.3)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -4151,7 +4154,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.4.12(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4):
+  /@wagmi/core@1.4.12(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4):
     resolution: {integrity: sha512-bLcYmmGgjtl3jAGo8X3Sm6oUwsdjbVxFMu9SWnwHdE4S9JdYeWM57dEhQgq8SYul2yQ7yY2/gimBf1Or0Ky3dQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4160,11 +4163,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@wagmi/connectors': 3.1.10(@types/react@18.2.45)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4)
+      '@wagmi/connectors': 3.1.10(@types/react@18.2.45)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       abitype: 0.8.7(typescript@5.3.3)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
       zustand: 4.4.7(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -4696,15 +4699,15 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@web3modal/ethereum@2.7.1(@wagmi/core@1.4.12)(viem@1.20.3):
+  /@web3modal/ethereum@2.7.1(@wagmi/core@1.4.12)(viem@1.21.1):
     resolution: {integrity: sha512-1x3qhYh9qgtvw1MDQD4VeDf2ZOsVANKRPtUty4lF+N4L8xnAIwvNKUAMA4j6T5xSsjqUfq5Tdy5mYsNxLmsWMA==}
     deprecated: Please use new @web3modal/wagmi package
     peerDependencies:
       '@wagmi/core': '>=1'
       viem: '>=1'
     dependencies:
-      '@wagmi/core': 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4)
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
+      '@wagmi/core': 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
     dev: false
 
   /@webassemblyjs/ast@1.11.6:
@@ -5165,12 +5168,12 @@ packages:
   /async-cache-dedupe@2.0.0:
     resolution: {integrity: sha512-SrW6PbmCHRQBSpPG8mkPIZZC5AgC08sbzl56GyGemBLVdVUl8mQW4+WCYHp5XZfixIdkL40jKf3UlT/P6Q3p5w==}
     dependencies:
-      mnemonist: 0.39.5
+      mnemonist: 0.39.6
       safe-stable-stringify: 2.4.3
     dev: false
 
-  /async-lock@1.4.0:
-    resolution: {integrity: sha512-coglx5yIWuetakm3/1dsX9hxCNox22h7+V80RQOu2XUUMidtArxKoZoOtHUPuR84SycKTXzgGzAUR5hJxujyJQ==}
+  /async-lock@1.4.1:
+    resolution: {integrity: sha512-Az2ZTpuytrtqENulXwO3GGv1Bztugx6TT37NIo7imr/Qo0gsYiGtSdBa2B6fsXhTpVZDNfu1Qn3pk531e3q+nQ==}
     dev: false
 
   /async-mutex@0.2.6:
@@ -5398,8 +5401,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001570
-      electron-to-chromium: 1.4.615
+      caniuse-lite: 1.0.30001572
+      electron-to-chromium: 1.4.616
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.2)
 
@@ -5476,8 +5479,8 @@ packages:
   /caniuse-lite@1.0.30001551:
     resolution: {integrity: sha512-vtBAez47BoGMMzlbYhfXrMV1kvRF2WP/lqiMuDu1Sb4EE4LKEgjopFDSRtZfdVnslNRpOqV/woE+Xgrwj6VQlg==}
 
-  /caniuse-lite@1.0.30001570:
-    resolution: {integrity: sha512-+3e0ASu4sw1SWaoCtvPeyXp+5PsjigkSt8OXZbF9StH5pQWbxEjLAZE3n8Aup5udop1uRiKA7a4utUk/uoSpUw==}
+  /caniuse-lite@1.0.30001572:
+    resolution: {integrity: sha512-1Pbh5FLmn5y4+QhNyJE9j3/7dK44dGB83/ZMjv/qJk86TvDbjk0LosiZo0i0WB0Vx607qMX9jYrn1VLHCkN4rw==}
 
   /canvas-confetti@1.9.2:
     resolution: {integrity: sha512-6Xi7aHHzKwxZsem4mCKoqP6YwUG3HamaHHAlz1hTNQPCqXhARFpSXnkC9TWlahHY5CG6hSL5XexNjxK8irVErg==}
@@ -5868,8 +5871,8 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  /crossbell@1.10.1(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-MSTRbwAfIuqadh/OpD61y720Ne5Bpp/Cmdeq0o+vwbOGNtjwHsSm25ORgHpmKZE+AFzEZqOrl7xIw0XzDupH3Q==}
+  /crossbell@1.11.2(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-NPmkFoeLowY0lZELVq+n/xggk9uo5c1tzvSFo/v9fuItBnwgXWfIPvb0QyVsVhFrimLeufrZZA3GcVBt+Z6SjA==}
     engines: {node: '>=16.14.0'}
     dependencies:
       '@crossbell/ipfs-fetch': 0.0.21
@@ -5878,7 +5881,7 @@ packages:
       eip1193-types: 0.2.1
       exponential-backoff: 3.1.1
       p-limit: 3.1.0
-      viem: 2.0.0-beta.16(typescript@5.3.3)(zod@3.22.4)
+      viem: 2.0.0-rc.3(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -5897,77 +5900,77 @@ packages:
       type-fest: 1.4.0
     dev: true
 
-  /cspell-config-lib@8.2.0:
-    resolution: {integrity: sha512-WkFs++EPELsjkMoD7OaELgHiBri8AgjN9oVq6ARGmu1B5SROwgAVnEXO4nAOQrozqaMZG1425OhIP1EKhCvKiA==}
+  /cspell-config-lib@8.2.4:
+    resolution: {integrity: sha512-+w0edfI5yI+f7t6a7AI0gY6ZdLKfqnZbvqN2ZpruJ+eXODVK3eS4KIqkJ6lBv+O969B/WTqJedi1UkeYqkHIIQ==}
     engines: {node: '>=18'}
     dependencies:
-      '@cspell/cspell-types': 8.2.0
+      '@cspell/cspell-types': 8.2.4
       comment-json: 4.2.3
       yaml: 2.3.4
     dev: true
 
-  /cspell-dictionary@8.2.0:
-    resolution: {integrity: sha512-fUmByLdEyfVOBgZk9hJP+QBd5EThPAofJXxmmkWvaqPIcJ2tc76erUcH8rNioX7A8T+ZyODUsHdD06w8XYwM5A==}
+  /cspell-dictionary@8.2.4:
+    resolution: {integrity: sha512-ymcwea6c6VXFGL9DihGiSYP25QCnyDCrpB9gtOpTRubqsRmWDM80N4DxyhlZmMgBtSFW/ODChcDydMEK4zZLug==}
     engines: {node: '>=18'}
     dependencies:
-      '@cspell/cspell-pipe': 8.2.0
-      '@cspell/cspell-types': 8.2.0
-      cspell-trie-lib: 8.2.0
+      '@cspell/cspell-pipe': 8.2.4
+      '@cspell/cspell-types': 8.2.4
+      cspell-trie-lib: 8.2.4
       fast-equals: 5.0.1
       gensequence: 6.0.0
     dev: true
 
-  /cspell-gitignore@8.2.0:
-    resolution: {integrity: sha512-4JhPVkn+NAmuUD6HkGIcVDLKg1c/h5Rfw4ftHSFFyU4zEt8KQlNl4aaqMHMWADFPsrO8rwzsAZURf20aWbMKwQ==}
+  /cspell-gitignore@8.2.4:
+    resolution: {integrity: sha512-ywe9q/OWA/GlmKDsAwmK38lISb5noMCQyIEtYZNuHUIr+gi1gdJXDMeDP5t+ua5WUmpCkjGtzBZJj97l94g60Q==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      cspell-glob: 8.2.0
+      cspell-glob: 8.2.4
       find-up-simple: 1.0.0
     dev: true
 
-  /cspell-glob@8.2.0:
-    resolution: {integrity: sha512-2yNmMgCO8/diqi/xJOfm8FHqkeXu2rPOxGLSiqn0ENaOe1Nb+dumkdO4qiCvFm+AVUPSjE97Mfkje/llLXSRkA==}
+  /cspell-glob@8.2.4:
+    resolution: {integrity: sha512-MamScae3CdWYfdYwrE99pvXp43+ieWp1+HwPdUBbyboO65/ID0lCear3lXdmArgAjnosNcCRZVl0b4xxfFLn1A==}
     engines: {node: '>=18'}
     dependencies:
       micromatch: 4.0.5
     dev: true
 
-  /cspell-grammar@8.2.0:
-    resolution: {integrity: sha512-FXtMStcufaAS7ybS0zzD5udUpMSSF93RaunBd8XgkA+INWqewqIjoTiaVA84Ft6kM+OAybRyWfbPDpZIvaSKAw==}
+  /cspell-grammar@8.2.4:
+    resolution: {integrity: sha512-FATCZqQz0++d1mydyMjbqT9xXar8xsSSVLnDBaQRRVQ8jWa+vAv4rFu5d5Emk+XfhkqKBpaVIQlUKDB57CogCw==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      '@cspell/cspell-pipe': 8.2.0
-      '@cspell/cspell-types': 8.2.0
+      '@cspell/cspell-pipe': 8.2.4
+      '@cspell/cspell-types': 8.2.4
     dev: true
 
-  /cspell-io@8.2.0:
-    resolution: {integrity: sha512-oVcwQPORHK2v9wgqOuk2WpTyxOUhbrMqD9srkqaxQvctd3coyzFSmRM8BcmR1DwDDZy67Zl/RYoniaQyzMQudQ==}
+  /cspell-io@8.2.4:
+    resolution: {integrity: sha512-OxqZiLCP12hApFH5FhpNTzOgFUcVkODzKrgGA2HjWvMkLkI3ov4MaS7VPl9BgfP1ptgPmLT2D0AUroQYeSH7Jg==}
     engines: {node: '>=18'}
     dependencies:
-      '@cspell/cspell-service-bus': 8.2.0
+      '@cspell/cspell-service-bus': 8.2.4
     dev: true
 
-  /cspell-lib@8.2.0:
-    resolution: {integrity: sha512-lnfql8ojpfRHgFNHGKUomkg+xQacs43IURn8kSuGWTx0ymYV5DOy4/xIfHHgAVfuXngzjDveDyn+ttBAro661Q==}
+  /cspell-lib@8.2.4:
+    resolution: {integrity: sha512-6E3uYTfGm0Zp4D3tyvAPIEU8jaX0afqXINkgLdMxB1RXXoRUdU8oMc97mtZ6xLmsvJOExsqad9oG9OT76tbPBA==}
     engines: {node: '>=18'}
     dependencies:
-      '@cspell/cspell-bundled-dicts': 8.2.0
-      '@cspell/cspell-pipe': 8.2.0
-      '@cspell/cspell-resolver': 8.2.0
-      '@cspell/cspell-types': 8.2.0
-      '@cspell/dynamic-import': 8.2.0
-      '@cspell/strong-weak-map': 8.2.0
+      '@cspell/cspell-bundled-dicts': 8.2.4
+      '@cspell/cspell-pipe': 8.2.4
+      '@cspell/cspell-resolver': 8.2.4
+      '@cspell/cspell-types': 8.2.4
+      '@cspell/dynamic-import': 8.2.4
+      '@cspell/strong-weak-map': 8.2.4
       clear-module: 4.1.2
       comment-json: 4.2.3
       configstore: 6.0.0
-      cspell-config-lib: 8.2.0
-      cspell-dictionary: 8.2.0
-      cspell-glob: 8.2.0
-      cspell-grammar: 8.2.0
-      cspell-io: 8.2.0
-      cspell-trie-lib: 8.2.0
+      cspell-config-lib: 8.2.4
+      cspell-dictionary: 8.2.4
+      cspell-glob: 8.2.4
+      cspell-grammar: 8.2.4
+      cspell-io: 8.2.4
+      cspell-trie-lib: 8.2.4
       fast-equals: 5.0.1
       gensequence: 6.0.0
       import-fresh: 3.3.0
@@ -5976,31 +5979,31 @@ packages:
       vscode-uri: 3.0.8
     dev: true
 
-  /cspell-trie-lib@8.2.0:
-    resolution: {integrity: sha512-zadzMa3DUvIvu90q/ZvA9N8GHw+eyEf3pPYvd/bKgVqhu3wvOmxBmvcGoLQsDbCnFPcVZlvdbxZuPNtMej19Rw==}
+  /cspell-trie-lib@8.2.4:
+    resolution: {integrity: sha512-SYSe518EgOpNjVcKj3MMKO9RnM9mgRufAZkt8qA7PXAXkCeWieLJY22mDEvjPS4C9f0kkfs8UZ5szuLnxHH66w==}
     engines: {node: '>=18'}
     dependencies:
-      '@cspell/cspell-pipe': 8.2.0
-      '@cspell/cspell-types': 8.2.0
+      '@cspell/cspell-pipe': 8.2.4
+      '@cspell/cspell-types': 8.2.4
       gensequence: 6.0.0
     dev: true
 
-  /cspell@8.2.0:
-    resolution: {integrity: sha512-qGU1+KvxuHoDDQnk9OHjcC+MBlxP8QmMNCJfuTzVuFxfik0QKhqZrM5K3UpcRSxpmcMICc0Eev2K9ZziA08LGw==}
+  /cspell@8.2.4:
+    resolution: {integrity: sha512-dmhyGelq7P5Mnu8hrx+Zqbpag9Afz8dDEK1kcG6bwcu9ROSTL4/l23P9M/L4Zh4EDDsX9pdO03z864jpHtUwfw==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      '@cspell/cspell-json-reporter': 8.2.0
-      '@cspell/cspell-pipe': 8.2.0
-      '@cspell/cspell-types': 8.2.0
-      '@cspell/dynamic-import': 8.2.0
+      '@cspell/cspell-json-reporter': 8.2.4
+      '@cspell/cspell-pipe': 8.2.4
+      '@cspell/cspell-types': 8.2.4
+      '@cspell/dynamic-import': 8.2.4
       chalk: 5.3.0
       chalk-template: 1.1.0
       commander: 11.1.0
-      cspell-gitignore: 8.2.0
-      cspell-glob: 8.2.0
-      cspell-io: 8.2.0
-      cspell-lib: 8.2.0
+      cspell-gitignore: 8.2.4
+      cspell-glob: 8.2.4
+      cspell-io: 8.2.4
+      cspell-lib: 8.2.4
       fast-glob: 3.3.2
       fast-json-stable-stringify: 2.1.0
       file-entry-cache: 8.0.0
@@ -6664,8 +6667,8 @@ packages:
     resolution: {integrity: sha512-dg5gj5qOgfZNkPNeyKBZQAQitIQ/xwfIDmEQJHCbXaD9ebTZxwJXUsDYcBlAvZGZLi+/354l35J1wkmP6CqYaw==}
     dev: true
 
-  /electron-to-chromium@1.4.615:
-    resolution: {integrity: sha512-/bKPPcgZVUziECqDc+0HkT87+0zhaWSZHNXqF8FLd2lQcptpmUFwoCSWjCdOng9Gdq+afKArPdEg/0ZW461Eng==}
+  /electron-to-chromium@1.4.616:
+    resolution: {integrity: sha512-1n7zWYh8eS0L9Uy+GskE0lkBUNK83cXTVJI0pU3mGprFsbfSdAc15VTFbo+A+Bq4pwstmL30AVcEU3Fo463lNg==}
 
   /elkjs@0.8.2:
     resolution: {integrity: sha512-L6uRgvZTH+4OF5NE/MBbzQx/WYpru1xCBE9respNj6qznEewGUIfhzmm7horWWxbNO2M0WckQypGctR8lH79xQ==}
@@ -8325,9 +8328,9 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
-  /image-size@1.0.2:
-    resolution: {integrity: sha512-xfOoWjceHntRb3qFCrh5ZFORYH8XCdYpASltMhZ/Q0KZiOwjdE/Yl2QCiWdwD+lygV5bMCvauzgu5PxBX/Yerg==}
-    engines: {node: '>=14.0.0'}
+  /image-size@1.1.0:
+    resolution: {integrity: sha512-asnTHw2K8OlqT5kVnQwX+AGKQqpvLo95LbNzQ/C0ln3yzentZmAdd0ygoD004VC4Kkd4PV7J2iaPQkqwp9yuTw==}
+    engines: {node: '>=18.0.0'}
     hasBin: true
     dependencies:
       queue: 6.0.2
@@ -8709,8 +8712,8 @@ packages:
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  /isomorphic-dompurify@1.13.0:
-    resolution: {integrity: sha512-9qOYGngy9ZR9JB/iLmr7SViPSZ7uWGvepdnLaXYznbTxvJOCuONneKajJ54f+IRQpvL8608ylUy9EK1iPtL3Ag==}
+  /isomorphic-dompurify@2.0.0:
+    resolution: {integrity: sha512-BJvrSQzg7jleSaySaWyhzGqH9/QxYc3sflm5fvjcXWAQcHQvQPQdCN0ORyqvMqnQDbwFuZXvqh2IcuVa3dG/DA==}
     engines: {node: '>=18'}
     dependencies:
       '@types/dompurify': 3.0.5
@@ -8840,7 +8843,7 @@ packages:
       whatwg-encoding: 3.1.1
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.0.0
-      ws: 8.15.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.15.1
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -8989,8 +8992,8 @@ packages:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
 
-  /langchain@0.0.210(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0):
-    resolution: {integrity: sha512-5DTf3VlsTVV+I4aQ8sj6DPYaHjT1cgYYlXNMVrQ7/2oG2b3CFBUbH4svn+LVc0aoZx5yneIY71PGaMVh4nYJHA==}
+  /langchain@0.0.212(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@7.5.9):
+    resolution: {integrity: sha512-zPcnAX3t1RuyWkbEkyqlIdR29j51Eylz7rcDcqET1baquR/r9xuk7P/HAJ6TFowiXDUg10d5YBD6VBvjwF/WDA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
@@ -9024,7 +9027,7 @@ packages:
       ignore: ^5.2.0
       ioredis: ^5.3.2
       jsdom: '*'
-      mammoth: '*'
+      mammoth: ^1.6.0
       mongodb: ^5.2.0
       node-llama-cpp: '*'
       notion-to-md: ^3.1.0
@@ -9149,9 +9152,9 @@ packages:
         optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
-      '@langchain/community': 0.0.8(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0)
-      '@langchain/core': 0.1.3
-      '@langchain/openai': 0.0.7
+      '@langchain/community': 0.0.11(ioredis@5.3.2)(jsdom@23.0.1)(ws@7.5.9)
+      '@langchain/core': 0.1.4
+      '@langchain/openai': 0.0.8
       binary-extensions: 2.2.0
       cheerio: 1.0.0-rc.12
       expr-eval: 2.0.2
@@ -9161,12 +9164,12 @@ packages:
       jsdom: 23.0.1
       jsonpointer: 5.0.1
       langchainhub: 0.0.6
-      langsmith: 0.0.52
+      langsmith: 0.0.53
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 9.0.1
-      ws: 8.13.0
+      ws: 7.5.9
       yaml: 2.3.4
       zod: 3.22.4
       zod-to-json-schema: 3.20.3(zod@3.22.4)
@@ -9178,6 +9181,7 @@ packages:
       - '@aws-sdk/client-lambda'
       - '@clickhouse/client'
       - '@cloudflare/ai'
+      - '@datastax/astra-db-ts'
       - '@elastic/elasticsearch'
       - '@getmetal/metal-sdk'
       - '@getzep/zep-js'
@@ -9229,8 +9233,8 @@ packages:
     resolution: {integrity: sha512-SW6105T+YP1cTe0yMf//7kyshCgvCTyFBMTgH2H3s9rTAR4e+78DA/BBrUL/Mt4Q5eMWui7iGuAYb3pgGsdQ9w==}
     dev: false
 
-  /langsmith@0.0.52:
-    resolution: {integrity: sha512-xfEi2gpXvPgCBR4x3MqFHXmAJ5sFpfrcsb2QduXj2gylk6V+8CG5AONgvo0Y1Wx/nue+6EZjmcDjjH+aDi8NIA==}
+  /langsmith@0.0.53:
+    resolution: {integrity: sha512-w2Rgx4ixE+wuItFVKGnc+Wmzj91RevMd7sev9BHWC8VFztDPuyrNZQD55QpxphM6JLb9hF9osxvAiYDGtDZbuQ==}
     hasBin: true
     dependencies:
       '@types/uuid': 9.0.7
@@ -10152,8 +10156,8 @@ packages:
       ufo: 1.3.2
     dev: false
 
-  /mnemonist@0.39.5:
-    resolution: {integrity: sha512-FPUtkhtJ0efmEFGpU14x7jGbTB+s18LrzRL2KgoWz9YvcY3cPomz8tih01GbHwnGk/OmkOKfqd/RAQoc8Lm7DQ==}
+  /mnemonist@0.39.6:
+    resolution: {integrity: sha512-A/0v5Z59y63US00cRSLiloEIw3t5G+MiKz4BhX21FI+YBJXBOGW0ohFxTxO08dsOYlzxo87T7vGfZKYp2bcAWA==}
     dependencies:
       obliterator: 2.0.4
     dev: false
@@ -10232,8 +10236,8 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /next-intl@3.3.2(next@14.0.1)(react@18.2.0):
-    resolution: {integrity: sha512-iIuIa6UULhClCpXGv/L05vJzAYEXbpMf1SrjSDwbtnFJP3mDjG6rBkffiEIqawfizGzUjnYf5r3GtptRL6MIBg==}
+  /next-intl@3.4.0(next@14.0.1)(react@18.2.0):
+    resolution: {integrity: sha512-pccnuQq6N6iyPi0Foiajp9JgZp99w7gRxHhBxmtBdjsCmrsik7QflKWq2a/US2kFP734JSsSoY98xK+acjozeQ==}
     peerDependencies:
       next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -10242,7 +10246,7 @@ packages:
       negotiator: 0.6.3
       next: 14.0.1(@babel/core@7.23.6)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
-      use-intl: 3.3.2(react@18.2.0)
+      use-intl: 3.4.0(react@18.2.0)
     dev: false
 
   /next-themes@0.2.1(next@14.0.1)(react-dom@18.2.0)(react@18.2.0):
@@ -10540,12 +10544,12 @@ packages:
       validator: 13.11.0
     dev: false
 
-  /openai@4.24.0:
-    resolution: {integrity: sha512-h8fsas4lu0ul18oDzFIZpEQryh2SJEUJWanyfEwjME/klcKWZM/blDz2cKiT+aFBqPJzcYdCUj/8E7n20f0jEw==}
+  /openai@4.24.1:
+    resolution: {integrity: sha512-ezm/O3eiZMnyBqirUnWm9N6INJU1WhNtz+nK/Zj/2oyKvRz9pgpViDxa5wYOtyGYXPn1sIKBV0I/S4BDhtydqw==}
     hasBin: true
     dependencies:
       '@types/node': 18.19.3
-      '@types/node-fetch': 2.6.9
+      '@types/node-fetch': 2.6.10
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
       digest-fetch: 1.3.0
@@ -10918,8 +10922,8 @@ packages:
       postcss: 8.4.32
       postcss-selector-parser: 6.0.13
 
-  /postcss-preset-mantine@1.12.0(postcss@8.4.32):
-    resolution: {integrity: sha512-WLsejZoNtsrpOEi/CItn98e+4NpgT/Av28XWfY0CqiWgd2NDOOxtEUNdPGtB33pGLwaV8FrhTpIhAIO8palTOw==}
+  /postcss-preset-mantine@1.12.2(postcss@8.4.32):
+    resolution: {integrity: sha512-a7W/lDSeMg/LeOKb/PNKp+pVzYSSxxWFHGihnwRBEGzeY0qCZnPluH5KsJMfxqbElcf5zoiXZIyElzI/0KmgjA==}
     peerDependencies:
       postcss: '>=8.0.0'
     dependencies:
@@ -11282,8 +11286,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-parallax-tilt@1.7.177(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-BtHZFc5JESRG976/656V5ufL3lihg26vQ18L+7sNBZC1lfhR8KjIFyotAqIkZtarr3qtPseTN210prxi45g7WA==}
+  /react-parallax-tilt@1.7.179(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-9Gd7VPJ+IGzSBXc/FBBh6Zq43tcIKfY4RmAPQtseTG9VJjjOMo2ciO8soCeUQj4iyV40cxh636tZg++kbXlLdw==}
     peerDependencies:
       react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
       react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
@@ -11880,7 +11884,7 @@ packages:
       '@babel/runtime': 7.23.6
       eventemitter3: 4.0.7
       uuid: 8.3.2
-      ws: 8.15.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.16.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     optionalDependencies:
       bufferutil: 4.0.8
       utf-8-validate: 5.0.10
@@ -12482,8 +12486,8 @@ packages:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
     dev: false
 
-  /tailwind-merge@2.1.0:
-    resolution: {integrity: sha512-l11VvI4nSwW7MtLSLYT4ldidDEUwQAMWuSHk7l4zcXZDgnCRa0V3OdCwFfM7DCzakVXMNRwAeje9maFFXT71dQ==}
+  /tailwind-merge@2.2.0:
+    resolution: {integrity: sha512-SqqhhaL0T06SW59+JVNfAqKdqLs0497esifRrZ7jOaefP3o64fdFNDMrAQWZFMxTLJPiHVjRLUywT8uFz1xNWQ==}
     dependencies:
       '@babel/runtime': 7.23.6
     dev: false
@@ -13150,8 +13154,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /use-intl@3.3.2(react@18.2.0):
-    resolution: {integrity: sha512-9m16djCkEbdYt6PBQH2uX+pfZFkMhowmmSqXsysdYWXP11ggKNtRMqknBM4CJTQvtNq25ajSEoZOu8ii4lr8pw==}
+  /use-intl@3.4.0(react@18.2.0):
+    resolution: {integrity: sha512-vFwyAm9RDXjQN83wle9LjmE5PB/k0vOU0FetHffjr7/wLW8xlX2tAABxIyG1gy9eS5IYixAezvJXYr8g6fRIXA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
@@ -13340,8 +13344,8 @@ packages:
       vfile-message: 4.0.2
     dev: false
 
-  /viem@1.20.3(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-7CrmeCb2KYkeCgUmUyb1hsf+IX/PLwi+Np+Vm4YUTPeG82y3HRSgGHSaCOp3d0YtR2kXD3nv9y5kE7LBFE+wWw==}
+  /viem@1.21.1(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-4Tb2f73FTGN+6PRPmgmKmlIfy/ENS4iU1KKfOPhUA37pZMmVw2rxN0QXMHB4OMa1ZVBlbpde1eG33vyj0L8YeQ==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
@@ -13363,8 +13367,8 @@ packages:
       - zod
     dev: false
 
-  /viem@2.0.0-beta.16(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-4nnZ9tlOeyqholz4D06XbEGrhNe7D6ZHYOUrfvOHumBMt7b/TZTMsq35xa5VSrLOd83YFy09JzOB+qhr7Vyr2g==}
+  /viem@2.0.0-rc.3(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-6fFfY6XVvUqTVaGq4OC2JoqtrLTUdbYr4n6VvbhT3fx+mx5sC8PBO/1fjas6rpNJU7iXItoNWgjONRl6H2jGuA==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
@@ -13405,7 +13409,7 @@ packages:
       xml-name-validator: 5.0.0
     dev: false
 
-  /wagmi@1.4.12(@types/react@18.2.45)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4):
+  /wagmi@1.4.12(@types/react@18.2.45)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4):
     resolution: {integrity: sha512-QRxpjhdMlZmbYTfn9VQkQMKq+l3kwA1O7tF10vaykPrjbGX+IIlyn72ib9oqW9BfQO7n/Sf/mnVz1zbxRhGPWA==}
     peerDependencies:
       react: '>=17.0.0'
@@ -13418,12 +13422,12 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1)
-      '@wagmi/core': 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.20.3)(zod@3.22.4)
+      '@wagmi/core': 1.4.12(@types/react@18.2.45)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       abitype: 0.8.7(typescript@5.3.3)(zod@3.22.4)
       react: 18.2.0
       typescript: 5.3.3
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 1.20.3(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -13728,8 +13732,21 @@ packages:
         optional: true
     dev: false
 
-  /ws@8.15.1(bufferutil@4.0.8)(utf-8-validate@5.0.10):
+  /ws@8.15.1:
     resolution: {integrity: sha512-W5OZiCjXEmk0yZ66ZN82beM5Sz7l7coYxpRkzS+p9PP+ToQry8szKh+61eNktr7EA9DOwvFGhfC605jDHbP6QQ==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
+
+  /ws@8.16.0(bufferutil@4.0.8)(utf-8-validate@5.0.10):
+    resolution: {integrity: sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
