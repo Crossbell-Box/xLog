@@ -29,6 +29,7 @@ export default function SiteSettingsGeneralPage() {
       name: "",
       site_name: "",
       description: "",
+      footer: "",
       ga: "",
       ua: "",
       uh: "",
@@ -41,6 +42,7 @@ export default function SiteSettingsGeneralPage() {
       name: string
       site_name: string
       description: string
+      footer: string
       ga: string
       ua: string
       uh: string
@@ -55,6 +57,7 @@ export default function SiteSettingsGeneralPage() {
       name: values.name,
       site_name: values.site_name,
       description: values.description,
+      footer: values.footer,
       ga: values.ga,
       ua: values.ua,
       uh: values.uh,
@@ -94,6 +97,8 @@ export default function SiteSettingsGeneralPage() {
         form.setValue("site_name", site.data.metadata?.content?.site_name || "")
       !form.getValues("description") &&
         form.setValue("description", site.data.metadata?.content?.bio || "")
+      !form.getValues("footer") &&
+        form.setValue("footer", site.data.metadata?.content?.footer || "")
       !form.getValues("ga") &&
         form.setValue("ga", site.data.metadata?.content?.ga || "")
       !form.getValues("ua") &&
@@ -189,6 +194,19 @@ export default function SiteSettingsGeneralPage() {
             className="input is-block"
             rows={2}
             {...form.register("description")}
+          />
+        </div>
+        <div className="mt-5">
+          <label htmlFor="footer" className="form-label">
+            {t("Footer")}
+          </label>
+          <Input
+            multiline
+            id="footer"
+            className="input is-block"
+            rows={2}
+            {...form.register("footer")}
+            help={t("Support Markdown")}
           />
         </div>
         <div className="mt-5">

@@ -429,5 +429,7 @@
   "en": "英语",
   "ja": "日语",
   "zh": "中文",
-  "zh-TW": "繁体中文"
+  "zh-TW": "繁体中文",
+  "Footer": "页脚",
+  "Support Markdown": "支持 Markdown"
 }

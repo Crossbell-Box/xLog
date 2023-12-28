@@ -130,6 +130,7 @@ export function useUpdateSite() {
       name?: string
       site_name?: string
       description?: string
+      footer?: string
       icon?: string
       navigation?: SiteNavigationItem[]
       css?: string
@@ -221,6 +222,7 @@ export function useUpdateSite() {
             setAttribute("uh", "uh")
             setAttribute("custom_domain", "custom_domain")
             setAttribute("site_name", "site_name")
+            setAttribute("footer", "footer")
           },
         },
         {

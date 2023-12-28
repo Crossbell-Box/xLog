@@ -4,6 +4,7 @@ import Script from "next/script"
 import { Logo } from "~/components/common/Logo"
 import { SITE_URL } from "~/lib/env"
 import { ExpandedCharacter } from "~/lib/types"
+import { renderPageContent } from "~/markdown"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
 import { LanguageSwitch } from "../common/LanguageSwitch"
@@ -32,24 +33,34 @@ export default async function SiteFooter({
   return (
     <>
       <footer className="text-zinc-500 border-t">
-        <div className="max-w-screen-lg mx-auto px-5 py-10 text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5 sm:items-center">
-          <div className="font-medium text-base">
-            <span>&copy; </span>
-            <UniLink href="/" className="hover:text-accent">
-              <span>{site?.metadata?.content?.name}</span>
-            </UniLink>
-            <span> · </span>
-            {t.rich("powered by", {
-              name: () => <LogoWithLink />,
-              span: (chunks) => <span>{chunks}</span>,
-            })}
-          </div>
-          <ConnectedAccounts
-            connectedAccounts={site?.metadata?.content?.connected_accounts}
-          />
-          <div className="flex gap-x-2 items-center">
-            <LanguageSwitch />
-            <DarkModeSwitch />
+        <div className="max-w-screen-lg mx-auto px-5 py-10">
+          {site?.metadata?.content?.footer && (
+            <div className="xlog-post-content prose text-sm">
+              {
+                renderPageContent(site.metadata.content.footer, false, true)
+                  ?.element
+              }
+            </div>
+          )}
+          <div className="text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5 sm:items-center">
+            <div className="font-medium text-base">
+              <span>&copy; </span>
+              <UniLink href="/" className="hover:text-accent">
+                <span>{site?.metadata?.content?.name}</span>
+              </UniLink>
+              <span> · </span>
+              {t.rich("powered by", {
+                name: () => <LogoWithLink />,
+                span: (chunks) => <span>{chunks}</span>,
+              })}
+            </div>
+            <ConnectedAccounts
+              connectedAccounts={site?.metadata?.content?.connected_accounts}
+            />
+            <div className="flex gap-x-2 items-center">
+              <LanguageSwitch />
+              <DarkModeSwitch />
+            </div>
           </div>
         </div>
       </footer>

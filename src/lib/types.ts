@@ -119,6 +119,7 @@ export type ExpandedNote = NoteEntity & {
 export type ExpandedCharacter = CharacterEntity & {
   metadata: {
     content: {
+      footer?: string
       navigation?: SiteNavigationItem[]
       css?: string
       ga?: string

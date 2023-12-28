@@ -262,30 +262,21 @@ export const expandCrossbellCharacter = async (site: CharacterEntity) => {
       (a: any) => a.trait_type === "xlog_navigation",
     )?.value as string) || "null",
   ) || [{ id: nanoid(), label: "Archives", url: "/archives" }]
-  expandedCharacter.metadata.content.css =
-    expandedCharacter.metadata?.content?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_css",
-    )?.value as string
-  expandedCharacter.metadata.content.ga =
-    (expandedCharacter.metadata?.content?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_ga",
-    )?.value as string) || ""
-  expandedCharacter.metadata.content.ua =
-    (expandedCharacter.metadata?.content?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_ua",
-    )?.value as string) || ""
-  expandedCharacter.metadata.content.uh =
-    (expandedCharacter.metadata?.content?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_uh",
-    )?.value as string) || ""
-  expandedCharacter.metadata.content.custom_domain =
-    (expandedCharacter.metadata?.content?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_custom_domain",
-    )?.value as string) || ""
-  expandedCharacter.metadata.content.site_name =
-    (expandedCharacter.metadata?.content?.attributes?.find(
-      (a: any) => a.trait_type === "xlog_site_name",
-    )?.value as string) || ""
+
+  const getArribute = (outputKey: string, typeKey: string) => {
+    ;(expandedCharacter.metadata.content as any)[outputKey] =
+      expandedCharacter.metadata?.content?.attributes?.find(
+        (a: any) => a.trait_type === `xlog_${typeKey}`,
+      )?.value as string
+  }
+  getArribute("css", "css")
+  getArribute("ga", "ga")
+  getArribute("ua", "ua")
+  getArribute("uh", "uh")
+  getArribute("custom_domain", "custom_domain")
+  getArribute("site_name", "site_name")
+  getArribute("footer", "footer")
+
   expandedCharacter.metadata.content.name =
     expandedCharacter.metadata.content.name || expandedCharacter.handle
 
