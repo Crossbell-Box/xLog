@@ -27,7 +27,7 @@ import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { useNProgress } from "~/hooks/useNProgress"
 import { DARK_MODE_STORAGE_KEY } from "~/lib/constants"
 import { APP_NAME, WALLET_CONNECT_V2_PROJECT_ID } from "~/lib/env"
-import { filterNotificationCharacter } from "~/lib/filter-character"
+import { filterNotification } from "~/lib/filter"
 import { toGateway } from "~/lib/ipfs-parser"
 import { urlComposer } from "~/lib/url-composer"
 
@@ -100,7 +100,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
               <ModalStackProvider>{children}</ModalStackProvider>
               <NotificationModal
                 colorScheme={colorScheme}
-                filter={filterNotificationCharacter}
+                filter={filterNotification}
               />
             </ConnectKitProvider>
           </QueryClientProvider>

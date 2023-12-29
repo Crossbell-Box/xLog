@@ -16,7 +16,7 @@ import { gql } from "@urql/core"
 import { RESERVED_TAGS } from "~/lib/constants"
 import { editor2Crossbell } from "~/lib/editor-converter"
 import { expandCrossbellNote } from "~/lib/expand-unit"
-import { filterCommentCharacter } from "~/lib/filter-character"
+import { filterComment } from "~/lib/filter"
 import { getNoteSlug } from "~/lib/helpers"
 import { checkSlugReservedWords } from "~/lib/slug-reserved-words"
 import { getKeys, getStorage } from "~/lib/storage"
@@ -755,7 +755,7 @@ export async function getComments({
     list: [],
   }
 
-  res.list = res.list.filter(filterCommentCharacter)
+  res.list = res.list.filter(filterComment)
 
   return res
 }
