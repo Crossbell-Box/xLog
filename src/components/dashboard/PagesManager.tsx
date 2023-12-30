@@ -340,13 +340,13 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                 <Link
                   key={page.transactionHash || page.draftKey}
                   href={getPageEditLink(page)}
-                  className="group relative hover:bg-zinc-100 rounded-lg py-4 px-3 transition-colors -mx-3 flex space-x-4"
+                  className="group relative hover:bg-zinc-100 rounded-lg py-4 px-3 transition-colors -mx-3 flex max-sm:flex-col gap-4"
                 >
                   <PostCover
                     uniqueKey={`${page.characterId}-${page.noteId}`}
                     images={page.metadata?.content.images}
                     title={page.metadata?.content?.title}
-                    className="rounded-lg w-48"
+                    className="rounded-lg sm:w-48"
                   />
                   <div className="min-w-0 flex-1 flex flex-col justify-between">
                     <div className="xlog-post-title font-bold text-base text-zinc-700">
@@ -432,7 +432,7 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                       )}
                     </div>
                   </div>
-                  <div className="shrink-0 flex self-center">
+                  <div className="shrink-0 flex gap-2 sm:self-center sm:ml-auto">
                     <button
                       className={cn(
                         `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
@@ -476,8 +476,6 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
                         } text-lg`}
                       />
                     </button>
-                  </div>
-                  <div className="w-10 shrink-0 flex self-center ml-auto">
                     <Menu>
                       {({ open, close }) => (
                         <>

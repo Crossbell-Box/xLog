@@ -47,34 +47,39 @@ const SortableNavigationItem = ({
           <i className="i-mingcute-dot-grid-fill" />
         </button>
       </div>
-      <Input
-        label={t("Platform") || ""}
-        required
-        id={`${item.id}-platform`}
-        value={item.platform}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          updateItem(item.id, { platform: e.target.value })
-        }
-        options={Object.keys(PlatformsSyncMap)}
-      />
-      <Input
-        label={t("ID")}
-        required
-        id={`${item.id}-identity`}
-        type="text"
-        value={item.identity}
-        placeholder={PlatformsSyncMap[item.platform]?.identityFormatTemplate}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          updateItem(item.id, { identity: e.target.value })
-        }
-      />
-      <div className="flex items-end pb-2">
-        <Platform platform={item.platform} username={item.identity}></Platform>
-      </div>
-      <div className="flex items-end relative top-[-5px]">
-        <Button onClick={() => removeItem(item.id)} variantColor="red">
-          {t("Remove")}
-        </Button>
+      <div className="flex flex-wrap gap-5">
+        <Input
+          label={t("Platform") || ""}
+          required
+          id={`${item.id}-platform`}
+          value={item.platform}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            updateItem(item.id, { platform: e.target.value })
+          }
+          options={Object.keys(PlatformsSyncMap)}
+        />
+        <Input
+          label={t("ID")}
+          required
+          id={`${item.id}-identity`}
+          type="text"
+          value={item.identity}
+          placeholder={PlatformsSyncMap[item.platform]?.identityFormatTemplate}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            updateItem(item.id, { identity: e.target.value })
+          }
+        />
+        <div className="flex items-end pb-2">
+          <Platform
+            platform={item.platform}
+            username={item.identity}
+          ></Platform>
+        </div>
+        <div className="flex items-end relative top-[-5px]">
+          <Button onClick={() => removeItem(item.id)} variantColor="red">
+            {t("Remove")}
+          </Button>
+        </div>
       </div>
     </div>
   )

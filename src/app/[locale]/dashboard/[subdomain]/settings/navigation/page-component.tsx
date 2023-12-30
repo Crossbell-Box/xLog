@@ -38,31 +38,33 @@ const SortableNavigationItem = ({
           <i className="i-mingcute-dot-grid-fill" />
         </button>
       </div>
-      <Input
-        label={t("Label") || ""}
-        required
-        id={`${item.id}-label`}
-        value={item.label}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          updateItem(item.id, { label: e.target.value })
-        }
-      />
-      <Input
-        label={t("URL") || ""}
-        required
-        id={`${item.id}-url`}
-        type="text"
-        value={item.url}
-        pattern="(https?://|/)(.*)?"
-        title="URL must start with / or http:// or https://"
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          updateItem(item.id, { url: e.target.value })
-        }
-      />
-      <div className="flex items-end relative top-[-5px]">
-        <Button onClick={() => removeItem(item.id)} variantColor="red">
-          {t("Remove")}
-        </Button>
+      <div className="flex flex-wrap gap-5">
+        <Input
+          label={t("Label") || ""}
+          required
+          id={`${item.id}-label`}
+          value={item.label}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            updateItem(item.id, { label: e.target.value })
+          }
+        />
+        <Input
+          label={t("URL") || ""}
+          required
+          id={`${item.id}-url`}
+          type="text"
+          value={item.url}
+          pattern="(https?://|/)(.*)?"
+          title="URL must start with / or http:// or https://"
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            updateItem(item.id, { url: e.target.value })
+          }
+        />
+        <div className="flex items-end relative top-[-5px]">
+          <Button onClick={() => removeItem(item.id)} variantColor="red">
+            {t("Remove")}
+          </Button>
+        </div>
       </div>
     </div>
   )
