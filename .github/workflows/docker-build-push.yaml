@@ -64,7 +64,7 @@ jobs:
       cluster: dev
       namespace: crossbell
       releaseName: xlog
-      revision: main
+      revision: dev
       dir: deploy/dev
     secrets:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
