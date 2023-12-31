@@ -25,9 +25,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.IMAGE_NAME }}
+          images: rss3/xlog
           tags: |
             type=sha,prefix={{branch}}-
+            type=sha,format=long,prefix={{branch}}-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
@@ -53,25 +54,32 @@ jobs:
             "NEXT_PUBLIC_IPFS_GATEWAY=${{ vars.NEXT_PUBLIC_IPFS_GATEWAY }}"
 
   deploy-dev:
-    runs-on: ubuntu-latest
-    environment: Preview
-    needs: build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set K8s context
-        uses: aliyun/ack-set-context@v1
-        with:
-          access-key-id: "${{ secrets.ACCESS_KEY_ID }}"
-          access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
-          cluster-id: "${{ env.ACK_CLUSTER_ID }}"
-      - run: |
-          wget https://github.com/mikefarah/yq/releases/download/v4.25.1/yq_linux_amd64.tar.gz -O - | tar xz && mv yq_linux_amd64 /usr/local/bin/yq
-          curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.22.10/bin/linux/amd64/kubectl && chmod +x kubectl && mv kubectl /usr/local/bin/kubectl
-      - uses: sljeff/secrets2env@main
-        with:
-          secrets-json: ${{ toJson(secrets) }}
-      - env:
-          IMAGE_TAG_RELEASE: ${{ env.IMAGE_NAME }}:${{ needs.build.outputs.version }}
-        run: |
-          sh apply.sh deploy/dev/*
+    if: github.ref == 'refs/heads/dev'
+    uses: NaturalSelectionLabs/Daedalus/.github/workflows/deploy-v3-tpl.yaml@main
+    needs:
+      - build
+    with:
+      images: rss3/xlog
+      tag: dev-${{ github.sha }}
+      cluster: dev
+      namespace: crossbell
+      releaseName: xlog
+      revision: main
+      dir: deploy/dev
+    secrets:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+  deploy-prod:
+    if: github.ref == 'refs/heads/main'
+    uses: NaturalSelectionLabs/Daedalus/.github/workflows/deploy-v3-tpl.yaml@main
+    needs:
+      - build
+    with:
+      images: rss3/xlog
+      tag: main-${{ github.sha }}
+      cluster: prod
+      namespace: crossbell
+      releaseName: xlog
+      revision: main
+      dir: deploy/prod
+    secrets:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
