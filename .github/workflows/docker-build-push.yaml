@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - "dev"
+      - "main"
 
 env:
   IMAGE_NAME: rss3/xlog
