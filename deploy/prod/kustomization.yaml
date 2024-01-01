@@ -5,4 +5,4 @@ resources:
   - deploy.yaml
   - secret.yaml
   - svc.yaml
-  - hpa
+  - hpa.yaml
