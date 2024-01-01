@@ -25,13 +25,8 @@ spec:
         prometheus.io/scrape: "true"
     spec:
       enableServiceLinks: false
-      tolerations:
-        - key: "rss3.io/usage"
-          operator: "Equal"
-          value: "csb-others"
-          effect: "NoSchedule"
       initContainers:
-        - image: $IMAGE_TAG_RELEASE
+        - image: rss3/xlog
           envFrom:
             - secretRef:
                 name: xlog
@@ -40,7 +35,7 @@ spec:
           command: ["/bin/sh", "-c"]
           args: ["npm install -g prisma; npm run prisma:migrate:deploy"]
       containers:
-        - image: $IMAGE_TAG_RELEASE
+        - image: rss3/xlog
           imagePullPolicy: Always
           name: xlog
           envFrom:
@@ -74,71 +69,3 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: xlog-caddy
-  namespace: crossbell
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: xlog-caddy
-  template:
-    metadata:
-      labels:
-        app: xlog-caddy
-      annotations:
-        prometheus.io/path: /metrics
-        prometheus.io/port: "8080"
-        prometheus.io/scrape: "true"
-    spec:
-      containers:
-        - name: caddy
-          image: kindjeff/caddy-tlsredis-docker
-          imagePullPolicy: Always
-          command: ["caddy", "run", "-config", "/app/Caddyfile"]
-          resources:
-            requests:
-              cpu: 100m
-              memory: 128Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
-          envFrom:
-            - secretRef:
-                name: xlog-caddy
-          ports:
-            - containerPort: 80
-              name: http
-            - containerPort: 443
-              name: https
-          volumeMounts:
-            - name: caddyfile
-              mountPath: /app
-        - name: caddy-validator
-          image: python
-          command: ["/bin/sh", "-c"]
-          args: ["pip install flask requests; flask --app=app run"]
-          resources:
-            requests:
-              cpu: 50m
-              memory: 64Mi
-            limits:
-              cpu: 100m
-              memory: 128Mi
-          ports:
-            - containerPort: 5000
-              name: http
-          volumeMounts:
-            - name: validator
-              mountPath: /app.py
-              subPath: app.py
-      volumes:
-        - name: caddyfile
-          configMap:
-            name: xlog-caddy
-        - name: validator
-          configMap:
-            name: xlog-caddy-validator
