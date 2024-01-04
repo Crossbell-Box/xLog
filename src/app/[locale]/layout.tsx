@@ -137,7 +137,7 @@ export default async function RootLayout({
         <ColorSchemeInjector />
         <ColorSchemeScript />
       </head>
-      <body>
+      <body className="bg-white">
         <NextIntlClientProvider messages={messages}>
           <MantineProvider
             theme={mantineTheme}
