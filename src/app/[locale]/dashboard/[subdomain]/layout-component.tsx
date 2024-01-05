@@ -418,7 +418,12 @@ export default function DashboardLayout({
             </div>
           )}
 
-          <div className="lg:p-3 w-full h-full">
+          <div
+            className={cn(
+              "lg:p-3 w-full h-full",
+              !isMobileLayout && "max-w-[calc(100vw-240px)]",
+            )}
+          >
             <div
               className={cn(
                 `${isMobileLayout ? "pt-16 flex-1" : "flex-1 min-w-0"}`,
