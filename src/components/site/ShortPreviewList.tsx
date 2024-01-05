@@ -45,7 +45,7 @@ export default function ShortList({
         <div className="grid gap-3 grid-cols-4 sm:grid-cols-8 relative">
           {shorts.list.map((post) => (
             <Tooltip
-              key={post.noteId}
+              key={`${post.characterId}-${post.noteId}`}
               label={
                 post.metadata?.content?.title ||
                 post.metadata?.content?.summary ||
