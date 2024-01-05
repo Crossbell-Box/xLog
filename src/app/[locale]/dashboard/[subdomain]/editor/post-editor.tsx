@@ -113,7 +113,9 @@ export default function PostEditor() {
     disableAutofill: true,
   })
 
-  const [visibility, setVisibility] = useState<PageVisibilityEnum>()
+  const [visibility, setVisibility] = useState<PageVisibilityEnum>(
+    PageVisibilityEnum.Draft,
+  )
 
   useEffect(() => {
     if (page.isSuccess) {
