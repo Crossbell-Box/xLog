@@ -165,9 +165,7 @@ export function useUpdateSite() {
             if (input.icon !== undefined) {
               metadataDraft.avatars = [input.icon]
             }
-            if (input.banner !== undefined) {
-              metadataDraft.banners = [input.banner]
-            }
+            metadataDraft.banners = input.banner ? [input.banner] : []
             if (input.connected_accounts !== undefined) {
               metadataDraft.connected_accounts = input.connected_accounts.map(
                 (account) => {
