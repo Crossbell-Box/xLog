@@ -102,7 +102,7 @@ export const SiteArchives = () => {
                   <UniLink
                     key={tag}
                     href={getSiteRelativeUrl(pathname, `/tag/${tag}`)}
-                    className="mr-6"
+                    className="mr-6 inline-block"
                   >
                     <span className="align-middle">{tag}</span>
                     <span className="text-gray-400 text-sm ml-1 align-middle">
