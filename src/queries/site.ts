@@ -138,10 +138,11 @@ export function useUpdateSite() {
       ua?: string
       uh?: string
       custom_domain?: string
+      // null means remove
       banner?: {
         address: string
         mime_type: string
-      }
+      } | null
       connected_accounts?: {
         identity: string
         platform: string
@@ -166,7 +167,7 @@ export function useUpdateSite() {
               metadataDraft.avatars = [input.icon]
             }
             if (input.banner !== undefined) {
-              metadataDraft.banners = [input.banner]
+              metadataDraft.banners = input.banner ? [input.banner] : []
             }
             if (input.connected_accounts !== undefined) {
               metadataDraft.connected_accounts = input.connected_accounts.map(

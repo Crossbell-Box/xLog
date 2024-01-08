@@ -53,7 +53,7 @@ export default function SiteSettingsGeneralPage() {
     updateSite.mutate({
       characterId: site.data?.characterId,
       icon: values.icon,
-      banner: values.banner,
+      banner: values.banner ?? null,
       name: values.name,
       site_name: values.site_name,
       description: values.description,
