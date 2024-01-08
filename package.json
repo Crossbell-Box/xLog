@@ -66,6 +66,7 @@
     "@tanstack/react-query-devtools": "4.36.1",
     "@uiw/codemirror-extensions-events": "4.21.21",
     "@urql/core": "4.2.2",
+    "@vercel/otel": "0.3.0",
     "ahooks": "3.7.8",
     "aplayer": "^1.10.1",
     "async-lock": "1.4.1",

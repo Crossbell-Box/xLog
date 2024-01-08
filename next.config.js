@@ -18,6 +18,7 @@ module.exports = withBundleAnalyzer(
     experimental: {
       scrollRestoration: true,
       serverComponentsExternalPackages: ["rehype-react"],
+      instrumentationHook: true,
     },
     productionBrowserSourceMaps: true,
 
