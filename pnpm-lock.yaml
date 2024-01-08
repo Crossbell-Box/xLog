@@ -192,8 +192,8 @@ dependencies:
     specifier: 0.16.9
     version: 0.16.9
   langchain:
-    specifier: 0.0.212
-    version: 0.0.212(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0)
+    specifier: 0.1.1
+    version: 0.1.1(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -2431,8 +2431,8 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /@langchain/community@0.0.11(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0):
-    resolution: {integrity: sha512-8L19AyzBueHrRtawxU4JstRtmzqsHK2jDJtSg/bv9ivto0kDKlILnauIDijcb09V/4mql2XolaS9r7eGe99yGA==}
+  /@langchain/community@0.0.15(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0):
+    resolution: {integrity: sha512-Dc9IqDa1BpkGQPUsOfSC/sD1a13GpEO6LVe+v4oI8wG+ncx4/5epteXsPPfhg+u/u6sK0jqaOrg18dCjQD1YYw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.0.0
@@ -2495,6 +2495,7 @@ packages:
       jsdom: '*'
       llmonitor: ^0.5.9
       lodash: ^4.17.21
+      lunary: ^0.6.11
       mongodb: ^5.2.0
       mysql2: ^3.3.3
       neo4j-driver: '*'
@@ -2634,6 +2635,8 @@ packages:
         optional: true
       lodash:
         optional: true
+      lunary:
+        optional: true
       mongodb:
         optional: true
       mysql2:
@@ -2671,8 +2674,8 @@ packages:
       ws:
         optional: true
     dependencies:
-      '@langchain/core': 0.1.4
-      '@langchain/openai': 0.0.8
+      '@langchain/core': 0.1.10
+      '@langchain/openai': 0.0.10
       flat: 5.0.2
       ioredis: 5.3.2
       jsdom: 23.0.1
@@ -2684,8 +2687,8 @@ packages:
       - encoding
     dev: false
 
-  /@langchain/core@0.1.4:
-    resolution: {integrity: sha512-Y3/mQLEiQ78ZbsTGYvPRj5bpvrhpTAcsbdyEtlYEvjMLbehEADfjQ41G9zc7U/emkrGtHRmxWO1ISmoeXeDmyQ==}
+  /@langchain/core@0.1.10:
+    resolution: {integrity: sha512-vSFPtTkpQ9NT3qqvRh9FN4A16m89npj9KhzZgIh976bseMfI87jS+GK6Rih3qVcB8wsStqp80E5A36ce2egl8Q==}
     engines: {node: '>=18'}
     dependencies:
       ansi-styles: 5.2.0
@@ -2700,11 +2703,11 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@langchain/openai@0.0.8:
-    resolution: {integrity: sha512-F8DD6vs5BvMAHiDprINWCVf7jyNaYHp2zAqHwYij3+YAKsgIORm2EQvI6YtT3qPnGghpE3qz8H3DKjTNPywIzQ==}
+  /@langchain/openai@0.0.10:
+    resolution: {integrity: sha512-74BBDsuLHT+jNlDviHPUemqiG2nm1AF8i9ta0zfkwjE9JtNITL5ZVhoCSczklipx5LzO+6etVuhjdhXcwNOfBA==}
     engines: {node: '>=18'}
     dependencies:
-      '@langchain/core': 0.1.4
+      '@langchain/core': 0.1.10
       js-tiktoken: 1.0.8
       openai: 4.24.1
       zod: 3.22.4
@@ -9459,8 +9462,8 @@ packages:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
 
-  /langchain@0.0.212(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0):
-    resolution: {integrity: sha512-zPcnAX3t1RuyWkbEkyqlIdR29j51Eylz7rcDcqET1baquR/r9xuk7P/HAJ6TFowiXDUg10d5YBD6VBvjwF/WDA==}
+  /langchain@0.1.1(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0):
+    resolution: {integrity: sha512-RAoHaRs95pdSKo9EN7ZtYcs30QJN3rKtwY5beIVf2kYywibcZQhmdUAtuoLGVNNs1UrRmYdvGWs+XIggqa59zA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
@@ -9506,7 +9509,7 @@ packages:
       pyodide: ^0.24.1
       redis: ^4.6.4
       sonix-speech-recognition: ^2.1.1
-      srt-parser-2: ^1.2.2
+      srt-parser-2: ^1.2.3
       typeorm: ^0.3.12
       vectordb: ^0.1.4
       weaviate-ts-client: ^1.4.0
@@ -9619,9 +9622,9 @@ packages:
         optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
-      '@langchain/community': 0.0.11(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0)
-      '@langchain/core': 0.1.4
-      '@langchain/openai': 0.0.8
+      '@langchain/community': 0.0.15(ioredis@5.3.2)(jsdom@23.0.1)(ws@8.13.0)
+      '@langchain/core': 0.1.10
+      '@langchain/openai': 0.0.10
       binary-extensions: 2.2.0
       cheerio: 1.0.0-rc.12
       expr-eval: 2.0.2
@@ -9684,6 +9687,7 @@ packages:
       - hnswlib-node
       - llmonitor
       - lodash
+      - lunary
       - mysql2
       - neo4j-driver
       - pg
