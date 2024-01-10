@@ -61,4 +61,4 @@ jobs:
       revision: main
       dir: deploy/prod
     secrets:
-      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
