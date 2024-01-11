@@ -237,8 +237,8 @@ dependencies:
     specifier: 6.2.1
     version: 6.2.1
   pinyin-pro:
-    specifier: 3.18.5
-    version: 3.18.5
+    specifier: 3.19.0
+    version: 3.19.0
   plaiceholder:
     specifier: 3.0.0
     version: 3.0.0(sharp@0.32.6)
@@ -11325,8 +11325,8 @@ packages:
       thread-stream: 0.15.2
     dev: false
 
-  /pinyin-pro@3.18.5:
-    resolution: {integrity: sha512-WNnVRkNj+SLkSLL+zUqWgs2t9RuEaCZFTNPyjwBqbgJYu6VSX5bZMP/hmKiUD0n21VJSQTBQHrW8plQQvK8b0A==}
+  /pinyin-pro@3.19.0:
+    resolution: {integrity: sha512-SDR7SHOVlaSDLEqbYnbuSKTPe9891KVWj3qjndPa9ZgdtuJgIgqcwpiQcfphYzonGV1qwG44B1rWTRaTjNCzcQ==}
     dev: false
 
   /pirates@4.0.6:
