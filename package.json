@@ -163,7 +163,7 @@
     "zustand": "4.4.7"
   },
   "devDependencies": {
-    "@egoist/tailwindcss-icons": "1.7.1",
+    "@egoist/tailwindcss-icons": "1.7.2",
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
     "@next/bundle-analyzer": "14.0.4",
     "@types/async-lock": "1.4.2",
