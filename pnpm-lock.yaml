@@ -267,8 +267,8 @@ dependencies:
     specifier: 2.4.1
     version: 2.4.1(csstype@3.1.3)(react-dom@18.2.0)(react@18.2.0)
   react-parallax-tilt:
-    specifier: 1.7.182
-    version: 1.7.182(react-dom@18.2.0)(react@18.2.0)
+    specifier: 1.7.183
+    version: 1.7.183(react-dom@18.2.0)(react@18.2.0)
   react-popper:
     specifier: 2.3.0
     version: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0)
@@ -11818,8 +11818,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-parallax-tilt@1.7.182(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-BjGYrh3+koa7wOxmINOmsfPXLtVZQJXteC9lK9j3e310JdTFLb9y5/8Eudd4IeEcTn7TfLb9O44z/puU1k+1Bw==}
+  /react-parallax-tilt@1.7.183(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-ljZtHmvi0EgZoD/SHF058Qh3TqVcmsK4VCXIO9StFdCr0mPqGLBwIxz7rPzUVArc32nmO64yHWv36IcaV1L+KQ==}
     peerDependencies:
       react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
       react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
