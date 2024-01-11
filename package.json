@@ -201,7 +201,7 @@
     "lint-staged": "15.2.0",
     "postcss": "^8.4.32",
     "postcss-import": "15.1.0",
-    "postcss-preset-mantine": "^1.12.2",
+    "postcss-preset-mantine": "^1.12.3",
     "postcss-prune-var": "1.1.1",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "3.1.1",
