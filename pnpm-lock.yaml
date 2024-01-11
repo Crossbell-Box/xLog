@@ -515,8 +515,8 @@ devDependencies:
     specifier: 15.1.0
     version: 15.1.0(postcss@8.4.32)
   postcss-preset-mantine:
-    specifier: ^1.12.2
-    version: 1.12.2(postcss@8.4.32)
+    specifier: ^1.12.3
+    version: 1.12.3(postcss@8.4.32)
   postcss-prune-var:
     specifier: 1.1.1
     version: 1.1.1
@@ -11423,8 +11423,8 @@ packages:
       postcss: 8.4.32
       postcss-selector-parser: 6.0.13
 
-  /postcss-preset-mantine@1.12.2(postcss@8.4.32):
-    resolution: {integrity: sha512-a7W/lDSeMg/LeOKb/PNKp+pVzYSSxxWFHGihnwRBEGzeY0qCZnPluH5KsJMfxqbElcf5zoiXZIyElzI/0KmgjA==}
+  /postcss-preset-mantine@1.12.3(postcss@8.4.32):
+    resolution: {integrity: sha512-cCwowf20mIyRXnV1cSVoMGfhYgy8ZqFJWsEJthdMZ3n7LijjucE9l/HO47gv5gAtr9nY1MkaEkpWS7ulhSTbSg==}
     peerDependencies:
       postcss: '>=8.0.0'
     dependencies:
