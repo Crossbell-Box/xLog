@@ -135,8 +135,8 @@ dependencies:
     specifier: 2.4.2
     version: 2.4.2
   clsx:
-    specifier: 2.0.0
-    version: 2.0.0
+    specifier: 2.1.0
+    version: 2.1.0
   crossbell:
     specifier: 1.11.2
     version: 1.11.2(typescript@5.3.3)(zod@3.22.4)
@@ -6125,6 +6125,11 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /clsx@2.1.0:
+    resolution: {integrity: sha512-m3iNNWpd9rl3jvvcBnu70ylMdrXt8Vlq4HYadnU5fwcOtvkSQWPmj7amUcDT2qYI7risszBjI5AUIUox9D16pg==}
+    engines: {node: '>=6'}
+    dev: false
+
   /cluster-key-slot@1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
     engines: {node: '>=0.10.0'}
@@ -11971,7 +11976,7 @@ packages:
       react-dom: '>= 18.0.0'
     dependencies:
       '@swc/helpers': 0.5.3
-      clsx: 2.0.0
+      clsx: 2.1.0
       date-fns: 2.30.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
