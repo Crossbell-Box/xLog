@@ -354,8 +354,8 @@ dependencies:
     specifier: 0.5.0
     version: 0.5.0
   serialize-javascript:
-    specifier: 6.0.1
-    version: 6.0.1
+    specifier: 6.0.2
+    version: 6.0.2
   sharp:
     specifier: 0.32.6
     version: 0.32.6
@@ -12551,8 +12551,8 @@ packages:
       structured-source: 4.0.0
     dev: false
 
-  /serialize-javascript@6.0.1:
-    resolution: {integrity: sha512-owoXEFjWRllis8/M1Q+Cw5k8ZH40e3zhp/ovX+Xr/vi1qj6QesbyXXViFbpNvWvPNAD62SutwEXavefrLJWj7w==}
+  /serialize-javascript@6.0.2:
+    resolution: {integrity: sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g==}
     dependencies:
       randombytes: 2.1.0
 
@@ -13154,7 +13154,7 @@ packages:
       esbuild: 0.19.11
       jest-worker: 27.5.1
       schema-utils: 3.3.0
-      serialize-javascript: 6.0.1
+      serialize-javascript: 6.0.2
       terser: 5.26.0
       webpack: 5.89.0(esbuild@0.19.11)
     dev: true
