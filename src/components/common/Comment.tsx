@@ -66,7 +66,7 @@ const Comment = ({
         data={data}
         endReached={() => comments.hasNextPage && comments.fetchNextPage()}
         components={{
-          Footer: comments.isLoading ? Loading : undefined,
+          Footer: comments.isFetchingNextPage ? Loading : undefined,
         }}
         totalListHeightChanged={(height) => {
           if (fixHeight && height > 0) {
