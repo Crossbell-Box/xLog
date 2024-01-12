@@ -96,8 +96,8 @@ dependencies:
     specifier: 2.11.8
     version: 2.11.8
   '@prisma/client':
-    specifier: 5.7.1
-    version: 5.7.1(prisma@5.8.0)
+    specifier: 5.8.0
+    version: 5.8.0(prisma@5.8.0)
   '@supercharge/request-ip':
     specifier: 1.2.0
     version: 1.2.0
@@ -3711,8 +3711,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@prisma/client@5.7.1(prisma@5.8.0):
-    resolution: {integrity: sha512-TUSa4nUcC4nf/e7X3jyO1pEd6XcI/TLRCA0KjkA46RDIpxUaRsBYEOqITwXRW2c0bMFyKcCRXrH4f7h4q9oOlg==}
+  /@prisma/client@5.8.0(prisma@5.8.0):
+    resolution: {integrity: sha512-QxO6C4MaA/ysTIbC+EcAH1aX/YkpymhXtO6zPdk+FvA7+59tNibIYpd+7koPdViLg2iKES4ojsxWNUGNJaEcbA==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:

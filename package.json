@@ -60,7 +60,7 @@
     "@microflash/remark-callout-directives": "1.6.0",
     "@monaco-editor/react": "4.6.0",
     "@popperjs/core": "2.11.8",
-    "@prisma/client": "5.7.1",
+    "@prisma/client": "5.8.0",
     "@supercharge/request-ip": "1.2.0",
     "@tanstack/react-query": "4.36.1",
     "@tanstack/react-query-devtools": "4.36.1",
