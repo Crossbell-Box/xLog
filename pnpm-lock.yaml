@@ -177,8 +177,8 @@ dependencies:
     specifier: 5.3.2
     version: 5.3.2
   isomorphic-dompurify:
-    specifier: 2.0.0
-    version: 2.0.0
+    specifier: 2.2.0
+    version: 2.2.0
   js-yaml:
     specifier: 4.1.0
     version: 4.1.0
@@ -7313,6 +7313,10 @@ packages:
     resolution: {integrity: sha512-ilkD8YEnnGh1zJ240uJsW7AzE+2qpbOUYjacomn3AvJ6J4JhKGSZ2nh4wUIXPZrEPppaCLx5jFe8T89Rk8tQ7w==}
     dev: false
 
+  /dompurify@3.0.8:
+    resolution: {integrity: sha512-b7uwreMYL2eZhrSCRC4ahLTeZcPZxSmYfmcQGXGkXiZSNW1X85v+SDM5KsWcpivIiUBH47Ji7NtyUdpLeF5JZQ==}
+    dev: false
+
   /domutils@3.1.0:
     resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
     dependencies:
@@ -9434,12 +9438,12 @@ packages:
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  /isomorphic-dompurify@2.0.0:
-    resolution: {integrity: sha512-BJvrSQzg7jleSaySaWyhzGqH9/QxYc3sflm5fvjcXWAQcHQvQPQdCN0ORyqvMqnQDbwFuZXvqh2IcuVa3dG/DA==}
+  /isomorphic-dompurify@2.2.0:
+    resolution: {integrity: sha512-r+pTGOcmnWm1qGdB6OzAk6zM4kfb7jVHXFliJOTlnRw5G3+LOR2mSWllE2Um1V23njAluToqOeRqp1jMsMFT0A==}
     engines: {node: '>=18'}
     dependencies:
       '@types/dompurify': 3.0.5
-      dompurify: 3.0.6
+      dompurify: 3.0.8
       jsdom: 23.2.0
     transitivePeerDependencies:
       - bufferutil
