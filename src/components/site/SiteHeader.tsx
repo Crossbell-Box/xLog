@@ -40,7 +40,7 @@ export const SiteHeader = async ({
 
   return (
     <header className="xlog-header border-b border-zinc-100 relative">
-      <div className="xlog-banner absolute inset-0 -z-10 overflow-hidden">
+      <div className="xlog-banner absolute inset-0 overflow-hidden">
         {(() => {
           switch (
             site?.metadata?.content?.banners?.[0]?.mime_type?.split("/")[0]
