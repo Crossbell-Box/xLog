@@ -4,7 +4,7 @@ import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/scrollbar"
 
-import { Navigation, Scrollbar } from "swiper/modules"
+import { Mousewheel, Navigation, Scrollbar } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 import { Image } from "~/components/ui/Image"
@@ -42,7 +42,8 @@ export default function PostCover({
               scrollbar={{
                 hide: true,
               }}
-              modules={[Navigation, Scrollbar]}
+              mousewheel={{ forceToAxis: true }}
+              modules={[Navigation, Scrollbar, Mousewheel]}
               className="w-full h-full"
             >
               {images?.map((image) => (
