@@ -42,7 +42,9 @@ export default function PostCover({
               scrollbar={{
                 hide: true,
               }}
-              mousewheel={{ forceToAxis: true }}
+              mousewheel={{
+                forceToAxis: true,
+              }}
               modules={[Navigation, Scrollbar, Mousewheel]}
               className="w-full h-full"
             >
