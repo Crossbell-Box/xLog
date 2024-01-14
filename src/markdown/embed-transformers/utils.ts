@@ -30,7 +30,7 @@ export const generateIframeHTML = ({
     })
     .join(" ")
 
-  return `<div class="xlog-post-content-${name} relative my-4 mx-auto" style="${
+  return `<div class="xlog-post-content-${name} relative my-4" style="${
     ratio ? `aspect-ratio: ${ratio};` : `width: ${width}; height: ${height};`
   }">
   <iframe class="absolute left-0 top-0 w-full h-full" src="${src}" border="0" ${iframeAttributes}></iframe>

@@ -49,7 +49,6 @@ export const NetEaseMusicTransformer: Transformer = {
       name: "netease",
       src: iframe.src,
       height: iframe.height + "px",
-      width: "330px",
       allow:
         "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
     })

@@ -19,13 +19,11 @@ export default function Tweet({
   fullUrl: string
 }) {
   return (
-    <div className="flex justify-center">
-      <ReactTweet
-        id={id}
-        components={components}
-        apiUrl={`${SITE_URL}/api/tweet?id=${id}`}
-        fallback={<>{fullUrl}</>}
-      />
-    </div>
+    <ReactTweet
+      id={id}
+      components={components}
+      apiUrl={`${SITE_URL}/api/tweet?id=${id}`}
+      fallback={<p>{fullUrl}</p>}
+    />
   )
 }
