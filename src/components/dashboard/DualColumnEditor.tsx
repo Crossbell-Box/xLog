@@ -1,35 +1,18 @@
 import { useDebounceEffect } from "ahooks"
 import type { Root } from "mdast"
 import { useTranslations } from "next-intl"
-import dynamic from "next/dynamic"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { EditorView } from "@codemirror/view"
 
+import PageContent from "~/components/common/PageContent"
 import { toolbarShortcuts } from "~/components/dashboard/toolbars"
 import { editorUpload } from "~/components/dashboard/toolbars/Multimedia"
+import CodeMirror from "~/components/ui/CodeMirror"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { useUploadFile } from "~/hooks/useUploadFile"
 import { cn } from "~/lib/utils"
 import { Rendered, renderPageContent } from "~/markdown"
-
-import { Loading } from "../common/Loading"
-
-const DynamicCodeMirrorEditor = dynamic(
-  () => import("~/components/ui/CodeMirror"),
-  {
-    ssr: false,
-    loading: () => <Loading className="flex-1 h-12" />,
-  },
-)
-
-const DynamicPageContent = dynamic(
-  () => import("~/components/common/PageContent"),
-  {
-    ssr: false,
-    loading: () => <Loading className="flex-1 h-12" />,
-  },
-)
 
 export default function DualColumnEditor({
   initialContent,
@@ -215,7 +198,7 @@ export default function DualColumnEditor({
   return (
     <div className="min-h-0 flex relative items-center w-full h-full">
       {!(isMobileLayout && isRendering) && (
-        <DynamicCodeMirrorEditor
+        <CodeMirror
           value={initialContent}
           placeholder={t("Start writing") as string}
           onChange={onChangeInside}
@@ -246,7 +229,7 @@ export default function DualColumnEditor({
         </div>
       )}
       {isRendering && (
-        <DynamicPageContent
+        <PageContent
           className="bg-white px-5 overflow-scroll pb-[200px] h-full flex-1"
           parsedContent={parsedContent}
           inputRef={previewRef}

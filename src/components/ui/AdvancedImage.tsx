@@ -3,7 +3,7 @@ import { memo } from "react"
 import FadeIn from "~/components/common/FadeIn"
 import { Image, type TImageProps } from "~/components/ui/Image"
 import { SITE_URL } from "~/lib/env"
-import { cn } from "~/lib/utils"
+import { cn, isServerSide } from "~/lib/utils"
 
 const AdvancedImage = memo(async function AdvancedImage(props: TImageProps) {
   let info: {
@@ -17,11 +17,7 @@ const AdvancedImage = memo(async function AdvancedImage(props: TImageProps) {
   if (props.src?.startsWith("http")) {
     try {
       info = await (
-        await fetch(
-          `${typeof window === "undefined" ? SITE_URL : ""}/api/image?url=${
-            props.src
-          }`,
-        )
+        await fetch(`${SITE_URL}/api/image?url=${props.src}`)
       ).json()
     } catch (error) {}
   }
@@ -51,4 +47,4 @@ const AdvancedImage = memo(async function AdvancedImage(props: TImageProps) {
   )
 })
 
-export default AdvancedImage
+export default isServerSide() ? AdvancedImage : Image
