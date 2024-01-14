@@ -11,13 +11,20 @@ const components: TwitterComponents = {
   MediaImg: (props) => <Image {...props} fill unoptimized alt="tweet-media" />,
 }
 
-export default function Tweet({ id }: { id: string }) {
+export default function Tweet({
+  id,
+  fullUrl,
+}: {
+  id: string
+  fullUrl: string
+}) {
   return (
     <div className="flex justify-center">
       <ReactTweet
         id={id}
         components={components}
         apiUrl={`${SITE_URL}/api/tweet?id=${id}`}
+        fallback={<>{fullUrl}</>}
       />
     </div>
   )

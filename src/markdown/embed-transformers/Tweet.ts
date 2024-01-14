@@ -8,12 +8,15 @@ export const TweetTransformer: Transformer = {
   shouldTransform(url) {
     const { host, pathname } = url
 
-    return isHostIncludes("twitter.com", host) && pathname.includes("/status/")
+    return (
+      (isHostIncludes("twitter.com", host) || isHostIncludes("x.com", host)) &&
+      pathname.includes("/status/")
+    )
   },
   getHTML(url) {
     const { pathname } = url
     const matched = match<{ id: string }>("/:user/status/:id")(pathname)
     if (!matched) return
-    return `<tweet id="${matched.params.id}" />`
+    return `<tweet id="${matched.params.id}" fullUrl="${url}" />`
   },
 }
