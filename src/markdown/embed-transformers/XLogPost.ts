@@ -1,5 +1,7 @@
 import { match } from "path-to-regexp"
 
+import { OUR_DOMAIN } from "~/lib/env"
+
 import type { Transformer } from "../rehype-embed"
 
 function getParamsFromShortsURL(url: URL) {
@@ -31,7 +33,11 @@ function getParamsFromShortsURL(url: URL) {
 export const XLogPostTransformer: Transformer = {
   name: "XLogShorts",
   shouldTransform(url) {
-    return !!getParamsFromShortsURL(url)
+    const { host } = url
+    return (
+      (host.includes(`.${OUR_DOMAIN}`) || host === OUR_DOMAIN) &&
+      !!getParamsFromShortsURL(url)
+    )
   },
   getHTML(url) {
     const { slug, handle } = getParamsFromShortsURL(url)!
