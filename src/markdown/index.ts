@@ -56,6 +56,7 @@ import sanitizeScheme from "./sanitize-schema"
 const Style = dynamic(() => import("~/components/common/Style"))
 const Mention = dynamic(() => import("~/components/ui/Mention"))
 const Mermaid = dynamic(() => import("~/components/ui/Mermaid"))
+const Tweet = dynamic(() => import("~/components/ui/Tweet"))
 const GithubRepo = dynamic(() => import("~/components/ui/GithubRepo"))
 const XLogPost = dynamic(() => import("~/components/ui/XLogPost"))
 const APlayer = dynamic(() => import("~/components/ui/APlayer"))
@@ -233,6 +234,7 @@ export const renderPageContent = (
           mermaid: Mermaid,
           audio: APlayer,
           video: DPlayer,
+          tweet: Tweet,
           "github-repo": GithubRepo,
           "xlog-post": XLogPost,
           style: Style,
