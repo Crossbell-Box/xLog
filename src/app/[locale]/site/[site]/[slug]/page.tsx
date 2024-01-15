@@ -9,6 +9,7 @@ import PostCover from "~/components/home/PostCover"
 import { OIAButton } from "~/components/site/OIAButton"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
+import PostTitle from "~/components/site/PostTitle"
 import TranslationInfo from "~/components/site/TranslationInfo"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
@@ -42,7 +43,9 @@ export const generateMetadata = withHrefLang<{
   )
 
   const title = `${
-    page?.metadata?.content?.title || page?.metadata?.content?.content
+    page?.metadata?.content?.title ||
+    page?.metadata?.content?.content ||
+    "No titile"
   } - ${site?.metadata?.content?.name || site?.handle}`
 
   const description = page?.metadata?.content?.summary
@@ -180,15 +183,11 @@ export default async function SitePagePage({
           <>
             {!onlyContent && (
               <>
-                {page?.metadata?.content?.tags?.includes("post") ? (
-                  <h2 className="xlog-post-title text-4xl font-bold leading-tight text-center">
-                    {page.metadata?.content?.title}
-                  </h2>
-                ) : (
-                  <h2 className="xlog-post-title text-xl font-bold page-title text-center">
-                    {page?.metadata?.content?.title}
-                  </h2>
-                )}
+                <PostTitle
+                  title={page?.metadata?.content?.title}
+                  skipTranslate={true}
+                  center={true}
+                />
                 {page?.metadata?.content?.tags?.includes("post") && (
                   <PostMeta
                     page={page}

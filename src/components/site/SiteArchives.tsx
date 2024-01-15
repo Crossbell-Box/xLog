@@ -22,9 +22,6 @@ export const SiteArchives = () => {
   const format = useFormatter()
   const pathname = usePathname()
   const params = useParams()
-  if (params?.tag) {
-    params.tag = decodeURIComponent(params.tag as string)
-  }
 
   const site = useGetSite(params?.site as string)
   const posts = useGetPagesBySiteLite({
@@ -33,7 +30,6 @@ export const SiteArchives = () => {
     visibility: PageVisibilityEnum.Published,
     limit: 100,
     skipExpansion: true,
-    ...(params?.tag && { tags: [params.tag as string] }),
   })
 
   const groupedByYear = useMemo<Map<string, ExpandedNote[]>>(() => {
@@ -82,9 +78,6 @@ export const SiteArchives = () => {
 
   return (
     <>
-      <h2 className="text-xl font-bold page-title">
-        {params?.tag || t("Archives")}
-      </h2>
       {!posts.data?.pages[0].count && (
         <div className="mt-5">
           <EmptyState />
@@ -92,7 +85,7 @@ export const SiteArchives = () => {
       )}
       {!!posts.data?.pages[0].count && (
         <>
-          {!params?.tag && tags.size > 0 && (
+          {tags.size > 0 && (
             <div className="mt-5">
               <h3 className="text-lg font-bold mb-1 text-zinc-700">
                 {t("Tags")}

@@ -1,5 +1,8 @@
+import { getTranslations } from "next-intl/server"
+
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
+import PostTitle from "~/components/site/PostTitle"
 import SiteHome from "~/components/site/SiteHome"
 import getQueryClient from "~/lib/query-client"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -13,10 +16,11 @@ export const generateMetadata = withHrefLang<{
   }
 }>(async ({ params }) => {
   const queryClient = getQueryClient()
+  const t = await getTranslations()
 
   const site = await fetchGetSite(params.site, queryClient)
 
-  const title = `Portfolios - ${site?.metadata?.content?.name || site?.handle}`
+  const title = `${t("Portfolios")} - ${site?.metadata?.content?.name || site?.handle}`
 
   return {
     title,
@@ -40,6 +44,7 @@ async function SitePortfoliosPage({
       visibility: PageVisibilityEnum.Published,
       useStat: true,
       limit: 18,
+      sortType: "latest",
     },
     queryClient,
   )
@@ -47,9 +52,12 @@ async function SitePortfoliosPage({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <SiteHome handle={params.site} type="portfolio" />
-    </Hydrate>
+    <>
+      <PostTitle title="Portfolios" />
+      <Hydrate state={dehydratedState}>
+        <SiteHome handle={params.site} type="portfolio" />
+      </Hydrate>
+    </>
   )
 }
 

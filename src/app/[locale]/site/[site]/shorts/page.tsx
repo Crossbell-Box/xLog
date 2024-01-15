@@ -1,5 +1,8 @@
+import { getTranslations } from "next-intl/server"
+
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
+import PostTitle from "~/components/site/PostTitle"
 import SiteHome from "~/components/site/SiteHome"
 import getQueryClient from "~/lib/query-client"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -13,10 +16,11 @@ export const generateMetadata = withHrefLang<{
   }
 }>(async ({ params }) => {
   const queryClient = getQueryClient()
+  const t = await getTranslations()
 
   const site = await fetchGetSite(params.site, queryClient)
 
-  const title = `Shorts - ${site?.metadata?.content?.name || site?.handle}`
+  const title = `${t("Shorts")} - ${site?.metadata?.content?.name || site?.handle}`
 
   return {
     title,
@@ -40,6 +44,7 @@ async function SiteShortsPage({
       visibility: PageVisibilityEnum.Published,
       useStat: true,
       limit: 20,
+      sortType: "latest",
     },
     queryClient,
   )
@@ -47,9 +52,12 @@ async function SiteShortsPage({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <SiteHome handle={params.site} type="short" />
-    </Hydrate>
+    <>
+      <PostTitle title="Shorts" />
+      <Hydrate state={dehydratedState}>
+        <SiteHome handle={params.site} type="short" />
+      </Hydrate>
+    </>
   )
 }
 

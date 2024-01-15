@@ -205,7 +205,7 @@ export default async function SiteLayout({
           // eslint-disable-next-line tailwindcss/no-custom-classname
           className={cn(
             `xlog-post-id-${page?.characterId}-${page?.noteId}`,
-            "xlog-deprecated-class xlog-post-area max-w-screen-lg mx-auto px-5 pt-6 relative",
+            "xlog-deprecated-class xlog-post-area max-w-screen-lg mx-auto px-5 pt-8 relative",
           )}
         >
           {children}

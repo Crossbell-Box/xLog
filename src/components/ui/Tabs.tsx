@@ -37,6 +37,10 @@ export const Tabs = ({
     return item
   })
 
+  if (!items?.length) {
+    return null
+  }
+
   return (
     <div
       className={cn(

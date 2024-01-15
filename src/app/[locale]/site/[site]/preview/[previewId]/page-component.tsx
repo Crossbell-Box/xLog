@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl"
 import dynamic from "next/dynamic"
 import { useParams } from "next/navigation"
 
+import PostTitle from "~/components/site/PostTitle"
 import { useGetPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
@@ -39,15 +40,11 @@ export default function SitePreviewPage() {
       </div>
       <article>
         <div>
-          {page.data?.metadata?.content?.tags?.includes("post") ? (
-            <h2 className="xlog-post-title text-4xl font-bold leading-tight text-center">
-              {page.data.metadata?.content?.title}
-            </h2>
-          ) : (
-            <h2 className="xlog-post-title text-xl font-bold page-title text-center">
-              {page.data?.metadata?.content?.title}
-            </h2>
-          )}
+          <PostTitle
+            title={page.data?.metadata?.content?.title}
+            skipTranslate={true}
+            center={true}
+          />
         </div>
         <DynamicPageContent
           className="mt-10"

@@ -46,7 +46,9 @@ async function SiteIndexPage({
 
   return (
     <>
-      {!!shorts?.count && <ShortPreviewList shorts={shorts} />}
+      {!!shorts?.count && (
+        <ShortPreviewList className="-mt-2" shorts={shorts} />
+      )}
       <Hydrate state={dehydratedState}>
         <SiteHome handle={params.site} />
       </Hydrate>

@@ -375,12 +375,6 @@ textarea.input {
   @apply bg-yellow-500;
 }
 
-.page-title {
-  @apply relative;
-  @apply text-3xl;
-  @apply font-extrabold;
-}
-
 .xlog-site-description a {
   @apply underline;
 }

@@ -1,5 +1,8 @@
+import { getTranslations } from "next-intl/server"
+
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
+import PostTitle from "~/components/site/PostTitle"
 import { SiteArchives } from "~/components/site/SiteArchives"
 import getQueryClient from "~/lib/query-client"
 import { PageVisibilityEnum } from "~/lib/types"
@@ -13,10 +16,11 @@ export const generateMetadata = withHrefLang<{
   }
 }>(async ({ params }) => {
   const queryClient = getQueryClient()
+  const t = await getTranslations()
 
   const site = await fetchGetSite(params.site, queryClient)
 
-  const title = `Archives - ${site?.metadata?.content?.name || site?.handle}`
+  const title = `${t("Archives")} - ${site?.metadata?.content?.name || site?.handle}`
 
   return {
     title,
@@ -31,6 +35,7 @@ export default async function SiteArchivesPage({
   }
 }) {
   const queryClient = getQueryClient()
+  const t = await getTranslations()
 
   const site = await fetchGetSite(params.site, queryClient)
   await prefetchGetPagesBySite(
@@ -47,8 +52,11 @@ export default async function SiteArchivesPage({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <SiteArchives />
-    </Hydrate>
+    <>
+      <PostTitle title="Archives" />
+      <Hydrate state={dehydratedState}>
+        <SiteArchives />
+      </Hydrate>
+    </>
   )
 }
