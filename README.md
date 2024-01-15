@@ -5,7 +5,7 @@
 
 > 🪽 An open-source creative community written on the blockchain.
 
-[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) [![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) [![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
+[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) [![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) [![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push-prod.yml)
 
 ## Introduction
 
@@ -33,3 +33,4 @@ We will provide some small gifts to contributors as a token of appreciation, cur
 - [xLog mobile](https://github.com/Crossbell-Box/xLog-mobile): The mobile app for xLog.
 - [xLog custom css debugger](https://github.com/birdgg/xLog-custom-css-debugger): A convenient chrome extension for debugging custom CSS in Xlog.
 - [xLog card](https://github.com/Alex-Programer/xlog-card): Card component for displaying xLog information.
+- [Sync To xLog](https://github.com/Otto-J/sync-to-xlog): Sync obsidian notes to xlog.app

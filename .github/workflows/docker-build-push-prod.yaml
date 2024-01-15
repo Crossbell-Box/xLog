@@ -1,5 +1,5 @@
 # build and push docker image to docker hub
-name: Build & Deploy Dev
+name: Build & Deploy Prod
 
 on:
   push:
