@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 
 import { CharacterFloatCard } from "~/components/common/CharacterFloatCard"
+import Heatmap from "~/components/common/Heatmap"
 import { DashboardMain } from "~/components/dashboard/DashboardMain"
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
@@ -132,6 +133,7 @@ export default function SubdomainIndex() {
               </UniLink>
             ))}
           </div>
+          <Heatmap characterId={characterId} />
           <div className="prose p-6 bg-slate-50 rounded-lg relative">
             {t.rich("hello.welcome", {
               p: (chunks) => <p>{chunks}</p>,
@@ -205,8 +207,9 @@ export default function SubdomainIndex() {
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
               {pages.data?.pages[0]?.list.map((item) => (
                 <UniLink
-                  href={`${getSiteLink({ subdomain: "xlog" })}/${item.metadata
-                    ?.content?.slug}`}
+                  href={`${getSiteLink({ subdomain: "xlog" })}/${
+                    item.metadata?.content?.slug
+                  }`}
                   key={item.transactionHash}
                   className="bg-slate-100 rounded-lg flex flex-col py-4 px-6"
                 >

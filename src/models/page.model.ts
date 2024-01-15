@@ -6,6 +6,9 @@ import type {
   NoteEntity,
   NoteMetadata,
 } from "crossbell"
+import dayjs from "dayjs"
+import advancedFormat from "dayjs/plugin/advancedFormat"
+import weekOfYear from "dayjs/plugin/weekOfYear"
 import { type Address } from "viem"
 
 import { GeneralAccount } from "@crossbell/connect-kit"
@@ -28,6 +31,9 @@ import {
   PageVisibilityEnum,
 } from "~/lib/types"
 import { client } from "~/queries/graphql"
+
+dayjs.extend(weekOfYear)
+dayjs.extend(advancedFormat)
 
 export const PINNED_PAGE_KEY = "xlog_pinned_page"
 
@@ -296,8 +302,9 @@ export async function getPagesBySite(input: {
     cursor:
       data?.notes?.length < limit
         ? null
-        : `${input.characterId}_${data?.notes?.[data?.notes?.length - 1]
-            ?.noteId}`,
+        : `${input.characterId}_${
+            data?.notes?.[data?.notes?.length - 1]?.noteId
+          }`,
   }
 
   const expandedNotes = {
@@ -382,6 +389,114 @@ export async function getPagesBySite(input: {
   }
 
   return expandedNotes
+}
+
+export async function getCalendar(characterId?: number) {
+  if (!characterId) {
+    return {
+      calendar: [],
+    }
+  }
+
+  const format = (day: dayjs.Dayjs) => {
+    const ww = day.format("ww")
+    const mm = day.format("MM")
+    if (ww === "01" && mm !== "01") {
+      return `${day.year() + 1}-${ww}`
+    } else {
+      return `${day.year()}-${ww}`
+    }
+  }
+
+  const calendarLength = 370
+  const getCalendarTemp = () => {
+    const calendar: {
+      [key: string]: {
+        day: dayjs.Dayjs
+        count: number
+        titles: string[]
+      }[]
+    } = {}
+    for (let i = calendarLength - 1; i >= 0; i--) {
+      const day = dayjs().subtract(i, "day")
+      let week = format(day)
+      if (!calendar[week]) {
+        calendar[week] = []
+      }
+      calendar[week].push({
+        day: day,
+        count: 0,
+        titles: [],
+      })
+    }
+    return calendar
+  }
+
+  const currentDate = new Date()
+  currentDate.setUTCHours(0, 0, 0, 0)
+  currentDate.setUTCDate(currentDate.getUTCDate() - 370)
+  const utcString = currentDate.toISOString()
+
+  const { data } = await client
+    .query(
+      gql`
+        query getNotes($characterId: Int, $limit: Int, $utcString: DateTime) {
+          notes(
+            where: {
+              characterId: { equals: $characterId }
+              createdAt: { gte: $utcString }
+              metadata: { content: { path: "sources", array_contains: "xlog" } }
+            }
+            take: $limit
+          ) {
+            createdAt
+            metadata {
+              content
+            }
+          }
+        }
+      `,
+      {
+        characterId,
+        limit: 1000,
+        utcString,
+      },
+    )
+    .toPromise()
+
+  let response = {
+    calendar: getCalendarTemp(),
+  }
+
+  for (let i = 0; i < data.notes.length; i++) {
+    const day = dayjs(data.notes[i].createdAt)
+    let week = format(day)
+    const today = response.calendar[week].find((item: any) =>
+      item.day.isSame(day, "day"),
+    )
+    if (today) {
+      today.count++
+      today.titles.push(
+        (
+          data.notes[i].metadata.content.title ||
+          data.notes[i].metadata.content.content
+        ).slice(0, 20),
+      )
+    } else {
+      console.warn("not found", day)
+    }
+  }
+
+  return {
+    calendar: Object.keys(response.calendar)
+      .sort()
+      .map((key) =>
+        response.calendar[key].map((item: any) => {
+          item.day = item.day.valueOf()
+          return item
+        }),
+      ),
+  }
 }
 
 export async function getSearchPagesBySite(input: {

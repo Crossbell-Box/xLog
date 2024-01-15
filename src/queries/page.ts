@@ -708,3 +708,12 @@ export const usePinnedPage = ({
 
   return { isLoading, noteId: data as number }
 }
+
+export const useCalendar = (characterId?: number) => {
+  return useQuery(["getCalendar", characterId], async () => {
+    if (!characterId) {
+      return
+    }
+    return pageModel.getCalendar(characterId)
+  })
+}
