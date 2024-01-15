@@ -1,6 +1,9 @@
+import { getTranslations } from "next-intl/server"
+
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
-import { SiteArchives } from "~/components/site/SiteArchives"
+import PostTitle from "~/components/site/PostTitle"
+import SiteTag from "~/components/site/SiteTag"
 import getQueryClient from "~/lib/query-client"
 import { PageVisibilityEnum } from "~/lib/types"
 import { withHrefLang } from "~/lib/with-hreflang"
@@ -16,9 +19,10 @@ export const generateMetadata = withHrefLang<{
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)
+  const t = await getTranslations()
 
   params.tag = decodeURIComponent(params.tag)
-  const title = `Tag: ${params.tag} - ${
+  const title = `${t("Tag")}: ${params.tag} - ${
     site?.metadata?.content?.name || site?.handle
   }`
 
@@ -44,9 +48,9 @@ export default async function SiteTagPage({
       characterId: site?.characterId,
       type: "post",
       visibility: PageVisibilityEnum.Published,
-      limit: 100,
-      skipExpansion: true,
+      limit: 18,
       tags: [params.tag],
+      sortType: "latest",
     },
     queryClient,
   )
@@ -54,8 +58,14 @@ export default async function SiteTagPage({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <SiteArchives />
-    </Hydrate>
+    <>
+      <PostTitle
+        title={params.tag}
+        icon={<i className="i-mingcute-tag-line mr-[2px]" />}
+      />
+      <Hydrate state={dehydratedState}>
+        <SiteTag handle={params.site} tag={params.tag} />
+      </Hydrate>
+    </>
   )
 }
