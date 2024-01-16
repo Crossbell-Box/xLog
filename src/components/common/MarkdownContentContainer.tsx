@@ -8,7 +8,7 @@ import { ExpandedNote } from "~/lib/types"
 import { cn, scrollTo } from "~/lib/utils"
 import { useReportStats } from "~/queries/page"
 
-export const PageContentContainer = ({
+export const MarkdownContentContainer = ({
   className,
   page,
   onScroll,

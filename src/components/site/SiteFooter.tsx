@@ -2,9 +2,9 @@ import { getTranslations } from "next-intl/server"
 import Script from "next/script"
 
 import { Logo } from "~/components/common/Logo"
+import MarkdownContent from "~/components/common/MarkdownContent"
 import { SITE_URL } from "~/lib/env"
 import { ExpandedCharacter } from "~/lib/types"
-import { renderPageContent } from "~/markdown"
 
 import { DarkModeSwitch } from "../common/DarkModeSwitch"
 import { LanguageSwitch } from "../common/LanguageSwitch"
@@ -35,12 +35,11 @@ export default async function SiteFooter({
       <footer className="text-zinc-500 border-t">
         <div className="max-w-screen-lg mx-auto px-5 py-10">
           {site?.metadata?.content?.footer && (
-            <div className="xlog-post-content prose text-sm">
-              {
-                renderPageContent(site.metadata.content.footer, false, true)
-                  ?.element
-              }
-            </div>
+            <MarkdownContent
+              className="[&>.prose]:text-sm"
+              content={site.metadata.content.footer}
+              isComment={true}
+            />
           )}
           <div className="text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5 sm:items-center">
             <div className="font-medium text-base">

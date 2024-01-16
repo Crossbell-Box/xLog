@@ -6,12 +6,12 @@ import { ExpandedCharacter, ExpandedNote } from "~/lib/types"
 import { cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
 
-import { PageContentContainer } from "./PageContentContainer"
+import { MarkdownContentContainer } from "./MarkdownContentContainer"
 
-const PageContent = memo(function PageContent({
+const MarkdownContent = memo(function PageContent({
   className,
   content,
-  toc,
+  withToc,
   inputRef,
   onScroll,
   onMouseEnter,
@@ -24,7 +24,7 @@ const PageContent = memo(function PageContent({
 }: {
   content?: string
   className?: string
-  toc?: boolean
+  withToc?: boolean
   inputRef?: MutableRefObject<HTMLDivElement | null>
   onScroll?: (scrollTop: number) => void
   onMouseEnter?: () => void
@@ -43,7 +43,7 @@ const PageContent = memo(function PageContent({
   }
 
   return (
-    <PageContentContainer
+    <MarkdownContentContainer
       className={cn("relative", className)}
       page={page}
       onScroll={onScroll}
@@ -53,13 +53,13 @@ const PageContent = memo(function PageContent({
         <div className="xlog-post-content prose" ref={inputRef}>
           {inParsedContent?.element}
         </div>
-        {!onlyContent && toc && inParsedContent?.toc && (
+        {!onlyContent && withToc && inParsedContent?.toc && (
           <PostToc data={inParsedContent?.toc} />
         )}
         {!onlyContent && withActions && <PostActions page={page} site={site} />}
       </>
-    </PageContentContainer>
+    </MarkdownContentContainer>
   )
 })
 
-export default PageContent
+export default MarkdownContent

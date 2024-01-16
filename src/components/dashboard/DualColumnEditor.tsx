@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { EditorView } from "@codemirror/view"
 
-import PageContent from "~/components/common/PageContent"
+import MarkdownContent from "~/components/common/MarkdownContent"
 import { toolbarShortcuts } from "~/components/dashboard/toolbars"
 import { editorUpload } from "~/components/dashboard/toolbars/Multimedia"
 import CodeMirror from "~/components/ui/CodeMirror"
@@ -196,7 +196,7 @@ export default function DualColumnEditor({
   )
 
   return (
-    <div className="min-h-0 flex relative items-center w-full h-full">
+    <div className="min-h-0 flex relative items-center size-full">
       {!(isMobileLayout && isRendering) && (
         <CodeMirror
           value={initialContent}
@@ -217,19 +217,19 @@ export default function DualColumnEditor({
         <div className="z-10 w-[1px]">
           <div
             aria-label="Toggle preview view"
-            className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 -translate-x-1/2"
+            className="bg-accent rounded-full cursor-pointer text-white size-6 -translate-x-1/2"
             onClick={() => setIsRendering(!isRendering)}
           >
             {isRendering ? (
-              <i className="i-mingcute-right-line text-2xl inline-block w-6 h-6" />
+              <i className="i-mingcute-right-line text-2xl inline-block size-6" />
             ) : (
-              <i className="i-mingcute-left-line text-2xl inline-block w-6 h-6" />
+              <i className="i-mingcute-left-line text-2xl inline-block size-6" />
             )}
           </div>
         </div>
       )}
       {isRendering && (
-        <PageContent
+        <MarkdownContent
           className="bg-white px-5 overflow-scroll pb-[200px] h-full flex-1"
           parsedContent={parsedContent}
           inputRef={previewRef}

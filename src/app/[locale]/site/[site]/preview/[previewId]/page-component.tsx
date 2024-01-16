@@ -8,8 +8,8 @@ import PostTitle from "~/components/site/PostTitle"
 import { useGetPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
-const DynamicPageContent = dynamic(
-  () => import("~/components/common/PageContent"),
+const DynamicMarkdownContent = dynamic(
+  () => import("~/components/common/MarkdownContent"),
   {
     ssr: false,
   },
@@ -46,11 +46,11 @@ export default function SitePreviewPage() {
             center={true}
           />
         </div>
-        <DynamicPageContent
+        <DynamicMarkdownContent
           className="mt-10"
           content={page.data?.metadata?.content?.content}
-          toc={true}
-        ></DynamicPageContent>
+          withToc={true}
+        ></DynamicMarkdownContent>
       </article>
     </div>
   )

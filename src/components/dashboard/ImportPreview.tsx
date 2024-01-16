@@ -7,9 +7,12 @@ import { useDate } from "~/hooks/useDate"
 import { RESERVED_TAGS } from "~/lib/constants"
 import { cn } from "~/lib/utils"
 
-const DynamicPageContent = dynamic(() => import("../common/PageContent"), {
-  ssr: false,
-})
+const DynamicMarkdownContent = dynamic(
+  () => import("../common/MarkdownContent"),
+  {
+    ssr: false,
+  },
+)
 
 export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
   const date = useDate()
@@ -54,10 +57,10 @@ export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
         >
           {t("Show more")}
         </div>
-        <DynamicPageContent
+        <DynamicMarkdownContent
           className="mt-4"
           content={note?.content}
-        ></DynamicPageContent>
+        ></DynamicMarkdownContent>
       </div>
     </article>
   )
