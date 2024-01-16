@@ -57,7 +57,7 @@
     "@lezer/highlight": "1.2.0",
     "@mantine/core": "7.3.2",
     "@mantine/dates": "7.3.2",
-    "@microflash/remark-callout-directives": "1.6.0",
+    "@microflash/remark-callout-directives": "2.0.0",
     "@monaco-editor/react": "4.6.0",
     "@popperjs/core": "2.11.8",
     "@prisma/client": "5.8.1",
