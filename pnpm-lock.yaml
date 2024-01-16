@@ -66,8 +66,8 @@ dependencies:
     specifier: 1.1.1
     version: 1.1.1(emoji-mart@5.5.2)(react@18.2.0)
   '@floating-ui/react':
-    specifier: 0.26.5
-    version: 0.26.5(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.26.6
+    version: 0.26.6(react-dom@18.2.0)(react@18.2.0)
   '@headlessui/react':
     specifier: 1.7.18
     version: 1.7.18(react-dom@18.2.0)(react@18.2.0)
@@ -2183,8 +2183,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@floating-ui/react-dom@2.0.5(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-UsBK30Bg+s6+nsgblXtZmwHhgS2vmbuQK22qgt2pTQM6M3X6H1+cQcLXqgRY3ihVLcZJE6IvqDQozhsnIVqK/Q==}
+  /@floating-ui/react-dom@2.0.6(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-IB8aCRFxr8nFkdYZgH+Otd9EVQPJoynxeFRGTB8voPoZMRWo8XjYuCRgpI1btvuKY69XMiLnW+ym7zoBHM90Rw==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -2213,20 +2213,20 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@floating-ui/react-dom': 2.0.5(react-dom@18.2.0)(react@18.2.0)
+      '@floating-ui/react-dom': 2.0.6(react-dom@18.2.0)(react@18.2.0)
       aria-hidden: 1.2.3
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       tabbable: 6.2.0
     dev: false
 
-  /@floating-ui/react@0.26.5(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-LJeSQa+yOwV0Tdpc/C3Vr92QMrwRqRMTk4yOwsRJKc57x3Lcw317GE0EV+ECM7+Z89yEAPBe7nzbDEWfkWCrBA==}
+  /@floating-ui/react@0.26.6(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-FFDAuSlRwb8CY4/VvYio/wwk/0339B257yRpKwNOjcHWNYL/fgjl1KUvT3K6ZZ4WDbBWYc7Km4ITMuPZrS8omg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@floating-ui/react-dom': 2.0.5(react-dom@18.2.0)(react@18.2.0)
+      '@floating-ui/react-dom': 2.0.6(react-dom@18.2.0)(react@18.2.0)
       '@floating-ui/utils': 0.2.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
