@@ -16,7 +16,7 @@ const MarkdownContent = memo(function PageContent({
   onScroll,
   onMouseEnter,
   parsedContent,
-  isComment,
+  simpleMode,
   page,
   site,
   withActions,
@@ -29,7 +29,7 @@ const MarkdownContent = memo(function PageContent({
   onScroll?: (scrollTop: number) => void
   onMouseEnter?: () => void
   parsedContent?: ReturnType<typeof renderPageContent>
-  isComment?: boolean
+  simpleMode?: boolean
   page?: ExpandedNote
   site?: ExpandedCharacter
   withActions?: boolean
@@ -39,7 +39,7 @@ const MarkdownContent = memo(function PageContent({
   if (parsedContent) {
     inParsedContent = parsedContent
   } else if (content) {
-    inParsedContent = renderPageContent(content, false, isComment)
+    inParsedContent = renderPageContent(content, false, simpleMode)
   }
 
   return (
