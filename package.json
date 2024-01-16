@@ -219,5 +219,11 @@
     "budgetPercentIncreaseRed": 20,
     "minimumChangeThreshold": 0,
     "showDetails": true
+  },
+  "pnpm": {
+    "overrides": {
+      "@web3modal/ethereum>@wagmi/core": "^1",
+      "@web3modal/ethereum>viem": "^1"
+    }
   }
 }

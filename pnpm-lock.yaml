@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@web3modal/ethereum>@wagmi/core': ^1
+  '@web3modal/ethereum>viem': ^1
+
 dependencies:
   '@birdgg/react-github':
     specifier: 0.2.3
@@ -5370,8 +5374,8 @@ packages:
     resolution: {integrity: sha512-1x3qhYh9qgtvw1MDQD4VeDf2ZOsVANKRPtUty4lF+N4L8xnAIwvNKUAMA4j6T5xSsjqUfq5Tdy5mYsNxLmsWMA==}
     deprecated: Please use new @web3modal/wagmi package
     peerDependencies:
-      '@wagmi/core': '>=1'
-      viem: '>=1'
+      '@wagmi/core': ^1
+      viem: ^1
     dependencies:
       '@wagmi/core': 1.4.13(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
@@ -6584,7 +6588,7 @@ packages:
       eip1193-types: 0.2.1
       exponential-backoff: 3.1.1
       p-limit: 3.1.0
-      viem: 2.0.0-rc.3(typescript@5.3.3)(zod@3.22.4)
+      viem: 2.1.1(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -14193,8 +14197,8 @@ packages:
       - zod
     dev: false
 
-  /viem@2.0.0-rc.3(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-6fFfY6XVvUqTVaGq4OC2JoqtrLTUdbYr4n6VvbhT3fx+mx5sC8PBO/1fjas6rpNJU7iXItoNWgjONRl6H2jGuA==}
+  /viem@2.1.1(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-gJiwYceD7Dsjioglr+85GQS3u5Gp9XGG8oJqGsauBaEPFlkmbRx7cxD2Q5RZXFToVvEbarOWtITZtGHBsGv4MQ==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
