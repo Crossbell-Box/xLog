@@ -220,8 +220,6 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
         ignoreInvalidStyle: true,
         jsx,
         jsxs,
-        passKeys: true,
-        passNode: true,
       }),
     toMetadata: () => {
       let metadata = {

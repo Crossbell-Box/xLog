@@ -4,18 +4,16 @@ import { nanoid } from "nanoid"
 import { memo, useEffect, useState } from "react"
 
 import { useIsDark } from "~/hooks/useDarkMode"
-import { useIsUnmounted } from "~/hooks/useLifecycle"
 
 import AdvancedImage from "./AdvancedImage"
 
 const Mermaid = memo(
-  function Mermaid(props: { children: [string] }) {
+  function Mermaid(props: { children: string }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [svg, setSvg] = useState("")
     const [width, setWidth] = useState<number>()
     const [height, setHeight] = useState<number>()
-    const isUnmounted = useIsUnmounted()
 
     const isDark = useIsDark()
 
@@ -29,7 +27,7 @@ const Mermaid = memo(
     }, [isDark])
 
     useEffect(() => {
-      if (props.children?.[0]) {
+      if (typeof props.children === "string") {
         setError("")
         setLoading(true)
 
@@ -38,7 +36,7 @@ const Mermaid = memo(
           const id = nanoid()
           let result
           try {
-            result = await mermaid.render(`mermaid-${id}`, props.children[0])
+            result = await mermaid.render(`mermaid-${id}`, props.children)
           } catch (error) {
             document.getElementById(`dmermaid-${id}`)?.remove()
             if (error instanceof Error) {
@@ -48,8 +46,6 @@ const Mermaid = memo(
             setWidth(undefined)
             setHeight(undefined)
           }
-
-          if (isUnmounted()) return
 
           if (result) {
             setSvg(result.svg)
@@ -66,7 +62,7 @@ const Mermaid = memo(
           setLoading(false)
         })
       }
-    }, [props.children, isDark])
+    }, [props.children])
 
     return loading ? (
       <div className="min-h-[50px] rounded-lg flex items-center justify-center bg-[#ECECFD] dark:bg-[#1F2020] text-sm">
