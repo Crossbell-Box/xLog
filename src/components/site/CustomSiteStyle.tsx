@@ -49,5 +49,5 @@ export const CustomSiteStyle: FC<{
     }
   }, [])
 
-  return <Style content={currentStyle} />
+  return <Style>{currentStyle}</Style>
 }

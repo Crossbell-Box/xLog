@@ -1,19 +1,14 @@
-import { memo } from "react"
+import { HTMLAttributes, memo } from "react"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
 const Style = memo(function Style({
-  content,
   children,
-}: {
-  content?: string
-  children?: React.ReactNode[]
-}) {
-  let css = content
-  if (!css && typeof children?.[0] === "string") {
-    css = children[0].trim()
-  }
-  if (!css) {
+}: HTMLAttributes<HTMLStyleElement>) {
+  let css: string | null = null
+  if (typeof children === "string") {
+    css = children.trim()
+  } else {
     return null
   }
 
