@@ -98,6 +98,9 @@ export const renderPageContent = (
       .use(remarkPangu)
       .use(emoji)
       .use(remarkRehype, { allowDangerousHtml: true })
+      .use(rehypeRaw, {
+        passThrough: allowedCustomWrappers,
+      } as RehypeRawOptions)
       .use(rehypeCustomWrapper, {
         rules: defaultRules,
       })
@@ -126,6 +129,13 @@ export const renderPageContent = (
       .use(rehypeInferDescriptionMeta)
       .use(rehypeEmbed, {
         transformers,
+      })
+      .use(rehypePrism, {
+        ignoreMissing: true,
+        showLineNumbers: true,
+      })
+      .use(rehypeKatex, {
+        strict: false,
       })
       .use(rehypeRewrite, {
         selector: "p, li, h1",
@@ -164,17 +174,10 @@ export const renderPageContent = (
           }
         },
       })
+      // TODO
       .use(rehypeRaw, {
         passThrough: allowedCustomWrappers,
       } as RehypeRawOptions)
-      // Move it to the end as it generates a lot of DOM and requires extensive traversal.
-      .use(rehypeKatex, {
-        strict: false,
-      })
-      .use(rehypePrism, {
-        ignoreMissing: true,
-        showLineNumbers: true,
-      })
 
     const file = new VFile(content)
 
@@ -205,6 +208,7 @@ export const renderPageContent = (
       }
     })
 
+    // images audio
     visit(hastTree, (node, index, parent) => {
       if (node.type === "element") {
         if (node.tagName === "img" && typeof node.properties.src === "string") {
