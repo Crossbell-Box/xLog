@@ -101,7 +101,7 @@
     "mermaid": "10.7.0",
     "nanoid": "5.0.4",
     "next": "14.0.4",
-    "next-intl": "^3.4.2",
+    "next-intl": "^3.4.3",
     "next-themes": "0.2.1",
     "node-id3": "0.2.6",
     "open-graph-scraper": "^6.3.2",
