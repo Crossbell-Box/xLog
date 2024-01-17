@@ -9,12 +9,8 @@ import { CharacterFloatCard } from "../common/CharacterFloatCard"
 import { UniLink } from "./UniLink"
 
 const getSiteId = ({ id, children }: { id: string; children?: any }) => {
-  if (
-    children?.[0] &&
-    typeof children[0] === "string" &&
-    children[0].startsWith("@")
-  ) {
-    return children[0].replace(/^@/, "")
+  if (children && typeof children === "string" && children.startsWith("@")) {
+    return children.replace(/^@/, "")
   } else if (id) {
     return id.replace(/^user-content-/, "")
   }
