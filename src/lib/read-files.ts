@@ -31,22 +31,22 @@ export const readFiles = async (files: FileList) => {
           const reader = new FileReader()
           reader.onload = () => {
             const pageContent = renderPageContent(reader.result as string)
+            const metadata = pageContent.toMetadata()
             resolve({
               title:
-                pageContent.frontMatter.title ||
+                metadata.frontMatter?.title ||
                 file.name.replace(/\.[^/.]+$/, ""),
               type: file.type,
               size: file.size,
               date_published: new Date(
-                pageContent.frontMatter.date || file.lastModified || Date.now(),
+                metadata.frontMatter?.date || file.lastModified || Date.now(),
               ).toISOString(),
               slug:
-                pageContent.frontMatter.permalink ||
-                pageContent.frontMatter.slug ||
+                metadata.frontMatter?.permalink ||
+                metadata.frontMatter?.slug ||
                 getDefaultSlug(file.name),
               tags: makeArray(
-                pageContent.frontMatter.tags ||
-                  pageContent.frontMatter.categories,
+                metadata.frontMatter?.tags || metadata.frontMatter?.categories,
               ),
               content: reader.result as string,
             })

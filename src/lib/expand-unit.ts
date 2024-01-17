@@ -56,7 +56,7 @@ export const expandCrossbellNote = async ({
   )
 
   if (expandedNote.metadata?.content) {
-    let rendered
+    let renderedMetadata
     if (expandedNote.metadata?.content?.content) {
       const { renderPageContent } = await import("~/markdown")
 
@@ -95,7 +95,8 @@ export const expandCrossbellNote = async ({
         }
       }
 
-      rendered = renderPageContent(expandedNote.metadata.content.content!, true)
+      const rendered = renderPageContent(expandedNote.metadata.content.content)
+      renderedMetadata = rendered.toMetadata()
       if (keyword) {
         const position = expandedNote.metadata.content.content
           .toLowerCase()
@@ -106,21 +107,21 @@ export const expandCrossbellNote = async ({
         )}`
       } else {
         if (!expandedNote.metadata.content.summary && !disableAutofill) {
-          expandedNote.metadata.content.summary = rendered.excerpt
+          // TODO expandedNote.metadata.content.summary = renderedMetadata.excerpt
         }
       }
 
-      expandedNote.metadata.content.audio = rendered.audio
-      expandedNote.metadata.content.frontMatter = rendered.frontMatter
+      expandedNote.metadata.content.audio = renderedMetadata.audio
+      expandedNote.metadata.content.frontMatter = renderedMetadata.frontMatter
 
       if (useHTML) {
-        expandedNote.metadata.content.contentHTML = rendered.contentHTML
+        expandedNote.metadata.content.contentHTML = rendered.toHTML()
       }
     }
     expandedNote.metadata.content.cover =
       expandedNote.metadata?.content?.attachments?.find(
         (attachment) => attachment.name === "cover",
-      )?.address || (disableAutofill ? "" : rendered?.cover)
+      )?.address || (disableAutofill ? "" : renderedMetadata?.images?.[0])
 
     expandedNote.metadata.content.images = []
 
@@ -140,7 +141,9 @@ export const expandCrossbellNote = async ({
       expandedNote.metadata.content.images.concat(attachmentsImages || [])
 
     expandedNote.metadata.content.images =
-      expandedNote.metadata.content.images.concat(rendered?.images || [])
+      expandedNote.metadata.content.images.concat(
+        renderedMetadata?.images || [],
+      )
 
     expandedNote.metadata.content.images = [
       ...new Set(expandedNote.metadata.content.images),

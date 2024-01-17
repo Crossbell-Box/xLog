@@ -138,7 +138,7 @@ export const CommentItem = ({
           </div>
           <MarkdownContent
             content={comment.metadata?.content?.content}
-            simpleMode={true}
+            strictMode={true}
           ></MarkdownContent>
           <div className="mt-1 flex items-center">
             <div

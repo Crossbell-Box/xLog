@@ -46,7 +46,7 @@ export default function DualColumnEditor({
   useDebounceEffect(
     () => {
       const result = renderPageContent(values)
-      setTree(result.hastTree)
+      setTree(result.tree)
       setParsedContent(result)
     },
     [values],

@@ -3,7 +3,7 @@ import { toHtml } from "hast-util-to-html"
 import { toJsxRuntime } from "hast-util-to-jsx-runtime"
 import jsYaml from "js-yaml"
 import type { Root as MdashRoot } from "mdast"
-import { toc, Result as TocResult } from "mdast-util-toc"
+import { toc } from "mdast-util-toc"
 import dynamic from "next/dynamic"
 import { toast } from "react-hot-toast"
 // @ts-expect-error: untyped.
@@ -71,11 +71,7 @@ refractor.register(langJsx)
 refractor.register(langSolidity)
 const rehypePrism = rehypePrismGenerator(refractor)
 
-export const renderPageContent = (
-  content: string,
-  htmlMode?: boolean,
-  strictMode?: boolean,
-) => {
+export const renderPageContent = (content: string, strictMode?: boolean) => {
   let hastTree: HashRoot | undefined = undefined
   let mdastTree: MdashRoot | undefined = undefined
   try {
@@ -193,74 +189,83 @@ export const renderPageContent = (
     }
   }
 
-  let html: string | undefined = undefined
-  let element: JSX.Element | undefined = undefined
-  let frontMatter: Record<string, any> | undefined = undefined
-  let tocResult: TocResult | undefined = undefined
-  let images: string[] = []
-  let audio: string | undefined = undefined
-
-  if (hastTree && mdastTree) {
-    // frontMatter
-    visit(mdastTree, (node, index, parent) => {
-      if (node.type === "yaml") {
-        frontMatter = jsYaml.load(node.value) as Record<string, any>
-      }
-    })
-
-    // images audio
-    visit(hastTree, (node, index, parent) => {
-      if (node.type === "element") {
-        if (node.tagName === "img" && typeof node.properties.src === "string") {
-          images.push(node.properties.src)
-        }
-        if (node.tagName === "audio") {
-          if (typeof node.properties.cover === "string") {
-            images.push(node.properties.cover)
-          }
-          if (!audio && typeof node.properties.src === "string") {
-            audio = node.properties.src
-          }
-        }
-      }
-    })
-
-    tocResult = toc(mdastTree, {
-      tight: true,
-      ordered: true,
-    })
-
-    html = toHtml(hastTree)
-
-    element = toJsxRuntime(hastTree, {
-      Fragment,
-      components: {
-        img: AdvancedImage,
-        mention: Mention,
-        mermaid: Mermaid,
-        audio: APlayer,
-        video: DPlayer,
-        tweet: Tweet,
-        "github-repo": GithubRepo,
-        "xlog-post": XLogPost,
-        style: Style,
-      },
-      ignoreInvalidStyle: true,
-      jsx,
-      jsxs,
-      passKeys: true,
-      passNode: true,
-    })
-  }
-
   return {
-    html,
-    element,
-    frontMatter,
-    toc: tocResult,
-    cover: images[0],
-    images,
-    audio,
-    hastTree,
+    tree: hastTree,
+    toToc: () =>
+      mdastTree &&
+      toc(mdastTree, {
+        tight: true,
+        ordered: true,
+      }),
+    toHTML: () => hastTree && toHtml(hastTree),
+    toElement: () =>
+      hastTree &&
+      toJsxRuntime(hastTree, {
+        Fragment,
+        components: {
+          // @ts-expect-error
+          img: AdvancedImage,
+          mention: Mention,
+          mermaid: Mermaid,
+          // @ts-expect-error
+          audio: APlayer,
+          // @ts-expect-error
+          video: DPlayer,
+          tweet: Tweet,
+          "github-repo": GithubRepo,
+          "xlog-post": XLogPost,
+          // @ts-expect-error
+          style: Style,
+        },
+        ignoreInvalidStyle: true,
+        jsx,
+        jsxs,
+        passKeys: true,
+        passNode: true,
+      }),
+    toMetadata: () => {
+      let metadata = {
+        frontMatter: undefined,
+        images: [],
+        audio: undefined,
+      } as {
+        frontMatter?: Record<string, any>
+        images: string[]
+        audio?: string
+      }
+
+      if (mdastTree) {
+        visit(mdastTree, (node, index, parent) => {
+          if (node.type === "yaml") {
+            metadata.frontMatter = jsYaml.load(node.value) as Record<
+              string,
+              any
+            >
+          }
+        })
+      }
+      if (hastTree) {
+        visit(hastTree, (node, index, parent) => {
+          if (node.type === "element") {
+            if (
+              node.tagName === "img" &&
+              typeof node.properties.src === "string"
+            ) {
+              metadata.images.push(node.properties.src)
+            }
+            if (node.tagName === "audio") {
+              if (typeof node.properties.cover === "string") {
+                metadata.images.push(node.properties.cover)
+              }
+              if (!metadata.audio && typeof node.properties.src === "string") {
+                metadata.audio = node.properties.src
+              }
+            }
+          }
+        })
+      }
+
+      return metadata
+    },
   }
 }

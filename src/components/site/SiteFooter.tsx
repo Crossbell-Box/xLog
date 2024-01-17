@@ -38,7 +38,7 @@ export default async function SiteFooter({
             <MarkdownContent
               className="[&>.prose]:text-sm"
               content={site.metadata.content.footer}
-              simpleMode={true}
+              strictMode={true}
             />
           )}
           <div className="text-xs sm:flex justify-between sm:space-x-5 sm:space-y-0 space-y-5 sm:items-center">

@@ -1,3 +1,4 @@
+import type { Result as TocResult } from "mdast-util-toc"
 import { memo, type MutableRefObject } from "react"
 
 import PostActions from "~/components/site/PostActions"
@@ -16,7 +17,7 @@ const MarkdownContent = memo(function PageContent({
   onScroll,
   onMouseEnter,
   parsedContent,
-  simpleMode,
+  strictMode,
   page,
   site,
   withActions,
@@ -29,7 +30,7 @@ const MarkdownContent = memo(function PageContent({
   onScroll?: (scrollTop: number) => void
   onMouseEnter?: () => void
   parsedContent?: ReturnType<typeof renderPageContent>
-  simpleMode?: boolean
+  strictMode?: boolean
   page?: ExpandedNote
   site?: ExpandedCharacter
   withActions?: boolean
@@ -39,7 +40,12 @@ const MarkdownContent = memo(function PageContent({
   if (parsedContent) {
     inParsedContent = parsedContent
   } else if (content) {
-    inParsedContent = renderPageContent(content, false, simpleMode)
+    inParsedContent = renderPageContent(content, strictMode)
+  }
+
+  let toc: TocResult | undefined = undefined
+  if (!onlyContent && withToc) {
+    toc = inParsedContent?.toToc()
   }
 
   return (
@@ -51,11 +57,9 @@ const MarkdownContent = memo(function PageContent({
     >
       <>
         <div className="xlog-post-content prose" ref={inputRef}>
-          {inParsedContent?.element}
+          {inParsedContent?.toElement()}
         </div>
-        {!onlyContent && withToc && inParsedContent?.toc && (
-          <PostToc data={inParsedContent?.toc} />
-        )}
+        {toc && <PostToc data={toc} />}
         {!onlyContent && withActions && <PostActions page={page} site={site} />}
       </>
     </MarkdownContentContainer>
