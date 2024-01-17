@@ -261,6 +261,6 @@ export const renderPageContent = (
     cover: images[0],
     images,
     audio,
-    tree: {},
+    hastTree,
   }
 }

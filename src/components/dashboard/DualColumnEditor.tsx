@@ -1,5 +1,5 @@
 import { useDebounceEffect } from "ahooks"
-import type { Root } from "mdast"
+import type { Root } from "hast"
 import { useTranslations } from "next-intl"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
@@ -10,9 +10,8 @@ import { toolbarShortcuts } from "~/components/dashboard/toolbars"
 import { editorUpload } from "~/components/dashboard/toolbars/Multimedia"
 import CodeMirror from "~/components/ui/CodeMirror"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
-import { useUploadFile } from "~/hooks/useUploadFile"
 import { cn } from "~/lib/utils"
-import { Rendered, renderPageContent } from "~/markdown"
+import { renderPageContent } from "~/markdown"
 
 export default function DualColumnEditor({
   initialContent,
@@ -29,7 +28,6 @@ export default function DualColumnEditor({
 }) {
   const isMobileLayout = useIsMobileLayout()
   const t = useTranslations()
-  const uploadFile = useUploadFile()
 
   const [currentScrollArea, setCurrentScrollArea] = useState<string>("")
   const [view, setView] = useState<EditorView>()
@@ -37,7 +35,9 @@ export default function DualColumnEditor({
   const [values, setValues] = useState("")
 
   // preview
-  const [parsedContent, setParsedContent] = useState<Rendered | undefined>()
+  const [parsedContent, setParsedContent] = useState<
+    ReturnType<typeof renderPageContent> | undefined
+  >()
 
   useEffect(() => {
     setValues(initialContent)
@@ -46,7 +46,7 @@ export default function DualColumnEditor({
   useDebounceEffect(
     () => {
       const result = renderPageContent(values)
-      setTree(result.tree)
+      setTree(result.hastTree)
       setParsedContent(result)
     },
     [values],
@@ -58,13 +58,10 @@ export default function DualColumnEditor({
   const previewRef = useRef<HTMLDivElement>(null)
 
   // editor
-  const onCreateEditorInside = useCallback(
-    (view: EditorView) => {
-      setView?.(view)
-      onCreateEditor?.(view)
-    },
-    [setView],
-  )
+  const onCreateEditorInside = useCallback((view: EditorView) => {
+    setView?.(view)
+    onCreateEditor?.(view)
+  }, [])
 
   const handleDropFile = useCallback(
     async (file: File) => {
@@ -72,11 +69,11 @@ export default function DualColumnEditor({
         editorUpload(file, view)
       }
     },
-    [uploadFile, view],
+    [view],
   )
 
   const computedPosition = useCallback(() => {
-    let previewChildNodes = previewRef.current?.childNodes[0]?.childNodes
+    let previewChildNodes = previewRef.current?.childNodes
     const editorElementList: number[] = []
     const previewElementList: number[] = []
     if (view?.state && previewChildNodes) {
