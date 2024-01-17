@@ -74,6 +74,9 @@ const rehypePrism = rehypePrismGenerator(refractor)
 export const renderPageContent = (content: string, strictMode?: boolean) => {
   let hastTree: HashRoot | undefined = undefined
   let mdastTree: MdashRoot | undefined = undefined
+
+  const file = new VFile(content)
+
   try {
     const pipeline = unified()
       .use(remarkParse)
@@ -175,8 +178,6 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
         passThrough: allowedCustomWrappers,
       } as RehypeRawOptions)
 
-    const file = new VFile(content)
-
     // markdown abstract syntax tree
     mdastTree = pipeline.parse(file)
     // hypertext abstract syntax tree
@@ -226,11 +227,15 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
         frontMatter: undefined,
         images: [],
         audio: undefined,
+        excerpt: undefined,
       } as {
         frontMatter?: Record<string, any>
         images: string[]
         audio?: string
+        excerpt?: string
       }
+
+      metadata.excerpt = file.data.meta?.description || undefined
 
       if (mdastTree) {
         visit(mdastTree, (node, index, parent) => {

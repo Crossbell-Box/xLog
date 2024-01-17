@@ -107,7 +107,7 @@ export const expandCrossbellNote = async ({
         )}`
       } else {
         if (!expandedNote.metadata.content.summary && !disableAutofill) {
-          // TODO expandedNote.metadata.content.summary = renderedMetadata.excerpt
+          expandedNote.metadata.content.summary = renderedMetadata.excerpt
         }
       }
 
