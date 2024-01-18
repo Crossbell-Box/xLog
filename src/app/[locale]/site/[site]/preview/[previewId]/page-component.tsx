@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl"
 import dynamic from "next/dynamic"
 import { useParams } from "next/navigation"
 
-import PostTitle from "~/components/site/PostTitle"
+import PostTitle from "~/components/site/PostTitle.client"
 import { useGetPage } from "~/queries/page"
 import { useGetSite } from "~/queries/site"
 
