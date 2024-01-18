@@ -16,7 +16,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import rehypeKatex from "rehype-katex"
 import rehypePrismGenerator from "rehype-prism-plus/generator"
-import rehypeRaw, { Options as RehypeRawOptions } from "rehype-raw"
+import rehypeRaw from "rehype-raw"
 import rehypeSanitize from "rehype-sanitize"
 import rehypeSlug from "rehype-slug"
 import remarkBreaks from "remark-breaks"
@@ -40,19 +40,14 @@ import AdvancedImage from "~/components/ui/AdvancedImage"
 import { isServerSide } from "~/lib/utils"
 
 import { transformers } from "./embed-transformers"
-import {
-  allowedCustomWrappers,
-  defaultRules,
-  rehypeCustomWrapper,
-} from "./rehype-custom-wrapper"
 import { rehypeEmbed } from "./rehype-embed"
 import { rehypeIpfs } from "./rehype-ipfs"
 import { rehypeMention } from "./rehype-mention"
+import { rehypeMermaid } from "./rehype-mermaid"
 import { rehypeRemoveH1 } from "./rehype-remove-h1"
 import { rehypeTable } from "./rehype-table"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
-import { remarkMermaid } from "./remark-mermaid"
 import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
@@ -91,19 +86,13 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
       .use(remarkDirectiveRehype)
       .use(remarkCalloutDirectives)
       .use(remarkYoutube)
-      .use(remarkMermaid)
       .use(remarkMath, {
         singleDollarTextMath: false,
       })
       .use(remarkPangu)
       .use(emoji)
       .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeRaw, {
-        passThrough: allowedCustomWrappers,
-      } as RehypeRawOptions)
-      .use(rehypeCustomWrapper, {
-        rules: defaultRules,
-      })
+      .use(rehypeRaw)
       .use(rehypeIpfs)
       .use(rehypeSlug)
       .use(rehypeAutolinkHeadings, {
@@ -125,6 +114,7 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
       .use(rehypeSanitize, strictMode ? undefined : sanitizeScheme)
       .use(rehypeTable)
       .use(rehypeExternalLink)
+      .use(rehypeMermaid)
       .use(rehypeWrapCode)
       .use(rehypeInferDescriptionMeta)
       .use(rehypeEmbed, {
@@ -183,6 +173,7 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
         ignoreInvalidStyle: true,
         jsx,
         jsxs,
+        passNode: true,
       }),
     toMetadata: () => {
       let metadata = {

@@ -85,6 +85,7 @@
     "hast-util-from-html": "2.0.1",
     "hast-util-to-html": "9.0.0",
     "hast-util-to-jsx-runtime": "2.3.0",
+    "hast-util-to-text": "4.0.0",
     "image-size": "1.1.1",
     "immer": "10.0.3",
     "ioredis": "5.3.2",

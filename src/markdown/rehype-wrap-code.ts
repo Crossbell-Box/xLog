@@ -6,12 +6,7 @@ import { visit } from "unist-util-visit"
 export const rehypeWrapCode: Plugin<Array<void>, Root> = () => {
   return (tree: Root) => {
     visit(tree, { type: "element", tagName: "pre" }, (node, index, parent) => {
-      if (
-        parent &&
-        typeof index === "number" &&
-        // @ts-ignore
-        node?.properties?.className?.[0] !== "mermaid"
-      ) {
+      if (parent && typeof index === "number") {
         const wrapper = u("element", {
           tagName: "div",
           properties: {
