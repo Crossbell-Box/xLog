@@ -202,8 +202,8 @@ dependencies:
     specifier: 0.16.9
     version: 0.16.9
   langchain:
-    specifier: 0.1.3
-    version: 0.1.3(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.2.0)(ws@8.13.0)
+    specifier: 0.1.4
+    version: 0.1.4(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.2.0)(ws@8.13.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -2700,7 +2700,7 @@ packages:
       ws:
         optional: true
     dependencies:
-      '@langchain/core': 0.1.14
+      '@langchain/core': 0.1.16
       '@langchain/openai': 0.0.12
       flat: 5.0.2
       ioredis: 5.3.2
@@ -2713,8 +2713,8 @@ packages:
       - encoding
     dev: false
 
-  /@langchain/core@0.1.14:
-    resolution: {integrity: sha512-Cfa7hI4i/oq5VtTKPgx74okWZTvAwlzLmajuelSLNDYZHPTe738YnzfHG/jKK/9QRhAmbQvpV9p4qYfnkdBFpg==}
+  /@langchain/core@0.1.16:
+    resolution: {integrity: sha512-hrG3N30k6MtmYKnxWgJrpng2fsIREEHLyrrOooxHP8g7x0Qryzhs6H5TdDGqzW/UutP51sfbk7aO+lDFtv+OHQ==}
     engines: {node: '>=18'}
     dependencies:
       ansi-styles: 5.2.0
@@ -2727,14 +2727,14 @@ packages:
       p-retry: 4.6.2
       uuid: 9.0.1
       zod: 3.22.4
-      zod-to-json-schema: 3.20.3(zod@3.22.4)
+      zod-to-json-schema: 3.22.3(zod@3.22.4)
     dev: false
 
   /@langchain/openai@0.0.12:
     resolution: {integrity: sha512-MR9x1xRXwJpdYlVx9Tga89q/MvxPrSTYyA5vy9tQ8dfQHNWnlgmI4gB/hDIsWUu1ooScagD4wW+aTnohTX+g+g==}
     engines: {node: '>=18'}
     dependencies:
-      '@langchain/core': 0.1.14
+      '@langchain/core': 0.1.16
       js-tiktoken: 1.0.8
       openai: 4.24.7
       zod: 3.22.4
@@ -5378,8 +5378,8 @@ packages:
     resolution: {integrity: sha512-1x3qhYh9qgtvw1MDQD4VeDf2ZOsVANKRPtUty4lF+N4L8xnAIwvNKUAMA4j6T5xSsjqUfq5Tdy5mYsNxLmsWMA==}
     deprecated: Please use new @web3modal/wagmi package
     peerDependencies:
-      '@wagmi/core': ^1
-      viem: ^1
+      '@wagmi/core': '>=1'
+      viem: '>=1'
     dependencies:
       '@wagmi/core': 1.4.13(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
@@ -9694,8 +9694,8 @@ packages:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
 
-  /langchain@0.1.3(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.2.0)(ws@8.13.0):
-    resolution: {integrity: sha512-wI7eY0xRf3xq2mYjylcTb0iBIXzNlyE9kXTS4EjV3nXqL56ywLK5V9y11MxNMGggCiqCoy974rmmM0aaNs+oDw==}
+  /langchain@0.1.4(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@23.2.0)(ws@8.13.0):
+    resolution: {integrity: sha512-wgYt63JqwCDNrGBXHLD5javroVqCiP/+aYJEHPN+xgchEpcX881HcmhZGmZl8w4tsI0Q4Jy+3mcnV9EJlUD/2w==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
@@ -9858,7 +9858,7 @@ packages:
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
       '@langchain/community': 0.0.17(ioredis@5.3.2)(jsdom@23.2.0)(ws@8.13.0)
-      '@langchain/core': 0.1.14
+      '@langchain/core': 0.1.16
       '@langchain/openai': 0.0.12
       binary-extensions: 2.2.0
       cheerio: 1.0.0-rc.12
@@ -9877,7 +9877,7 @@ packages:
       ws: 8.13.0
       yaml: 2.3.4
       zod: 3.22.4
-      zod-to-json-schema: 3.20.3(zod@3.22.4)
+      zod-to-json-schema: 3.22.3(zod@3.22.4)
     transitivePeerDependencies:
       - '@aws-crypto/sha256-js'
       - '@aws-sdk/client-bedrock-runtime'
@@ -14748,6 +14748,14 @@ packages:
     resolution: {integrity: sha512-/Q3wnyxAfCt94ZcrGiXXoiAfRqasxl9CX64LZ9fj+4dKH68zulUtU0uk1WMxQPfAxQ0ZI70dKzcoW7hHj+DwSQ==}
     peerDependencies:
       zod: ^3.20.0
+    dependencies:
+      zod: 3.22.4
+    dev: false
+
+  /zod-to-json-schema@3.22.3(zod@3.22.4):
+    resolution: {integrity: sha512-9isG8SqRe07p+Aio2ruBZmLm2Q6Sq4EqmXOiNpDxp+7f0LV6Q/LX65fs5Nn+FV/CzfF3NLBoksXbS2jNYIfpKw==}
+    peerDependencies:
+      zod: ^3.22.4
     dependencies:
       zod: 3.22.4
     dev: false
