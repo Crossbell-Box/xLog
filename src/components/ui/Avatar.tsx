@@ -1,6 +1,7 @@
 import React, { useMemo } from "react"
 
 import { Image } from "~/components/ui/Image"
+import { getRandomAvatarUrl } from "~/lib/helpers"
 import { toGateway } from "~/lib/ipfs-parser"
 import { cn } from "~/lib/utils"
 
@@ -35,7 +36,7 @@ export const Avatar = ({
   const borderRadius = rounded === false ? "rounded-lg" : "rounded-full"
 
   if (!image) {
-    image = `https://api.dicebear.com/6.x/bottts-neutral/svg?seed=${cid}`
+    image = getRandomAvatarUrl(cid || "")
   }
 
   return (

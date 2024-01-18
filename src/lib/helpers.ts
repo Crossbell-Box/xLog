@@ -88,3 +88,6 @@ export const getSiteRelativeUrl = (pathname: string, address: string) => {
     }
   }
 }
+
+export const getRandomAvatarUrl = (seed: string | number) =>
+  `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${seed}`

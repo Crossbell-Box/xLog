@@ -13,7 +13,7 @@ import {
 } from "~/lib/types"
 
 import { detectLanguage } from "./detect-lang"
-import { getNoteSlug } from "./helpers"
+import { getNoteSlug, getRandomAvatarUrl } from "./helpers"
 
 export const expandCrossbellNote = async ({
   note,
@@ -290,7 +290,7 @@ export const expandCrossbellCharacter = async (site: CharacterEntity) => {
         .filter(Boolean)
   } else {
     expandedCharacter.metadata.content.avatars = [
-      `https://api.dicebear.com/6.x/bottts-neutral/svg?seed=${expandedCharacter.characterId}`,
+      getRandomAvatarUrl(expandedCharacter.characterId),
     ]
   }
 
