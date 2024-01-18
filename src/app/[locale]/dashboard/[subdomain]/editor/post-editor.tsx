@@ -176,7 +176,7 @@ export default function PostEditor() {
       }
       useEditorState.setState(newValues)
     },
-    [type, queryClient, subdomain, visibility],
+    [visibility, site.data?.characterId, type, queryClient],
   )
 
   const isMobileLayout = useIsMobileLayout()
@@ -236,8 +236,9 @@ export default function PostEditor() {
 
       if (createPage.data?.noteId) {
         router.replace(
-          `/dashboard/${subdomain}/editor?id=${createPage.data
-            ?.noteId}&type=${searchParams?.get("type")}`,
+          `/dashboard/${subdomain}/editor?id=${
+            createPage.data?.noteId
+          }&type=${searchParams?.get("type")}`,
         )
       }
 
