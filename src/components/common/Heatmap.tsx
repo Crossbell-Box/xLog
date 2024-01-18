@@ -14,7 +14,7 @@ export default function CalHeatmap({ characterId }: { characterId?: number }) {
   const t = useTranslations()
 
   return (
-    <div>
+    <div className="overflow-x-auto">
       <div className="flex sm:gap-1 gap-[2px]">
         {calendar.data?.calendar.map((week: any, index: number) => (
           <div className="flex sm:gap-1 gap-[2px] flex-col" key={index}>
