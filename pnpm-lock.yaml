@@ -309,9 +309,6 @@ dependencies:
   rehype-raw:
     specifier: 7.0.0
     version: 7.0.0
-  rehype-rewrite:
-    specifier: 4.0.2
-    version: 4.0.2
   rehype-sanitize:
     specifier: 6.0.0
     version: 6.0.0
@@ -12649,15 +12646,6 @@ packages:
       '@types/hast': 3.0.3
       hast-util-raw: 9.0.1
       vfile: 6.0.1
-    dev: false
-
-  /rehype-rewrite@4.0.2:
-    resolution: {integrity: sha512-rjLJ3z6fIV11phwCqHp/KRo8xuUCO8o9bFJCNw5o6O2wlLk6g8r323aRswdGBQwfXPFYeSuZdAjp4tzo6RGqEg==}
-    engines: {node: '>=16.0.0'}
-    dependencies:
-      hast-util-select: 6.0.2
-      unified: 11.0.4
-      unist-util-visit: 5.0.0
     dev: false
 
   /rehype-sanitize@6.0.0:

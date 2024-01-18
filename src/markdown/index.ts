@@ -17,7 +17,6 @@ import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import rehypeKatex from "rehype-katex"
 import rehypePrismGenerator from "rehype-prism-plus/generator"
 import rehypeRaw, { Options as RehypeRawOptions } from "rehype-raw"
-import rehypeRewrite from "rehype-rewrite"
 import rehypeSanitize from "rehype-sanitize"
 import rehypeSlug from "rehype-slug"
 import remarkBreaks from "remark-breaks"
@@ -48,6 +47,8 @@ import {
 } from "./rehype-custom-wrapper"
 import { rehypeEmbed } from "./rehype-embed"
 import { rehypeIpfs } from "./rehype-ipfs"
+import { rehypeMention } from "./rehype-mention"
+import { rehypeRemoveH1 } from "./rehype-remove-h1"
 import { rehypeTable } from "./rehype-table"
 import { rehypeWrapCode } from "./rehype-wrap-code"
 import { rehypeExternalLink } from "./rehyper-external-link"
@@ -129,6 +130,7 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
       .use(rehypeEmbed, {
         transformers,
       })
+      .use(rehypeRemoveH1)
       .use(rehypePrism, {
         ignoreMissing: true,
         showLineNumbers: true,
@@ -136,47 +138,7 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
       .use(rehypeKatex, {
         strict: false,
       })
-      .use(rehypeRewrite, {
-        selector: "p, li, h1",
-        rewrite: (node: any) => {
-          if (node.tagName === "h1") {
-            node.tagName = "h2"
-            return
-          }
-          if (node.children) {
-            node.children = node.children.flatMap((child: any) => {
-              if (child.type === "text") {
-                const mentionRegex = /(@[\w-]+)/g
-                if (mentionRegex.test(child.value)) {
-                  const parts = child.value.split(mentionRegex)
-                  return parts.map((part: string) => {
-                    if (part.startsWith("@")) {
-                      return {
-                        type: "element",
-                        tagName: "mention",
-                        children: [{ type: "text", value: part }],
-                      }
-                    } else {
-                      return {
-                        type: "text",
-                        value: part,
-                      }
-                    }
-                  })
-                } else {
-                  return child
-                }
-              } else {
-                return child
-              }
-            })
-          }
-        },
-      })
-      // TODO
-      .use(rehypeRaw, {
-        passThrough: allowedCustomWrappers,
-      } as RehypeRawOptions)
+      .use(rehypeMention)
 
     // markdown abstract syntax tree
     mdastTree = pipeline.parse(file)
