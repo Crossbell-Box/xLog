@@ -28,3 +28,5 @@ export async function GET(request: Request) {
   const res = new NextServerResponse()
   return res.status(200).rss(data, format)
 }
+
+export const dynamic = "force-dynamic"

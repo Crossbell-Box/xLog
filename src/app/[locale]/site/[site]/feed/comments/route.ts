@@ -66,3 +66,5 @@ export async function GET(
   const res = new NextServerResponse()
   return res.status(200).rss(data, format)
 }
+
+export const dynamic = "force-dynamic"
