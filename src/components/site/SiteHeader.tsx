@@ -58,7 +58,7 @@ export const SiteHeader = async ({
             case "video":
               return (
                 <video
-                  className="object-cover h-full w-full"
+                  className="object-cover size-full"
                   src={site?.metadata?.content?.banners?.[0]?.address}
                   autoPlay
                   muted
@@ -73,7 +73,7 @@ export const SiteHeader = async ({
       </div>
       <div
         className={cn(
-          "px-5 max-w-screen-lg mx-auto h-full relative flex items-center flex-col",
+          "px-5 max-w-screen-lg mx-auto h-full relative flex items-center flex-col z-10",
           site?.metadata?.content?.banners?.[0]?.address
             ? "bg-white/50 backdrop-blur-sm sm:bg-transparent sm:backdrop-filter-none"
             : "",
