@@ -1,13 +1,10 @@
 "use client"
 
-import dayjs from "dayjs"
-import advancedFormat from "dayjs/plugin/advancedFormat"
 import { useTranslations } from "next-intl"
 
 import { Tooltip } from "~/components/ui/Tooltip"
+import dayjs from "~/lib/dayjs"
 import { useCalendar } from "~/queries/page"
-
-dayjs.extend(advancedFormat)
 
 export default function CalHeatmap({ characterId }: { characterId?: number }) {
   const calendar = useCalendar(characterId)

@@ -1,9 +1,9 @@
-import dayjs from "dayjs"
 import { NextRequest } from "next/server"
 
 import { QueryClient } from "@tanstack/react-query"
 
 import { locales } from "~/i18n"
+import dayjs from "~/lib/dayjs"
 import { getSiteLink } from "~/lib/helpers"
 import { NextServerResponse } from "~/lib/server-helper"
 import { ExpandedNote, PageVisibilityEnum } from "~/lib/types"

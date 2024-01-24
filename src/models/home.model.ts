@@ -1,10 +1,10 @@
 import type { NoteEntity } from "crossbell"
-import dayjs from "dayjs"
 
 import { indexer } from "@crossbell/indexer"
 import { gql } from "@urql/core"
 
 import countCharacters from "~/lib/character-count"
+import dayjs from "~/lib/dayjs"
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { ExpandedNote, Language } from "~/lib/types"
 import { client } from "~/queries/graphql"
@@ -154,8 +154,9 @@ export async function getFeed({
       resultAll = {
         list,
         cursor: list?.length
-          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
-              ?.noteId}`
+          ? `${list[list.length - 1]?.characterId}_${
+              list[list.length - 1]?.noteId
+            }`
           : undefined,
         count: list?.length || 0,
       }
@@ -271,8 +272,9 @@ export async function getFeed({
       resultAll = {
         list,
         cursor: list?.length
-          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
-              ?.noteId}`
+          ? `${list[list.length - 1]?.characterId}_${
+              list[list.length - 1]?.noteId
+            }`
           : undefined,
         count: list?.length || 0,
       }
@@ -340,8 +342,9 @@ export async function getFeed({
       resultAll = {
         list,
         cursor: list?.length
-          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
-              ?.noteId}`
+          ? `${list[list.length - 1]?.characterId}_${
+              list[list.length - 1]?.noteId
+            }`
           : undefined,
         count: list?.length || 0,
       }
@@ -488,8 +491,9 @@ export async function getFeed({
         resultAll = {
           list: list,
           cursor: list?.length
-            ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
-                ?.noteId}`
+            ? `${list[list.length - 1]?.characterId}_${
+                list[list.length - 1]?.noteId
+              }`
             : undefined,
           count: list?.length || 0,
         }
@@ -565,8 +569,9 @@ export async function getFeed({
         resultAll = {
           list: list,
           cursor: list?.length
-            ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
-                ?.noteId}`
+            ? `${list[list.length - 1]?.characterId}_${
+                list[list.length - 1]?.noteId
+              }`
             : undefined,
           count: list?.length || 0,
         }
@@ -798,8 +803,9 @@ export async function getFeed({
       )
 
       const cursor = list?.length
-        ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
-            ?.noteId}`
+        ? `${list[list.length - 1]?.characterId}_${
+            list[list.length - 1]?.noteId
+          }`
         : undefined
 
       list = list.sort((a, b) => {

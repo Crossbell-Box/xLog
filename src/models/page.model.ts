@@ -6,9 +6,6 @@ import type {
   NoteEntity,
   NoteMetadata,
 } from "crossbell"
-import dayjs from "dayjs"
-import advancedFormat from "dayjs/plugin/advancedFormat"
-import weekOfYear from "dayjs/plugin/weekOfYear"
 import { type Address } from "viem"
 
 import { GeneralAccount } from "@crossbell/connect-kit"
@@ -17,6 +14,7 @@ import { extractCharacterAttribute } from "@crossbell/util-metadata"
 import { gql } from "@urql/core"
 
 import { RESERVED_TAGS } from "~/lib/constants"
+import dayjs from "~/lib/dayjs"
 import { editor2Crossbell } from "~/lib/editor-converter"
 import { expandCrossbellNote } from "~/lib/expand-unit"
 import { filterComment } from "~/lib/filter"
@@ -31,9 +29,6 @@ import {
   PageVisibilityEnum,
 } from "~/lib/types"
 import { client } from "~/queries/graphql"
-
-dayjs.extend(weekOfYear)
-dayjs.extend(advancedFormat)
 
 export const PINNED_PAGE_KEY = "xlog_pinned_page"
 
