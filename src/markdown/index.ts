@@ -60,6 +60,7 @@ const GithubRepo = dynamic(() => import("~/components/ui/GithubRepo"))
 const XLogPost = dynamic(() => import("~/components/ui/XLogPost"))
 const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"))
+const RSS = dynamic(() => import("~/components/ui/RSS"))
 
 refractor.alias("html", ["svelte", "vue"])
 refractor.register(langTsx)
@@ -169,6 +170,7 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
           "xlog-post": XLogPost,
           // @ts-expect-error
           style: Style,
+          rss: RSS,
         },
         ignoreInvalidStyle: true,
         jsx,

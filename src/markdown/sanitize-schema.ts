@@ -14,6 +14,7 @@ const scheme = deepmerge(defaultSchema, {
     "source",
     "mermaid",
     "aside",
+    "rss",
     ...["svg", "path", "circle"],
   ],
   attributes: {
@@ -45,6 +46,7 @@ const scheme = deepmerge(defaultSchema, {
     ],
     path: ["d", "fill"],
     circle: ["cx", "cy", "r", "fill"],
+    rss: ["src", "limit"],
   },
   protocols: {
     href: ["magnet", "ed2k"],
