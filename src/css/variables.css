@@ -19,6 +19,18 @@ html.dark {
   --theme-color: var(--auto-theme-color, theme("colors.orange.600"));
 }
 
+html.dark body {
+  --tw-color-zinc-400: var(--tw-color-zinc-500);
+  --tw-color-zinc-500: var(--tw-color-zinc-600);
+  --tw-color-zinc-600: var(--tw-color-zinc-700);
+  --tw-color-gray-400: var(--tw-color-gray-500);
+  --tw-color-gray-500: var(--tw-color-gray-600);
+  --tw-color-gray-600: var(--tw-color-gray-700);
+  --tw-color-stone-400: var(--tw-color-stone-500);
+  --tw-color-stone-500: var(--tw-color-stone-600);
+  --tw-color-stone-600: var(--tw-color-stone-700);
+}
+
 @media (prefers-color-scheme: dark) {
   html.not(.light) {
     --border-color: #333;
