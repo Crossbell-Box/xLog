@@ -1,3 +1,4 @@
+import { AnimatePresence, m } from "framer-motion"
 import Link from "next/link"
 import React, { Fragment } from "react"
 
@@ -35,15 +36,31 @@ export function Menu({
       <HeadlessUiMenu.Button as={Fragment}>
         {React.cloneElement(target, { ref: refs.setReference })}
       </HeadlessUiMenu.Button>
-      <HeadlessUiMenu.Items
-        ref={refs.setFloating}
-        className={cn(
-          "absolute z-10 mt-1 w-max outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2",
-        )}
-        style={floatingStyles}
-      >
-        {dropdown}
-      </HeadlessUiMenu.Items>
+      <AnimatePresence>
+        <HeadlessUiMenu.Items
+          className="absolute z-10 w-max"
+          ref={refs.setFloating}
+          style={floatingStyles}
+        >
+          <m.div
+            className="mt-1 outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2"
+            initial={{
+              translateY: "10px",
+              opacity: 0,
+            }}
+            animate={{
+              translateY: "0px",
+              opacity: 1,
+            }}
+            exit={{
+              translateY: "10px",
+              opacity: 0,
+            }}
+          >
+            {dropdown}
+          </m.div>
+        </HeadlessUiMenu.Items>
+      </AnimatePresence>
     </HeadlessUiMenu>
   )
 }
@@ -71,7 +88,7 @@ Menu.Item = function MenuItem({
   const childElement = (
     <>
       <span
-        className="mr-2 fill-gray-500 flex items-center w-4 h-4 text-base leading-none"
+        className="mr-2 fill-gray-500 flex items-center size-4 text-base leading-none"
         aria-hidden
       >
         {icon}

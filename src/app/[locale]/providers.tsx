@@ -1,5 +1,6 @@
 "use client"
 
+import { LazyMotion, MotionConfig } from "framer-motion"
 import {
   IntlError,
   IntlErrorCode,
@@ -61,6 +62,9 @@ export const mantineDefaultColorScheme = mantineDefaultColorSchemeT as
   | "light"
   | "dark"
 
+const loadFeatures = () =>
+  import("./framer-lazy-feature").then((res) => res.default)
+
 export default function Providers({ children }: { children: React.ReactNode }) {
   useMobileLayout()
   useNProgress()
@@ -97,7 +101,16 @@ export default function Providers({ children }: { children: React.ReactNode }) {
               signInStrategy="simple"
               ignoreWalletDisconnectEvent={true}
             >
-              <ModalStackProvider>{children}</ModalStackProvider>
+              <LazyMotion features={loadFeatures} strict key="framer">
+                <MotionConfig
+                  transition={{
+                    type: "spring",
+                    duration: 0.3,
+                  }}
+                >
+                  <ModalStackProvider>{children}</ModalStackProvider>
+                </MotionConfig>
+              </LazyMotion>
               <NotificationModal
                 colorScheme={colorScheme}
                 filter={filterNotification}

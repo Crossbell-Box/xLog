@@ -1,5 +1,6 @@
 "use client"
 
+import { AnimatePresence, m } from "framer-motion"
 import { useState } from "react"
 
 import {
@@ -58,7 +59,7 @@ export const Tooltip = ({
   })
 
   return (
-    <>
+    <div className="relative">
       <div
         ref={refs.setReference}
         {...getReferenceProps()}
@@ -70,24 +71,29 @@ export const Tooltip = ({
       >
         {children}
       </div>
-      {isMounted && (
-        <div
-          ref={refs.setFloating}
-          className={cn(
-            "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1 whitespace-nowrap",
-            className,
-          )}
-          style={{
-            position: strategy,
-            top: y ?? "0",
-            left: x ?? "0",
-            ...styles,
-          }}
-          {...getFloatingProps()}
-        >
-          {label}
-        </div>
-      )}
-    </>
+      <AnimatePresence>
+        {isMounted && (
+          <m.div
+            ref={refs.setFloating}
+            className={cn(
+              "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1 whitespace-nowrap",
+              className,
+            )}
+            style={{
+              position: strategy,
+              top: y ?? "0",
+              left: x ?? "0",
+              ...styles,
+            }}
+            initial={{ translateY: "10px", opacity: 0 }}
+            animate={{ translateY: "0px", opacity: 1 }}
+            exit={{ translateY: "10px", opacity: 0 }}
+            {...getFloatingProps()}
+          >
+            {label}
+          </m.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 }

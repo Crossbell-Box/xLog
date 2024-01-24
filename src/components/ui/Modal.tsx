@@ -1,9 +1,15 @@
 "use client"
 
+import {
+  AnimatePresence,
+  m,
+  useMotionValue,
+  useMotionValueEvent,
+} from "framer-motion"
 import { useTranslations } from "next-intl"
-import React, { forwardRef, Fragment } from "react"
+import React, { forwardRef } from "react"
 
-import { Dialog, Transition } from "@headlessui/react"
+import { Dialog } from "@headlessui/react"
 
 import { cn } from "~/lib/utils"
 
@@ -41,46 +47,57 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     ref,
   ) => {
     const t = useTranslations()
+    const x = useMotionValue(0)
+
+    useMotionValueEvent(x, "animationComplete", () => {
+      console.log("animation Complete on x")
+      afterLeave?.()
+    })
 
     return (
-      <Transition appear show={open} as={Fragment} afterLeave={afterLeave}>
-        <Dialog
-          onClose={() => setOpen(false)}
-          className="relative"
-          style={{
-            zIndex: zIndex ? zIndex : 10,
-          }}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-100"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
+      <AnimatePresence>
+        {open && (
+          <Dialog
+            open={open}
+            onClose={() => setOpen(false)}
+            className="relative"
+            style={{
+              zIndex: zIndex ? zIndex : 10,
+            }}
           >
-            <div
+            <m.div
               className="fixed inset-0 bg-black/25 z-40"
               aria-hidden={true}
+              style={{ x }}
+              initial={{
+                opacity: 0,
+              }}
+              animate={{
+                opacity: 1,
+              }}
+              exit={{
+                opacity: 0,
+              }}
             />
-          </Transition.Child>
 
-          <div
-            className={cn(
-              "fixed inset-0 flex items-center justify-center p-8 z-40",
-              boxClassName,
-            )}
-            ref={ref}
-          >
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-100"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-100"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
+            <m.div
+              className={cn(
+                "fixed inset-0 flex items-center justify-center p-8 z-40",
+                boxClassName,
+              )}
+              ref={ref}
+              initial={{
+                opacity: 0,
+                scale: 1.1,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 1.1,
+              }}
             >
               {/* The actual dialog panel  */}
               <Dialog.Panel
@@ -101,7 +118,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                       {title}
                     </span>
                     <span
-                      className="absolute right-4 w-7 h-7 text-xl cursor-pointer bg-white flex items-center justify-center"
+                      className="absolute right-4 size-7 text-xl cursor-pointer bg-white flex items-center justify-center"
                       onClick={() => setOpen(false)}
                     >
                       <i className="i-mingcute-close-line inline-block" />
@@ -118,10 +135,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                   </Button>
                 )}
               </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
+            </m.div>
+          </Dialog>
+        )}
+      </AnimatePresence>
     )
   },
 )
