@@ -118,25 +118,22 @@ export const expandCrossbellNote = async ({
         expandedNote.metadata.content.contentHTML = rendered.toHTML()
       }
     }
-    expandedNote.metadata.content.cover =
-      expandedNote.metadata?.content?.attachments?.find(
-        (attachment) => attachment.name === "cover",
-      )?.address || (disableAutofill ? "" : renderedMetadata?.images?.[0])
 
-    expandedNote.metadata.content.images = []
-
-    const cover = expandedNote.metadata?.content?.attachments?.find(
+    const attachmentsCover = expandedNote.metadata?.content?.attachments?.find(
       (attachment) => attachment.name === "cover",
     )?.address
-    if (cover) {
-      expandedNote.metadata.content.images.push(cover)
-    }
-
     const attachmentsImages = expandedNote.metadata?.content?.attachments
       ?.filter(
         (attachment) => attachment.name === "image" && attachment.address,
       )
       .map((attachment) => attachment.address!)
+
+    expandedNote.metadata.content.images = []
+
+    if (attachmentsCover) {
+      expandedNote.metadata.content.images.push(attachmentsCover)
+    }
+
     expandedNote.metadata.content.images =
       expandedNote.metadata.content.images.concat(attachmentsImages || [])
 
@@ -148,6 +145,9 @@ export const expandCrossbellNote = async ({
     expandedNote.metadata.content.images = [
       ...new Set(expandedNote.metadata.content.images),
     ]
+
+    expandedNote.metadata.content.cover =
+      attachmentsCover || (disableAutofill ? "" : renderedMetadata?.images?.[0])
 
     if (useImageDimensions) {
       try {
