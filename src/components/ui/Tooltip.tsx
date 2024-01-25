@@ -15,7 +15,6 @@ import {
   useHover,
   useInteractions,
   useRole,
-  useTransitionStyles,
 } from "@floating-ui/react"
 
 import { cn } from "~/lib/utils"
@@ -39,12 +38,13 @@ export const Tooltip = ({
 }: Props) => {
   const [open, setOpen] = useState(false)
 
-  const { x, y, refs, strategy, context } = useFloating({
+  const { floatingStyles, refs, context } = useFloating({
     placement,
     open,
     onOpenChange: setOpen,
     middleware: [offset(5), flip(), shift({ padding: 8 })],
     whileElementsMounted: autoUpdate,
+    transform: false,
   })
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
@@ -54,12 +54,8 @@ export const Tooltip = ({
     useDismiss(context),
   ])
 
-  const { isMounted, styles } = useTransitionStyles(context, {
-    duration: 100,
-  })
-
   return (
-    <div className="relative">
+    <>
       <div
         ref={refs.setReference}
         {...getReferenceProps()}
@@ -72,19 +68,14 @@ export const Tooltip = ({
         {children}
       </div>
       <AnimatePresence>
-        {isMounted && (
+        {open && (
           <m.div
             ref={refs.setFloating}
+            style={floatingStyles}
             className={cn(
               "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1 whitespace-nowrap",
               className,
             )}
-            style={{
-              position: strategy,
-              top: y ?? "0",
-              left: x ?? "0",
-              ...styles,
-            }}
             initial={{ translateY: "10px", opacity: 0 }}
             animate={{ translateY: "0px", opacity: 1 }}
             exit={{ translateY: "10px", opacity: 0 }}
@@ -94,6 +85,6 @@ export const Tooltip = ({
           </m.div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   )
 }
