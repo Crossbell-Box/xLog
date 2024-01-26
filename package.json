@@ -50,7 +50,7 @@
     "@dqbd/tiktoken": "1.0.7",
     "@emoji-mart/data": "1.1.2",
     "@emoji-mart/react": "1.1.1",
-    "@floating-ui/react": "0.26.6",
+    "@floating-ui/react": "0.26.7",
     "@headlessui/react": "1.7.18",
     "@heroicons/react": "2.1.1",
     "@iconify-json/mingcute": "1.1.15",
