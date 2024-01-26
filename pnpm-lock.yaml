@@ -504,8 +504,8 @@ devDependencies:
     specifier: 7.33.2
     version: 7.33.2(eslint@8.56.0)
   eslint-plugin-tailwindcss:
-    specifier: 3.14.0
-    version: 3.14.0(tailwindcss@3.4.1)
+    specifier: 3.14.1
+    version: 3.14.1(tailwindcss@3.4.1)
   eslint-plugin-unused-imports:
     specifier: 3.0.0
     version: 3.0.0(eslint@8.56.0)
@@ -5394,8 +5394,8 @@ packages:
     resolution: {integrity: sha512-1x3qhYh9qgtvw1MDQD4VeDf2ZOsVANKRPtUty4lF+N4L8xnAIwvNKUAMA4j6T5xSsjqUfq5Tdy5mYsNxLmsWMA==}
     deprecated: Please use new @web3modal/wagmi package
     peerDependencies:
-      '@wagmi/core': ^1
-      viem: ^1
+      '@wagmi/core': '>=1'
+      viem: '>=1'
     dependencies:
       '@wagmi/core': 1.4.13(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
@@ -7868,8 +7868,8 @@ packages:
       string.prototype.matchall: 4.0.10
     dev: true
 
-  /eslint-plugin-tailwindcss@3.14.0(tailwindcss@3.4.1):
-    resolution: {integrity: sha512-SGy4JmZoP5m1bXCbcsPfQg1/axOdriJf9L22HghNMyDTM5mybg2XEkaMwgax4aR13zZJRRB1nWmkuYUn+SV6/Q==}
+  /eslint-plugin-tailwindcss@3.14.1(tailwindcss@3.4.1):
+    resolution: {integrity: sha512-orNkVzJ1fdCkj5d8AHE3tAbixNpMJRoKoHPnxZbZ6iBHTsNvOEmeBz62C3THPhFnXCXaD55SRbNjqGzMEXRoZA==}
     engines: {node: '>=12.13.0'}
     peerDependencies:
       tailwindcss: ^3.4.0
