@@ -235,8 +235,8 @@ dependencies:
     specifier: 0.2.6
     version: 0.2.6
   open-graph-scraper:
-    specifier: 6.3.2
-    version: 6.3.2
+    specifier: 6.3.3
+    version: 6.3.3
   openai:
     specifier: 4.26.0
     version: 4.26.0
@@ -11526,13 +11526,13 @@ packages:
       mimic-fn: 4.0.0
     dev: true
 
-  /open-graph-scraper@6.3.2:
-    resolution: {integrity: sha512-3HbQwpSZ42hqqpDmZ3ZUOCuS1TuKqRWm6gEIw/HfqWDzwHaEJJR/WGi1prHD2gBaKYPjAHFaSTjKitJHTwMVPA==}
+  /open-graph-scraper@6.3.3:
+    resolution: {integrity: sha512-Tph8C8mbvT9AXdSDUhfMRRPL9tyKheIjFup9mM0TGwakoDgQ94MxizO45ElWsnAcw1FV8Se8I30J4mgVaNPbVQ==}
     engines: {node: '>=18.0.0'}
     dependencies:
       chardet: 2.0.0
       cheerio: 1.0.0-rc.12
-      undici: 5.27.2
+      undici: 6.5.0
       validator: 13.11.0
     dev: false
 
@@ -13889,9 +13889,9 @@ packages:
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
-  /undici@5.27.2:
-    resolution: {integrity: sha512-iS857PdOEy/y3wlM3yRp+6SNQQ6xU0mmZcwRSriqk+et/cwWAtwmIGf6WkoDN2EK/AMdCO/dfXzIwi+rFMrjjQ==}
-    engines: {node: '>=14.0'}
+  /undici@6.5.0:
+    resolution: {integrity: sha512-/MUmPb2ptTvp1j7lPvdMSofMdqPxcOhAaKZi4k55sqm6XMeKI3n1dZJ5cnD4gLjpt2l7CIlthR1IXM59xKhpxw==}
+    engines: {node: '>=18.0'}
     dependencies:
       '@fastify/busboy': 2.0.0
     dev: false
