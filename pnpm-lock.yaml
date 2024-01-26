@@ -504,8 +504,8 @@ devDependencies:
     specifier: 7.33.2
     version: 7.33.2(eslint@8.56.0)
   eslint-plugin-tailwindcss:
-    specifier: 3.14.0
-    version: 3.14.0(tailwindcss@3.4.1)
+    specifier: 3.14.1
+    version: 3.14.1(tailwindcss@3.4.1)
   eslint-plugin-unused-imports:
     specifier: 3.0.0
     version: 3.0.0(eslint@8.56.0)
@@ -7868,8 +7868,8 @@ packages:
       string.prototype.matchall: 4.0.10
     dev: true
 
-  /eslint-plugin-tailwindcss@3.14.0(tailwindcss@3.4.1):
-    resolution: {integrity: sha512-SGy4JmZoP5m1bXCbcsPfQg1/axOdriJf9L22HghNMyDTM5mybg2XEkaMwgax4aR13zZJRRB1nWmkuYUn+SV6/Q==}
+  /eslint-plugin-tailwindcss@3.14.1(tailwindcss@3.4.1):
+    resolution: {integrity: sha512-orNkVzJ1fdCkj5d8AHE3tAbixNpMJRoKoHPnxZbZ6iBHTsNvOEmeBz62C3THPhFnXCXaD55SRbNjqGzMEXRoZA==}
     engines: {node: '>=12.13.0'}
     peerDependencies:
       tailwindcss: ^3.4.0
