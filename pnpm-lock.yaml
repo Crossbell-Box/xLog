@@ -121,8 +121,8 @@ dependencies:
     specifier: 0.3.0
     version: 0.3.0
   ahooks:
-    specifier: 3.7.8
-    version: 3.7.8(react@18.2.0)
+    specifier: 3.7.9
+    version: 3.7.9(react@18.2.0)
   aplayer:
     specifier: 1.10.1
     version: 1.10.1
@@ -842,13 +842,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       core-js-pure: 3.33.3
-      regenerator-runtime: 0.14.1
-    dev: false
-
-  /@babel/runtime@7.23.4:
-    resolution: {integrity: sha512-2Yv65nlWnWlSpe3fXEyX5i7fx5kIKo4Qbcj+hMO0odwaneFjfXw5fdum+4yL20O0QiaHpia0cYQ9xpNMqrBwHg==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
       regenerator-runtime: 0.14.1
     dev: false
 
@@ -4317,10 +4310,6 @@ packages:
     dependencies:
       '@types/unist': 3.0.2
 
-  /@types/js-cookie@2.2.7:
-    resolution: {integrity: sha512-aLkWa0C0vO5b4Sr798E26QgOkss68Un0bLjs7u9qxzPT5CG+8DuNTffWES58YzJs3hrVAOs1wonycqEBqNJubA==}
-    dev: false
-
   /@types/js-yaml@4.0.9:
     resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
     dev: true
@@ -5624,23 +5613,17 @@ packages:
       humanize-ms: 1.2.1
     dev: false
 
-  /ahooks-v3-count@1.0.0:
-    resolution: {integrity: sha512-V7uUvAwnimu6eh/PED4mCDjE7tokeZQLKlxg9lCTMPhN+NjsSbtdacByVlR1oluXQzD3MOw55wylDmQo4+S9ZQ==}
-    dev: false
-
-  /ahooks@3.7.8(react@18.2.0):
-    resolution: {integrity: sha512-e/NMlQWoCjaUtncNFIZk3FG1ImSkV/JhScQSkTqnftakRwdfZWSw6zzoWSG9OMYqPNs2MguDYBUFFC6THelWXA==}
+  /ahooks@3.7.9(react@18.2.0):
+    resolution: {integrity: sha512-1nuCnaBe/DvZD2QAZVGLLmu0vDi6jxbiAP3Ghkj6Ocqk9YSXI6ydwo2x5I3lXowZyM8MNJDnHFvIo0vJS1CuFw==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.23.4
-      '@types/js-cookie': 2.2.7
-      ahooks-v3-count: 1.0.0
+      '@babel/runtime': 7.23.8
       dayjs: 1.11.10
       intersection-observer: 0.12.2
       js-cookie: 2.2.1
-      lodash: 4.17.21
+      lodash-es: 4.17.21
       react: 18.2.0
       resize-observer-polyfill: 1.5.1
       screenfull: 5.2.0
@@ -12142,7 +12125,7 @@ packages:
       react-dom: '>=17'
     dependencies:
       '@tianfeng98/hls.js': 1.0.1
-      ahooks: 3.7.8(react@18.2.0)
+      ahooks: 3.7.9(react@18.2.0)
       classnames: 2.3.2
       dplayer: 1.27.1
       flv.js: 1.6.2
