@@ -61,8 +61,8 @@ dependencies:
     specifier: 1.4.2
     version: 1.4.2
   '@dqbd/tiktoken':
-    specifier: 1.0.7
-    version: 1.0.7
+    specifier: 1.0.13
+    version: 1.0.13
   '@emoji-mart/data':
     specifier: 1.1.2
     version: 1.1.2
@@ -1792,8 +1792,8 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: true
 
-  /@dqbd/tiktoken@1.0.7:
-    resolution: {integrity: sha512-bhR5k5W+8GLzysjk8zTMVygQZsgvf7W1F0IlL4ZQ5ugjo5rCyiwGM5d8DYriXspytfu98tv59niang3/T+FoDw==}
+  /@dqbd/tiktoken@1.0.13:
+    resolution: {integrity: sha512-941kjlHjfI97l6NuH/AwuXV4mHuVnRooDcHNSlzi98hz+4ug3wT4gJcWjSwSZHqeGAEn90lC9sFD+8a9d5Jvxg==}
     dev: false
 
   /@egoist/tailwindcss-icons@1.7.2(tailwindcss@3.4.1):

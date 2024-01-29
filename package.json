@@ -47,7 +47,7 @@
     "@crossbell/util-hooks": "1.5.20",
     "@crossbell/util-metadata": "1.5.20",
     "@ddietr/codemirror-themes": "1.4.2",
-    "@dqbd/tiktoken": "1.0.7",
+    "@dqbd/tiktoken": "1.0.13",
     "@emoji-mart/data": "1.1.2",
     "@emoji-mart/react": "1.1.1",
     "@floating-ui/react": "0.26.7",
