@@ -202,8 +202,8 @@ dependencies:
     specifier: 0.16.9
     version: 0.16.9
   langchain:
-    specifier: 0.1.7
-    version: 0.1.7(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0)
+    specifier: 0.1.10
+    version: 0.1.10(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -9693,8 +9693,8 @@ packages:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
 
-  /langchain@0.1.7(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0):
-    resolution: {integrity: sha512-aNBakxYcXjoL2KrGrt6gvOeJGgBPAL9MNe8tH8DeFKGWn/VaCPF5Xh7ABdyI1djMFX1if2mJUThSebZRS+KKOg==}
+  /langchain@0.1.10(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0):
+    resolution: {integrity: sha512-JqrK2uXf9jYSBt2NSB1ZuL44sDqPak0ilIUF7RX1xvibGJXVWbkuM3uDUDqDMMajL7F6NrYWvrivYjlN2yenZA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
