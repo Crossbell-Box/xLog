@@ -38,7 +38,7 @@ dependencies:
     version: 6.23.0
   '@crossbell/connect-kit':
     specifier: 1.5.20
-    version: 1.5.20(@tanstack/react-query@4.36.1)(@types/react@18.2.48)(@wagmi/core@2.6.3)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4)
+    version: 1.5.20(@tanstack/react-query@4.36.1)(@types/react@18.2.48)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4)
   '@crossbell/contract':
     specifier: 1.5.20
     version: 1.5.20(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
@@ -203,7 +203,7 @@ dependencies:
     version: 0.16.9
   langchain:
     specifier: 0.1.11
-    version: 0.1.11(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@7.5.9)
+    version: 0.1.11(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -1265,7 +1265,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit@1.5.20(@tanstack/react-query@4.36.1)(@types/react@18.2.48)(@wagmi/core@2.6.3)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4):
+  /@crossbell/connect-kit@1.5.20(@tanstack/react-query@4.36.1)(@types/react@18.2.48)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4):
     resolution: {integrity: sha512-UUvensmzGB91cpVt7W/AheEtjxCedQl9tHthjfkMHjFvsGXiQGJ5yyO8RAU9rQgw6GrSMyucSgq0muz6IwLcyg==}
     peerDependencies:
       '@tanstack/react-query': ^4
@@ -1284,7 +1284,7 @@ packages:
       '@mantine/notifications': 6.0.21(@mantine/core@6.0.21)(@mantine/hooks@6.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       '@wagmi/connectors': 3.1.10(@types/react@18.2.48)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
-      '@web3modal/ethereum': 2.7.1(@wagmi/core@2.6.3)(viem@1.21.1)
+      '@web3modal/ethereum': 2.7.1(@wagmi/core@1.4.13)(viem@1.21.1)
       canvas-confetti: 1.9.2
       check-password-strength: 2.0.7
       classnames: 2.3.2
@@ -2472,7 +2472,7 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /@langchain/community@0.0.23(ioredis@5.3.2)(jsdom@24.0.0)(ws@7.5.9):
+  /@langchain/community@0.0.23(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0):
     resolution: {integrity: sha512-c5NnecxjqPYpZJQ/9M2Mg1MibK9A6lbI4tbj12RgDPdnUaC8ekCFrxnnBQEWUgnyrbd9TBSjCt2cTm/7ioCD9A==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -2728,7 +2728,7 @@ packages:
       jsdom: 24.0.0
       langsmith: 0.0.63
       uuid: 9.0.1
-      ws: 7.5.9
+      ws: 8.13.0
       zod: 3.22.4
     transitivePeerDependencies:
       - encoding
@@ -4397,12 +4397,6 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
-  /@types/node@20.11.7:
-    resolution: {integrity: sha512-GPmeN1C3XAyV5uybAf4cMLWT9fDWcmQhZVtMFu7OR32WjrqGG+Wnk2V1d0bmtUyE/Zy1QJ9BxyiTih9z8Oks8A==}
-    dependencies:
-      undici-types: 5.26.5
-    dev: true
-
   /@types/pangu@4.0.2:
     resolution: {integrity: sha512-rVwVCkOFTWpmBjZuxTiVhLE8cwIKff3jWEKjs+DDg6bMkQwjp9Bp03pNanHQTtTzP53SDHJutb/kfGFHNhOJaQ==}
     dev: true
@@ -4701,32 +4695,6 @@ packages:
       - immer
       - react
       - supports-color
-      - utf-8-validate
-      - zod
-    dev: false
-
-  /@wagmi/core@2.6.3(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4):
-    resolution: {integrity: sha512-hHvJkXFqfj56nAD0SH5bAHYxBItUBDIn6yGUBguMu121v6R4NxhwciEeff56lSjnKhmXjaWdJCEJ9C1YwkmDVw==}
-    peerDependencies:
-      '@tanstack/query-core': '>=5.0.0'
-      typescript: '>=5.0.4'
-      viem: 2.x
-    peerDependenciesMeta:
-      '@tanstack/query-core':
-        optional: true
-      typescript:
-        optional: true
-    dependencies:
-      eventemitter3: 5.0.1
-      mipd: 0.0.5(typescript@5.3.3)(zod@3.22.4)
-      typescript: 5.3.3
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
-      zustand: 4.4.1(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0)
-    transitivePeerDependencies:
-      - '@types/react'
-      - bufferutil
-      - immer
-      - react
       - utf-8-validate
       - zod
     dev: false
@@ -5431,14 +5399,14 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@web3modal/ethereum@2.7.1(@wagmi/core@2.6.3)(viem@1.21.1):
+  /@web3modal/ethereum@2.7.1(@wagmi/core@1.4.13)(viem@1.21.1):
     resolution: {integrity: sha512-1x3qhYh9qgtvw1MDQD4VeDf2ZOsVANKRPtUty4lF+N4L8xnAIwvNKUAMA4j6T5xSsjqUfq5Tdy5mYsNxLmsWMA==}
     deprecated: Please use new @web3modal/wagmi package
     peerDependencies:
       '@wagmi/core': ^1
       viem: ^1
     dependencies:
-      '@wagmi/core': 2.6.3(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
+      '@wagmi/core': 1.4.13(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
     dev: false
 
@@ -8101,6 +8069,7 @@ packages:
 
   /eventemitter3@5.0.1:
     resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
+    dev: true
 
   /events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
@@ -9546,7 +9515,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.11.7
+      '@types/node': 20.11.13
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
@@ -9750,7 +9719,7 @@ packages:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
 
-  /langchain@0.1.11(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@7.5.9):
+  /langchain@0.1.11(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0):
     resolution: {integrity: sha512-Ma1QW8pX0BAgnmgL5J97WQ17Ir46b8lWiZ3s+sK5iS6zicJzalx0J9FUdFg4XAFzLj6Dy1oHoXcupjrOZLQGOA==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -9913,7 +9882,7 @@ packages:
         optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
-      '@langchain/community': 0.0.23(ioredis@5.3.2)(jsdom@24.0.0)(ws@7.5.9)
+      '@langchain/community': 0.0.23(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0)
       '@langchain/core': 0.1.20
       '@langchain/openai': 0.0.13
       binary-extensions: 2.2.0
@@ -9930,7 +9899,7 @@ packages:
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 9.0.1
-      ws: 7.5.9
+      ws: 8.13.0
       yaml: 2.3.4
       zod: 3.22.4
       zod-to-json-schema: 3.22.4(zod@3.22.4)
@@ -11101,22 +11070,6 @@ packages:
     resolution: {integrity: sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==}
     engines: {node: '>=16 || 14 >=14.17'}
     dev: true
-
-  /mipd@0.0.5(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-gbKA784D2WKb5H/GtqEv+Ofd1S9Zj+Z/PGDIl1u1QAbswkxD28BQ5bSXQxkeBzPBABg1iDSbiwGG1XqlOxRspA==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      typescript: 5.3.3
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-    dev: false
 
   /mkdirp-classic@0.5.3:
     resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}
@@ -14871,27 +14824,6 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
-    dev: false
-
-  /zustand@4.4.1(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0):
-    resolution: {integrity: sha512-QCPfstAS4EBiTQzlaGP1gmorkh/UL1Leaj2tdj+zZCZ/9bm0WS7sI2wnfD5lpOszFqWJ1DcPnGoY8RDL61uokw==}
-    engines: {node: '>=12.7.0'}
-    peerDependencies:
-      '@types/react': '>=16.8'
-      immer: '>=9.0'
-      react: '>=16.8'
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      immer:
-        optional: true
-      react:
-        optional: true
-    dependencies:
-      '@types/react': 18.2.48
-      immer: 10.0.3
-      react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
   /zustand@4.5.0(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0):
