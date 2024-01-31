@@ -678,7 +678,7 @@ export async function getPage<TRender extends boolean = false>(input: {
       return prev.updatedAt > current.updatedAt ? prev : current
     })
 
-  let expandedNote: ExpandedNote | undefined
+  let expandedNote: ExpandedNote | null = null
   if (page) {
     expandedNote = await expandCrossbellNote({
       note: page,
