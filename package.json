@@ -198,7 +198,7 @@
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-tailwindcss": "3.14.1",
     "eslint-plugin-unused-imports": "3.0.0",
-    "husky": "9.0.7",
+    "husky": "9.0.9",
     "lint-staged": "15.2.1",
     "postcss": "8.4.33",
     "postcss-import": "16.0.0",
