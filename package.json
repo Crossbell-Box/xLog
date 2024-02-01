@@ -53,7 +53,7 @@
     "@floating-ui/react": "0.26.8",
     "@headlessui/react": "1.7.18",
     "@heroicons/react": "2.1.1",
-    "@iconify-json/mingcute": "1.1.15",
+    "@iconify-json/mingcute": "1.1.16",
     "@lezer/highlight": "1.2.0",
     "@mantine/core": "7.5.0",
     "@mantine/dates": "7.5.0",
