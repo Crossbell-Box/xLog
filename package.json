@@ -45,7 +45,7 @@
     "@crossbell/notification": "1.5.20",
     "@crossbell/ui": "1.5.20",
     "@crossbell/util-hooks": "1.5.20",
-    "@crossbell/util-metadata": "1.5.20",
+    "@crossbell/util-metadata": "1.5.21",
     "@ddietr/codemirror-themes": "1.4.2",
     "@dqbd/tiktoken": "1.0.13",
     "@emoji-mart/data": "1.1.2",
