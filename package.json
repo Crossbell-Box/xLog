@@ -43,7 +43,7 @@
     "@crossbell/contract": "1.5.20",
     "@crossbell/indexer": "1.5.20",
     "@crossbell/notification": "1.5.20",
-    "@crossbell/ui": "1.5.20",
+    "@crossbell/ui": "1.5.21",
     "@crossbell/util-hooks": "1.5.20",
     "@crossbell/util-metadata": "1.5.20",
     "@ddietr/codemirror-themes": "1.4.2",
