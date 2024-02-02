@@ -39,7 +39,7 @@
     "@codemirror/state": "6.4.0",
     "@codemirror/theme-one-dark": "6.1.2",
     "@codemirror/view": "6.23.0",
-    "@crossbell/connect-kit": "1.5.20",
+    "@crossbell/connect-kit": "1.5.21",
     "@crossbell/contract": "1.5.20",
     "@crossbell/indexer": "1.5.20",
     "@crossbell/notification": "1.5.20",
