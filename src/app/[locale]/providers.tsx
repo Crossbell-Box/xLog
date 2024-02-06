@@ -26,7 +26,7 @@ import { useDarkModeListener } from "~/hooks/useDarkMode"
 // eslint-disable-next-line import/no-unresolved
 import { useMobileLayout } from "~/hooks/useMobileLayout"
 import { useNProgress } from "~/hooks/useNProgress"
-import { DARK_MODE_STORAGE_KEY } from "~/lib/constants"
+import { DARK_MODE_STORAGE_KEY, IS_PROD } from "~/lib/constants"
 import { APP_NAME, WALLET_CONNECT_V2_PROJECT_ID } from "~/lib/env"
 import { filterNotification } from "~/lib/filter"
 import { toGateway } from "~/lib/ipfs-parser"
@@ -36,6 +36,11 @@ const wagmiConfig = createWagmiConfig({
   appName: APP_NAME,
   // You can create or find it at https://cloud.walletconnect.com
   walletConnectV2ProjectId: WALLET_CONNECT_V2_PROJECT_ID,
+  joyIdOptions: {
+    name: APP_NAME,
+    logo: "https://xlog.app/assets/logo.png",
+    joyidAppURL: IS_PROD ? "https://app.joy.id" : "https://testnet.joyid.dev",
+  },
 })
 
 const colorScheme: NotificationModalColorScheme = {
