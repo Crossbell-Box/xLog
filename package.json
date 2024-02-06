@@ -205,7 +205,7 @@
     "postcss-preset-mantine": "1.12.3",
     "postcss-prune-var": "1.1.1",
     "postcss-simple-vars": "7.0.1",
-    "prettier": "3.2.4",
+    "prettier": "3.2.5",
     "prettier-package-json": "2.8.0",
     "prisma": "5.9.0",
     "tailwindcss": "3.4.1",
