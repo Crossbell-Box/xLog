@@ -19,10 +19,10 @@ spec:
     metadata:
       labels:
         app: xlog
-      annotations:
-        prometheus.io/path: /metrics
-        prometheus.io/port: "8080"
-        prometheus.io/scrape: "true"
+      # annotations:
+      #   prometheus.io/path: /metrics
+      #   prometheus.io/port: "8080"
+      #   prometheus.io/scrape: "true"
     spec:
       enableServiceLinks: false
       initContainers:

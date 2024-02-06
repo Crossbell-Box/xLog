@@ -5,7 +5,7 @@ metadata:
   namespace: crossbell
 spec:
   progressDeadlineSeconds: 600
-  replicas: 10
+  replicas: 7
   revisionHistoryLimit: 5
   selector:
     matchLabels:
@@ -19,10 +19,10 @@ spec:
     metadata:
       labels:
         app: xlog
-      annotations:
-        prometheus.io/path: /metrics
-        prometheus.io/port: "8080"
-        prometheus.io/scrape: "true"
+      # annotations:
+      #   prometheus.io/path: /metrics
+      #   prometheus.io/port: "8080"
+      #   prometheus.io/scrape: "true"
     spec:
       enableServiceLinks: false
       initContainers:
