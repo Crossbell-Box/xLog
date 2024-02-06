@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - "dev"
+    paths-ignore:
+      - "deploy/**"
 
 jobs:
   build:
