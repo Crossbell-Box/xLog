@@ -121,8 +121,8 @@ dependencies:
     specifier: 0.3.0
     version: 0.3.0
   ahooks:
-    specifier: 3.7.9
-    version: 3.7.9(react@18.2.0)
+    specifier: 3.7.10
+    version: 3.7.10(react@18.2.0)
   aplayer:
     specifier: 1.10.1
     version: 1.10.1
@@ -3532,6 +3532,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -4973,8 +4974,8 @@ packages:
     resolution: {integrity: sha512-1x3qhYh9qgtvw1MDQD4VeDf2ZOsVANKRPtUty4lF+N4L8xnAIwvNKUAMA4j6T5xSsjqUfq5Tdy5mYsNxLmsWMA==}
     deprecated: Please use new @web3modal/wagmi package
     peerDependencies:
-      '@wagmi/core': ^1
-      viem: ^1
+      '@wagmi/core': '>=1'
+      viem: '>=1'
     dependencies:
       '@wagmi/core': 1.4.13(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
@@ -5202,8 +5203,8 @@ packages:
       humanize-ms: 1.2.1
     dev: false
 
-  /ahooks@3.7.9(react@18.2.0):
-    resolution: {integrity: sha512-1nuCnaBe/DvZD2QAZVGLLmu0vDi6jxbiAP3Ghkj6Ocqk9YSXI6ydwo2x5I3lXowZyM8MNJDnHFvIo0vJS1CuFw==}
+  /ahooks@3.7.10(react@18.2.0):
+    resolution: {integrity: sha512-/HLYif7sFA/5qSuWKrwvjDbf3bq+sdaMrUWS7XGCDRWdC2FrG/i+u5LZdakMYc6UIgJTMQ7tGiJCV7sdU4kSIw==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5212,7 +5213,7 @@ packages:
       dayjs: 1.11.10
       intersection-observer: 0.12.2
       js-cookie: 2.2.1
-      lodash-es: 4.17.21
+      lodash: 4.17.21
       react: 18.2.0
       resize-observer-polyfill: 1.5.1
       screenfull: 5.2.0
@@ -10626,6 +10627,10 @@ packages:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
     dev: false
 
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: false
+
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
@@ -11600,7 +11605,7 @@ packages:
       react-dom: '>=17'
     dependencies:
       '@tianfeng98/hls.js': 1.0.1
-      ahooks: 3.7.9(react@18.2.0)
+      ahooks: 3.7.10(react@18.2.0)
       classnames: 2.3.2
       dplayer: 1.27.1
       flv.js: 1.6.2

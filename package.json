@@ -67,7 +67,7 @@
     "@uiw/codemirror-extensions-events": "4.21.21",
     "@urql/core": "4.2.3",
     "@vercel/otel": "0.3.0",
-    "ahooks": "3.7.9",
+    "ahooks": "3.7.10",
     "aplayer": "1.10.1",
     "async-lock": "1.4.1",
     "canvas-confetti": "1.9.2",
