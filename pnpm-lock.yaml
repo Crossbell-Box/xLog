@@ -202,8 +202,8 @@ dependencies:
     specifier: 0.16.9
     version: 0.16.9
   langchain:
-    specifier: 0.1.11
-    version: 0.1.11(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0)
+    specifier: 0.1.14
+    version: 0.1.14(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0)
   lottie-react:
     specifier: 2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -2592,7 +2592,7 @@ packages:
       ws:
         optional: true
     dependencies:
-      '@langchain/core': 0.1.20
+      '@langchain/core': 0.1.24
       '@langchain/openai': 0.0.13
       flat: 5.0.2
       ioredis: 5.3.2
@@ -2605,8 +2605,8 @@ packages:
       - encoding
     dev: false
 
-  /@langchain/core@0.1.20:
-    resolution: {integrity: sha512-oGXxc2G8BMYyNKrE5UCbL2hPaxqUkS+xw9NVXKM9Hn6si5WJ73eb4hax9kuNB2TSQqankwmRERPs18d1NoLpuA==}
+  /@langchain/core@0.1.24:
+    resolution: {integrity: sha512-MBsBMses4/6zUetPzZaw9FyRqCebvB+jqaZE+VNDK37wzW+W4hssxat6gyfFbqegOw2VUG64yy57velLbe8fCw==}
     engines: {node: '>=18'}
     dependencies:
       ansi-styles: 5.2.0
@@ -2617,6 +2617,7 @@ packages:
       ml-distance: 4.0.1
       p-queue: 6.6.2
       p-retry: 4.6.2
+      sax: 1.3.0
       uuid: 9.0.1
       zod: 3.22.4
       zod-to-json-schema: 3.22.4(zod@3.22.4)
@@ -2626,7 +2627,7 @@ packages:
     resolution: {integrity: sha512-kgPwFiUA5Abmt8Q/cDhC4o1o5QAYuq962CqneVieMIgTUOJhYqB8Na4/7JI0EIfEZuUP2uuTrtqsulbLpGNQ8w==}
     engines: {node: '>=18'}
     dependencies:
-      '@langchain/core': 0.1.20
+      '@langchain/core': 0.1.24
       js-tiktoken: 1.0.10
       openai: 4.26.0
       zod: 3.22.4
@@ -3532,6 +3533,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -4973,8 +4975,8 @@ packages:
     resolution: {integrity: sha512-1x3qhYh9qgtvw1MDQD4VeDf2ZOsVANKRPtUty4lF+N4L8xnAIwvNKUAMA4j6T5xSsjqUfq5Tdy5mYsNxLmsWMA==}
     deprecated: Please use new @web3modal/wagmi package
     peerDependencies:
-      '@wagmi/core': ^1
-      viem: ^1
+      '@wagmi/core': '>=1'
+      viem: '>=1'
     dependencies:
       '@wagmi/core': 1.4.13(@types/react@18.2.48)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
       viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
@@ -9164,8 +9166,8 @@ packages:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
 
-  /langchain@0.1.11(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0):
-    resolution: {integrity: sha512-Ma1QW8pX0BAgnmgL5J97WQ17Ir46b8lWiZ3s+sK5iS6zicJzalx0J9FUdFg4XAFzLj6Dy1oHoXcupjrOZLQGOA==}
+  /langchain@0.1.14(cheerio@1.0.0-rc.12)(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0):
+    resolution: {integrity: sha512-QL0Kp/8JANVHJosh8NB9bpINdvCgpE5ZZy1Lxrpc8owy/s9NqMuwEQ5rvnLYCnjGPBQxYK6NAh23NVP5ucQEBg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
@@ -9193,8 +9195,8 @@ packages:
       epub2: ^3.0.1
       faiss-node: '*'
       fast-xml-parser: ^4.2.7
+      glob: ^10.3.10
       google-auth-library: ^8.9.0
-      googleapis: ^126.0.1
       handlebars: ^4.7.8
       html-to-text: ^9.0.5
       ignore: ^5.2.0
@@ -9213,6 +9215,7 @@ packages:
       redis: ^4.6.4
       sonix-speech-recognition: ^2.1.1
       srt-parser-2: ^1.2.3
+      ts-morph: ^21.0.1
       typeorm: ^0.3.12
       vectordb: ^0.1.4
       weaviate-ts-client: ^1.4.0
@@ -9271,9 +9274,9 @@ packages:
         optional: true
       fast-xml-parser:
         optional: true
-      google-auth-library:
+      glob:
         optional: true
-      googleapis:
+      google-auth-library:
         optional: true
       handlebars:
         optional: true
@@ -9311,6 +9314,8 @@ packages:
         optional: true
       srt-parser-2:
         optional: true
+      ts-morph:
+        optional: true
       typeorm:
         optional: true
       vectordb:
@@ -9328,7 +9333,7 @@ packages:
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
       '@langchain/community': 0.0.23(ioredis@5.3.2)(jsdom@24.0.0)(ws@8.13.0)
-      '@langchain/core': 0.1.20
+      '@langchain/core': 0.1.24
       '@langchain/openai': 0.0.13
       binary-extensions: 2.2.0
       cheerio: 1.0.0-rc.12
@@ -9391,6 +9396,7 @@ packages:
       - discord.js
       - encoding
       - firebase-admin
+      - googleapis
       - hnswlib-node
       - llmonitor
       - lodash
@@ -10624,6 +10630,10 @@ packages:
 
   /napi-build-utils@1.0.2:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
+    dev: false
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
     dev: false
 
   /natural-compare@1.4.0:
