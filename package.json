@@ -200,7 +200,7 @@
     "eslint-plugin-unused-imports": "3.0.0",
     "husky": "9.0.7",
     "lint-staged": "15.2.1",
-    "postcss": "8.4.33",
+    "postcss": "8.4.35",
     "postcss-import": "16.0.0",
     "postcss-preset-mantine": "1.12.3",
     "postcss-prune-var": "1.1.1",
