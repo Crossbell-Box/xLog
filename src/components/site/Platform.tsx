@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { Tooltip } from "~/components/ui/Tooltip"
 import { UniLink } from "~/components/ui/UniLink"
@@ -188,10 +188,14 @@ export const Platform = ({
 
   const [showImg, setShowImg] = useState(true)
 
+  useEffect(() => {
+    setShowImg(true)
+  }, [platform])
+
   return (
     <UniLink
       className={cn(
-        "w-5 h-5 inline-flex hover:scale-110 ease align-middle mr-3 sm:mr-6 transition-transform",
+        "size-5 inline-flex hover:scale-110 ease align-middle mr-3 sm:mr-6 transition-transform",
         className,
       )}
       key={platform + username}
