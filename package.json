@@ -169,7 +169,7 @@
     "@next/bundle-analyzer": "14.1.0",
     "@types/async-lock": "1.4.2",
     "@types/canvas-confetti": "1.6.4",
-    "@types/chroma-js": "2.4.3",
+    "@types/chroma-js": "2.4.4",
     "@types/cookie": "0.6.0",
     "@types/hast": "3.0.4",
     "@types/js-yaml": "4.0.9",
