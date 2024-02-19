@@ -34,3 +34,4 @@ We will provide some small gifts to contributors as a token of appreciation, cur
 - [xLog custom css debugger](https://github.com/birdgg/xLog-custom-css-debugger): A convenient chrome extension for debugging custom CSS in Xlog.
 - [xLog card](https://github.com/Alex-Programer/xlog-card): Card component for displaying xLog information.
 - [Sync To xLog](https://github.com/Otto-J/sync-to-xlog): Sync obsidian notes to xlog.app
+- [Nyaruko Telegram Bot](https://github.com/niracler/nyaruko-telegram-bot): Synchronize Telegram messages to xLog as Shorts
