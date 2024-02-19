@@ -15,7 +15,7 @@ jobs:
     outputs:
       version: ${{ steps.meta.outputs.version }}
     steps:
-      - uses: hmarr/debug-action@v2
+      - uses: hmarr/debug-action@v3
       - name: Checkout
         uses: actions/checkout@v4
       - name: docker meta
