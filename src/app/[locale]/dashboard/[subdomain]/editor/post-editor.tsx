@@ -141,7 +141,8 @@ export default function PostEditor() {
 
   const updateValue = useCallback(
     (val: EditorValues) => {
-      if (visibility !== PageVisibilityEnum.Draft) {
+      const _visibility = getPageVisibility(page.data || undefined) // can't get the correct visibility here, very strange
+      if (_visibility !== PageVisibilityEnum.Draft) {
         setVisibility(PageVisibilityEnum.Modified)
       }
 
@@ -176,7 +177,7 @@ export default function PostEditor() {
       }
       useEditorState.setState(newValues)
     },
-    [visibility, site.data?.characterId, type, queryClient],
+    [visibility, site.data?.characterId, type, queryClient, page.data],
   )
 
   const isMobileLayout = useIsMobileLayout()
