@@ -354,14 +354,11 @@ export default function PostEditor() {
     [setView],
   )
 
-  const onChange = useCallback(
-    (value: string) => {
-      updateValue({
-        content: value,
-      })
-    },
-    [updateValue],
-  )
+  const onChange = (value: string) => {
+    updateValue({
+      content: value,
+    })
+  }
 
   const onPreviewButtonClick = useCallback(() => {
     window.open(
