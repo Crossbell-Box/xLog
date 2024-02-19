@@ -45,7 +45,7 @@ export const PlatformsSyncMap: {
   },
   x_id: {
     name: "X",
-    icon: `${iconCDN}/x_/fff`,
+    icon: `${iconCDN}/x/_/fff`,
     url: "https://x.com/i/user/{username}",
   },
   pixiv: {
