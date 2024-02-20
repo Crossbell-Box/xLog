@@ -189,7 +189,7 @@
     "@types/uuid": "9.0.8",
     "autoprefixer": "10.4.17",
     "babel-loader": "9.1.3",
-    "cspell": "8.4.0",
+    "cspell": "8.4.1",
     "esbuild": "0.20.1",
     "esbuild-register": "3.5.0",
     "eslint": "8.56.0",
