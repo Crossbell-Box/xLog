@@ -21,6 +21,7 @@ import { ListUnordered } from "./ListUnordered"
 import { Mention } from "./Mention"
 import { Multimedia } from "./Multimedia"
 import { Quote } from "./Quote"
+import { ResizeImage } from "./ResizeImage"
 import { Strikethrough } from "./Strikethrough"
 import { Underline } from "./Underline"
 
@@ -102,6 +103,7 @@ export const toolbars: ICommand[] = [
   ListOrdered,
   Link,
   Multimedia,
+  ResizeImage,
   Mention,
   Formula,
   Emoji,
