@@ -13,7 +13,7 @@ const action = (view: EditorView) => {
 export const ResizeImage: ICommand = {
   name: "image-size",
   label: "Image Size",
-  icon: "i-mingcute-photo-album-2-fill",
+  icon: "i-mingcute-aspect-ratio-line",
   execute: ({ view }) => {
     action(view)
   },
