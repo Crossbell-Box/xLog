@@ -392,7 +392,7 @@ export default function PostEditor() {
           <>
             <header
               className={cn(
-                "flex justify-between absolute top-0 inset-x-0 z-[25] px-5 h-14 border-b items-center text-sm",
+                "flex justify-between absolute top-0 inset-x-0 px-5 h-14 border-b items-center text-sm",
                 isMobileLayout && "w-screen",
               )}
             >
