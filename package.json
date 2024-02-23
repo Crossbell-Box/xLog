@@ -158,7 +158,7 @@
     "unist-util-visit": "5.0.0",
     "uuid": "9.0.1",
     "vfile": "6.0.1",
-    "viem": "1.21.1",
+    "viem": "2.7.13",
     "wagmi": "1.4.13",
     "xregexp": "5.1.1",
     "zustand": "4.5.1"
