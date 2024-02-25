@@ -32,7 +32,10 @@ import { ColorSchemeInjector } from "./ColorSchemeInjector"
 import Providers, { mantineDefaultColorScheme, mantineTheme } from "./providers"
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
 }
 
 export const generateMetadata = withHrefLang(async () => ({
