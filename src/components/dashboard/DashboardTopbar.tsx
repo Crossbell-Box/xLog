@@ -5,6 +5,8 @@ import { Bars3Icon } from "@heroicons/react/24/outline"
 
 import { Logo } from "../common/Logo"
 
+import { UniLink } from "../ui/UniLink"
+
 export const DashboardTopbar = ({
   children,
   userWidget,
@@ -52,14 +54,17 @@ export const DashboardTopbar = ({
         )}
       </Popover>
 
-      <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
+      <UniLink
+      href="/"
+      className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center"
+      >
         <div className="inline-block w-9 h-9 mr-3">
-          <Logo type="lottie" width={36} height={36} autoplay={false} />
+            <Logo type="lottie" width={36} height={36} autoplay={false} />
         </div>
         xLog
-      </div>
+      </UniLink>
       <div className="flex-1"></div>
       {userWidget}
-    </div>
+      </div>
   )
 }
