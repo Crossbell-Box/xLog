@@ -1,7 +1,6 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import Link from "next/link"
 import {
   useParams,
   usePathname,
@@ -243,7 +242,10 @@ export default function DashboardLayout({
               drawerWidget={(close: any) => (
                 <>
                   <div className="flex-1 min-h-0 flex flex-col h-full">
-                    <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
+                    <UniLink
+                      href="/"
+                      className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center"
+                    >
                       <div className="inline-block size-9 mr-3">
                         <Logo
                           type="lottie"
@@ -252,8 +254,8 @@ export default function DashboardLayout({
                           autoplay={false}
                         />
                       </div>
-                      <Link href="/">xLog</Link>
-                    </div>
+                      xLog
+                    </UniLink>
                     <div className="px-3 space-y-[2px] text-zinc-500 flex-1 min-h-0 overflow-y-auto">
                       {links.map((link) => {
                         const active =
@@ -320,7 +322,10 @@ export default function DashboardLayout({
                 className={`w-sidebar transition-[width] fixed h-full flex flex-col`}
               >
                 <div className="flex-1 min-h-0 flex flex-col">
-                  <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
+                  <UniLink
+                    href="/"
+                    className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center"
+                  >
                     <div className="inline-block size-9 mr-3">
                       <Logo
                         type="lottie"
@@ -329,8 +334,8 @@ export default function DashboardLayout({
                         autoplay={false}
                       />
                     </div>
-                    <Link href="/">xLog</Link>
-                  </div>
+                    xLog
+                  </UniLink>
                   {account?.character?.handle &&
                     subdomain &&
                     account?.character?.handle !== subdomain && (

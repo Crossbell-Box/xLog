@@ -3,6 +3,8 @@ import { Fragment } from "react"
 import { Popover, Transition } from "@headlessui/react"
 import { Bars3Icon } from "@heroicons/react/24/outline"
 
+import { UniLink } from "~/components/ui/UniLink"
+
 import { Logo } from "../common/Logo"
 
 export const DashboardTopbar = ({
@@ -31,7 +33,7 @@ export const DashboardTopbar = ({
               <Popover.Overlay className="fixed inset-0 bg-black opacity-10" />
             </Transition>
             <Popover.Button className="group inline-flex items-center rounded-md text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-              <Bars3Icon className="h-6 w-6" />
+              <Bars3Icon className="size-6" />
             </Popover.Button>
             <Transition
               as={Fragment}
@@ -52,12 +54,15 @@ export const DashboardTopbar = ({
         )}
       </Popover>
 
-      <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
-        <div className="inline-block w-9 h-9 mr-3">
+      <UniLink
+        href="/"
+        className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center"
+      >
+        <div className="inline-block size-9 mr-3">
           <Logo type="lottie" width={36} height={36} autoplay={false} />
         </div>
         xLog
-      </div>
+      </UniLink>
       <div className="flex-1"></div>
       {userWidget}
     </div>
