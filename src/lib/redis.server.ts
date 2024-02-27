@@ -57,7 +57,7 @@ export async function cacheGet(options: {
       console.error("Redis get error: ", error)
     }
 
-    const set = (value: string | Record<string, any>) => {
+    const set = (value: Record<string, any>) => {
       if (value) {
         if (options.noExpire) {
           redis.set(redisKey, JSON.stringify(value))
@@ -77,7 +77,9 @@ export async function cacheGet(options: {
         if (options.durable) {
           const ttl = await redis.ttl(redisKey)
           if (ttl < (options.expireTime || REDIS_EXPIRE) - options.durable) {
-            set(cacheValue)
+            try {
+              set(JSON.parse(cacheValue))
+            } catch (error) {}
             options.getValueFun().then((value) => {
               set(value)
             })
