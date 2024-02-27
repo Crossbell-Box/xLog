@@ -13,6 +13,7 @@ export const prefetchGetFeed = async (
     queryFn: async ({ pageParam }) => {
       return cacheGet({
         key,
+        durable: 60,
         getValueFun: () =>
           homeModel.getFeed({
             ...data,
@@ -24,9 +25,23 @@ export const prefetchGetFeed = async (
   })
 }
 
+export const getFeed = async (
+  data: Parameters<typeof homeModel.getFeed>[0],
+) => {
+  return cacheGet({
+    key: ["getFeed", data],
+    durable: 60,
+    getValueFun: () =>
+      homeModel.getFeed({
+        ...data,
+      }),
+  }) as Promise<ReturnType<typeof homeModel.getFeed>>
+}
+
 export const getPreviewShort = async () => {
   return cacheGet({
     key: "getPreviewShort",
+    durable: 60,
     getValueFun: () =>
       homeModel.getFeed({
         type: "shorts",

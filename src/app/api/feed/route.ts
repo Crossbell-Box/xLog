@@ -1,5 +1,5 @@
 import { getQuery, NextServerResponse } from "~/lib/server-helper"
-import { getFeed } from "~/models/home.model"
+import { getFeed } from "~/queries/home.server"
 
 export async function GET(req: Request) {
   const query = getQuery(req)

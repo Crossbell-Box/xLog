@@ -52,6 +52,7 @@ export async function getFeed({
   topic?: string
   translateTo?: Language
 }) {
+  console.log("getFeed", type)
   if (type === "search" && !searchKeyword) {
     type = "latest"
   }
@@ -92,6 +93,9 @@ export async function getFeed({
     count: 0,
   }
 
+  const restrictedDate = new Date()
+  restrictedDate.setMonth(restrictedDate.getMonth() - 2)
+
   switch (type) {
     case "latest": {
       const result = await client
@@ -105,6 +109,9 @@ export async function getFeed({
                   },
                   deleted: {
                     equals: false,
+                  },
+                  createdAt: {
+                    gt: "${restrictedDate.toISOString()}",
                   },
                   metadata: {
                     content: {
@@ -174,6 +181,9 @@ export async function getFeed({
                   },
                   deleted: {
                     equals: false,
+                  },
+                  createdAt: {
+                    gt: "${restrictedDate.toISOString()}",
                   },
                   metadata: {
                     AND: [{
@@ -292,6 +302,9 @@ export async function getFeed({
                   },
                   deleted: {
                     equals: false,
+                  },
+                  createdAt: {
+                    gt: "${restrictedDate.toISOString()}",
                   },
                   metadata: {
                     AND: [{
@@ -431,6 +444,9 @@ export async function getFeed({
                     deleted: {
                       equals: false,
                     },
+                    createdAt: {
+                      gt: "${restrictedDate.toISOString()}",
+                    },
                     metadata: {
                       AND: [
                         {
@@ -516,6 +532,9 @@ export async function getFeed({
                     },
                     deleted: {
                       equals: false,
+                    },
+                    createdAt: {
+                      gt: "${restrictedDate.toISOString()}",
                     },
                     metadata: {
                       AND: [
@@ -706,6 +725,9 @@ export async function getFeed({
                   },
                   deleted: {
                     equals: false,
+                  },
+                  createdAt: {
+                    gt: "${restrictedDate.toISOString()}",
                   },
                   metadata: {
                     content: {

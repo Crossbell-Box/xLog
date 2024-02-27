@@ -2,7 +2,7 @@ import { IPFS_GATEWAY_FALLBACK, SITE_URL } from "~/lib/env"
 import { parsePost } from "~/lib/json-feed"
 import { NextServerResponse } from "~/lib/server-helper"
 import { ExpandedNote } from "~/lib/types"
-import { getFeed } from "~/models/home.model"
+import { getFeed } from "~/queries/home.server"
 
 export async function GET(request: Request) {
   const feed = await getFeed({
