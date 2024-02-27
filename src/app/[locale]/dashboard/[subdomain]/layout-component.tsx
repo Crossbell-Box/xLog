@@ -1,6 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import Link from "next/link"
 import {
   useParams,
   usePathname,
@@ -243,7 +244,7 @@ export default function DashboardLayout({
                 <>
                   <div className="flex-1 min-h-0 flex flex-col h-full">
                     <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
-                      <div className="inline-block w-9 h-9 mr-3">
+                      <div className="inline-block size-9 mr-3">
                         <Logo
                           type="lottie"
                           width={36}
@@ -251,7 +252,7 @@ export default function DashboardLayout({
                           autoplay={false}
                         />
                       </div>
-                      {"xLog"}
+                      <Link href="/">xLog</Link>
                     </div>
                     <div className="px-3 space-y-[2px] text-zinc-500 flex-1 min-h-0 overflow-y-auto">
                       {links.map((link) => {
@@ -320,7 +321,7 @@ export default function DashboardLayout({
               >
                 <div className="flex-1 min-h-0 flex flex-col">
                   <div className="mb-2 px-5 pt-3 pb-2 text-2xl font-extrabold flex items-center">
-                    <div className="inline-block w-9 h-9 mr-3">
+                    <div className="inline-block size-9 mr-3">
                       <Logo
                         type="lottie"
                         width={36}
@@ -328,7 +329,7 @@ export default function DashboardLayout({
                         autoplay={false}
                       />
                     </div>
-                    xLog
+                    <Link href="/">xLog</Link>
                   </div>
                   {account?.character?.handle &&
                     subdomain &&
@@ -420,14 +421,14 @@ export default function DashboardLayout({
 
           <div
             className={cn(
-              "lg:p-3 w-full h-full",
+              "lg:p-3 size-full",
               !isMobileLayout && "max-w-[calc(100vw-240px)]",
             )}
           >
             <div
               className={cn(
                 `${isMobileLayout ? "pt-16 flex-1" : "flex-1 min-w-0"}`,
-                "bg-white w-full h-full lg:rounded-xl lg:drop-shadow overflow-y-auto",
+                "bg-white size-full lg:rounded-xl lg:drop-shadow overflow-y-auto",
               )}
             >
               {children}
