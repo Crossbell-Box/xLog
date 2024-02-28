@@ -52,7 +52,6 @@ export async function getFeed({
   topic?: string
   translateTo?: Language
 }) {
-  console.log("getFeed", type)
   if (type === "search" && !searchKeyword) {
     type = "latest"
   }
