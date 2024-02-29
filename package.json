@@ -176,7 +176,7 @@
     "@types/katex": "0.16.7",
     "@types/mdast": "4.0.3",
     "@types/mjml": "4.7.4",
-    "@types/node": "20.11.19",
+    "@types/node": "20.11.24",
     "@types/pangu": "4.0.2",
     "@types/prismjs": "1.26.3",
     "@types/react": "18.2.56",
