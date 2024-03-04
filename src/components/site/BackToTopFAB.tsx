@@ -7,7 +7,7 @@ import { throttle } from "~/lib/utils"
 import { FABBase } from "../ui/FAB"
 
 const isShouldShow = () =>
-  typeof window !== undefined &&
+  typeof window !== "undefined" &&
   document.documentElement.scrollTop > document.documentElement.clientHeight
 
 export const BackToTopFAB = () => {
