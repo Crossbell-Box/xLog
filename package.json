@@ -161,7 +161,7 @@
     "viem": "1.21.1",
     "wagmi": "1.4.13",
     "xregexp": "5.1.1",
-    "zustand": "4.5.1"
+    "zustand": "4.5.2"
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "1.7.4",
