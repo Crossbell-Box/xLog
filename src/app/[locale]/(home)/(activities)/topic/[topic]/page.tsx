@@ -55,7 +55,7 @@ export default async function Topic({
           {info?.includeTags[0]}
         </div>
         <p className="text-zinc-600">{t(info?.description || "")}</p>
-        {info?.includeKeywords?.length || 0 > 0 ? (
+        {info?.includeKeywords?.length ? (
           <p className="text-zinc-400 text-sm">
             {t("Topic Keywords")}: {info?.includeKeywords?.join(", ")}
           </p>
