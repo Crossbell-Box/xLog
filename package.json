@@ -203,7 +203,7 @@
     "postcss": "8.4.35",
     "postcss-import": "16.0.1",
     "postcss-preset-mantine": "1.13.0",
-    "postcss-prune-var": "1.1.1",
+    "postcss-prune-var": "1.1.2",
     "postcss-simple-vars": "7.0.1",
     "prettier": "3.2.5",
     "prettier-package-json": "2.8.0",
