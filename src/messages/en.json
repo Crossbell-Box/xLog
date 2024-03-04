@@ -6,7 +6,7 @@
   "You are here to be the first patron": "You are here to be the first patron.",
   "You are here to be the first tipper": "You are here to be the first tipper.",
   "Filter out possible low-quality content based on AI ratings": "Filter out possible low-quality content based on AI ratings.",
-  "link post-vs-page" : "https://wordpress.com/zh-cn/support/post-vs-page/",
+  "link post-vs-page": "https://wordpress.com/zh-cn/support/post-vs-page/",
   "delete_confirmation": "Are you sure you want to DELETE this {context}?",
   "description": "An <opensourceLink>open-source</opensourceLink> creative community written on the <blockchainLink>blockchain</blockchainLink>.",
   "features": {
@@ -73,7 +73,7 @@
   "Subdomain Available": "Subdomain Available.",
   "Subdomain Unavailable": "Subdomain Unavailable.",
   "Published a new post on my blockchain blog: {title} Check it out now!": "Published a new post on my blockchain blog: {title}. Check it out now!",
-  "Please upload at least one image" : "Please upload at least one image.",
+  "Please upload at least one image": "Please upload at least one image.",
   "comma": ".",
   "xLog's open design allows it to integrate with many other open protocols and applications without friction": "xLog's open design allows it to integrate with many other open protocols and applications without friction.",
   "Let's talk about xLog, whether to praise or criticize it": "Let's talk about xLog, whether to praise or criticize it.",
@@ -115,5 +115,6 @@
   "ja": "Japanese",
   "zh": "Chinese",
   "zh-TW": "Traditional Chinese",
-  "Confirmed by {blockNumber} blocks": "Confirmed by {blockNumber} blocks"
+  "Confirmed by {blockNumber} blocks": "Confirmed by {blockNumber} blocks",
+  "Become a patron of {name}": "Become a patron of {name}"
 }
