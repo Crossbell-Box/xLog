@@ -11,8 +11,8 @@ const action = (view: EditorView) => {
 }
 
 export const ResizeImage: ICommand = {
-  name: "image-size",
-  label: "Image Size",
+  name: "resize-image",
+  label: "Resize Image",
   icon: "i-mingcute-aspect-ratio-line",
   execute: ({ view }) => {
     action(view)
