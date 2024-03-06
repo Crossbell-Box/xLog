@@ -1,10 +1,9 @@
 import { getTranslations } from "next-intl/server"
 import Link from "next/link"
-import { memo } from "react"
 
 import { Logo } from "~/components/common/Logo"
 import { BlockNumber } from "~/components/home/BlockNumber"
-import { default as OriginEntranceButton } from "~/components/home/EntranceButton"
+import { EntranceButton } from "~/components/home/EntranceButton"
 import { Integration } from "~/components/home/Integrations"
 import { ShowCase } from "~/components/home/Showcase"
 import { Button } from "~/components/ui/Button"
@@ -12,22 +11,8 @@ import { Image } from "~/components/ui/Image"
 import { CSB_SCAN, GITHUB_LINK } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 
-async function Home() {
+export default async function Home() {
   const t = await getTranslations()
-
-  const EntranceButton = memo(function Button() {
-    return (
-      <OriginEntranceButton
-        connectedContent={
-          <>
-            <span className="i-mingcute-grid-line text-xl mr-2 inline-block"></span>
-            <span>{t("Dashboard")}</span>
-          </>
-        }
-        unconnectedContent={t("Get my xLog in 5 minutes")}
-      />
-    )
-  })
 
   const features: {
     title: string
@@ -181,7 +166,7 @@ async function Home() {
                   }
                 ></div>
                 <div
-                  className={`block rounded-full w-10 h-10 mx-auto p-2 text-white bg-gradient-to-br text-feature-${feature.title.toLocaleLowerCase()}`}
+                  className={`block rounded-full size-10 mx-auto p-2 text-white bg-gradient-to-br text-feature-${feature.title.toLocaleLowerCase()}`}
                 >
                   {index + 1}
                 </div>
@@ -325,7 +310,7 @@ async function Home() {
         </div>
       </div>
       <div className="my-20 text-center">
-        <div className="w-[100px] h-[100px] mx-auto mb-10">
+        <div className="size-[100px] mx-auto mb-10">
           <Logo type="lottie" width={100} height={100} loop={true} />
         </div>
         <EntranceButton />
@@ -333,5 +318,3 @@ async function Home() {
     </div>
   )
 }
-
-export default Home
