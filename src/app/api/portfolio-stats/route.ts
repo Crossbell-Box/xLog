@@ -64,11 +64,11 @@ export async function GET(req: Request) {
             })
           ).text()
           const $ = cheerio.load(data)
-          const audoListensCount = parseInt($(".stat").eq(0).text())
+          const audioListensCount = parseInt($(".stat").eq(0).text())
           const commentsCount = parseInt($(".stat").eq(1).text())
-          if (audoListensCount || commentsCount) {
+          if (audioListensCount || commentsCount) {
             result = {
-              audoListensCount,
+              audioListensCount,
               commentsCount,
             }
           }
