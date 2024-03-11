@@ -21,14 +21,12 @@ export default async function TranslationInfo({
     locale !== page.metadata?.content?.translatedFrom
   ) {
     return (
-      <div
-        className={cn(
-          "text-zinc-400 mt-5 space-x-5 flex justify-center",
-          className,
-        )}
-      >
-        <span className="xlog-post-views inline-flex items-center">
-          <i className="i-mingcute-translate-2-line mr-[2px]" />
+      <div className={cn("mt-5 border rounded-xl p-4 space-y-2", className)}>
+        <div className="font-bold text-zinc-700 flex items-center">
+          <i className="i-mingcute-sparkles-line mr-2 text-lg" />
+          {t("AI Translation")}
+        </div>
+        <div className="text-zinc-500 leading-loose text-sm">
           <span>
             {t.rich("Translated by", {
               from: () => (
@@ -38,7 +36,7 @@ export default async function TranslationInfo({
             })}
           </span>
           <ViewOriginal page={page} />
-        </span>
+        </div>
       </div>
     )
   }

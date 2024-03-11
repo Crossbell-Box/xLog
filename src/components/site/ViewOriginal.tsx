@@ -9,7 +9,7 @@ export default function ViewOriginal({ page }: { page: ExpandedNote }) {
 
   return (
     <span
-      className="ml-1 underline cursor-pointer"
+      className="ml-2 cursor-pointer text-accent font-bold"
       onClick={() => {
         // remove the locale search param
         const url = new URL(window.location.href)
