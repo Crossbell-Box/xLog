@@ -78,7 +78,7 @@ export type SiteNavigationItem = {
 
 export type PortfolioStats = {
   videoViewsCount?: number
-  audoListensCount?: number
+  audioListensCount?: number
   projectStarsCount?: number
   textViewsCount?: number
   commentsCount?: number

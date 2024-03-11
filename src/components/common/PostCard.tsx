@@ -164,11 +164,11 @@ const Card = ({
                     />
                   </span>
                 )}
-                {!!post.stat?.portfolio?.audoListensCount && (
+                {!!post.stat?.portfolio?.audioListensCount && (
                   <span className="xlog-post-views inline-flex items-center">
                     <i className="i-mingcute-headphone-line mr-[2px] text-base" />
                     <FormattedNumber
-                      value={post.stat.portfolio.audoListensCount}
+                      value={post.stat.portfolio.audioListensCount}
                     />
                   </span>
                 )}
@@ -259,7 +259,7 @@ const Card = ({
                     )
                   }}
                 >
-                  <span className="w-5 h-5 inline-block mr-[6px]">
+                  <span className="size-5 inline-block mr-[6px]">
                     <Avatar
                       cid={character?.characterId}
                       images={character?.metadata?.content?.avatars || []}
