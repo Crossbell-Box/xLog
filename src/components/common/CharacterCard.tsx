@@ -6,6 +6,7 @@ import { Titles } from "~/components/common/Titles"
 import { Avatar } from "~/components/ui/Avatar"
 import { Skeleton } from "~/components/ui/Skeleton"
 import { useDate } from "~/hooks/useDate"
+import { getSiteLink } from "~/lib/helpers"
 import { cn } from "~/lib/utils"
 import { useGetCharacterCard } from "~/queries/site"
 
@@ -65,7 +66,17 @@ export const CharacterCard = ({
             )}
           </span>
           <span className="flex items-center space-x-1">
-            <span className="font-bold text-base text-zinc-800">
+            <span
+              className="font-bold text-base text-zinc-800 cursor-pointer hover:underline"
+              onClick={(e) => {
+                e.preventDefault()
+                window.open(
+                  `${getSiteLink({
+                    subdomain: siteId || "",
+                  })}`,
+                )
+              }}
+            >
               {site?.metadata?.content?.name}
             </span>
             <Titles characterId={+(site?.characterId || "")} />
