@@ -130,8 +130,8 @@ dependencies:
     specifier: 2.1.0
     version: 2.1.0
   crossbell:
-    specifier: 1.11.3
-    version: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+    specifier: 1.11.9
+    version: 1.11.9(typescript@5.3.3)(zod@3.22.4)
   dayjs:
     specifier: 1.11.10
     version: 1.11.10
@@ -1120,7 +1120,7 @@ packages:
       canvas-confetti: 1.9.2
       check-password-strength: 2.0.7
       classnames: 2.5.1
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.9(typescript@5.3.3)(zod@3.22.4)
       embla-carousel-react: 7.1.0(react@18.2.0)
       immer: 10.0.3
       lodash.compact: 3.0.1
@@ -1166,7 +1166,7 @@ packages:
       react: ^18
     dependencies:
       '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.9(typescript@5.3.3)(zod@3.22.4)
       react: 18.2.0
       viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
@@ -1182,7 +1182,7 @@ packages:
     resolution: {integrity: sha512-qdDujKJhBuW9NXdQsNfa+h0nBoV8M3qhiu9t7cGY9/YbvlbGpIfMiuJytTiubv9IgnuYw30QqxpYXHDAvLmGww==}
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.9(typescript@5.3.3)(zod@3.22.4)
       dayjs: 1.11.10
       lodash.compact: 3.0.1
       lru-cache: 10.1.0
@@ -1244,7 +1244,7 @@ packages:
       '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       check-password-strength: 2.0.7
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.9(typescript@5.3.3)(zod@3.22.4)
       immer: 10.0.3
       lodash.debounce: 4.0.8
       react: 18.2.0
@@ -1274,7 +1274,7 @@ packages:
       '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.9(typescript@5.3.3)(zod@3.22.4)
       facepaint: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -1301,7 +1301,7 @@ packages:
       react: ^18
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.9(typescript@5.3.3)(zod@3.22.4)
       react: 18.2.0
     transitivePeerDependencies:
       - bufferutil
@@ -1317,7 +1317,7 @@ packages:
     dependencies:
       '@crossbell/util-ethers': 1.5.26
       '@fastify/deepmerge': 1.3.0
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.9(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -4707,21 +4707,6 @@ packages:
       through: 2.3.8
     dev: false
 
-  /abitype@0.10.0(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-QvMHEUzgI9nPj9TWtUGnS2scas80/qaL5PBxGdwWhhvzqXfOph+IEiiiWrzuisu3U3JgDQVruW9oLbJoQ3oZ3A==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-      zod: ^3 >=3.22.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-      zod:
-        optional: true
-    dependencies:
-      typescript: 5.3.3
-      zod: 3.22.4
-    dev: false
-
   /abitype@0.8.7(typescript@5.3.3)(zod@3.22.4):
     resolution: {integrity: sha512-wQ7hV8Yg/yKmGyFpqrNZufCxbszDe5es4AZGYPBitocfSqXtjrTG9JMWFcc4N30ukl2ve48aBTwt7NJxVQdU3w==}
     peerDependencies:
@@ -4740,6 +4725,21 @@ packages:
     peerDependencies:
       typescript: '>=5.0.4'
       zod: ^3 >=3.19.1
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      zod:
+        optional: true
+    dependencies:
+      typescript: 5.3.3
+      zod: 3.22.4
+    dev: false
+
+  /abitype@1.0.0(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-NMeMah//6bJ56H5XRj8QCV4AwuW6hB6zqz2LnhhLdcWVQOsXki6/Pn3APeqxCma62nXIcmZWdu1DlHWS74umVQ==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3 >=3.22.0
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -4997,8 +4997,8 @@ packages:
     resolution: {integrity: sha512-OH/2E5Fg20h2aPrbe+QL8JZQFko0YZaF+j4mnQ7BGhfavO7OpSLa8a0y9sBwomHdSbkhTS8TQNayBfnW5DwbvQ==}
     dev: true
 
-  /async-cache-dedupe@2.0.0:
-    resolution: {integrity: sha512-SrW6PbmCHRQBSpPG8mkPIZZC5AgC08sbzl56GyGemBLVdVUl8mQW4+WCYHp5XZfixIdkL40jKf3UlT/P6Q3p5w==}
+  /async-cache-dedupe@2.1.0:
+    resolution: {integrity: sha512-hBoXEwpJOUIjce7HrwbGN9RlYZM6+XblU+ClZ0AzrV4y5UGDqMR/EUAg2S2p0GF0b0IYOreFEt5RD0eiUwa2Qg==}
     dependencies:
       mnemonist: 0.39.7
       safe-stable-stringify: 2.4.3
@@ -5668,17 +5668,17 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  /crossbell@1.11.3(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-furQxkEvV0AjmaMmVHulzm3crKFb4asv/X0tBYay+4Tu2jYRsm9vLAsqUhw8xQ2zwzMxRsHMcDvWOVwQ5vdE/w==}
+  /crossbell@1.11.9(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-UGW1AXWWYU66qtOh3qoJCAaa46JV0ZbRFMVf0z4myMdlD+SgLfDo5Ex2A7Y3WVzBOVdc1c9+Q8evRHAJAxMMtw==}
     engines: {node: '>=16.14.0'}
     dependencies:
       '@crossbell/ipfs-fetch': 0.0.21
-      async-cache-dedupe: 2.0.0
+      async-cache-dedupe: 2.1.0
       async-retry: 1.3.3
       eip1193-types: 0.2.1
       exponential-backoff: 3.1.1
       p-limit: 3.1.0
-      viem: 2.1.1(typescript@5.3.3)(zod@3.22.4)
+      viem: 2.8.6(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -12977,8 +12977,8 @@ packages:
       - zod
     dev: false
 
-  /viem@2.1.1(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-gJiwYceD7Dsjioglr+85GQS3u5Gp9XGG8oJqGsauBaEPFlkmbRx7cxD2Q5RZXFToVvEbarOWtITZtGHBsGv4MQ==}
+  /viem@2.8.6(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-LqxLOSFtXfbC3tsiZ8Km8jKR4ktTOLfigL2dR9IN28He2+QrNhYvvwGPz3P4hbfU12Wvuxo6mWGZ2L1lpNtvrA==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
@@ -12990,7 +12990,7 @@ packages:
       '@noble/hashes': 1.3.2
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
-      abitype: 0.10.0(typescript@5.3.3)(zod@3.22.4)
+      abitype: 1.0.0(typescript@5.3.3)(zod@3.22.4)
       isows: 1.0.3(ws@8.13.0)
       typescript: 5.3.3
       ws: 8.13.0
