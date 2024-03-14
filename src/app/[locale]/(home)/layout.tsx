@@ -24,7 +24,7 @@ export default async function HomeLayout({
               href="/"
               className="text-2xl font-extrabold flex items-center"
             >
-              <div className="inline-block w-9 h-9 mr-3">
+              <div className="inline-block size-9 mr-3">
                 <Logo type="svg" width={36} height={36} autoplay={false} />
               </div>
               xLog

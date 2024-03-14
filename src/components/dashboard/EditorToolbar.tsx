@@ -49,7 +49,7 @@ const ToolbarItemWithPopover = ({
           >
             <Popover.Button
               key={name}
-              className="w-9 h-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
+              className="size-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
               ref={setPopoverButtonRef}
             >
               <span className={icon}></span>
@@ -107,7 +107,7 @@ export const EditorToolbar = memo(({ view }: { view?: EditorView }) => {
             title={name}
             type="button"
             className={
-              "w-9 h-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
+              "size-9 transition-colors text-lg border border-transparent rounded flex items-center justify-center text-zinc-500 group-hover:text-zinc-600 hover:text-zinc-500 hover:border-zinc-300 hover:bg-zinc-100"
             }
             onClick={() => {
               view &&

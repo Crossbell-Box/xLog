@@ -33,7 +33,7 @@ export default function ImportPage() {
             key={option.name}
             href={pathname + option.path}
           >
-            <span className="w-8 h-8 mr-4">
+            <span className="size-8 mr-4">
               <Image
                 fill
                 src={`/assets/${option.icon}`}

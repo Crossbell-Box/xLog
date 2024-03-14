@@ -46,11 +46,11 @@ export default function PostCover({
                 forceToAxis: true,
               }}
               modules={[Navigation, Scrollbar, Mousewheel]}
-              className="w-full h-full"
+              className="size-full"
             >
               {images?.map((image) => (
                 <SwiperSlide key={image}>
-                  <div className="text-[0px] w-full h-full">
+                  <div className="text-[0px] size-full">
                     <Image
                       className={cn(
                         "object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out bg-white",
@@ -88,7 +88,7 @@ export default function PostCover({
           ></Image>
         ) : (
           <div className="xlog-post-cover rounded-t-2xl overflow-hidden flex items-center relative w-full aspect-video border-b">
-            <div className="sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out p-3 w-full h-full text-center flex items-center justify-center">
+            <div className="sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out p-3 size-full text-center flex items-center justify-center">
               <div className="text-zinc-600 text-xl font-extrabold">
                 {title}
               </div>

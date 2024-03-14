@@ -149,9 +149,9 @@ export const ConnectButton = ({
               <>
                 {t("Operator Sign")} (
                 {isOpSignEnabled ? (
-                  <FaceSmileIcon className="w-4 h-4" />
+                  <FaceSmileIcon className="size-4" />
                 ) : (
-                  <FaceFrownIcon className="w-4 h-4" />
+                  <FaceFrownIcon className="size-4" />
                 )}
                 )
               </>
@@ -253,14 +253,14 @@ export const ConnectButton = ({
                 {isAllRead ? (
                   <BellIcon
                     className={`${
-                      size === "base" ? "w-6 h-6" : "w-5 h-5"
+                      size === "base" ? "size-6" : "size-5"
                     } text-zinc-500 cursor-pointer sm:hover:animate-buzz-out`}
                     onClick={showNotificationModal}
                   />
                 ) : (
                   <BellAlertIcon
                     className={`${
-                      size === "base" ? "w-6 h-6" : "w-5 h-5"
+                      size === "base" ? "size-6" : "size-5"
                     } text-accent cursor-pointer sm:hover:animate-buzz-out`}
                     onClick={showNotificationModal}
                   />
@@ -270,7 +270,7 @@ export const ConnectButton = ({
                   target={
                     <PlusCircleIcon
                       className={`${
-                        size === "base" ? "w-6 h-6 ml-2" : "w-5 h-5 ml-1"
+                        size === "base" ? "size-6 ml-2" : "size-5 ml-1"
                       } text-zinc-500 cursor-pointer hidden sm:block`}
                     />
                   }
@@ -304,7 +304,7 @@ export const ConnectButton = ({
                   }
                 />
                 <div className="h-full w-[2px] py-1 ml-2">
-                  <div className="w-full h-full bg-zinc-200 rounded-full"></div>
+                  <div className="size-full bg-zinc-200 rounded-full"></div>
                 </div>
               </>
             )}

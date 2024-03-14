@@ -67,7 +67,7 @@ const XLogPost: FC<Props> = ({ slug, handle, url }) => {
         <div
           onClick={preventNavigate}
           className={cn(
-            "w-full h-full mb-2 sm:mb-0 align-middle flex items-center justify-center transition-all duration-500 ease-in-out",
+            "size-full mb-2 sm:mb-0 align-middle flex items-center justify-center transition-all duration-500 ease-in-out",
             isExpanded ? "sm:w-[350px]" : "sm:w-[150px]",
           )}
         >
@@ -75,7 +75,7 @@ const XLogPost: FC<Props> = ({ slug, handle, url }) => {
             uniqueKey={`short-${page.data?.characterId}-${page.data?.noteId}`}
             images={images}
             title={page.data?.metadata?.content?.title}
-            className="rounded-lg w-full aspect-auto border-b-0 h-full"
+            className="rounded-lg size-full aspect-auto border-b-0"
             imgClassName="rounded-lg object-contain"
           />
         </div>

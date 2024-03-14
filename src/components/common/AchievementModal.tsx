@@ -92,7 +92,7 @@ export const AchievementModal = ({
           }
         >
           <Tilt
-            className={`inline-block w-80 h-80 relative rounded-full bg-white mb-4 preserve-3d shadow-[inset_#a8a29e_34px_-34px_74px] p-[4%] ${
+            className={`inline-block size-80 relative rounded-full bg-white mb-4 preserve-3d shadow-[inset_#a8a29e_34px_-34px_74px] p-[4%] ${
               !achievement && "grayscale"
             }`}
             trackOnWindow={true}
@@ -110,7 +110,7 @@ export const AchievementModal = ({
                 (achievement || achievementMintable || achievementComing)!.info
                   .media
               }
-              className="relative w-full h-full"
+              className="relative size-full"
               style={{
                 transform: "translateZ(20px)",
               }}
