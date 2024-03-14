@@ -40,7 +40,7 @@ export const AvatarStack: FC<AvatarStackProps> = (props) => {
       })}
       {count > showCount && (
         <li className="inline-block">
-          <div className="relative align-middle border-2 border-white w-10 h-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
+          <div className="relative align-middle border-2 border-white size-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
             +{count - showCount}
           </div>
         </li>

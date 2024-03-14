@@ -48,18 +48,18 @@ export const SiteHeaderMenu = ({
   const moreMenuItems = [
     {
       text: "View on xChar",
-      icon: <XCharLogo className="w-full h-full" />,
+      icon: <XCharLogo className="size-full" />,
       url: `${CSB_XCHAR}/${handle}`,
     },
     {
       text: "View on xFeed",
-      icon: <XFeedLogo className="w-full h-full" />,
+      icon: <XFeedLogo className="size-full" />,
       url: `${CSB_XFEED}/u/${handle}`,
     },
     {
       text: "View on Hoot It",
       icon: (
-        <div className="w-full h-full">
+        <div className="size-full">
           <Image
             alt="Hoot It"
             src="/assets/hoot.svg"
@@ -73,13 +73,13 @@ export const SiteHeaderMenu = ({
     },
     {
       text: "View on Crossbell Scan",
-      icon: <BlockchainIcon className="fill-[#c09526] w-full h-full" />,
+      icon: <BlockchainIcon className="fill-[#c09526] size-full" />,
       url: `${CSB_SCAN}/address/${owner}`,
     },
     {
       text: "Subscribe to JSON Feed",
       icon: (
-        <div className="w-full h-full">
+        <div className="size-full">
           <Image
             alt="JSON Feed"
             src="/assets/json-feed.png"
@@ -93,7 +93,7 @@ export const SiteHeaderMenu = ({
     },
     {
       text: "Subscribe to RSS",
-      icon: <RssIcon className="w-full h-full text-[#ee832f]" />,
+      icon: <RssIcon className="size-full text-[#ee832f]" />,
       url: "/feed",
       out: true,
     },
@@ -155,7 +155,7 @@ export const SiteHeaderMenu = ({
                         : item.onClick?.()
                     }
                   >
-                    <span className="fill-gray-500 flex w-6 h-6 text-2xl">
+                    <span className="fill-gray-500 flex size-6 text-2xl">
                       {item.icon}
                     </span>
                   </Button>

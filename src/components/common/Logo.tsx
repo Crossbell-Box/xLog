@@ -64,7 +64,7 @@ export const Logo = ({
               autoplay={autoplay ?? true}
               lottieRef={ref}
               onMouseEnter={() => ref.current?.goToAndPlay(0)}
-              className="xlog-lottie-logo text-black w-full h-full"
+              className="xlog-lottie-logo text-black size-full"
             />
           )}
         </div>

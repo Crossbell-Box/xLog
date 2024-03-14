@@ -35,7 +35,7 @@ export const usePatronModal = () => {
     present({
       title: (
         <span className="inline-flex items-center justify-center w-full space-x-1">
-          <span className="text-red-500 flex w-6 h-6 mb-[-1px]">
+          <span className="text-red-500 flex size-6 mb-[-1px]">
             <i className="i-mingcute-heart-fill text-2xl mb-[-1px]" />
           </span>
           <span className="truncate">{title}</span>
@@ -220,7 +220,7 @@ const PatronModal = ({
                   ))}
                   {tips.data.pages?.[0]?.count > 7 && (
                     <li className="inline-flex justify-center w-[12.5%] h-[70px]">
-                      <div className="relative align-middle w-[50px] h-[50px] rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
+                      <div className="relative align-middle size-[50px] rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
                         +{tips.data.pages?.[0]?.count - 7}
                       </div>
                     </li>

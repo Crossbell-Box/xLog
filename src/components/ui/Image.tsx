@@ -121,7 +121,7 @@ export const Image = ({
     />
   ) : (
     <span
-      className="inline-flex justify-center w-full h-full overflow-hidden"
+      className="inline-flex justify-center size-full overflow-hidden"
       style={
         autoSize
           ? {
@@ -131,7 +131,7 @@ export const Image = ({
       }
     >
       <span
-        className="inline-flex justify-center relative w-full h-full"
+        className="inline-flex justify-center relative size-full"
         style={autoSize ? { paddingTop } : {}}
       >
         <NextImage

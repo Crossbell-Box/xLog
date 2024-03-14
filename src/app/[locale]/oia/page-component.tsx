@@ -40,7 +40,7 @@ function OIAPage() {
     <div className="relative h-screen w-screen bg-accent max-w-4xl m-auto">
       <Image
         fill
-        className="object-cover absolute h-full w-full"
+        className="object-cover absolute size-full"
         src="/assets/download-preview.png"
         alt="Download Preview"
       />

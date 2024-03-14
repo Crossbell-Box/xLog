@@ -106,8 +106,8 @@ export async function getCommentsBySite(input: {
     nestedNotesLimit: 20,
   })
 
-  notes.list = notes.list.filter(
-    (item) => item.toNote?.metadata?.content?.sources?.includes("xlog"),
+  notes.list = notes.list.filter((item) =>
+    item.toNote?.metadata?.content?.sources?.includes("xlog"),
   )
 
   return notes

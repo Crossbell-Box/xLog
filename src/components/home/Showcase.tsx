@@ -54,7 +54,7 @@ export function ShowCase() {
               className="inline-flex align-middle w-full"
             >
               <CharacterFloatCard siteId={site.handle}>
-                <span className="w-14 h-14 inline-block">
+                <span className="size-14 inline-block">
                   <Image
                     className="rounded-full"
                     src={site.metadata?.content?.avatars?.[0] || DEFAULT_AVATAR}

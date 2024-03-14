@@ -102,7 +102,7 @@ export const Input = forwardRef(function Input<
               />
               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon
-                  className="h-5 w-5 text-gray-400"
+                  className="size-5 text-gray-400"
                   aria-hidden="true"
                 />
               </Combobox.Button>
@@ -146,7 +146,7 @@ export const Input = forwardRef(function Input<
                               }`}
                             >
                               <CheckIcon
-                                className="h-5 w-5"
+                                className="size-5"
                                 aria-hidden="true"
                               />
                             </span>
