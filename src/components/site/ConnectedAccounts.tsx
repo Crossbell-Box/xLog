@@ -37,7 +37,7 @@ export default function ConnectedAccounts({
                   key={match[2] + match[1]}
                   platform={match[2]}
                   username={match[1]}
-                  className="w-4 h-4 sm:w-5 sm:h-5"
+                  className="size-4 sm:size-5"
                 ></Platform>
               )
             }

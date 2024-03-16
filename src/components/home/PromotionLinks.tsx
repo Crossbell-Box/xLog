@@ -37,7 +37,7 @@ export default async function PromotionLinks({
         placement="bottom"
       >
         <UniLink href="https://oia.xlog.app">
-          <DevicePhoneMobileIcon className="w-[23px] h-[23px]" />
+          <DevicePhoneMobileIcon className="size-[23px]" />
         </UniLink>
       </Tooltip>
       {GITHUB_LINK && (

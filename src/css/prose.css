@@ -135,30 +135,46 @@
   @apply -ml-5;
 }
 
+:root {
+  --callout-bg-info: hsl(223, 14%, 61%, 0.14);
+  --callout-bg-tip: hsl(146, 76%, 48%, 0.14);
+  --callout-bg-important: hsl(237, 100%, 70%, 0.14);
+  --callout-bg-warning: hsl(45, 93%, 47%, 0.14);
+  --callout-bg-danger: hsl(350, 89%, 60%, 0.14);
+}
+
+:root.dark {
+  --callout-bg-info: hsl(210, 14%, 46%, 0.16);
+  --callout-bg-tip: hsl(146, 76%, 48%, 0.16);
+  --callout-bg-important: hsl(237, 100%, 70%, 0.16);
+  --callout-bg-warning: hsl(45, 93%, 47%, 0.16);
+  --callout-bg-danger: hsl(350, 89%, 60%, 0.16);
+}
+
 .prose .callout {
-  --callout-color: hsl(207, 14%, 62%);
-  --callout-background: ;
-  --callout-border: hsl(205, 15%, 33%);
-  --callout-radius: 8px;
-  --callout-padding: 2ch;
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--callout-border);
-  border-radius: var(--callout-radius);
-  background: var(--callout-background);
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
+  --calloutBackgroundColor: var(--callout-bg-color, var(--callout-bg-info));
+  background-color: var(--calloutBackgroundColor);
+  border-radius: 8px;
+  padding: 16px;
 }
 
-.prose .callout code,
-.prose .callout pre {
-  background-color: hsl(0, 0%, 100%, 0.1);
-  border: none;
+.prose .callout-indicator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.prose .callout-content {
-  padding-left: var(--callout-padding);
-  padding-right: var(--callout-padding);
+.prose .callout-indicator > svg:first-of-type {
+  margin-right: 0.5rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5px;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
 }
 
 .prose .callout-content:first-child,
@@ -171,59 +187,17 @@
   margin-block-end: 0;
 }
 
-.prose .callout-indicator {
-  display: flex;
-  align-items: center;
-  padding: var(--callout-padding) var(--callout-padding) 0;
-}
-
-.prose .callout-hint {
-  margin-inline-end: calc(var(--callout-padding) / 4);
-  color: var(--callout-color);
-}
-
-.prose .callout-title {
-  margin-inline-start: calc(var(--callout-padding) / 4);
-  color: var(--callout-color);
-  font-size: 0.9em;
-  font-weight: bold;
-  letter-spacing: 0.04em;
-}
-
-.prose .callout-note {
-  --callout-background: hsla(0, 0%, 0%, 0.05);
-  --callout-color: hsl(0, 0%, 43%);
-  --callout-border: hsl(0, 0%, 0%, 0.25);
-}
-
-:root.dark .prose .callout-note {
-  --callout-background: hsl(0, 0%, 100%, 0.05);
-  --callout-color: hsl(0, 0%, 43%);
-  --callout-border: hsl(0, 0%, 100%, 0.25);
-}
-
 .prose .callout-commend {
-  --callout-background: hsl(153, 47%, 49%, 0.05);
-  --callout-color: hsl(153, 62%, 54%);
-  --callout-border: hsl(153, 47%, 49%, 0.25);
+  --callout-bg-color: var(--callout-bg-tip);
 }
-
 .prose .callout-warn {
-  --callout-background: hsl(45, 100%, 55%, 0.05);
-  --callout-color: hsl(45, 97%, 66%);
-  --callout-border: hsl(45, 100%, 55%, 0.25);
+  --callout-bg-color: var(--callout-bg-warning);
 }
-
 .prose .callout-deter {
-  --callout-background: hsl(353, 83%, 58%, 0.05);
-  --callout-color: hsl(341, 89%, 63%);
-  --callout-border: hsl(353, 83%, 58%, 0.25);
+  --callout-bg-color: var(--callout-bg-danger);
 }
-
 .prose .callout-assert {
-  --callout-background: rgba(47, 131, 157, 0.05);
-  --callout-color: hsl(201, 89%, 63%);
-  --callout-border: hsl(195, 61%, 56%, 0.25);
+  --callout-bg-color: var(--callout-bg-important);
 }
 
 .prose .code-wrapper {

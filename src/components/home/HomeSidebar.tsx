@@ -66,7 +66,7 @@ export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
                   className="inline-flex align-middle w-full"
                 >
                   <CharacterFloatCard siteId={site.handle}>
-                    <span className="w-10 h-10 inline-block">
+                    <span className="size-10 inline-block">
                       <Avatar
                         cid={site?.characterId}
                         images={site?.metadata?.content?.avatars || []}

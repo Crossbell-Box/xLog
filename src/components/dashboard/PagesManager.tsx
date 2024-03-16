@@ -323,188 +323,185 @@ export const PagesManager = ({ type }: { type: NoteType }) => {
           <EmptyState resource={type} />
         )}
 
-        {pages.data?.pages.map(
-          (page) =>
-            page.list?.map((page) => {
-              currentLength++
-              const isPortfolio =
-                page.metadata?.content?.tags?.[0] === "portfolio"
-              const externalLink = page.metadata?.content?.external_urls?.[0]
-              const platform = Object.values(PlatformsSyncMap).find(
-                (p) =>
-                  p.portfolioDomain &&
-                  externalLink?.startsWith(p.portfolioDomain),
-              )
+        {pages.data?.pages.map((page) =>
+          page.list?.map((page) => {
+            currentLength++
+            const isPortfolio =
+              page.metadata?.content?.tags?.[0] === "portfolio"
+            const externalLink = page.metadata?.content?.external_urls?.[0]
+            const platform = Object.values(PlatformsSyncMap).find(
+              (p) =>
+                p.portfolioDomain &&
+                externalLink?.startsWith(p.portfolioDomain),
+            )
 
-              return (
-                <Link
-                  key={page.transactionHash || page.draftKey}
-                  href={getPageEditLink(page)}
-                  className="group relative hover:bg-zinc-100 rounded-lg py-4 px-3 transition-colors -mx-3 flex max-sm:flex-col gap-4"
-                >
-                  <PostCover
-                    uniqueKey={`${page.characterId}-${page.noteId}`}
-                    images={page.metadata?.content.images}
-                    title={page.metadata?.content?.title}
-                    className="rounded-lg sm:w-48"
-                  />
-                  <div className="min-w-0 flex-1 flex flex-col justify-between">
-                    <div className="xlog-post-title font-bold text-base text-zinc-700">
-                      <span>{page.metadata?.content?.title}</span>
-                    </div>
-                    <div
-                      className="xlog-post-excerpt text-zinc-500 line-clamp-1 text-sm"
-                      style={{
-                        wordBreak: "break-word",
-                      }}
-                    >
-                      {page.metadata?.content?.summary}
-                      {page.metadata?.content?.summary && "..."}
-                    </div>
-                    <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate">
-                      {isPortfolio ? (
-                        <>
-                          <Tooltip
-                            label={`${platform?.name || platform}`}
-                            className="text-sm"
-                          >
-                            <span className="inline-flex items-center space-x-[6px]">
-                              {platform?.icon && (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img
-                                  src={platform?.icon}
-                                  alt={platform?.name}
-                                  width={16}
-                                  height={16}
-                                />
-                              )}
-                              <span>{t("Portfolio")}</span>
-                            </span>
-                          </Tooltip>
-                        </>
-                      ) : (
-                        <>
-                          {!!page.metadata?.content?.tags?.[1] && (
-                            <span className="xlog-post-tags border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2">
-                              <i className="i-mingcute-tag-line mr-[2px]" />
-                              {page.metadata?.content?.tags?.[1]}
-                            </span>
-                          )}
-                          <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
-                            <i className="i-mingcute-time-line mr-[2px]" />
-                            <span
-                              style={{
-                                wordSpacing: "-.2ch",
-                              }}
-                            >
-                              {page.metadata?.content?.readingTime} {t("min")}
-                            </span>
-                          </span>
-                          {!!page.stat?.viewDetailCount && (
-                            <span className="xlog-post-views inline-flex items-center">
-                              <i className="i-mingcute-eye-line mr-[2px]" />
-                              <span>{page.stat?.viewDetailCount}</span>
-                            </span>
-                          )}
-                        </>
-                      )}
-                    </div>
-                    <div className="text-zinc-400 text-sm">
-                      <span className="capitalize">
-                        {t(getPageVisibility(page))}
-                      </span>
-                      <span className="mx-2">·</span>
-                      <span>
-                        {getPageVisibility(page) === PageVisibilityEnum.Draft
-                          ? date.formatDate(page.updatedAt)
-                          : date.formatDate(
-                              page.metadata?.content?.date_published || "",
-                            )}
-                      </span>
-                      {pinnedPage.noteId === page.noteId && (
-                        <>
-                          <span className="mx-2">·</span>
-                          <span>
-                            <i className="i-mingcute-pin-2-fill translate-y-[18%]" />{" "}
-                            {t("Pinned")}
-                          </span>
-                        </>
-                      )}
-                    </div>
+            return (
+              <Link
+                key={page.transactionHash || page.draftKey}
+                href={getPageEditLink(page)}
+                className="group relative hover:bg-zinc-100 rounded-lg py-4 px-3 transition-colors -mx-3 flex max-sm:flex-col gap-4"
+              >
+                <PostCover
+                  uniqueKey={`${page.characterId}-${page.noteId}`}
+                  images={page.metadata?.content.images}
+                  title={page.metadata?.content?.title}
+                  className="rounded-lg sm:w-48"
+                />
+                <div className="min-w-0 flex-1 flex flex-col justify-between">
+                  <div className="xlog-post-title font-bold text-base text-zinc-700">
+                    <span>{page.metadata?.content?.title}</span>
                   </div>
-                  <div className="shrink-0 flex gap-2 sm:self-center sm:ml-auto">
-                    <button
-                      className={cn(
-                        `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
+                  <div
+                    className="xlog-post-excerpt text-zinc-500 line-clamp-1 text-sm"
+                    style={{
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {page.metadata?.content?.summary}
+                    {page.metadata?.content?.summary && "..."}
+                  </div>
+                  <div className="xlog-post-meta text-zinc-400 flex items-center text-[13px] h-[26px] truncate">
+                    {isPortfolio ? (
+                      <>
+                        <Tooltip
+                          label={`${platform?.name || platform}`}
+                          className="text-sm"
+                        >
+                          <span className="inline-flex items-center space-x-[6px]">
+                            {platform?.icon && (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={platform?.icon}
+                                alt={platform?.name}
+                                width={16}
+                                height={16}
+                              />
+                            )}
+                            <span>{t("Portfolio")}</span>
+                          </span>
+                        </Tooltip>
+                      </>
+                    ) : (
+                      <>
+                        {!!page.metadata?.content?.tags?.[1] && (
+                          <span className="xlog-post-tags border transition-colors text-zinc-500 inline-flex items-center bg-zinc-100 rounded-full px-2 py-[1.5px] truncate text-xs sm:text-[13px] mr-2">
+                            <i className="i-mingcute-tag-line mr-[2px]" />
+                            {page.metadata?.content?.tags?.[1]}
+                          </span>
+                        )}
+                        <span className="xlog-post-word-count sm:inline-flex items-center hidden mr-2">
+                          <i className="i-mingcute-time-line mr-[2px]" />
+                          <span
+                            style={{
+                              wordSpacing: "-.2ch",
+                            }}
+                          >
+                            {page.metadata?.content?.readingTime} {t("min")}
+                          </span>
+                        </span>
+                        {!!page.stat?.viewDetailCount && (
+                          <span className="xlog-post-views inline-flex items-center">
+                            <i className="i-mingcute-eye-line mr-[2px]" />
+                            <span>{page.stat?.viewDetailCount}</span>
+                          </span>
+                        )}
+                      </>
+                    )}
+                  </div>
+                  <div className="text-zinc-400 text-sm">
+                    <span className="capitalize">
+                      {t(getPageVisibility(page))}
+                    </span>
+                    <span className="mx-2">·</span>
+                    <span>
+                      {getPageVisibility(page) === PageVisibilityEnum.Draft
+                        ? date.formatDate(page.updatedAt)
+                        : date.formatDate(
+                            page.metadata?.content?.date_published || "",
+                          )}
+                    </span>
+                    {pinnedPage.noteId === page.noteId && (
+                      <>
+                        <span className="mx-2">·</span>
+                        <span>
+                          <i className="i-mingcute-pin-2-fill translate-y-[18%]" />{" "}
+                          {t("Pinned")}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className="shrink-0 flex gap-2 sm:self-center sm:ml-auto">
+                  <button
+                    className={cn(
+                      `text-gray-400 relative z-10 size-8 rounded inline-flex group-hover:visible justify-center items-center`,
+                      batchSelected.includes(page.noteId || page.draftKey || 0)
+                        ? "bg-gray-200"
+                        : `hover:bg-gray-200`,
+                    )}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      // Toggle selection
+                      if (
                         batchSelected.includes(
                           page.noteId || page.draftKey || 0,
                         )
-                          ? "bg-gray-200"
-                          : `hover:bg-gray-200`,
-                      )}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        // Toggle selection
-                        if (
-                          batchSelected.includes(
-                            page.noteId || page.draftKey || 0,
-                          )
-                        ) {
-                          // Deselect
-                          setBatchSelected(
-                            batchSelected.filter(
-                              (pageId) =>
-                                pageId !== page.noteId || page.draftKey || 0,
-                            ),
-                          )
-                        } else {
-                          // Do select
-                          setBatchSelected([
-                            ...batchSelected,
-                            page.noteId || page.draftKey || 0,
-                          ])
-                        }
-                      }}
-                    >
-                      <i
-                        className={`${
-                          batchSelected.includes(
-                            page.noteId || page.draftKey || 0,
-                          )
-                            ? "i-mingcute-check-fill"
-                            : "i-mingcute-add-line"
-                        } text-lg`}
-                      />
-                    </button>
-                    <Menu>
-                      {({ open, close }) => (
-                        <>
-                          <Menu.Button as={Fragment}>
-                            <button
-                              className={cn(
-                                `text-gray-400 relative z-10 w-8 h-8 rounded inline-flex group-hover:visible justify-center items-center`,
-                                open ? `bg-gray-200` : `hover:bg-gray-200`,
-                              )}
-                              onClick={(e) => {
-                                e.stopPropagation()
-                              }}
-                            >
-                              <i className="i-mingcute-more-1-line text-2xl" />
-                            </button>
-                          </Menu.Button>
+                      ) {
+                        // Deselect
+                        setBatchSelected(
+                          batchSelected.filter(
+                            (pageId) =>
+                              pageId !== page.noteId || page.draftKey || 0,
+                          ),
+                        )
+                      } else {
+                        // Do select
+                        setBatchSelected([
+                          ...batchSelected,
+                          page.noteId || page.draftKey || 0,
+                        ])
+                      }
+                    }}
+                  >
+                    <i
+                      className={`${
+                        batchSelected.includes(
+                          page.noteId || page.draftKey || 0,
+                        )
+                          ? "i-mingcute-check-fill"
+                          : "i-mingcute-add-line"
+                      } text-lg`}
+                    />
+                  </button>
+                  <Menu>
+                    {({ open, close }) => (
+                      <>
+                        <Menu.Button as={Fragment}>
+                          <button
+                            className={cn(
+                              `text-gray-400 relative z-10 size-8 rounded inline-flex group-hover:visible justify-center items-center`,
+                              open ? `bg-gray-200` : `hover:bg-gray-200`,
+                            )}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                            }}
+                          >
+                            <i className="i-mingcute-more-1-line text-2xl" />
+                          </button>
+                        </Menu.Button>
 
-                          <PagesManagerMenu
-                            type={type}
-                            page={page}
-                            onClick={close}
-                          />
-                        </>
-                      )}
-                    </Menu>
-                  </div>
-                </Link>
-              )
-            }),
+                        <PagesManagerMenu
+                          type={type}
+                          page={page}
+                          onClick={close}
+                        />
+                      </>
+                    )}
+                  </Menu>
+                </div>
+              </Link>
+            )
+          }),
         )}
 
         {pages.hasNextPage && (

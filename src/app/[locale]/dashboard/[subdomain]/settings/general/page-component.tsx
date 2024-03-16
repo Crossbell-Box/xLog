@@ -123,7 +123,7 @@ export default function SiteSettingsGeneralPage() {
             control={form.control}
             render={({ field }) => (
               <ImageUploader
-                className="w-24 h-24 rounded-full"
+                className="size-24 rounded-full"
                 uploadStart={() => {
                   setIconUploading(true)
                 }}

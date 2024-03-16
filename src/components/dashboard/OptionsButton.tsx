@@ -40,13 +40,13 @@ export const OptionsButton = ({
   return (
     <>
       <div
-        className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex justify-center items-center"
+        className="bg-accent rounded-full cursor-pointer text-white size-6 flex justify-center items-center"
         onClick={() => renderPage(!isRendering)}
       >
         {isRendering ? (
-          <i className="i-mingcute-eye-close-line text-xl inline-block w-5 h-5" />
+          <i className="i-mingcute-eye-close-line text-xl inline-block size-5" />
         ) : (
-          <i className="i-mingcute-eye-2-line text-xl inline-block w-5 h-5" />
+          <i className="i-mingcute-eye-2-line text-xl inline-block size-5" />
         )}
       </div>
       <Popover className="relative">
@@ -59,8 +59,8 @@ export const OptionsButton = ({
               //   setIsOpen(true)
               // }}
             >
-              <div className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex justify-center items-center">
-                <i className="i-mingcute-settings-6-line text-xl inline-block w-5 h-5" />
+              <div className="bg-accent rounded-full cursor-pointer text-white size-6 flex justify-center items-center">
+                <i className="i-mingcute-settings-6-line text-xl inline-block size-5" />
               </div>
             </Popover.Button>
             <Transition
@@ -86,11 +86,11 @@ export const OptionsButton = ({
           return (
             <>
               <Menu.Button>
-                <div className="bg-accent rounded-full cursor-pointer text-white w-6 h-6 flex items-center justify-center">
+                <div className="bg-accent rounded-full cursor-pointer text-white size-6 flex items-center justify-center">
                   {open ? (
-                    <i className="i-mingcute-send-fill text-2xl inline-block w-5 h-5" />
+                    <i className="i-mingcute-send-fill text-2xl inline-block size-5" />
                   ) : (
-                    <i className="i-mingcute-send-line text-2xl inline-block w-5 h-5" />
+                    <i className="i-mingcute-send-line text-2xl inline-block size-5" />
                   )}
                 </div>
               </Menu.Button>

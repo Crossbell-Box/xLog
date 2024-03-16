@@ -18,7 +18,7 @@ import { useGetSite } from "~/queries/site"
 function SiteAvatar({ siteId }: { siteId: string }) {
   const site = useGetSite(siteId)
   return (
-    <div className="inline-block w-10 h-10 relative">
+    <div className="inline-block size-10 relative">
       <CharacterFloatCard siteId={siteId}>
         <UniLink
           href={getSiteLink({
@@ -91,7 +91,7 @@ export default function EventsPage() {
               >
                 {isUnread && (
                   <div>
-                    <span className="absolute -left-2 -top-2 bg-red-500 rounded-full w-4 h-4"></span>
+                    <span className="absolute -left-2 -top-2 bg-red-500 rounded-full size-4"></span>
                   </div>
                 )}
                 <div className="flex flex-col p-7 justify-between h-full">

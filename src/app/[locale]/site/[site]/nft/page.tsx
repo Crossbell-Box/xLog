@@ -63,7 +63,7 @@ export default async function SiteNFTPage({
               <div className="w-full aspect-[1] relative rounded overflow-hidden">
                 <div className="absolute inset-0">
                   <Image
-                    className="object-cover no-optimization w-full h-full rounded-2xl"
+                    className="object-cover no-optimization size-full rounded-2xl"
                     alt={"nft"}
                     src={nft.previews.image_medium_url}
                     fill={true}

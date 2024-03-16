@@ -171,7 +171,7 @@ const ShareModal: FC<ShareModalProps> = ({ url, text, title }) => {
           {shareList.map(({ name, icon, onClick }) => (
             <li
               key={name}
-              className="flex cursor-pointer items-center space-x-2 rounded-md px-3 py-2 text-lg transition-colors hover:bg-gray-100 [&_img]:w-[1rem] [&_img]:h-[1rem]"
+              className="flex cursor-pointer items-center space-x-2 rounded-md px-3 py-2 text-lg transition-colors hover:bg-gray-100 [&_img]:size-[1rem]"
               aria-label={`Share to ${name}`}
               role="button"
               onClick={() => onClick({ url, text, title })}

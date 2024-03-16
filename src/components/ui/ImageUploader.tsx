@@ -165,7 +165,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
         (typeof inputProps.value === "object" &&
         inputProps.value.mime_type?.split("/")[0] === "video" ? (
           <video
-            className="max-w-screen-md mx-auto object-cover h-full w-full"
+            className="max-w-screen-md mx-auto object-cover size-full"
             src={toGateway(imageUrl)}
             autoPlay
             muted
@@ -180,7 +180,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
           />
         ))}
       {!imageUrl && (
-        <div className="w-full h-full flex justify-center items-center text-zinc-500 text-center bg-white">
+        <div className="size-full flex justify-center items-center text-zinc-500 text-center bg-white">
           {t("Click to select files")}
         </div>
       )}
@@ -193,7 +193,7 @@ export const ImageUploader = forwardRef(function ImageUploader(
       {imageUrl && hasClose && (
         <div
           onClick={clear}
-          className="w-8 h-8 absolute top-4 right-4 shadow bg-white rounded-full cursor-pointer"
+          className="size-8 absolute top-4 right-4 shadow bg-white rounded-full cursor-pointer"
         >
           <XMarkIcon />
         </div>

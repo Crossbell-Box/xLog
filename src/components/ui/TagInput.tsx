@@ -75,7 +75,7 @@ export function TagInput({
             key={tag}
           >
             <span>{tag}</span>
-            <XMarkIcon className="h-5 w-5" onClick={() => onDel(tag)} />
+            <XMarkIcon className="size-5" onClick={() => onDel(tag)} />
           </div>
         ))}
       </div>
@@ -89,7 +89,7 @@ export function TagInput({
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
-                className="h-5 w-5 text-black"
+                className="size-5 text-black"
                 aria-hidden="true"
               />
             </Combobox.Button>

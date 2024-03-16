@@ -68,10 +68,10 @@ export default function ShortList({
                         }`
                     : "") + `/${post.metadata?.content?.slug}`
                 }
-                className="inline-block w-full h-full rounded-2xl overflow-hidden"
+                className="inline-block size-full rounded-2xl overflow-hidden"
               >
                 <Image
-                  className="object-cover w-full h-full sm:hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out"
+                  className="object-cover size-full sm:hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out"
                   alt="cover"
                   src={post.metadata?.content.images?.[0] || ""}
                   width={170}
@@ -87,7 +87,7 @@ export default function ShortList({
           >
             <Link
               href="/shorts"
-              className="bg-white rounded-full z-[1] w-8 h-8 flex items-center justify-center"
+              className="bg-white rounded-full z-[1] size-8 flex items-center justify-center"
             >
               <i className="i-mingcute-right-fill" />
             </Link>

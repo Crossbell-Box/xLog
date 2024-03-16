@@ -18,7 +18,7 @@ export function Integration() {
   const integrations = [
     {
       name: "RSS",
-      icon: <RssIcon className="w-full h-full text-orange-500" />,
+      icon: <RssIcon className="size-full text-orange-500" />,
       url:
         getSiteLink({
           subdomain: "xlog",
@@ -34,42 +34,42 @@ export function Integration() {
     },
     {
       name: "xChar",
-      icon: <XCharLogo className="w-full h-full" />,
+      icon: <XCharLogo className="size-full" />,
       url: "https://xchar.app/",
     },
     {
       name: "xFeed",
-      icon: <XFeedLogo className="w-full h-full" />,
+      icon: <XFeedLogo className="size-full" />,
       url: "https://xfeed.app/",
     },
     {
       name: "xSync",
-      icon: <XSyncLogo className="w-full h-full" />,
+      icon: <XSyncLogo className="size-full" />,
       url: "https://xsync.app/",
     },
     {
       name: "xShop",
-      icon: <XShopLogo className="w-full h-full" />,
+      icon: <XShopLogo className="size-full" />,
       text: "Coming soon",
     },
     {
       name: "Crossbell Scan",
-      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
+      icon: <CrossbellChainLogo className="size-full text-[#E7B75B]" />,
       url: "https://scan.crossbell.io/",
     },
     {
       name: "Crossbell Faucet",
-      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
+      icon: <CrossbellChainLogo className="size-full text-[#E7B75B]" />,
       url: "https://faucet.crossbell.io/",
     },
     {
       name: "Crossbell Export",
-      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
+      icon: <CrossbellChainLogo className="size-full text-[#E7B75B]" />,
       url: "https://export.crossbell.io/",
     },
     {
       name: "Crossbell SDK",
-      icon: <CrossbellChainLogo className="w-full h-full text-[#E7B75B]" />,
+      icon: <CrossbellChainLogo className="size-full text-[#E7B75B]" />,
       url: "https://crossbell-box.github.io/crossbell.js/",
     },
     {
@@ -116,7 +116,7 @@ export function Integration() {
               href={item.url}
               className="w-full flex items-center flex-col justify-center"
             >
-              <div className="w-12 h-12 rounded-md overflow-hidden">
+              <div className="size-12 rounded-md overflow-hidden">
                 {item.icon}
               </div>
               <div className="font-medium sm:text-lg mt-2 text-center">
@@ -125,8 +125,8 @@ export function Integration() {
             </UniLink>
           ) : (
             <Tooltip label={item.text!}>
-              <div className="w-full h-full flex items-center flex-col justify-center">
-                <div className="w-12 h-12 rounded-md overflow-hidden">
+              <div className="size-full flex items-center flex-col justify-center">
+                <div className="size-12 rounded-md overflow-hidden">
                   {item.icon}
                 </div>
                 <div className="font-medium sm:text-lg mt-2 text-center">
