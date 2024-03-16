@@ -47,11 +47,9 @@ module.exports = withBundleAnalyzer(
     },
 
     images: {
-      dangerouslyAllowSVG: true,
       contentSecurityPolicy:
         "default-src 'self'; script-src 'none'; sandbox; style-src 'unsafe-inline';",
       remotePatterns: [
-        { hostname: "**" },
         { protocol: "https", hostname: "pbs.twimg.com" },
         { protocol: "https", hostname: "abs.twimg.com" },
       ],
