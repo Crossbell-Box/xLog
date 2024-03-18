@@ -226,8 +226,8 @@ dependencies:
     specifier: 6.4.0
     version: 6.4.0
   openai:
-    specifier: 4.28.0
-    version: 4.28.0
+    specifier: 4.29.1
+    version: 4.29.1
   pangu:
     specifier: 4.0.7
     version: 4.0.7
@@ -2384,7 +2384,7 @@ packages:
     dependencies:
       '@langchain/core': 0.1.30
       js-tiktoken: 1.0.10
-      openai: 4.28.0
+      openai: 4.29.1
       zod: 3.22.4
       zod-to-json-schema: 3.22.4(zod@3.22.4)
     transitivePeerDependencies:
@@ -10325,8 +10325,8 @@ packages:
       validator: 13.11.0
     dev: false
 
-  /openai@4.28.0:
-    resolution: {integrity: sha512-JM8fhcpmpGN0vrUwGquYIzdcEQHtFuom6sRCbbCM6CfzZXNuRk33G7KfeRAIfnaCxSpzrP5iHtwJzIm6biUZ2Q==}
+  /openai@4.29.1:
+    resolution: {integrity: sha512-vvKRIgB4/7w48PGVbeR8OceH/PT6fRo4sTIjRC7+y7WoK7by1R0cXs2SZRx4KsEh0ZB8J0eqdVIdRgs8XzeoEg==}
     hasBin: true
     dependencies:
       '@types/node': 18.19.17
