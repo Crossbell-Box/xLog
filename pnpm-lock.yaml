@@ -37,8 +37,8 @@ dependencies:
     specifier: 6.24.1
     version: 6.24.1
   '@crossbell/connect-kit':
-    specifier: 1.5.26
-    version: 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4)
+    specifier: 1.5.27
+    version: 1.5.27(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4)
   '@crossbell/contract':
     specifier: 1.5.26
     version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
@@ -1096,19 +1096,19 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit@1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4):
-    resolution: {integrity: sha512-qevd1BlFpFVWKz6S2YjItUBKXOluuOcZhUxb+Uc9NBSJGM4tkx7KfmoQVoWYvKZo97g8AOc5bUWbVAINH497ww==}
+  /@crossbell/connect-kit@1.5.27(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4):
+    resolution: {integrity: sha512-rwkU9MS/3Zp0BVgiooVCY3b9L9JpRW1kUm5/hkh5F+pbNR6jJD4V62es8HvOemTNU/LeSy9Uf5XVfdhcpDto9A==}
     peerDependencies:
       '@tanstack/react-query': ^4
       wagmi: ^1.0.0
     dependencies:
-      '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-ethers': 1.5.26
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/contract': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/react-account': 1.5.27(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/ui': 1.5.27(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-ethers': 1.5.27
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.27(typescript@5.3.3)(zod@3.22.4)
       '@emotion/react': 11.11.3(@types/react@18.2.56)(react@18.2.0)
       '@joyid/wagmi': 0.1.0(viem@1.21.1)(wagmi@1.4.13)
       '@mantine/core': 6.0.21(@emotion/react@11.11.3)(@mantine/hooks@6.0.21)(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)
@@ -1178,8 +1178,45 @@ packages:
       - zod
     dev: false
 
+  /@crossbell/contract@1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-WnfXG3HsIyf2yLQ1CLMTUTpI5/i7pZB4TAM4FFmxyNqji2vRBi1a9RrDhq6E1/F3I2KEYCC+XO5vPibvxdxN2Q==}
+    peerDependencies:
+      react: ^18
+    dependencies:
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      react: 18.2.0
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+    transitivePeerDependencies:
+      - bufferutil
+      - react-dom
+      - react-native
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
   /@crossbell/indexer@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
     resolution: {integrity: sha512-qdDujKJhBuW9NXdQsNfa+h0nBoV8M3qhiu9t7cGY9/YbvlbGpIfMiuJytTiubv9IgnuYw30QqxpYXHDAvLmGww==}
+    dependencies:
+      '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
+      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      dayjs: 1.11.10
+      lodash.compact: 3.0.1
+      lru-cache: 10.1.0
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+    transitivePeerDependencies:
+      - bufferutil
+      - react
+      - react-dom
+      - react-native
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /@crossbell/indexer@1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-X+3KwPEsFTtQlpnUdgxGfKylYOsJhnaL4lqfeb4QPBEFeenPESnNsvMrXzLaRMUvQCQaqu11MSGyia95gOD3lQ==}
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
@@ -1239,9 +1276,40 @@ packages:
     dependencies:
       '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-ethers': 1.5.26
+      '@crossbell/util-ethers': 1.5.27
       '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
+      '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
+      check-password-strength: 2.0.7
+      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      immer: 10.0.3
+      lodash.debounce: 4.0.8
+      react: 18.2.0
+      rxjs: 7.8.1
+      ts-essentials: 9.4.1(typescript@5.3.3)
+      valtio: 1.13.1(@types/react@18.2.56)(react@18.2.0)
+      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      zustand: 4.5.1(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+      - bufferutil
+      - react-dom
+      - react-native
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /@crossbell/react-account@1.5.27(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-ZLvtACfvaRCj6eh6hE4xKi+VriQHhUC812jMt9bPLeRYFEq8VreM06b5iIR9u0op8HiFJYVB7lICowKimp8DtQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^4
+    dependencies:
+      '@crossbell/contract': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-ethers': 1.5.27
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.27(typescript@5.3.3)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       check-password-strength: 2.0.7
       crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
@@ -1291,8 +1359,40 @@ packages:
       - zod
     dev: false
 
+  /@crossbell/ui@1.5.27(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-WF9tnLFnnCgOaeaLrh/z+gbk3PN5uF0mgQB/JnpUkM+AxcQwJUXK2Hync2do8nYz2ibyymFYpGd+t84pgWUmFA==}
+    peerDependencies:
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@crossbell/indexer': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.27(typescript@5.3.3)(zod@3.22.4)
+      '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
+      classnames: 2.5.1
+      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      facepaint: 1.2.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-intersection-observer: 9.8.0(react-dom@18.2.0)(react@18.2.0)
+      react-remove-scroll: 2.5.7(@types/react@18.2.56)(react@18.2.0)
+      react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      ts-essentials: 9.4.1(typescript@5.3.3)
+    transitivePeerDependencies:
+      - '@types/react'
+      - bufferutil
+      - react-native
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
   /@crossbell/util-ethers@1.5.26:
     resolution: {integrity: sha512-0p1tazglzDaSGIBBkTOtKu855sZGpqr65rGOAdUlUyECpLPyVsR+g7NheTNti2U+Zh0cS6rptUrx+i5dZAzXAg==}
+    dev: false
+
+  /@crossbell/util-ethers@1.5.27:
+    resolution: {integrity: sha512-ptr2G4qfY85pVWsiLTb6wvooqxIfOUZkkrzy4hZa18XzUqayVsm8MGu0YzdCEjdfwqVAQTRvWAqrduF8s7LHiQ==}
     dev: false
 
   /@crossbell/util-hooks@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
@@ -1312,10 +1412,40 @@ packages:
       - zod
     dev: false
 
+  /@crossbell/util-hooks@1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-tTzYBvxMhnAy7ebMpdNIVLGQPaUZW6UnvbzjDn3FHqVEHjEuzTU3iQ2BAf9jfyLlDHS/yT4ORHhmTDdb2r1+bA==}
+    peerDependencies:
+      react: ^18
+    dependencies:
+      '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
+      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      react: 18.2.0
+    transitivePeerDependencies:
+      - bufferutil
+      - react-dom
+      - react-native
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
   /@crossbell/util-metadata@1.5.26(typescript@5.3.3)(zod@3.22.4):
     resolution: {integrity: sha512-3zEnq0AJuUfKqjYDg09Gp01t5MScQddKU1Ab7ot8cLWYhJgKr+4cxQoyMgEbb+KLQ6K26f6A05yfBcueLc219g==}
     dependencies:
       '@crossbell/util-ethers': 1.5.26
+      '@fastify/deepmerge': 1.3.0
+      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /@crossbell/util-metadata@1.5.27(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-jHW/R0Js+N86SrmRcgwbmU7s7+IVTTB7lvX6vrW/Ky3C2g2f1N44mkM/mqHLh6CmSwjK66kdaIDv7G/G/S8HEQ==}
+    dependencies:
+      '@crossbell/util-ethers': 1.5.27
       '@fastify/deepmerge': 1.3.0
       crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
@@ -11098,6 +11228,7 @@ packages:
   /react-remove-scroll-bar@2.3.5(@types/react@18.2.56)(react@18.2.0):
     resolution: {integrity: sha512-3cqjOqg6s0XbOjWvmasmqHch+RLxIEk2r/70rzGXuz3iIGQsQheEQyqYCBb5EECoD01Vo2SIbDqW4paLeLTASw==}
     engines: {node: '>=10'}
+    deprecated: please update to the following version as this contains a bug (https://github.com/theKashey/react-remove-scroll-bar/issues/57)
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
