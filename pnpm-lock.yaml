@@ -43,8 +43,8 @@ dependencies:
     specifier: 1.5.26
     version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
   '@crossbell/indexer':
-    specifier: 1.5.26
-    version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+    specifier: 1.5.27
+    version: 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
   '@crossbell/notification':
     specifier: 1.5.26
     version: 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4)
@@ -1103,7 +1103,7 @@ packages:
       wagmi: ^1.0.0
     dependencies:
       '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-ethers': 1.5.26
@@ -1178,8 +1178,8 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/indexer@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-qdDujKJhBuW9NXdQsNfa+h0nBoV8M3qhiu9t7cGY9/YbvlbGpIfMiuJytTiubv9IgnuYw30QqxpYXHDAvLmGww==}
+  /@crossbell/indexer@1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-X+3KwPEsFTtQlpnUdgxGfKylYOsJhnaL4lqfeb4QPBEFeenPESnNsvMrXzLaRMUvQCQaqu11MSGyia95gOD3lQ==}
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
@@ -1208,7 +1208,7 @@ packages:
       react: ^18
       wagmi: ^1.0.0
     dependencies:
-      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
@@ -1238,7 +1238,7 @@ packages:
       '@tanstack/react-query': ^4
     dependencies:
       '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-ethers': 1.5.26
       '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
@@ -1269,7 +1269,7 @@ packages:
       react: ^18
       react-dom: ^18
     dependencies:
-      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
