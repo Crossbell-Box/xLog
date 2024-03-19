@@ -45,7 +45,7 @@
     "@crossbell/notification": "1.5.26",
     "@crossbell/ui": "1.5.26",
     "@crossbell/util-hooks": "1.5.26",
-    "@crossbell/util-metadata": "1.5.26",
+    "@crossbell/util-metadata": "1.5.27",
     "@ddietr/codemirror-themes": "1.4.2",
     "@floating-ui/react": "0.26.9",
     "@headlessui/react": "1.7.18",
