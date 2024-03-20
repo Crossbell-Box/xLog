@@ -53,7 +53,7 @@ export default function PostCover({
                   <div className="text-[0px] size-full">
                     <Image
                       className={cn(
-                        "object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out bg-white",
+                        "object-cover size-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out bg-white",
                         imgClassName,
                       )}
                       alt="cover"
@@ -80,7 +80,7 @@ export default function PostCover({
           </>
         ) : images?.length === 1 ? (
           <Image
-            className="object-cover w-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out"
+            className="object-cover size-full sm:group-hover:scale-105 sm:transition-transform sm:duration-400 sm:ease-in-out"
             alt="cover"
             src={images[0]}
             width={624}
