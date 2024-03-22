@@ -42,7 +42,7 @@
     "@crossbell/connect-kit": "1.5.26",
     "@crossbell/contract": "1.5.26",
     "@crossbell/indexer": "1.5.26",
-    "@crossbell/notification": "1.5.26",
+    "@crossbell/notification": "1.5.27",
     "@crossbell/ui": "1.5.26",
     "@crossbell/util-hooks": "1.5.26",
     "@crossbell/util-metadata": "1.5.26",
