@@ -477,8 +477,8 @@ devDependencies:
     specifier: 1.13.0
     version: 1.13.0(postcss@8.4.35)
   postcss-prune-var:
-    specifier: 1.1.1
-    version: 1.1.1
+    specifier: 1.1.2
+    version: 1.1.2
   postcss-simple-vars:
     specifier: 7.0.1
     version: 7.0.1(postcss@8.4.35)
@@ -10693,8 +10693,8 @@ packages:
       postcss-nested: 6.0.1(postcss@8.4.35)
     dev: true
 
-  /postcss-prune-var@1.1.1:
-    resolution: {integrity: sha512-rQS389fV24ohdWYaMjs5PI9eV4vJr6u8qb/8oijomnvOh9Ceytrr1ZMLBt6bJzhH1eqDrFWceXp9SQ5NUPEwCg==}
+  /postcss-prune-var@1.1.2:
+    resolution: {integrity: sha512-frMnVhQ4SXAY2tfRQmqfdIa6125XtfZUvB1D+t9n63Z12zp4MV6p7TAGipa7Ici9OoQt2XrXgVXdKBQD1ubTUw==}
     dependencies:
       minimatch: 9.0.3
     dev: true
