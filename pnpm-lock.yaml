@@ -52,8 +52,8 @@ dependencies:
     specifier: 1.5.26
     version: 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
   '@crossbell/util-hooks':
-    specifier: 1.5.26
-    version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+    specifier: 1.5.27
+    version: 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
   '@crossbell/util-metadata':
     specifier: 1.5.26
     version: 1.5.26(typescript@5.3.3)(zod@3.22.4)
@@ -1107,7 +1107,7 @@ packages:
       '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-ethers': 1.5.26
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
       '@emotion/react': 11.11.3(@types/react@18.2.56)(react@18.2.0)
       '@joyid/wagmi': 0.1.0(viem@1.21.1)(wagmi@1.4.13)
@@ -1165,7 +1165,7 @@ packages:
     peerDependencies:
       react: ^18
     dependencies:
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
       react: 18.2.0
       viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
@@ -1211,7 +1211,7 @@ packages:
       '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
@@ -1240,7 +1240,7 @@ packages:
       '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-ethers': 1.5.26
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       check-password-strength: 2.0.7
@@ -1270,7 +1270,7 @@ packages:
       react-dom: ^18
     dependencies:
       '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
@@ -1295,8 +1295,8 @@ packages:
     resolution: {integrity: sha512-0p1tazglzDaSGIBBkTOtKu855sZGpqr65rGOAdUlUyECpLPyVsR+g7NheTNti2U+Zh0cS6rptUrx+i5dZAzXAg==}
     dev: false
 
-  /@crossbell/util-hooks@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-8qVBzpjPvvvaPW73lc+Vj9s1sVpDCynOyeqCE5ETsl3R0/ZLpBa4aAn9gpRWLmC+BCYYfetatx9L2kuNIIH4jA==}
+  /@crossbell/util-hooks@1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-tTzYBvxMhnAy7ebMpdNIVLGQPaUZW6UnvbzjDn3FHqVEHjEuzTU3iQ2BAf9jfyLlDHS/yT4ORHhmTDdb2r1+bA==}
     peerDependencies:
       react: ^18
     dependencies:
