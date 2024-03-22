@@ -40,8 +40,8 @@ dependencies:
     specifier: 1.5.26
     version: 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4)
   '@crossbell/contract':
-    specifier: 1.5.26
-    version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+    specifier: 1.5.27
+    version: 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
   '@crossbell/indexer':
     specifier: 1.5.26
     version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
@@ -1102,7 +1102,7 @@ packages:
       '@tanstack/react-query': ^4
       wagmi: ^1.0.0
     dependencies:
-      '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/contract': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
@@ -1160,12 +1160,12 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/contract@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-cThhKoqSKrRM3LmcahEv9Pir7ZZGjzdEQAiRut9U1BZNUiNGlZDgI95acvFmfXpz9HrVri45S4m5Xud7HuHm3A==}
+  /@crossbell/contract@1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-WnfXG3HsIyf2yLQ1CLMTUTpI5/i7pZB4TAM4FFmxyNqji2vRBi1a9RrDhq6E1/F3I2KEYCC+XO5vPibvxdxN2Q==}
     peerDependencies:
       react: ^18
     dependencies:
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
       react: 18.2.0
       viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
@@ -1237,7 +1237,7 @@ packages:
     peerDependencies:
       '@tanstack/react-query': ^4
     dependencies:
-      '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/contract': 1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
       '@crossbell/util-ethers': 1.5.26
       '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
@@ -1297,6 +1297,23 @@ packages:
 
   /@crossbell/util-hooks@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
     resolution: {integrity: sha512-8qVBzpjPvvvaPW73lc+Vj9s1sVpDCynOyeqCE5ETsl3R0/ZLpBa4aAn9gpRWLmC+BCYYfetatx9L2kuNIIH4jA==}
+    peerDependencies:
+      react: ^18
+    dependencies:
+      '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
+      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      react: 18.2.0
+    transitivePeerDependencies:
+      - bufferutil
+      - react-dom
+      - react-native
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /@crossbell/util-hooks@1.5.27(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-tTzYBvxMhnAy7ebMpdNIVLGQPaUZW6UnvbzjDn3FHqVEHjEuzTU3iQ2BAf9jfyLlDHS/yT4ORHhmTDdb2r1+bA==}
     peerDependencies:
       react: ^18
     dependencies:
