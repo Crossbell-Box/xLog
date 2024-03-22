@@ -82,8 +82,8 @@ dependencies:
     specifier: 7.5.3
     version: 7.5.3(@mantine/core@7.5.3)(@mantine/hooks@7.5.3)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0)
   '@microflash/remark-callout-directives':
-    specifier: 4.0.0
-    version: 4.0.0
+    specifier: 4.1.0
+    version: 4.1.0
   '@monaco-editor/react':
     specifier: 4.6.0
     version: 4.6.0(monaco-editor@0.46.0)(react-dom@18.2.0)(react@18.2.0)
@@ -2648,8 +2648,8 @@ packages:
       - supports-color
     dev: false
 
-  /@microflash/remark-callout-directives@4.0.0:
-    resolution: {integrity: sha512-jyLRYuzy0oNVnFzPcV+2SNMPZQrBhd9aj4dmLkXg55nECMRFxCYVH2tnkXUOw3IrhYVRlybF/ljKxeVG8aRv7w==}
+  /@microflash/remark-callout-directives@4.1.0:
+    resolution: {integrity: sha512-l7SPOHrRwAcMoixbJF2OElazYAV2jLtQkUa4jxDHGcEW7TzeB8icUiwRCmOHdCZMLeXXl/0Y+uBXKauI+Bgaog==}
     dependencies:
       defu: 6.1.4
       hastscript: 9.0.0
