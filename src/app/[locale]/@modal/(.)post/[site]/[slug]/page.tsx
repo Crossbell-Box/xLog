@@ -126,6 +126,7 @@ export default async function SiteModal({
                   site={site}
                   withActions={false}
                   onlyContent={onlyContent}
+                  codeTheme={site.metadata.content.code_theme}
                 />
               </>
             )}

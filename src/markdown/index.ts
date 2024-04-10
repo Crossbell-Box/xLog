@@ -31,6 +31,7 @@ import remarkRehype from "remark-rehype"
 import { getHighlighterCore } from "shiki/core"
 import { bundledLanguages } from "shiki/langs"
 import { bundledThemes } from "shiki/themes"
+import type { BundledTheme } from "shiki/themes"
 import { unified } from "unified"
 import { visit } from "unist-util-visit"
 import { VFile } from "vfile"
@@ -77,12 +78,20 @@ const highlighter = await getHighlighterCore({
   loadWasm: import("shiki/wasm"),
 })
 
+export const defaultCodeTheme: {
+  light: BundledTheme
+  dark: BundledTheme
+} = {
+  light: "github-light",
+  dark: "github-dark",
+}
+
 export const renderPageContent = (
   content: string,
   strictMode?: boolean,
   codeTheme?: {
-    light: string
-    dark: string
+    light?: BundledTheme
+    dark?: BundledTheme
   },
 ) => {
   let hastTree: HashRoot | undefined = undefined
@@ -140,10 +149,7 @@ export const renderPageContent = (
       .use(rehypeRemoveH1)
       // @ts-expect-error
       .use(rehypeShikiFromHighlighter, highlighter, {
-        themes: codeTheme ?? {
-          light: "vitesse-light",
-          dark: "vitesse-dark",
-        },
+        themes: codeTheme ?? defaultCodeTheme,
         transformers: [transformerMetaHighlight()],
       })
       .use(rehypeKatex, {
