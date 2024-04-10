@@ -38,25 +38,25 @@ dependencies:
     version: 6.24.1
   '@crossbell/connect-kit':
     specifier: 1.5.26
-    version: 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4)
+    version: 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.4.5)(wagmi@1.4.13)(zod@3.22.4)
   '@crossbell/contract':
     specifier: 1.5.26
-    version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+    version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
   '@crossbell/indexer':
     specifier: 1.5.26
-    version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+    version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
   '@crossbell/notification':
     specifier: 1.5.26
-    version: 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4)
+    version: 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(wagmi@1.4.13)(zod@3.22.4)
   '@crossbell/ui':
     specifier: 1.5.26
-    version: 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+    version: 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
   '@crossbell/util-hooks':
     specifier: 1.5.26
-    version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+    version: 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
   '@crossbell/util-metadata':
     specifier: 1.5.26
-    version: 1.5.26(typescript@5.3.3)(zod@3.22.4)
+    version: 1.5.26(typescript@5.4.5)(zod@3.22.4)
   '@ddietr/codemirror-themes':
     specifier: 1.4.2
     version: 1.4.2
@@ -131,7 +131,7 @@ dependencies:
     version: 2.1.0
   crossbell:
     specifier: 1.11.3
-    version: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+    version: 1.11.3(typescript@5.4.5)(zod@3.22.4)
   dayjs:
     specifier: 1.11.10
     version: 1.11.10
@@ -374,10 +374,10 @@ dependencies:
     version: 6.0.1
   viem:
     specifier: 1.21.1
-    version: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+    version: 1.21.1(typescript@5.4.5)(zod@3.22.4)
   wagmi:
     specifier: 1.4.13
-    version: 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
+    version: 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4)
   xregexp:
     specifier: 5.1.1
     version: 5.1.1
@@ -448,7 +448,7 @@ devDependencies:
     version: 8.56.0
   eslint-config-next:
     specifier: 14.1.0
-    version: 14.1.0(eslint@8.56.0)(typescript@5.3.3)
+    version: 14.1.0(eslint@8.56.0)(typescript@5.4.5)
   eslint-plugin-import:
     specifier: 2.29.1
     version: 2.29.1(@typescript-eslint/parser@6.19.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.56.0)
@@ -498,8 +498,8 @@ devDependencies:
     specifier: 0.0.2
     version: 0.0.2(tailwindcss@3.4.1)
   typescript:
-    specifier: 5.3.3
-    version: 5.3.3
+    specifier: 5.4.5
+    version: 5.4.5
 
 packages:
 
@@ -1096,31 +1096,31 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit@1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4):
+  /@crossbell/connect-kit@1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(@wagmi/core@1.4.13)(react-dom@18.2.0)(typescript@5.4.5)(wagmi@1.4.13)(zod@3.22.4):
     resolution: {integrity: sha512-qevd1BlFpFVWKz6S2YjItUBKXOluuOcZhUxb+Uc9NBSJGM4tkx7KfmoQVoWYvKZo97g8AOc5bUWbVAINH497ww==}
     peerDependencies:
       '@tanstack/react-query': ^4
       wagmi: ^1.0.0
     dependencies:
-      '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
       '@crossbell/util-ethers': 1.5.26
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.26(typescript@5.4.5)(zod@3.22.4)
       '@emotion/react': 11.11.3(@types/react@18.2.56)(react@18.2.0)
       '@joyid/wagmi': 0.1.0(viem@1.21.1)(wagmi@1.4.13)
       '@mantine/core': 6.0.21(@emotion/react@11.11.3)(@mantine/hooks@6.0.21)(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks': 6.0.21(react@18.2.0)
       '@mantine/notifications': 6.0.21(@mantine/core@6.0.21)(@mantine/hooks@6.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      '@wagmi/connectors': 3.1.11(@types/react@18.2.56)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
+      '@wagmi/connectors': 3.1.11(@types/react@18.2.56)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4)
       '@web3modal/ethereum': 2.7.1(@wagmi/core@1.4.13)(viem@1.21.1)
       canvas-confetti: 1.9.2
       check-password-strength: 2.0.7
       classnames: 2.5.1
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.3(typescript@5.4.5)(zod@3.22.4)
       embla-carousel-react: 7.1.0(react@18.2.0)
       immer: 10.0.3
       lodash.compact: 3.0.1
@@ -1131,9 +1131,9 @@ packages:
       react-dropzone: 14.2.3(react@18.2.0)
       react-google-recaptcha: 3.1.0(react@18.2.0)
       rxjs: 7.8.1
-      ts-essentials: 9.4.1(typescript@5.3.3)
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
-      wagmi: 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
+      ts-essentials: 9.4.1(typescript@5.4.5)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
+      wagmi: 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4)
       zustand: 4.5.1(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -1160,15 +1160,15 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/contract@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+  /@crossbell/contract@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-cThhKoqSKrRM3LmcahEv9Pir7ZZGjzdEQAiRut9U1BZNUiNGlZDgI95acvFmfXpz9HrVri45S4m5Xud7HuHm3A==}
     peerDependencies:
       react: ^18
     dependencies:
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      crossbell: 1.11.3(typescript@5.4.5)(zod@3.22.4)
       react: 18.2.0
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - react-dom
@@ -1178,15 +1178,15 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/indexer@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+  /@crossbell/indexer@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-qdDujKJhBuW9NXdQsNfa+h0nBoV8M3qhiu9t7cGY9/YbvlbGpIfMiuJytTiubv9IgnuYw30QqxpYXHDAvLmGww==}
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.3(typescript@5.4.5)(zod@3.22.4)
       dayjs: 1.11.10
       lodash.compact: 3.0.1
       lru-cache: 10.1.0
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - react
@@ -1201,25 +1201,25 @@ packages:
     resolution: {integrity: sha512-wPNLptEPy64/7WMz7bhS5QVYfjproCr3ACgeQoJzmNKvH2FNDlF6FjMB9XNwV0spAczGb/SueNzW8p6BBLXHnw==}
     dev: false
 
-  /@crossbell/notification@1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(wagmi@1.4.13)(zod@3.22.4):
+  /@crossbell/notification@1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(wagmi@1.4.13)(zod@3.22.4):
     resolution: {integrity: sha512-VtnHTohd0SNSwopyt4Y9xxvkxo33rgfR6+4zCZxiLsaBcsEbD4+YU68KXbdhfwHc1Xuunov520u6P+u8SraZsw==}
     peerDependencies:
       '@tanstack/react-query': ^4
       react: ^18
       wagmi: ^1.0.0
     dependencies:
-      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/react-account': 1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/ui': 1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.26(typescript@5.4.5)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
       dayjs: 1.11.10
       react: 18.2.0
       react-intersection-observer: 9.8.0(react-dom@18.2.0)(react@18.2.0)
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
-      wagmi: 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
+      wagmi: 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4)
       zustand: 4.5.1(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -1232,26 +1232,26 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/react-account@1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+  /@crossbell/react-account@1.5.26(@tanstack/react-query@4.36.1)(@types/react@18.2.56)(react-dom@18.2.0)(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-UWuyf8Zci/gLyePSy011/lGzImnuvFFBFteqsMbr8JzQYUjbBrh3Hm7GpLAoJlxDH4EEnqyo9qPXvncH8e+brw==}
     peerDependencies:
       '@tanstack/react-query': ^4
     dependencies:
-      '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/contract': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
       '@crossbell/util-ethers': 1.5.26
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.26(typescript@5.4.5)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       check-password-strength: 2.0.7
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.3(typescript@5.4.5)(zod@3.22.4)
       immer: 10.0.3
       lodash.debounce: 4.0.8
       react: 18.2.0
       rxjs: 7.8.1
-      ts-essentials: 9.4.1(typescript@5.3.3)
+      ts-essentials: 9.4.1(typescript@5.4.5)
       valtio: 1.13.1(@types/react@18.2.56)(react@18.2.0)
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
       zustand: 4.5.1(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -1263,25 +1263,25 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/ui@1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+  /@crossbell/ui@1.5.26(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-LXn7PUwonZYDho5YPp+i0l9yE1g2EltbqcNYlQsf4o7zpjSwJ69BM0UuJg315zgtKRfRGTgJXg4LdEIQ7vBN7A==}
     peerDependencies:
       react: ^18
       react-dom: ^18
     dependencies:
-      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4)
-      '@crossbell/util-metadata': 1.5.26(typescript@5.3.3)(zod@3.22.4)
+      '@crossbell/indexer': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/util-hooks': 1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4)
+      '@crossbell/util-metadata': 1.5.26(typescript@5.4.5)(zod@3.22.4)
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.3(typescript@5.4.5)(zod@3.22.4)
       facepaint: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-intersection-observer: 9.8.0(react-dom@18.2.0)(react@18.2.0)
       react-remove-scroll: 2.5.7(@types/react@18.2.56)(react@18.2.0)
       react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
-      ts-essentials: 9.4.1(typescript@5.3.3)
+      ts-essentials: 9.4.1(typescript@5.4.5)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -1295,13 +1295,13 @@ packages:
     resolution: {integrity: sha512-0p1tazglzDaSGIBBkTOtKu855sZGpqr65rGOAdUlUyECpLPyVsR+g7NheTNti2U+Zh0cS6rptUrx+i5dZAzXAg==}
     dev: false
 
-  /@crossbell/util-hooks@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zod@3.22.4):
+  /@crossbell/util-hooks@1.5.26(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-8qVBzpjPvvvaPW73lc+Vj9s1sVpDCynOyeqCE5ETsl3R0/ZLpBa4aAn9gpRWLmC+BCYYfetatx9L2kuNIIH4jA==}
     peerDependencies:
       react: ^18
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.3(typescript@5.4.5)(zod@3.22.4)
       react: 18.2.0
     transitivePeerDependencies:
       - bufferutil
@@ -1312,12 +1312,12 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/util-metadata@1.5.26(typescript@5.3.3)(zod@3.22.4):
+  /@crossbell/util-metadata@1.5.26(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-3zEnq0AJuUfKqjYDg09Gp01t5MScQddKU1Ab7ot8cLWYhJgKr+4cxQoyMgEbb+KLQ6K26f6A05yfBcueLc219g==}
     dependencies:
       '@crossbell/util-ethers': 1.5.26
       '@fastify/deepmerge': 1.3.0
-      crossbell: 1.11.3(typescript@5.3.3)(zod@3.22.4)
+      crossbell: 1.11.3(typescript@5.4.5)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -2047,7 +2047,7 @@ packages:
       viem: ^1
     dependencies:
       '@joyid/evm': 0.2.4
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
     dev: false
 
   /@joyid/evm@0.2.4:
@@ -2061,8 +2061,8 @@ packages:
       wagmi: ^1.4.0
     dependencies:
       '@joyid/ethereum-provider': 0.1.2(viem@1.21.1)
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
-      wagmi: 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
+      wagmi: 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4)
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
@@ -3573,10 +3573,10 @@ packages:
     resolution: {integrity: sha512-Jh4t/593gxs0lJZ/z3NnasKlplXT2f+4y/LZYuaKZW5KAaiVFL/fThhs+17EbUd53jUVJ0QudYCBGbN/psvaqg==}
     dev: true
 
-  /@safe-global/safe-apps-provider@0.18.1(typescript@5.3.3)(zod@3.22.4):
+  /@safe-global/safe-apps-provider@0.18.1(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-V4a05A3EgJcriqtDoJklDz1BOinWhC6P0hjUSxshA4KOZM7rGPCTto/usXs09zr1vvL28evl/NldSTv97j2bmg==}
     dependencies:
-      '@safe-global/safe-apps-sdk': 8.1.0(typescript@5.3.3)(zod@3.22.4)
+      '@safe-global/safe-apps-sdk': 8.1.0(typescript@5.4.5)(zod@3.22.4)
       events: 3.3.0
     transitivePeerDependencies:
       - bufferutil
@@ -3585,11 +3585,11 @@ packages:
       - zod
     dev: false
 
-  /@safe-global/safe-apps-sdk@8.1.0(typescript@5.3.3)(zod@3.22.4):
+  /@safe-global/safe-apps-sdk@8.1.0(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-XJbEPuaVc7b9n23MqlF6c+ToYIS3f7P2Sel8f3cSBQ9WORE4xrSuvhMpK9fDSFqJ7by/brc+rmJR/5HViRr0/w==}
     dependencies:
       '@safe-global/safe-gateway-typescript-sdk': 3.13.3
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -4046,7 +4046,7 @@ packages:
       '@types/node': 20.11.19
     dev: false
 
-  /@typescript-eslint/parser@6.19.0(eslint@8.56.0)(typescript@5.3.3):
+  /@typescript-eslint/parser@6.19.0(eslint@8.56.0)(typescript@5.4.5):
     resolution: {integrity: sha512-1DyBLG5SH7PYCd00QlroiW60YJ4rWMuUGa/JBV0iZuqi4l4IK3twKPq5ZkEebmGqRjXWVgsUzfd3+nZveewgow==}
     engines: {node: ^16.0.0 || >=18.0.0}
     peerDependencies:
@@ -4058,11 +4058,11 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 6.19.0
       '@typescript-eslint/types': 6.19.0
-      '@typescript-eslint/typescript-estree': 6.19.0(typescript@5.3.3)
+      '@typescript-eslint/typescript-estree': 6.19.0(typescript@5.4.5)
       '@typescript-eslint/visitor-keys': 6.19.0
       debug: 4.3.4
       eslint: 8.56.0
-      typescript: 5.3.3
+      typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4080,7 +4080,7 @@ packages:
     engines: {node: ^16.0.0 || >=18.0.0}
     dev: true
 
-  /@typescript-eslint/typescript-estree@6.19.0(typescript@5.3.3):
+  /@typescript-eslint/typescript-estree@6.19.0(typescript@5.4.5):
     resolution: {integrity: sha512-o/zefXIbbLBZ8YJ51NlkSAt2BamrK6XOmuxSR3hynMIzzyMY33KuJ9vuMdFSXW+H0tVvdF9qBPTHA91HDb4BIQ==}
     engines: {node: ^16.0.0 || >=18.0.0}
     peerDependencies:
@@ -4096,8 +4096,8 @@ packages:
       is-glob: 4.0.3
       minimatch: 9.0.3
       semver: 7.6.0
-      ts-api-utils: 1.0.3(typescript@5.3.3)
-      typescript: 5.3.3
+      ts-api-utils: 1.0.3(typescript@5.4.5)
+      typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4156,7 +4156,7 @@ packages:
       - supports-color
     dev: false
 
-  /@wagmi/connectors@3.1.11(@types/react@18.2.56)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4):
+  /@wagmi/connectors@3.1.11(@types/react@18.2.56)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4):
     resolution: {integrity: sha512-wzxp9f9PtSUFjDUP/QDjc1t7HON4D8wrVKsw35ejdO8hToDpx1gU9lwH/47Zo/1zExGezQc392sjoHSszYd7OA==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4166,16 +4166,16 @@ packages:
         optional: true
     dependencies:
       '@coinbase/wallet-sdk': 3.7.2
-      '@safe-global/safe-apps-provider': 0.18.1(typescript@5.3.3)(zod@3.22.4)
-      '@safe-global/safe-apps-sdk': 8.1.0(typescript@5.3.3)(zod@3.22.4)
+      '@safe-global/safe-apps-provider': 0.18.1(typescript@5.4.5)(zod@3.22.4)
+      '@safe-global/safe-apps-sdk': 8.1.0(typescript@5.4.5)(zod@3.22.4)
       '@walletconnect/ethereum-provider': 2.11.0(@types/react@18.2.56)(react@18.2.0)
       '@walletconnect/legacy-provider': 2.0.0
       '@walletconnect/modal': 2.6.2(@types/react@18.2.56)(react@18.2.0)
       '@walletconnect/utils': 2.11.0
-      abitype: 0.8.7(typescript@5.3.3)(zod@3.22.4)
+      abitype: 0.8.7(typescript@5.4.5)(zod@3.22.4)
       eventemitter3: 4.0.7
-      typescript: 5.3.3
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      typescript: 5.4.5
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -4198,7 +4198,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.4.13(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4):
+  /@wagmi/core@1.4.13(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4):
     resolution: {integrity: sha512-ytMCvXbBOgfDu9Qw67279wq/jNEe7EZLjLyekX7ROnvHRADqFr3lwZI6ih41UmtRZAmXAx8Ghyuqy154EjB5mQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4207,11 +4207,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@wagmi/connectors': 3.1.11(@types/react@18.2.56)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
-      abitype: 0.8.7(typescript@5.3.3)(zod@3.22.4)
+      '@wagmi/connectors': 3.1.11(@types/react@18.2.56)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4)
+      abitype: 0.8.7(typescript@5.4.5)(zod@3.22.4)
       eventemitter3: 4.0.7
-      typescript: 5.3.3
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      typescript: 5.4.5
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
       zustand: 4.5.1(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -4695,8 +4695,8 @@ packages:
       '@wagmi/core': '>=1'
       viem: '>=1'
     dependencies:
-      '@wagmi/core': 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      '@wagmi/core': 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
     dev: false
 
   /JSONStream@1.3.5:
@@ -4707,7 +4707,7 @@ packages:
       through: 2.3.8
     dev: false
 
-  /abitype@0.10.0(typescript@5.3.3)(zod@3.22.4):
+  /abitype@0.10.0(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-QvMHEUzgI9nPj9TWtUGnS2scas80/qaL5PBxGdwWhhvzqXfOph+IEiiiWrzuisu3U3JgDQVruW9oLbJoQ3oZ3A==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4718,11 +4718,11 @@ packages:
       zod:
         optional: true
     dependencies:
-      typescript: 5.3.3
+      typescript: 5.4.5
       zod: 3.22.4
     dev: false
 
-  /abitype@0.8.7(typescript@5.3.3)(zod@3.22.4):
+  /abitype@0.8.7(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-wQ7hV8Yg/yKmGyFpqrNZufCxbszDe5es4AZGYPBitocfSqXtjrTG9JMWFcc4N30ukl2ve48aBTwt7NJxVQdU3w==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4731,11 +4731,11 @@ packages:
       zod:
         optional: true
     dependencies:
-      typescript: 5.3.3
+      typescript: 5.4.5
       zod: 3.22.4
     dev: false
 
-  /abitype@0.9.8(typescript@5.3.3)(zod@3.22.4):
+  /abitype@0.9.8(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-puLifILdm+8sjyss4S+fsUN09obiT1g2YW6CtcQF+QDzxR0euzgEB29MZujC6zMk2a6SVmtttq1fc6+YFA7WYQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4746,7 +4746,7 @@ packages:
       zod:
         optional: true
     dependencies:
-      typescript: 5.3.3
+      typescript: 5.4.5
       zod: 3.22.4
     dev: false
 
@@ -5668,7 +5668,7 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  /crossbell@1.11.3(typescript@5.3.3)(zod@3.22.4):
+  /crossbell@1.11.3(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-furQxkEvV0AjmaMmVHulzm3crKFb4asv/X0tBYay+4Tu2jYRsm9vLAsqUhw8xQ2zwzMxRsHMcDvWOVwQ5vdE/w==}
     engines: {node: '>=16.14.0'}
     dependencies:
@@ -5678,7 +5678,7 @@ packages:
       eip1193-types: 0.2.1
       exponential-backoff: 3.1.1
       p-limit: 3.1.0
-      viem: 2.1.1(typescript@5.3.3)(zod@3.22.4)
+      viem: 2.1.1(typescript@5.4.5)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -6631,7 +6631,7 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /eslint-config-next@14.1.0(eslint@8.56.0)(typescript@5.3.3):
+  /eslint-config-next@14.1.0(eslint@8.56.0)(typescript@5.4.5):
     resolution: {integrity: sha512-SBX2ed7DoRFXC6CQSLc/SbLY9Ut6HxNB2wPTcoIWjUMd7aF7O/SIE7111L8FdZ9TXsNV4pulUDnfthpyPtbFUg==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
@@ -6642,7 +6642,7 @@ packages:
     dependencies:
       '@next/eslint-plugin-next': 14.1.0
       '@rushstack/eslint-patch': 1.7.0
-      '@typescript-eslint/parser': 6.19.0(eslint@8.56.0)(typescript@5.3.3)
+      '@typescript-eslint/parser': 6.19.0(eslint@8.56.0)(typescript@5.4.5)
       eslint: 8.56.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.19.0)(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1)(eslint@8.56.0)
@@ -6650,7 +6650,7 @@ packages:
       eslint-plugin-jsx-a11y: 6.8.0(eslint@8.56.0)
       eslint-plugin-react: 7.33.2(eslint@8.56.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.56.0)
-      typescript: 5.3.3
+      typescript: 5.4.5
     transitivePeerDependencies:
       - eslint-import-resolver-webpack
       - supports-color
@@ -6710,7 +6710,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 6.19.0(eslint@8.56.0)(typescript@5.3.3)
+      '@typescript-eslint/parser': 6.19.0(eslint@8.56.0)(typescript@5.4.5)
       debug: 3.2.7
       eslint: 8.56.0
       eslint-import-resolver-node: 0.3.9
@@ -6729,7 +6729,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 6.19.0(eslint@8.56.0)(typescript@5.3.3)
+      '@typescript-eslint/parser': 6.19.0(eslint@8.56.0)(typescript@5.4.5)
       array-includes: 3.1.7
       array.prototype.findlastindex: 1.2.3
       array.prototype.flat: 1.3.2
@@ -12398,13 +12398,13 @@ packages:
     resolution: {integrity: sha512-AqTiAOLcj85xS7vQ8QkAV41hPDIJ71XJB4RCUrzo/1GM2CQwhkJGaf9Hgr7BOugMRpgGUrqRg/DrBDl4H40+8g==}
     dev: false
 
-  /ts-api-utils@1.0.3(typescript@5.3.3):
+  /ts-api-utils@1.0.3(typescript@5.4.5):
     resolution: {integrity: sha512-wNMeqtMz5NtwpT/UZGY5alT+VoKdSsOOP/kqHFcUW1P/VRhH2wJ48+DN2WwUliNbQ976ETwDL0Ifd2VVvgonvg==}
     engines: {node: '>=16.13.0'}
     peerDependencies:
       typescript: '>=4.2.0'
     dependencies:
-      typescript: 5.3.3
+      typescript: 5.4.5
     dev: true
 
   /ts-dedent@2.2.0:
@@ -12412,7 +12412,7 @@ packages:
     engines: {node: '>=6.10'}
     dev: false
 
-  /ts-essentials@9.4.1(typescript@5.3.3):
+  /ts-essentials@9.4.1(typescript@5.4.5):
     resolution: {integrity: sha512-oke0rI2EN9pzHsesdmrOrnqv1eQODmJpd/noJjwj2ZPC3Z4N2wbjrOEqnsEgmvlO2+4fBb0a794DCna2elEVIQ==}
     peerDependencies:
       typescript: '>=4.1.0'
@@ -12420,7 +12420,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      typescript: 5.3.3
+      typescript: 5.4.5
     dev: false
 
   /ts-interface-checker@0.1.13:
@@ -12513,8 +12513,8 @@ packages:
     dependencies:
       is-typedarray: 1.0.0
 
-  /typescript@5.3.3:
-    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
+  /typescript@5.4.5:
+    resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -12954,7 +12954,7 @@ packages:
       vfile-message: 4.0.2
     dev: false
 
-  /viem@1.21.1(typescript@5.3.3)(zod@3.22.4):
+  /viem@1.21.1(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-4Tb2f73FTGN+6PRPmgmKmlIfy/ENS4iU1KKfOPhUA37pZMmVw2rxN0QXMHB4OMa1ZVBlbpde1eG33vyj0L8YeQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -12967,9 +12967,9 @@ packages:
       '@noble/hashes': 1.3.2
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
-      abitype: 0.9.8(typescript@5.3.3)(zod@3.22.4)
+      abitype: 0.9.8(typescript@5.4.5)(zod@3.22.4)
       isows: 1.0.3(ws@8.13.0)
-      typescript: 5.3.3
+      typescript: 5.4.5
       ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil
@@ -12977,7 +12977,7 @@ packages:
       - zod
     dev: false
 
-  /viem@2.1.1(typescript@5.3.3)(zod@3.22.4):
+  /viem@2.1.1(typescript@5.4.5)(zod@3.22.4):
     resolution: {integrity: sha512-gJiwYceD7Dsjioglr+85GQS3u5Gp9XGG8oJqGsauBaEPFlkmbRx7cxD2Q5RZXFToVvEbarOWtITZtGHBsGv4MQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -12990,9 +12990,9 @@ packages:
       '@noble/hashes': 1.3.2
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
-      abitype: 0.10.0(typescript@5.3.3)(zod@3.22.4)
+      abitype: 0.10.0(typescript@5.4.5)(zod@3.22.4)
       isows: 1.0.3(ws@8.13.0)
-      typescript: 5.3.3
+      typescript: 5.4.5
       ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil
@@ -13019,7 +13019,7 @@ packages:
       xml-name-validator: 5.0.0
     dev: false
 
-  /wagmi@1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4):
+  /wagmi@1.4.13(@types/react@18.2.56)(immer@10.0.3)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4):
     resolution: {integrity: sha512-AScVYFjqNt1wMgL99Bob7MLdhoTZ3XKiOZL5HVBdy4W1sh7QodA3gQ8IsmTuUrQ7oQaTxjiXEhwg7sWNrPBvJA==}
     peerDependencies:
       react: '>=17.0.0'
@@ -13032,12 +13032,12 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1)
-      '@wagmi/core': 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)(typescript@5.3.3)(viem@1.21.1)(zod@3.22.4)
-      abitype: 0.8.7(typescript@5.3.3)(zod@3.22.4)
+      '@wagmi/core': 1.4.13(@types/react@18.2.56)(immer@10.0.3)(react@18.2.0)(typescript@5.4.5)(viem@1.21.1)(zod@3.22.4)
+      abitype: 0.8.7(typescript@5.4.5)(zod@3.22.4)
       react: 18.2.0
-      typescript: 5.3.3
+      typescript: 5.4.5
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 1.21.1(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.1(typescript@5.4.5)(zod@3.22.4)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'

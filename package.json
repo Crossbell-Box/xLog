@@ -194,7 +194,7 @@
     "prisma": "5.9.1",
     "tailwindcss": "3.4.1",
     "tailwindcss-variable-colors": "0.0.2",
-    "typescript": "5.3.3"
+    "typescript": "5.4.5"
   },
   "engines": {
     "node": ">=18.17.0"
