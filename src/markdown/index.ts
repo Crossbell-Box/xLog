@@ -78,14 +78,6 @@ const highlighter = await getHighlighterCore({
   loadWasm: import("shiki/wasm"),
 })
 
-export const defaultCodeTheme: {
-  light: BundledTheme
-  dark: BundledTheme
-} = {
-  light: "github-light",
-  dark: "github-dark",
-}
-
 export const renderPageContent = (
   content: string,
   strictMode?: boolean,
@@ -149,7 +141,7 @@ export const renderPageContent = (
       .use(rehypeRemoveH1)
       // @ts-expect-error
       .use(rehypeShikiFromHighlighter, highlighter, {
-        themes: codeTheme ?? defaultCodeTheme,
+        themes: codeTheme,
         transformers: [transformerMetaHighlight()],
       })
       .use(rehypeKatex, {

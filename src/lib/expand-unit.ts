@@ -11,7 +11,6 @@ import {
   Language,
   PortfolioStats,
 } from "~/lib/types"
-import { defaultCodeTheme } from "~/markdown"
 
 import { detectLanguage } from "./detect-lang"
 import { getNoteSlug, getRandomAvatarUrl } from "./helpers"
@@ -267,12 +266,14 @@ export const expandCrossbellCharacter = async (site: CharacterEntity) => {
     )?.value as string) || "null",
   ) || [{ id: nanoid(), label: "Archives", url: "/archives" }]
 
-  expandedCharacter.metadata.content.code_theme =
-    JSON.parse(
-      (expandedCharacter.metadata?.content?.attributes?.find(
-        (a: any) => a.trait_type === "xlog_code_theme",
-      )?.value as string) || "null",
-    ) || defaultCodeTheme
+  expandedCharacter.metadata.content.code_theme = JSON.parse(
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_code_theme",
+    )?.value as string) || "null",
+  ) || {
+    light: "github-light",
+    dark: "github-dark",
+  }
 
   const getArribute = (outputKey: string, typeKey: string) => {
     ;(expandedCharacter.metadata.content as any)[outputKey] =
