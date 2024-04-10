@@ -8,10 +8,6 @@ import dynamic from "next/dynamic"
 import { toast } from "react-hot-toast"
 // @ts-expect-error: untyped.
 import { Fragment, jsx, jsxs } from "react/jsx-runtime"
-import { refractor } from "refractor"
-import langJsx from "refractor/lang/jsx"
-import langSolidity from "refractor/lang/solidity"
-import langTsx from "refractor/lang/tsx"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import rehypeKatex from "rehype-katex"
@@ -66,11 +62,6 @@ const XLogPost = dynamic(() => import("~/components/ui/XLogPost"))
 const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"))
 const RSS = dynamic(() => import("~/components/ui/RSS"))
-
-refractor.alias("html", ["svelte", "vue"])
-refractor.register(langTsx)
-refractor.register(langJsx)
-refractor.register(langSolidity)
 
 const highlighter = await getHighlighterCore({
   themes: Object.values(bundledThemes),
@@ -141,7 +132,13 @@ export const renderPageContent = (
       .use(rehypeRemoveH1)
       // @ts-expect-error
       .use(rehypeShikiFromHighlighter, highlighter, {
-        themes: codeTheme,
+        themes: codeTheme ?? {
+          light: "github-light",
+          dark: "github-dark",
+        },
+        onError: (e) => {
+          console.error(e)
+        },
         transformers: [transformerMetaHighlight()],
       })
       .use(rehypeKatex, {
