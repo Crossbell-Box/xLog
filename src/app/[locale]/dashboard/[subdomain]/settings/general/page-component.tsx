@@ -5,7 +5,7 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import { bundledThemes } from "shiki/themes"
+import { bundledThemesInfo } from "shiki/themes"
 
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
@@ -233,13 +233,17 @@ export default function SiteSettingsGeneralPage() {
         <div className="mt-5 flex gap-3">
           <Input
             label="Code Theme Light"
-            options={Object.keys(bundledThemes)}
+            options={bundledThemesInfo
+              .filter((i) => i.type === "light")
+              .map((i) => i.id)}
             id="code_theme_light"
             {...form.register("code_theme_light")}
           />
           <Input
             label="Code Theme Dark"
-            options={Object.keys(bundledThemes)}
+            options={bundledThemesInfo
+              .filter((i) => i.type === "dark")
+              .map((i) => i.id)}
             id="code_theme_dark"
             {...form.register("code_theme_dark")}
           />
