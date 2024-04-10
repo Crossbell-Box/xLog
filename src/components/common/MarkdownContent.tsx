@@ -1,5 +1,6 @@
 import type { Result as TocResult } from "mdast-util-toc"
 import { memo, type MutableRefObject } from "react"
+import { Highlighter } from "shiki"
 import type { BundledTheme } from "shiki/themes"
 
 import PostActions from "~/components/site/PostActions"
@@ -23,6 +24,7 @@ const MarkdownContent = memo(function PageContent({
   site,
   withActions,
   onlyContent,
+  highlighter,
   codeTheme,
 }: {
   content?: string
@@ -37,6 +39,7 @@ const MarkdownContent = memo(function PageContent({
   site?: ExpandedCharacter
   withActions?: boolean
   onlyContent?: boolean
+  highlighter?: Highlighter
   codeTheme?: {
     light?: BundledTheme
     dark?: BundledTheme
@@ -46,7 +49,12 @@ const MarkdownContent = memo(function PageContent({
   if (parsedContent) {
     inParsedContent = parsedContent
   } else if (content) {
-    inParsedContent = renderPageContent(content, strictMode, codeTheme)
+    inParsedContent = renderPageContent({
+      content,
+      strictMode,
+      codeTheme,
+      highlighter,
+    })
   }
 
   let toc: TocResult | undefined = undefined

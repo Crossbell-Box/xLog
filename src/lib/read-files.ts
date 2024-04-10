@@ -30,7 +30,9 @@ export const readFiles = async (files: FileList) => {
         ) => {
           const reader = new FileReader()
           reader.onload = () => {
-            const pageContent = renderPageContent(reader.result as string)
+            const pageContent = renderPageContent({
+              content: reader.result as string,
+            })
             const metadata = pageContent.toMetadata()
             resolve({
               title:

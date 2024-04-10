@@ -95,7 +95,9 @@ export const expandCrossbellNote = async ({
         }
       }
 
-      const rendered = renderPageContent(expandedNote.metadata.content.content)
+      const rendered = renderPageContent({
+        content: expandedNote.metadata.content.content,
+      })
       renderedMetadata = rendered.toMetadata()
       if (keyword) {
         const position = expandedNote.metadata.content.content

@@ -10,6 +10,7 @@ import MarkdownContent from "~/components/common/MarkdownContent"
 import { toolbarShortcuts } from "~/components/dashboard/toolbars"
 import { editorUpload } from "~/components/dashboard/toolbars/Multimedia"
 import CodeMirror from "~/components/ui/CodeMirror"
+import { useHighlighter } from "~/hooks/useHighlighter"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
@@ -32,6 +33,7 @@ export default function DualColumnEditor({
     dark?: BundledTheme
   }
 }) {
+  const highlighter = useHighlighter()
   const isMobileLayout = useIsMobileLayout()
   const t = useTranslations()
 
@@ -51,11 +53,17 @@ export default function DualColumnEditor({
 
   useDebounceEffect(
     () => {
-      const result = renderPageContent(values, undefined, codeTheme)
+      if (!highlighter) return
+      const result = renderPageContent({
+        content: values,
+        highlighter,
+        strictMode: true,
+        codeTheme,
+      })
       setTree(result.tree)
       setParsedContent(result)
     },
-    [values],
+    [values, codeTheme, highlighter],
     {
       wait: 500,
     },
@@ -240,6 +248,7 @@ export default function DualColumnEditor({
           onMouseEnter={() => {
             setCurrentScrollArea("preview")
           }}
+          highlighter={highlighter}
           codeTheme={codeTheme}
         />
       )}

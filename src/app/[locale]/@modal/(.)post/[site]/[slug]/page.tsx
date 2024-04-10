@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
+import { bundledLanguages, bundledThemes, getHighlighter } from "shiki"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
@@ -67,6 +68,11 @@ export default async function SiteModal({
     .map((img) => img.address || "")
     .filter(Boolean)
 
+  const highlighter = await getHighlighter({
+    themes: Object.keys(bundledThemes),
+    langs: Object.keys(bundledLanguages),
+  })
+
   return (
     <PostModal handle={site?.handle}>
       <div className="pb-16 overflow-x-hidden overflow-y-scroll">
@@ -127,6 +133,7 @@ export default async function SiteModal({
                   withActions={false}
                   onlyContent={onlyContent}
                   codeTheme={site.metadata.content.code_theme}
+                  highlighter={highlighter}
                 />
               </>
             )}

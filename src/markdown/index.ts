@@ -24,9 +24,7 @@ import remarkGithubAlerts from "remark-github-alerts"
 import remarkMath from "remark-math"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
-import { getHighlighterCore } from "shiki/core"
-import { bundledLanguages } from "shiki/langs"
-import { bundledThemes } from "shiki/themes"
+import type { Highlighter } from "shiki"
 import type { BundledTheme } from "shiki/themes"
 import { unified } from "unified"
 import { visit } from "unist-util-visit"
@@ -63,20 +61,20 @@ const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"))
 const RSS = dynamic(() => import("~/components/ui/RSS"))
 
-const highlighter = await getHighlighterCore({
-  themes: Object.values(bundledThemes),
-  langs: Object.values(bundledLanguages),
-  loadWasm: import("shiki/wasm"),
-})
-
-export const renderPageContent = (
-  content: string,
-  strictMode?: boolean,
+export const renderPageContent = ({
+  content,
+  highlighter,
+  strictMode,
+  codeTheme,
+}: {
+  content: string
+  highlighter?: Highlighter
+  strictMode?: boolean
   codeTheme?: {
     light?: BundledTheme
     dark?: BundledTheme
-  },
-) => {
+  }
+}) => {
   let hastTree: HashRoot | undefined = undefined
   let mdastTree: MdashRoot | undefined = undefined
 
@@ -130,8 +128,9 @@ export const renderPageContent = (
         transformers,
       })
       .use(rehypeRemoveH1)
-      // @ts-expect-error
-      .use(rehypeShikiFromHighlighter, highlighter, {
+
+    if (highlighter) {
+      pipeline.use(rehypeShikiFromHighlighter, highlighter, {
         themes: codeTheme ?? {
           light: "github-light-default",
           dark: "github-dark-default",
@@ -141,6 +140,8 @@ export const renderPageContent = (
         },
         transformers: [transformerMetaHighlight()],
       })
+    }
+    pipeline
       .use(rehypeKatex, {
         strict: false,
       })

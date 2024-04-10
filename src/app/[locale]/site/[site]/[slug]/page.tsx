@@ -1,6 +1,7 @@
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import serialize from "serialize-javascript"
+import { bundledLanguages, bundledThemes, getHighlighter } from "shiki"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
@@ -154,6 +155,11 @@ export default async function SitePagePage({
     .map((img) => img.address || "")
     .filter(Boolean)
 
+  const highlighter = await getHighlighter({
+    themes: Object.keys(bundledThemes),
+    langs: Object.keys(bundledLanguages),
+  })
+
   return (
     <div className="max-w-screen-md mx-auto">
       <script
@@ -208,6 +214,7 @@ export default async function SitePagePage({
               site={site}
               withActions={true}
               onlyContent={onlyContent}
+              highlighter={highlighter}
               codeTheme={site.metadata.content.code_theme}
             />
           </>
