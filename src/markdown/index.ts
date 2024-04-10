@@ -15,7 +15,6 @@ import langTsx from "refractor/lang/tsx"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import rehypeKatex from "rehype-katex"
-import rehypePrismGenerator from "rehype-prism-plus/generator"
 import rehypeRaw from "rehype-raw"
 import rehypeSanitize from "rehype-sanitize"
 import rehypeSlug from "rehype-slug"
@@ -29,12 +28,17 @@ import remarkGithubAlerts from "remark-github-alerts"
 import remarkMath from "remark-math"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
+import { getHighlighterCore } from "shiki/core"
+import { bundledLanguages } from "shiki/langs"
+import { bundledThemes } from "shiki/themes"
 import { unified } from "unified"
 import { visit } from "unist-util-visit"
 import { VFile } from "vfile"
 
 // @ts-expect-error
 import remarkCalloutDirectives from "@microflash/remark-callout-directives"
+import rehypeShikiFromHighlighter from "@shikijs/rehype/core"
+import { transformerMetaHighlight } from "@shikijs/transformers"
 
 import AdvancedImage from "~/components/ui/AdvancedImage"
 import { isServerSide } from "~/lib/utils"
@@ -66,9 +70,21 @@ refractor.alias("html", ["svelte", "vue"])
 refractor.register(langTsx)
 refractor.register(langJsx)
 refractor.register(langSolidity)
-const rehypePrism = rehypePrismGenerator(refractor)
 
-export const renderPageContent = (content: string, strictMode?: boolean) => {
+const highlighter = await getHighlighterCore({
+  themes: Object.values(bundledThemes),
+  langs: Object.values(bundledLanguages),
+  loadWasm: import("shiki/wasm"),
+})
+
+export const renderPageContent = (
+  content: string,
+  strictMode?: boolean,
+  codeTheme?: {
+    light: string
+    dark: string
+  },
+) => {
   let hastTree: HashRoot | undefined = undefined
   let mdastTree: MdashRoot | undefined = undefined
 
@@ -122,9 +138,13 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
         transformers,
       })
       .use(rehypeRemoveH1)
-      .use(rehypePrism, {
-        ignoreMissing: true,
-        showLineNumbers: true,
+      // @ts-expect-error
+      .use(rehypeShikiFromHighlighter, highlighter, {
+        themes: codeTheme ?? {
+          light: "vitesse-light",
+          dark: "vitesse-dark",
+        },
+        transformers: [transformerMetaHighlight()],
       })
       .use(rehypeKatex, {
         strict: false,
