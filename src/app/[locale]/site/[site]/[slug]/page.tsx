@@ -208,6 +208,7 @@ export default async function SitePagePage({
               site={site}
               withActions={true}
               onlyContent={onlyContent}
+              codeTheme={site.metadata.content.code_theme}
             />
           </>
         )}

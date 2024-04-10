@@ -2,6 +2,7 @@ import { useDebounceEffect } from "ahooks"
 import type { Root } from "hast"
 import { useTranslations } from "next-intl"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import type { BundledTheme } from "shiki/themes"
 
 import { EditorView } from "@codemirror/view"
 
@@ -19,12 +20,17 @@ export default function DualColumnEditor({
   onCreateEditor,
   isRendering,
   setIsRendering,
+  codeTheme,
 }: {
   initialContent: string
   onChange: (value: string) => void
   onCreateEditor: (view: EditorView) => void
   isRendering: boolean
   setIsRendering: (value: boolean) => void
+  codeTheme?: {
+    light?: BundledTheme
+    dark?: BundledTheme
+  }
 }) {
   const isMobileLayout = useIsMobileLayout()
   const t = useTranslations()
@@ -45,7 +51,7 @@ export default function DualColumnEditor({
 
   useDebounceEffect(
     () => {
-      const result = renderPageContent(values)
+      const result = renderPageContent(values, undefined, codeTheme)
       setTree(result.tree)
       setParsedContent(result)
     },
@@ -234,6 +240,7 @@ export default function DualColumnEditor({
           onMouseEnter={() => {
             setCurrentScrollArea("preview")
           }}
+          codeTheme={codeTheme}
         />
       )}
     </div>
