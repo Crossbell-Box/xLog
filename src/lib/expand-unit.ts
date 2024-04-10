@@ -271,8 +271,8 @@ export const expandCrossbellCharacter = async (site: CharacterEntity) => {
       (a: any) => a.trait_type === "xlog_code_theme",
     )?.value as string) || "null",
   ) || {
-    light: "github-light",
-    dark: "github-dark",
+    light: "github-light-default",
+    dark: "github-dark-default",
   }
 
   const getArribute = (outputKey: string, typeKey: string) => {
