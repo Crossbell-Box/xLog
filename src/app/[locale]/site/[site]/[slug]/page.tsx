@@ -4,7 +4,7 @@ import serialize from "serialize-javascript"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
-import MarkdownContent from "~/components/common/MarkdownContent"
+import MarkdownContentServer from "~/components/common/MarkdownContentServer"
 import PostCover from "~/components/home/PostCover"
 import { OIAButton } from "~/components/site/OIAButton"
 import { PostFooter } from "~/components/site/PostFooter"
@@ -13,7 +13,6 @@ import PostTitle from "~/components/site/PostTitle"
 import TranslationInfo from "~/components/site/TranslationInfo"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
-import { createHighlighter } from "~/lib/highlighter"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent } from "~/lib/is-only-content"
@@ -155,8 +154,6 @@ export default async function SitePagePage({
     .map((img) => img.address || "")
     .filter(Boolean)
 
-  const highlighter = await createHighlighter()
-
   return (
     <div className="max-w-screen-md mx-auto">
       <script
@@ -203,7 +200,7 @@ export default async function SitePagePage({
                 )}
               </>
             )}
-            <MarkdownContent
+            <MarkdownContentServer
               className="mt-10"
               content={page?.metadata?.content?.content}
               withToc={true}
@@ -211,7 +208,6 @@ export default async function SitePagePage({
               site={site}
               withActions={true}
               onlyContent={onlyContent}
-              highlighter={highlighter}
               codeTheme={site.metadata.content.code_theme}
             />
           </>

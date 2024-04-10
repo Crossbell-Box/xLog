@@ -3,14 +3,13 @@ import { notFound } from "next/navigation"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
-import MarkdownContent from "~/components/common/MarkdownContent"
+import MarkdownContentServer from "~/components/common/MarkdownContentServer"
 import PostCover from "~/components/home/PostCover"
 import PostModal from "~/components/home/PostModal"
 import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import PostTitle from "~/components/site/PostTitle"
 import { SiteHeader } from "~/components/site/SiteHeader"
-import { createHighlighter } from "~/lib/highlighter"
 import { toCid } from "~/lib/ipfs-parser"
 import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
@@ -68,8 +67,6 @@ export default async function SiteModal({
     .map((img) => img.address || "")
     .filter(Boolean)
 
-  const highlighter = await createHighlighter()
-
   return (
     <PostModal handle={site?.handle}>
       <div className="pb-16 overflow-x-hidden overflow-y-scroll">
@@ -122,7 +119,7 @@ export default async function SiteModal({
                     />
                   )}
                 </div>
-                <MarkdownContent
+                <MarkdownContentServer
                   className="mt-10"
                   content={page?.metadata?.content?.content}
                   page={page}
@@ -130,7 +127,6 @@ export default async function SiteModal({
                   withActions={false}
                   onlyContent={onlyContent}
                   codeTheme={site.metadata.content.code_theme}
-                  highlighter={highlighter}
                 />
               </>
             )}
