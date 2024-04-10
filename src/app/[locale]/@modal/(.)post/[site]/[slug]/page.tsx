@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
-import { bundledLanguages, bundledThemes, getHighlighter } from "shiki"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
@@ -11,6 +10,7 @@ import { PostFooter } from "~/components/site/PostFooter"
 import PostMeta from "~/components/site/PostMeta"
 import PostTitle from "~/components/site/PostTitle"
 import { SiteHeader } from "~/components/site/SiteHeader"
+import { createHighlighter } from "~/lib/highlighter"
 import { toCid } from "~/lib/ipfs-parser"
 import { isOnlyContent } from "~/lib/is-only-content"
 import getQueryClient from "~/lib/query-client"
@@ -68,10 +68,7 @@ export default async function SiteModal({
     .map((img) => img.address || "")
     .filter(Boolean)
 
-  const highlighter = await getHighlighter({
-    themes: Object.keys(bundledThemes),
-    langs: Object.keys(bundledLanguages),
-  })
+  const highlighter = await createHighlighter()
 
   return (
     <PostModal handle={site?.handle}>

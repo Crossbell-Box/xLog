@@ -1,4 +1,4 @@
-import { bundledLanguages, bundledThemes, getHighlighter } from "shiki"
+import { createHighlighter } from "~/lib/highlighter"
 
 import MarkdownContent from "./MarkdownContent"
 
@@ -8,10 +8,7 @@ type MarkdownContentServerProps = Omit<
 >
 
 const MarkdownContentServer = async (props: MarkdownContentServerProps) => {
-  const highlighter = await getHighlighter({
-    themes: Object.keys(bundledThemes),
-    langs: Object.keys(bundledLanguages),
-  })
+  const highlighter = await createHighlighter()
   return <MarkdownContent {...props} highlighter={highlighter} />
 }
 

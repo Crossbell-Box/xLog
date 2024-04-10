@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react"
-import {
-  bundledLanguages,
-  bundledThemes,
-  getHighlighter,
-  Highlighter,
-} from "shiki"
+import type { Highlighter } from "shiki"
+
+import { createHighlighter } from "~/lib/highlighter"
 
 export function useHighlighter() {
   const [highlighter, setHighlighter] = useState<Highlighter | undefined>()
   useEffect(() => {
-    getHighlighter({
-      themes: Object.keys(bundledThemes),
-      langs: Object.keys(bundledLanguages),
-    })
+    createHighlighter()
       .then((h) => {
         setHighlighter(h)
       })

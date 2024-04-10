@@ -1,7 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import serialize from "serialize-javascript"
-import { bundledLanguages, bundledThemes, getHighlighter } from "shiki"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
@@ -14,6 +13,7 @@ import PostTitle from "~/components/site/PostTitle"
 import TranslationInfo from "~/components/site/TranslationInfo"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
+import { createHighlighter } from "~/lib/highlighter"
 import { toCid, toGateway } from "~/lib/ipfs-parser"
 import { isInRN } from "~/lib/is-in-rn"
 import { isOnlyContent } from "~/lib/is-only-content"
@@ -155,10 +155,7 @@ export default async function SitePagePage({
     .map((img) => img.address || "")
     .filter(Boolean)
 
-  const highlighter = await getHighlighter({
-    themes: Object.keys(bundledThemes),
-    langs: Object.keys(bundledLanguages),
-  })
+  const highlighter = await createHighlighter()
 
   return (
     <div className="max-w-screen-md mx-auto">
