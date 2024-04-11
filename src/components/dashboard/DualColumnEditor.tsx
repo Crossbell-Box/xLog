@@ -2,6 +2,7 @@ import { useDebounceEffect } from "ahooks"
 import type { Root } from "hast"
 import { useTranslations } from "next-intl"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import type { BundledTheme } from "shiki/themes"
 
 import { EditorView } from "@codemirror/view"
 
@@ -9,6 +10,7 @@ import MarkdownContent from "~/components/common/MarkdownContent"
 import { toolbarShortcuts } from "~/components/dashboard/toolbars"
 import { editorUpload } from "~/components/dashboard/toolbars/Multimedia"
 import CodeMirror from "~/components/ui/CodeMirror"
+import { useHighlighter } from "~/hooks/useHighlighter"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
@@ -19,13 +21,19 @@ export default function DualColumnEditor({
   onCreateEditor,
   isRendering,
   setIsRendering,
+  codeTheme,
 }: {
   initialContent: string
   onChange: (value: string) => void
   onCreateEditor: (view: EditorView) => void
   isRendering: boolean
   setIsRendering: (value: boolean) => void
+  codeTheme?: {
+    light?: BundledTheme
+    dark?: BundledTheme
+  }
 }) {
+  const highlighter = useHighlighter()
   const isMobileLayout = useIsMobileLayout()
   const t = useTranslations()
 
@@ -45,11 +53,17 @@ export default function DualColumnEditor({
 
   useDebounceEffect(
     () => {
-      const result = renderPageContent(values)
+      if (!highlighter) return
+      const result = renderPageContent({
+        content: values,
+        highlighter,
+        strictMode: true,
+        codeTheme,
+      })
       setTree(result.tree)
       setParsedContent(result)
     },
-    [values],
+    [values, codeTheme, highlighter],
     {
       wait: 500,
     },
@@ -234,6 +248,8 @@ export default function DualColumnEditor({
           onMouseEnter={() => {
             setCurrentScrollArea("preview")
           }}
+          highlighter={highlighter}
+          codeTheme={codeTheme}
         />
       )}
     </div>

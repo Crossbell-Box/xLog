@@ -5,6 +5,7 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
+import { bundledThemesInfo } from "shiki/themes"
 
 import { SettingsLayout } from "~/components/dashboard/SettingsLayout"
 import { Button } from "~/components/ui/Button"
@@ -33,6 +34,8 @@ export default function SiteSettingsGeneralPage() {
       ga: "",
       ua: "",
       uh: "",
+      code_theme_light: "",
+      code_theme_dark: "",
     } as {
       icon?: string
       banner?: {
@@ -46,6 +49,8 @@ export default function SiteSettingsGeneralPage() {
       ga: string
       ua: string
       uh: string
+      code_theme_light: string
+      code_theme_dark: string
     },
   })
 
@@ -61,6 +66,10 @@ export default function SiteSettingsGeneralPage() {
       ga: values.ga,
       ua: values.ua,
       uh: values.uh,
+      code_theme: {
+        light: values.code_theme_light,
+        dark: values.code_theme_dark,
+      },
     })
   })
 
@@ -105,6 +114,18 @@ export default function SiteSettingsGeneralPage() {
         form.setValue("ua", site.data.metadata?.content?.ua || "")
       !form.getValues("uh") &&
         form.setValue("uh", site.data.metadata?.content?.uh || "")
+      !form.getValues("code_theme_light") &&
+        form.setValue(
+          "code_theme_light",
+          site.data.metadata?.content?.code_theme?.light ||
+            "github-light-default",
+        )
+      !form.getValues("code_theme_dark") &&
+        form.setValue(
+          "code_theme_dark",
+          site.data.metadata?.content?.code_theme?.dark ||
+            "github-dark-default",
+        )
     }
   }, [site.data, form])
 
@@ -207,6 +228,24 @@ export default function SiteSettingsGeneralPage() {
             rows={2}
             {...form.register("footer")}
             help={t("Support Markdown")}
+          />
+        </div>
+        <div className="mt-5 flex gap-3">
+          <Input
+            label="Code Theme Light"
+            options={bundledThemesInfo
+              .filter((i) => i.type === "light")
+              .map((i) => i.id)}
+            id="code_theme_light"
+            {...form.register("code_theme_light")}
+          />
+          <Input
+            label="Code Theme Dark"
+            options={bundledThemesInfo
+              .filter((i) => i.type === "dark")
+              .map((i) => i.id)}
+            id="code_theme_dark"
+            {...form.register("code_theme_dark")}
           />
         </div>
         <div className="mt-5">

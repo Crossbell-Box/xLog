@@ -95,7 +95,9 @@ export const expandCrossbellNote = async ({
         }
       }
 
-      const rendered = renderPageContent(expandedNote.metadata.content.content)
+      const rendered = renderPageContent({
+        content: expandedNote.metadata.content.content,
+      })
       renderedMetadata = rendered.toMetadata()
       if (keyword) {
         const position = expandedNote.metadata.content.content
@@ -265,6 +267,15 @@ export const expandCrossbellCharacter = async (site: CharacterEntity) => {
       (a: any) => a.trait_type === "xlog_navigation",
     )?.value as string) || "null",
   ) || [{ id: nanoid(), label: "Archives", url: "/archives" }]
+
+  expandedCharacter.metadata.content.code_theme = JSON.parse(
+    (expandedCharacter.metadata?.content?.attributes?.find(
+      (a: any) => a.trait_type === "xlog_code_theme",
+    )?.value as string) || "null",
+  ) || {
+    light: "github-light-default",
+    dark: "github-dark-default",
+  }
 
   const getArribute = (outputKey: string, typeKey: string) => {
     ;(expandedCharacter.metadata.content as any)[outputKey] =

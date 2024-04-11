@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server"
 import Script from "next/script"
 
 import { Logo } from "~/components/common/Logo"
-import MarkdownContent from "~/components/common/MarkdownContent"
+import MarkdownContentServer from "~/components/common/MarkdownContentServer"
 import { SITE_URL } from "~/lib/env"
 import { ExpandedCharacter } from "~/lib/types"
 
@@ -35,7 +35,7 @@ export default async function SiteFooter({
       <footer className="text-zinc-500 border-t">
         <div className="max-w-screen-lg mx-auto px-5 py-10">
           {site?.metadata?.content?.footer && (
-            <MarkdownContent
+            <MarkdownContentServer
               className="[&>.prose]:text-sm"
               content={site.metadata.content.footer}
               strictMode={true}

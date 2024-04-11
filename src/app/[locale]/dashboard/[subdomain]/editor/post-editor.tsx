@@ -500,6 +500,7 @@ export default function PostEditor() {
                     onCreateEditor={onCreateEditor}
                     isRendering={isRendering}
                     setIsRendering={setIsRendering}
+                    codeTheme={site.data?.metadata?.content?.code_theme}
                   />
                 </div>
               </div>

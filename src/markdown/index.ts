@@ -8,14 +8,9 @@ import dynamic from "next/dynamic"
 import { toast } from "react-hot-toast"
 // @ts-expect-error: untyped.
 import { Fragment, jsx, jsxs } from "react/jsx-runtime"
-import { refractor } from "refractor"
-import langJsx from "refractor/lang/jsx"
-import langSolidity from "refractor/lang/solidity"
-import langTsx from "refractor/lang/tsx"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import rehypeKatex from "rehype-katex"
-import rehypePrismGenerator from "rehype-prism-plus/generator"
 import rehypeRaw from "rehype-raw"
 import rehypeSanitize from "rehype-sanitize"
 import rehypeSlug from "rehype-slug"
@@ -29,12 +24,16 @@ import remarkGithubAlerts from "remark-github-alerts"
 import remarkMath from "remark-math"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
+import type { Highlighter } from "shiki"
+import type { BundledTheme } from "shiki/themes"
 import { unified } from "unified"
 import { visit } from "unist-util-visit"
 import { VFile } from "vfile"
 
 // @ts-expect-error
 import remarkCalloutDirectives from "@microflash/remark-callout-directives"
+import rehypeShikiFromHighlighter from "@shikijs/rehype/core"
+import { transformerMetaHighlight } from "@shikijs/transformers"
 
 import AdvancedImage from "~/components/ui/AdvancedImage"
 import { isServerSide } from "~/lib/utils"
@@ -62,13 +61,20 @@ const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"))
 const RSS = dynamic(() => import("~/components/ui/RSS"))
 
-refractor.alias("html", ["svelte", "vue"])
-refractor.register(langTsx)
-refractor.register(langJsx)
-refractor.register(langSolidity)
-const rehypePrism = rehypePrismGenerator(refractor)
-
-export const renderPageContent = (content: string, strictMode?: boolean) => {
+export const renderPageContent = ({
+  content,
+  highlighter,
+  strictMode,
+  codeTheme,
+}: {
+  content: string
+  highlighter?: Highlighter
+  strictMode?: boolean
+  codeTheme?: {
+    light?: BundledTheme
+    dark?: BundledTheme
+  }
+}) => {
   let hastTree: HashRoot | undefined = undefined
   let mdastTree: MdashRoot | undefined = undefined
 
@@ -122,10 +128,20 @@ export const renderPageContent = (content: string, strictMode?: boolean) => {
         transformers,
       })
       .use(rehypeRemoveH1)
-      .use(rehypePrism, {
-        ignoreMissing: true,
-        showLineNumbers: true,
+
+    if (highlighter) {
+      pipeline.use(rehypeShikiFromHighlighter, highlighter, {
+        themes: codeTheme ?? {
+          light: "github-light-default",
+          dark: "github-dark-default",
+        },
+        onError: (e) => {
+          console.error(e)
+        },
+        transformers: [transformerMetaHighlight()],
       })
+    }
+    pipeline
       .use(rehypeKatex, {
         strict: false,
       })

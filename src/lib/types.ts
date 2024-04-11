@@ -1,4 +1,5 @@
 import type { CharacterEntity, NoteEntity } from "crossbell"
+import type { BundledTheme } from "shiki/themes"
 
 export type Language = Readonly<"en" | "zh" | "zh-TW" | "ja">
 
@@ -127,6 +128,10 @@ export type ExpandedCharacter = CharacterEntity & {
       uh?: string
       custom_domain?: string
       site_name?: string
+      code_theme?: {
+        light?: BundledTheme
+        dark?: BundledTheme
+      }
     }
   }
 }

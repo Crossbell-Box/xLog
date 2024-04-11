@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
-import MarkdownContent from "~/components/common/MarkdownContent"
+import MarkdownContentServer from "~/components/common/MarkdownContentServer"
 import PostCover from "~/components/home/PostCover"
 import PostModal from "~/components/home/PostModal"
 import { PostFooter } from "~/components/site/PostFooter"
@@ -119,13 +119,14 @@ export default async function SiteModal({
                     />
                   )}
                 </div>
-                <MarkdownContent
+                <MarkdownContentServer
                   className="mt-10"
                   content={page?.metadata?.content?.content}
                   page={page}
                   site={site}
                   withActions={false}
                   onlyContent={onlyContent}
+                  codeTheme={site.metadata.content.code_theme}
                 />
               </>
             )}

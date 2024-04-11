@@ -4,7 +4,7 @@ import serialize from "serialize-javascript"
 
 import { dehydrate, Hydrate } from "@tanstack/react-query"
 
-import MarkdownContent from "~/components/common/MarkdownContent"
+import MarkdownContentServer from "~/components/common/MarkdownContentServer"
 import PostCover from "~/components/home/PostCover"
 import { OIAButton } from "~/components/site/OIAButton"
 import { PostFooter } from "~/components/site/PostFooter"
@@ -200,7 +200,7 @@ export default async function SitePagePage({
                 )}
               </>
             )}
-            <MarkdownContent
+            <MarkdownContentServer
               className="mt-10"
               content={page?.metadata?.content?.content}
               withToc={true}
@@ -208,6 +208,7 @@ export default async function SitePagePage({
               site={site}
               withActions={true}
               onlyContent={onlyContent}
+              codeTheme={site.metadata.content.code_theme}
             />
           </>
         )}

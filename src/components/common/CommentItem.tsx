@@ -18,6 +18,7 @@ import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
+import { useHighlighter } from "~/hooks/useHighlighter"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { cn } from "~/lib/utils"
@@ -56,6 +57,8 @@ export const CommentItem = ({
       originalNoteId,
     ])
   }, [deletePage.isSuccess, originalCharacterId, originalNoteId, queryClient])
+
+  const highlighter = useHighlighter()
 
   if (!comment.metadata?.content?.content) {
     return null
@@ -139,6 +142,7 @@ export const CommentItem = ({
           <MarkdownContent
             content={comment.metadata?.content?.content}
             strictMode={true}
+            highlighter={highlighter}
           ></MarkdownContent>
           <div className="mt-1 flex items-center">
             <div
