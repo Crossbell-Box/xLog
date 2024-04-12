@@ -160,7 +160,7 @@
   "devDependencies": {
     "@egoist/tailwindcss-icons": "1.7.4",
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
-    "@next/bundle-analyzer": "14.1.0",
+    "@next/bundle-analyzer": "14.2.0",
     "@types/async-lock": "1.4.2",
     "@types/canvas-confetti": "1.6.4",
     "@types/chroma-js": "2.4.4",
