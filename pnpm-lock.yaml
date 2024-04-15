@@ -396,8 +396,8 @@ devDependencies:
     specifier: 4.1.1
     version: 4.1.1(prettier@3.2.5)
   '@next/bundle-analyzer':
-    specifier: 14.1.0
-    version: 14.1.0
+    specifier: 14.2.1
+    version: 14.2.1
   '@types/async-lock':
     specifier: 1.4.2
     version: 1.4.2
@@ -2746,8 +2746,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@next/bundle-analyzer@14.1.0:
-    resolution: {integrity: sha512-RJWjnlMp/1WSW0ahAdawV22WgJiC6BVaFS5Xfhw6gP7NJEX3cAJjh4JqSHKGr8GnLNRaFCVTQdDPoX84E421BA==}
+  /@next/bundle-analyzer@14.2.1:
+    resolution: {integrity: sha512-Qwy3Mu/dfnu4rs2xzCy7gKZlwzZzYtiq/rjPcK/7xq3BHSyLthkHf1NAF8NNfjVTouDwo2KchisHrmAamUNWWw==}
     dependencies:
       webpack-bundle-analyzer: 4.10.1
     transitivePeerDependencies:
