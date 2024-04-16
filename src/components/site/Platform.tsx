@@ -1,5 +1,6 @@
 "use client"
 
+import { useDebounceEffect } from "ahooks"
 import { useEffect, useState } from "react"
 
 import { Tooltip } from "~/components/ui/Tooltip"
@@ -172,9 +173,19 @@ export const Platform = ({
   className?: string
 }) => {
   platform = platform.toLowerCase()
-  let link = PlatformsSyncMap[platform]?.url
 
-  switch (platform) {
+  const [debouncePlatform, setDebouncePlatform] = useState(platform)
+  useDebounceEffect(
+    () => {
+      setDebouncePlatform(platform)
+    },
+    [platform],
+    { wait: 500 },
+  )
+
+  let link = PlatformsSyncMap[debouncePlatform]?.url
+
+  switch (debouncePlatform) {
     case "mastodon":
     case "misskey":
     case "pleroma":
@@ -190,7 +201,7 @@ export const Platform = ({
 
   useEffect(() => {
     setShowImg(true)
-  }, [platform])
+  }, [debouncePlatform])
 
   return (
     <UniLink
@@ -198,19 +209,22 @@ export const Platform = ({
         "size-5 inline-flex hover:scale-110 ease align-middle mr-3 sm:mr-6 transition-transform",
         className,
       )}
-      key={platform + username}
+      key={debouncePlatform + username}
       href={link}
     >
       <Tooltip
-        label={`${PlatformsSyncMap[platform]?.name || platform}: ${username}`}
+        label={`${PlatformsSyncMap[debouncePlatform]?.name || debouncePlatform}: ${username}`}
         className="text-sm"
       >
         <span className="inline-flex items-center">
           {showImg ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={PlatformsSyncMap[platform]?.icon || `${iconCDN}/${platform}`}
-              alt={platform}
+              src={
+                PlatformsSyncMap[debouncePlatform]?.icon ||
+                `${iconCDN}/${debouncePlatform}`
+              }
+              alt={debouncePlatform}
               width={20}
               height={20}
               onError={() => setShowImg(false)}
