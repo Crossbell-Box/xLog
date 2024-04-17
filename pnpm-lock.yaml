@@ -1076,7 +1076,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dependencies:
       '@metamask/safe-event-emitter': 2.0.0
-      '@solana/web3.js': 1.87.6
+      '@solana/web3.js': 1.91.6
       bind-decorator: 1.0.11
       bn.js: 5.2.1
       buffer: 6.0.3
@@ -3657,8 +3657,8 @@ packages:
       buffer: 6.0.3
     dev: false
 
-  /@solana/web3.js@1.87.6:
-    resolution: {integrity: sha512-LkqsEBgTZztFiccZZXnawWa8qNCATEqE97/d0vIwjTclmVlc8pBpD1DmjfVHtZ1HS5fZorFlVhXfpwnCNDZfyg==}
+  /@solana/web3.js@1.91.6:
+    resolution: {integrity: sha512-dm20nN6HQvXToo+kM51nxHdtaa2wMSRdeK37p+WIWESfeiVHqV8XbV4XnWupq6ngt5vIckhGFG7ZnTBxUgLzDA==}
     dependencies:
       '@babel/runtime': 7.23.9
       '@noble/curves': 1.3.0
