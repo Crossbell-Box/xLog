@@ -109,8 +109,8 @@ dependencies:
     specifier: 4.21.22
     version: 4.21.22(@codemirror/view@6.24.1)
   '@urql/core':
-    specifier: 4.2.3
-    version: 4.2.3
+    specifier: 5.0.1
+    version: 5.0.1
   '@vercel/otel':
     specifier: 1.3.0
     version: 1.3.0(@opentelemetry/api-logs@0.46.0)(@opentelemetry/api@1.7.0)
@@ -506,8 +506,8 @@ devDependencies:
 
 packages:
 
-  /@0no-co/graphql.web@1.0.4:
-    resolution: {integrity: sha512-W3ezhHGfO0MS1PtGloaTpg0PbaT8aZSmmaerL7idtU5F7oCI+uu25k+MsMS31BVFlp4aMkHSrNRxiD72IlK8TA==}
+  /@0no-co/graphql.web@1.0.7:
+    resolution: {integrity: sha512-E3Qku4mTzdrlwVWGPxklDnME5ANrEGetvYw4i2GCRlppWXXE4QD66j7pwb8HelZwS6LnqEChhrSOGCXpbiu6MQ==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
     peerDependenciesMeta:
@@ -4141,10 +4141,10 @@ packages:
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  /@urql/core@4.2.3:
-    resolution: {integrity: sha512-DJ9q9+lcs5JL8DcU2J3NqsgeXYJva+1+Qt8HU94kzTPqVOIRRA7ouvy4ksUfPY+B5G2PQ+vLh+JJGyZCNXv0cg==}
+  /@urql/core@5.0.1:
+    resolution: {integrity: sha512-bTtJDbPGF7UNynGt0E0DgokBeGUL9IU33+k7s/c6dvBUjwO2mOxB0GWNe7fhUcqIJAU1sONYkabTep/OGaxhsQ==}
     dependencies:
-      '@0no-co/graphql.web': 1.0.4
+      '@0no-co/graphql.web': 1.0.7
       wonka: 6.3.4
     transitivePeerDependencies:
       - graphql
