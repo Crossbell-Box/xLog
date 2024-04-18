@@ -178,7 +178,7 @@
     "autoprefixer": "10.4.17",
     "cspell": "8.4.0",
     "eslint": "8.56.0",
-    "eslint-config-next": "14.1.0",
+    "eslint-config-next": "14.2.2",
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-tailwindcss": "3.14.2",
