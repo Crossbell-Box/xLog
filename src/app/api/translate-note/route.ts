@@ -6,6 +6,7 @@ import { PromptTemplate } from "langchain/prompts"
 import { Metadata } from "@prisma/client"
 
 import { languageNames } from "~/i18n"
+import { detectLanguage } from "~/lib/detect-lang"
 import { toGateway } from "~/lib/ipfs-parser"
 import { llmModelSwitcherByTextLength } from "~/lib/llm-model-switcher-by-text-length"
 import prisma from "~/lib/prisma.server"
@@ -38,10 +39,17 @@ if (process.env.OPENAI_API_KEY) {
 type ChainKeyType = `${4 | 16}k_${Language}` // e.g. "4k_en" | "4k_zh" | "4k_zh-TW" | "4k_ja" | "16k_en" | "16k_zh" | "16k_zh-TW" | "16k_ja"
 const translationChains = new Map<ChainKeyType, LLMChain>()
 
-const getOriginalTranslation = async (
-  cid: string,
-  targetLang: Language,
-): Promise<ContentTranslation | undefined> => {
+const getOriginalTranslation = async ({
+  cid,
+  toLang,
+  fromLang,
+}: {
+  cid: string
+  toLang: Language
+  fromLang?: Language
+}): Promise<ContentTranslation | undefined> => {
+  if (fromLang === toLang) return
+
   if (!translationModel4K || !translationModel16K) return
 
   try {
@@ -49,19 +57,21 @@ const getOriginalTranslation = async (
       await fetch(toGateway(`ipfs://${cid}`))
     ).json()
 
-    console.time(`fetching translation ${cid}, ${targetLang}`)
+    if (!fromLang && detectLanguage(title + content) === toLang) return
+
+    console.time(`fetching translation ${cid}, ${toLang}`)
     const { modelSize, tokens } = llmModelSwitcherByTextLength(content, {
-      includeResponse: { lang: targetLang },
+      includeResponse: { lang: toLang },
     })
 
     if (!modelSize) {
       console.error(
-        `|__ Error: Content too long for translation: ${cid}, ${targetLang}. (Tokens: ${tokens})`,
+        `|__ Error: Content too long for translation: ${cid}, ${toLang}. (Tokens: ${tokens})`,
       )
       return
     }
 
-    let chain = translationChains.get(`${modelSize}_${targetLang}`)
+    let chain = translationChains.get(`${modelSize}_${toLang}`)
 
     if (!chain) {
       const template = `
@@ -81,7 +91,7 @@ You are a Markdown translation expert. During the translation process, you need 
 
 IMPORTANT: ONLY RETURN TRANSLATED TEXT AND NOTHING ELSE.
 
-Translate the following text to ${languageNames[targetLang]} language:
+Translate the following text to ${languageNames[toLang]} language:
 
 {text}
 `
@@ -96,7 +106,7 @@ Translate the following text to ${languageNames[targetLang]} language:
 
       chain = new LLMChain({ llm: translateModel, prompt })
 
-      translationChains.set(`${modelSize}_${targetLang}`, chain)
+      translationChains.set(`${modelSize}_${toLang}`, chain)
     }
 
     const t =
@@ -109,7 +119,7 @@ Translate the following text to ${languageNames[targetLang]} language:
         ? { text: "" }
         : await chain.call({ text: content })
 
-    console.timeEnd(`fetching translation ${cid}, ${targetLang}`)
+    console.timeEnd(`fetching translation ${cid}, ${toLang}`)
 
     return {
       title: t.text,
@@ -117,23 +127,19 @@ Translate the following text to ${languageNames[targetLang]} language:
     }
   } catch (error) {
     console.error(error)
-    console.timeEnd(`fetching translation ${cid}, ${targetLang}`)
+    console.timeEnd(`fetching translation ${cid}, ${toLang}`)
   }
 }
 
 async function getTranslation({
   cid,
+  toLang,
   fromLang,
-  toLang = "en",
 }: {
   cid: string
+  toLang: Language
   fromLang?: Language
-  toLang?: Language
 }): Promise<ContentTranslation | undefined> {
-  if (fromLang === toLang) {
-    return undefined
-  }
-
   const translatedContent = (await cacheGet({
     key: ["translation", cid, toLang],
     allowEmpty: true,
@@ -159,7 +165,11 @@ async function getTranslation({
         if (translatedJson) {
           result = translatedJson
         } else {
-          const newTranslation = await getOriginalTranslation(cid, toLang)
+          const newTranslation = await getOriginalTranslation({
+            cid,
+            toLang,
+            fromLang,
+          })
           if (newTranslation) {
             /**
              * e.g.
@@ -215,7 +225,11 @@ export async function GET(req: Request): Promise<Response> {
   const res = new NextServerResponse()
 
   if (!cid) {
-    return res.status(400).send("Bad Request")
+    return res.status(400).json({ error: "Missing cid" })
+  }
+
+  if (!toLang) {
+    return res.status(400).json({ error: "Missing toLang" })
   }
 
   return res.status(200).json({
