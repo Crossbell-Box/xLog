@@ -89,13 +89,17 @@ const chains = new Map<string, AnalyzeDocumentChain>()
 const getOriginalSummary = async ({
   cid,
   lang,
+  content: _content,
 }: {
   cid: string
+  content?: string
   lang?: string
 }) => {
   if (!model) return
   try {
-    let { content } = await (await fetch(toGateway(`ipfs://${cid}`))).json()
+    let content: string =
+      _content ??
+      (await (await fetch(toGateway(`ipfs://${cid}`))).json()).content
 
     if (content?.length > 5000) {
       content = content.slice(0, 5000)
@@ -146,18 +150,26 @@ const lock = new AsyncLock()
 
 export async function getSummary({
   cid,
-  lang,
+  lang: _lang,
 }: {
   cid: string
   lang?: string
 }) {
+  let lang = _lang ?? ""
+  let content: string | undefined
+  if (!lang) {
+    content = (await (await fetch(toGateway(`ipfs://${cid}`))).json())
+      .content as string
+    lang = detectLanguage(content)
+  }
+
   const summary = (await cacheGet({
     key: ["summary", cid, lang],
     allowEmpty: true,
     noUpdate: true,
     noExpire: true,
     getValueFun: async () => {
-      if (!lang || locales.includes(lang as Language)) {
+      if (locales.includes(lang as Language)) {
         let result
         await lock.acquire(cid, async () => {
           const meta = await prisma.metadata.findFirst({
@@ -165,12 +177,12 @@ export async function getSummary({
               uri: `ipfs://${cid}`,
             },
           })
-          const key = `ai_summary_${lang?.replace("-", "").toLowerCase()}`
+          const key = `ai_summary_${lang.replace("-", "").toLowerCase()}`
           if (meta) {
             if (meta?.[key as keyof Metadata]) {
               result = meta?.[key as keyof Metadata]
             } else {
-              const summary = await getOriginalSummary({ cid, lang })
+              const summary = await getOriginalSummary({ cid, lang, content })
               if (summary) {
                 await prisma.metadata.update({
                   where: {
@@ -184,7 +196,7 @@ export async function getSummary({
               }
             }
           } else {
-            const summary = await getOriginalSummary({ cid, lang })
+            const summary = await getOriginalSummary({ cid, lang, content })
             if (summary) {
               await prisma.metadata.create({
                 data: {
