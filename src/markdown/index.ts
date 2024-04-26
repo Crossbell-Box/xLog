@@ -6,7 +6,6 @@ import type { Root as MdashRoot } from "mdast"
 import { toc } from "mdast-util-toc"
 import dynamic from "next/dynamic"
 import { toast } from "react-hot-toast"
-// @ts-expect-error: untyped.
 import { Fragment, jsx, jsxs } from "react/jsx-runtime"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
@@ -189,7 +188,9 @@ export const renderPageContent = ({
           rss: RSS,
         },
         ignoreInvalidStyle: true,
+        // @ts-expect-error: untyped.
         jsx,
+        // @ts-expect-error: untyped.
         jsxs,
         passNode: true,
       }),
