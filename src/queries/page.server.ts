@@ -158,8 +158,8 @@ export async function getSummary({
   let lang = _lang ?? ""
   let content: string | undefined
   if (!lang) {
-    const page = await fetch(toGateway(`ipfs://${cid}`))
-    content = (await page.json()).content as string
+    content = (await (await fetch(toGateway(`ipfs://${cid}`))).json())
+      .content as string
     lang = detectLanguage(content)
   }
 
