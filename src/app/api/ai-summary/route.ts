@@ -11,7 +11,7 @@ export async function GET(req: Request): Promise<Response> {
   try {
     const summary = await getSummary({
       cid: query.cid,
-      lang: String(query.lang),
+      lang: query.lang,
     })
     return res.status(200).json({ summary })
   } catch (error) {
