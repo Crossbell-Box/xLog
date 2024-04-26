@@ -155,11 +155,13 @@ export async function getSummary({
   cid: string
   lang?: string
 }) {
-  const lang =
-    _lang ??
-    detectLanguage(
-      (await (await fetch(toGateway(`ipfs://${cid}`))).json()).content,
-    )
+  let lang = _lang ?? ""
+  let content: string | undefined
+  if (!lang) {
+    const page = await fetch(toGateway(`ipfs://${cid}`))
+    content = (await page.json()).content as string
+    lang = detectLanguage(content)
+  }
 
   const summary = (await cacheGet({
     key: ["summary", cid, lang],
@@ -180,7 +182,7 @@ export async function getSummary({
             if (meta?.[key as keyof Metadata]) {
               result = meta?.[key as keyof Metadata]
             } else {
-              const summary = await getOriginalSummary({ cid, lang })
+              const summary = await getOriginalSummary({ cid, lang, content })
               if (summary) {
                 await prisma.metadata.update({
                   where: {
@@ -194,7 +196,7 @@ export async function getSummary({
               }
             }
           } else {
-            const summary = await getOriginalSummary({ cid, lang })
+            const summary = await getOriginalSummary({ cid, lang, content })
             if (summary) {
               await prisma.metadata.create({
                 data: {
