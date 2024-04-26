@@ -156,7 +156,7 @@ export async function getSummary({
   lang?: string
 }) {
   const lang =
-    _lang?.replace("-", "").toLowerCase() ??
+    _lang ??
     detectLanguage(
       (await (await fetch(toGateway(`ipfs://${cid}`))).json()).content,
     )
