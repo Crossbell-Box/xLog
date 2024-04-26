@@ -485,8 +485,8 @@ importers:
         specifier: 16.1.0
         version: 16.1.0(postcss@8.4.38)
       postcss-preset-mantine:
-        specifier: 1.14.4
-        version: 1.14.4(postcss@8.4.38)
+        specifier: 1.15.0
+        version: 1.15.0(postcss@8.4.38)
       postcss-prune-var:
         specifier: 1.1.2
         version: 1.1.2
@@ -5648,8 +5648,8 @@ packages:
     peerDependencies:
       postcss: ^8.2.14
 
-  postcss-preset-mantine@1.14.4:
-    resolution: {integrity: sha512-T1K3MVhU1hA9mJWfqoGvMcK5WKcHpVi4JUX6AYTbESvp78WneB/KFONUi+eXDG9Lpw62W/KNxEYl1ic3Dpm88w==}
+  postcss-preset-mantine@1.15.0:
+    resolution: {integrity: sha512-OKPs6uoORSXlU/GFH1ZtFaslecHBPwuoSikdL5W3WKJm4ZPAQM0mw9x9m3toa/Mo1JhoBmYMM28i+zEdav5Edg==}
     peerDependencies:
       postcss: '>=8.0.0'
 
@@ -13578,7 +13578,7 @@ snapshots:
       postcss: 8.4.38
       postcss-selector-parser: 6.0.16
 
-  postcss-preset-mantine@1.14.4(postcss@8.4.38):
+  postcss-preset-mantine@1.15.0(postcss@8.4.38):
     dependencies:
       postcss: 8.4.38
       postcss-mixins: 9.0.4(postcss@8.4.38)
