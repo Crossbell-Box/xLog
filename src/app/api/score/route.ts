@@ -9,9 +9,9 @@ import { getQuery, NextServerResponse } from "~/lib/server-helper"
 
 let openai: OpenAI | undefined
 if (process.env.OPENAI_API_KEY) {
-  openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  })
+  // openai = new OpenAI({
+  //   apiKey: process.env.OPENAI_API_KEY,
+  // })
 }
 
 const lock = new AsyncLock()
@@ -60,7 +60,7 @@ ${content}
 --------`,
           },
         ],
-        model: "gpt-4-1106-preview",
+        model: "gpt-3.5-turbo",
         temperature: 0,
         response_format: { type: "json_object" },
       })
