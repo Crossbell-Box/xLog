@@ -728,6 +728,11 @@ export async function getFeed({
                   createdAt: {
                     gt: "${restrictedDate.toISOString()}",
                   },
+                  stat: {
+                    viewDetailCount: {
+                      gt: 10
+                    },
+                  },
                   metadata: {
                     content: {
                       path: "sources",
@@ -742,6 +747,11 @@ export async function getFeed({
                       content: {
                         path: "tags",
                         array_starts_with: "short" # TODO: remove this
+                      }
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_starts_with: "portfolio"
                       }
                     }]
                   },
