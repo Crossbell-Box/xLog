@@ -205,8 +205,8 @@ importers:
         specifier: 0.16.10
         version: 0.16.10
       langchain:
-        specifier: 0.1.36
-        version: 0.1.36(axios@1.6.8)(cheerio@1.0.0-rc.12)(d3-dsv@3.0.1)(ignore@5.3.1)(ioredis@5.4.1)(jsdom@24.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))(lodash@4.17.21)(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))
+        specifier: 0.1.37
+        version: 0.1.37(axios@1.6.8)(cheerio@1.0.0-rc.12)(ignore@5.3.1)(ioredis@5.4.1)(jsdom@24.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))(lodash@4.17.21)(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))
       lottie-react:
         specifier: 2.4.0
         version: 2.4.0(react-dom@18.3.0(react@18.3.0))(react@18.3.0)
@@ -4587,8 +4587,8 @@ packages:
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
 
-  langchain@0.1.36:
-    resolution: {integrity: sha512-NTbnCL/jKWIeEI//Nm1oG8nhW3vkYWvEMr1MPotmTThTfeKfO87eV/OAzAyh6Ruy6GFs/qofRgQZGIe6XvXTNQ==}
+  langchain@0.1.37:
+    resolution: {integrity: sha512-rpaLEJtRrLYhAViEp7/aHfSkxbgSqHJ5n10tXv3o4kHP/wOin85RpTgewwvGjEaKc3797jOg+sLSk6a7e0UlMg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
@@ -4596,6 +4596,7 @@ packages:
       '@aws-sdk/client-sfn': ^3.310.0
       '@aws-sdk/credential-provider-node': ^3.388.0
       '@azure/storage-blob': ^12.15.0
+      '@browserbasehq/sdk': '*'
       '@gomomento/sdk': ^1.51.1
       '@gomomento/sdk-core': ^1.51.1
       '@gomomento/sdk-web': ^1.51.1
@@ -4653,6 +4654,8 @@ packages:
       '@aws-sdk/credential-provider-node':
         optional: true
       '@azure/storage-blob':
+        optional: true
+      '@browserbasehq/sdk':
         optional: true
       '@gomomento/sdk':
         optional: true
@@ -12198,7 +12201,7 @@ snapshots:
 
   kolorist@1.8.0: {}
 
-  langchain@0.1.36(axios@1.6.8)(cheerio@1.0.0-rc.12)(d3-dsv@3.0.1)(ignore@5.3.1)(ioredis@5.4.1)(jsdom@24.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))(lodash@4.17.21)(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)):
+  langchain@0.1.37(axios@1.6.8)(cheerio@1.0.0-rc.12)(ignore@5.3.1)(ioredis@5.4.1)(jsdom@24.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))(lodash@4.17.21)(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)):
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
       '@langchain/community': 0.0.52(ioredis@5.4.1)(jsdom@24.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))(lodash@4.17.21)(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))
@@ -12221,7 +12224,6 @@ snapshots:
     optionalDependencies:
       axios: 1.6.8
       cheerio: 1.0.0-rc.12
-      d3-dsv: 3.0.1
       ignore: 5.3.1
       ioredis: 5.4.1
       jsdom: 24.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
