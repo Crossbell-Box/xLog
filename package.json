@@ -60,7 +60,7 @@
     "@popperjs/core": "2.11.8",
     "@prisma/client": "5.13.0",
     "@shikijs/rehype": "^1.5.1",
-    "@shikijs/transformers": "^1.5.1",
+    "@shikijs/transformers": "^1.5.2",
     "@supercharge/request-ip": "1.2.0",
     "@tanstack/react-query": "4.36.1",
     "@uiw/codemirror-extensions-events": "4.22.0",
