@@ -4,6 +4,7 @@
   "description": "An open-source creative community written on the blockchain.",
   "license": "AGPL-3.0",
   "sideEffects": false,
+  "packageManager": "pnpm@9.1.1",
   "scripts": {
     "build": "next build",
     "dev": "next -p 2222",
