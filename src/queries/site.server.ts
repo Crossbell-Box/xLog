@@ -209,10 +209,7 @@ export const getCharacterColors = async (character?: ExpandedCharacter) => {
           )[0] === "image"
         ) {
           const color = await getAverageColor(
-            toGateway(
-              character.metadata.content.banners[0].address,
-              "https://cloudflare-ipfs.com/ipfs/",
-            ),
+            toGateway(character.metadata.content.banners[0].address),
           )
           colors = {
             dark: {
@@ -234,10 +231,7 @@ export const getCharacterColors = async (character?: ExpandedCharacter) => {
           }
         } else if (character.metadata?.content?.avatars?.[0]) {
           const color = await getAverageColor(
-            toGateway(
-              character.metadata.content.avatars[0],
-              "https://cloudflare-ipfs.com/ipfs/",
-            ),
+            toGateway(character.metadata.content.avatars[0]),
           )
           colors = {
             dark: {
