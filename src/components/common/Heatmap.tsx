@@ -36,6 +36,8 @@ export default function CalHeatmap({ characterId }: { characterId?: number }) {
                         <li key={`${day.day}${index}`} className="text-xs">
                           {m.slug ? (
                             <a
+                              target="_blank"
+                              rel="noreferrer"
                               href={
                                 getSiteLink({
                                   subdomain,
