@@ -1,7 +1,8 @@
 "use client"
 
 import { AnimatePresence, m } from "framer-motion"
-import { useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { flushSync } from "react-dom"
 
 import {
   autoUpdate,
@@ -9,6 +10,7 @@ import {
   offset,
   Placement,
   shift,
+  size,
   useDismiss,
   useFloating,
   useFocus,
@@ -26,6 +28,7 @@ interface Props {
   className?: string
   inline?: boolean
   childrenClassName?: string
+  debug?: string
 }
 
 export const Tooltip = ({
@@ -35,14 +38,27 @@ export const Tooltip = ({
   className,
   childrenClassName,
   inline,
+  debug,
 }: Props) => {
   const [open, setOpen] = useState(false)
+  const [maxHeight, setMaxHeight] = useState<number>()
 
   const { floatingStyles, refs, context } = useFloating({
     placement,
     open,
     onOpenChange: setOpen,
-    middleware: [offset(5), flip(), shift({ padding: 8 })],
+    middleware: [
+      offset(5),
+      flip(),
+      shift({ padding: 8 }),
+      size({
+        apply({ availableHeight }) {
+          flushSync(() =>
+            setMaxHeight(availableHeight ? availableHeight - 20 : undefined),
+          )
+        },
+      }),
+    ],
     whileElementsMounted: autoUpdate,
     transform: false,
   })
@@ -53,6 +69,30 @@ export const Tooltip = ({
     useRole(context, { role: "tooltip" }),
     useDismiss(context),
   ])
+
+  const doPopoverDisappear = useCallback(() => {
+    if (debug) {
+      return
+    }
+    setOpen(false)
+  }, [debug])
+
+  const doPopoverShow = useCallback(() => {
+    setOpen(true)
+  }, [setOpen])
+
+  useEffect(() => {
+    if (refs.floating.current && open) {
+      refs.floating.current.focus()
+    }
+  }, [open])
+
+  const listener = useMemo(() => {
+    return {
+      onMouseOver: doPopoverShow,
+      onMouseOut: doPopoverDisappear,
+    }
+  }, [doPopoverDisappear, doPopoverShow])
 
   return (
     <>
@@ -71,14 +111,16 @@ export const Tooltip = ({
         {open && (
           <m.div
             ref={refs.setFloating}
-            style={floatingStyles}
+            style={{ ...floatingStyles, maxHeight }}
             className={cn(
               "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1 whitespace-nowrap",
+              "overflow-auto",
               className,
             )}
             initial={{ translateY: "10px", opacity: 0 }}
             animate={{ translateY: "0px", opacity: 1 }}
             exit={{ translateY: "10px", opacity: 0 }}
+            {...listener}
             {...getFloatingProps()}
           >
             {label}

@@ -385,8 +385,21 @@ export async function getPagesBySite(input: {
 
   return expandedNotes
 }
+type CalendarMap = {
+  [key: string]: {
+    day: dayjs.Dayjs
+    count: number
+    titles: string[]
 
-export async function getCalendar(characterId?: number) {
+    meta: {
+      title: string
+      slug?: string
+    }[]
+  }[]
+}
+export async function getCalendar(
+  characterId?: number,
+): Promise<{ calendar: CalendarMap[string][] }> {
   if (!characterId) {
     return {
       calendar: [],
@@ -405,13 +418,7 @@ export async function getCalendar(characterId?: number) {
 
   const calendarLength = 370
   const getCalendarTemp = () => {
-    const calendar: {
-      [key: string]: {
-        day: dayjs.Dayjs
-        count: number
-        titles: string[]
-      }[]
-    } = {}
+    const calendar: CalendarMap = {}
     for (let i = calendarLength - 1; i >= 0; i--) {
       const day = dayjs().subtract(i, "day")
       let week = format(day)
@@ -422,6 +429,7 @@ export async function getCalendar(characterId?: number) {
         day: day,
         count: 0,
         titles: [],
+        meta: [],
       })
     }
     return calendar
@@ -469,6 +477,7 @@ export async function getCalendar(characterId?: number) {
     const today = response.calendar[week].find((item: any) =>
       item.day.isSame(day, "day"),
     )
+
     if (today) {
       today.count++
       today.titles.push(
@@ -477,6 +486,14 @@ export async function getCalendar(characterId?: number) {
           data.notes[i].metadata.content.content
         ).slice(0, 20),
       )
+
+      today.meta.push({
+        title: (
+          data.notes[i].metadata.content.title ||
+          data.notes[i].metadata.content.content
+        ).slice(0, 20),
+        slug: getNoteSlug(data.notes[i]),
+      })
     } else {
       console.warn("not found", day)
     }

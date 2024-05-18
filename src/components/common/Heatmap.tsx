@@ -1,35 +1,59 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import { useParams } from "next/navigation"
 
 import { Tooltip } from "~/components/ui/Tooltip"
 import dayjs from "~/lib/dayjs"
+import { getSiteLink } from "~/lib/helpers"
 import { useCalendar } from "~/queries/page"
+import { useGetSite } from "~/queries/site"
 
 export default function CalHeatmap({ characterId }: { characterId?: number }) {
   const calendar = useCalendar(characterId)
   const t = useTranslations()
 
+  const params = useParams()
+  const subdomain = params?.subdomain as string
+  const site = useGetSite(subdomain)
+
   return (
     <div className="overflow-x-auto">
       <div className="flex sm:gap-1 gap-[2px]">
-        {calendar.data?.calendar.map((week: any, index: number) => (
+        {calendar.data?.calendar.map((week, index: number) => (
           <div className="flex sm:gap-1 gap-[2px] flex-col" key={index}>
-            {week.map((day: any) => (
+            {week.map((day) => (
               <Tooltip
-                key={day.day}
+                key={day.day.valueOf()}
                 label={
                   <>
-                    <p>
+                    <p className="mb-2">
                       {day.count} {t("on-chain posting on")}{" "}
                       {dayjs(day.day).format("MMM DD, YYYY")}
                     </p>
-                    {(() =>
-                      day.titles.map((title: string) => (
-                        <p key={`${day.day}${index}`} className="text-xs">
-                          {title}
-                        </p>
-                      )))()}
+                    <ul className="space-y-1">
+                      {day.meta.map((m) => (
+                        <li key={`${day.day}${index}`} className="text-xs">
+                          {m.slug ? (
+                            <a
+                              href={
+                                getSiteLink({
+                                  subdomain,
+                                  domain:
+                                    site.data?.metadata?.content?.custom_domain,
+                                }) +
+                                "/" +
+                                m.slug
+                              }
+                            >
+                              {m.title}
+                            </a>
+                          ) : (
+                            m.title
+                          )}
+                        </li>
+                      ))}
+                    </ul>
                   </>
                 }
                 placement="top"
