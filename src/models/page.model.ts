@@ -389,7 +389,6 @@ type CalendarMap = {
   [key: string]: {
     day: dayjs.Dayjs
     count: number
-    titles: string[]
 
     meta: {
       title: string
@@ -428,7 +427,7 @@ export async function getCalendar(
       calendar[week].push({
         day: day,
         count: 0,
-        titles: [],
+
         meta: [],
       })
     }
@@ -480,12 +479,6 @@ export async function getCalendar(
 
     if (today) {
       today.count++
-      today.titles.push(
-        (
-          data.notes[i].metadata.content.title ||
-          data.notes[i].metadata.content.content
-        ).slice(0, 20),
-      )
 
       today.meta.push({
         title: (
