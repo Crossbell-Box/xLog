@@ -35,8 +35,8 @@ export const usePatronModal = () => {
     present({
       title: (
         <span className="inline-flex items-center justify-center w-full space-x-1">
-          <span className="text-red-500 flex size-6 mb-[-1px]">
-            <i className="i-mingcute-heart-fill text-2xl mb-[-1px]" />
+          <span className="text-red-500 flex size-6 -mb-px">
+            <i className="i-mingcute-heart-fill text-2xl -mb-px" />
           </span>
           <span className="truncate">{title}</span>
         </span>

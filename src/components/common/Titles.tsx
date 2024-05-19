@@ -38,7 +38,7 @@ export const Titles = ({ characterId }: { characterId?: number }) => {
           label={title.name}
           childrenClassName={cn(
             icons[title.name].bg,
-            "inline-flex p-[1px] rounded-sm",
+            "inline-flex p-px rounded-sm",
           )}
         >
           <span
