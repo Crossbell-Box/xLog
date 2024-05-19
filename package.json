@@ -59,7 +59,6 @@
     "@monaco-editor/react": "4.6.0",
     "@popperjs/core": "2.11.8",
     "@prisma/client": "5.13.0",
-    "@shikijs/rehype": "^1.5.1",
     "@shikijs/transformers": "^1.5.1",
     "@supercharge/request-ip": "1.2.0",
     "@tanstack/react-query": "4.36.1",
@@ -67,12 +66,14 @@
     "@urql/core": "5.0.3",
     "@vercel/otel": "1.8.2",
     "@wagmi/core": "1",
+    "@xlog/shiki": "link:./packages/shiki",
     "ahooks": "3.7.11",
     "aplayer": "1.10.1",
     "async-lock": "1.4.1",
     "canvas-confetti": "1.9.3",
     "cheerio": "1.0.0-rc.12",
     "chroma-js": "2.4.2",
+    "client-only": "0.0.1",
     "clsx": "2.1.1",
     "crossbell": "1.11.9",
     "dayjs": "1.11.11",
@@ -143,6 +144,7 @@
     "remove-markdown": "0.5.0",
     "rss-parser": "3.13.0",
     "serialize-javascript": "6.0.2",
+    "server-only": "0.0.1",
     "sharp": "0.32.6",
     "shiki": "^1.5.1",
     "sortablejs": "1.15.2",
@@ -212,6 +214,9 @@
     "overrides": {
       "@wagmi/core": "$@wagmi/core",
       "open-graph-scraper>undici": "6.6.2"
+    },
+    "patchedDependencies": {
+      "tailwindcss-variable-colors@0.0.2": "patches/tailwindcss-variable-colors@0.0.2.patch"
     }
   }
 }

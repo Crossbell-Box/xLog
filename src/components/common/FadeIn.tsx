@@ -32,7 +32,7 @@ const FadeIn = ({
         isInView === false && !locked
           ? // @see https://www.debugbear.com/blog/opacity-animation-poor-lcp
             "opacity-[0.00001] translate-y-[20%]"
-          : "opacity-[1] translate-y-0",
+          : "opacity-100 translate-y-0",
         className,
       )}
       {...props}

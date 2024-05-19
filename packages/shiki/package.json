@@ -1,0 +1,9 @@
+{
+  "name": "@xlog/shiki",
+  "exports": {
+    ".": {
+      "react-server": "./shiki.server.tsx",
+      "default": "./shiki.client.tsx"
+    }
+  }
+}

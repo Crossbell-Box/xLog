@@ -4,7 +4,7 @@ import type { Extension } from "@codemirror/state"
 import { Compartment } from "@codemirror/state"
 import { oneDark } from "@codemirror/theme-one-dark"
 import { EditorView } from "@codemirror/view"
-import { githubLight } from "@ddietr/codemirror-themes/theme/github-light"
+import { githubLight } from "@ddietr/codemirror-themes/github-light.js"
 
 import { useIsUnmounted } from "./useLifecycle"
 

@@ -158,7 +158,7 @@ export default async function Home() {
             <div className="text-center mt-28" key={feature.title}>
               <div className="">
                 <div
-                  className={`h-20 w-[1px] bg-gradient-to-b mx-auto text-feature-${feature.title.toLocaleLowerCase()}`}
+                  className={`h-20 w-px bg-gradient-to-b mx-auto text-feature-${feature.title.toLocaleLowerCase()}`}
                   style={
                     {
                       "--tw-gradient-from": "transparent",

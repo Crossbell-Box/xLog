@@ -1,10 +1,16 @@
 import type { Root as HashRoot } from "hast"
 import { toHtml } from "hast-util-to-html"
-import { toJsxRuntime } from "hast-util-to-jsx-runtime"
+import { toJsxRuntime, type ExtraProps } from "hast-util-to-jsx-runtime"
 import jsYaml from "js-yaml"
 import type { Root as MdashRoot } from "mdast"
 import { toc } from "mdast-util-toc"
 import dynamic from "next/dynamic"
+import {
+  createElement,
+  type ClassAttributes,
+  type FC,
+  type HTMLAttributes,
+} from "react"
 import { toast } from "react-hot-toast"
 import { Fragment, jsx, jsxs } from "react/jsx-runtime"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
@@ -23,7 +29,6 @@ import remarkGithubAlerts from "remark-github-alerts"
 import remarkMath from "remark-math"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
-import type { Highlighter } from "shiki"
 import type { BundledTheme } from "shiki/themes"
 import { unified } from "unified"
 import { visit } from "unist-util-visit"
@@ -31,8 +36,6 @@ import { VFile } from "vfile"
 
 // @ts-expect-error
 import remarkCalloutDirectives from "@microflash/remark-callout-directives"
-import rehypeShikiFromHighlighter from "@shikijs/rehype/core"
-import { transformerMetaHighlight } from "@shikijs/transformers"
 
 import AdvancedImage from "~/components/ui/AdvancedImage"
 import { isServerSide } from "~/lib/utils"
@@ -59,15 +62,20 @@ const XLogPost = dynamic(() => import("~/components/ui/XLogPost"))
 const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"))
 const RSS = dynamic(() => import("~/components/ui/RSS"))
+const ShikiRemark = dynamic(() => import("~/components/ui/ShikiRemark"))
+
+const memoedPreComponentMap = {} as Record<string, any>
+const hashCodeThemeKey = (codeTheme?: Record<string, any>): string => {
+  if (!codeTheme) return "default"
+  return Object.values(codeTheme).join(",")
+}
 
 export const renderPageContent = ({
   content,
-  highlighter,
   strictMode,
   codeTheme,
 }: {
   content: string
-  highlighter?: Highlighter
   strictMode?: boolean
   codeTheme?: {
     light?: BundledTheme
@@ -128,18 +136,6 @@ export const renderPageContent = ({
       })
       .use(rehypeRemoveH1)
 
-    if (highlighter) {
-      pipeline.use(rehypeShikiFromHighlighter, highlighter, {
-        themes: codeTheme ?? {
-          light: "github-light-default",
-          dark: "github-dark-default",
-        },
-        onError: (e) => {
-          console.error(e)
-        },
-        transformers: [transformerMetaHighlight()],
-      })
-    }
     pipeline
       .use(rehypeKatex, {
         strict: false,
@@ -157,7 +153,17 @@ export const renderPageContent = ({
       toast.error(error?.message)
     }
   }
-
+  let Pre: FC<
+    ClassAttributes<HTMLPreElement> &
+      HTMLAttributes<HTMLPreElement> &
+      ExtraProps
+  > = memoedPreComponentMap[hashCodeThemeKey(codeTheme)]
+  if (!Pre) {
+    Pre = function Pre(props: any) {
+      return createElement(ShikiRemark, { ...props, codeTheme }, props.children)
+    }
+    memoedPreComponentMap[hashCodeThemeKey(codeTheme)] = Pre
+  }
   return {
     tree: hastTree,
     toToc: () =>
@@ -186,6 +192,9 @@ export const renderPageContent = ({
           // @ts-expect-error
           style: Style,
           rss: RSS,
+
+          // @ts-expect-error
+          pre: Pre,
         },
         ignoreInvalidStyle: true,
         // @ts-expect-error: untyped.

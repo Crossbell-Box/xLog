@@ -18,7 +18,6 @@ import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
 import { UniLink } from "~/components/ui/UniLink"
 import { useDate } from "~/hooks/useDate"
-import { useHighlighter } from "~/hooks/useHighlighter"
 import { CSB_SCAN } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { cn } from "~/lib/utils"
@@ -57,8 +56,6 @@ export const CommentItem = ({
       originalNoteId,
     ])
   }, [deletePage.isSuccess, originalCharacterId, originalNoteId, queryClient])
-
-  const highlighter = useHighlighter()
 
   if (!comment.metadata?.content?.content) {
     return null
@@ -142,7 +139,6 @@ export const CommentItem = ({
           <MarkdownContent
             content={comment.metadata?.content?.content}
             strictMode={true}
-            highlighter={highlighter}
           ></MarkdownContent>
           <div className="mt-1 flex items-center">
             <div
@@ -157,7 +153,7 @@ export const CommentItem = ({
             </div>
             {depth < 2 && (
               <Button
-                className="text-gray-500 text-[13px] ml-1 mt-[-1px]"
+                className="text-gray-500 text-[13px] ml-1 -mt-px"
                 variant="text"
                 onClick={() => setReplyOpen(!replyOpen)}
               >
@@ -171,7 +167,7 @@ export const CommentItem = ({
             )}
             {comment.characterId === account?.characterId && (
               <Button
-                className="text-gray-500 text-[13px] mt-[-1px]"
+                className="text-gray-500 text-[13px] -mt-px"
                 variant="text"
                 onClick={() => setEditOpen(!editOpen)}
               >
@@ -183,7 +179,7 @@ export const CommentItem = ({
               !(comment as any)?.fromNotes?.list?.length && (
                 <>
                   <Button
-                    className="text-gray-500 text-[13px] mt-[-1px]"
+                    className="text-gray-500 text-[13px] -mt-px"
                     variant="text"
                     onClick={() => setDeleteConfirmModalOpen(true)}
                     isLoading={deletePage.isLoading}
