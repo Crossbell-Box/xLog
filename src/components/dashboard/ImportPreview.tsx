@@ -4,7 +4,6 @@ import dynamic from "next/dynamic"
 import { useState } from "react"
 
 import { useDate } from "~/hooks/useDate"
-import { useHighlighter } from "~/hooks/useHighlighter"
 import { RESERVED_TAGS } from "~/lib/constants"
 import { cn } from "~/lib/utils"
 
@@ -19,7 +18,6 @@ export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
   const date = useDate()
   const [showcaseMore, setShowcaseMore] = useState(false)
   const t = useTranslations()
-  const highlighter = useHighlighter()
 
   return (
     <article className="border rounded-xl p-6 mt-4">
@@ -62,7 +60,6 @@ export const ImportPreview = ({ note }: { note: NoteMetadata }) => {
         <DynamicMarkdownContent
           className="mt-4"
           content={note?.content}
-          highlighter={highlighter}
         ></DynamicMarkdownContent>
       </div>
     </article>

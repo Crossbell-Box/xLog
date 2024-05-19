@@ -10,7 +10,6 @@ import MarkdownContent from "~/components/common/MarkdownContent"
 import { toolbarShortcuts } from "~/components/dashboard/toolbars"
 import { editorUpload } from "~/components/dashboard/toolbars/Multimedia"
 import CodeMirror from "~/components/ui/CodeMirror"
-import { useHighlighter } from "~/hooks/useHighlighter"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
 import { cn } from "~/lib/utils"
 import { renderPageContent } from "~/markdown"
@@ -33,7 +32,6 @@ export default function DualColumnEditor({
     dark?: BundledTheme
   }
 }) {
-  const highlighter = useHighlighter()
   const isMobileLayout = useIsMobileLayout()
   const t = useTranslations()
 
@@ -53,17 +51,15 @@ export default function DualColumnEditor({
 
   useDebounceEffect(
     () => {
-      if (!highlighter) return
       const result = renderPageContent({
         content: values,
-        highlighter,
         strictMode: true,
         codeTheme,
       })
       setTree(result.tree)
       setParsedContent(result)
     },
-    [values, codeTheme, highlighter],
+    [values, codeTheme],
     {
       wait: 500,
     },
@@ -225,7 +221,7 @@ export default function DualColumnEditor({
         />
       )}
       {!isMobileLayout && (
-        <div className="z-10 w-[1px]">
+        <div className="z-10 w-px">
           <div
             aria-label="Toggle preview view"
             className="bg-accent rounded-full cursor-pointer text-white size-6 -translate-x-1/2"
@@ -248,7 +244,6 @@ export default function DualColumnEditor({
           onMouseEnter={() => {
             setCurrentScrollArea("preview")
           }}
-          highlighter={highlighter}
           codeTheme={codeTheme}
         />
       )}

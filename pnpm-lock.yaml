@@ -99,9 +99,6 @@ importers:
       '@prisma/client':
         specifier: 5.13.0
         version: 5.13.0(prisma@5.13.0)
-      '@shikijs/rehype':
-        specifier: ^1.5.1
-        version: 1.5.1
       '@shikijs/transformers':
         specifier: ^1.5.1
         version: 1.5.1
@@ -123,6 +120,9 @@ importers:
       '@wagmi/core':
         specifier: '1'
         version: 1.4.13(@types/react@18.3.1)(bufferutil@4.0.8)(immer@10.1.1)(ioredis@5.4.1)(react@18.3.1)(typescript@5.4.5)(utf-8-validate@5.0.10)(viem@1.21.1(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@5.0.10)(zod@3.23.8))(zod@3.23.8)
+      '@xlog/shiki':
+        specifier: link:./packages/shiki
+        version: link:packages/shiki
       ahooks:
         specifier: 3.7.11
         version: 3.7.11(react@18.3.1)
@@ -141,6 +141,9 @@ importers:
       chroma-js:
         specifier: 2.4.2
         version: 2.4.2
+      client-only:
+        specifier: 0.0.1
+        version: 0.0.1
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -351,6 +354,9 @@ importers:
       serialize-javascript:
         specifier: 6.0.2
         version: 6.0.2
+      server-only:
+        specifier: 0.0.1
+        version: 0.0.1
       sharp:
         specifier: 0.32.6
         version: 0.32.6
@@ -1991,9 +1997,6 @@ packages:
 
   '@shikijs/core@1.5.1':
     resolution: {integrity: sha512-xjV63pRUBvxA1LsxOUhRKLPh0uUjwBLzAKLdEuYSLIylo71sYuwDcttqNP01Ib1TZlLfO840CXHPlgUUsYFjzg==}
-
-  '@shikijs/rehype@1.5.1':
-    resolution: {integrity: sha512-UzmDzid4Zv4ZeY+GvJlKabBVdTt40aCCoOyeq/JwLJ0YmiZhm5vOicpzdbmMcUClgpCtBjJRLaOg8mkhd7YX/w==}
 
   '@shikijs/transformers@1.5.1':
     resolution: {integrity: sha512-vir+y0elkjh2CepLVbqeGX+ftuc6WpfWNCMV/EBIallSLzhBfDO9r/TORDVOzegbTg9JMEmtOFv6PT9cSZTcyA==}
@@ -6188,6 +6191,9 @@ packages:
   serialize-javascript@6.0.2:
     resolution: {integrity: sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g==}
 
+  server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
+
   set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
@@ -8879,15 +8885,6 @@ snapshots:
       '@scure/base': 1.1.6
 
   '@shikijs/core@1.5.1': {}
-
-  '@shikijs/rehype@1.5.1':
-    dependencies:
-      '@shikijs/transformers': 1.5.1
-      '@types/hast': 3.0.4
-      hast-util-to-string: 3.0.0
-      shiki: 1.5.1
-      unified: 11.0.4
-      unist-util-visit: 5.0.0
 
   '@shikijs/transformers@1.5.1':
     dependencies:
@@ -14224,6 +14221,8 @@ snapshots:
   serialize-javascript@6.0.2:
     dependencies:
       randombytes: 2.1.0
+
+  server-only@0.0.1: {}
 
   set-blocking@2.0.0: {}
 
