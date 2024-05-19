@@ -136,18 +136,6 @@ export const renderPageContent = ({
       })
       .use(rehypeRemoveH1)
 
-    // if (highlighter) {
-    //   pipeline.use(rehypeShikiFromHighlighter, highlighter, {
-    //     themes: codeTheme ?? {
-    //       light: "github-light-default",
-    //       dark: "github-dark-default",
-    //     },
-    //     onError: (e) => {
-    //       console.error(e)
-    //     },
-    //     transformers: [transformerMetaHighlight()],
-    //   })
-    // }
     pipeline
       .use(rehypeKatex, {
         strict: false,
