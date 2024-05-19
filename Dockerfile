@@ -12,6 +12,7 @@ FROM base as deps
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml prisma ./
+COPY patches ./patches
 
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 
