@@ -9,7 +9,7 @@ type MarkdownContentServerProps = Omit<
 
 const MarkdownContentServer = async (props: MarkdownContentServerProps) => {
   const highlighter = await createHighlighter()
-  return <MarkdownContent {...props} highlighter={highlighter} />
+  return <MarkdownContent {...props} />
 }
 
 export default MarkdownContentServer
