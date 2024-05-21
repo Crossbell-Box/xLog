@@ -16,6 +16,10 @@ export const ShikiRender: FC<ShikiCodeProps> = async ({
 }) => {
   const highlighter = await createHighlighter()
 
+  if (!Object.keys(bundledLanguages).includes(language || "")) {
+    language = "text"
+  }
+
   const rendered = highlighter.codeToHtml(code, {
     lang: language || "text",
     themes: codeTheme || {

@@ -30,7 +30,7 @@ const pickCodeLanguage = (props: any) => {
       ? (props.children.props.className as string)
       : ""
 
-  if (className.includes("language-")) {
+  if (className?.includes("language-")) {
     return className.replace("language-", "")
   }
   return ""
