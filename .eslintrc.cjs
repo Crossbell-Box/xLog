@@ -4,11 +4,26 @@ module.exports = {
     "plugin:import/recommended",
     "plugin:react/recommended",
     "plugin:tailwindcss/recommended",
+    "plugin:react-hooks/recommended",
   ],
   root: true,
   settings: {
     "import/resolver": {
       node: { extensions: [".js", ".mjs", ".ts", ".d.ts"] },
+    },
+    tailwindcss: {
+      callees: ["classnames", "clsx", "ctl", "cn"],
+      whitelist: [
+        "xlog-.+",
+        "text-feature-",
+        "drag-handle",
+        "no-optimization",
+        "qrcode",
+        "share-options",
+        "preserve-3d",
+        "achievement-group",
+        "comment",
+      ],
     },
   },
   plugins: ["unused-imports"],
@@ -23,20 +38,5 @@ module.exports = {
     "import/no-named-as-default-member": "off",
     "react/no-unknown-property": ["error", { ignore: ["tw"] }],
     "tailwindcss/classnames-order": "off",
-  },
-  settings: {
-    tailwindcss: {
-      callees: ["classnames", "clsx", "ctl", "cn"],
-      whitelist: [
-        "xlog-.+",
-        "text-feature-",
-        "drag-handle",
-        "no-optimization",
-        "qrcode",
-        "share-options",
-        "preserve-3d",
-        "achievement-group",
-      ],
-    },
   },
 }
