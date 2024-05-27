@@ -59,7 +59,7 @@ export const getTwitterShareUrl = ({
     return ""
   }
 
-  return `https://twitter.com/intent/tweet?url=${getSiteLink({
+  return `https://x.com/intent/tweet?url=${getSiteLink({
     subdomain: site.handle!,
     domain: site.metadata?.content?.custom_domain,
   })}/${encodeURIComponent(slug)}&via=_xLog&text=${encodeURIComponent(

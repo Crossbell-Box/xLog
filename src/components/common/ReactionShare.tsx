@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl"
 import dynamic from "next/dynamic"
-import Image from "next/image"
 import { FC } from "react"
 import { toast } from "react-hot-toast"
 
@@ -24,18 +23,11 @@ interface ShareData {
 
 const shareList = [
   {
-    name: "Twitter",
-    icon: (
-      <Image
-        width={16}
-        height={16}
-        src="/assets/social/twitter.svg"
-        alt="twitter"
-      />
-    ),
+    name: "X",
+    icon: <img width={16} height={16} src="https://icons.ly/x" alt="x" />,
     onClick: (data: ShareData) => {
       window.open(
-        `https://twitter.com/intent/tweet?url=${
+        `https://x.com/intent/tweet?url=${
           data.url
         }&text=${encodeURIComponent(data.text)}&via=_xLog`,
       )
@@ -44,10 +36,10 @@ const shareList = [
   {
     name: "Telegram",
     icon: (
-      <Image
+      <img
         width={16}
         height={16}
-        src="/assets/social/telegram.svg"
+        src="https://icons.ly/telegram"
         alt="telegram"
       />
     ),

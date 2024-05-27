@@ -29,14 +29,15 @@ export const PlatformsSyncMap: {
     url: "https://t.me/{username}",
   },
   twitter: {
-    name: "Twitter",
-    url: "https://twitter.com/{username}",
-    portfolioDomain: `https://twitter.com/`,
+    name: "X",
+    icon: `${iconCDN}/x`,
+    url: "https://x.com/{username}",
+    portfolioDomain: `https://x.com/`,
   },
   twitter_id: {
-    name: "Twitter",
-    icon: `${iconCDN}/twitter`,
-    url: "https://twitter.com/i/user/{username}",
+    name: "X",
+    icon: `${iconCDN}/x`,
+    url: "https://x.com/i/user/{username}",
   },
   x: {
     name: "X",
