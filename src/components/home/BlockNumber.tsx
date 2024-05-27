@@ -13,10 +13,10 @@ export const BlockNumber = () => {
   const { data: blockNumber } = useGetBlockNumber()
 
   useEffect(() => {
-    if (blockNumber) {
+    if (blockNumber && blockNumber > (realBlockNumber ?? 0)) {
       setRealBlockNumber(blockNumber)
     }
-  }, [blockNumber])
+  }, [blockNumber, realBlockNumber])
 
   useEffect(() => {
     const interval = setInterval(() => {
