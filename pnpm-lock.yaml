@@ -105,8 +105,8 @@ importers:
         specifier: 5.14.0
         version: 5.14.0(prisma@5.14.0)
       '@shikijs/transformers':
-        specifier: ^1.6.0
-        version: 1.6.0
+        specifier: ^1.6.2
+        version: 1.6.2
       '@supercharge/request-ip':
         specifier: 1.2.0
         version: 1.2.0
@@ -2012,8 +2012,11 @@ packages:
   '@shikijs/core@1.6.0':
     resolution: {integrity: sha512-NIEAi5U5R7BLkbW1pG/ZKu3eb1lzc3/+jD0lFsuxMT7zjaf9bbNwdNyMr7zh/Zl8EXQtQ+MYBAt5G+JLu+5DlA==}
 
-  '@shikijs/transformers@1.6.0':
-    resolution: {integrity: sha512-qGfHe1ECiqfE2STPWvfogIj/9Q0SK+MCRJdoITkW7AmFuB7DmbFnBT2US84+zklJOB51MzNO8RUXZiauWssJlQ==}
+  '@shikijs/core@1.6.2':
+    resolution: {integrity: sha512-guW5JeDzZ7uwOjTfCOFZ2VtVXk5tmkMzBYbKGfXsmAH1qYOej49L5jQDcGmwd6/OgvpmWhzO2GNJkQIFnbwLPQ==}
+
+  '@shikijs/transformers@1.6.2':
+    resolution: {integrity: sha512-ndqTWyHnxmsLkowhKWTam26opw8hg5a34y6FAUG/Xf6E49n3MM//nenKxXiWpPYkNPl1KZnYXB1k+Ia46wjOZg==}
 
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
@@ -3986,6 +3989,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -4226,6 +4230,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -6137,6 +6142,7 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   robust-predicates@3.0.2:
@@ -6252,6 +6258,9 @@ packages:
 
   shiki@1.6.0:
     resolution: {integrity: sha512-P31ROeXcVgW/k3Z+vUUErcxoTah7ZRaimctOpzGuqAntqnnSmx1HOsvnbAB8Z2qfXPRhw61yptAzCsuKOhTHwQ==}
+
+  shiki@1.6.2:
+    resolution: {integrity: sha512-X3hSm5GzzBd/BmPmGfkueOUADLyBoZo1ojYQXhd+NU2VJn458yt4duaS0rVzC+WtqftSV7mTVvDw+OB9AHi3Eg==}
 
   shimmer@1.2.1:
     resolution: {integrity: sha512-sQTKC1Re/rM6XyFM6fIAGHRPVGvyXfgzIDvzoq608vM+jeyVD0Tu1E6Np0Kc2zAIFWIj963V2800iF/9LPieQw==}
@@ -8919,9 +8928,11 @@ snapshots:
 
   '@shikijs/core@1.6.0': {}
 
-  '@shikijs/transformers@1.6.0':
+  '@shikijs/core@1.6.2': {}
+
+  '@shikijs/transformers@1.6.2':
     dependencies:
-      shiki: 1.6.0
+      shiki: 1.6.2
 
   '@sindresorhus/is@4.6.0': {}
 
@@ -14323,6 +14334,10 @@ snapshots:
   shiki@1.6.0:
     dependencies:
       '@shikijs/core': 1.6.0
+
+  shiki@1.6.2:
+    dependencies:
+      '@shikijs/core': 1.6.2
 
   shimmer@1.2.1: {}
 
