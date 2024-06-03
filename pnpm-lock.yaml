@@ -246,8 +246,8 @@ importers:
         specifier: 0.2.6
         version: 0.2.6
       open-graph-scraper:
-        specifier: 6.5.1
-        version: 6.5.1
+        specifier: 6.5.2
+        version: 6.5.2
       openai:
         specifier: 4.47.1
         version: 4.47.1
@@ -3986,6 +3986,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -4226,6 +4227,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -5447,8 +5449,8 @@ packages:
     resolution: {integrity: sha512-1FlR+gjXK7X+AsAHso35MnyN5KqGwJRi/31ft6x0M194ht7S+rWAvd7PHss9xSKMzE0asv1pyIHaJYq+BbacAQ==}
     engines: {node: '>=12'}
 
-  open-graph-scraper@6.5.1:
-    resolution: {integrity: sha512-gYlqM3II4tHgegWUGxLHrm/Pa+HWz+SeAQz+yiYYl2O7JiXTM9DmNdk3piPvOodewgXiuOc1dTr1inR+gwCcxg==}
+  open-graph-scraper@6.5.2:
+    resolution: {integrity: sha512-eBNOrjLrbsn882aJg7IgymLstWw5eGaqn+0a+CenroTu+xKlvzuU0LFfy4lQ6ngDZINu+h0iqfWm6dYThUBonw==}
     engines: {node: '>=18.0.0'}
 
   openai@4.47.1:
@@ -6137,6 +6139,7 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   robust-predicates@3.0.2:
@@ -6879,8 +6882,8 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  validator@13.11.0:
-    resolution: {integrity: sha512-Ii+sehpSfZy+At5nPdnyMhx78fEoPDkR2XW/zimHEL3MyGJQOCQ7WeP20jPYRz7ZCpcKLB21NxuXHF3bxjStBQ==}
+  validator@13.12.0:
+    resolution: {integrity: sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==}
     engines: {node: '>= 0.10'}
 
   valtio@1.11.2:
@@ -13394,13 +13397,13 @@ snapshots:
     dependencies:
       mimic-fn: 4.0.0
 
-  open-graph-scraper@6.5.1:
+  open-graph-scraper@6.5.2:
     dependencies:
       chardet: 2.0.0
       cheerio: 1.0.0-rc.12
       iconv-lite: 0.6.3
       undici: 6.6.2
-      validator: 13.11.0
+      validator: 13.12.0
 
   openai@4.47.1:
     dependencies:
@@ -14960,7 +14963,7 @@ snapshots:
       kleur: 4.1.5
       sade: 1.8.1
 
-  validator@13.11.0: {}
+  validator@13.12.0: {}
 
   valtio@1.11.2(@types/react@18.3.3)(react@18.3.1):
     dependencies:
