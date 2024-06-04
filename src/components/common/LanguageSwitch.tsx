@@ -2,19 +2,12 @@
 
 import { useLocale } from "next-intl"
 
-import { locales } from "~/i18n"
+import { locales, nameMap } from "~/i18n"
 
 import { Menu } from "../ui/Menu"
 
 export function LanguageSwitch() {
   const locale = useLocale()
-
-  const nameMap: Record<string, string> = {
-    en: "English",
-    zh: "简体中文",
-    "zh-TW": "繁體中文",
-    ja: "日本語",
-  }
 
   return (
     <Menu

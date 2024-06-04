@@ -9,6 +9,12 @@ export const languageNames: Record<(typeof locales)[number], string> = {
   zh: "Chinese (Simplified)",
   "zh-TW": "Chinese (Traditional)",
 }
+export const nameMap: Record<string, string> = {
+  en: "English",
+  zh: "简体中文",
+  "zh-TW": "繁體中文",
+  ja: "日本語",
+}
 export const defaultLocale = "en"
 
 export default getRequestConfig(async ({ locale }) => ({

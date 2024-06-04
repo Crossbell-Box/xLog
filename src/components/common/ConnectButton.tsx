@@ -1,6 +1,6 @@
 "use client"
 
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import React, { useEffect, useState } from "react"
 
 import {
@@ -32,6 +32,7 @@ import { BellAlertIcon } from "@heroicons/react/24/solid"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button, type Variant, type VariantColor } from "~/components/ui/Button"
 import { Menu } from "~/components/ui/Menu"
+import { nameMap } from "~/i18n"
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { cn } from "~/lib/utils"
@@ -77,6 +78,7 @@ export const ConnectButton = ({
       sizeDecrease = "xs"
   }
 
+  const locale = useLocale()
   const [ssrReady, account] = useAccountState(({ ssrReady, computed }) => [
     ssrReady,
     computed.account,
@@ -139,6 +141,40 @@ export const ConnectButton = ({
       onClick: (e) => {
         e.preventDefault()
         copyLabel()
+      },
+    },
+    {
+      icon: "i-mingcute-translate-2-line",
+      label: (
+        <>
+          <Menu
+            placement="bottom-end"
+            target={<div>{t("Switch Language")}</div>}
+            dropdown={
+              <>
+                {Object.keys(nameMap).map((lo, i) => (
+                  <Menu.Item
+                    key={lo}
+                    type="button"
+                    onClick={() => {
+                      document.cookie = `NEXT_LOCALE=${lo};`
+                      window.location.reload()
+                    }}
+                    className="mx-auto"
+                  >
+                    <span>{nameMap[lo]}</span>
+                    {locale === lo && (
+                      <span className="ml-2 i-mingcute-check-line"></span>
+                    )}
+                  </Menu.Item>
+                ))}
+              </>
+            }
+          />
+        </>
+      ),
+      onClick: (e) => {
+        e.preventDefault()
       },
     },
     ...(account?.type === "wallet"
