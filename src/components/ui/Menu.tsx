@@ -2,7 +2,13 @@ import { AnimatePresence, m } from "framer-motion"
 import Link from "next/link"
 import React, { Fragment } from "react"
 
-import { autoUpdate, Placement, shift, useFloating } from "@floating-ui/react"
+import {
+  autoPlacement,
+  autoUpdate,
+  Placement,
+  shift,
+  useFloating,
+} from "@floating-ui/react"
 import { Menu as HeadlessUiMenu } from "@headlessui/react"
 
 import { cn } from "~/lib/utils"
@@ -17,16 +23,23 @@ export function Menu({
   target,
   dropdown,
   placement = "bottom-start",
+  enableAutoPlacement = false,
 }: React.PropsWithChildren<{
   target: JSX.Element
   dropdown: React.ReactNode
   placement?: Placement
+  enableAutoPlacement?: boolean
 }>) {
   const { refs, floatingStyles } = useFloating({
     placement,
     middleware: [
       // Prevent overflowing viewport
       shift({ padding: 20 }),
+      enableAutoPlacement
+        ? autoPlacement({
+            allowedPlacements: ["right-start", "left-start"],
+          })
+        : undefined,
     ],
     whileElementsMounted: autoUpdate,
   })

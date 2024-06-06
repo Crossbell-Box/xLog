@@ -40,6 +40,8 @@ import { cn } from "~/lib/utils"
 type HeaderLinkType = {
   icon?: React.ReactNode
   label: string | JSX.Element
+  isSubmenu?: boolean
+  subMenuDropDown?: JSX.Element
 } & (
   | {
       href: string
@@ -97,9 +99,6 @@ export const ConnectButton = ({
   const selectCharactersModal = useSelectCharactersModal()
   const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
-  const showNotificationModal = useShowNotificationModal()
-  const { isAllRead } = useNotifications()
-
   const [InsufficientBalance, setInsufficientBalance] = useState<boolean>(false)
   const t = useTranslations()
 
@@ -145,32 +144,26 @@ export const ConnectButton = ({
     },
     {
       icon: "i-mingcute-translate-2-line",
-      label: (
+      isSubmenu: true,
+      label: t("Switch Language") || "",
+      subMenuDropDown: (
         <>
-          <Menu
-            placement="bottom-end"
-            target={<div>{t("Switch Language")}</div>}
-            dropdown={
-              <>
-                {Object.keys(nameMap).map((lo, i) => (
-                  <Menu.Item
-                    key={lo}
-                    type="button"
-                    onClick={() => {
-                      document.cookie = `NEXT_LOCALE=${lo};`
-                      window.location.reload()
-                    }}
-                    className="mx-auto"
-                  >
-                    <span>{nameMap[lo]}</span>
-                    {locale === lo && (
-                      <span className="ml-2 i-mingcute-check-line"></span>
-                    )}
-                  </Menu.Item>
-                ))}
-              </>
-            }
-          />
+          {Object.keys(nameMap).map((lo, i) => (
+            <Menu.Item
+              key={lo}
+              type="button"
+              onClick={() => {
+                document.cookie = `NEXT_LOCALE=${lo};`
+                window.location.reload()
+              }}
+              className="mx-auto"
+            >
+              <span>{nameMap[lo]}</span>
+              {locale === lo && (
+                <span className="ml-2 i-mingcute-check-line"></span>
+              )}
+            </Menu.Item>
+          ))}
         </>
       ),
       onClick: (e) => {
@@ -253,157 +246,133 @@ export const ConnectButton = ({
       href: `${SITE_URL}/dashboard/${account?.character?.handle}/editor?type=portfolio`,
     },
   ]
+  // TODO: maybe test this style effect
+  if (!ssrReady) return <div aria-hidden></div>
+
+  if (!account)
+    return (
+      <div>
+        <Button
+          className="text-accent"
+          onClick={openConnectModal}
+          style={{ height: avatarSize + "px" }}
+          variant={variant || "primary"}
+          variantColor={variantColor}
+        >
+          {t("Connect")}
+        </Button>
+      </div>
+    )
 
   return (
-    <div
-      {...(!ssrReady && {
-        "aria-hidden": true,
-        style: {
-          opacity: 0,
-          pointerEvents: "none",
-          userSelect: "none",
-        },
-      })}
-    >
-      {(() => {
-        if (!account) {
-          return (
-            <Button
-              className="text-accent"
-              onClick={openConnectModal}
-              style={{ height: avatarSize + "px" }}
-              variant={variant || "primary"}
-              variantColor={variantColor}
+    <div>
+      <div
+        className="relative flex items-center -mr-2"
+        style={{ height: avatarSize + "px" }}
+      >
+        {!hideNotification && <Notification />}
+        <Menu
+          placement="bottom"
+          target={
+            <PlusCircleIcon
+              className={`${
+                size === "base" ? "size-6 ml-2" : "size-5 ml-1"
+              } text-zinc-500 cursor-pointer hidden sm:block`}
+            />
+          }
+          dropdown={
+            <div
+              className={`min-w-[140px] ${
+                size === "base" ? "text-base" : "text-sm"
+              }`}
             >
-              {t("Connect")}
-            </Button>
-          )
-        }
-        return (
-          <div
-            className="relative flex items-center -mr-2"
-            style={{ height: avatarSize + "px" }}
-          >
-            {!hideNotification && (
-              <>
-                {isAllRead ? (
-                  <BellIcon
-                    className={`${
-                      size === "base" ? "size-6" : "size-5"
-                    } text-zinc-500 cursor-pointer sm:hover:animate-buzz-out`}
-                    onClick={showNotificationModal}
-                  />
-                ) : (
-                  <BellAlertIcon
-                    className={`${
-                      size === "base" ? "size-6" : "size-5"
-                    } text-accent cursor-pointer sm:hover:animate-buzz-out`}
-                    onClick={showNotificationModal}
-                  />
-                )}
-                <Menu
-                  placement="bottom"
-                  target={
-                    <PlusCircleIcon
-                      className={`${
-                        size === "base" ? "size-6 ml-2" : "size-5 ml-1"
-                      } text-zinc-500 cursor-pointer hidden sm:block`}
-                    />
-                  }
-                  dropdown={
-                    <div
-                      className={`min-w-[140px] ${
-                        size === "base" ? "text-base" : "text-sm"
-                      }`}
+              {addDropdownLinks.map((link, i) => (
+                <ConnectMenuItem link={link} size={size} key={i} />
+              ))}
+            </div>
+          }
+        ></Menu>
+        <div className="h-full w-[2px] py-1 ml-2">
+          <div className="size-full bg-zinc-200 rounded-full"></div>
+        </div>
+        <Menu
+          placement="bottom-end"
+          target={
+            <button
+              className="flex items-center hover:bg-hover transition-colors py-1 px-2 rounded-lg ml-1 focus-visible:outline focus-visible:outline-accent focus-visible:outline-offset-1"
+              type="button"
+              aria-label="connector"
+            >
+              <Avatar
+                cid={account.character?.characterId}
+                className="align-middle"
+                images={account.character?.metadata?.content?.avatars || []}
+                name={account.character?.metadata?.content?.name}
+                size={avatarSize}
+              />
+              {!hideName && (
+                <>
+                  <div
+                    className={`flex-1 flex-col min-w-0 ml-2 max-w-[100px] ${
+                      mobileSimplification ? "hidden sm:flex" : "flex"
+                    }`}
+                  >
+                    <span
+                      className={`text-left leading-none font-medium truncate ${
+                        InsufficientBalance ? "text-red-600" : "text-gray-600"
+                      } ${size === "base" ? "text-base" : "text-sm"}`}
+                      style={{ marginBottom: "0.15rem" }}
                     >
-                      {addDropdownLinks.map((link, i) => (
-                        <Menu.Item
-                          key={i}
-                          icon={<i className={cn(link.icon, "text-base")} />}
-                          className={`${
-                            size === "base" ? "pl-5 pr-6 h-11" : "pl-4 pr-5 h-9"
-                          } whitespace-nowrap`}
-                          {...("href" in link
-                            ? {
-                                type: "link",
-                                href: link.href,
-                              }
-                            : {
-                                type: "button",
-                                onClick: link.onClick,
-                              })}
-                        >
-                          {link.label}
-                        </Menu.Item>
-                      ))}
-                    </div>
-                  }
-                />
-                <div className="h-full w-[2px] py-1 ml-2">
-                  <div className="size-full bg-zinc-200 rounded-full"></div>
-                </div>
-              </>
-            )}
-            <Menu
-              placement="bottom-end"
-              target={
-                <button
-                  className="flex items-center hover:bg-hover transition-colors py-1 px-2 rounded-lg ml-1 focus-visible:outline focus-visible:outline-accent focus-visible:outline-offset-1"
-                  type="button"
-                  aria-label="connector"
-                >
-                  <Avatar
-                    cid={account.character?.characterId}
-                    className="align-middle"
-                    images={account.character?.metadata?.content?.avatars || []}
-                    name={account.character?.metadata?.content?.name}
-                    size={avatarSize}
-                  />
-                  {!hideName && (
-                    <>
-                      <div
-                        className={`flex-1 flex-col min-w-0 ml-2 max-w-[100px] ${
-                          mobileSimplification ? "hidden sm:flex" : "flex"
+                      {account.character?.metadata?.content?.name ||
+                        getAccountDisplayName(account)}
+                    </span>
+                    {account.character?.handle && (
+                      <span
+                        className={`text-left leading-none ${
+                          sizeDecrease === "sm" ? "text-sm" : "text-xs"
+                        } truncate ${
+                          InsufficientBalance ? "text-red-400" : "text-gray-400"
                         }`}
                       >
-                        <span
-                          className={`text-left leading-none font-medium truncate ${
-                            InsufficientBalance
-                              ? "text-red-600"
-                              : "text-gray-600"
-                          } ${size === "base" ? "text-base" : "text-sm"}`}
-                          style={{ marginBottom: "0.15rem" }}
+                        {"@" + account.character?.handle ||
+                          getAccountDisplayName(account)}
+                      </span>
+                    )}
+                  </div>
+                  <i className="i-mingcute-down-line text-xl ml-[2px]" />
+                </>
+              )}
+            </button>
+          }
+          dropdown={
+            <div
+              className={`min-w-[140px] ${
+                size === "base" ? "text-base" : "text-sm"
+              }`}
+            >
+              {dropdownLinks.map((link, i) => {
+                if (link.isSubmenu) {
+                  return (
+                    <Menu
+                      key={i}
+                      placement="right-start"
+                      enableAutoPlacement
+                      target={
+                        <div
+                          className="w-full h-10 pl-5 pr-6 flex items-center flex-nowrap hoover:bg-hover"
+                          aria-hidden
                         >
-                          {account.character?.metadata?.content?.name ||
-                            getAccountDisplayName(account)}
-                        </span>
-                        {account.character?.handle && (
-                          <span
-                            className={`text-left leading-none ${
-                              sizeDecrease === "sm" ? "text-sm" : "text-xs"
-                            } truncate ${
-                              InsufficientBalance
-                                ? "text-red-400"
-                                : "text-gray-400"
-                            }`}
-                          >
-                            {"@" + account.character?.handle ||
-                              getAccountDisplayName(account)}
-                          </span>
-                        )}
-                      </div>
-                      <i className="i-mingcute-down-line text-xl ml-[2px]" />
-                    </>
-                  )}
-                </button>
-              }
-              dropdown={
-                <div
-                  className={`min-w-[140px] ${
-                    size === "base" ? "text-base" : "text-sm"
-                  }`}
-                >
-                  {dropdownLinks.map((link, i) => (
+                          <i
+                            className={cn(link.icon, "text-base mr-2 size-4")}
+                          />
+                          <span>{link.label}</span>
+                        </div>
+                      }
+                      dropdown={link.subMenuDropDown}
+                    />
+                  )
+                } else {
+                  return (
                     <Menu.Item
                       key={i}
                       icon={<i className={cn(link.icon, "text-base")} />}
@@ -422,13 +391,13 @@ export const ConnectButton = ({
                     >
                       {link.label}
                     </Menu.Item>
-                  ))}
-                </div>
-              }
-            />
-          </div>
-        )
-      })()}
+                  )
+                }
+              })}
+            </div>
+          }
+        />
+      </div>
     </div>
   )
 }
@@ -456,4 +425,52 @@ function getAccountDisplayName(account: GeneralAccount | null) {
     (account?.type === "email" ? account.email : account?.address) || ""
 
   return value.slice(0, 5) + "..." + value.slice(-4)
+}
+
+function Notification() {
+  const showNotificationModal = useShowNotificationModal()
+  const { isAllRead } = useNotifications()
+
+  if (isAllRead)
+    return (
+      <BellIcon
+        className="size-6 text-zinc-500 cursor-pointer sm:hover:animate-buzz-out"
+        onClick={showNotificationModal}
+      />
+    )
+
+  return (
+    <BellAlertIcon
+      className="size-6 text-accent cursor-pointer sm:hover:animate-buzz-out"
+      onClick={showNotificationModal}
+    />
+  )
+}
+
+function ConnectMenuItem({
+  link,
+  size,
+}: {
+  link: HeaderLinkType
+  size: "base" | "sm"
+}) {
+  return (
+    <Menu.Item
+      icon={<i className={cn(link.icon, "text-base")} />}
+      className={`${
+        size === "base" ? "pl-5 pr-6 h-11" : "pl-4 pr-5 h-9"
+      } whitespace-nowrap`}
+      {...("href" in link
+        ? {
+            type: "link",
+            href: link.href,
+          }
+        : {
+            type: "button",
+            onClick: link.onClick,
+          })}
+    >
+      {link.label}
+    </Menu.Item>
+  )
 }
