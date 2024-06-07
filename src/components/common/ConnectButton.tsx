@@ -41,7 +41,7 @@ type HeaderLinkType = {
   icon?: React.ReactNode
   label: string | JSX.Element
   isSubmenu?: boolean
-  subMenuDropDown?: JSX.Element
+  subMenu?: HeaderLinkType[]
 } & (
   | {
       href: string
@@ -103,16 +103,13 @@ export const ConnectButton = ({
   const t = useTranslations()
 
   useEffect(() => {
-    if (balance) {
-      if (
-        BigInt(balance.value.toString()) >
-        BigInt("1" + "0".repeat(balance.decimals - 2))
-      ) {
-        setInsufficientBalance(false)
-      } else {
-        setInsufficientBalance(true)
-      }
-    }
+    if (!balance) return
+
+    const balanceValue =
+      BigInt(balance.value.toString()) <=
+      BigInt("1" + "0".repeat(balance.decimals - 2))
+
+    setInsufficientBalance(balanceValue)
   }, [balance])
 
   const dropdownLinks: HeaderLinkType[] = [
@@ -146,26 +143,13 @@ export const ConnectButton = ({
       icon: "i-mingcute-translate-2-line",
       isSubmenu: true,
       label: t("Switch Language") || "",
-      subMenuDropDown: (
-        <>
-          {Object.keys(nameMap).map((lo, i) => (
-            <Menu.Item
-              key={lo}
-              type="button"
-              onClick={() => {
-                document.cookie = `NEXT_LOCALE=${lo};`
-                window.location.reload()
-              }}
-              className="mx-auto"
-            >
-              <span>{nameMap[lo]}</span>
-              {locale === lo && (
-                <span className="ml-2 i-mingcute-check-line"></span>
-              )}
-            </Menu.Item>
-          ))}
-        </>
-      ),
+      subMenu: Object.keys(nameMap).map((lo) => ({
+        label: nameMap[lo],
+        onClick: () => {
+          document.cookie = `NEXT_LOCALE=${lo};`
+          window.location.reload()
+        },
+      })),
       onClick: (e) => {
         e.preventDefault()
       },
@@ -353,45 +337,20 @@ export const ConnectButton = ({
               {dropdownLinks.map((link, i) => {
                 if (link.isSubmenu) {
                   return (
-                    <Menu
+                    <Menu.SubMenu
                       key={i}
-                      placement="right-start"
-                      enableAutoPlacement
-                      target={
-                        <div
-                          className="w-full h-10 pl-5 pr-6 flex items-center flex-nowrap hoover:bg-hover"
-                          aria-hidden
-                        >
-                          <i
-                            className={cn(link.icon, "text-base mr-2 size-4")}
-                          />
-                          <span>{link.label}</span>
-                        </div>
+                      icon={
+                        <i className={cn(link.icon, "text-base mr-2 size-4")} />
                       }
-                      dropdown={link.subMenuDropDown}
-                    />
+                      dropdown={link.subMenu?.map((subLink, j) => (
+                        <ConnectMenuItem link={subLink} size={size} key={j} />
+                      ))}
+                    >
+                      <span>{link.label}</span>
+                    </Menu.SubMenu>
                   )
                 } else {
-                  return (
-                    <Menu.Item
-                      key={i}
-                      icon={<i className={cn(link.icon, "text-base")} />}
-                      className={`${
-                        size === "base" ? "pl-5 pr-6 h-11" : "pl-4 pr-5 h-9"
-                      } whitespace-nowrap`}
-                      {...("href" in link
-                        ? {
-                            type: "link",
-                            href: link.href,
-                          }
-                        : {
-                            type: "button",
-                            onClick: link.onClick,
-                          })}
-                    >
-                      {link.label}
-                    </Menu.Item>
-                  )
+                  return <ConnectMenuItem link={link} size={size} key={i} />
                 }
               })}
             </div>
@@ -426,7 +385,7 @@ function getAccountDisplayName(account: GeneralAccount | null) {
 
   return value.slice(0, 5) + "..." + value.slice(-4)
 }
-
+// maybe we could be create a file for this component
 function Notification() {
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
@@ -446,7 +405,8 @@ function Notification() {
     />
   )
 }
-
+// the all menuItem in this file
+// it can just be used in this file, because it's props link is the headerLinkType
 function ConnectMenuItem({
   link,
   size,

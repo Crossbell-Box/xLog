@@ -24,22 +24,20 @@ export function Menu({
   dropdown,
   placement = "bottom-start",
   enableAutoPlacement = false,
+  allowedPlacements = ["bottom-start"],
 }: React.PropsWithChildren<{
   target: JSX.Element
   dropdown: React.ReactNode
   placement?: Placement
   enableAutoPlacement?: boolean
+  allowedPlacements?: Placement[]
 }>) {
   const { refs, floatingStyles } = useFloating({
     placement,
     middleware: [
       // Prevent overflowing viewport
       shift({ padding: 20 }),
-      enableAutoPlacement
-        ? autoPlacement({
-            allowedPlacements: ["right-start", "left-start"],
-          })
-        : undefined,
+      enableAutoPlacement ? autoPlacement({ allowedPlacements }) : undefined,
     ],
     whileElementsMounted: autoUpdate,
   })
@@ -156,5 +154,42 @@ Menu.Item = function MenuItem({
         )
       }}
     </HeadlessUiMenu.Item>
+  )
+}
+
+// TODO: Add support for nested menus
+// this is a hack submenu use the div and <Menu /> component
+// about why i'm not use the headlessui Menu.Item, because it's not support nested menu,
+// and it will make the autoPlacement not work properly.
+// problem that's will happen is the styles maybe not sync with the <Menu.Item /> component
+
+Menu.SubMenu = function MenuSubMenu({
+  icon,
+  children,
+  dropdown,
+}: React.PropsWithChildren<{
+  icon: React.ReactNode
+  dropdown: React.ReactNode
+}>) {
+  return (
+    <Menu
+      placement="right-start"
+      enableAutoPlacement
+      allowedPlacements={["left-start", "right-start"]}
+      target={
+        <div
+          className="w-full px-3 flex items-center flex-nowrap 
+            pl-5 pr-6 h-11 whitespace-nowrap
+            hover:bg-hover
+            cursor-pointer select-none
+          "
+          aria-hidden
+        >
+          {icon}
+          {children}
+        </div>
+      }
+      dropdown={dropdown}
+    />
   )
 }
