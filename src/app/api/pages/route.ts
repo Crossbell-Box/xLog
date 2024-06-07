@@ -25,3 +25,5 @@ export async function GET(req: Request) {
   const res = new NextServerResponse()
   return res.status(200).json(result)
 }
+
+export const dynamic = "force-dynamic"
