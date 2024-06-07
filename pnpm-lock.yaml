@@ -302,9 +302,6 @@ importers:
       react-virtuoso:
         specifier: 4.7.10
         version: 4.7.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      rehype-autolink-headings:
-        specifier: 7.1.0
-        version: 7.1.0
       rehype-infer-description-meta:
         specifier: 2.0.0
         version: 2.0.0
@@ -6017,9 +6014,6 @@ packages:
   regexp.prototype.flags@1.5.2:
     resolution: {integrity: sha512-NcDiDkTLuPR+++OCKB0nWafEmhg/Da8aUPLPMQbK+bxKKCm1/S5he+AqYa4PlMCVBalb4/yxIRub6qkEx5yJbw==}
     engines: {node: '>= 0.4'}
-
-  rehype-autolink-headings@7.1.0:
-    resolution: {integrity: sha512-rItO/pSdvnvsP4QRB1pmPiNHUskikqtPojZKJPPPAVx9Hj8i8TwMBhofrrAYRhYOOBZH9tgmG5lPqDLuIWPWmw==}
 
   rehype-infer-description-meta@2.0.0:
     resolution: {integrity: sha512-8MZjKRfQiNB5+Qpt0fS9bpjcKe+nhF5GOTHo0M5e+XdStDpcZxkSMMnCfNIlpNaOyIQ7Hu1qEaUxm8ZL1lYI1g==}
@@ -14002,15 +13996,6 @@ snapshots:
       define-properties: 1.2.1
       es-errors: 1.3.0
       set-function-name: 2.0.2
-
-  rehype-autolink-headings@7.1.0:
-    dependencies:
-      '@types/hast': 3.0.4
-      '@ungap/structured-clone': 1.2.0
-      hast-util-heading-rank: 3.0.0
-      hast-util-is-element: 3.0.0
-      unified: 11.0.4
-      unist-util-visit: 5.0.0
 
   rehype-infer-description-meta@2.0.0:
     dependencies:

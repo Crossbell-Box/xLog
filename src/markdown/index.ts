@@ -13,7 +13,6 @@ import {
 } from "react"
 import { toast } from "react-hot-toast"
 import { Fragment, jsx, jsxs } from "react/jsx-runtime"
-import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import rehypeKatex from "rehype-katex"
 import rehypeRaw from "rehype-raw"
@@ -38,6 +37,7 @@ import { VFile } from "vfile"
 import remarkCalloutDirectives from "@microflash/remark-callout-directives"
 
 import AdvancedImage from "~/components/ui/AdvancedImage"
+import { createMarkdownHeaderComponent } from "~/components/ui/MarkdownRender"
 import { isServerSide } from "~/lib/utils"
 
 import { transformers } from "./embed-transformers"
@@ -63,6 +63,14 @@ const APlayer = dynamic(() => import("~/components/ui/APlayer"))
 const DPlayer = dynamic(() => import("~/components/ui/DPlayer"))
 const RSS = dynamic(() => import("~/components/ui/RSS"))
 const ShikiRemark = dynamic(() => import("~/components/ui/ShikiRemark"))
+
+const HeadRenderMap = {
+  h1: createMarkdownHeaderComponent("h1"),
+  h2: createMarkdownHeaderComponent("h2"),
+  h3: createMarkdownHeaderComponent("h3"),
+  h4: createMarkdownHeaderComponent("h4"),
+  h5: createMarkdownHeaderComponent("h5"),
+}
 
 const memoedPreComponentMap = {} as Record<string, any>
 const hashCodeThemeKey = (codeTheme?: Record<string, any>): string => {
@@ -109,22 +117,7 @@ export const renderPageContent = ({
       .use(rehypeRaw)
       .use(rehypeIpfs)
       .use(rehypeSlug)
-      .use(rehypeAutolinkHeadings, {
-        behavior: "append",
-        properties: {
-          className: "xlog-anchor",
-          ariaHidden: true,
-          tabIndex: -1,
-        },
-        content(node) {
-          return [
-            {
-              type: "text",
-              value: "#",
-            },
-          ]
-        },
-      })
+
       .use(rehypeSanitize, strictMode ? undefined : sanitizeScheme)
       .use(rehypeTable)
       .use(rehypeExternalLink)
@@ -192,6 +185,16 @@ export const renderPageContent = ({
           // @ts-expect-error
           style: Style,
           rss: RSS,
+          // @ts-expect-error
+          h1: HeadRenderMap.h1,
+          // @ts-expect-error
+          h2: HeadRenderMap.h2,
+          // @ts-expect-error
+          h3: HeadRenderMap.h3,
+          // @ts-expect-error
+          h4: HeadRenderMap.h4,
+          // @ts-expect-error
+          h5: HeadRenderMap.h5,
 
           // @ts-expect-error
           pre: Pre,
