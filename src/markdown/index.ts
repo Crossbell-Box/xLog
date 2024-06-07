@@ -117,22 +117,7 @@ export const renderPageContent = ({
       .use(rehypeRaw)
       .use(rehypeIpfs)
       .use(rehypeSlug)
-      // .use(rehypeAutolinkHeadings, {
-      //   behavior: "append",
-      //   properties: {
-      //     className: "xlog-anchor",
-      //     ariaHidden: true,
-      //     tabIndex: -1,
-      //   },
-      //   content(node) {
-      //     return [
-      //       {
-      //         type: "text",
-      //         value: "#",
-      //       },
-      //     ]
-      //   },
-      // })
+
       .use(rehypeSanitize, strictMode ? undefined : sanitizeScheme)
       .use(rehypeTable)
       .use(rehypeExternalLink)
