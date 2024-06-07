@@ -1,7 +1,7 @@
 "use client"
 
 import { AnimatePresence, m } from "framer-motion"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { flushSync } from "react-dom"
 
 import {
@@ -80,12 +80,6 @@ export const Tooltip = ({
   const doPopoverShow = useCallback(() => {
     setOpen(true)
   }, [setOpen])
-
-  useEffect(() => {
-    if (refs.floating.current && open) {
-      refs.floating.current.focus()
-    }
-  }, [open])
 
   const listener = useMemo(() => {
     return {
