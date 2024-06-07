@@ -40,12 +40,12 @@ export const Tooltip = ({
   inline,
   debug,
 }: Props) => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [maxHeight, setMaxHeight] = useState<number>()
 
   const { floatingStyles, refs, context } = useFloating({
     placement,
-    open: true,
+    open,
     onOpenChange: setOpen,
     middleware: [
       offset(5),
