@@ -9,6 +9,7 @@ import {
 export const ColorSchemeInjector = () => {
   return (
     <script
+      suppressHydrationWarning
       dangerouslySetInnerHTML={{
         __html: `(() => {
 let DARK_MODE_STORAGE_KEY = "${DARK_MODE_STORAGE_KEY}";
