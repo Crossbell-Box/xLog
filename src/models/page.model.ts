@@ -30,6 +30,8 @@ import {
 } from "~/lib/types"
 import { client } from "~/queries/graphql"
 
+import filter from "../../data/filter.json"
+
 export const PINNED_PAGE_KEY = "xlog_pinned_page"
 
 export async function checkPageSlug(input: {
@@ -175,6 +177,13 @@ export async function getPagesBySite(input: {
     }`,
     )
     .join(", ")
+
+  const contentFilterQuery = filter.post_content
+    .map((content) => {
+      return `{ content: { path: "content", string_contains: "${content}" } }`
+    })
+    .join(",\n")
+
   const whereQuery = `
     {
       characterId: {
@@ -189,6 +198,7 @@ export async function getPagesBySite(input: {
         equals: false,
       },
       metadata: {
+        NOT: [${contentFilterQuery}],
         AND: [
           {
             content: {

@@ -83,6 +83,12 @@ export async function getFeed({
     }
   `
 
+  const contentFilterQuery = filter.post_content
+    .map((content) => {
+      return `{ content: { path: "content", string_contains: "${content}" } }`
+    })
+    .join(",\n")
+
   let resultAll: {
     list: ExpandedNote[]
     cursor?: string | null
@@ -127,7 +133,7 @@ export async function getFeed({
                         path: "tags",
                         array_starts_with: "short" # TODO: remove this
                       }
-                    }]
+                    }, ${contentFilterQuery}]
                   },
                 },
                 orderBy: [{ createdAt: desc }],
