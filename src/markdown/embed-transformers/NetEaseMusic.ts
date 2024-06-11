@@ -20,9 +20,10 @@ const parseLink = (url: string) => {
 }
 
 const getIFrame = (url: URL) => {
-  const { pathname, searchParams } = url
-  const isSong = pathname.includes("/song")
-  const id = searchParams.get("id")
+  const { pathname, searchParams, hash } = url
+  const isSong = pathname.includes("/song") || hash.includes("/song")
+  const [, , hashParsedId] = /#\/(song|album|playlist)\?id=(\d+)/.exec(hash) || []
+  const id = searchParams.get("id") || hashParsedId
   const { type } = parseLink(url.toString())
 
   const height = isSong ? 66 : 250
@@ -36,11 +37,12 @@ const getIFrame = (url: URL) => {
 export const NetEaseMusicTransformer: Transformer = {
   name: "NetEaseMusic",
   shouldTransform(url) {
-    const { host, pathname } = url
+    const { host, pathname, hash } = url
 
     return (
       host === "music.163.com" &&
-      includesSomeOfArray(pathname, ["/song", "/playlist", "/album"])
+      includesSomeOfArray(pathname, ["/song", "/playlist", "/album"]) ||
+      includesSomeOfArray(hash, ["/song", "/playlist", "/album"])
     )
   },
   getHTML(url) {
