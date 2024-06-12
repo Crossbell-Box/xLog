@@ -42,7 +42,7 @@ export default async function PromotionLinks({
       </Tooltip>
       {GITHUB_LINK && (
         <UniLink
-          className="flex-1 flex justify-center text-[#181717]"
+          className="flex-1 flex justify-center text-[#181717] dark:text-[#e6edf3]"
           href={GITHUB_LINK}
         >
           <span className="inline-block i-mingcute-github-fill text-2xl"></span>
