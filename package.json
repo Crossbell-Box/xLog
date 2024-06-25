@@ -64,7 +64,7 @@
     "@tanstack/react-query": "4.36.1",
     "@uiw/codemirror-extensions-events": "4.22.1",
     "@urql/core": "5.0.3",
-    "@vercel/otel": "1.8.2",
+    "@vercel/otel": "1.9.1",
     "@wagmi/core": "1",
     "@xlog/shiki": "link:./packages/shiki",
     "ahooks": "3.8.0",
