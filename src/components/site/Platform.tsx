@@ -162,6 +162,29 @@ export const PlatformsSyncMap: {
     name: "500px",
     url: "https://500px.com/p/{username}",
   },
+  threads: {
+    name: "Threads",
+    icon: `${iconCDN}/threads`,
+    url: "https://www.threads.net/@{username}",
+  },
+  instagram: {
+    name: "Instagram",
+    icon: `${iconCDN}/instagram`,
+    url: "https://www.instagram.com/{username}",
+  },
+  phaver: {
+    name: "Phaver",
+    url: "https://phaver.app.link/{username}",
+  },
+  warpcast: {
+    name: "Warpcast",
+    icon: `${iconCDN}/farcaster`,
+    url: "https://warpcast.com/{username}",
+  },
+  debank: {
+    name: "DeBank",
+    url: "https://debank.com/profile/{username}",
+  },
 }
 
 export const Platform = ({
