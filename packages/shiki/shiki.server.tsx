@@ -14,6 +14,10 @@ export const ShikiRender: FC<ShikiCodeProps> = async ({
   codeTheme,
   language,
 }) => {
+  if (!code) {
+    return null
+  }
+
   const highlighter = await createHighlighter()
 
   if (!Object.keys(bundledLanguages).includes(language || "")) {
