@@ -174,7 +174,7 @@ export const PlatformsSyncMap: {
   },
   phaver: {
     name: "Phaver",
-    icon: "/assets/social/debank.svg",
+    icon: "/assets/social/phaver.png",
     url: "https://phaver.app.link/{username}",
   },
   warpcast: {
@@ -184,7 +184,7 @@ export const PlatformsSyncMap: {
   },
   debank: {
     name: "DeBank",
-    icon: "/assets/social/debank.svg",
+    icon: "/assets/social/debank.png",
     url: "https://debank.com/profile/{username}",
   },
 }
