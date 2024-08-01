@@ -59,7 +59,7 @@
     "@monaco-editor/react": "4.6.0",
     "@popperjs/core": "2.11.8",
     "@prisma/client": "5.14.0",
-    "@shikijs/transformers": "^1.6.0",
+    "@shikijs/transformers": "^1.12.1",
     "@supercharge/request-ip": "1.2.0",
     "@tanstack/react-query": "4.36.1",
     "@uiw/codemirror-extensions-events": "4.22.1",
