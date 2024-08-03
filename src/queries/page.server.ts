@@ -114,7 +114,7 @@ const getOriginalSummary = async ({
       if (!chain) {
         const prompt = new PromptTemplate({
           template: `Summarize this in "${summaryLang}" language:
-        "{text}"
+        "{text}", Ignore the front matter in Markdown. Summarize only the content after the second `---`.
         CONCISE SUMMARY:`,
           inputVariables: ["text"],
         })
