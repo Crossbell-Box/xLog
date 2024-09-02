@@ -317,7 +317,9 @@ export default function DashboardLayout({
               {(isOpen) => <div>233</div>}
             </DashboardTopbar>
           ) : (
-            <div className={`w-sidebar transition-[width] relative shrink-0`}>
+            <div
+              className={`w-sidebar transition-[width] relative shrink-0 z-10`}
+            >
               <div
                 className={`w-sidebar transition-[width] fixed h-full flex flex-col`}
               >
