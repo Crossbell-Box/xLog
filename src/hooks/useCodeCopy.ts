@@ -9,7 +9,7 @@ export const useCodeCopy = () => {
         e.target.closest("button.copy-button")
       if (button) {
         if (button.classList.contains("copied")) return
-        const pre = button.nextElementSibling
+        const pre = button.nextElementSibling?.children[0]
         if (pre?.tagName === "PRE") {
           clipboardCopy(pre.textContent || "")
           const textEl = button.querySelector("span:nth-child(2)")
