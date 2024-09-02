@@ -97,6 +97,11 @@ export const PlatformsSyncMap: {
     icon: `${iconCDN}/discord`,
     url: "https://discord.gg/{username}",
   },
+  "discord user": {
+    name: "Discord User",
+    icon: `${iconCDN}/discord`,
+    url: "https://discord.com/users/{username}",
+  },
   xiaoyuzhou: {
     name: "小宇宙播客",
     icon: "/assets/social/xiaoyuzhou2.png",
