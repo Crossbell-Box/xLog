@@ -192,6 +192,11 @@ export const PlatformsSyncMap: {
     icon: "/assets/social/debank.png",
     url: "https://debank.com/profile/{username}",
   },
+  follow: {
+    name: "Follow",
+    icon: "/assets/social/follow.svg",
+    url: "https://app.follow.is/profile/{username}",
+  },
 }
 
 export const Platform = ({
