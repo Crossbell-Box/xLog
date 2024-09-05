@@ -8,7 +8,6 @@ import { Metadata } from "@prisma/client"
 import { languageNames } from "~/i18n"
 import { detectLanguage } from "~/lib/detect-lang"
 import { toGateway } from "~/lib/ipfs-parser"
-import { llmModelSwitcherByTextLength } from "~/lib/llm-model-switcher-by-text-length"
 import prisma from "~/lib/prisma.server"
 import { cacheGet } from "~/lib/redis.server"
 import { getQuery, NextServerResponse } from "~/lib/server-helper"
@@ -21,22 +20,17 @@ type ContentTranslation = {
   content?: string
 }
 
-let translationModel4K: OpenAI | undefined
-let translationModel16K: OpenAI | undefined
+let openai: OpenAI | undefined
 if (process.env.OPENAI_API_KEY) {
   const options = {
     openAIApiKey: process.env.OPENAI_API_KEY,
     temperature: 0.2,
     maxTokens: -1,
   }
-  translationModel4K = new OpenAI({ ...options, modelName: "gpt-3.5-turbo" })
-  translationModel16K = new OpenAI({
-    ...options,
-    modelName: "gpt-3.5-turbo-16k",
-  })
+  openai = new OpenAI({ ...options, modelName: "gpt-4o-mini" })
 }
 
-type ChainKeyType = `${4 | 16}k_${Language}` // e.g. "4k_en" | "4k_zh" | "4k_zh-TW" | "4k_ja" | "16k_en" | "16k_zh" | "16k_zh-TW" | "16k_ja"
+type ChainKeyType = Language // e.g. "4k_en" | "4k_zh" | "4k_zh-TW" | "4k_ja" | "16k_en" | "16k_zh" | "16k_zh-TW" | "16k_ja"
 const translationChains = new Map<ChainKeyType, LLMChain>()
 
 const getOriginalTranslation = async ({
@@ -50,7 +44,7 @@ const getOriginalTranslation = async ({
 }): Promise<ContentTranslation | undefined> => {
   if (fromLang === toLang) return
 
-  if (!translationModel4K || !translationModel16K) return
+  if (!openai) return
 
   try {
     const { title, content } = await (
@@ -60,18 +54,8 @@ const getOriginalTranslation = async ({
     if (!fromLang && detectLanguage(title + content) === toLang) return
 
     console.time(`fetching translation ${cid}, ${toLang}`)
-    const { modelSize, tokens } = llmModelSwitcherByTextLength(content, {
-      includeResponse: { lang: toLang },
-    })
 
-    if (!modelSize) {
-      console.error(
-        `|__ Error: Content too long for translation: ${cid}, ${toLang}. (Tokens: ${tokens})`,
-      )
-      return
-    }
-
-    let chain = translationChains.get(`${modelSize}_${toLang}`)
+    let chain = translationChains.get(toLang)
 
     if (!chain) {
       const template = `
@@ -101,12 +85,9 @@ Translate the following text to ${languageNames[toLang]} language:
         inputVariables: ["text"],
       })
 
-      const translateModel =
-        modelSize === "4k" ? translationModel4K : translationModel16K
+      chain = new LLMChain({ llm: openai, prompt })
 
-      chain = new LLMChain({ llm: translateModel, prompt })
-
-      translationChains.set(`${modelSize}_${toLang}`, chain)
+      translationChains.set(toLang, chain)
     }
 
     const t =

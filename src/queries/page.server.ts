@@ -79,7 +79,7 @@ let model: OpenAI | undefined
 if (process.env.OPENAI_API_KEY) {
   model = new OpenAI({
     openAIApiKey: process.env.OPENAI_API_KEY,
-    modelName: "gpt-3.5-turbo",
+    modelName: "gpt-4o-mini",
     temperature: 0.3,
     maxTokens: 400,
   })
