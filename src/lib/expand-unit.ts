@@ -277,6 +277,13 @@ export const expandCrossbellCharacter = async (site: CharacterEntity) => {
     dark: "github-dark-default",
   }
 
+  expandedCharacter.metadata.content.follow =
+    JSON.parse(
+      (expandedCharacter.metadata?.content?.attributes?.find(
+        (a: any) => a.trait_type === "xlog_follow",
+      )?.value as string) || "null",
+    ) || undefined
+
   const getArribute = (outputKey: string, typeKey: string) => {
     ;(expandedCharacter.metadata.content as any)[outputKey] =
       expandedCharacter.metadata?.content?.attributes?.find(

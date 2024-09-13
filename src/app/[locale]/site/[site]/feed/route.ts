@@ -1,3 +1,5 @@
+import RSS from "rss"
+
 import { SITE_URL } from "~/lib/env"
 import { getSiteLink } from "~/lib/helpers"
 import { NextServerResponse } from "~/lib/server-helper"
@@ -38,6 +40,10 @@ export async function GET(
     subdomain: site?.handle || "",
     domain: site?.metadata?.content?.custom_domain,
   })
+
+  const followFeedId = site?.metadata?.content?.follow?.feed_id
+  const followUserId = site?.metadata?.content?.follow?.user_id
+
   const data = {
     version: "https://jsonfeed.org/version/1",
     title: site?.metadata?.content?.site_name || site?.metadata?.content?.name,
@@ -57,6 +63,14 @@ export async function GET(
         },
       },
     }),
+    ...(followFeedId && followUserId
+      ? {
+          follow_challenge: {
+            feed_id: followFeedId,
+            user_id: followUserId,
+          },
+        }
+      : {}),
     items: pages.list?.map((page) => ({
       id: page.characterId + "-" + page.noteId,
       title: page.metadata?.content?.title || "Untitled",
@@ -84,13 +98,84 @@ export async function GET(
     })),
   }
 
+  const feed = new RSS({
+    title:
+      site?.metadata?.content?.site_name ||
+      site?.metadata?.content?.name ||
+      "Untitled",
+    description: site?.metadata?.content?.bio,
+    image_url: site?.metadata?.content?.avatars?.[0],
+    site_url: link,
+    feed_url: `${link}/feed`,
+    custom_namespaces: {
+      itunes: "http://www.itunes.com/dtds/podcast-1.0.dtd",
+    },
+    custom_elements: [
+      ...(hasAudio
+        ? [
+            { "itunes:image": site?.metadata?.content?.avatars?.[0] },
+            {
+              "itunes:author":
+                site?.metadata?.content?.site_name ||
+                site?.metadata?.content?.name,
+            },
+            { "itunes:summary": site?.metadata?.content?.bio },
+            {
+              "itunes:owner": [
+                {
+                  "itunes:email": email,
+                },
+                {
+                  "itunes:name": site?.metadata?.content?.name,
+                },
+              ],
+            },
+          ]
+        : []),
+      ...(followFeedId && followUserId
+        ? [
+            {
+              follow_challenge: [
+                { feedId: followFeedId },
+                { userId: followUserId },
+              ],
+            },
+            ,
+          ]
+        : []),
+    ],
+  })
+
+  pages.list.forEach((page) => {
+    feed.item({
+      guid: page.characterId + "-" + page.noteId,
+      title: page.metadata?.content?.title || "Untitled",
+      description: page.metadata?.content?.summary,
+      custom_elements: [
+        {
+          "content:encoded": page.metadata?.content?.contentHTML,
+        },
+      ],
+      url: `${SITE_URL}/api/redirection?characterId=${page.characterId}&noteId=${page.noteId}`,
+      date: new Date(page.metadata?.content?.date_published),
+      categories: page.metadata?.content?.tags,
+      author: site?.metadata?.content?.name,
+      enclosure: hasAudio
+        ? {
+            url: page.metadata?.content?.audio,
+            type: "audio/mpeg",
+          }
+        : undefined,
+    })
+  })
+
   const format =
     new URLSearchParams(request.url.split("?")[1]).get("format") === "json"
       ? "json"
       : "xml"
 
   const res = new NextServerResponse()
-  return res.status(200).rss(data, format)
+  return res.status(200).rss(format === "json" ? data : feed.xml(), format)
 }
 
 export const dynamic = "force-dynamic"

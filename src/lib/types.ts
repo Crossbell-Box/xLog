@@ -132,6 +132,10 @@ export type ExpandedCharacter = CharacterEntity & {
         light?: BundledTheme
         dark?: BundledTheme
       }
+      follow?: {
+        feed_id?: string
+        user_id?: string
+      }
     }
   }
 }

@@ -1,6 +1,3 @@
-// @ts-ignore
-import jsonfeedToRSS from "jsonfeed-to-rss"
-
 export const getQuery = (req: Request) => {
   const url = new URL(req.url)
   const searchParams = url.searchParams
@@ -69,7 +66,7 @@ export class NextServerResponse {
 
   rss(data: any, format = "json") {
     if (format === "xml") {
-      return new Response(jsonfeedToRSS(data), {
+      return new Response(data, {
         status: this.#status,
         headers: {
           "Content-Type": "application/xml; charset=utf-8",

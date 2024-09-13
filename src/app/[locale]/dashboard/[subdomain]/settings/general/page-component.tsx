@@ -36,6 +36,8 @@ export default function SiteSettingsGeneralPage() {
       uh: "",
       code_theme_light: "",
       code_theme_dark: "",
+      follow_feed_id: undefined,
+      follow_user_id: undefined,
     } as {
       icon?: string
       banner?: {
@@ -51,6 +53,8 @@ export default function SiteSettingsGeneralPage() {
       uh: string
       code_theme_light: string
       code_theme_dark: string
+      follow_feed_id?: string
+      follow_user_id?: string
     },
   })
 
@@ -69,6 +73,10 @@ export default function SiteSettingsGeneralPage() {
       code_theme: {
         light: values.code_theme_light,
         dark: values.code_theme_dark,
+      },
+      follow: {
+        feed_id: values.follow_feed_id,
+        user_id: values.follow_user_id,
       },
     })
   })
@@ -125,6 +133,16 @@ export default function SiteSettingsGeneralPage() {
           "code_theme_dark",
           site.data.metadata?.content?.code_theme?.dark ||
             "github-dark-default",
+        )
+      !form.getValues("follow_feed_id") &&
+        form.setValue(
+          "follow_feed_id",
+          site.data.metadata?.content?.follow?.feed_id,
+        )
+      !form.getValues("follow_user_id") &&
+        form.setValue(
+          "follow_user_id",
+          site.data.metadata?.content?.follow?.user_id,
         )
     }
   }, [site.data, form])
@@ -247,6 +265,21 @@ export default function SiteSettingsGeneralPage() {
             id="code_theme_dark"
             {...form.register("code_theme_dark")}
           />
+        </div>
+        <div className="mt-5 flex gap-6 items-center">
+          <p className="text-lg font-bold">Follow</p>
+          <div className="flex gap-3">
+            <Input
+              label="Feed ID"
+              id="follow_feed_id"
+              {...form.register("follow_feed_id")}
+            />
+            <Input
+              label="User ID"
+              id="follow_user_id"
+              {...form.register("follow_user_id")}
+            />
+          </div>
         </div>
         <div className="mt-5">
           <Input
