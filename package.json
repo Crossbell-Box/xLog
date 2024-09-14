@@ -93,6 +93,7 @@
     "isomorphic-dompurify": "2.11.0",
     "js-yaml": "4.1.0",
     "jsdom": "24.0.0",
+    "jsonfeed-to-rss": "^3.0.8",
     "katex": "0.16.10",
     "langchain": "0.1.37",
     "lottie-react": "2.4.0",

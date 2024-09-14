@@ -1,3 +1,6 @@
+// @ts-ignore
+import jsonfeedToRSS from "jsonfeed-to-rss"
+
 export const getQuery = (req: Request) => {
   const url = new URL(req.url)
   const searchParams = url.searchParams
@@ -66,15 +69,18 @@ export class NextServerResponse {
 
   rss(data: any, format = "json") {
     if (format === "xml") {
-      return new Response(data, {
-        status: this.#status,
-        headers: {
-          "Content-Type": "application/xml; charset=utf-8",
-          "Access-Control-Allow-Methods": "GET",
-          "Access-Control-Allow-Origin": "*",
-          "Cache-Control": "public, max-age=1800",
+      return new Response(
+        typeof data === "string" ? data : jsonfeedToRSS(data),
+        {
+          status: this.#status,
+          headers: {
+            "Content-Type": "application/xml; charset=utf-8",
+            "Access-Control-Allow-Methods": "GET",
+            "Access-Control-Allow-Origin": "*",
+            "Cache-Control": "public, max-age=1800",
+          },
         },
-      })
+      )
     } else {
       return new Response(JSON.stringify(data), {
         status: this.#status,
