@@ -113,8 +113,8 @@ const getOriginalSummary = async ({
       let chain = chains.get(summaryLang)
       if (!chain) {
         const prompt = new PromptTemplate({
-          template: `Summarize this in "${summaryLang}" language:
-        "{text}", Ignore the front matter in Markdown. Summarize only the content after the second ---.
+          template: `Summarize this in "${summaryLang}" language, If it is a markdown file that includes front matter, Ignore the front matter. Summarize only the content after the second ---:
+        "{text}"
         CONCISE SUMMARY:`,
           inputVariables: ["text"],
         })
