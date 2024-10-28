@@ -192,6 +192,11 @@ export const PlatformsSyncMap: {
     icon: "/assets/social/debank.png",
     url: "https://debank.com/profile/{username}",
   },
+  bluesky: {
+    name: "BlueSky",
+    icon: "${iconCDN}/bluesky",
+    url: "https://bsky.app/profile/{username}",
+  },
   follow: {
     name: "Follow",
     icon: "/assets/social/follow.svg",
