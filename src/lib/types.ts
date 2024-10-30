@@ -1,7 +1,7 @@
 import type { CharacterEntity, NoteEntity } from "crossbell"
 import type { BundledTheme } from "shiki/themes"
 
-export type Language = Readonly<"en" | "zh" | "zh-TW" | "ja">
+export type Language = Readonly<"en" | "zh" | "zh-TW" | "ja" | "tr">
 
 export type Site = {
   id: string
