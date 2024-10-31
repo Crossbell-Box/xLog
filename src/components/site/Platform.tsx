@@ -200,7 +200,7 @@ export const PlatformsSyncMap: {
   follow: {
     name: "Follow",
     icon: "/assets/social/follow.svg",
-    url: "https://app.follow.is/profile/{username}",
+    url: "https://app.follow.is/share/users/{username}",
   },
 }
 
