@@ -197,6 +197,20 @@ export const PlatformsSyncMap: {
     icon: "${iconCDN}/bluesky",
     url: "https://bsky.app/profile/{username}",
   },
+    xbox: {
+    name: "Xbox",
+    url: "https://www.xbox.com/play/user/{username}",
+   },
+    namemc: {
+    name: "NameMC",
+    icon: "${iconCDN}/namemc",
+    url: "https://namemc.com/profile/{username}.1",
+  },
+    roblox: {
+    name: "Roblox",
+    icon: "${iconCDN}/roblox",
+    url: "https://www.roblox.com/users/{username}",
+  },
   follow: {
     name: "Follow",
     icon: "/assets/social/follow.svg",
