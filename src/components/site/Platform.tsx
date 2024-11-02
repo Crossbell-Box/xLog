@@ -211,6 +211,21 @@ export const PlatformsSyncMap: {
     icon: "${iconCDN}/roblox",
     url: "https://www.roblox.com/users/{username}",
   },
+    niconico: {
+    name: "NicoNico",
+    icon: "${iconCDN}/niconico",
+    url: "https://www.nicovideo.jp/user/{username}",
+  },
+    "netease cloud music": {
+    name: "Netease Cloud Music",
+    icon: "${iconCDN}/neteasecloudmusic",
+    url: "https://music.163.com/#/user/home?id={username}",
+  },
+  "netease cloud music artist": {
+    name: "Netease Cloud Music Artist",
+    icon: "${iconCDN}/neteasecloudmusic",
+    url: "https://music.163.com/#/artist?id={username}",
+  },
   follow: {
     name: "Follow",
     icon: "/assets/social/follow.svg",
