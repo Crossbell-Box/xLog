@@ -226,6 +226,11 @@ export const PlatformsSyncMap: {
     icon: "${iconCDN}/neteasecloudmusic",
     url: "https://music.163.com/#/artist?id={username}",
   },
+  "steamdb": {
+    name: "SteamDB",
+    icon: "${iconCDN}/steamdb",
+    url: "https://steamdb.info/calculator/{username}",
+  },
   follow: {
     name: "Follow",
     icon: "/assets/social/follow.svg",
