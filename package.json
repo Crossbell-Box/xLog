@@ -49,7 +49,7 @@
     "@ddietr/codemirror-themes": "1.4.2",
     "@floating-ui/react": "0.26.16",
     "@headlessui/react": "1.7.19",
-    "@heroicons/react": "2.1.3",
+    "@heroicons/react": "2.1.5",
     "@iconify-json/mingcute": "1.1.17",
     "@lezer/highlight": "1.2.0",
     "@mantine/core": "7.10.0",
