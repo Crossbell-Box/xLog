@@ -32,7 +32,7 @@
   "dependencies": {
     "@birdgg/react-github": "0.2.3",
     "@codemirror/autocomplete": "6.16.0",
-    "@codemirror/commands": "6.5.0",
+    "@codemirror/commands": "6.6.0",
     "@codemirror/lang-markdown": "6.2.5",
     "@codemirror/language": "6.10.1",
     "@codemirror/language-data": "6.5.1",
