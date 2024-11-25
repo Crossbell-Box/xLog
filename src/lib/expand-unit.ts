@@ -244,6 +244,11 @@ export const expandCrossbellNote = async ({
 }
 
 export const expandCrossbellCharacter = async (site: CharacterEntity) => {
+  if (!site.metadata && site.uri) {
+    site.metadata = {
+      uri: site.uri,
+    }
+  }
   if (site.metadata?.uri && !site.metadata?.content) {
     site.metadata.content = await (
       await fetch(toGateway(site.metadata.uri))
@@ -258,6 +263,11 @@ export const expandCrossbellCharacter = async (site: CharacterEntity) => {
     },
     site,
   )
+  if (!expandedCharacter.metadata) {
+    expandedCharacter.metadata = {
+      content: {},
+    }
+  }
   if (!expandedCharacter.metadata.content) {
     expandedCharacter.metadata.content = {}
   }
