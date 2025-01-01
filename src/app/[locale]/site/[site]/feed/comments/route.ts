@@ -4,14 +4,13 @@ import { getCommentsBySite, getSite } from "~/models/site.model"
 
 export async function GET(
   request: Request,
-  {
-    params,
-  }: {
-    params: {
+  props: {
+    params: Promise<{
       site: string
-    }
+    }>
   },
 ) {
+  const params = await props.params
   const site = await getSite(params.site)
   const comments = await getCommentsBySite({
     characterId: site?.characterId,

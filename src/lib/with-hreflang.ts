@@ -4,7 +4,7 @@ import { headers } from "next/headers"
 import { defaultLocale, locales } from "~/i18n"
 
 type BaseProps = {
-  params?: Record<string, any>
+  params?: Promise<Record<string, any>>
   searchParams?: Record<string, string | string[] | undefined>
 }
 
@@ -23,14 +23,14 @@ export function withHrefLang<T extends BaseProps>(
     const metadata: Metadata = await _generateMetadata(props, parent)
 
     if (metadata.alternates) {
-      const { locale } = props?.params || {}
-      const protocol = headers().get("x-forwarded-proto") || ""
-      const host = headers().get("x-forwarded-host") || ""
+      const { locale } = (await props?.params) || {}
+      const protocol = (await headers()).get("x-forwarded-proto") || ""
+      const host = (await headers()).get("x-forwarded-host") || ""
       const metadataBase = new URL(`${protocol}://${host}`)
-      const path = headers().get("x-xlog-pathname") || ""
+      const path = (await headers()).get("x-xlog-pathname") || ""
 
-      const redirectedPathName = (locale: string) => {
-        const search = headers().get("x-xlog-search") || ""
+      const redirectedPathName = async (locale: string) => {
+        const search = (await headers()).get("x-xlog-search") || ""
         const searchParams = new URLSearchParams(search)
         searchParams.set("locale", locale)
 
@@ -49,14 +49,27 @@ export function withHrefLang<T extends BaseProps>(
        *    <link rel="alternate" hrefLang="x-default" href="<URL>?locale=en"/>
        * </head>
        * */
-      metadata.alternates["canonical"] = redirectedPathName(
+      metadata.alternates["canonical"] = await redirectedPathName(
         locale ?? defaultLocale,
       )
+
+      const hrefLangs = await Promise.all(
+        locales.map(async (locale) => {
+          const hreflang: string = locale
+          return {
+            hreflang,
+            href: await redirectedPathName(locale),
+          }
+        }),
+      )
+
       metadata.alternates["languages"] = {
         ...locales.reduce(
           (acc, locale) => {
             const hreflang: string = locale
-            acc[hreflang] = redirectedPathName(locale)
+            acc[hreflang] = hrefLangs.find(
+              (hl) => hl.hreflang === hreflang,
+            )?.href!
             return acc
           },
           {} as Record<string, string>,

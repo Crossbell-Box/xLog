@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, type JSX } from "react"
 
 import { useCodeCopy } from "~/hooks/useCodeCopy"
 import { useHash } from "~/hooks/useHash"

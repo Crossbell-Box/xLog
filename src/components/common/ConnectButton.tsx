@@ -1,7 +1,7 @@
 "use client"
 
 import { useLocale, useTranslations } from "next-intl"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, type JSX } from "react"
 
 import {
   GeneralAccount,

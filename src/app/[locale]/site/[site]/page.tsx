@@ -10,13 +10,12 @@ import {
 } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
-async function SiteIndexPage({
-  params,
-}: {
-  params: {
+async function SiteIndexPage(props: {
+  params: Promise<{
     site: string
-  }
+  }>
 }) {
+  const params = await props.params
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)

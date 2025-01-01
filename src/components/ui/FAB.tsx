@@ -1,6 +1,6 @@
 "use client"
 
-import React, { PropsWithChildren, useEffect, useState } from "react"
+import React, { PropsWithChildren, useEffect, useState, type JSX } from "react"
 
 import { useGetState } from "~/hooks/useGetState"
 import { cn } from "~/lib/utils"

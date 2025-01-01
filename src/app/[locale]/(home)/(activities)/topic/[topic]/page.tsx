@@ -23,13 +23,12 @@ export const generateMetadata = withHrefLang<{
   }
 })
 
-export default async function Topic({
-  params,
-}: {
-  params: {
+export default async function Topic(props: {
+  params: Promise<{
     topic: string
-  }
+  }>
 }) {
+  const params = await props.params
   const t = await getTranslations()
   params.topic = decodeURIComponent(params.topic)
   const info = topics.find((t) => t.name === params.topic)

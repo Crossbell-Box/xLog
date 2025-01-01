@@ -1,7 +1,7 @@
 "use client"
 
 import { useInViewport } from "ahooks"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, type JSX } from "react"
 
 import { cn } from "~/lib/utils"
 

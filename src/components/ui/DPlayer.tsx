@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic"
 import { type DPlayerProps } from "rc-dplayer"
+import type { JSX } from "react"
 
 import { toGateway } from "~/lib/ipfs-parser"
 
