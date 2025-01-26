@@ -194,7 +194,7 @@ export const PlatformsSyncMap: {
   },
   bluesky: {
     name: "BlueSky",
-    icon: "${iconCDN}/bluesky",
+    icon: `${iconCDN}/bluesky`,
     url: "https://bsky.app/profile/{username}",
   },
     xbox: {
@@ -203,32 +203,32 @@ export const PlatformsSyncMap: {
    },
     namemc: {
     name: "NameMC",
-    icon: "${iconCDN}/namemc",
+    icon: `${iconCDN}/namemc`,
     url: "https://namemc.com/profile/{username}.1",
   },
     roblox: {
     name: "Roblox",
-    icon: "${iconCDN}/roblox",
+    icon: `${iconCDN}/roblox`,
     url: "https://www.roblox.com/users/{username}",
   },
     niconico: {
     name: "NicoNico",
-    icon: "${iconCDN}/niconico",
+    icon: `${iconCDN}/niconico`,
     url: "https://www.nicovideo.jp/user/{username}",
   },
     "netease cloud music": {
     name: "Netease Cloud Music",
-    icon: "${iconCDN}/neteasecloudmusic",
+    icon: `${iconCDN}/neteasecloudmusic`,
     url: "https://music.163.com/#/user/home?id={username}",
   },
   "netease cloud music artist": {
     name: "Netease Cloud Music Artist",
-    icon: "${iconCDN}/neteasecloudmusic",
+    icon: `${iconCDN}/neteasecloudmusic`,
     url: "https://music.163.com/#/artist?id={username}",
   },
   "steamdb": {
     name: "SteamDB",
-    icon: "${iconCDN}/steamdb",
+    icon: `${iconCDN}/steamdb`,
     url: "https://steamdb.info/calculator/{username}",
   },
   follow: {
