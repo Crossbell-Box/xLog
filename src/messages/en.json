@@ -116,6 +116,7 @@
   "ja": "Japanese",
   "zh": "Chinese",
   "zh-TW": "Traditional Chinese",
+  "tr": "Turkish",
   "Confirmed by {blockNumber} blocks": "Confirmed by {blockNumber} blocks",
   "Become a patron of {name}": "Become a patron of {name}"
 }
