@@ -3,6 +3,7 @@ FROM node:18-bullseye-slim as base
 
 RUN apt-get update || : && apt-get install python3 build-essential git -y
 
+RUN npm install -g corepack@latest
 RUN corepack enable
 RUN npm i -g pm2
 
