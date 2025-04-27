@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 
+import { Box, CircularProgress, Typography } from "@mui/material"
+
 import AnimatedNumber from "~/components/common/AnimatedNumber"
 import { useGetBlockNumber } from "~/queries/site"
 
@@ -32,13 +34,25 @@ export const BlockNumber = () => {
   }, [])
 
   return (
-    <div className="flex flex-col items-center">
-      {t("Current Block Height")}
-      <AnimatedNumber
-        animateToNumber={realBlockNumber || blockNumber || 0}
-        includeComma={true}
-        height={24}
-      ></AnimatedNumber>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+      }}
+    >
+      <Typography variant="h6">{t("Current Block Height")}</Typography>
+      {realBlockNumber === null ? (
+        <CircularProgress size={24} sx={{ marginTop: 2 }} />
+      ) : (
+        <AnimatedNumber
+          animateToNumber={realBlockNumber || blockNumber || 0}
+          includeComma={true}
+          height={24}
+        />
+      )}
+    </Box>
   )
 }
