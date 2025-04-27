@@ -1,6 +1,7 @@
 import React, { useMemo } from "react"
 
-import { Image } from "~/components/ui/Image"
+import { Box, Avatar as MuiAvatar } from "@mui/material" // MUI Avatar and Box for layout
+
 import { getRandomAvatarUrl } from "~/lib/helpers"
 import { toGateway } from "~/lib/ipfs-parser"
 import { cn } from "~/lib/utils"
@@ -17,50 +18,56 @@ export const Avatar = ({
   ...props
 }: {
   cid?: string | number | null
-  images: (string | null | undefined)[]
+  images: (string | null | undefined)[] // List of image URLs
   name?: string | null
-  size?: number
-  rounded?: boolean
-  imageRef?: React.MutableRefObject<HTMLImageElement>
-  className?: string
-  priority?: boolean
+  size?: number // Size of the avatar
+  rounded?: boolean // Whether the avatar should be circular or not
+  imageRef?: React.MutableRefObject<HTMLImageElement> // Reference for the image
+  className?: string // Custom classes for additional styling
+  priority?: boolean // Whether to load image with priority
 } & React.HTMLAttributes<HTMLSpanElement>) => {
-  size = size || 60
+  size = size || 60 // Default size is 60 if not provided
 
+  // Select the first valid image from the images list
   let image = useMemo(() => {
     for (const image of images) {
-      if (image) return toGateway(image)
+      if (image) return toGateway(image) // Convert the image to the gateway URL
     }
   }, [images])
 
-  const borderRadius = rounded === false ? "rounded-lg" : "rounded-full"
+  // If no image is found, use a random avatar
+  const borderRadius = rounded === false ? "8px" : "50%" // Rounded or square avatar
 
   if (!image) {
-    image = getRandomAvatarUrl(cid || "")
+    image = getRandomAvatarUrl(cid || "") // Default to a random avatar URL
   }
 
   return (
-    <span
+    <Box
       {...props}
       className={cn(
-        `inline-flex text-zinc-500 shrink-0 items-center justify-center font-medium uppercase overflow-hidden text-[0px] max-w-full max-h-full`,
-        borderRadius,
+        "inline-flex items-center justify-center overflow-hidden",
         className,
       )}
-      style={{
+      sx={{
         width: `${size}px`,
         height: `${size}px`,
+        borderRadius: borderRadius,
+        overflow: "hidden",
       }}
     >
-      <Image
-        className="h-full overflow-hidden object-cover"
+      <MuiAvatar
+        alt={name || "Avatar"}
         src={image}
-        width={size}
-        height={size}
-        alt={name || ""}
-        imageRef={imageRef}
+        sx={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          borderRadius: "inherit", // Ensure the border radius applies to the image
+        }}
+        ref={imageRef}
         priority={priority}
       />
-    </span>
+    </Box>
   )
 }

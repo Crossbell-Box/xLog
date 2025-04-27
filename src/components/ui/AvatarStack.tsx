@@ -1,5 +1,7 @@
 import { FC } from "react"
 
+import { Box, Typography } from "@mui/material" // MUI imports
+
 import { noopArr } from "~/lib/noop"
 
 import { Avatar } from "./Avatar"
@@ -18,16 +20,25 @@ interface AvatarStackProps {
    */
   showCount?: number
 }
+
 export const AvatarStack: FC<AvatarStackProps> = (props) => {
   const { avatars, count, onClick, showCount = 3 } = props
   return (
-    <ul
-      className="-space-x-4 cursor-pointer hidden sm:inline-flex"
+    <Box
+      sx={{
+        display: "flex",
+        gap: -2,
+        cursor: "pointer",
+        flexWrap: "nowrap",
+      }}
       onClick={onClick}
     >
       {avatars.slice(0, showCount).map((avatar) => {
         return (
-          <li className="inline-block" key={avatar.name}>
+          <Box
+            key={avatar.name}
+            sx={{ position: "relative", display: "inline-block" }}
+          >
             <Avatar
               cid={avatar.cid}
               className="relative align-middle border-2 border-white"
@@ -35,16 +46,29 @@ export const AvatarStack: FC<AvatarStackProps> = (props) => {
               name={avatar.name || ""}
               size={40}
             />
-          </li>
+          </Box>
         )
       })}
       {count > showCount && (
-        <li className="inline-block">
-          <div className="relative align-middle border-2 border-white size-10 rounded-full inline-flex bg-gray-100 items-center justify-center text-gray-400 font-medium">
-            +{count - showCount}
-          </div>
-        </li>
+        <Box
+          sx={{
+            position: "relative",
+            display: "inline-block",
+            border: "2px solid white",
+            borderRadius: "50%",
+            width: 40,
+            height: 40,
+            backgroundColor: "grey.100",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "12px",
+            color: "text.secondary",
+          }}
+        >
+          <Typography variant="caption">+{count - showCount}</Typography>
+        </Box>
       )}
-    </ul>
+    </Box>
   )
 }

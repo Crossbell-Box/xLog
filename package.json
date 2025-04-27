@@ -57,6 +57,7 @@
     "@mantine/hooks": "7.10.0",
     "@microflash/remark-callout-directives": "4.1.0",
     "@monaco-editor/react": "4.6.0",
+    "@mui/material": "^7.0.2",
     "@popperjs/core": "2.11.8",
     "@prisma/client": "5.14.0",
     "@shikijs/transformers": "^1.6.0",

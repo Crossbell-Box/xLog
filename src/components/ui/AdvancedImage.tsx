@@ -1,5 +1,7 @@
 import { memo } from "react"
 
+import { Box } from "@mui/material" // MUI Box for layout
+
 import FadeIn from "~/components/common/FadeIn"
 import { Image, type TImageProps } from "~/components/ui/Image"
 import { SITE_URL } from "~/lib/env"
@@ -33,16 +35,25 @@ const AdvancedImage = memo(async function AdvancedImage(props: TImageProps) {
 
   return (
     <FadeIn className="text-center">
-      <Image
-        {...autoProps}
-        {...props}
-        zoom
-        className={cn(
-          props.className,
-          info && info.size.height < 50 ? "" : "rounded-xl",
-        )}
-        alt={props.alt || "image"}
-      />
+      <Box
+        sx={{
+          display: "inline-block",
+          borderRadius: info && info.size.height < 50 ? "none" : "16px", // Rounded corners with MUI styling
+          overflow: "hidden",
+          textAlign: "center",
+        }}
+      >
+        <Image
+          {...autoProps}
+          {...props}
+          zoom
+          className={cn(
+            props.className,
+            info && info.size.height < 50 ? "" : "rounded-xl",
+          )}
+          alt={props.alt || "image"}
+        />
+      </Box>
     </FadeIn>
   )
 })
