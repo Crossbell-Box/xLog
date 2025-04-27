@@ -1,6 +1,6 @@
 import React from "react"
 
-import { cn } from "~/lib/utils"
+import { Box, Typography } from "@mui/material" // MUI imports
 
 export const Badge = ({
   children,
@@ -10,13 +10,26 @@ export const Badge = ({
   className?: string
 }) => {
   return (
-    <span
-      className={cn(
-        `relative rounded uppercase bg-yellow-400 text-white h-5 inline-flex items-center px-1 font-semibold text-xs`,
-        className,
-      )}
+    <Box
+      component="span"
+      sx={{
+        display: "inline-flex",
+        alignItems: "center",
+        padding: "0 4px",
+        backgroundColor: "yellow.400", // Material UI yellow
+        color: "white",
+        borderRadius: "4px",
+        textTransform: "uppercase",
+        fontWeight: "bold",
+        fontSize: "12px",
+        height: "20px",
+        justifyContent: "center",
+      }}
+      className={className}
     >
-      {children}
-    </span>
+      <Typography variant="body2" sx={{ fontWeight: "inherit" }}>
+        {children}
+      </Typography>
+    </Box>
   )
 }

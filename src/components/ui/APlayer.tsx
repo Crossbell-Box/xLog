@@ -4,11 +4,13 @@ import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { memo } from "react"
 
+import { Box, IconButton, Tooltip, Typography } from "@mui/material" // Importing Tooltip from MUI
+
 import {
   sitePlayerAddToPlaylist,
   sitePlayerPlayNow,
 } from "~/components/common/SitePlayer"
-import { Tooltip } from "~/components/ui/Tooltip"
+// MUI imports
 import { toGateway } from "~/lib/ipfs-parser"
 
 const APlayer = memo(function APlayer({
@@ -55,11 +57,22 @@ const APlayer = memo(function APlayer({
   }
 
   return (
-    <div className="border border-[var(--border-color)] rounded-lg outline-2 outline-transparent flex flex-row gap-4">
-      {/*Info*/}
-      <div className="flex flex-row grow gap-4">
-        {/*Cover*/}
-        <div className="shrink-0">
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        gap: 2,
+        border: "1px solid",
+        borderColor: "var(--border-color)",
+        borderRadius: "8px",
+        outline: "2px solid transparent",
+        alignItems: "center",
+      }}
+    >
+      {/* Info Section */}
+      <Box sx={{ display: "flex", gap: 2, flexGrow: 1, alignItems: "center" }}>
+        {/* Cover Image */}
+        <Box sx={{ flexShrink: 0 }}>
           <Image
             width={72}
             height={72}
@@ -67,45 +80,54 @@ const APlayer = memo(function APlayer({
             src={audioInfo.cover}
             className="rounded-l-lg"
           />
-        </div>
+        </Box>
 
-        {/*Name & Artist*/}
-        <div className="flex flex-col justify-center items-center">
-          {/*Name*/}
-          <div className="font-semibold">{audioInfo.name}</div>
+        {/* Name & Artist */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          {/* Name */}
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            {audioInfo.name}
+          </Typography>
 
-          {/*Artist*/}
-          <div className="text-sm">{audioInfo.artist}</div>
-        </div>
-      </div>
+          {/* Artist */}
+          <Typography variant="body2" color="textSecondary">
+            {audioInfo.artist}
+          </Typography>
+        </Box>
+      </Box>
 
-      {/*Control buttons*/}
-      <div className="flex flex-row items-center mr-4 gap-3">
-        {/*Play Now*/}
-        <div>
-          <Tooltip label={t("Play")}>
-            <button
-              onClick={playNow}
-              className="p-2 rounded-full bg-accent opacity-90 hover:opacity-100 transition-opacity"
-            >
-              <i className="i-mingcute-play-fill block text-4xl text-white" />
-            </button>
-          </Tooltip>
-        </div>
+      {/* Control Buttons */}
+      <Box sx={{ display: "flex", gap: 2, alignItems: "center", mr: 2 }}>
+        {/* Play Now Button */}
+        <Tooltip title={t("Play")} arrow>
+          <IconButton
+            onClick={playNow}
+            sx={{
+              bgcolor: "accent.main",
+              "&:hover": { bgcolor: "accent.dark" },
+            }}
+          >
+            <i className="i-mingcute-play-fill text-white text-4xl" />
+          </IconButton>
+        </Tooltip>
 
-        {/*Add to playlist*/}
-        <div>
-          <Tooltip label={t("Add to playlist")}>
-            <button
-              onClick={addToList}
-              className="p-2 rounded-full bg-gray-50 hover:bg-gray-100"
-            >
-              <i className="i-mingcute-calendar-add-line block text-2xl" />
-            </button>
-          </Tooltip>
-        </div>
-      </div>
-    </div>
+        {/* Add to Playlist Button */}
+        <Tooltip title={t("Add to playlist")} arrow>
+          <IconButton
+            onClick={addToList}
+            sx={{ bgcolor: "grey.50", "&:hover": { bgcolor: "grey.100" } }}
+          >
+            <i className="i-mingcute-calendar-add-line text-2xl" />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    </Box>
   )
 })
 
