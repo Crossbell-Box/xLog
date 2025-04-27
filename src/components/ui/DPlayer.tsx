@@ -3,6 +3,8 @@
 import dynamic from "next/dynamic"
 import { type DPlayerProps } from "rc-dplayer"
 
+import { Box } from "@mui/material" // Importing Box from Material-UI
+
 import { toGateway } from "~/lib/ipfs-parser"
 
 const RcDPlayer = dynamic(async () => (await import("rc-dplayer")).Player)
@@ -33,9 +35,9 @@ const DPlayer = function DPlayer({
   src = toGateway(src)
 
   return (
-    <div className="my-8">
+    <Box sx={{ my: 3, display: "flex", justifyContent: "center" }}>
       <RcDPlayer src={src} {...props} />
-    </div>
+    </Box>
   )
 }
 

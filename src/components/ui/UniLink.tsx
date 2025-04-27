@@ -1,5 +1,7 @@
 import Link from "next/link"
 
+import { Button, Typography } from "@mui/material"
+
 export type UniLinkProps = {
   href?: string
   onClick?: () => void
@@ -18,17 +20,22 @@ export const UniLink = ({
 }: UniLinkProps) => {
   if (onClick) {
     return (
-      <button className={className} onClick={onClick} {...props}>
+      <Button
+        variant="text" // Using Material UI's Button with text variant
+        className={className}
+        onClick={onClick}
+        {...props}
+      >
         {children}
-      </button>
+      </Button>
     )
   }
 
   if (!href) {
     return (
-      <span className={className} {...props}>
+      <Typography className={className} {...props}>
         {children}
-      </span>
+      </Typography>
     )
   }
 

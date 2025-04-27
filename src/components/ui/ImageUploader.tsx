@@ -1,3 +1,5 @@
+"use client"
+
 import { useTranslations } from "next-intl"
 import React, {
   ChangeEvent,
@@ -8,6 +10,7 @@ import React, {
 } from "react"
 
 import { XMarkIcon } from "@heroicons/react/20/solid"
+import { Box, CircularProgress, IconButton } from "@mui/material" // MUI components
 
 import { Image } from "~/components/ui/Image"
 import { useUploadFile } from "~/hooks/useUploadFile"
@@ -155,14 +158,15 @@ export const ImageUploader = forwardRef(function ImageUploader(
   }, [inputProps.value])
 
   return (
-    <div
+    <Box
       className={cn(
         "relative flex-col overflow-hidden border border-gray-100",
         className,
       )}
+      sx={{ position: "relative" }}
     >
-      {imageUrl &&
-        (typeof inputProps.value === "object" &&
+      {imageUrl ? (
+        typeof inputProps.value === "object" &&
         inputProps.value.mime_type?.split("/")[0] === "video" ? (
           <video
             className="max-w-screen-md mx-auto object-cover size-full"
@@ -178,11 +182,14 @@ export const ImageUploader = forwardRef(function ImageUploader(
             alt="banner"
             fill
           />
-        ))}
-      {!imageUrl && (
-        <div className="size-full flex justify-center items-center text-zinc-500 text-center bg-white">
+        )
+      ) : (
+        <Box
+          className="size-full flex justify-center items-center text-zinc-500 text-center bg-white"
+          sx={{ height: "100%" }}
+        >
           {t("Click to select files")}
-        </div>
+        </Box>
       )}
       <input
         onChange={handleChange}
@@ -191,18 +198,36 @@ export const ImageUploader = forwardRef(function ImageUploader(
         accept={accept}
       />
       {imageUrl && hasClose && (
-        <div
+        <IconButton
           onClick={clear}
-          className="size-8 absolute top-4 right-4 shadow bg-white rounded-full cursor-pointer"
+          sx={{
+            position: "absolute",
+            top: 4,
+            right: 4,
+            backgroundColor: "white",
+            boxShadow: 2,
+            borderRadius: "50%",
+            padding: 1,
+            "&:hover": { backgroundColor: "lightgray" },
+          }}
         >
-          <XMarkIcon />
-        </div>
+          <XMarkIcon className="size-5" />
+        </IconButton>
       )}
       {loading && (
-        <div className="absolute inset-0 flex justify-center items-center bg-gray-500 opacity-50">
-          <div className="loading flex justify-center items-center relative text-white"></div>
-        </div>
+        <Box
+          className="absolute inset-0 flex justify-center items-center bg-gray-500 opacity-50"
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <CircularProgress sx={{ color: "white" }} />
+        </Box>
       )}
-    </div>
+    </Box>
   )
 })

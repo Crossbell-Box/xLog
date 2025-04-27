@@ -1,6 +1,7 @@
-import { type FC, type ReactNode } from "react"
+import { FC, ReactNode } from "react"
 import type { BundledTheme } from "shiki/themes"
 
+import { Paper, Typography, useTheme } from "@mui/material"
 import { ShikiRender } from "@xlog/shiki"
 
 const ShikiRemark: FC<{
@@ -10,11 +11,29 @@ const ShikiRemark: FC<{
   }
   children?: ReactNode
 }> = (props) => {
+  const theme = useTheme()
   const code = pickMdAstCode(props)
   const language = pickCodeLanguage(props)
 
   return (
-    <ShikiRender code={code} language={language} codeTheme={props.codeTheme} />
+    <Paper
+      elevation={3}
+      style={{
+        backgroundColor: theme.palette.background.paper,
+        padding: "16px",
+        borderRadius: "8px",
+        marginBottom: "16px",
+      }}
+    >
+      <Typography variant="h6" component="h3" style={{ marginBottom: "8px" }}>
+        Code Snippet
+      </Typography>
+      <ShikiRender
+        code={code}
+        language={language}
+        codeTheme={props.codeTheme}
+      />
+    </Paper>
   )
 }
 

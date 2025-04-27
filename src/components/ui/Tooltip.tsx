@@ -1,6 +1,6 @@
 "use client"
 
-import { AnimatePresence, m } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
 import { useCallback, useMemo, useState } from "react"
 import { flushSync } from "react-dom"
 
@@ -18,6 +18,7 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react"
+import { Box, Popover, Typography } from "@mui/material" // Import Material UI components
 
 import { cn } from "~/lib/utils"
 
@@ -103,22 +104,30 @@ export const Tooltip = ({
       </div>
       <AnimatePresence>
         {open && (
-          <m.div
-            ref={refs.setFloating}
-            style={{ ...floatingStyles, maxHeight }}
-            className={cn(
-              "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1 whitespace-nowrap",
-              "overflow-auto",
-              className,
-            )}
-            initial={{ translateY: "10px", opacity: 0 }}
-            animate={{ translateY: "0px", opacity: 1 }}
-            exit={{ translateY: "10px", opacity: 0 }}
-            {...listener}
+          <Popover
+            open={open}
+            anchorEl={refs.setFloating.current}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
             {...getFloatingProps()}
           >
-            {label}
-          </m.div>
+            <Box
+              style={{ ...floatingStyles, maxHeight }}
+              className={cn(
+                "bg-zinc-600 text-white rounded-lg shadow-lg px-3 py-1 whitespace-nowrap",
+                "overflow-auto",
+                className,
+              )}
+            >
+              <Typography variant="body2">{label}</Typography>
+            </Box>
+          </Popover>
         )}
       </AnimatePresence>
     </>

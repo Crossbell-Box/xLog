@@ -5,6 +5,8 @@ import React, {
   type HTMLAttributes,
 } from "react"
 
+import { Typography } from "@mui/material" // Material UI Typography
+
 export const createMarkdownHeaderComponent = (tag: string) => {
   const MarkdownHeader: FC<
     ClassAttributes<HTMLHeadingElement> &
@@ -14,7 +16,11 @@ export const createMarkdownHeaderComponent = (tag: string) => {
     const Tag = tag as any
 
     return (
-      <Tag {...rest}>
+      <Typography
+        variant={tag as "h1" | "h2" | "h3" | "h4" | "h5" | "h6"}
+        component={Tag}
+        {...rest}
+      >
         {children}
         <a
           className="xlog-anchor"
@@ -23,7 +29,7 @@ export const createMarkdownHeaderComponent = (tag: string) => {
         >
           #
         </a>
-      </Tag>
+      </Typography>
     )
   }
 

@@ -9,8 +9,14 @@ import React, {
   useState,
 } from "react"
 
-import { Input } from "~/components/ui/Input"
-import { cn } from "~/lib/utils"
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from "@mui/material" // MUI imports
 
 export type RadioItem = {
   text: string
@@ -44,56 +50,62 @@ export const BoxRadio = ({
   }
 
   return (
-    <div className="grid gap-4 grid-cols-3">
-      {items.map((item) => {
-        return (
-          <div
-            key={item.value || item.text}
-            className="relative w-full min-h-[80px]"
-          >
-            {item.value ? (
-              <>
-                <input
-                  className={cn(
-                    "opacity-0 absolute inset-0 pointer-events-none",
-                  )}
-                  type="radio"
-                  id={`${randomId}-${item.value}`}
-                  name={randomId}
-                  value={item.value}
-                  checked={value === item.value}
-                  onChange={toDefined}
+    <Box
+      sx={{ display: "grid", gap: 2, gridTemplateColumns: "repeat(3, 1fr)" }}
+    >
+      <RadioGroup
+        value={value}
+        onChange={toDefined}
+        sx={{ display: "flex", gap: 2 }}
+      >
+        {items.map((item) => {
+          return (
+            <div key={item.value || item.text} className="relative">
+              {item.value ? (
+                <FormControlLabel
+                  control={
+                    <Radio
+                      id={`${randomId}-${item.value}`}
+                      name={randomId}
+                      value={item.value}
+                      checked={value === item.value}
+                      onChange={toDefined}
+                      sx={{
+                        "&.Mui-checked": {
+                          color: "accent.main",
+                        },
+                      }}
+                    />
+                  }
+                  label={t(item.text)}
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      textAlign: "center",
+                    },
+                  }}
                 />
-                <label
-                  className={cn(
-                    "absolute inset-0 flex items-center justify-center rounded-lg cursor-pointer border",
-                    value === item.value
-                      ? "border-accent border-2 text-accent"
-                      : "",
-                  )}
-                  htmlFor={`${randomId}-${item.value}`}
-                >
-                  {t(item.text)}
-                </label>
-              </>
-            ) : (
-              <>
-                <Input
-                  className={cn("w-full min-h-[80px] text-center", {
-                    "border-accent border-2 text-accent": isCustom,
-                  })}
-                  type="text"
-                  id={`${randomId}-${item.value}`}
-                  name={randomId}
-                  placeholder={t(item.text) || ""}
-                  onChange={toCustom}
-                  onFocus={toCustom}
-                />
-              </>
-            )}
-          </div>
-        )
-      })}
-    </div>
+              ) : (
+                <FormControl fullWidth>
+                  <TextField
+                    variant="outlined"
+                    placeholder={t(item.text) || ""}
+                    value={value}
+                    onChange={toCustom}
+                    onFocus={toCustom}
+                    sx={{
+                      backgroundColor: isCustom ? "grey.100" : "transparent",
+                      borderColor: isCustom ? "accent.main" : "transparent",
+                      "& .MuiInputBase-root": {
+                        textAlign: "center",
+                      },
+                    }}
+                  />
+                </FormControl>
+              )}
+            </div>
+          )
+        })}
+      </RadioGroup>
+    </Box>
   )
 }
