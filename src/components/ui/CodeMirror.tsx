@@ -37,6 +37,7 @@ import {
   ViewUpdate,
 } from "@codemirror/view"
 import { tags } from "@lezer/highlight"
+import { Box, CircularProgress } from "@mui/material" // MUI imports
 import { scroll } from "@uiw/codemirror-extensions-events"
 
 import { mentionAutocompletion } from "~/components/dashboard/toolbars/mention-autocompletion"
@@ -49,8 +50,6 @@ import {
 import { useIsDark } from "~/hooks/useDarkMode"
 import { useGetState } from "~/hooks/useGetState"
 import { useIsUnmounted } from "~/hooks/useLifecycle"
-
-import { Loading } from "../common/Loading"
 
 interface XLogCodeMirrorEditorProps {
   value?: string
@@ -113,7 +112,6 @@ const CodeMirrorEditor = forwardRef<
     const props = getProps()
     const editorState = EditorState.create({
       doc: props.value || "",
-
       extensions: [
         placeholder(props.placeholder || ""),
         EditorView.updateListener.of((vu) => {
@@ -124,7 +122,7 @@ const CodeMirrorEditor = forwardRef<
             vu.docChanged &&
             typeof onChange === "function" &&
             // Fix echoing of the remote changes:
-            // If transaction is market as remote we don't have to call `onChange` handler again
+            // If transaction is marked as remote we don't have to call `onChange` handler again
             !vu.transactions.some((tr) => tr.annotation(External))
           ) {
             const doc = vu.state.doc
@@ -142,12 +140,9 @@ const CodeMirrorEditor = forwardRef<
         dropCursor(),
         crosshairCursor(),
         history(),
-
         EditorState.allowMultipleSelections.of(true),
-
         [EditorView.theme({}), syntaxHighlighting(codeMirrorMarkdownSyntax)],
         ...codemirrorReconfigureExtension,
-
         markdown({
           base: markdownLanguage,
           codeLanguages: languages,
@@ -189,11 +184,13 @@ const CodeMirrorEditor = forwardRef<
             }
           },
         }),
+
         scroll({
           scroll: (evn) => {
             getOnScroll()?.((evn.target as any)?.scrollTop)
           },
         }),
+
         EditorView.lineWrapping,
         mentionAutocompletion(),
       ],
@@ -213,17 +210,22 @@ const CodeMirrorEditor = forwardRef<
 
   return (
     <>
-      <div
-        data-cm-editor
+      <Box
         ref={editorElementRef}
-        onMouseEnter={onMouseEnter}
         className={loading ? "hidden" : props.className}
+        sx={{
+          minHeight: "200px", // Ensure the editor has a minimum height
+          border: "1px solid",
+          borderRadius: "8px",
+          overflow: "auto",
+        }}
+        onMouseEnter={onMouseEnter}
       />
       {loading &&
         (props.LoadingComponent ? (
           createElement(props.LoadingComponent)
         ) : (
-          <Loading className="flex-1 h-12" />
+          <CircularProgress sx={{ display: "block", margin: "auto" }} />
         ))}
     </>
   )

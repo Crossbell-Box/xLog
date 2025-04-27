@@ -1,8 +1,11 @@
-import { forwardRef, Fragment, useCallback, useMemo, useState } from "react"
-import type { ReactElement } from "react"
+"use client"
+
+import { useTranslations } from "next-intl"
+import { forwardRef, useCallback, useMemo, useState } from "react"
 
 import { Combobox, Transition } from "@headlessui/react"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
+import { InputAdornment, TextField } from "@mui/material"
 
 import { cn } from "~/lib/utils"
 
@@ -17,7 +20,9 @@ type InputProps<TMultiline extends boolean> = {
   help?: React.ReactNode
   multiline?: TMultiline
   options?: string[]
-  renderInput?: (props: Omit<InputProps<false>, "renderInput">) => ReactElement
+  renderInput?: (
+    props: Omit<InputProps<false>, "renderInput">,
+  ) => React.ReactElement
 } & React.ComponentPropsWithRef<TMultiline extends true ? "textarea" : "input">
 
 export type CustomInputProps = Omit<InputProps<false>, "renderInput">
@@ -42,6 +47,7 @@ export const Input = forwardRef(function Input<
     ? React.ForwardedRef<HTMLTextAreaElement>
     : React.ForwardedRef<HTMLInputElement>,
 ) {
+  const t = useTranslations()
   const hasAddon = !!addon
   const hasPrefix = !!prefix
 
@@ -91,22 +97,26 @@ export const Input = forwardRef(function Input<
           }}
         >
           <div className="relative">
-            <div className="relative w-full">
-              <Combobox.Input
-                {...inputComponentProps}
-                displayValue={(option: string) => option}
-                onChange={(event) => {
-                  setQuery(event.target.value)
-                  inputComponentProps.onChange?.(event)
-                }}
-              />
-              <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                <ChevronUpDownIcon
-                  className="size-5 text-gray-400"
-                  aria-hidden="true"
-                />
-              </Combobox.Button>
-            </div>
+            <TextField
+              {...inputComponentProps}
+              variant="outlined"
+              fullWidth
+              select
+              onChange={(event) => {
+                setQuery(event.target.value)
+                inputComponentProps.onChange?.(event)
+              }}
+              InputProps={{
+                startAdornment: prefix && (
+                  <InputAdornment position="start">{prefix}</InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ChevronUpDownIcon className="size-5 text-gray-400" />
+                  </InputAdornment>
+                ),
+              }}
+            />
             <Transition
               as={Fragment}
               leave="transition ease-in duration-100"
@@ -145,10 +155,7 @@ export const Input = forwardRef(function Input<
                                 active ? "text-white" : "text-teal-600"
                               }`}
                             >
-                              <CheckIcon
-                                className="size-5"
-                                aria-hidden="true"
-                              />
+                              <CheckIcon className="size-5" />
                             </span>
                           ) : null}
                         </>
@@ -162,34 +169,42 @@ export const Input = forwardRef(function Input<
         </Combobox>
       )
     } else if (multiline) {
-      return <textarea {...inputComponentProps} />
+      return (
+        <TextField
+          {...inputComponentProps}
+          multiline
+          variant="outlined"
+          rows={4}
+          fullWidth
+        />
+      )
     } else {
-      return <input {...inputComponentProps} />
+      return (
+        <TextField
+          {...inputComponentProps}
+          variant="outlined"
+          fullWidth
+          InputProps={{
+            startAdornment: prefix && (
+              <InputAdornment position="start">{prefix}</InputAdornment>
+            ),
+            endAdornment: addon && (
+              <InputAdornment position="end">{addon}</InputAdornment>
+            ),
+          }}
+        />
+      )
     }
   }, [inputComponentProps, multiline, renderInput])
 
   return (
     <div>
       {label && <FieldLabel label={label} id={inputProps.id} />}
-      <div className="flex items-center">
-        {prefix && (
-          <span className="flex items-center px-3 text-gray-600 bg-gray-50 h-10 border border-r-0 rounded-l-lg relative">
-            {prefix}
-          </span>
-        )}
-        {renderInputComponent()}
-        {addon && (
-          <span className="flex items-center px-3 text-gray-600 bg-gray-50 h-10 border border-l-0 rounded-r-lg relative">
-            {addon}
-          </span>
-        )}
-      </div>
+      {renderInputComponent()}
       {error && <div className="text-sm mt-1 text-red-500">{error}</div>}
       {help && !error && (
         <div className="text-xs text-gray-400 mt-1">{help}</div>
       )}
     </div>
   )
-}) as <TMultiline extends boolean = false>(
-  props: InputProps<TMultiline>,
-) => JSX.Element
+})

@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl"
 import React, { PropsWithChildren, useMemo } from "react"
 
+import { Box, Skeleton as MaterialSkeleton } from "@mui/material" // Material UI components
+
 import { cn } from "~/lib/utils"
 
 interface Props {
@@ -31,9 +33,10 @@ export function Skeleton({ className, width, height }: Props) {
   }, [width, height])
 
   return (
-    <div
-      className={cn(skeletonColor, sizeObj.className, className)}
+    <MaterialSkeleton
+      className={cn(sizeObj.className, className)}
       style={sizeObj.style}
+      variant="rectangular" // Using Material UI skeleton variant
     />
   )
 }
@@ -47,7 +50,7 @@ function Container({
   const childrenArray = React.Children.toArray(children)
 
   return (
-    <div role="status" className={cn("animate-pulse", className)}>
+    <Box role="status" className={cn("animate-pulse", className)}>
       {Array.from(new Array(count)).map((_, index) => (
         <React.Fragment key={index}>
           {childrenArray.map((child, i) =>
@@ -58,7 +61,7 @@ function Container({
         </React.Fragment>
       ))}
       <span className="sr-only">{t("Loading")}...</span>
-    </div>
+    </Box>
   )
 }
 

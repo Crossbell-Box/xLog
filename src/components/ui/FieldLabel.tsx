@@ -1,7 +1,11 @@
+import React from "react"
+
+import { FormControl, InputLabel } from "@mui/material" // Import MUI components
+
 export const FieldLabel = ({ id, label }: { id?: string; label: string }) => {
   return (
-    <label className="form-label" htmlFor={id}>
-      {label}
-    </label>
+    <FormControl fullWidth>
+      <InputLabel htmlFor={id}>{label}</InputLabel>
+    </FormControl>
   )
 }

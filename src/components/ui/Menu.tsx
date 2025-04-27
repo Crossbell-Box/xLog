@@ -1,5 +1,6 @@
+"use client"
+
 import { AnimatePresence, m } from "framer-motion"
-import Link from "next/link"
 import React, { Fragment } from "react"
 
 import {
@@ -9,15 +10,15 @@ import {
   shift,
   useFloating,
 } from "@floating-ui/react"
-import { Menu as HeadlessUiMenu } from "@headlessui/react"
+import { ChevronRight } from "@mui/icons-material"
+import { Menu as MUI_Menu, MenuItem as MUI_MenuItem } from "@mui/material"
 
 import { cn } from "~/lib/utils"
 
 /**
  * A dropdown menu that is opened by clicking on the target element.
  *
- * Use Headless UI for **accessible** interactions,
- * and Floating UI for positioning.
+ * Use MUI for **styled components**, and Floating UI for positioning.
  */
 export function Menu({
   target,
@@ -43,36 +44,33 @@ export function Menu({
   })
 
   return (
-    <HeadlessUiMenu>
-      <HeadlessUiMenu.Button as={Fragment}>
-        {React.cloneElement(target, { ref: refs.setReference })}
-      </HeadlessUiMenu.Button>
+    <MUI_Menu
+      anchorEl={refs.setReference.current}
+      open={Boolean(refs.setReference.current)}
+      onClose={() => (refs.setReference.current = null)}
+      PaperProps={{
+        style: floatingStyles,
+      }}
+    >
       <AnimatePresence>
-        <HeadlessUiMenu.Items
-          className="absolute z-10 w-max"
-          ref={refs.setFloating}
-          style={floatingStyles}
+        <m.div
+          initial={{
+            translateY: "10px",
+            opacity: 0,
+          }}
+          animate={{
+            translateY: "0px",
+            opacity: 1,
+          }}
+          exit={{
+            translateY: "10px",
+            opacity: 0,
+          }}
         >
-          <m.div
-            className="mt-1 outline-none text-gray-600 bg-white rounded-lg ring-1 ring-border shadow-md py-2"
-            initial={{
-              translateY: "10px",
-              opacity: 0,
-            }}
-            animate={{
-              translateY: "0px",
-              opacity: 1,
-            }}
-            exit={{
-              translateY: "10px",
-              opacity: 0,
-            }}
-          >
-            {dropdown}
-          </m.div>
-        </HeadlessUiMenu.Items>
+          {dropdown}
+        </m.div>
       </AnimatePresence>
-    </HeadlessUiMenu>
+    </MUI_Menu>
   )
 }
 
@@ -109,60 +107,24 @@ Menu.Item = function MenuItem({
   )
 
   return (
-    <HeadlessUiMenu.Item>
-      {({ active }) => {
-        const className = cn(
-          "w-full h-10 px-3 flex items-center flex-nowrap",
-          {
-            "bg-hover": active,
-          },
-          classNameProp,
-        )
-
-        // Can't use <UniLink> here because headlessui Menu.Item assigns `onClick` to its child
-        if (props.type === "button") {
-          return (
-            <button className={className} {...props}>
-              {childElement}
-            </button>
-          )
-        }
-        if (typeof props.href === "undefined") {
-          return <span className={className}>{childElement}</span>
-        }
-
-        const isExternal =
-          /^https?:\/\//.test(props.href) || props.href.startsWith("/feed")
-
-        if (isExternal) {
-          return (
-            <a
-              className={className}
-              target="_blank"
-              rel="nofollow noreferrer"
-              {...props}
-            >
-              {childElement}
-            </a>
-          )
-        }
-
-        return (
-          <Link className={className} {...props}>
-            {childElement}
-          </Link>
-        )
-      }}
-    </HeadlessUiMenu.Item>
+    <MUI_MenuItem
+      onClick={props.type === "button" ? props.onClick : undefined}
+      component={props.type === "link" ? "a" : "button"}
+      className={cn(
+        "w-full h-10 px-3 flex items-center flex-nowrap",
+        {
+          "bg-hover": props.type === "link",
+        },
+        classNameProp,
+      )}
+      href={props.type === "link" ? props.href : undefined}
+    >
+      {childElement}
+    </MUI_MenuItem>
   )
 }
 
-// TODO: Add support for nested menus
-// this is a hack submenu use the div and <Menu /> component
-// about why i'm not use the headlessui Menu.Item, because it's not support nested menu,
-// and it will make the autoPlacement not work properly.
-// problem that's will happen is the styles maybe not sync with the <Menu.Item /> component
-
+// SubMenu component to handle nested dropdowns
 Menu.SubMenu = function MenuSubMenu({
   icon,
   children,
@@ -177,16 +139,10 @@ Menu.SubMenu = function MenuSubMenu({
       enableAutoPlacement
       allowedPlacements={["left-start", "right-start"]}
       target={
-        <div
-          className="w-full px-3 flex items-center flex-nowrap 
-            pl-5 pr-6 h-11 whitespace-nowrap
-            hover:bg-hover
-            cursor-pointer select-none
-          "
-          aria-hidden
-        >
+        <div className="w-full px-3 flex items-center flex-nowrap pl-5 pr-6 h-11 whitespace-nowrap hover:bg-hover cursor-pointer select-none">
           {icon}
           {children}
+          <ChevronRight fontSize="small" />
         </div>
       }
       dropdown={dropdown}

@@ -1,7 +1,9 @@
 "use client"
 
 import { ImageProps, default as NextImage } from "next/image"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
+
+import { Box, CircularProgress } from "@mui/material" // MUI components
 
 import { useGetState } from "~/hooks/useGetState"
 import { useIsMobileLayout } from "~/hooks/useMobileLayout"
@@ -37,6 +39,7 @@ export const Image = ({
   src = toIPFS(src)
   const [paddingTop, setPaddingTop] = React.useState("0")
   const [autoWidth, setAutoWidth] = React.useState(0)
+  const [loading, setLoading] = useState(true)
   const noOptimization = className?.includes("no-optimization")
   const imageRefInternal = React.useRef<HTMLImageElement>(null)
 
@@ -101,39 +104,27 @@ export const Image = ({
 
   const autoSize = !width && !height && !fill
 
-  return noOptimization ? (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      {...props}
-      src={toGateway(src)}
-      className={className}
-      alt={alt}
-      width={width}
-      height={height}
-      onLoad={({ target }) => {
-        if (autoSize) {
-          const { naturalWidth, naturalHeight } = target as HTMLImageElement
-          setPaddingTop(`calc(100% / (${naturalWidth} / ${naturalHeight})`)
-          setAutoWidth(naturalWidth)
-        }
-      }}
-      ref={imageRefInternal}
-    />
-  ) : (
-    <span
+  return (
+    <Box
       className="inline-flex justify-center size-full overflow-hidden"
-      style={
-        autoSize
-          ? {
-              maxWidth: `${autoWidth}px`,
-            }
-          : {}
-      }
+      sx={{
+        maxWidth: autoSize ? `${autoWidth}px` : "none",
+      }}
     >
-      <span
+      <Box
         className="inline-flex justify-center relative size-full"
-        style={autoSize ? { paddingTop } : {}}
+        sx={autoSize ? { paddingTop } : {}}
       >
+        {loading && (
+          <CircularProgress
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+        )}
         <NextImage
           {...props}
           src={toGateway(src)}
@@ -150,13 +141,13 @@ export const Image = ({
               setPaddingTop(`calc(100% / (${naturalWidth} / ${naturalHeight})`)
               setAutoWidth(naturalWidth)
             }
+            setLoading(false) // Stop loading spinner once the image is loaded
           }}
           ref={imageRefInternal}
           loader={
             src.startsWith("ipfs://") &&
             IPFS_GATEWAY === "https://ipfs.crossbell.io/ipfs/"
               ? ({ src, width, quality }) => {
-                  // https://docs.filebase.com/ipfs/about-ipfs/ipfs-gateways#filebase-ipfs-image-optimization
                   try {
                     const urlObj = new URL(src)
                     urlObj.searchParams.set("img-quality", (quality || 75) + "")
@@ -173,7 +164,7 @@ export const Image = ({
               : undefined
           }
         />
-      </span>
-    </span>
+      </Box>
+    </Box>
   )
 }

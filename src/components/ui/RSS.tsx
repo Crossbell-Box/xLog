@@ -1,6 +1,7 @@
 import Parser from "rss-parser"
 
-import { Image } from "~/components/ui/Image"
+import { Button, Card, CardContent, CardMedia, Typography } from "@mui/material"
+
 import dayjs from "~/lib/dayjs"
 import { SITE_URL } from "~/lib/env"
 
@@ -30,7 +31,9 @@ export default async function RSS({
       feed = (
         await (await fetch(`${SITE_URL}/api/rss-parser?url=${src}`)).json()
       ).data
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching RSS feed", error)
+    }
   }
 
   if (limit && feed?.items) {
@@ -41,32 +44,38 @@ export default async function RSS({
   }
 
   return (
-    <div className="grid gap-3 grid-cols-1 sm:grid-cols-3 sm:gap-6">
+    <div
+      style={{
+        display: "grid",
+        gap: "16px",
+        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+      }}
+    >
       {feed?.items?.map((item) => {
         const img = extractImgSrc(item.content || item.description || "")
-        console.log(img, img?.startsWith("https://"))
 
         return (
-          <a
-            key={item.guid || item.link}
-            href={item.link}
-            className="rounded-2xl border aspect-square relative flex overflow-hidden group text-sm"
-          >
+          <Card key={item.guid || item.link} style={{ position: "relative" }}>
             {img?.startsWith("https://") && (
-              <Image
-                src={img}
-                alt={item.title || item.description || ""}
-                width={300}
-                height={300}
-                className="rounded-2xl object-cover"
+              <CardMedia
+                component="img"
+                alt={item.title || item.description || "RSS Feed Image"}
+                image={img}
+                style={{ height: "200px", objectFit: "cover" }}
               />
             )}
-            <span className="text-white text-center absolute bottom-0 bg-gradient-to-b from-transparent to-black/70 w-full h-16 flex flex-col items-center justify-center group-hover:h-full transition-[height] hover:backdrop-blur">
-              <span className="font-bold">{item.title}</span>
-              <span className="hidden group-hover:block mt-4">
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                {item.title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" paragraph>
                 {item.contentSnippet}
-              </span>
-              <span className="text-white">
+              </Typography>
+              <Typography
+                variant="caption"
+                display="block"
+                color="textSecondary"
+              >
                 {dayjs
                   .duration(
                     dayjs(item.isoDate).diff(dayjs(), "minute"),
@@ -74,9 +83,26 @@ export default async function RSS({
                   )
                   .humanize()}{" "}
                 ago
-              </span>
-            </span>
-          </a>
+              </Typography>
+            </CardContent>
+            <Button
+              size="small"
+              color="primary"
+              component="a"
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                position: "absolute",
+                bottom: "10px",
+                right: "10px",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                color: "white",
+              }}
+            >
+              Read More
+            </Button>
+          </Card>
         )
       })}
     </div>

@@ -2,12 +2,14 @@
 
 import React, { memo } from "react"
 
+import { Card, CardContent, Link, Skeleton, Typography } from "@mui/material" // MUI components
+
 import { getSiteLink } from "~/lib/helpers"
 import { useGetSite } from "~/queries/site"
 
 import { CharacterFloatCard } from "../common/CharacterFloatCard"
-import { UniLink } from "./UniLink"
 
+// Helper function to extract site ID
 const getSiteId = ({ id, children }: { id: string; children?: any }) => {
   if (children && typeof children === "string" && children.startsWith("@")) {
     return children.replace(/^@/, "")
@@ -16,6 +18,7 @@ const getSiteId = ({ id, children }: { id: string; children?: any }) => {
   }
 }
 
+// Mention component
 const Mention = memo(
   function Mention({ id, children }: { id: string; children?: any }) {
     let siteId = getSiteId({ id, children })
@@ -25,22 +28,29 @@ const Mention = memo(
     if (siteId && site.data) {
       return (
         <CharacterFloatCard siteId={siteId}>
-          <UniLink
-            href={getSiteLink({
-              subdomain: siteId,
-            })}
-            className="inline-block"
-          >
-            @{siteId}
-          </UniLink>
+          <Card variant="outlined" sx={{ maxWidth: 240 }}>
+            <CardContent>
+              <Link
+                href={getSiteLink({
+                  subdomain: siteId,
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="hover"
+                color="primary"
+              >
+                <Typography variant="h6">@{siteId}</Typography>
+              </Link>
+            </CardContent>
+          </Card>
         </CharacterFloatCard>
       )
     } else {
-      return <>{children}</>
+      return <Skeleton variant="text" width={120} height={30} /> // Show skeleton loading if site is not available
     }
   },
   (prevProps, nextProps) => {
-    return getSiteId(prevProps) === getSiteId(nextProps)
+    return getSiteId(prevProps) === getSiteId(nextProps) // Memoization based on siteId
   },
 )
 

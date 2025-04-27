@@ -9,11 +9,10 @@ import {
 import { useTranslations } from "next-intl"
 import React, { forwardRef } from "react"
 
-import { Dialog } from "@headlessui/react"
+import { Dialog, Button as MuiButton } from "@mui/material" // Use MUI Dialog
 
+// Use MUI Button
 import { cn } from "~/lib/utils"
-
-import { Button } from "./Button"
 
 export interface ModalProps {
   open: boolean
@@ -69,15 +68,9 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               className="fixed inset-0 bg-black/25 z-40"
               aria-hidden={true}
               style={{ x }}
-              initial={{
-                opacity: 0,
-              }}
-              animate={{
-                opacity: 1,
-              }}
-              exit={{
-                opacity: 0,
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             />
 
             <m.div
@@ -112,7 +105,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                 )}
               >
                 {title && (
-                  <Dialog.Title className="text-lg border-b h-14 flex items-center px-5 space-x-2 py-4 relative">
+                  <div className="text-lg border-b h-14 flex items-center px-5 space-x-2 py-4 relative">
                     {titleIcon && <span>{titleIcon}</span>}
                     <span className="truncate flex items-center w-full">
                       {title}
@@ -123,16 +116,18 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                     >
                       <i className="i-mingcute-close-line inline-block" />
                     </span>
-                  </Dialog.Title>
+                  </div>
                 )}
                 {children}
                 {withConfirm && (
-                  <Button
+                  <MuiButton
                     className="mb-5 mx-auto"
                     onClick={() => setOpen(false)}
+                    variant="contained" // MUI Button style
+                    color="primary" // MUI Button color
                   >
                     {t("Confirm")}
-                  </Button>
+                  </MuiButton>
                 )}
               </Dialog.Panel>
             </m.div>
