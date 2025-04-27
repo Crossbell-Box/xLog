@@ -66,7 +66,7 @@
     "@urql/core": "5.0.3",
     "@vercel/otel": "1.8.2",
     "@wagmi/core": "1",
-    "@xlog/shiki": "link:./packages/shiki",
+    "@xlog/shiki": "file:./packages/shiki",
     "ahooks": "3.8.0",
     "aplayer": "1.10.1",
     "async-lock": "1.4.1",
