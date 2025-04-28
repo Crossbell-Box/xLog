@@ -5,9 +5,8 @@ import { usePathname, useRouter } from "next/navigation"
 
 import { useConnectedAction } from "@crossbell/connect-kit"
 
-import { Tabs } from "~/components/ui/Tabs"
-
 import topics from "../../../data/topics.json"
+import { TabsComponent } from "../../components/ui/Tabs"
 
 export const HomeActivitiesTabs = () => {
   const pathname = usePathname()
@@ -15,22 +14,10 @@ export const HomeActivitiesTabs = () => {
   const t = useTranslations()
 
   const tabs = [
-    {
-      text: "Featured",
-      href: "/",
-    },
-    {
-      text: "Shorts",
-      href: "/shorts",
-    },
-    {
-      text: "Latest",
-      href: "/latest",
-    },
-    {
-      text: "Hottest",
-      href: "/hottest",
-    },
+    { text: "Featured", href: "/" },
+    { text: "Shorts", href: "/shorts" },
+    { text: "Latest", href: "/latest" },
+    { text: "Hottest", href: "/hottest" },
     {
       text: "Following",
       onClick: useConnectedAction(() => router.push(`/following`)),
@@ -42,5 +29,5 @@ export const HomeActivitiesTabs = () => {
     })),
   ]
 
-  return <Tabs items={tabs} className="border-none" />
+  return <TabsComponent items={tabs} className="border-none" />
 }
