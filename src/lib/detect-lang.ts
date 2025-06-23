@@ -8,6 +8,7 @@ const _thresholds: Thresholds = {
   en: 0.8,
   zh: 0.3,
   ja: 0.5,
+  tr: 0.7,
 }
 
 export function detectLanguage(
@@ -48,6 +49,7 @@ export function detectLanguage(
       en: XRegExp("\\p{Latin}", "gi"),
       zh: XRegExp("\\p{Han}", "gi"),
       ja: XRegExp("[\\p{Hiragana}\\p{Katakana}]", "gi"),
+      tr: XRegExp("[\\p{Latin}&&[^\\p{Common}]]", "gi"),
     }
 
     for (const [lang, regex] of Object.entries(regexes)) {
