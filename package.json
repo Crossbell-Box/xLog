@@ -190,7 +190,7 @@
     "eslint-plugin-tailwindcss": "3.17.0",
     "eslint-plugin-unused-imports": "3.2.0",
     "husky": "9.0.11",
-    "lint-staged": "15.2.4",
+    "lint-staged": "15.2.8",
     "postcss": "8.4.38",
     "postcss-import": "16.1.0",
     "postcss-preset-mantine": "1.15.0",
