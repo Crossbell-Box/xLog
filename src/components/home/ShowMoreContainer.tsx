@@ -1,7 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { useState } from "react"
+import { useState, type JSX } from "react"
 
 import { cn } from "~/lib/utils"
 

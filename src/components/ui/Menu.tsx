@@ -1,6 +1,6 @@
 import { AnimatePresence, m } from "framer-motion"
 import Link from "next/link"
-import React, { Fragment } from "react"
+import React, { Fragment, type JSX } from "react"
 
 import {
   autoPlacement,
