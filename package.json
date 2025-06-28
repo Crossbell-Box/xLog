@@ -133,7 +133,7 @@
     "remark-breaks": "4.0.0",
     "remark-directive": "3.0.0",
     "remark-directive-rehype": "0.4.2",
-    "remark-emoji": "4.0.1",
+    "remark-emoji": "5.0.1",
     "remark-frontmatter": "5.0.0",
     "remark-gfm": "4.0.0",
     "remark-github-alerts": "0.1.0-beta.3",
