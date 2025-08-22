@@ -1069,13 +1069,9 @@ export const getShowcase = async () => {
     .toPromise()
 
   result.data?.characters?.forEach((site: any) => {
-    if (site.metadata?.content) {
-      site.metadata.content.name = site.metadata?.content?.name || site.handle
-    } else {
-      site.metadata.content = {
-        name: site.handle,
-      }
-    }
+    site.metadata = site.metadata || {}
+    site.metadata.content = site.metadata.content || {}
+    site.metadata.content.name = site.metadata.content.name || site.handle
 
     site.custom_domain =
       site.metadata?.content?.attributes?.find(
