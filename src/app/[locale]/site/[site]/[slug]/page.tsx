@@ -176,7 +176,13 @@ export default async function SitePagePage({
               </h2>
             )}
             <div className="xlog-short-content prose">
-              {page?.metadata?.content?.content}
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    page?.metadata?.content?.content?.replace(/\n/g, "<br/>") ||
+                    "",
+                }}
+              />
             </div>
           </>
         ) : (
