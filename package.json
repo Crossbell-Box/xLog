@@ -55,7 +55,7 @@
     "@mantine/core": "7.10.0",
     "@mantine/dates": "7.10.0",
     "@mantine/hooks": "7.10.0",
-    "@microflash/remark-callout-directives": "4.1.0",
+    "@microflash/remark-callout-directives": "4.3.1",
     "@monaco-editor/react": "4.6.0",
     "@popperjs/core": "2.11.8",
     "@prisma/client": "5.14.0",
