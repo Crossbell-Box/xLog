@@ -183,7 +183,7 @@
     "autoprefixer": "10.4.19",
     "cspell": "8.8.3",
     "eslint": "8.56.0",
-    "eslint-config-next": "14.2.3",
+    "eslint-config-next": "14.2.5",
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-react": "7.34.1",
     "eslint-plugin-react-hooks": "4.6.2",
