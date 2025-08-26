@@ -163,7 +163,7 @@
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "1.8.0",
-    "@ianvs/prettier-plugin-sort-imports": "4.2.1",
+    "@ianvs/prettier-plugin-sort-imports": "4.3.1",
     "@next/bundle-analyzer": "14.2.3",
     "@types/async-lock": "1.4.2",
     "@types/canvas-confetti": "1.6.4",
