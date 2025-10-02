@@ -1,4 +1,4 @@
-import { CharacterOperatorPermission } from "crossbell"
+import { CharacterOperatorPermission, createContract } from "crossbell"
 import type { Address } from "viem"
 
 import type { useContract } from "@crossbell/contract"
@@ -502,20 +502,9 @@ export async function checkDomain(domain: string, handle: string) {
   return check.data
 }
 
+const contract = createContract()
+
 export async function getBlockNumber() {
-  const result = await (
-    await fetch("https://scan.crossbell.io/api/eth-rpc", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        method: "eth_blockNumber",
-        params: [],
-        id: 0,
-      }),
-    })
-  ).json()
-  return Number(BigInt(result.result))
+  const result = await contract.publicClient.getBlockNumber()
+  return Number(result)
 }
