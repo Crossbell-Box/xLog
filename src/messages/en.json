@@ -117,5 +117,7 @@
   "zh": "Chinese",
   "zh-TW": "Traditional Chinese",
   "Confirmed by {blockNumber} blocks": "Confirmed by {blockNumber} blocks",
-  "Become a patron of {name}": "Become a patron of {name}"
+  "Become a patron of {name}": "Become a patron of {name}",
+  "Need More CSB?": "Need More CSB?",
+  "Claim CSB": "Claim CSB"
 }
