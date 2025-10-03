@@ -11,6 +11,7 @@ import getQueryClient from "~/lib/query-client"
 import { getShowcase } from "~/queries/home.server"
 import { getBlockNumber } from "~/queries/site.server"
 
+import { ClaimCSBButton } from "../common/ClaimCSBButton"
 import { FollowAllButton } from "../common/FollowAllButton"
 import { BlockNumber } from "./BlockNumber"
 import PromotionLinks from "./PromotionLinks"
@@ -90,6 +91,10 @@ export async function HomeSidebar({ hideSearch }: { hideSearch?: boolean }) {
             ))}
           </>
         </ShowMoreContainer>
+      </div>
+      <div className="text-center text-zinc-700 space-y-3">
+        <p className="font-bold text-lg">{t("Need More CSB?")}</p>
+        <ClaimCSBButton />
       </div>
     </Hydrate>
   )
