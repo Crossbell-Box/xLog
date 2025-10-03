@@ -276,6 +276,15 @@ export const ConnectButton = ({
             </div>
           }
         ></Menu>
+        <i
+          className={cn(
+            "i-mingcute-currency-euro-line",
+            `${
+              size === "base" ? "size-6 ml-2" : "size-5 ml-1"
+            } text-zinc-500 cursor-pointer hidden sm:block`,
+          )}
+          onClick={() => csbDetailModal.show()}
+        />
         <div className="h-full w-[2px] py-1 ml-2">
           <div className="size-full bg-zinc-200 rounded-full"></div>
         </div>
