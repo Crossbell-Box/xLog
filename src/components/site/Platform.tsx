@@ -231,6 +231,11 @@ export const PlatformsSyncMap: {
     icon: `${iconCDN}/steamdb`,
     url: "https://steamdb.info/calculator/{username}",
   },
+    "archive.org": {
+    name: "Internet Archive",
+    icon: `${iconCDN}/internetarchive`,
+    url: "https://archive.org/details/@{username}",
+  },
   follow: {
     name: "Follow",
     icon: "/assets/social/follow.svg",
