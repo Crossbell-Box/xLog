@@ -90,7 +90,7 @@
     "image-size": "1.1.1",
     "immer": "10.1.1",
     "ioredis": "5.4.1",
-    "isomorphic-dompurify": "2.11.0",
+    "isomorphic-dompurify": "2.14.0",
     "js-yaml": "4.1.0",
     "jsdom": "24.0.0",
     "jsonfeed-to-rss": "^3.0.8",
