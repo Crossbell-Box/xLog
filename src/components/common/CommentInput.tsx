@@ -130,7 +130,7 @@ export const CommentInput = ({
     onSubmitted,
   ])
 
-  const cmViewRef = useRef<EditorView>()
+  const cmViewRef = useRef<EditorView>(undefined)
   const onCreateEditor = useCallback((view: EditorView) => {
     cmViewRef.current = view
   }, [])

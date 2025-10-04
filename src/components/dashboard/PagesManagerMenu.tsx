@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl"
 import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, type JSX } from "react"
 import toast from "react-hot-toast"
 
 import { Menu } from "@headlessui/react"
