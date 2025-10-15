@@ -80,24 +80,25 @@ export const generateMetadata = withHrefLang<{
   }
 })
 
-export default async function SiteLayout({
-  children,
-  params,
-}: {
+export default async function SiteLayout(props: {
   children?: React.ReactNode
-  params: {
+  params: Promise<{
     site: string
     slug?: string
     tag?: string
-  }
+  }>
 }) {
+  const params = await props.params
+
+  const { children } = props
+
   const queryClient = getQueryClient()
 
   const { inRN } = isInRN()
   const search = searchParser()
   // https://github.com/vercel/next.js/issues/46618#issuecomment-1450416633
   // Issue: The type will not be updated when the page is redirected.
-  let pathname = headers().get("x-xlog-pathname")
+  let pathname = (await headers()).get("x-xlog-pathname")
   const onlyContent = isOnlyContent()
 
   if (!inRN && pathname && /^(\/site(?!\/.*\/preview\/).*)/.test(pathname)) {

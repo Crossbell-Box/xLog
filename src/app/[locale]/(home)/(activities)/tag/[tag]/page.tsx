@@ -18,13 +18,12 @@ export const generateMetadata = withHrefLang<{
   title: `Tag: ${params.tag} - ${APP_NAME}`,
 }))
 
-export default async function Tag({
-  params,
-}: {
-  params: {
+export default async function Tag(props: {
+  params: Promise<{
     tag: string
-  }
+  }>
 }) {
+  const params = await props.params
   params.tag = decodeURIComponent(params.tag)
 
   const queryClient = getQueryClient()

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, type JSX } from "react"
 
 import { EditorSelection } from "@codemirror/state"
 import { type EditorView, type KeyBinding } from "@codemirror/view"

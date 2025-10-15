@@ -31,14 +31,13 @@ export const generateMetadata = withHrefLang<{
   }
 })
 
-export default async function SiteTagPage({
-  params,
-}: {
-  params: {
+export default async function SiteTagPage(props: {
+  params: Promise<{
     site: string
     tag: string
-  }
+  }>
 }) {
+  const params = await props.params
   params.tag = decodeURIComponent(params.tag)
   const queryClient = getQueryClient()
 

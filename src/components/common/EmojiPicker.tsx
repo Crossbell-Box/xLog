@@ -8,7 +8,7 @@ export const EmojiPicker = ({
 }: {
   onEmojiSelect: (e: any) => void
 }) => {
-  const ref = useRef<any>()
+  const ref = useRef<any>(undefined)
   const isDark = useIsDark()
 
   useEffect(() => {

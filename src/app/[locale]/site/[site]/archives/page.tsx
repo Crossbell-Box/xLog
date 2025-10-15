@@ -27,13 +27,12 @@ export const generateMetadata = withHrefLang<{
   }
 })
 
-export default async function SiteArchivesPage({
-  params,
-}: {
-  params: {
+export default async function SiteArchivesPage(props: {
+  params: Promise<{
     site: string
-  }
+  }>
 }) {
+  const params = await props.params
   const queryClient = getQueryClient()
   const t = await getTranslations()
 

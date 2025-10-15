@@ -1,5 +1,12 @@
-import { forwardRef, Fragment, useCallback, useMemo, useState } from "react"
-import type { ReactElement } from "react"
+import {
+  forwardRef,
+  Fragment,
+  ReactElement,
+  useCallback,
+  useMemo,
+  useState,
+  type JSX,
+} from "react"
 
 import { Combobox, Transition } from "@headlessui/react"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
@@ -17,7 +24,9 @@ type InputProps<TMultiline extends boolean> = {
   help?: React.ReactNode
   multiline?: TMultiline
   options?: string[]
-  renderInput?: (props: Omit<InputProps<false>, "renderInput">) => ReactElement
+  renderInput?: (
+    props: Omit<InputProps<false>, "renderInput">,
+  ) => ReactElement<any>
 } & React.ComponentPropsWithRef<TMultiline extends true ? "textarea" : "input">
 
 export type CustomInputProps = Omit<InputProps<false>, "renderInput">
@@ -50,6 +59,7 @@ export const Input = forwardRef(function Input<
       ({
         ...inputProps,
         ref,
+
         className: cn(
           "input",
           hasAddon && `has-addon`,

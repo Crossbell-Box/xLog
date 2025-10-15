@@ -1,7 +1,7 @@
 "use client"
 
 import { AnimatePresence, m } from "framer-motion"
-import { useState } from "react"
+import { useState, type JSX } from "react"
 
 import {
   autoUpdate,

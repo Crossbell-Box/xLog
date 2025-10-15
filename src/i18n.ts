@@ -17,7 +17,20 @@ export const nameMap: Record<string, string> = {
 }
 export const defaultLocale = "en"
 
-export default getRequestConfig(async ({ locale }) => ({
-  messages: (await import(`./messages/${locale}.json`)).default,
-  timeZone: "America/Los_Angeles",
-}))
+export default getRequestConfig(async ({ requestLocale }) => {
+  let locale = await requestLocale
+
+  if (!locale) {
+    locale = defaultLocale
+  }
+
+  return {
+    locale,
+    messages: (await import(`./messages/${locale}.json`)).default,
+    timeZone: "America/Los_Angeles",
+
+    getMessageFallback({ namespace, key, error }) {
+      return key
+    },
+  }
+})

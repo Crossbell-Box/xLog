@@ -14,13 +14,12 @@ export const generateMetadata = withHrefLang(async ({ searchParams }) => ({
   title: `Search: ${searchParams?.q} - ${APP_NAME}`,
 }))
 
-export default async function Search({
-  searchParams,
-}: {
-  searchParams: {
+export default async function Search(props: {
+  searchParams: Promise<{
     [key: string]: string | undefined
-  }
+  }>
 }) {
+  const searchParams = await props.searchParams
   const queryClient = getQueryClient()
   const locale = (await getLocale()) as Language
   await prefetchGetFeed(

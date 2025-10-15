@@ -1,8 +1,10 @@
-import { headers } from "next/headers"
+import { headers, type UnsafeUnwrappedHeaders } from "next/headers"
 import { userAgent } from "next/server"
 
 export function isInRN() {
-  const ua = userAgent({ headers: headers() }).ua
+  const ua = userAgent({
+    headers: headers() as unknown as UnsafeUnwrappedHeaders,
+  }).ua
 
   if (!ua)
     return {

@@ -21,13 +21,12 @@ export const generateMetadata = withHrefLang<{
   }
 })
 
-export default async function SiteNFTPage({
-  params,
-}: {
-  params: {
+export default async function SiteNFTPage(props: {
+  params: Promise<{
     site: string
-  }
+  }>
 }) {
+  const params = await props.params
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)

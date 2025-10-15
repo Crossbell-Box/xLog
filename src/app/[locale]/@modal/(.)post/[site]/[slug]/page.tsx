@@ -18,15 +18,14 @@ import { cn } from "~/lib/utils"
 import { fetchGetPage, getSummary } from "~/queries/page.server"
 import { fetchGetSite } from "~/queries/site.server"
 
-export default async function SiteModal({
-  params,
-}: {
-  params: {
+export default async function SiteModal(props: {
+  params: Promise<{
     site: string
     slug: string
     locale: Language
-  }
+  }>
 }) {
+  const params = await props.params
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)

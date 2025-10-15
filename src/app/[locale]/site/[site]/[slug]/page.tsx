@@ -79,15 +79,14 @@ export const generateMetadata = withHrefLang<{
   }
 })
 
-export default async function SitePagePage({
-  params,
-}: {
-  params: {
+export default async function SitePagePage(props: {
+  params: Promise<{
     site: string
     slug: string
     locale: Language
-  }
+  }>
 }) {
+  const params = await props.params
   const queryClient = getQueryClient()
 
   const { inRN } = isInRN()

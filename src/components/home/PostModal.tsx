@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, type JSX } from "react"
 
 import { Modal } from "~/components/ui/Modal"
 import { getSiteLink } from "~/lib/helpers"

@@ -27,13 +27,12 @@ export const generateMetadata = withHrefLang<{
   }
 })
 
-async function SiteShortsPage({
-  params,
-}: {
-  params: {
+async function SiteShortsPage(props: {
+  params: Promise<{
     site: string
-  }
+  }>
 }) {
+  const params = await props.params
   const queryClient = getQueryClient()
 
   const site = await fetchGetSite(params.site, queryClient)

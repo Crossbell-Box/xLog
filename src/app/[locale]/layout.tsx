@@ -7,7 +7,7 @@ import "~/css/main.css"
 
 import { Viewport } from "next"
 import { NextIntlClientProvider } from "next-intl"
-import { getMessages, unstable_setRequestLocale } from "next-intl/server"
+import { getMessages, setRequestLocale } from "next-intl/server"
 import localFont from "next/font/local"
 import { headers } from "next/headers"
 import { notFound } from "next/navigation"
@@ -171,26 +171,26 @@ const snPro = localFont({
   ],
 })
 
-export default async function RootLayout({
-  children,
-  modal,
-  params,
-}: {
+export default async function RootLayout(props: {
   children: React.ReactNode
   modal: React.ReactNode
-  params?: {
+  params?: Promise<{
     locale: string
-  }
+  }>
 }) {
+  const params = await props.params
+
+  const { children, modal } = props
+
   if (!params?.locale) {
     return notFound()
   }
 
   // const lang = getAcceptLang()
-  const colorScheme = getColorScheme()
+  const colorScheme = await getColorScheme()
 
   // For viewing statistics
-  const ip = headers().get("x-xlog-ip")
+  const ip = (await headers()).get("x-xlog-ip")
   if (ip) {
     updateIndexerFetchOptions({
       headers: {
@@ -199,8 +199,9 @@ export default async function RootLayout({
     })
   }
 
-  unstable_setRequestLocale(params.locale)
+  setRequestLocale(params.locale)
   const messages = await getMessages()
+  console.log(params.locale, messages)
 
   return (
     <html

@@ -1,7 +1,7 @@
 "use client"
 
 import { AnimatePresence, m } from "framer-motion"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useMemo, useState, type JSX } from "react"
 import { flushSync } from "react-dom"
 
 import {
