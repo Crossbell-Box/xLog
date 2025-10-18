@@ -181,7 +181,7 @@
     "@types/serialize-javascript": "5.0.4",
     "@types/sortablejs": "1.15.8",
     "autoprefixer": "10.4.19",
-    "cspell": "8.8.3",
+    "cspell": "8.13.2",
     "eslint": "8.56.0",
     "eslint-config-next": "14.2.3",
     "eslint-plugin-import": "2.29.1",
