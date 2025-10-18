@@ -24,7 +24,7 @@ export const CSB_SCAN =
 export const CSB_XCHAR =
   process.env.NEXT_PUBLIC_CSB_XCHAR || "https://xchar.app"
 export const IPFS_GATEWAY =
-  process.env.NEXT_PUBLIC_IPFS_GATEWAY || "https://ipfs.4everland.xyz/ipfs/"
+  process.env.NEXT_PUBLIC_IPFS_GATEWAY || "https://ipfs.4everland.io/ipfs/"
 export const IPFS_GATEWAY_FALLBACK =
   process.env.NEXT_PUBLIC_IPFS_GATEWAY_FALLBACK ||
   "https://gateway.ipfs.io/ipfs/"
