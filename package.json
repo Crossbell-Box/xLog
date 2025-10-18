@@ -58,7 +58,7 @@
     "@microflash/remark-callout-directives": "4.1.0",
     "@monaco-editor/react": "4.6.0",
     "@popperjs/core": "2.11.8",
-    "@prisma/client": "5.14.0",
+    "@prisma/client": "5.18.0",
     "@shikijs/transformers": "^1.6.0",
     "@supercharge/request-ip": "1.2.0",
     "@tanstack/react-query": "4.36.1",
